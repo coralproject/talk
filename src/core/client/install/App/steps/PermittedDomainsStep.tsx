@@ -5,9 +5,12 @@ import { Field, Form } from "react-final-form";
 
 import {
   colorFromMeta,
+  formatStringList,
   OnSubmit,
+  parseStringList,
   ValidationMessage,
 } from "coral-framework/lib/form";
+import { validateStrictURLList } from "coral-framework/lib/validation";
 import {
   Button,
   CallOut,
@@ -59,11 +62,12 @@ class PermittedDomainsStep extends Component<Props> {
                   Permitted Domains
                 </Typography>
               </Localized>
-              <Localized id="install-permittedDomains-description">
+              <Localized id="install-permittedDomains-description-with-scheme">
                 <Typography variant="bodyCopy" align="center">
                   Enter the domains you would like to permit for Coral, e.g.
-                  your local, staging and production environments (ex.
-                  localhost:3000, staging.domain.com, domain.com).
+                  your local, staging and production environments including the
+                  scheme (ex. http://localhost:3000, https://staging.domain.com,
+                  https://domain.com).
                 </Typography>
               </Localized>
 
@@ -73,7 +77,12 @@ class PermittedDomainsStep extends Component<Props> {
                 </CallOut>
               )}
 
-              <Field name="allowedDomains">
+              <Field
+                name="allowedDomains"
+                parse={parseStringList}
+                format={formatStringList}
+                validate={validateStrictURLList}
+              >
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-permittedDomains-permittedDomains">

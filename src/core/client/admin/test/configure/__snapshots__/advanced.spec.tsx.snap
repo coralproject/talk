@@ -299,9 +299,9 @@ each of your site’s stories.
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
               >
-                Domains where your Coral instance is allowed to be embedded.
-Typical use is localhost, staging.yourdomain.com,
-yourdomain.com, etc.
+                Domains where your Coral instance is allowed to be embedded
+including the scheme (ex. http://localhost:3000, https://staging.domain.com,
+https://domain.com).
               </p>
               <div
                 className="TextField-root TextField-fullWidth"
@@ -320,7 +320,7 @@ yourdomain.com, etc.
                   placeholder=""
                   spellCheck={false}
                   type="text"
-                  value="localhost:8080"
+                  value="http://localhost:8080"
                 />
               </div>
             </div>
