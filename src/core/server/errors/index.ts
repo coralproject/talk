@@ -6,7 +6,7 @@ import { VError } from "verror";
 
 import { ALLOWED_USERNAME_CHANGE_FREQUENCY } from "coral-common/constants";
 import { ERROR_CODES, ERROR_TYPES } from "coral-common/errors";
-import reduceSeconds, { UNIT } from "coral-common/helpers/i18n/reduceSeconds";
+import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import { translate } from "coral-server/services/i18n";
 
 import { Writeable } from "coral-common/types";

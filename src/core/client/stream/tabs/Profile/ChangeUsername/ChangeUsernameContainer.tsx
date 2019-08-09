@@ -10,7 +10,7 @@ import React, {
 import { Field, Form } from "react-final-form";
 
 import { ALLOWED_USERNAME_CHANGE_FREQUENCY } from "coral-common/constants";
-import reduceSeconds, { UNIT } from "coral-common/helpers/i18n/reduceSeconds";
+import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { ValidationMessage } from "coral-framework/lib/form";
 import {
