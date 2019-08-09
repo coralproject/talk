@@ -20,15 +20,15 @@ const SuspensionAction: FunctionComponent<UsernameChangeActionProps> = ({
       <div>
         <Localized id="moderate-user-drawer-username-change-new">
           <span className={styles.tableLight}>New: </span>
-        </Localized>
-        {` ${username}`}
+        </Localized>{" "}
+        {username}
       </div>
       {prevUsername && (
         <div>
           <Localized id="moderate-user-drawer-username-change-old">
             <span className={styles.tableLight}>Old: </span>
-          </Localized>
-          {` ${prevUsername}`}
+          </Localized>{" "}
+          {prevUsername}
         </div>
       )}
     </div>
