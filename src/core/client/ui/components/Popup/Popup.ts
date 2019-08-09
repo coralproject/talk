@@ -1,5 +1,13 @@
 import { Component } from "react";
 
+interface WindowFeatures {
+  resizable: number;
+  menuBar: number;
+  width: number;
+  height: number;
+  centered: boolean;
+}
+
 interface PopupProps {
   open?: boolean;
   focus?: boolean;
@@ -9,7 +17,7 @@ interface PopupProps {
   onUnload?: (e: Event) => void;
   onClose?: () => void;
   href: string;
-  features?: string;
+  features?: Partial<WindowFeatures>;
   title?: string;
 }
 
@@ -26,8 +34,45 @@ export default class Popup extends Component<PopupProps> {
     }
   }
 
-  private openWindow(props = this.props) {
-    this.ref = window.open(props.href, props.title, props.features);
+  public static defaultFeatures: WindowFeatures = {
+    resizable: 0,
+    menuBar: 0,
+    width: 350,
+    height: 450,
+    centered: true,
+  };
+
+  private openWindow({ features = {}, href, title } = this.props) {
+    const opts: WindowFeatures = {
+      ...Popup.defaultFeatures,
+      ...features,
+    };
+
+    const winLeft =
+      window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    const winTop =
+      window.screenTop !== undefined ? window.screenTop : window.screenY;
+
+    const left = opts.centered
+      ? winLeft + window.outerWidth / 2 - opts.width / 2
+      : 0;
+    const top = opts.centered ? winTop + 100 : 0;
+
+    const pairs = Object.keys(opts).map(key => {
+      const v: any = opts;
+      return { key, value: v[key] };
+    });
+
+    let combinedFeatures = "";
+    pairs.forEach(p => {
+      if (p.key === "centered" && p.value) {
+        combinedFeatures += `left=${left},top=${top}`;
+      } else {
+        combinedFeatures += `${p.key}=${p.value},`;
+      }
+    });
+
+    this.ref = window.open(href, title, combinedFeatures);
 
     this.attemptSetCallbacks();
 

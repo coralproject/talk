@@ -122,21 +122,11 @@ export class UserBoxContainer extends Component<Props> {
       return null;
     }
 
-    const winLeft =
-      window.screenLeft !== undefined ? window.screenLeft : window.screenX;
-    const winTop =
-      window.screenTop !== undefined ? window.screenTop : window.screenY;
-
-    const popupWidth = 350;
-    const popupLeft = winLeft + window.outerWidth / 2 - popupWidth / 2;
-    const popupTop = winTop + 100;
-
     return (
       <>
         <Popup
           href={this.authUrl}
           title="Coral Auth"
-          features={`menubar=0,resizable=0,width=350,height=450,top=${popupTop},left=${popupLeft}}`}
           open={open}
           focus={focus}
           onFocus={this.handleFocus}
