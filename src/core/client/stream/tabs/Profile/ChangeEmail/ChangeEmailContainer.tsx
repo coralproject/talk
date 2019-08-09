@@ -79,10 +79,10 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
     <HorizontalGutter spacing={5} data-testid="profile-changeEmail">
       {!showEditForm && (
         <Flex alignItems="center">
-          <Typography>{viewer.email}</Typography>
+          <Typography>{viewer.email}</Typography>{" "}
           {!viewer.emailVerified && (
             <Localized id="profile-changeEmail-unverified">
-              <Typography color="textSecondary"> (Unverified)</Typography>
+              <Typography color="textSecondary">(Unverified)</Typography>
             </Localized>
           )}
           <Localized id="profile-changeEmail-edit">
@@ -94,10 +94,13 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
       )}
       {!viewer.emailVerified && !showEditForm && (
         <CallOut>
-          <Localized id="profile-changeEmail-pleaseVerify">
+          <Localized id="profile-changeEmail-please-verify">
             <Typography>Verify your email address</Typography>
           </Localized>
-          <Localized id="profile-changeEmail-pleaseVerify-details">
+          <Localized
+            id="profile-changeEmail-please-verify-details"
+            $email={viewer.email}
+          >
             <Typography>
               An email has been sent to {viewer.email} to verify your account.
               You must verify your new email address before it can be used for
