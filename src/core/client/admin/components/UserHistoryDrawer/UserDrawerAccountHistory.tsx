@@ -16,11 +16,9 @@ import {
   TableRow,
 } from "coral-ui/components";
 
-import BanAction, { BanActionProps } from "./BanAction";
-import SuspensionAction, { SuspensionActionProps } from "./SuspensionAction";
-import UsernameChangeAction, {
-  UsernameChangeActionProps,
-} from "./UsernameChangeAction";
+import AccountHistoryAction, {
+  HistoryActionProps,
+} from "./AccountHistoryAction";
 
 import styles from "./UserDrawerAccountHistory.css";
 
@@ -33,31 +31,10 @@ interface From {
   finish: any;
 }
 
-interface UsernameHistoryRecord {
-  kind: "username";
-  action: UsernameChangeActionProps;
+type HistoryRecord = HistoryActionProps & {
   date: Date;
   takenBy: React.ReactNode;
-}
-
-interface SuspensionHistoryRecord {
-  kind: "suspension";
-  action: SuspensionActionProps;
-  date: Date;
-  takenBy: React.ReactNode;
-}
-
-interface BanHistoryRecord {
-  kind: "ban";
-  action: BanActionProps;
-  date: Date;
-  takenBy: React.ReactNode;
-}
-
-type HistoryRecord =
-  | SuspensionHistoryRecord
-  | BanHistoryRecord
-  | UsernameHistoryRecord;
+};
 
 const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
   const system = (
@@ -135,6 +112,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
         kind: "username",
         action: {
           username: record.username,
+          // grab username at previous index to show what username was changed from
           prevUsername:
             i >= 1 ? user.status.username.history[i - 1].username : null,
         },
@@ -179,13 +157,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
                 {formatter.format(history.date)}
               </TableCell>
               <TableCell className={styles.action}>
-                {history.kind === "suspension" && (
-                  <SuspensionAction {...history.action} />
-                )}
-                {history.kind === "ban" && <BanAction {...history.action} />}
-                {history.kind === "username" && (
-                  <UsernameChangeAction {...history.action} />
-                )}
+                <AccountHistoryAction {...history} />
               </TableCell>
               <TableCell className={styles.user}>{history.takenBy}</TableCell>
             </TableRow>
