@@ -776,7 +776,7 @@ export async function setUserUsername(
  * @param createdBy the user making the change
  */
 
-export async function updateUsername(
+export async function updateUserUsername(
   mongo: Db,
   tenantID: string,
   id: string,

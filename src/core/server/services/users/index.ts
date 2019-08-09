@@ -42,9 +42,9 @@ import {
   suspendUser,
   updateUserAvatar,
   updateUserEmail,
-  updateUsername,
   updateUserPassword,
   updateUserRole,
+  updateUserUsername,
   User,
   verifyUserPassword,
 } from "coral-server/models/user";
@@ -366,15 +366,15 @@ export async function deactivateToken(
 }
 
 /**
- * updateUserUsername will update the current users.
+ * updateUsername will update the current users username.
  *
  * @param mongo mongo database to interact with
  * @param mailer mailer queue instance
  * @param tenant Tenant where the User will be interacted with
- * @param userID the User's ID that we are updating
+ * @param user the User we are updating
  * @param username the username that we are setting on the User
  */
-export async function updateOwnUsername(
+export async function updateUsername(
   mongo: Db,
   mailer: MailerQueue,
   tenant: Tenant,
@@ -398,7 +398,7 @@ export async function updateOwnUsername(
     }
   }
 
-  const updated = await updateUsername(
+  const updated = await updateUserUsername(
     mongo,
     tenant.id,
     user.id,
@@ -428,14 +428,14 @@ export async function updateOwnUsername(
 }
 
 /**
- * updateUsernameAsAdmin will update a given User's username.
+ * updateUsernameByID will update a given User's username.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param userID the User's ID that we are updating
  * @param username the username that we are setting on the User
  */
-export async function updateUserUsername(
+export async function updateUsernameByID(
   mongo: Db,
   tenant: Tenant,
   userID: string,
@@ -445,7 +445,7 @@ export async function updateUserUsername(
   // Validate the username.
   validateUsername(username);
 
-  return updateUsername(mongo, tenant.id, userID, username, createdBy.id);
+  return updateUserUsername(mongo, tenant.id, userID, username, createdBy.id);
 }
 
 /**
