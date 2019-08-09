@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
+import { Config } from "coral-server/config";
 import {
   ALLOWED_USERNAME_CHANGE_FREQUENCY,
   DOWNLOAD_LIMIT_TIMEFRAME,
@@ -44,8 +45,8 @@ import {
   setUserLocalProfile,
   setUserUsername,
   suspendUser,
-  updateEmail,
   updateUserAvatar,
+  updateUserEmail,
   updateUserPassword,
   updateUserRole,
   updateUserUsername,
@@ -485,16 +486,16 @@ export async function updateRole(
 }
 
 /**
- * updateEmail will update the given User's email address. This should not
- * trigger and email notifications as it's designed to be used by administrators
- * to update a user's email address.
- *
+ * updateEmail will update the current User's email address.
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
- * @param userID the User's ID that we are updating
+ * @param mailer The mailer queue
+ * @param config Convict config
+ * @param user the User that we are updating
  * @param email the email address that we are setting on the User
+ * @param password the users password for confirmation
  */
-export async function updateOwnEmail(
+export async function updateEmail(
   mongo: Db,
   tenant: Tenant,
   mailer: MailerQueue,
@@ -514,7 +515,7 @@ export async function updateOwnEmail(
     throw new PasswordIncorrect();
   }
 
-  const updated = await updateEmail(mongo, tenant.id, user.id, email);
+  const updated = await updateUserEmail(mongo, tenant.id, user.id, email);
 
   await sendConfirmationEmail(
     mongo,
@@ -538,7 +539,7 @@ export async function updateOwnEmail(
  * @param userID the User's ID that we are updating
  * @param email the email address that we are setting on the User
  */
-export async function updateUserEmail(
+export async function updateEmailByID(
   mongo: Db,
   tenant: Tenant,
   userID: string,
@@ -547,7 +548,7 @@ export async function updateUserEmail(
   // Validate the email address.
   validateEmail(email);
 
-  return updateEmail(mongo, tenant.id, userID, email, true);
+  return updateUserEmail(mongo, tenant.id, userID, email, true);
 }
 
 /**

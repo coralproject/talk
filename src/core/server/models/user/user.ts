@@ -892,7 +892,7 @@ export async function setUserEmail(
  * @param emailAddress email address that we are setting on the User
  * @param emailVerified whether email is verified
  */
-export async function updateEmail(
+export async function updateUserEmail(
   mongo: Db,
   tenantID: string,
   id: string,
