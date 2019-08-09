@@ -169,12 +169,12 @@ export const userWithChangedUsername = createFixture<GQLUser>(
         history: [
           {
             username: "original",
-            createdAt: `${weekago.toISOString()}`,
+            createdAt: weekago.toISOString(),
             createdBy: { id: "changed-user" },
           },
           {
             username: "u_changed",
-            createdAt: `${yesterday.toISOString()}`,
+            createdAt: yesterday.toISOString(),
             createdBy: { id: "changed-user" },
           },
         ],

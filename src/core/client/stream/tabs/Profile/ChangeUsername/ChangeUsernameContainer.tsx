@@ -76,10 +76,9 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
       lastUsernameEditAllowed.setSeconds(
         lastUsernameEditAllowed.getSeconds() - ALLOWED_USERNAME_CHANGE_FREQUENCY
       );
-      return (
-        username.history[username.history.length - 1].createdAt >
-        lastUsernameEditAllowed
-      );
+      const lastUsernameEdit =
+        username.history[username.history.length - 1].createdAt;
+      return lastUsernameEdit > lastUsernameEditAllowed;
     }
     return true;
   }, [viewer]);

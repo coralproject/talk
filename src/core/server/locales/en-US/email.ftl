@@ -28,7 +28,7 @@ email-subject-updateUsername = Your username has been changed
 
 email-notification-template-updateUsername =
   Hello { $username },<br/><br/>
-  Thank you for updating your {{ context.organizationName }} commenter account information. The changes you made are effective immediately. <br /><br />
+  Thank you for updating your { $organizationName } commenter account information. The changes you made are effective immediately. <br /><br />
   If you did not make this change please reach out to our community team at <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
 email-notification-template-suspend =
