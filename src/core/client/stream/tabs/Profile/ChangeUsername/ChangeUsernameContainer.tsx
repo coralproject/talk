@@ -146,11 +146,11 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
         </Box>
       )}
       {!showEditForm && (
-        <Flex alignItems="center">
+        <Flex alignItems="baseline">
           <Typography variant="header2">{viewer.username}</Typography>
           <Localized id="profile-changeUsername-edit">
             <Button size="small" color="primary" onClick={toggleEditForm}>
-              Edit
+              edit
             </Button>
           </Localized>
         </Flex>
@@ -166,13 +166,17 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
               </Localized>
               <Localized
                 id="profile-changeUsername-desc"
+                strong={<strong />}
                 $value={FREQUENCYSCALED.scaled}
                 $unit={FREQUENCYSCALED.unit}
               >
                 <Typography>
                   Change the username that will appear on all of your past and
-                  future comments. Usernames can be changed once every{" "}
-                  {FREQUENCYSCALED.scaled} {FREQUENCYSCALED.unit}
+                  future comments.{" "}
+                  <strong>
+                    Usernames can be changed once every {FREQUENCYSCALED.scaled}{" "}
+                    {FREQUENCYSCALED.unit}.
+                  </strong>
                 </Typography>
               </Localized>
             </div>
@@ -260,7 +264,11 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                           Cancel
                         </Button>
                       </Localized>
-                      <Localized id="profile-changeUsername-submit">
+                      <Localized
+                        id="profile-changeUsername-submit"
+                        ButtonIcon={<ButtonIcon>save</ButtonIcon>}
+                        span={<span />}
+                      >
                         <Button
                           variant={pristine || invalid ? "outlined" : "filled"}
                           type="submit"
