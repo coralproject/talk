@@ -272,6 +272,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                         <Button
                           variant={pristine || invalid ? "outlined" : "filled"}
                           type="submit"
+                          data-testid="profile-changeUsername-save"
                           color={pristine || invalid ? "regular" : "primary"}
                           disabled={pristine || invalid}
                         >
