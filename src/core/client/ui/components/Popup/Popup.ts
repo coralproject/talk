@@ -2,7 +2,7 @@ import { Component } from "react";
 
 interface WindowFeatures {
   resizable: number;
-  menuBar: number;
+  menubar: number;
   width: number;
   height: number;
   centered: boolean;
@@ -36,7 +36,7 @@ export default class Popup extends Component<PopupProps> {
 
   public static defaultFeatures: WindowFeatures = {
     resizable: 0,
-    menuBar: 0,
+    menubar: 0,
     width: 350,
     height: 450,
     centered: true,
