@@ -606,6 +606,68 @@ export async function verifyUserPassword(
   return bcrypt.compare(password, profile.password);
 }
 
+/**
+ * updateUserProfileEmail updates a given User's local profile ID (email).
+ *
+ * @param mongo mongodb database to interact with
+ * @param tenantID Tenant ID where the User resides
+ * @param id ID of the User that we are updating
+ * @param emailAddress new email address to set
+ */
+export async function updateUserProfileEmail(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  emailAddress: string
+) {
+  const email = emailAddress.toLowerCase();
+
+  // Try to see if this local profile already exists on a User.
+  const existingUser = await retrieveUserWithProfile(mongo, tenantID, {
+    type: "local",
+    id: email,
+  });
+  if (existingUser) {
+    throw new DuplicateEmailError(email);
+  }
+  // Update the user with the new email.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+      // This ensures that the document we're updating already has a local
+      // profile associated with them.
+      profiles: {
+        $elemMatch: {
+          type: "local",
+        },
+      },
+    },
+    {
+      $set: {
+        // Update the id with a new email.
+        "profiles.$[profiles].id": email,
+      },
+    },
+    {
+      arrayFilters: [{ "profiles.type": "local" }],
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value || null;
+}
+
 export async function updateUserPassword(
   mongo: Db,
   tenantID: string,

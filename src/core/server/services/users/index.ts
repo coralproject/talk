@@ -48,6 +48,7 @@ import {
   updateUserAvatar,
   updateUserEmail,
   updateUserPassword,
+  updateUserProfileEmail,
   updateUserRole,
   updateUserUsername,
   User,
@@ -513,6 +514,10 @@ export async function updateEmail(
     // We throw a PasswordIncorrect error here instead of an
     // InvalidCredentialsError because the current user is already signed in.
     throw new PasswordIncorrect();
+  }
+
+  if (hasLocalProfile(user)) {
+    await updateUserProfileEmail(mongo, tenant.id, user.id, email);
   }
 
   const updated = await updateUserEmail(mongo, tenant.id, user.id, email);
