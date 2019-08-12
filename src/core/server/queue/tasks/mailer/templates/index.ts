@@ -71,6 +71,14 @@ export type DownloadCommentsTemplate = UserNotificationContext<
   }
 >;
 
+export type UpdateUsernameTemplate = UserNotificationContext<
+  "update-username",
+  {
+    username: string;
+    organizationContactEmail: string;
+  }
+>;
+
 type Templates =
   | BanTemplate
   | ConfirmEmailTemplate
@@ -78,6 +86,7 @@ type Templates =
   | InviteEmailTemplate
   | PasswordChangeTemplate
   | SuspendTemplate
-  | DownloadCommentsTemplate;
+  | DownloadCommentsTemplate
+  | UpdateUsernameTemplate;
 
 export { Templates as Template };

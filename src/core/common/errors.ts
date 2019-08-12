@@ -125,6 +125,12 @@ export enum ERROR_CODES {
   USERNAME_EXCEEDS_MAX_LENGTH = "USERNAME_EXCEEDS_MAX_LENGTH",
 
   /**
+   * USERNAME_UPDATED_WITHIN_WINDOW is returned when the user attempts to associate
+   * a new username when they have previously changed their username within ALLOWED_USERNAME_CHANGE_FREQUENCY
+   */
+  USERNAME_UPDATED_WITHIN_WINDOW = "USERNAME_UPDATED_WITHIN_WINDOW",
+
+  /**
    * USERNAME_TOO_SHORT is returned when the user attempts to associate a new
    * username that is too short.
    */

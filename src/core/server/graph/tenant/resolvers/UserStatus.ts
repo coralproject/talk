@@ -6,6 +6,7 @@ import * as user from "coral-server/models/user";
 
 import { BanStatusInput } from "./BanStatus";
 import { SuspensionStatusInput } from "./SuspensionStatus";
+import { UsernameStatusInput } from "./UsernameStatus";
 
 export type UserStatusInput = user.UserStatus & {
   userID: string;
@@ -35,6 +36,10 @@ export const UserStatus: Required<
 
     return statuses;
   },
+  username: ({ userID, username }): UsernameStatusInput => ({
+    ...user.consolidateUsernameStatus(username),
+    userID,
+  }),
   ban: ({ ban, userID }): BanStatusInput => ({
     ...user.consolidateUserBanStatus(ban),
     userID,

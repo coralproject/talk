@@ -1,7 +1,10 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
-import { DOWNLOAD_LIMIT_TIMEFRAME } from "coral-common/constants";
+import {
+  ALLOWED_USERNAME_CHANGE_FREQUENCY,
+  DOWNLOAD_LIMIT_TIMEFRAME,
+} from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -16,9 +19,11 @@ import {
   UserAlreadySuspendedError,
   UserCannotBeIgnoredError,
   UsernameAlreadySetError,
+  UsernameUpdatedWithinWindowError,
   UserNotFoundError,
 } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
@@ -55,7 +60,6 @@ import { userIsStaff } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
-import logger from "coral-server/logger";
 import { generateDownloadLink } from "./download/download";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
@@ -365,23 +369,91 @@ export async function deactivateToken(
 }
 
 /**
- * updateUsername will update a given User's username.
+ * updateUsername will update the current users username.
+ *
+ * @param mongo mongo database to interact with
+ * @param mailer mailer queue instance
+ * @param tenant Tenant where the User will be interacted with
+ * @param user the User we are updating
+ * @param username the username that we are setting on the User
+ */
+export async function updateUsername(
+  mongo: Db,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  user: User,
+  username: string
+) {
+  // Validate the username.
+  validateUsername(username);
+
+  const lastUsernameEditAllowed = new Date();
+  const dateDiff =
+    lastUsernameEditAllowed.getSeconds() - ALLOWED_USERNAME_CHANGE_FREQUENCY;
+  lastUsernameEditAllowed.setDate(dateDiff);
+
+  const { history } = user.status.username;
+  if (history.length > 1) {
+    const lastUpdate = history[history.length - 1];
+
+    if (lastUpdate.createdAt > lastUsernameEditAllowed) {
+      throw new UsernameUpdatedWithinWindowError(lastUpdate.createdAt);
+    }
+  }
+
+  const updated = await updateUserUsername(
+    mongo,
+    tenant.id,
+    user.id,
+    username,
+    user.id
+  );
+
+  if (user.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: user.email,
+      },
+      template: {
+        name: "update-username",
+        context: {
+          username: user.username!,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+          organizationContactEmail: tenant.organization.contactEmail,
+        },
+      },
+    });
+  } else {
+    logger.warn(
+      { id: user.id },
+      "Failed to send email: user does not have email address"
+    );
+  }
+
+  return updated;
+}
+
+/**
+ * updateUsernameByID will update a given User's username.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param userID the User's ID that we are updating
  * @param username the username that we are setting on the User
  */
-export async function updateUsername(
+export async function updateUsernameByID(
   mongo: Db,
   tenant: Tenant,
   userID: string,
-  username: string
+  username: string,
+  createdBy: User
 ) {
   // Validate the username.
   validateUsername(username);
 
-  return updateUserUsername(mongo, tenant.id, userID, username);
+  return updateUserUsername(mongo, tenant.id, userID, username, createdBy.id);
 }
 
 /**

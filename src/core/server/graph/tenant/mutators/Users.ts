@@ -20,6 +20,7 @@ import {
   updatePassword,
   updateRole,
   updateUsername,
+  updateUsernameByID,
 } from "coral-server/services/users";
 import { invite } from "coral-server/services/users/auth/invite";
 
@@ -40,6 +41,7 @@ import {
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
+  GQLUpdateUsernameInput,
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
 } from "../schema/__generated__/types";
@@ -120,8 +122,22 @@ export const Users = (ctx: TenantContext) => ({
     ),
   deactivateToken: async (input: GQLDeactivateTokenInput) =>
     deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
+  updateUsername: async (input: GQLUpdateUsernameInput) =>
+    updateUsername(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.username
+    ),
   updateUserUsername: async (input: GQLUpdateUserUsernameInput) =>
-    updateUsername(ctx.mongo, ctx.tenant, input.userID, input.username),
+    updateUsernameByID(
+      ctx.mongo,
+      ctx.tenant,
+      input.userID,
+      input.username,
+      ctx.user!
+    ),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
     updateEmail(ctx.mongo, ctx.tenant, input.userID, input.email),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>

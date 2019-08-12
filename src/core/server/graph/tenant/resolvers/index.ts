@@ -38,6 +38,8 @@ import { SuspensionStatus } from "./SuspensionStatus";
 import { SuspensionStatusHistory } from "./SuspensionStatusHistory";
 import { Tag } from "./Tag";
 import { User } from "./User";
+import { UsernameHistory } from "./UsernameHistory";
+import { UsernameStatus } from "./UsernameStatus";
 import { UserStatus } from "./UserStatus";
 
 const Resolvers: GQLResolver = {
@@ -76,10 +78,12 @@ const Resolvers: GQLResolver = {
   Subscription,
   SuspensionStatus,
   SuspensionStatusHistory,
+  UsernameHistory,
   Tag,
   Time,
   User,
   UserStatus,
+  UsernameStatus,
 };
 
 export default Resolvers;

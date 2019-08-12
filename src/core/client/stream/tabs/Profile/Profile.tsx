@@ -13,6 +13,7 @@ import {
 } from "coral-ui/components";
 import { Localized } from "fluent-react/compat";
 
+import ChangeUsernameContainer from "./ChangeUsername";
 import CommentHistoryContainer from "./CommentHistory";
 import SettingsContainer from "./Settings";
 
@@ -20,7 +21,8 @@ export interface ProfileProps {
   story: PropTypesOf<typeof CommentHistoryContainer>["story"];
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
     PropTypesOf<typeof CommentHistoryContainer>["viewer"] &
-    PropTypesOf<typeof SettingsContainer>["viewer"];
+    PropTypesOf<typeof SettingsContainer>["viewer"] &
+    PropTypesOf<typeof ChangeUsernameContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
     PropTypesOf<typeof SettingsContainer>["settings"];
 }
@@ -37,7 +39,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
   );
   return (
     <HorizontalGutter spacing={5}>
-      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+      <ChangeUsernameContainer viewer={props.viewer} />
       <TabBar
         variant="secondary"
         activeTab={local.profileTab}

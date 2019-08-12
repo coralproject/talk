@@ -22,6 +22,7 @@ import {
   GQLSuspensionStatus,
   GQLTimeRange,
   GQLUSER_ROLE,
+  GQLUsernameStatus,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
@@ -201,6 +202,36 @@ export interface BanStatus {
   history: BanStatusHistory[];
 }
 
+export interface UsernameHistory {
+  /**
+   * id is a specific reference for a particular username history that will be
+   * used internally to update username records.
+   */
+  id: string;
+
+  /**
+   * username is the username that was assigned
+   */
+  username: string;
+
+  /**
+   * createdBy is the user that created this username
+   */
+  createdBy: string;
+
+  /**
+   * createdAt is the time the username was created
+   */
+  createdAt: Date;
+}
+
+export interface UsernameStatus {
+  /**
+   * history is the list of all usernames for this user
+   */
+  history: UsernameHistory[];
+}
+
 /**
  * UserStatus stores the user status information regarding moderation state.
  */
@@ -215,6 +246,11 @@ export interface UserStatus {
    * ban stores the user ban status as well as the history of changes.
    */
   ban: BanStatus;
+
+  /**
+   * username stores the history of username changes for this user.
+   */
+  username: UsernameStatus;
 }
 
 /**
@@ -407,11 +443,23 @@ export async function insertUser(
     tokens: [],
     ignoredUsers: [],
     status: {
+      username: {
+        history: [],
+      },
       suspension: { history: [] },
       ban: { active: false, history: [] },
     },
     createdAt: now,
   };
+
+  if (input.username) {
+    defaults.status.username.history.push({
+      id: uuid.v4(),
+      username: input.username,
+      createdBy: id,
+      createdAt: now,
+    });
+  }
 
   // Guard against empty login profiles (they need some way to login).
   if (input.profiles.length === 0) {
@@ -719,30 +767,38 @@ export async function setUserUsername(
 }
 
 /**
- * updateUserUsername will set the username of the User.
+ * updateUsername will set the username of the User.
  *
  * @param mongo the database handle
  * @param tenantID the ID to the Tenant
  * @param id the ID of the User where we are setting the username on
  * @param username the username that we want to set
+ * @param createdBy the user making the change
  */
+
 export async function updateUserUsername(
   mongo: Db,
   tenantID: string,
   id: string,
-  username: string
+  username: string,
+  createdBy: string,
+  now = new Date()
 ) {
-  // TODO: (wyattjoh) investigate adding the username previously used to an array.
+  const usernameHistory: UsernameHistory = {
+    id: uuid(),
+    username,
+    createdBy,
+    createdAt: now,
+  };
 
-  // The username wasn't found, so add it to the user.
   const result = await collection(mongo).findOneAndUpdate(
-    {
-      tenantID,
-      id,
-    },
+    { id, tenantID },
     {
       $set: {
         username,
+      },
+      $push: {
+        "status.username.history": usernameHistory,
       },
     },
     {
@@ -751,8 +807,8 @@ export async function updateUserUsername(
       returnOriginal: false,
     }
   );
+
   if (!result.value) {
-    // Try to get the current user to discover what happened.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
@@ -1420,6 +1476,15 @@ export async function removeActiveUserSuspensions(
 
 export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history"> &
   Pick<BanStatus, "history">;
+
+export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
+  Pick<UsernameStatus, "history">;
+
+export function consolidateUsernameStatus(
+  username: User["status"]["username"]
+): ConsolidatedUsernameStatus {
+  return username;
+}
 
 export function consolidateUserBanStatus(
   ban: User["status"]["ban"]
