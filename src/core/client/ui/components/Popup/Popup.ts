@@ -21,6 +21,31 @@ interface PopupProps {
   title?: string;
 }
 
+function reconcileFeatures({ centered, ...options }: WindowFeatures): string {
+  const features: Record<string, any> = {
+    ...options,
+    left: 0,
+    top: 0,
+  };
+  if (centered) {
+    const winLeft =
+      window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    const winTop =
+      window.screenTop !== undefined ? window.screenTop : window.screenY;
+
+    // If we're centered, then apply the features left/right flags.
+    features.left = winLeft + window.outerWidth / 2 - options.width / 2;
+    features.top = winTop + 100;
+  }
+
+  return Object.keys(features)
+    .reduce(
+      (acc, key) => acc.concat([`${key}=${features[key]}`]),
+      [] as string[]
+    )
+    .join(",");
+}
+
 export default class Popup extends Component<PopupProps> {
   private ref: Window | null = null;
   private detectCloseInterval: any = null;
@@ -48,31 +73,7 @@ export default class Popup extends Component<PopupProps> {
       ...features,
     };
 
-    const winLeft =
-      window.screenLeft !== undefined ? window.screenLeft : window.screenX;
-    const winTop =
-      window.screenTop !== undefined ? window.screenTop : window.screenY;
-
-    const left = opts.centered
-      ? winLeft + window.outerWidth / 2 - opts.width / 2
-      : 0;
-    const top = opts.centered ? winTop + 100 : 0;
-
-    const pairs = Object.keys(opts).map(key => {
-      const v: any = opts;
-      return { key, value: v[key] };
-    });
-
-    let combinedFeatures = "";
-    pairs.forEach(p => {
-      if (p.key === "centered" && p.value) {
-        combinedFeatures += `left=${left},top=${top}`;
-      } else {
-        combinedFeatures += `${p.key}=${p.value},`;
-      }
-    });
-
-    this.ref = window.open(href, title, combinedFeatures);
+    this.ref = window.open(href, title, reconcileFeatures(opts));
 
     this.attemptSetCallbacks();
 
