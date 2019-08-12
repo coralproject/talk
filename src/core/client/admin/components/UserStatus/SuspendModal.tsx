@@ -1,13 +1,9 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import {
-  GetMessage,
-  ScaledUnit,
-  withGetMessage,
-} from "coral-framework/lib/i18n";
-
 import NotAvailable from "coral-admin/components/NotAvailable";
+import { ScaledUnit } from "coral-common/helpers/i18n";
+import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import {
   Button,
   Card,

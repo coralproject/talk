@@ -2,7 +2,7 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { reduceSeconds, UNIT } from "coral-framework/lib/i18n";
+import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import {
   Box,
   Flex,

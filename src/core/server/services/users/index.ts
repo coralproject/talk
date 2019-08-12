@@ -382,20 +382,24 @@ export async function updateUsername(
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
-  username: string
+  username: string,
+  now: Date
 ) {
   // Validate the username.
   validateUsername(username);
 
-  const lastUsernameEditAllowed = new Date();
-  const dateDiff =
-    lastUsernameEditAllowed.getSeconds() - ALLOWED_USERNAME_CHANGE_FREQUENCY;
-  lastUsernameEditAllowed.setDate(dateDiff);
+  // Get the earliest date that the username could have been edited before to/
+  // allow it now.
+  const lastUsernameEditAllowed = DateTime.fromJSDate(now)
+    .plus({ seconds: -ALLOWED_USERNAME_CHANGE_FREQUENCY })
+    .toJSDate();
 
   const { history } = user.status.username;
   if (history.length > 1) {
+    // If the last update was made at a date sooner than the earliest edited
+    // date, then we know that the last edit was conducted within the time-frame
+    // already.
     const lastUpdate = history[history.length - 1];
-
     if (lastUpdate.createdAt > lastUsernameEditAllowed) {
       throw new UsernameUpdatedWithinWindowError(lastUpdate.createdAt);
     }

@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { reduceSeconds } from "coral-framework/lib/i18n";
+import { reduceSeconds } from "coral-common/helpers/i18n";
 
 interface From {
   start: Date;
