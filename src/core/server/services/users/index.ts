@@ -1,7 +1,6 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
-import { Config } from "coral-server/config";
 import {
   ALLOWED_USERNAME_CHANGE_FREQUENCY,
   DOWNLOAD_LIMIT_TIMEFRAME,
