@@ -49,7 +49,7 @@ restricted-contactAdmin = Si cree que esto es un error, comuníquese con su admi
 login-signInTo = Registrarse en
 login-signIn-enterAccountDetailsBelow = Ingrese los detalles de su cuenta a continuación
 
-login-emailAddressLabel = Correo electrónico 
+login-emailAddressLabel = Correo electrónico
 login-emailAddressTextField =
   .placeholder = Correo electrónico
 
@@ -318,10 +318,6 @@ configure-advanced-customCSS-explanation =
   URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
 
 configure-advanced-permittedDomains = Permitted Domains
-configure-advanced-permittedDomains-explanation =
-  Domains where your { -product-name } instance is allowed to be embedded.
-  Typical use is localhost, staging.yourdomain.com,
-  yourdomain.com, etc.
 
 configure-advanced-liveUpdates = Comment Stream Live Updates
 configure-advanced-liveUpdates-explanation =
