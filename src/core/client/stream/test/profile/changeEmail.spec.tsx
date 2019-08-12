@@ -6,23 +6,13 @@ import {
   act,
   createResolversStub,
   CreateTestRendererParams,
-  waitForElement,
   within,
 } from "coral-framework/testHelpers";
 
-import {
-  baseUser,
-  settings,
-  stories,
-  userWithChangedUsername,
-  userWithEmail,
-  userWithNewUsername,
-  viewerPassive,
-} from "../fixtures";
+import { baseUser, settings, stories } from "../fixtures";
 import create from "./create";
 
 const story = stories[0];
-const viewer = viewerPassive;
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
