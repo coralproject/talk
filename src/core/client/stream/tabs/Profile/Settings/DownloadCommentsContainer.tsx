@@ -3,8 +3,8 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { DOWNLOAD_LIMIT_TIMEFRAME } from "coral-common/constants";
+import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { reduceSeconds, UNIT } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 import { Button, CallOut, Icon, Typography } from "coral-ui/components";

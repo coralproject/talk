@@ -1,11 +1,5 @@
 import builder from "content-security-policy-builder";
-import {
-  doesRequireSchemePrefixing,
-  extractParentsURL,
-  getOrigin,
-  isURLSecure,
-  prefixSchemeIfRequired,
-} from "coral-server/app/url";
+import { extractParentsURL, getOrigin } from "coral-server/app/url";
 import { Tenant } from "coral-server/models/tenant";
 import { isURLPermitted } from "coral-server/services/tenant/url";
 import { Request, RequestHandler } from "coral-server/types/express";
@@ -23,7 +17,7 @@ export const cspTenantMiddleware: RequestHandler = (req, res, next) => {
 
   res.setHeader(
     "Content-Security-Policy",
-    generateContentSecurityPolicy(req, tenant)
+    generateContentSecurityPolicy(tenant)
   );
 
   // Add some fallbacks for IE.
@@ -33,10 +27,7 @@ export const cspTenantMiddleware: RequestHandler = (req, res, next) => {
   next();
 };
 
-function generateContentSecurityPolicy(
-  req: Request,
-  tenant: Pick<Tenant, "allowedDomains">
-) {
+function generateContentSecurityPolicy(tenant: Pick<Tenant, "allowedDomains">) {
   const directives: Record<string, any> = {};
 
   // Only the domains that are allowed by the tenant may embed Coral.
@@ -58,12 +49,8 @@ export function generateFrameOptions(
     return "deny";
   }
 
-  // If there is only one domain on the tenant, and we don't require
-  // prefixing, then return it!
-  if (
-    tenant.allowedDomains.length === 1 &&
-    !doesRequireSchemePrefixing(tenant.allowedDomains[0])
-  ) {
+  // If there is only one domain on the tenant then return it!
+  if (tenant.allowedDomains.length === 1) {
     return `allow-from ${getOrigin(tenant.allowedDomains[0])}`;
   }
 
@@ -78,23 +65,6 @@ export function generateFrameOptions(
     return "deny";
   }
 
-  // Grab the status if the parent url is secure.
-  const parentSecure = isURLSecure(parentsOrigin);
-  if (parentSecure === null) {
-    return "deny";
-  }
-
-  // If there is only one domain on the tenant, and we require prefixing, then
-  // return it with prefixing!
-  if (
-    tenant.allowedDomains.length === 1 &&
-    !doesRequireSchemePrefixing(tenant.allowedDomains[0])
-  ) {
-    return `allow-from ${getOrigin(
-      prefixSchemeIfRequired(parentSecure, tenant.allowedDomains[0])
-    )}`;
-  }
-
   // Determine if this origin is allowed.
   if (!isURLPermitted(tenant, parentsURL)) {
     return "deny";
@@ -105,7 +75,7 @@ export function generateFrameOptions(
   // We need to find the domain that is asking so we can respond with the right
   // result, sort of like CORS!
   const allowFrom = tenant.allowedDomains
-    .map(domain => getOrigin(prefixSchemeIfRequired(parentSecure, domain)))
+    .map(domain => getOrigin(domain))
     .find(origin => origin === parentsOrigin);
   if (!allowFrom) {
     return "deny";

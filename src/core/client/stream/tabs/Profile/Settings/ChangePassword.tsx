@@ -97,15 +97,13 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
 
                       <Flex justifyContent="flex-end">
                         <Localized id="profile-settings-changePassword-forgotPassword">
-                          <Typography variant="bodyCopy">
-                            <Button
-                              variant="underlined"
-                              color="primary"
-                              onClick={onResetPassword}
-                            >
-                              Forgot your password?
-                            </Button>
-                          </Typography>
+                          <Button
+                            variant="underlined"
+                            color="primary"
+                            onClick={onResetPassword}
+                          >
+                            Forgot your password?
+                          </Button>
                         </Localized>
                       </Flex>
                     </FormField>

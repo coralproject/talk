@@ -1,5 +1,13 @@
 import { Component } from "react";
 
+interface WindowFeatures {
+  resizable: number;
+  menubar: number;
+  width: number;
+  height: number;
+  centered: boolean;
+}
+
 interface PopupProps {
   open?: boolean;
   focus?: boolean;
@@ -9,8 +17,33 @@ interface PopupProps {
   onUnload?: (e: Event) => void;
   onClose?: () => void;
   href: string;
-  features?: string;
+  features?: Partial<WindowFeatures>;
   title?: string;
+}
+
+function reconcileFeatures({ centered, ...options }: WindowFeatures): string {
+  const features: Record<string, any> = {
+    ...options,
+    left: 0,
+    top: 0,
+  };
+  if (centered) {
+    const winLeft =
+      window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    const winTop =
+      window.screenTop !== undefined ? window.screenTop : window.screenY;
+
+    // If we're centered, then apply the features left/right flags.
+    features.left = winLeft + window.outerWidth / 2 - options.width / 2;
+    features.top = winTop + 100;
+  }
+
+  return Object.keys(features)
+    .reduce(
+      (acc, key) => acc.concat([`${key}=${features[key]}`]),
+      [] as string[]
+    )
+    .join(",");
 }
 
 export default class Popup extends Component<PopupProps> {
@@ -26,8 +59,21 @@ export default class Popup extends Component<PopupProps> {
     }
   }
 
-  private openWindow(props = this.props) {
-    this.ref = window.open(props.href, props.title, props.features);
+  public static defaultFeatures: WindowFeatures = {
+    resizable: 0,
+    menubar: 0,
+    width: 350,
+    height: 450,
+    centered: true,
+  };
+
+  private openWindow({ features = {}, href, title } = this.props) {
+    const opts: WindowFeatures = {
+      ...Popup.defaultFeatures,
+      ...features,
+    };
+
+    this.ref = window.open(href, title, reconcileFeatures(opts));
 
     this.attemptSetCallbacks();
 

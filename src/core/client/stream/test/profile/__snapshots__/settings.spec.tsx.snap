@@ -70,7 +70,7 @@ exports[`renders the empty settings pane 1`] = `
         data-testid="profile-changeUsername"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+          className="Box-root Flex-root Flex-flex Flex-alignBaseline"
         >
           <h1
             className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
@@ -87,7 +87,7 @@ exports[`renders the empty settings pane 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            Edit
+            edit
           </button>
         </div>
       </div>
@@ -242,11 +242,18 @@ Commenters you ignore will still be able to see your comments.
                     <div
                       className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
                     >
-                      <p
-                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                      <button
+                        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
                       >
                         Forgot your password?
-                      </p>
+                      </button>
                     </div>
                   </fieldset>
                   <fieldset

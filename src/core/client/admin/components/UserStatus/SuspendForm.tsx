@@ -3,12 +3,8 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import {
-  GetMessage,
-  ScaledUnit,
-  withGetMessage,
-} from "coral-framework/lib/i18n";
-
+import { ScaledUnit } from "coral-common/helpers/i18n";
+import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import {
   Button,
   CheckBox,

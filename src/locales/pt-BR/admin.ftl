@@ -218,7 +218,7 @@ configure-auth-oidc-useLoginOn = Usar login com OpenID Connect ligado
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pre-moderation
 configure-moderation-preModeration-explanation =
-  Quando a pré-moderação está ativada, os comentários não serão publicados, a menos que sejam 
+  Quando a pré-moderação está ativada, os comentários não serão publicados, a menos que sejam
   aprovados por um moderador.
 configure-moderation-preModeration-moderation =
   Pré-moderar todos os comentários em todo o site
@@ -298,10 +298,6 @@ configure-advanced-customCSS-explanation =
   URL de uma folha de estilo CSS que substituirá o estilo padrão dos fluxos de comentário das páginas. Pode ser interno ou externo.
 
 configure-advanced-permittedDomains = Domínios Permitidos
-configure-advanced-permittedDomains-explanation =
-  Domínios nos quais sua instância Coral pode ser incorporada.
-  O uso típico é localhost, staging.yourdomain.com,
-  yourdomain.com, etc.
 
 configure-advanced-liveUpdates = Atualizações ao vivo do Stream de comentários
 configure-advanced-liveUpdates-explanation =
@@ -514,15 +510,15 @@ community-invite-role-staff =
   ou mudar qualquer configuração { -product-name }.
 community-invite-role-moderator =
   <strong>Função Moderador:</strong> Recebe um crachá “Staff”, e
-  seus comentários são aprovados automaticamente. Tem privilégios 
-  totais de moderação (aprovar, rejeitar e destacar comentários). 
+  seus comentários são aprovados automaticamente. Tem privilégios
+  totais de moderação (aprovar, rejeitar e destacar comentários).
   Pode configurar artigos individuais, mas não possui privilégios
   de configuração do site.
 community-invite-role-admin =
   <strong>Função Admin:</strong> Recebe um crachá “Staff”, e
-  seus comentários são aprovados automaticamente. Tem privilégios 
-  totais de moderação (aprovar, rejeitar e destacar comentários). 
-  Pode configurar artigos individuais e tem privilégios de 
+  seus comentários são aprovados automaticamente. Tem privilégios
+  totais de moderação (aprovar, rejeitar e destacar comentários).
+  Pode configurar artigos individuais e tem privilégios de
   configuração do site.
 community-invite-invitationsSent = Seus convites foram enviados!
 community-invite-close = Fechar

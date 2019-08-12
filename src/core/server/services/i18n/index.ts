@@ -4,6 +4,7 @@ import path from "path";
 
 import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";
 import config from "coral-server/config";
+import logger from "coral-server/logger";
 
 /**
  * isLanguageCode will return true if the string is a `LanguageCode`.
@@ -14,8 +15,13 @@ function isLanguageCode(locale: string): locale is LanguageCode {
   return LOCALES.some(code => code === locale);
 }
 
-// pathToLocales is the path where the server stores the locales.
-const pathToLocales = path.join(__dirname, "..", "..", "locales");
+// pathsToLocales is the paths where to find the locales.
+const pathsToLocales = [
+  // Client locales.
+  path.join(__dirname, "..", "..", "..", "..", "locales"),
+  // Server locales.
+  path.join(__dirname, "..", "..", "locales"),
+];
 
 export class I18n {
   private bundles: Partial<Record<LanguageCode, FluentBundle>> = {};
@@ -29,35 +35,36 @@ export class I18n {
    * load will read all the translations located in the server locales folder.
    */
   public async load() {
-    // Load all the locales from the server locales folder.
-
     // Load all the locales from the locales folders.
-    const folders = await fs.readdir(pathToLocales);
+    for (const localesFolder of pathsToLocales) {
+      const folders = await fs.readdir(localesFolder);
 
-    // Load all the translation files for each of the folders.
-    for (const folder of folders) {
-      // Parse out the language code.
-      const locale = path.basename(folder);
-      if (!isLanguageCode(locale)) {
-        throw new Error(`invalid language code: ${locale}`);
+      // Load all the translation files for each of the folders.
+      for (const folder of folders) {
+        // Parse out the language code.
+        const locale = path.basename(folder);
+        if (!isLanguageCode(locale)) {
+          throw new Error(`invalid language code: ${locale}`);
+        }
+
+        // Now we have a language code.
+        const bundle: FluentBundle =
+          this.bundles[locale] || new FluentBundle(locale);
+
+        // Load all the translations in the folder.
+        const files = await fs.readdir(path.join(localesFolder, folder));
+
+        for (const file of files) {
+          const filePath = path.join(localesFolder, folder, file);
+          logger.debug({ locale, filePath }, "loading messages for locale");
+
+          const messages = await fs.readFile(filePath, "utf8");
+
+          bundle.addMessages(messages);
+        }
+
+        this.bundles[locale] = bundle;
       }
-
-      // Now we have a language code.
-      const bundle = new FluentBundle(locale);
-
-      // Load all the translations in the folder.
-      const files = await fs.readdir(path.join(pathToLocales, folder));
-
-      for (const file of files) {
-        const messages = await fs.readFile(
-          path.join(pathToLocales, folder, file),
-          "utf8"
-        );
-
-        bundle.addMessages(messages);
-      }
-
-      this.bundles[locale] = bundle;
     }
   }
 

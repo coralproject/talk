@@ -216,8 +216,8 @@ it("change permitted domains to include more domains", async () => {
     Mutation: {
       updateSettings: ({ variables }) => {
         expectAndFail(variables.settings.allowedDomains).toEqual([
-          "localhost:8080",
-          "localhost:3000",
+          "http://localhost:8080",
+          "http://localhost:3000",
         ]);
         return {
           settings: pureMerge(settings, variables.settings),
@@ -238,7 +238,9 @@ it("change permitted domains to include more domains", async () => {
   );
 
   // Let's change the permitted domains.
-  permittedDomainsField.props.onChange("localhost:8080, localhost:3000");
+  permittedDomainsField.props.onChange(
+    "http://localhost:8080, http://localhost:3000"
+  );
 
   // Send form
   within(configureContainer)
