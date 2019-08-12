@@ -1,7 +1,10 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
-import { ALLOWED_USERNAME_CHANGE_FREQUENCY, DOWNLOAD_LIMIT_TIMEFRAME } from "coral-common/constants";
+import {
+  ALLOWED_USERNAME_CHANGE_FREQUENCY,
+  DOWNLOAD_LIMIT_TIMEFRAME,
+} from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -57,7 +60,6 @@ import { userIsStaff } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
-import logger from "coral-server/logger";
 import { generateDownloadLink } from "./download/download";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
