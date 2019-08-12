@@ -70,7 +70,7 @@ exports[`renders the empty settings pane 1`] = `
         data-testid="profile-changeUsername"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+          className="Box-root Flex-root Flex-flex Flex-alignBaseline"
         >
           <h1
             className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
@@ -87,7 +87,7 @@ exports[`renders the empty settings pane 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            Edit
+            edit
           </button>
         </div>
       </div>
