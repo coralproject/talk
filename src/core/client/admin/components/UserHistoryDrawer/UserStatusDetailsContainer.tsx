@@ -52,12 +52,12 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                 <div>
                   <Localized
                     id="userDetails-banned-on"
-                    $timestamp={formatter.format(activeBan.createdAt)}
+                    $timestamp={formatter.format(new Date(activeBan.createdAt))}
                     strong={<strong />}
                   >
                     <Typography>
                       <strong>Banned on </strong>{" "}
-                      {formatter.format(activeBan.createdAt)}
+                      {formatter.format(new Date(activeBan.createdAt))}
                     </Typography>
                   </Localized>
                   {activeBan.createdBy && (
@@ -91,21 +91,25 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                   <Localized
                     id="userDetails-suspension-start"
                     strong={<strong />}
-                    $timestamp={formatter.format(activeSuspension.from.start)}
+                    $timestamp={formatter.format(
+                      new Date(activeSuspension.from.start)
+                    )}
                   >
                     <Typography>
                       <strong>Start: </strong>
-                      {formatter.format(activeSuspension.from.start)}
+                      {formatter.format(new Date(activeSuspension.from.start))}
                     </Typography>
                   </Localized>
                   <Localized
                     strong={<strong />}
-                    $timestamp={formatter.format(activeSuspension.from.finish)}
-                    id="userDetails-suspension-start"
+                    $timestamp={formatter.format(
+                      new Date(activeSuspension.from.finish)
+                    )}
+                    id="userDetails-suspension-finish"
                   >
                     <Typography>
                       <strong>End: </strong>
-                      {formatter.format(activeSuspension.from.finish)}
+                      {formatter.format(new Date(activeSuspension.from.finish))}
                     </Typography>
                   </Localized>
                 </div>
