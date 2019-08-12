@@ -112,8 +112,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
           </Localized>
         </Flex>
       )}
-      {/* {!viewer.emailVerified && emailUpdated && !showEditForm && ( */}
-      {true && (
+      {!viewer.emailVerified && emailUpdated && !showEditForm && (
         <CallOut>
           <Flex itemGutter>
             <div>
@@ -137,27 +136,24 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
                 </Typography>
               </Localized>
 
-              {confirmationResent && (
-                <Localized id="profile-changeEmail-resent">
-                  <Typography>
-                    Your confirmation email has been re-sent.
-                  </Typography>
-                </Localized>
-              )}
-
-              {!confirmationResent && (
-                <Localized id="profile-changeEmail-resend">
-                  <Button
-                    onClick={resend}
-                    className={styles.resendButton}
-                    color="primary"
-                  >
-                    Resend verification
-                  </Button>
-                </Localized>
-              )}
+              <Localized id="profile-changeEmail-resend">
+                <Button
+                  onClick={resend}
+                  className={styles.resendButton}
+                  color="primary"
+                >
+                  Resend verification
+                </Button>
+              </Localized>
             </div>
           </Flex>
+        </CallOut>
+      )}
+      {confirmationResent && (
+        <CallOut fullWidth color="primary">
+          <Localized id="profile-changeEmail-resent">
+            <Typography>Your confirmation email has been re-sent.</Typography>
+          </Localized>
         </CallOut>
       )}
       {showEditForm && (
