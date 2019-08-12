@@ -91,6 +91,38 @@ exports[`renders the empty settings pane 1`] = `
           </button>
         </div>
       </div>
+      <div
+        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
+        data-testid="profile-changeEmail"
+      >
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+        >
+          <p
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          />
+          <span>
+             
+          </span>
+          <p
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextSecondary"
+          >
+            (Unverified)
+          </p>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
       <ul
         className="TabBar-root TabBar-secondary"
         role="tablist"

@@ -209,14 +209,13 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
                         <Field
                           name="email"
                           validate={composeValidators(required, validateEmail)}
-                          id="profile-changeEmail-email"
                         >
                           {({ input, meta }) => (
                             <>
                               <TextField
                                 {...input}
                                 fullWidth
-                                id="profile-changeEmail-email"
+                                id="profile-changeEmail-Email"
                               />
                               <ValidationMessage meta={meta} />
                             </>

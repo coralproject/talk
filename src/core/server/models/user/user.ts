@@ -919,7 +919,6 @@ export async function setUserEmail(
     {
       $set: {
         email,
-        emailVerified,
       },
     },
     {
@@ -982,6 +981,7 @@ export async function updateUserEmail(
     {
       $set: {
         email,
+        emailVerified,
       },
     },
     {
