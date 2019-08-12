@@ -67,9 +67,18 @@ gulp.task("server:static", () =>
     .pipe(gulp.dest(resolveDistFolder() + "/core/server"))
 );
 
+gulp.task("locales", () =>
+  gulp
+    .src(["./src/locales/**/*"])
+    .pipe(gulp.dest(resolveDistFolder() + "/locales"))
+);
+
 gulp.task(
   "server",
-  gulp.series("server:schema", gulp.parallel("server:scripts", "server:static"))
+  gulp.series(
+    "server:schema",
+    gulp.parallel("server:scripts", "server:static", "locales")
+  )
 );
 
 gulp.task("default", gulp.series("clean", "server"));
