@@ -2,10 +2,12 @@ import { FORM_ERROR, FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
+import { Environment } from "relay-runtime";
 
 import { PasswordField } from "coral-framework/components";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import { createFetch, useFetch } from "coral-framework/lib/relay";
 import {
   graphql,
   useMutation,
@@ -33,7 +35,16 @@ import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__genera
 
 import UpdateEmailMutation from "./UpdateEmailMutation";
 
-import styles from "./ChangeEmail.css";
+import styles from "./ChangeEmailContainer.css";
+
+const fetcher = createFetch(
+  "resendConfirmation",
+  (environment: Environment, variables, context) => {
+    return context.rest.fetch<void>("/account/confirm", {
+      method: "POST",
+    });
+  }
+);
 
 interface Props {
   viewer: ViewerData;
@@ -46,8 +57,16 @@ interface FormProps {
 
 const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
   const updateEmail = useMutation(UpdateEmailMutation);
+
   const [showEditForm, setShowEditForm] = useState(false);
   const [emailUpdated, setEmailUpdated] = useState(false);
+  const [confirmationResent, setConfirmationResent] = useState(false);
+  const makeFetchCall = useFetch(fetcher);
+  const resend = useCallback(async () => {
+    await makeFetchCall();
+    setConfirmationResent(true);
+  }, [fetcher]);
+
   const toggleEditForm = useCallback(() => {
     setShowEditForm(!showEditForm);
   }, [setShowEditForm, showEditForm]);
@@ -93,9 +112,10 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
           </Localized>
         </Flex>
       )}
-      {!viewer.emailVerified && emailUpdated && !showEditForm && (
+      {/* {!viewer.emailVerified && emailUpdated && !showEditForm && ( */}
+      {true && (
         <CallOut>
-          <Flex itemGutter="double">
+          <Flex itemGutter>
             <div>
               <Icon size="lg">email</Icon>
             </div>
@@ -116,9 +136,26 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
                   notifications.
                 </Typography>
               </Localized>
-              <Localized id="profile-changeEmail-resend">
-                <Button color="primary">Resend verification</Button>
-              </Localized>
+
+              {confirmationResent && (
+                <Localized id="profile-changeEmail-resent">
+                  <Typography>
+                    Your confirmation email has been re-sent.
+                  </Typography>
+                </Localized>
+              )}
+
+              {!confirmationResent && (
+                <Localized id="profile-changeEmail-resend">
+                  <Button
+                    onClick={resend}
+                    className={styles.resendButton}
+                    color="primary"
+                  >
+                    Resend verification
+                  </Button>
+                </Localized>
+              )}
             </div>
           </Flex>
         </CallOut>
