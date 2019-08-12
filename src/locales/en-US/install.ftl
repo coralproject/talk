@@ -41,7 +41,11 @@ install-createYourAccount-confirmPasswordTextField =
 
 install-permittedDomains-stepTitle = Add Permitted Domains
 install-permittedDomains-title = Permitted Domains
-install-permittedDomains-description = Enter the domains you would like to permit for { -product-name }, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com).
+install-permittedDomains-description-with-scheme =
+  Enter the domains you would like to permit for { -product-name }, e.g.
+  your local, staging and production environments including the
+  scheme (ex. http://localhost:3000, https://staging.domain.com,
+  https://domain.com).
 install-permittedDomains-permittedDomains = Permitted Domains
 install-permittedDomains-permittedDomainsTextField =
   .placeholder = Domains

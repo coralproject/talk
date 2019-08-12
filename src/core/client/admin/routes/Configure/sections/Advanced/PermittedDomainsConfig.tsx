@@ -8,6 +8,7 @@ import {
   parseStringList,
   ValidationMessage,
 } from "coral-framework/lib/form";
+import { validateStrictURLList } from "coral-framework/lib/validation";
 import {
   FormField,
   HorizontalGutter,
@@ -32,18 +33,21 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Header>
       </Localized>
       <Localized
-        id="configure-advanced-permittedDomains-explanation"
+        id="configure-advanced-permittedDomains-description"
         strong={<strong />}
       >
         <Typography variant="detail">
-          Domains where your Coral instance is allowed to be embedded. Typical
-          use is localhost, staging.yourdomain.com, yourdomain.com, etc.
+          The domains you would like to permit for Coral, e.g. your local,
+          staging and production environments including the scheme (ex.
+          http://localhost:3000, https://staging.domain.com,
+          https://domain.com).
         </Typography>
       </Localized>
       <Field
         name="allowedDomains"
         parse={parseStringList}
         format={formatStringList}
+        validate={validateStrictURLList}
       >
         {({ input, meta }) => (
           <>
