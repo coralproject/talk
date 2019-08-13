@@ -1528,7 +1528,7 @@ type User {
   """
   badges are user display badges
   """
-  badges: [String]
+  badges: [String!]
   """
   email is the current email address for the User.
   """

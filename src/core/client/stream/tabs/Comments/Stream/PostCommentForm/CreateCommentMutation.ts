@@ -78,6 +78,7 @@ graphql`
   fragment CreateCommentMutation_viewer on User {
     role
     createdAt
+    badges
   }
 `;
 // tslint:disable-next-line:no-unused-expression
