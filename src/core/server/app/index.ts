@@ -21,6 +21,7 @@ import { Metrics } from "coral-server/services/metrics";
 import { AugmentedRedis } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
 
+import { compileTrust } from "./helpers";
 import { accessLogger, errorLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
 import serveStatic from "./middleware/serveStatic";
@@ -108,7 +109,7 @@ function configureApplication(options: AppOptions) {
   // SSL was terminated correctly.
   const trust = options.config.get("trust_proxy");
   if (trust) {
-    parent.set("trust proxy", trust);
+    parent.set("trust proxy", compileTrust(trust));
   }
 
   // Setup the view config.
