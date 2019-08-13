@@ -149,6 +149,7 @@ function commit(
               id: viewer.id,
               username: viewer.username,
               createdAt: viewer.createdAt,
+              badges: viewer.badges,
               ignoreable: false,
             },
             revision: {

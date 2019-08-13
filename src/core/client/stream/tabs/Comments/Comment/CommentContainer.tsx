@@ -33,6 +33,7 @@ import ReplyButton from "./ReplyButton";
 import ReplyCommentFormContainer from "./ReplyCommentForm";
 import ReportButtonContainer from "./ReportButton";
 import ShowConversationLink from "./ShowConversationLink";
+import UserBadges from "./UserBadges";
 import { UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer from "./UserTagsContainer";
 
@@ -242,6 +243,9 @@ export class CommentContainer extends Component<Props, State> {
                     user={comment.author}
                   />
                   <UserTagsContainer comment={comment} />
+                  {comment.author.badges && (
+                    <UserBadges badges={comment.author.badges} />
+                  )}
                 </>
               )
             }
@@ -342,6 +346,7 @@ const enhanced = withSetCommentIDMutation(
           ignoredUsers {
             id
           }
+          badges
           role
           ...UsernameWithPopoverContainer_viewer
           ...ReactionButtonContainer_viewer
@@ -365,6 +370,7 @@ const enhanced = withSetCommentIDMutation(
             ...UsernameWithPopoverContainer_user
             id
             username
+            badges
           }
           parent {
             author {

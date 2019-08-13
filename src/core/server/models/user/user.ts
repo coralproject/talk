@@ -293,6 +293,12 @@ export interface User extends TenantResource {
   email?: string;
 
   /**
+   *
+   * badges are user display badges
+   */
+  badges?: string[];
+
+  /**
    * emailVerificationID is used to store state regarding the verification state
    * of an email address to prevent replay attacks.
    */
@@ -668,6 +674,7 @@ export async function updateUserPassword(
 export interface UpdateUserInput {
   email?: string;
   username?: string;
+  badges?: string[];
 }
 
 export async function updateUserFromSSO(
