@@ -33,7 +33,7 @@ import ReplyButton from "./ReplyButton";
 import ReplyCommentFormContainer from "./ReplyCommentForm";
 import ReportButtonContainer from "./ReportButton";
 import ShowConversationLink from "./ShowConversationLink";
-import UserBadges from "./UserBadges";
+import UserBadgesContainer from "./UserBadgesContainer";
 import { UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer from "./UserTagsContainer";
 
@@ -243,9 +243,7 @@ export class CommentContainer extends Component<Props, State> {
                     user={comment.author}
                   />
                   <UserTagsContainer comment={comment} />
-                  {comment.author.badges && (
-                    <UserBadges badges={comment.author.badges} />
-                  )}
+                  <UserBadgesContainer comment={comment} />
                 </>
               )
             }
@@ -370,7 +368,6 @@ const enhanced = withSetCommentIDMutation(
             ...UsernameWithPopoverContainer_user
             id
             username
-            badges
           }
           parent {
             author {
@@ -395,6 +392,7 @@ const enhanced = withSetCommentIDMutation(
           ...ReportButtonContainer_comment
           ...CaretContainer_comment
           ...RejectedTombstoneContainer_comment
+          ...UserBadgesContainer_comment
           ...UserTagsContainer_comment
         }
       `,
