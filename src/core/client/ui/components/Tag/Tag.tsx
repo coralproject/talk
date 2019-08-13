@@ -23,7 +23,6 @@ const Tag: FunctionComponent<Props> = props => {
   const rootClassName = cn(classes.root, className, {
     [classes.variantPill]: variant === "pill",
     [classes.colorPrimary]: color === "primary",
-    [classes.colorPrimary]: color === "primary",
     [classes.colorError]: color === "error",
     [classes.colorGrey]: color === "grey",
     [classes.colorDarkest]: color === "dark",
