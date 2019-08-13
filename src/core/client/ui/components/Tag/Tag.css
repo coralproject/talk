@@ -20,6 +20,10 @@
   background-color: var(--palette-error-dark);
 }
 
+.colorDarkest {
+  background-color: var(--palette-primary-darkest);
+}
+
 .variantPill {
   border-radius: 20px;
   padding: 2px 6px;
