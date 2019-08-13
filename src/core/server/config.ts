@@ -59,6 +59,14 @@ const config = convict({
     default: "en-US",
     env: "LOCALE",
   },
+  trust_proxy: {
+    doc:
+      'When provided, it configures the "trust proxy" settings for Express (See https://expressjs.com/en/guide/behind-proxies.html)',
+    format: String,
+    default: "",
+    env: "TRUST_PROXY",
+    arg: "trustProxy",
+  },
   enable_graphiql: {
     doc: "When true, this will enable the GraphiQL interface at /graphiql",
     format: Boolean,
