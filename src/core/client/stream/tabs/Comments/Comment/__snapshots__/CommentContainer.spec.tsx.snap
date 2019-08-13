@@ -129,6 +129,28 @@ exports[`hide reply button 1`] = `
               }
             }
           />
+          <Relay(UserBadgesContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
         </React.Fragment>
       }
     />
@@ -250,6 +272,28 @@ exports[`renders body only 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": null,
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(UserBadgesContainer)
             comment={
               Object {
                 "author": Object {
@@ -413,6 +457,28 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               }
             }
           />
+          <Relay(UserBadgesContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
         </React.Fragment>
       }
     />
@@ -534,6 +600,28 @@ exports[`renders disabled reply when story is closed 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(UserBadgesContainer)
             comment={
               Object {
                 "author": Object {
@@ -709,6 +797,32 @@ exports[`renders in reply to 1`] = `
               }
             }
           />
+          <Relay(UserBadgesContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": Object {
+                  "author": Object {
+                    "username": "ParentAuthor",
+                  },
+                },
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
         </React.Fragment>
       }
     />
@@ -830,6 +944,28 @@ exports[`renders username and body 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(UserBadgesContainer)
             comment={
               Object {
                 "author": Object {
@@ -977,6 +1113,28 @@ exports[`shows conversation link 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(UserBadgesContainer)
             comment={
               Object {
                 "author": Object {

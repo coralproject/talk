@@ -52,14 +52,16 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
   return isNil(error);
 }
 
-export const SSOUserProfileSchema = Joi.object().keys({
-  id: Joi.string().required(),
-  email: Joi.string()
-    .lowercase()
-    .required(),
-  username: Joi.string().required(),
-  badges: Joi.array().items(Joi.string()),
-});
+export const SSOUserProfileSchema = Joi.object()
+  .keys({
+    id: Joi.string().required(),
+    email: Joi.string()
+      .lowercase()
+      .required(),
+    username: Joi.string().required(),
+    badges: Joi.array().items(Joi.string()),
+  })
+  .optionalKeys(["badges"]);
 
 export const SSOTokenSchema = Joi.object()
   .keys({
