@@ -388,6 +388,7 @@ the variables in a `.env` file in the root of the project in a simple
 - `WEBSOCKET_KEEP_ALIVE_TIMEOUT` - A duration in a parsable format (e.g. `30 seconds`
   , `1 minute`) that should be used to send keep alive messages through the
   websocket to keep the socket alive (Default `30 seconds`)
+- `TRUST_PROXY` - When provided, it configures the "trust proxy" settings for Express (See https://expressjs.com/en/guide/behind-proxies.html)
 
 ## License
 
