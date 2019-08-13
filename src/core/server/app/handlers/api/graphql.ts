@@ -4,8 +4,6 @@ import { graphqlMiddleware } from "coral-server/app/middleware/graphql";
 import TenantContext, {
   TenantContextOptions,
 } from "coral-server/graph/tenant/context";
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
-import { mapPersistedQuery } from "coral-server/models/queries";
 import { Request, RequestHandler } from "coral-server/types/express";
 
 export type GraphMiddlewareOptions = Pick<
@@ -21,8 +19,6 @@ export type GraphMiddlewareOptions = Pick<
   | "pubsub"
   | "tenantCache"
   | "metrics"
-  | "persistedQueryCache"
-  | "persistedQueriesRequired"
 >;
 
 export const graphQLHandler = ({
@@ -70,18 +66,6 @@ export const graphQLHandler = ({
       if (clientID) {
         // TODO: (wyattjoh) validate length
         opts.clientID = clientID;
-      }
-
-      // Handle the payload if it is a persisted query.
-      const body = req.method === "GET" ? req.query : req.body;
-      const mapped = await mapPersistedQuery(options.persistedQueryCache, body);
-      if (!mapped && options.persistedQueriesRequired) {
-        // Check to see if this is from an ADMIN token which is allowed to run
-        // un-persisted queries.
-        if (!req.user || req.user.role !== GQLUSER_ROLE.ADMIN) {
-          // TODO: replace with better error
-          throw new Error("not authorized to call an un-persisted query");
-        }
       }
 
       return {

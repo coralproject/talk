@@ -130,7 +130,7 @@
     "prom-client": "^11.3.0",
     "proxy-agent": "^3.1.0",
     "querystringify": "^2.1.0",
-    "react-relay-network-modern": "^3.0.4",
+    "react-relay-network-modern": "^4.0.4",
     "source-map-support": "^0.5.12",
     "stack-utils": "^1.0.2",
     "striptags": "^3.1.1",

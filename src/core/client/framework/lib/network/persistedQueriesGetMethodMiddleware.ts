@@ -27,7 +27,7 @@ const persistedQueriesGetMethodMiddleware: Middleware = next => async req => {
     req.fetchOpts.method = "GET";
 
     // Rebuild the query parameters for GET.
-    const params: Record<string, string> = {};
+    const params: Record<string, string> = { query: "" };
     for (const key in body) {
       if (!body.hasOwnProperty(key)) {
         continue;
@@ -36,10 +36,6 @@ const persistedQueriesGetMethodMiddleware: Middleware = next => async req => {
       const value = body[key];
       params[key] = typeof value === "string" ? value : JSON.stringify(value);
     }
-
-    // Set the query parameter on the param to indicate the persisted query
-    // state.
-    params.query = "PERSISTED_QUERY";
 
     // Combine the new parameters onto the URL.
     req.fetchOpts.url = modifyQuery(req.fetchOpts.url as string, params);
