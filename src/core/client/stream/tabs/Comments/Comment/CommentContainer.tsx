@@ -21,6 +21,7 @@ import {
 import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
 import { isPublished } from "../helpers";
+import UserBadgesContainer from "./AuthorBadgesContainer";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
 import IndentedComment from "./IndentedComment";
@@ -33,7 +34,6 @@ import ReplyButton from "./ReplyButton";
 import ReplyCommentFormContainer from "./ReplyCommentForm";
 import ReportButtonContainer from "./ReportButton";
 import ShowConversationLink from "./ShowConversationLink";
-import UserBadgesContainer from "./UserBadgesContainer";
 import { UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer from "./UserTagsContainer";
 
@@ -392,7 +392,7 @@ const enhanced = withSetCommentIDMutation(
           ...ReportButtonContainer_comment
           ...CaretContainer_comment
           ...RejectedTombstoneContainer_comment
-          ...UserBadgesContainer_comment
+          ...AuthorBadgesContainer_comment
           ...UserTagsContainer_comment
         }
       `,
