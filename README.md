@@ -22,6 +22,7 @@ Preview Coral easily by running Coral via a Heroku App:
   - [Development](#development)
     - [Embed On Your Site](#embed-on-your-site)
     - [Single Sign On](#single-sign-on)
+      - [SSO Login Prompts](#sso-login-prompts)
     - [Email](#email)
     - [Design Language System (UI Components)](#design-language-system-ui-components)
 - [Configuration](#configuration)
@@ -291,6 +292,23 @@ embed.login("{{ SSO_TOKEN }}");
 
 // Logout the user.
 embed.logout();
+```
+
+##### SSO Login Prompts
+
+In order to handle login prompts (e.g. a user clicks on the sign in button) you can listen to the `loginPrompt` event.
+
+```js
+var embed = Coral.createStreamEmbed({
+  // Don't forget to include the parameters from the
+  // "Embed On Your Site" section.
+  events: function(events) {
+    events.on("loginPrompt", function() {
+      // Redirect user to a login page.
+      location.href = "http://example.com/login";
+    });
+  },
+});
 ```
 
 #### Email
