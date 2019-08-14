@@ -27,6 +27,16 @@ const RemoveUserSuspensionMutation = createMutation(
                 current
                 suspension {
                   active
+                  history {
+                    active
+                    from {
+                      start
+                      finish
+                    }
+                    createdBy {
+                      username
+                    }
+                  }
                 }
               }
             }
@@ -51,6 +61,11 @@ const RemoveUserSuspensionMutation = createMutation(
               )!.status.current.concat(GQLUSER_STATUS.SUSPENDED),
               suspension: {
                 active: false,
+                history: [
+                  {
+                    active: false,
+                  },
+                ],
               },
             },
           },

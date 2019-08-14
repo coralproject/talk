@@ -104,9 +104,12 @@ export const listenAndServe = (
 function configureApplication(options: AppOptions) {
   const { parent } = options;
 
-  // Trust the first proxy in front of us, this will enable us to trust the fact
-  // that SSL was terminated correctly.
-  parent.set("trust proxy", 1);
+  // Trust the proxy in front of us, this will enable us to trust the fact that
+  // SSL was terminated correctly.
+  const trust = options.config.get("trust_proxy");
+  if (trust) {
+    parent.set("trust proxy", trust);
+  }
 
   // Setup the view config.
   setupViews(options);

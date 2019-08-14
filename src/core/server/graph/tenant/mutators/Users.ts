@@ -128,7 +128,8 @@ export const Users = (ctx: TenantContext) => ({
       ctx.mailerQueue,
       ctx.tenant,
       ctx.user!,
-      input.username
+      input.username,
+      ctx.now
     ),
   updateUserUsername: async (input: GQLUpdateUserUsernameInput) =>
     updateUsernameByID(

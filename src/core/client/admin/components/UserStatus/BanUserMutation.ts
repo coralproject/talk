@@ -25,6 +25,13 @@ const BanUserMutation = createMutation(
                 current
                 ban {
                   active
+                  history {
+                    active
+                    createdAt
+                    createdBy {
+                      username
+                    }
+                  }
                 }
               }
             }
@@ -49,6 +56,12 @@ const BanUserMutation = createMutation(
               )!.status.current.concat(GQLUSER_STATUS.BANNED),
               ban: {
                 active: true,
+                history: [
+                  {
+                    active: true,
+                    createdAt: new Date(),
+                  },
+                ],
               },
             },
           },

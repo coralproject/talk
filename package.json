@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "5.0.0-beta.5",
+  "version": "5.0.0-beta.7",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -20,7 +20,7 @@
   ],
   "description": "A better commenting experience from Mozilla, The Washington Post, and The New York Times.",
   "scripts": {
-    "build": "NODE_ENV=production WEBPACK_DISABLE_SOURCEMAPS=1 npm-run-all generate --parallel lint:client build:client build:server",
+    "build": "NODE_ENV=production npm-run-all generate --parallel lint:client build:client build:server",
     "build:development": "NODE_ENV=development npm-run-all generate --parallel lint:client build:client build:server",
     "build:client": "ts-node --transpile-only ./scripts/build.ts",
     "build:server": "gulp server",
@@ -133,6 +133,7 @@
     "throng": "^4.0.0",
     "tlds": "^1.203.1",
     "tsscmp": "^1.0.6",
+    "url-regex": "^5.0.0",
     "uuid": "^3.3.2",
     "verror": "^1.10.0"
   },

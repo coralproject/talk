@@ -127,7 +127,6 @@ export class UserBoxContainer extends Component<Props> {
         <Popup
           href={this.authUrl}
           title="Coral Auth"
-          features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
           open={open}
           focus={focus}
           onFocus={this.handleFocus}
