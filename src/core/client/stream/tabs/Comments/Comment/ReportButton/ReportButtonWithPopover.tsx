@@ -24,6 +24,11 @@ const ReportButtonWithPopover: React.FunctionComponent<Props> = ({
         id={popoverID}
         placement="top-end"
         description="A dialog for reporting comments"
+        modifiers={{
+          flip: {
+            enabled: false,
+          },
+        }}
         body={({ toggleVisibility, scheduleUpdate }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
             <ReportPopover
