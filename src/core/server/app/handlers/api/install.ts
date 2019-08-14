@@ -35,7 +35,7 @@ const TenantInstallBodySchema = Joi.object().keys({
       allowedDomains: Joi.array().items(
         Joi.string()
           .trim()
-          .uri()
+          .uri({ scheme: ["http", "https"] })
       ),
       locale: Joi.string()
         .default(null)

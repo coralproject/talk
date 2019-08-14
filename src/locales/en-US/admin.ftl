@@ -340,10 +340,10 @@ configure-advanced-customCSS-explanation =
   URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
 
 configure-advanced-permittedDomains = Permitted Domains
-configure-advanced-permittedDomains-explanation =
-  Domains where your { -product-name } instance is allowed to be embedded.
-  Typical use is localhost, staging.yourdomain.com,
-  yourdomain.com, etc.
+configure-advanced-permittedDomains-description =
+  Domains where your { -product-name } instance is allowed to be embedded
+  including the scheme (ex. http://localhost:3000, https://staging.domain.com,
+  https://domain.com).
 
 configure-advanced-liveUpdates = Comment Stream Live Updates
 configure-advanced-liveUpdates-explanation =
@@ -723,7 +723,7 @@ invite-tokenNotFound =
   The specified link is invalid, check to see if it was copied correctly.
 
 userDetails-banned-on = <strong>Banned on</strong> { $timestamp }
-userDetails-banned-by = <strong>by</strong> { $username } 
+userDetails-banned-by = <strong>by</strong> { $username }
 userDetails-suspended-by = <strong>Suspended by</strong> { $username }
 userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
 userDetails-suspension-end = <strong>End:</strong> { $timestamp }

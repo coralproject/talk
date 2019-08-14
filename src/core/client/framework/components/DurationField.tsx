@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { ChangeEvent, Component } from "react";
 
-import { UNIT } from "coral-framework/lib/i18n";
+import { UNIT } from "coral-common/helpers/i18n";
 import {
   Flex,
   Option,

@@ -69,7 +69,7 @@ describe("with recently changed username", () => {
       within(testRenderer.root).queryByTestID("profile-changeUsername")
     );
     within(changeUsername).getByText("u_changed");
-    const editButton = within(changeUsername).getByText("Edit");
+    const editButton = within(changeUsername).getByText("edit");
     act(() => {
       editButton.props.onClick();
     });
@@ -102,7 +102,7 @@ describe("with new username", () => {
     );
 
     within(changeUsername).getByText("u_original");
-    const editButton = within(changeUsername).getByText("Edit");
+    const editButton = within(changeUsername).getByText("edit");
     act(() => {
       editButton.props.onClick();
     });
@@ -145,7 +145,7 @@ describe("change username form", () => {
     const changeUsername = within(testRenderer.root).getByTestID(
       "profile-changeUsername"
     );
-    const editButton = within(changeUsername).getByText("Edit");
+    const editButton = within(changeUsername).getByText("edit");
     act(() => {
       editButton.props.onClick();
     });
@@ -156,7 +156,9 @@ describe("change username form", () => {
     within(changeUsername).getAllByText("This field is required", {
       exact: false,
     });
-    const button = within(changeUsername).getByText("Save");
+    const button = within(changeUsername).getByTestID(
+      "profile-changeUsername-save"
+    );
     expect(button.props.disabled).toBeTruthy();
   });
 
@@ -164,7 +166,7 @@ describe("change username form", () => {
     const changeUsername = within(testRenderer.root).getByTestID(
       "profile-changeUsername"
     );
-    const editButton = within(changeUsername).getByText("Edit");
+    const editButton = within(changeUsername).getByText("edit");
     act(() => {
       editButton.props.onClick();
     });
@@ -181,7 +183,9 @@ describe("change username form", () => {
     within(changeUsername).getByText("Usernames do not match. Try again.", {
       exact: false,
     });
-    const button = within(changeUsername).getByText("Save");
+    const button = within(changeUsername).getByTestID(
+      "profile-changeUsername-save"
+    );
     expect(button.props.disabled).toBeTruthy();
   });
 
@@ -189,7 +193,7 @@ describe("change username form", () => {
     const changeUsername = within(testRenderer.root).getByTestID(
       "profile-changeUsername"
     );
-    const editButton = within(changeUsername).getByText("Edit");
+    const editButton = within(changeUsername).getByText("edit");
     act(() => {
       editButton.props.onClick();
     });
