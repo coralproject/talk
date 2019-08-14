@@ -309,6 +309,26 @@ export async function updatePassword(
   return user;
 }
 
+export async function requestAccountDeletion(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  password: string
+) {
+  if (!user.email) {
+    throw new EmailNotSetError();
+  }
+
+  const passwordVerified = await verifyUserPassword(user, password, user.email);
+  if (!passwordVerified) {
+    // We throw a PasswordIncorrect error here instead of an
+    // InvalidCredentialsError because the current user is already signed in.
+    throw new PasswordIncorrect();
+  }
+
+  return user;
+}
+
 /**
  * createToken will create a Token for the User as well as return a signed Token
  * that can be used to authenticate.

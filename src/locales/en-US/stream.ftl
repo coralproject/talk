@@ -234,6 +234,10 @@ profile-settings-deleteAccount-pages-confirmDescHeader =
 profile-settings-deleteAccount-confirmDescContent
   To confirm you would like to delete your account please type in the following
   phrase into the text box below:
+profile-settings-deleteAccount-pages-confirmPhraseLabel =
+  To confirm, type phrase below:
+profile-settings-deleteAccount-pages-confirmPasswordLabel =
+  Enter your password:
 
 profile-settings-deleteAccount-pages-completeHeader = Account deletion requested
 profile-settings-deleteAccount-pages-completeDescript =

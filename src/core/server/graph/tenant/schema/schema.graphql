@@ -4134,6 +4134,34 @@ type UpdatePasswordPayload {
 }
 
 ##################
+# requestAccountDeletion
+##################
+
+input RequestAccountDeletionInput {
+  """
+  password to verify for the current User.
+  """
+  password: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RequestAccountDeletionPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # createToken
 ##################
 
@@ -4761,6 +4789,14 @@ type Mutation {
   they already have one associated with them.
   """
   updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload! @auth
+
+  """
+  requestAccountDeletion allows the current logged in User to request to
+  delete their account.
+  """
+  requestAccountDeletion(
+    input: RequestAccountDeletionInput!
+  ): RequestAccountDeletionPayload! @auth
 
   """
   createToken allows an administrator to create a Token based on the current

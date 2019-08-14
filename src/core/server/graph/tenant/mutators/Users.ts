@@ -10,6 +10,7 @@ import {
   removeBan,
   removeIgnore,
   removeSuspension,
+  requestAccountDeletion,
   requestCommentsDownload,
   setEmail,
   setPassword,
@@ -34,6 +35,7 @@ import {
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
+  GQLRequestAccountDeletionInput,
   GQLRequestCommentsDownloadInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
@@ -111,6 +113,13 @@ export const Users = (ctx: TenantContext) => ({
         input.newPassword
       ),
       { "input.oldPassword": [ERROR_CODES.PASSWORD_INCORRECT] }
+    ),
+  requestAccountDeletion: async (
+    input: GQLRequestAccountDeletionInput
+  ): Promise<Readonly<User> | null> =>
+    mapFieldsetToErrorCodes(
+      requestAccountDeletion(ctx.mongo, ctx.tenant, ctx.user!, input.password),
+      { "input.password": [ERROR_CODES.PASSWORD_INCORRECT] }
     ),
   createToken: async (input: GQLCreateTokenInput) =>
     createToken(
