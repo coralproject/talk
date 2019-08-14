@@ -25,6 +25,13 @@ const RemoveUserBanMutation = createMutation(
                 current
                 ban {
                   active
+                  history {
+                    active
+                    createdAt
+                    createdBy {
+                      username
+                    }
+                  }
                 }
               }
             }
@@ -49,6 +56,7 @@ const RemoveUserBanMutation = createMutation(
               )!.status.current.filter(s => s !== GQLUSER_STATUS.BANNED),
               ban: {
                 active: false,
+                history: [],
               },
             },
           },
