@@ -1,4 +1,4 @@
-import { FORM_ERROR, FormApi } from "final-form";
+import { FORM_ERROR, FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
@@ -95,6 +95,29 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
     },
     [updateEmail]
   );
+
+  const preventSubmit = (
+    formState: Pick<
+      FormState,
+      | "pristine"
+      | "hasSubmitErrors"
+      | "hasValidationErrors"
+      | "dirtySinceLastSubmit"
+    >
+  ) => {
+    const {
+      pristine,
+      hasValidationErrors,
+      hasSubmitErrors,
+      dirtySinceLastSubmit,
+    } = formState;
+    return (
+      pristine ||
+      hasValidationErrors ||
+      (hasSubmitErrors && !dirtySinceLastSubmit)
+    );
+  };
+
   return (
     <HorizontalGutter spacing={5} data-testid="profile-changeEmail">
       {!showEditForm && (
@@ -187,12 +210,9 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
               {({
                 handleSubmit,
                 submitError,
-                pristine,
                 invalid,
                 submitting,
-                hasValidationErrors,
-                hasSubmitErrors,
-                dirtySinceLastSubmit,
+                ...formProps
               }) => (
                 <form
                   onSubmit={handleSubmit}
@@ -268,24 +288,17 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
                       </Button>
                     </Localized>
                     <Localized id="profile-changeEmail-submit">
-                      {pristine ||
-                      hasValidationErrors ||
-                      (hasSubmitErrors && !dirtySinceLastSubmit) ? (
-                        <Button
-                          variant="outlined"
-                          type="submit"
-                          color="regular"
-                          disabled
-                        >
-                          <ButtonIcon>save</ButtonIcon>
-                          <span>Save</span>
-                        </Button>
-                      ) : (
-                        <Button variant="filled" type="submit" color="primary">
-                          <ButtonIcon>save</ButtonIcon>
-                          <span>Save</span>
-                        </Button>
-                      )}
+                      <Button
+                        variant={
+                          preventSubmit(formProps) ? "outlined" : "filled"
+                        }
+                        type="submit"
+                        color={preventSubmit(formProps) ? "regular" : "primary"}
+                        disabled={preventSubmit(formProps)}
+                      >
+                        <ButtonIcon>save</ButtonIcon>
+                        <span>Save</span>
+                      </Button>
                     </Localized>
                   </Flex>
                 </form>
