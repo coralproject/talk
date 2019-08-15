@@ -39,6 +39,7 @@ import {
   removeUserIgnore,
   retrieveUser,
   retrieveUserWithEmail,
+  retrieveUserWithProfile,
   setUserEmail,
   setUserLastDownloadedAt,
   setUserLocalProfile,
@@ -486,6 +487,30 @@ export async function updateRole(
 }
 
 /**
+ * updateProfileEmail will update the current User's email address.
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param user the User that we are updating
+ * @param email the email address that we are setting on the User
+ */
+export async function updateProfileEmail(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  email: string
+) {
+  // Try to see if this local profile already exists on a User.
+  const existingUser = await retrieveUserWithProfile(mongo, tenant.id, {
+    type: "local",
+    id: email,
+  });
+  if (existingUser) {
+    throw new DuplicateEmailError(email);
+  }
+  return updateUserProfileEmail(mongo, tenant.id, user.id, email);
+}
+
+/**
  * updateEmail will update the current User's email address.
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
@@ -502,10 +527,11 @@ export async function updateEmail(
   config: Config,
   signingConfig: JWTSigningConfig,
   user: User,
-  email: string,
+  emailAddress: string,
   password: string,
   now = new Date()
 ) {
+  const email = emailAddress.toLowerCase();
   validateEmail(email);
 
   const passwordVerified = await verifyUserPassword(user, password);
@@ -516,7 +542,7 @@ export async function updateEmail(
   }
 
   if (hasLocalProfile(user)) {
-    await updateUserProfileEmail(mongo, tenant.id, user.id, email);
+    await updateProfileEmail(mongo, tenant, user, email);
   }
 
   const updated = await updateUserEmail(mongo, tenant.id, user.id, email);

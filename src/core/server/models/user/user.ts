@@ -622,50 +622,52 @@ export async function updateUserProfileEmail(
 ) {
   const email = emailAddress.toLowerCase();
 
-  // Try to see if this local profile already exists on a User.
-  const existingUser = await retrieveUserWithProfile(mongo, tenantID, {
-    type: "local",
-    id: email,
-  });
-  if (existingUser) {
-    throw new DuplicateEmailError(email);
-  }
-  // Update the user with the new email.
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      tenantID,
-      id,
-      // This ensures that the document we're updating already has a local
-      // profile associated with them.
-      profiles: {
-        $elemMatch: {
-          type: "local",
+  try {
+    const result = await collection(mongo).findOneAndUpdate(
+      {
+        tenantID,
+        id,
+        // This ensures that the document we're updating already has a local
+        // profile associated with them.
+        profiles: {
+          $elemMatch: {
+            type: "local",
+          },
         },
       },
-    },
-    {
-      $set: {
-        // Update the id with a new email.
-        "profiles.$[profiles].id": email,
+      {
+        $set: {
+          // Update the id with a new email.
+          "profiles.$[profiles].id": email,
+        },
       },
-    },
-    {
-      arrayFilters: [{ "profiles.type": "local" }],
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    const user = await retrieveUser(mongo, tenantID, id);
-    if (!user) {
-      throw new UserNotFoundError(id);
+      {
+        arrayFilters: [{ "profiles.type": "local" }],
+        // False to return the updated document instead of the original
+        // document.
+        returnOriginal: false,
+      }
+    );
+    if (!result.value) {
+      const user = await retrieveUser(mongo, tenantID, id);
+      if (!user) {
+        throw new UserNotFoundError(id);
+      }
+
+      throw new Error("an unexpected error occurred");
     }
 
-    throw new Error("an unexpected error occurred");
+    return result.value || null;
+  } catch (err) {
+    if (err instanceof MongoError && err.code === 11000) {
+      // Check if duplicate index was about the email.
+      if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
+        throw new DuplicateEmailError(email!);
+      }
+      throw new DuplicateUserError();
+    }
+    throw err;
   }
-
-  return result.value || null;
 }
 
 export async function updateUserPassword(
