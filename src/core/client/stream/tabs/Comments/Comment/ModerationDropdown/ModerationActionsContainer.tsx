@@ -1,4 +1,3 @@
-import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
@@ -11,6 +10,7 @@ import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
+import ModerationActionBanQuery from "./ModerationActionBanQuery";
 import RejectCommentMutation from "./RejectCommentMutation";
 import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
@@ -19,7 +19,7 @@ import styles from "./ModerationActionsContainer.css";
 interface Props {
   comment: ModerationActionsContainer_comment;
   story: ModerationActionsContainer_story;
-  viewer: ModerationActionsContainer_viewer | null;
+  viewer: ModerationActionsContainer_viewer;
   onDismiss: () => void;
   onBan: () => void;
 }
@@ -62,9 +62,10 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const approved = comment.status === "APPROVED";
   const rejected = comment.status === "REJECTED";
   const featured = comment.tags.some(t => t.code === "FEATURED");
-  const banned = comment.author!.status.ban.active;
   const showBanOption =
-    viewer === null ? false : comment.author!.id !== viewer.id;
+    !comment.author || !comment.author.id || viewer === null
+      ? false
+      : comment.author!.id !== viewer.id;
 
   return (
     <>
@@ -143,34 +144,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       {showBanOption && (
         <>
           <DropdownDivider />
-          {banned ? (
-            <Localized id="comments-moderationDropdown-banned">
-              <DropdownButton
-                icon={
-                  <div className={cn(styles.banIcon, styles.banned)}>
-                    <Icon size="sm">block</Icon>
-                  </div>
-                }
-                className={styles.banned}
-                disabled
-              >
-                Banned
-              </DropdownButton>
-            </Localized>
-          ) : (
-            <Localized id="comments-moderationDropdown-ban">
-              <DropdownButton
-                icon={
-                  <div className={styles.banIcon}>
-                    <Icon size="sm">block</Icon>
-                  </div>
-                }
-                onClick={onBan}
-              >
-                Ban User
-              </DropdownButton>
-            </Localized>
-          )}
+          <ModerationActionBanQuery onBan={onBan} userID={comment.author!.id} />
         </>
       )}
       <DropdownDivider />
@@ -193,11 +167,6 @@ const enhanced = withFragmentContainer<Props>({
       id
       author {
         id
-        status {
-          ban {
-            active
-          }
-        }
       }
       revision {
         id

@@ -38,9 +38,11 @@
   align-items: center;
   justify-content: baseline;
   margin-left: var(--spacing-2);
+  text-decoration: unset;
+}
+.iconOpenInNew {
   padding-top: 1px;
   color: var(--palette-primary-main);
-  text-decoration: unset;
 }
 
 .blankAdornment {

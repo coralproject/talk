@@ -15,7 +15,7 @@ type View = "MODERATE" | "BAN";
 interface Props {
   comment: ModerationDropdownContainer_comment;
   story: ModerationDropdownContainer_story;
-  viewer: ModerationDropdownContainer_viewer | null;
+  viewer: ModerationDropdownContainer_viewer;
   onDismiss: () => void;
   scheduleUpdate: () => void;
 }

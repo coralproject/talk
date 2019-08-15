@@ -15,7 +15,7 @@ import styles from "./CaretContainer.css";
 interface Props {
   comment: CaretContainer_comment;
   story: CaretContainer_story;
-  viewer: CaretContainer_viewer | null;
+  viewer: CaretContainer_viewer;
 }
 
 const CaretContainer: FunctionComponent<Props> = props => {

@@ -15,6 +15,7 @@ import { mapValues } from "lodash";
 const permissionMap = {
   // Mutation.updateStorySettings
   CHANGE_STORY_CONFIGURATION: [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR],
+  MODERATE: [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR],
 };
 
 export type AbilityType = keyof typeof permissionMap;

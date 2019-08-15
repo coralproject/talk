@@ -4,10 +4,8 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutation,
-  lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLUser, GQLUSER_STATUS } from "coral-framework/schema";
 import { BanUserMutation } from "coral-stream/__generated__/BanUserMutation.graphql";
 
 let clientMutationId = 0;
@@ -22,7 +20,6 @@ const BanUserMutation = createMutation(
             user {
               id
               status {
-                current
                 ban {
                   active
                 }
@@ -43,10 +40,6 @@ const BanUserMutation = createMutation(
           user: {
             id: input.userID,
             status: {
-              current: lookup<GQLUser>(
-                environment,
-                input.userID
-              )!.status.current.concat(GQLUSER_STATUS.BANNED),
               ban: {
                 active: true,
               },

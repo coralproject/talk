@@ -6,6 +6,7 @@ import {
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
+  GQLUserStatus,
 } from "coral-framework/schema";
 import {
   createFixture,
@@ -24,7 +25,7 @@ export function randomDate() {
   return createDateInRange(new Date(2000, 0, 1), new Date());
 }
 
-export function createUserStatus(banned: boolean = false) {
+export function createUserStatus(banned: boolean = false): GQLUserStatus {
   return {
     current: [banned ? GQLUSER_STATUS.BANNED : GQLUSER_STATUS.ACTIVE],
     ban: {
@@ -34,6 +35,9 @@ export function createUserStatus(banned: boolean = false) {
     suspension: {
       active: false,
       until: null,
+      history: [],
+    },
+    username: {
       history: [],
     },
   };
@@ -112,7 +116,7 @@ export function createStory(createComments: boolean = true) {
       },
       isClosed: false,
       commentCounts: {
-        totalVisible: 0,
+        totalPublished: 0,
         tags: {
           FEATURED: 0,
         },

@@ -21,7 +21,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
 }) => {
   const banUser = useMutation(BanUserMutation);
   const onBan = useCallback(() => {
-    banUser({ userID: user.id });
+    banUser({ userID: user.id, message: "TODO: You are banned!" });
     onDismiss();
   }, [user, banUser, onDismiss]);
   return (
@@ -58,12 +58,6 @@ const enhanced = withFragmentContainer<Props>({
     fragment UserBanPopoverContainer_user on User {
       id
       username
-      status {
-        current
-        ban {
-          active
-        }
-      }
     }
   `,
 })(UserBanPopoverContainer);
