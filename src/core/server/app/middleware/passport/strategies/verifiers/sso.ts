@@ -133,10 +133,7 @@ export async function findOrCreateSSOUser(
       {
         id,
         username,
-        role:
-          role && Object.values(GQLUSER_ROLE).includes(role)
-            ? role
-            : GQLUSER_ROLE.COMMENTER,
+        role: role || GQLUSER_ROLE.COMMENTER,
         badges,
         email,
         profiles: [profile],
@@ -154,7 +151,7 @@ export async function findOrCreateSSOUser(
         mongo,
         tenant.id,
         user.id,
-        { email, username, badges },
+        { email, username, badges, role: role || user.role },
         lastIssuedAt
       );
     }
