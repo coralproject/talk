@@ -932,11 +932,7 @@ export async function updateUserEmail(
     return result.value;
   } catch (err) {
     if (err instanceof MongoError && err.code === 11000) {
-      // Check if duplicate index was about the email.
-      if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
-        throw new DuplicateEmailError(email!);
-      }
-      throw new DuplicateUserError();
+      throw new DuplicateEmailError(email!);
     }
     throw err;
   }
