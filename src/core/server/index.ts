@@ -19,6 +19,7 @@ import { createPubSubClient } from "coral-server/graph/common/subscriptions/pubs
 import getTenantSchema from "coral-server/graph/tenant/schema";
 import { createSubscriptionServer } from "coral-server/graph/tenant/subscriptions/server";
 import logger from "coral-server/logger";
+import { PersistedQueryCache } from "coral-server/models/queries";
 import { createQueue, TaskQueue } from "coral-server/queue";
 import { I18n } from "coral-server/services/i18n";
 import { createJWTSigningConfig } from "coral-server/services/jwt";
@@ -260,6 +261,20 @@ class Server {
     // Webpack Dev Server.
     const disableClientRoutes = this.config.get("disable_client_routes");
 
+    // Load and upsert the persisted queries.
+    const persistedQueryCache = new PersistedQueryCache({ mongo: this.mongo });
+
+    // Prime the queries in the database.
+    await persistedQueryCache.prime();
+
+    logger.info(
+      { queries: persistedQueryCache.size },
+      "loaded persisted queries"
+    );
+    if (persistedQueryCache.size === 0) {
+      logger.warn("no persisted queries loaded, did you run `npm run build`?");
+    }
+
     const options: AppOptions = {
       parent,
       pubsub: this.pubsub,
@@ -273,6 +288,10 @@ class Server {
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
       disableClientRoutes,
+      persistedQueryCache,
+      persistedQueriesRequired:
+        this.config.get("env") === "production" &&
+        !this.config.get("enable_graphiql"),
     };
 
     // Only enable the metrics server if concurrency is set to 1.
