@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql } from "react-relay";
@@ -11,9 +12,10 @@ import {
   COMMENTS_TAB,
   StreamContainerLocal,
 } from "coral-stream/__generated__/StreamContainerLocal.graphql";
+import CLASSES from "coral-stream/classes";
+import Counter from "coral-stream/common/Counter";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import {
-  Counter,
   Flex,
   HorizontalGutter,
   Tab,
@@ -47,10 +49,19 @@ const TabWithFeaturedTooltip: FunctionComponent<PropTypesOf<typeof Tab>> = ({
   ...props
 }) => (
   <div className={styles.featuredCommentsTabContainer}>
-    <Tab {...props} className={styles.featuredCommentsTab} />
+    <Tab
+      {...props}
+      className={cn(
+        CLASSES.tabBarComments.featured,
+        styles.featuredCommentsTab
+      )}
+    />
     <FeaturedCommentTooltip
       active={props.active}
-      className={styles.featuredCommentsInfo}
+      className={cn(
+        styles.featuredCommentsInfo,
+        CLASSES.tabBarComments.featuredTooltip
+      )}
     />
   </div>
 );
@@ -132,6 +143,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             variant="secondary"
             activeTab={local.commentsTab}
             onTabClick={onChangeTab}
+            className={CLASSES.tabBarComments.$root}
           >
             {featuredCommentsCount > 0 && (
               <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS">
@@ -153,7 +165,10 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                 </Flex>
               </TabWithFeaturedTooltip>
             )}
-            <Tab tabID="ALL_COMMENTS">
+            <Tab
+              tabID="ALL_COMMENTS"
+              className={CLASSES.tabBarComments.allComments}
+            >
               <Flex alignItems="center" spacing={1}>
                 <Localized id="comments-allCommentsTab">
                   <span>All Comments</span>

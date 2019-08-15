@@ -16,6 +16,8 @@ exports[`renders comment stream with community guidelines 1`] = `
     >
       <button
         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        data-color="primary"
+        data-variant="underlined"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -28,6 +30,8 @@ exports[`renders comment stream with community guidelines 1`] = `
       </button>
       <button
         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        data-color="primary"
+        data-variant="outlined"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -40,7 +44,7 @@ exports[`renders comment stream with community guidelines 1`] = `
       </button>
     </div>
     <div
-      className="CallOut-root CallOut-colorPrimary CallOut-fullWidth"
+      className="CallOut-root CallOut-colorPrimary CallOut-fullWidth coral coral-guidelines"
     >
       <div>
         <div
@@ -62,18 +66,17 @@ exports[`renders comment stream with community guidelines 1`] = `
       >
         <div
           aria-hidden="true"
-          className="coral coral-createComment-box"
         >
           <div>
             <div
-              className=""
+              className="$root content placeholder toolbar"
             >
               <div
                 className="RTE-contentEditableContainer"
               >
                 <div
                   aria-placeholder="Post a comment"
-                  className="RTE-contentEditable RTE-content"
+                  className="RTE-contentEditable coral coral-rte-content RTE-content"
                   contentEditable={true}
                   dangerouslySetInnerHTML={
                     Object {
@@ -91,13 +94,13 @@ exports[`renders comment stream with community guidelines 1`] = `
                 />
                 <div
                   aria-hidden="true"
-                  className="RTE-placeholder RTE-placeholder"
+                  className="RTE-placeholder coral coral-rte-placholder RTE-placeholder"
                 >
                   Post a comment
                 </div>
               </div>
               <div
-                className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
+                className="coral coral-rte-toolbar RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
               >
                 <button
                   className="Button-button"
@@ -147,6 +150,8 @@ exports[`renders comment stream with community guidelines 1`] = `
         </div>
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth coral coral-createComment-signIn"
+          data-color="primary"
+          data-variant="filled"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -163,7 +168,7 @@ exports[`renders comment stream with community guidelines 1`] = `
       className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
     >
       <div
-        className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+        className="Box-root Flex-root StreamContainer-sortMenu coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
       >
         <label
           className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
@@ -217,7 +222,7 @@ exports[`renders comment stream with community guidelines 1`] = `
         </span>
       </div>
       <ul
-        className="TabBar-root TabBar-secondary"
+        className="TabBar-root TabBar-secondary coral coral-tabBarSecondary coral-tabBarComments"
         role="tablist"
       >
         <li
@@ -228,7 +233,7 @@ exports[`renders comment stream with community guidelines 1`] = `
           <button
             aria-controls="tabPane-ALL_COMMENTS"
             aria-selected={true}
-            className="BaseButton-root Tab-button Tab-secondary Tab-active"
+            className="BaseButton-root Tab-button Tab-secondary Tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -245,7 +250,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                 All Comments
               </span>
               <span
-                className="Counter-root Counter-colorPrimary Counter-sizeSmall"
+                className="Counter-root Counter-colorPrimary Counter-sizeSmall coral coral-counter"
               >
                 <span
                   className="Counter-text"
@@ -370,6 +375,8 @@ exports[`renders comment stream with community guidelines 1`] = `
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              data-color="regular"
+                              data-variant="ghost"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -385,6 +392,8 @@ exports[`renders comment stream with community guidelines 1`] = `
                             </button>
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              data-color="regular"
+                              data-variant="ghost"
                               disabled={false}
                               id="comments-commentContainer-replyButton-comment-0"
                               onBlur={[Function]}
@@ -405,6 +414,8 @@ exports[`renders comment stream with community guidelines 1`] = `
                               <button
                                 aria-controls="permalink-popover-comment-0"
                                 className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                data-color="regular"
+                                data-variant="ghost"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -437,6 +448,8 @@ exports[`renders comment stream with community guidelines 1`] = `
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              data-color="regular"
+                              data-variant="ghost"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -560,6 +573,8 @@ exports[`renders comment stream with community guidelines 1`] = `
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              data-color="regular"
+                              data-variant="ghost"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -575,6 +590,8 @@ exports[`renders comment stream with community guidelines 1`] = `
                             </button>
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              data-color="regular"
+                              data-variant="ghost"
                               disabled={false}
                               id="comments-commentContainer-replyButton-comment-1"
                               onBlur={[Function]}
@@ -595,6 +612,8 @@ exports[`renders comment stream with community guidelines 1`] = `
                               <button
                                 aria-controls="permalink-popover-comment-1"
                                 className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                data-color="regular"
+                                data-variant="ghost"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -627,6 +646,8 @@ exports[`renders comment stream with community guidelines 1`] = `
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              data-color="regular"
+                              data-variant="ghost"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}

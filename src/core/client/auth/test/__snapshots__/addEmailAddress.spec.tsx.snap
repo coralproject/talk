@@ -149,6 +149,8 @@ Your email address will be used to:
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      data-color="primary"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -325,6 +327,8 @@ Your email address will be used to:
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      data-color="primary"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -495,6 +499,8 @@ Your email address will be used to:
             </div>
             <button
               className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+              data-color="primary"
+              data-variant="filled"
               disabled={false}
               onBlur={[Function]}
               onFocus={[Function]}
@@ -675,6 +681,8 @@ Your email address will be used to:
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      data-color="primary"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -839,6 +847,8 @@ GraphQL request (4:3)
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      data-color="primary"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -989,6 +999,8 @@ Your email address will be used to:
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      data-color="primary"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}

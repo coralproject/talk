@@ -10,11 +10,11 @@ import {
   withFetch,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { PropTypesOf } from "coral-framework/types";
 
 import { EditCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
 import { EditCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/EditCommentFormContainer_settings.graphql";
 import { EditCommentFormContainer_story as StoryData } from "coral-stream/__generated__/EditCommentFormContainer_story.graphql";
+import CLASSES from "coral-stream/classes";
 
 import {
   getSubmitStatus,
@@ -123,6 +123,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         <ReplyEditSubmitStatus
           status={this.state.submitStatus}
           onDismiss={this.handleOnCancelOrClose}
+          buttonClassName={CLASSES.editComment.dismiss}
         />
       );
     }
@@ -190,5 +191,4 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
     )
   )
 );
-export type PostCommentFormContainerProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

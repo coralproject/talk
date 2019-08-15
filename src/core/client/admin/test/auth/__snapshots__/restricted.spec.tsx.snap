@@ -111,6 +111,8 @@ exports[`show restricted screen for commenters and staff 1`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+            data-color="primary"
+            data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -244,6 +246,8 @@ exports[`show restricted screen for commenters and staff 2`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+            data-color="primary"
+            data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}

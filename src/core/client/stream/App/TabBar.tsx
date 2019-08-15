@@ -20,7 +20,7 @@ const AppTabBar: FunctionComponent<Props> = props => {
       activeTab={props.activeTab}
       onTabClick={props.onTabClick}
     >
-      <Tab className={CLASSES.tabBar.allComments} tabID="COMMENTS">
+      <Tab className={CLASSES.tabBar.comments} tabID="COMMENTS">
         <Localized id="general-tabBar-commentsTab">
           <span>Comments</span>
         </Localized>

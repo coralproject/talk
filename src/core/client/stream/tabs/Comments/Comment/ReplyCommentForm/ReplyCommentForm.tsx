@@ -63,7 +63,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
               {({ input, meta }) => (
                 <>
                   <HorizontalGutter size="half">
-                    <div className={CLASSES.createReplyComment.box}>
+                    <div>
                       <Localized id="comments-replyCommentForm-rteLabel">
                         <AriaInfo component="label" htmlFor={inputID}>
                           Write a reply
@@ -133,6 +133,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
                             variant="outlined"
                             disabled={submitting}
                             onClick={props.onCancel}
+                            className={CLASSES.createReplyComment.cancel}
                             fullWidth={matches}
                           >
                             Cancel

@@ -88,6 +88,8 @@ exports[`renders conversation thread 1`] = `
       >
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined ConversationThreadContainer-showMoreButton"
+          data-color="regular"
+          data-variant="underlined"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -100,7 +102,7 @@ exports[`renders conversation thread 1`] = `
           Show More of This Conversation
         </button>
         <span
-          className="Counter-root Counter-colorDark"
+          className="Counter-root Counter-colorDark coral coral-counter"
         >
           <span
             className="Counter-text"
@@ -230,6 +232,8 @@ exports[`renders conversation thread 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -245,6 +249,8 @@ exports[`renders conversation thread 1`] = `
                       </button>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-0"
                         onBlur={[Function]}
@@ -265,6 +271,8 @@ exports[`renders conversation thread 1`] = `
                         <button
                           aria-controls="permalink-popover-comment-0"
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -297,6 +305,8 @@ exports[`renders conversation thread 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -450,6 +460,8 @@ exports[`shows more of this conversation 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -465,6 +477,8 @@ exports[`shows more of this conversation 1`] = `
                       </button>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-1"
                         onBlur={[Function]}
@@ -485,6 +499,8 @@ exports[`shows more of this conversation 1`] = `
                         <button
                           aria-controls="permalink-popover-comment-1"
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -517,6 +533,8 @@ exports[`shows more of this conversation 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -662,6 +680,8 @@ exports[`shows more of this conversation 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -677,6 +697,8 @@ exports[`shows more of this conversation 1`] = `
                       </button>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-from-staff-0"
                         onBlur={[Function]}
@@ -697,6 +719,8 @@ exports[`shows more of this conversation 1`] = `
                         <button
                           aria-controls="permalink-popover-comment-from-staff-0"
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -729,6 +753,8 @@ exports[`shows more of this conversation 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -867,6 +893,8 @@ exports[`shows more of this conversation 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -882,6 +910,8 @@ exports[`shows more of this conversation 1`] = `
                       </button>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-0"
                         onBlur={[Function]}
@@ -902,6 +932,8 @@ exports[`shows more of this conversation 1`] = `
                         <button
                           aria-controls="permalink-popover-comment-0"
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -934,6 +966,8 @@ exports[`shows more of this conversation 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}

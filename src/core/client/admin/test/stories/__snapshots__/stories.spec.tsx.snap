@@ -44,6 +44,8 @@ exports[`renders empty stories 1`] = `
               <button
                 aria-label="Search"
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment StoryTableFilter-adornment"
+                data-color="dark"
+                data-variant="adornment"
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
@@ -193,6 +195,8 @@ exports[`renders empty stories 1`] = `
                 <button
                   aria-label="Change status"
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular StoryStatusChange-button"
+                  data-color="regular"
+                  data-variant="regular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -262,6 +266,8 @@ exports[`renders empty stories 1`] = `
                 <button
                   aria-label="Change status"
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular StoryStatusChange-button"
+                  data-color="regular"
+                  data-variant="regular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -349,6 +355,8 @@ exports[`renders stories 1`] = `
               <button
                 aria-label="Search"
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment StoryTableFilter-adornment"
+                data-color="dark"
+                data-variant="adornment"
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
@@ -498,6 +506,8 @@ exports[`renders stories 1`] = `
                 <button
                   aria-label="Change status"
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular StoryStatusChange-button"
+                  data-color="regular"
+                  data-variant="regular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -567,6 +577,8 @@ exports[`renders stories 1`] = `
                 <button
                   aria-label="Change status"
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular StoryStatusChange-button"
+                  data-color="regular"
+                  data-variant="regular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}

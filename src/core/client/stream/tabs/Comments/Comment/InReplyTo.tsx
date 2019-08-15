@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Flex, Icon, Typography } from "coral-ui/components";
 
 import styles from "./InReplyTo.css";
@@ -17,7 +18,7 @@ const InReplyTo: FunctionComponent<Props> = ({ username }) => {
   );
 
   return (
-    <Flex alignItems="center">
+    <Flex alignItems="center" className={CLASSES.comment.inReplyTo}>
       <Icon className={styles.icon}>reply</Icon>{" "}
       <Localized id="comments-inReplyTo" Username={<Username />}>
         <Typography

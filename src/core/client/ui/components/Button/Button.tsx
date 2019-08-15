@@ -108,6 +108,8 @@ export class Button extends React.Component<Props> {
         disabled={disabled}
         ref={forwardRef}
         type={type}
+        data-variant={variant}
+        data-color={color}
         {...rest}
       />
     );

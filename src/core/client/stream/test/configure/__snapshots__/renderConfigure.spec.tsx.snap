@@ -37,6 +37,8 @@ exports[`renders configure 1`] = `
             </span>
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+              data-color="primary"
+              data-variant="underlined"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -65,6 +67,8 @@ exports[`renders configure 1`] = `
           </h1>
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
+            data-color="success"
+            data-variant="filled"
             disabled={true}
             onBlur={[Function]}
             onFocus={[Function]}
@@ -280,6 +284,8 @@ will still be displayed.
         </p>
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorError Button-variantOutlined CloseStream-button"
+          data-color="error"
+          data-variant="outlined"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}

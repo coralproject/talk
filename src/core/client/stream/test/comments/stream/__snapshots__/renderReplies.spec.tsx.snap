@@ -93,7 +93,7 @@ exports[`renders reply list 1`] = `
                 className="Comment-subBar"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                 >
                   <span
                     aria-hidden="true"
@@ -135,6 +135,8 @@ exports[`renders reply list 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -150,6 +152,8 @@ exports[`renders reply list 1`] = `
                     </button>
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       id="comments-commentContainer-replyButton-comment-with-replies"
                       onBlur={[Function]}
@@ -170,6 +174,8 @@ exports[`renders reply list 1`] = `
                       <button
                         aria-controls="permalink-popover-comment-with-replies"
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -202,6 +208,8 @@ exports[`renders reply list 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -315,7 +323,7 @@ exports[`renders reply list 1`] = `
                     className="Comment-subBar"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                      className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                     >
                       <span
                         aria-hidden="true"
@@ -357,6 +365,8 @@ exports[`renders reply list 1`] = `
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           disabled={false}
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -372,6 +382,8 @@ exports[`renders reply list 1`] = `
                         </button>
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           disabled={false}
                           id="comments-commentContainer-replyButton-comment-3"
                           onBlur={[Function]}
@@ -392,6 +404,8 @@ exports[`renders reply list 1`] = `
                           <button
                             aria-controls="permalink-popover-comment-3"
                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            data-color="regular"
+                            data-variant="ghost"
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
@@ -424,6 +438,8 @@ exports[`renders reply list 1`] = `
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           disabled={false}
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -532,7 +548,7 @@ exports[`renders reply list 1`] = `
                     className="Comment-subBar"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                      className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                     >
                       <span
                         aria-hidden="true"
@@ -574,6 +590,8 @@ exports[`renders reply list 1`] = `
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           disabled={false}
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -589,6 +607,8 @@ exports[`renders reply list 1`] = `
                         </button>
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           disabled={false}
                           id="comments-commentContainer-replyButton-comment-4"
                           onBlur={[Function]}
@@ -609,6 +629,8 @@ exports[`renders reply list 1`] = `
                           <button
                             aria-controls="permalink-popover-comment-4"
                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            data-color="regular"
+                            data-variant="ghost"
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
@@ -641,6 +663,8 @@ exports[`renders reply list 1`] = `
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           disabled={false}
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -751,7 +775,7 @@ exports[`renders reply list 1`] = `
                 className="Comment-subBar"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                 >
                   <span
                     aria-hidden="true"
@@ -793,6 +817,8 @@ exports[`renders reply list 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -808,6 +834,8 @@ exports[`renders reply list 1`] = `
                     </button>
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       id="comments-commentContainer-replyButton-comment-5"
                       onBlur={[Function]}
@@ -828,6 +856,8 @@ exports[`renders reply list 1`] = `
                       <button
                         aria-controls="permalink-popover-comment-5"
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -860,6 +890,8 @@ exports[`renders reply list 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}

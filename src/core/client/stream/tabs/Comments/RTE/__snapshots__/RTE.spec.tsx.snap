@@ -3,9 +3,9 @@
 exports[`renders correctly 1`] = `
 <div>
   <RTE
-    className="custom"
+    className="$root content placeholder toolbar custom"
     classNameDisabled=""
-    contentClassName="RTE-content"
+    contentClassName="coral coral-rte-content RTE-content"
     contentClassNameDisabled=""
     contentContainerClassName=""
     contentContainerClassNameDisabled=""
@@ -62,9 +62,9 @@ exports[`renders correctly 1`] = `
       ]
     }
     placeholder="Post a comment"
-    placeholderClassName="RTE-placeholder"
+    placeholderClassName="coral coral-rte-placholder RTE-placeholder"
     placeholderClassNameDisabled=""
-    toolbarClassName="RTE-toolbar"
+    toolbarClassName="coral coral-rte-toolbar RTE-toolbar"
     toolbarClassNameDisabled=""
     toolbarPosition="bottom"
     value="Hello world"
