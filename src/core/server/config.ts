@@ -4,6 +4,7 @@ import { parseConnectionString } from "mongodb-core";
 import os from "os";
 
 import { LOCALES } from "coral-common/helpers/i18n/locales";
+import { ensureEndSlash } from "coral-common/utils";
 
 import { InternalError } from "./errors";
 
@@ -32,7 +33,7 @@ convict.addFormat({
   },
 });
 
-// Add a custom format for the optional-url.
+// Add a custom format for the optional-url that includes a trailing slash.
 convict.addFormat({
   name: "optional-url",
   validate: (url: string) => {
@@ -40,10 +41,8 @@ convict.addFormat({
       Joi.assert(url, Joi.string().uri());
     }
   },
-  // Ensure that there is no ending slash.
-  coerce: (url: string) => {
-    return url.replace(/\/$/, "");
-  },
+  // Ensure that there is an ending slash.
+  coerce: (url: string) => (url ? ensureEndSlash(url) : url),
 });
 
 const config = convict({
@@ -59,6 +58,14 @@ const config = convict({
     format: LOCALES,
     default: "en-US",
     env: "LOCALE",
+  },
+  trust_proxy: {
+    doc:
+      'When provided, it configures the "trust proxy" settings for Express (See https://expressjs.com/en/guide/behind-proxies.html)',
+    format: String,
+    default: "",
+    env: "TRUST_PROXY",
+    arg: "trustProxy",
   },
   enable_graphiql: {
     doc: "When true, this will enable the GraphiQL interface at /graphiql",
@@ -171,7 +178,15 @@ const config = convict({
     format: "optional-url",
     default: "",
     env: "STATIC_URI",
-    arg: "staticUri",
+    arg: "staticURI",
+  },
+  websocket_keep_alive_timeout: {
+    doc:
+      "The keepalive timeout (in ms) that should be used to send keep alive messages through the websocket to keep the socket alive",
+    format: "duration",
+    default: "30 seconds",
+    env: "WEBSOCKET_KEEP_ALIVE_TIMEOUT",
+    arg: "websocketKeepAliveTimeout",
   },
   disable_tenant_caching: {
     doc:
@@ -180,6 +195,14 @@ const config = convict({
     default: false,
     env: "DISABLE_TENANT_CACHING",
     arg: "disableTenantCaching",
+  },
+  disable_live_updates: {
+    doc:
+      "Disables subscriptions for the comment stream for all stories across all tenants",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_LIVE_UPDATES",
+    arg: "disableLiveUpdates",
   },
   disable_mongodb_autoindexing: {
     doc: "Disables the creation of new MongoDB indexes",

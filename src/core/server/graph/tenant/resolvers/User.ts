@@ -8,6 +8,7 @@ import {
 import * as user from "coral-server/models/user";
 import { roleIsStaff } from "coral-server/models/user/helpers";
 
+import { RecentCommentHistoryInput } from "./RecentCommentHistory";
 import { UserStatusInput } from "./UserStatus";
 import { getRequestedFields } from "./util";
 
@@ -34,6 +35,10 @@ const maybeLoadOnlyIgnoredUserID = (
 
 export const User: GQLUserTypeResolver<user.User> = {
   comments: ({ id }, input, ctx) => ctx.loaders.Comments.forUser(id, input),
+  allComments: ({ id }, input, ctx) =>
+    ctx.loaders.Comments.forUserAll(id, input),
+  rejectedComments: ({ id }, input, ctx) =>
+    ctx.loaders.Comments.forUserRejected(id, input),
   commentModerationActionHistory: ({ id }, input, ctx) =>
     ctx.loaders.CommentModerationActions.forModerator(input, id),
   status: ({ id, status }): UserStatusInput => ({
@@ -43,4 +48,5 @@ export const User: GQLUserTypeResolver<user.User> = {
   ignoredUsers: ({ ignoredUsers }, input, ctx, info) =>
     maybeLoadOnlyIgnoredUserID(ctx, info, ignoredUsers),
   ignoreable: ({ role }) => !roleIsStaff(role),
+  recentCommentHistory: ({ id }): RecentCommentHistoryInput => ({ userID: id }),
 };

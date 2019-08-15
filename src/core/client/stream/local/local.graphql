@@ -15,8 +15,13 @@ enum PROFILE_TAB {
 }
 
 enum COMMENTS_TAB {
-  ALL_COMMENTS
+  """
+  NONE is used before the active tab can be determined. The active tab is
+  determined after we count how many featured comments there are.
+  """
+  NONE
   FEATURED_COMMENTS
+  ALL_COMMENTS
 }
 
 enum COMMENT_VIEWER_ACTION {
@@ -40,6 +45,14 @@ extend type Comment {
 
   # Remember last viewer action that could have caused a status change.
   lastViewerAction: COMMENT_VIEWER_ACTION
+
+  # If true then Comment came in live.
+  enteredLive: Boolean
+}
+
+extend type CommentsConnection {
+  # Contains comment that came in live and is still behind the `View New` button.
+  viewNewEdges: [CommentEdge!]
 }
 
 type Local {

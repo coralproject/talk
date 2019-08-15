@@ -14,11 +14,11 @@ import {
   HorizontalGutter,
   InputLabel,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
+import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
   disabled: boolean;
@@ -66,16 +66,10 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
                 DURATION_UNIT.DAYS,
                 DURATION_UNIT.WEEKS,
               ]}
-              name={input.name}
-              onChange={input.onChange}
-              value={input.value}
               disabled={disabled}
+              {...input}
             />
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <ValidationMessage meta={meta} />
           </>
         )}
       </Field>

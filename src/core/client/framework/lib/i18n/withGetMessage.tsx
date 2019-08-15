@@ -1,10 +1,10 @@
-import * as React from "react";
+import React from "react";
 import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 
 import { CoralContext, withContext } from "../bootstrap";
 import getMessage from "./getMessage";
 
-export type GetMessage = (id: string, defaultTo?: string) => string;
+export type GetMessage = <T>(id: string, defaultTo: string, args?: T) => string;
 
 interface InjectedProps {
   getMessage: GetMessage;
@@ -35,8 +35,12 @@ const withGetMessage: DefaultingInferableComponentEnhancer<
     const Workaround = BaseComponent as React.ComponentType<InjectedProps>;
 
     class WithGetMessage extends React.Component<Props> {
-      private getMessage = (id: string, defaultTo?: string) => {
-        return getMessage(this.props.localeBundles, id, defaultTo);
+      private getMessage = <U extends {}>(
+        id: string,
+        defaultTo: string,
+        args?: U
+      ): string => {
+        return getMessage(this.props.localeBundles, id, defaultTo, args);
       };
       public render() {
         const { localeBundles: _, ...rest } = this.props;

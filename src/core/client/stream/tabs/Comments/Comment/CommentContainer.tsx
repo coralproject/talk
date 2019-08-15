@@ -11,6 +11,7 @@ import { CommentContainer_comment as CommentData } from "coral-stream/__generate
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
+import CLASSES from "coral-stream/classes";
 import {
   SetCommentIDMutation,
   ShowAuthPopupMutation,
@@ -19,7 +20,7 @@ import {
 } from "coral-stream/mutations";
 import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
-import { isCommentVisible } from "../helpers";
+import { isPublished } from "../helpers";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
 import IndentedComment from "./IndentedComment";
@@ -91,8 +92,13 @@ export class CommentContainer extends Component<Props, State> {
       this.props.viewer &&
         this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
     );
+    const suspended = Boolean(
+      this.props.viewer &&
+        this.props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
+    );
     return (
       !banned &&
+      !suspended &&
       isMyComment &&
       isBeforeDate(this.props.comment.editing.editableUntil)
     );
@@ -164,7 +170,11 @@ export class CommentContainer extends Component<Props, State> {
     const commentTags = (
       <>
         {hasFeaturedTag && (
-          <Tag color="primary" variant="pill">
+          <Tag
+            className={CLASSES.comment.commentTag}
+            color="primary"
+            variant="pill"
+          >
             <Localized id="comments-featuredTag">
               <span>Featured</span>
             </Localized>
@@ -175,6 +185,10 @@ export class CommentContainer extends Component<Props, State> {
     const banned = Boolean(
       this.props.viewer &&
         this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
+    );
+    const suspended = Boolean(
+      this.props.viewer &&
+        this.props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
     );
     const showCaret =
       this.props.viewer &&
@@ -191,19 +205,22 @@ export class CommentContainer extends Component<Props, State> {
         </div>
       );
     }
-    // Comment is not visible after viewer rejected it.
+    // Comment is not published after viewer rejected it.
     if (
       comment.lastViewerAction === "REJECT" &&
       comment.status === "REJECTED"
     ) {
       return <RejectedTombstoneContainer comment={comment} />;
     }
-    // Comment is not visible after edit, so don't render it anymore.
-    if (comment.lastViewerAction === "EDIT" && !isCommentVisible(comment)) {
+    // Comment is not published after edit, so don't render it anymore.
+    if (comment.lastViewerAction === "EDIT" && !isPublished(comment.status)) {
       return null;
     }
     return (
-      <div data-testid={`comment-${comment.id}`}>
+      <div
+        className={CLASSES.comment.$root}
+        data-testid={`comment-${comment.id}`}
+      >
         <HorizontalGutter>
           <IndentedComment
             indentLevel={indentLevel}
@@ -259,9 +276,9 @@ export class CommentContainer extends Component<Props, State> {
                       comment={comment}
                       settings={settings}
                       viewer={viewer}
-                      readOnly={banned}
+                      readOnly={banned || suspended}
                     />
-                    {!disableReplies && !banned && (
+                    {!disableReplies && !banned && !suspended && (
                       <ReplyButton
                         id={`comments-commentContainer-replyButton-${
                           comment.id
@@ -279,7 +296,7 @@ export class CommentContainer extends Component<Props, State> {
                     />
                   </ButtonsBar>
                   <ButtonsBar>
-                    {!banned && (
+                    {!banned && !suspended && (
                       <ReportButtonContainer
                         comment={comment}
                         viewer={viewer}

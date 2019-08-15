@@ -1,0 +1,10 @@
+.card {
+  max-width: 500px;
+}
+
+.textArea {
+  width: 100%;
+  box-sizing: border-box;
+  height: calc(12 * var(--mini-unit));
+  padding: calc(0.5 * var(--mini-unit));
+}

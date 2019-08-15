@@ -10,11 +10,9 @@ email-notification-template-forgotPassword =
 email-subject-forgotPassword = Password Reset Request
 
 email-notification-template-ban =
-  Hello { $username },<br/><br/>
-  Someone with access to your account has violated our community guidelines.
-  As a result, your account has been banned. You will no longer be able to
-  comment, react or report comments. if you think this has been done in error,
-  please contact our community team at <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
+  { $customMessage }<br /><br />
+  if you think this has been done in error, please contact our community team 
+  at <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
 email-subject-ban = Your account has been banned
 
@@ -26,12 +24,15 @@ email-notification-template-passwordChange =
 
 email-subject-passwordChange = Your password has been changed
 
-email-notification-template-suspend =
+email-subject-updateUsername = Your username has been changed
+
+email-notification-template-updateUsername =
   Hello { $username },<br/><br/>
-  In accordance with { $organizationName }'s community guidelines, your
-  account has been temporarily suspended. During the suspension, you will be
-  unable to comment, flag or engage with fellow commenters. Please rejoin the
-  conversation { $until }.<br/><br/>
+  Thank you for updating your { $organizationName } commenter account information. The changes you made are effective immediately. <br /><br />
+  If you did not make this change please reach out to our community team at <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
+
+email-notification-template-suspend =
+  { $customMessage }<br/><br/>
   If you think this has been done in error,  please contact our community team
   at <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
@@ -51,3 +52,8 @@ email-subject-invite = Coral Team invite
 email-notification-template-invite =
   You have been invited to join the { $organizationName } team on Coral. Finish
   setting up your account <a data-l10n-name="invite">here</a>.
+
+email-subject-downloadComments = Your comments are ready for download
+email-notification-template-downloadComments =
+  Your comments from { $organizationName } as of { $date } are now available for download.<br /><br />
+  <a data-l10n-name="downloadUrl">Download my comment archive</a>

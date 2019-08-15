@@ -2,6 +2,7 @@
 
 exports[`hide reply button 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -137,6 +138,7 @@ exports[`hide reply button 1`] = `
 
 exports[`renders body only 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -278,6 +280,7 @@ exports[`renders body only 1`] = `
 
 exports[`renders disabled reply when commenting has been disabled 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -419,6 +422,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
 
 exports[`renders disabled reply when story is closed 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -560,6 +564,7 @@ exports[`renders disabled reply when story is closed 1`] = `
 
 exports[`renders in reply to 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -713,6 +718,7 @@ exports[`renders in reply to 1`] = `
 
 exports[`renders username and body 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -854,6 +860,7 @@ exports[`renders username and body 1`] = `
 
 exports[`shows conversation link 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>

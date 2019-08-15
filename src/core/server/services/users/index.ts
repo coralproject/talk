@@ -2,19 +2,28 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import {
+  ALLOWED_USERNAME_CHANGE_FREQUENCY,
+  DOWNLOAD_LIMIT_TIMEFRAME,
+} from "coral-common/constants";
+import { Config } from "coral-server/config";
+import {
+  DuplicateEmailError,
+  DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
+  PasswordIncorrect,
   TokenNotFoundError,
   UserAlreadyBannedError,
   UserAlreadySuspendedError,
   UserCannotBeIgnoredError,
   UsernameAlreadySetError,
+  UsernameUpdatedWithinWindowError,
   UserNotFoundError,
 } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
-import { getLocalProfile, hasLocalProfile } from "coral-server/helpers/users";
+import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
@@ -29,7 +38,9 @@ import {
   removeUserBan,
   removeUserIgnore,
   retrieveUser,
+  retrieveUserWithEmail,
   setUserEmail,
+  setUserLastDownloadedAt,
   setUserLocalProfile,
   setUserUsername,
   suspendUser,
@@ -39,11 +50,17 @@ import {
   updateUserRole,
   updateUserUsername,
   User,
+  verifyUserPassword,
 } from "coral-server/models/user";
+import {
+  getLocalProfile,
+  hasLocalProfile,
+} from "coral-server/models/user/helpers";
 import { userIsStaff } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
+import { generateDownloadLink } from "./download/download";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
 export type InsertUser = InsertUserInput;
@@ -67,6 +84,26 @@ export async function insert(
 
   if (input.email) {
     validateEmail(input.email);
+
+    // Try to lookup the user to see if this user already has an account if they
+    // do, we can short circuit the database index hit.
+    const alreadyFoundUser = await retrieveUserWithEmail(
+      mongo,
+      tenant.id,
+      input.email
+    );
+    if (alreadyFoundUser) {
+      throw new DuplicateEmailError(input.email);
+    }
+  }
+
+  if (input.id) {
+    // Try to check to see if there is a user with the same ID before we try to
+    // create the user again.
+    const alreadyFoundUser = await retrieveUser(mongo, tenant.id, input.id);
+    if (alreadyFoundUser) {
+      throw new DuplicateUserError();
+    }
   }
 
   const localProfile = getLocalProfile(input);
@@ -203,8 +240,12 @@ export async function updatePassword(
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
-  password: string
+  oldPassword: string,
+  newPassword: string
 ) {
+  // Validate that the new password is valid.
+  validatePassword(newPassword);
+
   // We require that the email address for the user be defined for this method.
   if (!user.email) {
     throw new EmailNotSetError();
@@ -212,17 +253,30 @@ export async function updatePassword(
 
   // We also don't allow this method to be used by users that don't have a local
   // profile already.
-  if (!hasLocalProfile(user, user.email)) {
+  const profile = getLocalProfile(user, user.email);
+  if (!profile) {
     throw new LocalProfileNotSetError();
   }
 
-  validatePassword(password);
+  // Verify that the old password is correct. We'll be using the profile's
+  // passwordID to ensure we prevent a race.
+  const passwordVerified = await verifyUserPassword(
+    user,
+    oldPassword,
+    user.email
+  );
+  if (!passwordVerified) {
+    // We throw a PasswordIncorrect error here instead of an
+    // InvalidCredentialsError because the current user is already signed in.
+    throw new PasswordIncorrect();
+  }
 
   const updatedUser = await updateUserPassword(
     mongo,
     tenant.id,
     user.id,
-    password
+    newPassword,
+    profile.passwordID
   );
 
   // If the user has an email address associated with their account, send them
@@ -272,16 +326,21 @@ export async function createToken(
   const result = await createUserToken(mongo, tenant.id, user.id, name, now);
 
   // Sign the token!
-  const signedToken = await signPATString(config, user, {
-    // Tokens are issued with the token ID as their JWT ID.
-    jwtid: result.token.id,
+  const signedToken = await signPATString(
+    config,
+    user,
+    {
+      // Tokens are issued with the token ID as their JWT ID.
+      jwtid: result.token.id,
 
-    // Tokens are issued with the tenant ID.
-    issuer: tenant.id,
+      // Tokens are issued with the tenant ID.
+      issuer: tenant.id,
 
-    // Tokens are not valid before the creation date.
-    notBefore: DateTime.fromJSDate(now).toSeconds(),
-  });
+      // Tokens are not valid before the creation date.
+      notBefore: 0,
+    },
+    now
+  );
 
   return { ...result, signedToken };
 }
@@ -310,23 +369,95 @@ export async function deactivateToken(
 }
 
 /**
- * updateUsername will update a given User's username.
+ * updateUsername will update the current users username.
+ *
+ * @param mongo mongo database to interact with
+ * @param mailer mailer queue instance
+ * @param tenant Tenant where the User will be interacted with
+ * @param user the User we are updating
+ * @param username the username that we are setting on the User
+ */
+export async function updateUsername(
+  mongo: Db,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  user: User,
+  username: string,
+  now: Date
+) {
+  // Validate the username.
+  validateUsername(username);
+
+  // Get the earliest date that the username could have been edited before to/
+  // allow it now.
+  const lastUsernameEditAllowed = DateTime.fromJSDate(now)
+    .plus({ seconds: -ALLOWED_USERNAME_CHANGE_FREQUENCY })
+    .toJSDate();
+
+  const { history } = user.status.username;
+  if (history.length > 1) {
+    // If the last update was made at a date sooner than the earliest edited
+    // date, then we know that the last edit was conducted within the time-frame
+    // already.
+    const lastUpdate = history[history.length - 1];
+    if (lastUpdate.createdAt > lastUsernameEditAllowed) {
+      throw new UsernameUpdatedWithinWindowError(lastUpdate.createdAt);
+    }
+  }
+
+  const updated = await updateUserUsername(
+    mongo,
+    tenant.id,
+    user.id,
+    username,
+    user.id
+  );
+
+  if (user.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: user.email,
+      },
+      template: {
+        name: "update-username",
+        context: {
+          username: user.username!,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+          organizationContactEmail: tenant.organization.contactEmail,
+        },
+      },
+    });
+  } else {
+    logger.warn(
+      { id: user.id },
+      "Failed to send email: user does not have email address"
+    );
+  }
+
+  return updated;
+}
+
+/**
+ * updateUsernameByID will update a given User's username.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param userID the User's ID that we are updating
  * @param username the username that we are setting on the User
  */
-export async function updateUsername(
+export async function updateUsernameByID(
   mongo: Db,
   tenant: Tenant,
   userID: string,
-  username: string
+  username: string,
+  createdBy: User
 ) {
   // Validate the username.
   validateUsername(username);
 
-  return updateUserUsername(mongo, tenant.id, userID, username);
+  return updateUserUsername(mongo, tenant.id, userID, username, createdBy.id);
 }
 
 /**
@@ -397,6 +528,7 @@ export async function updateAvatar(
  * @param tenant Tenant where the User will be banned on
  * @param user the User that is banning the User
  * @param userID the ID of the User being banned
+ * @param message message to banned user
  * @param now the current time that the ban took effect
  */
 export async function ban(
@@ -405,6 +537,7 @@ export async function ban(
   tenant: Tenant,
   banner: User,
   userID: string,
+  message: string,
   now = new Date()
 ) {
   // Get the user being banned to check to see if the user already has an
@@ -421,7 +554,7 @@ export async function ban(
   }
 
   // Ban the user.
-  const user = await banUser(mongo, tenant.id, userID, banner.id, now);
+  const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
   // If the user has an email address associated with their account, send them
   // a ban notification email.
@@ -440,6 +573,7 @@ export async function ban(
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
           organizationContactEmail: tenant.organization.contactEmail,
+          customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
     });
@@ -456,6 +590,7 @@ export async function ban(
  * @param user the User that is suspending the User
  * @param userID the ID of the user being suspended
  * @param timeout the duration in seconds that the user will suspended for
+ * @param message message to suspended user
  * @param now the current time that the suspension will take effect
  */
 export async function suspend(
@@ -465,6 +600,7 @@ export async function suspend(
   user: User,
   userID: string,
   timeout: number,
+  message: string,
   now = new Date()
 ) {
   // Convert the timeout to the until time.
@@ -492,6 +628,7 @@ export async function suspend(
     userID,
     user.id,
     finishDateTime.toJSDate(),
+    message,
     now
   );
 
@@ -513,6 +650,7 @@ export async function suspend(
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
           organizationContactEmail: tenant.organization.contactEmail,
+          customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
     });
@@ -623,4 +761,60 @@ export async function removeIgnore(
   await removeUserIgnore(mongo, tenant.id, user.id, userID);
 
   return targetUser;
+}
+
+export async function requestCommentsDownload(
+  mongo: Db,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  config: Config,
+  signingConfig: JWTSigningConfig,
+  user: User,
+  now: Date
+) {
+  // Check to see if the user is allowed to download this now.
+  if (
+    user.lastDownloadedAt &&
+    DateTime.fromJSDate(user.lastDownloadedAt)
+      .plus({ seconds: DOWNLOAD_LIMIT_TIMEFRAME })
+      .toSeconds() >= DateTime.fromJSDate(now).toSeconds()
+  ) {
+    throw new Error("requested download too early");
+  }
+
+  const downloadUrl = await generateDownloadLink(
+    user.id,
+    tenant,
+    config,
+    signingConfig,
+    now
+  );
+
+  await setUserLastDownloadedAt(mongo, tenant.id, user.id, now);
+
+  if (user.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: user.email,
+      },
+      template: {
+        name: "download-comments",
+        context: {
+          username: user.username!,
+          date: Intl.DateTimeFormat(tenant.locale).format(now),
+          downloadUrl,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+        },
+      },
+    });
+  } else {
+    logger.error(
+      { userID: user.id },
+      "could not send download email because the user does not have an email address"
+    );
+  }
+
+  return user;
 }

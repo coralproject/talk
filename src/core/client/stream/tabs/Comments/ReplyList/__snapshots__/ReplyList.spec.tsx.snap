@@ -6,88 +6,96 @@ exports[`renders correctly 1`] = `
   id="coral-comments-replyList-log--comment-id"
   role="log"
 >
-  <Relay(IgnoredTombstoneOrHideContainer)
-    comment={
-      Object {
-        "id": "comment-1",
-      }
-    }
+  <FadeInTransition
+    active={false}
     key="comment-1"
-    viewer={null}
   >
-    <ForwardRef(forwardRef)
-      key="comment-1"
-    >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-1",
-          }
+    <Relay(IgnoredTombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-1",
         }
-        disableReplies={false}
-        indentLevel={1}
-        key="comment-1"
-        localReply={false}
-        settings={
-          Object {
-            "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
-            },
-          }
-        }
-        showConversationLink={false}
-        story={
-          Object {
-            "id": "story-id",
-          }
-        }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
-  </Relay(IgnoredTombstoneOrHideContainer)>
-  <Relay(IgnoredTombstoneOrHideContainer)
-    comment={
-      Object {
-        "id": "comment-2",
-        "showConversationLink": true,
       }
-    }
-    key="comment-2"
-    viewer={null}
-  >
-    <ForwardRef(forwardRef)
-      key="comment-2"
+      viewer={null}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-2",
-            "showConversationLink": true,
+      <ForwardRef(forwardRef)
+        key="comment-1"
+      >
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
+          disableReplies={false}
+          indentLevel={1}
+          key="comment-1"
+          localReply={false}
+          settings={
+            Object {
+              "reaction": Object {
+                "icon": "thumb_up_alt",
+                "label": "Respect",
+              },
+            }
+          }
+          showConversationLink={false}
+          story={
+            Object {
+              "id": "story-id",
+            }
+          }
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(IgnoredTombstoneOrHideContainer)>
+  </FadeInTransition>
+  <FadeInTransition
+    active={false}
+    key="comment-2"
+  >
+    <Relay(IgnoredTombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-2",
+          "showConversationLink": true,
         }
-        disableReplies={false}
-        indentLevel={1}
+      }
+      viewer={null}
+    >
+      <ForwardRef(forwardRef)
         key="comment-2"
-        localReply={false}
-        settings={
-          Object {
-            "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
-            },
+      >
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-2",
+              "showConversationLink": true,
+            }
           }
-        }
-        showConversationLink={true}
-        story={
-          Object {
-            "id": "story-id",
+          disableReplies={false}
+          indentLevel={1}
+          key="comment-2"
+          localReply={false}
+          settings={
+            Object {
+              "reaction": Object {
+                "icon": "thumb_up_alt",
+                "label": "Respect",
+              },
+            }
           }
-        }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
-  </Relay(IgnoredTombstoneOrHideContainer)>
+          showConversationLink={true}
+          story={
+            Object {
+              "id": "story-id",
+            }
+          }
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(IgnoredTombstoneOrHideContainer)>
+  </FadeInTransition>
 </ForwardRef(forwardRef)>
 `;
 
@@ -97,82 +105,90 @@ exports[`when there is more disables load more button 1`] = `
   id="coral-comments-replyList-log--comment-id"
   role="log"
 >
-  <Relay(IgnoredTombstoneOrHideContainer)
-    comment={
-      Object {
-        "id": "comment-1",
-      }
-    }
+  <FadeInTransition
+    active={false}
     key="comment-1"
-    viewer={null}
   >
-    <ForwardRef(forwardRef)
-      key="comment-1"
-    >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-1",
-          }
+    <Relay(IgnoredTombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-1",
         }
-        indentLevel={1}
-        key="comment-1"
-        settings={
-          Object {
-            "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
-            },
-          }
-        }
-        showConversationLink={false}
-        story={
-          Object {
-            "id": "story-id",
-          }
-        }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
-  </Relay(IgnoredTombstoneOrHideContainer)>
-  <Relay(IgnoredTombstoneOrHideContainer)
-    comment={
-      Object {
-        "id": "comment-2",
       }
-    }
-    key="comment-2"
-    viewer={null}
-  >
-    <ForwardRef(forwardRef)
-      key="comment-2"
+      viewer={null}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-2",
+      <ForwardRef(forwardRef)
+        key="comment-1"
+      >
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
+          indentLevel={1}
+          key="comment-1"
+          settings={
+            Object {
+              "reaction": Object {
+                "icon": "thumb_up_alt",
+                "label": "Respect",
+              },
+            }
+          }
+          showConversationLink={false}
+          story={
+            Object {
+              "id": "story-id",
+            }
+          }
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(IgnoredTombstoneOrHideContainer)>
+  </FadeInTransition>
+  <FadeInTransition
+    active={false}
+    key="comment-2"
+  >
+    <Relay(IgnoredTombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-2",
         }
-        indentLevel={1}
+      }
+      viewer={null}
+    >
+      <ForwardRef(forwardRef)
         key="comment-2"
-        settings={
-          Object {
-            "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
-            },
+      >
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-2",
+            }
           }
-        }
-        showConversationLink={false}
-        story={
-          Object {
-            "id": "story-id",
+          indentLevel={1}
+          key="comment-2"
+          settings={
+            Object {
+              "reaction": Object {
+                "icon": "thumb_up_alt",
+                "label": "Respect",
+              },
+            }
           }
-        }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
-  </Relay(IgnoredTombstoneOrHideContainer)>
+          showConversationLink={false}
+          story={
+            Object {
+              "id": "story-id",
+            }
+          }
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(IgnoredTombstoneOrHideContainer)>
+  </FadeInTransition>
   <Indent
     level={1}
     noBorder={true}
@@ -201,82 +217,90 @@ exports[`when there is more renders a load more button 1`] = `
   id="coral-comments-replyList-log--comment-id"
   role="log"
 >
-  <Relay(IgnoredTombstoneOrHideContainer)
-    comment={
-      Object {
-        "id": "comment-1",
-      }
-    }
+  <FadeInTransition
+    active={false}
     key="comment-1"
-    viewer={null}
   >
-    <ForwardRef(forwardRef)
-      key="comment-1"
-    >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-1",
-          }
+    <Relay(IgnoredTombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-1",
         }
-        indentLevel={1}
-        key="comment-1"
-        settings={
-          Object {
-            "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
-            },
-          }
-        }
-        showConversationLink={false}
-        story={
-          Object {
-            "id": "story-id",
-          }
-        }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
-  </Relay(IgnoredTombstoneOrHideContainer)>
-  <Relay(IgnoredTombstoneOrHideContainer)
-    comment={
-      Object {
-        "id": "comment-2",
       }
-    }
-    key="comment-2"
-    viewer={null}
-  >
-    <ForwardRef(forwardRef)
-      key="comment-2"
+      viewer={null}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-2",
+      <ForwardRef(forwardRef)
+        key="comment-1"
+      >
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
+          indentLevel={1}
+          key="comment-1"
+          settings={
+            Object {
+              "reaction": Object {
+                "icon": "thumb_up_alt",
+                "label": "Respect",
+              },
+            }
+          }
+          showConversationLink={false}
+          story={
+            Object {
+              "id": "story-id",
+            }
+          }
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(IgnoredTombstoneOrHideContainer)>
+  </FadeInTransition>
+  <FadeInTransition
+    active={false}
+    key="comment-2"
+  >
+    <Relay(IgnoredTombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-2",
         }
-        indentLevel={1}
+      }
+      viewer={null}
+    >
+      <ForwardRef(forwardRef)
         key="comment-2"
-        settings={
-          Object {
-            "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
-            },
+      >
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-2",
+            }
           }
-        }
-        showConversationLink={false}
-        story={
-          Object {
-            "id": "story-id",
+          indentLevel={1}
+          key="comment-2"
+          settings={
+            Object {
+              "reaction": Object {
+                "icon": "thumb_up_alt",
+                "label": "Respect",
+              },
+            }
           }
-        }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
-  </Relay(IgnoredTombstoneOrHideContainer)>
+          showConversationLink={false}
+          story={
+            Object {
+              "id": "story-id",
+            }
+          }
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(IgnoredTombstoneOrHideContainer)>
+  </FadeInTransition>
   <Indent
     level={1}
     noBorder={true}

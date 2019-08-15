@@ -4,10 +4,14 @@ import ms from "ms";
 
 import logger from "coral-server/logger";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
+import {
+  CommentStatusCounts,
+  createEmptyCommentStatusCounts,
+} from "coral-server/models/comment/helpers";
+import { createCollection } from "coral-server/models/helpers";
 import { Story } from "coral-server/models/story";
 import {
   CommentModerationCountsPerQueue,
-  CommentStatusCounts,
   StoryCounts,
 } from "coral-server/models/story/counts";
 import { AugmentedPipeline, AugmentedRedis } from "coral-server/services/redis";
@@ -15,7 +19,6 @@ import { AugmentedPipeline, AugmentedRedis } from "coral-server/services/redis";
 import {
   createEmptyCommentModerationCountsPerQueue,
   createEmptyCommentModerationQueueCounts,
-  createEmptyCommentStatusCounts,
 } from "./empty";
 
 /**
@@ -47,9 +50,7 @@ const commentCountsModerationQueueQueuesKey = (tenantID: string) =>
  * collection provides a reference to the stories collection used by the
  * counting system.
  */
-function collection<T = Story>(mongo: Db) {
-  return mongo.collection<Readonly<T>>("stories");
-}
+const collection = createCollection<Story>("stories");
 
 /**
  * recalculateSharedModerationQueueQueueCounts will reset the counts stored for

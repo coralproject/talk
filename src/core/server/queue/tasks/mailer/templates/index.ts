@@ -24,6 +24,7 @@ export type BanTemplate = UserNotificationContext<
   {
     username: string;
     organizationContactEmail: string;
+    customMessage?: string;
   }
 >;
 
@@ -33,6 +34,7 @@ export type SuspendTemplate = UserNotificationContext<
     username: string;
     until: string;
     organizationContactEmail: string;
+    customMessage?: string;
   }
 >;
 
@@ -60,12 +62,31 @@ export type InviteEmailTemplate = UserNotificationContext<
   }
 >;
 
+export type DownloadCommentsTemplate = UserNotificationContext<
+  "download-comments",
+  {
+    username: string;
+    date: string;
+    downloadUrl: string;
+  }
+>;
+
+export type UpdateUsernameTemplate = UserNotificationContext<
+  "update-username",
+  {
+    username: string;
+    organizationContactEmail: string;
+  }
+>;
+
 type Templates =
   | BanTemplate
   | ConfirmEmailTemplate
   | ForgotPasswordTemplate
   | InviteEmailTemplate
   | PasswordChangeTemplate
-  | SuspendTemplate;
+  | SuspendTemplate
+  | DownloadCommentsTemplate
+  | UpdateUsernameTemplate;
 
 export { Templates as Template };

@@ -1,0 +1,13 @@
+.root {
+  align-items: center;
+  display: flex;
+}
+
+.tooltip {
+  width: max-content;
+  max-width: 220px;
+}
+
+.title {
+  line-height: 1;
+}

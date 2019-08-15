@@ -125,6 +125,12 @@ export enum ERROR_CODES {
   USERNAME_EXCEEDS_MAX_LENGTH = "USERNAME_EXCEEDS_MAX_LENGTH",
 
   /**
+   * USERNAME_UPDATED_WITHIN_WINDOW is returned when the user attempts to associate
+   * a new username when they have previously changed their username within ALLOWED_USERNAME_CHANGE_FREQUENCY
+   */
+  USERNAME_UPDATED_WITHIN_WINDOW = "USERNAME_UPDATED_WITHIN_WINDOW",
+
+  /**
    * USERNAME_TOO_SHORT is returned when the user attempts to associate a new
    * username that is too short.
    */
@@ -135,6 +141,12 @@ export enum ERROR_CODES {
    * password but it is too short.
    */
   PASSWORD_TOO_SHORT = "PASSWORD_TOO_SHORT",
+
+  /**
+   * PASSWORD_INCORRECT is returned when a logged in operation that requires the
+   * password returns the wrong password.
+   */
+  PASSWORD_INCORRECT = "PASSWORD_INCORRECT",
 
   /**
    * EMAIL_INVALID_FORMAT is returned when when the user attempts to associate a
@@ -277,4 +289,10 @@ export enum ERROR_CODES {
    * without any email addresses specified.
    */
   INVITE_REQUIRES_EMAIL_ADDRESSES = "INVITE_REQUIRES_EMAIL_ADDRESSES",
+
+  /**
+   * LIVE_UPDATES_DISABLED is returned when a websocket request is attempted by
+   * someone now allowed when it is disabled on the tenant level.
+   */
+  LIVE_UPDATES_DISABLED = "LIVE_UPDATES_DISABLED",
 }

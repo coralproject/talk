@@ -22,7 +22,7 @@ export interface CallOutProps {
   /**
    * Color of the CallOut
    */
-  color?: "regular" | "primary" | "error";
+  color?: "regular" | "primary" | "error" | "success";
   /*
    * If set renders a full width CallOut
    */
@@ -38,6 +38,7 @@ const CallOut: FunctionComponent<CallOutProps> = props => {
       [classes.colorRegular]: color === "regular",
       [classes.colorError]: color === "error",
       [classes.colorPrimary]: color === "primary",
+      [classes.colorSuccess]: color === "success",
       [classes.fullWidth]: fullWidth,
     },
     className

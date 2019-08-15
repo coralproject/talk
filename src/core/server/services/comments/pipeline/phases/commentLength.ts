@@ -27,7 +27,6 @@ const testCharCount = (settings: Partial<Settings>, length: number) => {
 };
 
 export const commentLength: IntermediateModerationPhase = ({
-  story,
   tenant,
   comment,
 }): IntermediatePhaseResult | void => {
@@ -35,7 +34,4 @@ export const commentLength: IntermediateModerationPhase = ({
 
   // Reject if the comment is too long or too short.
   testCharCount(tenant, length);
-  if (story.settings) {
-    testCharCount(story.settings, length);
-  }
 };

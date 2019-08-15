@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
 
-import { parseQuery } from "coral-common/utils";
+import { getLocationOrigin, parseQuery } from "coral-common/utils";
 
 import { default as create, StreamEmbed } from "./StreamEmbed";
 
@@ -13,15 +13,6 @@ export interface Config {
   autoRender?: boolean;
   events?: (eventEmitter: EventEmitter2) => void;
   accessToken?: string;
-}
-
-function getLocationOrigin() {
-  return (
-    location.origin ||
-    `${window.location.protocol}//${window.location.hostname}${
-      window.location.port ? `:${window.location.port}` : ""
-    }`
-  );
 }
 
 function resolveStoryURL() {

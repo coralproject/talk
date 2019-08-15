@@ -29,7 +29,7 @@ const RelativeTime: React.FunctionComponent<Props> = props => {
       {({ timeagoFormatter }) => (
         <TimeAgo
           date={date}
-          className={cn(className, classes.root)}
+          className={cn(classes.root, className)}
           live={live}
           formatter={timeagoFormatter || formatter || defaultFormatter}
         />

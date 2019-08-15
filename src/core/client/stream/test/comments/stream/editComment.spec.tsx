@@ -117,7 +117,7 @@ it("edit a comment", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("server response");
 });
 
-it("edit a comment and handle non-visible comment state", async () => {
+it("edit a comment and handle non-published comment state", async () => {
   const testRenderer = createTestRenderer({}, { status: "SYSTEM_WITHHELD" });
 
   const comment = await waitForElement(() =>

@@ -1,0 +1,37 @@
+.user {
+  font-size: calc(14rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-serif);
+  line-height: calc(16em / 14);
+  letter-spacing: calc(0.2em / 14);
+  color: var(--palette-text-primary);
+  padding-right: calc(0.5 * var(--mini-unit));
+}
+.details {
+  font-size: calc(14rem / var(--rem-base));
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(16em / 14);
+  letter-spacing: calc(0.2em / 14);
+  color: var(--palette-text-primary);
+  font-style: italic;
+}
+
+.flagger {
+  margin-right: var(--mini-unit);
+  padding: var(--spacing-1);
+  margin-left: calc(-1 * var(--spacing-1));
+  line-height: calc(16rem / var(--rem-base));
+
+  &:hover {
+    background-color: var(--palette-grey-lightest);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+
+  &:active {
+    background-color: var(--palette-grey-lighter);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+}

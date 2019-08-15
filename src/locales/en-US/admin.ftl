@@ -67,14 +67,14 @@ login-signInWithOIDC = Sign in with { $name }
 ## Configure
 
 configure-unsavedInputWarning =
-  You have unsaved input.
-  Are you sure you want to leave this page?
+  You have unsaved input. Are you sure you want to leave this page?
 
 configure-sideBarNavigation-general = General
 configure-sideBarNavigation-authentication = Authentication
 configure-sideBarNavigation-moderation = Moderation
 configure-sideBarNavigation-organization = Organization
 configure-sideBarNavigation-advanced = Advanced
+configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
 
 configure-sideBar-saveChanges = Save Changes
@@ -152,6 +152,26 @@ configure-organization-emailExplanation =
   the organization should they have any questions about the
   status of their accounts or moderation questions.
 
+### Email
+
+configure-email = Email settings
+configure-email-configBoxEnabled = Enabled
+configure-email-fromNameLabel = From name
+configure-email-fromNameDescription =
+  Name as it will appear on all outgoing emails
+configure-email-fromEmailLabel = From email address
+configure-email-fromEmailDescription =
+  Email address that will be used to send messages
+configure-email-smtpHostLabel = SMTP host
+configure-email-smtpHostDescription = (ex. smtp.sendgrid.com)
+configure-email-smtpPortLabel = SMTP port
+configure-email-smtpPortDescription = (ex. 25)
+configure-email-smtpTLSLabel = TLS
+configure-email-smtpAuthenticationLabel = SMTP Authentication
+configure-email-smtpCredentialsHeader = Email credentials
+configure-email-smtpUsernameLabel = Username
+configure-email-smtpPasswordLabel = Password
+
 ### Authentication
 
 configure-auth-authIntegrations = Authentication Integrations
@@ -215,6 +235,38 @@ configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Use OpenID Connect login on
 
 ### Moderation
+
+### Recent Comment History
+
+configure-moderation-recentCommentHistory-title = Recent comment history
+configure-moderation-recentCommentHistory-timeFrame = Recent comment history timeframe
+configure-moderation-recentCommentHistory-timeFrame-description =
+  Time period over which a commenter's rejection rate is calcualted
+  and submitted comments are counted.
+configure-moderation-recentCommentHistory-enabled = Recent comment history filter
+configure-moderation-recentCommentHistory-enabled-description =
+  Prevents repeat offenders from publishing comments without approval.
+  After a commenter's rejection rate rises above the defined threshold
+  below, their next submitted comments are <strong>sent to Pending for
+  moderator approval.</strong> The filter is removed when their rejection rate
+  falls below the threshold.
+configure-moderation-recentCommentHistory-triggerRejectionRate = Rejection rate threshold
+configure-moderation-recentCommentHistory-triggerRejectionRate-description =
+  Calculated by the number of rejected comments divided by the sum of
+  a commenter’s rejected and published comments, over the recent
+  comment history timeframe (does not include comments pending for
+  toxicity, spam or pre-moderation.)
+
+#### Pre-Moderation
+configure-moderation-preModeration-title = Pre-moderation
+configure-moderation-preModeration-explanation =
+  When pre-moderation is turned on, comments will not be published unless
+  approved by a moderator.
+configure-moderation-preModeration-moderation =
+  Pre-moderate all comments sitewide
+configure-moderation-preModeration-premodLinksEnable =
+  Pre-moderate comments containing links sitewide
+
 configure-moderation-apiKey = API Key
 
 configure-moderation-akismet-title = Akismet Spam Detection Filter
@@ -234,13 +286,13 @@ configure-moderation-akismet-accountNote =
   in your Akismet account: <externalLink>https://akismet.com/account/</externalLink>
 configure-moderation-akismet-siteURL = Site URL
 
+
+#### Perspective
 configure-moderation-perspective-title = Perspective Toxic Comment Filter
 configure-moderation-perspective-explanation =
   Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
   threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
   the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator, the comment will be published.
-
-#### Perspective
 configure-moderation-perspective-filter = Toxic Comment Filter
 configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
 configure-moderation-perspective-toxicityThresholdDescription =
@@ -286,11 +338,28 @@ configure-wordList-suspect-wordListDetail =
 configure-advanced-customCSS = Custom CSS
 configure-advanced-customCSS-explanation =
   URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+
 configure-advanced-permittedDomains = Permitted Domains
-configure-advanced-permittedDomains-explanation =
-  Domains where your { -product-name } instance is allowed to be embedded.
-  Typical use is localhost, staging.yourdomain.com,
-  yourdomain.com, etc.
+configure-advanced-permittedDomains-description =
+  Domains where your { -product-name } instance is allowed to be embedded
+  including the scheme (ex. http://localhost:3000, https://staging.domain.com,
+  https://domain.com).
+
+configure-advanced-liveUpdates = Comment Stream Live Updates
+configure-advanced-liveUpdates-explanation =
+  When enabled, there will be real-time loading and updating of comments as new comments and replies are published
+
+configure-advanced-embedCode-title = Embed Code
+configure-advanced-embedCode-explanation =
+  Copy and paste the code below into your CMS to embed Coral comment streams in
+  each of your site’s stories.
+
+configure-advanced-embedCode-comment =
+  Uncomment these lines and replace with the ID of the
+  story's ID and URL from your CMS to provide the
+  tightest integration. Refer to our documentation at
+  https://docs.coralproject.net for all the configuration
+  options.
 
 ## Decision History
 decisionHistory-popover =
@@ -316,13 +385,18 @@ moderate-marker-bannedWord = Banned Word
 moderate-marker-suspectWord = Suspect Word
 moderate-marker-spam = Spam
 moderate-marker-toxic = Toxic
-moderate-marker-karma = Karma
+moderate-marker-recentHistory = Recent History
 moderate-marker-bodyCount = Body Count
 moderate-marker-offensive = Offensive
 
 moderate-markers-details = Details
 moderate-flagDetails-offensive = Offensive
 moderate-flagDetails-spam = Spam
+
+moderate-flagDetails-toxicityScore = Toxicity Score
+moderate-toxicityLabel-likely = Likely <score></score>
+moderate-toxicityLabel-unlikely = Unlikely <score></score>
+moderate-toxicityLabel-maybe = Maybe <score></score>
 
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
@@ -373,6 +447,80 @@ moderate-searchBar-comboBoxTextField =
   .placeholder = Use quotation marks around each search term (e.g. “team”, “St. Louis”)
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
+
+### Moderate User History Drawer
+
+moderate-user-drawer-email =
+  .title = Email address
+moderate-user-drawer-created-at =
+  .title = Account creation date
+moderate-user-drawer-member-id =
+  .title = Member ID
+moderate-user-drawer-tab-all-comments = All Comments
+moderate-user-drawer-tab-rejected-comments = Rejected
+moderate-user-drawer-tab-account-history = Account History
+moderate-user-drawer-load-more = Load More
+moderate-user-drawer-all-no-comments = {$username} has not submitted any comments.
+moderate-user-drawer-rejected-no-comments = {$username} does not have any rejected comments.
+moderate-user-drawer-user-not-found = User not found.
+moderate-user-drawer-status-label = Status:
+
+moderate-user-drawer-account-history-system = <icon>computer</icon> System
+moderate-user-drawer-account-history-suspension-ended = Suspension ended
+moderate-user-drawer-account-history-suspension-removed = Suspension removed
+moderate-user-drawer-account-history-banned = Banned
+moderate-user-drawer-account-history-ban-removed = Ban removed
+moderate-user-drawer-account-history-no-history = No actions have been taken on this account
+moderate-user-drawer-username-change = Username change
+moderate-user-drawer-username-change-new = New:  
+moderate-user-drawer-username-change-old = Old:  
+
+moderate-user-drawer-suspension =
+  Suspension, { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  }
+
+
+moderate-user-drawer-recent-history-title = Recent comment history
+moderate-user-drawer-recent-history-calculated =
+  Calculated over the last { framework-timeago-time }
+moderate-user-drawer-recent-history-rejected = Rejected
+moderate-user-drawer-recent-history-tooltip-title = How is this calculated?
+moderate-user-drawer-recent-history-tooltip-body =
+  Rejected comments divided by the sum of rejected and
+  published comments, during the recent comment history
+  time frame.
+moderate-user-drawer-recent-history-tooltip-button =
+  .aria-label = Toggle recent comment history tooltip
+moderate-user-drawer-recent-history-tooltip-submitted = Submitted
 
 ## Create Username
 
@@ -428,7 +576,7 @@ community-filter-roleSelectField =
   .aria-label = Search by role
 
 community-filter-statusSelectField =
-.aria-label = Search by user status
+  .aria-label = Search by user status
 
 community-changeRoleButton =
   .aria-label = Change role
@@ -468,6 +616,34 @@ community-banModal-consequence =
   reactions, or report comments.
 community-banModal-cancel = Cancel
 community-banModal-banUser = Ban User
+community-banModal-customize = Customize ban email message
+community-banModal-emailTemplate =
+  Hello { $username },
+
+  Someone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, react or report comments
+
+community-suspendModal-areYouSure = Suspend <strong>{ $username }</strong>?
+community-suspendModal-consequence =
+  Once suspended, this user will no longer be able to comment, use
+  reactions, or report comments.
+community-suspendModal-duration-3600 = 1 hour
+community-suspendModal-duration-10800 = 3 hours
+community-suspendModal-duration-86400 = 24 hours
+community-suspendModal-duration-604800 = 7 days
+community-suspendModal-cancel = Cancel
+community-suspendModal-suspendUser = Suspend User
+community-suspendModal-emailTemplate =
+  Hello { $username },
+
+  In accordance with { $organizationName }'s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation in { framework-timeago-time }.
+
+community-suspendModal-customize = Customize suspension email message
+
+community-suspendModal-success =
+  <strong>{ $username }</strong> has been suspended for <strong>{ $duration }</strong>
+
+community-suspendModal-success-close = Close
+community-suspendModal-selectDuration = Select suspension length
 
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:
@@ -545,3 +721,9 @@ invite-goToAdmin = Go to { -product-name } Admin
 invite-goToOrganization = Go to { $organizationName }
 invite-tokenNotFound =
   The specified link is invalid, check to see if it was copied correctly.
+
+userDetails-banned-on = <strong>Banned on</strong> { $timestamp }
+userDetails-banned-by = <strong>by</strong> { $username }
+userDetails-suspended-by = <strong>Suspended by</strong> { $username }
+userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
+userDetails-suspension-end = <strong>End:</strong> { $timestamp }

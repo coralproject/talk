@@ -22,6 +22,7 @@ import {
   PASSWORDS_DO_NOT_MATCH,
   USERNAME_TOO_LONG,
   USERNAME_TOO_SHORT,
+  USERNAMES_DO_NOT_MATCH,
   VALIDATION_REQUIRED,
   VALIDATION_TOO_LONG,
   VALIDATION_TOO_SHORT,
@@ -57,7 +58,8 @@ export function composeValidators<T = any, V = any>(
  * required is a Validator that checks that the value is truthy.
  */
 export const required = createValidator(
-  v => v !== "" && v !== null && v !== undefined,
+  v =>
+    Array.isArray(v) ? v.length > 0 : v !== "" && v !== null && v !== undefined,
   VALIDATION_REQUIRED()
 );
 
@@ -159,6 +161,14 @@ export const validateEqualEmails = createValidator(
 );
 
 /**
+ * validateUsernameEquals is a Validator that checks for correct username confirmation.
+ */
+export const validateUsernameEquals = createValidator(
+  (v, values) => v === values.username,
+  USERNAMES_DO_NOT_MATCH()
+);
+
+/**
  * validateWholeNumber is a Validator that checks for a valid whole number.
  */
 export const validateWholeNumber = createValidator(
@@ -201,6 +211,64 @@ export const validateWholeNumberBetween = (min: number, max: number) =>
  */
 export const validatePercentage = (min: number, max: number) =>
   createValidator(
-    v => v === null || (!Number.isNaN(v) && v >= min && v <= max),
+    v =>
+      v === null ||
+      (typeof v === "number" && !Number.isNaN(v) && v >= min && v <= max),
+
     NOT_A_WHOLE_NUMBER_BETWEEN(min * 100, max * 100)
   );
+
+export const validateStrictURLList = createValidator(v => {
+  if (!Array.isArray(v)) {
+    return false;
+  }
+
+  for (const url of v) {
+    if (typeof url !== "string") {
+      return false;
+    }
+
+    if (!URL_REGEX.test(url)) {
+      return false;
+    }
+
+    if (!url.startsWith("http")) {
+      return false;
+    }
+  }
+
+  return true;
+}, INVALID_URL());
+
+/**
+ * Condition represents a given check that can be performed for the purpose of
+ * filtering a validation operation.
+ */
+export type Condition<T = any, V = any> = (value: T, values: V) => boolean;
+
+/**
+ * composeValidatorsWhen is the same as composeValidators except it will only
+ * apply the validators if the condition is true.
+ */
+export function composeValidatorsWhen<T = any, V = any>(
+  condition: Condition<T, V>,
+  ...validators: Array<Validator<T, V>>
+): Validator<T, V> {
+  return validateWhen(condition, composeValidators(...validators));
+}
+
+/**
+ * validate will simply wrap a single validator with a condition check first.
+ */
+export function validateWhen<T = any, V = any>(
+  condition: Condition<T, V>,
+  validator: Validator<T, V>
+): Validator<T, V> {
+  return (value, values) => {
+    if (condition(value, values)) {
+      return validator(value, values);
+    }
+
+    return null;
+  };
+}

@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql } from "react-relay";
 
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
@@ -7,7 +7,10 @@ import { GQLUSER_STATUS } from "coral-framework/schema";
 import { StreamContainer_settings as SettingsData } from "coral-stream/__generated__/StreamContainer_settings.graphql";
 import { StreamContainer_story as StoryData } from "coral-stream/__generated__/StreamContainer_story.graphql";
 import { StreamContainer_viewer as ViewerData } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
-import { StreamContainerLocal } from "coral-stream/__generated__/StreamContainerLocal.graphql";
+import {
+  COMMENTS_TAB,
+  StreamContainerLocal,
+} from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import {
   Counter,
@@ -29,6 +32,7 @@ import { PostCommentFormContainer } from "./PostCommentForm";
 import SortMenu from "./SortMenu";
 import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
 import styles from "./StreamContainer.css";
+import { SuspendedInfoContainer } from "./SuspendedInfo/index";
 
 interface Props {
   story: StoryData;
@@ -66,30 +70,58 @@ export const StreamContainer: FunctionComponent<Props> = props => {
     [setLocal]
   );
   const onChangeTab = useCallback(
-    (tab: any) => setLocal({ commentsTab: tab }),
+    (tab: COMMENTS_TAB) => setLocal({ commentsTab: tab }),
     [setLocal]
   );
   const banned = Boolean(
     props.viewer && props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
   );
+  const suspended = Boolean(
+    props.viewer &&
+      props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
+  );
 
-  const allCommentsCount = props.story.commentCounts.totalVisible;
+  const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
+
+  useEffect(() => {
+    // If the comment tab is still in its uninitialized state, "NONE", then we
+    // should evaluate that based on the featuredCommentsCount if we should show
+    // the featured comments tab first or not.
+    if (local.commentsTab === "NONE") {
+      // If the selected tab is FEATURED_COMMENTS, but there aren't any featured
+      // comments, then switch it to the all comments tab.
+      if (featuredCommentsCount === 0) {
+        onChangeTab("ALL_COMMENTS");
+      } else {
+        onChangeTab("FEATURED_COMMENTS");
+      }
+    }
+  }, [featuredCommentsCount, local.commentsTab, onChangeTab]);
+
   return (
     <>
       <StoryClosedTimeoutContainer story={props.story} />
       <HorizontalGutter className={styles.root} size="double">
         <UserBoxContainer viewer={props.viewer} settings={props.settings} />
         <CommunityGuidelinesContainer settings={props.settings} />
-        {!banned && (
+        {!banned && !suspended && (
           <PostCommentFormContainer
             settings={props.settings}
             story={props.story}
             viewer={props.viewer}
+            tab={local.commentsTab}
+            onChangeTab={onChangeTab}
           />
         )}
         {banned && <BannedInfo />}
-        <HorizontalGutter spacing={5} className={styles.tabBarContainer}>
+        {suspended && (
+          <SuspendedInfoContainer
+            viewer={props.viewer}
+            settings={props.settings}
+          />
+        )}
+        <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <SortMenu
             className={styles.sortMenu}
             orderBy={local.commentsOrderBy}
@@ -159,7 +191,7 @@ const enhanced = withFragmentContainer<Props>({
       ...CreateCommentReplyMutation_story
       ...CreateCommentMutation_story
       commentCounts {
-        totalVisible
+        totalPublished
         tags {
           FEATURED
         }
@@ -172,6 +204,7 @@ const enhanced = withFragmentContainer<Props>({
       ...CreateCommentReplyMutation_viewer
       ...CreateCommentMutation_viewer
       ...PostCommentFormContainer_viewer
+      ...SuspendedInfoContainer_viewer
       status {
         current
       }
@@ -185,6 +218,7 @@ const enhanced = withFragmentContainer<Props>({
       ...PostCommentFormContainer_settings
       ...UserBoxContainer_settings
       ...CommunityGuidelinesContainer_settings
+      ...SuspendedInfoContainer_settings
     }
   `,
 })(StreamContainer);

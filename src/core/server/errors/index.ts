@@ -4,7 +4,9 @@ import { FluentBundle } from "fluent/compat";
 import uuid from "uuid";
 import { VError } from "verror";
 
+import { ALLOWED_USERNAME_CHANGE_FREQUENCY } from "coral-common/constants";
 import { ERROR_CODES, ERROR_TYPES } from "coral-common/errors";
+import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import { translate } from "coral-server/services/i18n";
 
 import { Writeable } from "coral-common/types";
@@ -288,6 +290,24 @@ export class DuplicateEmailError extends CoralError {
 export class UsernameAlreadySetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.USERNAME_ALREADY_SET });
+  }
+}
+
+export class UsernameUpdatedWithinWindowError extends CoralError {
+  constructor(lastUpdate: Date) {
+    const { scaled, unit } = reduceSeconds(ALLOWED_USERNAME_CHANGE_FREQUENCY, [
+      UNIT.DAYS,
+    ]);
+    super({
+      code: ERROR_CODES.USERNAME_UPDATED_WITHIN_WINDOW,
+      context: {
+        pub: {
+          lastUpdate,
+          unit,
+          value: scaled,
+        },
+      },
+    });
   }
 }
 
@@ -640,6 +660,22 @@ export class InviteRequiresEmailAddresses extends CoralError {
   constructor() {
     super({
       code: ERROR_CODES.INVITE_REQUIRES_EMAIL_ADDRESSES,
+    });
+  }
+}
+
+export class LiveUpdatesDisabled extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.LIVE_UPDATES_DISABLED,
+    });
+  }
+}
+
+export class PasswordIncorrect extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.PASSWORD_INCORRECT,
     });
   }
 }

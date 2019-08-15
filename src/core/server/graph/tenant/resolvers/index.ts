@@ -9,20 +9,27 @@ import { BanStatusHistory } from "./BanStatusHistory";
 import { CloseCommenting } from "./CloseCommenting";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
+import { CommentCreatedPayload } from "./CommentCreatedPayload";
+import { CommentEnteredModerationQueuePayload } from "./CommentEnteredModerationQueuePayload";
+import { CommentLeftModerationQueuePayload } from "./CommentLeftModerationQueuePayload";
 import { CommentModerationAction } from "./CommentModerationAction";
+import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
+import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { FeatureCommentPayload } from "./FeatureCommentPayload";
 import { Flag } from "./Flag";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { Invite } from "./Invite";
+import { LiveConfiguration } from "./LiveConfiguration";
 import { ModerationQueue } from "./ModerationQueue";
 import { ModerationQueues } from "./ModerationQueues";
 import { Mutation } from "./Mutation";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
 import { Profile } from "./Profile";
 import { Query } from "./Query";
+import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
 import { Story } from "./Story";
 import { StorySettings } from "./StorySettings";
@@ -31,6 +38,8 @@ import { SuspensionStatus } from "./SuspensionStatus";
 import { SuspensionStatusHistory } from "./SuspensionStatusHistory";
 import { Tag } from "./Tag";
 import { User } from "./User";
+import { UsernameHistory } from "./UsernameHistory";
+import { UsernameStatus } from "./UsernameStatus";
 import { UserStatus } from "./UserStatus";
 
 const Resolvers: GQLResolver = {
@@ -41,8 +50,13 @@ const Resolvers: GQLResolver = {
   CloseCommenting,
   Comment,
   CommentCounts,
+  CommentCreatedPayload,
+  CommentEnteredModerationQueuePayload,
+  CommentLeftModerationQueuePayload,
   CommentModerationAction,
+  CommentReplyCreatedPayload,
   CommentRevision,
+  CommentStatusUpdatedPayload,
   Cursor,
   DisableCommenting,
   FacebookAuthIntegration,
@@ -50,22 +64,26 @@ const Resolvers: GQLResolver = {
   Flag,
   GoogleAuthIntegration,
   Invite,
+  LiveConfiguration,
   ModerationQueue,
   ModerationQueues,
   Mutation,
   OIDCAuthIntegration,
   Profile,
   Query,
+  RecentCommentHistory,
   RejectCommentPayload,
   Story,
   StorySettings,
   Subscription,
   SuspensionStatus,
   SuspensionStatusHistory,
+  UsernameHistory,
   Tag,
   Time,
   User,
   UserStatus,
+  UsernameStatus,
 };
 
 export default Resolvers;

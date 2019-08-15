@@ -19,6 +19,11 @@ exports[`renders correctly with load more 1`] = `
       onLoadMore={[Function]}
     />
   </ForwardRef(forwardRef)>
+  <UserHistoryDrawer
+    onClose={[Function]}
+    open={false}
+    userID=""
+  />
 </ForwardRef(forwardRef)>
 `;
 
@@ -32,6 +37,11 @@ exports[`renders correctly without load more 1`] = `
     component={null}
     enter={false}
     exit={true}
+  />
+  <UserHistoryDrawer
+    onClose={[Function]}
+    open={false}
+    userID=""
   />
 </ForwardRef(forwardRef)>
 `;

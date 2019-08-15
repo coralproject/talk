@@ -1,5 +1,4 @@
 {
-  "editor.formatOnSave": true,
   "files.associations": {
     "*.css": "postcss"
   },
@@ -12,9 +11,11 @@
     ".vs": true
   },
   "tslint.exclude": "**/node_modules/**",
-  "tslint.autoFixOnSave": true,
   "tslint.jsEnable": true,
-  "tslint.nodePath": "node_modules/.bin/tslint",
   "typescript.tsdk": "node_modules/typescript/lib",
-  "postcss.validate": false
+  "postcss.validate": false,
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true
+  }
 }

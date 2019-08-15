@@ -1,9 +1,13 @@
-import { OnSubmit } from "coral-framework/lib/form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import { PasswordField } from "coral-framework/components";
+import {
+  colorFromMeta,
+  OnSubmit,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import { composeValidators, required } from "coral-framework/lib/validation";
 import {
   Button,
@@ -12,7 +16,6 @@ import {
   FormField,
   HorizontalGutter,
   InputLabel,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import EmailField from "../../EmailField";
@@ -51,24 +54,14 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
                   >
                     <PasswordField
                       id={input.name}
-                      name={input.name}
-                      onChange={input.onChange}
-                      value={input.value}
                       placeholder="Password"
-                      color={
-                        meta.touched && (meta.error || meta.submitError)
-                          ? "error"
-                          : "regular"
-                      }
+                      color={colorFromMeta(meta)}
                       disabled={submitting}
                       fullWidth
+                      {...input}
                     />
                   </Localized>
-                  {meta.touched && (meta.error || meta.submitError) && (
-                    <ValidationMessage fullWidth>
-                      {meta.error || meta.submitError}
-                    </ValidationMessage>
-                  )}
+                  <ValidationMessage meta={meta} fullWidth />
                 </FormField>
               )}
             </Field>

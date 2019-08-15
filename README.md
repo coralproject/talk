@@ -21,6 +21,7 @@ Preview Coral easily by running Coral via a Heroku App:
   - [Source](#source)
   - [Development](#development)
     - [Embed On Your Site](#embed-on-your-site)
+    - [Single Sign On](#single-sign-on)
     - [Email](#email)
     - [Design Language System (UI Components)](#design-language-system-ui-components)
 - [Configuration](#configuration)
@@ -185,6 +186,7 @@ npm run test
 ```
 
 #### Embed On Your Site
+
 With Coral setup and running locally you can test embeding the comment stream with this sample embed script:
 
 ```
@@ -205,7 +207,91 @@ With Coral setup and running locally you can test embeding the comment stream wi
 })();
 </script>
 ```
-Replace the value of CORAL_DOMAIN_NAME with the location of your running instance of Coral.
+
+> **NOTE:** Replace the value of `{{ CORAL_DOMAIN_NAME }}` with the location of your running instance of Coral.
+
+#### Single Sign On
+
+In order to allow seamless connection to an existing authentication system,
+Coral utilizes the industry standard [JWT Token](https://jwt.io/) to connect. To
+learn more about how to create a JWT token, see [this introduction](https://jwt.io/introduction/).
+
+1. Visit: `https://{{ CORAL_DOMAIN_NAME }}/admin/configure/auth`
+2. Scroll to the `Login with Single Sign On` section
+3. Enable the Single Sign On Authentication Integration
+4. Enable `Allow Registration`
+5. Copy the string in the `Key` box
+6. Click Save
+
+> **NOTE:** Replace the value of `{{ CORAL_DOMAIN_NAME }}` with the location of your running instance of Coral.
+
+You will then have to generate a JWT with the following claims:
+
+- `jti` (_optional_) - A unique ID for this particular JWT token. We recommend
+  using a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)
+  for this value. Without this parameter, the logout functionality inside the
+  embed stream will not work and you will need to call logout on the embed
+  itself.
+- `exp` (_optional_) - When the given SSO token should expire. This is
+  specified as a unix time stamp in seconds. Once the token has expired, a new
+  token should be generated and passed into Coral. Without this parameter, the
+  logout functionality inside the embed stream will not work and you will need
+  to call logout on the embed itself.
+- `iat` (_optional_) - When the given SSO token was issued. This is required to
+  utilize the automatic user detail update system. If this time is newer than
+  the time we received the last update, the contents of the token will be used
+  to update the user.
+- `user.id` (**required**) - the ID of the user from your authentication system.
+  This is required to connect the user in your system to allow a seamless
+  connection to Coral.
+- `user.email` (**required**) - the email address of the user from your
+  authentication system. This is required to facilitate notification email's
+  about status changes on a user account such as bans or suspensions.
+- `user.username` (**required**) - the username that should be used when being
+  presented inside Coral to moderators and other users.
+
+An example of the claims for this token would be:
+
+```json
+{
+  "jti": "151c19fc-ad15-4f80-a49c-09f137789fbb",
+  "exp": 1572172094,
+  "iat": 1562172094,
+  "user": {
+    "id": "628bdc61-6616-4add-bfec-dd79156715d4",
+    "email": "bob@example.com",
+    "username": "bob"
+  }
+}
+```
+
+With the claims provided, you can sign them with the `Key` obtained from the
+Coral administration panel in the previous steps with a `HS256` algorithm. This
+token can be provided in the above mentioned embed code by adding it to the
+`createStreamEmbed` function:
+
+```js
+Coral.createStreamEmbed({
+  // Don't forget to include the parameters from the
+  // "Embed On Your Site" section.
+  accessToken: "{{ SSO_TOKEN }}",
+});
+```
+
+Or by calling the `login/logout` method on the embed object:
+
+```js
+var embed = Coral.createStreamEmbed({
+  // Don't forget to include the parameters from the
+  // "Embed On Your Site" section.
+});
+
+// Login the current embed with the generated SSO token.
+embed.login("{{ SSO_TOKEN }}");
+
+// Logout the user.
+embed.logout();
+```
 
 #### Email
 
@@ -213,25 +299,23 @@ To test out the email sending functionality, you can run [inbucket](https://www.
 which provides a test SMTP server that can visualize emails in the browser:
 
 ```bash
-docker run -d --name inbucket -p 2500:2500 -p 9000:9000 inbucket/inbucket
+docker run -d --name inbucket --restart always -p 2500:2500 -p 9000:9000 inbucket/inbucket
 ```
 
-You can then configure the email server on Coral by updating the Tenant with:
+You can then configure the email server on Coral
+by setting the email settings in
+`Configure -> Email` in the admin:
 
-```js
-{
-  // ...
-  "email": {
-    "enabled": true,
-    "smtpURI": "smtp://localhost:2500",
-    "fromAddress": "community@test.com"
-  },
-  // ...
-}
-```
+| Field          | Value                |
+| -------------- | -------------------- |
+| From Address   | `community@test.com` |
+| Secure         | `No`                 |
+| Host           | `localhost`          |
+| Port           | `2500`               |
+| Authentication | `No`                 |
 
-Restarting Coral will be needed. Navigate to http://localhost:9000, click the
-"Monitor" tab. New emails received on this screen.
+Navigate to http://localhost:9000, click the "Monitor" tab. New emails received
+on this screen.
 
 #### Design Language System (UI Components)
 
@@ -282,6 +366,8 @@ the variables in a `.env` file in the root of the project in a simple
 - `DISABLE_MONGODB_AUTOINDEXING` - When `true`, Coral will not perform indexing
   operations when it starts up. This can be desired when you've already
   installed Coral on the target MongoDB, but want to improve start performance.
+  **You should not use this parameter unless you know what you're doing! Upgrades
+  may introduce additional indexes that the application relies on.**
   (Default `false`)
 - `LOCALE` - Specify the default locale to use for all requests without a locale
   specified. (Default `en-US`)
@@ -297,6 +383,12 @@ the variables in a `.env` file in the root of the project in a simple
 - `METRICS_PASSWORD` - The password for _Basic Authentication_ at the `/metrics` and `/cluster_metrics`
   endpoint.
 - `CLUSTER_METRICS_PORT` - If `CONCURRENCY` is more than `1`, the metrics are provided at this port under `/cluster_metrics`. (Default `3001`)
+- `DISABLE_LIVE_UPDATES` - When `true`, disables subscriptions for the comment
+  stream for all stories across all tenants (Default `false`)
+- `WEBSOCKET_KEEP_ALIVE_TIMEOUT` - A duration in a parsable format (e.g. `30 seconds`
+  , `1 minute`) that should be used to send keep alive messages through the
+  websocket to keep the socket alive (Default `30 seconds`)
+- `TRUST_PROXY` - When provided, it configures the "trust proxy" settings for Express (See https://expressjs.com/en/guide/behind-proxies.html)
 
 ## License
 

@@ -1,7 +1,14 @@
 import { Localized } from "fluent-react/compat";
 import React, { ChangeEvent, Component } from "react";
 
-import { Flex, Option, SelectField, TextField } from "coral-ui/components";
+import { UNIT } from "coral-common/helpers/i18n";
+import {
+  Flex,
+  Option,
+  SelectField,
+  TextField,
+  Typography,
+} from "coral-ui/components";
 
 import styles from "./DurationField.css";
 
@@ -9,66 +16,14 @@ import styles from "./DurationField.css";
  * DURATION_UNIT are units that can be used in the
  * DurationField components.
  */
-export enum DURATION_UNIT {
-  SECONDS = 1,
-  MINUTES = 60,
-  HOURS = 3600,
-  DAYS = 86400,
-  WEEKS = 604800,
-}
+export const DURATION_UNIT = UNIT;
 
-type UnitElementCallback = (
-  currentValue: DURATION_UNIT,
-  unitValue: string
-) => React.ReactElement<any>;
-
-// This is used to render the Option elements to inlcude in the select field.
-const unitElementMap: Record<DURATION_UNIT, UnitElementCallback> = {
-  [DURATION_UNIT.SECONDS]: (currentValue, unitValue) => (
-    <Localized
-      id="framework-durationField-seconds"
-      $value={currentValue}
-      key={unitValue}
-    >
-      <Option value={unitValue}>Seconds</Option>
-    </Localized>
-  ),
-  [DURATION_UNIT.MINUTES]: (currentValue, unitValue) => (
-    <Localized
-      id="framework-durationField-minutes"
-      $value={currentValue}
-      key={unitValue}
-    >
-      <Option value={unitValue}>Minutes</Option>
-    </Localized>
-  ),
-  [DURATION_UNIT.HOURS]: (currentValue, unitValue) => (
-    <Localized
-      id="framework-durationField-hours"
-      $value={currentValue}
-      key={unitValue}
-    >
-      <Option value={unitValue}>Hours</Option>
-    </Localized>
-  ),
-  [DURATION_UNIT.DAYS]: (currentValue, unitValue) => (
-    <Localized
-      id="framework-durationField-days"
-      $value={currentValue}
-      key={unitValue}
-    >
-      <Option value={unitValue}>Days</Option>
-    </Localized>
-  ),
-  [DURATION_UNIT.WEEKS]: (currentValue, unitValue) => (
-    <Localized
-      id="framework-durationField-weeks"
-      $value={currentValue}
-      key={unitValue}
-    >
-      <Option value={unitValue}>Weeks</Option>
-    </Localized>
-  ),
+const DURATION_UNIT_MAP = {
+  [DURATION_UNIT.SECONDS]: "second",
+  [DURATION_UNIT.MINUTES]: "minute",
+  [DURATION_UNIT.HOURS]: "hour",
+  [DURATION_UNIT.DAYS]: "day",
+  [DURATION_UNIT.WEEKS]: "week",
 };
 
 interface Props {
@@ -77,21 +32,21 @@ interface Props {
   disabled: boolean;
   onChange: (v: string) => void;
   /** Specifiy units to include */
-  units?: ReadonlyArray<DURATION_UNIT>;
+  units?: ReadonlyArray<UNIT>;
 }
 
 interface State {
   /** Current value */
   value: string;
   /** Current unit */
-  unit?: DURATION_UNIT;
+  unit?: UNIT;
   /** All available units */
-  units: ReadonlyArray<DURATION_UNIT>;
+  units: ReadonlyArray<UNIT>;
   /**
    * Element callbacks to generate the rendered
    * Option element for the select field
    */
-  elementCallbacks: ReadonlyArray<UnitElementCallback>;
+  elementCallbacks: ReadonlyArray<string>;
 }
 
 /**
@@ -100,11 +55,7 @@ interface State {
  * @param units The units that we use.
  * @param unit The current value if any otherwise the best matching unit will be used.
  */
-function valueToState(
-  value: string,
-  units: ReadonlyArray<DURATION_UNIT>,
-  unit?: DURATION_UNIT
-) {
+function valueToState(value: string, units: ReadonlyArray<UNIT>, unit?: UNIT) {
   const parsed = parseInt(value, 10);
 
   // If value was a valid number..
@@ -126,7 +77,7 @@ function valueToState(
     unit,
     value,
     units,
-    elementCallbacks: units.map(k => unitElementMap[k]),
+    elementCallbacks: units.map(k => DURATION_UNIT_MAP[k]),
   };
 }
 
@@ -147,7 +98,7 @@ function stateToValue(state: State) {
  */
 class DurationField extends Component<Props, State> {
   public static defaultProps: Partial<Props> = {
-    units: [DURATION_UNIT.HOURS, DURATION_UNIT.DAYS, DURATION_UNIT.WEEKS],
+    units: [UNIT.HOURS, UNIT.DAYS, UNIT.WEEKS],
   };
 
   public state: State = valueToState(this.props.value, this.props.units!);
@@ -186,6 +137,11 @@ class DurationField extends Component<Props, State> {
 
   public render() {
     const { disabled, name } = this.props;
+
+    if (!this.state.elementCallbacks) {
+      return null;
+    }
+
     return (
       <Flex itemGutter>
         <TextField
@@ -201,20 +157,42 @@ class DurationField extends Component<Props, State> {
           textAlignCenter
           aria-label="value"
         />
-        <SelectField
-          name={`${name}-unit`}
-          onChange={this.handleUnitChange}
-          disabled={disabled}
-          aria-label="unit"
-          classes={{
-            select: styles.unit,
-          }}
-          value={(this.state.unit || this.state.units[0]).toString()}
-        >
-          {this.state.elementCallbacks!.map((cb, i) =>
-            cb(parseInt(this.state.value, 10), this.state.units[i].toString())
-          )}
-        </SelectField>
+        {this.state.elementCallbacks.length === 1 ? (
+          <Localized
+            id="framework-durationField-unit"
+            $unit={this.state.elementCallbacks[0]}
+            $value={parseInt(this.state.value, 10)}
+          >
+            <Typography variant="bodyCopy" className={styles.unit}>
+              {this.state.elementCallbacks[0]}
+            </Typography>
+          </Localized>
+        ) : (
+          <SelectField
+            name={`${name}-unit`}
+            onChange={this.handleUnitChange}
+            disabled={disabled}
+            aria-label="unit"
+            classes={{
+              select: styles.select,
+            }}
+            value={(this.state.unit || this.state.units[0]).toString()}
+          >
+            {this.state.elementCallbacks.map((unit, i) => {
+              const value = this.state.units[i];
+              return (
+                <Localized
+                  id="framework-durationField-unit"
+                  $unit={unit}
+                  $value={parseInt(this.state.value, 10)}
+                  key={i}
+                >
+                  <Option value={value.toString()}>{unit}</Option>
+                </Localized>
+              );
+            })}
+          </SelectField>
+        )}
       </Flex>
     );
   }

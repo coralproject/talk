@@ -1,3 +1,4 @@
+import bodyParser from "body-parser";
 import express from "express";
 
 import { AppOptions } from "coral-server/app";
@@ -5,6 +6,8 @@ import {
   confirmCheckHandler,
   confirmHandler,
   confirmRequestHandler,
+  downloadCheckHandler,
+  downloadHandler,
   inviteCheckHandler,
   inviteHandler,
 } from "coral-server/app/handlers";
@@ -29,6 +32,15 @@ export function createNewAccountRouter(
 
   router.get("/invite", inviteCheckHandler(app));
   router.put("/invite", jsonMiddleware, inviteHandler(app));
+
+  router.get("/downloadcheck", downloadCheckHandler(app));
+  router.post(
+    "/download",
+    bodyParser.urlencoded({
+      extended: true,
+    }),
+    downloadHandler(app)
+  );
 
   return router;
 }

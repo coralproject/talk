@@ -2,13 +2,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import { validateEmail } from "coral-framework/lib/validation";
 import {
   FieldSet,
   FormField,
   InputLabel,
   TextField,
-  ValidationMessage,
 } from "coral-ui/components";
 
 interface Props {
@@ -32,22 +32,12 @@ const EmailField: FunctionComponent<Props> = ({ index, disabled }) => (
           </Localized>
           <TextField
             data-testid={`invite-users-email.${index}`}
-            name={input.name}
-            onChange={input.onChange}
-            value={input.value}
-            color={
-              meta.touched && (meta.error || meta.submitError)
-                ? "error"
-                : "regular"
-            }
+            color={colorFromMeta(meta)}
             disabled={disabled}
             fullWidth
+            {...input}
           />
-          {meta.touched && (meta.error || meta.submitError) && (
-            <ValidationMessage fullWidth>
-              {meta.error || meta.submitError}
-            </ValidationMessage>
-          )}
+          <ValidationMessage meta={meta} fullWidth />
         </FormField>
       )}
     </Field>

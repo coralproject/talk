@@ -5,6 +5,7 @@ exports[`renders correctly 1`] = `
   classes={
     Object {
       "colorDark": "Counter-colorDark",
+      "colorError": "Counter-colorError",
       "colorGrey": "Counter-colorGrey",
       "colorInherit": "Counter-colorInherit",
       "colorPrimary": "Counter-colorPrimary",

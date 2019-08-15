@@ -73,6 +73,15 @@ exports[`renders configure moderation 1`] = `
               <li>
                 <a
                   className="Link-link"
+                  href="/admin/configure/email"
+                  onClick={[Function]}
+                >
+                  Email
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
                   href="/admin/configure/advanced"
                   onClick={[Function]}
                 >
@@ -107,6 +116,307 @@ exports[`renders configure moderation 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
           data-testid="configure-moderationContainer"
         >
+          <fieldset
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
+              Recent comment history
+            </legend>
+            <fieldset
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Recent comment history timeframe
+              </legend>
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                Time period over which a commenter's rejection rate is calcualted
+and submitted comments are counted.
+              </p>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              >
+                <div
+                  className="TextField-root DurationField-value"
+                >
+                  <input
+                    aria-label="value"
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                    disabled={false}
+                    name="recentCommentHistory.timeFrame-value"
+                    onChange={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="text"
+                    value="7"
+                  />
+                </div>
+                <p
+                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DurationField-unit"
+                >
+                  Days
+                </p>
+              </div>
+            </fieldset>
+            <fieldset
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Recent comment history filter
+              </legend>
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                Prevents repeat offenders from publishing comments without approval.
+After a commenter's rejection rate rises above the defined threshold
+below, their next submitted comments are 
+                <strong>
+                  sent to Pending for
+moderator approval.
+                </strong>
+                 The filter is removed when their rejection rate
+falls below the threshold.
+              </p>
+              <div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="recentCommentHistory.enabled-true"
+                    name="recentCommentHistory.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="recentCommentHistory.enabled-true"
+                  >
+                    <span>
+                      On
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="recentCommentHistory.enabled-false"
+                    name="recentCommentHistory.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="recentCommentHistory.enabled-false"
+                  >
+                    <span>
+                      Off
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+            <div
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Rejection rate threshold
+              </label>
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                Calculated by the number of rejected comments divided by the sum of
+a commenter’s rejected and published comments, over the recent
+comment history timeframe (does not include comments pending for
+toxicity, spam or pre-moderation.)
+              </p>
+              <div
+                className="TextField-root"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input RecentCommentHistoryConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
+                  disabled={false}
+                  name="recentCommentHistory.triggerRejectionRate"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder=""
+                  spellCheck={false}
+                  type="text"
+                  value="30"
+                />
+                <div
+                  className="TextField-adornment"
+                >
+                  <p
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
+              Pre-moderation
+            </legend>
+            <p
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+            >
+              When pre-moderation is turned on, comments will not be published unless
+approved by a moderator.
+            </p>
+            <fieldset
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Pre-moderate all comments sitewide
+              </legend>
+              <div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="moderation-true"
+                    name="moderation"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="moderation-true"
+                  >
+                    <span>
+                      On
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="moderation-false"
+                    name="moderation"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="moderation-false"
+                  >
+                    <span>
+                      Off
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Pre-moderate comments containing links sitewide
+              </legend>
+              <div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="premodLinksEnable-true"
+                    name="premodLinksEnable"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="premodLinksEnable-true"
+                  >
+                    <span>
+                      On
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="premodLinksEnable-false"
+                    name="premodLinksEnable"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="premodLinksEnable-false"
+                  >
+                    <span>
+                      Off
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </fieldset>
           <fieldset
             className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
@@ -205,21 +515,23 @@ the
 comment is toxic, according to Perspective API. By default the threshold is set to 80%.
               </p>
               <div
-                className="TextField-root PerspectiveConfig-thresholdTextField"
+                className="TextField-root"
               >
                 <input
                   autoCapitalize="off"
                   autoComplete="off"
                   autoCorrect="off"
-                  className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                  className="TextField-input PerspectiveConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
                   disabled={false}
                   id="configure-moderation-perspective-threshold"
                   name="integrations.perspective.threshold"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder="80"
                   spellCheck={false}
                   type="text"
-                  value=""
+                  value="80"
                 />
                 <div
                   className="TextField-adornment"
@@ -266,7 +578,9 @@ comment is toxic, according to Perspective API. By default the threshold is set 
                   disabled={false}
                   id="configure-moderation-perspective-model"
                   name="integrations.perspective.model"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder="TOXICITY"
                   spellCheck={false}
                   type="text"
@@ -368,22 +682,42 @@ improve the API over time.
                 API Key
               </label>
               <div
-                className="TextField-root"
+                className="PasswordField-root"
               >
-                <input
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="configure-moderation-integrations.perspective.key"
-                  name="integrations.perspective.key"
-                  onChange={[Function]}
-                  placeholder=""
-                  spellCheck={false}
-                  type="text"
-                  value=""
-                />
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="PasswordField-colorRegular PasswordField-input"
+                    disabled={false}
+                    id="configure-moderation-integrations.perspective.key"
+                    name="integrations.perspective.key"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Hide API Key"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -411,8 +745,10 @@ improve the API over time.
                   disabled={false}
                   id="configure-moderation-perspective-customEndpoint"
                   name="integrations.perspective.endpoint"
+                  onBlur={[Function]}
                   onChange={[Function]}
-                  placeholder=""
+                  onFocus={[Function]}
+                  placeholder="https://commentanalyzer.googleapis.com/v1alpha1"
                   spellCheck={false}
                   type="text"
                   value=""
@@ -537,22 +873,42 @@ in your Akismet account:
                 API Key
               </label>
               <div
-                className="TextField-root"
+                className="PasswordField-root"
               >
-                <input
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="configure-moderation-integrations.akismet.key"
-                  name="integrations.akismet.key"
-                  onChange={[Function]}
-                  placeholder=""
-                  spellCheck={false}
-                  type="text"
-                  value=""
-                />
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="PasswordField-colorRegular PasswordField-input"
+                    disabled={false}
+                    id="configure-moderation-integrations.akismet.key"
+                    name="integrations.akismet.key"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Hide API Key"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -575,7 +931,9 @@ in your Akismet account:
                   disabled={false}
                   id="configure-moderation-akismet-site"
                   name="integrations.akismet.site"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder=""
                   spellCheck={false}
                   type="text"

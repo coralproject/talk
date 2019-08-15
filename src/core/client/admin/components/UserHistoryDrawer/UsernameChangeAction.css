@@ -1,0 +1,7 @@
+.tableLight {
+  font-weight: var(--font-weight-regular);
+}
+
+.usernameCell {
+  line-height: calc(18em / 14);
+}

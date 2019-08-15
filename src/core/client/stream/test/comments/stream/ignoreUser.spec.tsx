@@ -121,7 +121,7 @@ it("render stream with ignored user", async () => {
     stories[0]
   );
   await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   expect(
     within(tabPane).queryByTestID(`comment-${firstComment.id}`)
@@ -143,7 +143,7 @@ it("render stream with only staff comments, ignore user button should not be pre
     storyWithOnlyStaffComments
   );
   await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   const moderator = moderators[0];
   const username = within(tabPane).getByText(moderator!.username!, {
@@ -176,7 +176,7 @@ it("render stream with regular comments, ignore user button should be present", 
     stories[0]
   );
   await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   const commenter = commenters[0];
   const username = within(tabPane).getByText(commenter!.username!, {

@@ -1,6 +1,5 @@
 import { Child as PymChild } from "pym.js";
-import React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
 import { createManaged } from "coral-framework/lib/bootstrap";
@@ -17,7 +16,9 @@ async function main() {
     initLocalState,
     localesData,
     userLocales: navigator.languages,
-    pym: new PymChild({ polling: 100 }),
+    pym: new PymChild({
+      polling: 100,
+    }),
   });
 
   const Index: FunctionComponent = () => (

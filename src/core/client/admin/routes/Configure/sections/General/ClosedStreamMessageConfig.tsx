@@ -3,14 +3,10 @@ import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
 import { MarkdownEditor } from "coral-framework/components/loadables";
-import {
-  HorizontalGutter,
-  Spinner,
-  Typography,
-  ValidationMessage,
-} from "coral-ui/components";
+import { HorizontalGutter, Spinner, Typography } from "coral-ui/components";
 
 import Header from "../../Header";
+import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
   disabled: boolean;
@@ -41,16 +37,10 @@ const ClosedStreamMessageConfig: FunctionComponent<Props> = ({ disabled }) => (
           <Suspense fallback={<Spinner />}>
             <MarkdownEditor
               id="configure-general-closedStreamMessage-content"
-              name={input.name}
-              onChange={input.onChange}
-              value={input.value}
+              {...input}
             />
           </Suspense>
-          {meta.touched && (meta.error || meta.submitError) && (
-            <ValidationMessage>
-              {meta.error || meta.submitError}
-            </ValidationMessage>
-          )}
+          <ValidationMessage meta={meta} fullWidth />
         </>
       )}
     </Field>

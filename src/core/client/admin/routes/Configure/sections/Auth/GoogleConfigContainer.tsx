@@ -5,19 +5,20 @@ import { GoogleConfigContainer_auth as AuthData } from "coral-admin/__generated_
 import { GoogleConfigContainer_authReadOnly as AuthReadOnlyData } from "coral-admin/__generated__/GoogleConfigContainer_authReadOnly.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
+import { OnInitValuesFct } from "./AuthConfigContainer";
 import GoogleConfig from "./GoogleConfig";
 
 interface Props {
   auth: AuthData;
   authReadOnly: AuthReadOnlyData;
-  onInitValues: (values: AuthData) => void;
+  onInitValues: OnInitValuesFct;
   disabled?: boolean;
 }
 
 class GoogleConfigContainer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    props.onInitValues(props.auth);
+    props.onInitValues({ auth: props.auth });
   }
 
   public render() {

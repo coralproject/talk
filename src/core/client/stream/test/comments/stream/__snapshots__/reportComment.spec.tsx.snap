@@ -380,6 +380,7 @@ exports[`render popup expanded 1`] = `
                   className="ReportCommentForm-textarea"
                   disabled={false}
                   id="comments-reportCommentForm-aditionalDetails--comment-0"
+                  name="additionalDetails"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -493,7 +494,7 @@ exports[`report comment as offensive 1`] = `
             We’ve received your message. Reports from members like you keep the community safe.
              
             <button
-              className="BaseButton-root Button-root ThankYou-dismiss Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined ThankYou-dismiss"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}

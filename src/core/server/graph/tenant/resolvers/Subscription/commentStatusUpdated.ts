@@ -25,16 +25,4 @@ export const commentStatusUpdated: SubscriptionToCommentStatusUpdatedResolver<
 
     return true;
   },
-  resolve: ({ newStatus, oldStatus, moderatorID, commentID }, args, ctx) => ({
-    newStatus: () => newStatus,
-    oldStatus: () => oldStatus,
-    moderator: () => {
-      if (moderatorID) {
-        return ctx.loaders.Users.user.load(moderatorID);
-      }
-
-      return null;
-    },
-    comment: () => ctx.loaders.Comments.comment.load(commentID),
-  }),
 });

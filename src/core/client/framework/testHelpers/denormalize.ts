@@ -32,8 +32,10 @@ export function denormalizeComment(
   return createFixture<GQLComment>({
     ...comment,
     replies: { edges: replyEdges, pageInfo: repliesPageInfo },
-    replyCount: replyEdges.length,
+    replyCount:
+      comment.replyCount !== undefined ? comment.replyCount : replyEdges.length,
     parentCount: parents.length,
+    parent: parents.length > 0 ? parents[parents.length - 1].node : undefined,
     parents: {
       edges: parents,
       pageInfo: { startCursor: null, hasPreviousPage: false },
@@ -55,9 +57,15 @@ export function denormalizeStory(story: Fixture<GQLStory>) {
       }))) ||
     [];
   const commentsPageInfo = (story.comments && story.comments.pageInfo) || {
-    endCursor: null,
     hasNextPage: false,
   };
+  if (commentsPageInfo.endCursor === undefined) {
+    commentsPageInfo.endCursor =
+      commentNodes.length > 0
+        ? commentNodes[commentNodes.length - 1].node.createdAt
+        : null;
+  }
+
   const featuredCommentsCount = commentNodes.filter(
     n => n.tags && n.tags.some((t: GQLTag) => t.code === GQLTAG.FEATURED)
   ).length;
@@ -66,7 +74,7 @@ export function denormalizeStory(story: Fixture<GQLStory>) {
     comments: { edges: commentNodes, pageInfo: commentsPageInfo },
     commentCounts: {
       ...story.commentCounts,
-      totalVisible: commentNodes.length,
+      totalPublished: commentNodes.length,
       tags: {
         ...(story.commentCounts && story.commentCounts.tags),
         FEATURED: featuredCommentsCount,

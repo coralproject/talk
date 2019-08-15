@@ -11,6 +11,7 @@ exports[`renders reply list 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
+      className="coral coral-comment"
       data-testid="comment-comment-with-replies"
     >
       <div
@@ -50,7 +51,7 @@ exports[`renders reply list 1`] = `
                         type="button"
                       >
                         <span
-                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                         >
                           Markus
                         </span>
@@ -74,7 +75,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
-                      className="Timestamp-root RelativeTime-root"
+                      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >
@@ -86,6 +87,33 @@ exports[`renders reply list 1`] = `
                   <div
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                   />
+                </div>
+              </div>
+              <div
+                className="Comment-subBar"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm InReplyTo-icon"
+                  >
+                    reply
+                  </span>
+                  <span>
+                     
+                  </span>
+                  <span
+                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                  >
+                    In reply to 
+                    <span
+                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                    >
+                      Markus
+                    </span>
+                  </span>
                 </div>
               </div>
               <div
@@ -205,6 +233,7 @@ exports[`renders reply list 1`] = `
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
+          className="coral coral-comment"
           data-testid="comment-comment-3"
         >
           <div
@@ -244,7 +273,7 @@ exports[`renders reply list 1`] = `
                             type="button"
                           >
                             <span
-                              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                             >
                               Isabelle
                             </span>
@@ -268,7 +297,7 @@ exports[`renders reply list 1`] = `
                         className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                       >
                         <time
-                          className="Timestamp-root RelativeTime-root"
+                          className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                           dateTime="2018-07-06T18:24:00.000Z"
                           title="2018-07-06T18:24:00.000Z"
                         >
@@ -280,6 +309,33 @@ exports[`renders reply list 1`] = `
                       <div
                         className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                       />
+                    </div>
+                  </div>
+                  <div
+                    className="Comment-subBar"
+                  >
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm InReplyTo-icon"
+                      >
+                        reply
+                      </span>
+                      <span>
+                         
+                      </span>
+                      <span
+                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                      >
+                        In reply to 
+                        <span
+                          className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                        >
+                          Markus
+                        </span>
+                      </span>
                     </div>
                   </div>
                   <div
@@ -394,6 +450,7 @@ exports[`renders reply list 1`] = `
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
+          className="coral coral-comment"
           data-testid="comment-comment-4"
         >
           <div
@@ -433,7 +490,7 @@ exports[`renders reply list 1`] = `
                             type="button"
                           >
                             <span
-                              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                             >
                               Isabelle
                             </span>
@@ -457,7 +514,7 @@ exports[`renders reply list 1`] = `
                         className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                       >
                         <time
-                          className="Timestamp-root RelativeTime-root"
+                          className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                           dateTime="2018-07-06T18:24:00.000Z"
                           title="2018-07-06T18:24:00.000Z"
                         >
@@ -469,6 +526,33 @@ exports[`renders reply list 1`] = `
                       <div
                         className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                       />
+                    </div>
+                  </div>
+                  <div
+                    className="Comment-subBar"
+                  >
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm InReplyTo-icon"
+                      >
+                        reply
+                      </span>
+                      <span>
+                         
+                      </span>
+                      <span
+                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                      >
+                        In reply to 
+                        <span
+                          className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                        >
+                          Markus
+                        </span>
+                      </span>
                     </div>
                   </div>
                   <div
@@ -585,6 +669,7 @@ exports[`renders reply list 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
+      className="coral coral-comment"
       data-testid="comment-comment-5"
     >
       <div
@@ -624,7 +709,7 @@ exports[`renders reply list 1`] = `
                         type="button"
                       >
                         <span
-                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                         >
                           Isabelle
                         </span>
@@ -648,7 +733,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
-                      className="Timestamp-root RelativeTime-root"
+                      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >
@@ -660,6 +745,33 @@ exports[`renders reply list 1`] = `
                   <div
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                   />
+                </div>
+              </div>
+              <div
+                className="Comment-subBar"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm InReplyTo-icon"
+                  >
+                    reply
+                  </span>
+                  <span>
+                     
+                  </span>
+                  <span
+                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                  >
+                    In reply to 
+                    <span
+                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                    >
+                      Markus
+                    </span>
+                  </span>
                 </div>
               </div>
               <div

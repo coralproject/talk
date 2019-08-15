@@ -30,6 +30,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
             onChange={[Function]}
             onFocus={[Function]}
             type="checkbox"
+            value={true}
           />
           <label
             className="CheckBox-label CheckBox-labelLight"
@@ -138,7 +139,9 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
             className="TextField-input TextField-colorRegular"
             disabled={true}
             name="auth.integrations.oidc.name"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -164,7 +167,9 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
             className="TextField-input TextField-colorRegular"
             disabled={true}
             name="auth.integrations.oidc.clientID"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -181,21 +186,41 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           Client Secret
         </label>
         <div
-          className="TextField-root"
+          className="PasswordField-root"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={true}
-            name="auth.integrations.oidc.clientSecret"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="clientSecret"
-          />
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorRegular PasswordField-input"
+              disabled={true}
+              name="auth.integrations.oidc.clientSecret"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="password"
+              value="clientSecret"
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Hide Client Secret"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -225,7 +250,9 @@ the remaining fields. You may also enter the information manually.
               className="TextField-input TextField-colorRegular"
               disabled={true}
               name="auth.integrations.oidc.issuer"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder=""
               spellCheck={false}
               type="text"
@@ -266,7 +293,9 @@ the remaining fields. You may also enter the information manually.
             className="TextField-input TextField-colorRegular"
             disabled={true}
             name="auth.integrations.oidc.authorizationURL"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -292,7 +321,9 @@ the remaining fields. You may also enter the information manually.
             className="TextField-input TextField-colorRegular"
             disabled={true}
             name="auth.integrations.oidc.tokenURL"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -318,7 +349,9 @@ the remaining fields. You may also enter the information manually.
             className="TextField-input TextField-colorRegular"
             disabled={true}
             name="auth.integrations.oidc.jwksURI"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -352,6 +385,7 @@ the remaining fields. You may also enter the information manually.
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={true}
             />
             <label
               className="CheckBox-label"
@@ -377,6 +411,7 @@ the remaining fields. You may also enter the information manually.
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={true}
             />
             <label
               className="CheckBox-label"
@@ -421,6 +456,7 @@ integration to register for a new account.
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={false}
             />
             <label
               className="CheckBox-label"
@@ -470,6 +506,7 @@ exports[`change settings: enable facebook configure box 1`] = `
             onChange={[Function]}
             onFocus={[Function]}
             type="checkbox"
+            value={true}
           />
           <label
             className="CheckBox-label CheckBox-labelLight"
@@ -575,7 +612,9 @@ For more information visit:
             className="TextField-input TextField-colorRegular"
             disabled={false}
             name="auth.integrations.facebook.clientID"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -592,21 +631,41 @@ For more information visit:
           Client Secret
         </label>
         <div
-          className="TextField-root"
+          className="PasswordField-root"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.facebook.clientSecret"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="myClientSecret"
-          />
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorRegular PasswordField-input"
+              disabled={false}
+              name="auth.integrations.facebook.clientSecret"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="password"
+              value="myClientSecret"
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Hide Client Secret"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -635,6 +694,7 @@ For more information visit:
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={true}
             />
             <label
               className="CheckBox-label"
@@ -660,6 +720,7 @@ For more information visit:
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={true}
             />
             <label
               className="CheckBox-label"
@@ -704,6 +765,7 @@ integration to register for a new account.
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={true}
             />
             <label
               className="CheckBox-label"
@@ -753,6 +815,7 @@ exports[`change settings: enable oidc configure box 1`] = `
             onChange={[Function]}
             onFocus={[Function]}
             type="checkbox"
+            value={true}
           />
           <label
             className="CheckBox-label CheckBox-labelLight"
@@ -861,7 +924,9 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
             className="TextField-input TextField-colorRegular"
             disabled={false}
             name="auth.integrations.oidc.name"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -887,7 +952,9 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
             className="TextField-input TextField-colorRegular"
             disabled={false}
             name="auth.integrations.oidc.clientID"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -904,21 +971,41 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           Client Secret
         </label>
         <div
-          className="TextField-root"
+          className="PasswordField-root"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.clientSecret"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorRegular PasswordField-input"
+              disabled={false}
+              name="auth.integrations.oidc.clientSecret"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="password"
+              value=""
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Hide Client Secret"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -948,7 +1035,9 @@ the remaining fields. You may also enter the information manually.
               className="TextField-input TextField-colorRegular"
               disabled={false}
               name="auth.integrations.oidc.issuer"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder=""
               spellCheck={false}
               type="text"
@@ -989,7 +1078,9 @@ the remaining fields. You may also enter the information manually.
             className="TextField-input TextField-colorRegular"
             disabled={false}
             name="auth.integrations.oidc.authorizationURL"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -1015,7 +1106,9 @@ the remaining fields. You may also enter the information manually.
             className="TextField-input TextField-colorRegular"
             disabled={false}
             name="auth.integrations.oidc.tokenURL"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -1041,7 +1134,9 @@ the remaining fields. You may also enter the information manually.
             className="TextField-input TextField-colorRegular"
             disabled={false}
             name="auth.integrations.oidc.jwksURI"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -1075,6 +1170,7 @@ the remaining fields. You may also enter the information manually.
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={true}
             />
             <label
               className="CheckBox-label"
@@ -1100,6 +1196,7 @@ the remaining fields. You may also enter the information manually.
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={true}
             />
             <label
               className="CheckBox-label"
@@ -1144,6 +1241,7 @@ integration to register for a new account.
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={false}
             />
             <label
               className="CheckBox-label"
@@ -1193,6 +1291,7 @@ exports[`change settings: oidc validation errors 1`] = `
             onChange={[Function]}
             onFocus={[Function]}
             type="checkbox"
+            value={true}
           />
           <label
             className="CheckBox-label CheckBox-labelLight"
@@ -1298,10 +1397,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
             autoCapitalize="off"
             autoComplete="off"
             autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
+            className="TextField-input TextField-colorError"
             disabled={false}
             name="auth.integrations.oidc.name"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -1309,7 +1410,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           />
         </div>
         <div
-          className="Message-root Message-colorError ValidationMessage-root"
+          className="Message-root Message-colorError"
         >
           <span
             aria-hidden="true"
@@ -1337,10 +1438,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
             autoCapitalize="off"
             autoComplete="off"
             autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
+            className="TextField-input TextField-colorError"
             disabled={false}
             name="auth.integrations.oidc.clientID"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -1370,24 +1473,44 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           Client Secret
         </label>
         <div
-          className="TextField-root"
+          className="PasswordField-root"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.clientSecret"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorRegular PasswordField-input"
+              disabled={false}
+              name="auth.integrations.oidc.clientSecret"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="password"
+              value=""
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Hide Client Secret"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </span>
+            </div>
+          </div>
         </div>
         <div
-          className="Message-root Message-colorError ValidationMessage-root"
+          className="Message-root Message-colorError"
         >
           <span
             aria-hidden="true"
@@ -1424,10 +1547,12 @@ the remaining fields. You may also enter the information manually.
               autoCapitalize="off"
               autoComplete="off"
               autoCorrect="off"
-              className="TextField-input TextField-colorRegular"
+              className="TextField-input TextField-colorError"
               disabled={false}
               name="auth.integrations.oidc.issuer"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder=""
               spellCheck={false}
               type="text"
@@ -1450,7 +1575,7 @@ the remaining fields. You may also enter the information manually.
           </button>
         </div>
         <div
-          className="Message-root Message-colorError ValidationMessage-root"
+          className="Message-root Message-colorError"
         >
           <span
             aria-hidden="true"
@@ -1478,10 +1603,12 @@ the remaining fields. You may also enter the information manually.
             autoCapitalize="off"
             autoComplete="off"
             autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
+            className="TextField-input TextField-colorError"
             disabled={false}
             name="auth.integrations.oidc.authorizationURL"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -1489,7 +1616,7 @@ the remaining fields. You may also enter the information manually.
           />
         </div>
         <div
-          className="Message-root Message-colorError ValidationMessage-root"
+          className="Message-root Message-colorError"
         >
           <span
             aria-hidden="true"
@@ -1517,10 +1644,12 @@ the remaining fields. You may also enter the information manually.
             autoCapitalize="off"
             autoComplete="off"
             autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
+            className="TextField-input TextField-colorError"
             disabled={false}
             name="auth.integrations.oidc.tokenURL"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -1528,7 +1657,7 @@ the remaining fields. You may also enter the information manually.
           />
         </div>
         <div
-          className="Message-root Message-colorError ValidationMessage-root"
+          className="Message-root Message-colorError"
         >
           <span
             aria-hidden="true"
@@ -1556,10 +1685,12 @@ the remaining fields. You may also enter the information manually.
             autoCapitalize="off"
             autoComplete="off"
             autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
+            className="TextField-input TextField-colorError"
             disabled={false}
             name="auth.integrations.oidc.jwksURI"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder=""
             spellCheck={false}
             type="text"
@@ -1567,7 +1698,7 @@ the remaining fields. You may also enter the information manually.
           />
         </div>
         <div
-          className="Message-root Message-colorError ValidationMessage-root"
+          className="Message-root Message-colorError"
         >
           <span
             aria-hidden="true"
@@ -1606,6 +1737,7 @@ the remaining fields. You may also enter the information manually.
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={true}
             />
             <label
               className="CheckBox-label"
@@ -1631,6 +1763,7 @@ the remaining fields. You may also enter the information manually.
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={true}
             />
             <label
               className="CheckBox-label"
@@ -1675,6 +1808,7 @@ integration to register for a new account.
               onChange={[Function]}
               onFocus={[Function]}
               type="checkbox"
+              value={false}
             />
             <label
               className="CheckBox-label"
@@ -1721,16 +1855,38 @@ exports[`regenerate sso key 1`] = `
     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
   >
     <div
-      className="TextField-root"
+      className="PasswordField-root"
     >
-      <input
-        className="TextField-input TextField-colorRegular"
-        name="key"
-        placeholder=""
-        readOnly={true}
-        type="text"
-        value="==GENERATED_KEY=="
-      />
+      <div
+        className="PasswordField-wrapper"
+      >
+        <input
+          autoCapitalize="off"
+          autoComplete="off"
+          autoCorrect="off"
+          className="PasswordField-colorRegular PasswordField-input"
+          name="key"
+          placeholder=""
+          readOnly={true}
+          spellCheck={false}
+          type="password"
+          value="==GENERATED_KEY=="
+        />
+        <div
+          className="PasswordField-icon"
+          onClick={[Function]}
+          role="button"
+          tabIndex={0}
+          title="Hide SSO Key"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            visibility
+          </span>
+        </div>
+      </div>
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
@@ -1845,6 +2001,15 @@ exports[`renders configure auth 1`] = `
               <li>
                 <a
                   className="Link-link"
+                  href="/admin/configure/email"
+                  onClick={[Function]}
+                >
+                  Email
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
                   href="/admin/configure/advanced"
                   onClick={[Function]}
                 >
@@ -1915,6 +2080,7 @@ exports[`renders configure auth 1`] = `
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="checkbox"
+                        value={true}
                       />
                       <label
                         className="CheckBox-label CheckBox-labelLight"
@@ -1962,6 +2128,7 @@ exports[`renders configure auth 1`] = `
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -1987,6 +2154,7 @@ exports[`renders configure auth 1`] = `
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -2031,6 +2199,7 @@ integration to register for a new account.
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -2077,6 +2246,7 @@ integration to register for a new account.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="checkbox"
+                        value={false}
                       />
                       <label
                         className="CheckBox-label CheckBox-labelLight"
@@ -2185,7 +2355,9 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                         className="TextField-input TextField-colorRegular"
                         disabled={true}
                         name="auth.integrations.oidc.name"
+                        onBlur={[Function]}
                         onChange={[Function]}
+                        onFocus={[Function]}
                         placeholder=""
                         spellCheck={false}
                         type="text"
@@ -2211,7 +2383,9 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                         className="TextField-input TextField-colorRegular"
                         disabled={true}
                         name="auth.integrations.oidc.clientID"
+                        onBlur={[Function]}
                         onChange={[Function]}
+                        onFocus={[Function]}
                         placeholder=""
                         spellCheck={false}
                         type="text"
@@ -2228,21 +2402,41 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                       Client Secret
                     </label>
                     <div
-                      className="TextField-root"
+                      className="PasswordField-root"
                     >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.oidc.clientSecret"
-                        onChange={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
+                      <div
+                        className="PasswordField-wrapper"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="PasswordField-colorRegular PasswordField-input"
+                          disabled={true}
+                          name="auth.integrations.oidc.clientSecret"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="password"
+                          value=""
+                        />
+                        <div
+                          className="PasswordField-icon"
+                          onClick={[Function]}
+                          role="button"
+                          tabIndex={0}
+                          title="Hide Client Secret"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            visibility
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -2272,7 +2466,9 @@ the remaining fields. You may also enter the information manually.
                           className="TextField-input TextField-colorRegular"
                           disabled={true}
                           name="auth.integrations.oidc.issuer"
+                          onBlur={[Function]}
                           onChange={[Function]}
+                          onFocus={[Function]}
                           placeholder=""
                           spellCheck={false}
                           type="text"
@@ -2313,7 +2509,9 @@ the remaining fields. You may also enter the information manually.
                         className="TextField-input TextField-colorRegular"
                         disabled={true}
                         name="auth.integrations.oidc.authorizationURL"
+                        onBlur={[Function]}
                         onChange={[Function]}
+                        onFocus={[Function]}
                         placeholder=""
                         spellCheck={false}
                         type="text"
@@ -2339,7 +2537,9 @@ the remaining fields. You may also enter the information manually.
                         className="TextField-input TextField-colorRegular"
                         disabled={true}
                         name="auth.integrations.oidc.tokenURL"
+                        onBlur={[Function]}
                         onChange={[Function]}
+                        onFocus={[Function]}
                         placeholder=""
                         spellCheck={false}
                         type="text"
@@ -2365,7 +2565,9 @@ the remaining fields. You may also enter the information manually.
                         className="TextField-input TextField-colorRegular"
                         disabled={true}
                         name="auth.integrations.oidc.jwksURI"
+                        onBlur={[Function]}
                         onChange={[Function]}
+                        onFocus={[Function]}
                         placeholder=""
                         spellCheck={false}
                         type="text"
@@ -2399,6 +2601,7 @@ the remaining fields. You may also enter the information manually.
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -2424,6 +2627,7 @@ the remaining fields. You may also enter the information manually.
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -2468,6 +2672,7 @@ integration to register for a new account.
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={false}
                         />
                         <label
                           className="CheckBox-label"
@@ -2513,6 +2718,7 @@ integration to register for a new account.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="checkbox"
+                        value={false}
                       />
                       <label
                         className="CheckBox-label CheckBox-labelLight"
@@ -2547,15 +2753,37 @@ integration to register for a new account.
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
-                        className="TextField-root"
+                        className="PasswordField-root"
                       >
-                        <input
-                          className="TextField-input TextField-colorRegular"
-                          name="key"
-                          placeholder=""
-                          readOnly={true}
-                          type="text"
-                        />
+                        <div
+                          className="PasswordField-wrapper"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="PasswordField-colorRegular PasswordField-input"
+                            name="key"
+                            placeholder=""
+                            readOnly={true}
+                            spellCheck={false}
+                            type="password"
+                          />
+                          <div
+                            className="PasswordField-icon"
+                            onClick={[Function]}
+                            role="button"
+                            tabIndex={0}
+                            title="Hide SSO Key"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              visibility
+                            </span>
+                          </div>
+                        </div>
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
@@ -2621,6 +2849,7 @@ and all signed-in users will be signed out.
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -2646,6 +2875,7 @@ and all signed-in users will be signed out.
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -2690,6 +2920,7 @@ integration to register for a new account.
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -2735,6 +2966,7 @@ integration to register for a new account.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="checkbox"
+                        value={false}
                       />
                       <label
                         className="CheckBox-label CheckBox-labelLight"
@@ -2840,7 +3072,9 @@ to create and set up a web application. For more information visit:
                         className="TextField-input TextField-colorRegular"
                         disabled={true}
                         name="auth.integrations.google.clientID"
+                        onBlur={[Function]}
                         onChange={[Function]}
+                        onFocus={[Function]}
                         placeholder=""
                         spellCheck={false}
                         type="text"
@@ -2857,21 +3091,41 @@ to create and set up a web application. For more information visit:
                       Client Secret
                     </label>
                     <div
-                      className="TextField-root"
+                      className="PasswordField-root"
                     >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.google.clientSecret"
-                        onChange={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
+                      <div
+                        className="PasswordField-wrapper"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="PasswordField-colorRegular PasswordField-input"
+                          disabled={true}
+                          name="auth.integrations.google.clientSecret"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="password"
+                          value=""
+                        />
+                        <div
+                          className="PasswordField-icon"
+                          onClick={[Function]}
+                          role="button"
+                          tabIndex={0}
+                          title="Hide Client Secret"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            visibility
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -2900,6 +3154,7 @@ to create and set up a web application. For more information visit:
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -2925,6 +3180,7 @@ to create and set up a web application. For more information visit:
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -2969,6 +3225,7 @@ integration to register for a new account.
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -3015,6 +3272,7 @@ integration to register for a new account.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="checkbox"
+                        value={false}
                       />
                       <label
                         className="CheckBox-label CheckBox-labelLight"
@@ -3120,7 +3378,9 @@ For more information visit:
                         className="TextField-input TextField-colorRegular"
                         disabled={true}
                         name="auth.integrations.facebook.clientID"
+                        onBlur={[Function]}
                         onChange={[Function]}
+                        onFocus={[Function]}
                         placeholder=""
                         spellCheck={false}
                         type="text"
@@ -3137,21 +3397,41 @@ For more information visit:
                       Client Secret
                     </label>
                     <div
-                      className="TextField-root"
+                      className="PasswordField-root"
                     >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.facebook.clientSecret"
-                        onChange={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
+                      <div
+                        className="PasswordField-wrapper"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="PasswordField-colorRegular PasswordField-input"
+                          disabled={true}
+                          name="auth.integrations.facebook.clientSecret"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="password"
+                          value=""
+                        />
+                        <div
+                          className="PasswordField-icon"
+                          onClick={[Function]}
+                          role="button"
+                          tabIndex={0}
+                          title="Hide Client Secret"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            visibility
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -3180,6 +3460,7 @@ For more information visit:
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -3205,6 +3486,7 @@ For more information visit:
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"
@@ -3249,6 +3531,7 @@ integration to register for a new account.
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
+                          value={true}
                         />
                         <label
                           className="CheckBox-label"

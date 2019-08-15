@@ -16,11 +16,11 @@ import {
   retrieveUserAction,
 } from "coral-server/models/action/comment";
 import {
-  getLatestRevision,
   retrieveComment,
   updateCommentActionCounts,
 } from "coral-server/models/comment";
 import { Comment } from "coral-server/models/comment";
+import { getLatestRevision } from "coral-server/models/comment/helpers";
 import {
   updateStoryActionCounts,
   updateStoryCounts,

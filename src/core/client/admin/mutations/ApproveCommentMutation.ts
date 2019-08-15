@@ -27,6 +27,18 @@ const ApproveCommentMutation = createMutation(
             comment {
               id
               status
+              author {
+                id
+                recentCommentHistory {
+                  statuses {
+                    NONE
+                    APPROVED
+                    REJECTED
+                    PREMOD
+                    SYSTEM_WITHHELD
+                  }
+                }
+              }
               statusHistory(first: 1) {
                 edges {
                   node {

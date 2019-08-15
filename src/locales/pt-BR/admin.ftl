@@ -215,6 +215,16 @@ configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Usar login com OpenID Connect ligado
 
 ### Moderation
+#### Pre-Moderation
+configure-moderation-preModeration-title = Pre-moderation
+configure-moderation-preModeration-explanation =
+  Quando a pré-moderação está ativada, os comentários não serão publicados, a menos que sejam
+  aprovados por um moderador.
+configure-moderation-preModeration-moderation =
+  Pré-moderar todos os comentários em todo o site
+configure-moderation-preModeration-premodLinksEnable =
+  Pré-moderar comentários contendo links em todo o site
+
 configure-moderation-apiKey = API Key
 
 configure-moderation-akismet-title = Filtro de Detecção de Spam Akismet
@@ -226,7 +236,6 @@ configure-moderation-akismet-explanation =
   o comentário será marcado como contendo spam, <strong> não será publicado </strong> e
   são colocados na <strong> Fila pendente para revisão por um moderador </strong>. Se aprovado por um moderador,
   o comentário será publicado.
-
 
 #### Akismet
 configure-moderation-akismet-filter = Filtro de Detecção de Spam
@@ -246,8 +255,10 @@ configure-moderation-perspective-filter = Filtro de Comentários Tóxicos
 configure-moderation-perspective-toxicityThreshold = Limite de toxicidade
 configure-moderation-perspective-toxicityThresholdDescription =
   Esse valor pode ser definido como uma porcentagem entre 0 e 100. Esse número representa a probabilidade de
-  o comentário ser tóxico, de acordo com a API do Perspective. Por padrão, o limite é definido como { $default }
-  (Disponível apenas para o idioma inglês).
+  o comentário ser tóxico, de acordo com a API do Perspective. Por padrão, o limite é definido como { $default } (Disponível apenas para o idioma inglês).
+configure-moderation-perspective-toxicityModel = Toxicity Model
+configure-moderation-perspective-toxicityModelDescription =
+  Choose your Perspective Model. The default is { $default }. You can find out more about model choices <externalLink>here</externalLink>.
 configure-moderation-perspective-allowStoreCommentData = Permitir que o Google armazene dados de comentários
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Comentários armazenados serão usados para futuras pesquisas e propósitos de construção de modelos
@@ -285,11 +296,17 @@ configure-wordList-suspect-wordListDetail =
 configure-advanced-customCSS = CSS Customizado
 configure-advanced-customCSS-explanation =
   URL de uma folha de estilo CSS que substituirá o estilo padrão dos fluxos de comentário das páginas. Pode ser interno ou externo.
+
 configure-advanced-permittedDomains = Domínios Permitidos
-configure-advanced-permittedDomains-explanation =
-  Domínios nos quais sua instância Coral pode ser incorporada.
-  O uso típico é localhost, staging.yourdomain.com,
-  yourdomain.com, etc.
+
+configure-advanced-liveUpdates = Atualizações ao vivo do Stream de comentários
+configure-advanced-liveUpdates-explanation =
+  Quando ativado, habilitará o carregamento e atualização em tempo real dos comentários, à medida que novos comentários e respostas forem publicados.
+
+configure-advanced-embedCode-title = Incorporar
+configure-advanced-embedCode-explanation =
+  Copie e cole o código abaixo no seu CMS para incorporar fluxos de comentários do Coral em
+  cada uma das histórias do seu site.
 
 ## Decision History
 decisionHistory-popover =
@@ -323,6 +340,11 @@ moderate-markers-details = Detalhes
 moderate-flagDetails-offensive = Ofensivo
 moderate-flagDetails-spam = Spam
 
+moderate-flagDetails-toxicityScore = Score de toxicidade
+moderate-toxicityLabel-likely = Provável <score></score>
+moderate-toxicityLabel-unlikely = Improvável <score></score>
+moderate-toxicityLabel-maybe = Talvez <score></score>
+
 moderate-emptyQueue-pending = Muito bem! Não há mais comentários pendentes para moderar.
 moderate-emptyQueue-reported = Muito bem! Não há mais comentários relatados para moderar.
 moderate-emptyQueue-unmoderated = Muito bem! Todos os comentários foram moderados.
@@ -337,9 +359,19 @@ moderate-comment-acceptButton =
 moderate-comment-decision = Decisão
 moderate-comment-story = História
 moderate-comment-moderateStory = Moderar História
+moderate-comment-featureText = Destaque
+moderate-comment-featuredText = Destacado
+moderate-comment-moderatedBy = Moderado por
+moderate-comment-moderatedBySystem = Sistema
 
 moderate-single-goToModerationQueues = Ir para a fila de moderação
 moderate-single-singleCommentView = Visualização única de comentários
+
+moderate-queue-viewNew =
+  { $count ->
+    [1] Ver {$count} novo comentário
+    *[other] Ver {$count} novos comentários
+  }
 
 ### Moderate Search Bar
 moderate-searchBar-allStories = Todas as histórias
@@ -362,6 +394,15 @@ moderate-searchBar-comboBoxTextField =
   .placeholder = Use aspas em torno de cada termo de pesquisa (por exemplo, "equipe", "St. Louis")
 moderate-searchBar-goTo = Ir para
 moderate-searchBar-seeAllResults = Ver todos os resultados
+
+### Moderate User History Drawer
+
+moderate-user-drawer-tab-all-comments = Todos comentários
+moderate-user-drawer-tab-rejected-comments = Rejeitados
+moderate-user-drawer-load-more = Carregar mais
+moderate-user-drawer-all-no-comments = {$username} não enviou comentários.
+moderate-user-drawer-rejected-no-comments = {$username} não tem comentários rejeitados.
+moderate-user-drawer-user-not-found = Usuário não encontrado.
 
 ## Create Username
 
@@ -458,6 +499,31 @@ community-banModal-consequence =
 community-banModal-cancel = Cancelar
 community-banModal-banUser = Banir Usário
 
+community-invite-inviteMember = Convidar membros para sua organização
+community-invite-emailAddressLabel = Endereço de email:
+community-invite-inviteMore = Convidar mais
+community-invite-inviteAsLabel = Convidar como:
+community-invite-sendInvitations = Enviar convites
+community-invite-role-staff =
+  <strong>Função Staff:</strong> Recebe um crachá “Staff”, e
+  seus comentários são aprovados automaticamente. Não pode moderar
+  ou mudar qualquer configuração { -product-name }.
+community-invite-role-moderator =
+  <strong>Função Moderador:</strong> Recebe um crachá “Staff”, e
+  seus comentários são aprovados automaticamente. Tem privilégios
+  totais de moderação (aprovar, rejeitar e destacar comentários).
+  Pode configurar artigos individuais, mas não possui privilégios
+  de configuração do site.
+community-invite-role-admin =
+  <strong>Função Admin:</strong> Recebe um crachá “Staff”, e
+  seus comentários são aprovados automaticamente. Tem privilégios
+  totais de moderação (aprovar, rejeitar e destacar comentários).
+  Pode configurar artigos individuais e tem privilégios de
+  configuração do site.
+community-invite-invitationsSent = Seus convites foram enviados!
+community-invite-close = Fechar
+community-invite-invite = Convidar
+
 ## Stories
 stories-emptyMessage = Atualmente não há histórias publicadas.
 stories-noMatchMessage = Não foi possível encontrar nenhuma história que corresponda aos seus critérios.
@@ -488,3 +554,24 @@ stories-column-clickToModerate = Clique no título para moderar a história
 
 stories-status-popover =
   .description = Um menu suspenso para alterar o status da história
+
+## Invite
+
+invite-youHaveBeenInvited = Você foi convidado para entrar em { $organizationName }
+invite-finishSettingUpAccount = Conclua a configuração da conta para:
+invite-createAccount = Criar Conta
+invite-passwordLabel = Senha
+invite-passwordDescription = Deve ter ao menos { $minLength } caracteres
+invite-passwordTextField =
+  .placeholder = Senha
+invite-usernameLabel = Usuário
+invite-usernameDescription = Você pode usar “_” e “.”
+invite-usernameTextField =
+  .placeholder = Usuário
+invite-oopsSorry = Oops Desculpe!
+invite-successful = Sua conta foi criada
+invite-youMayNowSignIn = Você pode entrar em { -product-name } usando:
+invite-goToAdmin = Ir para a administração { -product-name }
+invite-goToOrganization = Ir para { $organizationName }
+invite-tokenNotFound =
+  O link especificado é inválido, verifique se ele foi copiado corretamente.

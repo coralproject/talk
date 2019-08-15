@@ -1,5 +1,6 @@
 import DataLoader from "dataloader";
 import { isNil, omitBy } from "lodash";
+import { DateTime } from "luxon";
 
 import Context from "coral-server/graph/tenant/context";
 import {
@@ -11,21 +12,27 @@ import {
   GQLUSER_ROLE,
   QueryToCommentsArgs,
   StoryToCommentsArgs,
+  UserToAllCommentsArgs,
+  UserToCommentsArgs,
+  UserToRejectedCommentsArgs,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
   Comment,
   CommentConnectionInput,
+  retrieveAllCommentsUserConnection,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
   retrieveCommentStoryConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
+  retrieveManyRecentStatusCounts,
+  retrieveRejectedCommentUserConnection,
   retrieveStoryCommentTagCounts,
 } from "coral-server/models/comment";
-import { hasVisibleStatus } from "coral-server/models/comment/helpers";
-import { Connection } from "coral-server/models/helpers/connection";
+import { hasPublishedStatus } from "coral-server/models/comment/helpers";
+import { Connection } from "coral-server/models/helpers";
 import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/story/counts/shared";
 import { User } from "coral-server/models/user";
 
@@ -69,8 +76,9 @@ const primeCommentsFromConnection = (ctx: Context) => (
  */
 const mapVisibleComment = (user?: Pick<User, "role">) => {
   // Check to see if this user is privileged and can view non-visible comments.
-  const isPrivilegedUser =
-    user && [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR].includes(user.role);
+  const isPrivilegedUser = Boolean(
+    user && [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR].includes(user.role)
+  );
 
   // Return a function that will map out the non-visible comments if needed.
   return (comment: Readonly<Comment> | null) => {
@@ -78,7 +86,7 @@ const mapVisibleComment = (user?: Pick<User, "role">) => {
       return null;
     }
 
-    if (hasVisibleStatus(comment) || isPrivilegedUser) {
+    if (hasPublishedStatus(comment) || isPrivilegedUser) {
       return comment;
     }
 
@@ -98,7 +106,7 @@ const mapVisibleComments = (user?: Pick<User, "role">) => (
 ): Array<Readonly<Comment> | null> => comments.map(mapVisibleComment(user));
 
 export default (ctx: Context) => ({
-  comment: new DataLoader(
+  comment: new DataLoader<string, Readonly<Comment> | null>(
     (ids: string[]) =>
       retrieveManyComments(ctx.mongo, ctx.tenant.id, ids).then(
         mapVisibleComments(ctx.user)
@@ -153,11 +161,31 @@ export default (ctx: Context) => ({
       first = 10,
       orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
-    }: StoryToCommentsArgs
+    }: UserToCommentsArgs
   ) =>
     retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
       first,
       orderBy,
+      after,
+    }).then(primeCommentsFromConnection(ctx)),
+  forUserAll: (
+    userID: string,
+    // Apply the graph schema defaults at the loader.
+    { first = 10, after }: UserToAllCommentsArgs
+  ) =>
+    retrieveAllCommentsUserConnection(ctx.mongo, ctx.tenant.id, userID, {
+      first,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      after,
+    }).then(primeCommentsFromConnection(ctx)),
+  forUserRejected: (
+    userID: string,
+    // Apply the graph schema defaults at the loader.
+    { first = 10, after }: UserToRejectedCommentsArgs
+  ) =>
+    retrieveRejectedCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
+      first,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
     }).then(primeCommentsFromConnection(ctx)),
   taggedForStory: (
@@ -241,5 +269,15 @@ export default (ctx: Context) => ({
   ),
   tagCounts: new DataLoader((storyIDs: string[]) =>
     retrieveStoryCommentTagCounts(ctx.mongo, ctx.tenant.id, storyIDs)
+  ),
+  authorStatusCounts: new DataLoader((authorIDs: string[]) =>
+    retrieveManyRecentStatusCounts(
+      ctx.mongo,
+      ctx.tenant.id,
+      DateTime.fromJSDate(ctx.now)
+        .plus({ seconds: -ctx.tenant.recentCommentHistory.timeFrame })
+        .toJSDate(),
+      authorIDs
+    )
   ),
 });

@@ -59,14 +59,16 @@ export function createPassport(
 }
 
 interface LogoutToken {
-  jti: string;
-  exp: number;
+  jti?: string;
+  exp?: number;
 }
 
-const LogoutTokenSchema = Joi.object().keys({
-  jti: Joi.string(),
-  exp: Joi.number(),
-});
+const LogoutTokenSchema = Joi.object()
+  .keys({
+    jti: Joi.string().default(undefined),
+    exp: Joi.number().default(undefined),
+  })
+  .optionalKeys(["jti", "exp"]);
 
 export async function handleLogout(redis: Redis, req: Request, res: Response) {
   // Extract the token from the request.
@@ -88,13 +90,18 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
 
   // Grab the JTI from the decoded token.
   const { jti, exp }: LogoutToken = validate(LogoutTokenSchema, decoded);
-
-  // Compute the number of seconds that the token will be valid for.
-  const validFor = exp - now.valueOf() / 1000;
-  if (validFor > 0) {
-    // Invalidate the token, the expiry is in the future and it needs to be
-    // revoked.
-    await revokeJWT(redis, jti, validFor, now);
+  if (jti && exp) {
+    // Compute the number of seconds that the token will be valid for.
+    const validFor = Math.round(
+      DateTime.fromJSDate(now)
+        .plus({ seconds: -exp })
+        .toSeconds()
+    );
+    if (validFor > 0) {
+      // Invalidate the token, the expiry is in the future and it needs to be
+      // revoked.
+      await revokeJWT(redis, jti, validFor, now);
+    }
   }
 
   // Clear the cookie.
@@ -121,9 +128,15 @@ export async function handleSuccessfulLogin(
     const expiresIn = DateTime.fromJSDate(coral.now).plus({ days: 1 });
 
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, tenant, {
-      expiresIn: Math.floor(expiresIn.toSeconds()),
-    });
+    const token = await signTokenString(
+      signingConfig,
+      user,
+      tenant,
+      {
+        expiresIn: Math.round(expiresIn.toSeconds()),
+      },
+      coral.now
+    );
 
     // Set the cache control headers.
     res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
@@ -177,9 +190,15 @@ export async function handleOAuth2Callback(
     const expiresIn = DateTime.fromJSDate(req.coral!.now).plus({ days: 1 });
 
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, tenant, {
-      expiresIn: Math.floor(expiresIn.toSeconds()),
-    });
+    const token = await signTokenString(
+      signingConfig,
+      user,
+      tenant,
+      {
+        expiresIn: Math.round(expiresIn.toSeconds()),
+      },
+      req.coral!.now
+    );
     res.cookie(
       COOKIE_NAME,
       token,

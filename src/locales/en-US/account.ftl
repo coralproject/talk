@@ -31,3 +31,24 @@ confirmEmail-successfullyConfirmed = Email successfully confirmed
 confirmEmail-youMayClose =
   You may now close this window.
 
+## Download
+
+download-landingPage-title = Download Your Comment History
+download-landingPage-description = 
+  Your comment history will be downloaded into a .zip file. After your
+  comment history is unzipped you will have a comma separated value (or .csv)
+  file that you can easily import into your favorite spreadsheet
+  application.
+download-landingPage-contentsDescription = 
+  For each of your comments the following information is included:
+download-landingPage-contentsDate =
+  When you wrote the comment
+download-landingPage-contentsUrl =
+  The permalink URL for the comment
+download-landingPage-contentsText =
+  The comment text
+download-landingPage-contentsStoryUrl =
+  The URL on the article or story where the comment appears
+download-landingPage-downloadComments =
+  Download My Comment History
+download-landingPage-sorry = Your download link is invalid.

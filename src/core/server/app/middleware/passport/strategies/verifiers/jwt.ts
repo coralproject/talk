@@ -30,12 +30,15 @@ export const JWTTokenSchema = Joi.object().keys({
   sub: Joi.string().required(),
   iat: Joi.number().required(),
   iss: Joi.string().required(),
+  nbf: Joi.number(),
   exp: Joi.number(),
   pat: Joi.boolean(),
 });
 
 export function isJWTToken(token: JWTToken | object): token is JWTToken {
-  const { error } = Joi.validate(token, JWTTokenSchema);
+  const { error } = Joi.validate(token, JWTTokenSchema, {
+    allowUnknown: true,
+  });
   return isNil(error);
 }
 

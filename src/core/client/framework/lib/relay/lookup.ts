@@ -36,7 +36,7 @@ const createProxy = <T = any>(
       return prop in recordSource;
     },
     get(_, prop) {
-      if (prop in recordSource && (recordSource as any)[prop].__ref) {
+      if ((recordSource as any)[prop] && (recordSource as any)[prop].__ref) {
         return lookup(environment, (recordSource as any)[prop].__ref);
       }
       return (recordSource as any)[prop];

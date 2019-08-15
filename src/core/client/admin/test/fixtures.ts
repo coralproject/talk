@@ -1,3 +1,4 @@
+import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/constants";
 import { pureMerge } from "coral-common/utils";
 import {
   GQLComment,
@@ -23,6 +24,10 @@ export const settings = createFixture<GQLSettings>({
   id: "settings",
   moderation: GQLMODERATION_MODE.POST,
   premodLinksEnable: false,
+  live: {
+    enabled: true,
+    configurable: true,
+  },
   wordList: {
     suspect: ["idiot", "stupid"],
     banned: ["fuck"],
@@ -45,7 +50,7 @@ export const settings = createFixture<GQLSettings>({
     enabled: true,
   },
   customCSSURL: "",
-  allowedDomains: ["localhost:8080"],
+  allowedDomains: ["http://localhost:8080"],
   editCommentWindowLength: 30000,
   communityGuidelines: {
     enabled: false,
@@ -56,12 +61,21 @@ export const settings = createFixture<GQLSettings>({
     url: "https://test.com/",
     contactEmail: "coral@test.com",
   },
+  recentCommentHistory: {
+    enabled: false,
+    // 7 days in seconds.
+    timeFrame: 604800,
+    // Rejection rate defaulting to 30%, once exceeded, comments will be
+    // pre-moderated.
+    triggerRejectionRate: 0.3,
+  },
   integrations: {
     akismet: {
       enabled: false,
     },
     perspective: {
       enabled: false,
+      threshold: TOXICITY_THRESHOLD_DEFAULT / 100,
     },
   },
   auth: {
@@ -286,6 +300,16 @@ export const baseUser = createFixture<GQLUser>({
   },
 });
 
+const recentCommentHistory = {
+  statuses: {
+    APPROVED: 0,
+    REJECTED: 0,
+    NONE: 0,
+    PREMOD: 0,
+    SYSTEM_WITHHELD: 0,
+  },
+};
+
 export const users = {
   admins: createFixtures<GQLUser>(
     [
@@ -331,6 +355,7 @@ export const users = {
         email: "isabelle@test.com",
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
+        recentCommentHistory,
       },
       {
         id: "user-commenter-1",
@@ -338,6 +363,7 @@ export const users = {
         email: "ngoc@test.com",
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
+        recentCommentHistory,
       },
       {
         id: "user-commenter-2",
@@ -345,8 +371,27 @@ export const users = {
         email: "max@test.com",
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
+        recentCommentHistory,
       },
     ],
+    baseUser
+  ),
+  suspendedCommenter: createFixture<GQLUser>(
+    {
+      id: "user-suspended-0",
+      username: "lol1111",
+      email: "lol1111@test.com",
+      role: GQLUSER_ROLE.COMMENTER,
+      ignoreable: true,
+      status: {
+        current: [GQLUSER_STATUS.SUSPENDED],
+        ban: { active: false },
+        suspension: {
+          active: true,
+          until: new Date(Date.now() + 600000).toISOString(),
+        },
+      },
+    },
     baseUser
   ),
   bannedCommenter: createFixture<GQLUser>(
@@ -428,19 +473,22 @@ export const baseComment = createFixture<GQLComment>({
     edges: [],
     pageInfo: { endCursor: null, hasNextPage: false },
   },
-  actionCounts: {
-    flag: {
-      reasons: {
-        COMMENT_DETECTED_TOXIC: 0,
-        COMMENT_DETECTED_SPAM: 0,
-        COMMENT_DETECTED_TRUST: 0,
-        COMMENT_DETECTED_LINKS: 0,
-        COMMENT_DETECTED_BANNED_WORD: 0,
-        COMMENT_DETECTED_SUSPECT_WORD: 0,
-        COMMENT_REPORTED_OFFENSIVE: 0,
-        COMMENT_REPORTED_SPAM: 0,
+  revision: {
+    actionCounts: {
+      flag: {
+        reasons: {
+          COMMENT_DETECTED_TOXIC: 0,
+          COMMENT_DETECTED_SPAM: 0,
+          COMMENT_DETECTED_RECENT_HISTORY: 0,
+          COMMENT_DETECTED_LINKS: 0,
+          COMMENT_DETECTED_BANNED_WORD: 0,
+          COMMENT_DETECTED_SUSPECT_WORD: 0,
+          COMMENT_REPORTED_OFFENSIVE: 0,
+          COMMENT_REPORTED_SPAM: 0,
+        },
       },
     },
+    metadata: {},
   },
   flags: {
     nodes: [],
@@ -494,17 +542,22 @@ export const reportedComments = createFixtures<GQLComment>(
       author: users.commenters[0],
       revision: {
         id: "comment-0-revision-0",
+        actionCounts: {
+          flag: {
+            reasons: {
+              COMMENT_REPORTED_SPAM: 2,
+            },
+          },
+        },
+        metadata: {
+          perspective: {
+            score: 0.1,
+          },
+        },
       },
       permalink: "http://localhost/comment/0",
       body:
         "This is the last random sentence I will be writing and I am going to stop mid-sent",
-      actionCounts: {
-        flag: {
-          reasons: {
-            COMMENT_REPORTED_SPAM: 2,
-          },
-        },
-      },
       flags: {
         nodes: [
           {
@@ -524,17 +577,22 @@ export const reportedComments = createFixtures<GQLComment>(
       id: "comment-1",
       revision: {
         id: "comment-1-revision-1",
+        actionCounts: {
+          flag: {
+            reasons: {
+              COMMENT_REPORTED_OFFENSIVE: 3,
+            },
+          },
+        },
+        metadata: {
+          perspective: {
+            score: 0.1,
+          },
+        },
       },
       permalink: "http://localhost/comment/1",
       author: users.commenters[1],
       body: "Don't fool with me",
-      actionCounts: {
-        flag: {
-          reasons: {
-            COMMENT_REPORTED_OFFENSIVE: 3,
-          },
-        },
-      },
       flags: {
         nodes: [
           {
@@ -559,19 +617,24 @@ export const reportedComments = createFixtures<GQLComment>(
       id: "comment-2",
       revision: {
         id: "comment-2-revision-2",
+        actionCounts: {
+          flag: {
+            reasons: {
+              COMMENT_REPORTED_SPAM: 1,
+              COMMENT_REPORTED_OFFENSIVE: 1,
+            },
+          },
+        },
+        metadata: {
+          perspective: {
+            score: 0.1,
+          },
+        },
       },
       permalink: "http://localhost/comment/2",
       status: GQLCOMMENT_STATUS.PREMOD,
       author: users.commenters[2],
       body: "I think I deserve better",
-      actionCounts: {
-        flag: {
-          reasons: {
-            COMMENT_REPORTED_SPAM: 1,
-            COMMENT_REPORTED_OFFENSIVE: 1,
-          },
-        },
-      },
       flags: {
         nodes: [
           {
@@ -591,18 +654,23 @@ export const reportedComments = createFixtures<GQLComment>(
       id: "comment-3",
       revision: {
         id: "comment-3-revision-3",
+        actionCounts: {
+          flag: {
+            reasons: {
+              COMMENT_REPORTED_SPAM: 1,
+            },
+          },
+        },
+        metadata: {
+          perspective: {
+            score: 0.1,
+          },
+        },
       },
       permalink: "http://localhost/comment/3",
       status: GQLCOMMENT_STATUS.PREMOD,
       author: users.commenters[3],
       body: "World peace at last",
-      actionCounts: {
-        flag: {
-          reasons: {
-            COMMENT_REPORTED_SPAM: 1,
-          },
-        },
-      },
       flags: {
         nodes: [
           {

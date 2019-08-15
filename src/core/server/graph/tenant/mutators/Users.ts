@@ -10,6 +10,7 @@ import {
   removeBan,
   removeIgnore,
   removeSuspension,
+  requestCommentsDownload,
   setEmail,
   setPassword,
   setUsername,
@@ -19,6 +20,7 @@ import {
   updatePassword,
   updateRole,
   updateUsername,
+  updateUsernameByID,
 } from "coral-server/services/users";
 import { invite } from "coral-server/services/users/auth/invite";
 
@@ -31,6 +33,7 @@ import {
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
+  GQLRequestCommentsDownloadInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
   GQLSetUsernameInput,
@@ -38,6 +41,7 @@ import {
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
+  GQLUpdateUsernameInput,
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
 } from "../schema/__generated__/types";
@@ -95,12 +99,16 @@ export const Users = (ctx: TenantContext) => ({
   updatePassword: async (
     input: GQLUpdatePasswordInput
   ): Promise<Readonly<User> | null> =>
-    updatePassword(
-      ctx.mongo,
-      ctx.mailerQueue,
-      ctx.tenant,
-      ctx.user!,
-      input.password
+    mapFieldsetToErrorCodes(
+      updatePassword(
+        ctx.mongo,
+        ctx.mailerQueue,
+        ctx.tenant,
+        ctx.user!,
+        input.oldPassword,
+        input.newPassword
+      ),
+      { "input.oldPassword": [ERROR_CODES.PASSWORD_INCORRECT] }
     ),
   createToken: async (input: GQLCreateTokenInput) =>
     createToken(
@@ -114,8 +122,23 @@ export const Users = (ctx: TenantContext) => ({
     ),
   deactivateToken: async (input: GQLDeactivateTokenInput) =>
     deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
+  updateUsername: async (input: GQLUpdateUsernameInput) =>
+    updateUsername(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.username,
+      ctx.now
+    ),
   updateUserUsername: async (input: GQLUpdateUserUsernameInput) =>
-    updateUsername(ctx.mongo, ctx.tenant, input.userID, input.username),
+    updateUsernameByID(
+      ctx.mongo,
+      ctx.tenant,
+      input.userID,
+      input.username,
+      ctx.user!
+    ),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
     updateEmail(ctx.mongo, ctx.tenant, input.userID, input.email),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
@@ -129,6 +152,7 @@ export const Users = (ctx: TenantContext) => ({
       ctx.tenant,
       ctx.user!,
       input.userID,
+      input.message,
       ctx.now
     ),
   suspend: async (input: GQLSuspendUserInput) =>
@@ -139,6 +163,7 @@ export const Users = (ctx: TenantContext) => ({
       ctx.user!,
       input.userID,
       input.timeout,
+      input.message,
       ctx.now
     ),
   removeBan: async (input: GQLRemoveUserBanInput) =>
@@ -149,4 +174,14 @@ export const Users = (ctx: TenantContext) => ({
     ignore(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeIgnore: async (input: GQLRemoveUserIgnoreInput) =>
     removeIgnore(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
+  requestCommentsDownload: async (input: GQLRequestCommentsDownloadInput) =>
+    requestCommentsDownload(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.config,
+      ctx.signingConfig!,
+      ctx.user!,
+      ctx.now
+    ),
 });

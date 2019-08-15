@@ -1,18 +1,14 @@
 import React, { FunctionComponent } from "react";
 
-import { ValidationMessage as UIValidationMessage } from "coral-ui/components";
+import { ValidationMessage as FrameworkValidationMessage } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./ValidationMessage.css";
 
-interface Props extends PropTypesOf<typeof UIValidationMessage> {
-  children: React.ReactNode;
-}
+type Props = PropTypesOf<typeof FrameworkValidationMessage>;
 
-const ValidationMessage: FunctionComponent<Props> = ({ children, ...rest }) => (
-  <UIValidationMessage {...rest} className={styles.root}>
-    {children}
-  </UIValidationMessage>
+const ValidationMessage: FunctionComponent<Props> = props => (
+  <FrameworkValidationMessage className={styles.root} {...props} />
 );
 
 export default ValidationMessage;

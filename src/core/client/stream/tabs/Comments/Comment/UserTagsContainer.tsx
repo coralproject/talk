@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { UserTagsContainer_comment as CommentData } from "coral-stream/__generated__/UserTagsContainer_comment.graphql";
+import CLASSES from "coral-stream/classes";
 import { Tag } from "coral-ui/components";
 
 interface Props {
@@ -17,7 +18,7 @@ const UserTagsContainer: FunctionComponent<Props> = props => {
     <>
       {staffTag && (
         <Localized id="comments-staffTag">
-          <Tag>Staff</Tag>
+          <Tag className={CLASSES.comment.userTag}>Staff</Tag>
         </Localized>
       )}
     </>

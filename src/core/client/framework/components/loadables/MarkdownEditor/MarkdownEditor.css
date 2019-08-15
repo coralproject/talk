@@ -201,7 +201,7 @@ $fullscreenZIndex: 10;
       }
       .cm-comment {
         background: rgba(0, 0, 0, 0.05);
-        border-radius: 2px;
+        border-radius: var(--round-corners);
       }
       .cm-link {
         color: #7f8c8d;

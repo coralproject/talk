@@ -1,5 +1,8 @@
-import { Comment, Revision } from ".";
-import { VISIBLE_STATUSES } from "./constants";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+
+import { Comment } from "./comment";
+import { PUBLISHED_STATUSES } from "./constants";
+import { Revision } from "./revision";
 
 /**
  * hasAncestors will check to see if a given comment has any ancestors.
@@ -13,13 +16,13 @@ export function hasAncestors(
 }
 
 /**
- * hasVisibleStatus will check to see if the comment has a visibility status
+ * hasPublishedStatus will check to see if the comment has a visibility status
  * where readers could see it.
  *
  * @param comment the comment to check the status on
  */
-export function hasVisibleStatus(comment: Pick<Comment, "status">): boolean {
-  return VISIBLE_STATUSES.includes(comment.status);
+export function hasPublishedStatus(comment: Pick<Comment, "status">): boolean {
+  return PUBLISHED_STATUSES.includes(comment.status);
 }
 
 /**
@@ -31,4 +34,38 @@ export function getLatestRevision(
   comment: Pick<Comment, "revisions">
 ): Revision {
   return comment.revisions[comment.revisions.length - 1];
+}
+
+// TODO: (wyattjoh) write a test to verify that this set of counts is always in sync with GQLCOMMENT_STATUS.
+
+/**
+ * CommentStatusCounts stores the count of Comments that have the particular
+ * statuses.
+ */
+export interface CommentStatusCounts {
+  [GQLCOMMENT_STATUS.APPROVED]: number;
+  [GQLCOMMENT_STATUS.NONE]: number;
+  [GQLCOMMENT_STATUS.PREMOD]: number;
+  [GQLCOMMENT_STATUS.REJECTED]: number;
+  [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: number;
+}
+
+export function createEmptyCommentStatusCounts(): CommentStatusCounts {
+  return {
+    [GQLCOMMENT_STATUS.APPROVED]: 0,
+    [GQLCOMMENT_STATUS.NONE]: 0,
+    [GQLCOMMENT_STATUS.PREMOD]: 0,
+    [GQLCOMMENT_STATUS.REJECTED]: 0,
+    [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: 0,
+  };
+}
+
+export function calculateRejectionRate(counts: CommentStatusCounts): number {
+  const published = PUBLISHED_STATUSES.reduce(
+    (acc, status) => counts[status] + acc,
+    0
+  );
+  const rejected = counts[GQLCOMMENT_STATUS.REJECTED];
+
+  return rejected / (published + rejected);
 }

@@ -1,17 +1,7 @@
-import cn from "classnames";
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import {
-  BaseButton,
-  Box,
-  ClickOutside,
-  Icon,
-  Popover,
-  Typography,
-} from "coral-ui/components";
-
-import { Localized } from "fluent-react/compat";
-import styles from "./FeaturedCommentTooltip.css";
+import { Tooltip, TooltipButton } from "coral-ui/components";
 
 interface Props {
   className?: string;
@@ -20,60 +10,33 @@ interface Props {
 
 export const FeaturedCommentTooltip: FunctionComponent<Props> = props => {
   return (
-    <Popover
+    <Tooltip
       id="comments-featuredCommentPopover"
-      className={cn(styles.root, props.className)}
-      body={({ toggleVisibility }) => (
-        <ClickOutside onClickOutside={toggleVisibility}>
-          <Box
-            p={2}
-            className={styles.tooltip}
-            onClick={evt => {
-              // Don't propagate click events when clicking inside of popover to
-              // avoid accidently activating the featured comments tab.
-              evt.stopPropagation();
-            }}
-          >
-            <Localized id="comments-featuredCommentTooltip-how">
-              <Typography
-                color="textLight"
-                variant="bodyCopyBold"
-                mb={2}
-                className={styles.title}
-              >
-                How is a comment featured?
-              </Typography>
-            </Localized>
-            <Localized id="comments-featuredCommentTooltip-handSelectedComments">
-              <Typography color="textLight" variant="detail">
-                Comments are hand selected by our team as worth reading.
-              </Typography>
-            </Localized>
-          </Box>
-        </ClickOutside>
-      )}
-      placement={"bottom"}
-      dark
-    >
-      {({ toggleVisibility, ref }) => (
+      className={props.className}
+      title={
+        <Localized id="comments-featuredCommentTooltip-how">
+          <span>How is a comment featured?</span>
+        </Localized>
+      }
+      body={
+        <Localized id="comments-featuredCommentTooltip-handSelectedComments">
+          <span>Comments are hand selected by our team as worth reading.</span>
+        </Localized>
+      }
+      button={({ toggleVisibility, ref }) => (
         <Localized
           id="comments-featuredCommentTooltip-toggleButton"
           attrs={{ "aria-label": true }}
         >
-          <BaseButton
-            className={styles.button}
-            onClick={evt => {
-              evt.stopPropagation();
-              toggleVisibility();
-            }}
+          <TooltipButton
+            active={props.active}
             aria-label="Toggle featured comments tooltip"
+            toggleVisibility={toggleVisibility}
             ref={ref}
-          >
-            <Icon color={props.active ? "primary" : "inherit"}>info</Icon>
-          </BaseButton>
+          />
         </Localized>
       )}
-    </Popover>
+    />
   );
 };
 

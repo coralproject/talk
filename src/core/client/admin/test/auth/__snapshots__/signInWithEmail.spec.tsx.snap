@@ -25,7 +25,9 @@ exports[`accepts correct password 1`] = `
           disabled={false}
           id="email"
           name="email"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Email Address"
           type="text"
           value=""
@@ -61,12 +63,18 @@ exports[`accepts correct password 1`] = `
           className="PasswordField-wrapper"
         >
           <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
             className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
             disabled={false}
             id="password"
             name="password"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder="Password"
+            spellCheck={false}
             type="password"
             value="testtest"
           />
@@ -136,7 +144,9 @@ exports[`accepts valid email 1`] = `
           disabled={false}
           id="email"
           name="email"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Email Address"
           type="text"
           value="hans@test.com"
@@ -159,12 +169,18 @@ exports[`accepts valid email 1`] = `
           className="PasswordField-wrapper"
         >
           <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
             className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
             disabled={false}
             id="password"
             name="password"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder="Password"
+            spellCheck={false}
             type="password"
             value=""
           />
@@ -247,7 +263,9 @@ exports[`checks for invalid email 1`] = `
           disabled={false}
           id="email"
           name="email"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Email Address"
           type="text"
           value="invalid-email"
@@ -283,12 +301,18 @@ exports[`checks for invalid email 1`] = `
           className="PasswordField-wrapper"
         >
           <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
             className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
             disabled={false}
             id="password"
             name="password"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder="Password"
+            spellCheck={false}
             type="password"
             value=""
           />
@@ -448,7 +472,9 @@ exports[`renders sign in form 1`] = `
                     disabled={false}
                     id="email"
                     name="email"
+                    onBlur={[Function]}
                     onChange={[Function]}
+                    onFocus={[Function]}
                     placeholder="Email Address"
                     type="text"
                     value=""
@@ -471,12 +497,18 @@ exports[`renders sign in form 1`] = `
                     className="PasswordField-wrapper"
                   >
                     <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
                       className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                       disabled={false}
                       id="password"
                       name="password"
+                      onBlur={[Function]}
                       onChange={[Function]}
+                      onFocus={[Function]}
                       placeholder="Password"
+                      spellCheck={false}
                       type="password"
                       value=""
                     />
@@ -560,7 +592,9 @@ exports[`shows error when submitting empty form 1`] = `
           disabled={false}
           id="email"
           name="email"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Email Address"
           type="text"
           value=""
@@ -596,12 +630,18 @@ exports[`shows error when submitting empty form 1`] = `
           className="PasswordField-wrapper"
         >
           <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
             className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
             disabled={false}
             id="password"
             name="password"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder="Password"
+            spellCheck={false}
             type="password"
             value=""
           />
@@ -691,7 +731,9 @@ exports[`shows server error 1`] = `
           disabled={false}
           id="email"
           name="email"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Email Address"
           type="text"
           value="hans@test.com"
@@ -714,12 +756,18 @@ exports[`shows server error 1`] = `
           className="PasswordField-wrapper"
         >
           <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
             className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
             disabled={false}
             id="password"
             name="password"
+            onBlur={[Function]}
             onChange={[Function]}
+            onFocus={[Function]}
             placeholder="Password"
+            spellCheck={false}
             type="password"
             value="testtest"
           />

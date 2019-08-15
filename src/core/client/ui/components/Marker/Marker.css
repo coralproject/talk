@@ -2,7 +2,7 @@
   composes: markerText from "coral-ui/shared/typography.css";
   color: var(--palette-error-main);
   border: 1px solid currentColor;
-  border-radius: 4px;
+  border-radius: 20px;
   padding: 1px var(--mini-unit);
   white-space: nowrap;
 }

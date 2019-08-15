@@ -1,0 +1,95 @@
+.comments {
+  flex: auto;
+  overflow: hidden;
+}
+
+.close {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: -40px;
+
+  padding: 0px;
+
+  background-color: var(--palette-common-white);
+
+  border-width: 2px;
+  border-right-width: 0px;
+  border-style: solid;
+  border-color: var(--palette-grey-main);
+  border-radius: 4px 0px 0px 4px;
+}
+
+.username {
+  font-family: var(--font-family-serif);
+  font-size: calc(24rem / var(--rem-base));
+  font-weight: 500;
+  font-family: var(--font-family-serif);
+  line-height: calc(36em / 24);
+  letter-spacing: calc(0.2em / 24);
+  margin-bottom: var(--spacing-1);
+}
+
+.userDetail {
+  margin-bottom: var(--spacing-1);
+}
+
+.userDetailValue {
+  margin-right: var(--spacing-2);
+}
+
+.icon {
+  margin-right: var(--spacing-2);
+}
+
+.copy {
+  border: 1px solid var(--palette-primary-main);
+  background-color: transparent;
+  color: var(--palette-primary-main);
+  padding-top: 2px;
+  padding-bottom: 2px;
+
+  &:active {
+    background-color: var(--palette-primary-lightest);
+    border-color: var(--palette-primary-main);
+    color: var(--palette-primary-main);
+  }
+}
+
+hr {
+  border: 0;
+  border-bottom: 1px solid var(--palette-divider);
+  padding-top: 1px;
+  width: 100%;
+}
+
+.divider {
+  border-bottom: 1px solid var(--palette-grey-lighter);
+}
+
+.userStatus {
+  margin-top: var(--spacing-1);
+  margin-bottom: var(--spacing-1);
+}
+
+.userStatusLabel {
+  display: inline-block;
+
+  margin-right: var(--spacing-1);
+
+  font-family: var(--font-family-sans-serif);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 14px;
+}
+
+.userStatusChange {
+  display: inline-block;
+  border-style: solid;
+  border-color: var(--palette-grey-lighter);
+  border-width: 1px;
+  border-radius: var(--round-corners);
+  padding-left: var(--spacing-2);
+  padding-right: var(--spacing-1);
+}

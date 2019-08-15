@@ -131,7 +131,9 @@ exports[`renders form 1`] = `
                 disabled={false}
                 id="username"
                 name="username"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Username"
                 type="text"
                 value=""
@@ -159,12 +161,18 @@ exports[`renders form 1`] = `
                 className="PasswordField-wrapper"
               >
                 <input
+                  autoCapitalize="off"
+                  autoComplete="new-password"
+                  autoCorrect="off"
                   className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                   disabled={false}
                   id="password"
                   name="password"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder="Password"
+                  spellCheck={false}
                   type="password"
                   value=""
                 />

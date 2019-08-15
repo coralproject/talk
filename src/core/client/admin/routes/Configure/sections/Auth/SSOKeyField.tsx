@@ -7,7 +7,7 @@ import {
   FormField,
   Icon,
   InputLabel,
-  TextField,
+  PasswordField,
   Typography,
 } from "coral-ui/components";
 
@@ -31,7 +31,14 @@ const SSOKeyField: FunctionComponent<Props> = ({
       <InputLabel>Key</InputLabel>
     </Localized>
     <Flex direction="row" itemGutter="half" alignItems="center">
-      <TextField name="key" value={generatedKey} readOnly />
+      <PasswordField
+        name="key"
+        value={generatedKey}
+        readOnly
+        // TODO: (wyattjoh) figure out how to add translations to these props
+        hidePasswordTitle="Show SSO Key"
+        showPasswordTitle="Hide SSO Key"
+      />
       <Localized id="configure-auth-sso-regenerate">
         <Button
           id="configure-auth-sso-regenerate"

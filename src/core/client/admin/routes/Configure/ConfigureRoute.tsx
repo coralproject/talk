@@ -53,4 +53,5 @@ class ConfigureRoute extends React.Component<Props, State> {
 }
 
 const enhanced = withMutation(UpdateSettingsMutation)(ConfigureRoute);
+
 export default enhanced;

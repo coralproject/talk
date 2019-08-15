@@ -1,4 +1,5 @@
 import Joi from "joi";
+import uuid from "uuid/v4";
 
 import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";
 import { Omit } from "coral-common/types";
@@ -34,7 +35,7 @@ const TenantInstallBodySchema = Joi.object().keys({
       allowedDomains: Joi.array().items(
         Joi.string()
           .trim()
-          .uri()
+          .uri({ scheme: ["http", "https"] })
       ),
       locale: Joi.string()
         .default(null)
@@ -113,6 +114,7 @@ export const installHandler = ({
       type: "local",
       id: email,
       password,
+      passwordID: uuid(),
     };
 
     // Create the first admin user.

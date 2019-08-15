@@ -1,11 +1,14 @@
-import { OnSubmit } from "coral-framework/lib/form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
-import AutoHeight from "coral-auth/components/AutoHeight";
 import EmailField from "coral-auth/components/EmailField";
 import { PasswordField } from "coral-framework/components";
+import {
+  colorFromMeta,
+  OnSubmit,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import { composeValidators, required } from "coral-framework/lib/validation";
 import {
   Button,
@@ -17,7 +20,6 @@ import {
   InputLabel,
   TextLink,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 interface FormProps {
@@ -36,7 +38,6 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <AutoHeight />
           <HorizontalGutter size="full">
             {submitError && (
               <CallOut color="error" fullWidth>
@@ -57,24 +58,14 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
                   >
                     <PasswordField
                       id={input.name}
-                      name={input.name}
-                      onChange={input.onChange}
-                      value={input.value}
                       placeholder="Password"
-                      color={
-                        meta.touched && (meta.error || meta.submitError)
-                          ? "error"
-                          : "regular"
-                      }
+                      color={colorFromMeta(meta)}
                       disabled={submitting}
                       fullWidth
+                      {...input}
                     />
                   </Localized>
-                  {meta.touched && (meta.error || meta.submitError) && (
-                    <ValidationMessage fullWidth>
-                      {meta.error || meta.submitError}
-                    </ValidationMessage>
-                  )}
+                  <ValidationMessage meta={meta} fullWidth />
                   <Flex justifyContent="flex-end">
                     <Typography variant="bodyCopy">
                       <Localized id="signIn-forgotYourPassword">

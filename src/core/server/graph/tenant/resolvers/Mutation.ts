@@ -1,5 +1,7 @@
 import { GQLMutationTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 
+// TODO: (wyattjoh) add rate limiting to these edges
+
 export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   editComment: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comments.edit(input),
@@ -135,6 +137,10 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     ...(await ctx.mutators.Users.deactivateToken(input)),
     clientMutationId: input.clientMutationId,
   }),
+  updateUsername: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.updateUsername(input),
+    clientMutationId: input.clientMutationId,
+  }),
   updateUserUsername: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.updateUserUsername(input),
     clientMutationId: input.clientMutationId,
@@ -173,6 +179,10 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   }),
   removeUserIgnore: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.removeIgnore(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  requestCommentsDownload: async (sourc, { input }, ctx) => ({
+    user: await ctx.mutators.Users.requestCommentsDownload(input),
     clientMutationId: input.clientMutationId,
   }),
 };

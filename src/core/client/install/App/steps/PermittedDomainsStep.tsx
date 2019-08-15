@@ -1,9 +1,16 @@
-import { OnSubmit } from "coral-framework/lib/form";
 import { FORM_ERROR } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 import { Field, Form } from "react-final-form";
 
+import {
+  colorFromMeta,
+  formatStringList,
+  OnSubmit,
+  parseStringList,
+  ValidationMessage,
+} from "coral-framework/lib/form";
+import { validateStrictURLList } from "coral-framework/lib/validation";
 import {
   Button,
   CallOut,
@@ -14,13 +21,12 @@ import {
   InputLabel,
   TextField,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import BackButton from "./BackButton";
 
 interface FormProps {
-  allowedDomains: string;
+  allowedDomains: string[];
 }
 
 interface Props {
@@ -31,9 +37,8 @@ interface Props {
 }
 
 class PermittedDomainsStep extends Component<Props> {
-  private onSubmit: OnSubmit<FormProps> = async (input, form) => {
+  private onSubmit: OnSubmit<FormProps> = async ({ allowedDomains }, form) => {
     try {
-      const allowedDomains = input.allowedDomains.split(",");
       await this.props.onInstall({ allowedDomains });
       return this.props.onGoToNextStep();
     } catch (error) {
@@ -45,7 +50,7 @@ class PermittedDomainsStep extends Component<Props> {
       <Form
         onSubmit={this.onSubmit}
         initialValues={{
-          allowedDomains: this.props.data.allowedDomains.join(","),
+          allowedDomains: this.props.data.allowedDomains,
         }}
       >
         {({ handleSubmit, submitting, submitError }) => (
@@ -56,11 +61,12 @@ class PermittedDomainsStep extends Component<Props> {
                   Permitted Domains
                 </Typography>
               </Localized>
-              <Localized id="install-permittedDomains-description">
+              <Localized id="install-permittedDomains-description-with-scheme">
                 <Typography variant="bodyCopy" align="center">
                   Enter the domains you would like to permit for Coral, e.g.
-                  your local, staging and production environments (ex.
-                  localhost:3000, staging.domain.com, domain.com).
+                  your local, staging and production environments including the
+                  scheme (ex. http://localhost:3000, https://staging.domain.com,
+                  https://domain.com).
                 </Typography>
               </Localized>
 
@@ -70,7 +76,12 @@ class PermittedDomainsStep extends Component<Props> {
                 </CallOut>
               )}
 
-              <Field name="allowedDomains">
+              <Field
+                name="allowedDomains"
+                parse={parseStringList}
+                format={formatStringList}
+                validate={validateStrictURLList}
+              >
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-permittedDomains-permittedDomains">
@@ -86,24 +97,14 @@ class PermittedDomainsStep extends Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
-                        name={input.name}
-                        onChange={input.onChange}
-                        value={input.value}
                         placeholder="Domains"
-                        color={
-                          meta.touched && (meta.error || meta.submitError)
-                            ? "error"
-                            : "regular"
-                        }
+                        color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
+                        {...input}
                       />
                     </Localized>
-                    {meta.touched && (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                    <ValidationMessage meta={meta} fullWidth />
                   </FormField>
                 )}
               </Field>

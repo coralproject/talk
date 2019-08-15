@@ -11,12 +11,14 @@ describe("isSSOToken", () => {
   });
 
   it("understands invalid sso tokens", () => {
-    expect(isSSOToken({ user: { id: "id", email: "email" } })).toBeFalsy();
     expect(
-      isSSOToken({ user: { id: "id", username: "username" } })
+      isSSOToken({ user: { id: "id", email: "email" } } as object)
     ).toBeFalsy();
     expect(
-      isSSOToken({ user: { email: "email", username: "username" } })
+      isSSOToken({ user: { id: "id", username: "username" } } as object)
+    ).toBeFalsy();
+    expect(
+      isSSOToken({ user: { email: "email", username: "username" } } as object)
     ).toBeFalsy();
     expect(isSSOToken({})).toBeFalsy();
   });
@@ -28,55 +30,6 @@ describe("SSOUserProfileSchema", () => {
       id: "id",
       email: "email",
       username: "username",
-      avatar: "avatar",
-    };
-
-    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
-    expect(isSSOToken({ user: profile })).toEqual(true);
-  });
-
-  it("allows an empty avatar", () => {
-    const profile = {
-      id: "id",
-      email: "email",
-      username: "username",
-    };
-
-    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
-    expect(isSSOToken({ user: profile })).toEqual(true);
-  });
-
-  it("allows a valid payload", () => {
-    const profile = {
-      id: "id",
-      email: "email",
-      username: "username",
-      avatar: "avatar",
-      displayName: "displayName",
-    };
-
-    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
-    expect(isSSOToken({ user: profile })).toEqual(true);
-  });
-
-  it("allows an empty avatar", () => {
-    const profile = {
-      id: "id",
-      email: "email",
-      username: "username",
-      displayName: "displayName",
-    };
-
-    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
-    expect(isSSOToken({ user: profile })).toEqual(true);
-  });
-
-  it("allows an empty displayName", () => {
-    const profile = {
-      id: "id",
-      email: "email",
-      username: "username",
-      avatar: "avatar",
     };
 
     expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);

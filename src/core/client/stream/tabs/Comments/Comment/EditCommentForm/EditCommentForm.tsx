@@ -70,6 +70,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
               name="body"
               validate={getCommentBodyValidators(props.min, props.max)}
             >
+              {/* FIXME: (wyattjoh) reorganize this */}
               {({ input, meta }) => (
                 <>
                   <HorizontalGutter size="half">

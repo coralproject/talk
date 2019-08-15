@@ -4,14 +4,15 @@ exports[`renders app with comment stream 1`] = `
 <div
   aria-live="polite"
   className="Box-root HorizontalGutter-root HorizontalGutter-full"
-  data-testid="comments-stream-log"
-  id="coral-comments-stream-log"
+  data-testid="comments-allComments-log"
+  id="comments-allComments-log"
   role="log"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
+      className="coral coral-comment"
       data-testid="comment-comment-2"
     >
       <div
@@ -51,7 +52,7 @@ exports[`renders app with comment stream 1`] = `
                         type="button"
                       >
                         <span
-                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                         >
                           Isabelle
                         </span>
@@ -75,7 +76,7 @@ exports[`renders app with comment stream 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
-                      className="Timestamp-root RelativeTime-root"
+                      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >
@@ -201,6 +202,7 @@ exports[`renders app with comment stream 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
+      className="coral coral-comment"
       data-testid="comment-comment-3"
     >
       <div
@@ -240,7 +242,7 @@ exports[`renders app with comment stream 1`] = `
                         type="button"
                       >
                         <span
-                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                         >
                           Isabelle
                         </span>
@@ -264,7 +266,7 @@ exports[`renders app with comment stream 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
-                      className="Timestamp-root RelativeTime-root"
+                      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >

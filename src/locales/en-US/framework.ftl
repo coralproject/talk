@@ -31,13 +31,12 @@ framework-validation-emailsDoNotMatch = Emails do not match. Try again.
 framework-validation-notAWholeNumberBetween = Please enter a whole number between { $min } and { $max }.
 framework-validation-notAWholeNumberGreaterThan = Please enter a whole number greater than { $x }
 framework-validation-notAWholeNumberGreaterThanOrEqual = Please enter a whole number greater than or equal to { $x }
-
+framework-validation-usernamesDoNotMatch = Usernames do not match. Try again.
 
 framework-timeago-just-now = Just now
 
 framework-timeago-time =
-  { $value }
-  { $unit ->
+  { $value } { $unit ->
     [second] { $value ->
       [1] second
       *[other] seconds
@@ -101,23 +100,28 @@ framework-markdownEditor-toggleFullscreen = Toggle Fullscreen
 framework-markdownEditor-markdownGuide = Markdown Guide
 
 ### Duration Field
-framework-durationField-seconds = { $value ->
-   [1]      Second
-  *[others] Seconds
-}
-framework-durationField-minutes = { $value ->
-   [1]      Minute
-  *[others] Minutes
-}
-framework-durationField-hours = { $value ->
-   [1]      Hour
-  *[others] Hours
-}
-framework-durationField-days = { $value ->
-   [1]      Day
-  *[others] Days
-}
-framework-durationField-weeks = { $value ->
-   [1]      Week
-  *[others] Weeks
-}
+
+framework-durationField-unit =
+  { $unit ->
+    [second] { $value ->
+      [1] Second
+      *[other] Seconds
+    }
+    [minute] { $value ->
+      [1] Minute
+      *[other] Minutes
+    }
+    [hour] { $value ->
+      [1] Hour
+      *[other] Hours
+    }
+    [day] { $value ->
+      [1] Day
+      *[other] Days
+    }
+    [week] { $value ->
+      [1] Week
+      *[other] Weeks
+    }
+    *[other] unknown unit
+  }

@@ -1,4 +1,5 @@
 import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
+import bunyan from "bunyan";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
@@ -30,6 +31,12 @@ import paths from "./paths";
 const filterPlugins = (plugins: Array<Plugin | null>): Plugin[] =>
   plugins.filter(identity) as Plugin[];
 
+// Create the build logger.
+const logger = bunyan.createLogger({
+  name: "coral",
+  level: "debug",
+});
+
 interface CreateWebpackOptions {
   appendPlugins?: any[];
   watch?: boolean;
@@ -41,6 +48,8 @@ export default function createWebpackConfig(
   config: Config,
   { appendPlugins = [], watch = false }: CreateWebpackOptions = {}
 ): Configuration[] {
+  logger.debug({ config: config.toString() }, "loaded configuration");
+
   const maxCores = config.get("maxCores");
   const env = createClientEnv(config);
   const disableSourcemaps = config.get("disableSourcemaps");
@@ -144,6 +153,16 @@ export default function createWebpackConfig(
     ),
   ];
 
+  const devtool = disableSourcemaps
+    ? false
+    : isProduction
+    ? // We generate sourcemaps in production. This is slow but gives good results.
+      // You can exclude the *.map files from the build during deployment.
+      "source-map"
+    : // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
+      // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
+      "cheap-module-source-map";
+
   const baseConfig: Configuration = {
     stats: {
       // https://github.com/TypeStrong/ts-loader#transpileonly-boolean-defaultfalse
@@ -192,15 +211,7 @@ export default function createWebpackConfig(
         }),
       ],
     },
-    devtool: disableSourcemaps
-      ? false
-      : isProduction
-      ? // We generate sourcemaps in production. This is slow but gives good results.
-        // You can exclude the *.map files from the build during deployment.
-        "source-map"
-      : // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
-        // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
-        "cheap-module-source-map",
+    devtool,
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     // The first two entry points enable "hot" CSS and auto-refreshes for JS.
@@ -499,6 +510,11 @@ export default function createWebpackConfig(
               exclude: [/\.(js|ts|tsx)$/, /\.html$/, /\.json$/],
               loader: require.resolve("file-loader"),
               options: {
+                // Because the resources loaded via CSS can sometimes be loaded
+                // directly from a CSS file, this will ensure that they are
+                // relative to those referencing files.
+                publicPath: (loaderPublicPath: string) =>
+                  "../../" + loaderPublicPath,
                 name: isProduction
                   ? "assets/media/[name].[hash:8].[ext]"
                   : "assets/media/[name].[ext]",

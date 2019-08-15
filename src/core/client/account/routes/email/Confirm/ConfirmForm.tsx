@@ -30,39 +30,37 @@ const ConfirmForm: React.FunctionComponent<Props> = ({ onSuccess, token }) => {
     return;
   }, [token]);
   return (
-    <div>
-      <Form onSubmit={onSubmit}>
-        {({ handleSubmit, submitting }) => (
-          <form autoComplete="off" onSubmit={handleSubmit}>
-            <HorizontalGutter size="double">
-              <HorizontalGutter>
-                <Localized id="confirmEmail-emailConfirmation">
-                  <Typography variant="heading1">Email Confirmation</Typography>
-                </Localized>
-                <Localized id="confirmEmail-pleaseClickToConfirm">
-                  <Typography variant="bodyCopy">
-                    Click below to confirm your email address.
-                  </Typography>
-                </Localized>
-              </HorizontalGutter>
-              <HorizontalGutter>
-                <Localized id="confirmEmail-confirmEmail">
-                  <Button
-                    type="submit"
-                    variant="filled"
-                    color="primary"
-                    disabled={submitting}
-                    fullWidth
-                  >
-                    Confirm email
-                  </Button>
-                </Localized>
-              </HorizontalGutter>
+    <Form onSubmit={onSubmit}>
+      {({ handleSubmit, submitting }) => (
+        <form autoComplete="off" onSubmit={handleSubmit}>
+          <HorizontalGutter size="double">
+            <HorizontalGutter>
+              <Localized id="confirmEmail-emailConfirmation">
+                <Typography variant="heading1">Email Confirmation</Typography>
+              </Localized>
+              <Localized id="confirmEmail-pleaseClickToConfirm">
+                <Typography variant="bodyCopy">
+                  Click below to confirm your email address.
+                </Typography>
+              </Localized>
             </HorizontalGutter>
-          </form>
-        )}
-      </Form>
-    </div>
+            <HorizontalGutter>
+              <Localized id="confirmEmail-confirmEmail">
+                <Button
+                  type="submit"
+                  variant="filled"
+                  color="primary"
+                  disabled={submitting}
+                  fullWidth
+                >
+                  Confirm email
+                </Button>
+              </Localized>
+            </HorizontalGutter>
+          </HorizontalGutter>
+        </form>
+      )}
+    </Form>
   );
 };
 

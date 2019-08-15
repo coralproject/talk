@@ -23,6 +23,10 @@ export const settings = createFixture<GQLSettings>({
   id: "settings",
   moderation: GQLMODERATION_MODE.POST,
   premodLinksEnable: false,
+  live: {
+    enabled: true,
+    configurable: true,
+  },
   communityGuidelines: {
     enabled: false,
     content: "",
@@ -36,11 +40,17 @@ export const settings = createFixture<GQLSettings>({
     message: "Story is closed",
     timeout: undefined,
   },
+  organization: {
+    name: "Acme Co",
+    contactEmail: "acme@acme.co",
+    url: "https://acme.co",
+  },
   auth: {
     integrations: {
       facebook: {
         enabled: false,
         allowRegistration: true,
+        redirectURL: "http://localhost/facebook",
         targetFilter: {
           stream: true,
         },
@@ -48,6 +58,7 @@ export const settings = createFixture<GQLSettings>({
       google: {
         enabled: false,
         allowRegistration: true,
+        redirectURL: "http://localhost/google",
         targetFilter: {
           stream: true,
         },
@@ -55,6 +66,7 @@ export const settings = createFixture<GQLSettings>({
       oidc: {
         enabled: false,
         allowRegistration: true,
+        redirectURL: "http://localhost/oidc",
         targetFilter: {
           stream: true,
         },
@@ -86,12 +98,28 @@ export const settings = createFixture<GQLSettings>({
   },
 });
 
+export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
+  {
+    auth: {
+      integrations: {
+        local: {
+          enabled: false,
+        },
+      },
+    },
+  },
+  settings
+);
+
 export const baseUser = createFixture<GQLUser>({
   createdAt: "2018-02-06T18:24:00.000Z",
   status: {
     current: [GQLUSER_STATUS.ACTIVE],
     ban: {
       active: false,
+      history: [],
+    },
+    username: {
       history: [],
     },
     suspension: {
@@ -109,6 +137,58 @@ export const baseUser = createFixture<GQLUser>({
   },
   ignoreable: true,
 });
+
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+const weekago = new Date();
+weekago.setDate(yesterday.getDate() - 7);
+
+export const userWithNewUsername = createFixture<GQLUser>(
+  {
+    id: "new-user",
+    username: "u_original",
+    role: GQLUSER_ROLE.COMMENTER,
+    status: {
+      current: [GQLUSER_STATUS.ACTIVE],
+      username: {
+        history: [
+          {
+            username: "u_original",
+            createdAt: `${yesterday.toISOString()}`,
+            createdBy: { id: "new-user" },
+          },
+        ],
+      },
+    },
+  },
+  baseUser
+);
+
+export const userWithChangedUsername = createFixture<GQLUser>(
+  {
+    id: "changed-user",
+    username: "u_changed",
+    role: GQLUSER_ROLE.COMMENTER,
+    status: {
+      current: [GQLUSER_STATUS.ACTIVE],
+      username: {
+        history: [
+          {
+            username: "original",
+            createdAt: weekago.toISOString(),
+            createdBy: { id: "changed-user" },
+          },
+          {
+            username: "u_changed",
+            createdAt: yesterday.toISOString(),
+            createdBy: { id: "changed-user" },
+          },
+        ],
+      },
+    },
+  },
+  baseUser
+);
 
 export const commenters = createFixtures<GQLUser>(
   [
@@ -155,6 +235,8 @@ export const baseComment = createFixture<GQLComment>({
       total: 0,
     },
   },
+  parent: undefined,
+  viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
   tags: [],
 });
 
@@ -354,7 +436,7 @@ export const baseStory = createFixture<GQLStory>({
     },
   },
   commentCounts: {
-    totalVisible: 0,
+    totalPublished: 0,
     tags: {
       FEATURED: 0,
     },
@@ -364,6 +446,10 @@ export const baseStory = createFixture<GQLStory>({
     premodLinksEnable: false,
     messageBox: {
       enabled: false,
+    },
+    live: {
+      enabled: true,
+      configurable: true,
     },
   },
 });
@@ -405,9 +491,6 @@ export const stories = denormalizeStories(
             { node: comments[0], cursor: comments[0].createdAt },
             { node: comments[1], cursor: comments[1].createdAt },
           ],
-          pageInfo: {
-            hasNextPage: false,
-          },
         },
       },
       {
@@ -418,9 +501,6 @@ export const stories = denormalizeStories(
             { node: comments[2], cursor: comments[2].createdAt },
             { node: comments[3], cursor: comments[3].createdAt },
           ],
-          pageInfo: {
-            hasNextPage: false,
-          },
         },
       },
       {
@@ -434,9 +514,6 @@ export const stories = denormalizeStories(
               cursor: commentsFromStaff[0].createdAt,
             },
           ],
-          pageInfo: {
-            hasNextPage: false,
-          },
         },
       },
     ],

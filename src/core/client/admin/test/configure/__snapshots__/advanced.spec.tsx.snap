@@ -72,6 +72,15 @@ exports[`renders configure advanced 1`] = `
               </li>
               <li>
                 <a
+                  className="Link-link"
+                  href="/admin/configure/email"
+                  onClick={[Function]}
+                >
+                  Email
+                </a>
+              </li>
+              <li>
+                <a
                   className="Link-link Link-linkActive"
                   href="/admin/configure/advanced"
                   onClick={[Function]}
@@ -107,6 +116,66 @@ exports[`renders configure advanced 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
           data-testid="configure-advancedContainer"
         >
+          <fieldset
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
+              Embed Code
+            </legend>
+            <p
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+            >
+              Copy and paste the code below into your CMS to embed Coral comment streams in
+each of your site’s stories.
+            </p>
+            <textarea
+              className="EmbedCode-textArea"
+              readOnly={true}
+              rows={22}
+              value="<div id=\\"coral_thread\\"></div>
+<script type=\\"text/javascript\\">
+  (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'http://localhost/assets/js/embed.js';
+      s.onload = function() {
+          Coral.createStreamEmbed({
+              id: \\"coral_thread\\",
+              autoRender: true,
+              rootURL: 'http://localhost',
+              // Uncomment these lines and replace with the ID of the
+              // story's ID and URL from your CMS to provide the
+              // tightest integration. Refer to our documentation at
+              // https://docs.coralproject.net for all the configuration
+              // options.
+              // storyID: '\${storyID}',
+              // storyURL: '\${storyURL}',
+          });
+      };
+      (d.head || d.body).appendChild(s);
+  })();
+</script>"
+            />
+            <div
+              className="Box-root HorizontalGutter-root EmbedCode-copyArea HorizontalGutter-full"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                <span>
+                  Copy
+                </span>
+              </button>
+            </div>
+          </fieldset>
           <div
             className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
           >
@@ -135,12 +204,83 @@ exports[`renders configure advanced 1`] = `
                   disabled={false}
                   id="configure-advanced-customCSSURL"
                   name="customCSSURL"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder=""
                   spellCheck={false}
                   type="text"
                   value=""
                 />
+              </div>
+            </div>
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <label
+                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                htmlFor="configure-advanced-liveUpdates"
+              >
+                Comment Stream Live Updates
+              </label>
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              >
+                When enabled, there will be real-time loading and updating of comments as new comments and replies are published
+              </p>
+              <div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="live.enabled-true"
+                    name="live.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="live.enabled-true"
+                  >
+                    <span>
+                      On
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="live.enabled-false"
+                    name="live.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="live.enabled-false"
+                  >
+                    <span>
+                      Off
+                    </span>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -159,9 +299,9 @@ exports[`renders configure advanced 1`] = `
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
               >
-                Domains where your Coral instance is allowed to be embedded.
-Typical use is localhost, staging.yourdomain.com,
-yourdomain.com, etc.
+                Domains where your Coral instance is allowed to be embedded
+including the scheme (ex. http://localhost:3000, https://staging.domain.com,
+https://domain.com).
               </p>
               <div
                 className="TextField-root TextField-fullWidth"
@@ -174,11 +314,13 @@ yourdomain.com, etc.
                   disabled={false}
                   id="configure-advanced-allowedDomains"
                   name="allowedDomains"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder=""
                   spellCheck={false}
                   type="text"
-                  value="localhost:8080"
+                  value="http://localhost:8080"
                 />
               </div>
             </div>

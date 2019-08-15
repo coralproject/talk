@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Component } from "react";
+import React, { Component } from "react";
 
 import { urls } from "coral-framework/helpers";
 import {
@@ -46,7 +45,9 @@ export class UserBoxContainer extends Component<Props> {
 
   private get supportsLogout() {
     return Boolean(
-      !this.props.local.accessToken || this.props.local.accessTokenJTI
+      !this.props.local.accessToken ||
+        (this.props.local.accessTokenJTI !== null &&
+          this.props.local.accessTokenExp !== null)
     );
   }
 
@@ -70,10 +71,39 @@ export class UserBoxContainer extends Component<Props> {
     ].some(i => i.enabled && i.targetFilter.stream);
   }
 
+  private get authUrl(): string {
+    const {
+      facebook,
+      google,
+      local,
+      oidc,
+    } = this.props.settings.auth.integrations;
+
+    const defaultAuthUrl = `${urls.embed.auth}?view=${
+      this.props.local.authPopup.view
+    }`;
+
+    if (local.enabled && local.targetFilter.stream) {
+      return defaultAuthUrl;
+    }
+
+    // For each of these integrations, if only one is enabled for the stream,
+    // then return the redirectURL for that one only.
+    const integrations = [facebook, google, oidc];
+    const enabled = integrations.filter(
+      integration => integration.enabled && integration.targetFilter.stream
+    );
+    if (enabled.length === 1 && enabled[0].redirectURL) {
+      return enabled[0].redirectURL;
+    }
+
+    return defaultAuthUrl;
+  }
+
   public render() {
     const {
       local: {
-        authPopup: { open, focus, view },
+        authPopup: { open, focus },
       },
       viewer,
     } = this.props;
@@ -95,9 +125,8 @@ export class UserBoxContainer extends Component<Props> {
     return (
       <>
         <Popup
-          href={`${urls.embed.auth}?view=${view}`}
+          href={this.authUrl}
           title="Coral Auth"
-          features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
           open={open}
           focus={focus}
           onFocus={this.handleFocus}
@@ -129,6 +158,7 @@ const enhanced = withSignOutMutation(
             }
             accessToken
             accessTokenJTI
+            accessTokenExp
           }
         `
       )(
@@ -152,6 +182,7 @@ const enhanced = withSignOutMutation(
                   oidc {
                     enabled
                     allowRegistration
+                    redirectURL
                     targetFilter {
                       stream
                     }
@@ -159,6 +190,7 @@ const enhanced = withSignOutMutation(
                   google {
                     enabled
                     allowRegistration
+                    redirectURL
                     targetFilter {
                       stream
                     }
@@ -166,6 +198,7 @@ const enhanced = withSignOutMutation(
                   facebook {
                     enabled
                     allowRegistration
+                    redirectURL
                     targetFilter {
                       stream
                     }

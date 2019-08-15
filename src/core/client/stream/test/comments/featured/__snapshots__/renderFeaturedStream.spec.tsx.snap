@@ -5,7 +5,7 @@ exports[`renders comment stream 1`] = `
   className="Box-root HorizontalGutter-root App-root HorizontalGutter-full"
 >
   <ul
-    className="TabBar-root TabBar-primary"
+    className="TabBar-root TabBar-primary coral coral-tabBar"
     role="tablist"
   >
     <li
@@ -16,7 +16,7 @@ exports[`renders comment stream 1`] = `
       <button
         aria-controls="tabPane-COMMENTS"
         aria-selected={true}
-        className="BaseButton-root Tab-button Tab-primary Tab-active"
+        className="BaseButton-root Tab-button Tab-primary Tab-active coral coral-tabBar-allComments"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -70,12 +70,15 @@ exports[`renders comment stream 1`] = `
           Register
         </button>
       </div>
-      <div>
+      <div
+        className="coral coral-createComment"
+      >
         <div
           className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
         >
           <div
             aria-hidden="true"
+            className="coral coral-createComment-box"
           >
             <div>
               <div
@@ -159,7 +162,7 @@ exports[`renders comment stream 1`] = `
             </div>
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth coral coral-createComment-signIn"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -173,7 +176,7 @@ exports[`renders comment stream 1`] = `
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+        className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
       >
         <div
           className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
@@ -278,8 +281,8 @@ exports[`renders comment stream 1`] = `
           <div
             aria-live="polite"
             className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
-            data-testid="comments-stream-log"
-            id="coral-comments-stream-log"
+            data-testid="comments-featuredComments-log"
+            id="comments-featuredComments-log"
             role="log"
           >
             <div
@@ -312,7 +315,7 @@ exports[`renders comment stream 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                     >
                       Markus
                     </span>
@@ -335,7 +338,7 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Box-ml-1"
                 />
                 <time
-                  className="Timestamp-root Box-root Box-ml-2 RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root Box-root Box-ml-2 coral coral-comment-timestamp"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -412,7 +415,7 @@ exports[`renders comment stream 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                     >
                       Lukas
                     </span>
@@ -435,7 +438,7 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Box-ml-1"
                 />
                 <time
-                  className="Timestamp-root Box-root Box-ml-2 RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root Box-root Box-ml-2 coral coral-comment-timestamp"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >

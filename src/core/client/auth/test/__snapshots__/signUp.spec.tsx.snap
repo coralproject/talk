@@ -32,9 +32,11 @@ exports[`accepts correct password 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -74,7 +76,9 @@ exports[`accepts correct password 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value=""
@@ -115,12 +119,18 @@ exports[`accepts correct password 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value="testtest"
               />
@@ -202,9 +212,11 @@ exports[`accepts valid email 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value="hans@test.com"
             />
           </div>
@@ -231,7 +243,9 @@ exports[`accepts valid email 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value=""
@@ -272,12 +286,18 @@ exports[`accepts valid email 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -372,9 +392,11 @@ exports[`accepts valid username 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -414,7 +436,9 @@ exports[`accepts valid username 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value="hans"
@@ -442,12 +466,18 @@ exports[`accepts valid username 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -542,9 +572,11 @@ exports[`auth configuration renders all auth enabled 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -571,7 +603,9 @@ exports[`auth configuration renders all auth enabled 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value=""
@@ -599,12 +633,18 @@ exports[`auth configuration renders all auth enabled 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -833,9 +873,11 @@ exports[`checks for invalid characters in username 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -875,7 +917,9 @@ exports[`checks for invalid characters in username 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value="$%$§$%$§%"
@@ -916,12 +960,18 @@ exports[`checks for invalid characters in username 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -1016,9 +1066,11 @@ exports[`checks for invalid email 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value="invalid-email"
             />
           </div>
@@ -1058,7 +1110,9 @@ exports[`checks for invalid email 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value=""
@@ -1099,12 +1153,18 @@ exports[`checks for invalid email 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -1199,9 +1259,11 @@ exports[`checks for too long username 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -1241,7 +1303,9 @@ exports[`checks for too long username 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -1282,12 +1346,18 @@ exports[`checks for too long username 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -1382,9 +1452,11 @@ exports[`checks for too short password 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -1424,7 +1496,9 @@ exports[`checks for too short password 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value=""
@@ -1465,12 +1539,18 @@ exports[`checks for too short password 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value="pass"
               />
@@ -1565,9 +1645,11 @@ exports[`checks for too short username 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -1607,7 +1689,9 @@ exports[`checks for too short username 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value="u"
@@ -1648,12 +1732,18 @@ exports[`checks for too short username 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -1718,184 +1808,196 @@ exports[`checks for too short username 1`] = `
 
 exports[`renders sign up form 1`] = `
 <div>
-  <div
-    data-testid="signUp-container"
-  >
+  <div>
     <div
-      className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
-    >
-      <div>
-        <h1
-          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
-        >
-          Sign Up
-        </h1>
-        <h1
-          className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
-        >
-          to join the conversation
-        </h1>
-      </div>
-    </div>
-    <div
-      className="Box-root Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
-    >
-      <div>
-        <div
-          className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
-        >
-          <span>
-            Already have an account? 
-          </span>
-          <a
-            className="TextLink-root"
-            href="http://localhost/?view=SIGN_IN"
-            onClick={[Function]}
-          >
-            Sign In
-          </a>
-        </div>
-      </div>
-    </div>
-    <div
-      className="Main-root"
-      data-testid="signUp-main"
+      data-testid="signUp-container"
     >
       <div
-        className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+        className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
       >
-        <form
-          autoComplete="off"
-          onSubmit={[Function]}
-        >
+        <div>
+          <h1
+            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
+          >
+            Sign Up
+          </h1>
+          <h1
+            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
+          >
+            to join the conversation
+          </h1>
+        </div>
+      </div>
+      <div
+        className="Box-root Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      >
+        <div>
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+          >
+            <span>
+              Already have an account? 
+            </span>
+            <a
+              className="TextLink-root"
+              href="http://localhost/?view=SIGN_IN"
+              onClick={[Function]}
+            >
+              Sign In
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        className="Main-root"
+        data-testid="signUp-main"
+      >
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+        >
+          <form
+            autoComplete="off"
+            onSubmit={[Function]}
           >
             <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
-              <label
-                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                htmlFor="email"
-              >
-                Email Address
-              </label>
               <div
-                className="TextField-root TextField-fullWidth"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
               >
-                <input
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="email"
-                  name="email"
-                  onChange={[Function]}
-                  placeholder="Email Address"
-                  type="text"
-                  value=""
-                />
-              </div>
-            </div>
-            <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-            >
-              <label
-                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                htmlFor="username"
-              >
-                Username
-              </label>
-              <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
-              >
-                You may use “_” and “.” Spaces not permitted.
-              </p>
-              <div
-                className="TextField-root TextField-fullWidth"
-              >
-                <input
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="username"
-                  name="username"
-                  onChange={[Function]}
-                  placeholder="Username"
-                  type="text"
-                  value=""
-                />
-              </div>
-            </div>
-            <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-            >
-              <label
-                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
-              >
-                Must be at least 8 characters
-              </p>
-              <div
-                className="PasswordField-fullWidth PasswordField-root"
-              >
+                <label
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  htmlFor="email"
+                >
+                  Email Address
+                </label>
                 <div
-                  className="PasswordField-wrapper"
+                  className="TextField-root TextField-fullWidth"
                 >
                   <input
-                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    className="TextField-input TextField-colorRegular"
                     disabled={false}
-                    id="password"
-                    name="password"
+                    id="email"
+                    name="email"
+                    onBlur={[Function]}
                     onChange={[Function]}
-                    placeholder="Password"
-                    type="password"
+                    onFocus={[Function]}
+                    placeholder="Email Address"
+                    type="email"
                     value=""
                   />
+                </div>
+              </div>
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <label
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  htmlFor="username"
+                >
+                  Username
+                </label>
+                <p
+                  className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+                >
+                  You may use “_” and “.” Spaces not permitted.
+                </p>
+                <div
+                  className="TextField-root TextField-fullWidth"
+                >
+                  <input
+                    className="TextField-input TextField-colorRegular"
+                    disabled={false}
+                    id="username"
+                    name="username"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder="Username"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <label
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  htmlFor="password"
+                >
+                  Password
+                </label>
+                <p
+                  className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+                >
+                  Must be at least 8 characters
+                </p>
+                <div
+                  className="PasswordField-fullWidth PasswordField-root"
+                >
                   <div
-                    className="PasswordField-icon"
-                    onClick={[Function]}
-                    role="button"
-                    tabIndex={0}
-                    title="Show password"
+                    className="PasswordField-wrapper"
                   >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                      disabled={false}
+                      id="password"
+                      name="password"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="Password"
+                      spellCheck={false}
+                      type="password"
+                      value=""
+                    />
+                    <div
+                      className="PasswordField-icon"
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                      title="Show password"
                     >
-                      visibility
-                    </span>
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm"
+                      >
+                        visibility
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <button
-              className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
-              disabled={false}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
-            >
-              <span
-                aria-hidden="true"
-                className="Icon-root Icon-md ButtonIcon-root"
+              <button
+                className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+                disabled={false}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
               >
-                email
-              </span>
-              <span>
-                Sign up with Email
-              </span>
-            </button>
-          </div>
-        </form>
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
-        />
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md ButtonIcon-root"
+                >
+                  email
+                </span>
+                <span>
+                  Sign up with Email
+                </span>
+              </button>
+            </div>
+          </form>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -1934,9 +2036,11 @@ exports[`shows error when submitting empty form 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -1976,7 +2080,9 @@ exports[`shows error when submitting empty form 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value=""
@@ -2017,12 +2123,18 @@ exports[`shows error when submitting empty form 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -2124,9 +2236,11 @@ exports[`shows server error 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value="hans@test.com"
             />
           </div>
@@ -2153,7 +2267,9 @@ exports[`shows server error 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value="hans"
@@ -2181,12 +2297,18 @@ exports[`shows server error 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value="testtest"
               />
@@ -2268,9 +2390,11 @@ exports[`submits form successfully 1`] = `
               disabled={false}
               id="email"
               name="email"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -2297,7 +2421,9 @@ exports[`submits form successfully 1`] = `
               disabled={false}
               id="username"
               name="username"
+              onBlur={[Function]}
               onChange={[Function]}
+              onFocus={[Function]}
               placeholder="Username"
               type="text"
               value=""
@@ -2325,12 +2451,18 @@ exports[`submits form successfully 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />

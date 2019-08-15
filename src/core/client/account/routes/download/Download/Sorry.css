@@ -1,0 +1,7 @@
+.icon {
+  margin-right: var(--spacing-2);
+}
+
+.callout {
+  justify-content: left;
+}

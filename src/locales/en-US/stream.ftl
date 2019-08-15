@@ -30,8 +30,16 @@ comments-featuredCommentTooltip-toggleButton =
 comments-streamQuery-storyNotFound = Story not found
 
 comments-postCommentForm-submit = Submit
-comments-stream-loadMore = Load More
 comments-replyList-showAll = Show All
+comments-replyList-showMoreReplies = Show More Replies
+
+
+comments-viewNew =
+  { $count ->
+    [1] View {$count} New Comment
+    *[other] View {$count} New Comments
+  }
+comments-loadMore = Load More
 
 comments-permalinkPopover =
   .description = A dialog showing a permalink to the comment
@@ -155,6 +163,8 @@ profile-historyComment-story = Story: {$title}
 profile-profileQuery-errorLoadingProfile = Error loading profile
 profile-profileQuery-storyNotFound = Story not found
 profile-commentHistory-loadMore = Load More
+profile-commentHistory-empty = You have not written any comments
+profile-commentHistory-empty-subheading = A history of your comments will appear here
 
 ### Settings
 profile-settings-ignoredCommenters = Ignored Commenters
@@ -164,6 +174,26 @@ profile-settings-description =
 profile-settings-empty = You are not currently ignoring anyone
 profile-settings-stopIgnoring = Stop ignoring
 
+profile-settings-changePassword = Change Password
+profile-settings-changePassword-oldPassword = Old Password
+profile-settings-changePassword-forgotPassword = Forgot your password?
+profile-settings-changePassword-newPassword = New Password
+profile-settings-changePassword-button = Change Password
+profile-settings-changePassword-updated =
+  Your password has been updated
+
+profile-settings-download-comments-title = Download my comment history
+profile-settings-download-comments-description =
+  You will receive an email with a link to download your comment history.
+  You can make <strong>one download request every 14 days.</strong>
+profile-settings-download-comments-request =
+  Request comment history
+profile-settings-download-comments-request-icon =
+  .title = Request comment history
+profile-settings-download-comments-recentRequest =
+  Your most recent request: { $timeStamp }
+profile-settings-download-comments-timeOut =
+  You can submit another request in { framework-timeago-time }
 
 ## Report Comment Popover
 comments-reportPopover =
@@ -198,6 +228,19 @@ comments-submitStatus-submittedAndWillBeReviewed =
 configure-configureQuery-errorLoadingProfile = Error loading configure
 configure-configureQuery-storyNotFound = Story not found
 
+## Change username
+profile-changeUsername-success = Your username has been successfully updated
+profile-changeUsername-edit = edit
+profile-changeUsername-heading = Edit your username
+profile-changeUsername-desc = Change the username that will appear on all of your past and future comments. <strong>Usernames can be changed once every { framework-timeago-time }.</strong>
+profile-changeUsername-current = Current username
+profile-changeUsername-newUsername-label = New username
+profile-changeUsername-confirmNewUsername-label = Confirm new username
+profile-changeUsername-cancel = Cancel
+profile-changeUsername-submit = <ButtonIcon>save</ButtonIcon> <span>Save</span>
+profile-changeUsername-recentChange = Your username has been changed in the last { framework-timeago-time }. You may change your username again on { $nextUpdate }
+profile-changeUsername-close = Close
+
 ## Comment Stream
 configure-stream-title = Configure this Comment Stream
 configure-stream-apply = Apply
@@ -209,6 +252,10 @@ configure-premod-description =
 configure-premodLink-title = Pre-Moderate Comments Containing Links
 configure-premodLink-description =
   Moderators must approve any comment that contains a link before it is published to this stream.
+
+configure-liveUpdates-title = Enable Live Updates for this Story
+configure-liveUpdates-description =
+  When enabled, there will be real-time loading and updating of comments as new comments and replies are published.
 
 configure-messageBox-title = Enable Message Box for this Stream
 configure-messageBox-description =
@@ -233,3 +280,10 @@ configure-openStream-description =
 configure-openStream-openStream = Open Stream
 
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
+
+suspendInfo-heading = Your account has been temporarily suspended from commenting.
+suspendInfo-info =
+  In accordance with { $organization }'s community guidelines your
+  account has been temporarily suspended. While suspended you will not
+  be able to comment, respect or report comments. Please rejoin the
+  conversation on { $until }

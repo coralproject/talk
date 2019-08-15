@@ -27,14 +27,27 @@ exports[`approves comment in rejected queue: dangling 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <span
-            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+        >
+          <button
+            className="BaseButton-root ModerateCard-username"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            Isabelle
-          </span>
+            <span
+              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+            >
+              Isabelle
+            </span>
+          </button>
           <time
-            className="Timestamp-root RelativeTime-root"
+            className="RelativeTime-root Timestamp-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >
@@ -107,28 +120,24 @@ exports[`approves comment in rejected queue: dangling 1`] = `
             </a>
           </div>
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Box-root Flex-root Flex-flex"
+              className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
-              <div
-                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              <span
+                className="Marker-root Marker-colorError Marker-variantRegular"
               >
-                <span
-                  className="Marker-root Marker-colorError Marker-variantRegular"
-                >
-                  <span>
-                    Spam
-                  </span>
-                   
-                  <span
-                    className="Count-root"
-                  >
-                    2
-                  </span>
+                <span>
+                  Spam
                 </span>
-              </div>
+                 
+                <span
+                  className="Count-root"
+                >
+                  2
+                </span>
+              </span>
               <button
                 aria-controls="uuid-0"
                 aria-expanded={false}
@@ -159,7 +168,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -240,14 +249,27 @@ exports[`renders rejected queue with comments 1`] = `
             <div
               className="ModerateCard-topBar"
             >
-              <div>
-                <span
-                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+              <div
+                className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              >
+                <button
+                  className="BaseButton-root ModerateCard-username"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  Isabelle
-                </span>
+                  <span
+                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                  >
+                    Isabelle
+                  </span>
+                </button>
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -320,28 +342,24 @@ exports[`renders rejected queue with comments 1`] = `
                   </a>
                 </div>
                 <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex"
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                   >
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+                    <span
+                      className="Marker-root Marker-colorError Marker-variantRegular"
                     >
-                      <span
-                        className="Marker-root Marker-colorError Marker-variantRegular"
-                      >
-                        <span>
-                          Spam
-                        </span>
-                         
-                        <span
-                          className="Count-root"
-                        >
-                          2
-                        </span>
+                      <span>
+                        Spam
                       </span>
-                    </div>
+                       
+                      <span
+                        className="Count-root"
+                      >
+                        2
+                      </span>
+                    </span>
                     <button
                       aria-controls="uuid-0"
                       aria-expanded={false}
@@ -372,7 +390,7 @@ exports[`renders rejected queue with comments 1`] = `
             </div>
           </div>
           <div
-            className="ModerateCard-separator"
+            className="ModerateCard-separator ModerateCard-ruledSeparator"
           />
           <div
             className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -440,14 +458,27 @@ exports[`renders rejected queue with comments 1`] = `
             <div
               className="ModerateCard-topBar"
             >
-              <div>
-                <span
-                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+              <div
+                className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              >
+                <button
+                  className="BaseButton-root ModerateCard-username"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  Ngoc
-                </span>
+                  <span
+                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                  >
+                    Ngoc
+                  </span>
+                </button>
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -520,28 +551,24 @@ exports[`renders rejected queue with comments 1`] = `
                   </a>
                 </div>
                 <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex"
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                   >
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+                    <span
+                      className="Marker-root Marker-colorError Marker-variantRegular"
                     >
-                      <span
-                        className="Marker-root Marker-colorError Marker-variantRegular"
-                      >
-                        <span>
-                          Offensive
-                        </span>
-                         
-                        <span
-                          className="Count-root"
-                        >
-                          3
-                        </span>
+                      <span>
+                        Offensive
                       </span>
-                    </div>
+                       
+                      <span
+                        className="Count-root"
+                      >
+                        3
+                      </span>
+                    </span>
                     <button
                       aria-controls="uuid-1"
                       aria-expanded={false}
@@ -572,7 +599,7 @@ exports[`renders rejected queue with comments 1`] = `
             </div>
           </div>
           <div
-            className="ModerateCard-separator"
+            className="ModerateCard-separator ModerateCard-ruledSeparator"
           />
           <div
             className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -646,14 +673,27 @@ exports[`renders rejected queue with comments and load more 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <span
-            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+        >
+          <button
+            className="BaseButton-root ModerateCard-username"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            Max
-          </span>
+            <span
+              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+            >
+              Max
+            </span>
+          </button>
           <time
-            className="Timestamp-root RelativeTime-root"
+            className="RelativeTime-root Timestamp-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >
@@ -726,41 +766,37 @@ exports[`renders rejected queue with comments and load more 1`] = `
             </a>
           </div>
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Box-root Flex-root Flex-flex"
+              className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
-              <div
-                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              <span
+                className="Marker-root Marker-colorError Marker-variantRegular"
               >
-                <span
-                  className="Marker-root Marker-colorError Marker-variantRegular"
-                >
-                  <span>
-                    Offensive
-                  </span>
-                   
-                  <span
-                    className="Count-root"
-                  >
-                    1
-                  </span>
+                <span>
+                  Offensive
                 </span>
+                 
                 <span
-                  className="Marker-root Marker-colorError Marker-variantRegular"
+                  className="Count-root"
                 >
-                  <span>
-                    Spam
-                  </span>
-                   
-                  <span
-                    className="Count-root"
-                  >
-                    1
-                  </span>
+                  1
                 </span>
-              </div>
+              </span>
+              <span
+                className="Marker-root Marker-colorError Marker-variantRegular"
+              >
+                <span>
+                  Spam
+                </span>
+                 
+                <span
+                  className="Count-root"
+                >
+                  1
+                </span>
+              </span>
               <button
                 aria-controls="uuid-2"
                 aria-expanded={false}
@@ -791,7 +827,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"

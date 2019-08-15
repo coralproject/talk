@@ -21,7 +21,7 @@ import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated
 
 import {
   incrementStoryCommentCounts,
-  isVisible,
+  isPublished,
   prependCommentEdgeToProfile,
 } from "../../helpers";
 
@@ -38,7 +38,7 @@ function sharedUpdater(
   const status = commentEdge.getLinkedRecord("node")!.getValue("status");
 
   // If comment is not visible, we don't need to add it.
-  if (!isVisible(status)) {
+  if (!isPublished(status)) {
     return;
   }
 
@@ -77,6 +77,7 @@ function addCommentToStory(
 graphql`
   fragment CreateCommentMutation_viewer on User {
     role
+    createdAt
   }
 `;
 // tslint:disable-next-line:no-unused-expression

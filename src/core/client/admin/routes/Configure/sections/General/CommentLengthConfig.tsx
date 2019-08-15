@@ -14,13 +14,13 @@ import {
   InputLabel,
   TextField,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 
 import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
+import ValidationMessage from "../../ValidationMessage";
 import styles from "./CommentLengthConfig.css";
 
 const validateMaxLongerThanMin = createValidator(
@@ -79,10 +79,10 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
             >
               <TextField
                 id="configure-general-commentLength-min"
-                className={styles.commentLengthTextInput}
-                name={input.name}
-                onChange={input.onChange}
-                value={input.value}
+                classes={{
+                  input: styles.commentLengthTextInput,
+                }}
+                {...input}
                 disabled={disabled}
                 autoComplete="off"
                 autoCorrect="off"
@@ -97,11 +97,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
                 textAlignCenter
               />
             </Localized>
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <ValidationMessage meta={meta} />
           </>
         )}
       </Field>
@@ -129,10 +125,9 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
             >
               <TextField
                 id="configure-general-commentLength-max"
-                className={styles.commentLengthTextInput}
-                name={input.name}
-                onChange={input.onChange}
-                value={input.value}
+                classes={{
+                  input: styles.commentLengthTextInput,
+                }}
                 disabled={disabled}
                 autoComplete="off"
                 autoCorrect="off"
@@ -145,13 +140,10 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
                 }
                 placeholder={"No limit"}
                 textAlignCenter
+                {...input}
               />
             </Localized>
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <ValidationMessage meta={meta} />
           </>
         )}
       </Field>

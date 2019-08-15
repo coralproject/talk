@@ -60,6 +60,12 @@ export const PASSWORDS_DO_NOT_MATCH = () => (
   </Localized>
 );
 
+export const USERNAMES_DO_NOT_MATCH = () => (
+  <Localized id="framework-validation-usernamesDoNotMatch">
+    <span>Usernames do not match. Try again.</span>
+  </Localized>
+);
+
 export const EMAILS_DO_NOT_MATCH = () => (
   <Localized id="framework-validation-emailsDoNotMatch">
     <span>Emails do not match. Try again.</span>

@@ -13,6 +13,8 @@ interface Props {
   invert?: boolean;
   onLabel?: React.ReactNode;
   offLabel?: React.ReactNode;
+  format?: ((value: any, name: string) => any) | null;
+  parse?: ((value: any, name: string) => any) | null;
 }
 
 const OnOffField: FunctionComponent<Props> = ({
@@ -21,20 +23,19 @@ const OnOffField: FunctionComponent<Props> = ({
   onLabel,
   offLabel,
   invert = false,
+  parse = parseStringBool,
+  format,
 }) => (
   <div>
-    <Field name={name} type="radio" parse={parseStringBool} value={!invert}>
+    <Field
+      name={name}
+      type="radio"
+      value={!invert}
+      parse={parse}
+      format={format}
+    >
       {({ input }) => (
-        <RadioButton
-          id={`${input.name}-true`}
-          name={input.name}
-          onChange={input.onChange}
-          onFocus={input.onFocus}
-          onBlur={input.onBlur}
-          checked={input.checked}
-          disabled={disabled}
-          value={input.value}
-        >
+        <RadioButton id={`${input.name}-true`} disabled={disabled} {...input}>
           {onLabel || (
             <Localized id="configure-onOffField-on">
               <span>On</span>
@@ -43,18 +44,15 @@ const OnOffField: FunctionComponent<Props> = ({
         </RadioButton>
       )}
     </Field>
-    <Field name={name} type="radio" parse={parseStringBool} value={invert}>
+    <Field
+      name={name}
+      type="radio"
+      parse={parse}
+      format={format}
+      value={invert}
+    >
       {({ input }) => (
-        <RadioButton
-          id={`${input.name}-false`}
-          name={input.name}
-          onChange={input.onChange}
-          onFocus={input.onFocus}
-          onBlur={input.onBlur}
-          checked={input.checked}
-          disabled={disabled}
-          value={input.value}
-        >
+        <RadioButton id={`${input.name}-false`} disabled={disabled} {...input}>
           {offLabel || (
             <Localized id="configure-onOffField-off">
               <span>Off</span>

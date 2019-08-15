@@ -5,7 +5,7 @@ const withAutoHeight: Decorator = pym => {
   let cachedHeight: string;
   pym.onMessage("height", (height: string) => {
     if (height !== cachedHeight) {
-      (pym.el.firstChild! as HTMLElement).style.height = `${height}px`;
+      pym.iframe.style.height = `${height}px`;
       cachedHeight = height;
     }
   });

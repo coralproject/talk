@@ -5,18 +5,13 @@ import {
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
 
-const testDisabledCommenting = (settings: Partial<Settings>) =>
+const testDisabledCommenting = (settings: Settings) =>
   settings.disableCommenting && settings.disableCommenting.enabled;
 
 export const commentingDisabled: IntermediateModerationPhase = ({
-  story,
   tenant,
 }): IntermediatePhaseResult | void => {
-  // Check to see if the story has closed commenting.
-  if (
-    testDisabledCommenting(tenant) ||
-    (story.settings && testDisabledCommenting(story.settings))
-  ) {
+  if (testDisabledCommenting(tenant)) {
     throw new CommentingDisabledError();
   }
 };

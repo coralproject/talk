@@ -102,7 +102,7 @@ it("show all comments", async () => {
       .getByText("View Full Discussion")
       .props.onClick(mockEvent);
     await waitForElement(() =>
-      within(tabPane).getByTestID("comments-stream-log")
+      within(testRenderer.root).getByTestID("comments-allComments-log")
     );
   });
 

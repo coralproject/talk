@@ -35,6 +35,10 @@
   background-color: var(--palette-grey-dark);
 }
 
+.colorError {
+  background-color: var(--palette-error-darkest);
+}
+
 .colorInherit {
   background-color: currentColor;
 }

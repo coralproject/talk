@@ -1,6 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import HorizontalSeparator from "./HorizontalSeparator";
 

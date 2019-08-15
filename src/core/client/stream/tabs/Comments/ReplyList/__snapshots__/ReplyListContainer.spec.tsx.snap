@@ -10,15 +10,18 @@ exports[`renders correctly 1`] = `
         "edges": Array [
           Object {
             "node": Object {
+              "enteredLive": false,
               "id": "comment-1",
             },
           },
           Object {
             "node": Object {
+              "enteredLive": false,
               "id": "comment-2",
             },
           },
         ],
+        "viewNewEdges": Array [],
       },
       "status": "NONE",
     }
@@ -26,24 +29,30 @@ exports[`renders correctly 1`] = `
   comments={
     Array [
       Object {
+        "enteredLive": false,
         "id": "comment-1",
         "replyListElement": <ReplyListComponent
           comment={
             Object {
+              "enteredLive": false,
               "id": "comment-1",
             }
           }
           settings={
             Object {
-              "reaction": Object {
-                "icon": "thumb_up_alt",
-                "label": "Respect",
+              "disableCommenting": Object {
+                "enabled": false,
               },
             }
           }
           story={
             Object {
-              "id": "story-id",
+              "isClosed": false,
+              "settings": Object {
+                "live": Object {
+                  "enabled": true,
+                },
+              },
             }
           }
           viewer={null}
@@ -51,24 +60,30 @@ exports[`renders correctly 1`] = `
         "showConversationLink": false,
       },
       Object {
+        "enteredLive": false,
         "id": "comment-2",
         "replyListElement": <ReplyListComponent
           comment={
             Object {
+              "enteredLive": false,
               "id": "comment-2",
             }
           }
           settings={
             Object {
-              "reaction": Object {
-                "icon": "thumb_up_alt",
-                "label": "Respect",
+              "disableCommenting": Object {
+                "enabled": false,
               },
             }
           }
           story={
             Object {
-              "id": "story-id",
+              "isClosed": false,
+              "settings": Object {
+                "live": Object {
+                  "enabled": true,
+                },
+              },
             }
           }
           viewer={null}
@@ -81,19 +96,25 @@ exports[`renders correctly 1`] = `
   indentLevel={1}
   localReply={false}
   onShowAll={[Function]}
+  onViewNew={[Function]}
   settings={
     Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
+      "disableCommenting": Object {
+        "enabled": false,
       },
     }
   }
   story={
     Object {
-      "id": "story-id",
+      "isClosed": false,
+      "settings": Object {
+        "live": Object {
+          "enabled": true,
+        },
+      },
     }
   }
+  viewNewCount={0}
   viewer={null}
 />
 `;
@@ -110,15 +131,18 @@ exports[`when has more replies renders hasMore 1`] = `
         "edges": Array [
           Object {
             "node": Object {
+              "enteredLive": false,
               "id": "comment-1",
             },
           },
           Object {
             "node": Object {
+              "enteredLive": false,
               "id": "comment-2",
             },
           },
         ],
+        "viewNewEdges": Array [],
       },
       "status": "NONE",
     }
@@ -126,11 +150,13 @@ exports[`when has more replies renders hasMore 1`] = `
   comments={
     Array [
       Object {
+        "enteredLive": false,
         "id": "comment-1",
         "replyListElement": undefined,
         "showConversationLink": false,
       },
       Object {
+        "enteredLive": false,
         "id": "comment-2",
         "replyListElement": undefined,
         "showConversationLink": false,
@@ -142,19 +168,25 @@ exports[`when has more replies renders hasMore 1`] = `
   indentLevel={1}
   localReply={false}
   onShowAll={[Function]}
+  onViewNew={[Function]}
   settings={
     Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
+      "disableCommenting": Object {
+        "enabled": false,
       },
     }
   }
   story={
     Object {
-      "id": "story-id",
+      "isClosed": false,
+      "settings": Object {
+        "live": Object {
+          "enabled": true,
+        },
+      },
     }
   }
+  viewNewCount={0}
   viewer={null}
 />
 `;
@@ -169,15 +201,18 @@ exports[`when has more replies when showing all disables show all button 1`] = `
         "edges": Array [
           Object {
             "node": Object {
+              "enteredLive": false,
               "id": "comment-1",
             },
           },
           Object {
             "node": Object {
+              "enteredLive": false,
               "id": "comment-2",
             },
           },
         ],
+        "viewNewEdges": Array [],
       },
       "status": "NONE",
     }
@@ -185,11 +220,13 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   comments={
     Array [
       Object {
+        "enteredLive": false,
         "id": "comment-1",
         "replyListElement": undefined,
         "showConversationLink": false,
       },
       Object {
+        "enteredLive": false,
         "id": "comment-2",
         "replyListElement": undefined,
         "showConversationLink": false,
@@ -201,19 +238,25 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   indentLevel={1}
   localReply={false}
   onShowAll={[Function]}
+  onViewNew={[Function]}
   settings={
     Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
+      "disableCommenting": Object {
+        "enabled": false,
       },
     }
   }
   story={
     Object {
-      "id": "story-id",
+      "isClosed": false,
+      "settings": Object {
+        "live": Object {
+          "enabled": true,
+        },
+      },
     }
   }
+  viewNewCount={0}
   viewer={null}
 />
 `;
@@ -228,15 +271,18 @@ exports[`when has more replies when showing all enable show all button after loa
         "edges": Array [
           Object {
             "node": Object {
+              "enteredLive": false,
               "id": "comment-1",
             },
           },
           Object {
             "node": Object {
+              "enteredLive": false,
               "id": "comment-2",
             },
           },
         ],
+        "viewNewEdges": Array [],
       },
       "status": "NONE",
     }
@@ -244,11 +290,13 @@ exports[`when has more replies when showing all enable show all button after loa
   comments={
     Array [
       Object {
+        "enteredLive": false,
         "id": "comment-1",
         "replyListElement": undefined,
         "showConversationLink": false,
       },
       Object {
+        "enteredLive": false,
         "id": "comment-2",
         "replyListElement": undefined,
         "showConversationLink": false,
@@ -260,19 +308,25 @@ exports[`when has more replies when showing all enable show all button after loa
   indentLevel={1}
   localReply={false}
   onShowAll={[Function]}
+  onViewNew={[Function]}
   settings={
     Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
+      "disableCommenting": Object {
+        "enabled": false,
       },
     }
   }
   story={
     Object {
-      "id": "story-id",
+      "isClosed": false,
+      "settings": Object {
+        "live": Object {
+          "enabled": true,
+        },
+      },
     }
   }
+  viewNewCount={0}
   viewer={null}
 />
 `;
