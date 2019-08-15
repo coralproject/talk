@@ -61,7 +61,7 @@ export const SSOUserProfileSchema = Joi.object()
       .required(),
     username: Joi.string().required(),
     badges: Joi.array().items(Joi.string()),
-    role: Joi.string(),
+    role: Joi.string().only(Object.values(GQLUSER_ROLE)),
   })
   .optionalKeys(["badges", "role"]);
 
