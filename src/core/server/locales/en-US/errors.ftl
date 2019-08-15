@@ -55,5 +55,4 @@ error-inviteTokenExpired = Invite link has expired.
 error-inviteRequiresEmailAddresses = Please add an email address to send invitations.
 error-passwordIncorrect = Password provided was incorrect.
 error-usernameAlreadyUpdated = You may only change your username once every { framework-timeago-time }.
-error-persistedQueryNotFound = The persisted query with ID { $id } was not found.
-error-rawQueryNotAuthorized = You are not authorized to execute this query.
+error-cannotUpdateEmail = You may not update email address or username. 

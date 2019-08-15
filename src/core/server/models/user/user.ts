@@ -606,70 +606,6 @@ export async function verifyUserPassword(
   return bcrypt.compare(password, profile.password);
 }
 
-/**
- * updateUserProfileEmail updates a given User's local profile ID (email).
- *
- * @param mongo mongodb database to interact with
- * @param tenantID Tenant ID where the User resides
- * @param id ID of the User that we are updating
- * @param emailAddress new email address to set
- */
-export async function updateUserProfileEmail(
-  mongo: Db,
-  tenantID: string,
-  id: string,
-  emailAddress: string
-) {
-  const email = emailAddress.toLowerCase();
-
-  try {
-    const result = await collection(mongo).findOneAndUpdate(
-      {
-        tenantID,
-        id,
-        // This ensures that the document we're updating already has a local
-        // profile associated with them.
-        profiles: {
-          $elemMatch: {
-            type: "local",
-          },
-        },
-      },
-      {
-        $set: {
-          // Update the id with a new email.
-          "profiles.$[profiles].id": email,
-        },
-      },
-      {
-        arrayFilters: [{ "profiles.type": "local" }],
-        // False to return the updated document instead of the original
-        // document.
-        returnOriginal: false,
-      }
-    );
-    if (!result.value) {
-      const user = await retrieveUser(mongo, tenantID, id);
-      if (!user) {
-        throw new UserNotFoundError(id);
-      }
-
-      throw new Error("an unexpected error occurred");
-    }
-
-    return result.value || null;
-  } catch (err) {
-    if (err instanceof MongoError && err.code === 11000) {
-      // Check if duplicate index was about the email.
-      if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
-        throw new DuplicateEmailError(email!);
-      }
-      throw new DuplicateUserError();
-    }
-    throw err;
-  }
-}
-
 export async function updateUserPassword(
   mongo: Db,
   tenantID: string,
@@ -965,44 +901,45 @@ export async function updateUserEmail(
   // Lowercase the email address.
   const email = emailAddress.toLowerCase();
 
-  // Search to see if this email has been used before.
-  let user = await collection(mongo).findOne({
-    tenantID,
-    email,
-  });
-  if (user) {
-    throw new DuplicateEmailError(email);
-  }
-
-  // The email wasn't found, so try to update the User.
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      tenantID,
-      id,
-    },
-    {
-      $set: {
-        email,
-        emailVerified,
+  try {
+    // The email wasn't found, so try to update the User.
+    const result = await collection(mongo).findOneAndUpdate(
+      {
+        tenantID,
+        id,
       },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    // Try to get the current user to discover what happened.
-    user = await retrieveUser(mongo, tenantID, id);
-    if (!user) {
-      throw new UserNotFoundError(id);
-    }
+      {
+        $set: {
+          email,
+          emailVerified,
+          "profiles.$[profiles].id": email,
+        },
+      },
+      {
+        arrayFilters: [{ "profiles.type": "local" }],
+        returnOriginal: false,
+      }
+    );
+    if (!result.value) {
+      // Try to get the current user to discover what happened.
+      const user = await retrieveUser(mongo, tenantID, id);
+      if (!user) {
+        throw new UserNotFoundError(id);
+      }
 
-    throw new Error("an unexpected error occurred");
+      throw new Error("an unexpected error occurred");
+    }
+    return result.value;
+  } catch (err) {
+    if (err instanceof MongoError && err.code === 11000) {
+      // Check if duplicate index was about the email.
+      if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
+        throw new DuplicateEmailError(email!);
+      }
+      throw new DuplicateUserError();
+    }
+    throw err;
   }
-
-  return result.value;
 }
 
 /**
