@@ -5,6 +5,7 @@ import {
   ALLOWED_USERNAME_CHANGE_FREQUENCY,
   DOWNLOAD_LIMIT_TIMEFRAME,
 } from "coral-common/constants";
+import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -42,6 +43,7 @@ import {
   removeUserIgnore,
   retrieveUser,
   retrieveUserWithEmail,
+  scheduleDeletionDate,
   setUserEmail,
   setUserLastDownloadedAt,
   setUserLocalProfile,
@@ -313,7 +315,8 @@ export async function requestAccountDeletion(
   mongo: Db,
   tenant: Tenant,
   user: User,
-  password: string
+  password: string,
+  now: Date
 ) {
   if (!user.email) {
     throw new EmailNotSetError();
@@ -326,7 +329,18 @@ export async function requestAccountDeletion(
     throw new PasswordIncorrect();
   }
 
-  return user;
+  const deletionDate = DateTime.fromJSDate(now).plus({
+    days: SCHEDULED_DELETION_TIMESPAN_DAYS,
+  });
+
+  const updatedUser = await scheduleDeletionDate(
+    mongo,
+    tenant.id!,
+    user.id,
+    deletionDate.toJSDate()
+  );
+
+  return updatedUser;
 }
 
 /**

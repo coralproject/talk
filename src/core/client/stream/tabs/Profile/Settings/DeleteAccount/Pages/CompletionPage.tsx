@@ -8,16 +8,32 @@ import PageStepBar from "./Common/PageStepBar";
 import styles from "./Common/Page.css";
 
 interface Props {
+  scheduledDeletionDate?: string;
   step: number;
   onClose: () => void;
 }
 
-const CompletionPage: FunctionComponent<Props> = ({ step, onClose }) => {
+const CompletionPage: FunctionComponent<Props> = ({
+  scheduledDeletionDate,
+  step,
+  onClose,
+}) => {
   const onDoneClicked = useCallback(() => {
     onClose();
   }, [onClose]);
 
   const organizationEmail = "org@org.com";
+
+  const formattedDate = scheduledDeletionDate
+    ? Intl.DateTimeFormat("en-us", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      }).format(new Date(scheduledDeletionDate))
+    : "";
 
   return (
     <>
@@ -42,9 +58,12 @@ const CompletionPage: FunctionComponent<Props> = ({ step, onClose }) => {
           </Typography>
         </Localized>
 
-        <Localized id="profile-settings-deleteAccount-pages-completeTimeHeader ">
-          <Typography variant="bodyCopyBold">
-            Your account will be deleted on:
+        <Localized
+          id="profile-settings-deleteAccount-pages-completeTimeHeader"
+          $date={formattedDate}
+        >
+          <Typography variant="bodyCopyBold" className={styles.sectionContent}>
+            {`Your account will be deleted on: ${formattedDate}`}
           </Typography>
         </Localized>
 

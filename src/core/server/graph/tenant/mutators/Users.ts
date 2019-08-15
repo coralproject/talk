@@ -118,7 +118,13 @@ export const Users = (ctx: TenantContext) => ({
     input: GQLRequestAccountDeletionInput
   ): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
-      requestAccountDeletion(ctx.mongo, ctx.tenant, ctx.user!, input.password),
+      requestAccountDeletion(
+        ctx.mongo,
+        ctx.tenant,
+        ctx.user!,
+        input.password,
+        ctx.now
+      ),
       { "input.password": [ERROR_CODES.PASSWORD_INCORRECT] }
     ),
   createToken: async (input: GQLCreateTokenInput) =>

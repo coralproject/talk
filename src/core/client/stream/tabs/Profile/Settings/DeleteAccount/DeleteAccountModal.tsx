@@ -12,6 +12,7 @@ import styles from "./DeleteAccountModal.css";
 
 interface Props {
   userID: string;
+  scheduledDeletionDate?: string;
   open: boolean;
   onClose: () => void;
 }
@@ -20,6 +21,7 @@ const DeleteAccountModal: FunctionComponent<Props> = ({
   userID,
   open = false,
   onClose,
+  scheduledDeletionDate,
 }) => {
   const [step, setStep] = useState(0);
 
@@ -63,7 +65,13 @@ const DeleteAccountModal: FunctionComponent<Props> = ({
               onCancel={closeModal}
             />
           )}
-          {step === 4 && <CompletionPage step={4} onClose={closeModal} />}
+          {step === 4 && (
+            <CompletionPage
+              step={4}
+              scheduledDeletionDate={scheduledDeletionDate}
+              onClose={closeModal}
+            />
+          )}
         </Box>
       </Modal>
     </>

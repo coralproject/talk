@@ -7,7 +7,7 @@ import { Button } from "coral-ui/components/Button";
 import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
 
 import { Icon, Typography } from "coral-ui/components";
-import DeleteAccountPopover from "./DeleteAccountModal";
+import DeleteAccountModal from "./DeleteAccountModal";
 
 import styles from "./DeleteAccountContainer.css";
 
@@ -27,10 +27,11 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({ viewer }) => {
 
   return (
     <>
-      <DeleteAccountPopover
-        userID={viewer.id}
+      <DeleteAccountModal
         open={deletePopoverVisible}
         onClose={hidePopover}
+        userID={viewer.id}
+        scheduledDeletionDate={viewer.scheduledDeletionDate}
       />
 
       <Localized id="profile-settings-deleteAccount-title">
@@ -64,6 +65,7 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment DeleteAccountContainer_viewer on User {
       id
+      scheduledDeletionDate
     }
   `,
 })(DeleteAccountContainer);

@@ -1648,6 +1648,12 @@ type User {
   of their account data.
   """
   lastDownloadedAt: Time
+
+  """
+  scheduledDeletionDate is the time when the User is
+  scheduled to be deleted.
+  """
+  scheduledDeletionDate: Time
 }
 
 """

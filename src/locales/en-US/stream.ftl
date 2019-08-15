@@ -244,7 +244,7 @@ profile-settings-deleteAccount-pages-completeDescript =
   Your request has been submitted and a confirmation has been sent to the email
   address associated with your account.
 profile-settings-deleteAccount-pages-completeTimeHeader =
-  Your account will be deleted on:
+  Your account will be deleted on: { $date }
 profile-settings-deleteAccount-pages-completeSec1Header = Changed your mind?
 profile-settings-deleteAccount-pages-completeSec1Content =
   Simply sign in to your account again before this time and select
