@@ -132,6 +132,11 @@ export const baseUser = createFixture<GQLUser>({
     },
   },
   ignoreable: true,
+  profiles: [
+    {
+      __typename: "LocalProfile",
+    },
+  ],
 });
 
 const yesterday = new Date();
