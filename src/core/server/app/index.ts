@@ -13,6 +13,7 @@ import { HTMLErrorHandler } from "coral-server/app/middleware/error";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import { createPassport } from "coral-server/app/middleware/passport";
 import { Config } from "coral-server/config";
+import { PersistedQueryCache } from "coral-server/models/queries";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { I18n } from "coral-server/services/i18n";
@@ -28,18 +29,20 @@ import { createRouter } from "./router";
 
 export interface AppOptions {
   config: Config;
+  disableClientRoutes: boolean;
   i18n: I18n;
   mailerQueue: MailerQueue;
-  scraperQueue: ScraperQueue;
+  metrics?: Metrics;
   mongo: Db;
   parent: Express;
+  persistedQueryCache: PersistedQueryCache;
+  persistedQueriesRequired: boolean;
+  pubsub: RedisPubSub;
   redis: AugmentedRedis;
   schema: GraphQLSchema;
+  scraperQueue: ScraperQueue;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
-  disableClientRoutes: boolean;
-  metrics?: Metrics;
-  pubsub: RedisPubSub;
 }
 
 /**

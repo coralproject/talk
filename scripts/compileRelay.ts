@@ -2,7 +2,7 @@
 
 import program from "commander";
 import spawn from "cross-spawn";
-import fs from "fs";
+import fs from "fs-extra";
 import path from "path";
 
 const config = JSON.parse(
@@ -14,6 +14,7 @@ program
   .usage("--src ./src/core/client/stream --schema tenant")
   .option("--src <folder>", "Find gql recursively in this folder")
   .option("--schema <schema>", "Identifier of schema")
+  .option("--persist", "Use persisted queries")
   .description("Compile relay gql data")
   .parse(process.argv);
 
@@ -57,8 +58,30 @@ const args = [
   `${program.src}/__generated__`,
   "--schema",
   config.projects[program.schema].schemaPath,
-  // "--persist-output",
-  // `${program.src}/persisted-queries.json`,
 ];
 
+// Set the persisted query path.
+const persist = program.persist
+  ? `${program.src}/persisted-queries.json`
+  : null;
+if (persist) {
+  args.push("--persist-output", persist);
+}
+
 spawn.sync("relay-compiler", args, { stdio: "inherit" });
+
+if (persist) {
+  if (fs.existsSync(persist)) {
+    // Create the new filename.
+    const name = path.basename(program.src);
+    const generated = "./src/core/server/graph/tenant/persisted/__generated__";
+
+    // Create the generated directory if it doesn't exist.
+    fs.ensureDirSync(generated);
+
+    // Copy the file over to the destination directory.
+    fs.copySync(persist, `${generated}/${name}.json`, {
+      overwrite: true,
+    });
+  }
+}

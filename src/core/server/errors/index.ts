@@ -51,6 +51,11 @@ export interface CoralErrorExtensions {
 
 export interface CoralErrorContext {
   /**
+   * tenantID is the ID of the tenant that this Error is associated with.
+   */
+  tenantID?: string;
+
+  /**
    * pub stores information that is used by the translation framework
    * to provide context to the error being emitted to pass publicly. Sensitive
    * information should not be passed via this method.
@@ -165,8 +170,8 @@ export class CoralError extends VError {
     this.status = status;
 
     // Capture the context for the error.
-    const { pub = {}, pvt = {} } = context;
-    this.context = { pub, pvt };
+    const { pub = {}, pvt = {}, tenantID } = context;
+    this.context = { tenantID, pub, pvt };
 
     // Capture the extension parameters.
     this.id = id;
@@ -676,6 +681,24 @@ export class PasswordIncorrect extends CoralError {
   constructor() {
     super({
       code: ERROR_CODES.PASSWORD_INCORRECT,
+    });
+  }
+}
+
+export class PersistedQueryNotFound extends CoralError {
+  constructor(id: string) {
+    super({
+      code: ERROR_CODES.PERSISTED_QUERY_NOT_FOUND,
+      context: { pub: { id } },
+    });
+  }
+}
+
+export class RawQueryNotAuthorized extends CoralError {
+  constructor(tenantID: string, userID: string | null) {
+    super({
+      code: ERROR_CODES.RAW_QUERY_NOT_AUTHORIZED,
+      context: { tenantID, pvt: { userID } },
     });
   }
 }

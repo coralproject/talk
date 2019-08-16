@@ -27,7 +27,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay-stream", {
+      executor: new CommandExecutor("npm run --silent generate:relay:stream", {
         runOnInit: true,
       }),
     },
@@ -44,7 +44,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run generate:relay-account", {
+      executor: new CommandExecutor("npm run generate:relay:account", {
         runOnInit: true,
       }),
     },
@@ -61,7 +61,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay-admin", {
+      executor: new CommandExecutor("npm run --silent generate:relay:admin", {
         runOnInit: true,
       }),
     },
@@ -78,7 +78,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay-auth", {
+      executor: new CommandExecutor("npm run --silent generate:relay:auth", {
         runOnInit: true,
       }),
     },
@@ -95,7 +95,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay-install", {
+      executor: new CommandExecutor("npm run --silent generate:relay:install", {
         runOnInit: true,
       }),
     },

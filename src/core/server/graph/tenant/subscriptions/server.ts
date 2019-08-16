@@ -9,6 +9,7 @@ import http, { IncomingMessage } from "http";
 import {
   ConnectionContext,
   ExecutionParams,
+  OperationMessage,
   OperationMessagePayload,
   SubscriptionServer,
 } from "subscriptions-transport-ws";
@@ -25,6 +26,7 @@ import {
   CoralError,
   InternalError,
   LiveUpdatesDisabled,
+  RawQueryNotAuthorized,
   TenantNotFoundError,
 } from "coral-server/errors";
 import {
@@ -33,6 +35,8 @@ import {
   logQuery,
 } from "coral-server/graph/common/extensions";
 import { getOperationMetadata } from "coral-server/graph/common/extensions/helpers";
+import { getPersistedQuery } from "coral-server/graph/tenant/persisted";
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { userIsStaff } from "coral-server/models/user/helpers";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
@@ -205,12 +209,40 @@ export function formatResponse({ metrics }: FormatResponseOptions) {
   };
 }
 
-export type OnOperationOptions = FormatResponseOptions;
+export type OnOperationOptions = FormatResponseOptions &
+  Pick<AppOptions, "persistedQueryCache" | "persistedQueriesRequired">;
 
 export function onOperation(options: OnOperationOptions) {
-  return (message: any, params: ExecutionParams<TenantContext>) => {
+  return async (
+    message: OperationMessage,
+    params: ExecutionParams<TenantContext>
+  ) => {
     // Attach the response formatter.
     params.formatResponse = formatResponse(options);
+
+    // Handle the payload if it is a persisted query.
+    const query = await getPersistedQuery(
+      options.persistedQueryCache,
+      message.payload
+    );
+    if (!query) {
+      // Check to see if this is from an ADMIN token which is allowed to run
+      // un-persisted queries.
+      if (
+        options.persistedQueriesRequired &&
+        (!params.context.user ||
+          params.context.user.role !== GQLUSER_ROLE.ADMIN)
+      ) {
+        throw new RawQueryNotAuthorized(
+          params.context.tenant.id,
+          params.context.user ? params.context.user.id : null
+        );
+      }
+    } else {
+      // The query was found for this operation, replace the query with the one
+      // provided.
+      params.query = query.query;
+    }
 
     return params;
   };
