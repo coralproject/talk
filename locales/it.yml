@@ -321,7 +321,6 @@ it:
       button: Invia
       error: 'L''username può contenere solo lettere numeri o _'
       label: 'Nuovo username'
-      msg: 'Il tuo account è attualmente sospeso perchè il tuo username è considerato inappropriato. Per ripristinare il tuo account inserisci un nuovo username. Contattaci se hai qualche domanda.'
     my_comments: 'I miei commenti'
     my_profile: 'Il mio profilo'
     new_count: 'Visualizza {0} e {1}'
@@ -571,4 +570,3 @@ it:
   view_conversation: 'Visualizza conversazione'
   your_account_has_been_banned: 'Il tuo account è stato bloccato.'
   your_account_has_been_suspended: 'Il tuo account è stato temporaneamente sospeso.'
-  your_username_has_been_rejected: 'Il tuo account è stato sospeso perchè il tuo username è ritenuto inappropriato. Per ripristinare il tuo account inserisci un nuovo username.'

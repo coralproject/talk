@@ -337,7 +337,6 @@ de:
       button: Senden
       error: 'Nutzernamen dürfen nur Buchstaben, Zahlen und _ enthalten'
       label: 'Neuer Nutzername'
-      msg: 'Ihr Konto ist vorübergehend gesperrt, da Ihr Nutzername als unangemessen eingestuft wurde. Um Ihr Konto wieder herzustellen, geben Sie bitte einen neuen Nutzernamen ein. Bei Fragen, kontaktieren Sie uns bitte.'
     my_comments: 'Meine Kommentare'
     my_profile: 'Mein Profil'
     new_count: '{0} {1} mehr anzeigen'
@@ -593,4 +592,3 @@ de:
   view_conversation: 'Diskussion ansehen'
   your_account_has_been_banned: 'Ihr Zugang wurde gesperrt.'
   your_account_has_been_suspended: 'Ihr Zugang wurde vorübergehend gesperrt.'
-  your_username_has_been_rejected: 'Ihr Zugang wurde vorübergehend gesperrt, da Ihr Nutzername als unangemessen eingestuft wurde. Um Ihren Zugang wieder herzustellen, geben Sie bitte einen neuen Nutzernamen ein.'

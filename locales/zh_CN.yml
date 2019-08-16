@@ -232,7 +232,6 @@ zh_CN:
       button: 提交
       error: 用户名只能包含字母、数字跟下划线
       label: 新用户名
-      msg: 由于您的用户名不当，您的帐号目前被暂停使用。如要恢复您的帐户，请输入一个新的用户名。如有任何疑问，请与我们联系。
     my_comments: 我的评论
     my_profile: 我的资料
     new_count: '查看 {0} 更多 {1}'
@@ -411,4 +410,3 @@ zh_CN:
   view_conversation: 查看对话
   your_account_has_been_banned: 您的帐户已被禁用。
   your_account_has_been_suspended: 您的帐户已被暂时停用。
-  your_username_has_been_rejected: 由于您使用了不恰当的用户名，您的帐户已被暂停使用。若需恢复帐户，请输入一个新的用户名

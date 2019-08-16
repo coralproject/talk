@@ -266,7 +266,6 @@ da:
       button: Indsend
       error: 'Brugernavne kan kun indeholde bogstaver og _'
       label: 'Nyt brugernavn'
-      msg: 'Din konto er midlertidigt suspenderet, fordi dit brugernavn er blevet anset for upassende. For at gendanne din konto skal du indtaste et nyt brugernavn. Kontakt os venligst, hvis du har spørgsmål.'
     my_comments: 'Mine kommentarer'
     my_profile: 'Min profil'
     new_count: 'Se {0} mere {1}'
@@ -473,4 +472,3 @@ da:
   view_conversation: 'Vis samtale'
   your_account_has_been_banned: 'Din konto er blevet banned.'
   your_account_has_been_suspended: 'Din konto er midlertidigt suspenderet'
-  your_username_has_been_rejected: 'Din konto er blevet suspenderet fordi dit brugernavn er blevet anset for upassende. For at gendanne din konto, venligst indtast et nyt brugernavn.'

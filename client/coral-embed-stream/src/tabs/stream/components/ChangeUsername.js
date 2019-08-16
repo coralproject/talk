@@ -48,7 +48,7 @@ class ChangeUsername extends Component {
     return (
       <RestrictedMessageBox>
         <div className="talk-change-username">
-          <span>{t('framework.edit_name.msg')}</span>
+          <span>{t('framework.edit_name.rejected')}</span>
           <div className={styles.alert}>{alert}</div>
           <label htmlFor="username" className="screen-reader-text">
             {t('framework.edit_name.label')}

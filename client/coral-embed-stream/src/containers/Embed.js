@@ -81,7 +81,7 @@ class EmbedContainer extends React.Component {
               },
             }
           ) => {
-            notify('info', t('your_username_has_been_rejected'));
+            notify('info', t('your_username_has_been_rejected_not_in_line'));
             props.updateStatus(state.status);
           },
         },
