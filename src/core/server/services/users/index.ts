@@ -7,7 +7,6 @@ import {
 } from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
-  CannotUpdateLocalProfile,
   DuplicateEmailError,
   DuplicateUserError,
   EmailAlreadySetError,
@@ -396,7 +395,7 @@ export async function updateUsername(
 
   const canUpdate = canUpdateLocalProfile(tenant, user);
   if (!canUpdate) {
-    throw new CannotUpdateLocalProfile();
+    throw new Error("Cannot update profile due to tenant settings");
   }
 
   // Get the earliest date that the username could have been edited before to/
@@ -558,7 +557,7 @@ export async function updateEmail(
 
   const canUpdate = canUpdateLocalProfile(tenant, user);
   if (!canUpdate) {
-    throw new CannotUpdateLocalProfile();
+    throw new Error("Cannot update profile due to tenant settings");
   }
 
   const passwordVerified = await verifyUserPassword(user, password);
