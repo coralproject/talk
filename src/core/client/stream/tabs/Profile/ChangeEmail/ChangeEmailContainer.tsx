@@ -10,6 +10,7 @@ import { Field, Form } from "react-final-form";
 import { Environment } from "relay-runtime";
 
 import { PasswordField } from "coral-framework/components";
+import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
@@ -62,17 +63,6 @@ interface FormProps {
   password: string;
 }
 
-type AuthIntegrations = "local" | "sso" | "google" | "facebook" | "oidc";
-
-function enabledAuthenticationIntegrations(tenant: SettingsData): string[] {
-  return Object.keys(tenant.auth.integrations).filter((key: string) => {
-    const { enabled, targetFilter } = tenant.auth.integrations[
-      key as AuthIntegrations
-    ];
-    return enabled && targetFilter.stream;
-  });
-}
-
 const changeEmailContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
@@ -123,7 +113,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
     ) {
       return false;
     }
-    const enabled = enabledAuthenticationIntegrations(settings);
+    const enabled = getAuthenticationIntegrations(settings.auth, "stream");
 
     return (
       enabled.includes("local") ||

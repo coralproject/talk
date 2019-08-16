@@ -11,6 +11,7 @@ import { Field, Form } from "react-final-form";
 
 import { ALLOWED_USERNAME_CHANGE_FREQUENCY } from "coral-common/constants";
 import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
+import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { ValidationMessage } from "coral-framework/lib/form";
 import {
@@ -59,17 +60,6 @@ interface FormProps {
   usernameConfirm: string;
 }
 
-type AuthIntegrations = "local" | "sso" | "google" | "facebook" | "oidc";
-
-function enabledAuthenticationIntegrations(tenant: SettingsData): string[] {
-  return Object.keys(tenant.auth.integrations).filter((key: string) => {
-    const { enabled, targetFilter } = tenant.auth.integrations[
-      key as AuthIntegrations
-    ];
-    return enabled && targetFilter.stream;
-  });
-}
-
 const ChangeUsernameContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
@@ -91,7 +81,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
     ) {
       return false;
     }
-    const enabled = enabledAuthenticationIntegrations(settings);
+    const enabled = getAuthenticationIntegrations(settings.auth, "stream");
 
     return (
       enabled.includes("local") ||
