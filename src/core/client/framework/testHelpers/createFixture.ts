@@ -8,16 +8,16 @@ import { DeepPartial } from "coral-framework/types";
 export type Callbackify<T> = T extends object
   ?
       | {
-          [P in keyof T]: T[P] extends Array<infer U>
+          [P in keyof T]: T[P] extends (Array<infer U> | undefined)
             ? Array<Callbackify<U>>
-            : T[P] extends ReadonlyArray<infer V>
+            : T[P] extends (ReadonlyArray<infer V> | undefined)
             ? ReadonlyArray<Callbackify<V>>
             : Callbackify<T[P]>
         }
       | (() => {
-          [P in keyof T]: T[P] extends Array<infer U>
+          [P in keyof T]: T[P] extends (Array<infer U> | undefined)
             ? Array<Callbackify<U>>
-            : T[P] extends ReadonlyArray<infer V>
+            : T[P] extends (ReadonlyArray<infer V> | undefined)
             ? ReadonlyArray<Callbackify<V>>
             : Callbackify<T[P]>
         })
@@ -28,9 +28,9 @@ export type Callbackify<T> = T extends object
  */
 export type WithTypename<T> = T extends object
   ? {
-      [P in keyof T]: T[P] extends Array<infer U>
+      [P in keyof T]: T[P] extends (Array<infer U> | undefined)
         ? Array<WithTypename<U>>
-        : T[P] extends ReadonlyArray<infer V>
+        : T[P] extends (ReadonlyArray<infer V> | undefined)
         ? ReadonlyArray<WithTypename<V>>
         : WithTypename<T[P]>
     } & { __typename?: string }
