@@ -339,6 +339,8 @@ configure-openStream-description =
 configure-openStream-openStream = Open Stream
 
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
+comments-tombstone-deleted =
+  This comment is no longer available. The commenter has deleted their account.
 
 suspendInfo-heading = Your account has been temporarily suspended from commenting.
 suspendInfo-info =

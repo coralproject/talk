@@ -172,7 +172,7 @@ it("reject comment", async () => {
         rejectComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision.id,
+            commentRevisionID: firstComment.revision!.id,
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {

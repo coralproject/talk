@@ -1906,7 +1906,7 @@ type Comment {
   """
   revision is the current revision of the Comment's body.
   """
-  revision: CommentRevision!
+  revision: CommentRevision
 
   """
   revisionHistory stores the previous CommentRevision's, with the most recent

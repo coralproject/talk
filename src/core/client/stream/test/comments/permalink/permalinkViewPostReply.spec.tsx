@@ -104,7 +104,7 @@ it("post a reply", async () => {
           expectAndFail(variables).toMatchObject({
             storyID: storyFixture.id,
             parentID: storyFixture.comments.edges[0].node.id,
-            parentRevisionID: storyFixture.comments.edges[0].node.revision.id,
+            parentRevisionID: storyFixture.comments.edges[0].node.revision!.id,
             body: "<b>Hello world!</b>",
           });
           return {
