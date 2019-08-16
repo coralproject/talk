@@ -4,12 +4,17 @@ import path from "path";
 
 import { version } from "coral-common/version";
 import { getOperationMetadata } from "coral-server/graph/common/extensions/helpers";
+import logger from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 
 export function loadPersistedQueries(): PersistedQuery[] {
   // Check to see if we have a persisted queries folder.
   const dir = path.join(__dirname, "__generated__");
   if (!fs.pathExistsSync(dir)) {
+    logger.warn(
+      { dir },
+      "persisted queries not loaded, dir not found; did you run `npm run generate-persist`?"
+    );
     return [];
   }
 
@@ -56,6 +61,8 @@ export function loadPersistedQueries(): PersistedQuery[] {
       });
     }
   }
+
+  logger.info({ queries: queries.length }, "loaded persisted queries");
 
   return queries;
 }

@@ -267,14 +267,6 @@ class Server {
     // Prime the queries in the database.
     await persistedQueryCache.prime();
 
-    logger.info(
-      { queries: persistedQueryCache.size },
-      "loaded persisted queries"
-    );
-    if (persistedQueryCache.size === 0) {
-      logger.warn("no persisted queries loaded, did you run `npm run build`?");
-    }
-
     const options: AppOptions = {
       parent,
       pubsub: this.pubsub,
