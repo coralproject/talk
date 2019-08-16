@@ -19,13 +19,13 @@ import { createPubSubClient } from "coral-server/graph/common/subscriptions/pubs
 import getTenantSchema from "coral-server/graph/tenant/schema";
 import { createSubscriptionServer } from "coral-server/graph/tenant/subscriptions/server";
 import logger from "coral-server/logger";
-import { PersistedQueryCache } from "coral-server/models/queries";
 import { createQueue, TaskQueue } from "coral-server/queue";
 import { I18n } from "coral-server/services/i18n";
 import { createJWTSigningConfig } from "coral-server/services/jwt";
 import { createMetrics } from "coral-server/services/metrics";
 import { createMongoDB } from "coral-server/services/mongodb";
 import { ensureIndexes } from "coral-server/services/mongodb/indexes";
+import { PersistedQueryCache } from "coral-server/services/queries";
 import {
   AugmentedRedis,
   createAugmentedRedisClient,

@@ -1,10 +1,11 @@
 import { Db } from "mongodb";
 
-import { createIndexFactory } from "../helpers/indexing";
+import {
+  createCollection,
+  createIndexFactory,
+} from "coral-server/models/helpers";
 
-function collection(mongo: Db) {
-  return mongo.collection<Readonly<PersistedQuery>>("queries");
-}
+const collection = createCollection<Readonly<PersistedQuery>>("queries");
 
 export interface PersistedQuery {
   id: string;
