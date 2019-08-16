@@ -44,6 +44,7 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
     fragment ProfileContainer_settings on Settings {
       ...UserBoxContainer_settings
       ...ChangeEmailContainer_settings
+      ...ChangeUsernameContainer_settings
       ...SettingsContainer_settings
     }
   `,

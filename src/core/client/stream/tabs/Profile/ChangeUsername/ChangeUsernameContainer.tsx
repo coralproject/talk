@@ -24,6 +24,7 @@ import {
   validateUsername,
   validateUsernameEquals,
 } from "coral-framework/lib/validation";
+import { ChangeUsernameContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
 import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 import {
   Box,
@@ -50,6 +51,7 @@ const FREQUENCYSCALED = reduceSeconds(ALLOWED_USERNAME_CHANGE_FREQUENCY, [
 
 interface Props {
   viewer: ViewerData;
+  settings: SettingsData;
 }
 
 interface FormProps {
@@ -57,7 +59,21 @@ interface FormProps {
   usernameConfirm: string;
 }
 
-const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
+type AuthIntegrations = "local" | "sso" | "google" | "facebook" | "oidc";
+
+function enabledAuthenticationIntegrations(tenant: SettingsData): string[] {
+  return Object.keys(tenant.auth.integrations).filter((key: string) => {
+    const { enabled, targetFilter } = tenant.auth.integrations[
+      key as AuthIntegrations
+    ];
+    return enabled && targetFilter.stream;
+  });
+}
+
+const ChangeUsernameContainer: FunctionComponent<Props> = ({
+  viewer,
+  settings,
+}) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const toggleEditForm = useCallback(() => {
@@ -68,6 +84,20 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
   const closeSuccessMessage = useCallback(() => setShowSuccessMessage(false), [
     setShowEditForm,
   ]);
+
+  const canChangeLocalAuth = useMemo(() => {
+    if (
+      !viewer.profiles.find(profile => profile.__typename === "LocalProfile")
+    ) {
+      return false;
+    }
+    const enabled = enabledAuthenticationIntegrations(settings);
+
+    return (
+      enabled.includes("local") ||
+      !(enabled.length === 1 && enabled[0] === "sso")
+    );
+  }, [viewer, settings]);
 
   const canChangeUsername = useMemo(() => {
     const { username } = viewer.status;
@@ -148,11 +178,13 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
       {!showEditForm && (
         <Flex alignItems="baseline">
           <Typography variant="header2">{viewer.username}</Typography>
-          <Localized id="profile-changeUsername-edit">
-            <Button size="small" color="primary" onClick={toggleEditForm}>
-              edit
-            </Button>
-          </Localized>
+          {canChangeLocalAuth && (
+            <Localized id="profile-changeUsername-edit">
+              <Button size="small" color="primary" onClick={toggleEditForm}>
+                edit
+              </Button>
+            </Localized>
+          )}
         </Flex>
       )}
       {showEditForm && (
@@ -337,11 +369,52 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment ChangeUsernameContainer_viewer on User {
       username
+      profiles {
+        __typename
+      }
       status {
         username {
           history {
             username
             createdAt
+          }
+        }
+      }
+    }
+  `,
+  settings: graphql`
+    fragment ChangeUsernameContainer_settings on Settings {
+      auth {
+        integrations {
+          local {
+            enabled
+            targetFilter {
+              stream
+            }
+          }
+          google {
+            enabled
+            targetFilter {
+              stream
+            }
+          }
+          oidc {
+            enabled
+            targetFilter {
+              stream
+            }
+          }
+          sso {
+            enabled
+            targetFilter {
+              stream
+            }
+          }
+          facebook {
+            enabled
+            targetFilter {
+              stream
+            }
           }
         }
       }

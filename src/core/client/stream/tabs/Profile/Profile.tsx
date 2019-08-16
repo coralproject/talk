@@ -28,7 +28,8 @@ export interface ProfileProps {
     PropTypesOf<typeof SettingsContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
     PropTypesOf<typeof ChangeEmailContainer>["settings"] &
-    PropTypesOf<typeof SettingsContainer>["settings"];
+    PropTypesOf<typeof SettingsContainer>["settings"] &
+    PropTypesOf<typeof ChangeUsernameContainer>["settings"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
@@ -44,7 +45,10 @@ const Profile: FunctionComponent<ProfileProps> = props => {
   return (
     <HorizontalGutter spacing={5}>
       <HorizontalGutter spacing={2}>
-        <ChangeUsernameContainer viewer={props.viewer} />
+        <ChangeUsernameContainer
+          settings={props.settings}
+          viewer={props.viewer}
+        />
         <ChangeEmailContainer settings={props.settings} viewer={props.viewer} />
       </HorizontalGutter>
       <TabBar
