@@ -19,13 +19,13 @@ import { createPubSubClient } from "coral-server/graph/common/subscriptions/pubs
 import getTenantSchema from "coral-server/graph/tenant/schema";
 import { createSubscriptionServer } from "coral-server/graph/tenant/subscriptions/server";
 import logger from "coral-server/logger";
-import { PersistedQueryCache } from "coral-server/models/queries";
 import { createQueue, TaskQueue } from "coral-server/queue";
 import { I18n } from "coral-server/services/i18n";
 import { createJWTSigningConfig } from "coral-server/services/jwt";
 import { createMetrics } from "coral-server/services/metrics";
 import { createMongoDB } from "coral-server/services/mongodb";
 import { ensureIndexes } from "coral-server/services/mongodb/indexes";
+import { PersistedQueryCache } from "coral-server/services/queries";
 import {
   AugmentedRedis,
   createAugmentedRedisClient,
@@ -266,14 +266,6 @@ class Server {
 
     // Prime the queries in the database.
     await persistedQueryCache.prime();
-
-    logger.info(
-      { queries: persistedQueryCache.size },
-      "loaded persisted queries"
-    );
-    if (persistedQueryCache.size === 0) {
-      logger.warn("no persisted queries loaded, did you run `npm run build`?");
-    }
 
     const options: AppOptions = {
       parent,

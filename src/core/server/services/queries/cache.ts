@@ -4,8 +4,11 @@ import { Db } from "mongodb";
 
 import { loadPersistedQueries } from "coral-server/graph/tenant/persisted";
 import logger from "coral-server/logger";
-
-import { getQueries, PersistedQuery, primeQueries } from "./queries";
+import {
+  getQueries,
+  PersistedQuery,
+  primeQueries,
+} from "coral-server/models/queries/queries";
 
 interface PersistedQueryCacheOptions {
   mongo: Db;
