@@ -49,14 +49,17 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 <Localized id="configure-general-reactions-label">
                   <InputLabel>Reaction label</InputLabel>
                 </Localized>
-                <TextField
-                  className={styles.textInput}
-                  id={input.name}
-                  type="text"
-                  fullWidth
-                  disabled={disabled}
-                  {...input}
-                />
+                <Localized id="configure-general-reactions-input">
+                  <TextField
+                    className={styles.textInput}
+                    id={input.name}
+                    type="text"
+                    fullWidth
+                    placeholder="E.g. Respect"
+                    disabled={disabled}
+                    {...input}
+                  />
+                </Localized>
                 <ValidationMessage fullWidth meta={meta} />
               </HorizontalGutter>
               <HorizontalGutter>
@@ -87,14 +90,17 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 <Localized id="configure-general-reactions-active-label">
                   <InputLabel>Active reaction label</InputLabel>
                 </Localized>
-                <TextField
-                  className={styles.textInput}
-                  id={input.name}
-                  type="text"
-                  fullWidth
-                  disabled={disabled}
-                  {...input}
-                />
+                <Localized id="configure-general-reactions-active-input">
+                  <TextField
+                    className={styles.textInput}
+                    id={input.name}
+                    type="text"
+                    placeholder="E.g. Respected"
+                    fullWidth
+                    disabled={disabled}
+                    {...input}
+                  />
+                </Localized>
                 <ValidationMessage fullWidth meta={meta} />
               </HorizontalGutter>
               <HorizontalGutter>
@@ -125,14 +131,17 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 <Localized id="configure-general-reactions-sort-label">
                   <InputLabel>Sort label</InputLabel>
                 </Localized>
-                <TextField
-                  id={input.name}
-                  className={styles.textInput}
-                  type="text"
-                  fullWidth
-                  disabled={disabled}
-                  {...input}
-                />
+                <Localized id="configure-general-reactions-sort-input">
+                  <TextField
+                    id={input.name}
+                    className={styles.textInput}
+                    type="text"
+                    placeholder="E.g. Most respected"
+                    fullWidth
+                    disabled={disabled}
+                    {...input}
+                  />
+                </Localized>
                 <ValidationMessage fullWidth meta={meta} />
               </HorizontalGutter>
               <HorizontalGutter>
@@ -141,14 +150,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 </Localized>
                 <Flex justifyContent="center" itemGutter>
                   <Localized id="configure-general-reaction-sortMenu-sortBy">
-                    <Typography
-                      variant="bodyCopyBold"
-                      container={
-                        <label htmlFor="configure-general-reaction-sortMenu-sortMenu" />
-                      }
-                    >
-                      Sort By
-                    </Typography>
+                    <Typography variant="bodyCopyBold">Sort By</Typography>
                   </Localized>
                   <SelectField>
                     <Option value={input.value}>{input.value}</Option>{" "}
