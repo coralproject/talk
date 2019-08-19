@@ -72,7 +72,7 @@ it("feature and unfeature comment", async () => {
         featureComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision.id,
+            commentRevisionID: firstComment.revision!.id,
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {
@@ -140,7 +140,7 @@ it("approve comment", async () => {
         approveComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision.id,
+            commentRevisionID: firstComment.revision!.id,
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {

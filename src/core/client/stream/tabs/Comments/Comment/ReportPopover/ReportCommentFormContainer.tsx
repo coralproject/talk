@@ -41,13 +41,15 @@ export class ReportCommentFormContainer extends Component<Props, State> {
       if (input.reason === "DISAGREE") {
         await this.props.createCommentDontAgree({
           commentID: this.props.comment.id,
-          commentRevisionID: this.props.comment.revision.id,
+          // revision is guaranteed since we are able to interact with it
+          commentRevisionID: this.props.comment.revision!.id,
           additionalDetails: input.additionalDetails,
         });
       } else {
         await this.props.createCommentFlag({
           commentID: this.props.comment.id,
-          commentRevisionID: this.props.comment.revision.id,
+          // revision is guaranteed since we are able to interact with it
+          commentRevisionID: this.props.comment.revision!.id,
           reason: input.reason,
           additionalDetails: input.additionalDetails,
         });
