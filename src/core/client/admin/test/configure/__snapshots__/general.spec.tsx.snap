@@ -737,6 +737,217 @@ moderation panel.
               />
             </div>
           </div>
+          <fieldset
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
+              Missing translation "configure-general-reactions-title"
+            </legend>
+            <p
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+            >
+              Missing translation "configure-general-reactions-explanation"
+            </p>
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            >
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <label
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                    >
+                      Missing translation "configure-general-reactions-label"
+                    </label>
+                    <div
+                      className="TextField-root TextField-fullWidth ReactionConfig-textInput"
+                    >
+                      <input
+                        className="TextField-input TextField-colorRegular"
+                        disabled={false}
+                        id="reaction.label"
+                        name="reaction.label"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        type="text"
+                        value="Reaction"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <h1
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
+                    >
+                      Missing translation "configure-general-reactions-preview"
+                    </h1>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton"
+                      disabled={true}
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reaction
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <label
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                    >
+                      Missing translation "configure-general-reactions-active-label"
+                    </label>
+                    <div
+                      className="TextField-root TextField-fullWidth ReactionConfig-textInput"
+                    >
+                      <input
+                        className="TextField-input TextField-colorRegular"
+                        disabled={false}
+                        id="reaction.labelActive"
+                        name="reaction.labelActive"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        type="text"
+                        value="reacted"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <h1
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
+                    >
+                      Missing translation "configure-general-reactions-preview"
+                    </h1>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton"
+                      disabled={true}
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        reacted
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <label
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                    >
+                      Missing translation "configure-general-reactions-sort-label"
+                    </label>
+                    <div
+                      className="TextField-root TextField-fullWidth ReactionConfig-textInput"
+                    >
+                      <input
+                        className="TextField-input TextField-colorRegular"
+                        disabled={false}
+                        id="reaction.sortLabel"
+                        name="reaction.sortLabel"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        type="text"
+                        value="Reactions"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <h1
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
+                    >
+                      Missing translation "configure-general-reactions-preview"
+                    </h1>
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyCenter gutter"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+                        htmlFor="configure-general-reaction-sortMenu-sortMenu"
+                      >
+                        Missing translation "configure-general-reaction-sortMenu-sortBy"
+                      </label>
+                      <span
+                        className="SelectField-root"
+                      >
+                        <select
+                          className="SelectField-select"
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                        >
+                          <option
+                            value="Reactions"
+                          >
+                            Reactions
+                          </option>
+                           
+                        </select>
+                        <span
+                          aria-hidden={true}
+                          className="SelectField-afterWrapper"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            expand_more
+                          </span>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
         </div>
       </div>
     </div>

@@ -46,6 +46,12 @@ export const settings = createFixture<GQLSettings>({
     timeout: 604800,
     message: "Comments are closed on this story.",
   },
+  reaction: {
+    label: "Reaction",
+    labelActive: "reacted",
+    sortLabel: "Reactions",
+    icon: "icon",
+  },
   email: {
     enabled: true,
   },
