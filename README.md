@@ -132,7 +132,7 @@ npm run start
 
 Then head on over to http://localhost:3000 to install Coral!
 
-### Development
+## Development
 
 Running Coral for development is very similar to installing Coral via Source as
 described above.
@@ -160,6 +160,14 @@ assuming you have Docker installed on your local machine:
 ```bash
 docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
 docker run -d -p 6379:6379 --restart always --name redis redis:3.2
+```
+
+We recommend installing [watchman](https://facebook.github.io/watchman/docs/install.html) for better watch
+performance. 
+
+```
+brew update
+brew install watchman
 ```
 
 Then start Coral with:
