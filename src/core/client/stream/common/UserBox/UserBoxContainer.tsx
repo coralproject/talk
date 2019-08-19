@@ -44,18 +44,17 @@ export class UserBoxContainer extends Component<Props> {
   private handleRegister = () => this.props.showAuthPopup({ view: "SIGN_UP" });
   private handleSignOut = () => this.props.signOut();
 
-  private get authTypeSupportsLogout() {
-    return (
-      this.props.viewer &&
-      this.props.viewer.profiles.find(
-        profile => profile.__typename === "LocalProfile"
-      )
+  private get authTypePreventsLogout() {
+    const integrations = getAuthenticationIntegrations(
+      this.props.settings.auth,
+      "stream"
     );
+    return integrations.includes("sso") && !integrations.includes("local");
   }
 
   private get supportsLogout() {
     return Boolean(
-      this.authTypeSupportsLogout &&
+      !this.authTypePreventsLogout &&
         (!this.props.local.accessToken ||
           (this.props.local.accessTokenJTI !== null &&
             this.props.local.accessTokenExp !== null))
