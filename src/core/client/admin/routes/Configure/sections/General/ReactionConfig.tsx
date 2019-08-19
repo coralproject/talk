@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { ReactionConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ReactionConfigContainer_settings.graphql";
-import { composeValidators, required } from "coral-framework/lib/validation";
+import { required } from "coral-framework/lib/validation";
 import ReactionButton from "coral-stream/tabs/Comments/Comment/ReactionButton/ReactionButton";
 import {
   FieldSet,
@@ -16,7 +16,6 @@ import {
   TextField,
   Typography,
 } from "coral-ui/components";
-import variables from "coral-ui/theme/variables";
 
 import Header from "../../Header";
 import ValidationMessage from "../../ValidationMessage";
@@ -27,6 +26,7 @@ interface Props {
   disabled: boolean;
   settings: SettingsData;
 }
+
 const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
   <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-reactions-title">
@@ -40,15 +40,15 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
         based on the needs of your community.
       </Typography>
     </Localized>
-    <HorizontalGutter spacing={3}>
-      <Flex itemGutter="double">
-        <FormField>
-          <Localized id="configure-general-reactions-label">
-            <InputLabel>Reaction label</InputLabel>
-          </Localized>
-          <Field name="reaction.label" validate={required}>
-            {({ input, meta }) => (
-              <>
+    <HorizontalGutter size="double">
+      <FormField>
+        <Field name="reaction.label" validate={required}>
+          {({ input, meta }) => (
+            <Flex itemGutter="double">
+              <HorizontalGutter>
+                <Localized id="configure-general-reactions-label">
+                  <InputLabel>Reaction label</InputLabel>
+                </Localized>
                 <TextField
                   className={styles.textInput}
                   id={input.name}
@@ -58,35 +58,35 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                   {...input}
                 />
                 <ValidationMessage fullWidth meta={meta} />
-              </>
-            )}
-          </Field>
-        </FormField>
-        <div>
-          <Localized id="configure-general-reactions-preview">
-            <Typography variant="heading3">Preview</Typography>
-          </Localized>
-          <ReactionButton
-            readOnly
-            reacted={false}
-            label={settings.reaction.label}
-            labelActive={settings.reaction.labelActive}
-            icon={settings.reaction.icon}
-            iconActive={settings.reaction.iconActive}
-            totalReactions={0}
-            color={variables.palette.grey.main}
-            onClick={() => null}
-          />
-        </div>
-      </Flex>
-      <Flex itemGutter="double">
-        <FormField>
-          <Localized id="configure-general-reactions-active-label">
-            <InputLabel>Active reaction label</InputLabel>
-          </Localized>
-          <Field name="reaction.labelActive" validate={required}>
-            {({ input, meta }) => (
-              <>
+              </HorizontalGutter>
+              <HorizontalGutter>
+                <Localized id="configure-general-reactions-preview">
+                  <Typography variant="heading3">Preview</Typography>
+                </Localized>
+                <ReactionButton
+                  readOnly
+                  className={styles.reactionButton}
+                  reacted={false}
+                  label={input.value}
+                  labelActive={settings.reaction.labelActive}
+                  icon={settings.reaction.icon}
+                  iconActive={settings.reaction.iconActive}
+                  totalReactions={0}
+                  onClick={() => null}
+                />
+              </HorizontalGutter>
+            </Flex>
+          )}
+        </Field>
+      </FormField>
+      <FormField>
+        <Field name="reaction.labelActive" validate={required}>
+          {({ input, meta }) => (
+            <Flex itemGutter="double">
+              <HorizontalGutter>
+                <Localized id="configure-general-reactions-active-label">
+                  <InputLabel>Active reaction label</InputLabel>
+                </Localized>
                 <TextField
                   className={styles.textInput}
                   id={input.name}
@@ -96,34 +96,35 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                   {...input}
                 />
                 <ValidationMessage fullWidth meta={meta} />
-              </>
-            )}
-          </Field>
-        </FormField>
-        <div>
-          <Localized id="configure-general-reactions-preview">
-            <Typography variant="heading3">Preview</Typography>
-          </Localized>
-          <ReactionButton
-            readOnly
-            reacted
-            label={settings.reaction.label}
-            labelActive={settings.reaction.labelActive}
-            icon={settings.reaction.icon}
-            iconActive={settings.reaction.iconActive}
-            totalReactions={0}
-            onClick={() => null}
-          />
-        </div>
-      </Flex>
-      <Flex itemGutter="double">
-        <FormField>
-          <Localized id="configure-general-reactions-sort-label">
-            <InputLabel>Sort label</InputLabel>
-          </Localized>
-          <Field name="reaction.sortLabel" validate={required}>
-            {({ input, meta }) => (
-              <>
+              </HorizontalGutter>
+              <HorizontalGutter>
+                <Localized id="configure-general-reactions-preview">
+                  <Typography variant="heading3">Preview</Typography>
+                </Localized>
+                <ReactionButton
+                  className={styles.reactionButton}
+                  readOnly
+                  reacted
+                  label={settings.reaction.label}
+                  labelActive={settings.reaction.labelActive}
+                  icon={settings.reaction.icon}
+                  iconActive={settings.reaction.iconActive}
+                  totalReactions={0}
+                  onClick={() => null}
+                />
+              </HorizontalGutter>
+            </Flex>
+          )}
+        </Field>
+      </FormField>
+      <FormField>
+        <Field name="reaction.sortLabel" validate={required}>
+          {({ input, meta }) => (
+            <Flex itemGutter="double">
+              <HorizontalGutter>
+                <Localized id="configure-general-reactions-sort-label">
+                  <InputLabel>Sort label</InputLabel>
+                </Localized>
                 <TextField
                   id={input.name}
                   className={styles.textInput}
@@ -133,33 +134,31 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                   {...input}
                 />
                 <ValidationMessage fullWidth meta={meta} />
-              </>
-            )}
-          </Field>
-        </FormField>
-        <div>
-          <Localized id="configure-general-reactions-preview">
-            <Typography variant="heading3">Preview</Typography>
-          </Localized>
-          <Flex>
-            <Localized id="configure-general-reaction-sortMenu-sortBy">
-              <Typography
-                variant="bodyCopyBold"
-                container={
-                  <label htmlFor="configure-general-reaction-sortMenu-sortMenu" />
-                }
-              >
-                Sort By
-              </Typography>
-            </Localized>
-            <SelectField>
-              <Option value={settings.reaction.sortLabel}>
-                {settings.reaction.sortLabel}
-              </Option>{" "}
-            </SelectField>
-          </Flex>
-        </div>
-      </Flex>
+              </HorizontalGutter>
+              <HorizontalGutter>
+                <Localized id="configure-general-reactions-preview">
+                  <Typography variant="heading3">Preview</Typography>
+                </Localized>
+                <Flex justifyContent="center" itemGutter>
+                  <Localized id="configure-general-reaction-sortMenu-sortBy">
+                    <Typography
+                      variant="bodyCopyBold"
+                      container={
+                        <label htmlFor="configure-general-reaction-sortMenu-sortMenu" />
+                      }
+                    >
+                      Sort By
+                    </Typography>
+                  </Localized>
+                  <SelectField>
+                    <Option value={input.value}>{input.value}</Option>{" "}
+                  </SelectField>
+                </Flex>
+              </HorizontalGutter>
+            </Flex>
+          )}
+        </Field>
+      </FormField>
     </HorizontalGutter>
   </HorizontalGutter>
 );
