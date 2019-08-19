@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import { urls } from "coral-framework/helpers";
+import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import {
   graphql,
   withFragmentContainer,
@@ -43,11 +44,21 @@ export class UserBoxContainer extends Component<Props> {
   private handleRegister = () => this.props.showAuthPopup({ view: "SIGN_UP" });
   private handleSignOut = () => this.props.signOut();
 
+  private get authTypeSupportsLogout() {
+    return (
+      this.props.viewer &&
+      this.props.viewer.profiles.find(
+        profile => profile.__typename === "LocalProfile"
+      )
+    );
+  }
+
   private get supportsLogout() {
     return Boolean(
-      !this.props.local.accessToken ||
-        (this.props.local.accessTokenJTI !== null &&
-          this.props.local.accessTokenExp !== null)
+      this.authTypeSupportsLogout &&
+        (!this.props.local.accessToken ||
+          (this.props.local.accessTokenJTI !== null &&
+            this.props.local.accessTokenExp !== null))
     );
   }
 
@@ -166,6 +177,9 @@ const enhanced = withSignOutMutation(
           viewer: graphql`
             fragment UserBoxContainer_viewer on User {
               username
+              profiles {
+                __typename
+              }
             }
           `,
           settings: graphql`
@@ -173,6 +187,13 @@ const enhanced = withSignOutMutation(
               auth {
                 integrations {
                   local {
+                    enabled
+                    allowRegistration
+                    targetFilter {
+                      stream
+                    }
+                  }
+                  sso {
                     enabled
                     allowRegistration
                     targetFilter {
