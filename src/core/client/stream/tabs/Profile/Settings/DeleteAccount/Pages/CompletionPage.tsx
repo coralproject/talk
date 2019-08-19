@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { Button, Flex, Typography } from "coral-ui/components";
 
 import PageStepBar from "./Common/PageStepBar";
@@ -22,10 +23,12 @@ const CompletionPage: FunctionComponent<Props> = ({
     onClose();
   }, [onClose]);
 
+  const { locales } = useCoralContext();
+
   const organizationEmail = "org@org.com";
 
   const formattedDate = scheduledDeletionDate
-    ? Intl.DateTimeFormat("en-us", {
+    ? Intl.DateTimeFormat(locales, {
         year: "numeric",
         month: "numeric",
         day: "numeric",
