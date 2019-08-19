@@ -25,6 +25,13 @@ it("renders fully", () => {
     settings: {
       auth: {
         integrations: {
+          sso: {
+            enabled: false,
+            allowRegistration: true,
+            targetFilter: {
+              stream: false,
+            },
+          },
           facebook: {
             enabled: true,
             allowRegistration: true,
@@ -87,6 +94,13 @@ it("renders without logout button", () => {
     settings: {
       auth: {
         integrations: {
+          sso: {
+            enabled: false,
+            allowRegistration: true,
+            targetFilter: {
+              stream: false,
+            },
+          },
           facebook: {
             enabled: true,
             allowRegistration: true,
@@ -149,6 +163,13 @@ it("renders sso only", () => {
     settings: {
       auth: {
         integrations: {
+          sso: {
+            enabled: false,
+            allowRegistration: true,
+            targetFilter: {
+              stream: false,
+            },
+          },
           facebook: {
             enabled: false,
             allowRegistration: true,
@@ -211,6 +232,13 @@ it("renders sso only without logout button", () => {
     settings: {
       auth: {
         integrations: {
+          sso: {
+            enabled: false,
+            allowRegistration: true,
+            targetFilter: {
+              stream: false,
+            },
+          },
           facebook: {
             enabled: false,
             allowRegistration: true,
@@ -273,6 +301,13 @@ it("renders without register button", () => {
     settings: {
       auth: {
         integrations: {
+          sso: {
+            enabled: false,
+            allowRegistration: true,
+            targetFilter: {
+              stream: false,
+            },
+          },
           facebook: {
             enabled: true,
             allowRegistration: false,
