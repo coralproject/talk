@@ -12,7 +12,7 @@ import { Button } from "coral-ui/components/Button";
 
 import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
 
-import CancelAccountDeletionMutation from "./CancelAccountDeletionMutation";
+import CancelAccountDeletionMutation from "../../DeletionRequest/CancelAccountDeletionMutation";
 
 import DeleteAccountModal from "./DeleteAccountModal";
 

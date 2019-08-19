@@ -146,6 +146,13 @@ comments-featured-replies = Replies
 profile-myCommentsTab = My Comments
 profile-settingsTab = Settings
 
+### Account Deletion
+
+profile-accountDeletion-deletionDesc =
+  Your account is scheduled to be deleted on { $date }.
+profile-accountDeletion-cancelDeletion =
+  Cancel account deletion request
+
 ### Comment History
 profile-historyComment-viewConversation = View Conversation
 profile-historyComment-replies = Replies {$replyCount}
