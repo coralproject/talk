@@ -25,6 +25,7 @@ import { createJWTSigningConfig } from "coral-server/services/jwt";
 import { createMetrics } from "coral-server/services/metrics";
 import { createMongoDB } from "coral-server/services/mongodb";
 import { ensureIndexes } from "coral-server/services/mongodb/indexes";
+import { PersistedQueryCache } from "coral-server/services/queries";
 import {
   AugmentedRedis,
   createAugmentedRedisClient,
@@ -260,6 +261,12 @@ class Server {
     // Webpack Dev Server.
     const disableClientRoutes = this.config.get("disable_client_routes");
 
+    // Load and upsert the persisted queries.
+    const persistedQueryCache = new PersistedQueryCache({ mongo: this.mongo });
+
+    // Prime the queries in the database.
+    await persistedQueryCache.prime();
+
     const options: AppOptions = {
       parent,
       pubsub: this.pubsub,
@@ -273,6 +280,10 @@ class Server {
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
       disableClientRoutes,
+      persistedQueryCache,
+      persistedQueriesRequired:
+        this.config.get("env") === "production" &&
+        !this.config.get("enable_graphiql"),
     };
 
     // Only enable the metrics server if concurrency is set to 1.

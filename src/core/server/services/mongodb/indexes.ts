@@ -5,6 +5,7 @@ import { createCommentActionIndexes } from "coral-server/models/action/comment";
 import { createCommentModerationActionIndexes } from "coral-server/models/action/moderation/comment";
 import { createCommentIndexes } from "coral-server/models/comment";
 import { createInviteIndexes } from "coral-server/models/invite";
+import { createQueriesIndexes } from "coral-server/models/queries";
 import {
   createStoryCountIndexes,
   createStoryIndexes,
@@ -23,6 +24,7 @@ const indexes: Array<[string, IndexCreationFunction]> = [
   ["stories", createStoryCountIndexes],
   ["commentActions", createCommentActionIndexes],
   ["commentModerationActions", createCommentModerationActionIndexes],
+  ["queries", createQueriesIndexes],
 ];
 
 /**
