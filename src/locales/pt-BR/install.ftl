@@ -5,7 +5,6 @@ install-nextButton-next = Próximo
 install-permittedDomains-finishInstall = Finalizar Instalação
 install-header-title = Assistente de instalação de Coral
 
-install-initialStep-copy = O restante da instalação do Coral levará cerca de dez minutos. Depois de concluir as três etapas a seguir, você terá uma instalação e fornecimento gratuitos do Mongo e do Redis.
 install-initialStep-getStarted = Iniciar
 
 install-addOrganization-stepTitle = Adicionar Detalhes da Organização
