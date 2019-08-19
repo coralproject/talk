@@ -19,7 +19,7 @@ Preview Coral easily by running Coral via a Heroku App:
 - [Running](#running)
   - [Docker](#docker)
   - [Source](#source)
-  - [Development](#development)
+- [Development](#development)
     - [Embed On Your Site](#embed-on-your-site)
     - [Single Sign On](#single-sign-on)
     - [Email](#email)
