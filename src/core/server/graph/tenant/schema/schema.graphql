@@ -4168,6 +4168,29 @@ type RequestAccountDeletionPayload {
 }
 
 ##################
+# cancelAccountDeletion
+##################
+
+input CancelAccountDeletionInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CancelAccountDeletionPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # createToken
 ##################
 
@@ -4803,6 +4826,14 @@ type Mutation {
   requestAccountDeletion(
     input: RequestAccountDeletionInput!
   ): RequestAccountDeletionPayload! @auth
+
+  """
+  cancelAccountDeletion allows the current logged in User to cancel the
+  request to delete their account
+  """
+  cancelAccountDeletion(
+    input: CancelAccountDeletionInput!
+  ): CancelAccountDeletionPayload! @auth
 
   """
   createToken allows an administrator to create a Token based on the current

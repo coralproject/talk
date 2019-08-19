@@ -31,6 +31,7 @@ import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
+  clearDeletionDate,
   consolidateUserBanStatus,
   consolidateUserSuspensionStatus,
   createUserToken,
@@ -339,6 +340,20 @@ export async function requestAccountDeletion(
     user.id,
     deletionDate.toJSDate()
   );
+
+  return updatedUser;
+}
+
+export async function cancelAccountDeletion(
+  mongo: Db,
+  tenant: Tenant,
+  user: User
+) {
+  if (!user.email) {
+    throw new EmailNotSetError();
+  }
+
+  const updatedUser = await clearDeletionDate(mongo, tenant.id!, user.id);
 
   return updatedUser;
 }

@@ -1,12 +1,19 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import {
+  graphql,
+  useMutation,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
+import { Icon, Typography } from "coral-ui/components";
 import { Button } from "coral-ui/components/Button";
 
 import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
 
-import { Icon, Typography } from "coral-ui/components";
+import CancelAccountDeletionMutation from "./CancelAccountDeletionMutation";
+
 import DeleteAccountModal from "./DeleteAccountModal";
 
 import styles from "./DeleteAccountContainer.css";
@@ -16,6 +23,8 @@ interface Props {
 }
 
 const DeleteAccountContainer: FunctionComponent<Props> = ({ viewer }) => {
+  const cancelAccountDeletion = useMutation(CancelAccountDeletionMutation);
+
   const [deletePopoverVisible, setDeletePopoverVisible] = useState(false);
 
   const showPopover = useCallback(() => {
@@ -25,8 +34,25 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({ viewer }) => {
     setDeletePopoverVisible(false);
   }, [setDeletePopoverVisible]);
 
+  const cancelDeletion = useCallback(() => {
+    cancelAccountDeletion();
+  }, [cancelAccountDeletion]);
+
+  const { locales } = useCoralContext();
+
+  const deletionDate = viewer.scheduledDeletionDate
+    ? Intl.DateTimeFormat(locales, {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      }).format(new Date(viewer.scheduledDeletionDate))
+    : null;
+
   return (
-    <>
+    <div className={styles.root}>
       <DeleteAccountModal
         open={deletePopoverVisible}
         onClose={hidePopover}
@@ -35,29 +61,60 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({ viewer }) => {
       />
 
       <Localized id="profile-settings-deleteAccount-title">
-        <Typography variant="heading3">Delete My Account</Typography>
+        <Typography variant="heading3" className={styles.title}>
+          Delete My Account
+        </Typography>
       </Localized>
       <Localized id="profile-settings-deleteAccount-description">
-        <Typography variant="bodyCopy">
+        <Typography variant="bodyCopy" className={styles.section}>
           Deleting your account will permanently erase your profile and remove
           all your comments from this site.
         </Typography>
       </Localized>
 
-      <Button variant="outlined" size="small" onClick={showPopover}>
-        <Localized
-          id="profile-settings-deleteAccount-requestDelete-icon"
-          attrs={{ title: true }}
-        >
-          <Icon size="sm" className={styles.icon}>
-            cancel
-          </Icon>
-        </Localized>
-        <Localized id="profile-settings-deleteAccount-requestDelete">
-          <span>Request account deletion</span>
-        </Localized>
-      </Button>
-    </>
+      {!deletionDate && (
+        <Button variant="outlined" size="small" onClick={showPopover}>
+          <Localized
+            id="profile-settings-deleteAccount-requestDelete-icon"
+            attrs={{ title: true }}
+          >
+            <Icon size="sm" className={styles.icon}>
+              cancel
+            </Icon>
+          </Localized>
+          <Localized id="profile-settings-deleteAccount-requestDelete">
+            <span>Request account deletion</span>
+          </Localized>
+        </Button>
+      )}
+      {deletionDate && (
+        <>
+          <Localized
+            id="profile-settings-deleteAccount-cancelDelete-description"
+            $date={deletionDate}
+          >
+            <Typography variant="bodyCopy" className={styles.section}>
+              {`You have already submitted a request to delete your account.
+              Your account will be deleted on ${deletionDate}.
+              You may cancel the request until that time.`}
+            </Typography>
+          </Localized>
+          <Button variant="filled" size="small" onClick={cancelDeletion}>
+            <Localized
+              id="profile-settings-deleteAccount-cancelDelete-icon"
+              attrs={{ title: true }}
+            >
+              <Icon size="sm" className={styles.icon}>
+                cancel
+              </Icon>
+            </Localized>
+            <Localized id="profile-settings-deleteAccount-cancelDelete">
+              <span>Cancel account deletion request</span>
+            </Localized>
+          </Button>
+        </>
+      )}
+    </div>
   );
 };
 

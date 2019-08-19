@@ -700,6 +700,34 @@ export async function scheduleDeletionDate(
   return result.value || null;
 }
 
+export async function clearDeletionDate(
+  mongo: Db,
+  tenantID: string,
+  userID: string
+) {
+  const users = collection(mongo);
+  const result = await users.findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $set: {
+        scheduledDeletionDate: null,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    throw new Error("Unable to update user deletion date.");
+  }
+
+  return result.value || null;
+}
+
 export interface UpdateUserInput {
   email?: string;
   username?: string;
