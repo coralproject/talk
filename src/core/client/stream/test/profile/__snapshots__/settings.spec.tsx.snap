@@ -409,37 +409,41 @@ You can make
               </span>
             </button>
           </div>
-          <h1
-            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
+          <div
+            className="DeleteAccountContainer-root"
           >
-            Delete My Account
-          </h1>
-          <p
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Deleting your account will permanently erase your profile and remove
-all your comments from this site.
-          </p>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm DeleteAccountContainer-icon"
+            <h1
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary DeleteAccountContainer-title"
             >
-              Missing translation "profile-settings-deleteAccount-requestDelete-icon"
-            </span>
-            <span>
-              Request account deletion
-            </span>
-          </button>
+              Delete My Account
+            </h1>
+            <p
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DeleteAccountContainer-section"
+            >
+              Deleting your account will permanently erase your profile and remove
+all your comments from this site.
+            </p>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm DeleteAccountContainer-icon"
+              >
+                Missing translation "profile-settings-deleteAccount-requestDelete-icon"
+              </span>
+              <span>
+                Request account deletion
+              </span>
+            </button>
+          </div>
         </div>
       </section>
     </div>

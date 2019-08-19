@@ -50,7 +50,10 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
             reaction: true,
           },
           revision: {
-            id: lookup<GQLComment>(environment, input.commentID)!.revision.id,
+            // comment revision should not be null since we just
+            // reacted to it, revision can only be null when user
+            // deletes their account and thus all their comments
+            id: lookup<GQLComment>(environment, input.commentID)!.revision!.id,
           },
           actionCounts: {
             reaction: {

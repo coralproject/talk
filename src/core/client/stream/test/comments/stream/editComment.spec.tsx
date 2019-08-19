@@ -52,7 +52,7 @@ function createTestRenderer(
               edited: true,
             },
             revision: {
-              id: commentWithReplies.revision.id,
+              id: commentWithReplies.revision!.id,
             },
           },
           clientMutationId: data.input.clientMutationId,

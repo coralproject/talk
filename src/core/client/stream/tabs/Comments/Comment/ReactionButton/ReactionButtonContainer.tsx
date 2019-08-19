@@ -40,7 +40,9 @@ class ReactionButtonContainer extends React.Component<Props> {
 
     const input = {
       commentID: this.props.comment.id,
-      commentRevisionID: this.props.comment.revision.id,
+      // can assume revision is not null as we
+      // tombstone when comment revisions don't exist
+      commentRevisionID: this.props.comment.revision!.id,
     };
 
     const { createCommentReaction, removeCommentReaction } = this.props;

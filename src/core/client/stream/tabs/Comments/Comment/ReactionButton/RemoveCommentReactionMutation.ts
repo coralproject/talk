@@ -49,7 +49,9 @@ function commit(environment: Environment, input: RemoveCommentReactionInput) {
             reaction: false,
           },
           revision: {
-            id: lookup<GQLComment>(environment, input.commentID)!.revision.id,
+            // Can assume revision exists since we just selected
+            // to remove the reaction to it.
+            id: lookup<GQLComment>(environment, input.commentID)!.revision!.id,
           },
           actionCounts: {
             reaction: {

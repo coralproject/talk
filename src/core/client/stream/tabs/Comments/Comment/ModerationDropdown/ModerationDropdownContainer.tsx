@@ -36,14 +36,24 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
   const reject = useMutation(RejectCommentMutation);
 
   const onApprove = useCallback(() => {
+    if (!comment.revision) {
+      return;
+    }
+
     approve({ commentID: comment.id, commentRevisionID: comment.revision.id });
   }, [approve, comment]);
-  const onReject = useCallback(
-    () =>
-      reject({ commentID: comment.id, commentRevisionID: comment.revision.id }),
-    [approve, comment]
-  );
+  const onReject = useCallback(() => {
+    if (!comment.revision) {
+      return;
+    }
+
+    reject({ commentID: comment.id, commentRevisionID: comment.revision.id });
+  }, [approve, comment]);
   const onFeature = useCallback(() => {
+    if (!comment.revision) {
+      return;
+    }
+
     feature({
       storyID: story.id,
       commentID: comment.id,

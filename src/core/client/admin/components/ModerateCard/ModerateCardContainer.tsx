@@ -74,6 +74,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   onUsernameClicked: usernameClicked,
 }) => {
   const handleApprove = useCallback(() => {
+    if (!comment.revision) {
+      return;
+    }
+
     approveComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
@@ -82,6 +86,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   }, [approveComment, comment, match]);
 
   const handleReject = useCallback(() => {
+    if (!comment.revision) {
+      return;
+    }
+
     rejectComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
@@ -90,6 +98,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   }, [rejectComment, comment, match]);
 
   const handleFeature = useCallback(() => {
+    if (!comment.revision) {
+      return;
+    }
+
     featureComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,

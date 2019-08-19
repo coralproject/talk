@@ -91,7 +91,7 @@ it("approves single comment", async () => {
   >(({ variables }) => {
     expectAndFail(variables).toMatchObject({
       commentID: comment.id,
-      commentRevisionID: comment.revision.id,
+      commentRevisionID: comment.revision!.id,
     });
     return {
       comment: {
@@ -143,7 +143,7 @@ it("rejects single comment", async () => {
   >(({ variables }) => {
     expectAndFail(variables).toMatchObject({
       commentID: comment.id,
-      commentRevisionID: comment.revision.id,
+      commentRevisionID: comment.revision!.id,
     });
     return {
       comment: {
