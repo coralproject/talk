@@ -12,7 +12,7 @@ import { Button } from "coral-ui/components/Button";
 
 import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
 
-import CancelAccountDeletionMutation from "../../DeletionRequest/CancelAccountDeletionMutation";
+import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 
 import DeleteAccountModal from "./DeleteAccountModal";
 
@@ -74,14 +74,9 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({ viewer }) => {
 
       {!deletionDate && (
         <Button variant="outlined" size="small" onClick={showPopover}>
-          <Localized
-            id="profile-settings-deleteAccount-requestDelete-icon"
-            attrs={{ title: true }}
-          >
-            <Icon size="sm" className={styles.icon}>
-              cancel
-            </Icon>
-          </Localized>
+          <Icon size="sm" className={styles.icon}>
+            cancel
+          </Icon>
           <Localized id="profile-settings-deleteAccount-requestDelete">
             <span>Request account deletion</span>
           </Localized>
@@ -105,7 +100,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({ viewer }) => {
               attrs={{ title: true }}
             >
               <Icon size="sm" className={styles.icon}>
-                cancel
+                block
               </Icon>
             </Localized>
             <Localized id="profile-settings-deleteAccount-cancelDelete">

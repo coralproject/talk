@@ -137,6 +137,18 @@ comments-rejectedTombstone =
 comments-featuredTag = Featured
 comments-staffTag = Staff
 
+### Account Deletion Stream
+
+comments-stream-deleteAccount-callOut-title =
+  Account deletion requested
+comments-stream-deleteAccount-callOut-receivedDesc =
+  A request to delete your account was received on { $date }.
+comments-stream-deleteAccount-callOut-cancelDesc =
+  If you would like to continue leaving comments, replies or reactions,
+  you may cancel your request to delete your account before { $date }.
+comments-stream-deleteAccount-callOut-cancel =
+  Cancel account deletion request
+
 ### Featured Comments
 comments-featured-gotoConversation = Go to Conversation
 comments-featured-replies = Replies
@@ -197,8 +209,6 @@ profile-settings-deleteAccount-title = Delete My Account
 profile-settings-deleteAccount-description =
   Deleting your account will permanently erase your profile and remove
   all your comments from this site.
-profile-settings-deleteAccount-requestDelete-icon
-  .title = Request account deletion
 profile-settings-deleteAccount-requestDelete = Request account deletion
 
 profile-settings-deleteAccount-cancelDelete-description =

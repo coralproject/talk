@@ -437,7 +437,7 @@ all your comments from this site.
                 aria-hidden="true"
                 className="Icon-root Icon-sm DeleteAccountContainer-icon"
               >
-                Missing translation "profile-settings-deleteAccount-requestDelete-icon"
+                cancel
               </span>
               <span>
                 Request account deletion

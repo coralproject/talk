@@ -1,0 +1,8 @@
+.icon {
+  min-width: 18px;
+  margin-right: var(--spacing-2);
+}
+
+.gutter {
+  margin-bottom: var(--spacing-3);
+}

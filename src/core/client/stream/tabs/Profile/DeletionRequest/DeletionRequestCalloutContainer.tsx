@@ -18,7 +18,7 @@ import {
 
 import { DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
 
-import CancelAccountDeletionMutation from "./CancelAccountDeletionMutation";
+import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 
 import styles from "./DeletionRequestCalloutContainer.css";
 
@@ -54,7 +54,7 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
           <HorizontalGutter>
             <Flex>
               <Icon size="md" className={styles.icon}>
-                error
+                report_problem
               </Icon>
               <Localized
                 id="profile-accountDeletion-deletionDesc"
