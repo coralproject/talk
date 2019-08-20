@@ -5,7 +5,6 @@ install-nextButton-next = Avanzar
 install-permittedDomains-finishInstall = Terminar la instalación
 install-header-title = { -product-name } Asistente de instalación
 
-install-initialStep-copy = El resto del asistente de instalación tardará unos 10 minutos. Una vez que haya terminado, tendrá su propia instancia de { -product-name}.
 install-initialStep-getStarted = Empezar
 
 install-addOrganization-stepTitle = Agregar detalles de la organización
