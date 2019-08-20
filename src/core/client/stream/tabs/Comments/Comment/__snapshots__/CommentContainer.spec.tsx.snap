@@ -20,6 +20,7 @@ exports[`hide reply button 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -62,6 +63,7 @@ exports[`hide reply button 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -101,6 +103,7 @@ exports[`hide reply button 1`] = `
           <Relay(UsernameWithPopoverContainer)
             user={
               Object {
+                "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
               }
@@ -111,6 +114,30 @@ exports[`hide reply button 1`] = `
             comment={
               Object {
                 "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(AuthorBadgesContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
                 },
@@ -156,6 +183,7 @@ exports[`renders body only 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": null,
                     },
@@ -204,6 +232,7 @@ exports[`renders body only 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": null,
                     },
@@ -243,6 +272,7 @@ exports[`renders body only 1`] = `
           <Relay(UsernameWithPopoverContainer)
             user={
               Object {
+                "badges": Array [],
                 "id": "author-id",
                 "username": null,
               }
@@ -253,6 +283,30 @@ exports[`renders body only 1`] = `
             comment={
               Object {
                 "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": null,
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(AuthorBadgesContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "badges": Array [],
                   "id": "author-id",
                   "username": null,
                 },
@@ -298,6 +352,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -346,6 +401,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -385,6 +441,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
           <Relay(UsernameWithPopoverContainer)
             user={
               Object {
+                "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
               }
@@ -395,6 +452,30 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             comment={
               Object {
                 "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(AuthorBadgesContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
                 },
@@ -440,6 +521,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -488,6 +570,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -527,6 +610,7 @@ exports[`renders disabled reply when story is closed 1`] = `
           <Relay(UsernameWithPopoverContainer)
             user={
               Object {
+                "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
               }
@@ -537,6 +621,30 @@ exports[`renders disabled reply when story is closed 1`] = `
             comment={
               Object {
                 "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(AuthorBadgesContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
                 },
@@ -582,6 +690,7 @@ exports[`renders in reply to 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -634,6 +743,7 @@ exports[`renders in reply to 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -677,6 +787,7 @@ exports[`renders in reply to 1`] = `
           <Relay(UsernameWithPopoverContainer)
             user={
               Object {
+                "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
               }
@@ -687,6 +798,34 @@ exports[`renders in reply to 1`] = `
             comment={
               Object {
                 "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": Object {
+                  "author": Object {
+                    "username": "ParentAuthor",
+                  },
+                },
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(AuthorBadgesContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
                 },
@@ -736,6 +875,7 @@ exports[`renders username and body 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -784,6 +924,7 @@ exports[`renders username and body 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -823,6 +964,7 @@ exports[`renders username and body 1`] = `
           <Relay(UsernameWithPopoverContainer)
             user={
               Object {
+                "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
               }
@@ -833,6 +975,30 @@ exports[`renders username and body 1`] = `
             comment={
               Object {
                 "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(AuthorBadgesContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
                 },
@@ -878,6 +1044,7 @@ exports[`shows conversation link 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -926,6 +1093,7 @@ exports[`shows conversation link 1`] = `
                 comment={
                   Object {
                     "author": Object {
+                      "badges": Array [],
                       "id": "author-id",
                       "username": "Marvin",
                     },
@@ -970,6 +1138,7 @@ exports[`shows conversation link 1`] = `
           <Relay(UsernameWithPopoverContainer)
             user={
               Object {
+                "badges": Array [],
                 "id": "author-id",
                 "username": "Marvin",
               }
@@ -980,6 +1149,30 @@ exports[`shows conversation link 1`] = `
             comment={
               Object {
                 "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+          <Relay(AuthorBadgesContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "badges": Array [],
                   "id": "author-id",
                   "username": "Marvin",
                 },

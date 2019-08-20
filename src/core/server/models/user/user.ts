@@ -293,6 +293,12 @@ export interface User extends TenantResource {
   email?: string;
 
   /**
+   *
+   * badges are user display badges
+   */
+  badges?: string[];
+
+  /**
    * emailVerificationID is used to store state regarding the verification state
    * of an email address to prevent replay attacks.
    */
@@ -668,6 +674,8 @@ export async function updateUserPassword(
 export interface UpdateUserInput {
   email?: string;
   username?: string;
+  badges?: string[];
+  role?: GQLUSER_ROLE;
 }
 
 export async function updateUserFromSSO(
@@ -677,7 +685,7 @@ export async function updateUserFromSSO(
   update: UpdateUserInput,
   lastIssuedAt: Date
 ) {
-  // Update the user with the new password.
+  // Update the user with the new properties.
   const result = await collection(mongo).findOneAndUpdate(
     {
       tenantID,

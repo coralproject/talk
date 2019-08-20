@@ -196,6 +196,11 @@ You will then have to generate a JWT with the following claims:
   about status changes on a user account such as bans or suspensions.
 - `user.username` (**required**) - the username that should be used when being
   presented inside Coral to moderators and other users.
+- `user.badges` (_optional_) - array of strings to be displayed as badges beside
+  username inside Coral, visible to other users and moderators. For example, to indicate
+  a user's subscription status.
+- `user.role` (_optional_) - one of "COMMENTER", "STAFF", "MODERATOR", "ADMIN". Will create/update
+  Coral user with this role.
 
 An example of the claims for this token would be:
 
