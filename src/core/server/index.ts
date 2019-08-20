@@ -311,7 +311,7 @@ class Server {
 
     logger.info({ port }, "now listening");
 
-    this.scheduledTasks = startCronJobs(this.mongo);
+    this.scheduledTasks = startCronJobs(this.mongo, this.tasks.mailer);
   }
 }
 

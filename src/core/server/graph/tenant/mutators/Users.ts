@@ -122,6 +122,7 @@ export const Users = (ctx: TenantContext) => ({
     mapFieldsetToErrorCodes(
       requestAccountDeletion(
         ctx.mongo,
+        ctx.mailerQueue,
         ctx.tenant,
         ctx.user!,
         input.password,
@@ -132,7 +133,7 @@ export const Users = (ctx: TenantContext) => ({
   cancelAccountDeletion: async (
     input: GQLCancelAccountDeletionInput
   ): Promise<Readonly<User> | null> =>
-    cancelAccountDeletion(ctx.mongo, ctx.tenant, ctx.user!),
+    cancelAccountDeletion(ctx.mongo, ctx.mailerQueue, ctx.tenant, ctx.user!),
   createToken: async (input: GQLCreateTokenInput) =>
     createToken(
       ctx.mongo,

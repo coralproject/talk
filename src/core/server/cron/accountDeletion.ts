@@ -5,18 +5,23 @@ import { Collection, Db } from "mongodb";
 import logger from "coral-server/logger";
 import { createCollection } from "coral-server/models/helpers";
 import { Story } from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { MailerQueue } from "coral-server/queue/tasks/mailer";
 
 const BATCH_SIZE = 500;
 
-export function registerAccountDeletion(mongo: Db): CronJob {
+export function registerAccountDeletion(
+  mongo: Db,
+  mailer: MailerQueue
+): CronJob {
   const job = new CronJob({
     cronTime: "0,30 * * * * *",
     timeZone: "America/New_York",
     start: true,
     runOnInit: false,
     onTick: async () => {
-      deleteScheduledAccounts(mongo);
+      deleteScheduledAccounts(mongo, mailer);
     },
   });
 
@@ -27,7 +32,7 @@ export function registerAccountDeletion(mongo: Db): CronJob {
   return job;
 }
 
-async function deleteScheduledAccounts(mongo: Db) {
+async function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue) {
   logger.info(
     "Scheduled account deletion: checking for accounts that require deletion..."
   );
@@ -64,7 +69,7 @@ async function deleteScheduledAccounts(mongo: Db) {
 
     logger.info(`Deleting ${userToDelete.username}...`);
 
-    deleteUser(mongo, userToDelete.id, now);
+    deleteUser(mongo, mailer, userToDelete.id, now);
   }
 }
 
@@ -168,11 +173,27 @@ async function deleteUserComments(db: Db, authorID: string) {
   );
 }
 
-async function deleteUser(db: Db, id: string, now: Date) {
+async function deleteUser(db: Db, mailer: MailerQueue, id: string, now: Date) {
+  const users = createCollection<User>("users")(db);
+  const tenants = createCollection<Tenant>("tenants")(db);
+
+  const user = await users.findOne({ id });
+  if (!user) {
+    logger.warn(`Unable to delete user ${id} as they could not be found.`);
+    return;
+  }
+
+  const tenant = await tenants.findOne({ id: user.tenantID });
+  if (!tenant) {
+    logger.warn(
+      `Unable to delete user ${id} as we could not find their tenant.`
+    );
+    return;
+  }
+
   await deleteUserActionCounts(db, id);
   await deleteUserComments(db, id);
 
-  const users = createCollection<User>("users")(db);
   users.updateOne(
     { id },
     {
@@ -185,4 +206,21 @@ async function deleteUser(db: Db, id: string, now: Date) {
       },
     }
   );
+
+  if (user.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: user.email,
+      },
+      template: {
+        name: "delete-request-completed",
+        context: {
+          username: user.username,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+        },
+      },
+    });
+  }
 }

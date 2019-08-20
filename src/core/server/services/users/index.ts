@@ -314,6 +314,7 @@ export async function updatePassword(
 
 export async function requestAccountDeletion(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
   user: User,
   password: string,
@@ -341,11 +342,36 @@ export async function requestAccountDeletion(
     deletionDate.toJSDate()
   );
 
+  const formattedDate = Intl.DateTimeFormat([tenant.locale], {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  }).format(deletionDate.toJSDate());
+
+  await mailer.add({
+    tenantID: tenant.id,
+    message: {
+      to: user.email,
+    },
+    template: {
+      name: "delete-request-confirmation",
+      context: {
+        requestDate: formattedDate,
+        organizationName: tenant.organization.name,
+        organizationURL: tenant.organization.url,
+      },
+    },
+  });
+
   return updatedUser;
 }
 
 export async function cancelAccountDeletion(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
   user: User
 ) {
@@ -354,6 +380,20 @@ export async function cancelAccountDeletion(
   }
 
   const updatedUser = await clearDeletionDate(mongo, tenant.id!, user.id);
+
+  await mailer.add({
+    tenantID: tenant.id,
+    message: {
+      to: user.email,
+    },
+    template: {
+      name: "delete-request-cancel",
+      context: {
+        organizationName: tenant.organization.name,
+        organizationURL: tenant.organization.url,
+      },
+    },
+  });
 
   return updatedUser;
 }
