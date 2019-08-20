@@ -38,6 +38,7 @@ export interface SSOUserProfile {
   email: string;
   username: string;
   badges?: string[];
+  role?: GQLUSER_ROLE;
 }
 
 export interface SSOToken {
@@ -60,8 +61,9 @@ export const SSOUserProfileSchema = Joi.object()
       .required(),
     username: Joi.string().required(),
     badges: Joi.array().items(Joi.string()),
+    role: Joi.string().only(Object.values(GQLUSER_ROLE)),
   })
-  .optionalKeys(["badges"]);
+  .optionalKeys(["badges", "role"]);
 
 export const SSOTokenSchema = Joi.object()
   .keys({
@@ -92,7 +94,7 @@ export async function findOrCreateSSOUser(
   const {
     jti,
     exp,
-    user: { id, email, username, badges },
+    user: { id, email, username, badges, role },
     iat,
   } = decodedToken;
 
@@ -131,7 +133,7 @@ export async function findOrCreateSSOUser(
       {
         id,
         username,
-        role: GQLUSER_ROLE.COMMENTER,
+        role: role || GQLUSER_ROLE.COMMENTER,
         badges,
         email,
         profiles: [profile],
@@ -149,7 +151,7 @@ export async function findOrCreateSSOUser(
         mongo,
         tenant.id,
         user.id,
-        { email, username, badges },
+        { email, username, badges, role: role || user.role },
         lastIssuedAt
       );
     }
