@@ -3048,6 +3048,45 @@ input StoryConfigurationInput {
 }
 
 """
+ReactionConfigurationInput stores the configuration for reactions used across this
+Tenant.
+"""
+input ReactionConfigurationInput {
+  """
+  icon is the string representing the icon to be used for the reactions.
+  """
+  icon: String
+
+  """
+  iconActive is the string representing the icon that should be used when the
+  icon should be considered active.
+  """
+  iconActive: String
+
+  """
+  label is the string placed beside the reaction icon to provide better context.
+  """
+  label: String
+
+  """
+  labelActive is the string placed beside the reaction icon to provide better
+  context when it has been selected.
+  """
+  labelActive: String
+
+  """
+  sortLabel is the string placed inside of the sort menu to sort for comment
+  with most reactions.
+  """
+  sortLabel: String
+
+  """
+  color is the hex color code that can be used to change the color of the button.
+  """
+  color: String
+}
+
+"""
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
@@ -3140,6 +3179,11 @@ input SettingsInput {
   stories stores the configuration around stories.
   """
   stories: StoryConfigurationInput
+
+  """
+  reaction specifies the configuration for reactions.
+  """
+  reaction: ReactionConfigurationInput
 }
 
 """
