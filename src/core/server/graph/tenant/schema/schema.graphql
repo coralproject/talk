@@ -4190,6 +4190,38 @@ type UpdateUserUsernamePayload {
 }
 
 ##################
+# updateEmail
+##################
+
+input UpdateEmailInput {
+  """
+  email is the email address to set for the User.
+  """
+  email: String!
+  """
+  password is the users password.
+  """
+  password: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateEmailPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # updateUserEmail
 ##################
 
@@ -4703,6 +4735,12 @@ type Mutation {
   updateUserUsername(
     input: UpdateUserUsernameInput!
   ): UpdateUserUsernamePayload! @auth(roles: [ADMIN])
+
+  """
+  updateEmail allows administrators to update a given User's email address
+  to the one provided.
+  """
+  updateEmail(input: UpdateEmailInput!): UpdateEmailPayload! @auth
 
   """
   updateUserEmail allows administrators to update a given User's email address

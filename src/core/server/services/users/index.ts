@@ -22,7 +22,10 @@ import {
   UsernameUpdatedWithinWindowError,
   UserNotFoundError,
 } from "coral-server/errors";
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLAuthIntegrations,
+  GQLUSER_ROLE,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import {
@@ -58,6 +61,8 @@ import {
 } from "coral-server/models/user/helpers";
 import { userIsStaff } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { sendConfirmationEmail } from "coral-server/services/users/auth";
+
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
 import { generateDownloadLink } from "./download/download";
@@ -388,6 +393,11 @@ export async function updateUsername(
   // Validate the username.
   validateUsername(username);
 
+  const canUpdate = canUpdateLocalProfile(tenant, user);
+  if (!canUpdate) {
+    throw new Error("Cannot update profile due to tenant settings");
+  }
+
   // Get the earliest date that the username could have been edited before to/
   // allow it now.
   const lastUsernameEditAllowed = DateTime.fromJSDate(now)
@@ -483,7 +493,96 @@ export async function updateRole(
 }
 
 /**
- * updateEmail will update the given User's email address. This should not
+ * enabledAuthenticationIntegrations returns enabled auth integrations for a tenant
+ * @param tenant Tenant where the User will be interacted with
+ * @param target whether to filter by stream or admin enabled. defaults to requiring both.
+ */
+function enabledAuthenticationIntegrations(
+  tenant: Tenant,
+  target?: "stream" | "admin"
+): string[] {
+  return Object.keys(tenant.auth.integrations).filter((key: string) => {
+    const { enabled, targetFilter } = tenant.auth.integrations[
+      key as keyof GQLAuthIntegrations
+    ];
+    if (target) {
+      return enabled && targetFilter[target];
+    }
+    return enabled && targetFilter.admin && targetFilter.stream;
+  });
+}
+
+/**
+ * canUpdateLocalProfile will determine if a user is permitted to update their email address.
+ * @param tenant Tenant where the User will be interacted with
+ * @param user the User that we are updating
+ */
+function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
+  if (!hasLocalProfile(user)) {
+    return false;
+  }
+
+  const streamAuthTypes = enabledAuthenticationIntegrations(tenant, "stream");
+
+  // user can update email if local auth is enabled or any integration other than sso is enabled
+  return (
+    streamAuthTypes.includes("local") ||
+    !(streamAuthTypes.length === 1 && streamAuthTypes[0] === "sso")
+  );
+}
+
+/**
+ * updateEmail will update the current User's email address.
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param mailer The mailer queue
+ * @param config Convict config
+ * @param user the User that we are updating
+ * @param email the email address that we are setting on the User
+ * @param password the users password for confirmation
+ */
+export async function updateEmail(
+  mongo: Db,
+  tenant: Tenant,
+  mailer: MailerQueue,
+  config: Config,
+  signingConfig: JWTSigningConfig,
+  user: User,
+  emailAddress: string,
+  password: string,
+  now = new Date()
+) {
+  const email = emailAddress.toLowerCase();
+  validateEmail(email);
+
+  const canUpdate = canUpdateLocalProfile(tenant, user);
+  if (!canUpdate) {
+    throw new Error("Cannot update profile due to tenant settings");
+  }
+
+  const passwordVerified = await verifyUserPassword(user, password);
+  if (!passwordVerified) {
+    // We throw a PasswordIncorrect error here instead of an
+    // InvalidCredentialsError because the current user is already signed in.
+    throw new PasswordIncorrect();
+  }
+
+  const updated = await updateUserEmail(mongo, tenant.id, user.id, email);
+
+  await sendConfirmationEmail(
+    mongo,
+    mailer,
+    tenant,
+    config,
+    signingConfig,
+    updated as Required<User>,
+    now
+  );
+  return updated;
+}
+
+/**
+ * updateUserEmail will update the given User's email address. This should not
  * trigger and email notifications as it's designed to be used by administrators
  * to update a user's email address.
  *
@@ -492,7 +591,7 @@ export async function updateRole(
  * @param userID the User's ID that we are updating
  * @param email the email address that we are setting on the User
  */
-export async function updateEmail(
+export async function updateEmailByID(
   mongo: Db,
   tenant: Tenant,
   userID: string,
@@ -501,7 +600,7 @@ export async function updateEmail(
   // Validate the email address.
   validateEmail(email);
 
-  return updateUserEmail(mongo, tenant.id, userID, email);
+  return updateUserEmail(mongo, tenant.id, userID, email, true);
 }
 
 /**
