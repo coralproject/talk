@@ -168,6 +168,7 @@ async function deleteUserComments(db: Db, authorID: string) {
         authorID: null,
         revisions: [],
         tags: [],
+        deleted: true,
       },
     }
   );

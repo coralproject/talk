@@ -2023,6 +2023,11 @@ type Comment {
   tags are the list of tags assigned to the Comment.
   """
   tags: [Tag!]!
+
+  """
+  deleted is whether the comment has been deleted.
+  """
+  deleted: Boolean
 }
 
 type PageInfo {
