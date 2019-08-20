@@ -200,9 +200,11 @@ async function deleteUser(db: Db, mailer: MailerQueue, id: string, now: Date) {
       $set: {
         // QUESTION: (andrew) discuss about retention
         // username: null,
-        email: null,
         profiles: [],
         deletedAt: now,
+      },
+      $unset: {
+        email: "",
       },
     }
   );
@@ -216,7 +218,8 @@ async function deleteUser(db: Db, mailer: MailerQueue, id: string, now: Date) {
       template: {
         name: "delete-request-completed",
         context: {
-          username: user.username,
+          username: user.username ? user.username : "",
+          organizationContactEmail: tenant.organization.contactEmail,
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
         },
