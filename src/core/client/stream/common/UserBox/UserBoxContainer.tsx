@@ -49,7 +49,7 @@ export class UserBoxContainer extends Component<Props> {
       this.props.settings.auth,
       "stream"
     );
-    return integrations.length === 1  && integrations[0] === "sso";
+    return integrations.length === 1 && integrations[0] === "sso";
   }
 
   private get supportsLogout() {
