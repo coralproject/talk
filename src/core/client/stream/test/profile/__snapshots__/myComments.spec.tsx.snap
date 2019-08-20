@@ -95,6 +95,8 @@ exports[`renders profile 1`] = `
   <button
     aria-controls="coral-profile-commentHistory-log"
     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth"
+    data-color="regular"
+    data-variant="outlined"
     disabled={false}
     id="coral-profile-commentHistory-loadMore"
     onBlur={[Function]}

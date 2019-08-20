@@ -4,6 +4,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql, useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
+import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import {
   HorizontalGutter,
@@ -55,13 +56,14 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         variant="secondary"
         activeTab={local.profileTab}
         onTabClick={onTabClick}
+        className={CLASSES.tabBarMyProfile.$root}
       >
-        <Tab tabID="MY_COMMENTS">
+        <Tab tabID="MY_COMMENTS" className={CLASSES.tabBarMyProfile.myComments}>
           <Localized id="profile-myCommentsTab">
             <span>My Comments</span>
           </Localized>
         </Tab>
-        <Tab tabID="SETTINGS">
+        <Tab tabID="SETTINGS" className={CLASSES.tabBarMyProfile.settings}>
           <Localized id="profile-settingsTab">
             <span>Settings</span>
           </Localized>

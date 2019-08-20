@@ -1,9 +1,11 @@
 import { CoralRTE } from "@coralproject/rte";
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { EventHandler, FunctionComponent, MouseEvent, Ref } from "react";
 import { Field, Form } from "react-final-form";
 
 import { OnSubmit } from "coral-framework/lib/form";
+import CLASSES from "coral-stream/classes";
 import Timestamp from "coral-stream/common/Timestamp";
 import {
   AriaInfo,
@@ -51,7 +53,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
       {({ handleSubmit, submitting, pristine, submitError }) => (
         <form
-          className={props.className}
+          className={cn(props.className, CLASSES.editComment.$root)}
           autoComplete="off"
           onSubmit={handleSubmit}
         >
@@ -147,6 +149,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
                           variant="outlined"
                           disabled={submitting}
                           onClick={props.onClose}
+                          className={CLASSES.editComment.close}
                         >
                           Close
                         </Button>
@@ -161,6 +164,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
                                 disabled={submitting}
                                 onClick={props.onCancel}
                                 fullWidth={matches}
+                                className={CLASSES.editComment.cancel}
                               >
                                 Cancel
                               </Button>
@@ -174,6 +178,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
                                 }
                                 type="submit"
                                 fullWidth={matches}
+                                className={CLASSES.editComment.submit}
                               >
                                 Save Changes
                               </Button>

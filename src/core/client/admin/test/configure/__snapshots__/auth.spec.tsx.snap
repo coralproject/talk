@@ -98,6 +98,8 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+            data-color="primary"
+            data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -261,6 +263,8 @@ the remaining fields. You may also enter the information manually.
           </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
+            data-color="primary"
+            data-variant="filled"
             disabled={true}
             id="configure-auth-oidc-discover"
             onBlur={[Function]}
@@ -577,6 +581,8 @@ For more information visit:
           </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+            data-color="primary"
+            data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -883,6 +889,8 @@ exports[`change settings: enable oidc configure box 1`] = `
           </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+            data-color="primary"
+            data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -1046,6 +1054,8 @@ the remaining fields. You may also enter the information manually.
           </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+            data-color="primary"
+            data-variant="filled"
             disabled={false}
             id="configure-auth-oidc-discover"
             onBlur={[Function]}
@@ -1359,6 +1369,8 @@ exports[`change settings: oidc validation errors 1`] = `
           </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+            data-color="primary"
+            data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -1561,6 +1573,8 @@ the remaining fields. You may also enter the information manually.
           </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+            data-color="primary"
+            data-variant="filled"
             disabled={false}
             id="configure-auth-oidc-discover"
             onBlur={[Function]}
@@ -1890,6 +1904,8 @@ exports[`regenerate sso key 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+      data-color="primary"
+      data-variant="filled"
       disabled={false}
       id="configure-auth-sso-regenerate"
       onBlur={[Function]}
@@ -2024,7 +2040,9 @@ exports[`renders configure auth 1`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
+            data-color="success"
             data-testid="configure-sideBar-saveChanges"
+            data-variant="filled"
             disabled={true}
             onBlur={[Function]}
             onFocus={[Function]}
@@ -2314,6 +2332,8 @@ integration to register for a new account.
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+                        data-color="primary"
+                        data-variant="filled"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -2477,6 +2497,8 @@ the remaining fields. You may also enter the information manually.
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
+                        data-color="primary"
+                        data-variant="filled"
                         disabled={true}
                         id="configure-auth-oidc-discover"
                         onBlur={[Function]}
@@ -2787,6 +2809,8 @@ integration to register for a new account.
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
+                        data-color="primary"
+                        data-variant="filled"
                         disabled={true}
                         id="configure-auth-sso-regenerate"
                         onBlur={[Function]}
@@ -3037,6 +3061,8 @@ to create and set up a web application. For more information visit:
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+                        data-color="primary"
+                        data-variant="filled"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -3343,6 +3369,8 @@ For more information visit:
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+                        data-color="primary"
+                        data-variant="filled"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}

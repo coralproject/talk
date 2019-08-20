@@ -47,6 +47,8 @@ exports[`renders community 1`] = `
                 <button
                   aria-label="Search"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment UserTableFilter-adornment"
+                  data-color="dark"
+                  data-variant="adornment"
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
@@ -185,7 +187,9 @@ exports[`renders community 1`] = `
       >
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+          data-color="primary"
           data-testid="invite-users-button"
+          data-variant="filled"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -248,6 +252,8 @@ exports[`renders community 1`] = `
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
+                data-color="regular"
+                data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -315,6 +321,8 @@ exports[`renders community 1`] = `
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
+                data-color="regular"
+                data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -350,6 +358,8 @@ exports[`renders community 1`] = `
                 <button
                   aria-label="Change role"
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
+                  data-color="regular"
+                  data-variant="regular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -413,6 +423,8 @@ exports[`renders community 1`] = `
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
+                data-color="regular"
+                data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -448,6 +460,8 @@ exports[`renders community 1`] = `
                 <button
                   aria-label="Change role"
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
+                  data-color="regular"
+                  data-variant="regular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -511,6 +525,8 @@ exports[`renders community 1`] = `
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
+                data-color="regular"
+                data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -546,6 +562,8 @@ exports[`renders community 1`] = `
                 <button
                   aria-label="Change role"
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
+                  data-color="regular"
+                  data-variant="regular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -590,6 +608,8 @@ exports[`renders community 1`] = `
                 <button
                   aria-label="Change user status"
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserStatusChange-button UserStatusChange-fullWidth"
+                  data-color="regular"
+                  data-variant="regular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -686,6 +706,8 @@ exports[`renders empty community 1`] = `
                 <button
                   aria-label="Search"
                   className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment UserTableFilter-adornment"
+                  data-color="dark"
+                  data-variant="adornment"
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
@@ -824,7 +846,9 @@ exports[`renders empty community 1`] = `
       >
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+          data-color="primary"
           data-testid="invite-users-button"
+          data-variant="filled"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}

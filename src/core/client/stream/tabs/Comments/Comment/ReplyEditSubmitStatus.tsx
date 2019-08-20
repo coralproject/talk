@@ -9,6 +9,7 @@ import styles from "./ReplyEditSubmitStatus.css";
 
 interface Props {
   status: SubmitStatus;
+  buttonClassName?: string;
   onDismiss: () => void;
 }
 
@@ -40,7 +41,11 @@ export default function ReplyEditSubmitStatus(props: Props) {
       {getMessage(props.status)}
       <Flex justifyContent="flex-end">
         <Localized id="comments-submitStatus-dismiss">
-          <Button onClick={props.onDismiss} variant="outlined">
+          <Button
+            onClick={props.onDismiss}
+            className={props.buttonClassName}
+            variant="outlined"
+          >
             Dismiss
           </Button>
         </Localized>

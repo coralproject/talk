@@ -10,6 +10,7 @@ import { ConversationThreadContainer_settings as SettingsData } from "coral-stre
 import { ConversationThreadContainer_story as StoryData } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
 import { ConversationThreadContainer_viewer as ViewerData } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
 import { ConversationThreadContainerPaginationQueryVariables } from "coral-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
+import Counter from "coral-stream/common/Counter";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
@@ -20,7 +21,7 @@ import {
   UserTagsContainer,
 } from "coral-stream/tabs/Comments/Comment";
 import LocalReplyListContainer from "coral-stream/tabs/Comments/ReplyList/LocalReplyListContainer";
-import { Button, Counter, Flex, HorizontalGutter } from "coral-ui/components";
+import { Button, Flex, HorizontalGutter } from "coral-ui/components";
 
 import { Circle, Line } from "./Timeline";
 

@@ -96,7 +96,9 @@ exports[`renders configure wordList 1`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
+            data-color="success"
             data-testid="configure-sideBar-saveChanges"
+            data-variant="filled"
             disabled={true}
             onBlur={[Function]}
             onFocus={[Function]}

@@ -112,6 +112,8 @@ exports[`accepts correct password 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -246,6 +248,8 @@ exports[`accepts valid email 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -374,6 +378,8 @@ exports[`auth configuration renders all auth enabled 1`] = `
         </div>
         <button
           className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+          data-color="brand"
+          data-variant="filled"
           disabled={false}
           onBlur={[Function]}
           onFocus={[Function]}
@@ -411,6 +417,8 @@ exports[`auth configuration renders all auth enabled 1`] = `
     >
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantFilled FacebookButton-variantFilled Button-fullWidth"
+        data-color="regular"
+        data-variant="filled"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -437,6 +445,8 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </button>
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular GoogleButton-colorRegular Button-variantFilled GoogleButton-variantFilled Button-fullWidth"
+        data-color="regular"
+        data-variant="filled"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -463,6 +473,8 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </button>
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular OIDCButton-colorRegular Button-variantFilled OIDCButton-variantFilled Button-fullWidth"
+        data-color="regular"
+        data-variant="filled"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -493,6 +505,8 @@ exports[`auth configuration renders only some social login enabled 1`] = `
     >
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantFilled FacebookButton-variantFilled Button-fullWidth"
+        data-color="regular"
+        data-variant="filled"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -519,6 +533,8 @@ exports[`auth configuration renders only some social login enabled 1`] = `
       </button>
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular GoogleButton-colorRegular Button-variantFilled GoogleButton-variantFilled Button-fullWidth"
+        data-color="regular"
+        data-variant="filled"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -673,6 +689,8 @@ exports[`checks for invalid email 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -842,6 +860,8 @@ exports[`renders sign in view 1`] = `
               </div>
               <button
                 className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+                data-color="brand"
+                data-variant="filled"
                 disabled={false}
                 onBlur={[Function]}
                 onFocus={[Function]}
@@ -1024,6 +1044,8 @@ exports[`renders sign in view with error 1`] = `
           </div>
           <button
             className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+            data-color="brand"
+            data-variant="filled"
             disabled={false}
             onBlur={[Function]}
             onFocus={[Function]}
@@ -1177,6 +1199,8 @@ exports[`shows error when submitting empty form 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -1305,6 +1329,8 @@ exports[`shows server error 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -1426,6 +1452,8 @@ exports[`submits form successfully 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}

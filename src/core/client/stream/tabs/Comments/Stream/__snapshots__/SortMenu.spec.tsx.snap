@@ -2,7 +2,7 @@
 
 exports[`renders correctly on big screens 1`] = `
 <div
-  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+  className="Box-root Flex-root coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
 >
   <label
     className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
@@ -59,7 +59,7 @@ exports[`renders correctly on big screens 1`] = `
 
 exports[`renders correctly on small screens 1`] = `
 <div
-  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+  className="Box-root Flex-root coral coral-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
 >
   <span
     className="SelectField-root"

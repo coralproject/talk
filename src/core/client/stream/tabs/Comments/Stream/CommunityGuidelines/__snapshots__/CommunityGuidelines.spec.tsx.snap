@@ -2,6 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <withPropsOnChange(CallOut)
+  className="coral coral-guidelines"
   color="primary"
   fullWidth={true}
 >

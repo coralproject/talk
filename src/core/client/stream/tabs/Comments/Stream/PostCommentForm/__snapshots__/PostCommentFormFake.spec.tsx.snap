@@ -5,7 +5,7 @@ exports[`renders correctly 1`] = `
   className="coral coral-createComment"
 >
   <Relay(MessageBoxContainer)
-    className="PostCommentFormFake-messageBox"
+    className="coral coral-createComment-message PostCommentFormFake-messageBox"
     story={Object {}}
   />
   <ForwardRef(forwardRef)
@@ -13,7 +13,6 @@ exports[`renders correctly 1`] = `
   >
     <div
       aria-hidden="true"
-      className="coral coral-createComment-box"
     >
       <Localized
         attrs={
