@@ -743,12 +743,15 @@ moderation panel.
             <legend
               className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
-              Missing translation "configure-general-reactions-title"
+              Reactions
             </legend>
             <p
               className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
             >
-              Missing translation "configure-general-reactions-explanation"
+              Allow your community to engage with one another and express themselves
+with one-click reactions. By default, Coral allows commenters to
+"Respect" each other's comments, but you may customize reaction text
+based on the needs of your community.
             </p>
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-double"
@@ -765,7 +768,7 @@ moderation panel.
                     <label
                       className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
-                      Missing translation "configure-general-reactions-label"
+                      Reaction label
                     </label>
                     <div
                       className="TextField-root TextField-fullWidth ReactionConfig-textInput"
@@ -778,7 +781,7 @@ moderation panel.
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
-                        placeholder=""
+                        placeholder="E.g. Respect"
                         type="text"
                         value="Reaction"
                       />
@@ -790,7 +793,7 @@ moderation panel.
                     <h1
                       className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
                     >
-                      Missing translation "configure-general-reactions-preview"
+                      Preview
                     </h1>
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton"
@@ -822,7 +825,7 @@ moderation panel.
                     <label
                       className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
-                      Missing translation "configure-general-reactions-active-label"
+                      Active reaction label
                     </label>
                     <div
                       className="TextField-root TextField-fullWidth ReactionConfig-textInput"
@@ -835,7 +838,7 @@ moderation panel.
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
-                        placeholder=""
+                        placeholder="E.g. Respected"
                         type="text"
                         value="reacted"
                       />
@@ -847,7 +850,7 @@ moderation panel.
                     <h1
                       className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
                     >
-                      Missing translation "configure-general-reactions-preview"
+                      Preview
                     </h1>
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton"
@@ -879,7 +882,7 @@ moderation panel.
                     <label
                       className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
-                      Missing translation "configure-general-reactions-sort-label"
+                      Sort label
                     </label>
                     <div
                       className="TextField-root TextField-fullWidth ReactionConfig-textInput"
@@ -892,7 +895,7 @@ moderation panel.
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
-                        placeholder=""
+                        placeholder="E.g. Most respected"
                         type="text"
                         value="Reactions"
                       />
@@ -904,17 +907,16 @@ moderation panel.
                     <h1
                       className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
                     >
-                      Missing translation "configure-general-reactions-preview"
+                      Preview
                     </h1>
                     <div
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyCenter gutter"
                     >
-                      <label
+                      <p
                         className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-                        htmlFor="configure-general-reaction-sortMenu-sortMenu"
                       >
-                        Missing translation "configure-general-reaction-sortMenu-sortBy"
-                      </label>
+                        Sort by
+                      </p>
                       <span
                         className="SelectField-root"
                       >
