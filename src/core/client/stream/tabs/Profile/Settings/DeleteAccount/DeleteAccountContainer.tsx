@@ -10,6 +10,7 @@ import {
 import { Icon, Typography } from "coral-ui/components";
 import { Button } from "coral-ui/components/Button";
 
+import { DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
 import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
 
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
@@ -20,9 +21,13 @@ import styles from "./DeleteAccountContainer.css";
 
 interface Props {
   viewer: DeleteAccountContainer_viewer;
+  settings: DeleteAccountContainer_settings;
 }
 
-const DeleteAccountContainer: FunctionComponent<Props> = ({ viewer }) => {
+const DeleteAccountContainer: FunctionComponent<Props> = ({
+  viewer,
+  settings,
+}) => {
   const cancelAccountDeletion = useMutation(CancelAccountDeletionMutation);
 
   const [deletePopoverVisible, setDeletePopoverVisible] = useState(false);
@@ -58,6 +63,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({ viewer }) => {
         onClose={hidePopover}
         userID={viewer.id}
         scheduledDeletionDate={viewer.scheduledDeletionDate}
+        organizationEmail={settings.organization.contactEmail}
       />
 
       <Localized id="profile-settings-deleteAccount-title">
@@ -118,6 +124,13 @@ const enhanced = withFragmentContainer<Props>({
     fragment DeleteAccountContainer_viewer on User {
       id
       scheduledDeletionDate
+    }
+  `,
+  settings: graphql`
+    fragment DeleteAccountContainer_settings on Settings {
+      organization {
+        contactEmail
+      }
     }
   `,
 })(DeleteAccountContainer);

@@ -10,12 +10,14 @@ import styles from "./Common/Page.css";
 
 interface Props {
   scheduledDeletionDate?: string;
+  organizationEmail: string;
   step: number;
   onClose: () => void;
 }
 
 const CompletionPage: FunctionComponent<Props> = ({
   scheduledDeletionDate,
+  organizationEmail,
   step,
   onClose,
 }) => {
@@ -24,8 +26,6 @@ const CompletionPage: FunctionComponent<Props> = ({
   }, [onClose]);
 
   const { locales } = useCoralContext();
-
-  const organizationEmail = "org@org.com";
 
   const formattedDate = scheduledDeletionDate
     ? Intl.DateTimeFormat(locales, {
