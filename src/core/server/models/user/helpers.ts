@@ -1,5 +1,8 @@
+import { isEqual } from "lodash";
+
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 
+import { SSOUserProfile } from "coral-server/app/middleware/passport/strategies/verifiers/sso";
 import { STAFF_ROLES } from "./constants";
 import { LocalProfile, SSOProfile, User } from "./user";
 
@@ -22,10 +25,15 @@ export function getSSOProfile(user: Pick<User, "profiles">) {
 }
 
 export function needsSSOUpdate(
-  token: Pick<User, "email" | "username">,
-  user: Pick<User, "email" | "username">
+  token: SSOUserProfile,
+  user: Pick<User, "email" | "username" | "badges" | "role">
 ) {
-  return user.email !== token.email || user.username !== token.username;
+  return (
+    user.email !== token.email ||
+    user.username !== token.username ||
+    (token.role && user.role !== token.role) ||
+    !isEqual(user.badges, token.badges)
+  );
 }
 
 /**

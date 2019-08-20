@@ -18,9 +18,11 @@ import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { Metrics } from "coral-server/services/metrics";
+import { PersistedQueryCache } from "coral-server/services/queries";
 import { AugmentedRedis } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
 
+import { compileTrust } from "./helpers";
 import { accessLogger, errorLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
 import serveStatic from "./middleware/serveStatic";
@@ -28,18 +30,20 @@ import { createRouter } from "./router";
 
 export interface AppOptions {
   config: Config;
+  disableClientRoutes: boolean;
   i18n: I18n;
   mailerQueue: MailerQueue;
-  scraperQueue: ScraperQueue;
+  metrics?: Metrics;
   mongo: Db;
   parent: Express;
+  persistedQueryCache: PersistedQueryCache;
+  persistedQueriesRequired: boolean;
+  pubsub: RedisPubSub;
   redis: AugmentedRedis;
   schema: GraphQLSchema;
+  scraperQueue: ScraperQueue;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
-  disableClientRoutes: boolean;
-  metrics?: Metrics;
-  pubsub: RedisPubSub;
 }
 
 /**
@@ -108,7 +112,7 @@ function configureApplication(options: AppOptions) {
   // SSL was terminated correctly.
   const trust = options.config.get("trust_proxy");
   if (trust) {
-    parent.set("trust proxy", trust);
+    parent.set("trust proxy", compileTrust(trust));
   }
 
   // Setup the view config.

@@ -2,6 +2,7 @@ import cn from "classnames";
 import React from "react";
 
 import { Button, ButtonIcon, MatchMedia } from "coral-ui/components";
+import { ButtonProps } from "coral-ui/components/Button";
 
 import styles from "./ReactionButton.css";
 
@@ -14,19 +15,20 @@ interface ReactionButtonProps {
   icon: string;
   iconActive: string | null;
   readOnly?: boolean;
-  // color: string;
+  className?: string;
+  color?: typeof styles & ButtonProps["color"];
 }
 
 class ReactionButton extends React.Component<ReactionButtonProps> {
   public render() {
-    const { totalReactions, reacted, readOnly } = this.props;
+    const { totalReactions, reacted, readOnly, className } = this.props;
     return (
       <Button
         variant="ghost"
         size="small"
         onClick={this.props.onClick}
         disabled={readOnly}
-        className={cn({ [styles.readOnly]: readOnly })}
+        className={cn({ [styles.readOnly]: readOnly }, className)}
       >
         <MatchMedia gtWidth="xs">
           <ButtonIcon>

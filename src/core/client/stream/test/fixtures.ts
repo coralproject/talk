@@ -113,6 +113,8 @@ export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
 
 export const baseUser = createFixture<GQLUser>({
   createdAt: "2018-02-06T18:24:00.000Z",
+  id: "base-user",
+  role: GQLUSER_ROLE.COMMENTER,
   status: {
     current: [GQLUSER_STATUS.ACTIVE],
     username: {
@@ -130,6 +132,11 @@ export const baseUser = createFixture<GQLUser>({
     },
   },
   ignoreable: true,
+  profiles: [
+    {
+      __typename: "LocalProfile",
+    },
+  ],
 });
 
 const yesterday = new Date();
@@ -180,6 +187,14 @@ export const userWithChangedUsername = createFixture<GQLUser>(
         ],
       },
     },
+  },
+  baseUser
+);
+
+export const userWithEmail = createFixture<GQLUser>(
+  {
+    id: "email-user",
+    email: "used-email@email.com",
   },
   baseUser
 );

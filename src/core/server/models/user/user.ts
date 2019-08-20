@@ -293,6 +293,12 @@ export interface User extends TenantResource {
   email?: string;
 
   /**
+   *
+   * badges are user display badges
+   */
+  badges?: string[];
+
+  /**
    * emailVerificationID is used to store state regarding the verification state
    * of an email address to prevent replay attacks.
    */
@@ -668,6 +674,8 @@ export async function updateUserPassword(
 export interface UpdateUserInput {
   email?: string;
   username?: string;
+  badges?: string[];
+  role?: GQLUSER_ROLE;
 }
 
 export async function updateUserFromSSO(
@@ -677,7 +685,7 @@ export async function updateUserFromSSO(
   update: UpdateUserInput,
   lastIssuedAt: Date
 ) {
-  // Update the user with the new password.
+  // Update the user with the new properties.
   const result = await collection(mongo).findOneAndUpdate(
     {
       tenantID,
@@ -889,53 +897,53 @@ export async function setUserEmail(
  * @param tenantID the Tenant ID of the Tenant where the User exists
  * @param id the User ID that we are updating
  * @param emailAddress email address that we are setting on the User
+ * @param emailVerified whether email is verified
  */
 export async function updateUserEmail(
   mongo: Db,
   tenantID: string,
   id: string,
-  emailAddress: string
+  emailAddress: string,
+  emailVerified = false
 ) {
   // Lowercase the email address.
   const email = emailAddress.toLowerCase();
 
-  // Search to see if this email has been used before.
-  let user = await collection(mongo).findOne({
-    tenantID,
-    email,
-  });
-  if (user) {
-    throw new DuplicateEmailError(email);
-  }
-
-  // The email wasn't found, so try to update the User.
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      tenantID,
-      id,
-    },
-    {
-      $set: {
-        email,
+  try {
+    // The email wasn't found, so try to update the User.
+    const result = await collection(mongo).findOneAndUpdate(
+      {
+        tenantID,
+        id,
       },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    // Try to get the current user to discover what happened.
-    user = await retrieveUser(mongo, tenantID, id);
-    if (!user) {
-      throw new UserNotFoundError(id);
-    }
+      {
+        $set: {
+          email,
+          emailVerified,
+          "profiles.$[profiles].id": email,
+        },
+      },
+      {
+        arrayFilters: [{ "profiles.type": "local" }],
+        returnOriginal: false,
+      }
+    );
+    if (!result.value) {
+      // Try to get the current user to discover what happened.
+      const user = await retrieveUser(mongo, tenantID, id);
+      if (!user) {
+        throw new UserNotFoundError(id);
+      }
 
-    throw new Error("an unexpected error occurred");
+      throw new Error("an unexpected error occurred");
+    }
+    return result.value;
+  } catch (err) {
+    if (err instanceof MongoError && err.code === 11000) {
+      throw new DuplicateEmailError(email!);
+    }
+    throw err;
   }
-
-  return result.value;
 }
 
 /**

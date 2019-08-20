@@ -17,6 +17,7 @@ import {
   suspend,
   updateAvatar,
   updateEmail,
+  updateEmailByID,
   updatePassword,
   updateRole,
   updateUsername,
@@ -38,6 +39,7 @@ import {
   GQLSetPasswordInput,
   GQLSetUsernameInput,
   GQLSuspendUserInput,
+  GQLUpdateEmailInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
@@ -140,7 +142,18 @@ export const Users = (ctx: TenantContext) => ({
       ctx.user!
     ),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
-    updateEmail(ctx.mongo, ctx.tenant, input.userID, input.email),
+    updateEmailByID(ctx.mongo, ctx.tenant, input.userID, input.email),
+  updateEmail: async (input: GQLUpdateEmailInput) =>
+    updateEmail(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.mailerQueue,
+      ctx.config,
+      ctx.signingConfig!,
+      ctx.user!,
+      input.email,
+      input.password
+    ),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>

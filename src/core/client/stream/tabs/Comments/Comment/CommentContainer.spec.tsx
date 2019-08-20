@@ -27,6 +27,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         author: {
           id: "author-id",
           username: "Marvin",
+          badges: [],
         },
         parent: null,
         body: "Woof",

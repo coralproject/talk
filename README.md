@@ -19,10 +19,10 @@ Preview Coral easily by running Coral via a Heroku App:
 - [Running](#running)
   - [Docker](#docker)
   - [Source](#source)
+  - [Embed On Your Site](#embed-on-your-site)
+  - [Single Sign On](#single-sign-on)
+    - [SSO Login Prompts](#sso-login-prompts)
   - [Development](#development)
-    - [Embed On Your Site](#embed-on-your-site)
-    - [Single Sign On](#single-sign-on)
-      - [SSO Login Prompts](#sso-login-prompts)
     - [Email](#email)
     - [Design Language System (UI Components)](#design-language-system-ui-components)
 - [Configuration](#configuration)
@@ -133,60 +133,7 @@ npm run start
 
 Then head on over to http://localhost:3000 to install Coral!
 
-### Development
-
-Running Coral for development is very similar to installing Coral via Source as
-described above.
-
-Coral requires NodeJS >=10, we recommend using `nvm` to help manage node
-versions: https://github.com/creationix/nvm.
-
-```bash
-# Clone and cd into the Coral directory.
-git clone https://github.com/coralproject/talk.git
-cd talk
-
-# Install dependencies.
-npm install
-```
-
-Running Coral with default settings assumes that you have:
-
-- MongoDB >=3.6 running on `127.0.0.1:27017`
-- Redis >=3.2 running on `127.0.0.1:6379`
-
-If you don't already have these databases running, you can execute the following
-assuming you have Docker installed on your local machine:
-
-```bash
-docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
-docker run -d -p 6379:6379 --restart always --name redis redis:3.2
-```
-
-Then start Coral with:
-
-```bash
-# Run the server in development mode in order to facilitate auto-restarting and
-# rebuilding when file changes are detected. This might take a while to fully run.
-npm run watch
-```
-
-When the client code has been built, navigate to http://localhost:8080/install
-to start the installation wizard. **Note: Ensure `localhost:8080` is used in the permitted domains list.**
-
-To see the comment stream goto http://localhost:8080/.
-
-To run linting and tests use the following commands:
-
-```bash
-# Run the linters.
-npm run lint
-
-# Run our unit and integration tests.
-npm run test
-```
-
-#### Embed On Your Site
+### Embed On Your Site
 
 With Coral setup and running locally you can test embeding the comment stream with this sample embed script:
 
@@ -211,7 +158,7 @@ With Coral setup and running locally you can test embeding the comment stream wi
 
 > **NOTE:** Replace the value of `{{ CORAL_DOMAIN_NAME }}` with the location of your running instance of Coral.
 
-#### Single Sign On
+### Single Sign On
 
 In order to allow seamless connection to an existing authentication system,
 Coral utilizes the industry standard [JWT Token](https://jwt.io/) to connect. To
@@ -250,6 +197,11 @@ You will then have to generate a JWT with the following claims:
   about status changes on a user account such as bans or suspensions.
 - `user.username` (**required**) - the username that should be used when being
   presented inside Coral to moderators and other users.
+- `user.badges` (_optional_) - array of strings to be displayed as badges beside
+  username inside Coral, visible to other users and moderators. For example, to indicate
+  a user's subscription status.
+- `user.role` (_optional_) - one of "COMMENTER", "STAFF", "MODERATOR", "ADMIN". Will create/update
+  Coral user with this role.
 
 An example of the claims for this token would be:
 
@@ -294,7 +246,7 @@ embed.login("{{ SSO_TOKEN }}");
 embed.logout();
 ```
 
-##### SSO Login Prompts
+#### SSO Login Prompts
 
 In order to handle login prompts (e.g. a user clicks on the sign in button) you can listen to the `loginPrompt` event.
 
@@ -309,6 +261,68 @@ var embed = Coral.createStreamEmbed({
     });
   },
 });
+```
+
+### Development
+
+Running Coral for development is very similar to installing Coral via Source as
+described above.
+
+Coral requires NodeJS >=10, we recommend using `nvm` to help manage node
+versions: https://github.com/creationix/nvm.
+
+```bash
+# Clone and cd into the Coral directory.
+git clone https://github.com/coralproject/talk.git
+cd talk
+
+# Install dependencies.
+npm install
+```
+
+Running Coral with default settings assumes that you have:
+
+- MongoDB >=3.6 running on `127.0.0.1:27017`
+- Redis >=3.2 running on `127.0.0.1:6379`
+
+If you don't already have these databases running, you can execute the following
+assuming you have Docker installed on your local machine:
+
+```bash
+docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
+docker run -d -p 6379:6379 --restart always --name redis redis:3.2
+```
+
+We recommend installing [watchman](https://facebook.github.io/watchman/docs/install.html) for better watch
+performance.
+
+```bash
+# On macOS, you can run the following with Homebrew.
+brew update
+brew install watchman
+```
+
+Then start Coral with:
+
+```bash
+# Run the server in development mode in order to facilitate auto-restarting and
+# rebuilding when file changes are detected. This might take a while to fully run.
+npm run watch
+```
+
+When the client code has been built, navigate to http://localhost:8080/install
+to start the installation wizard. **Note: Ensure `localhost:8080` is used in the permitted domains list.**
+
+To see the comment stream goto http://localhost:8080/.
+
+To run linting and tests use the following commands:
+
+```bash
+# Run the linters.
+npm run lint
+
+# Run our unit and integration tests.
+npm run test
 ```
 
 #### Email
