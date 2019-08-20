@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { graphql, useLocal } from "coral-framework/lib/relay";
@@ -11,8 +12,8 @@ import {
   TabContent,
   TabPane,
 } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
 
+import ChangeEmailContainer from "./ChangeEmail";
 import ChangeUsernameContainer from "./ChangeUsername";
 import CommentHistoryContainer from "./CommentHistory";
 import SettingsContainer from "./Settings";
@@ -22,9 +23,13 @@ export interface ProfileProps {
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
     PropTypesOf<typeof CommentHistoryContainer>["viewer"] &
     PropTypesOf<typeof SettingsContainer>["viewer"] &
-    PropTypesOf<typeof ChangeUsernameContainer>["viewer"];
+    PropTypesOf<typeof ChangeUsernameContainer>["viewer"] &
+    PropTypesOf<typeof ChangeEmailContainer>["viewer"] &
+    PropTypesOf<typeof SettingsContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
-    PropTypesOf<typeof SettingsContainer>["settings"];
+    PropTypesOf<typeof ChangeEmailContainer>["settings"] &
+    PropTypesOf<typeof SettingsContainer>["settings"] &
+    PropTypesOf<typeof ChangeUsernameContainer>["settings"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
@@ -39,7 +44,13 @@ const Profile: FunctionComponent<ProfileProps> = props => {
   );
   return (
     <HorizontalGutter spacing={5}>
-      <ChangeUsernameContainer viewer={props.viewer} />
+      <HorizontalGutter spacing={2}>
+        <ChangeUsernameContainer
+          settings={props.settings}
+          viewer={props.viewer}
+        />
+        <ChangeEmailContainer settings={props.settings} viewer={props.viewer} />
+      </HorizontalGutter>
       <TabBar
         variant="secondary"
         activeTab={local.profileTab}
