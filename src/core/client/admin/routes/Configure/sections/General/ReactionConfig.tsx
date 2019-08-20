@@ -112,7 +112,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                   readOnly
                   reacted
                   label={settings.reaction.label}
-                  labelActive={settings.reaction.labelActive}
+                  labelActive={input.value}
                   icon={settings.reaction.icon}
                   iconActive={settings.reaction.iconActive}
                   totalReactions={0}
