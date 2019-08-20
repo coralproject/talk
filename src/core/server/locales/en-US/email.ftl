@@ -78,7 +78,7 @@ email-notification-template-deleteRequestCancel =
 email-subject-deleteRequestCompleted =
   Your account has been deleted
 email-notification-template-deleteRequestCompleted =
-  Your commenter account for { $username } is now deleted. We're sorry to
+  Your commenter account for { $organizationName } is now deleted. We're sorry to
   see you go!<br /><br />
   If you'd like to re-join the discussion in the future, you can sign up for
   a new account.<br /><br />

@@ -219,7 +219,6 @@ async function deleteUser(db: Db, mailer: MailerQueue, id: string, now: Date) {
       template: {
         name: "delete-request-completed",
         context: {
-          username: user.username ? user.username : "",
           organizationContactEmail: tenant.organization.contactEmail,
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,

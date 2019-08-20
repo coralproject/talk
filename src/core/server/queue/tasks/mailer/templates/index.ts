@@ -94,7 +94,6 @@ export type AccountDeletionCancellation = UserNotificationContext<
 export type AccountDeletionCompleted = UserNotificationContext<
   "delete-request-completed",
   {
-    username: string;
     organizationContactEmail: string;
   }
 >;
