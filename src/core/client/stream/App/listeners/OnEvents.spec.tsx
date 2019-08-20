@@ -1,9 +1,9 @@
+import { noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
 import { createSinonStub } from "coral-framework/testHelpers";
 
-import { noop } from "lodash";
 import { OnEvents } from "./OnEvents";
 
 it("Broadcasts events to pym", () => {
