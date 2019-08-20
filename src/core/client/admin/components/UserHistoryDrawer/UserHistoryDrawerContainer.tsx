@@ -11,6 +11,7 @@ import { Button, Flex, Icon, Typography } from "coral-ui/components";
 
 import RecentHistoryContainer from "./RecentHistoryContainer";
 import Tabs from "./Tabs";
+import UserBadgesContainer from "./UserBadgesContainer";
 import UserStatusDetailsContainer from "./UserStatusDetailsContainer";
 
 import styles from "./UserHistoryDrawerContainer.css";
@@ -38,8 +39,11 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
       <Button className={styles.close} onClick={onClose}>
         <Icon size="md">close</Icon>
       </Button>
-      <Flex className={styles.username}>
+      <Flex className={styles.username} itemGutter>
         <span>{user.username}</span>
+        <div>
+          <UserBadgesContainer user={user} />
+        </div>
       </Flex>
       <div className={styles.userStatus}>
         <Flex alignItems="center" itemGutter="half">
@@ -130,6 +134,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   user: graphql`
     fragment UserHistoryDrawerContainer_user on User {
+      ...UserBadgesContainer_user
       ...UserStatusChangeContainer_user
       ...UserStatusDetailsContainer_user
       ...RecentHistoryContainer_user

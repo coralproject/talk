@@ -2,6 +2,8 @@ import { Component } from "react";
 
 import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 
+import emitEventAliases from "./emitEventAliases";
+
 interface Props {
   pym: CoralContext["pym"];
   eventEmitter: CoralContext["eventEmitter"];
@@ -10,8 +12,9 @@ interface Props {
 export class OnEvents extends Component<Props> {
   constructor(props: Props) {
     super(props);
-    // Auth popup will use this to handle a successful login.
     props.eventEmitter.onAny((eventName: string, value: any) => {
+      // Emit event aliases.
+      emitEventAliases(props.eventEmitter, eventName, value);
       props.pym!.sendMessage(
         "event",
         JSON.stringify({

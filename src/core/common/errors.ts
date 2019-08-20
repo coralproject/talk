@@ -295,4 +295,17 @@ export enum ERROR_CODES {
    * someone now allowed when it is disabled on the tenant level.
    */
   LIVE_UPDATES_DISABLED = "LIVE_UPDATES_DISABLED",
+
+  /**
+   * PERSISTED_QUERY_NOT_FOUND is returned when a query is executed specifying a
+   * persisted query that can not be found.
+   */
+  PERSISTED_QUERY_NOT_FOUND = "PERSISTED_QUERY_NOT_FOUND",
+
+  /**
+   * RAW_QUERY_NOT_AUTHORIZED is returned when a query is executed that is not a
+   * persisted query when the server has configured such queries are required by
+   * all non-admin users.
+   */
+  RAW_QUERY_NOT_AUTHORIZED = "RAW_QUERY_NOT_AUTHORIZED",
 }

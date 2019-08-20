@@ -214,6 +214,11 @@ const CLASSES = {
     userTag: "coral coral-comment-userTag",
 
     /**
+     * userBadge can be used to target a badge associated with a User.
+     */
+    userBadge: "coral coral-comment-userBadge",
+
+    /**
      * commentTag can be used to target a tag associated with a Comment.
      */
     commentTag: "coral coral-comment-commentTag",

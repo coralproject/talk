@@ -223,10 +223,10 @@ export default function createWebpackConfig(
       // Generated JS file names (with nested folders).
       // There will be one main bundle, and one file per asynchronous chunk.
       filename: isProduction
-        ? "assets/js/[name].[chunkhash:8].js"
+        ? "assets/js/[name].[chunkhash].js"
         : "assets/js/[name].js",
       chunkFilename: isProduction
-        ? "assets/js/[name].[chunkhash:8].chunk.js"
+        ? "assets/js/[name].[chunkhash].chunk.js"
         : "assets/js/[name].chunk.js",
       // We inferred the "public path" (such as / or /my-project) from homepage.
       publicPath,
@@ -357,7 +357,7 @@ export default function createWebpackConfig(
               options: {
                 limit: 10000,
                 name: isProduction
-                  ? "assets/media/[name].[hash:8].[ext]"
+                  ? "assets/media/[name].[hash].[ext]"
                   : "assets/media/[name].[ext]",
               },
             },
@@ -370,7 +370,7 @@ export default function createWebpackConfig(
                   options: {
                     modules: true,
                     importLoaders: 2,
-                    localIdentName: "[name]-[local]-[hash:base64:5]",
+                    localIdentName: "[name]-[local]-[contenthash]",
                     sourceMap: !disableSourcemaps,
                   },
                 },

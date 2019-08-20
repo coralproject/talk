@@ -2,7 +2,7 @@
   composes: tagText from "coral-ui/shared/typography.css";
   color: var(--palette-text-light);
   line-height: 1;
-  padding: 2px 4px;
+  padding: var(--spacing-1);
   white-space: nowrap;
   border-radius: 1px;
   display: inline-block;
@@ -18,6 +18,10 @@
 
 .colorError {
   background-color: var(--palette-error-dark);
+}
+
+.colorDarkest {
+  background-color: var(--palette-primary-darkest);
 }
 
 .variantPill {

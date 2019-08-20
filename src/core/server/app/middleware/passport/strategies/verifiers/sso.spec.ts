@@ -6,7 +6,14 @@ import { validate } from "coral-server/app/request/body";
 
 describe("isSSOToken", () => {
   it("understands valid sso tokens", () => {
-    const token = { user: { id: "id", email: "email", username: "username" } };
+    const token = {
+      user: {
+        id: "id",
+        email: "email",
+        username: "username",
+        role: "COMMENTER",
+      },
+    };
     expect(isSSOToken(token)).toBeTruthy();
   });
 
@@ -19,6 +26,15 @@ describe("isSSOToken", () => {
     ).toBeFalsy();
     expect(
       isSSOToken({ user: { email: "email", username: "username" } } as object)
+    ).toBeFalsy();
+    expect(
+      isSSOToken({
+        user: {
+          email: "email",
+          username: "username",
+          role: "SUPERADMIN",
+        },
+      } as object)
     ).toBeFalsy();
     expect(isSSOToken({})).toBeFalsy();
   });

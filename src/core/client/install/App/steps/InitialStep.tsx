@@ -11,11 +11,10 @@ class InitialStep extends Component<InitialStepProps> {
   public render() {
     return (
       <Flex direction="column" justifyContent="center" itemGutter="double">
-        <Localized id="install-initialStep-copy">
+        <Localized id="install-initialStep-theRemainder">
           <Typography variant="bodyCopy">
-            The remainder of the Coral installation will take about ten minutes.
-            Once you complete the following three steps, you will have a free
-            installation and provision Mongo and Redis.
+            The remainder of the installation wizard will take about 10 minutes.
+            Once you are finished, you will have your own instance of Coral.
           </Typography>
         </Localized>
         <Flex justifyContent="center">

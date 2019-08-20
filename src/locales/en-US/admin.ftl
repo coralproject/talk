@@ -727,3 +727,21 @@ userDetails-banned-by = <strong>by</strong> { $username }
 userDetails-suspended-by = <strong>Suspended by</strong> { $username }
 userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
 userDetails-suspension-end = <strong>End:</strong> { $timestamp }
+
+configure-general-reactions-title = Reactions
+configure-general-reactions-explanation = 
+  Allow your community to engage with one another and express themselves
+  with one-click reactions. By default, Coral allows commenters to
+  "Respect" each other's comments, but you may customize reaction text
+  based on the needs of your community.
+configure-general-reactions-label = Reaction label
+configure-general-reactions-input = 
+  .placehodlder = E.g. Respect
+configure-general-reactions-active-label = Active reaction label
+configure-general-reactions-active-input = 
+  .placehodlder = E.g. Respected
+configure-general-reactions-sort-label = Sort label
+configure-general-reactions-sort-input = 
+  .placehodlder = E.g. Most Respected
+configure-general-reactions-preview = Preview
+configure-general-reaction-sortMenu-sortBy = Sort by
