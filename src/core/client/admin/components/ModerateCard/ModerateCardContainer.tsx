@@ -158,7 +158,11 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           createdAt={comment.createdAt}
           body={comment.body!}
-          inReplyTo={comment.parent && comment.parent.author!.username!}
+          inReplyTo={
+            comment.parent &&
+            comment.parent.author &&
+            comment.parent.author.username
+          }
           comment={comment}
           settings={settings}
           dangling={danglingLogic(comment.status)}
