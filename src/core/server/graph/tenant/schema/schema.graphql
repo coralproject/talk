@@ -1654,6 +1654,11 @@ type User {
   scheduled to be deleted.
   """
   scheduledDeletionDate: Time
+
+  """
+  deletedAt is the time when the User was deleted.
+  """
+  deletedAt: Time
 }
 
 """

@@ -472,8 +472,8 @@ moderate-user-drawer-account-history-banned = Banned
 moderate-user-drawer-account-history-ban-removed = Ban removed
 moderate-user-drawer-account-history-no-history = No actions have been taken on this account
 moderate-user-drawer-username-change = Username change
-moderate-user-drawer-username-change-new = New:  
-moderate-user-drawer-username-change-old = Old:  
+moderate-user-drawer-username-change-new = New:
+moderate-user-drawer-username-change-old = Old:
 
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
@@ -591,6 +591,7 @@ community-filter-allRoles = All Roles
 community-filter-allStatuses = All Statuses
 
 community-column-username = Username
+community-column-username-deleted = Deleted
 community-column-email = Email
 community-column-memberSince = Member Since
 community-column-role = Role
