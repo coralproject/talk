@@ -108,6 +108,8 @@ exports[`renders comment stream 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -123,6 +125,8 @@ exports[`renders comment stream 1`] = `
                     </button>
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       id="comments-commentContainer-replyButton-comment-1"
                       onBlur={[Function]}
@@ -143,6 +147,8 @@ exports[`renders comment stream 1`] = `
                       <button
                         aria-controls="permalink-popover-comment-1"
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -175,6 +181,8 @@ exports[`renders comment stream 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -206,6 +214,8 @@ exports[`renders comment stream 1`] = `
       <button
         aria-controls="coral-comments-replyList-log--comment-0"
         className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth"
+        data-color="regular"
+        data-variant="outlined"
         disabled={false}
         id="coral-comments-replyList-showAll--comment-0"
         onBlur={[Function]}

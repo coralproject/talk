@@ -1,6 +1,8 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import {
   Flex,
   Icon,
@@ -28,7 +30,7 @@ const SortMenu: FunctionComponent<Props> = props => (
   <MatchMedia ltWidth="sm">
     {matches => (
       <Flex
-        className={props.className}
+        className={cn(props.className, CLASSES.sortMenu)}
         justifyContent="flex-end"
         alignItems="center"
         itemGutter

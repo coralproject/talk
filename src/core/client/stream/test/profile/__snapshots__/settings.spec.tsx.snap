@@ -16,7 +16,7 @@ exports[`renders the empty settings pane 1`] = `
       <button
         aria-controls="tabPane-COMMENTS"
         aria-selected={false}
-        className="BaseButton-root Tab-button Tab-primary coral coral-tabBar-allComments"
+        className="BaseButton-root Tab-button Tab-primary coral coral-tabBar-tab coral-tabBar-comments"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -39,7 +39,7 @@ exports[`renders the empty settings pane 1`] = `
       <button
         aria-controls="tabPane-PROFILE"
         aria-selected={true}
-        className="BaseButton-root Tab-button Tab-primary Tab-active coral coral-tabBar-myProfile"
+        className="BaseButton-root Tab-button Tab-primary Tab-active coral coral-tabBar-tab coral-tabBar-myProfile"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -66,33 +66,73 @@ exports[`renders the empty settings pane 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
     >
       <div
-        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
-        data-testid="profile-changeUsername"
+        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
       >
         <div
-          className="Box-root Flex-root Flex-flex Flex-alignBaseline"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
+          data-testid="profile-changeUsername"
         >
-          <h1
-            className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
+          <div
+            className="Box-root Flex-root Flex-flex Flex-alignBaseline"
           >
-            Passivo
-          </h1>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
+            <h1
+              className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
+            >
+              Passivo
+            </h1>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+              data-color="primary"
+              data-variant="regular"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              edit
+            </button>
+          </div>
+        </div>
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
+          data-testid="profile-changeEmail"
+        >
+          <div
+            className="Box-root Flex-root Flex-flex Flex-alignCenter"
           >
-            edit
-          </button>
+            <p
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            />
+            <span>
+               
+            </span>
+            <p
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextSecondary"
+            >
+              (Unverified)
+            </p>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+              data-color="primary"
+              data-variant="regular"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Edit
+            </button>
+          </div>
         </div>
       </div>
       <ul
-        className="TabBar-root TabBar-secondary"
+        className="TabBar-root TabBar-secondary coral coral-tabBarSecondary coral-tabBarMyProfile"
         role="tablist"
       >
         <li
@@ -103,7 +143,7 @@ exports[`renders the empty settings pane 1`] = `
           <button
             aria-controls="tabPane-MY_COMMENTS"
             aria-selected={false}
-            className="BaseButton-root Tab-button Tab-secondary"
+            className="BaseButton-root Tab-button Tab-secondary coral coral-tabBarSecondary-tab coral-tabBarMyProfile-myComments"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -126,7 +166,7 @@ exports[`renders the empty settings pane 1`] = `
           <button
             aria-controls="tabPane-SETTINGS"
             aria-selected={true}
-            className="BaseButton-root Tab-button Tab-secondary Tab-active"
+            className="BaseButton-root Tab-button Tab-secondary Tab-active coral coral-tabBarSecondary-tab coral-tabBarMyProfile-settings"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -244,6 +284,8 @@ Commenters you ignore will still be able to see your comments.
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                        data-color="primary"
+                        data-variant="underlined"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -309,6 +351,8 @@ Commenters you ignore will still be able to see your comments.
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+                      data-color="primary"
+                      data-variant="filled"
                       disabled={true}
                       onBlur={[Function]}
                       onFocus={[Function]}
@@ -343,6 +387,8 @@ You can make
             </p>
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined"
+              data-color="regular"
+              data-variant="outlined"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}

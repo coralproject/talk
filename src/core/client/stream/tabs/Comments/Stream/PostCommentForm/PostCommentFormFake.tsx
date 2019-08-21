@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
@@ -28,11 +29,11 @@ const PostCommentFormFake: FunctionComponent<Props> = props => {
       {props.showMessageBox && (
         <MessageBoxContainer
           story={props.story}
-          className={styles.messageBox}
+          className={cn(CLASSES.createComment.message, styles.messageBox)}
         />
       )}
       <HorizontalGutter className={styles.root}>
-        <div className={CLASSES.createComment.box} aria-hidden="true">
+        <div aria-hidden="true">
           <Localized
             id="comments-postCommentFormFake-rte"
             attrs={{ placeholder: true }}

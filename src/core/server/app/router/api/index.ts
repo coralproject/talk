@@ -9,6 +9,7 @@ import {
   versionHandler,
 } from "coral-server/app/handlers";
 import { JSONErrorHandler } from "coral-server/app/middleware/error";
+import { persistedQueryMiddleware } from "coral-server/app/middleware/graphql";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
 import { errorLogger } from "coral-server/app/middleware/logging";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
@@ -60,6 +61,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     "/graphql",
     authenticate(options.passport),
     jsonMiddleware,
+    persistedQueryMiddleware(app),
     graphQLHandler(app)
   );
 

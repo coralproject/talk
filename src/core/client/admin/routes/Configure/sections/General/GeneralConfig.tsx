@@ -8,6 +8,7 @@ import ClosingCommentStreamsConfigContainer from "./ClosingCommentStreamsConfigC
 import CommentEditingConfigContainer from "./CommentEditingConfigContainer";
 import CommentLengthConfigContainer from "./CommentLengthConfigContainer";
 import GuidelinesConfigContainer from "./GuidelinesConfigContainer";
+import ReactionConfigContainer from "./ReactionConfigContainer";
 import SitewideCommentingConfigContainer from "./SitewideCommentingConfigContainer";
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
     PropTypesOf<typeof CommentLengthConfigContainer>["settings"] &
     PropTypesOf<typeof CommentEditingConfigContainer>["settings"] &
     PropTypesOf<typeof ClosedStreamMessageConfigContainer>["settings"] &
+    PropTypesOf<typeof ReactionConfigContainer>["settings"] &
     PropTypesOf<typeof ClosingCommentStreamsConfigContainer>["settings"] &
     PropTypesOf<typeof SitewideCommentingConfigContainer>["settings"];
   onInitValues: (values: any) => void;
@@ -53,6 +55,11 @@ const General: FunctionComponent<Props> = ({
       onInitValues={onInitValues}
     />
     <ClosedStreamMessageConfigContainer
+      disabled={disabled}
+      settings={settings}
+      onInitValues={onInitValues}
+    />
+    <ReactionConfigContainer
       disabled={disabled}
       settings={settings}
       onInitValues={onInitValues}

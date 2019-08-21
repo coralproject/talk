@@ -287,3 +287,21 @@ suspendInfo-info =
   account has been temporarily suspended. While suspended you will not
   be able to comment, respect or report comments. Please rejoin the
   conversation on { $until }
+
+profile-changeEmail-unverified = (Unverified)
+profile-changeEmail-edit = Edit
+profile-changeEmail-please-verify = Verify your email address
+profile-changeEmail-please-verify-details = 
+  An email has been sent to { $email } to verify your account.
+  You must verify your new email address before it can be used for
+  signing into your account or for email notifications.
+profile-changeEmail-resend = Resend verification
+profile-changeEmail-heading = Edit your email address
+profile-changeEmail-desc = Change the email address used for signing in and for receiving communication about your account.
+profile-changeEmail-current = Current email
+profile-changeEmail-newEmail-label = New email address
+profile-changeEmail-password = Password
+profile-changeEmail-password-input =
+  .placeholder = Password
+profile-changeEmail-cancel = Cancel
+profile-changeEmail-submit = Save

@@ -97,6 +97,8 @@ exports[`accepts correct password 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -216,6 +218,8 @@ exports[`accepts valid email 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -348,6 +352,8 @@ exports[`checks for invalid email 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -531,6 +537,8 @@ exports[`renders sign in form 1`] = `
               </div>
               <button
                 className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+                data-color="brand"
+                data-variant="filled"
                 disabled={false}
                 onBlur={[Function]}
                 onFocus={[Function]}
@@ -677,6 +685,8 @@ exports[`shows error when submitting empty form 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -790,6 +800,8 @@ exports[`shows server error 1`] = `
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      data-color="brand"
+      data-variant="filled"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}

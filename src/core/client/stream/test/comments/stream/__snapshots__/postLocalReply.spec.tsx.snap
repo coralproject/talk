@@ -84,7 +84,7 @@ exports[`post a reply: open reply form 1`] = `
             className="Comment-subBar"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
             >
               <span
                 aria-hidden="true"
@@ -126,6 +126,8 @@ exports[`post a reply: open reply form 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  data-color="regular"
+                  data-variant="ghost"
                   disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -141,6 +143,8 @@ exports[`post a reply: open reply form 1`] = `
                 </button>
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                  data-color="regular"
+                  data-variant="ghost"
                   disabled={false}
                   id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
                   onBlur={[Function]}
@@ -161,6 +165,8 @@ exports[`post a reply: open reply form 1`] = `
                   <button
                     aria-controls="permalink-popover-comment-with-deepest-replies-5"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    data-color="regular"
+                    data-variant="ghost"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -197,6 +203,8 @@ exports[`post a reply: open reply form 1`] = `
                   <button
                     aria-controls="report-popover-comment-with-deepest-replies-5"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    data-color="regular"
+                    data-variant="ghost"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -228,6 +236,8 @@ exports[`post a reply: open reply form 1`] = `
             </div>
             <a
               className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+              data-color="primary"
+              data-variant="underlined"
               href="http://localhost/stories/story-with-replies?commentID=comment-with-deepest-replies-5"
               id="comments-commentContainer-showConversation-comment-with-deepest-replies-5"
               onBlur={[Function]}
@@ -257,9 +267,7 @@ exports[`post a reply: open reply form 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-half"
         >
-          <div
-            className="coral coral-createReplyComment-box"
-          >
+          <div>
             <label
               className="AriaInfo-root"
               htmlFor="comments-replyCommentForm-rte-comment-with-deepest-replies-5"
@@ -291,14 +299,14 @@ exports[`post a reply: open reply form 1`] = `
             </div>
             <div>
               <div
-                className=""
+                className="$root content placeholder toolbar"
               >
                 <div
                   className="RTE-contentEditableContainer"
                 >
                   <div
                     aria-placeholder="Write a reply"
-                    className="RTE-contentEditable RTE-content"
+                    className="RTE-contentEditable coral coral-rte-content RTE-content"
                     contentEditable={true}
                     dangerouslySetInnerHTML={
                       Object {
@@ -318,13 +326,13 @@ exports[`post a reply: open reply form 1`] = `
                   />
                   <div
                     aria-hidden="true"
-                    className="RTE-placeholder RTE-placeholder"
+                    className="RTE-placeholder coral coral-rte-placholder RTE-placeholder"
                   >
                     Write a reply
                   </div>
                 </div>
                 <div
-                  className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
+                  className="coral coral-rte-toolbar RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -377,7 +385,9 @@ exports[`post a reply: open reply form 1`] = `
           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow gutter"
         >
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined coral coral-createReplyComment-cancel"
+            data-color="regular"
+            data-variant="outlined"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -391,6 +401,8 @@ exports[`post a reply: open reply form 1`] = `
           </button>
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled coral coral-createReplyComment-submit"
+            data-color="primary"
+            data-variant="filled"
             disabled={true}
             onBlur={[Function]}
             onFocus={[Function]}
@@ -497,6 +509,8 @@ exports[`post a reply: optimistic response 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                      data-color="primary"
+                      data-variant="underlined"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -514,7 +528,7 @@ exports[`post a reply: optimistic response 1`] = `
                 className="Comment-subBar"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                 >
                   <span
                     aria-hidden="true"
@@ -556,6 +570,8 @@ exports[`post a reply: optimistic response 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -575,6 +591,8 @@ exports[`post a reply: optimistic response 1`] = `
                       <button
                         aria-controls="permalink-popover-uuid-0"
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -611,6 +629,8 @@ exports[`post a reply: optimistic response 1`] = `
                       <button
                         aria-controls="report-popover-uuid-0"
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -759,6 +779,8 @@ exports[`renders comment stream 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -774,6 +796,8 @@ exports[`renders comment stream 1`] = `
                     </button>
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      data-color="regular"
+                      data-variant="ghost"
                       disabled={false}
                       id="comments-commentContainer-replyButton-comment-with-deepest-replies"
                       onBlur={[Function]}
@@ -794,6 +818,8 @@ exports[`renders comment stream 1`] = `
                       <button
                         aria-controls="permalink-popover-comment-with-deepest-replies"
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -830,6 +856,8 @@ exports[`renders comment stream 1`] = `
                       <button
                         aria-controls="report-popover-comment-with-deepest-replies"
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        data-color="regular"
+                        data-variant="ghost"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -957,7 +985,7 @@ exports[`renders comment stream 1`] = `
                     className="Comment-subBar"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                      className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                     >
                       <span
                         aria-hidden="true"
@@ -999,6 +1027,8 @@ exports[`renders comment stream 1`] = `
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           disabled={false}
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -1014,6 +1044,8 @@ exports[`renders comment stream 1`] = `
                         </button>
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          data-color="regular"
+                          data-variant="ghost"
                           disabled={false}
                           id="comments-commentContainer-replyButton-comment-with-deepest-replies-1"
                           onBlur={[Function]}
@@ -1034,6 +1066,8 @@ exports[`renders comment stream 1`] = `
                           <button
                             aria-controls="permalink-popover-comment-with-deepest-replies-1"
                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            data-color="regular"
+                            data-variant="ghost"
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
@@ -1070,6 +1104,8 @@ exports[`renders comment stream 1`] = `
                           <button
                             aria-controls="report-popover-comment-with-deepest-replies-1"
                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            data-color="regular"
+                            data-variant="ghost"
                             disabled={false}
                             onBlur={[Function]}
                             onClick={[Function]}
@@ -1197,7 +1233,7 @@ exports[`renders comment stream 1`] = `
                         className="Comment-subBar"
                       >
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                          className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                         >
                           <span
                             aria-hidden="true"
@@ -1239,6 +1275,8 @@ exports[`renders comment stream 1`] = `
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              data-color="regular"
+                              data-variant="ghost"
                               disabled={false}
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -1254,6 +1292,8 @@ exports[`renders comment stream 1`] = `
                             </button>
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              data-color="regular"
+                              data-variant="ghost"
                               disabled={false}
                               id="comments-commentContainer-replyButton-comment-with-deepest-replies-2"
                               onBlur={[Function]}
@@ -1274,6 +1314,8 @@ exports[`renders comment stream 1`] = `
                               <button
                                 aria-controls="permalink-popover-comment-with-deepest-replies-2"
                                 className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                data-color="regular"
+                                data-variant="ghost"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -1310,6 +1352,8 @@ exports[`renders comment stream 1`] = `
                               <button
                                 aria-controls="report-popover-comment-with-deepest-replies-2"
                                 className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                data-color="regular"
+                                data-variant="ghost"
                                 disabled={false}
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -1437,7 +1481,7 @@ exports[`renders comment stream 1`] = `
                             className="Comment-subBar"
                           >
                             <div
-                              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                              className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                             >
                               <span
                                 aria-hidden="true"
@@ -1479,6 +1523,8 @@ exports[`renders comment stream 1`] = `
                               >
                                 <button
                                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                  data-color="regular"
+                                  data-variant="ghost"
                                   disabled={false}
                                   onBlur={[Function]}
                                   onClick={[Function]}
@@ -1494,6 +1540,8 @@ exports[`renders comment stream 1`] = `
                                 </button>
                                 <button
                                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                  data-color="regular"
+                                  data-variant="ghost"
                                   disabled={false}
                                   id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
                                   onBlur={[Function]}
@@ -1514,6 +1562,8 @@ exports[`renders comment stream 1`] = `
                                   <button
                                     aria-controls="permalink-popover-comment-with-deepest-replies-3"
                                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                    data-color="regular"
+                                    data-variant="ghost"
                                     onBlur={[Function]}
                                     onClick={[Function]}
                                     onFocus={[Function]}
@@ -1550,6 +1600,8 @@ exports[`renders comment stream 1`] = `
                                   <button
                                     aria-controls="report-popover-comment-with-deepest-replies-3"
                                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                    data-color="regular"
+                                    data-variant="ghost"
                                     disabled={false}
                                     onBlur={[Function]}
                                     onClick={[Function]}
@@ -1677,7 +1729,7 @@ exports[`renders comment stream 1`] = `
                                 className="Comment-subBar"
                               >
                                 <div
-                                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                                  className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                                 >
                                   <span
                                     aria-hidden="true"
@@ -1719,6 +1771,8 @@ exports[`renders comment stream 1`] = `
                                   >
                                     <button
                                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                      data-color="regular"
+                                      data-variant="ghost"
                                       disabled={false}
                                       onBlur={[Function]}
                                       onClick={[Function]}
@@ -1734,6 +1788,8 @@ exports[`renders comment stream 1`] = `
                                     </button>
                                     <button
                                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                      data-color="regular"
+                                      data-variant="ghost"
                                       disabled={false}
                                       id="comments-commentContainer-replyButton-comment-with-deepest-replies-4"
                                       onBlur={[Function]}
@@ -1754,6 +1810,8 @@ exports[`renders comment stream 1`] = `
                                       <button
                                         aria-controls="permalink-popover-comment-with-deepest-replies-4"
                                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                        data-color="regular"
+                                        data-variant="ghost"
                                         onBlur={[Function]}
                                         onClick={[Function]}
                                         onFocus={[Function]}
@@ -1790,6 +1848,8 @@ exports[`renders comment stream 1`] = `
                                       <button
                                         aria-controls="report-popover-comment-with-deepest-replies-4"
                                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                        data-color="regular"
+                                        data-variant="ghost"
                                         disabled={false}
                                         onBlur={[Function]}
                                         onClick={[Function]}
@@ -1917,7 +1977,7 @@ exports[`renders comment stream 1`] = `
                                     className="Comment-subBar"
                                   >
                                     <div
-                                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                                      className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                                     >
                                       <span
                                         aria-hidden="true"
@@ -1959,6 +2019,8 @@ exports[`renders comment stream 1`] = `
                                       >
                                         <button
                                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                          data-color="regular"
+                                          data-variant="ghost"
                                           disabled={false}
                                           onBlur={[Function]}
                                           onClick={[Function]}
@@ -1974,6 +2036,8 @@ exports[`renders comment stream 1`] = `
                                         </button>
                                         <button
                                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                          data-color="regular"
+                                          data-variant="ghost"
                                           disabled={false}
                                           id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
                                           onBlur={[Function]}
@@ -1994,6 +2058,8 @@ exports[`renders comment stream 1`] = `
                                           <button
                                             aria-controls="permalink-popover-comment-with-deepest-replies-5"
                                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                            data-color="regular"
+                                            data-variant="ghost"
                                             onBlur={[Function]}
                                             onClick={[Function]}
                                             onFocus={[Function]}
@@ -2030,6 +2096,8 @@ exports[`renders comment stream 1`] = `
                                           <button
                                             aria-controls="report-popover-comment-with-deepest-replies-5"
                                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                            data-color="regular"
+                                            data-variant="ghost"
                                             disabled={false}
                                             onBlur={[Function]}
                                             onClick={[Function]}
@@ -2061,6 +2129,8 @@ exports[`renders comment stream 1`] = `
                                     </div>
                                     <a
                                       className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                                      data-color="primary"
+                                      data-variant="underlined"
                                       href="http://localhost/stories/story-with-replies?commentID=comment-with-deepest-replies-5"
                                       id="comments-commentContainer-showConversation-comment-with-deepest-replies-5"
                                       onBlur={[Function]}

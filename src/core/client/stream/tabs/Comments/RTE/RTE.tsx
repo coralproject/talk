@@ -1,7 +1,9 @@
 import { Blockquote, Bold, CoralRTE, Italic } from "@coralproject/rte";
+import cn from "classnames";
 import { Localized as LocalizedOriginal } from "fluent-react/compat";
 import React, { FunctionComponent, Ref } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -36,6 +38,21 @@ export interface RTEProps {
    * Convenient prop to override the root styling.
    */
   className?: string;
+
+  /**
+   * className for the content area.
+   */
+  contentClassName?: string;
+
+  /**
+   * className for the palceholder text.
+   */
+  placeholderClassName?: string;
+
+  /**
+   * className for the toolbar.
+   */
+  toolbarClassName?: string;
   /*
    * If set renders a full width button
    */
@@ -89,16 +106,31 @@ const RTE: FunctionComponent<RTEProps> = props => {
     disabled,
     defaultValue,
     forwardRef,
+    contentClassName,
+    placeholderClassName,
+    toolbarClassName,
     ...rest
   } = props;
   return (
     <div>
       <CoralRTE
         inputId={inputId}
-        className={className}
-        contentClassName={styles.content}
-        placeholderClassName={styles.placeholder}
-        toolbarClassName={styles.toolbar}
+        className={cn(CLASSES.rte, className)}
+        contentClassName={cn(
+          CLASSES.rte.content,
+          contentClassName,
+          styles.content
+        )}
+        placeholderClassName={cn(
+          CLASSES.rte.placeholder,
+          placeholderClassName,
+          styles.placeholder
+        )}
+        toolbarClassName={cn(
+          CLASSES.rte.toolbar,
+          toolbarClassName,
+          styles.toolbar
+        )}
         onChange={onChange}
         value={value || defaultValue}
         disabled={disabled}

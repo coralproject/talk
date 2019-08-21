@@ -42,6 +42,8 @@ exports[`renders form 1`] = `
             >
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
+                data-color="primary"
+                data-variant="filled"
                 disabled={false}
                 onBlur={[Function]}
                 onFocus={[Function]}

@@ -22,6 +22,7 @@ import { Ability, can } from "coral-stream/permissions";
 import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
 import { isPublished } from "../helpers";
+import UserBadgesContainer from "./AuthorBadgesContainer";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
 import IndentedComment from "./IndentedComment";
@@ -242,6 +243,7 @@ export class CommentContainer extends Component<Props, State> {
                     user={comment.author}
                   />
                   <UserTagsContainer comment={comment} />
+                  <UserBadgesContainer comment={comment} />
                 </>
               )
             }
@@ -346,6 +348,7 @@ const enhanced = withSetCommentIDMutation(
           ignoredUsers {
             id
           }
+          badges
           role
           ...UsernameWithPopoverContainer_viewer
           ...ReactionButtonContainer_viewer
@@ -394,6 +397,7 @@ const enhanced = withSetCommentIDMutation(
           ...ReportButtonContainer_comment
           ...CaretContainer_comment
           ...RejectedTombstoneContainer_comment
+          ...AuthorBadgesContainer_comment
           ...UserTagsContainer_comment
         }
       `,

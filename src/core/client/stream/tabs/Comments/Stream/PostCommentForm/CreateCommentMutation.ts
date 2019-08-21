@@ -78,6 +78,7 @@ graphql`
   fragment CreateCommentMutation_viewer on User {
     role
     createdAt
+    badges
   }
 `;
 // tslint:disable-next-line:no-unused-expression
@@ -149,6 +150,7 @@ function commit(
               id: viewer.id,
               username: viewer.username,
               createdAt: viewer.createdAt,
+              badges: viewer.badges,
               ignoreable: false,
               status: {
                 current: viewer.status.current,

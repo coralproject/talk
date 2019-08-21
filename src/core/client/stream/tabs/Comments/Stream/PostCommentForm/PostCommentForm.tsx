@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { PropTypesOf } from "coral-framework/types";
 import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
@@ -40,14 +41,16 @@ interface Props {
 }
 
 const PostCommentForm: FunctionComponent<Props> = props => (
-  <div>
+  <div className={CLASSES.createComment.$root}>
     {props.showMessageBox && (
-      <MessageBoxContainer story={props.story} className={styles.messageBox} />
+      <MessageBoxContainer
+        story={props.story}
+        className={cn(CLASSES.createComment.message, styles.messageBox)}
+      />
     )}
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
       {({ handleSubmit, submitting, submitError, form }) => (
         <form
-          className={CLASSES.createComment.$root}
           autoComplete="off"
           onSubmit={handleSubmit}
           id="comments-postCommentForm-form"
@@ -81,7 +84,6 @@ const PostCommentForm: FunctionComponent<Props> = props => (
                         onChange={({ html }) =>
                           input.onChange(cleanupRTEEmptyHTML(html))
                         }
-                        className={CLASSES.createComment.box}
                         value={input.value}
                         placeholder="Post a comment"
                         disabled={submitting || props.disabled}

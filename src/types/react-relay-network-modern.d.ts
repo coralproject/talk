@@ -142,7 +142,7 @@ declare module "react-relay-network-modern/es" {
 
   export type Requests = RelayRequest[];
 
-  export default class RelayRequestBatch {
+  export class RelayRequestBatch {
     public fetchOpts: Partial<FetchOpts>;
     public requests: Requests;
 
