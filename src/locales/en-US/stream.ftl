@@ -120,9 +120,10 @@ comments-userIgnorePopover-ignore = Ignore
 comments-userIgnorePopover-cancel = Cancel
 
 comments-userBanPopover-title = Ban {$username}?
-comments-userBanPopover-description = 
-  Once banned, this user will no longer be able 
+comments-userBanPopover-description =
+  Once banned, this user will no longer be able
   to comment, use reactions, or report comments.
+  This comment will also be rejected.
 comments-userBanPopover-cancel = Cancel
 comments-userBanPopover-ban = Ban
 
@@ -291,7 +292,7 @@ suspendInfo-info =
 profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-edit = Edit
 profile-changeEmail-please-verify = Verify your email address
-profile-changeEmail-please-verify-details = 
+profile-changeEmail-please-verify-details =
   An email has been sent to { $email } to verify your account.
   You must verify your new email address before it can be used for
   signing into your account or for email notifications.
