@@ -159,6 +159,8 @@ signing into your account or for email notifications.
                   </p>
                   <button
                     className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular ChangeEmailContainer-resendButton"
+                    data-color="primary"
+                    data-variant="regular"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
