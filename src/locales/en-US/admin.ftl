@@ -426,6 +426,9 @@ moderate-queue-viewNew =
     *[other] View {$count} new comments
   }
 
+moderate-comment-deleted-body =
+  This comment is no longer available. The commenter has deleted their account.
+
 ### Moderate Search Bar
 moderate-searchBar-allStories = All stories
   .title = All stories

@@ -26,6 +26,7 @@ exports[`hide reply button 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -69,6 +70,7 @@ exports[`hide reply button 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -120,6 +122,7 @@ exports[`hide reply button 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -143,6 +146,7 @@ exports[`hide reply button 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -189,6 +193,7 @@ exports[`renders body only 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -238,6 +243,7 @@ exports[`renders body only 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -289,6 +295,7 @@ exports[`renders body only 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -312,6 +319,7 @@ exports[`renders body only 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -358,6 +366,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -407,6 +416,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -458,6 +468,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -481,6 +492,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -527,6 +539,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -576,6 +589,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -627,6 +641,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -650,6 +665,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -696,6 +712,7 @@ exports[`renders in reply to 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -749,6 +766,7 @@ exports[`renders in reply to 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -804,6 +822,7 @@ exports[`renders in reply to 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -831,6 +850,7 @@ exports[`renders in reply to 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -881,6 +901,7 @@ exports[`renders username and body 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -930,6 +951,7 @@ exports[`renders username and body 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -981,6 +1003,7 @@ exports[`renders username and body 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -1004,6 +1027,7 @@ exports[`renders username and body 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -1050,6 +1074,7 @@ exports[`shows conversation link 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -1099,6 +1124,7 @@ exports[`shows conversation link 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -1155,6 +1181,7 @@ exports[`shows conversation link 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -1178,6 +1205,7 @@ exports[`shows conversation link 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,

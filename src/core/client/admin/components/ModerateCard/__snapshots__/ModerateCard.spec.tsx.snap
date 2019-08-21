@@ -27,6 +27,7 @@ exports[`renders approved correctly 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -95,6 +96,7 @@ exports[`renders approved correctly 1`] = `
       >
         <RejectButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
@@ -137,6 +139,7 @@ exports[`renders correctly 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -205,11 +208,13 @@ exports[`renders correctly 1`] = `
       >
         <RejectButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
@@ -246,6 +251,7 @@ exports[`renders dangling correctly 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -357,6 +363,7 @@ exports[`renders rejected correctly 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -431,6 +438,7 @@ exports[`renders rejected correctly 1`] = `
         />
         <ApproveButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
@@ -467,6 +475,7 @@ exports[`renders reply correctly 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -540,11 +549,13 @@ exports[`renders reply correctly 1`] = `
       >
         <RejectButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
@@ -581,6 +592,7 @@ exports[`renders story info 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -678,11 +690,13 @@ exports[`renders story info 1`] = `
       >
         <RejectButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />

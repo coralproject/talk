@@ -179,6 +179,7 @@ function commit(
               edges: [],
               pageInfo: { endCursor: null, hasNextPage: false },
             },
+            deleted: false,
           },
         },
         clientMutationId: (clientMutationId++).toString(),

@@ -9,6 +9,7 @@ import {
   Flex,
   HorizontalGutter,
   TextLink,
+  Typography,
 } from "coral-ui/components";
 
 import ApproveButton from "./ApproveButton";
@@ -52,6 +53,7 @@ interface Props {
    * reflect that
    */
   dangling?: boolean;
+  deleted?: boolean;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -79,7 +81,18 @@ const ModerateCard: FunctionComponent<Props> = ({
   moderatedBy,
   mini = false,
   hideUsername = false,
+  deleted = false,
 }) => {
+  const commentBody = deleted ? (
+    <Localized id="moderate-comment-deleted-body">
+      <Typography>
+        This comment is no longer available. The commenter has deleted their
+        account.
+      </Typography>
+    </Localized>
+  ) : (
+    body
+  );
   const commentAuthorClick = useCallback(() => {
     onUsernameClick();
   }, [onUsernameClick]);
@@ -88,7 +101,8 @@ const ModerateCard: FunctionComponent<Props> = ({
       className={cn(
         styles.root,
         { [styles.borderless]: mini },
-        { [styles.dangling]: dangling }
+        { [styles.dangling]: dangling },
+        { [styles.deleted]: deleted }
       )}
       data-testid={`moderate-comment-${id}`}
     >
@@ -109,7 +123,11 @@ const ModerateCard: FunctionComponent<Props> = ({
                 </BaseButton>
               )}
               <Timestamp>{createdAt}</Timestamp>
-              <FeatureButton featured={featured} onClick={onFeature} />
+              <FeatureButton
+                featured={featured}
+                onClick={onFeature}
+                enabled={!deleted}
+              />
             </Flex>
             {inReplyTo && (
               <div>
@@ -122,7 +140,7 @@ const ModerateCard: FunctionComponent<Props> = ({
             bannedWords={bannedWords}
             className={styles.content}
           >
-            {body}
+            {commentBody}
           </CommentContent>
           <div className={styles.footer}>
             <HorizontalGutter>
@@ -185,13 +203,13 @@ const ModerateCard: FunctionComponent<Props> = ({
             <RejectButton
               onClick={onReject}
               invert={status === "rejected"}
-              disabled={status === "rejected" || dangling}
+              disabled={status === "rejected" || dangling || deleted}
               className={cn({ [styles.miniButton]: mini })}
             />
             <ApproveButton
               onClick={onApprove}
               invert={status === "approved"}
-              disabled={status === "approved" || dangling}
+              disabled={status === "approved" || dangling || deleted}
               className={cn({ [styles.miniButton]: mini })}
             />
           </Flex>

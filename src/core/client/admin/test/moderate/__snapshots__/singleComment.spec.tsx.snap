@@ -42,6 +42,7 @@ exports[`approves single comment 1`] = `
           </time>
           <button
             className="BaseButton-root FeatureButton-root"
+            disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -235,6 +236,7 @@ exports[`rejects single comment 1`] = `
           </time>
           <button
             className="BaseButton-root FeatureButton-root"
+            disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -463,6 +465,7 @@ exports[`renders single comment view 1`] = `
                   </time>
                   <button
                     className="BaseButton-root FeatureButton-root"
+                    disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}

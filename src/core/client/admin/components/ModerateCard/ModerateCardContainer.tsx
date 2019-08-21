@@ -188,6 +188,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onModerateStory={handleModerateStory}
           mini={mini}
           hideUsername={hideUsername}
+          deleted={comment.deleted ? comment.deleted : false}
         />
       </FadeInTransition>
     </>
@@ -225,6 +226,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       permalink
       enteredLive
+      deleted
       ...MarkersContainer_comment
       ...ModeratedByContainer_comment
     }

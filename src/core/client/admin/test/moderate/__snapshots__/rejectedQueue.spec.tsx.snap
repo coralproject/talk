@@ -55,6 +55,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
           </time>
           <button
             className="BaseButton-root FeatureButton-root"
+            disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -279,6 +280,7 @@ exports[`renders rejected queue with comments 1`] = `
                 </time>
                 <button
                   className="BaseButton-root FeatureButton-root"
+                  disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -490,6 +492,7 @@ exports[`renders rejected queue with comments 1`] = `
                 </time>
                 <button
                   className="BaseButton-root FeatureButton-root"
+                  disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -707,6 +710,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
           </time>
           <button
             className="BaseButton-root FeatureButton-root"
+            disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
