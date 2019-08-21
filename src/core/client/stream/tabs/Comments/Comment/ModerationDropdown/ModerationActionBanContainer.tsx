@@ -21,7 +21,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
 }) => {
   if (!user) {
     return (
-      <Localized id="comments-moderationDropdown-banned">
+      <Localized id="comments-moderationDropdown-ban">
         <DropdownButton
           icon={
             <div className={styles.banIcon}>
