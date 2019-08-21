@@ -388,6 +388,7 @@ const enhanced = withSetCommentIDMutation(
           }
           pending
           lastViewerAction
+          deleted
           ...ReplyCommentFormContainer_comment
           ...EditCommentFormContainer_comment
           ...ReactionButtonContainer_comment

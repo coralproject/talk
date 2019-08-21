@@ -425,6 +425,8 @@ all your comments from this site.
             </p>
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined"
+              data-color="regular"
+              data-variant="outlined"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
