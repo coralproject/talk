@@ -79,6 +79,12 @@ graphql`
     role
     createdAt
     badges
+    status {
+      current
+      ban {
+        active
+      }
+    }
   }
 `;
 // tslint:disable-next-line:no-unused-expression
@@ -152,12 +158,6 @@ function commit(
               createdAt: viewer.createdAt,
               badges: viewer.badges,
               ignoreable: false,
-              status: {
-                current: viewer.status.current,
-                ban: {
-                  active: viewer.status.ban.active,
-                },
-              },
             },
             revision: {
               id: uuidGenerator(),

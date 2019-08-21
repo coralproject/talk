@@ -3,6 +3,7 @@ import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
 import { SuspendUserMutation as MutationTypes } from "coral-admin/__generated__/SuspendUserMutation.graphql";
+import { getViewer } from "coral-framework/helpers";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -16,6 +17,7 @@ let clientMutationId = 0;
 const SuspendUserMutation = createMutation(
   "suspendUser",
   (environment: Environment, input: MutationInput<MutationTypes>) => {
+    const viewer = getViewer(environment)!;
     const now = new Date();
     const finish = DateTime.fromJSDate(now).plus({
       seconds: input.timeout,
@@ -37,6 +39,7 @@ const SuspendUserMutation = createMutation(
                       finish
                     }
                     createdBy {
+                      id
                       username
                     }
                   }
@@ -68,8 +71,12 @@ const SuspendUserMutation = createMutation(
                   {
                     active: true,
                     from: {
-                      start: now,
-                      finish,
+                      start: now.toISOString(),
+                      finish: finish.toISODate(),
+                    },
+                    createdBy: {
+                      id: viewer.id,
+                      username: viewer.username,
                     },
                   },
                 ],

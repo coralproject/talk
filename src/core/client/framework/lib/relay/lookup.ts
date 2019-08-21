@@ -36,10 +36,18 @@ const createProxy = <T = any>(
       return prop in recordSource;
     },
     get(_, prop) {
-      if ((recordSource as any)[prop] && (recordSource as any)[prop].__ref) {
-        return lookup(environment, (recordSource as any)[prop].__ref);
+      const rsrc = recordSource as any;
+      if (rsrc[prop]) {
+        // Resolve references.
+        if (rsrc[prop].__ref) {
+          return lookup(environment, rsrc[prop].__ref);
+        }
+        // Resolve array references.
+        if (rsrc[prop].__refs) {
+          return rsrc[prop].__refs.map((v: string) => lookup(environment, v));
+        }
       }
-      return (recordSource as any)[prop];
+      return rsrc[prop];
     },
   };
   return new Proxy({}, proxy) as RecordSourceProxy<T>;

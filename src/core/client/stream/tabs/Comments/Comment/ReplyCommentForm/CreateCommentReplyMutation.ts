@@ -114,7 +114,14 @@ graphql`
 graphql`
   fragment CreateCommentReplyMutation_viewer on User {
     role
+    badges
     createdAt
+    status {
+      current
+      ban {
+        active
+      }
+    }
   }
 `;
 /** end */
@@ -181,12 +188,6 @@ function commit(
               createdAt: viewer.createdAt,
               badges: viewer.badges,
               ignoreable: false,
-              status: {
-                current: viewer.status.current,
-                ban: {
-                  active: viewer.status.ban.active,
-                },
-              },
             },
             body: input.body,
             revision: {

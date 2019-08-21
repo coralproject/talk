@@ -21,7 +21,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
 }) => {
   if (!user) {
     return (
-      <Localized id="users-moderationDropdown-banned">
+      <Localized id="comments-moderationDropdown-banned">
         <DropdownButton
           icon={
             <div className={styles.banIcon}>
@@ -39,7 +39,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
   const banned = user.status.ban.active;
   if (banned) {
     return (
-      <Localized id="users-moderationDropdown-banned">
+      <Localized id="comments-moderationDropdown-banned">
         <DropdownButton
           icon={
             <div className={cn(styles.banIcon, styles.banned)}>
@@ -55,7 +55,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
     );
   }
   return (
-    <Localized id="users-moderationDropdown-ban">
+    <Localized id="comments-moderationDropdown-ban">
       <DropdownButton
         icon={
           <div className={styles.banIcon}>

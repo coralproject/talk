@@ -22,7 +22,9 @@ export default class ModerationActionBanQuery extends Component<Props> {
           }
         `}
         dataFrom="STORE_THEN_NETWORK"
-        variables={{ userID: this.props.userID }}
+        variables={{
+          userID: this.props.userID,
+        }}
         render={({ error, props }) => {
           if (error) {
             return <div>{error.message}</div>;

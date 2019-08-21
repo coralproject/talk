@@ -46,7 +46,7 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
           />
         </Dropdown>
       ) : (
-        <UserBanPopoverContainer user={comment.author!} onDismiss={onDismiss} />
+        <UserBanPopoverContainer comment={comment} onDismiss={onDismiss} />
       )}
     </div>
   );
@@ -59,7 +59,6 @@ const enhanced = withFragmentContainer<Props>({
       author {
         id
         username
-        ...UserBanPopoverContainer_user
       }
       revision {
         id
@@ -69,6 +68,7 @@ const enhanced = withFragmentContainer<Props>({
         code
       }
       ...ModerationActionsContainer_comment
+      ...UserBanPopoverContainer_comment
     }
   `,
   story: graphql`

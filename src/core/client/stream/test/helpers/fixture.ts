@@ -127,6 +127,10 @@ export function createStory(createComments: boolean = true) {
         messageBox: {
           enabled: false,
         },
+        live: {
+          enabled: true,
+          configurable: true,
+        },
       },
     })
   );

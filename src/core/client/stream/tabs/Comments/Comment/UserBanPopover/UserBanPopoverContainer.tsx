@@ -2,28 +2,47 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { UserBanPopoverContainer_user as UserData } from "coral-stream/__generated__/UserBanPopoverContainer_user.graphql";
+import { UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
 import { Box, Button, Flex, Typography } from "coral-ui/components";
 
+import RejectCommentMutation from "../ModerationDropdown/RejectCommentMutation";
 import BanUserMutation from "./BanUserMutation";
 
 import styles from "./UserBanPopoverContainer.css";
 
 interface Props {
   onDismiss: () => void;
-  user: UserData;
+  comment: UserBanPopoverContainer_comment;
 }
 
 const UserBanPopoverContainer: FunctionComponent<Props> = ({
-  user,
+  comment,
   onDismiss,
 }) => {
+  const user = comment.author!;
+  const rejected = comment.status === "REJECTED";
+  const reject = useMutation(RejectCommentMutation);
   const banUser = useMutation(BanUserMutation);
+  const { localeBundles } = useCoralContext();
+
   const onBan = useCallback(() => {
-    banUser({ userID: user.id, message: "TODO: You are banned!" });
+    banUser({
+      userID: user.id,
+      message: getMessage(
+        localeBundles,
+        "common-banEmailTemplate",
+        "Someone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, react or report comments",
+        { username: user.username }
+      ),
+    });
+    if (!rejected) {
+      reject({ commentID: comment.id, commentRevisionID: comment.revision.id });
+    }
     onDismiss();
-  }, [user, banUser, onDismiss]);
+  }, [user, banUser, onDismiss, localeBundles]);
   return (
     <Box className={styles.root} p={3}>
       <Localized id="comments-userBanPopover-title" $username={user.username}>
@@ -54,10 +73,17 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withFragmentContainer<Props>({
-  user: graphql`
-    fragment UserBanPopoverContainer_user on User {
+  comment: graphql`
+    fragment UserBanPopoverContainer_comment on Comment {
       id
-      username
+      revision {
+        id
+      }
+      status
+      author {
+        id
+        username
+      }
     }
   `,
 })(UserBanPopoverContainer);

@@ -1,6 +1,7 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { getViewer } from "coral-framework/helpers";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -19,6 +20,7 @@ const UpdateEmailMutation = createMutation(
           updateEmail(input: $input) {
             clientMutationId
             user {
+              id
               email
               emailVerified
             }
@@ -35,6 +37,7 @@ const UpdateEmailMutation = createMutation(
         updateEmail: {
           clientMutationId: (clientMutationId++).toString(),
           user: {
+            id: getViewer(environment)!.id,
             email: input.email,
             emailVerified: false,
           },
