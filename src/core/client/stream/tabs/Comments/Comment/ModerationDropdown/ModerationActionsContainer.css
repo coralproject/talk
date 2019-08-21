@@ -1,22 +1,26 @@
 .approved {
   color: var(--palette-success-dark);
   font-weight: var(--font-weight-bold);
+  &:disabled {
+    opacity: 1.0;
+  }
+}
+.approveIcon {
+  padding-top: 1px;
+  margin-bottom: -1px;
+}
+.rejectIcon {
+  padding-top: 1px;
+  margin-bottom: -1px;
 }
 .rejected {
   color: var(--palette-error-dark);
   font-weight: var(--font-weight-bold);
+  &:disabled {
+    opacity: 1.0;
+  }
 }
 .featured {
   color: var(--palette-primary-dark);
   font-weight: var(--font-weight-bold);
-}
-.banned {
-  color: var(--palette-error-dark);
-  font-weight: var(--font-weight-bold);
-}
-.banIcon {
-  width: 18px;
-  height: 14px;
-  text-align: center;
-  line-height: 12px;
 }

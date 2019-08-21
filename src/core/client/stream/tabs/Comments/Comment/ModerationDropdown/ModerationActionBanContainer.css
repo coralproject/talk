@@ -1,4 +1,7 @@
 .banned {
+  &:disabled {
+    opacity: 1.0;
+  }
   color: var(--palette-error-dark);
   font-weight: var(--font-weight-bold);
 }

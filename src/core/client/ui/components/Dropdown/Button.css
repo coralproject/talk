@@ -17,6 +17,10 @@
   }
 }
 
+.root:disabled {
+  opacity: 0.6;
+}
+
 .root:not(:disabled):active {
   background-color: var(--palette-primary-lightest);
 }
@@ -31,7 +35,6 @@
   align-items: center;
   color: var(--palette-grey-main);
   margin-right: var(--spacing-2);
-  padding-top: 1px;
 }
 .iconAfter {
   display: flex;

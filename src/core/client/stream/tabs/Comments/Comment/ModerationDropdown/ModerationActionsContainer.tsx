@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
@@ -97,7 +98,10 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
         <Localized id="comments-moderationDropdown-approved">
           <DropdownButton
             icon={
-              <Icon className={styles.approved} size="md">
+              <Icon
+                className={cn(styles.approveIcon, styles.approved)}
+                size="md"
+              >
                 check
               </Icon>
             }
@@ -110,7 +114,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       ) : (
         <Localized id="comments-moderationDropdown-approve">
           <DropdownButton
-            icon={<Icon size="md">check</Icon>}
+            icon={
+              <Icon size="md" className={styles.approveIcon}>
+                check
+              </Icon>
+            }
             onClick={onApprove}
           >
             Approve
@@ -121,7 +129,10 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
         <Localized id="comments-moderationDropdown-rejected">
           <DropdownButton
             icon={
-              <Icon className={styles.rejected} size="md">
+              <Icon
+                className={cn(styles.rejectIcon, styles.rejected)}
+                size="md"
+              >
                 close
               </Icon>
             }
@@ -134,7 +145,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       ) : (
         <Localized id="comments-moderationDropdown-reject">
           <DropdownButton
-            icon={<Icon size="md">close</Icon>}
+            icon={
+              <Icon size="md" className={styles.rejectIcon}>
+                close
+              </Icon>
+            }
             onClick={onReject}
           >
             Reject
