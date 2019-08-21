@@ -5,6 +5,7 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { AuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/AuthConfigContainer_auth.graphql";
+import { AuthConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AuthConfigContainer_settings.graphql";
 import { DeepNullable, DeepPartial } from "coral-common/types";
 import { pureMerge } from "coral-common/utils";
 import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
@@ -18,9 +19,12 @@ import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSettings } from "coral-framework/schema";
 
+import AccountFeaturesConfigContainer from "./AccountFeaturesConfigContainer";
 import AuthConfig from "./AuthConfig";
 
-export type FormProps = DeepNullable<Pick<GQLSettings, "auth">>;
+export type FormProps = DeepNullable<
+  Pick<GQLSettings, "auth" | "accountFeatures">
+>;
 export type OnInitValuesFct = (values: DeepPartial<FormProps>) => void;
 
 interface Props {
@@ -29,6 +33,7 @@ interface Props {
   submitting?: boolean;
   addSubmitHook: AddSubmitHook<FormProps>;
   auth: AuthData;
+  settings: SettingsData;
 }
 
 class AuthConfigContainer extends React.Component<Props> {
@@ -96,16 +101,28 @@ class AuthConfigContainer extends React.Component<Props> {
 
   public render() {
     return (
-      <AuthConfig
-        disabled={this.props.submitting}
-        auth={this.props.auth}
-        onInitValues={this.handleOnInitValues}
-      />
+      <div>
+        <AccountFeaturesConfigContainer
+          onInitValues={this.handleOnInitValues}
+          settings={this.props.settings}
+          disabled={this.props.submitting}
+        />
+        <AuthConfig
+          disabled={this.props.submitting}
+          auth={this.props.auth}
+          onInitValues={this.handleOnInitValues}
+        />
+      </div>
     );
   }
 }
 
 const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment AuthConfigContainer_settings on Settings {
+      ...AccountFeaturesConfigContainer_settings
+    }
+  `,
   auth: graphql`
     fragment AuthConfigContainer_auth on Auth {
       ...FacebookConfigContainer_auth
