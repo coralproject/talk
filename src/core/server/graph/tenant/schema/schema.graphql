@@ -3479,6 +3479,13 @@ input CreateStory {
   be scraped, but can be provided here.
   """
   metadata: StoryMetadataInput
+
+  """
+  closedAt when provided specifies the date that the given story will be closed
+  at. If not provided, the story close will use the settings to determine the
+  automatic close date.
+  """
+  closedAt: Time
 }
 
 input CreateStoryInput {
