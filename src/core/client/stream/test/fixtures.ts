@@ -96,6 +96,11 @@ export const settings = createFixture<GQLSettings>({
   charCount: {
     enabled: false,
   },
+  accountFeatures: {
+    downloadComments: true,
+    changeUsername: true,
+    deleteAccount: true,
+  },
 });
 
 export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
