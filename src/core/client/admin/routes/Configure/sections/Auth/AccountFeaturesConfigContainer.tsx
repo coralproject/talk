@@ -1,5 +1,3 @@
-import { pureMerge } from "coral-common/utils";
-import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 

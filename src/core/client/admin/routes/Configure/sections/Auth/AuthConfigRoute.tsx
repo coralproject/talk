@@ -6,7 +6,6 @@ import { AuthConfigRouteContainerQueryResponse } from "coral-admin/__generated__
 import { withRouteConfig } from "coral-framework/lib/router";
 import { Delay, Spinner } from "coral-ui/components";
 
-import AccountFeaturesConfigContainer from "./AccountFeaturesConfigContainer";
 import AuthConfigContainer from "./AuthConfigContainer";
 
 interface Props {
@@ -25,14 +24,12 @@ class AuthConfigRoute extends React.Component<Props> {
       );
     }
     return (
-      <div>
-        <AuthConfigContainer
-          settings={this.props.data.settings}
-          auth={this.props.data.settings.auth}
-          form={this.props.form}
-          submitting={this.props.submitting}
-        />
-      </div>
+      <AuthConfigContainer
+        settings={this.props.data.settings}
+        auth={this.props.data.settings.auth}
+        form={this.props.form}
+        submitting={this.props.submitting}
+      />
     );
   }
 }

@@ -18,6 +18,7 @@ import {
 import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSettings } from "coral-framework/schema";
+import { HorizontalGutter } from "coral-ui/components";
 
 import AccountFeaturesConfigContainer from "./AccountFeaturesConfigContainer";
 import AuthConfig from "./AuthConfig";
@@ -101,7 +102,7 @@ class AuthConfigContainer extends React.Component<Props> {
 
   public render() {
     return (
-      <div>
+      <HorizontalGutter size="double">
         <AccountFeaturesConfigContainer
           onInitValues={this.handleOnInitValues}
           settings={this.props.settings}
@@ -112,7 +113,7 @@ class AuthConfigContainer extends React.Component<Props> {
           auth={this.props.auth}
           onInitValues={this.handleOnInitValues}
         />
-      </div>
+      </HorizontalGutter>
     );
   }
 }
