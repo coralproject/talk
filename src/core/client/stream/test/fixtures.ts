@@ -120,13 +120,20 @@ export const baseUser = createFixture<GQLUser>({
   createdAt: "2018-02-06T18:24:00.000Z",
   id: "base-user",
   role: GQLUSER_ROLE.COMMENTER,
+  badges: [],
   status: {
     current: [GQLUSER_STATUS.ACTIVE],
+    ban: {
+      active: false,
+      history: [],
+    },
     username: {
       history: [],
     },
     suspension: {
       active: false,
+      until: null,
+      history: [],
     },
   },
   ignoredUsers: [],

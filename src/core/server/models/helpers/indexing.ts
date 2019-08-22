@@ -1,13 +1,13 @@
 import { merge } from "lodash";
 import { Collection, IndexOptions } from "mongodb";
 
-import { Writeable } from "coral-common/types";
+import { Writable } from "coral-common/types";
 import logger from "coral-server/logger";
 
 type IndexType = 1 | -1 | "text";
 
 export type IndexSpecification<T> = {
-  [P in keyof Writeable<Partial<T>>]: IndexType
+  [P in keyof Writable<Partial<T>>]: IndexType
 } &
   Record<string, IndexType>;
 
