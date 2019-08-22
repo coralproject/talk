@@ -2,15 +2,15 @@ import { isUndefined, omitBy } from "lodash";
 
 import { Collection, Cursor, FilterQuery as MongoFilterQuery } from "mongodb";
 
-import { Writeable } from "coral-common/types";
+import { Writable } from "coral-common/types";
 import logger from "coral-server/logger";
 
 /**
  * FilterQuery<T> ensures that given the type T, that the FilterQuery will be a
- * writeable, partial set of properties while also including MongoDB specific
+ * Writable, partial set of properties while also including MongoDB specific
  * properties (like $lt, or $gte).
  */
-export type FilterQuery<T> = MongoFilterQuery<Writeable<Partial<T>>>;
+export type FilterQuery<T> = MongoFilterQuery<Writable<Partial<T>>>;
 
 /**
  * Query is a convenience class used to wrap the existing MongoDB driver to

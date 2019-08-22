@@ -114,7 +114,14 @@ graphql`
 graphql`
   fragment CreateCommentReplyMutation_viewer on User {
     role
+    badges
     createdAt
+    status {
+      current
+      ban {
+        active
+      }
+    }
   }
 `;
 /** end */
