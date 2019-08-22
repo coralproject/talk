@@ -25,10 +25,7 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
       <Localized id="configure-account-features-title">
         <Header container="legend">Commenter account mangement features</Header>
       </Localized>
-      <Localized
-        id="configure-account-features-explanation"
-        strong={<strong />}
-      >
+      <Localized id="configure-account-features-explanation">
         <Typography variant="bodyCopy">
           You can enable and disable certain features for your commenters to use
           within their Profile. These features also assist towards GDPR
@@ -36,7 +33,7 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Typography>
       </Localized>
       <HorizontalGutter container={<FieldSet />}>
-        <Localized id="configure-account-features-change-usernames">
+        <Localized id="configure-account-features-allow">
           <Typography variant="heading4">Allow users to:</Typography>
         </Localized>
         <FormField container="fieldset">
