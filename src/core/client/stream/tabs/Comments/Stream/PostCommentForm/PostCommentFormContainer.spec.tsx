@@ -50,6 +50,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       },
       viewer: {
         id: "viewer-id",
+        scheduledDeletionDate: undefined,
       },
     },
     add

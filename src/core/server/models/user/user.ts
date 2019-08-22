@@ -344,6 +344,17 @@ export interface User extends TenantResource {
    * createdAt is the time that the User was created at.
    */
   createdAt: Date;
+
+  /**
+   * scheduledDeletionDate is the time that a user is scheduled to be deleted.
+   * If this is null, the user has not requested for their account to be deleted.
+   */
+  scheduledDeletionDate?: Date;
+
+  /**
+   * deletedAt is the time that this user was deleted from our system.
+   */
+  deletedAt?: Date;
 }
 
 export async function createUserIndexes(mongo: Db) {

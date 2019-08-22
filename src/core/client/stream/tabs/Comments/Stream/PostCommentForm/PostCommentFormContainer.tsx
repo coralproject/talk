@@ -1,4 +1,5 @@
 import { FORM_ERROR } from "final-form";
+import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
 import { withContext } from "coral-framework/lib/bootstrap";
@@ -229,11 +230,18 @@ export class PostCommentFormContainer extends Component<Props, State> {
         }
         disabled={
           this.props.settings.disableCommenting.enabled ||
-          this.props.story.isClosed
+          this.props.story.isClosed ||
+          this.props.viewer.scheduledDeletionDate
         }
         disabledMessage={
           (this.props.settings.disableCommenting.enabled &&
             this.props.settings.disableCommenting.message) ||
+          (this.props.viewer.scheduledDeletionDate && (
+            <Localized id="comments-postCommentForm-userScheduledForDeletion-warning">
+              Commenting is disabled when your account is scheduled for
+              deletion.
+            </Localized>
+          )) ||
           this.props.settings.closeCommenting.message
         }
         submitStatus={this.state.submitStatus}
@@ -281,6 +289,7 @@ const enhanced = withContext(({ sessionStorage }) => ({
           viewer: graphql`
             fragment PostCommentFormContainer_viewer on User {
               id
+              scheduledDeletionDate
             }
           `,
         })(PostCommentFormContainer)

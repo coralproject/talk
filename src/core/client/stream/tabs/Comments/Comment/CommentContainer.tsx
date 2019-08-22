@@ -191,6 +191,9 @@ export class CommentContainer extends Component<Props, State> {
       this.props.viewer &&
         this.props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
     );
+    const scheduledForDeletion = Boolean(
+      this.props.viewer && this.props.viewer.scheduledDeletionDate
+    );
     const showCaret =
       this.props.viewer &&
       roleIsAtLeast(this.props.viewer.role, GQLUSER_ROLE.MODERATOR);
@@ -277,18 +280,22 @@ export class CommentContainer extends Component<Props, State> {
                         viewer={viewer}
                         readOnly={banned || suspended}
                       />
-                      {!disableReplies && !banned && !suspended && (
-                        <ReplyButton
-                          id={`comments-commentContainer-replyButton-${
-                            comment.id
-                          }`}
-                          onClick={this.toggleReplyDialog}
-                          active={showReplyDialog}
-                          disabled={
-                            settings.disableCommenting.enabled || story.isClosed
-                          }
-                        />
-                      )}
+                      {!disableReplies &&
+                        !banned &&
+                        !suspended &&
+                        !scheduledForDeletion && (
+                          <ReplyButton
+                            id={`comments-commentContainer-replyButton-${
+                              comment.id
+                            }`}
+                            onClick={this.toggleReplyDialog}
+                            active={showReplyDialog}
+                            disabled={
+                              settings.disableCommenting.enabled ||
+                              story.isClosed
+                            }
+                          />
+                        )}
                       <PermalinkButtonContainer
                         story={story}
                         commentID={comment.id}
@@ -348,6 +355,7 @@ const enhanced = withSetCommentIDMutation(
           }
           badges
           role
+          scheduledDeletionDate
           ...UsernameWithPopoverContainer_viewer
           ...ReactionButtonContainer_viewer
           ...ReportButtonContainer_viewer

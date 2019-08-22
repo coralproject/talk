@@ -28,6 +28,12 @@ enum USER_AUTH_CONDITIONS {
   SUSPENDED is provided when the User is currently under an active suspension.
   """
   SUSPENDED
+
+  """
+  DELETION is provided when the User is scheduled for deletion or actively
+  deleted.
+  """
+  DELETION
 }
 
 """
@@ -1321,7 +1327,7 @@ type BanStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1401,7 +1407,7 @@ type SuspensionStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1411,7 +1417,7 @@ type SuspensionStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1428,7 +1434,7 @@ type UsernameHistory {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1443,7 +1449,7 @@ type UsernameHistory {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 }
 
@@ -1465,7 +1471,7 @@ type UserStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1536,7 +1542,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED]
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1547,7 +1553,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1557,7 +1563,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED]
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1567,7 +1573,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1588,7 +1594,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1626,7 +1632,7 @@ type User {
   tokens lists the access tokens associated with the account.
   """
   tokens: [Token!]!
-    @auth(roles: [ADMIN], userIDField: "id", permit: [SUSPENDED, BANNED])
+    @auth(roles: [ADMIN], userIDField: "id", permit: [SUSPENDED, BANNED, DELETION])
 
   """
   ignoredUsers will return the list of ignored users.
@@ -1635,7 +1641,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -1921,7 +1927,7 @@ type Comment {
     @auth(
       roles: [MODERATOR, ADMIN]
       userIDField: "author_id"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, DELETION]
     )
 
   """
@@ -4801,21 +4807,21 @@ type Mutation {
   before. This mutation will fail if the username is already set.
   """
   setUsername(input: SetUsernameInput!): SetUsernamePayload!
-    @auth(permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED])
+    @auth(permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, DELETION])
 
   """
   updateUsername will set the username on the current User if they have not set one
   before. This mutation will fail if the username is already set.
   """
   updateUsername(input: UpdateUsernameInput!): UpdateUsernamePayload!
-    @auth(permit: [SUSPENDED, BANNED])
+    @auth(permit: [SUSPENDED, BANNED, DELETION])
 
   """
   setEmail will set the email address on the current User if they have not set
   one already. This mutation will fail if the email address is already set.
   """
   setEmail(input: SetEmailInput!): SetEmailPayload!
-    @auth(permit: [MISSING_EMAIL, SUSPENDED, BANNED])
+    @auth(permit: [MISSING_EMAIL, SUSPENDED, BANNED, DELETION])
 
   """
   setPassword will set the password on the current User if they have not set
@@ -4843,7 +4849,7 @@ type Mutation {
   """
   cancelAccountDeletion(
     input: CancelAccountDeletionInput!
-  ): CancelAccountDeletionPayload! @auth
+  ): CancelAccountDeletionPayload! @auth(permit: [DELETION])
 
   """
   createToken allows an administrator to create a Token based on the current
@@ -4937,7 +4943,7 @@ type Mutation {
   """
   requestCommentsDownload(
     input: RequestCommentsDownloadInput!
-  ): RequestCommentsDownloadPayload! @auth(permit: [SUSPENDED, BANNED])
+  ): RequestCommentsDownloadPayload! @auth(permit: [SUSPENDED, BANNED, DELETION])
 }
 
 ##################

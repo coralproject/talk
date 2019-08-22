@@ -68,6 +68,9 @@ comments-postCommentForm-rte =
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
 
+comments-postCommentForm-userScheduledForDeletion-warning =
+  Commenting is disabled when your account is scheduled for deletion.
+
 comments-replyButton-reply = Reply
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
@@ -377,7 +380,7 @@ suspendInfo-info =
 profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-edit = Edit
 profile-changeEmail-please-verify = Verify your email address
-profile-changeEmail-please-verify-details = 
+profile-changeEmail-please-verify-details =
   An email has been sent to { $email } to verify your account.
   You must verify your new email address before it can be used for
   signing into your account or for email notifications.
