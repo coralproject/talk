@@ -2068,12 +2068,14 @@ exports[`renders configure auth 1`] = `
               <legend
                 className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
               >
-                Missing translation "configure-account-features-title"
+                Commenter account mangement features
               </legend>
               <p
                 className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
-                Missing translation "configure-account-features-explanation"
+                You can enable and disable certain features for your commenters to use
+within their Profile. These features also assist towards GDPR
+compliance.
               </p>
               <fieldset
                 className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -2081,7 +2083,7 @@ exports[`renders configure auth 1`] = `
                 <h1
                   className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
                 >
-                  Missing translation "configure-account-features-change-usernames"
+                  Allow users to:
                 </h1>
                 <fieldset
                   className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2095,12 +2097,12 @@ exports[`renders configure auth 1`] = `
                       <legend
                         className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
-                        Missing translation "configure-account-features-change-usernames"
+                        Change their usernames
                       </legend>
                       <p
                         className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                       >
-                        Missing translation "configure-account-features-change-usernames-details"
+                        Usernames can be changed once every 14 days.
                       </p>
                     </div>
                     <div
@@ -2126,7 +2128,7 @@ exports[`renders configure auth 1`] = `
                           htmlFor="accountFeatures.changeUsername-true"
                         >
                           <span>
-                            Missing translation "configure-account-features-yes"
+                            Yes
                           </span>
                         </label>
                       </div>
@@ -2150,7 +2152,7 @@ exports[`renders configure auth 1`] = `
                           htmlFor="accountFeatures.changeUsername-false"
                         >
                           <span>
-                            Missing translation "configure-account-features-no"
+                            No
                           </span>
                         </label>
                       </div>
@@ -2173,12 +2175,12 @@ exports[`renders configure auth 1`] = `
                       <legend
                         className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
-                        Missing translation "configure-account-features-download-comments"
+                        Download their comments
                       </legend>
                       <p
                         className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                       >
-                        Missing translation "configure-account-features-download-comments-details"
+                        Commenters can download a csv of their comment history.
                       </p>
                     </div>
                     <div
@@ -2204,7 +2206,7 @@ exports[`renders configure auth 1`] = `
                           htmlFor="accountFeatures.downloadComments-true"
                         >
                           <span>
-                            Missing translation "configure-account-features-yes"
+                            Yes
                           </span>
                         </label>
                       </div>
@@ -2228,7 +2230,7 @@ exports[`renders configure auth 1`] = `
                           htmlFor="accountFeatures.downloadComments-false"
                         >
                           <span>
-                            Missing translation "configure-account-features-no"
+                            No
                           </span>
                         </label>
                       </div>
@@ -2251,12 +2253,12 @@ exports[`renders configure auth 1`] = `
                       <legend
                         className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
-                        Missing translation "configure-account-features-delete-account"
+                        Delete their account
                       </legend>
                       <p
                         className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                       >
-                        Missing translation "configure-account-features-delete-account-details"
+                        Removes all of their comment data, username, and email address from the site and the database.
                       </p>
                     </div>
                     <div
@@ -2282,7 +2284,7 @@ exports[`renders configure auth 1`] = `
                           htmlFor="accountFeatures.deleteAccount-true"
                         >
                           <span>
-                            Missing translation "configure-account-features-yes"
+                            Yes
                           </span>
                         </label>
                       </div>
@@ -2306,7 +2308,7 @@ exports[`renders configure auth 1`] = `
                           htmlFor="accountFeatures.deleteAccount-false"
                         >
                           <span>
-                            Missing translation "configure-account-features-no"
+                            No
                           </span>
                         </label>
                       </div>
