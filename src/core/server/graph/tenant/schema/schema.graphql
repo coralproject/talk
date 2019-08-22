@@ -4572,6 +4572,33 @@ type RequestCommentsDownloadPayload {
   clientMutationId: String!
 }
 
+#########################
+# requestUserCommentsDownload
+#########################
+
+input RequestUserCommentsDownloadInput {
+  """
+  userID specifies user to download comments for
+  """
+  userID: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RequestUserCommentsDownloadPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  archiveURL is the archive url
+  """
+  archiveURL: String!
+}
 ##################
 ## Mutation
 ##################
@@ -4855,6 +4882,13 @@ type Mutation {
   requestCommentsDownload(
     input: RequestCommentsDownloadInput!
   ): RequestCommentsDownloadPayload! @auth(permit: [SUSPENDED, BANNED])
+  
+  """
+  requestUserCommentsDownload allows a user to request to download their comments.
+  """
+  requestUserCommentsDownload(
+    input: RequestUserCommentsDownloadInput!
+  ): RequestUserCommentsDownloadPayload! @auth(roles: [ADMIN])
 }
 
 ##################
