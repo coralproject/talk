@@ -21,7 +21,9 @@ const SettingsContainer: FunctionComponent<Props> = ({ viewer, settings }) => (
   <HorizontalGutter spacing={5} className={styles.root}>
     <IgnoreUserSettingsContainer viewer={viewer} />
     <ChangePasswordContainer settings={settings} />
-    <DownloadCommentsContainer viewer={viewer} />
+    {settings.accountFeatures.downloadComments && (
+      <DownloadCommentsContainer viewer={viewer} />
+    )}
   </HorizontalGutter>
 );
 
@@ -34,6 +36,9 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment SettingsContainer_settings on Settings {
+      accountFeatures {
+        downloadComments
+      }
       ...ChangePasswordContainer_settings
     }
   `,
