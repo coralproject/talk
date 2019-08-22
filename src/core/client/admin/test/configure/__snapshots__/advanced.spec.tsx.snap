@@ -329,6 +329,203 @@ https://domain.com).
               </div>
             </div>
           </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-double"
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <h1
+                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              >
+                Story creation
+              </h1>
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              >
+                Details about story creation
+              </p>
+            </div>
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            >
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <label
+                    className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  >
+                    Lazy story creation
+                  </label>
+                  <p
+                    className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+                  >
+                    Missing translation "configure-advanced-stories-lazy-detail"
+                  </p>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="stories.disableLazy-true"
+                        name="stories.disableLazy"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value={false}
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="stories.disableLazy-true"
+                      >
+                        <span>
+                          On
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="stories.disableLazy-false"
+                        name="stories.disableLazy"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value={true}
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="stories.disableLazy-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <label
+                    className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  >
+                    Story scraping
+                  </label>
+                  <p
+                    className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+                  >
+                    Missing translation "configure-advanced-stories-scraping-detail"
+                  </p>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="stories.scraping.enabled-true"
+                        name="stories.scraping.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value={true}
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="stories.scraping.enabled-true"
+                      >
+                        <span>
+                          On
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="stories.scraping.enabled-false"
+                        name="stories.scraping.enabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value={false}
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="stories.scraping.enabled-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <label
+                    className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                    htmlFor="configure-advanced-stories-proxy-url"
+                  >
+                    Scraper proxy url
+                  </label>
+                  <p
+                    className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+                  >
+                    Missing translation "configure-advanced-stories-proxy-detail"
+                  </p>
+                  <div
+                    className="TextField-root"
+                  >
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="TextField-input TextField-colorRegular"
+                      disabled={false}
+                      id="configure-advanced-stories-proxy-url"
+                      name="stories.scraping.proxyURL"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder=""
+                      spellCheck={false}
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

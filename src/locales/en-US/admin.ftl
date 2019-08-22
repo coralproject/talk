@@ -761,3 +761,15 @@ configure-account-features-download-comments-details = Commenters can download a
 configure-account-features-delete-account = Delete their account
 configure-account-features-delete-account-details = 
   Removes all of their comment data, username, and email address from the site and the database.
+
+configure-advanced-stories = Story creation
+configure-advanced-stories-explanation = Details about story creation
+configure-advanced-stories-lazy = Lazy story creation
+configure-advanced-stories-lazy-details = Details about Lazy story creation
+configure-advanced-stories-scraping = Story scraping
+configure-advanced-stories-scraping-details = Details about Story scraping
+configure-advanced-stories-proxy = Scraper proxy url
+configure-advanced-stories-proxy-details = 
+  When specified, allows scraping requests to use the provided
+  proxy. All requests will then be passed through the appropriote
+  proxy as parsed by the npm proxy-agent package.
