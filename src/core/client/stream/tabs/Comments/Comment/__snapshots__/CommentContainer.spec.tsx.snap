@@ -1048,6 +1048,15 @@ exports[`renders username and body 1`] = `
 </div>
 `;
 
+exports[`renders with tombstone when comment has been deleted 1`] = `
+<div
+  className="coral coral-comment"
+  data-testid="comment-comment-id"
+>
+  <ForwardRef(forwardRef) />
+</div>
+`;
+
 exports[`shows conversation link 1`] = `
 <div
   className="coral coral-comment"

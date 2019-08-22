@@ -211,3 +211,14 @@ it("renders when commenting has been disabled (non-collapsing)", async () => {
   wrapper.setProps(nextProps);
   expect(wrapper).toMatchSnapshot();
 });
+
+it("renders when user is scheduled to be deleted", async () => {
+  const props = createDefaultProps({
+    viewer: {
+      scheduledDeletionDate: new Date("2019-01-01").toISOString(),
+    },
+  });
+  const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+  await timeout();
+  expect(wrapper).toMatchSnapshot();
+});
