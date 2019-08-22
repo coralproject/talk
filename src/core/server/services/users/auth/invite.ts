@@ -239,7 +239,7 @@ export async function invite(
     // Send the invited user an email with the invite token.
     await mailerQueue.add({
       template: {
-        name: "invite",
+        name: "account-notification/invite",
         context: {
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,

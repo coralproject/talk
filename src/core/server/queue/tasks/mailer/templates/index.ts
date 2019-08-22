@@ -3,7 +3,7 @@ interface Template<T extends string, U extends {}> {
   context: U;
 }
 
-type UserNotificationContext<T extends string, U extends {}> = Template<
+type AccountNotificationContext<T extends string, U extends {}> = Template<
   T,
   U & {
     organizationURL: string;
@@ -11,16 +11,16 @@ type UserNotificationContext<T extends string, U extends {}> = Template<
   }
 >;
 
-export type ForgotPasswordTemplate = UserNotificationContext<
-  "forgot-password",
+export type ForgotPasswordTemplate = AccountNotificationContext<
+  "account-notification/forgot-password",
   {
     username: string;
     resetURL: string;
   }
 >;
 
-export type BanTemplate = UserNotificationContext<
-  "ban",
+export type BanTemplate = AccountNotificationContext<
+  "account-notification/ban",
   {
     username: string;
     organizationContactEmail: string;
@@ -28,8 +28,8 @@ export type BanTemplate = UserNotificationContext<
   }
 >;
 
-export type SuspendTemplate = UserNotificationContext<
-  "suspend",
+export type SuspendTemplate = AccountNotificationContext<
+  "account-notification/suspend",
   {
     username: string;
     until: string;
@@ -38,16 +38,16 @@ export type SuspendTemplate = UserNotificationContext<
   }
 >;
 
-export type PasswordChangeTemplate = UserNotificationContext<
-  "password-change",
+export type PasswordChangeTemplate = AccountNotificationContext<
+  "account-notification/password-change",
   {
     username: string;
     organizationContactEmail: string;
   }
 >;
 
-export type ConfirmEmailTemplate = UserNotificationContext<
-  "confirm-email",
+export type ConfirmEmailTemplate = AccountNotificationContext<
+  "account-notification/confirm-email",
   {
     username: string;
     confirmURL: string;
@@ -55,15 +55,15 @@ export type ConfirmEmailTemplate = UserNotificationContext<
   }
 >;
 
-export type InviteEmailTemplate = UserNotificationContext<
-  "invite",
+export type InviteEmailTemplate = AccountNotificationContext<
+  "account-notification/invite",
   {
     inviteURL: string;
   }
 >;
 
-export type DownloadCommentsTemplate = UserNotificationContext<
-  "download-comments",
+export type DownloadCommentsTemplate = AccountNotificationContext<
+  "account-notification/download-comments",
   {
     username: string;
     date: string;
@@ -71,8 +71,8 @@ export type DownloadCommentsTemplate = UserNotificationContext<
   }
 >;
 
-export type UpdateUsernameTemplate = UserNotificationContext<
-  "update-username",
+export type UpdateUsernameTemplate = AccountNotificationContext<
+  "account-notification/update-username",
   {
     username: string;
     organizationContactEmail: string;

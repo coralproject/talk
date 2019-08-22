@@ -233,7 +233,7 @@ export async function sendConfirmationEmail(
       to: user.email,
     },
     template: {
-      name: "confirm-email",
+      name: "account-notification/confirm-email",
       context: {
         // TODO: (wyattjoh) possibly reevaluate the use of a required username.
         username: user.username,
