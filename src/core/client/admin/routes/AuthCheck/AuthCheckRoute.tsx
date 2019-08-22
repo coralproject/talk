@@ -28,22 +28,28 @@ type CheckParams =
       ability: AbilityType;
     };
 
-function createAuthCheckRoute(check: CheckParams) {
-  class AuthCheckRoute extends React.Component<Props> {
-    private wasLoggedIn = false;
-    constructor(props: Props) {
-      super(props);
-      this.redirectIfNotLoggedIn();
-    }
+interface State {
+  wasLoggedIn: boolean;
+}
 
-    public componentWillReceiveProps(nextProps: Props) {
-      if (nextProps.data && nextProps.data.viewer) {
-        this.wasLoggedIn = true;
+function createAuthCheckRoute(check: CheckParams) {
+  class AuthCheckRoute extends React.Component<Props, State> {
+    public state: State = {
+      wasLoggedIn: false,
+    };
+
+    public static getDerivedStateFromProps(props: Props) {
+      if (props.data && props.data.viewer) {
+        return {
+          wasLoggedIn: true,
+        };
       }
-      this.redirectIfNotLoggedIn(nextProps, this.props);
-      if (nextProps.data && !nextProps.data.viewer) {
-        this.wasLoggedIn = false;
+      if (props.data && !props.data.viewer) {
+        return {
+          wasLoggedIn: false,
+        };
       }
+      return null;
     }
 
     private shouldRedirectTo(props: Props = this.props) {
@@ -67,21 +73,28 @@ function createAuthCheckRoute(check: CheckParams) {
       return false;
     }
 
-    private async redirectIfNotLoggedIn(
-      props: Props = this.props,
-      prevProps: Props | null = null
-    ) {
+    private async redirectIfNotLoggedIn(props: Props = this.props) {
       if (!this.shouldRedirectTo(props)) {
         return;
       }
       // If I was previously logged in then logged out, we don't need to set the redirect path.
-      if (!this.wasLoggedIn) {
+      if (!this.state.wasLoggedIn) {
         const location = props.match.location;
         await props.setRedirectPath({
           path: location.pathname + location.search + location.hash,
         });
       }
       props.router.replace("/admin/login");
+    }
+
+    public componentDidUpdate(prevProps: Props, prevState: State) {
+      if (prevState.wasLoggedIn !== this.state.wasLoggedIn) {
+        this.redirectIfNotLoggedIn(this.props);
+      }
+    }
+
+    public componentDidMount() {
+      this.redirectIfNotLoggedIn(this.props);
     }
 
     public render() {
