@@ -1,6 +1,7 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { getViewer } from "coral-framework/helpers";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -42,6 +43,7 @@ const UpdateUsernameMutation = createMutation(
         updateUsername: {
           clientMutationId: (clientMutationId++).toString(),
           user: {
+            id: getViewer(environment)!.id,
             username: input.username,
             status: {
               username: {

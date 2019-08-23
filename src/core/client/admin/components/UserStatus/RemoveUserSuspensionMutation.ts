@@ -1,7 +1,9 @@
+import { pick } from "lodash";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
 import { RemoveUserSuspensionMutation as MutationTypes } from "coral-admin/__generated__/RemoveUserSuspensionMutation.graphql";
+import { DeepWritable } from "coral-common/types";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -15,6 +17,24 @@ let clientMutationId = 0;
 const RemoveUserSuspensionMutation = createMutation(
   "removeUserSuspension",
   (environment: Environment, input: MutationInput<MutationTypes>) => {
+    const user = lookup<GQLUser>(environment, input.userID)!;
+    let newHistory: DeepWritable<
+      MutationTypes["response"]["removeUserSuspension"]["user"]["status"]["suspension"]["history"]
+    > = [];
+    if (user.status.suspension.history) {
+      newHistory = user.status.suspension.history.map(h =>
+        pick(h, [
+          "active",
+          "from.start",
+          "from.finish",
+          "createdBy.id",
+          "createdBy.username",
+        ])
+      ) as any;
+      newHistory[newHistory.length - 1].active = false;
+      newHistory[newHistory.length - 1].from.finish = new Date().toISOString();
+    }
+
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation RemoveUserSuspensionMutation(
@@ -34,6 +54,7 @@ const RemoveUserSuspensionMutation = createMutation(
                       finish
                     }
                     createdBy {
+                      id
                       username
                     }
                   }
@@ -55,17 +76,10 @@ const RemoveUserSuspensionMutation = createMutation(
           user: {
             id: input.userID,
             status: {
-              current: lookup<GQLUser>(
-                environment,
-                input.userID
-              )!.status.current.concat(GQLUSER_STATUS.SUSPENDED),
+              current: user.status.current.concat(GQLUSER_STATUS.SUSPENDED),
               suspension: {
                 active: false,
-                history: [
-                  {
-                    active: false,
-                  },
-                ],
+                history: newHistory,
               },
             },
           },
