@@ -1,6 +1,7 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { getViewer } from "coral-framework/helpers";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -19,6 +20,7 @@ const UpdateEmailMutation = createMutation(
           updateEmail(input: $input) {
             clientMutationId
             user {
+              id
               email
               emailVerified
             }
@@ -35,6 +37,10 @@ const UpdateEmailMutation = createMutation(
         updateEmail: {
           clientMutationId: (clientMutationId++).toString(),
           user: {
+            // Only a logged in user will be able to change its email
+            // and access this mutation, so the viewer is always available
+            // in the cache when calling this mutation.
+            id: getViewer(environment)!.id,
             email: input.email,
             emailVerified: false,
           },

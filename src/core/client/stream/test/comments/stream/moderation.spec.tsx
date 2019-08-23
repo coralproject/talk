@@ -203,3 +203,114 @@ it("reject comment", async () => {
   );
   expect(link.props.href).toBe(`/admin/moderate/comment/${firstComment.id}`);
 });
+
+it("ban user", async () => {
+  const { testRenderer, tabPane } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        user: ({ variables }) => {
+          expectAndFail(variables.id).toBe(firstComment.author!.id);
+          return firstComment.author!;
+        },
+      },
+      Mutation: {
+        banUser: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            userID: firstComment.author!.id,
+          });
+          return {
+            user: pureMerge<typeof firstComment.author>(firstComment.author!, {
+              status: {
+                ban: {
+                  active: true,
+                },
+              },
+            }),
+          };
+        },
+        rejectComment: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            commentID: firstComment.id,
+            commentRevisionID: firstComment.revision.id,
+          });
+          return {
+            comment: pureMerge<typeof firstComment>(firstComment, {
+              status: GQLCOMMENT_STATUS.REJECTED,
+            }),
+          };
+        },
+      },
+    }),
+  });
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
+  );
+  const caretButton = within(comment).getByLabelText("Moderate");
+  caretButton.props.onClick();
+
+  await act(async () => {
+    const banButton = await waitForElement(() => {
+      const el = within(comment).getByText("Ban User", {
+        selector: "button",
+      });
+      expect(el.props.disabled).toBeFalsy();
+      return el;
+    });
+    banButton.props.onClick();
+  });
+
+  await act(async () => {
+    const banButtonDialog = within(comment).getByText("Ban", {
+      selector: "button",
+    });
+    banButtonDialog.props.onClick();
+  });
+
+  await waitForElement(() =>
+    within(tabPane).getByText("You have rejected this comment", {
+      exact: false,
+    })
+  );
+});
+
+it("cancel ban user", async () => {
+  const { testRenderer } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        user: ({ variables }) => {
+          expectAndFail(variables.id).toBe(firstComment.author!.id);
+          return firstComment.author!;
+        },
+      },
+    }),
+  });
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
+  );
+  const caretButton = within(comment).getByLabelText("Moderate");
+  caretButton.props.onClick();
+
+  await act(async () => {
+    const banButton = await waitForElement(() => {
+      const el = within(comment).getByText("Ban User", {
+        selector: "button",
+      });
+      expect(el.props.disabled).toBeFalsy();
+      return el;
+    });
+    banButton.props.onClick();
+  });
+
+  await act(async () => {
+    const cancelButtonDialog = within(comment).getByText("Cancel", {
+      selector: "button",
+    });
+    cancelButtonDialog.props.onClick();
+  });
+
+  expect(
+    within(comment).queryByText("Ban", {
+      selector: "button",
+    })
+  ).toBeNull();
+});

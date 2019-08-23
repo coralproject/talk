@@ -11,9 +11,9 @@ export type RequireProperty<T, P extends keyof T> = Omit<T, P> &
   Required<Pick<T, P>>;
 
 /**
- * Make all properties in T writeable
+ * Make all properties in T Writable
  */
-export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
+export type Writable<T> = { -readonly [P in keyof T]: T[P] };
 
 /**
  * Defines a type that may be a promise or a simple value return.
@@ -21,6 +21,22 @@ export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 export type Promiseable<T> = Promise<T> | T;
 
 export type Nullable<T> = { [P in keyof T]: T[P] | null };
+
+export type DeepWritableObject<T> = T extends object
+  ? {
+      -readonly [P in keyof T]: T[P] extends (Array<infer U> | undefined)
+        ? Array<DeepWritableObject<U>>
+        : T[P] extends (ReadonlyArray<infer V> | undefined)
+        ? ReadonlyArray<DeepWritableObject<V>>
+        : DeepWritableObject<T[P]>
+    }
+  : T;
+
+export type DeepWritable<T> = T extends (
+  | Array<infer U>
+  | ReadonlyArray<infer U>)
+  ? Array<DeepWritableObject<U>>
+  : DeepWritableObject<T>;
 
 export type DeepNullable<T> = T extends object
   ? {
