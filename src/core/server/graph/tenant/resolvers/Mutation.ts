@@ -189,4 +189,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.requestCommentsDownload(input),
     clientMutationId: input.clientMutationId,
   }),
+  requestUserCommentsDownload: async (sourc, { input }, ctx) => ({
+    archiveURL: await ctx.mutators.Users.requestUserCommentsDownload(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

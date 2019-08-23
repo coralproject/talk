@@ -65,7 +65,10 @@ import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
-import { generateDownloadLink } from "./download/download";
+import {
+  generateAdminDownloadLink,
+  generateDownloadLink,
+} from "./download/download";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
 export type InsertUser = InsertUserInput;
@@ -916,4 +919,23 @@ export async function requestCommentsDownload(
   }
 
   return user;
+}
+
+export async function requestUserCommentsDownload(
+  mongo: Db,
+  tenant: Tenant,
+  config: Config,
+  signingConfig: JWTSigningConfig,
+  userID: string,
+  now: Date
+) {
+  const downloadUrl = await generateAdminDownloadLink(
+    userID,
+    tenant,
+    config,
+    signingConfig,
+    now
+  );
+
+  return downloadUrl;
 }

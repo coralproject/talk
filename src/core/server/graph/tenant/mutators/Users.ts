@@ -11,6 +11,7 @@ import {
   removeIgnore,
   removeSuspension,
   requestCommentsDownload,
+  requestUserCommentsDownload,
   setEmail,
   setPassword,
   setUsername,
@@ -35,6 +36,7 @@ import {
   GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
   GQLRequestCommentsDownloadInput,
+  GQLRequestUserCommentsDownloadInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
   GQLSetUsernameInput,
@@ -187,6 +189,17 @@ export const Users = (ctx: TenantContext) => ({
     ignore(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeIgnore: async (input: GQLRemoveUserIgnoreInput) =>
     removeIgnore(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
+  requestUserCommentsDownload: async (
+    input: GQLRequestUserCommentsDownloadInput
+  ) =>
+    requestUserCommentsDownload(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.config,
+      ctx.signingConfig!,
+      input.userID,
+      ctx.now
+    ),
   requestCommentsDownload: async (input: GQLRequestCommentsDownloadInput) =>
     requestCommentsDownload(
       ctx.mongo,
