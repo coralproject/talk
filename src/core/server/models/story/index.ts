@@ -222,7 +222,9 @@ export async function findOrCreateStory(
   return upsertStory(mongo, tenantID, { url }, now);
 }
 
-export type CreateStoryInput = Partial<Pick<Story, "metadata" | "scrapedAt">>;
+export type CreateStoryInput = Partial<
+  Pick<Story, "metadata" | "scrapedAt" | "closedAt">
+>;
 
 export async function createStory(
   mongo: Db,
