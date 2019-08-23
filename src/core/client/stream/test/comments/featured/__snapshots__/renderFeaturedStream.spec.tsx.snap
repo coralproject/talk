@@ -40,7 +40,7 @@ exports[`renders comment stream 1`] = `
     role="tabpanel"
   >
     <div
-      className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticatedStream HorizontalGutter-double"
     >
       <div
         className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
@@ -291,7 +291,7 @@ exports[`renders comment stream 1`] = `
             role="log"
           >
             <div
-              className="FeaturedCommentContainer-root"
+              className="FeaturedCommentContainer-root coral coral-featuredComment-comment"
               data-testid="featuredComment-comment-0"
             >
               <div
@@ -354,7 +354,7 @@ exports[`renders comment stream 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Box-mt-2"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-reaction"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -373,7 +373,9 @@ exports[`renders comment stream 1`] = `
                 <div
                   className="Box-root Flex-root Flex-flex Flex-alignCenter"
                 >
-                  <div>
+                  <div
+                    className="coral coral-featuredComment-gotoConversation"
+                  >
                     <a
                       className="TextLink-root FeaturedCommentContainer-gotoConversation"
                       href="http://localhost/stories/story-with-featured-comments?commentID=comment-0"
@@ -393,7 +395,7 @@ exports[`renders comment stream 1`] = `
               </div>
             </div>
             <div
-              className="FeaturedCommentContainer-root"
+              className="FeaturedCommentContainer-root coral coral-featuredComment-comment"
               data-testid="featuredComment-comment-1"
             >
               <div
@@ -456,7 +458,7 @@ exports[`renders comment stream 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Box-mt-2"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-reaction"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -475,7 +477,9 @@ exports[`renders comment stream 1`] = `
                 <div
                   className="Box-root Flex-root Flex-flex Flex-alignCenter"
                 >
-                  <div>
+                  <div
+                    className="coral coral-featuredComment-gotoConversation"
+                  >
                     <a
                       className="TextLink-root FeaturedCommentContainer-gotoConversation"
                       href="http://localhost/stories/story-with-featured-comments?commentID=comment-1"

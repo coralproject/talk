@@ -13,6 +13,7 @@ exports[`hide reply button 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-buttonBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -176,6 +177,7 @@ exports[`renders body only 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-buttonBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -213,6 +215,7 @@ exports[`renders body only 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-reply"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
@@ -345,6 +348,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-buttonBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -382,6 +386,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-reply"
                 disabled={true}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
@@ -514,6 +519,7 @@ exports[`renders disabled reply when story is closed 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-buttonBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -551,6 +557,7 @@ exports[`renders disabled reply when story is closed 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-reply"
                 disabled={true}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
@@ -683,6 +690,7 @@ exports[`renders in reply to 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-buttonBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -724,6 +732,7 @@ exports[`renders in reply to 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-reply"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
@@ -868,6 +877,7 @@ exports[`renders username and body 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-buttonBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -905,6 +915,7 @@ exports[`renders username and body 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-reply"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
@@ -1037,6 +1048,7 @@ exports[`shows conversation link 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-buttonBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -1074,6 +1086,7 @@ exports[`shows conversation link 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-reply"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}

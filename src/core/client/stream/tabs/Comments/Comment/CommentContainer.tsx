@@ -268,7 +268,10 @@ export class CommentContainer extends Component<Props, State> {
             }
             footer={
               <>
-                <Flex justifyContent="space-between">
+                <Flex
+                  justifyContent="space-between"
+                  className={CLASSES.comment.actionBar.$root}
+                >
                   <ButtonsBar>
                     <ReactionButtonContainer
                       comment={comment}
@@ -281,6 +284,7 @@ export class CommentContainer extends Component<Props, State> {
                         id={`comments-commentContainer-replyButton-${
                           comment.id
                         }`}
+                        className={CLASSES.comment.actionBar.reply}
                         onClick={this.toggleReplyDialog}
                         active={showReplyDialog}
                         disabled={

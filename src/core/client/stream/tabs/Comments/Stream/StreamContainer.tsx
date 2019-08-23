@@ -95,6 +95,10 @@ export const StreamContainer: FunctionComponent<Props> = props => {
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
 
+  const authenticatedClass = props.viewer
+    ? CLASSES.authenticatedStream
+    : CLASSES.unauthenticatedStream;
+
   useEffect(() => {
     // If the comment tab is still in its uninitialized state, "NONE", then we
     // should evaluate that based on the featuredCommentsCount if we should show
@@ -113,7 +117,10 @@ export const StreamContainer: FunctionComponent<Props> = props => {
   return (
     <>
       <StoryClosedTimeoutContainer story={props.story} />
-      <HorizontalGutter className={styles.root} size="double">
+      <HorizontalGutter
+        className={cn(styles.root, authenticatedClass)}
+        size="double"
+      >
         <UserBoxContainer viewer={props.viewer} settings={props.settings} />
         <CommunityGuidelinesContainer settings={props.settings} />
         {!banned && !suspended && (

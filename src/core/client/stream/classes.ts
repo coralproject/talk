@@ -30,6 +30,8 @@ const CLASSES = {
     toolbar: "coral coral-rte-toolbar",
   },
 
+  authenticatedStream: "coral coral-authenticatedStream",
+  unauthenticatedStream: "coral coral-unauthenticatedStream",
   /**
    * tabBar is all the components in the top tab bar selector.
    */
@@ -189,6 +191,26 @@ const CLASSES = {
   },
 
   /**
+   * featuredComment is the visual representation of a Comment in the Featured Tab.
+   */
+  featuredComment: {
+    /**
+     * $root represents the container containing a given Comment in the Featured Tab.
+     */
+    $root: "coral coral-featuredComment-comment",
+
+    /**
+     * replies represents the container containing the reply count of a Comment in the Featured Tab.
+     */
+    replies: "coral coral-featuredComment-replies",
+
+    /**
+     * gotoConversation represents the link for a conversation in the Featured Tab.
+     */
+    gotoConversation: "coral coral-featuredComment-gotoConversation",
+  },
+
+  /**
    * comment is the visual representation of a Comment.
    */
   comment: {
@@ -227,6 +249,36 @@ const CLASSES = {
      * inReplyTo shows the author of the parent comment.
      */
     inReplyTo: "coral coral-comment-inReplyTo",
+
+    /**
+     * actionBar is the bar that contains the action buttons in a Comment.
+     */
+    actionBar: {
+      /**
+       * $root is the container that contains the action buttons in a Comment.
+       */
+      $root: "coral coral-comment-buttonBar",
+
+      /**
+       * reaction is the button responsible for performing user reactions in a comment.
+       */
+      reaction: "coral coral-comment-reaction",
+
+      /**
+       * reply is the button responsible for performing replies in a comment.
+       */
+      reply: "coral coral-comment-reply",
+
+      /**
+       * permalink is the button responsible for getting a comment link.
+       */
+      permalink: "coral coral-comment-permalink",
+
+      /**
+       * report is the button responsible for report a comment.
+       */
+      report: "coral coral-comment-report",
+    },
   },
 };
 

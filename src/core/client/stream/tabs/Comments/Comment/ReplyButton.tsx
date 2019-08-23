@@ -8,6 +8,7 @@ interface Props {
   onClick?: EventHandler<MouseEvent<HTMLButtonElement>>;
   active?: boolean;
   disabled?: boolean;
+  className?: string;
 }
 
 const ReplyButton: FunctionComponent<Props> = props => (
@@ -18,6 +19,7 @@ const ReplyButton: FunctionComponent<Props> = props => (
     size="small"
     active={props.active}
     disabled={props.disabled}
+    className={props.className}
   >
     <MatchMedia gtWidth="xs">
       <ButtonIcon>reply</ButtonIcon>

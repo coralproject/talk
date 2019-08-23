@@ -11,6 +11,7 @@ import {
 
 import PermalinkPopover from "./PermalinkPopover";
 
+import CLASSES from "coral-stream/classes";
 import styles from "./PermalinkButton.css";
 
 interface PermalinkProps {
@@ -41,6 +42,7 @@ const Permalink: FunctionComponent<PermalinkProps> = ({ commentID, url }) => {
             variant="ghost"
             active={visible}
             size="small"
+            className={CLASSES.comment.actionBar.permalink}
           >
             <MatchMedia gtWidth="xs">
               <ButtonIcon>share</ButtonIcon>

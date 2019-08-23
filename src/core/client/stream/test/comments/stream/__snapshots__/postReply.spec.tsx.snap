@@ -92,13 +92,13 @@ exports[`post a reply: open reply form 1`] = `
               }
             />
             <div
-              className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+              className="Box-root Flex-root coral coral-comment-buttonBar Flex-flex Flex-justifySpaceBetween"
             >
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-reaction"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -115,7 +115,7 @@ exports[`post a reply: open reply form 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active coral coral-comment-reply"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -137,7 +137,7 @@ exports[`post a reply: open reply form 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-comment-0"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-permalink"
                     data-color="regular"
                     data-variant="ghost"
                     onBlur={[Function]}
@@ -175,7 +175,7 @@ exports[`post a reply: open reply form 1`] = `
                 >
                   <button
                     aria-controls="report-popover-comment-0"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-report"
                     data-color="regular"
                     data-variant="ghost"
                     disabled={false}
@@ -519,13 +519,13 @@ exports[`post a reply: optimistic response 1`] = `
                   }
                 />
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                  className="Box-root Flex-root coral coral-comment-buttonBar Flex-flex Flex-justifySpaceBetween"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-reaction"
                       data-color="regular"
                       data-variant="ghost"
                       disabled={false}
@@ -542,7 +542,7 @@ exports[`post a reply: optimistic response 1`] = `
                       </span>
                     </button>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-reply"
                       data-color="regular"
                       data-variant="ghost"
                       disabled={false}
@@ -564,7 +564,7 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <button
                         aria-controls="permalink-popover-uuid-0"
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-permalink"
                         data-color="regular"
                         data-variant="ghost"
                         onBlur={[Function]}
@@ -602,7 +602,7 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <button
                         aria-controls="report-popover-uuid-0"
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-report"
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}

@@ -5,6 +5,7 @@ import { PropTypesOf } from "coral-framework/types";
 import { Button, ButtonIcon, MatchMedia } from "coral-ui/components";
 import { withForwardRef } from "coral-ui/hocs";
 
+import CLASSES from "coral-stream/classes";
 import styles from "./ReportButton.css";
 
 interface Props extends PropTypesOf<typeof Button> {
@@ -29,6 +30,7 @@ class ReportButton extends React.Component<Props> {
         active={active}
         disabled={!active && reported}
         classes={(reported && !active && styles) || {}}
+        className={CLASSES.comment.actionBar.report}
         variant="ghost"
         size="small"
         ref={ref}

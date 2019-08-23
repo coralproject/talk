@@ -20,6 +20,8 @@ import { UserTagsContainer } from "../../Comment";
 import ReactionButtonContainer from "../../Comment/ReactionButton";
 import { UsernameWithPopoverContainer } from "../../Comment/Username";
 
+import cn from "classnames";
+import CLASSES from "coral-stream/classes";
 import { Localized } from "fluent-react/compat";
 import styles from "./FeaturedCommentContainer.css";
 
@@ -46,7 +48,10 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
   );
 
   return (
-    <div className={styles.root} data-testid={`featuredComment-${comment.id}`}>
+    <div
+      className={cn(styles.root, CLASSES.featuredComment.$root)}
+      data-testid={`featuredComment-${comment.id}`}
+    >
       <HTMLContent>{comment.body || ""}</HTMLContent>
       <Flex direction="row" alignItems="center" mt={4}>
         {comment.author && (
@@ -68,7 +73,10 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
         />
         <Flex alignItems="center">
           {comment.replyCount > 0 && (
-            <Flex alignItems="center" className={styles.replies}>
+            <Flex
+              alignItems="center"
+              className={cn(styles.replies, CLASSES.featuredComment.replies)}
+            >
               <Icon size="md">reply</Icon>
               <Localized id="comments-featured-replies">
                 <Box mx={1}>Replies</Box>
@@ -77,7 +85,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
               <Box mx={2}>|</Box>
             </Flex>
           )}
-          <div>
+          <div className={CLASSES.featuredComment.gotoConversation}>
             <TextLink
               className={styles.gotoConversation}
               onClick={onGotoConversation}

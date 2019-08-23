@@ -9,7 +9,7 @@ exports[`renders message box when commenting disabled 1`] = `
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticatedStream HorizontalGutter-double"
   >
     <div
       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
@@ -210,7 +210,7 @@ exports[`renders message box when logged in 1`] = `
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root coral coral-authenticatedStream HorizontalGutter-double"
   >
     <div
       className="Box-root Flex-root"
@@ -520,7 +520,7 @@ exports[`renders message box when not logged in 1`] = `
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticatedStream HorizontalGutter-double"
   >
     <div
       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
@@ -804,7 +804,7 @@ exports[`renders message box when story isClosed 1`] = `
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticatedStream HorizontalGutter-double"
   >
     <div
       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"

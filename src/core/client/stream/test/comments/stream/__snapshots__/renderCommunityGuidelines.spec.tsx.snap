@@ -9,7 +9,7 @@ exports[`renders comment stream with community guidelines 1`] = `
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticatedStream HorizontalGutter-double"
   >
     <div
       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
@@ -368,13 +368,13 @@ exports[`renders comment stream with community guidelines 1`] = `
                           }
                         />
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root coral coral-comment-buttonBar Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-reaction"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -391,7 +391,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-reply"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -413,7 +413,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-0"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-permalink"
                                 data-color="regular"
                                 data-variant="ghost"
                                 onBlur={[Function]}
@@ -447,7 +447,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-report"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -566,13 +566,13 @@ exports[`renders comment stream with community guidelines 1`] = `
                           }
                         />
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root coral coral-comment-buttonBar Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-reaction"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -589,7 +589,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-reply"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -611,7 +611,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-1"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-permalink"
                                 data-color="regular"
                                 data-variant="ghost"
                                 onBlur={[Function]}
@@ -645,7 +645,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-report"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}

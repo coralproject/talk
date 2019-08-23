@@ -18,6 +18,7 @@ import {
   withRemoveCommentReactionMutation,
 } from "./RemoveCommentReactionMutation";
 
+import CLASSES from "coral-stream/classes";
 import ReactionButton from "./ReactionButton";
 
 interface Props {
@@ -70,6 +71,7 @@ class ReactionButtonContainer extends React.Component<Props> {
 
     return !readOnly || totalReactions > 0 ? (
       <ReactionButton
+        className={CLASSES.comment.actionBar.reaction}
         onClick={this.handleClick}
         totalReactions={totalReactions}
         reacted={reacted}
