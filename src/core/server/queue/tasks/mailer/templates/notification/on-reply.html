@@ -1,0 +1,6 @@
+{% extends "layouts/notification.html" %}
+
+{% block content %}
+  {{ context.organizationName }} - <a data-l10n-name="storyLink" href="{{ context.storyURL }}">{{ context.storyTitle }}</a><br /><br/>
+  {{ context.authorUsername }} has replied to your comment: <a data-l10n-name="commentPermalink" href="{{ context.commentPermalink }}">View comment</a>
+{% endblock %}

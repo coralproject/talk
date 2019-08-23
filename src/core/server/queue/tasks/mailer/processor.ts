@@ -16,6 +16,7 @@ import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { Config } from "coral-server/config";
 import { InternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
+import { Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
 import TenantCache from "coral-server/services/tenant/cache";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
@@ -98,6 +99,7 @@ function createMessageTranslator(i18n: I18n) {
    * @param data data used to send the message
    */
   return async (
+    tenant: Tenant,
     templateName: string,
     locale: LanguageCode,
     fromAddress: string,
@@ -136,7 +138,8 @@ function createMessageTranslator(i18n: I18n) {
     const subject = translate(
       bundle,
       templateName,
-      `email-subject-${camelCase(templateName)}`
+      `email-subject-${camelCase(templateName)}`,
+      { organizationName: tenant.organization.name }
     );
 
     // Generate the text content of the message from the HTML.
@@ -231,6 +234,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     let message: Message;
     try {
       message = await translateMessage(
+        tenant,
         data.templateName,
         tenant.locale,
         fromAddress,

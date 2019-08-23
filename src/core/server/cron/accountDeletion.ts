@@ -231,7 +231,7 @@ async function deleteUser(
         to: user.email,
       },
       template: {
-        name: "delete-request-completed",
+        name: "account-notification/delete-request-completed",
         context: {
           organizationContactEmail: tenant.organization.contactEmail,
           organizationName: tenant.organization.name,

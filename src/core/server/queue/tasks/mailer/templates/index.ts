@@ -3,6 +3,33 @@ interface Template<T extends string, U extends {}> {
   context: U;
 }
 
+/**
+ * NotificationContext
+ */
+
+type NotificationContext<T extends string, U extends {}> = Template<
+  T,
+  U & {
+    organizationURL: string;
+    organizationName: string;
+    unsubscribeURL: string;
+  }
+>;
+
+export type OnReplyTemplate = NotificationContext<
+  "notifications/on-reply",
+  {
+    storyTitle: string;
+    storyURL: string;
+    authorUsername: string;
+    commentPermalink: string;
+  }
+>;
+
+/**
+ * AccountNotificationContext
+ */
+
 type AccountNotificationContext<T extends string, U extends {}> = Template<
   T,
   U & {
@@ -79,24 +106,28 @@ export type UpdateUsernameTemplate = AccountNotificationContext<
   }
 >;
 
-export type AccountDeletionConfirmation = UserNotificationContext<
-  "delete-request-confirmation",
+export type AccountDeletionConfirmation = AccountNotificationContext<
+  "account-notification/delete-request-confirmation",
   {
     requestDate: string;
   }
 >;
 
-export type AccountDeletionCancellation = UserNotificationContext<
-  "delete-request-cancel",
+export type AccountDeletionCancellation = AccountNotificationContext<
+  "account-notification/delete-request-cancel",
   {}
 >;
 
-export type AccountDeletionCompleted = UserNotificationContext<
-  "delete-request-completed",
+export type AccountDeletionCompleted = AccountNotificationContext<
+  "account-notification/delete-request-completed",
   {
     organizationContactEmail: string;
   }
 >;
+
+/**
+ * Templates
+ */
 
 type Templates =
   | BanTemplate
@@ -109,6 +140,7 @@ type Templates =
   | UpdateUsernameTemplate
   | AccountDeletionConfirmation
   | AccountDeletionCancellation
-  | AccountDeletionCompleted;
+  | AccountDeletionCompleted
+  | OnReplyTemplate;
 
 export { Templates as Template };

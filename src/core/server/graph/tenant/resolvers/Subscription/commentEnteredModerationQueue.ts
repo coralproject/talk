@@ -4,7 +4,11 @@ import {
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { createIterator } from "./helpers";
-import { SUBSCRIPTION_CHANNELS, SubscriptionPayload } from "./types";
+import {
+  SUBSCRIPTION_CHANNELS,
+  SubscriptionPayload,
+  SubscriptionType,
+} from "./types";
 
 export interface CommentEnteredModerationQueueInput
   extends SubscriptionPayload {
@@ -12,6 +16,11 @@ export interface CommentEnteredModerationQueueInput
   commentID: string;
   storyID: string;
 }
+
+export type CommentEnteredModerationQueueSubscription = SubscriptionType<
+  SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
+  CommentEnteredModerationQueueInput
+>;
 
 export const commentEnteredModerationQueue: SubscriptionToCommentEnteredModerationQueueResolver<
   CommentEnteredModerationQueueInput

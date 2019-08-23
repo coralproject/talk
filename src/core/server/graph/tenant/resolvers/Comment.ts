@@ -17,10 +17,10 @@ import {
   hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
 import { createConnection } from "coral-server/models/helpers";
+import { getURLWithCommentID } from "coral-server/models/story";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import TenantContext from "../context";
-import { getURLWithCommentID } from "./util";
 
 export const maybeLoadOnlyID = (
   ctx: TenantContext,

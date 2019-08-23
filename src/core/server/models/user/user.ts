@@ -23,6 +23,7 @@ import {
   GQLTimeRange,
   GQLUSER_ROLE,
   GQLUsernameStatus,
+  GQLUserNotificationSettings,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
@@ -325,6 +326,11 @@ export interface User extends TenantResource {
   role: GQLUSER_ROLE;
 
   /**
+   * notifications stores the notification settings for the given User.
+   */
+  notifications: GQLUserNotificationSettings;
+
+  /**
    * status stores the user status information regarding moderation state.
    */
   status: UserStatus;
@@ -442,6 +448,7 @@ export type InsertUserInput = Omit<
   | "tokens"
   | "status"
   | "ignoredUsers"
+  | "notifications"
   | "emailVerificationID"
   | "createdAt"
 > &
@@ -465,6 +472,12 @@ export async function insertUser(
       },
       suspension: { history: [] },
       ban: { active: false, history: [] },
+    },
+    notifications: {
+      onReply: false,
+      onFeatured: false,
+      onModeration: false,
+      onStaffReplies: false,
     },
     createdAt: now,
   };
@@ -1965,6 +1978,43 @@ export async function setUserLastDownloadedAt(
   );
   if (!result.value) {
     // Get the user so we can figure out why the ignore operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+export type NotificationSettingsInput = Partial<GQLUserNotificationSettings>;
+
+export async function updateUserNotificationSettings(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  settings: NotificationSettingsInput
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: dotize({
+        notifications: settings,
+      }),
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the update operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);

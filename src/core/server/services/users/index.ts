@@ -39,6 +39,7 @@ import {
   ignoreUser,
   insertUser,
   InsertUserInput,
+  NotificationSettingsInput,
   removeActiveUserSuspensions,
   removeUserBan,
   removeUserIgnore,
@@ -52,6 +53,7 @@ import {
   suspendUser,
   updateUserAvatar,
   updateUserEmail,
+  updateUserNotificationSettings,
   updateUserPassword,
   updateUserRole,
   updateUserUsername,
@@ -362,7 +364,7 @@ export async function requestAccountDeletion(
       to: user.email,
     },
     template: {
-      name: "delete-request-confirmation",
+      name: "account-notification/delete-request-confirmation",
       context: {
         requestDate: formattedDate,
         organizationName: tenant.organization.name,
@@ -392,7 +394,7 @@ export async function cancelAccountDeletion(
       to: user.email,
     },
     template: {
-      name: "delete-request-cancel",
+      name: "account-notification/delete-request-cancel",
       context: {
         organizationName: tenant.organization.name,
         organizationURL: tenant.organization.url,
@@ -1036,4 +1038,13 @@ export async function requestUserCommentsDownload(
   );
 
   return downloadUrl;
+}
+
+export async function updateNotificationSettings(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  settings: NotificationSettingsInput
+) {
+  return updateUserNotificationSettings(mongo, tenant.id, user.id, settings);
 }

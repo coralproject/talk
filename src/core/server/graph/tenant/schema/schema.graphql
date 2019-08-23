@@ -1536,6 +1536,38 @@ enum USER_STATUS {
 }
 
 """
+UserNotificationSettings stores the notification settings for a given User.
+"""
+type UserNotificationSettings {
+  """
+  onReply, when true, will enable notifications to be sent to users that have
+  replies to their comments.
+  """
+  onReply: Boolean!
+
+  """
+  onFeatured, when true, will enable notifications to be sent to users that have
+  their comment's featured.
+  """
+  onFeatured: Boolean!
+
+  """
+  onStaffReplies when true, will enable notifications to be sent to users that
+  have a staff member reply to their comments. These notifications will
+  supercede notifications that would have been sent for a basic reply
+  notification.
+  """
+  onStaffReplies: Boolean!
+
+  """
+  onModeration when true, will enable notifications to be sent to users when a
+  comment that they wrote that was previously unpublished, becomes published due
+  to a moderator action.
+  """
+  onModeration: Boolean!
+}
+
+"""
 User is someone that leaves Comments, and logs in.
 """
 type User {
@@ -1666,6 +1698,12 @@ type User {
       userIDField: "id"
       permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
+
+  """
+  notifications stores the notification settings for the given User.
+  """
+  notifications: UserNotificationSettings!
+    @auth(userIDField: "id", permit: [SUSPENDED, BANNED])
 
   """
   createdAt is the time that the User was created at.
@@ -2502,6 +2540,56 @@ type Query {
 ################################################################################
 ## Mutations
 ################################################################################
+
+##################
+## updateNotificationSettings
+##################
+
+input UpdateNotificationSettingsInput {
+  """
+  onReply, when true, will enable notifications to be sent to users that have
+  replies to their comments.
+  """
+  onReply: Boolean
+
+  """
+  onFeatured, when true, will enable notifications to be sent to users that have
+  their comment's featured.
+  """
+  onFeatured: Boolean
+
+  """
+  onStaffReplies when true, will enable notifications to be sent to users that
+  have a staff member reply to their comments. These notifications will
+  supercede notifications that would have been sent for a basic reply
+  notification.
+  """
+  onStaffReplies: Boolean
+
+  """
+  onModeration when true, will enable notifications to be sent to users when a
+  comment that they wrote that was previously unpublished, becomes published due
+  to a moderator action.
+  """
+  onModeration: Boolean
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateNotificationSettingsPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
 
 ##################
 ## createComment
@@ -4958,6 +5046,14 @@ type Mutation {
   to the one provided.
   """
   updateEmail(input: UpdateEmailInput!): UpdateEmailPayload! @auth
+
+  """
+  updateNotificationSettings can be used to update the notification settings for
+  the current logged in user.
+  """
+  updateNotificationSettings(
+    input: UpdateNotificationSettingsInput!
+  ): UpdateNotificationSettingsPayload! @auth
 
   """
   updateUserEmail allows administrators to update a given User's email address
