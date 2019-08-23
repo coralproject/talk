@@ -1,6 +1,8 @@
 import { isNil } from "lodash";
 import ms from "ms";
 import fetch from "node-fetch";
+import path from "path";
+import { URL } from "url";
 
 import {
   TOXICITY_ENDPOINT_DEFAULT,
@@ -160,8 +162,13 @@ async function getScore(
   }: Required<Omit<GQLPerspectiveExternalIntegration, "enabled" | "threshold">>,
   timeout: number
 ): Promise<number> {
+  // Prepare the URL to send the command to.
+  const url = new URL(endpoint.trim());
+  url.pathname = path.join(url.pathname, "/comments:analyze");
+  url.searchParams.set("key", key.trim());
+
   try {
-    const response = await fetch(`${endpoint}/comments:analyze?key=${key}`, {
+    const response = await fetch(url.toString(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -188,7 +195,7 @@ async function getScore(
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {
-      err.message = err.message.replace(key, "***");
+      err.message = err.message.replace(url.searchParams.toString(), "***");
     }
 
     // Rethrow the error.
