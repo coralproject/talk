@@ -9,7 +9,7 @@ import { ERROR_CODES, ERROR_TYPES } from "coral-common/errors";
 import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import { translate } from "coral-server/services/i18n";
 
-import { Writeable } from "coral-common/types";
+import { Writable } from "coral-common/types";
 import { GQLUSER_AUTH_CONDITIONS } from "coral-server/graph/tenant/schema/__generated__/types";
 import { ERROR_TRANSLATIONS } from "./translations";
 
@@ -482,7 +482,7 @@ export class InternalDevelopmentError extends CoralError {
     bundle: FluentBundle | null
   ): CoralErrorExtensions {
     // Serialize the extensions from the public source.
-    const extensions = super.serializeExtensions(bundle) as Writeable<
+    const extensions = super.serializeExtensions(bundle) as Writable<
       CoralErrorExtensions
     >;
 

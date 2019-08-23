@@ -79,6 +79,12 @@ graphql`
     role
     createdAt
     badges
+    status {
+      current
+      ban {
+        active
+      }
+    }
   }
 `;
 // tslint:disable-next-line:no-unused-expression

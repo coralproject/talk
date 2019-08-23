@@ -34,7 +34,7 @@ const BanModal: FunctionComponent<Props> = ({
 }) => {
   const getDefaultMessage = useMemo((): string => {
     return getMessage(
-      "community-banModal-emailTemplate",
+      "common-banEmailTemplate",
       "Someone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, react or report comments",
       {
         username,
