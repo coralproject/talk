@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { ValidationMessage } from "coral-framework/lib/form";
+import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { validateURL } from "coral-framework/lib/validation";
 import {
   FormField,
@@ -59,7 +60,12 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
               Scraper proxy URL
             </InputLabel>
           </Localized>
-          <Localized id="configure-advanced-stories-proxy-detail">
+          <Localized
+            id="configure-advanced-stories-proxy-detail"
+            externalLink={
+              <ExternalLink href="https://www.npmjs.com/package/proxy-agent" />
+            }
+          >
             <Typography variant="detail">
               When specified, allows scraping requests to use the provided
               proxy. All requests will then be passed through the appropriote

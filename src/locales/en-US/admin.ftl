@@ -765,11 +765,11 @@ configure-account-features-delete-account-details =
 configure-advanced-stories = Story creation
 configure-advanced-stories-explanation = Details about story creation
 configure-advanced-stories-lazy = Lazy story creation
-configure-advanced-stories-lazy-details = Details about Lazy story creation
+configure-advanced-stories-lazy-detail = Details about Lazy story creation
 configure-advanced-stories-scraping = Story scraping
-configure-advanced-stories-scraping-details = Details about Story scraping
+configure-advanced-stories-scraping-detail = Details about Story scraping
 configure-advanced-stories-proxy = Scraper proxy url
-configure-advanced-stories-proxy-details = 
+configure-advanced-stories-proxy-detail = 
   When specified, allows scraping requests to use the provided
   proxy. All requests will then be passed through the appropriote
-  proxy as parsed by the npm proxy-agent package.
+  proxy as parsed by the <externalLink>npm proxy-agent</externalLink> package.
