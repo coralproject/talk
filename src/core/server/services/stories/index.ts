@@ -163,7 +163,7 @@ export async function create(
   tenant: Tenant,
   storyID: string,
   storyURL: string,
-  { metadata }: CreateStory,
+  { metadata, closedAt }: CreateStory,
   now = new Date()
 ) {
   // Ensure that the given URL is allowed.
@@ -175,7 +175,7 @@ export async function create(
   }
 
   // Construct the input payload.
-  const input: CreateStoryInput = { metadata };
+  const input: CreateStoryInput = { metadata, closedAt };
   if (metadata) {
     input.scrapedAt = now;
   }

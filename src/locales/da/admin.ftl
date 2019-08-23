@@ -570,10 +570,6 @@ community-banModal-consequence =
 community-banModal-cancel = Afbestille
 community-banModal-banUser = Forbud bruger
 community-banModal-customize = Tilpas forbud e-mail-besked
-community-banModal-emailTemplate =
-  Hej { $username },
-
-  En person med adgang til din konto har overtrådt vores fællesskabsretningslinjer. Som et resultat er din konto forbudt. Du vil ikke længere være i stand til at kommentere, reagere eller rapportere kommentarer.
 
 community-suspendModal-areYouSure = Suspenderer <strong>{ $username }</strong>?
 community-suspendModal-consequence =

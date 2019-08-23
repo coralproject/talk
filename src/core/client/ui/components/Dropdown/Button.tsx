@@ -18,6 +18,10 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   onClick?: React.EventHandler<React.MouseEvent>;
   classes: typeof styles;
   /**
+   * adornment if set is rendered at the end of the button.
+   */
+  adornment?: React.ReactNode;
+  /**
    * blankAdornment if true will leave some blank space after the text, so
    * that it looks nice, if mixed with other buttons which have an external link
    * icon as adornment.
@@ -34,6 +38,7 @@ const Button: FunctionComponent<Props> = ({
   classes,
   icon,
   disabled,
+  adornment,
   ...rest
 }) => {
   return (
@@ -60,8 +65,11 @@ const Button: FunctionComponent<Props> = ({
           {children}
         </div>
       </Flex>
-      {rest.target === "_blank" && (
-        <Icon className={classes.iconAfter}>open_in_new</Icon>
+      {adornment && <div className={classes.iconAfter}>{adornment}</div>}
+      {!adornment && rest.target === "_blank" && (
+        <div className={classes.iconAfter}>
+          <Icon className={classes.iconOpenInNew}>open_in_new</Icon>
+        </div>
       )}
     </BaseButton>
   );
