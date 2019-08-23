@@ -218,7 +218,7 @@ profile-settings-deleteAccount-cancelDelete-description =
   You have already submitted a request to delete your account.
   Your account will be deleted on { $date }.
   You may cancel the request until that time.
-profile-settings-deleteAccount-cancelDelete-icon
+profile-settings-deleteAccount-cancelDelete-icon =
   .title = Cancel account deletion request
 profile-settings-deleteAccount-cancelDelete = Cancel account deletion request
 
@@ -259,7 +259,7 @@ profile-settings-deleteAccount-pages-downloadCommentsPath =
 profile-settings-deleteAccount-pages-confirmHeader = Confirm account deletion?
 profile-settings-deleteAccount-pages-confirmDescHeader =
   Are you sure you want to delete your account?
-profile-settings-deleteAccount-confirmDescContent
+profile-settings-deleteAccount-confirmDescContent =
   To confirm you would like to delete your account please type in the following
   phrase into the text box below:
 profile-settings-deleteAccount-pages-confirmPhraseLabel =

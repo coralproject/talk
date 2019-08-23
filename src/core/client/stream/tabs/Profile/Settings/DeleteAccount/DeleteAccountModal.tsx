@@ -37,7 +37,11 @@ const DeleteAccountModal: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Modal open={open} onClose={closeModal}>
+      <Modal
+        open={open}
+        onClose={closeModal}
+        data-testid="delete-account-modal"
+      >
         <Box className={styles.root}>
           {step === 0 && (
             <DescriptionPage

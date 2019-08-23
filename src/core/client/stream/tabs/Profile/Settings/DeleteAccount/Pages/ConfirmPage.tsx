@@ -1,4 +1,4 @@
-import { FORM_ERROR, FormApi } from "final-form";
+import { FORM_ERROR, FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
@@ -14,7 +14,6 @@ import {
 import {
   Button,
   CallOut,
-  FieldSet,
   Flex,
   FormField,
   HorizontalGutter,
@@ -77,6 +76,28 @@ const ConfirmPage: FunctionComponent<Props> = ({
     onCancel();
   }, [onProceed]);
 
+  const preventSubmit = (
+    formState: Pick<
+      FormState,
+      | "pristine"
+      | "hasSubmitErrors"
+      | "hasValidationErrors"
+      | "dirtySinceLastSubmit"
+    >
+  ) => {
+    const {
+      pristine,
+      hasValidationErrors,
+      hasSubmitErrors,
+      dirtySinceLastSubmit,
+    } = formState;
+    return (
+      pristine ||
+      hasValidationErrors ||
+      (hasSubmitErrors && !dirtySinceLastSubmit)
+    );
+  };
+
   return (
     <>
       <Flex
@@ -114,56 +135,69 @@ const ConfirmPage: FunctionComponent<Props> = ({
         <Form onSubmit={onSubmit}>
           {({
             handleSubmit,
-            submitting,
             submitError,
-            pristine,
-            submitSucceeded,
+            invalid,
+            submitting,
+            ...formProps
           }) => (
-            <form autoComplete="off" onSubmit={handleSubmit}>
-              <HorizontalGutter container={<FieldSet />}>
+            <form
+              autoComplete="off"
+              onSubmit={handleSubmit}
+              data-testid="confirm-page-form"
+            >
+              <HorizontalGutter>
                 <TextField fullWidth disabled readOnly value="delete" />
-                <Field
-                  name="confirmation"
-                  validate={composeValidators(
-                    required,
-                    validateDeleteConfirmation("delete")
-                  )}
-                >
-                  {({ input, meta }) => (
-                    <FormField container={<FieldSet />}>
-                      <Localized id="profile-settings-deleteAccount-pages-confirmPhraseLabel">
-                        <InputLabel>To confirm, type phrase below:</InputLabel>
-                      </Localized>
-                      <TextField
-                        fullWidth
-                        id={input.name}
-                        disabled={submitting}
-                        color={colorFromMeta(meta)}
-                        autoComplete="confirmation"
-                        {...input}
-                      />
-                      <ValidationMessage fullWidth meta={meta} />
-                    </FormField>
-                  )}
-                </Field>
-                <Field name="password">
-                  {({ input, meta }) => (
-                    <FormField container={<FieldSet />}>
-                      <Localized id="profile-settings-deleteAccount-pages-confirmPasswordLabel">
-                        <InputLabel>Enter your password:</InputLabel>
-                      </Localized>
-                      <PasswordField
-                        fullWidth
-                        id={input.name}
-                        disabled={submitting}
-                        color={colorFromMeta(meta)}
-                        autoComplete="password"
-                        {...input}
-                      />
-                      <ValidationMessage fullWidth meta={meta} />
-                    </FormField>
-                  )}
-                </Field>
+                <FormField>
+                  <Field
+                    name="confirmation"
+                    validate={composeValidators(
+                      required,
+                      validateDeleteConfirmation("delete")
+                    )}
+                  >
+                    {({ input, meta }) => (
+                      <FormField>
+                        <Localized id="profile-settings-deleteAccount-pages-confirmPhraseLabel">
+                          <InputLabel>
+                            To confirm, type phrase below:
+                          </InputLabel>
+                        </Localized>
+                        <TextField
+                          fullWidth
+                          id={input.name}
+                          data-testid="confirm-page-confirmation"
+                          disabled={submitting}
+                          color={colorFromMeta(meta)}
+                          autoComplete="confirmation"
+                          {...input}
+                        />
+                        <ValidationMessage fullWidth meta={meta} />
+                      </FormField>
+                    )}
+                  </Field>
+                </FormField>
+                <FormField>
+                  <Field name="password" validate={composeValidators(required)}>
+                    {({ input, meta }) => (
+                      <FormField>
+                        <Localized id="profile-settings-deleteAccount-pages-confirmPasswordLabel">
+                          <InputLabel>Enter your password:</InputLabel>
+                        </Localized>
+                        <PasswordField
+                          fullWidth
+                          id={input.name}
+                          data-testid="confirm-page-password"
+                          disabled={submitting}
+                          color={colorFromMeta(meta)}
+                          autoComplete="password"
+                          {...input}
+                        />
+                        <ValidationMessage fullWidth meta={meta} />
+                      </FormField>
+                    )}
+                  </Field>
+                </FormField>
+
                 {submitError && (
                   <CallOut color="error" fullWidth>
                     {submitError}
@@ -171,23 +205,23 @@ const ConfirmPage: FunctionComponent<Props> = ({
                 )}
               </HorizontalGutter>
               <div className={styles.controls}>
-                <HorizontalGutter container={<FieldSet />}>
+                <HorizontalGutter>
                   <Flex justifyContent="flex-end">
-                    <Button
-                      variant="outlined"
-                      className={sharedStyles.cancelButton}
-                      onClick={onCancelClicked}
-                    >
-                      <Localized id="profile-settings-deleteAccount-pages-cancel">
+                    <Localized id="profile-settings-deleteAccount-pages-cancel">
+                      <Button
+                        variant="outlined"
+                        className={sharedStyles.cancelButton}
+                        onClick={onCancelClicked}
+                      >
                         Cancel
-                      </Localized>
-                    </Button>
+                      </Button>
+                    </Localized>
                     <Localized id="profile-settings-deleteAccount-pages-deleteButton">
                       <Button
                         color="error"
                         variant="filled"
                         type="submit"
-                        disabled={submitting || pristine}
+                        disabled={preventSubmit(formProps)}
                         className={sharedStyles.deleteButton}
                       >
                         Delete my account
