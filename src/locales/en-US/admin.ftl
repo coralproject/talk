@@ -621,10 +621,6 @@ community-banModal-consequence =
 community-banModal-cancel = Cancel
 community-banModal-banUser = Ban User
 community-banModal-customize = Customize ban email message
-community-banModal-emailTemplate =
-  Hello { $username },
-
-  Someone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, react or report comments
 
 community-suspendModal-areYouSure = Suspend <strong>{ $username }</strong>?
 community-suspendModal-consequence =
@@ -733,19 +729,19 @@ userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
 userDetails-suspension-end = <strong>End:</strong> { $timestamp }
 
 configure-general-reactions-title = Reactions
-configure-general-reactions-explanation = 
+configure-general-reactions-explanation =
   Allow your community to engage with one another and express themselves
   with one-click reactions. By default, Coral allows commenters to
   "Respect" each other's comments, but you may customize reaction text
   based on the needs of your community.
 configure-general-reactions-label = Reaction label
-configure-general-reactions-input = 
+configure-general-reactions-input =
   .placehodlder = E.g. Respect
 configure-general-reactions-active-label = Active reaction label
-configure-general-reactions-active-input = 
+configure-general-reactions-active-input =
   .placehodlder = E.g. Respected
 configure-general-reactions-sort-label = Sort label
-configure-general-reactions-sort-input = 
+configure-general-reactions-sort-input =
   .placehodlder = E.g. Most Respected
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by

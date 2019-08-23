@@ -3,9 +3,9 @@ import React, { Component, MouseEvent } from "react";
 import { graphql } from "react-relay";
 
 import { isBeforeDate } from "coral-common/utils";
-import { getURLWithCommentID, roleIsAtLeast } from "coral-framework/helpers";
+import { getURLWithCommentID } from "coral-framework/helpers";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { GQLTAG, GQLUSER_ROLE, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -18,6 +18,7 @@ import {
   withSetCommentIDMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
+import { Ability, can } from "coral-stream/permissions";
 import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
 import { isPublished } from "../helpers";
@@ -195,8 +196,7 @@ export class CommentContainer extends Component<Props, State> {
       this.props.viewer && this.props.viewer.scheduledDeletionDate
     );
     const showCaret =
-      this.props.viewer &&
-      roleIsAtLeast(this.props.viewer.role, GQLUSER_ROLE.MODERATOR);
+      this.props.viewer && can(this.props.viewer, Ability.MODERATE);
     if (showEditDialog) {
       return (
         <div data-testid={`comment-${comment.id}`}>
@@ -266,7 +266,11 @@ export class CommentContainer extends Component<Props, State> {
                     </Localized>
                   )}
                   {showCaret && (
-                    <CaretContainer comment={comment} story={story} />
+                    <CaretContainer
+                      comment={comment}
+                      story={story}
+                      viewer={viewer!}
+                    />
                   )}
                 </Flex>
               }
@@ -359,6 +363,7 @@ const enhanced = withSetCommentIDMutation(
           ...UsernameWithPopoverContainer_viewer
           ...ReactionButtonContainer_viewer
           ...ReportButtonContainer_viewer
+          ...CaretContainer_viewer
         }
       `,
       story: graphql`
