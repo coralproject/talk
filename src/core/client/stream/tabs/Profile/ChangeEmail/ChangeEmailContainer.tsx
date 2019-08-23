@@ -70,7 +70,6 @@ const changeEmailContainer: FunctionComponent<Props> = ({
   const updateEmail = useMutation(UpdateEmailMutation);
 
   const [showEditForm, setShowEditForm] = useState(false);
-  const [emailUpdated, setEmailUpdated] = useState(false);
   const [confirmationResent, setConfirmationResent] = useState(false);
   const makeFetchCall = useFetch(fetcher);
   const resend = useCallback(async () => {
@@ -100,7 +99,6 @@ const changeEmailContainer: FunctionComponent<Props> = ({
 
       form.reset();
       setShowEditForm(false);
-      setEmailUpdated(true);
 
       return;
     },
@@ -162,7 +160,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
           )}
         </Flex>
       )}
-      {!viewer.emailVerified && emailUpdated && !showEditForm && (
+      {!viewer.emailVerified && !showEditForm && (
         <CallOut>
           <Flex itemGutter>
             <div>
