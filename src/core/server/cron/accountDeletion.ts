@@ -16,7 +16,7 @@ export function registerAccountDeletion(
   mailer: MailerQueue
 ): CronJob {
   const job = new CronJob({
-    cronTime: "0,30 * * * * *",
+    cronTime: "0,30 * * * *",
     timeZone: "America/New_York",
     start: true,
     runOnInit: false,
