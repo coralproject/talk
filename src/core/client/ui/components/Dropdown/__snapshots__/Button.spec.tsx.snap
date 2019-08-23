@@ -9,6 +9,7 @@ exports[`renders anchor button 1`] = `
       "blankAdornment": "Button-blankAdornment",
       "iconAfter": "Button-iconAfter",
       "iconBefore": "Button-iconBefore",
+      "iconOpenInNew": "Button-iconOpenInNew",
       "mouseHover": "Button-mouseHover",
       "root": "Button-root",
     }
@@ -31,6 +32,7 @@ exports[`renders button 1`] = `
       "blankAdornment": "Button-blankAdornment",
       "iconAfter": "Button-iconAfter",
       "iconBefore": "Button-iconBefore",
+      "iconOpenInNew": "Button-iconOpenInNew",
       "mouseHover": "Button-mouseHover",
       "root": "Button-root",
     }

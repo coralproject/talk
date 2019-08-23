@@ -11,7 +11,7 @@ email-subject-forgotPassword = Password Reset Request
 
 email-notification-template-ban =
   { $customMessage }<br /><br />
-  if you think this has been done in error, please contact our community team 
+  If you think this has been done in error, please contact our community team
   at <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
 email-subject-ban = Your account has been banned
