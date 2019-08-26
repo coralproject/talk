@@ -1,7 +1,9 @@
 import { Localized } from "fluent-react/compat";
 import React, { EventHandler, FunctionComponent, MouseEvent } from "react";
 
-import { Button, ButtonIcon, MatchMedia } from "coral-ui/components";
+import { Button, Icon, MatchMedia } from "coral-ui/components";
+
+import styles from "./ReplyButton.css";
 
 interface Props {
   id?: string;
@@ -16,13 +18,14 @@ const ReplyButton: FunctionComponent<Props> = props => (
     className={props.className}
     id={props.id}
     onClick={props.onClick}
-    variant="ghost"
+    className={styles.button}
+    variant="textUnderlined"
     size="small"
     active={props.active}
     disabled={props.disabled}
   >
     <MatchMedia gtWidth="xs">
-      <ButtonIcon>reply</ButtonIcon>
+      <Icon className={styles.icon}>reply</Icon>
     </MatchMedia>
     <Localized id="comments-replyButton-reply">
       <span>Reply</span>

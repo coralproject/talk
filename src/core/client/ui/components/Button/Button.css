@@ -573,3 +573,32 @@
     }
   }
 }
+
+.variantTextUnderlined {
+  &:not(.disabled) {
+    &.colorRegular {
+      &.mouseHover {
+        color: var(--palette-primary-main)!important;
+        & > span {
+          text-decoration: underline;
+        }
+      }
+      &.active,
+      &:active {
+        color: var(--palette-primary-main)!important;
+      }
+    }
+    &.colorError {
+      &.mouseHover {
+        color: var(--palette-error-main)!important;
+        & > span {
+          text-decoration: underline;
+        }
+      }
+      &.active,
+      &:active {
+        color: var(--palette-error-main)!important;
+      }
+    }
+  }
+}

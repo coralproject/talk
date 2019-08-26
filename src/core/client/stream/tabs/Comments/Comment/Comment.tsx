@@ -27,9 +27,12 @@ export interface CommentProps {
 
 const Comment: FunctionComponent<CommentProps> = props => {
   return (
-    <div
+    <HorizontalGutter
       role="article"
-      className={cn(styles.root, { [styles.highlight]: props.highlight })}
+      size="half"
+      className={cn(styles.root, {
+        [styles.highlight]: props.highlight,
+      })}
     >
       <Flex
         direction="row"
@@ -58,13 +61,13 @@ const Comment: FunctionComponent<CommentProps> = props => {
         </div>
       )}
 
-      <HorizontalGutter spacing={1}>
+      <HorizontalGutter size="oneAndAHalf">
         <HTMLContent className={CLASSES.comment.content}>
           {props.body || ""}
         </HTMLContent>
         {props.footer}
       </HorizontalGutter>
-    </div>
+    </HorizontalGutter>
   );
 };
 

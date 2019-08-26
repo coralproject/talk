@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { Ref } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Button, ButtonIcon, MatchMedia } from "coral-ui/components";
+import { Button, Icon, MatchMedia } from "coral-ui/components";
 import { withForwardRef } from "coral-ui/hocs";
 
 import styles from "./ReportButton.css";
@@ -29,12 +29,13 @@ class ReportButton extends React.Component<Props> {
         active={active}
         disabled={!active && reported}
         classes={(reported && !active && styles) || {}}
-        variant="ghost"
+        variant="textUnderlined"
         size="small"
+        color="error"
         ref={ref}
       >
         <MatchMedia gtWidth="xs">
-          <ButtonIcon>flag</ButtonIcon>
+          <Icon className={styles.icon}>flag</Icon>
         </MatchMedia>
         {!reported && (
           <Localized id="comments-reportButton-report">

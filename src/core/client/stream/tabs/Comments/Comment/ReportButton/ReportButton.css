@@ -4,3 +4,7 @@
     opacity: 1;
   }
 }
+
+.icon {
+  text-decoration: none!important;
+}

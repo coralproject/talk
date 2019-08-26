@@ -1,0 +1,4 @@
+.stream > *:not(:first-child) {
+  border-top: 1px solid var(--palette-divider);
+  padding-top: var(--spacing-3)
+}
