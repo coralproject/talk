@@ -1,9 +1,9 @@
 .icon {
-  color: var(--palette-grey-light);
+  color: var(--palette-text-primary);
 }
 .inReplyTo {
-  color: var(--palette-grey-light);
+  color: var(--palette-text-primary);
 }
 .username {
-  color: var(--palette-grey-dark);
+  color: var(--palette-content-black);
 }

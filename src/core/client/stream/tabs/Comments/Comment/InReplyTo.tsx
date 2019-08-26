@@ -14,7 +14,7 @@ interface Props {
 const InReplyTo: FunctionComponent<Props> = ({ username }) => {
   const Username = () => (
     <Typography
-      variant="heading5"
+      variant="heading4"
       container="span"
       className={cn(styles.username, CLASSES.comment.inReplyTo.username)}
     >

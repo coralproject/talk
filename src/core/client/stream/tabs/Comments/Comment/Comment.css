@@ -1,11 +1,6 @@
 .root {
 }
 
-.bordered {
-  border-top: 1px solid var(--palette-divider);
-  padding-top: var(--spacing-3)
-}
-
 .highlight {
   background-color: var(--palette-primary-lightest);
   padding: var(--mini-unit);

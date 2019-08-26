@@ -274,9 +274,9 @@
 
 .tagText {
   font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-regular);
-  font-size: calc(14rem / var(--rem-base));
-  letter-spacing: calc(-0.2em / 14);
+  font-weight: var(--font-weight-medium);
+  font-size: calc(12rem / var(--rem-base));
+  letter-spacing: calc(-0.2em / 12);
 }
 
 .sideNavigationItem {

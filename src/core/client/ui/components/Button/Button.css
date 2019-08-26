@@ -575,6 +575,7 @@
 }
 
 .variantTextUnderlined {
+  font-weight: 700;
   &:not(.disabled) {
     &.colorRegular {
       &.mouseHover {
