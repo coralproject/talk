@@ -68,7 +68,7 @@ async function processor(
   return {
     userID: parentAuthor.id,
     template: {
-      name: "notifications/on-reply",
+      name: "notification/on-reply",
       context: {
         // We know that the user had a username because they wrote a comment!
         authorUsername: author.username!,

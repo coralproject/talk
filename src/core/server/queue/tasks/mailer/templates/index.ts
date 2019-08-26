@@ -1,4 +1,4 @@
-interface Template<T extends string, U extends {}> {
+interface EmailTemplate<T extends string, U extends {}> {
   name: T;
   context: U;
 }
@@ -7,7 +7,7 @@ interface Template<T extends string, U extends {}> {
  * NotificationContext
  */
 
-type NotificationContext<T extends string, U extends {}> = Template<
+type NotificationContext<T extends string, U extends {}> = EmailTemplate<
   T,
   U & {
     organizationURL: string;
@@ -17,7 +17,17 @@ type NotificationContext<T extends string, U extends {}> = Template<
 >;
 
 export type OnReplyTemplate = NotificationContext<
-  "notifications/on-reply",
+  "notification/on-reply",
+  {
+    storyTitle: string;
+    storyURL: string;
+    authorUsername: string;
+    commentPermalink: string;
+  }
+>;
+
+export type OnStaffReplyTemplate = NotificationContext<
+  "notification/on-staff-reply",
   {
     storyTitle: string;
     storyURL: string;
@@ -30,7 +40,7 @@ export type OnReplyTemplate = NotificationContext<
  * AccountNotificationContext
  */
 
-type AccountNotificationContext<T extends string, U extends {}> = Template<
+type AccountNotificationContext<T extends string, U extends {}> = EmailTemplate<
   T,
   U & {
     organizationURL: string;
@@ -141,6 +151,7 @@ type Templates =
   | AccountDeletionConfirmation
   | AccountDeletionCancellation
   | AccountDeletionCompleted
-  | OnReplyTemplate;
+  | OnReplyTemplate
+  | OnStaffReplyTemplate;
 
-export { Templates as Template };
+export { Templates as EmailTemplate };
