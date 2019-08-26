@@ -2,6 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <PostCommentForm
+  disabled={false}
   disabledMessage="closed"
   initialValues={
     Object {
@@ -124,7 +125,7 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
 
 exports[`renders when user is scheduled to be deleted 1`] = `
 <PostCommentForm
-  disabled="2019-01-01T00:00:00.000Z"
+  disabled={true}
   disabledMessage={
     <Localized
       id="comments-postCommentForm-userScheduledForDeletion-warning"
@@ -159,6 +160,7 @@ exports[`renders when user is scheduled to be deleted 1`] = `
 
 exports[`renders with initialValues 1`] = `
 <PostCommentForm
+  disabled={false}
   disabledMessage="closed"
   initialValues={
     Object {

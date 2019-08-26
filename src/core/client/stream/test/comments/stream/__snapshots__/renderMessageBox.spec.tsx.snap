@@ -307,7 +307,7 @@ exports[`renders message box when logged in 1`] = `
                         "__html": "",
                       }
                     }
-                    disabled={null}
+                    disabled={false}
                     id="comments-postCommentForm-field"
                     onBlur={[Function]}
                     onChange={[Function]}
