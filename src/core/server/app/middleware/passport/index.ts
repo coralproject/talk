@@ -126,7 +126,9 @@ export async function handleSuccessfulLogin(
       signingConfig,
       user,
       tenant,
-      { expiresIn: "1d" },
+      {
+        expiresIn: tenant.auth.sessionDuration,
+      },
       coral.now
     );
 
