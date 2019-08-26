@@ -61,7 +61,7 @@ async function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue) {
       userResult.value === null ||
       userResult.value === undefined
     ) {
-      logger.info("No users found that were scheduled for deletion.");
+      logger.info("No more users were scheduled for deletion.");
       break;
     }
 
@@ -156,10 +156,6 @@ async function deleteUserActionCounts(db: Db, userID: string) {
 }
 
 async function deleteUserComments(db: Db, authorID: string) {
-  // QUESTION: (andrew) what if a comment is PREMOD, do we reject it now?
-  // QUESTION: (andrew) what if a comment is SYSTEM_WITHHELD, do we reject it now?
-
-  // NOTE: (nick) if we do either of the above, we need to adjust the story `commentCounts.moderationQueue` (complicated)
   const comments = createCollection<Comment>("comments")(db);
   await comments.updateMany(
     { authorID },
@@ -199,8 +195,6 @@ async function deleteUser(db: Db, mailer: MailerQueue, id: string, now: Date) {
     { id },
     {
       $set: {
-        // QUESTION: (andrew) discuss about retention
-        // username: null,
         profiles: [],
         deletedAt: now,
       },
