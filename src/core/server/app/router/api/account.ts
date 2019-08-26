@@ -3,6 +3,7 @@ import express from "express";
 
 import { AppOptions } from "coral-server/app";
 import {
+  adminDownloadHandler,
   confirmCheckHandler,
   confirmHandler,
   confirmRequestHandler,
@@ -34,6 +35,7 @@ export function createNewAccountRouter(
   router.put("/invite", jsonMiddleware, inviteHandler(app));
 
   router.get("/downloadcheck", downloadCheckHandler(app));
+  router.get("/download", adminDownloadHandler(app));
   router.post(
     "/download",
     bodyParser.urlencoded({

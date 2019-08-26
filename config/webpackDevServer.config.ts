@@ -71,7 +71,7 @@ export default function({
         { from: /^\/account/, to: "/account.html" },
         { from: /^\/admin/, to: "/admin.html" },
         { from: /^\/embed\/stream/, to: "/stream.html" },
-        { from: /^\/embed\/auth/, to: "/auth.html" },
+        { from: /^\/embed\/auth$/, to: "/auth.html" },
         { from: /^\/embed\/auth\/callback/, to: "/auth-callback.html" },
         { from: /^\/install/, to: "/install.html" },
       ],

@@ -27,6 +27,8 @@ export type DownloadOptions = Pick<
   "mongo" | "redis" | "signingConfig" | "config"
 >;
 
+export type AdminDownloadOptions = Pick<AppOptions, "mongo" | "signingConfig">;
+
 async function sendExport(
   mongo: Db,
   tenant: Tenant,
@@ -190,6 +192,46 @@ export const downloadHandler = ({
     }
 
     await userIDLimiter.test(req, userID);
+
+    try {
+      const {
+        token: { iat },
+        user,
+      } = await verifyDownloadTokenString(
+        mongo,
+        tenant,
+        signingConfig,
+        token,
+        coral.now
+      );
+
+      // Only load comments since this download token was issued.
+      const latestContentDate = new Date(iat * 1000);
+
+      // Send the export down the response.
+      await sendExport(mongo, tenant, user, latestContentDate, res);
+
+      return;
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const adminDownloadHandler = ({
+  mongo,
+  signingConfig,
+}: AdminDownloadOptions): RequestHandler => {
+  return async (req: Request, res, next) => {
+    // Tenant is guaranteed at this point.
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
+    const { token } = req.query;
+
+    const { sub: userID } = decodeJWT(token);
+    if (!userID) {
+      return res.sendStatus(400);
+    }
 
     try {
       const {

@@ -129,6 +129,52 @@ exports[`renders the empty settings pane 1`] = `
               Edit
             </button>
           </div>
+          <div
+            className="CallOut-root CallOut-colorRegular"
+          >
+            <div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              >
+                <div>
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg"
+                  >
+                    email
+                  </span>
+                </div>
+                <div>
+                  <h1
+                    className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-gutterBottom"
+                  >
+                    Verify your email address
+                  </h1>
+                  <p
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    An email has been sent to $email to verify your account.
+You must verify your new email address before it can be used for
+signing into your account or for email notifications.
+                  </p>
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular ChangeEmailContainer-resendButton"
+                    data-color="primary"
+                    data-variant="regular"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    Resend verification
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <ul

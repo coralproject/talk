@@ -122,19 +122,19 @@ export function mountClientRoutes(
     })
   );
   router.use(
-    "/embed/auth",
-    createClientTargetRouter({
-      staticURI,
-      cacheDuration: false,
-      entrypoint: entrypoints.get("auth"),
-    })
-  );
-  router.use(
     "/embed/auth/callback",
     createClientTargetRouter({
       staticURI,
       cacheDuration: false,
       entrypoint: entrypoints.get("authCallback"),
+    })
+  );
+  router.use(
+    "/embed/auth",
+    createClientTargetRouter({
+      staticURI,
+      cacheDuration: false,
+      entrypoint: entrypoints.get("auth"),
     })
   );
 
