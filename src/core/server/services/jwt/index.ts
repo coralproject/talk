@@ -229,7 +229,7 @@ export const signTokenString = async (
     secret,
     {
       jwtid: uuid(),
-      expiresIn: "1 day",
+      expiresIn: "90 days",
       ...options,
       issuer: tenant.id,
       subject: user.id,

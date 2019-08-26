@@ -114,6 +114,7 @@ export async function createTenant(
       banned: [],
     },
     auth: {
+      sessionDuration: 7776000,
       integrations: {
         local: {
           enabled: true,
