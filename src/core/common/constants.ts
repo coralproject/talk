@@ -47,7 +47,7 @@ export const DOWNLOAD_LIMIT_TIMEFRAME = 14 * 86400;
 export const ALLOWED_USERNAME_CHANGE_FREQUENCY = 14 * 86400;
 
 /**
- * SSCHEDULED_DELETION_TIMESPAN_DAYS is the length of time in seconds a user
+ * SCHEDULED_DELETION_TIMESPAN_DAYS is the length of time in days a user
  * will have to wait for their account to be deleted after requesting a
  * deletion.
  */

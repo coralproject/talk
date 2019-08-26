@@ -212,6 +212,12 @@ export class PostCommentFormContainer extends Component<Props, State> {
         />
       );
     }
+
+    const scheduledForDeletion: boolean = Boolean(
+      this.props.viewer.scheduledDeletionDate !== undefined &&
+        this.props.viewer.scheduledDeletionDate !== null
+    );
+
     return (
       <PostCommentForm
         story={this.props.story}
@@ -231,7 +237,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
         disabled={
           this.props.settings.disableCommenting.enabled ||
           this.props.story.isClosed ||
-          this.props.viewer.scheduledDeletionDate
+          scheduledForDeletion
         }
         disabledMessage={
           (this.props.settings.disableCommenting.enabled &&

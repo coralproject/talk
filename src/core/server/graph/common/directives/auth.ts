@@ -52,7 +52,7 @@ function calculateAuthConditions(
   }
 
   if (user.scheduledDeletionDate || user.deletedAt) {
-    conditions.push(GQLUSER_AUTH_CONDITIONS.DELETION);
+    conditions.push(GQLUSER_AUTH_CONDITIONS.PENDING_DELETION);
   }
 
   return conditions.sort();
