@@ -723,8 +723,8 @@ export async function clearDeletionDate(
       tenantID,
     },
     {
-      $set: {
-        scheduledDeletionDate: null,
+      $unset: {
+        scheduledDeletionDate: "",
       },
     },
     {
