@@ -5,7 +5,7 @@ import { Notification } from "coral-server/services/notifications/notification";
 
 import logger from "coral-server/logger";
 import { MailerQueue } from "../mailer";
-import { Template } from "../mailer/templates";
+import { EmailTemplate } from "../mailer/templates";
 import { CategoryNotification } from "./processor";
 
 /**
@@ -69,7 +69,7 @@ export const processNewNotifications = async (
   mailer: MailerQueue
 ) => {
   // Group all the notifications by user.
-  const userNotifications: Record<string, Template[]> = {};
+  const userNotifications: Record<string, EmailTemplate[]> = {};
   for (const { userID, template } of notifications) {
     if (userID in userNotifications) {
       userNotifications[userID].push(template);
