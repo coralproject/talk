@@ -495,6 +495,195 @@ all your comments from this site.
               </span>
             </button>
           </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          >
+            <h1
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
+            >
+              E-Mail Notifications
+            </h1>
+            <h1
+              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
+            >
+              Receive notifications when:
+            </h1>
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                >
+                  <div
+                    className="CheckBox-root"
+                  >
+                    <input
+                      checked={false}
+                      className="CheckBox-input"
+                      id="51a12e52-4b5a-4236-ab83-f26717cbdb49"
+                      name="onReply"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="checkbox"
+                      value={false}
+                    />
+                    <label
+                      className="CheckBox-label"
+                      htmlFor="51a12e52-4b5a-4236-ab83-f26717cbdb49"
+                    >
+                      <span
+                        className="CheckBox-labelSpan"
+                      >
+                        My comment receives a reply
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                >
+                  <div
+                    className="CheckBox-root"
+                  >
+                    <input
+                      checked={false}
+                      className="CheckBox-input"
+                      id="6e263499-c307-414b-acc7-9ac14dddac0f"
+                      name="onFeatured"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="checkbox"
+                      value={false}
+                    />
+                    <label
+                      className="CheckBox-label"
+                      htmlFor="6e263499-c307-414b-acc7-9ac14dddac0f"
+                    >
+                      <span
+                        className="CheckBox-labelSpan"
+                      >
+                        My comment is featured
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                >
+                  <div
+                    className="CheckBox-root"
+                  >
+                    <input
+                      checked={false}
+                      className="CheckBox-input"
+                      id="2228f596-6d0d-4660-bf88-4f7b25d590d5"
+                      name="onStaffReplies"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="checkbox"
+                      value={false}
+                    />
+                    <label
+                      className="CheckBox-label"
+                      htmlFor="2228f596-6d0d-4660-bf88-4f7b25d590d5"
+                    >
+                      <span
+                        className="CheckBox-labelSpan"
+                      >
+                        A staff member replies to my comment
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                >
+                  <div
+                    className="CheckBox-root"
+                  >
+                    <input
+                      checked={false}
+                      className="CheckBox-input"
+                      id="9783bfa9-7e78-456e-a40f-5f717a33f6dc"
+                      name="onModeration"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="checkbox"
+                      value={false}
+                    />
+                    <label
+                      className="CheckBox-label"
+                      htmlFor="9783bfa9-7e78-456e-a40f-5f717a33f6dc"
+                    >
+                      <span
+                        className="CheckBox-labelSpan"
+                      >
+                        My pending comment has been reviewed
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                >
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                  >
+                    <p
+                      className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+                    >
+                      Send Notifications:
+                    </p>
+                    <span
+                      className="SelectField-root"
+                    >
+                      <select
+                        className="SelectField-select"
+                        disabled={true}
+                        name="digestFrequency"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="NONE"
+                      >
+                        <option
+                          value="NONE"
+                        >
+                          Immediately
+                        </option>
+                        <option
+                          value="DAILY"
+                        >
+                          Daily
+                        </option>
+                        <option
+                          value="HOURLY"
+                        >
+                          Hourly
+                        </option>
+                      </select>
+                      <span
+                        aria-hidden={true}
+                        className="SelectField-afterWrapper SelectField-afterWrapperDisabled"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm"
+                        >
+                          expand_more
+                        </i>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

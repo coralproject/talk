@@ -218,6 +218,8 @@ profile-settings-download-comments-recentRequest =
 profile-settings-download-comments-timeOut =
   You can submit another request in { framework-timeago-time }
 
+## Delete Account
+
 profile-settings-deleteAccount-title = Delete My Account
 profile-settings-deleteAccount-description =
   Deleting your account will permanently erase your profile and remove
@@ -289,6 +291,18 @@ profile-settings-deleteAccount-pages-completeTellUsWhy = Tell us why.
 profile-settings-deleteAccount-pages-completeWhyDeleteAccount =
   We'd like to know why you chose to delete your account. Send us feedback on
   our comment system by emailing { $email }.
+
+## Notifications
+profile-settings-notifications-emailNotifications = E-Mail Notifications
+profile-settings-notifications-receiveWhen = Receive notifications when:
+profile-settings-notifications-onReply = My comment receives a reply
+profile-settings-notifications-onFeatured = My comment is featured
+profile-settings-notifications-onStaffReplies = A staff member replies to my comment
+profile-settings-notifications-onModeration = My pending comment has been reviewed
+profile-settings-notifications-sendNotifications = Send Notifications:
+profile-settings-notifications-sendNotifications-immediately = Immediately
+profile-settings-notifications-sendNotifications-daily = Daily
+profile-settings-notifications-sendNotifications-hourly = Hourly
 
 ## Report Comment Popover
 comments-reportPopover =

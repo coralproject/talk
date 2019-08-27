@@ -1,11 +1,12 @@
 import {
   GQLComment,
   GQLCOMMENT_STATUS,
+  GQLDIGEST_FREQUENCY,
   GQLMODERATION_MODE,
   GQLSettings,
   GQLStory,
-  GQLTag,
   GQLTAG,
+  GQLTag,
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
@@ -142,6 +143,13 @@ export const baseUser = createFixture<GQLUser>({
     pageInfo: {
       hasNextPage: false,
     },
+  },
+  notifications: {
+    onReply: false,
+    onModeration: false,
+    onStaffReplies: false,
+    onFeatured: false,
+    digestFrequency: GQLDIGEST_FREQUENCY.NONE,
   },
   ignoreable: true,
   profiles: [
