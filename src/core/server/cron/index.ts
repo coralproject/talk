@@ -5,19 +5,23 @@ import { MailerQueue } from "coral-server/queue/tasks/mailer";
 
 import { registerAccountDeletion } from "./accountDeletion";
 
+export interface ScheduledTasks {
+  accountDeletion: ScheduledTask;
+}
+
 export interface ScheduledTask {
   name: string;
   task: CronJob;
 }
 
-export default function startCronJobs(
+export default function startScheduledTasks(
   mongo: Db,
   mailer: MailerQueue
-): ScheduledTask[] {
-  const accountDeletionTask: ScheduledTask = {
-    name: "Account Deletion",
-    task: registerAccountDeletion(mongo, mailer),
+): ScheduledTasks {
+  return {
+    accountDeletion: {
+      name: "Account Deletion",
+      task: registerAccountDeletion(mongo, mailer),
+    },
   };
-
-  return [accountDeletionTask];
 }
