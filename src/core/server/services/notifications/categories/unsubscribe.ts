@@ -1,17 +1,20 @@
 import Joi from "joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
+import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
+import { TokenInvalidError, UserNotFoundError } from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
-import { User } from "coral-server/models/user";
+import { retrieveUser, User } from "coral-server/models/user";
 import {
   JWTSigningConfig,
   signString,
   StandardClaims,
   StandardClaimsSchema,
+  verifyJWT,
 } from "coral-server/services/jwt";
 
 export interface UnsubscribeToken extends Required<StandardClaims> {
@@ -70,10 +73,52 @@ export async function generateUnsubscribeURL(
   // Sign it with the signing config.
   const tokenString = await signString(signingConfig, token);
 
-  // Generate the confirmation url.
+  // Generate the unsubscribe url.
   return constructTenantURL(
     config,
     tenant,
     `/account/notifications/unsubscribe#unsubscribeToken=${tokenString}`
   );
+}
+
+export async function verifyUnsubscribeTokenString(
+  mongo: Db,
+  tenant: Tenant,
+  signingConfig: JWTSigningConfig,
+  tokenString: string,
+  now: Date
+) {
+  const token = verifyJWT(tokenString, signingConfig, now, {
+    // Verify that the token is for this Tenant.
+    issuer: tenant.id,
+    // Verify that this is a unsubscribe token based on the audience.
+    audience: "unsubscribe",
+  });
+
+  // Validate that this is indeed a unsubscribe token.
+  if (!isUnsubscribeToken(token)) {
+    // TODO: (wyattjoh) look into a way of pulling the error into this one
+    throw new TokenInvalidError(
+      tokenString,
+      "does not conform to the unsubscribe token schema"
+    );
+  }
+
+  // Unpack some of the token.
+  const { sub: userID, iss } = token;
+
+  // TODO: (wyattjoh) verify that the token has not been revoked.
+
+  // Check to see if this unsubscribe token has already verified this email.
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  if (iss !== tenant.id) {
+    throw new TokenInvalidError(tokenString, "invalid tenant");
+  }
+
+  // Now that we've verified that the token is valid, we're good to go!
+  return { token, user };
 }
