@@ -7,7 +7,7 @@ import Line from "./Line";
 import styles from "./Step.css";
 
 interface StepProps {
-  children: ReactText | ReactNode;
+  children?: ReactText | ReactNode;
   active?: boolean;
   completed?: boolean;
   last?: boolean;

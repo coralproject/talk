@@ -12,10 +12,10 @@ const PageStepBar: FunctionComponent<Props> = ({ step }) => {
   return (
     <div>
       <StepBar currentStep={step} className={styles.stepBar}>
-        <Step classes={{ line: styles.line }}>{""}</Step>
-        <Step classes={{ line: styles.line }}>{""}</Step>
-        <Step classes={{ line: styles.line }}>{""}</Step>
-        <Step classes={{ line: styles.line }}>{""}</Step>
+        <Step classes={{ line: styles.line }} />
+        <Step classes={{ line: styles.line }} />
+        <Step classes={{ line: styles.line }} />
+        <Step classes={{ line: styles.line }} />
       </StepBar>
     </div>
   );
