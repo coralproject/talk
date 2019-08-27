@@ -1,5 +1,4 @@
 import { Localized } from "fluent-react/compat";
-import { DateTime } from "luxon";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
@@ -36,6 +35,11 @@ const formatter = (locales: string[], date: Date) => {
   }).format(date);
 };
 
+const subtractDays = (date: Date, days: number) => {
+  const millisecondsInADay = 86400000;
+  return new Date(date.getTime() - days * millisecondsInADay);
+};
+
 const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   viewer,
 }) => {
@@ -53,9 +57,10 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   const requestDate = viewer.scheduledDeletionDate
     ? formatter(
         locales,
-        DateTime.fromISO(viewer.scheduledDeletionDate)
-          .minus({ days: SCHEDULED_DELETION_TIMESPAN_DAYS })
-          .toJSDate()
+        subtractDays(
+          new Date(viewer.scheduledDeletionDate),
+          SCHEDULED_DELETION_TIMESPAN_DAYS
+        )
       )
     : null;
 
