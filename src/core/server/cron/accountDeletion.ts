@@ -1,4 +1,4 @@
-import { CronJob } from "cron";
+import { CronCommand, CronJob } from "cron";
 import { DateTime } from "luxon";
 import { Collection, Db } from "mongodb";
 
@@ -20,9 +20,7 @@ export function registerAccountDeletion(
     timeZone: "America/New_York",
     start: true,
     runOnInit: false,
-    onTick: async () => {
-      deleteScheduledAccounts(mongo, mailer);
-    },
+    onTick: deleteScheduledAccounts(mongo, mailer),
   });
 
   if (job.running) {
@@ -32,45 +30,41 @@ export function registerAccountDeletion(
   return job;
 }
 
-async function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue) {
-  logger.info(
-    "Scheduled account deletion: checking for accounts that require deletion..."
-  );
+function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue): CronCommand {
+  return async () => {
+    logger.info("Checking for accounts that require deletion...");
 
-  const users = createCollection<User>("users");
+    const users = createCollection<User>("users");
 
-  while (true) {
-    const now = new Date();
-    const rescheduledDeletionDate = DateTime.fromJSDate(now)
-      .plus({ hours: 1 })
-      .toJSDate();
+    while (true) {
+      const now = new Date();
+      const rescheduledDeletionDate = DateTime.fromJSDate(now)
+        .plus({ hours: 1 })
+        .toJSDate();
 
-    const userResult = await users(mongo).findOneAndUpdate(
-      {
-        scheduledDeletionDate: { $lte: now },
-      },
-      {
-        $set: {
-          scheduledDeletionDate: rescheduledDeletionDate,
+      const userResult = await users(mongo).findOneAndUpdate(
+        {
+          scheduledDeletionDate: { $lte: now },
         },
+        {
+          $set: {
+            scheduledDeletionDate: rescheduledDeletionDate,
+          },
+        }
+      );
+
+      if (!userResult.value) {
+        logger.info("No more users were scheduled for deletion.");
+        break;
       }
-    );
 
-    if (
-      !userResult.ok ||
-      userResult.value === null ||
-      userResult.value === undefined
-    ) {
-      logger.info("No more users were scheduled for deletion.");
-      break;
+      const userToDelete = userResult.value;
+
+      logger.info(`Deleting user...`);
+
+      deleteUser(mongo, mailer, userToDelete.id, userToDelete.tenantID, now);
     }
-
-    const userToDelete = userResult.value;
-
-    logger.info(`Deleting ${userToDelete.username}...`);
-
-    deleteUser(mongo, mailer, userToDelete.id, userToDelete.tenantID, now);
-  }
+  };
 }
 
 async function executeBulkOperations<T>(
