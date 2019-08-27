@@ -1,11 +1,12 @@
 import { SUBSCRIPTION_INPUT } from "coral-server/graph/tenant/resolvers/Subscription/types";
+import { GQLDIGEST_FREQUENCY } from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
 import { NotificationCategory } from "coral-server/services/notifications/categories";
 import NotificationContext from "coral-server/services/notifications/context";
 import { Notification } from "coral-server/services/notifications/notification";
 
-import logger from "coral-server/logger";
 import { MailerQueue } from "../mailer";
-import { EmailTemplate } from "../mailer/templates";
+import { DigestibleTemplate } from "../mailer/templates";
 import { CategoryNotification } from "./processor";
 
 /**
@@ -69,7 +70,7 @@ export const processNewNotifications = async (
   mailer: MailerQueue
 ) => {
   // Group all the notifications by user.
-  const userNotifications: Record<string, EmailTemplate[]> = {};
+  const userNotifications: Record<string, DigestibleTemplate[]> = {};
   for (const { userID, template } of notifications) {
     if (userID in userNotifications) {
       userNotifications[userID].push(template);
@@ -94,17 +95,21 @@ export const processNewNotifications = async (
       continue;
     }
 
-    // TODO: (wyattjoh) determine if the user wants their notifications digested
-
-    for (const template of templates) {
-      // Add notification for user.
-      mailer.add({
-        tenantID: ctx.tenant.id,
-        message: {
-          to: user.email!,
-        },
-        template,
-      });
+    if (user.notifications.digestFrequency === GQLDIGEST_FREQUENCY.NONE) {
+      // Send the notifications for the user now, they don't have digesting
+      // enabled.
+      for (const template of templates) {
+        await mailer.add({
+          tenantID: ctx.tenant.id,
+          message: {
+            to: user.email!,
+          },
+          template,
+        });
+      }
+    } else {
+      // Queue up the notifications to be sent in the next user's digest.
+      await ctx.addDigests(user.id, templates);
     }
   }
 };

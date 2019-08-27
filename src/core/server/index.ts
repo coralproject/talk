@@ -29,6 +29,7 @@ import {
 import { createMetrics } from "coral-server/services/metrics";
 import { createMongoDB } from "coral-server/services/mongodb";
 import { ensureIndexes } from "coral-server/services/mongodb/indexes";
+import { registerNotificationDigesting } from "coral-server/services/notifications/cron";
 import { PersistedQueryCache } from "coral-server/services/queries";
 import {
   AugmentedRedis,
@@ -193,6 +194,16 @@ class Server {
     this.tasks.mailer.process();
     this.tasks.scraper.process();
     this.tasks.notifier.process();
+
+    // Start up the cron job processors.
+    // TODO: rearrange when the delete PR lands.
+    registerNotificationDigesting({
+      mongo: this.mongo,
+      config: this.config,
+      mailerQueue: this.tasks.mailer,
+      tenantCache: this.tenantCache,
+      signingConfig: this.signingConfig,
+    });
 
     // If we are running in concurrency mode, and we are the master, we should
     // setup the aggregator for the cluster metrics.

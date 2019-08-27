@@ -1088,11 +1088,11 @@ type CommenterAccountFeatures {
   """
   changeUsername: Boolean!
   """
-  downloadComments when true, user may download their comment history 
+  downloadComments when true, user may download their comment history
   """
   downloadComments: Boolean!
   """
-  deleteAccount when true, non-sso user may permanently delete their account 
+  deleteAccount when true, non-sso user may permanently delete their account
   """
   deleteAccount: Boolean!
 }
@@ -1535,6 +1535,23 @@ enum USER_STATUS {
   SUSPENDED
 }
 
+enum DIGEST_FREQUENCY {
+  """
+  NONE will have the notifications send immediatly rather than bundling for digesting.
+  """
+  NONE
+
+  """
+  DAILY will queue up the notifications and send them daily.
+  """
+  DAILY
+
+  """
+  HOURLY will queue up the notifications and send them hourly.
+  """
+  HOURLY
+}
+
 """
 UserNotificationSettings stores the notification settings for a given User.
 """
@@ -1565,6 +1582,11 @@ type UserNotificationSettings {
   to a moderator action.
   """
   onModeration: Boolean!
+
+  """
+  digestFrequency is the frequency to send notifications.
+  """
+  digestFrequency: DIGEST_FREQUENCY!
 }
 
 """
@@ -1687,7 +1709,11 @@ type User {
   tokens lists the access tokens associated with the account.
   """
   tokens: [Token!]!
-    @auth(roles: [ADMIN], userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(
+      roles: [ADMIN]
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+    )
 
   """
   ignoredUsers will return the list of ignored users.
@@ -2574,6 +2600,11 @@ input UpdateNotificationSettingsInput {
   onModeration: Boolean
 
   """
+  digestFrequency is the frequency to send notifications.
+  """
+  digestFrequency: DIGEST_FREQUENCY
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -3228,11 +3259,11 @@ input CommenterAccountFeaturesInput {
   """
   changeUsername: Boolean
   """
-  downloadComments when true, user may download their comment history 
+  downloadComments when true, user may download their comment history
   """
   downloadComments: Boolean
   """
-  deleteAccount when true, non-sso user may permanently delete their account 
+  deleteAccount when true, non-sso user may permanently delete their account
   """
   deleteAccount: Boolean
 }
@@ -4975,7 +5006,9 @@ type Mutation {
   before. This mutation will fail if the username is already set.
   """
   setUsername(input: SetUsernameInput!): SetUsernamePayload!
-    @auth(permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+    )
 
   """
   updateUsername will set the username on the current User if they have not set one
@@ -5119,7 +5152,8 @@ type Mutation {
   """
   requestCommentsDownload(
     input: RequestCommentsDownloadInput!
-  ): RequestCommentsDownloadPayload! @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+  ): RequestCommentsDownloadPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
 
   """
   requestUserCommentsDownload allows a user to request to download their comments.

@@ -2,10 +2,18 @@ import DataLoader from "dataloader";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
+import { GQLDIGEST_FREQUENCY } from "coral-server/graph/tenant/schema/__generated__/types";
+import logger, { Logger } from "coral-server/logger";
 import { Comment, retrieveManyComments } from "coral-server/models/comment";
 import { retrieveManyStories, Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
-import { retrieveManyUsers, User } from "coral-server/models/user";
+import {
+  insertUserNotificationDigests,
+  pullUserNotificationDigests,
+  retrieveManyUsers,
+  User,
+} from "coral-server/models/user";
+import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 
 import { generateUnsubscribeURL } from "./categories/unsubscribe";
@@ -13,9 +21,10 @@ import { generateUnsubscribeURL } from "./categories/unsubscribe";
 interface Options {
   mongo: Db;
   tenant: Tenant;
-  now: Date;
   config: Config;
   signingConfig: JWTSigningConfig;
+  now?: Date;
+  log?: Logger;
 }
 
 /**
@@ -40,6 +49,11 @@ export default class NotificationContext {
    * config is used when generating the unsubscribe url's.
    */
   public readonly config: Config;
+
+  /**
+   * log is the context wrapped logger for this NotificationContext.
+   */
+  public readonly log: Logger;
 
   /**
    * users is a `DataLoader` used to retrieve users efficiently.
@@ -71,12 +85,20 @@ export default class NotificationContext {
     retrieveManyStories(this.mongo, this.tenant.id, storyIDs)
   );
 
-  constructor({ mongo, tenant, now, config, signingConfig }: Options) {
+  constructor({
+    mongo,
+    tenant,
+    now = new Date(),
+    log = logger,
+    config,
+    signingConfig,
+  }: Options) {
     this.mongo = mongo;
     this.tenant = tenant;
     this.now = now;
     this.config = config;
     this.signingConfig = signingConfig;
+    this.log = log.child({ tenantID: tenant.id });
   }
 
   /**
@@ -92,5 +114,44 @@ export default class NotificationContext {
       user,
       this.now
     );
+  }
+
+  /**
+   * addDigests will add the given templates to the User so that they will be
+   * digested.
+   */
+  public async addDigests(userID: string, templates: DigestibleTemplate[]) {
+    const user = await insertUserNotificationDigests(
+      this.mongo,
+      this.tenant.id,
+      userID,
+      templates,
+      this.now
+    );
+
+    this.users.prime(user.id, user);
+
+    return user;
+  }
+
+  /**
+   * getDigests will get the digests for the next User that has digests with the
+   * specified digesting frequency.
+   *
+   * @param frequency the frequency to get digests for
+   */
+  public async getDigests(frequency: GQLDIGEST_FREQUENCY) {
+    const user = await pullUserNotificationDigests(
+      this.mongo,
+      this.tenant.id,
+      frequency
+    );
+    if (!user) {
+      return null;
+    }
+
+    this.users.prime(user.id, user);
+
+    return user;
   }
 }

@@ -36,6 +36,27 @@ export type OnStaffReplyTemplate = NotificationContext<
   }
 >;
 
+export type DigestibleTemplate = OnReplyTemplate | OnStaffReplyTemplate;
+
+type DigestTemplate = NotificationContext<
+  "notification/digest",
+  {
+    digests: Array<{
+      /**
+       * partial stores the part of the filename that can be used to tie the
+       * given notification into a specific template.
+       */
+      partial: string;
+
+      /**
+       * contexts is the array of all the contexts under this partial that
+       * should be used to create the digest context.
+       */
+      contexts: Array<DigestibleTemplate["context"]>;
+    }>;
+  }
+>;
+
 /**
  * AccountNotificationContext
  */
@@ -152,6 +173,7 @@ type Templates =
   | AccountDeletionCancellation
   | AccountDeletionCompleted
   | OnReplyTemplate
-  | OnStaffReplyTemplate;
+  | OnStaffReplyTemplate
+  | DigestTemplate;
 
 export { Templates as EmailTemplate };

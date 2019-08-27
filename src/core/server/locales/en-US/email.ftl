@@ -91,3 +91,6 @@ email-template-notificationOnReply =
   { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br />
   { $authorUsername } has replied to your comment: <a data-l10n-name="commentPermalink">View comment</a>
 
+# Notification Digest
+
+email-subject-notificationDigest = Your latest comment activity at { $organizationName }

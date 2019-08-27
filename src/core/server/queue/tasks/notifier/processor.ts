@@ -78,8 +78,6 @@ export const createJobProcessor = ({
 
     log.debug("starting to handle a notify operation");
 
-    let notificationCount = 0;
-
     try {
       // Get all the handlers that are active for this channel.
       const categories = registry[input.channel];
@@ -110,21 +108,21 @@ export const createJobProcessor = ({
       // had this notification superseded.
       notifications = notifications.filter(filterSuperseded);
 
-      // Update the count of notifications.
-      notificationCount = notifications.length;
-
       // Send all the notifications now.
       await processNewNotifications(
         ctx,
         notifications.map(({ notification }) => notification),
         mailerQueue
       );
+
+      log.debug(
+        { notifications: notifications.length },
+        "notifications handled"
+      );
     } catch (err) {
       log.error({ err }, "could not handle the notifications");
 
       throw err;
     }
-
-    log.debug({ notificationCount }, "notifications handled");
   };
 };
