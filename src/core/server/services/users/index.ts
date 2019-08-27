@@ -345,7 +345,7 @@ export async function requestAccountDeletion(
     deletionDate.toJSDate()
   );
 
-  const formattedDate = Intl.DateTimeFormat([tenant.locale], {
+  const formattedDate = Intl.DateTimeFormat(tenant.locale, {
     year: "numeric",
     month: "numeric",
     day: "numeric",
