@@ -95,9 +95,9 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
             $date={deletionDate}
           >
             <Typography variant="bodyCopy" className={styles.section}>
-              {`You have already submitted a request to delete your account.
-              Your account will be deleted on ${deletionDate}.
-              You may cancel the request until that time.`}
+              You have already submitted a request to delete your account. Your
+              account will be deleted on {deletionDate}. You may cancel the
+              request until that time.
             </Typography>
           </Localized>
           <Button variant="filled" size="small" onClick={cancelDeletion}>

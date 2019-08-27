@@ -61,7 +61,7 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
                 $date={deletionDate}
               >
                 <Typography variant="bodyCopy">
-                  {`Your account is scheduled to be deleted on ${deletionDate}.`}
+                  Your account is scheduled to be deleted on {deletionDate}.
                 </Typography>
               </Localized>
             </Flex>

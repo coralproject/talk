@@ -66,7 +66,7 @@ const CompletionPage: FunctionComponent<Props> = ({
           $date={formattedDate}
         >
           <Typography variant="bodyCopyBold" className={styles.sectionContent}>
-            {`Your account will be deleted on: ${formattedDate}`}
+            Your account will be deleted on: {formattedDate}
           </Typography>
         </Localized>
 
@@ -95,8 +95,8 @@ const CompletionPage: FunctionComponent<Props> = ({
           $email={organizationEmail}
         >
           <Typography variant="bodyCopy" className={styles.sectionContent}>
-            {`We'd like to know why you chose to delete your account. Send us
-            feedback on our comment system by emailing ${organizationEmail}.`}
+            We'd like to know why you chose to delete your account. Send us
+            feedback on our comment system by emailing {organizationEmail}.
           </Typography>
         </Localized>
 

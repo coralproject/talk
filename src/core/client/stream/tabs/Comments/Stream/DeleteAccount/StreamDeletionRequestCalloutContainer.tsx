@@ -81,7 +81,7 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
               $date={requestDate}
             >
               <Typography variant="bodyCopy">
-                {`A request to delete your account was received on ${requestDate}.`}
+                A request to delete your account was received on {requestDate}.
               </Typography>
             </Localized>
           </HorizontalGutter>
@@ -91,7 +91,9 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
               $date={deletionDate}
             >
               <Typography variant="bodyCopy">
-                {`If you would like to continue leaving comments, replies or reactions, you may cancel your request to delete your account before ${deletionDate}.`}
+                If you would like to continue leaving comments, replies or
+                reactions, you may cancel your request to delete your account
+                before {deletionDate}.
               </Typography>
             </Localized>
           </HorizontalGutter>
