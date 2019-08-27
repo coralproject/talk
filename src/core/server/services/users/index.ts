@@ -382,7 +382,7 @@ export async function cancelAccountDeletion(
     throw new EmailNotSetError();
   }
 
-  const updatedUser = await clearDeletionDate(mongo, tenant.id!, user.id);
+  const updatedUser = await clearDeletionDate(mongo, tenant.id, user.id);
 
   await mailer.add({
     tenantID: tenant.id,
