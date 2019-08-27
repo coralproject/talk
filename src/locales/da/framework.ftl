@@ -31,7 +31,6 @@ framework-validation-emailsDoNotMatch = E-mails stemmer ikke overens. Prøv igen
 framework-validation-notAWholeNumberBetween = Indtast et helt tal mellem { $min } og { $max }.
 framework-validation-notAWholeNumberGreaterThan = Indtast et helt tal større end { $x }
 framework-validation-notAWholeNumberGreaterThanOrEqual = Indtast et helt tal større end eller lig med { $x }
-framework-validation-deleteConfirmationInvalid = Incorrect confirmation. Try again.
 
 framework-timeago-just-now = Lige nu
 
