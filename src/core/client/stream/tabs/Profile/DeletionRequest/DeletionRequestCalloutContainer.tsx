@@ -29,6 +29,10 @@ interface Props {
 const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   viewer,
 }) => {
+  if (!viewer.scheduledDeletionDate) {
+    return null;
+  }
+
   const cancelDeletionMutation = useMutation(CancelAccountDeletionMutation);
   const cancelDeletion = useCallback(() => {
     cancelDeletionMutation();
@@ -48,38 +52,30 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
     : null;
 
   return (
-    <>
-      {deletionDate && (
-        <CallOut color="error" fullWidth className={styles.callout}>
-          <HorizontalGutter>
-            <Flex>
-              <Icon size="md" className={styles.icon}>
-                report_problem
-              </Icon>
-              <Localized
-                id="profile-accountDeletion-deletionDesc"
-                $date={deletionDate}
-              >
-                <Typography variant="bodyCopy">
-                  Your account is scheduled to be deleted on {deletionDate}.
-                </Typography>
-              </Localized>
-            </Flex>
-          </HorizontalGutter>
-          <HorizontalGutter className={styles.action}>
-            <Localized id="profile-accountDeletion-cancelDeletion">
-              <Button
-                variant="underlined"
-                color="primary"
-                onClick={cancelDeletion}
-              >
-                Cancel account deletion request
-              </Button>
-            </Localized>
-          </HorizontalGutter>
-        </CallOut>
-      )}
-    </>
+    <CallOut color="error" fullWidth className={styles.callout}>
+      <HorizontalGutter>
+        <Flex>
+          <Icon size="md" className={styles.icon}>
+            report_problem
+          </Icon>
+          <Localized
+            id="profile-accountDeletion-deletionDesc"
+            $date={deletionDate}
+          >
+            <Typography variant="bodyCopy">
+              Your account is scheduled to be deleted on {deletionDate}.
+            </Typography>
+          </Localized>
+        </Flex>
+      </HorizontalGutter>
+      <HorizontalGutter className={styles.action}>
+        <Localized id="profile-accountDeletion-cancelDeletion">
+          <Button variant="underlined" color="primary" onClick={cancelDeletion}>
+            Cancel account deletion request
+          </Button>
+        </Localized>
+      </HorizontalGutter>
+    </CallOut>
   );
 };
 
