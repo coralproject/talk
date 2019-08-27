@@ -69,7 +69,7 @@ async function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue) {
 
     logger.info(`Deleting ${userToDelete.username}...`);
 
-    deleteUser(mongo, mailer, userToDelete.id, now);
+    deleteUser(mongo, mailer, userToDelete.id, userToDelete.tenantID, now);
   }
 }
 
@@ -170,29 +170,33 @@ async function deleteUserComments(db: Db, authorID: string) {
   );
 }
 
-async function deleteUser(db: Db, mailer: MailerQueue, id: string, now: Date) {
+async function deleteUser(
+  db: Db,
+  mailer: MailerQueue,
+  userID: string,
+  tenantID: string,
+  now: Date
+) {
   const users = createCollection<User>("users")(db);
   const tenants = createCollection<Tenant>("tenants")(db);
 
-  const user = await users.findOne({ id });
+  const user = await users.findOne({ id: userID, tenantID });
   if (!user) {
-    logger.warn(`Unable to delete user ${id} as they could not be found.`);
+    logger.warn(`Could not find user.`);
     return;
   }
 
-  const tenant = await tenants.findOne({ id: user.tenantID });
+  const tenant = await tenants.findOne({ id: tenantID });
   if (!tenant) {
-    logger.warn(
-      `Unable to delete user ${id} as we could not find their tenant.`
-    );
+    logger.warn(`Could not find tenant.`);
     return;
   }
 
-  await deleteUserActionCounts(db, id);
-  await deleteUserComments(db, id);
+  await deleteUserActionCounts(db, userID);
+  await deleteUserComments(db, userID);
 
   users.updateOne(
-    { id },
+    { id: userID },
     {
       $set: {
         profiles: [],
