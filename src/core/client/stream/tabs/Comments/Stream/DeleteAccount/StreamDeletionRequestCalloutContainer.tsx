@@ -1,7 +1,9 @@
 import { Localized } from "fluent-react/compat";
+import { DateTime } from "luxon";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
+import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
@@ -13,12 +15,10 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import { StreamDeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/StreamDeletionRequestCalloutContainer_viewer.graphql";
-
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 
-import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
-import { DateTime } from "luxon";
+import { StreamDeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/StreamDeletionRequestCalloutContainer_viewer.graphql";
+
 import styles from "./StreamDeletionRequestCalloutContainer.css";
 
 interface Props {

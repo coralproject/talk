@@ -10,10 +10,10 @@ import {
 import { Icon, Typography } from "coral-ui/components";
 import { Button } from "coral-ui/components/Button";
 
+import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
+
 import { DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
 import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
-
-import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 
 import DeleteAccountModal from "./DeleteAccountModal";
 

@@ -1,12 +1,12 @@
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent, useCallback } from "react";
+
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   graphql,
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
-
-import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   Button,
   CallOut,
@@ -16,9 +16,9 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import { DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
-
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
+
+import { DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
 
 import styles from "./DeletionRequestCalloutContainer.css";
 
