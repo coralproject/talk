@@ -728,6 +728,9 @@ export async function clearDeletionDate(
       },
     },
     {
+      // We want to return edited user so that
+      // we send back the cleared scheduledDeletionDate
+      // to the client
       returnOriginal: false,
     }
   );
