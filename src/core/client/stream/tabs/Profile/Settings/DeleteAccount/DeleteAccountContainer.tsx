@@ -78,17 +78,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
         </Typography>
       </Localized>
 
-      {!deletionDate && (
-        <Button variant="outlined" size="small" onClick={showPopover}>
-          <Icon size="sm" className={styles.icon}>
-            cancel
-          </Icon>
-          <Localized id="profile-settings-deleteAccount-requestDelete">
-            <span>Request account deletion</span>
-          </Localized>
-        </Button>
-      )}
-      {deletionDate && (
+      {deletionDate ? (
         <>
           <Localized
             id="profile-settings-deleteAccount-cancelDelete-description"
@@ -114,6 +104,15 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
             </Localized>
           </Button>
         </>
+      ) : (
+        <Button variant="outlined" size="small" onClick={showPopover}>
+          <Icon size="sm" className={styles.icon}>
+            cancel
+          </Icon>
+          <Localized id="profile-settings-deleteAccount-requestDelete">
+            <span>Request account deletion</span>
+          </Localized>
+        </Button>
       )}
     </div>
   );
