@@ -228,8 +228,6 @@ profile-settings-deleteAccount-cancelDelete-description =
   You have already submitted a request to delete your account.
   Your account will be deleted on { $date }.
   You may cancel the request until that time.
-profile-settings-deleteAccount-cancelDelete-icon =
-  .title = Cancel account deletion request
 profile-settings-deleteAccount-cancelDelete = Cancel account deletion request
 
 profile-settings-deleteAccount-pages-deleteButton = Delete my account

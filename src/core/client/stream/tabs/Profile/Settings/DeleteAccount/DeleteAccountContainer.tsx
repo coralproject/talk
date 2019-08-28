@@ -91,14 +91,9 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
             </Typography>
           </Localized>
           <Button variant="filled" size="small" onClick={cancelDeletion}>
-            <Localized
-              id="profile-settings-deleteAccount-cancelDelete-icon"
-              attrs={{ title: true }}
-            >
-              <Icon size="sm" className={styles.icon}>
-                block
-              </Icon>
-            </Localized>
+            <Icon size="sm" className={styles.icon}>
+              block
+            </Icon>
             <Localized id="profile-settings-deleteAccount-cancelDelete">
               <span>Cancel account deletion request</span>
             </Localized>
