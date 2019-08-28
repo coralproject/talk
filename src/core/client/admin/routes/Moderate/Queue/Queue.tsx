@@ -71,26 +71,29 @@ const Queue: FunctionComponent<Props> = ({
         </Flex>
       )}
       <TransitionGroup component={null} appear={false} enter={false} exit>
-        {comments.map(c => (
-          <CSSTransition
-            key={c.id}
-            timeout={400}
-            classNames={{
-              exit: styles.exitTransition,
-              exitActive: styles.exitTransitionActive,
-              exitDone: styles.exitTransitionDone,
-            }}
-          >
-            <ModerateCardContainer
-              settings={settings}
-              viewer={viewer}
-              comment={c}
-              danglingLogic={danglingLogic}
-              showStoryInfo={Boolean(allStories)}
-              onUsernameClicked={onShowUserDrawer}
-            />
-          </CSSTransition>
-        ))}
+        {comments
+          // FIXME (Nick/Wyatt): Investigate why comments are coming back null
+          .filter(c => Boolean(c))
+          .map(c => (
+            <CSSTransition
+              key={c.id}
+              timeout={400}
+              classNames={{
+                exit: styles.exitTransition,
+                exitActive: styles.exitTransitionActive,
+                exitDone: styles.exitTransitionDone,
+              }}
+            >
+              <ModerateCardContainer
+                settings={settings}
+                viewer={viewer}
+                comment={c}
+                danglingLogic={danglingLogic}
+                showStoryInfo={Boolean(allStories)}
+                onUsernameClicked={onShowUserDrawer}
+              />
+            </CSSTransition>
+          ))}
       </TransitionGroup>
       {hasMore && (
         <Flex justifyContent="center">
