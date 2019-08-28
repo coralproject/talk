@@ -138,15 +138,6 @@ export function mountClientRoutes(
     })
   );
 
-  router.use(
-    "/embed/deleteAccount",
-    createClientTargetRouter({
-      staticURI,
-      cacheDuration: false,
-      entrypoint: entrypoints.get("deleteAccount"),
-    })
-  );
-
   // Add the standalone targets.
   router.use(
     "/account",
