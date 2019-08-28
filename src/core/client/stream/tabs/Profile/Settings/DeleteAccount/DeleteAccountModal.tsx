@@ -1,14 +1,8 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
-import { Box, Modal } from "coral-ui/components";
+import { Modal } from "coral-ui/components";
 
-import CompletionPage from "./Pages/CompletionPage";
-import ConfirmPage from "./Pages/ConfirmPage";
-import DescriptionPage from "./Pages/DescriptionPage";
-import DownloadCommentsPage from "./Pages/DownloadCommentsPage";
-import WhenPage from "./Pages/WhenPage";
-
-import styles from "./DeleteAccountModal.css";
+import DeleteAccountModalContents from "./DeleteAccountModalContents";
 
 interface Props {
   userID: string;
@@ -25,15 +19,9 @@ const DeleteAccountModal: FunctionComponent<Props> = ({
   scheduledDeletionDate,
   organizationEmail,
 }) => {
-  const [step, setStep] = useState(0);
-
   const closeModal = useCallback(() => {
-    setStep(0);
     onClose();
-  }, [onClose, setStep]);
-  const incrementStep = useCallback(() => {
-    setStep(step + 1);
-  }, [step, setStep, closeModal]);
+  }, [onClose]);
 
   return (
     <>
@@ -42,44 +30,12 @@ const DeleteAccountModal: FunctionComponent<Props> = ({
         onClose={closeModal}
         data-testid="delete-account-modal"
       >
-        <Box className={styles.root}>
-          {step === 0 && (
-            <DescriptionPage
-              step={0}
-              onProceed={incrementStep}
-              onCancel={closeModal}
-            />
-          )}
-          {step === 1 && (
-            <WhenPage
-              step={1}
-              onProceed={incrementStep}
-              onCancel={closeModal}
-            />
-          )}
-          {step === 2 && (
-            <DownloadCommentsPage
-              step={2}
-              onProceed={incrementStep}
-              onCancel={closeModal}
-            />
-          )}
-          {step === 3 && (
-            <ConfirmPage
-              step={3}
-              onProceed={incrementStep}
-              onCancel={closeModal}
-            />
-          )}
-          {step === 4 && (
-            <CompletionPage
-              step={4}
-              scheduledDeletionDate={scheduledDeletionDate}
-              organizationEmail={organizationEmail}
-              onClose={closeModal}
-            />
-          )}
-        </Box>
+        <DeleteAccountModalContents
+          userID={userID}
+          onClose={onClose}
+          scheduledDeletionDate={scheduledDeletionDate}
+          organizationEmail={organizationEmail}
+        />
       </Modal>
     </>
   );
