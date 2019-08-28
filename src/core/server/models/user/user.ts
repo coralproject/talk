@@ -688,8 +688,7 @@ export async function scheduleDeletionDate(
   userID: string,
   deletionDate: Date
 ) {
-  const users = collection(mongo);
-  const result = await users.findOneAndUpdate(
+  const result = await collection(mongo).findOneAndUpdate(
     {
       id: userID,
       tenantID,
@@ -716,8 +715,7 @@ export async function clearDeletionDate(
   tenantID: string,
   userID: string
 ) {
-  const users = collection(mongo);
-  const result = await users.findOneAndUpdate(
+  const result = await collection(mongo).findOneAndUpdate(
     {
       id: userID,
       tenantID,
