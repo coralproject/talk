@@ -122,12 +122,12 @@ exports[`renders configure wordList 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <h1
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
-              Banned Words and Phrases
+              Banned words and phrases
             </h1>
             <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
               Comments containing a word or phrase in the banned words list are 
               <strong>
@@ -142,7 +142,7 @@ exports[`renders configure wordList 1`] = `
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-wordlist-banned"
               >
-                Banned Word List
+                Banned word list
               </label>
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
@@ -181,12 +181,12 @@ to a new line separated list.
             className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <h1
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
-              Suspect Words and Phrases
+              Suspect words and phrases
             </h1>
             <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
               Comments containing a word or phrase in the Suspect Words List
 are 
@@ -202,7 +202,7 @@ published (if comments are not pre-moderated).
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-wordlist-suspect"
               >
-                Suspect Word List
+                Suspect word list
               </label>
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"

@@ -5,12 +5,12 @@ exports[`renders correctly 1`] = `
   data-testid="configure-moderationContainer"
   size="double"
 >
-  <Relay(RecentCommentHistoryConfigContainer)
+  <Relay(PreModerationConfigContainer)
     disabled={false}
     onInitValues={[Function]}
     settings={Object {}}
   />
-  <Relay(PreModerationConfigContainer)
+  <Relay(RecentCommentHistoryConfigContainer)
     disabled={false}
     onInitValues={[Function]}
     settings={Object {}}

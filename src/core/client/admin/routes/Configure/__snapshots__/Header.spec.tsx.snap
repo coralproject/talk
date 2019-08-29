@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   className="Header-root"
-  variant="heading1"
+  variant="heading3"
 >
   child
 </ForwardRef(forwardRef)>

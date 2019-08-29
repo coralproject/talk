@@ -123,7 +123,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
         <label
           className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          Provider Name
+          Provider name
         </label>
         <p
           className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
@@ -185,7 +185,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         <label
           className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          Client Secret
+          Client secret
         </label>
         <div
           className="PasswordField-root"
@@ -634,7 +634,7 @@ For more information visit:
         <label
           className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          Client Secret
+          Client secret
         </label>
         <div
           className="PasswordField-root"
@@ -914,7 +914,7 @@ exports[`change settings: enable oidc configure box 1`] = `
         <label
           className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          Provider Name
+          Provider name
         </label>
         <p
           className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
@@ -976,7 +976,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         <label
           className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          Client Secret
+          Client secret
         </label>
         <div
           className="PasswordField-root"
@@ -1394,7 +1394,7 @@ exports[`change settings: oidc validation errors 1`] = `
         <label
           className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          Provider Name
+          Provider name
         </label>
         <p
           className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
@@ -1482,7 +1482,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         <label
           className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          Client Secret
+          Client secret
         </label>
         <div
           className="PasswordField-root"
@@ -2066,7 +2066,7 @@ exports[`renders configure auth 1`] = `
               className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
             >
               <legend
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
               >
                 Commenter account mangement features
               </legend>
@@ -2326,9 +2326,9 @@ compliance.
               className="Box-root HorizontalGutter-root HorizontalGutter-double"
             >
               <h1
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
               >
-                Authentication Integrations
+                Authentication integrations
               </h1>
               <div
                 className="ConfigBox-root"
@@ -2338,7 +2338,7 @@ compliance.
                 >
                   <div>
                     <span>
-                      Login with Email Authentication
+                      Login with email authentication
                     </span>
                   </div>
                   <div>
@@ -2387,7 +2387,7 @@ compliance.
                         className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
                         <span>
-                          Use Email Authentication login on
+                          Use email authentication login on
                         </span>
                       </label>
                       <div
@@ -2617,7 +2617,7 @@ integration to register for a new account.
                       <label
                         className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
-                        Provider Name
+                        Provider name
                       </label>
                       <p
                         className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
@@ -2679,7 +2679,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                       <label
                         className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
-                        Client Secret
+                        Client secret
                       </label>
                       <div
                         className="PasswordField-root"
@@ -3374,7 +3374,7 @@ to create and set up a web application. For more information visit:
                       <label
                         className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
-                        Client Secret
+                        Client secret
                       </label>
                       <div
                         className="PasswordField-root"
@@ -3682,7 +3682,7 @@ For more information visit:
                       <label
                         className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
-                        Client Secret
+                        Client secret
                       </label>
                       <div
                         className="PasswordField-root"

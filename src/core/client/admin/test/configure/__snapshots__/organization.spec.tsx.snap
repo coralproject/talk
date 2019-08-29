@@ -125,13 +125,13 @@ exports[`renders configure organization 1`] = `
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <label
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-organization-organization.name"
               >
-                Organization Name
+                Organization name
               </label>
               <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
                 Your organization name will appear on emails sent by Coral to your community and organization members.
               </p>
@@ -164,13 +164,13 @@ exports[`renders configure organization 1`] = `
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <label
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-organization-organization.contactEmail"
               >
-                Organization Email
+                Organization email
               </label>
               <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
                 This email address will be used as in emails and across
 the platform for community members to get in touch with

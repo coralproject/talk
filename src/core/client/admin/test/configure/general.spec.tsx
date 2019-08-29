@@ -200,7 +200,7 @@ it("change closed stream message", async () => {
   } = await createTestRenderer({ resolvers });
 
   const contentField = within(generalContainer).getByLabelText(
-    "Closed Stream Message"
+    "Closed Comment Stream Message"
   );
 
   // Let's change the content.
@@ -459,7 +459,7 @@ it("handle server error", async () => {
   });
 
   const contentField = within(generalContainer).getByLabelText(
-    "Closed Stream Message"
+    "Closed Comment Stream Message"
   );
 
   // Let's change the content.

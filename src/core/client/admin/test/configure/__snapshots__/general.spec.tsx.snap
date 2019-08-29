@@ -122,12 +122,12 @@ exports[`renders configure general 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
               Sitewide Commenting
             </legend>
             <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
               Open or close comment streams for new comments sitewide. When new comments
 are turned off sitewide, new comments cannot be submitted, but existing
@@ -225,7 +225,7 @@ shared.
             className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
               Community Guidelines Summary
             </legend>
@@ -332,14 +332,15 @@ Markdown can be found
             className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
               Comment Length
             </legend>
             <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
-              Set a limit on the length of comments sitewide
+              Set minimum and maximum comment length requirements.
+Blank spaces at the beginning and the end of a comment will be trimmed.
             </p>
             <div
               className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -483,12 +484,12 @@ Markdown can be found
             className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <h1
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
               Comment Editing
             </h1>
             <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
               Set a limit on how long commenters have to edit their comments sitewide.
 Edited comments are marked as (Edited) on the comment stream and the
@@ -571,12 +572,12 @@ moderation panel.
             className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
               Closing Comment Streams
             </legend>
             <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
               Set comment streams to close after a defined period of time after a story’s publication
             </p>
@@ -716,13 +717,13 @@ moderation panel.
             className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <label
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
               htmlFor="configure-general-closedStreamMessage-content"
             >
-              Closed Stream Message
+              Closed Comment Stream Message
             </label>
             <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
               Write a message to appear after a story is closed for commenting.
             </p>
@@ -743,12 +744,12 @@ moderation panel.
             className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
               Reactions
             </legend>
             <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
               Allow your community to engage with one another and express themselves
 with one-click reactions. By default, Coral allows commenters to
