@@ -28,7 +28,7 @@ import {
 import { ChangeUsernameContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
 import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
-import ValidationMessageHelper from "coral-stream/common/ValidationMessageHelper";
+import FormValidationMessage from "coral-stream/common/FormValidationMessage";
 import {
   Box,
   Button,
@@ -257,7 +257,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                                   {...input}
                                   id="profile-changeUsername-username"
                                 />
-                                <ValidationMessageHelper meta={meta} />
+                                <FormValidationMessage meta={meta} />
                               </>
                             )}
                           </Field>
@@ -283,7 +283,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                                   {...input}
                                   id="profile-changeUsername-username-confirm"
                                 />
-                                <ValidationMessageHelper meta={meta} />
+                                <FormValidationMessage meta={meta} />
                               </>
                             )}
                           </Field>

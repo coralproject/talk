@@ -9,13 +9,13 @@ import {
   parseEmptyAsNull,
 } from "coral-framework/lib/form";
 import CLASSES from "coral-stream/classes";
+import FormValidationMessage from "coral-stream/common/FormValidationMessage";
 import {
   MessageBox,
   MessageBoxContent,
   MessageBoxIcon,
 } from "coral-stream/common/MessageBox";
 import Spinner from "coral-stream/common/Spinner";
-import ValidationMessageHelper from "coral-stream/common/ValidationMessageHelper";
 import {
   HorizontalGutter,
   Icon,
@@ -158,7 +158,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                             value={contentInput.value}
                           />
                         </Suspense>
-                        <ValidationMessageHelper meta={meta} />
+                        <FormValidationMessage meta={meta} />
                       </HorizontalGutter>
                     </>
                   )}
