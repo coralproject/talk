@@ -26,7 +26,7 @@ interface Props {
 const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="configure-general-commentEditing-title">
-      <Header>Comment Editing</Header>
+      <Header>Comment editing</Header>
     </Localized>
     <Localized
       id="configure-general-commentEditing-explanation"
@@ -41,7 +41,7 @@ const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
 
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-commentEditing-commentEditTimeFrame">
-        <InputLabel container="legend">Comment Edit Timeframe</InputLabel>
+        <InputLabel container="legend">Comment edit timeframe</InputLabel>
       </Localized>
       <Field
         name="editCommentWindowLength"

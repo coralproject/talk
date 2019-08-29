@@ -20,7 +20,7 @@ const ClosedStreamMessageConfig: FunctionComponent<Props> = ({ disabled }) => (
           <label htmlFor="configure-general-closedStreamMessage-content" />
         }
       >
-        Closed Comment Stream Message
+        Closed comment stream message
       </Header>
     </Localized>
     <Localized

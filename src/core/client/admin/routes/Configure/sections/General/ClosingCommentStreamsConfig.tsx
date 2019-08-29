@@ -29,7 +29,7 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
 }) => (
   <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-closingCommentStreams-title">
-      <Header container="legend">Closing Comment Streams</Header>
+      <Header container="legend">Closing comment streams</Header>
     </Localized>
     <Localized
       id="configure-general-closingCommentStreams-explanation"
@@ -42,13 +42,13 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
     </Localized>
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-closingCommentStreams-closeCommentsAutomatically">
-        <InputLabel container="legend">Close Comments Automatically</InputLabel>
+        <InputLabel container="legend">Close comments automatically</InputLabel>
       </Localized>
       <OnOffField name="closeCommenting.auto" disabled={disabled} />
     </FormField>
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-closingCommentStreams-closeCommentsAfter">
-        <InputLabel container="legend">Close Comments After</InputLabel>
+        <InputLabel container="legend">Close comments after</InputLabel>
       </Localized>
 
       <Field

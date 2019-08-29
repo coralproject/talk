@@ -41,7 +41,7 @@ interface Props {
 const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-commentLength-title">
-      <Header container="legend">Comment Length</Header>
+      <Header container="legend">Comment length</Header>
     </Localized>
     <Localized
       id="configure-general-commentLength-setLimit"
@@ -55,7 +55,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
 
     <FormField>
       <Localized id="configure-general-commentLength-limitCommentLength">
-        <InputLabel>Limit Comment Length</InputLabel>
+        <InputLabel>Limit comment length</InputLabel>
       </Localized>
       <OnOffField name="charCount.enabled" disabled={disabled} />
     </FormField>
@@ -63,7 +63,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
     <FormField>
       <Localized id="configure-general-commentLength-minCommentLength">
         <InputLabel htmlFor="configure-general-commentLength-min">
-          Minimum Comment Length
+          Minimum comment length
         </InputLabel>
       </Localized>
       <Field
@@ -106,7 +106,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
     <FormField>
       <Localized id="configure-general-commentLength-maxCommentLength">
         <InputLabel htmlFor="configure-general-commentLength-max">
-          Maximum Comment Length
+          Maximum comment length
         </InputLabel>
       </Localized>
       <Field

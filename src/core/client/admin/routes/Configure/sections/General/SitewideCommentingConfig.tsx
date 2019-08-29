@@ -23,7 +23,7 @@ interface Props {
 const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf" container="fieldset">
     <Localized id="configure-general-sitewideCommenting-title">
-      <Header container="legend">Sitewide Commenting</Header>
+      <Header container="legend">Sitewide commenting</Header>
     </Localized>
     <Localized id="configure-general-sitewideCommenting-explanation">
       <Typography variant="bodyCopy">
@@ -36,7 +36,7 @@ const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
 
     <FormField container="fieldset">
       <Localized id="configure-general-sitewideCommenting-enableNewCommentsSitewide">
-        <InputLabel container="legend">Enable New Comments Sitewide</InputLabel>
+        <InputLabel container="legend">Enable new comments sitewide</InputLabel>
       </Localized>
       <OnOffField
         name="disableCommenting.enabled"
@@ -58,7 +58,7 @@ const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
     <FormField>
       <Localized id="configure-general-sitewideCommenting-message">
         <InputLabel htmlFor="configure-general-sitewideCommenting-message">
-          Sitewide Closed Comments Message
+          Sitewide closed comments message
         </InputLabel>
       </Localized>
       <Localized id="configure-general-sitewideCommenting-messageExplanation">

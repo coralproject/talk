@@ -24,13 +24,13 @@ interface Props {
 const GuidelinesConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-guidelines-title">
-      <Header container="legend">Community Guidelines Summary</Header>
+      <Header container="legend">Community guidelines summary</Header>
     </Localized>
 
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-guidelines-showCommunityGuidelines">
         <InputLabel container="legend">
-          Show Community Guidelines Summary
+          Show community guidelines summary
         </InputLabel>
       </Localized>
       <OnOffField name="communityGuidelines.enabled" disabled={disabled} />
@@ -39,7 +39,7 @@ const GuidelinesConfig: FunctionComponent<Props> = ({ disabled }) => (
     <FormField>
       <Localized id="configure-general-guidelines-title">
         <InputLabel htmlFor="configure-general-guidelines-content">
-          Community Guidelines Summary
+          Community guidelines summary
         </InputLabel>
       </Localized>
       <Localized

@@ -124,7 +124,7 @@ exports[`renders configure general 1`] = `
             <legend
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
-              Sitewide Commenting
+              Sitewide commenting
             </legend>
             <p
               className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
@@ -140,7 +140,7 @@ shared.
               <legend
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
-                Enable New Comments Sitewide
+                Enable new comments sitewide
               </legend>
               <div>
                 <div
@@ -200,7 +200,7 @@ shared.
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-general-sitewideCommenting-message"
               >
-                Sitewide Closed Comments Message
+                Sitewide closed comments message
               </label>
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
@@ -227,7 +227,7 @@ shared.
             <legend
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
-              Community Guidelines Summary
+              Community guidelines summary
             </legend>
             <fieldset
               className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -235,7 +235,7 @@ shared.
               <legend
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
-                Show Community Guidelines Summary
+                Show community guidelines summary
               </legend>
               <div>
                 <div
@@ -295,7 +295,7 @@ shared.
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-general-guidelines-content"
               >
-                Community Guidelines Summary
+                Community guidelines summary
               </label>
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
@@ -334,7 +334,7 @@ Markdown can be found
             <legend
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
-              Comment Length
+              Comment length
             </legend>
             <p
               className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
@@ -348,7 +348,7 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
               <label
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
-                Limit Comment Length
+                Limit comment length
               </label>
               <div>
                 <div
@@ -408,7 +408,7 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-general-commentLength-min"
               >
-                Minimum Comment Length
+                Minimum comment length
               </label>
               <div
                 className="TextField-root"
@@ -447,7 +447,7 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-general-commentLength-max"
               >
-                Maximum Comment Length
+                Maximum comment length
               </label>
               <div
                 className="TextField-root"
@@ -486,7 +486,7 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
             <h1
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
-              Comment Editing
+              Comment editing
             </h1>
             <p
               className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
@@ -501,7 +501,7 @@ moderation panel.
               <legend
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
-                Comment Edit Timeframe
+                Comment edit timeframe
               </legend>
               <div
                 className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
@@ -574,7 +574,7 @@ moderation panel.
             <legend
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
-              Closing Comment Streams
+              Closing comment streams
             </legend>
             <p
               className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
@@ -587,7 +587,7 @@ moderation panel.
               <legend
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
-                Close Comments Automatically
+                Close comments automatically
               </legend>
               <div>
                 <div
@@ -646,7 +646,7 @@ moderation panel.
               <legend
                 className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
-                Close Comments After
+                Close comments after
               </legend>
               <div
                 className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
@@ -720,7 +720,7 @@ moderation panel.
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
               htmlFor="configure-general-closedStreamMessage-content"
             >
-              Closed Comment Stream Message
+              Closed comment stream message
             </label>
             <p
               className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"

@@ -85,45 +85,45 @@ configure-permissionField-allow = Allow
 configure-permissionField-dontAllow = Don't allow
 
 ### General
-configure-general-guidelines-title = Community Guidelines Summary
+configure-general-guidelines-title = Community guidelines summary
 configure-general-guidelines-explanation =
   Write a summary of your community guidelines that will appear
   at the top of each comment stream sitewide. Your summary can be
   formatted using Markdown Syntax. More information on how to use
   Markdown can be found <externalLink>here</externalLink>.
-configure-general-guidelines-showCommunityGuidelines = Show Community Guidelines Summary
+configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
 ### Sitewide Commenting
-configure-general-sitewideCommenting-title = Sitewide Commenting
+configure-general-sitewideCommenting-title = Sitewide commenting
 configure-general-sitewideCommenting-explanation =
   Open or close comment streams for new comments sitewide. When new comments
   are turned off sitewide, new comments cannot be submitted, but existing
   comments can continue to receive “Respect” reactions, be reported, and be
   shared.
 configure-general-sitewideCommenting-enableNewCommentsSitewide =
-  Enable New Comments Sitewide
+  Enable new comments sitewide
 configure-general-sitewideCommenting-onCommentStreamsOpened =
   On - Comment streams opened for new comments
 configure-general-sitewideCommenting-offCommentStreamsClosed =
   Off - Comment streams closed for new comments
-configure-general-sitewideCommenting-message = Sitewide Closed Comments Message
+configure-general-sitewideCommenting-message = Sitewide closed comments message
 configure-general-sitewideCommenting-messageExplanation =
   Write a message that will be displayed when comment streams are closed sitewide
 
 ### Closing Comment Streams
-configure-general-closingCommentStreams-title = Closing Comment Streams
+configure-general-closingCommentStreams-title = Closing comment streams
 configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after a story’s publication
-configure-general-closingCommentStreams-closeCommentsAutomatically = Close Comments Automatically
-configure-general-closingCommentStreams-closeCommentsAfter = Close Comments After
+configure-general-closingCommentStreams-closeCommentsAutomatically = Close comments automatically
+configure-general-closingCommentStreams-closeCommentsAfter = Close comments after
 
 #### Comment Length
-configure-general-commentLength-title = Comment Length
-configure-general-commentLength-maxCommentLength = Maximum Comment Length
+configure-general-commentLength-title = Comment length
+configure-general-commentLength-maxCommentLength = Maximum comment length
 configure-general-commentLength-setLimit =
   Set minimum and maximum comment length requirements.
   Blank spaces at the beginning and the end of a comment will be trimmed.
-configure-general-commentLength-limitCommentLength = Limit Comment Length
-configure-general-commentLength-minCommentLength = Minimum Comment Length
+configure-general-commentLength-limitCommentLength = Limit comment length
+configure-general-commentLength-minCommentLength = Minimum comment length
 configure-general-commentLength-characters = Characters
 configure-general-commentLength-textField =
   .placeholder = No limit
@@ -131,16 +131,16 @@ configure-general-commentLength-validateLongerThanMin =
   Please enter a number longer than the minimum length
 
 #### Comment Editing
-configure-general-commentEditing-title = Comment Editing
+configure-general-commentEditing-title = Comment editing
 configure-general-commentEditing-explanation =
   Set a limit on how long commenters have to edit their comments sitewide.
   Edited comments are marked as (Edited) on the comment stream and the
   moderation panel.
-configure-general-commentEditing-commentEditTimeFrame = Comment Edit Timeframe
+configure-general-commentEditing-commentEditTimeFrame = Comment edit timeframe
 configure-general-commentEditing-seconds = Seconds
 
 #### Closed Stream Message
-configure-general-closedStreamMessage-title = Closed Comment Stream Message
+configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear after a story is closed for commenting.
 
 ### Organization
