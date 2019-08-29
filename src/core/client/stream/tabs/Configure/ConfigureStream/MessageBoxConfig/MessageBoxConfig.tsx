@@ -9,7 +9,7 @@ import {
   parseEmptyAsNull,
 } from "coral-framework/lib/form";
 import CLASSES from "coral-stream/classes";
-import FormValidationMessage from "coral-stream/common/FormValidationMessage";
+import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
   MessageBox,
   MessageBoxContent,
@@ -158,7 +158,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                             value={contentInput.value}
                           />
                         </Suspense>
-                        <FormValidationMessage meta={meta} />
+                        <FieldValidationMessage meta={meta} />
                       </HorizontalGutter>
                     </>
                   )}

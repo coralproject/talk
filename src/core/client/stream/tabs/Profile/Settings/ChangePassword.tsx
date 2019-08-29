@@ -12,7 +12,7 @@ import {
   validatePassword,
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
-import FormValidationMessage from "coral-stream/common/FormValidationMessage";
+import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
   Button,
   CallOut,
@@ -98,7 +98,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                         autoComplete="current-password"
                         {...input}
                       />
-                      <FormValidationMessage fullWidth meta={meta} />
+                      <FieldValidationMessage fullWidth meta={meta} />
 
                       <Flex justifyContent="flex-end">
                         <Localized id="profile-settings-changePassword-forgotPassword">
@@ -134,7 +134,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                         autoComplete="new-password"
                         {...input}
                       />
-                      <FormValidationMessage fullWidth meta={meta} />
+                      <FieldValidationMessage fullWidth meta={meta} />
                     </FormField>
                   )}
                 </Field>

@@ -28,7 +28,7 @@ import {
 import { ChangeEmailContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
 import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
-import FormValidationMessage from "coral-stream/common/FormValidationMessage";
+import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
   Button,
   ButtonIcon,
@@ -293,7 +293,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                                 fullWidth
                                 id="profile-changeEmail-Email"
                               />
-                              <FormValidationMessage meta={meta} />
+                              <FieldValidationMessage meta={meta} />
                             </>
                           )}
                         </Field>
@@ -325,7 +325,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                                   {...input}
                                 />
                               </Localized>
-                              <FormValidationMessage meta={meta} fullWidth />
+                              <FieldValidationMessage meta={meta} fullWidth />
                             </FormField>
                           )}
                         </Field>
