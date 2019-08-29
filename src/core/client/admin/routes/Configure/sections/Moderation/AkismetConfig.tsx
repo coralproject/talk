@@ -35,13 +35,13 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
     <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
       <Localized id="configure-moderation-akismet-title">
-        <Header container="legend">Akismet Spam Detection Filter</Header>
+        <Header container="legend">Akismet spam detection filter</Header>
       </Localized>
       <Localized
         id="configure-moderation-akismet-explanation"
         strong={<strong />}
       >
-        <Typography variant="detail">
+        <Typography variant="bodyCopy">
           Submitted comments are passed to the Akismet API for spam detection.
           If a comment is determined to be spam, it will prompt the user,
           indicating that the comment might be considered spam. If the user
@@ -54,7 +54,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
 
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-akismet-filter">
-          <InputLabel container="legend">Spam Detection Filter</InputLabel>
+          <InputLabel container="legend">Spam detection filter</InputLabel>
         </Localized>
         <OnOffField name="integrations.akismet.enabled" disabled={disabled} />
       </FormField>

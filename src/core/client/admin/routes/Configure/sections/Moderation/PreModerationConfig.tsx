@@ -32,7 +32,7 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
         <Header container="legend">Pre-moderation</Header>
       </Localized>
       <Localized id="configure-moderation-preModeration-explanation">
-        <Typography variant="detail">
+        <Typography variant="bodyCopy">
           When pre-moderation is turned on, comments will not be published
           unless approved by a moderator.
         </Typography>

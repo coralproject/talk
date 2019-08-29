@@ -37,18 +37,17 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
     <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
       <Localized id="configure-moderation-recentCommentHistory-title">
-        <Header container="legend">Recent comment history</Header>
+        <Header container="legend">Recent history</Header>
       </Localized>
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-recentCommentHistory-timeFrame">
           <InputLabel container="legend">
-            Recent comment history timeframe
+            Recent comment history time period
           </InputLabel>
         </Localized>
         <Localized id="configure-moderation-recentCommentHistory-timeFrame-description">
           <InputDescription>
-            Time period over which a commenter's rejection rate is calcualted
-            and submitted comments are counted.
+            The period of time over which a user’s rejection rate is calculated.
           </InputDescription>
         </Localized>
         <Field
@@ -72,9 +71,7 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
       </FormField>
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-recentCommentHistory-enabled">
-          <InputLabel container="legend">
-            Recent comment history filter
-          </InputLabel>
+          <InputLabel container="legend">Recent history filter</InputLabel>
         </Localized>
         <Localized
           id="configure-moderation-recentCommentHistory-enabled-description"
@@ -96,9 +93,8 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
         </Localized>
         <Localized id="configure-moderation-recentCommentHistory-triggerRejectionRate-description">
           <InputDescription>
-            Calculated by the number of rejected comments divided by the sum of
-            a commenter’s rejected and published comments, over the recent
-            comment history timeframe (does not include comments pending for
+            A user’s rejected comments divided by their published comments, over
+            the time period set below (does not include comments pending for
             toxicity, spam or pre-moderation.)
           </InputDescription>
         </Localized>

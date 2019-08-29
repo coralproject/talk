@@ -240,12 +240,11 @@ configure-auth-oidc-useLoginOn = Use OpenID Connect login on
 
 ### Recent Comment History
 
-configure-moderation-recentCommentHistory-title = Recent comment history
-configure-moderation-recentCommentHistory-timeFrame = Recent comment history timeframe
+configure-moderation-recentCommentHistory-title = Recent history
+configure-moderation-recentCommentHistory-timeFrame = Recent comment history time period
 configure-moderation-recentCommentHistory-timeFrame-description =
-  Time period over which a commenter's rejection rate is calcualted
-  and submitted comments are counted.
-configure-moderation-recentCommentHistory-enabled = Recent comment history filter
+  The period of time over which a user’s rejection rate is calculated.
+configure-moderation-recentCommentHistory-enabled = Recent history filter
 configure-moderation-recentCommentHistory-enabled-description =
   Prevents repeat offenders from publishing comments without approval.
   After a commenter's rejection rate rises above the defined threshold
@@ -254,9 +253,8 @@ configure-moderation-recentCommentHistory-enabled-description =
   falls below the threshold.
 configure-moderation-recentCommentHistory-triggerRejectionRate = Rejection rate threshold
 configure-moderation-recentCommentHistory-triggerRejectionRate-description =
-  Calculated by the number of rejected comments divided by the sum of
-  a commenter’s rejected and published comments, over the recent
-  comment history timeframe (does not include comments pending for
+  A user’s rejected comments divided by their published comments, over
+  the time period set below (does not include comments pending for
   toxicity, spam or pre-moderation.)
 
 #### Pre-Moderation
@@ -269,9 +267,9 @@ configure-moderation-preModeration-moderation =
 configure-moderation-preModeration-premodLinksEnable =
   Pre-moderate comments containing links sitewide
 
-configure-moderation-apiKey = API Key
+configure-moderation-apiKey = API key
 
-configure-moderation-akismet-title = Akismet Spam Detection Filter
+configure-moderation-akismet-title = Akismet spam detection filter
 configure-moderation-akismet-explanation =
   Submitted comments are passed to the Akismet API for spam detection.
   If a comment is determined to be spam, it will prompt the user,
@@ -282,7 +280,7 @@ configure-moderation-akismet-explanation =
   the comment will be published.
 
 #### Akismet
-configure-moderation-akismet-filter = Spam Detection Filter
+configure-moderation-akismet-filter = Spam detection filter
 configure-moderation-akismet-accountNote =
   Note: You must add your active domain(s)
   in your Akismet account: <externalLink>https://akismet.com/account/</externalLink>
@@ -290,24 +288,24 @@ configure-moderation-akismet-siteURL = Site URL
 
 
 #### Perspective
-configure-moderation-perspective-title = Perspective Toxic Comment Filter
+configure-moderation-perspective-title = Perspective toxic comment filter
 configure-moderation-perspective-explanation =
   Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
   threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
   the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator, the comment will be published.
-configure-moderation-perspective-filter = Toxic Comment Filter
-configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
+configure-moderation-perspective-filter = Toxic comment filter
+configure-moderation-perspective-toxicityThreshold = Toxicity threshold
 configure-moderation-perspective-toxicityThresholdDescription =
   This value can be set a percentage between 0 and 100. This number represents the likelihood that a
   comment is toxic, according to Perspective API. By default the threshold is set to { $default }.
-configure-moderation-perspective-toxicityModel = Toxicity Model
+configure-moderation-perspective-toxicityModel = Toxicity model
 configure-moderation-perspective-toxicityModelDescription =
   Choose your Perspective Model. The default is { $default }. You can find out more about model choices <externalLink>here</externalLink>.
-configure-moderation-perspective-allowStoreCommentData = Allow Google to Store Comment Data
+configure-moderation-perspective-allowStoreCommentData = Allow Google to store comment data
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Stored comments will be used for future research and community model building purposes to
   improve the API over time.
-configure-moderation-perspective-customEndpoint = Custom Endpoint
+configure-moderation-perspective-customEndpoint = Custom endpoint
 configure-moderation-perspective-defaultEndpoint =
   By default the endpoint is set to { $default }. You may override this here.
 configure-moderation-perspective-accountNote =

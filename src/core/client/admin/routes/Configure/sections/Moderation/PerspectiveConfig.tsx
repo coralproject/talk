@@ -46,13 +46,13 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
     <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
       <Localized id="configure-moderation-perspective-title">
-        <Header container="legend">Perspective Toxic Comment Filter</Header>
+        <Header container="legend">Perspective toxic comment filter</Header>
       </Localized>
       <Localized
         id="configure-moderation-perspective-explanation"
         strong={<strong />}
       >
-        <Typography variant="detail">
+        <Typography variant="bodyCopy">
           Using the Perspective API, the Toxic Comment filter warns users when
           comments exceed the predefined toxicity threshold. Comments with a
           toxicity score above the threshold will not be published and are
@@ -63,7 +63,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
 
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-perspective-filter">
-          <InputLabel container="legend">Toxic Comment Filter</InputLabel>
+          <InputLabel container="legend">Toxic comment filter</InputLabel>
         </Localized>
         <OnOffField
           name="integrations.perspective.enabled"
@@ -74,7 +74,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
       <FormField>
         <Localized id="configure-moderation-perspective-toxicityThreshold">
           <InputLabel htmlFor="configure-moderation-perspective-threshold">
-            Toxicity Threshold
+            Toxicity threshold
           </InputLabel>
         </Localized>
         <Localized
@@ -119,7 +119,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
       <FormField>
         <Localized id="configure-moderation-perspective-toxicityModel">
           <InputLabel htmlFor="configure-moderation-perspective-model">
-            Toxicity Model
+            Toxicity model
           </InputLabel>
         </Localized>
         <Localized
@@ -160,7 +160,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-perspective-allowStoreCommentData">
           <InputLabel container="legend">
-            Allow Google to Store Comment Data
+            Allow Google to store comment data
           </InputLabel>
         </Localized>
         <Localized id="configure-moderation-perspective-allowStoreCommentDataDescription">
@@ -198,7 +198,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
       <FormField>
         <Localized id="configure-moderation-perspective-customEndpoint">
           <InputLabel htmlFor="configure-moderation-perspective-customEndpoint">
-            Custom Endpoint
+            Custom endpoint
           </InputLabel>
         </Localized>
         <Localized

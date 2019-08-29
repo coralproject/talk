@@ -26,7 +26,7 @@ const APIKeyField: FunctionComponent<Props> = ({
         <>
           <Localized id="configure-moderation-apiKey">
             <InputLabel htmlFor={`configure-moderation-${input.name}`}>
-              API Key
+              API key
             </InputLabel>
           </Localized>
           <PasswordField
