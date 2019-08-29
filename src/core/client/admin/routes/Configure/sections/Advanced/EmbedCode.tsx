@@ -78,10 +78,10 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
   return (
     <HorizontalGutter size="oneAndAHalf" container="fieldset">
       <Localized id="configure-advanced-embedCode-title">
-        <Header container="legend">Embed Code</Header>
+        <Header container="legend">Embed code</Header>
       </Localized>
       <Localized id="configure-advanced-embedCode-explanation">
-        <Typography variant="detail">
+        <Typography variant="bodyCopy">
           Copy and paste the code below into your CMS to embed Coral comment
           streams in each of your site’s stories.
         </Typography>

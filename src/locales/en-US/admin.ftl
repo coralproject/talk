@@ -339,17 +339,17 @@ configure-advanced-customCSS = Custom CSS
 configure-advanced-customCSS-explanation =
   URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
 
-configure-advanced-permittedDomains = Permitted Domains
+configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =
   Domains where your { -product-name } instance is allowed to be embedded
   including the scheme (ex. http://localhost:3000, https://staging.domain.com,
   https://domain.com).
 
-configure-advanced-liveUpdates = Comment Stream Live Updates
+configure-advanced-liveUpdates = Comment stream live updates
 configure-advanced-liveUpdates-explanation =
   When enabled, there will be real-time loading and updating of comments as new comments and replies are published
 
-configure-advanced-embedCode-title = Embed Code
+configure-advanced-embedCode-title = Embed code
 configure-advanced-embedCode-explanation =
   Copy and paste the code below into your CMS to embed Coral comment streams in
   each of your site’s stories.

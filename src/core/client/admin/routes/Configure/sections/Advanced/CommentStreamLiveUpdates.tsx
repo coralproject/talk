@@ -15,14 +15,14 @@ const CommentStreamLiveUpdates: FunctionComponent<Props> = ({ disabled }) => (
     <HorizontalGutter size="full">
       <Localized id="configure-advanced-liveUpdates">
         <Header container={<label htmlFor="configure-advanced-liveUpdates" />}>
-          Comment Stream Live Updates
+          Comment stream live updates
         </Header>
       </Localized>
       <Localized
         id="configure-advanced-liveUpdates-explanation"
         strong={<strong />}
       >
-        <Typography variant="detail">
+        <Typography variant="bodyCopy">
           When enabled, there will be real-time loading and updating of comments
           as new comments and replies are published
         </Typography>

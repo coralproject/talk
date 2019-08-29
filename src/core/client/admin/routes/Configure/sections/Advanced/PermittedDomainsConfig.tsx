@@ -29,14 +29,14 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
         <Header
           container={<label htmlFor="configure-advanced-allowedDomains" />}
         >
-          Permitted Domains
+          Permitted domains
         </Header>
       </Localized>
       <Localized
         id="configure-advanced-permittedDomains-description"
         strong={<strong />}
       >
-        <Typography variant="detail">
+        <Typography variant="bodyCopy">
           The domains you would like to permit for Coral, e.g. your local,
           staging and production environments including the scheme (ex.
           http://localhost:3000, https://staging.domain.com,
