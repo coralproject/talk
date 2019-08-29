@@ -144,10 +144,10 @@ configure-general-closedStreamMessage-title = Closed Comment Stream Message
 configure-general-closedStreamMessage-explanation = Write a message to appear after a story is closed for commenting.
 
 ### Organization
-configure-organization-name = Organization Name
+configure-organization-name = Organization name
 configure-organization-nameExplanation =
   Your organization name will appear on emails sent by { -product-name } to your community and organization members.
-configure-organization-email = Organization Email
+configure-organization-email = Organization email
 configure-organization-emailExplanation =
   This email address will be used as in emails and across
   the platform for community members to get in touch with

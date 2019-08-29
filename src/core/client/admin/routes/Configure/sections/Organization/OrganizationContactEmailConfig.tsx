@@ -30,14 +30,19 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
             <label htmlFor="configure-organization-organization.contactEmail" />
           }
         >
-          Organization Email
+          Organization email
         </Header>
       </Localized>
       <Localized
         id="configure-organization-emailExplanation"
         strong={<strong />}
       >
-        <Typography variant="detail">This Email will be used</Typography>
+        <Typography variant="bodyCopy">
+          This email address will be used as in emails and across the platform
+          for community members to get in touch with the organization should
+          they have any questions about the status of their accounts or
+          moderation questions.
+        </Typography>
       </Localized>
       <Field
         name="organization.contactEmail"

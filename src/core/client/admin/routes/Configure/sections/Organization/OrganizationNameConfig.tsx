@@ -26,14 +26,14 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
             <label htmlFor="configure-organization-organization.name" />
           }
         >
-          Organization Name
+          Organization name
         </Header>
       </Localized>
       <Localized
         id="configure-organization-nameExplanation"
         strong={<strong />}
       >
-        <Typography variant="detail">
+        <Typography variant="bodyCopy">
           Your organization name will appear on emails sent by Coral to your
           community and organization members
         </Typography>
