@@ -32,7 +32,7 @@ const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
       id="configure-general-commentEditing-explanation"
       strong={<strong />}
     >
-      <Typography variant="detail">
+      <Typography variant="bodyCopy">
         Set a limit on how long commenters have to edit their comments sitewide.
         Edited comments are marked as (Edited) on the comment stream and the
         moderation panel.

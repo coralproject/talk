@@ -35,7 +35,7 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
       id="configure-general-closingCommentStreams-explanation"
       strong={<strong />}
     >
-      <Typography variant="detail">
+      <Typography variant="bodyCopy">
         Set comment streams to close after a defined period of time after a
         story’s publication
       </Typography>

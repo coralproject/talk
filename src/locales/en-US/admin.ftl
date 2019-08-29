@@ -119,7 +119,9 @@ configure-general-closingCommentStreams-closeCommentsAfter = Close Comments Afte
 #### Comment Length
 configure-general-commentLength-title = Comment Length
 configure-general-commentLength-maxCommentLength = Maximum Comment Length
-configure-general-commentLength-setLimit = Set a limit on the length of comments sitewide
+configure-general-commentLength-setLimit =
+  Set minimum and maximum comment length requirements.
+  Blank spaces at the beginning and the end of a comment will be trimmed.
 configure-general-commentLength-limitCommentLength = Limit Comment Length
 configure-general-commentLength-minCommentLength = Minimum Comment Length
 configure-general-commentLength-characters = Characters
@@ -138,7 +140,7 @@ configure-general-commentEditing-commentEditTimeFrame = Comment Edit Timeframe
 configure-general-commentEditing-seconds = Seconds
 
 #### Closed Stream Message
-configure-general-closedStreamMessage-title = Closed Stream Message
+configure-general-closedStreamMessage-title = Closed Comment Stream Message
 configure-general-closedStreamMessage-explanation = Write a message to appear after a story is closed for commenting.
 
 ### Organization

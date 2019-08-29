@@ -26,7 +26,7 @@ const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
       <Header container="legend">Sitewide Commenting</Header>
     </Localized>
     <Localized id="configure-general-sitewideCommenting-explanation">
-      <Typography variant="detail">
+      <Typography variant="bodyCopy">
         Open or close comment streams for new comments sitewide. When new
         comments are turned off sitewide, new comments cannot be submitted, but
         existing comments can continue to receive “Respect” reactions, be
