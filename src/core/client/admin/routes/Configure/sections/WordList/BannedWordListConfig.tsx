@@ -22,10 +22,10 @@ interface Props {
 const BannedWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="configure-wordList-banned-bannedWordsAndPhrases">
-      <Header>Banned Words and Phrases</Header>
+      <Header>Banned words and phrases</Header>
     </Localized>
     <Localized id="configure-wordList-banned-explanation" strong={<strong />}>
-      <Typography variant="detail">
+      <Typography variant="bodyCopy">
         Comments containing a word or phrase in the banned words list are
         automatically rejected and are not published.
       </Typography>
@@ -34,7 +34,7 @@ const BannedWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
     <FormField>
       <Localized id="configure-wordList-banned-wordList">
         <InputLabel htmlFor="configure-wordlist-banned">
-          Banned Word List
+          Banned word list
         </InputLabel>
       </Localized>
       <Localized

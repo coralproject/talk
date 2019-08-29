@@ -313,22 +313,22 @@ configure-moderation-perspective-accountNote =
   <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
 
 #### Banned Words Configuration
-configure-wordList-banned-bannedWordsAndPhrases = Banned Words and Phrases
+configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
 configure-wordList-banned-explanation =
   Comments containing a word or phrase in the banned words list are <strong>automatically rejected and are not published</strong>.
-configure-wordList-banned-wordList = Banned Word List
+configure-wordList-banned-wordList = Banned word list
 configure-wordList-banned-wordListDetail =
   Separate banned words or phrases with a new line. Attempting to copy
   and paste a comma separated list? <externalLink>Learn how to convert your list
   to a new line separated list.</externalLink>
 
 #### Suspect Words Configuration
-configure-wordList-suspect-bannedWordsAndPhrases = Suspect Words and Phrases
+configure-wordList-suspect-bannedWordsAndPhrases = Suspect words and phrases
 configure-wordList-suspect-explanation =
   Comments containing a word or phrase in the Suspect Words List
   are <strong>placed into the Reported Queue for moderator review and are
   published (if comments are not pre-moderated).</strong>
-configure-wordList-suspect-wordList = Suspect Word List
+configure-wordList-suspect-wordList = Suspect word list
 configure-wordList-suspect-wordListDetail =
   Separate suspect words or phrases with a new line. Attempting to copy
   and paste a comma separated list? <externalLink>Learn how to convert your list

@@ -22,10 +22,10 @@ interface Props {
 const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="configure-wordList-suspect-bannedWordsAndPhrases">
-      <Header>Suspect Words and Phrases</Header>
+      <Header>Suspect words and phrases</Header>
     </Localized>
     <Localized id="configure-wordList-suspect-explanation" strong={<strong />}>
-      <Typography variant="detail">
+      <Typography variant="bodyCopy">
         Comments containing a word or phrase in the Suspect Words List are
         placed into the Reported Queue for moderator review and are published
         (if comments are not pre-moderated).
@@ -35,7 +35,7 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
     <FormField>
       <Localized id="configure-wordList-suspect-wordList">
         <InputLabel htmlFor="configure-wordlist-suspect">
-          Suspect Word List
+          Suspect word list
         </InputLabel>
       </Localized>
       <Localized
