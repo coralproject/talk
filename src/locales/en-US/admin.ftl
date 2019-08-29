@@ -176,9 +176,9 @@ configure-email-smtpPasswordLabel = Password
 
 ### Authentication
 
-configure-auth-authIntegrations = Authentication Integrations
+configure-auth-authIntegrations = Authentication integrations
 configure-auth-clientID = Client ID
-configure-auth-clientSecret = Client Secret
+configure-auth-clientSecret = Client secret
 configure-auth-configBoxEnabled = Enabled
 configure-auth-targetFilterCoralAdmin = { -product-name } Admin
 configure-auth-targetFilterCommentStream = Comment Stream
@@ -218,12 +218,12 @@ configure-auth-sso-regenerateWarning =
   Regenerating a key will invalidate any existing user sessions,
   and all signed-in users will be signed out.
 
-configure-auth-local-loginWith = Login with Email Authentication
-configure-auth-local-useLoginOn = Use Email Authentication login on
+configure-auth-local-loginWith = Login with email authentication
+configure-auth-local-useLoginOn = Use email authentication login on
 
 configure-auth-oidc-loginWith = Login with OpenID Connect
 configure-auth-oidc-toLearnMore = To learn more: <Link></Link>
-configure-auth-oidc-providerName = Provider Name
+configure-auth-oidc-providerName = Provider name
 configure-auth-oidc-providerNameDescription =
   The provider of the OpenID Connect integration. This will be used when the name of the provider
   needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.

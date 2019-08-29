@@ -74,7 +74,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
           <HorizontalRule />
           <FormField>
             <Localized id="configure-auth-oidc-providerName">
-              <InputLabel>Provider Name</InputLabel>
+              <InputLabel>Provider name</InputLabel>
             </Localized>
             <Localized id="configure-auth-oidc-providerNameDescription">
               <ConfigDescription>

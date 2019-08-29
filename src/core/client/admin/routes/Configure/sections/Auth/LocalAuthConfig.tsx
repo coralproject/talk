@@ -15,7 +15,7 @@ const LocalAuthConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBoxWithToggleField
     title={
       <Localized id="configure-auth-local-loginWith">
-        <span>Login with LocalAuth</span>
+        <span>Login with email authentication</span>
       </Localized>
     }
     name="auth.integrations.local.enabled"
@@ -26,7 +26,7 @@ const LocalAuthConfig: FunctionComponent<Props> = ({ disabled }) => (
         <TargetFilterField
           label={
             <Localized id="configure-auth-local-useLoginOn">
-              <span>Use LocalAuth login on</span>
+              <span>Use email authentication login on</span>
             </Localized>
           }
           name="auth.integrations.local.targetFilter"

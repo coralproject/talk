@@ -33,7 +33,7 @@ const AuthIntegrationsConfig: FunctionComponent<Props> = ({
 }) => (
   <HorizontalGutter size="double">
     <Localized id="configure-auth-authIntegrations">
-      <Header>Auth Integrations</Header>
+      <Header>Auth integrations</Header>
     </Localized>
     <LocalAuthConfigContainer
       disabled={disabled}

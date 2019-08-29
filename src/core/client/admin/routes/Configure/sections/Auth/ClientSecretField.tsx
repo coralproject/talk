@@ -20,7 +20,7 @@ const ClientSecretField: FunctionComponent<Props> = ({
 }) => (
   <FormField>
     <Localized id="configure-auth-clientSecret">
-      <InputLabel>Client Secret</InputLabel>
+      <InputLabel>Client secret</InputLabel>
     </Localized>
     <Field
       name={name}
