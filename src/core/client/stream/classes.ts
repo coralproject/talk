@@ -1,5 +1,10 @@
 const CLASSES = {
   /**
+   * app is the container of the app.
+   */
+  app: "coral coral-stream",
+
+  /**
    * guidlines represents the box containing the guidlines.
    */
   guidelines: "coral coral-guidelines",
@@ -76,7 +81,7 @@ const CLASSES = {
     featured: "coral coral-tabBarSecondary-tab coral-tabBarComments-featured",
 
     /**
-     * featuredTooltip is the tooltip next to the fextured tab.
+     * featuredTooltip is the tooltip next to the featured tab.
      */
     featuredTooltip: "coral coral-tabBarComments-featuredTooltip",
   },
@@ -130,6 +135,17 @@ const CLASSES = {
      * signIn is the button for submitting a new comment and signing in.
      */
     signIn: "coral coral-createComment-signIn",
+
+    /**
+     * inReview is the message notifying the user that the posted comment is
+     * in review.
+     */
+    inReview: "coral coral-createComment-inReview",
+
+    /**
+     * dismissButton is the button to dismiss the in review message.
+     */
+    dismissButton: "coral coral-createComment-dismissButton",
   },
 
   /**
@@ -141,6 +157,12 @@ const CLASSES = {
      * $root represents the container for the new reply box.
      */
     $root: "coral coral-createReplyComment",
+
+    /**
+     * inReview is the message notifying the user that the posted comment is
+     * in review.
+     */
+    inReview: "coral coral-createReplyComment-inReview",
 
     /**
      * submit is the button for submitting a new reply.
@@ -166,6 +188,22 @@ const CLASSES = {
      * $root represents the container for the edit box.
      */
     $root: "coral coral-editComment",
+
+    /**
+     * inReview is the message notifying the user that the edited comment is
+     * in review.
+     */
+    inReview: "coral coral-editComment-inReview",
+
+    /**
+     * remainingTime is the message telling the user the remaining time.
+     */
+    remainingTime: "coral coral-editComment-remainingTime",
+
+    /**
+     * expiredTime appears when the comment can no longer be edited.
+     */
+    expiredTime: "coral coral-editComment-expiredTime",
 
     /**
      * submit is the button for submitting the edit.
@@ -198,36 +236,554 @@ const CLASSES = {
     $root: "coral coral-comment",
 
     /**
-     * username is the text display for any given Username in the system.
+     * topBar is the uppper bar of the comment.
      */
-    username: "coral coral-comment-username",
+    topBar: {
+      /**
+       * $root represents the container of the top bar.
+       */
+      $root: "coral coral-comment-topBar",
+
+      /**
+       * username is the text display for any given Username in the system.
+       */
+      username: "coral coral-username coral-comment-username",
+
+      /**
+       * timestamp is the text that contains the time since the comment was
+       * published.
+       */
+      timestamp: "coral coral-timestamp coral-comment-timestamp",
+
+      /**
+       * edited is the text that indicated that a comment was edited.
+       */
+      edited: "coral coral-comment-edited",
+
+      /**
+       * userTag can be used to target a tag associated with a User.
+       */
+      userTag: "coral coral-userTag coral-comment-userTag",
+
+      /**
+       * userBadge can be used to target a badge associated with a User.
+       */
+      userBadge: "coral coral-userBadge coral-comment-userBadge",
+
+      /**
+       * commentTag can be used to target a tag associated with a Comment.
+       */
+      commentTag: "coral coral-commentTag coral-comment-commentTag",
+
+      /**
+       * caretButton can be used to target the caret that opens the moderation dropdown.
+       */
+      caretButton: "coral coral-comment-caret",
+
+      /**
+       * editButton can be used to target the edit button.
+       */
+      editButton: "coral coral-comment-editButton",
+    },
 
     /**
-     * timestamp is the text that contains the time since the comment was
-     * published.
+     * content is the html text body of the comment.
      */
-    timestamp: "coral coral-comment-timestamp",
+    content: "coral coral-content coral-comment-content",
 
     /**
-     * userTag can be used to target a tag associated with a User.
+     * readMoreOfConversation is the link that continues the
+     * thread of the conversation on a deeper level.
      */
-    userTag: "coral coral-comment-userTag",
-
-    /**
-     * userBadge can be used to target a badge associated with a User.
-     */
-    userBadge: "coral coral-comment-userBadge",
-
-    /**
-     * commentTag can be used to target a tag associated with a Comment.
-     */
-    commentTag: "coral coral-comment-commentTag",
+    readMoreOfConversation: "coral coral-comment-readMoreOfConveration",
 
     /**
      * inReplyTo shows the author of the parent comment.
      */
     inReplyTo: "coral coral-comment-inReplyTo",
+
+    /**
+     * actionBar is the lower bar of the comment.
+     */
+    actionBar: {
+      /**
+       * $root represents the container of action bar.
+       */
+      $root: "coral coral-comment-actionBar",
+      /**
+       * reactButton is the reaction button.
+       */
+      reactButton: "coral coral-reactButton coral-comment-reactButton",
+      /**
+       * reactedButton is the class added to the reaction button
+       * when the viewer has already reacted to the comment.
+       */
+      reactedButton: "coral-reactedButton coral-comment-reactedButton",
+      /**
+       * replyButton is button that triggers the reply form.
+       */
+      replyButton: "coral coral-comment-replyButton",
+      /**
+       * shareButton is the button that will show the permalink popover.
+       */
+      shareButton: "coral coral-comment-shareButton",
+      /**
+       * reportButton is the button that triggers the report feature.
+       */
+      reportButton: "coral coral-reportButton coral-comment-reportButton",
+      /**
+       * reportedButton is added to report button when the viewer
+       * has already reported the comment.
+       */
+      reportedButton: "coral-reportedButton coral-comment-reportedButton",
+    },
+
+    /**
+     * indentation classes for the different levels.
+     */
+    indent: [
+      "",
+      "coral coral-indent-1",
+      "coral coral-indent-2",
+      "coral coral-indent-3",
+      "coral coral-indent-4",
+      "coral coral-indent-5",
+      "coral coral-indent-6",
+    ],
   },
+
+  /**
+   * rejectedTombstone is shown when a comment got rejected.
+   */
+  rejectedTombstone: {
+    $root: "coral coral-rejectedtombstone",
+    goToModerateButton: "coral coral-rejectedtombstone-goToModerateButton",
+  },
+
+  /**
+   * ignoredTombstown is shown when a comment got ignored.
+   */
+  ignoredTombstone: "coral coral-ignoredTombstone",
+
+  /**
+   * replyList represents the list of replies to a comment.
+   */
+  replyList: {
+    /**
+     * showAllButton is the button to show all replies.
+     */
+    showAllButton: "coral coral-replyList-showAllButton",
+    /**
+     * showAllButton is the button to show incoming live replies.
+     */
+    showMoreReplies: "coral coral-replyList-showMoreButton",
+  },
+
+  /**
+   * comment is the visual representation of a featured comment.
+   */
+  featuredComment: {
+    /**
+     * $root represents the container containing a featured comment.
+     */
+    $root: "coral coral-featuredComment",
+
+    /**
+     * authorBar is the uppper bar of the comment.
+     */
+    authorBar: {
+      $root: "coral coral-featuredComment-authorBar",
+
+      /**
+       * username is the text display for any given Username in the system.
+       */
+      username: "coral coral-username coral-comment-username",
+
+      /**
+       * timestamp is the text that contains the time since the comment was
+       * published.
+       */
+      timestamp: "coral coral-timestamp coral-comment-timestamp",
+
+      /**
+       * userTag can be used to target a tag associated with a User.
+       */
+      userTag: "coral coral-userTag coral-comment-userTag",
+    },
+
+    /**
+     * content is the html text body of the featured comment.
+     */
+    content: "coral coral-content coral-featuredComment-content",
+
+    /**
+     * actionBar is the lower bar of the featured comment.
+     */
+    actionBar: {
+      /**
+       * $root represents the container of action bar.
+       */
+      $root: "coral coral-featuredComment-actionBar",
+
+      /**
+       * replies indicates the amount of replies this comment has.
+       */
+      replies: "coral coral-featuredComment-replies",
+
+      /**
+       * reactButton is the reaction button.
+       */
+      reactButton: "coral coral-reactButton coral-featuredComment-reactButton",
+      /**
+       * reactedButton is the class added to the reaction button
+       * when the viewer has already reacted to the comment.
+       */
+      reactedButton: "coral-reactedButton coral-featuredComment-reactedButton",
+      /**
+       * goToConversation is the link that leads to the whole conversation.
+       */
+      goToConversation: "coral coral-featuredComment-goToConversationButton",
+    },
+  },
+
+  /**
+   * userPopover is the popover that appears when clicking on the username.
+   */
+  userPopover: {
+    /**
+     * $root is the container of the user popover.
+     */
+    $root: "coral coral-userPopover",
+    /**
+     * username that is rendeed inside the user popover.
+     */
+    username: "coral coral-username coral-userPopover-username",
+    /**
+     * ignoreButton that will trigger the ignore user popover.
+     */
+    ignoreButton: "coral coral-userPopover-ignoreButton",
+  },
+
+  /**
+   * ignoreUserPopover is the popover that allow the
+   * viewer to ignore a user.
+   */
+  ignoreUserPopover: {
+    /**
+     * $root is the container of the ignore user popover.
+     */
+    $root: "coral coral-ignoreUserPopover",
+    cancelButton: "coral coral-ignoreUserPopover-cancelButton",
+    ignoreButton: "coral coral-ignoreUserPopover-ignoreButton",
+  },
+
+  /**
+   * sharePopover is the popover that shows the permalink of the comment.
+   */
+  sharePopover: {
+    $root: "coral coral-sharePopover",
+    copyButton: "coral coral-sharePopover-copyButotn",
+  },
+
+  /**
+   * reportPopover is the popover that appears when the viewer clicks on the
+   * report button.
+   */
+  reportPopover: {
+    $root: "coral coral-reportPopover",
+    closeButton: "coral coral-reportPopover-closeButton",
+    cancelButton: "coral coral-reportPopover-cancelButton",
+    submitButton: "coral coral-reportPopover-submitButton",
+  },
+
+  /**
+   * moderationDropdown is the dropdown that appears when clicking on the
+   * caret as a priviledged user (at least moderator).
+   */
+  moderationDropdown: {
+    $root: "coral coral-moderationDropdown",
+    approveButton:
+      "coral coral-dropdownButton coral-moderationDropdown-approveButton",
+    approvedButton:
+      "coral coral-dropdownButton coral-moderationDropdown-approveedButton",
+    rejectButton:
+      "coral coral-dropdownButton coral-moderationDropdown-rejectButton",
+    rejectedButton:
+      "coral coral-dropdownButton coral-moderationDropdown-rejectedButton",
+    featureButton:
+      "coral coral-dropdownButton coral-moderationDropdown-featureButton",
+    unfeatureButton:
+      "coral coral-dropdownButton coral-moderationDropdown-unfeatureButton",
+    banUserButton:
+      "coral coral-dropdownButton coral-moderationDropdown-banUserButton",
+    bannedButton:
+      "coral coral-dropdownButton coral-moderationDropdown-bannedButton",
+    goToModerateButton:
+      "coral coral-dropdownButton coral-moderationDropdown-goToModerateButton",
+  },
+
+  /**
+   * banUserPopover is the popover that allows the viewer to ban users.
+   */
+  banUserPopover: {
+    $root: "coral coral-banUserPopover",
+    cancelButton: "coral coral-banUserPopover-cancelButton",
+    banButton: "coral coral-banUserPopover-banButton",
+  },
+
+  /**
+   * viewerBox is the box that indicates which user is logged in and
+   * provides login, signout or register functionality.
+   */
+  viewerBox: {
+    $root: "coral coral-viewerBox",
+    logoutButton: "coral coral-viewerBox-logoutButton",
+    signInButton: "coral coral-viewerBox-signInButton",
+    registerButton: "coral coral-viewerBox-registerButton",
+  },
+
+  /**
+   * comments tab pane is the default tab pane.
+   */
+  commentsTabPane: {
+    /**
+     * $root is the container for the comments tab pane.
+     */
+    $root: "coral coral-comments",
+    /**
+     * authenticated will be applied to the container when the user is logged in.
+     */
+    authenticated: "coral-authenticated",
+  },
+
+  /**
+   * allCommentsTabPane is the tab pane that shows all comments.
+   */
+  allCommentsTabPane: {
+    $root: "coral coral-allComments",
+    /**
+     * loadMoreButton is the button to paginate.
+     */
+    loadMoreButton:
+      "coral coral-loadMoreButton coral-allComments-loadMoreButton",
+    /**
+     * viewNewButton is the button that reveals newer comments.
+     */
+    viewNewButton: "coral coral-allComments-viewNewButton",
+  },
+
+  /**
+   * featuredCommentsTabPane is the tab pane that shows featured comments.
+   */
+  featuredCommentsTabPane: {
+    $root: "coral coral-featuredComments",
+    loadMoreButton:
+      "coral coral-loadMoreButton coral-featuredComments-loadMoreButton",
+  },
+
+  /**
+   * permalinkTabPane is the tab pane that shows the conversation of a comment.
+   */
+  permalinkTabPane: {
+    /**
+     * $root is the container for the permalink tab pane.
+     */
+    $root: "coral coral-permalink",
+    /**
+     * authenticated will be applied to the container when the user is logged in.
+     */
+    authenticated: "coral-authenticated",
+
+    /**
+     * viewFullDiscussionButton is the button that leads to the full comment stream.
+     */
+    viewFullDiscussionButton: "coral coral-permalink-viewFullDiscussionButton",
+  },
+
+  /**
+   * conversationThread shows the thread of comments that lead to the permalinked comment.
+   */
+  conversationThread: {
+    $root: "coral coral-conversationThread",
+    /**
+     * rootParent is the root comment that is shown in the thread before it has been
+     * expanded.
+     */
+    rootParent: {
+      $root: "coral coral-rootParent",
+      username: "coral coral-username coral-rootParent-username",
+      timestamp: "coral coral-timestamp coral-rootParent-timestamp",
+      userTag: "coral coral-userTag coral-rootParent-userTag",
+    },
+    /**
+     * showMore is the button that reveals all comments between root parent and highlighted comment.
+     */
+    showMore: "coral coral-conversationThread-showMore",
+    /**
+     * highlighted is the comment that is targeted by the permalink.
+     */
+    hightlighted: "coral coral-conversationThread-highlighted",
+  },
+
+  /**
+   * myProfileTabPane is the tab pane that shows the profile of the viewer.
+   */
+  myProfileTabPane: {
+    $root: "coral coral-myProfile",
+  },
+
+  /**
+   * myUsername is the username part of my profile.
+   */
+  myUsername: {
+    username: "coral coral-myUsername",
+    editButton: "coral coral-myUsername-editButton",
+    form: {
+      $root: "coral coral-changeMyUsername",
+      username: "coral coral-changeMyUsername-username",
+      cancelButton: "coral coral-changeMyUsername-cancelButton",
+      saveButton: "coral coral-changeMyUsername-saveButton",
+      closeButton: "coral coral-changeMyUsername-closeButton",
+      errorMessage: "coral coral-changeMyEmail-errorMessage",
+    },
+  },
+
+  /**
+   * myUsername is the email part of my profile.
+   */
+  myEmail: {
+    email: "coral coral-myEmail",
+    unverified: "coral coral-myEmail-unverified",
+    editButton: "coral coral-myEmail-editButton",
+    form: {
+      $root: "coral coral-changeMyEmail",
+      currentEmail: "coral coral-changeMyEmail-currentEmail",
+      cancelButton: "coral coral-changeMyEmail-cancelButton",
+      saveButton: "coral coral-changeMyEmail-saveButton",
+      errorMessage: "coral coral-changeMyEmail-errorMessage",
+    },
+  },
+
+  /**
+   * myUsername is the verify email part of my profile.
+   */
+  verifyEmail: {
+    $root: "coral coral-verifyEmail",
+    resendButton: "coral coral-verifyEmail-resendButton",
+    resentMessage: "coral coral-verifyEmail-resentMessage",
+  },
+
+  /**
+   * myCommentsTabPane is the tab pane that shows viewers comments.
+   */
+  myCommentsTabPane: {
+    $root: "coral coral-myComments",
+    loadMoreButton:
+      "coral coral-loadMoreButton coral-myComments-loadMoreButton",
+  },
+
+  /**
+   * myComment is the comment that shows up in the viewers comment history.
+   */
+  myComment: {
+    $root: "coral coral-myComment",
+    story: "coral coral-myComment-story",
+    timestamp: "coral coral-myComment-timestamp",
+    content: "coral coral-myComment-content",
+    replies: "coral coral-myComment-replies",
+    viewConversationButton: "coral coral-myComment-viewConversationButton",
+  },
+
+  /**
+   * settingsTabPane is the tab pane that shows viewers settings.
+   */
+  settingsTabPane: {
+    $root: "coral coral-settings",
+  },
+
+  /**
+   * ignoredCommenters is ignored commenters settings.
+   */
+  ignoredCommenters: {
+    $root: "coral coral-ignoredCommenters",
+    username: "coral coral-ignoredCommenters-username",
+    stopIgnoreButton: "coral coral-ignoredCommenters-stopIgnoreButton",
+  },
+
+  /**
+   * changePassword allows the viewer to change password in settings.
+   */
+  changePassword: {
+    $root: "coral coral-changePassword",
+    forgotButton: "coral coral-changePassword-forgotButton",
+    changeButton: "coral coral-changePassword-changeButton",
+    successMessage: "coral coral-changePassword-successMessage",
+    errorMessage: "coral coral-changePassword-errorMessage",
+  },
+
+  /**
+   * downloadCommentHistory allows the viewer to download the comment
+   * history in settings.
+   */
+  downloadCommentHistory: {
+    $root: "coral coral-downloadCommentHistory",
+    requestButton: "coral coral-downloadCommentHistory-requestButton",
+    recentRequest: "coral coral-downloadCommentHistory-recentRequest",
+    requestLater: "coral coral-downloadCommentHistory-requestLater",
+  },
+
+  /**
+   * configureTabPane is the tab pane that lets priviledged users to
+   * change settings of the stream.
+   */
+  configureTabPane: {
+    $root: "coral coral-configure",
+  },
+
+  /**
+   * configureMessageBox is the message box section in the stream configure.
+   */
+  configureMessageBox: {
+    $root: "coral coral-configureMessageBox",
+    messageBox: "coral coral-configureMessageBox-messageBox",
+    option: "coral coral-configureMessageBox-option",
+  },
+
+  /**
+   * configureCommentStream allows priviledged users to adjust settings of
+   * the stream.
+   */
+  configureCommentStream: {
+    $root: "coral coral-configureCommentStream",
+    applyButton: "coral coral-configureCommentStream-applyButton",
+    errorMessage: "coral coral-configureCommentStream-errorMessage",
+  },
+
+  /**
+   * closeCommentStream allows priviledged users to close the stream.
+   */
+  closeCommentStream: {
+    $root: "coral coral-closeCommentStream",
+    closeButton: "coral coral-closeCommentStream-closeButton",
+  },
+
+  /**
+   * openCommentStream allows priviledged users to open the stream.
+   */
+  openCommentStream: {
+    $root: "coral coral-openCommentStream",
+    openButton: "coral coral-openCommentStream-openButton",
+  },
+
+  /**
+   * spinner is the loading indicator.
+   */
+  spinner: "coral-spinner",
+
+  /**
+   * validation message that shows up on form errors.
+   */
+  validationMessage: "coral-validation-message",
 };
 
 export default CLASSES;

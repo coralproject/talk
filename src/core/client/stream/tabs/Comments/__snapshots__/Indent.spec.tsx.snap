@@ -19,7 +19,7 @@ exports[`renders level1 1`] = `
   className="Indent-root"
 >
   <div
-    className="Indent-level1"
+    className="Indent-level1 coral coral-indent-1"
   >
     <div>
       Hello World
@@ -33,7 +33,7 @@ exports[`renders without border 1`] = `
   className="Indent-root"
 >
   <div
-    className="Indent-level1 Indent-noBorder"
+    className="Indent-level1 coral coral-indent-1 Indent-noBorder"
   >
     <div>
       Hello World

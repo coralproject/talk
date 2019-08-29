@@ -114,7 +114,12 @@ export const StreamContainer: FunctionComponent<Props> = props => {
   return (
     <>
       <StoryClosedTimeoutContainer story={props.story} />
-      <HorizontalGutter className={styles.root} size="double">
+      <HorizontalGutter
+        className={cn(styles.root, {
+          [CLASSES.commentsTabPane.authenticated]: Boolean(props.viewer),
+        })}
+        size="double"
+      >
         <UserBoxContainer viewer={props.viewer} settings={props.settings} />
         {props.viewer && (
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
@@ -189,10 +194,16 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             </Tab>
           </TabBar>
           <TabContent activeTab={local.commentsTab}>
-            <TabPane tabID="FEATURED_COMMENTS">
+            <TabPane
+              className={CLASSES.featuredCommentsTabPane.$root}
+              tabID="FEATURED_COMMENTS"
+            >
               <FeaturedComments />
             </TabPane>
-            <TabPane tabID="ALL_COMMENTS">
+            <TabPane
+              className={CLASSES.allCommentsTabPane.$root}
+              tabID="ALL_COMMENTS"
+            >
               <AllCommentsTab />
             </TabPane>
           </TabContent>

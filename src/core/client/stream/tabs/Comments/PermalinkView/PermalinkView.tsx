@@ -1,7 +1,9 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, MouseEvent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
 import {
   Button,
   CallOut,
@@ -43,7 +45,12 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
   viewer,
 }) => {
   return (
-    <HorizontalGutter className={styles.root} size="double">
+    <HorizontalGutter
+      className={cn(styles.root, CLASSES.permalinkTabPane.$root, {
+        [CLASSES.permalinkTabPane.authenticated]: Boolean(viewer),
+      })}
+      size="double"
+    >
       <UserBoxContainer viewer={viewer} settings={settings} />
       <Flex alignItems="center" justifyContent="center" direction="column">
         <Localized id="comments-permalinkView-currentViewing">
@@ -57,6 +64,7 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
         {showAllCommentsHref && (
           <Localized id="comments-permalinkView-viewFullDiscussion">
             <Button
+              className={CLASSES.permalinkTabPane.viewFullDiscussionButton}
               variant="underlined"
               color="primary"
               onClick={onShowAllComments}

@@ -19,7 +19,7 @@ exports[`post a reply: open reply form 1`] = `
           role="article"
         >
           <div
-            className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -32,7 +32,7 @@ exports[`post a reply: open reply form 1`] = `
                 >
                   <button
                     aria-controls="username-popover"
-                    className="BaseButton-root"
+                    className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -42,7 +42,7 @@ exports[`post a reply: open reply form 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
                       Markus
                     </span>
@@ -66,7 +66,7 @@ exports[`post a reply: open reply form 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
-                  className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                  className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -84,7 +84,7 @@ exports[`post a reply: open reply form 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
           >
             <div
-              className="HTMLContent-root"
+              className="HTMLContent-root coral coral-content coral-comment-content"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "Joining Too",
@@ -92,13 +92,13 @@ exports[`post a reply: open reply form 1`] = `
               }
             />
             <div
-              className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+              className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
             >
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -115,7 +115,8 @@ exports[`post a reply: open reply form 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active coral coral-comment-replyButton"
+                  data-active={true}
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -137,7 +138,8 @@ exports[`post a reply: open reply form 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-comment-0"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     onBlur={[Function]}
@@ -175,7 +177,8 @@ exports[`post a reply: open reply form 1`] = `
                 >
                   <button
                     aria-controls="report-popover-comment-0"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     disabled={false}
@@ -397,14 +400,14 @@ exports[`post a reply: optimistic response 1`] = `
           className="IndentedComment-blur Indent-root"
         >
           <div
-            className="Indent-level1"
+            className="Indent-level1 coral coral-indent-1"
           >
             <div
               className="Comment-root"
               role="article"
             >
               <div
-                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
               >
                 <div
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -417,7 +420,7 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <button
                         aria-controls="username-popover"
-                        className="BaseButton-root"
+                        className="BaseButton-root coral coral-username coral-comment-username"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -427,7 +430,7 @@ exports[`post a reply: optimistic response 1`] = `
                         type="button"
                       >
                         <span
-                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                         >
                           Markus
                         </span>
@@ -451,7 +454,7 @@ exports[`post a reply: optimistic response 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
-                      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                      className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >
@@ -464,7 +467,7 @@ exports[`post a reply: optimistic response 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-comment-editButton"
                       data-color="primary"
                       data-variant="underlined"
                       onBlur={[Function]}
@@ -511,7 +514,7 @@ exports[`post a reply: optimistic response 1`] = `
                 className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
               >
                 <div
-                  className="HTMLContent-root"
+                  className="HTMLContent-root coral coral-content coral-comment-content"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "<b>Hello world!</b>",
@@ -519,13 +522,13 @@ exports[`post a reply: optimistic response 1`] = `
                   }
                 />
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                  className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                       data-color="regular"
                       data-variant="ghost"
                       disabled={false}
@@ -542,7 +545,8 @@ exports[`post a reply: optimistic response 1`] = `
                       </span>
                     </button>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                      data-active={false}
                       data-color="regular"
                       data-variant="ghost"
                       disabled={false}
@@ -564,7 +568,8 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <button
                         aria-controls="permalink-popover-uuid-0"
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                        data-active={false}
                         data-color="regular"
                         data-variant="ghost"
                         onBlur={[Function]}
@@ -602,7 +607,8 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <button
                         aria-controls="report-popover-uuid-0"
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
+                        data-active={false}
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}

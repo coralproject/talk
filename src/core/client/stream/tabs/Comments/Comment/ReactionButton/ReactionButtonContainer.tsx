@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { ReactionButtonContainer_comment as CommentData } from "coral-stream/__generated__/ReactionButtonContainer_comment.graphql";
 import { ReactionButtonContainer_settings as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";
@@ -28,6 +29,8 @@ interface Props {
   viewer: ViewerData | null;
   showAuthPopup: ShowAuthPopupMutation;
   readOnly?: boolean;
+  className?: string;
+  reactedClassName?: string;
 }
 
 class ReactionButtonContainer extends React.Component<Props> {
@@ -56,7 +59,7 @@ class ReactionButtonContainer extends React.Component<Props> {
   };
 
   public render() {
-    const { readOnly } = this.props;
+    const { readOnly, className, reactedClassName = "" } = this.props;
     const {
       actionCounts: {
         reaction: { total: totalReactions },
@@ -72,6 +75,7 @@ class ReactionButtonContainer extends React.Component<Props> {
 
     return !readOnly || totalReactions > 0 ? (
       <ReactionButton
+        className={cn(className, { [reactedClassName]: reacted })}
         onClick={this.handleClick}
         totalReactions={totalReactions}
         reacted={reacted}

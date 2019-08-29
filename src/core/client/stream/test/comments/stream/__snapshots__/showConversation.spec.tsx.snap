@@ -12,14 +12,14 @@ exports[`renders deepest comment with link 1`] = `
       className="Indent-root"
     >
       <div
-        className="Indent-level5"
+        className="Indent-level5 coral coral-indent-5"
       >
         <div
           className="Comment-root"
           role="article"
         >
           <div
-            className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -32,7 +32,7 @@ exports[`renders deepest comment with link 1`] = `
                 >
                   <button
                     aria-controls="username-popover"
-                    className="BaseButton-root"
+                    className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -42,7 +42,7 @@ exports[`renders deepest comment with link 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
                       Markus
                     </span>
@@ -66,7 +66,7 @@ exports[`renders deepest comment with link 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
-                  className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                  className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -111,7 +111,7 @@ exports[`renders deepest comment with link 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
           >
             <div
-              className="HTMLContent-root"
+              className="HTMLContent-root coral coral-content coral-comment-content"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "body 5",
@@ -119,13 +119,13 @@ exports[`renders deepest comment with link 1`] = `
               }
             />
             <div
-              className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+              className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
             >
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -142,7 +142,8 @@ exports[`renders deepest comment with link 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                  data-active={false}
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -164,7 +165,8 @@ exports[`renders deepest comment with link 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-comment-with-deepest-replies-5"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     onBlur={[Function]}
@@ -198,7 +200,7 @@ exports[`renders deepest comment with link 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -217,7 +219,7 @@ exports[`renders deepest comment with link 1`] = `
               </div>
             </div>
             <a
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-comment-readMoreOfConveration"
               data-color="primary"
               data-variant="underlined"
               href="http://localhost/stories/story-with-replies?commentID=comment-with-deepest-replies-5"

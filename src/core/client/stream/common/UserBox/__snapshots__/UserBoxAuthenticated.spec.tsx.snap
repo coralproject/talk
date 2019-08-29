@@ -2,6 +2,7 @@
 
 exports[`renders correctly with logout button 1`] = `
 <ForwardRef(forwardRef)
+  className="coral coral-viewerBox"
   itemGutter="half"
   wrap={true}
 >
@@ -19,6 +20,7 @@ exports[`renders correctly with logout button 1`] = `
   <Localized
     button={
       <ForwardRef(forwardRef)
+        className="coral coral-viewerBox-logoutButton"
         color="primary"
         onClick={[Function]}
         size="small"
@@ -44,6 +46,7 @@ exports[`renders correctly with logout button 1`] = `
 
 exports[`renders correctly without logout button 1`] = `
 <ForwardRef(forwardRef)
+  className="coral coral-viewerBox"
   itemGutter="half"
   wrap={true}
 >

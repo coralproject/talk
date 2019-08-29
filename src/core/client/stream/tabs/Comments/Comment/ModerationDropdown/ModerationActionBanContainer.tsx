@@ -5,7 +5,9 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { ModerationActionBanContainer_user } from "coral-stream/__generated__/ModerationActionBanContainer_user.graphql";
-import { DropdownButton, Icon, Spinner } from "coral-ui/components";
+import CLASSES from "coral-stream/classes";
+import Spinner from "coral-stream/common/Spinner";
+import { DropdownButton, Icon } from "coral-ui/components";
 
 import styles from "./ModerationActionBanContainer.css";
 
@@ -29,6 +31,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
             </div>
           }
           adornment={<Spinner size="xs" className={styles.spinner} />}
+          className={CLASSES.moderationDropdown.banUserButton}
           disabled
         >
           Ban User
@@ -46,7 +49,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
               <Icon size="sm">block</Icon>
             </div>
           }
-          className={styles.banned}
+          className={cn(styles.banned, CLASSES.moderationDropdown.bannedButton)}
           disabled
         >
           Banned
@@ -63,6 +66,7 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
           </div>
         }
         onClick={onBan}
+        className={CLASSES.moderationDropdown.banUserButton}
       >
         Ban User
       </DropdownButton>

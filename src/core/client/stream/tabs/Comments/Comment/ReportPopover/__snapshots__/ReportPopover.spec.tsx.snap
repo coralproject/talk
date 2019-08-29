@@ -2,11 +2,11 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="ReportPopover-root"
+  className="ReportPopover-root coral coral-reportPopover"
 >
   <ForwardRef(forwardRef)
     aria-label="Close Popover"
-    className="ReportPopover-close"
+    className="ReportPopover-close coral coral-reportPopover-closeButton"
     onClick={[Function]}
   >
     <ForwardRef(forwardRef)>

@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { FORM_ERROR, FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, {
@@ -12,7 +13,7 @@ import { Environment } from "relay-runtime";
 import { PasswordField } from "coral-framework/components";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import { colorFromMeta } from "coral-framework/lib/form";
 import { createFetch, useFetch } from "coral-framework/lib/relay";
 import {
   graphql,
@@ -24,6 +25,10 @@ import {
   required,
   validateEmail,
 } from "coral-framework/lib/validation";
+import { ChangeEmailContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
+import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
+import CLASSES from "coral-stream/classes";
+import ValidationMessageHelper from "coral-stream/common/ValidationMessageHelper";
 import {
   Button,
   ButtonIcon,
@@ -36,9 +41,6 @@ import {
   TextField,
   Typography,
 } from "coral-ui/components";
-
-import { ChangeEmailContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
-import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
 
 import UpdateEmailMutation from "./UpdateEmailMutation";
 
@@ -142,18 +144,32 @@ const changeEmailContainer: FunctionComponent<Props> = ({
   };
 
   return (
-    <HorizontalGutter spacing={5} data-testid="profile-changeEmail">
+    <HorizontalGutter
+      className={CLASSES.myEmail.email}
+      spacing={5}
+      data-testid="profile-changeEmail"
+    >
       {!showEditForm && (
         <Flex alignItems="center">
           <Typography>{viewer.email}</Typography>{" "}
           {!viewer.emailVerified && (
             <Localized id="profile-changeEmail-unverified">
-              <Typography color="textSecondary">(Unverified)</Typography>
+              <Typography
+                className={CLASSES.myEmail.unverified}
+                color="textSecondary"
+              >
+                (Unverified)
+              </Typography>
             </Localized>
           )}
           {canChangeEmail && (
             <Localized id="profile-changeEmail-edit">
-              <Button size="small" color="primary" onClick={toggleEditForm}>
+              <Button
+                className={CLASSES.myEmail.editButton}
+                size="small"
+                color="primary"
+                onClick={toggleEditForm}
+              >
                 Edit
               </Button>
             </Localized>
@@ -161,7 +177,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
         </Flex>
       )}
       {!viewer.emailVerified && !showEditForm && (
-        <CallOut>
+        <CallOut className={CLASSES.verifyEmail.$root}>
           <Flex itemGutter>
             <div>
               <Icon size="lg">email</Icon>
@@ -187,7 +203,10 @@ const changeEmailContainer: FunctionComponent<Props> = ({
               <Localized id="profile-changeEmail-resend">
                 <Button
                   onClick={resend}
-                  className={styles.resendButton}
+                  className={cn(
+                    styles.resendButton,
+                    CLASSES.verifyEmail.resendButton
+                  )}
                   color="primary"
                 >
                   Resend verification
@@ -198,14 +217,21 @@ const changeEmailContainer: FunctionComponent<Props> = ({
         </CallOut>
       )}
       {confirmationResent && (
-        <CallOut fullWidth color="primary">
+        <CallOut
+          className={CLASSES.verifyEmail.resentMessage}
+          fullWidth
+          color="primary"
+        >
           <Localized id="profile-changeEmail-resent">
             <Typography>Your confirmation email has been re-sent.</Typography>
           </Localized>
         </CallOut>
       )}
       {showEditForm && (
-        <CallOut className={styles.callOut} color="primary">
+        <CallOut
+          className={cn(styles.callOut, CLASSES.myEmail.form.$root)}
+          color="primary"
+        >
           <HorizontalGutter spacing={4}>
             <div>
               <Localized id="profile-changeEmail-heading">
@@ -229,7 +255,12 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                   Current email
                 </Typography>
               </Localized>
-              <Typography variant="heading2">{viewer.email}</Typography>
+              <Typography
+                variant="heading2"
+                className={CLASSES.myEmail.form.currentEmail}
+              >
+                {viewer.email}
+              </Typography>
             </div>
             <Form onSubmit={onSubmit}>
               {({
@@ -262,7 +293,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                                 fullWidth
                                 id="profile-changeEmail-Email"
                               />
-                              <ValidationMessage meta={meta} />
+                              <ValidationMessageHelper meta={meta} />
                             </>
                           )}
                         </Field>
@@ -294,26 +325,35 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                                   {...input}
                                 />
                               </Localized>
-                              <ValidationMessage meta={meta} fullWidth />
+                              <ValidationMessageHelper meta={meta} fullWidth />
                             </FormField>
                           )}
                         </Field>
                       </HorizontalGutter>
                     </FormField>
                     {submitError && (
-                      <CallOut color="error" fullWidth>
+                      <CallOut
+                        className={CLASSES.myEmail.form.errorMessage}
+                        color="error"
+                        fullWidth
+                      >
                         {submitError}
                       </CallOut>
                     )}
                   </HorizontalGutter>
                   <Flex justifyContent="flex-end" className={styles.footer}>
                     <Localized id="profile-changeEmail-cancel">
-                      <Button type="button" onClick={toggleEditForm}>
+                      <Button
+                        className={CLASSES.myEmail.form.cancelButton}
+                        type="button"
+                        onClick={toggleEditForm}
+                      >
                         Cancel
                       </Button>
                     </Localized>
                     <Localized id="profile-changeEmail-submit">
                       <Button
+                        className={CLASSES.myEmail.form.saveButton}
                         variant={
                           preventSubmit(formProps) ? "outlined" : "filled"
                         }

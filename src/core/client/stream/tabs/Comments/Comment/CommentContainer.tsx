@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { Component, MouseEvent } from "react";
 import { graphql } from "react-relay";
@@ -56,6 +57,7 @@ interface Props {
   /** showConversationLink will render a link to the conversation */
   showConversationLink?: boolean;
   highlight?: boolean;
+  className?: string;
 }
 
 interface State {
@@ -164,6 +166,7 @@ export class CommentContainer extends Component<Props, State> {
       showConversationLink,
       highlight,
       viewer,
+      className,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     const hasFeaturedTag = Boolean(
@@ -173,7 +176,7 @@ export class CommentContainer extends Component<Props, State> {
       <>
         {hasFeaturedTag && (
           <Tag
-            className={CLASSES.comment.commentTag}
+            className={CLASSES.comment.topBar.commentTag}
             color="primary"
             variant="pill"
           >
@@ -222,7 +225,7 @@ export class CommentContainer extends Component<Props, State> {
     }
     return (
       <div
-        className={CLASSES.comment.$root}
+        className={cn(CLASSES.comment.$root, className)}
         data-testid={`comment-${comment.id}`}
       >
         <HorizontalGutter>
@@ -243,11 +246,18 @@ export class CommentContainer extends Component<Props, State> {
                 comment.author && (
                   <>
                     <UsernameWithPopoverContainer
+                      className={CLASSES.comment.topBar.username}
                       viewer={viewer}
                       user={comment.author}
                     />
-                    <UserTagsContainer comment={comment} />
-                    <UserBadgesContainer comment={comment} />
+                    <UserTagsContainer
+                      className={CLASSES.comment.topBar.userTag}
+                      comment={comment}
+                    />
+                    <UserBadgesContainer
+                      className={CLASSES.comment.topBar.userBadge}
+                      comment={comment}
+                    />
                   </>
                 )
               }
@@ -260,6 +270,7 @@ export class CommentContainer extends Component<Props, State> {
                         color="primary"
                         variant="underlined"
                         onClick={this.openEditDialog}
+                        className={CLASSES.comment.topBar.editButton}
                       >
                         Edit
                       </Button>
@@ -276,13 +287,20 @@ export class CommentContainer extends Component<Props, State> {
               }
               footer={
                 <>
-                  <Flex justifyContent="space-between">
+                  <Flex
+                    justifyContent="space-between"
+                    className={CLASSES.comment.actionBar.$root}
+                  >
                     <ButtonsBar>
                       <ReactionButtonContainer
                         comment={comment}
                         settings={settings}
                         viewer={viewer}
                         readOnly={banned || suspended}
+                        className={CLASSES.comment.actionBar.reactButton}
+                        reactedClassName={
+                          CLASSES.comment.actionBar.reactedButton
+                        }
                       />
                       {!disableReplies &&
                         !banned &&
@@ -298,11 +316,13 @@ export class CommentContainer extends Component<Props, State> {
                               settings.disableCommenting.enabled ||
                               story.isClosed
                             }
+                            className={CLASSES.comment.actionBar.replyButton}
                           />
                         )}
                       <PermalinkButtonContainer
                         story={story}
                         commentID={comment.id}
+                        className={CLASSES.comment.actionBar.shareButton}
                       />
                     </ButtonsBar>
                     <ButtonsBar>
@@ -310,12 +330,17 @@ export class CommentContainer extends Component<Props, State> {
                         <ReportButtonContainer
                           comment={comment}
                           viewer={viewer}
+                          className={CLASSES.comment.actionBar.reportButton}
+                          reportedClassName={
+                            CLASSES.comment.actionBar.reportedButton
+                          }
                         />
                       )}
                     </ButtonsBar>
                   </Flex>
                   {showConversationLink && (
                     <ShowConversationLink
+                      className={CLASSES.comment.readMoreOfConversation}
                       id={`comments-commentContainer-showConversation-${
                         comment.id
                       }`}

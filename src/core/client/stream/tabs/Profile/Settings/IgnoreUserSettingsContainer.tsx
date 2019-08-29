@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { IgnoreUserSettingsContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoreUserSettingsContainer_viewer.graphql";
+import CLASSES from "coral-stream/classes";
 import {
   Button,
   Flex,
@@ -23,7 +24,10 @@ interface Props {
 const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
   const removeUserIgnore = useMutation(RemoveUserIgnoreMutation);
   return (
-    <div data-testid="profile-settings-ignoredCommenters">
+    <div
+      className={CLASSES.ignoredCommenters.$root}
+      data-testid="profile-settings-ignoredCommenters"
+    >
       <Localized id="profile-settings-ignoredCommenters">
         <Typography variant="heading3">Ignored Commenters</Typography>
       </Localized>
@@ -40,8 +44,11 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Username>{user.username}</Username>
+            <Username className={CLASSES.ignoredCommenters.username}>
+              {user.username}
+            </Username>
             <Button
+              className={CLASSES.ignoredCommenters.stopIgnoreButton}
               size="small"
               color="primary"
               onClick={() => removeUserIgnore({ userID: user.id })}

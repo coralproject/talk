@@ -12,10 +12,10 @@ exports[`renders message box when commenting disabled 1`] = `
     className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+      className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
         data-color="primary"
         data-variant="underlined"
         onBlur={[Function]}
@@ -29,7 +29,7 @@ exports[`renders message box when commenting disabled 1`] = `
         Sign in
       </button>
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
         data-color="primary"
         data-variant="outlined"
         onBlur={[Function]}
@@ -210,10 +210,10 @@ exports[`renders message box when logged in 1`] = `
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root coral-authenticated HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root"
+      className="Box-root Flex-root coral coral-viewerBox"
     >
       <div
         className="Flex-flex Flex-halfItemGutter Flex-wrap gutter"
@@ -236,7 +236,7 @@ exports[`renders message box when logged in 1`] = `
             Not you? 
           </span>
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-logoutButton"
             data-color="primary"
             data-variant="underlined"
             onBlur={[Function]}
@@ -523,10 +523,10 @@ exports[`renders message box when not logged in 1`] = `
     className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+      className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
         data-color="primary"
         data-variant="underlined"
         onBlur={[Function]}
@@ -540,7 +540,7 @@ exports[`renders message box when not logged in 1`] = `
         Sign in
       </button>
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
         data-color="primary"
         data-variant="outlined"
         onBlur={[Function]}
@@ -807,10 +807,10 @@ exports[`renders message box when story isClosed 1`] = `
     className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+      className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
         data-color="primary"
         data-variant="underlined"
         onBlur={[Function]}
@@ -824,7 +824,7 @@ exports[`renders message box when story isClosed 1`] = `
         Sign in
       </button>
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
         data-color="primary"
         data-variant="outlined"
         onBlur={[Function]}

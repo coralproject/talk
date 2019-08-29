@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
 import CommentContainer from "../Comment";
@@ -77,6 +78,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
               aria-controls={`coral-comments-replyList-log--${
                 props.comment.id
               }`}
+              className={CLASSES.replyList.showAllButton}
               onClick={props.onShowAll}
               disabled={props.disableShowAll}
               variant="outlined"
@@ -95,6 +97,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
                 props.comment.id
               }`}
               onClick={props.onViewNew}
+              className={CLASSES.replyList.showMoreReplies}
               variant="outlined"
               fullWidth
             >

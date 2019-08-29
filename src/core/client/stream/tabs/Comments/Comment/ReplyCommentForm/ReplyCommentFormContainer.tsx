@@ -168,6 +168,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
           status={this.state.submitStatus}
           onDismiss={this.handleOnCancelOrDismiss}
           buttonClassName={CLASSES.createReplyComment.dismiss}
+          inReviewClassName={CLASSES.createReplyComment.inReview}
         />
       );
     }

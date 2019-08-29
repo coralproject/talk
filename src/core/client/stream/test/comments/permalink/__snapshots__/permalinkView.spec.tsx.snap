@@ -9,13 +9,13 @@ exports[`renders permalink view 1`] = `
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root PermalinkView-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root PermalinkView-root coral coral-permalink HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+      className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
         data-color="primary"
         data-variant="underlined"
         onBlur={[Function]}
@@ -29,7 +29,7 @@ exports[`renders permalink view 1`] = `
         Sign in
       </button>
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
         data-color="primary"
         data-variant="outlined"
         onBlur={[Function]}
@@ -57,7 +57,7 @@ exports[`renders permalink view 1`] = `
         SINGLE CONVERSATION
       </p>
       <a
-        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-permalink-viewFullDiscussionButton"
         data-color="primary"
         data-variant="underlined"
         href="http://localhost/"
@@ -77,7 +77,7 @@ exports[`renders permalink view 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     >
       <div
-        className="ConversationThreadContainer-root"
+        className="coral coral-conversationThread ConversationThreadContainer-root"
         data-testid="comments-permalinkView-conversationThread"
       >
         <div
@@ -122,7 +122,7 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                       >
                         <div
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -135,7 +135,7 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="username-popover"
-                                className="BaseButton-root"
+                                className="BaseButton-root coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -145,7 +145,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                                 >
                                   Lukas
                                 </span>
@@ -169,7 +169,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                              className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >
@@ -187,7 +187,7 @@ exports[`renders permalink view 1`] = `
                         className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
-                          className="HTMLContent-root"
+                          className="HTMLContent-root coral coral-content coral-comment-content"
                           dangerouslySetInnerHTML={
                             Object {
                               "__html": "What's up?",
@@ -195,13 +195,13 @@ exports[`renders permalink view 1`] = `
                           }
                         />
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -218,7 +218,8 @@ exports[`renders permalink view 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                              data-active={false}
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -240,7 +241,8 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-1"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                                data-active={false}
                                 data-color="regular"
                                 data-variant="ghost"
                                 onBlur={[Function]}
@@ -274,7 +276,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -337,7 +339,7 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                       >
                         <div
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -350,7 +352,7 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="username-popover"
-                                className="BaseButton-root"
+                                className="BaseButton-root coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -360,7 +362,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                                 >
                                   Isabelle
                                 </span>
@@ -384,7 +386,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                              className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >
@@ -402,7 +404,7 @@ exports[`renders permalink view 1`] = `
                         className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
-                          className="HTMLContent-root"
+                          className="HTMLContent-root coral coral-content coral-comment-content"
                           dangerouslySetInnerHTML={
                             Object {
                               "__html": "Hey!",
@@ -410,13 +412,13 @@ exports[`renders permalink view 1`] = `
                           }
                         />
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -433,7 +435,8 @@ exports[`renders permalink view 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                              data-active={false}
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -455,7 +458,8 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-2"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                                data-active={false}
                                 data-color="regular"
                                 data-variant="ghost"
                                 onBlur={[Function]}
@@ -489,7 +493,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -533,7 +537,7 @@ exports[`renders permalink view 1`] = `
               </svg>
             </div>
             <div
-              className="coral coral-comment"
+              className="coral coral-comment coral coral-conversationThread-highlighted"
               data-testid="comment-comment-with-replies"
             >
               <div
@@ -550,7 +554,7 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                       >
                         <div
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -563,7 +567,7 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="username-popover"
-                                className="BaseButton-root"
+                                className="BaseButton-root coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -573,7 +577,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                                 >
                                   Markus
                                 </span>
@@ -597,7 +601,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                              className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >
@@ -615,7 +619,7 @@ exports[`renders permalink view 1`] = `
                         className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
-                          className="HTMLContent-root"
+                          className="HTMLContent-root coral coral-content coral-comment-content"
                           dangerouslySetInnerHTML={
                             Object {
                               "__html": "I like yoghurt",
@@ -623,13 +627,13 @@ exports[`renders permalink view 1`] = `
                           }
                         />
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -646,7 +650,8 @@ exports[`renders permalink view 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                              data-active={false}
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -668,7 +673,8 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-with-replies"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                                data-active={false}
                                 data-color="regular"
                                 data-variant="ghost"
                                 onBlur={[Function]}
@@ -702,7 +708,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -752,14 +758,14 @@ exports[`renders permalink view 1`] = `
                   className="Indent-root"
                 >
                   <div
-                    className="Indent-level1"
+                    className="Indent-level1 coral coral-indent-1"
                   >
                     <div
                       className="Comment-root"
                       role="article"
                     >
                       <div
-                        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                       >
                         <div
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -772,7 +778,7 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="username-popover"
-                                className="BaseButton-root"
+                                className="BaseButton-root coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -782,7 +788,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                                 >
                                   Isabelle
                                 </span>
@@ -806,7 +812,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                              className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >
@@ -851,7 +857,7 @@ exports[`renders permalink view 1`] = `
                         className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
-                          className="HTMLContent-root"
+                          className="HTMLContent-root coral coral-content coral-comment-content"
                           dangerouslySetInnerHTML={
                             Object {
                               "__html": "Comment Body 3",
@@ -859,13 +865,13 @@ exports[`renders permalink view 1`] = `
                           }
                         />
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -882,7 +888,8 @@ exports[`renders permalink view 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                              data-active={false}
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -904,7 +911,8 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-3"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                                data-active={false}
                                 data-color="regular"
                                 data-variant="ghost"
                                 onBlur={[Function]}
@@ -938,7 +946,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -977,14 +985,14 @@ exports[`renders permalink view 1`] = `
                   className="Indent-root"
                 >
                   <div
-                    className="Indent-level1"
+                    className="Indent-level1 coral coral-indent-1"
                   >
                     <div
                       className="Comment-root"
                       role="article"
                     >
                       <div
-                        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                       >
                         <div
                           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -997,7 +1005,7 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="username-popover"
-                                className="BaseButton-root"
+                                className="BaseButton-root coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -1007,7 +1015,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                                 >
                                   Isabelle
                                 </span>
@@ -1031,7 +1039,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                              className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >
@@ -1076,7 +1084,7 @@ exports[`renders permalink view 1`] = `
                         className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
-                          className="HTMLContent-root"
+                          className="HTMLContent-root coral coral-content coral-comment-content"
                           dangerouslySetInnerHTML={
                             Object {
                               "__html": "Comment Body 4",
@@ -1084,13 +1092,13 @@ exports[`renders permalink view 1`] = `
                           }
                         />
                         <div
-                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -1107,7 +1115,8 @@ exports[`renders permalink view 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                              data-active={false}
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}
@@ -1129,7 +1138,8 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-4"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                                data-active={false}
                                 data-color="regular"
                                 data-variant="ghost"
                                 onBlur={[Function]}
@@ -1163,7 +1173,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                               data-color="regular"
                               data-variant="ghost"
                               disabled={false}

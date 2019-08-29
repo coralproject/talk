@@ -2,7 +2,7 @@
 
 exports[`renders the empty settings pane 1`] = `
 <div
-  className="Box-root HorizontalGutter-root App-root HorizontalGutter-full"
+  className="Box-root HorizontalGutter-root coral coral-stream App-root HorizontalGutter-full"
 >
   <ul
     className="TabBar-root TabBar-primary coral coral-tabBar"
@@ -76,12 +76,12 @@ exports[`renders the empty settings pane 1`] = `
             className="Box-root Flex-root Flex-flex Flex-alignBaseline"
           >
             <h1
-              className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary coral coral-myUsername"
             >
               Passivo
             </h1>
             <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular coral coral-myUsername-editButton"
               data-color="primary"
               data-variant="regular"
               onBlur={[Function]}
@@ -92,12 +92,12 @@ exports[`renders the empty settings pane 1`] = `
               onTouchEnd={[Function]}
               type="button"
             >
-              edit
+              Edit
             </button>
           </div>
         </div>
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
+          className="Box-root HorizontalGutter-root coral coral-myEmail HorizontalGutter-spacing-5"
           data-testid="profile-changeEmail"
         >
           <div
@@ -110,12 +110,12 @@ exports[`renders the empty settings pane 1`] = `
                
             </span>
             <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextSecondary"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextSecondary coral coral-myEmail-unverified"
             >
               (Unverified)
             </p>
             <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular coral coral-myEmail-editButton"
               data-color="primary"
               data-variant="regular"
               onBlur={[Function]}
@@ -130,7 +130,7 @@ exports[`renders the empty settings pane 1`] = `
             </button>
           </div>
           <div
-            className="CallOut-root CallOut-colorRegular"
+            className="CallOut-root CallOut-colorRegular coral coral-verifyEmail"
           >
             <div>
               <div
@@ -158,7 +158,7 @@ You must verify your new email address before it can be used for
 signing into your account or for email notifications.
                   </p>
                   <button
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular ChangeEmailContainer-resendButton"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular ChangeEmailContainer-resendButton coral coral-verifyEmail-resendButton"
                     data-color="primary"
                     data-variant="regular"
                     onBlur={[Function]}
@@ -237,6 +237,7 @@ signing into your account or for email notifications.
           className="Box-root HorizontalGutter-root SettingsContainer-root HorizontalGutter-spacing-5"
         >
           <div
+            className="coral coral-ignoredCommenters"
             data-testid="profile-settings-ignoredCommenters"
           >
             <h1
@@ -261,6 +262,7 @@ Commenters you ignore will still be able to see your comments.
             </div>
           </div>
           <div
+            className="coral coral-changePassword"
             data-testid="profile-settings-changePassword"
           >
             <form
@@ -329,7 +331,7 @@ Commenters you ignore will still be able to see your comments.
                       className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-changePassword-forgotButton"
                         data-color="primary"
                         data-variant="underlined"
                         onBlur={[Function]}
@@ -396,7 +398,7 @@ Commenters you ignore will still be able to see your comments.
                     className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled coral coral-changePassword-changeButton"
                       data-color="primary"
                       data-variant="filled"
                       disabled={true}
@@ -415,7 +417,7 @@ Commenters you ignore will still be able to see your comments.
             </form>
           </div>
           <div
-            className="DownloadCommentsContainer-root"
+            className="DownloadCommentsContainer-root coral coral-downloadCommentHistory"
           >
             <h1
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary DownloadCommentsContainer-title"
@@ -432,7 +434,7 @@ You can make
               </strong>
             </p>
             <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined coral coral-downloadCommentHistory-requestButton"
               data-color="regular"
               data-variant="outlined"
               onBlur={[Function]}

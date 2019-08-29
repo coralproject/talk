@@ -6,6 +6,7 @@ exports[`renders username and body 1`] = `
   role="article"
 >
   <ForwardRef(forwardRef)
+    className="coral coral-comment-topBar"
     direction="row"
     justifyContent="space-between"
   >
@@ -22,10 +23,14 @@ exports[`renders username and body 1`] = `
         direction="row"
         itemGutter={true}
       >
-        <Timestamp>
+        <Timestamp
+          className="coral coral-timestamp coral-comment-timestamp"
+        >
           1995-12-17T03:24:00.000Z
         </Timestamp>
-        <EditedMarker />
+        <EditedMarker
+          className="coral coral-comment-edited"
+        />
       </ForwardRef(forwardRef)>
     </TopBarLeft>
     <div>
@@ -35,7 +40,9 @@ exports[`renders username and body 1`] = `
   <ForwardRef(forwardRef)
     spacing={1}
   >
-    <HTMLContent>
+    <HTMLContent
+      className="coral coral-content coral-comment-content"
+    >
       Woof
     </HTMLContent>
     footer

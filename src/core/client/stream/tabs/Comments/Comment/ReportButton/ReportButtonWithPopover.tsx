@@ -11,11 +11,13 @@ import { PropTypesOf } from "coral-ui/types";
 interface Props {
   comment: { id: string } & PropTypesOf<typeof ReportPopover>["comment"];
   reported: boolean;
+  className?: string;
 }
 
 const ReportButtonWithPopover: React.FunctionComponent<Props> = ({
   comment,
   reported,
+  className,
 }) => {
   const popoverID = `report-popover-${comment.id}`;
   return (
@@ -41,6 +43,7 @@ const ReportButtonWithPopover: React.FunctionComponent<Props> = ({
       >
         {({ toggleVisibility, ref, visible }) => (
           <ReportButton
+            className={className}
             onClick={evt => !reported && toggleVisibility(evt)}
             aria-controls={popoverID}
             ref={ref}

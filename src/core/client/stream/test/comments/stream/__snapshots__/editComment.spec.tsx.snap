@@ -19,7 +19,7 @@ exports[`cancel edit 1`] = `
           role="article"
         >
           <div
-            className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -32,7 +32,7 @@ exports[`cancel edit 1`] = `
                 >
                   <button
                     aria-controls="username-popover"
-                    className="BaseButton-root"
+                    className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -42,7 +42,7 @@ exports[`cancel edit 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
                       Markus
                     </span>
@@ -66,7 +66,7 @@ exports[`cancel edit 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
-                  className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                  className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -79,7 +79,7 @@ exports[`cancel edit 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-comment-editButton"
                   data-color="primary"
                   data-variant="underlined"
                   onBlur={[Function]}
@@ -99,7 +99,7 @@ exports[`cancel edit 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
           >
             <div
-              className="HTMLContent-root"
+              className="HTMLContent-root coral coral-content coral-comment-content"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "I like yoghurt",
@@ -107,13 +107,13 @@ exports[`cancel edit 1`] = `
               }
             />
             <div
-              className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+              className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
             >
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -130,7 +130,8 @@ exports[`cancel edit 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                  data-active={false}
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -152,7 +153,8 @@ exports[`cancel edit 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-comment-with-replies"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     onBlur={[Function]}
@@ -190,7 +192,8 @@ exports[`cancel edit 1`] = `
                 >
                   <button
                     aria-controls="report-popover-comment-with-replies"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     disabled={false}
@@ -248,13 +251,13 @@ exports[`edit a comment and handle server error: edit form 1`] = `
         >
           <div>
             <span
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
             >
               Markus
             </span>
           </div>
           <time
-            className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+            className="RelativeTime-root Timestamp-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >
@@ -348,7 +351,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
           </div>
         </div>
         <div
-          className="Message-root Message-colorGrey Message-fullWidth"
+          className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
         >
           <span
             aria-hidden="true"
@@ -425,13 +428,13 @@ exports[`edit a comment: edit form 1`] = `
         >
           <div>
             <span
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
             >
               Markus
             </span>
           </div>
           <time
-            className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+            className="RelativeTime-root Timestamp-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >
@@ -525,7 +528,7 @@ exports[`edit a comment: edit form 1`] = `
           </div>
         </div>
         <div
-          className="Message-root Message-colorGrey Message-fullWidth"
+          className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
         >
           <span
             aria-hidden="true"
@@ -602,13 +605,13 @@ exports[`edit a comment: optimistic response 1`] = `
         >
           <div>
             <span
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
             >
               Markus
             </span>
           </div>
           <time
-            className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+            className="RelativeTime-root Timestamp-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >
@@ -702,7 +705,7 @@ exports[`edit a comment: optimistic response 1`] = `
           </div>
         </div>
         <div
-          className="Message-root Message-colorGrey Message-fullWidth"
+          className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
         >
           <span
             aria-hidden="true"
@@ -780,7 +783,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
           role="article"
         >
           <div
-            className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -793,7 +796,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 >
                   <button
                     aria-controls="username-popover"
-                    className="BaseButton-root"
+                    className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -803,7 +806,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
                       Markus
                     </span>
@@ -827,7 +830,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
-                  className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                  className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -840,7 +843,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-comment-editButton"
                   data-color="primary"
                   data-variant="underlined"
                   onBlur={[Function]}
@@ -860,7 +863,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
           >
             <div
-              className="HTMLContent-root"
+              className="HTMLContent-root coral coral-content coral-comment-content"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "I like yoghurt",
@@ -868,13 +871,13 @@ exports[`edit a comment: render comment with edit button 1`] = `
               }
             />
             <div
-              className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+              className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
             >
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -891,7 +894,8 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                  data-active={false}
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -913,7 +917,8 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-comment-with-replies"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     onBlur={[Function]}
@@ -951,7 +956,8 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 >
                   <button
                     aria-controls="report-popover-comment-with-replies"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     disabled={false}
@@ -1010,7 +1016,7 @@ exports[`edit a comment: server response 1`] = `
           role="article"
         >
           <div
-            className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -1023,7 +1029,7 @@ exports[`edit a comment: server response 1`] = `
                 >
                   <button
                     aria-controls="username-popover"
-                    className="BaseButton-root"
+                    className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -1033,7 +1039,7 @@ exports[`edit a comment: server response 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
                       Markus
                     </span>
@@ -1057,14 +1063,14 @@ exports[`edit a comment: server response 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
-                  className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                  className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
                   2018-07-06T18:24:00.000Z
                 </time>
                 <div
-                  className="EditedMarker-root"
+                  className="EditedMarker-root coral coral-comment-edited"
                 >
                   (
                   <span>
@@ -1079,7 +1085,7 @@ exports[`edit a comment: server response 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-comment-editButton"
                   data-color="primary"
                   data-variant="underlined"
                   onBlur={[Function]}
@@ -1099,7 +1105,7 @@ exports[`edit a comment: server response 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
           >
             <div
-              className="HTMLContent-root"
+              className="HTMLContent-root coral coral-content coral-comment-content"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "Edited! (from server)",
@@ -1107,13 +1113,13 @@ exports[`edit a comment: server response 1`] = `
               }
             />
             <div
-              className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+              className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
             >
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -1130,7 +1136,8 @@ exports[`edit a comment: server response 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                  data-active={false}
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -1152,7 +1159,8 @@ exports[`edit a comment: server response 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-comment-with-replies"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     onBlur={[Function]}
@@ -1190,7 +1198,8 @@ exports[`edit a comment: server response 1`] = `
                 >
                   <button
                     aria-controls="report-popover-comment-with-replies"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     disabled={false}
@@ -1249,7 +1258,7 @@ exports[`shows expiry message: edit form closed 1`] = `
           role="article"
         >
           <div
-            className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+            className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
           >
             <div
               className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -1262,7 +1271,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                 >
                   <button
                     aria-controls="username-popover"
-                    className="BaseButton-root"
+                    className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -1272,7 +1281,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
                       Markus
                     </span>
@@ -1296,7 +1305,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
-                  className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                  className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -1309,7 +1318,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-comment-editButton"
                   data-color="primary"
                   data-variant="underlined"
                   onBlur={[Function]}
@@ -1329,7 +1338,7 @@ exports[`shows expiry message: edit form closed 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
           >
             <div
-              className="HTMLContent-root"
+              className="HTMLContent-root coral coral-content coral-comment-content"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "I like yoghurt",
@@ -1337,13 +1346,13 @@ exports[`shows expiry message: edit form closed 1`] = `
               }
             />
             <div
-              className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+              className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
             >
               <div
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -1360,7 +1369,8 @@ exports[`shows expiry message: edit form closed 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                  data-active={false}
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -1382,7 +1392,8 @@ exports[`shows expiry message: edit form closed 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-comment-with-replies"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     onBlur={[Function]}
@@ -1420,7 +1431,8 @@ exports[`shows expiry message: edit form closed 1`] = `
                 >
                   <button
                     aria-controls="report-popover-comment-with-replies"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
+                    data-active={false}
                     data-color="regular"
                     data-variant="ghost"
                     disabled={false}
@@ -1478,13 +1490,13 @@ exports[`shows expiry message: edit time expired 1`] = `
         >
           <div>
             <span
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
             >
               Markus
             </span>
           </div>
           <time
-            className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+            className="RelativeTime-root Timestamp-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >
@@ -1578,7 +1590,7 @@ exports[`shows expiry message: edit time expired 1`] = `
           </div>
         </div>
         <div
-          className="Message-root Message-colorError Message-fullWidth"
+          className="Message-root Message-colorError Message-fullWidth coral coral-editComment-expiredTime coral-validation-message"
         >
           <span
             aria-hidden="true"
