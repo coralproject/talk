@@ -10,7 +10,7 @@ type Props = PropTypesOf<typeof Typography>;
 
 const Header: FunctionComponent<Props> = ({ children, className, ...rest }) => (
   <Typography
-    variant="heading1"
+    variant="heading3"
     className={cn(className, styles.root)}
     {...rest}
   >

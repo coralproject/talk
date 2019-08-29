@@ -1,7 +1,12 @@
 .root {
   padding-bottom: calc(0.5 * var(--mini-unit));
-  border-bottom: 1px solid var(--palette-text-primary);
+  border-style: none;
+  border-radius: 1px;
+  background: var(--palette-text-primary);
+  color: var(--palette-text-light);
+  padding: var(--spacing-2);
   margin-bottom: calc(1.5 * var(--mini-unit));
   display: block;
   width: 100%;
+  font-family: var(--font-family-sans-serif);
 }
