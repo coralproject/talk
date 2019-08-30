@@ -64,7 +64,8 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.childCount > 0
       ? ctx.loaders.Comments.forParent(c.storyID, c.id, input)
       : createConnection(),
-  replyCount: ({ childCount }) => childCount || 0,
+  replyCount: async ({ childIDs }, input, ctx) =>
+    await ctx.loaders.Comments.countPublishedComments(childIDs),
   // Action Counts are encoded, decode them for use with the GraphQL system.
   actionCounts: c => decodeActionCounts(c.actionCounts),
   flags: ({ id }, { first = 10, after }, ctx) =>
