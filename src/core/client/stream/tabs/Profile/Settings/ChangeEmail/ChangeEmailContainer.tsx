@@ -239,11 +239,12 @@ const changeEmailContainer: FunctionComponent<Props> = ({
         <CallOut
           className={cn(styles.callOut, CLASSES.myEmail.form.$root)}
           color="primary"
+          borderless
         >
           <HorizontalGutter spacing={4}>
             <div>
               <Localized id="profile-changeEmail-heading">
-                <Typography variant="heading2" gutterBottom>
+                <Typography variant="heading1" color="textDark" gutterBottom>
                   Edit your email address
                 </Typography>
               </Localized>
@@ -256,15 +257,11 @@ const changeEmailContainer: FunctionComponent<Props> = ({
             </div>
             <div>
               <Localized id="profile-changeEmail-current">
-                <Typography
-                  className={styles.currentEmail}
-                  variant="bodyCopyBold"
-                >
-                  Current email
-                </Typography>
+                <Typography variant="bodyCopyBold">Current email</Typography>
               </Localized>
               <Typography
                 variant="heading2"
+                color="textDark"
                 className={CLASSES.myEmail.form.currentEmail}
               >
                 {viewer.email}
