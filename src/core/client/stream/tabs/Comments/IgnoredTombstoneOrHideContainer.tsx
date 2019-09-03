@@ -42,6 +42,22 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   comment,
   children,
 }) => {
+  const deleted = Boolean(!comment.author);
+
+  if (deleted) {
+    return (
+      <>
+        <Localized id="comments-tombstone-deleted">
+          <CallOut fullWidth>
+            This comment is no longer available. The commenter has deleted their
+            account.
+          </CallOut>
+        </Localized>
+        {children}
+      </>
+    );
+  }
+
   const hide = Boolean(
     comment.author &&
       viewer &&

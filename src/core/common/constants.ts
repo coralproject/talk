@@ -45,3 +45,10 @@ export const DOWNLOAD_LIMIT_TIMEFRAME = 14 * 86400;
  * ALLOWED_USERNAME_CHANGE_FREQUENCY is the length of time in seconds a user must wait after changing their username to change it again.
  */
 export const ALLOWED_USERNAME_CHANGE_FREQUENCY = 14 * 86400;
+
+/**
+ * SCHEDULED_DELETION_TIMESPAN_DAYS is the length of time in days a user
+ * will have to wait for their account to be deleted after requesting a
+ * deletion.
+ */
+export const SCHEDULED_DELETION_TIMESPAN_DAYS = 14;

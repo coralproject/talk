@@ -9,10 +9,12 @@ import styles from "./FeatureButton.css";
 
 interface Props extends PropTypesOf<typeof BaseButton> {
   featured: boolean;
+  enabled?: boolean;
 }
 
 const FeatureButton: FunctionComponent<Props> = ({
   featured,
+  enabled = true,
   className,
   ...rest
 }) => (
@@ -21,6 +23,7 @@ const FeatureButton: FunctionComponent<Props> = ({
     className={cn(className, styles.root, {
       [styles.invert]: featured,
     })}
+    disabled={!enabled}
   >
     {featured ? (
       <Localized id="moderate-comment-featuredText">

@@ -27,6 +27,7 @@ exports[`renders approved correctly 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -95,6 +96,7 @@ exports[`renders approved correctly 1`] = `
       >
         <RejectButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
@@ -137,6 +139,7 @@ exports[`renders correctly 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -205,11 +208,13 @@ exports[`renders correctly 1`] = `
       >
         <RejectButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
@@ -246,6 +251,7 @@ exports[`renders dangling correctly 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -357,6 +363,7 @@ exports[`renders rejected correctly 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -431,6 +438,7 @@ exports[`renders rejected correctly 1`] = `
         />
         <ApproveButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
@@ -467,6 +475,7 @@ exports[`renders reply correctly 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -540,11 +549,13 @@ exports[`renders reply correctly 1`] = `
       >
         <RejectButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
@@ -581,6 +592,7 @@ exports[`renders story info 1`] = `
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
+            enabled={true}
             featured={false}
             onClick={[Function]}
           />
@@ -678,11 +690,131 @@ exports[`renders story info 1`] = `
       >
         <RejectButton
           className=""
+          disabled={false}
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
           className=""
+          disabled={false}
+          invert={false}
+          onClick={[Function]}
+        />
+      </ForwardRef(forwardRef)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
+</withPropsOnChange(Card)>
+`;
+
+exports[`renders tombstoned when comment is deleted 1`] = `
+<withPropsOnChange(Card)
+  className="ModerateCard-root ModerateCard-deleted"
+  data-testid="moderate-comment-comment-id"
+>
+  <ForwardRef(forwardRef)>
+    <div
+      className="ModerateCard-mainContainer"
+    >
+      <div
+        className="ModerateCard-topBar"
+      >
+        <ForwardRef(forwardRef)
+          alignItems="center"
+        >
+          <ForwardRef(forwardRef)
+            className="ModerateCard-username"
+            onClick={[Function]}
+          >
+            <Username>
+              Theon
+            </Username>
+          </ForwardRef(forwardRef)>
+          <Timestamp>
+            2018-11-29T16:01:51.897Z
+          </Timestamp>
+          <FeatureButton
+            enabled={false}
+            featured={false}
+            onClick={[Function]}
+          />
+        </ForwardRef(forwardRef)>
+      </div>
+      <CommentContent
+        bannedWords={
+          Array [
+            "banned",
+          ]
+        }
+        className="ModerateCard-content"
+        suspectWords={
+          Array [
+            "suspect",
+          ]
+        }
+      >
+        <Localized
+          id="moderate-comment-deleted-body"
+        >
+          <ForwardRef(forwardRef)>
+            This comment is no longer available. The commenter has deleted their account.
+          </ForwardRef(forwardRef)>
+        </Localized>
+      </CommentContent>
+      <div
+        className="ModerateCard-footer"
+      >
+        <ForwardRef(forwardRef)>
+          <div>
+            <Localized
+              id="moderate-comment-viewContext"
+            >
+              <withPropsOnChange(TextLinkProps)
+                className="ModerateCard-link"
+                href="http://localhost/comment"
+                target="_blank"
+              >
+                View Context
+              </withPropsOnChange(TextLinkProps)>
+            </Localized>
+          </div>
+          <Relay(MarkersContainer)
+            comment={Object {}}
+            onUsernameClick={[Function]}
+            settings={Object {}}
+          />
+        </ForwardRef(forwardRef)>
+      </div>
+    </div>
+    <div
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
+    />
+    <ForwardRef(forwardRef)
+      alignItems="center"
+      className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
+      direction="column"
+      itemGutter={true}
+    >
+      <Localized
+        id="moderate-comment-decision"
+      >
+        <div
+          className="ModerateCard-decision"
+        >
+          DECISION
+        </div>
+      </Localized>
+      <ForwardRef(forwardRef)
+        itemGutter={true}
+      >
+        <RejectButton
+          className=""
+          disabled={true}
+          invert={false}
+          onClick={[Function]}
+        />
+        <ApproveButton
+          className=""
+          disabled={true}
           invert={false}
           onClick={[Function]}
         />

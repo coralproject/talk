@@ -1,0 +1,83 @@
+.header {
+  background: var(--palette-text-primary);
+}
+
+.headerText {
+  color: var(--palette-text-light);
+
+  min-height: calc(80rem / var(--rem-base));
+  line-height: calc(80rem / var(--rem-base));
+}
+
+.body {
+  background: var(--palette-common-white);
+
+  padding: var(--spacing-5) var(--spacing-5) var(--spacing-5) var(--spacing-5);
+}
+
+.sectionHeader {
+  margin-bottom: var(--spacing-2);
+}
+
+.sectionContent {
+  margin-bottom: var(--spacing-3);
+}
+
+.ul {
+  list-style: none;
+  margin-left: -2em;
+}
+
+.ul p {
+  display: inline;
+}
+
+.ul li {
+  padding-left: 1.3em;
+  margin-bottom: var(--spacing-2);
+}
+
+.ul li:before {
+  display: inline-block;
+
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: bold;
+  font-variant: normal;
+  font-size: calc(18rem / var(--rem-base));
+  line-height: calc(20rem / 16);
+
+  vertical-align: top;
+
+  margin-left: -1.5em;
+  width: 1.5em;
+
+  content: 'check';
+}
+
+.controls {
+  width: 100%;
+  min-height: 36px;
+}
+
+.cancelButton {
+  margin-right: var(--spacing-2);
+
+  float: right;
+}
+
+.proceedButton {
+  border: 1px solid var(--palette-primary-main);
+
+  float: right;
+}
+
+.deleteButton {
+  border: 1px solid var(--palette-error-main);
+
+  float: right;
+}
+
+.deleteButton:hover {
+  border: 1px solid var(--palette-error-lighter);
+}

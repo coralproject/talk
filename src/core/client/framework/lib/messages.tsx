@@ -105,3 +105,9 @@ export const NOT_A_WHOLE_NUMBER_BETWEEN = (min: number, max: number) => (
     <span>Please enter a valid whole number between min and max</span>
   </Localized>
 );
+
+export const DELETE_CONFIRMATION_INVALID = () => (
+  <Localized id="framework-validation-deleteConfirmationInvalid">
+    <span>Incorrect confirmation. Try again.</span>
+  </Localized>
+);

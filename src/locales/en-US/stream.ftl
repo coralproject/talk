@@ -68,6 +68,9 @@ comments-postCommentForm-rte =
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
 
+comments-postCommentForm-userScheduledForDeletion-warning =
+  Commenting is disabled when your account is scheduled for deletion.
+
 comments-replyButton-reply = Reply
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
@@ -147,6 +150,18 @@ comments-rejectedTombstone =
 comments-featuredTag = Featured
 comments-staffTag = Staff
 
+### Account Deletion Stream
+
+comments-stream-deleteAccount-callOut-title =
+  Account deletion requested
+comments-stream-deleteAccount-callOut-receivedDesc =
+  A request to delete your account was received on { $date }.
+comments-stream-deleteAccount-callOut-cancelDesc =
+  If you would like to continue leaving comments, replies or reactions,
+  you may cancel your request to delete your account before { $date }.
+comments-stream-deleteAccount-callOut-cancel =
+  Cancel account deletion request
+
 ### Featured Comments
 comments-featured-gotoConversation = Go to Conversation
 comments-featured-replies = Replies
@@ -155,6 +170,13 @@ comments-featured-replies = Replies
 
 profile-myCommentsTab = My Comments
 profile-settingsTab = Settings
+
+### Account Deletion
+
+profile-accountDeletion-deletionDesc =
+  Your account is scheduled to be deleted on { $date }.
+profile-accountDeletion-cancelDeletion =
+  Cancel account deletion request
 
 ### Comment History
 profile-historyComment-viewConversation = View Conversation
@@ -195,6 +217,78 @@ profile-settings-download-comments-recentRequest =
   Your most recent request: { $timeStamp }
 profile-settings-download-comments-timeOut =
   You can submit another request in { framework-timeago-time }
+
+profile-settings-deleteAccount-title = Delete My Account
+profile-settings-deleteAccount-description =
+  Deleting your account will permanently erase your profile and remove
+  all your comments from this site.
+profile-settings-deleteAccount-requestDelete = Request account deletion
+
+profile-settings-deleteAccount-cancelDelete-description =
+  You have already submitted a request to delete your account.
+  Your account will be deleted on { $date }.
+  You may cancel the request until that time.
+profile-settings-deleteAccount-cancelDelete = Cancel account deletion request
+
+profile-settings-deleteAccount-pages-deleteButton = Delete my account
+profile-settings-deleteAccount-pages-cancel = Cancel
+profile-settings-deleteAccount-pages-proceed = Proceed
+profile-settings-deleteAccount-pages-done = Done
+
+profile-settings-deleteAccount-pages-descriptionHeader = Delete my account?
+profile-settings-deleteAccount-pages-descriptionText =
+  You are attempting to delete your account. This means:
+profile-settings-deleteAccount-pages-allCommentsRemoved =
+  All of your comments are removed from this site
+profile-settings-deleteAccount-pages-allCommentsDeleted =
+  All of your comments are deleted from our database
+profile-settings-deleteAccount-pages-emailRemoved =
+  Your email address is removed from our system
+
+profile-settings-deleteAccount-pages-whenHeader = Delete my account: When?
+profile-settings-deleteAccount-pages-whenSec1Header =
+  When will my account be deleted?
+profile-settings-deleteAccount-pages-whenSec1Content =
+  Your account will be deleted 24 hours after your request has been submitted.
+profile-settings-deleteAccount-pages-whenSec2Header =
+  Can I still write comments until my account is deleted?
+profile-settings-deleteAccount-pages-whenSec2Content =
+  No. Once you've requested account deletion, you can no longer write comments,
+  reply to comments, or select reactions.
+
+profile-settings-deleteAccount-pages-downloadCommentHeader = Download my comments?
+profile-settings-deleteAccount-pages-downloadCommentsDesc =
+  Before your account is deleted, we recommend you download your comment
+  history for your records. After your account is deleted, you will be
+  unable to request your comment history.
+profile-settings-deleteAccount-pages-downloadCommentsPath =
+  My Profile > Download My Comment History
+
+profile-settings-deleteAccount-pages-confirmHeader = Confirm account deletion?
+profile-settings-deleteAccount-pages-confirmDescHeader =
+  Are you sure you want to delete your account?
+profile-settings-deleteAccount-confirmDescContent =
+  To confirm you would like to delete your account please type in the following
+  phrase into the text box below:
+profile-settings-deleteAccount-pages-confirmPhraseLabel =
+  To confirm, type phrase below:
+profile-settings-deleteAccount-pages-confirmPasswordLabel =
+  Enter your password:
+
+profile-settings-deleteAccount-pages-completeHeader = Account deletion requested
+profile-settings-deleteAccount-pages-completeDescript =
+  Your request has been submitted and a confirmation has been sent to the email
+  address associated with your account.
+profile-settings-deleteAccount-pages-completeTimeHeader =
+  Your account will be deleted on: { $date }
+profile-settings-deleteAccount-pages-completeChangeYourMindHeader = Changed your mind?
+profile-settings-deleteAccount-pages-completeSignIntoYourAccount =
+  Simply sign in to your account again before this time and select
+  <strong>Cancel Account Deletion Request</strong>.
+profile-settings-deleteAccount-pages-completeTellUsWhy = Tell us why.
+profile-settings-deleteAccount-pages-completeWhyDeleteAccount =
+  We'd like to know why you chose to delete your account. Send us feedback on
+  our comment system by emailing { $email }.
 
 ## Report Comment Popover
 comments-reportPopover =
@@ -281,6 +375,8 @@ configure-openStream-description =
 configure-openStream-openStream = Open Stream
 
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
+comments-tombstone-deleted =
+  This comment is no longer available. The commenter has deleted their account.
 
 suspendInfo-heading = Your account has been temporarily suspended from commenting.
 suspendInfo-info =

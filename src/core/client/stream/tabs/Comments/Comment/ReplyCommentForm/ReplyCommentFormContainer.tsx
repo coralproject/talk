@@ -107,7 +107,10 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         await this.props.createCommentReply({
           storyID: this.props.story.id,
           parentID: this.props.comment.id,
-          parentRevisionID: this.props.comment.revision.id,
+          // Assuming comment revision exists otherwise we would
+          // not be seeing the reply form options as we we tombstone
+          // deleted comments without revision history
+          parentRevisionID: this.props.comment.revision!.id,
           local: this.props.localReply,
           nudge: this.state.nudge,
           ...input,
