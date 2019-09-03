@@ -6,7 +6,9 @@ import { SettingsContainer_settings } from "coral-stream/__generated__/SettingsC
 import { SettingsContainer_viewer } from "coral-stream/__generated__/SettingsContainer_viewer.graphql";
 import { HorizontalGutter } from "coral-ui/components";
 
+import ChangeEmailContainer from "./ChangeEmail";
 import ChangePasswordContainer from "./ChangePasswordContainer";
+import ChangeUsernameContainer from "./ChangeUsername";
 import DeleteAccountContainer from "./DeleteAccount/DeleteAccountContainer";
 import DownloadCommentsContainer from "./DownloadCommentsContainer";
 import IgnoreUserSettingsContainer from "./IgnoreUserSettingsContainer";
@@ -20,8 +22,9 @@ interface Props {
 }
 
 const SettingsContainer: FunctionComponent<Props> = ({ viewer, settings }) => (
-  <HorizontalGutter spacing={5} className={styles.root}>
-    <IgnoreUserSettingsContainer viewer={viewer} />
+  <HorizontalGutter className={styles.root}>
+    <ChangeUsernameContainer settings={settings} viewer={viewer} />
+    <ChangeEmailContainer settings={settings} viewer={viewer} />
     <ChangePasswordContainer settings={settings} />
     {settings.accountFeatures.downloadComments && (
       <DownloadCommentsContainer viewer={viewer} />
@@ -40,6 +43,8 @@ const enhanced = withFragmentContainer<Props>({
       ...DownloadCommentsContainer_viewer
       ...DeleteAccountContainer_viewer
       ...NotificationSettingsContainer_viewer
+      ...ChangeUsernameContainer_viewer
+      ...ChangeEmailContainer_viewer
     }
   `,
   settings: graphql`
@@ -50,6 +55,8 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...ChangePasswordContainer_settings
       ...DeleteAccountContainer_settings
+      ...ChangeEmailContainer_settings
+      ...ChangeUsernameContainer_settings
     }
   `,
 })(SettingsContainer);

@@ -170,6 +170,7 @@ comments-featured-replies = Replies
 
 profile-myCommentsTab = My Comments
 profile-settingsTab = Settings
+profile-accountTab = Account
 
 ### Account Deletion
 
@@ -342,6 +343,7 @@ configure-configureQuery-errorLoadingProfile = Error loading configure
 configure-configureQuery-storyNotFound = Story not found
 
 ## Change username
+profile-changeUsername-username = Username
 profile-changeUsername-success = Your username has been successfully updated
 profile-changeUsername-edit = Edit
 profile-changeUsername-heading = Edit your username

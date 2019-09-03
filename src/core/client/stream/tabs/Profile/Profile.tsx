@@ -14,8 +14,6 @@ import {
   TabPane,
 } from "coral-ui/components";
 
-import ChangeEmailContainer from "./ChangeEmail";
-import ChangeUsernameContainer from "./ChangeUsername";
 import CommentHistoryContainer from "./CommentHistory";
 import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";
 import SettingsContainer from "./Settings";
@@ -25,14 +23,16 @@ export interface ProfileProps {
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
     PropTypesOf<typeof CommentHistoryContainer>["viewer"] &
     PropTypesOf<typeof SettingsContainer>["viewer"] &
+<<<<<<< HEAD
     PropTypesOf<typeof ChangeUsernameContainer>["viewer"] &
     PropTypesOf<typeof ChangeEmailContainer>["viewer"] &
     PropTypesOf<typeof SettingsContainer>["viewer"] &
     PropTypesOf<typeof DeletionRequestCalloutContainer>["viewer"];
+=======
+    PropTypesOf<typeof SettingsContainer>["viewer"];
+>>>>>>> reconfigure settings tab and account settings in stream
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
-    PropTypesOf<typeof ChangeEmailContainer>["settings"] &
-    PropTypesOf<typeof SettingsContainer>["settings"] &
-    PropTypesOf<typeof ChangeUsernameContainer>["settings"];
+    PropTypesOf<typeof SettingsContainer>["settings"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
@@ -47,14 +47,6 @@ const Profile: FunctionComponent<ProfileProps> = props => {
   );
   return (
     <HorizontalGutter spacing={5}>
-      <HorizontalGutter spacing={2}>
-        <ChangeUsernameContainer
-          settings={props.settings}
-          viewer={props.viewer}
-        />
-        <ChangeEmailContainer settings={props.settings} viewer={props.viewer} />
-        <DeletionRequestCalloutContainer viewer={props.viewer} />
-      </HorizontalGutter>
       <TabBar
         variant="secondary"
         activeTab={local.profileTab}
@@ -67,8 +59,8 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           </Localized>
         </Tab>
         <Tab tabID="SETTINGS" className={CLASSES.tabBarMyProfile.settings}>
-          <Localized id="profile-settingsTab">
-            <span>Settings</span>
+          <Localized id="profile-accountTab">
+            <span>Account</span>
           </Localized>
         </Tab>
       </TabBar>
@@ -81,6 +73,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         </TabPane>
         <TabPane className={CLASSES.settingsTabPane.$root} tabID="SETTINGS">
           <SettingsContainer viewer={props.viewer} settings={props.settings} />
+          <DeletionRequestCalloutContainer viewer={props.viewer} />
         </TabPane>
       </TabContent>
     </HorizontalGutter>

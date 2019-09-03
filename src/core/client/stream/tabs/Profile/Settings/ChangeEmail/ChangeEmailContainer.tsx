@@ -150,18 +150,25 @@ const changeEmailContainer: FunctionComponent<Props> = ({
       data-testid="profile-changeEmail"
     >
       {!showEditForm && (
-        <Flex alignItems="center">
-          <Typography>{viewer.email}</Typography>{" "}
-          {!viewer.emailVerified && (
-            <Localized id="profile-changeEmail-unverified">
-              <Typography
-                className={CLASSES.myEmail.unverified}
-                color="textSecondary"
-              >
-                (Unverified)
-              </Typography>
+        <Flex alignItems="center" justifyContent="space-between">
+          <div>
+            <Localized id="profile-changeEmail-email">
+              <Typography variant="heading2">Email</Typography>
             </Localized>
-          )}
+            <Flex>
+              <Typography>{viewer.email}</Typography>{" "}
+              {!viewer.emailVerified && (
+                <Localized id="profile-changeEmail-unverified">
+                  <Typography
+                    color="textSecondary"
+                    className={CLASSES.myEmail.unverified}
+                  >
+                    (Unverified)
+                  </Typography>
+                </Localized>
+              )}
+            </Flex>
+          </div>
           {canChangeEmail && (
             <Localized id="profile-changeEmail-edit">
               <Button

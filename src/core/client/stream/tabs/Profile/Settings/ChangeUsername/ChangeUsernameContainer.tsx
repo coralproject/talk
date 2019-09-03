@@ -168,11 +168,19 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
         </Box>
       )}
       {!showEditForm && (
-        <Flex alignItems="baseline">
-          <Typography variant="header2" className={CLASSES.myUsername.username}>
-            {viewer.username}
-          </Typography>
-          {canChangeLocalAuth && settings.accountFeatures.changeUsername && (
+        <Flex alignItems="baseline" justifyContent="space-between">
+          <div>
+            <Localized id="profile-changeUsername-username">
+              <Typography
+                className={CLASSES.myUsername.username}
+                variant="heading2"
+              >
+                Username
+              </Typography>
+            </Localized>
+            <Typography variant="bodyCopy">{viewer.username}</Typography>
+          </div>
+          {canChangeLocalAuth && (
             <Localized id="profile-changeUsername-edit">
               <Button
                 className={CLASSES.myUsername.editButton}

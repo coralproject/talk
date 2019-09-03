@@ -1,6 +1,6 @@
 import { FORM_ERROR, FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
@@ -60,122 +60,141 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
     [updatePassword]
   );
 
+  const [showForm, setShowForm] = useState(false);
+  const toggleForm = useCallback(() => setShowForm(!showForm), [
+    showForm,
+    setShowForm,
+  ]);
+
   return (
     <div
-      className={CLASSES.changePassword.$root}
       data-testid="profile-settings-changePassword"
+      className={CLASSES.changePassword.$root}
     >
-      <Form onSubmit={onSubmit}>
-        {({
-          handleSubmit,
-          submitting,
-          submitError,
-          pristine,
-          submitSucceeded,
-        }) => (
-          <form autoComplete="off" onSubmit={handleSubmit}>
-            <HorizontalGutter size="oneAndAHalf">
-              <Localized id="profile-settings-changePassword">
-                <Typography variant="heading3">Change Password</Typography>
-              </Localized>
-              <HorizontalGutter container={<FieldSet />}>
-                <Field
-                  name="oldPassword"
-                  validate={composeValidators(required, validatePassword)}
-                >
-                  {({ input, meta }) => (
-                    <FormField container={<FieldSet />}>
-                      <Localized id="profile-settings-changePassword-oldPassword">
-                        <InputLabel htmlFor={input.name}>
-                          Old Password
-                        </InputLabel>
-                      </Localized>
-                      <PasswordField
-                        fullWidth
-                        id={input.name}
-                        disabled={submitting}
-                        color={colorFromMeta(meta)}
-                        autoComplete="current-password"
-                        {...input}
-                      />
-                      <FieldValidationMessage fullWidth meta={meta} />
+      {!showForm && (
+        <Flex justifyContent="space-between">
+          <Localized id="profile-settings-changePassword-password">
+            <Typography variant="heading2">Password</Typography>
+          </Localized>
 
-                      <Flex justifyContent="flex-end">
-                        <Localized id="profile-settings-changePassword-forgotPassword">
-                          <Button
-                            variant="underlined"
-                            color="primary"
-                            onClick={onResetPassword}
-                            className={CLASSES.changePassword.forgotButton}
-                          >
-                            Forgot your password?
-                          </Button>
-                        </Localized>
-                      </Flex>
-                    </FormField>
-                  )}
-                </Field>
-                <Field
-                  name="newPassword"
-                  validate={composeValidators(required, validatePassword)}
-                >
-                  {({ input, meta }) => (
-                    <FormField container={<FieldSet />}>
-                      <Localized id="profile-settings-changePassword-newPassword">
-                        <InputLabel htmlFor={input.name}>
-                          New Password
-                        </InputLabel>
-                      </Localized>
-                      <PasswordField
-                        fullWidth
-                        id={input.name}
-                        disabled={submitting}
-                        color={colorFromMeta(meta)}
-                        autoComplete="new-password"
-                        {...input}
-                      />
-                      <FieldValidationMessage fullWidth meta={meta} />
-                    </FormField>
-                  )}
-                </Field>
-                {submitError && (
-                  <CallOut
-                    className={CLASSES.changePassword.errorMessage}
-                    color="error"
-                    fullWidth
+          <Localized id="profile-settings-changePassword-edit">
+            <Button onClick={toggleForm}>Edit</Button>
+          </Localized>
+        </Flex>
+      )}
+      {showForm && (
+        <Form onSubmit={onSubmit}>
+          {({
+            handleSubmit,
+            submitting,
+            submitError,
+            pristine,
+            submitSucceeded,
+          }) => (
+            <form autoComplete="off" onSubmit={handleSubmit}>
+              <HorizontalGutter size="oneAndAHalf">
+                <Localized id="profile-settings-changePassword">
+                  <Typography variant="heading3">Change Password</Typography>
+                </Localized>
+                <HorizontalGutter container={<FieldSet />}>
+                  <Field
+                    name="oldPassword"
+                    validate={composeValidators(required, validatePassword)}
                   >
-                    {submitError}
-                  </CallOut>
-                )}
-                {submitSucceeded && (
-                  <Localized id="profile-settings-changePassword-updated">
+                    {({ input, meta }) => (
+                      <FormField container={<FieldSet />}>
+                        <Localized id="profile-settings-changePassword-oldPassword">
+                          <InputLabel htmlFor={input.name}>
+                            Old Password
+                          </InputLabel>
+                        </Localized>
+                        <PasswordField
+                          fullWidth
+                          id={input.name}
+                          disabled={submitting}
+                          color={colorFromMeta(meta)}
+                          autoComplete="current-password"
+                          {...input}
+                        />
+                        <FieldValidationMessage fullWidth meta={meta} />
+
+                        <Flex justifyContent="flex-end">
+                          <Localized id="profile-settings-changePassword-forgotPassword">
+                            <Button
+                              variant="underlined"
+                              color="primary"
+                              onClick={onResetPassword}
+                              className={CLASSES.changePassword.forgotButton}
+                            >
+                              Forgot your password?
+                            </Button>
+                          </Localized>
+                        </Flex>
+                      </FormField>
+                    )}
+                  </Field>
+                  <Field
+                    name="newPassword"
+                    validate={composeValidators(required, validatePassword)}
+                  >
+                    {({ input, meta }) => (
+                      <FormField container={<FieldSet />}>
+                        <Localized id="profile-settings-changePassword-newPassword">
+                          <InputLabel htmlFor={input.name}>
+                            New Password
+                          </InputLabel>
+                        </Localized>
+                        <PasswordField
+                          fullWidth
+                          id={input.name}
+                          disabled={submitting}
+                          color={colorFromMeta(meta)}
+                          autoComplete="new-password"
+                          {...input}
+                        />
+                        <FieldValidationMessage fullWidth meta={meta} />
+                      </FormField>
+                    )}
+                  </Field>
+                  {submitError && (
                     <CallOut
-                      className={CLASSES.changePassword.successMessage}
-                      color="success"
+                      className={CLASSES.changePassword.errorMessage}
+                      color="error"
                       fullWidth
                     >
-                      Your password has been updated
+                      {submitError}
                     </CallOut>
-                  </Localized>
-                )}
-                <Flex justifyContent="flex-end">
-                  <Localized id="profile-settings-changePassword-button">
-                    <Button
-                      color="primary"
-                      variant="filled"
-                      type="submit"
-                      disabled={submitting || pristine}
-                      className={CLASSES.changePassword.changeButton}
-                    >
-                      Change Password
-                    </Button>
-                  </Localized>
-                </Flex>
+                  )}
+                  {submitSucceeded && (
+                    <Localized id="profile-settings-changePassword-updated">
+                      <CallOut
+                        color="success"
+                        className={CLASSES.changePassword.successMessage}
+                        fullWidth
+                      >
+                        Your password has been updated
+                      </CallOut>
+                    </Localized>
+                  )}
+                  <Flex justifyContent="flex-end">
+                    <Localized id="profile-settings-changePassword-button">
+                      <Button
+                        color="primary"
+                        variant="filled"
+                        type="submit"
+                        className={CLASSES.changePassword.changeButton}
+                        disabled={submitting || pristine}
+                      >
+                        Change Password
+                      </Button>
+                    </Localized>
+                  </Flex>
+                </HorizontalGutter>
               </HorizontalGutter>
-            </HorizontalGutter>
-          </form>
-        )}
-      </Form>
+            </form>
+          )}
+        </Form>
+      )}
     </div>
   );
 };
