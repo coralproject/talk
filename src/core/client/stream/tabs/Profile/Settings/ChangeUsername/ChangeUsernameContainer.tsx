@@ -184,6 +184,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
             <Localized id="profile-changeUsername-edit">
               <Button
                 className={CLASSES.myUsername.editButton}
+                variant="outlineFilled"
                 size="small"
                 color="primary"
                 onClick={toggleEditForm}
