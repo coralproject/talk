@@ -612,6 +612,10 @@ function enabledAuthenticationIntegrations(
  * @param user the User that we are updating
  */
 function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
+  if (!tenant.accountFeatures.changeUsername) {
+    return false;
+  }
+
   if (!hasLocalProfile(user)) {
     return false;
   }
@@ -965,6 +969,9 @@ export async function requestCommentsDownload(
   user: User,
   now: Date
 ) {
+  if (!tenant.accountFeatures.downloadComments) {
+    throw new Error("Downloading comments is not enabled");
+  }
   // Check to see if the user is allowed to download this now.
   if (
     user.lastDownloadedAt &&

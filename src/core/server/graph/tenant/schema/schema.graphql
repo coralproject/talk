@@ -1080,6 +1080,24 @@ type StoryConfiguration {
 }
 
 """
+CommenterAccountFeatures stores the configuration for commenter account features.
+"""
+type CommenterAccountFeatures {
+  """
+  changeUsername when true, non-sso user may change username every 14 days
+  """
+  changeUsername: Boolean!
+  """
+  downloadComments when true, user may download their comment history 
+  """
+  downloadComments: Boolean!
+  """
+  deleteAccount when true, non-sso user may permanently delete their account 
+  """
+  deleteAccount: Boolean!
+}
+
+"""
 Settings stores the global settings for a given Tenant.
 """
 type Settings {
@@ -1193,6 +1211,11 @@ type Settings {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfiguration!
+
+  """
+  accountFeatures stores the configuration for commenter account features.
+  """
+  accountFeatures: CommenterAccountFeatures!
 
   """
   stories stores the configuration around stories.
@@ -3109,6 +3132,24 @@ input ReactionConfigurationInput {
 }
 
 """
+CommenterAccountFeatures stores the configuration for commenter account features.
+"""
+input CommenterAccountFeaturesInput {
+  """
+  changeUsername when true, non-sso user may change username every 14 days
+  """
+  changeUsername: Boolean
+  """
+  downloadComments when true, user may download their comment history 
+  """
+  downloadComments: Boolean
+  """
+  deleteAccount when true, non-sso user may permanently delete their account 
+  """
+  deleteAccount: Boolean
+}
+
+"""
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
@@ -3206,6 +3247,11 @@ input SettingsInput {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfigurationInput
+
+  """
+  accountFeatures specifies the configuration for accounts.
+  """
+  accountFeatures: CommenterAccountFeaturesInput
 }
 
 """
