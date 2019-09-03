@@ -763,11 +763,11 @@ configure-account-features-delete-account-details =
   Removes all of their comment data, username, and email address from the site and the database.
 
 configure-advanced-stories = Story creation
-configure-advanced-stories-explanation = Details about story creation
+configure-advanced-stories-explanation = Advanced settings for how stories are created within Coral. 
 configure-advanced-stories-lazy = Lazy story creation
-configure-advanced-stories-lazy-detail = Details about Lazy story creation
+configure-advanced-stories-lazy-detail = Enable stories to be automatically created when they are published from your CMS.
 configure-advanced-stories-scraping = Story scraping
-configure-advanced-stories-scraping-detail = Details about Story scraping
+configure-advanced-stories-scraping-detail = Enable story metadata to be automatically scraped when they are published from your CMS.
 configure-advanced-stories-proxy = Scraper proxy url
 configure-advanced-stories-proxy-detail = 
   When specified, allows scraping requests to use the provided
