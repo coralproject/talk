@@ -46,7 +46,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
     [setLocal]
   );
   return (
-    <HorizontalGutter spacing={5}>
+    <HorizontalGutter size="double">
       <TabBar
         variant="secondary"
         activeTab={local.profileTab}

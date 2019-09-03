@@ -76,7 +76,9 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
       {!showForm && (
         <Flex justifyContent="space-between" alignItems="center">
           <Localized id="profile-settings-changePassword-password">
-            <Typography variant="heading2">Password</Typography>
+            <Typography variant="heading2" color="textDark">
+              Password
+            </Typography>
           </Localized>
 
           <Localized id="profile-settings-changePassword-edit">

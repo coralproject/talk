@@ -173,6 +173,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
             <Localized id="profile-changeUsername-username">
               <Typography
                 className={CLASSES.myUsername.username}
+                color="textDark"
                 variant="heading2"
               >
                 Username

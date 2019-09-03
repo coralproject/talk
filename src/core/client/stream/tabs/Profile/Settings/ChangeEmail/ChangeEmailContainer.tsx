@@ -153,7 +153,9 @@ const changeEmailContainer: FunctionComponent<Props> = ({
         <Flex alignItems="center" justifyContent="space-between">
           <div>
             <Localized id="profile-changeEmail-email">
-              <Typography variant="heading2">Email</Typography>
+              <Typography color="textDark" variant="heading2">
+                Email
+              </Typography>
             </Localized>
             <Flex>
               <Typography>{viewer.email}</Typography>{" "}

@@ -1,11 +1,13 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { SettingsContainer_settings } from "coral-stream/__generated__/SettingsContainer_settings.graphql";
 import { SettingsContainer_viewer } from "coral-stream/__generated__/SettingsContainer_viewer.graphql";
-import { HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter, Typography } from "coral-ui/components";
 
+import UserBoxContainer from "coral-stream/common/UserBox/UserBoxContainer";
 import ChangeEmailContainer from "./ChangeEmail";
 import ChangePasswordContainer from "./ChangePasswordContainer";
 import ChangeUsernameContainer from "./ChangeUsername";
@@ -45,6 +47,7 @@ const enhanced = withFragmentContainer<Props>({
       ...NotificationSettingsContainer_viewer
       ...ChangeUsernameContainer_viewer
       ...ChangeEmailContainer_viewer
+      ...UserBoxContainer_viewer
     }
   `,
   settings: graphql`
@@ -57,6 +60,7 @@ const enhanced = withFragmentContainer<Props>({
       ...DeleteAccountContainer_settings
       ...ChangeEmailContainer_settings
       ...ChangeUsernameContainer_settings
+      ...UserBoxContainer_settings
     }
   `,
 })(SettingsContainer);

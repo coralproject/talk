@@ -35,7 +35,9 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
     >
       <Flex justifyContent="space-between" alignItems="center">
         <Localized id="profile-settings-ignoredCommenters">
-          <Typography variant="heading3">Ignored Commenters</Typography>
+          <Typography color="textDark" variant="heading2">
+            Ignored Commenters
+          </Typography>
         </Localized>
         <Button
           variant="outlineFilled"
