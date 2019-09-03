@@ -47,23 +47,23 @@ const DescriptionPage: FunctionComponent<Props> = ({
         </Localized>
         <ul className={styles.ul}>
           <li>
-            <Localized id="profile-settings-deleteAccount-pages-list1">
+            <Localized id="profile-settings-deleteAccount-pages-allCommentsRemoved">
               <Typography variant="bodyCopy">
                 All of your comments are removed from this site
               </Typography>
             </Localized>
           </li>
           <li>
-            <Localized id="profile-settings-deleteAccount-pages-list2">
+            <Localized id="profile-settings-deleteAccount-pages-allCommentsDeleted">
               <Typography variant="bodyCopy">
                 All of your comments are deleted from our database
               </Typography>
             </Localized>
           </li>
           <li>
-            <Localized id="profile-settings-deleteAccount-pages-list3">
+            <Localized id="profile-settings-deleteAccount-pages-emailRemoved">
               <Typography variant="bodyCopy">
-                Your username and email address are removed from our system
+                Your email address is removed from our system
               </Typography>
             </Localized>
           </li>

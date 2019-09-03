@@ -238,12 +238,12 @@ profile-settings-deleteAccount-pages-done = Done
 profile-settings-deleteAccount-pages-descriptionHeader = Delete my account?
 profile-settings-deleteAccount-pages-descriptionText =
   You are attempting to delete your account. This means:
-profile-settings-deleteAccount-pages-list1 =
+profile-settings-deleteAccount-pages-allCommentsRemoved =
   All of your comments are removed from this site
-profile-settings-deleteAccount-pages-list2 =
+profile-settings-deleteAccount-pages-allCommentsDeleted =
   All of your comments are deleted from our database
-profile-settings-deleteAccount-pages-list3 =
-  Your username and email address are removed from our system
+profile-settings-deleteAccount-pages-emailRemoved =
+  Your email address is removed from our system
 
 profile-settings-deleteAccount-pages-whenHeader = Delete my account: When?
 profile-settings-deleteAccount-pages-whenSec1Header =
