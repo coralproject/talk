@@ -345,6 +345,8 @@ export async function requestAccountDeletion(
     deletionDate.toJSDate()
   );
 
+  // TODO: extract out into a common shared formatter
+  // this is being duplicated everywhere
   const formattedDate = Intl.DateTimeFormat(tenant.locale, {
     year: "numeric",
     month: "numeric",
