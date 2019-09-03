@@ -24,7 +24,7 @@ export function registerAccountDeletion(
   });
 
   if (job.running) {
-    logger.info("Account deletion scheduler now running.");
+    logger.info("account deletion scheduler now running");
   }
 
   return job;
@@ -32,7 +32,7 @@ export function registerAccountDeletion(
 
 function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue): CronCommand {
   return async () => {
-    logger.info("Checking for accounts that require deletion...");
+    logger.info("checking for accounts that require deletion");
 
     const users = createCollection<User>("users");
 
@@ -55,13 +55,16 @@ function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue): CronCommand {
       );
 
       if (!userResult.value) {
-        logger.info("No more users were scheduled for deletion.");
+        logger.info("no more users were scheduled for deletion");
         break;
       }
 
       const userToDelete = userResult.value;
 
-      logger.info(`Deleting user...`);
+      logger.info(
+        { userID: userToDelete.id, tenantID: userToDelete.tenantID },
+        `deleting user`
+      );
 
       deleteUser(mongo, mailer, userToDelete.id, userToDelete.tenantID, now);
     }
@@ -177,13 +180,13 @@ async function deleteUser(
 
   const user = await users.findOne({ id: userID, tenantID });
   if (!user) {
-    logger.warn(`Could not find user.`);
+    logger.warn({ userID, tenantID }, `could not find user`);
     return;
   }
 
   const tenant = await tenants.findOne({ id: tenantID });
   if (!tenant) {
-    logger.warn(`Could not find tenant.`);
+    logger.warn({ userID, tenantID }, `could not find tenant`);
     return;
   }
 
