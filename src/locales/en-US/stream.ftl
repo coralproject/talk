@@ -281,12 +281,12 @@ profile-settings-deleteAccount-pages-completeDescript =
   address associated with your account.
 profile-settings-deleteAccount-pages-completeTimeHeader =
   Your account will be deleted on: { $date }
-profile-settings-deleteAccount-pages-completeSec1Header = Changed your mind?
-profile-settings-deleteAccount-pages-completeSec1Content =
+profile-settings-deleteAccount-pages-completeChangeYourMindHeader = Changed your mind?
+profile-settings-deleteAccount-pages-completeSignIntoYourAccount =
   Simply sign in to your account again before this time and select
-  <strong>“Cancel Account Deletion Request.”</strong>
-profile-settings-deleteAccount-pages-completeSec2Header = Tell us why.
-profile-settings-deleteAccount-pages-completeSec2Content =
+  <strong>Cancel Account Deletion Request</strong>.
+profile-settings-deleteAccount-pages-completeTellUsWhy = Tell us why.
+profile-settings-deleteAccount-pages-completeWhyDeleteAccount =
   We'd like to know why you chose to delete your account. Send us feedback on
   our comment system by emailing { $email }.
 
