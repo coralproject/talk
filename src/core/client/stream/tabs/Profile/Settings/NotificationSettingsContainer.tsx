@@ -52,7 +52,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                 <Field name="onReply" type="checkbox">
                   {({ input }) => (
                     <Localized id="profile-settings-notifications-onReply">
-                      <CheckBox {...input}>
+                      <CheckBox id={input.name} {...input}>
                         My comment receives a reply
                       </CheckBox>
                     </Localized>
@@ -63,7 +63,9 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                 <Field name="onFeatured" type="checkbox">
                   {({ input }) => (
                     <Localized id="profile-settings-notifications-onFeatured">
-                      <CheckBox {...input}>My comment is featured</CheckBox>
+                      <CheckBox id={input.name} {...input}>
+                        My comment is featured
+                      </CheckBox>
                     </Localized>
                   )}
                 </Field>
@@ -72,7 +74,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                 <Field name="onStaffReplies" type="checkbox">
                   {({ input }) => (
                     <Localized id="profile-settings-notifications-onStaffReplies">
-                      <CheckBox {...input}>
+                      <CheckBox id={input.name} {...input}>
                         A staff member replies to my comment
                       </CheckBox>
                     </Localized>
@@ -83,7 +85,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                 <Field name="onModeration" type="checkbox">
                   {({ input }) => (
                     <Localized id="profile-settings-notifications-onModeration">
-                      <CheckBox {...input}>
+                      <CheckBox id={input.name} {...input}>
                         My pending comment has been reviewed
                       </CheckBox>
                     </Localized>

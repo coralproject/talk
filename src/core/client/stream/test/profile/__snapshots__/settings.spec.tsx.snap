@@ -521,7 +521,7 @@ all your comments from this site.
                     <input
                       checked={false}
                       className="CheckBox-input"
-                      id="51a12e52-4b5a-4236-ab83-f26717cbdb49"
+                      id="onReply"
                       name="onReply"
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -531,7 +531,7 @@ all your comments from this site.
                     />
                     <label
                       className="CheckBox-label"
-                      htmlFor="51a12e52-4b5a-4236-ab83-f26717cbdb49"
+                      htmlFor="onReply"
                     >
                       <span
                         className="CheckBox-labelSpan"
@@ -550,7 +550,7 @@ all your comments from this site.
                     <input
                       checked={false}
                       className="CheckBox-input"
-                      id="6e263499-c307-414b-acc7-9ac14dddac0f"
+                      id="onFeatured"
                       name="onFeatured"
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -560,7 +560,7 @@ all your comments from this site.
                     />
                     <label
                       className="CheckBox-label"
-                      htmlFor="6e263499-c307-414b-acc7-9ac14dddac0f"
+                      htmlFor="onFeatured"
                     >
                       <span
                         className="CheckBox-labelSpan"
@@ -579,7 +579,7 @@ all your comments from this site.
                     <input
                       checked={false}
                       className="CheckBox-input"
-                      id="2228f596-6d0d-4660-bf88-4f7b25d590d5"
+                      id="onStaffReplies"
                       name="onStaffReplies"
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -589,7 +589,7 @@ all your comments from this site.
                     />
                     <label
                       className="CheckBox-label"
-                      htmlFor="2228f596-6d0d-4660-bf88-4f7b25d590d5"
+                      htmlFor="onStaffReplies"
                     >
                       <span
                         className="CheckBox-labelSpan"
@@ -608,7 +608,7 @@ all your comments from this site.
                     <input
                       checked={false}
                       className="CheckBox-input"
-                      id="9783bfa9-7e78-456e-a40f-5f717a33f6dc"
+                      id="onModeration"
                       name="onModeration"
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -618,7 +618,7 @@ all your comments from this site.
                     />
                     <label
                       className="CheckBox-label"
-                      htmlFor="9783bfa9-7e78-456e-a40f-5f717a33f6dc"
+                      htmlFor="onModeration"
                     >
                       <span
                         className="CheckBox-labelSpan"
