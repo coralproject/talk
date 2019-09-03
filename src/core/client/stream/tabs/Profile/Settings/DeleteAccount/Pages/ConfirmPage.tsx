@@ -41,6 +41,19 @@ interface FormProps {
   password: string;
 }
 
+const preventSubmit = (
+  state: Pick<
+    FormState,
+    | "pristine"
+    | "hasSubmitErrors"
+    | "hasValidationErrors"
+    | "dirtySinceLastSubmit"
+  >
+) =>
+  state.pristine ||
+  state.hasValidationErrors ||
+  (state.hasSubmitErrors && !state.dirtySinceLastSubmit);
+
 const ConfirmPage: FunctionComponent<Props> = ({
   step,
   onCancel,
@@ -75,19 +88,6 @@ const ConfirmPage: FunctionComponent<Props> = ({
   const onCancelClicked = useCallback(() => {
     onCancel();
   }, [onProceed]);
-
-  const preventSubmit = (
-    state: Pick<
-      FormState,
-      | "pristine"
-      | "hasSubmitErrors"
-      | "hasValidationErrors"
-      | "dirtySinceLastSubmit"
-    >
-  ) =>
-    state.pristine ||
-    state.hasValidationErrors ||
-    (state.hasSubmitErrors && !state.dirtySinceLastSubmit);
 
   return (
     <>
