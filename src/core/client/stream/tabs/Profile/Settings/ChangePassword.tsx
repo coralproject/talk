@@ -72,13 +72,20 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
       className={CLASSES.changePassword.$root}
     >
       {!showForm && (
-        <Flex justifyContent="space-between">
+        <Flex justifyContent="space-between" alignItems="center">
           <Localized id="profile-settings-changePassword-password">
             <Typography variant="heading2">Password</Typography>
           </Localized>
 
           <Localized id="profile-settings-changePassword-edit">
-            <Button onClick={toggleForm}>Edit</Button>
+            <Button
+              variant="outlineFilled"
+              color="primary"
+              size="small"
+              onClick={toggleForm}
+            >
+              Edit
+            </Button>
           </Localized>
         </Flex>
       )}

@@ -51,11 +51,8 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
   ]);
 
   return (
-    <div
-      className={cn(styles.root, CLASSES.downloadCommentHistory.$root)}
-      className={styles.root}
-    >
-      <Flex justifyContent="space-between">
+    <div className={cn(styles.root, CLASSES.downloadCommentHistory.$root)}>
+      <Flex justifyContent="space-between" alignItems="flex-start">
         <div>
           <Localized id="profile-settings-download-comments-title">
             <Typography variant="heading3" className={styles.title}>
@@ -88,38 +85,44 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
             </Localized>
           )}
         </div>
-        {canDownload ? (
-          <Localized id="profile-settings-download-comments-request-button">
-            <Button
-              className={CLASSES.downloadCommentHistory.requestButton}
-              onClick={onClick}
-            >
-              Request
-            </Button>
-          </Localized>
-        ) : (
-          <CallOut
-            fullWidth
-            className={cn(
-              styles.callout,
-              CLASSES.downloadCommentHistory.requestLater
-            )}
-          >
-            <Icon size="lg" className={styles.icon}>
-              query_builder
-            </Icon>
-            <Localized
-              id="profile-settings-download-comments-timeOut"
-              $value={scaled}
-              $unit={unit}
-            >
-              <span>
-                You can submit another request in {scaled} {unit}
-              </span>
+        <div>
+          {canDownload && (
+            <Localized id="profile-settings-download-comments-request-button">
+              <Button
+                variant="outlineFilled"
+                color="primary"
+                size="small"
+                className={CLASSES.downloadCommentHistory.requestButton}
+                onClick={onClick}
+              >
+                Request
+              </Button>
             </Localized>
-          </CallOut>
-        )}
+          )}
+        </div>
       </Flex>
+      {!canDownload && (
+        <CallOut
+          fullWidth
+          className={cn(
+            styles.callout,
+            CLASSES.downloadCommentHistory.requestLater
+          )}
+        >
+          <Icon size="lg" className={styles.icon}>
+            query_builder
+          </Icon>
+          <Localized
+            id="profile-settings-download-comments-timeOut"
+            $value={scaled}
+            $unit={unit}
+          >
+            <span>
+              You can submit another request in {scaled} {unit}
+            </span>
+          </Localized>
+        </CallOut>
+      )}
     </div>
   );
 };

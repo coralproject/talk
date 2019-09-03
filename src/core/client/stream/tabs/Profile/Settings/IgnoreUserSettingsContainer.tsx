@@ -30,14 +30,21 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
   ]);
   return (
     <div
-      className={CLASSES.ignoredCommenters.$root}
       data-testid="profile-settings-ignoredCommenters"
+      className={CLASSES.ignoredCommenters.$root}
     >
-      <Flex justifyContent="space-between">
+      <Flex justifyContent="space-between" alignItems="center">
         <Localized id="profile-settings-ignoredCommenters">
           <Typography variant="heading3">Ignored Commenters</Typography>
         </Localized>
-        <Button onClick={toggleManage}>Manage</Button>
+        <Button
+          variant="outlineFilled"
+          size="small"
+          color="primary"
+          onClick={toggleManage}
+        >
+          Manage
+        </Button>
       </Flex>
       {showManage && (
         <div>

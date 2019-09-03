@@ -173,6 +173,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
             <Localized id="profile-changeEmail-edit">
               <Button
                 className={CLASSES.myEmail.editButton}
+                variant="outlineFilled"
                 size="small"
                 color="primary"
                 onClick={toggleEditForm}
