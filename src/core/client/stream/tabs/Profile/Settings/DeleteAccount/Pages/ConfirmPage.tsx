@@ -77,26 +77,17 @@ const ConfirmPage: FunctionComponent<Props> = ({
   }, [onProceed]);
 
   const preventSubmit = (
-    formState: Pick<
+    state: Pick<
       FormState,
       | "pristine"
       | "hasSubmitErrors"
       | "hasValidationErrors"
       | "dirtySinceLastSubmit"
     >
-  ) => {
-    const {
-      pristine,
-      hasValidationErrors,
-      hasSubmitErrors,
-      dirtySinceLastSubmit,
-    } = formState;
-    return (
-      pristine ||
-      hasValidationErrors ||
-      (hasSubmitErrors && !dirtySinceLastSubmit)
-    );
-  };
+  ) =>
+    state.pristine ||
+    state.hasValidationErrors ||
+    (state.hasSubmitErrors && !state.dirtySinceLastSubmit);
 
   return (
     <>
