@@ -15,12 +15,11 @@ const BATCH_SIZE = 500;
 // TODO: extract this out to a separate file so it
 // can be re-used elsewhere
 const collections = {
-  users: (mongo: Db) => createCollection<User>("users")(mongo),
-  comments: (mongo: Db) => createCollection<Comment>("comments")(mongo),
-  stories: (mongo: Db) => createCollection<Story>("stories")(mongo),
-  tenants: (mongo: Db) => createCollection<Tenant>("tenants")(mongo),
-  commentActions: (mongo: Db) =>
-    createCollection<CommentAction>("commentActions")(mongo),
+  users: createCollection<User>("users"),
+  comments: createCollection<Comment>("comments"),
+  stories: createCollection<Story>("stories"),
+  tenants: createCollection<Tenant>("tenants"),
+  commentActions: createCollection<CommentAction>("commentActions"),
 };
 
 export function registerAccountDeletion(
