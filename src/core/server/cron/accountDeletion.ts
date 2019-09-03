@@ -3,6 +3,7 @@ import { DateTime } from "luxon";
 import { Collection, Db } from "mongodb";
 
 import logger from "coral-server/logger";
+import { CommentAction } from "coral-server/models/action/comment";
 import { createCollection } from "coral-server/models/helpers";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
@@ -10,6 +11,14 @@ import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 
 const BATCH_SIZE = 500;
+
+const collections = (mongo: Db) => ({
+  users: createCollection<User>("users")(mongo),
+  comments: createCollection<Comment>("comments")(mongo),
+  stories: createCollection<Story>("stories")(mongo),
+  tenants: createCollection<Tenant>("tenants")(mongo),
+  commentActions: createCollection<CommentAction>("commentActions")(mongo),
+});
 
 export function registerAccountDeletion(
   mongo: Db,
@@ -32,47 +41,52 @@ export function registerAccountDeletion(
 
 function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue): CronCommand {
   return async () => {
-    logger.info("checking for accounts that require deletion");
+    try {
+      logger.info("checking for accounts that require deletion");
 
-    const users = createCollection<User>("users");
+      // TODO: iterate over tenants in tenant cache
+      while (true) {
+        const now = new Date();
+        const rescheduledDeletionDate = DateTime.fromJSDate(now)
+          .plus({ hours: 1 })
+          .toJSDate();
 
-    // TODO: iterate over tenants in tenant cache
-    while (true) {
-      const now = new Date();
-      const rescheduledDeletionDate = DateTime.fromJSDate(now)
-        .plus({ hours: 1 })
-        .toJSDate();
-
-      const userResult = await users(mongo).findOneAndUpdate(
-        {
-          scheduledDeletionDate: { $lte: now },
-        },
-        {
-          $set: {
-            scheduledDeletionDate: rescheduledDeletionDate,
+        const userResult = await collections(mongo).users.findOneAndUpdate(
+          {
+            scheduledDeletionDate: { $lte: now },
           },
+          {
+            $set: {
+              scheduledDeletionDate: rescheduledDeletionDate,
+            },
+          }
+        );
+
+        if (!userResult.value) {
+          logger.info("no more users were scheduled for deletion");
+          break;
         }
-      );
 
-      if (!userResult.value) {
-        logger.info("no more users were scheduled for deletion");
-        break;
+        const userToDelete = userResult.value;
+
+        logger.info(
+          { userID: userToDelete.id, tenantID: userToDelete.tenantID },
+          `deleting user`
+        );
+
+        deleteUser(mongo, mailer, userToDelete.id, userToDelete.tenantID, now);
       }
-
-      const userToDelete = userResult.value;
-
-      logger.info(
-        { userID: userToDelete.id, tenantID: userToDelete.tenantID },
-        `deleting user`
+    } catch (error) {
+      logger.error(
+        { error },
+        "an error occurred trying to perform scheduled account deletions"
       );
-
-      deleteUser(mongo, mailer, userToDelete.id, userToDelete.tenantID, now);
     }
   };
 }
 
 async function executeBulkOperations<T>(
-  collection: Collection<Readonly<T>>,
+  collection: Collection<T>,
   operations: any[]
 ) {
   const bulk: any = collection.initializeUnorderedBulkOp();
@@ -96,12 +110,13 @@ async function deleteUserActionCounts(db: Db, userID: string) {
   };
 
   async function processBatch() {
-    const comments = createCollection<Comment>("comments")(db);
-    await executeBulkOperations<Comment>(comments, batch.comments);
+    await executeBulkOperations<Comment>(
+      collections(db).comments,
+      batch.comments
+    );
     batch.comments = [];
 
-    const stories = createCollection<Story>("stories")(db);
-    await executeBulkOperations<Story>(stories, batch.stories);
+    await executeBulkOperations<Story>(collections(db).stories, batch.stories);
     batch.stories = [];
   }
 
@@ -147,15 +162,14 @@ async function deleteUserActionCounts(db: Db, userID: string) {
     await processBatch();
   }
 
-  await db.collection("commentActions").deleteMany({
+  await collections(db).commentActions.deleteMany({
     userID,
     actionType: "REACTION",
   });
 }
 
 async function deleteUserComments(db: Db, authorID: string) {
-  const comments = createCollection<Comment>("comments")(db);
-  await comments.updateMany(
+  await collections(db).comments.updateMany(
     { authorID },
     {
       $set: {
@@ -175,16 +189,13 @@ async function deleteUser(
   tenantID: string,
   now: Date
 ) {
-  const users = createCollection<User>("users")(db);
-  const tenants = createCollection<Tenant>("tenants")(db);
-
-  const user = await users.findOne({ id: userID, tenantID });
+  const user = await collections(db).users.findOne({ id: userID, tenantID });
   if (!user) {
     logger.warn({ userID, tenantID }, `could not find user`);
     return;
   }
 
-  const tenant = await tenants.findOne({ id: tenantID });
+  const tenant = await collections(db).tenants.findOne({ id: tenantID });
   if (!tenant) {
     logger.warn({ userID, tenantID }, `could not find tenant`);
     return;
@@ -193,7 +204,7 @@ async function deleteUser(
   await deleteUserActionCounts(db, userID);
   await deleteUserComments(db, userID);
 
-  users.updateOne(
+  collections(db).users.updateOne(
     { id: userID },
     {
       $set: {
