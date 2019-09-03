@@ -64,7 +64,7 @@ import {
   getLocalProfile,
   hasLocalProfile,
 } from "coral-server/models/user/helpers";
-import { userIsStaff } from "coral-server/models/user/helpers";
+import { hasStaffRole } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
@@ -924,7 +924,7 @@ export async function ignore(
     throw new UserNotFoundError(userID);
   }
 
-  const userToBeIgnoredIsStaff = userIsStaff(targetUser);
+  const userToBeIgnoredIsStaff = hasStaffRole(targetUser);
   if (userToBeIgnoredIsStaff) {
     throw new UserCannotBeIgnoredError(userID);
   }

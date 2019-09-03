@@ -86,10 +86,19 @@ email-template-accountNotificationDeleteRequestCompleted =
 email-footer-notification =
   Sent by <a data-l10n-name="organizationLink">{ $organizationName }</a> - <a data-l10n-name="unsubscribeLink">Unsubscribe from these notifications</a>
 
+## On Reply
+
 email-subject-notificationOnReply = Someone has replied to your comment on { $organizationName }
 email-template-notificationOnReply =
   { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br />
   { $authorUsername } has replied to your comment: <a data-l10n-name="commentPermalink">View comment</a>
+
+## On Staff Reply
+
+email-subject-notificationOnStaffReply = Someone at { $organizationName } has replied to your comment
+email-template-notificationOnStaffReply =
+  { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br/>
+  { $authorUsername } works for { $organizationName } and has replied to your comment: <a data-l10n-name="commentPermalink">View comment</a>
 
 # Notification Digest
 

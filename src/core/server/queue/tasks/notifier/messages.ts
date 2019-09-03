@@ -10,6 +10,18 @@ import { DigestibleTemplate } from "../mailer/templates";
 import { CategoryNotification } from "./processor";
 
 /**
+ * SupersededNotification is a subset of `CategoryNotification` to provide a
+ * minimal implementation.
+ */
+export interface SupersededNotification {
+  category: Pick<
+    CategoryNotification["category"],
+    "name" | "supersedesCategories"
+  >;
+  notification: Pick<CategoryNotification["notification"], "userID">;
+}
+
+/**
  * filterSuperseded will filter all the possible notifications and only send
  * those notifications that are not superseded by another type of notification.
  */
@@ -17,9 +29,9 @@ export const filterSuperseded = (
   {
     category: { name },
     notification: { userID: destinationUserID },
-  }: CategoryNotification,
+  }: SupersededNotification,
   index: number,
-  notifications: CategoryNotification[]
+  notifications: SupersededNotification[]
 ) =>
   !notifications.some(
     ({

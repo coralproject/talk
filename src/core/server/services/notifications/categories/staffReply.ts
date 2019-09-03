@@ -3,6 +3,7 @@ import { CommentStatusUpdatedInput } from "coral-server/graph/tenant/resolvers/S
 import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
 import { hasPublishedStatus } from "coral-server/models/comment";
 import { getURLWithCommentID } from "coral-server/models/story";
+import { hasStaffRole } from "coral-server/models/user/helpers";
 
 import NotificationContext from "../context";
 import { Notification } from "../notification";
@@ -37,20 +38,19 @@ async function processor(
     return null;
   }
 
+  // Check to see if the author was a staff member.
+  if (!hasStaffRole(author)) {
+    return null;
+  }
+
   // Check to see if the target user has notifications enabled for this type.
-  if (!parentAuthor.notifications.onReply) {
+  if (!parentAuthor.notifications.onStaffReplies) {
     return null;
   }
 
   // Check to see if this is yourself replying to yourself, if that's the case
   // don't send a notification.
   if (parentAuthor.id === author.id) {
-    return null;
-  }
-
-  // Check to see if this user is ignoring the user who replied to their
-  // comment.
-  if (parentAuthor.ignoredUsers.some(user => user.id === author.id)) {
     return null;
   }
 
@@ -68,7 +68,7 @@ async function processor(
   return {
     userID: parentAuthor.id,
     template: {
-      name: "notification/on-reply",
+      name: "notification/on-staff-reply",
       context: {
         // We know that the user had a username because they wrote a comment!
         authorUsername: author.username!,
@@ -86,15 +86,16 @@ async function processor(
   };
 }
 
-export const reply: NotificationCategory[] = [
+export const staffReply: NotificationCategory[] = [
   {
-    name: "reply",
+    name: "staffReply",
     process: processor,
     event: SUBSCRIPTION_CHANNELS.COMMENT_REPLY_CREATED,
     digestOrder: 30,
+    supersedesCategories: ["reply"],
   },
   {
-    name: "reply",
+    name: "staffReply",
     process: async (ctx, input: CommentStatusUpdatedInput) => {
       const comment = await ctx.comments.load(input.commentID);
       if (!comment || !hasPublishedStatus(comment)) {
@@ -111,5 +112,6 @@ export const reply: NotificationCategory[] = [
     },
     event: SUBSCRIPTION_CHANNELS.COMMENT_STATUS_UPDATED,
     digestOrder: 30,
+    supersedesCategories: ["reply"],
   },
 ];
