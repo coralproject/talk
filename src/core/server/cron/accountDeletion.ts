@@ -59,6 +59,11 @@ function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue): CronCommand {
             $set: {
               scheduledDeletionDate: rescheduledDeletionDate,
             },
+          },
+          {
+            // We want to get back the user with
+            // modified scheduledDeletionDate
+            returnOriginal: false,
           }
         );
 
