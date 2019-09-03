@@ -38,7 +38,7 @@ const UnsubscribeForm: React.FunctionComponent<Props> = ({
     return;
   }, [token]);
   return (
-    <div>
+    <div data-testid="unsubscribe-form">
       <Form onSubmit={onSubmit}>
         {({ handleSubmit, submitting, submitError }) => (
           <form onSubmit={handleSubmit}>
