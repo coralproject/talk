@@ -33,42 +33,36 @@ const DeleteAccountModalContents: FunctionComponent<Props> = ({
   }, [step, setStep, closeModal]);
 
   return (
-    <>
-      <Box className={styles.root}>
-        {step === 0 && (
-          <DescriptionPage
-            step={0}
-            onProceed={incrementStep}
-            onCancel={closeModal}
-          />
-        )}
-        {step === 1 && (
-          <WhenPage step={1} onProceed={incrementStep} onCancel={closeModal} />
-        )}
-        {step === 2 && (
-          <DownloadCommentsPage
-            step={2}
-            onProceed={incrementStep}
-            onCancel={closeModal}
-          />
-        )}
-        {step === 3 && (
-          <ConfirmPage
-            step={3}
-            onProceed={incrementStep}
-            onCancel={closeModal}
-          />
-        )}
-        {step === 4 && (
-          <CompletionPage
-            step={4}
-            scheduledDeletionDate={scheduledDeletionDate}
-            organizationEmail={organizationEmail}
-            onClose={closeModal}
-          />
-        )}
-      </Box>
-    </>
+    <Box className={styles.root}>
+      {step === 0 && (
+        <DescriptionPage
+          step={0}
+          onProceed={incrementStep}
+          onCancel={closeModal}
+        />
+      )}
+      {step === 1 && (
+        <WhenPage step={1} onProceed={incrementStep} onCancel={closeModal} />
+      )}
+      {step === 2 && (
+        <DownloadCommentsPage
+          step={2}
+          onProceed={incrementStep}
+          onCancel={closeModal}
+        />
+      )}
+      {step === 3 && (
+        <ConfirmPage step={3} onProceed={incrementStep} onCancel={closeModal} />
+      )}
+      {step === 4 && (
+        <CompletionPage
+          step={4}
+          scheduledDeletionDate={scheduledDeletionDate}
+          organizationEmail={organizationEmail}
+          onClose={closeModal}
+        />
+      )}
+    </Box>
   );
 };
 
