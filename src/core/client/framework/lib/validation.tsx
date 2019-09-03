@@ -10,6 +10,7 @@ import {
 } from "coral-common/helpers/validate";
 
 import {
+  DELETE_CONFIRMATION_INVALID,
   EMAILS_DO_NOT_MATCH,
   INVALID_CHARACTERS,
   INVALID_EMAIL,
@@ -217,6 +218,9 @@ export const validatePercentage = (min: number, max: number) =>
 
     NOT_A_WHOLE_NUMBER_BETWEEN(min * 100, max * 100)
   );
+
+export const validateDeleteConfirmation = (phrase: string) =>
+  createValidator(v => v === phrase, DELETE_CONFIRMATION_INVALID());
 
 export const validateStrictURLList = createValidator(v => {
   if (!Array.isArray(v)) {

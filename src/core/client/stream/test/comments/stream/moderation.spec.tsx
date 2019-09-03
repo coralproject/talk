@@ -72,7 +72,7 @@ it("feature and unfeature comment", async () => {
         featureComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision.id,
+            commentRevisionID: firstComment.revision!.id,
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {
@@ -140,7 +140,7 @@ it("approve comment", async () => {
         approveComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision.id,
+            commentRevisionID: firstComment.revision!.id,
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {
@@ -172,7 +172,7 @@ it("reject comment", async () => {
         rejectComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision.id,
+            commentRevisionID: firstComment.revision!.id,
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {
@@ -231,7 +231,7 @@ it("ban user", async () => {
         rejectComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
-            commentRevisionID: firstComment.revision.id,
+            commentRevisionID: firstComment.revision!.id,
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {

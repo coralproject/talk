@@ -16,11 +16,11 @@ interface MarkersContainerProps {
 }
 
 function hasDetails(c: MarkersContainer_comment) {
-  return (
-    c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE +
-      c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM >
-      0 || c.revision.metadata.perspective
-  );
+  return c.revision
+    ? c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE +
+        c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM >
+        0 || c.revision.metadata.perspective
+    : false;
 }
 
 let keyCounter = 0;
@@ -35,72 +35,80 @@ const markers: Array<
     )) ||
     null,
   c =>
-    (c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_LINKS && (
-      <Localized id="moderate-marker-link" key={keyCounter++}>
-        <Marker color="primary">Link</Marker>
-      </Localized>
-    )) ||
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_LINKS && (
+        <Localized id="moderate-marker-link" key={keyCounter++}>
+          <Marker color="primary">Link</Marker>
+        </Localized>
+      )) ||
     null,
   c =>
-    (c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD && (
-      <Localized id="moderate-marker-bannedWord" key={keyCounter++}>
-        <Marker color="error">Banned Word</Marker>
-      </Localized>
-    )) ||
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD && (
+        <Localized id="moderate-marker-bannedWord" key={keyCounter++}>
+          <Marker color="error">Banned Word</Marker>
+        </Localized>
+      )) ||
     null,
   c =>
-    (c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD && (
-      <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
-        <Marker color="error" variant="filled">
-          Suspect Word
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD && (
+        <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
+          <Marker color="error" variant="filled">
+            Suspect Word
+          </Marker>
+        </Localized>
+      )) ||
+    null,
+  c =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SPAM && (
+        <Localized id="moderate-marker-spam" key={keyCounter++}>
+          <Marker color="error">Spam</Marker>
+        </Localized>
+      )) ||
+    null,
+  c =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_TOXIC && (
+        <Localized id="moderate-marker-toxic" key={keyCounter++}>
+          <Marker color="error">Toxic</Marker>
+        </Localized>
+      )) ||
+    null,
+  c =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_RECENT_HISTORY && (
+        <Localized id="moderate-marker-recentHistory" key={keyCounter++}>
+          <Marker color="error">Recent History</Marker>
+        </Localized>
+      )) ||
+    null,
+  c =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE && (
+        <Marker key={keyCounter++} color="error">
+          <Localized id="moderate-marker-offensive">
+            <span>Offensive</span>
+          </Localized>{" "}
+          <MarkerCount>
+            {c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE}
+          </MarkerCount>
         </Marker>
-      </Localized>
-    )) ||
+      )) ||
     null,
   c =>
-    (c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SPAM && (
-      <Localized id="moderate-marker-spam" key={keyCounter++}>
-        <Marker color="error">Spam</Marker>
-      </Localized>
-    )) ||
-    null,
-  c =>
-    (c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_TOXIC && (
-      <Localized id="moderate-marker-toxic" key={keyCounter++}>
-        <Marker color="error">Toxic</Marker>
-      </Localized>
-    )) ||
-    null,
-  c =>
-    (c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_RECENT_HISTORY && (
-      <Localized id="moderate-marker-recentHistory" key={keyCounter++}>
-        <Marker color="error">Recent History</Marker>
-      </Localized>
-    )) ||
-    null,
-  c =>
-    (c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE && (
-      <Marker key={keyCounter++} color="error">
-        <Localized id="moderate-marker-offensive">
-          <span>Offensive</span>
-        </Localized>{" "}
-        <MarkerCount>
-          {c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE}
-        </MarkerCount>
-      </Marker>
-    )) ||
-    null,
-  c =>
-    (c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM && (
-      <Marker key={keyCounter++} color="error">
-        <Localized id="moderate-marker-spam">
-          <span>Spam</span>
-        </Localized>{" "}
-        <MarkerCount>
-          {c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM}
-        </MarkerCount>
-      </Marker>
-    )) ||
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM && (
+        <Marker key={keyCounter++} color="error">
+          <Localized id="moderate-marker-spam">
+            <span>Spam</span>
+          </Localized>{" "}
+          <MarkerCount>
+            {c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM}
+          </MarkerCount>
+        </Marker>
+      )) ||
     null,
 ];
 

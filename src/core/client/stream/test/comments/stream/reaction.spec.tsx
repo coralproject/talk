@@ -22,12 +22,12 @@ function createTestRenderer() {
       createCommentReaction: sinon.stub().callsFake((_: any, data: any) => {
         expectAndFail(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
-          commentRevisionID: stories[0].comments.edges[0].node.revision.id,
+          commentRevisionID: stories[0].comments.edges[0].node.revision!.id,
         });
         return {
           comment: {
             id: stories[0].comments.edges[0].node.id,
-            revision: { id: stories[0].comments.edges[0].node.revision.id },
+            revision: { id: stories[0].comments.edges[0].node.revision!.id },
             viewerActionPresence: { reaction: true },
             actionCounts: { reaction: { total: 1 } },
           },
@@ -41,7 +41,7 @@ function createTestRenderer() {
         return {
           comment: {
             id: stories[0].comments.edges[0].node.id,
-            revision: { id: stories[0].comments.edges[0].node.revision.id },
+            revision: { id: stories[0].comments.edges[0].node.revision!.id },
             viewerActionPresence: { reaction: false },
             actionCounts: { reaction: { total: 0 } },
           },

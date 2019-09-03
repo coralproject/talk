@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
@@ -18,6 +19,7 @@ interface Props {
   viewer: PropTypesOf<typeof UserRole>["viewer"];
   settings: PropTypesOf<typeof UserStatus>["settings"];
   onUsernameClicked?: (userID: string) => void;
+  deletedAt?: string;
 }
 
 const UserRow: FunctionComponent<Props> = ({
@@ -29,6 +31,7 @@ const UserRow: FunctionComponent<Props> = ({
   viewer,
   onUsernameClicked,
   settings,
+  deletedAt,
 }) => {
   const usernameClicked = useCallback(() => {
     if (!onUsernameClicked) {
@@ -41,9 +44,23 @@ const UserRow: FunctionComponent<Props> = ({
   return (
     <TableRow>
       <TableCell className={styles.usernameColumn}>
-        <Button onClick={usernameClicked} className={styles.usernameButton}>
-          {username || <NotAvailable />}
-        </Button>
+        {deletedAt && (
+          <>
+            <div className={styles.username}>
+              {username || <NotAvailable />}
+            </div>
+            <div className={styles.deleted}>
+              <Localized id="community-column-username-deleted">
+                Deleted
+              </Localized>
+            </div>
+          </>
+        )}
+        {!deletedAt && (
+          <Button onClick={usernameClicked} className={styles.usernameButton}>
+            {username || <NotAvailable />}
+          </Button>
+        )}
       </TableCell>
       <TableCell className={styles.emailColumn}>
         {<TextLink href={`mailto:${email}`}>{email}</TextLink> || (

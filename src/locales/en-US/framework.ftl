@@ -32,6 +32,7 @@ framework-validation-notAWholeNumberBetween = Please enter a whole number betwee
 framework-validation-notAWholeNumberGreaterThan = Please enter a whole number greater than { $x }
 framework-validation-notAWholeNumberGreaterThanOrEqual = Please enter a whole number greater than or equal to { $x }
 framework-validation-usernamesDoNotMatch = Usernames do not match. Try again.
+framework-validation-deleteConfirmationInvalid = Incorrect confirmation. Try again.
 
 framework-timeago-just-now = Just now
 

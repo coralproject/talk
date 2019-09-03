@@ -15,6 +15,7 @@ import { JSONErrorHandler } from "coral-server/app/middleware/error";
 import { accessLogger, errorLogger } from "coral-server/app/middleware/logging";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import config, { Config } from "coral-server/config";
+import startScheduledTasks, { ScheduledTasks } from "coral-server/cron";
 import { createPubSubClient } from "coral-server/graph/common/subscriptions/pubsub";
 import getTenantSchema from "coral-server/graph/tenant/schema";
 import { createSubscriptionServer } from "coral-server/graph/tenant/subscriptions/server";
@@ -64,6 +65,8 @@ class Server {
   // subscriptionServer is the running instance of the HTTP server that will
   // bind to the requested port to serve websocket traffic.
   public subscriptionServer: SubscriptionServer;
+
+  public scheduledTasks: ScheduledTasks;
 
   // tasks stores a reference to the queues that can process operations.
   private tasks: TaskQueue;
@@ -307,6 +310,8 @@ class Server {
     );
 
     logger.info({ port }, "now listening");
+
+    this.scheduledTasks = startScheduledTasks(this.mongo, this.tasks.mailer);
   }
 }
 

@@ -185,8 +185,20 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.removeIgnore(input),
     clientMutationId: input.clientMutationId,
   }),
-  requestCommentsDownload: async (sourc, { input }, ctx) => ({
+  requestCommentsDownload: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.requestCommentsDownload(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  requestUserCommentsDownload: async (source, { input }, ctx) => ({
+    archiveURL: await ctx.mutators.Users.requestUserCommentsDownload(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  requestAccountDeletion: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.requestAccountDeletion(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  cancelAccountDeletion: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.cancelAccountDeletion(input),
     clientMutationId: input.clientMutationId,
   }),
 };

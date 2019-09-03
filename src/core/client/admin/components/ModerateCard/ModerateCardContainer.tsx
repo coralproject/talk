@@ -74,6 +74,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   onUsernameClicked: usernameClicked,
 }) => {
   const handleApprove = useCallback(() => {
+    if (!comment.revision) {
+      return;
+    }
+
     approveComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
@@ -82,6 +86,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   }, [approveComment, comment, match]);
 
   const handleReject = useCallback(() => {
+    if (!comment.revision) {
+      return;
+    }
+
     rejectComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
@@ -90,6 +98,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   }, [rejectComment, comment, match]);
 
   const handleFeature = useCallback(() => {
+    if (!comment.revision) {
+      return;
+    }
+
     featureComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
@@ -146,7 +158,11 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           createdAt={comment.createdAt}
           body={comment.body!}
-          inReplyTo={comment.parent && comment.parent.author!.username!}
+          inReplyTo={
+            comment.parent &&
+            comment.parent.author &&
+            comment.parent.author.username
+          }
           comment={comment}
           settings={settings}
           dangling={danglingLogic(comment.status)}
@@ -172,6 +188,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onModerateStory={handleModerateStory}
           mini={mini}
           hideUsername={hideUsername}
+          deleted={comment.deleted ? comment.deleted : false}
         />
       </FadeInTransition>
     </>
@@ -209,6 +226,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       permalink
       enteredLive
+      deleted
       ...MarkersContainer_comment
       ...ModeratedByContainer_comment
     }

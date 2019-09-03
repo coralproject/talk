@@ -25,7 +25,7 @@ const DownloadTokenSchema = StandardClaimsSchema.keys({
   aud: Joi.string().only("download"),
 });
 
-export async function generateDownloadLink(
+export async function generateDownloadToken(
   userID: string,
   tenant: Tenant,
   config: Config,
@@ -46,12 +46,50 @@ export async function generateDownloadLink(
     aud: "download",
   };
 
-  const token = await signString(signingConfig, downloadToken);
+  return await signString(signingConfig, downloadToken);
+}
+
+export async function generateDownloadLink(
+  userID: string,
+  tenant: Tenant,
+  config: Config,
+  signingConfig: JWTSigningConfig,
+  now: Date
+) {
+  const token = await generateDownloadToken(
+    userID,
+    tenant,
+    config,
+    signingConfig,
+    now
+  );
 
   return constructTenantURL(
     config,
     tenant,
     `/account/download#downloadToken=${token}`
+  );
+}
+
+export async function generateAdminDownloadLink(
+  userID: string,
+  tenant: Tenant,
+  config: Config,
+  signingConfig: JWTSigningConfig,
+  now: Date
+) {
+  const token = await generateDownloadToken(
+    userID,
+    tenant,
+    config,
+    signingConfig,
+    now
+  );
+
+  return constructTenantURL(
+    config,
+    tenant,
+    `/api/account/download?token=${token}`
   );
 }
 

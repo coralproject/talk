@@ -55,6 +55,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
           </time>
           <button
             className="BaseButton-root FeatureButton-root"
+            disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -282,6 +283,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
           </time>
           <button
             className="BaseButton-root FeatureButton-root"
+            disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -506,6 +508,7 @@ exports[`renders reported queue with comments 1`] = `
                 </time>
                 <button
                   className="BaseButton-root FeatureButton-root"
+                  disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -717,6 +720,7 @@ exports[`renders reported queue with comments 1`] = `
                 </time>
                 <button
                   className="BaseButton-root FeatureButton-root"
+                  disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -944,6 +948,7 @@ exports[`renders reported queue with comments 2`] = `
                 </time>
                 <button
                   className="BaseButton-root FeatureButton-root"
+                  disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1155,6 +1160,7 @@ exports[`renders reported queue with comments 2`] = `
                 </time>
                 <button
                   className="BaseButton-root FeatureButton-root"
+                  disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1372,6 +1378,7 @@ exports[`renders reported queue with comments and load more 1`] = `
           </time>
           <button
             className="BaseButton-root FeatureButton-root"
+            disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}

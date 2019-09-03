@@ -367,7 +367,7 @@ it("approves comment in reported queue", async () => {
     >(({ variables }) => {
       expectAndFail(variables).toMatchObject({
         commentID: reportedComments[0].id,
-        commentRevisionID: reportedComments[0].revision.id,
+        commentRevisionID: reportedComments[0].revision!.id,
       });
       return {
         comment: {
@@ -464,7 +464,7 @@ it("rejects comment in reported queue", async () => {
     >(({ variables }) => {
       expectAndFail(variables).toMatchObject({
         commentID: reportedComments[0].id,
-        commentRevisionID: reportedComments[0].revision.id,
+        commentRevisionID: reportedComments[0].revision!.id,
       });
       return {
         comment: {

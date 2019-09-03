@@ -58,8 +58,8 @@
 }
 
 .asideMiniWithReplyTo {
-  /* 
-    We have reply to field, so we align below the fattest 
+  /*
+    We have reply to field, so we align below the fattest
     element plus the reply to field.
   */
   padding-top: calc(2 * (14rem / var(--rem-base)) + 5px + var(--spacing-4));
@@ -151,4 +151,8 @@
 .miniButton {
   width: 40px;
   height: 40px;
+}
+
+.deleted {
+  background: var(--palette-grey-lightest);
 }
