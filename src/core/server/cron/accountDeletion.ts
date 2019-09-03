@@ -36,6 +36,7 @@ function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue): CronCommand {
 
     const users = createCollection<User>("users");
 
+    // TODO: iterate over tenants in tenant cache
     while (true) {
       const now = new Date();
       const rescheduledDeletionDate = DateTime.fromJSDate(now)
