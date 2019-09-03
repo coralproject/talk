@@ -55,7 +55,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
   return (
     <HorizontalGutter data-testid="profile-settings-notifications">
       <Localized id="profile-settings-notifications-emailNotifications">
-        <Typography variant="heading3">E-Mail Notifications</Typography>
+        <Typography variant="heading3">Email Notifications</Typography>
       </Localized>
       <Localized id="profile-settings-notifications-receiveWhen">
         <Typography variant="heading4">Receive notifications when:</Typography>

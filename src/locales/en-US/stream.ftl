@@ -293,7 +293,9 @@ profile-settings-deleteAccount-pages-completeWhyDeleteAccount =
   our comment system by emailing { $email }.
 
 ## Notifications
+
 profile-settings-notifications-emailNotifications = E-Mail Notifications
+profile-settings-notifications-emailNotifications = Email Notifications
 profile-settings-notifications-receiveWhen = Receive notifications when:
 profile-settings-notifications-onReply = My comment receives a reply
 profile-settings-notifications-onFeatured = My comment is featured
