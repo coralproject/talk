@@ -746,7 +746,7 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
 
-configure-account-features-title = Commenter account mangement features
+configure-account-features-title = Commenter account management features
 configure-account-features-explanation = 
   You can enable and disable certain features for your commenters to use
   within their Profile. These features also assist towards GDPR
