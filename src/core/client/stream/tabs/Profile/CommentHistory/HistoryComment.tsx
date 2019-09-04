@@ -35,26 +35,32 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = props => {
       className={CLASSES.myComment.$root}
       data-testid={`historyComment-${props.id}`}
     >
-      <Localized id="profile-historyComment-comment-on">
-        <Typography variant="timestamp">Comment on:</Typography>
-      </Localized>
-      <Typography
-        className={CLASSES.myComment.story}
-        variant="heading4"
-        color="textDark"
-      >
-        {props.story.metadata ? props.story.metadata.title : "N/A"}
-      </Typography>
-      <Timestamp className={CLASSES.myComment.timestamp}>
-        {props.createdAt}
-      </Timestamp>
-      <Typography variant="bodyCopy" container="div">
-        {props.body && (
-          <HTMLContent className={CLASSES.myComment.content}>
-            {props.body}
-          </HTMLContent>
-        )}
-      </Typography>
+      <div>
+        <Localized id="profile-historyComment-comment-on">
+          <Typography variant="detail" className={styles.commentOn}>
+            Comment on:
+          </Typography>
+        </Localized>
+        <Typography
+          variant="heading4"
+          color="textDark"
+          className={CLASSES.myComment.story}
+        >
+          {props.story.metadata ? props.story.metadata.title : "N/A"}
+        </Typography>
+      </div>
+      <div>
+        <Timestamp className={CLASSES.myComment.timestamp}>
+          {props.createdAt}
+        </Timestamp>
+        <Typography variant="bodyCopy" container="div">
+          {props.body && (
+            <HTMLContent className={CLASSES.myComment.content}>
+              {props.body}
+            </HTMLContent>
+          )}
+        </Typography>
+      </div>
       <Flex direction="row" alignItems="center" itemGutter>
         {!!props.replyCount && (
           <div className={cn(styles.replies, CLASSES.myComment.replies)}>

@@ -16,3 +16,8 @@
   border-bottom: 1px solid var(--palette-divider);
   padding-bottom: var(--spacing-3)
 }
+
+.commentOn {
+  font-weight: var(--font-weight-medium);
+  margin-bottom: 0;
+}
