@@ -92,7 +92,12 @@ class EmailConfigContainer extends React.Component<Props> {
               <div>
                 <FormField>
                   <Localized id="configure-email-configBoxEnabled">
-                    <CheckBox id={input.name} {...input} disabled={submitting}>
+                    <CheckBox
+                      id={input.name}
+                      {...input}
+                      light
+                      disabled={submitting}
+                    >
                       Enabled
                     </CheckBox>
                   </Localized>
