@@ -49,7 +49,7 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
     return (
       <>
         <Localized id="comments-tombstone-deleted">
-          <CallOut fullWidth>
+          <CallOut className={CLASSES.deletedTombstone} fullWidth>
             This comment is no longer available. The commenter has deleted their
             account.
           </CallOut>

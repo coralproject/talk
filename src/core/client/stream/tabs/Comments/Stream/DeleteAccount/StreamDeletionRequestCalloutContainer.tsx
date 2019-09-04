@@ -14,6 +14,7 @@ import {
   Typography,
 } from "coral-ui/components";
 
+import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 
 import { StreamDeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/StreamDeletionRequestCalloutContainer_viewer.graphql";
@@ -67,7 +68,7 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   return (
     <>
       {deletionDate && (
-        <CallOut color="error">
+        <CallOut color="error" className={CLASSES.pendingAccountDeletion.$root}>
           <HorizontalGutter className={styles.gutter}>
             <Flex>
               <Icon size="md" className={styles.icon}>
@@ -108,6 +109,7 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
                 variant="underlined"
                 color="primary"
                 onClick={cancelDeletion}
+                className={CLASSES.pendingAccountDeletion.cancelRequestButton}
               >
                 Cancel account deletion request
               </Button>

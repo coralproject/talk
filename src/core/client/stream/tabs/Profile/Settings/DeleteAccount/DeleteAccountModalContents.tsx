@@ -1,5 +1,7 @@
+import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Box } from "coral-ui/components";
 
 import CompletionPage from "./Pages/CompletionPage";
@@ -33,7 +35,7 @@ const DeleteAccountModalContents: FunctionComponent<Props> = ({
   }, [step, setStep, closeModal]);
 
   return (
-    <Box className={styles.root}>
+    <Box className={cn(styles.root, CLASSES.deleteMyAccountModal.$root)}>
       {step === 0 && (
         <DescriptionPage
           step={0}

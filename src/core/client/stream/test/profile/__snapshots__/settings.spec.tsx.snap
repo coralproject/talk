@@ -459,7 +459,7 @@ You can make
             </button>
           </div>
           <div
-            className="DeleteAccountContainer-root"
+            className="DeleteAccountContainer-root coral coral-deleteMyAccount"
           >
             <h1
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary DeleteAccountContainer-title"
@@ -473,7 +473,7 @@ You can make
 all your comments from this site.
             </p>
             <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined coral coral-deleteMyAccount-requestButton"
               data-color="regular"
               data-variant="outlined"
               onBlur={[Function]}
@@ -484,12 +484,12 @@ all your comments from this site.
               onTouchEnd={[Function]}
               type="button"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm DeleteAccountContainer-icon"
               >
                 cancel
-              </span>
+              </i>
               <span>
                 Request account deletion
               </span>

@@ -372,6 +372,10 @@ const CLASSES = {
     $root: "coral coral-rejectedtombstone",
     goToModerateButton: "coral coral-rejectedtombstone-goToModerateButton",
   },
+  /**
+   * deletedTombstone is shown when a comment has been deleted.
+   */
+  deletedTombstone: "coral coral-rejectedtombstone",
 
   /**
    * ignoredTombstown is shown when a comment got ignored.
@@ -743,6 +747,37 @@ const CLASSES = {
     requestButton: "coral coral-downloadCommentHistory-requestButton",
     recentRequest: "coral coral-downloadCommentHistory-recentRequest",
     requestLater: "coral coral-downloadCommentHistory-requestLater",
+  },
+
+  /**
+   * deleteMyAccount allows the viewer to delete their account.
+   */
+  deleteMyAccount: {
+    $root: "coral coral-deleteMyAccount",
+    requestButton: "coral coral-deleteMyAccount-requestButton",
+    cancelRequestButton: "coral coral-deleteMyAccount-cancelRequestButton",
+  },
+
+  /**
+   * pendingAccountDeletion is the message box informing the viewer
+   * about a pending account deletion.
+   */
+  pendingAccountDeletion: {
+    $root: "coral coral-pendingAccountDeletion",
+    cancelRequestButton:
+      "coral coral-pendingAccountDeletion-cancelRequestButton",
+  },
+
+  /**
+   * deleteMyAccount allows the viewer to delete their account.
+   */
+  deleteMyAccountModal: {
+    $root: "coral coral-deleteMyAccountModal",
+    header: "coral coral-deleteMyAccountModal-header",
+    cancelButton: "coral coral-deleteMyAccountModal-cancelButton",
+    proceedButton: "coral coral-deleteMyAccountModal-proceedButton",
+    doneButton: "coral coral-deleteMyAccountModal-doneButton",
+    deleteMyAccountButton: "coral coral-deleteMyAccount-deleteMyAccountButton",
   },
 
   /**
