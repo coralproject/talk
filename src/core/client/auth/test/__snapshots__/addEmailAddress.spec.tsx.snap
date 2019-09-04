@@ -23,12 +23,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -45,12 +45,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -66,12 +66,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -136,12 +136,12 @@ Your email address will be used to:
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>
@@ -188,12 +188,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -210,12 +210,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -231,12 +231,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -275,12 +275,12 @@ Your email address will be used to:
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           Please enter a valid email address.
         </span>
@@ -314,12 +314,12 @@ Your email address will be used to:
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           Emails do not match. Try again.
         </span>
@@ -386,12 +386,12 @@ Your email address will be used to:
                 <div
                   className="ListItem-leftCol"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-sm"
                   >
                     done
-                  </span>
+                  </i>
                 </div>
                 <div>
                   <div
@@ -408,12 +408,12 @@ Your email address will be used to:
                 <div
                   className="ListItem-leftCol"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-sm"
                   >
                     done
-                  </span>
+                  </i>
                 </div>
                 <div>
                   <div
@@ -429,12 +429,12 @@ Your email address will be used to:
                 <div
                   className="ListItem-leftCol"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-sm"
                   >
                     done
-                  </span>
+                  </i>
                 </div>
                 <div>
                   <div
@@ -542,12 +542,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -564,12 +564,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -585,12 +585,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -629,12 +629,12 @@ Your email address will be used to:
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>
@@ -668,12 +668,12 @@ Your email address will be used to:
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>
@@ -720,12 +720,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -742,12 +742,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -763,12 +763,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -886,12 +886,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -908,12 +908,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div
@@ -929,12 +929,12 @@ Your email address will be used to:
         <div
           className="ListItem-leftCol"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             done
-          </span>
+          </i>
         </div>
         <div>
           <div

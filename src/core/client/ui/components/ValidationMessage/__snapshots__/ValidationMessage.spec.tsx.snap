@@ -4,12 +4,12 @@ exports[`renders correctly 1`] = `
 <div
   className="Message-root Message-colorError custom"
 >
-  <span
+  <i
     aria-hidden="true"
     className="Icon-root Icon-sm MessageIcon-root"
   >
     warning
-  </span>
+  </i>
   Hello World
 </div>
 `;

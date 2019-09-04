@@ -59,12 +59,12 @@ exports[`render popup 1`] = `
         onTouchEnd={[Function]}
         type="button"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm"
         >
           close
-        </span>
+        </i>
       </button>
       <form
         autoComplete="off"
@@ -239,12 +239,12 @@ exports[`render popup expanded 1`] = `
         onTouchEnd={[Function]}
         type="button"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm"
         >
           close
-        </span>
+        </i>
       </button>
       <form
         autoComplete="off"
@@ -476,12 +476,12 @@ exports[`report comment as offensive 1`] = `
         onTouchEnd={[Function]}
         type="button"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm"
         >
           close
-        </span>
+        </i>
       </button>
       <div
         className="Box-root HorizontalGutter-root ThankYou-root HorizontalGutter-full"

@@ -183,12 +183,12 @@ exports[`renders form 1`] = `
                   tabIndex={0}
                   title="Hide password"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-sm"
                   >
                     visibility
-                  </span>
+                  </i>
                 </div>
               </div>
             </div>

@@ -46,12 +46,12 @@ exports[`renders correctly on big screens 1`] = `
       aria-hidden={true}
       className="SelectField-afterWrapper undefined"
     >
-      <span
+      <i
         aria-hidden="true"
         className="Icon-root Icon-sm"
       >
         expand_more
-      </span>
+      </i>
     </span>
   </span>
 </div>
@@ -97,12 +97,12 @@ exports[`renders correctly on small screens 1`] = `
       aria-hidden={true}
       className="SelectField-afterWrapper SortMenu-mobileAfterWrapper"
     >
-      <span
+      <i
         aria-hidden="true"
         className="Icon-root Icon-sm"
       >
         sort
-      </span>
+      </i>
     </span>
   </span>
 </div>

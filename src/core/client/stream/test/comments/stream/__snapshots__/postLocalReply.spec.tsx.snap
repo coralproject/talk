@@ -86,21 +86,21 @@ exports[`post a reply: open reply form 1`] = `
             <div
               className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm InReplyTo-icon"
               >
                 reply
-              </span>
+              </i>
               <span>
                  
               </span>
               <span
-                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
               >
                 In reply to 
                 <span
-                  className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                  className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                 >
                   Markus
                 </span>
@@ -278,23 +278,23 @@ exports[`post a reply: open reply form 1`] = `
               Write a reply
             </label>
             <div
-              className="Box-root Flex-root ReplyTo-root Flex-flex Flex-alignCenter"
+              className="Box-root Flex-root ReplyTo-root coral coral-createReplyComment-replyTo Flex-flex Flex-alignCenter"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 reply
-              </span>
+              </i>
               <span>
                  
               </span>
               <span
-                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ReplyTo-text"
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ReplyTo-text coral coral-createReplyComment-replyToText"
               >
                 Replying to: 
                 <span
-                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ReplyTo-username"
+                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ReplyTo-username coral coral-createReplyComment-replyToUsername"
                 >
                   Markus
                 </span>
@@ -344,12 +344,12 @@ exports[`post a reply: open reply form 1`] = `
                     title="Bold"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_bold
-                    </span>
+                    </i>
                   </button>
                   <button
                     className="Button-button"
@@ -358,12 +358,12 @@ exports[`post a reply: open reply form 1`] = `
                     title="Italic"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_italic
-                    </span>
+                    </i>
                   </button>
                   <button
                     className="Button-button"
@@ -372,12 +372,12 @@ exports[`post a reply: open reply form 1`] = `
                     title="Blockquote"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_quote
-                    </span>
+                    </i>
                   </button>
                 </div>
               </div>
@@ -533,21 +533,21 @@ exports[`post a reply: optimistic response 1`] = `
                 <div
                   className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-sm InReplyTo-icon"
                   >
                     reply
-                  </span>
+                  </i>
                   <span>
                      
                   </span>
                   <span
-                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                   >
                     In reply to 
                     <span
-                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                     >
                       Markus
                     </span>
@@ -995,21 +995,21 @@ exports[`renders comment stream 1`] = `
                     <div
                       className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                     >
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-sm InReplyTo-icon"
                       >
                         reply
-                      </span>
+                      </i>
                       <span>
                          
                       </span>
                       <span
-                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                       >
                         In reply to 
                         <span
-                          className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                          className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                         >
                           Markus
                         </span>
@@ -1246,21 +1246,21 @@ exports[`renders comment stream 1`] = `
                         <div
                           className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                         >
-                          <span
+                          <i
                             aria-hidden="true"
                             className="Icon-root Icon-sm InReplyTo-icon"
                           >
                             reply
-                          </span>
+                          </i>
                           <span>
                              
                           </span>
                           <span
-                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                           >
                             In reply to 
                             <span
-                              className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                              className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                             >
                               Markus
                             </span>
@@ -1497,21 +1497,21 @@ exports[`renders comment stream 1`] = `
                             <div
                               className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                             >
-                              <span
+                              <i
                                 aria-hidden="true"
                                 className="Icon-root Icon-sm InReplyTo-icon"
                               >
                                 reply
-                              </span>
+                              </i>
                               <span>
                                  
                               </span>
                               <span
-                                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                               >
                                 In reply to 
                                 <span
-                                  className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                                  className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                                 >
                                   Markus
                                 </span>
@@ -1748,21 +1748,21 @@ exports[`renders comment stream 1`] = `
                                 <div
                                   className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                                 >
-                                  <span
+                                  <i
                                     aria-hidden="true"
                                     className="Icon-root Icon-sm InReplyTo-icon"
                                   >
                                     reply
-                                  </span>
+                                  </i>
                                   <span>
                                      
                                   </span>
                                   <span
-                                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                                   >
                                     In reply to 
                                     <span
-                                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                                     >
                                       Markus
                                     </span>
@@ -1999,21 +1999,21 @@ exports[`renders comment stream 1`] = `
                                     <div
                                       className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                                     >
-                                      <span
+                                      <i
                                         aria-hidden="true"
                                         className="Icon-root Icon-sm InReplyTo-icon"
                                       >
                                         reply
-                                      </span>
+                                      </i>
                                       <span>
                                          
                                       </span>
                                       <span
-                                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                                       >
                                         In reply to 
                                         <span
-                                          className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                                          className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                                         >
                                           Markus
                                         </span>

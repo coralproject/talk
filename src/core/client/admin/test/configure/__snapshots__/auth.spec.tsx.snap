@@ -62,12 +62,12 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           target="_blank"
         >
           https://openid.net/connect/
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-xs TextLink-icon"
           >
             open_in_new
-          </span>
+          </i>
         </a>
       </p>
       <hr
@@ -215,12 +215,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
               tabIndex={0}
               title="Hide Client Secret"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 visibility
-              </span>
+              </i>
             </div>
           </div>
         </div>
@@ -544,12 +544,12 @@ For more information visit:
           target="_blank"
         >
           https://developers.facebook.com/docs/facebook-login/web
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-xs TextLink-icon"
           >
             open_in_new
-          </span>
+          </i>
         </a>
         .
       </p>
@@ -664,12 +664,12 @@ For more information visit:
               tabIndex={0}
               title="Hide Client Secret"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 visibility
-              </span>
+              </i>
             </div>
           </div>
         </div>
@@ -853,12 +853,12 @@ exports[`change settings: enable oidc configure box 1`] = `
           target="_blank"
         >
           https://openid.net/connect/
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-xs TextLink-icon"
           >
             open_in_new
-          </span>
+          </i>
         </a>
       </p>
       <hr
@@ -1006,12 +1006,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
               tabIndex={0}
               title="Hide Client Secret"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 visibility
-              </span>
+              </i>
             </div>
           </div>
         </div>
@@ -1333,12 +1333,12 @@ exports[`change settings: oidc validation errors 1`] = `
           target="_blank"
         >
           https://openid.net/connect/
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-xs TextLink-icon"
           >
             open_in_new
-          </span>
+          </i>
         </a>
       </p>
       <hr
@@ -1424,12 +1424,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1465,12 +1465,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         <div
           className="Message-root Message-colorError ValidationMessage-root"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1512,24 +1512,24 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
               tabIndex={0}
               title="Hide Client Secret"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 visibility
-              </span>
+              </i>
             </div>
           </div>
         </div>
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1591,12 +1591,12 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1632,12 +1632,12 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1673,12 +1673,12 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1714,12 +1714,12 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1893,12 +1893,12 @@ exports[`regenerate sso key 1`] = `
           tabIndex={0}
           title="Hide SSO Key"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             visibility
-          </span>
+          </i>
         </div>
       </div>
     </div>
@@ -1928,12 +1928,12 @@ exports[`regenerate sso key 1`] = `
       KEY GENERATED AT:
 11/12/2018, 11:26 PM
     </p>
-    <span
+    <i
       aria-hidden="true"
       className="Icon-root Icon-sm SSOKeyField-warnIcon"
     >
       warning
-    </span>
+    </i>
     <p
       className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
     >
@@ -2556,12 +2556,12 @@ integration to register for a new account.
                         target="_blank"
                       >
                         https://openid.net/connect/
-                        <span
+                        <i
                           aria-hidden="true"
                           className="Icon-root Icon-xs TextLink-icon"
                         >
                           open_in_new
-                        </span>
+                        </i>
                       </a>
                     </p>
                     <hr
@@ -2709,12 +2709,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                             tabIndex={0}
                             title="Hide Client Secret"
                           >
-                            <span
+                            <i
                               aria-hidden="true"
                               className="Icon-root Icon-sm"
                             >
                               visibility
-                            </span>
+                            </i>
                           </div>
                         </div>
                       </div>
@@ -3058,12 +3058,12 @@ integration to register for a new account.
                               tabIndex={0}
                               title="Hide SSO Key"
                             >
-                              <span
+                              <i
                                 aria-hidden="true"
                                 className="Icon-root Icon-sm"
                               >
                                 visibility
-                              </span>
+                              </i>
                             </div>
                           </div>
                         </div>
@@ -3093,12 +3093,12 @@ integration to register for a new account.
                           KEY GENERATED AT:
 Invalid Date
                         </p>
-                        <span
+                        <i
                           aria-hidden="true"
                           className="Icon-root Icon-sm SSOKeyField-warnIcon"
                         >
                           warning
-                        </span>
+                        </i>
                         <p
                           className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
                         >
@@ -3284,12 +3284,12 @@ to create and set up a web application. For more information visit:
                         target="_blank"
                       >
                         https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred
-                        <span
+                        <i
                           aria-hidden="true"
                           className="Icon-root Icon-xs TextLink-icon"
                         >
                           open_in_new
-                        </span>
+                        </i>
                       </a>
                       .
                     </p>
@@ -3404,12 +3404,12 @@ to create and set up a web application. For more information visit:
                             tabIndex={0}
                             title="Hide Client Secret"
                           >
-                            <span
+                            <i
                               aria-hidden="true"
                               className="Icon-root Icon-sm"
                             >
                               visibility
-                            </span>
+                            </i>
                           </div>
                         </div>
                       </div>
@@ -3592,12 +3592,12 @@ For more information visit:
                         target="_blank"
                       >
                         https://developers.facebook.com/docs/facebook-login/web
-                        <span
+                        <i
                           aria-hidden="true"
                           className="Icon-root Icon-xs TextLink-icon"
                         >
                           open_in_new
-                        </span>
+                        </i>
                       </a>
                       .
                     </p>
@@ -3712,12 +3712,12 @@ For more information visit:
                             tabIndex={0}
                             title="Hide Client Secret"
                           >
-                            <span
+                            <i
                               aria-hidden="true"
                               className="Icon-root Icon-sm"
                             >
                               visibility
-                            </span>
+                            </i>
                           </div>
                         </div>
                       </div>

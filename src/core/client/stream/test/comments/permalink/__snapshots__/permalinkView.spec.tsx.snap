@@ -3,7 +3,7 @@
 exports[`renders permalink view 1`] = `
 <section
   aria-labelledby="tab-COMMENTS"
-  className="App-tabContent"
+  className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
   role="tabpanel"
@@ -832,21 +832,21 @@ exports[`renders permalink view 1`] = `
                         <div
                           className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                         >
-                          <span
+                          <i
                             aria-hidden="true"
                             className="Icon-root Icon-sm InReplyTo-icon"
                           >
                             reply
-                          </span>
+                          </i>
                           <span>
                              
                           </span>
                           <span
-                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                           >
                             In reply to 
                             <span
-                              className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                              className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                             >
                               Markus
                             </span>
@@ -1059,21 +1059,21 @@ exports[`renders permalink view 1`] = `
                         <div
                           className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                         >
-                          <span
+                          <i
                             aria-hidden="true"
                             className="Icon-root Icon-sm InReplyTo-icon"
                           >
                             reply
-                          </span>
+                          </i>
                           <span>
                              
                           </span>
                           <span
-                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                           >
                             In reply to 
                             <span
-                              className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                              className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                             >
                               Markus
                             </span>

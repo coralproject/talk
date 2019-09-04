@@ -34,7 +34,7 @@ exports[`renders comment stream 1`] = `
   </ul>
   <section
     aria-labelledby="tab-COMMENTS"
-    className="App-tabContent"
+    className="App-tabContent coral coral-comments"
     data-testid="current-tab-pane"
     id="tabPane-COMMENTS"
     role="tabpanel"
@@ -125,12 +125,12 @@ exports[`renders comment stream 1`] = `
                     title="Bold"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_bold
-                    </span>
+                    </i>
                   </button>
                   <button
                     className="Button-button"
@@ -139,12 +139,12 @@ exports[`renders comment stream 1`] = `
                     title="Italic"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_italic
-                    </span>
+                    </i>
                   </button>
                   <button
                     className="Button-button"
@@ -153,12 +153,12 @@ exports[`renders comment stream 1`] = `
                     title="Blockquote"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_quote
-                    </span>
+                    </i>
                   </button>
                 </div>
               </div>
@@ -228,12 +228,12 @@ exports[`renders comment stream 1`] = `
               aria-hidden={true}
               className="SelectField-afterWrapper undefined"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 expand_more
-              </span>
+              </i>
             </span>
           </span>
         </div>
@@ -280,6 +280,7 @@ exports[`renders comment stream 1`] = `
         </ul>
         <section
           aria-labelledby="tab-FEATURED_COMMENTS"
+          className="coral coral-featuredComments"
           id="tabPane-FEATURED_COMMENTS"
           role="tabpanel"
         >

@@ -312,12 +312,12 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                 title="Bold"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_bold
-                </span>
+                </i>
               </button>
               <button
                 className="Button-button"
@@ -326,12 +326,12 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                 title="Italic"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_italic
-                </span>
+                </i>
               </button>
               <button
                 className="Button-button"
@@ -340,12 +340,12 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                 title="Blockquote"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_quote
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -353,12 +353,12 @@ exports[`edit a comment and handle server error: edit form 1`] = `
         <div
           className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             alarm
-          </span>
+          </i>
           <span>
             Edit: 
             <time
@@ -489,12 +489,12 @@ exports[`edit a comment: edit form 1`] = `
                 title="Bold"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_bold
-                </span>
+                </i>
               </button>
               <button
                 className="Button-button"
@@ -503,12 +503,12 @@ exports[`edit a comment: edit form 1`] = `
                 title="Italic"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_italic
-                </span>
+                </i>
               </button>
               <button
                 className="Button-button"
@@ -517,12 +517,12 @@ exports[`edit a comment: edit form 1`] = `
                 title="Blockquote"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_quote
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -530,12 +530,12 @@ exports[`edit a comment: edit form 1`] = `
         <div
           className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             alarm
-          </span>
+          </i>
           <span>
             Edit: 
             <time
@@ -666,12 +666,12 @@ exports[`edit a comment: optimistic response 1`] = `
                 title="Bold"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_bold
-                </span>
+                </i>
               </button>
               <button
                 className="Button-button"
@@ -680,12 +680,12 @@ exports[`edit a comment: optimistic response 1`] = `
                 title="Italic"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_italic
-                </span>
+                </i>
               </button>
               <button
                 className="Button-button"
@@ -694,12 +694,12 @@ exports[`edit a comment: optimistic response 1`] = `
                 title="Blockquote"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_quote
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -707,12 +707,12 @@ exports[`edit a comment: optimistic response 1`] = `
         <div
           className="Message-root Message-colorGrey Message-fullWidth coral coral-editComment-remainingTime"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             alarm
-          </span>
+          </i>
           <span>
             Edit: 
             <time
@@ -1551,12 +1551,12 @@ exports[`shows expiry message: edit time expired 1`] = `
                 title="Bold"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_bold
-                </span>
+                </i>
               </button>
               <button
                 className="Button-button"
@@ -1565,12 +1565,12 @@ exports[`shows expiry message: edit time expired 1`] = `
                 title="Italic"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_italic
-                </span>
+                </i>
               </button>
               <button
                 className="Button-button"
@@ -1579,12 +1579,12 @@ exports[`shows expiry message: edit time expired 1`] = `
                 title="Blockquote"
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   format_quote
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -1592,12 +1592,12 @@ exports[`shows expiry message: edit time expired 1`] = `
         <div
           className="Message-root Message-colorError Message-fullWidth coral coral-editComment-expiredTime coral-validation-message"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           Edit time has expired. You can no longer edit this comment. Why not post another one?
         </div>
       </div>

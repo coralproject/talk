@@ -22,12 +22,12 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             href="/admin/moderate/reported"
             onClick={[Function]}
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               flag
-            </span>
+            </i>
             <span>
               reported
             </span>
@@ -51,12 +51,12 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             href="/admin/moderate/pending"
             onClick={[Function]}
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               access_time
-            </span>
+            </i>
             <span>
               Pending
             </span>
@@ -80,12 +80,12 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             href="/admin/moderate/unmoderated"
             onClick={[Function]}
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               forum
-            </span>
+            </i>
             <span>
               unmoderated
             </span>
@@ -109,12 +109,12 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             href="/admin/moderate/rejected"
             onClick={[Function]}
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               cancel
-            </span>
+            </i>
             <span>
               rejected
             </span>

@@ -57,7 +57,7 @@ exports[`renders the empty settings pane 1`] = `
   </ul>
   <section
     aria-labelledby="tab-PROFILE"
-    className="App-tabContent"
+    className="App-tabContent coral coral-myProfile"
     data-testid="current-tab-pane"
     id="tabPane-PROFILE"
     role="tabpanel"
@@ -137,12 +137,12 @@ exports[`renders the empty settings pane 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
               >
                 <div>
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg"
                   >
                     email
-                  </span>
+                  </i>
                 </div>
                 <div>
                   <h1
@@ -230,6 +230,7 @@ signing into your account or for email notifications.
       </ul>
       <section
         aria-labelledby="tab-SETTINGS"
+        className="coral coral-settings"
         id="tabPane-SETTINGS"
         role="tabpanel"
       >
@@ -318,12 +319,12 @@ Commenters you ignore will still be able to see your comments.
                           tabIndex={0}
                           title="Hide password"
                         >
-                          <span
+                          <i
                             aria-hidden="true"
                             className="Icon-root Icon-sm"
                           >
                             visibility
-                          </span>
+                          </i>
                         </div>
                       </div>
                     </div>
@@ -384,12 +385,12 @@ Commenters you ignore will still be able to see your comments.
                           tabIndex={0}
                           title="Hide password"
                         >
-                          <span
+                          <i
                             aria-hidden="true"
                             className="Icon-root Icon-sm"
                           >
                             visibility
-                          </span>
+                          </i>
                         </div>
                       </div>
                     </div>
@@ -445,13 +446,13 @@ You can make
               onTouchEnd={[Function]}
               type="button"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm DownloadCommentsContainer-icon"
                 title="Request comment history"
               >
                 file_download
-              </span>
+              </i>
               <span>
                 Request comment history
               </span>

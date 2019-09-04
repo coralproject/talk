@@ -3,7 +3,7 @@
 exports[`renders configure 1`] = `
 <section
   aria-labelledby="tab-CONFIGURE"
-  className="App-tabContent"
+  className="App-tabContent coral coral-configure"
   data-testid="current-tab-pane"
   id="tabPane-CONFIGURE"
   role="tabpanel"

@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
@@ -12,19 +13,23 @@ interface Props {
 
 const InReplyTo: FunctionComponent<Props> = ({ username }) => {
   const Username = () => (
-    <Typography variant="heading5" container="span" className={styles.username}>
+    <Typography
+      variant="heading5"
+      container="span"
+      className={cn(styles.username, CLASSES.comment.inReplyTo.username)}
+    >
       {username}
     </Typography>
   );
 
   return (
-    <Flex alignItems="center" className={CLASSES.comment.inReplyTo}>
+    <Flex alignItems="center" className={CLASSES.comment.inReplyTo.$root}>
       <Icon className={styles.icon}>reply</Icon>{" "}
       <Localized id="comments-inReplyTo" Username={<Username />}>
         <Typography
           variant="timestamp"
           container="span"
-          className={styles.inReplyTo}
+          className={cn(styles.inReplyTo, CLASSES.comment.inReplyTo.text)}
         >
           {"In reply to <Username></Username>"}
         </Typography>

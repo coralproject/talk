@@ -16,7 +16,7 @@ exports[`renders correctly 1`] = `
     id="comments-inReplyTo"
   >
     <ForwardRef(forwardRef)
-      className="InReplyTo-inReplyTo"
+      className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
       container="span"
       variant="timestamp"
     >

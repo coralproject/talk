@@ -46,8 +46,8 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
 }) => {
   return (
     <HorizontalGutter
-      className={cn(styles.root, CLASSES.permalinkTabPane.$root, {
-        [CLASSES.permalinkTabPane.authenticated]: Boolean(viewer),
+      className={cn(styles.root, CLASSES.permalinkView.$root, {
+        [CLASSES.permalinkView.authenticated]: Boolean(viewer),
       })}
       size="double"
     >
@@ -64,7 +64,7 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
         {showAllCommentsHref && (
           <Localized id="comments-permalinkView-viewFullDiscussion">
             <Button
-              className={CLASSES.permalinkTabPane.viewFullDiscussionButton}
+              className={CLASSES.permalinkView.viewFullDiscussionButton}
               variant="underlined"
               color="primary"
               onClick={onShowAllComments}

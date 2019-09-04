@@ -178,6 +178,15 @@ const CLASSES = {
      * dimiss is the button to dismiss the message after submit.
      */
     dismiss: "coral coral-createReplyComment-dismiss",
+
+    /**
+     * replyTo shows the author of the parent comment.
+     */
+    replyTo: {
+      $root: "coral coral-createReplyComment-replyTo",
+      text: "coral coral-createReplyComment-replyToText",
+      username: "coral coral-createReplyComment-replyToUsername",
+    },
   },
 
   /**
@@ -300,7 +309,11 @@ const CLASSES = {
     /**
      * inReplyTo shows the author of the parent comment.
      */
-    inReplyTo: "coral coral-comment-inReplyTo",
+    inReplyTo: {
+      $root: "coral coral-comment-inReplyTo",
+      text: "coral coral-comment-inReplyToText",
+      username: "coral coral-comment-inReplyToUsername",
+    },
 
     /**
      * actionBar is the lower bar of the comment.
@@ -553,7 +566,7 @@ const CLASSES = {
     /**
      * authenticated will be applied to the container when the user is logged in.
      */
-    authenticated: "coral-authenticated",
+    authenticated: "coral coral-authenticated",
   },
 
   /**
@@ -582,9 +595,9 @@ const CLASSES = {
   },
 
   /**
-   * permalinkTabPane is the tab pane that shows the conversation of a comment.
+   * permalinkView is the tab pane that shows the conversation of a comment.
    */
-  permalinkTabPane: {
+  permalinkView: {
     /**
      * $root is the container for the permalink tab pane.
      */
