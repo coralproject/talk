@@ -16,23 +16,18 @@ import {
 
 import CommentHistoryContainer from "./CommentHistory";
 import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";
-import SettingsContainer from "./Settings";
+import AccountSettingsContainer from "./Settings";
 
 export interface ProfileProps {
   story: PropTypesOf<typeof CommentHistoryContainer>["story"];
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
     PropTypesOf<typeof CommentHistoryContainer>["viewer"] &
-    PropTypesOf<typeof SettingsContainer>["viewer"] &
-<<<<<<< HEAD
-    PropTypesOf<typeof ChangeUsernameContainer>["viewer"] &
-    PropTypesOf<typeof ChangeEmailContainer>["viewer"] &
-    PropTypesOf<typeof SettingsContainer>["viewer"] &
-    PropTypesOf<typeof DeletionRequestCalloutContainer>["viewer"];
-=======
-    PropTypesOf<typeof SettingsContainer>["viewer"];
->>>>>>> reconfigure settings tab and account settings in stream
+    PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
+    PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
+    PropTypesOf<typeof DeletionRequestCalloutContainer>["viewer"] &
+    PropTypesOf<typeof AccountSettingsContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
-    PropTypesOf<typeof SettingsContainer>["settings"];
+    PropTypesOf<typeof AccountSettingsContainer>["settings"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
@@ -72,7 +67,10 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           <CommentHistoryContainer viewer={props.viewer} story={props.story} />
         </TabPane>
         <TabPane className={CLASSES.settingsTabPane.$root} tabID="SETTINGS">
-          <SettingsContainer viewer={props.viewer} settings={props.settings} />
+          <AccountSettingsContainer
+            viewer={props.viewer}
+            settings={props.settings}
+          />
           <DeletionRequestCalloutContainer viewer={props.viewer} />
         </TabPane>
       </TabContent>

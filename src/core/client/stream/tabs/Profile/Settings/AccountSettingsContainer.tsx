@@ -1,13 +1,11 @@
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { SettingsContainer_settings } from "coral-stream/__generated__/SettingsContainer_settings.graphql";
-import { SettingsContainer_viewer } from "coral-stream/__generated__/SettingsContainer_viewer.graphql";
-import { HorizontalGutter, Typography } from "coral-ui/components";
+import { AccountSettingsContainer_settings } from "coral-stream/__generated__/AccountSettingsContainer_settings.graphql";
+import { AccountSettingsContainer_viewer } from "coral-stream/__generated__/AccountSettingsContainer_viewer.graphql";
+import { HorizontalGutter } from "coral-ui/components";
 
-import UserBoxContainer from "coral-stream/common/UserBox/UserBoxContainer";
 import ChangeEmailContainer from "./ChangeEmail";
 import ChangePasswordContainer from "./ChangePasswordContainer";
 import ChangeUsernameContainer from "./ChangeUsername";
@@ -16,14 +14,17 @@ import DownloadCommentsContainer from "./DownloadCommentsContainer";
 import IgnoreUserSettingsContainer from "./IgnoreUserSettingsContainer";
 import NotificationSettingsContainer from "./NotificationSettingsContainer";
 
-import styles from "./SettingsContainer.css";
+import styles from "./AccountSettingsContainer.css";
 
 interface Props {
-  viewer: SettingsContainer_viewer;
-  settings: SettingsContainer_settings;
+  viewer: AccountSettingsContainer_viewer;
+  settings: AccountSettingsContainer_settings;
 }
 
-const SettingsContainer: FunctionComponent<Props> = ({ viewer, settings }) => (
+const AccountSettingsContainer: FunctionComponent<Props> = ({
+  viewer,
+  settings,
+}) => (
   <HorizontalGutter className={styles.root}>
     <ChangeUsernameContainer settings={settings} viewer={viewer} />
     <ChangeEmailContainer settings={settings} viewer={viewer} />
@@ -40,7 +41,7 @@ const SettingsContainer: FunctionComponent<Props> = ({ viewer, settings }) => (
 
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
-    fragment SettingsContainer_viewer on User {
+    fragment AccountSettingsContainer_viewer on User {
       ...IgnoreUserSettingsContainer_viewer
       ...DownloadCommentsContainer_viewer
       ...DeleteAccountContainer_viewer
@@ -51,7 +52,7 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   settings: graphql`
-    fragment SettingsContainer_settings on Settings {
+    fragment AccountSettingsContainer_settings on Settings {
       accountFeatures {
         downloadComments
         deleteAccount
@@ -63,6 +64,6 @@ const enhanced = withFragmentContainer<Props>({
       ...UserBoxContainer_settings
     }
   `,
-})(SettingsContainer);
+})(AccountSettingsContainer);
 
 export default enhanced;

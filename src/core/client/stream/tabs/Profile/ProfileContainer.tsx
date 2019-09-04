@@ -35,7 +35,7 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
     fragment ProfileContainer_viewer on User {
       ...UserBoxContainer_viewer
       ...CommentHistoryContainer_viewer
-      ...SettingsContainer_viewer
+      ...AccountSettingsContainer_viewer
       ...ChangeUsernameContainer_viewer
       ...ChangeEmailContainer_viewer
       ...DeletionRequestCalloutContainer_viewer
@@ -44,7 +44,7 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
   settings: graphql`
     fragment ProfileContainer_settings on Settings {
       ...UserBoxContainer_settings
-      ...SettingsContainer_settings
+      ...AccountSettingsContainer_settings
     }
   `,
 })(ProfileContainer);

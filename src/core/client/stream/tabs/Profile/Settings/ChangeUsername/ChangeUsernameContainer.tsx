@@ -78,6 +78,9 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   ]);
 
   const canChangeLocalAuth = useMemo(() => {
+    if (!settings.accountFeatures.changeUsername) {
+      return false;
+    }
     if (
       !viewer.profiles.find(profile => profile.__typename === "LocalProfile")
     ) {

@@ -8,8 +8,12 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+<<<<<<< HEAD
 import CLASSES from "coral-stream/classes";
 import { Icon, Typography } from "coral-ui/components";
+=======
+import { Flex, Icon, Typography } from "coral-ui/components";
+>>>>>>> integrate account deletion to account settings
 import { Button } from "coral-ui/components/Button";
 
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
@@ -67,31 +71,24 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
         scheduledDeletionDate={viewer.scheduledDeletionDate}
         organizationEmail={settings.organization.contactEmail}
       />
-
-      <Localized id="profile-settings-deleteAccount-title">
-        <Typography variant="heading3" className={styles.title}>
-          Delete My Account
-        </Typography>
-      </Localized>
-      <Localized id="profile-settings-deleteAccount-description">
-        <Typography variant="bodyCopy" className={styles.section}>
-          Deleting your account will permanently erase your profile and remove
-          all your comments from this site.
-        </Typography>
-      </Localized>
-
-      {deletionDate ? (
-        <>
-          <Localized
-            id="profile-settings-deleteAccount-cancelDelete-description"
-            $date={deletionDate}
-          >
-            <Typography variant="bodyCopy" className={styles.section}>
-              You have already submitted a request to delete your account. Your
-              account will be deleted on {deletionDate}. You may cancel the
-              request until that time.
+      <Flex justifyContent="space-between" alignItems="flex-start">
+        <div>
+          <Localized id="profile-settings-deleteAccount-title">
+            <Typography
+              variant="heading2"
+              color="textDark"
+              className={styles.title}
+            >
+              Delete My Account
             </Typography>
           </Localized>
+          <Localized id="profile-settings-deleteAccount-description">
+            <Typography variant="bodyCopy" className={styles.section}>
+              Deleting your account will permanently erase your profile and
+              remove all your comments from this site.
+            </Typography>
+          </Localized>
+<<<<<<< HEAD
           <Button
             variant="filled"
             size="small"
@@ -118,9 +115,45 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
           </Icon>
           <Localized id="profile-settings-deleteAccount-requestDelete">
             <span>Request account deletion</span>
+=======
+          {deletionDate && (
+            <>
+              <Localized
+                id="profile-settings-deleteAccount-cancelDelete-description"
+                $date={deletionDate}
+              >
+                <Typography variant="bodyCopy" className={styles.section}>
+                  You have already submitted a request to delete your account.
+                  Your account will be deleted on {deletionDate}. You may cancel
+                  the request until that time.
+                </Typography>
+              </Localized>
+              <Button variant="filled" size="small" onClick={cancelDeletion}>
+                <Icon size="sm" className={styles.icon}>
+                  block
+                </Icon>
+                <Localized id="profile-settings-deleteAccount-cancelDelete">
+                  <span>Cancel account deletion request</span>
+                </Localized>
+              </Button>
+            </>
+          )}
+        </div>
+
+        {!deletionDate && (
+          <Localized id="profile-settings-deleteAccount-request">
+            <Button
+              color="primary"
+              variant="outlineFilled"
+              size="small"
+              onClick={showPopover}
+            >
+              Request
+            </Button>
+>>>>>>> integrate account deletion to account settings
           </Localized>
-        </Button>
-      )}
+        )}
+      </Flex>
     </div>
   );
 };
