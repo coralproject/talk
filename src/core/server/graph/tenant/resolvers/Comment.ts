@@ -66,6 +66,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       ? ctx.loaders.Comments.forParent(c.storyID, c.id, input)
       : createConnection(),
   replyCount: async ({ childIDs }, input, ctx) => {
+    // TODO: (wyattjoh) the childCount should be used eventually, but it should be managed with the status so it's only a count of published comments
     if (childIDs.length === 0) {
       return 0;
     }
