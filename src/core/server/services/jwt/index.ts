@@ -354,20 +354,26 @@ function generateJTIRevokedKey(jti: string) {
  *
  * @param redis the Redis instance to revoke the JWT with
  * @param jti the JTI claim of the JWT token being revoked
- * @param validFor number of seconds that the token was valid for
+ * @param exp time that the token expired at
  * @param now the current date
  */
 export async function revokeJWT(
   redis: Redis,
   jti: string,
-  validFor: number,
+  exp: number,
   now = new Date()
 ) {
-  await redis.setex(
-    generateJTIRevokedKey(jti),
-    Math.round(validFor),
-    Math.round(DateTime.fromJSDate(now).toSeconds())
+  const validFor = Math.round(
+    DateTime.fromSeconds(exp).diff(DateTime.fromJSDate(now), "seconds").seconds
   );
+
+  if (validFor > 0) {
+    await redis.setex(
+      generateJTIRevokedKey(jti),
+      validFor,
+      Math.round(DateTime.fromJSDate(now).toSeconds())
+    );
+  }
 }
 
 /**
