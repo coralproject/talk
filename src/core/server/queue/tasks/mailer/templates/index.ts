@@ -79,6 +79,25 @@ export type UpdateUsernameTemplate = UserNotificationContext<
   }
 >;
 
+export type AccountDeletionConfirmation = UserNotificationContext<
+  "delete-request-confirmation",
+  {
+    requestDate: string;
+  }
+>;
+
+export type AccountDeletionCancellation = UserNotificationContext<
+  "delete-request-cancel",
+  {}
+>;
+
+export type AccountDeletionCompleted = UserNotificationContext<
+  "delete-request-completed",
+  {
+    organizationContactEmail: string;
+  }
+>;
+
 type Templates =
   | BanTemplate
   | ConfirmEmailTemplate
@@ -87,6 +106,9 @@ type Templates =
   | PasswordChangeTemplate
   | SuspendTemplate
   | DownloadCommentsTemplate
-  | UpdateUsernameTemplate;
+  | UpdateUsernameTemplate
+  | AccountDeletionConfirmation
+  | AccountDeletionCancellation
+  | AccountDeletionCompleted;
 
 export { Templates as Template };

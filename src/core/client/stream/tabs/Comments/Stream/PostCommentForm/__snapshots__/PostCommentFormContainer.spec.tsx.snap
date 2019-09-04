@@ -123,6 +123,41 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
 />
 `;
 
+exports[`renders when user is scheduled to be deleted 1`] = `
+<PostCommentForm
+  disabled={true}
+  disabledMessage={
+    <Localized
+      id="comments-postCommentForm-userScheduledForDeletion-warning"
+    >
+      Commenting is disabled when your account is scheduled for deletion.
+    </Localized>
+  }
+  initialValues={
+    Object {
+      "body": "",
+    }
+  }
+  max={100}
+  min={3}
+  onChange={[Function]}
+  onSubmit={[Function]}
+  showMessageBox={false}
+  story={
+    Object {
+      "id": "story-id",
+      "isClosed": false,
+      "settings": Object {
+        "messageBox": Object {
+          "enabled": false,
+        },
+      },
+    }
+  }
+  submitStatus={null}
+/>
+`;
+
 exports[`renders with initialValues 1`] = `
 <PostCommentForm
   disabled={false}

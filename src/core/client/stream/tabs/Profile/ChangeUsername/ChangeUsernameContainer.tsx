@@ -168,7 +168,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       {!showEditForm && (
         <Flex alignItems="baseline">
           <Typography variant="header2">{viewer.username}</Typography>
-          {canChangeLocalAuth && (
+          {canChangeLocalAuth && settings.accountFeatures.changeUsername && (
             <Localized id="profile-changeUsername-edit">
               <Button size="small" color="primary" onClick={toggleEditForm}>
                 edit
@@ -374,6 +374,9 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment ChangeUsernameContainer_settings on Settings {
+      accountFeatures {
+        changeUsername
+      }
       auth {
         integrations {
           local {

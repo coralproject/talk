@@ -29,3 +29,14 @@
   font-size: calc(14rem / var(--rem-base));
   line-height: calc(16em / 14);
 }
+
+.username {
+  display: inline-block;
+}
+
+.deleted {
+  display: inline-block;
+  padding-left: var(--spacing-2);
+
+  color: var(--palette-warning-main);
+}

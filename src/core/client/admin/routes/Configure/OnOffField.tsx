@@ -15,6 +15,7 @@ interface Props {
   offLabel?: React.ReactNode;
   format?: ((value: any, name: string) => any) | null;
   parse?: ((value: any, name: string) => any) | null;
+  className?: string;
 }
 
 const OnOffField: FunctionComponent<Props> = ({
@@ -25,8 +26,9 @@ const OnOffField: FunctionComponent<Props> = ({
   invert = false,
   parse = parseStringBool,
   format,
+  className,
 }) => (
-  <div>
+  <div className={className}>
     <Field
       name={name}
       type="radio"

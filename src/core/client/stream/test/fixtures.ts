@@ -96,6 +96,11 @@ export const settings = createFixture<GQLSettings>({
   charCount: {
     enabled: false,
   },
+  accountFeatures: {
+    downloadComments: true,
+    changeUsername: true,
+    deleteAccount: true,
+  },
 });
 
 export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
@@ -254,6 +259,7 @@ export const baseComment = createFixture<GQLComment>({
   parent: undefined,
   viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
   tags: [],
+  deleted: undefined,
 });
 
 export const comments = denormalizeComments(

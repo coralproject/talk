@@ -229,7 +229,7 @@ it("approves comment in rejected queue", async () => {
   >(({ variables }) => {
     expectAndFail(variables).toMatchObject({
       commentID: rejectedComments[0].id,
-      commentRevisionID: rejectedComments[0].revision.id,
+      commentRevisionID: rejectedComments[0].revision!.id,
     });
     return {
       comment: {

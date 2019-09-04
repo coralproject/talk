@@ -426,6 +426,9 @@ moderate-queue-viewNew =
     *[other] View {$count} new comments
   }
 
+moderate-comment-deleted-body =
+  This comment is no longer available. The commenter has deleted their account.
+
 ### Moderate Search Bar
 moderate-searchBar-allStories = All stories
   .title = All stories
@@ -591,6 +594,7 @@ community-filter-allRoles = All Roles
 community-filter-allStatuses = All Statuses
 
 community-column-username = Username
+community-column-username-deleted = Deleted
 community-column-email = Email
 community-column-memberSince = Member Since
 community-column-role = Role
@@ -741,3 +745,19 @@ configure-general-reactions-sort-input =
   .placehodlder = E.g. Most Respected
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
+
+configure-account-features-title = Commenter account mangement features
+configure-account-features-explanation = 
+  You can enable and disable certain features for your commenters to use
+  within their Profile. These features also assist towards GDPR
+  compliance.
+configure-account-features-allow = Allow users to:
+configure-account-features-change-usernames = Change their usernames
+configure-account-features-change-usernames-details = Usernames can be changed once every 14 days.
+configure-account-features-yes = Yes
+configure-account-features-no = No
+configure-account-features-download-comments = Download their comments
+configure-account-features-download-comments-details = Commenters can download a csv of their comment history.
+configure-account-features-delete-account = Delete their account
+configure-account-features-delete-account-details = 
+  Removes all of their comment data, username, and email address from the site and the database.

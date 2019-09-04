@@ -50,6 +50,15 @@ export interface AuthIntegrations {
 }
 
 /**
+ * AccountFeatures are features enabled for commenter accounts
+ */
+export interface AccountFeatures {
+  changeUsername: boolean;
+  deleteAccount: boolean;
+  downloadComments: boolean;
+}
+
+/**
  * Auth is the set of configured authentication integrations.
  */
 export type Auth = Omit<GQLAuth, "integrations"> & {
@@ -112,4 +121,9 @@ export type Settings = GlobalModerationSettings &
      * disableCommenting will disable commenting site-wide.
      */
     disableCommenting: DisableCommenting;
+
+    /**
+     * AccountFeatures are features enabled for commenter accounts
+     */
+    accountFeatures: AccountFeatures;
   };

@@ -50,6 +50,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       },
       viewer: {
         id: "viewer-id",
+        scheduledDeletionDate: undefined,
       },
     },
     add
@@ -208,5 +209,16 @@ it("renders when commenting has been disabled (non-collapsing)", async () => {
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
   wrapper.setProps(nextProps);
+  expect(wrapper).toMatchSnapshot();
+});
+
+it("renders when user is scheduled to be deleted", async () => {
+  const props = createDefaultProps({
+    viewer: {
+      scheduledDeletionDate: new Date("2019-01-01").toISOString(),
+    },
+  });
+  const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+  await timeout();
   expect(wrapper).toMatchSnapshot();
 });

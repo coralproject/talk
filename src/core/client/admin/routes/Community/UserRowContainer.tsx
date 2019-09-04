@@ -32,6 +32,7 @@ const UserRowContainer: FunctionComponent<Props> = props => {
         year: "numeric",
       }).format(new Date(props.user.createdAt))}
       onUsernameClicked={props.onUsernameClicked}
+      deletedAt={props.user.deletedAt}
     />
   );
 };
@@ -55,6 +56,7 @@ const enhanced = withFragmentContainer<Props>({
       username
       email
       createdAt
+      deletedAt
     }
   `,
 })(UserRowContainer);

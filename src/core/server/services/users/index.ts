@@ -5,6 +5,7 @@ import {
   ALLOWED_USERNAME_CHANGE_FREQUENCY,
   DOWNLOAD_LIMIT_TIMEFRAME,
 } from "coral-common/constants";
+import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -30,6 +31,7 @@ import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
+  clearDeletionDate,
   consolidateUserBanStatus,
   consolidateUserSuspensionStatus,
   createUserToken,
@@ -42,6 +44,7 @@ import {
   removeUserIgnore,
   retrieveUser,
   retrieveUserWithEmail,
+  scheduleDeletionDate,
   setUserEmail,
   setUserLastDownloadedAt,
   setUserLocalProfile,
@@ -312,6 +315,94 @@ export async function updatePassword(
   return user;
 }
 
+export async function requestAccountDeletion(
+  mongo: Db,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  user: User,
+  password: string,
+  now: Date
+) {
+  if (!user.email) {
+    throw new EmailNotSetError();
+  }
+
+  const passwordVerified = await verifyUserPassword(user, password, user.email);
+  if (!passwordVerified) {
+    // We throw a PasswordIncorrect error here instead of an
+    // InvalidCredentialsError because the current user is already signed in.
+    throw new PasswordIncorrect();
+  }
+
+  const deletionDate = DateTime.fromJSDate(now).plus({
+    days: SCHEDULED_DELETION_TIMESPAN_DAYS,
+  });
+
+  const updatedUser = await scheduleDeletionDate(
+    mongo,
+    tenant.id!,
+    user.id,
+    deletionDate.toJSDate()
+  );
+
+  // TODO: extract out into a common shared formatter
+  // this is being duplicated everywhere
+  const formattedDate = Intl.DateTimeFormat(tenant.locale, {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  }).format(deletionDate.toJSDate());
+
+  await mailer.add({
+    tenantID: tenant.id,
+    message: {
+      to: user.email,
+    },
+    template: {
+      name: "delete-request-confirmation",
+      context: {
+        requestDate: formattedDate,
+        organizationName: tenant.organization.name,
+        organizationURL: tenant.organization.url,
+      },
+    },
+  });
+
+  return updatedUser;
+}
+
+export async function cancelAccountDeletion(
+  mongo: Db,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  user: User
+) {
+  if (!user.email) {
+    throw new EmailNotSetError();
+  }
+
+  const updatedUser = await clearDeletionDate(mongo, tenant.id, user.id);
+
+  await mailer.add({
+    tenantID: tenant.id,
+    message: {
+      to: user.email,
+    },
+    template: {
+      name: "delete-request-cancel",
+      context: {
+        organizationName: tenant.organization.name,
+        organizationURL: tenant.organization.url,
+      },
+    },
+  });
+
+  return updatedUser;
+}
+
 /**
  * createToken will create a Token for the User as well as return a signed Token
  * that can be used to authenticate.
@@ -521,6 +612,10 @@ function enabledAuthenticationIntegrations(
  * @param user the User that we are updating
  */
 function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
+  if (!tenant.accountFeatures.changeUsername) {
+    return false;
+  }
+
   if (!hasLocalProfile(user)) {
     return false;
   }
@@ -874,6 +969,9 @@ export async function requestCommentsDownload(
   user: User,
   now: Date
 ) {
+  if (!tenant.accountFeatures.downloadComments) {
+    throw new Error("Downloading comments is not enabled");
+  }
   // Check to see if the user is allowed to download this now.
   if (
     user.lastDownloadedAt &&

@@ -25,6 +25,7 @@ class AuthConfigRoute extends React.Component<Props> {
     }
     return (
       <AuthConfigContainer
+        settings={this.props.data.settings}
         auth={this.props.data.settings.auth}
         form={this.props.form}
         submitting={this.props.submitting}
@@ -37,6 +38,7 @@ const enhanced = withRouteConfig<Props>({
   query: graphql`
     query AuthConfigRouteContainerQuery {
       settings {
+        ...AuthConfigContainer_settings
         auth {
           ...AuthConfigContainer_auth
         }

@@ -38,7 +38,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         { username: user.username }
       ),
     });
-    if (!rejected) {
+    if (!rejected && comment.revision) {
       reject({ commentID: comment.id, commentRevisionID: comment.revision.id });
     }
     onDismiss();

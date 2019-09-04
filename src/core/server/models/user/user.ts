@@ -344,6 +344,17 @@ export interface User extends TenantResource {
    * createdAt is the time that the User was created at.
    */
   createdAt: Date;
+
+  /**
+   * scheduledDeletionDate is the time that a user is scheduled to be deleted.
+   * If this is null, the user has not requested for their account to be deleted.
+   */
+  scheduledDeletionDate?: Date;
+
+  /**
+   * deletedAt is the time that this user was deleted from our system.
+   */
+  deletedAt?: Date;
 }
 
 export async function createUserIndexes(mongo: Db) {
@@ -666,6 +677,64 @@ export async function updateUserPassword(
     }
 
     throw new Error("an unexpected error occurred");
+  }
+
+  return result.value || null;
+}
+
+export async function scheduleDeletionDate(
+  mongo: Db,
+  tenantID: string,
+  userID: string,
+  deletionDate: Date
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $set: {
+        scheduledDeletionDate: deletionDate,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    throw new Error("Unable to update user deletion date.");
+  }
+
+  return result.value || null;
+}
+
+export async function clearDeletionDate(
+  mongo: Db,
+  tenantID: string,
+  userID: string
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $unset: {
+        scheduledDeletionDate: "",
+      },
+    },
+    {
+      // We want to return edited user so that
+      // we send back the cleared scheduledDeletionDate
+      // to the client
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    throw new Error("Unable to update user deletion date.");
   }
 
   return result.value || null;

@@ -91,3 +91,13 @@ it("renders story info", () => {
   renderer.render(<ModerateCardN {...props} />);
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
+
+it("renders tombstoned when comment is deleted", () => {
+  const props: PropTypesOf<typeof ModerateCardN> = {
+    ...baseProps,
+    deleted: true,
+  };
+  const renderer = createRenderer();
+  renderer.render(<ModerateCardN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
+});

@@ -4,5 +4,6 @@ export default {
     stream: "/embed/stream",
     auth: "/embed/auth",
     authCallback: "/embed/auth/callback",
+    deleteAccount: "/embed/deleteAccount",
   },
 };

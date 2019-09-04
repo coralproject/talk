@@ -192,6 +192,9 @@ export class CommentContainer extends Component<Props, State> {
       this.props.viewer &&
         this.props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
     );
+    const scheduledForDeletion = Boolean(
+      this.props.viewer && this.props.viewer.scheduledDeletionDate
+    );
     const showCaret =
       this.props.viewer && can(this.props.viewer, Ability.MODERATE);
     if (showEditDialog) {
@@ -223,105 +226,111 @@ export class CommentContainer extends Component<Props, State> {
         data-testid={`comment-${comment.id}`}
       >
         <HorizontalGutter>
-          <IndentedComment
-            indentLevel={indentLevel}
-            body={comment.body}
-            createdAt={comment.createdAt}
-            blur={comment.pending || false}
-            showEditedMarker={comment.editing.edited}
-            highlight={highlight}
-            parentAuthorName={
-              comment.parent &&
-              comment.parent.author &&
-              comment.parent.author.username
-            }
-            username={
-              comment.author && (
-                <>
-                  <UsernameWithPopoverContainer
-                    viewer={viewer}
-                    user={comment.author}
-                  />
-                  <UserTagsContainer comment={comment} />
-                  <UserBadgesContainer comment={comment} />
-                </>
-              )
-            }
-            topBarRight={
-              <Flex alignItems="center" itemGutter>
-                {commentTags}
-                {editable && (
-                  <Localized id="comments-commentContainer-editButton">
-                    <Button
-                      color="primary"
-                      variant="underlined"
-                      onClick={this.openEditDialog}
-                    >
-                      Edit
-                    </Button>
-                  </Localized>
-                )}
-                {showCaret && (
-                  <CaretContainer
-                    comment={comment}
-                    story={story}
-                    viewer={viewer!}
-                  />
-                )}
-              </Flex>
-            }
-            footer={
-              <>
-                <Flex justifyContent="space-between">
-                  <ButtonsBar>
-                    <ReactionButtonContainer
-                      comment={comment}
-                      settings={settings}
+          {!comment.deleted && (
+            <IndentedComment
+              indentLevel={indentLevel}
+              body={comment.body}
+              createdAt={comment.createdAt}
+              blur={comment.pending || false}
+              showEditedMarker={comment.editing.edited}
+              highlight={highlight}
+              parentAuthorName={
+                comment.parent &&
+                comment.parent.author &&
+                comment.parent.author.username
+              }
+              username={
+                comment.author && (
+                  <>
+                    <UsernameWithPopoverContainer
                       viewer={viewer}
-                      readOnly={banned || suspended}
+                      user={comment.author}
                     />
-                    {!disableReplies && !banned && !suspended && (
-                      <ReplyButton
-                        id={`comments-commentContainer-replyButton-${
-                          comment.id
-                        }`}
-                        onClick={this.toggleReplyDialog}
-                        active={showReplyDialog}
-                        disabled={
-                          settings.disableCommenting.enabled || story.isClosed
-                        }
-                      />
-                    )}
-                    <PermalinkButtonContainer
+                    <UserTagsContainer comment={comment} />
+                    <UserBadgesContainer comment={comment} />
+                  </>
+                )
+              }
+              topBarRight={
+                <Flex alignItems="center" itemGutter>
+                  {commentTags}
+                  {editable && (
+                    <Localized id="comments-commentContainer-editButton">
+                      <Button
+                        color="primary"
+                        variant="underlined"
+                        onClick={this.openEditDialog}
+                      >
+                        Edit
+                      </Button>
+                    </Localized>
+                  )}
+                  {showCaret && (
+                    <CaretContainer
+                      comment={comment}
                       story={story}
-                      commentID={comment.id}
+                      viewer={viewer!}
                     />
-                  </ButtonsBar>
-                  <ButtonsBar>
-                    {!banned && !suspended && (
-                      <ReportButtonContainer
-                        comment={comment}
-                        viewer={viewer}
-                      />
-                    )}
-                  </ButtonsBar>
+                  )}
                 </Flex>
-                {showConversationLink && (
-                  <ShowConversationLink
-                    id={`comments-commentContainer-showConversation-${
-                      comment.id
-                    }`}
-                    onClick={this.handleShowConversation}
-                    href={getURLWithCommentID(
-                      this.props.story.url,
-                      this.props.comment.id
-                    )}
-                  />
-                )}
-              </>
-            }
-          />
-          {showReplyDialog && (
+              }
+              footer={
+                <>
+                  <Flex justifyContent="space-between">
+                    <ButtonsBar>
+                      <ReactionButtonContainer
+                        comment={comment}
+                        settings={settings}
+                        viewer={viewer}
+                        readOnly={banned || suspended}
+                      />
+                      {!disableReplies &&
+                        !banned &&
+                        !suspended &&
+                        !scheduledForDeletion && (
+                          <ReplyButton
+                            id={`comments-commentContainer-replyButton-${
+                              comment.id
+                            }`}
+                            onClick={this.toggleReplyDialog}
+                            active={showReplyDialog}
+                            disabled={
+                              settings.disableCommenting.enabled ||
+                              story.isClosed
+                            }
+                          />
+                        )}
+                      <PermalinkButtonContainer
+                        story={story}
+                        commentID={comment.id}
+                      />
+                    </ButtonsBar>
+                    <ButtonsBar>
+                      {!banned && !suspended && (
+                        <ReportButtonContainer
+                          comment={comment}
+                          viewer={viewer}
+                        />
+                      )}
+                    </ButtonsBar>
+                  </Flex>
+                  {showConversationLink && (
+                    <ShowConversationLink
+                      id={`comments-commentContainer-showConversation-${
+                        comment.id
+                      }`}
+                      onClick={this.handleShowConversation}
+                      href={getURLWithCommentID(
+                        this.props.story.url,
+                        this.props.comment.id
+                      )}
+                    />
+                  )}
+                </>
+              }
+            />
+          )}
+          {showReplyDialog && !comment.deleted && (
             <ReplyCommentFormContainer
               settings={settings}
               comment={comment}
@@ -350,6 +359,7 @@ const enhanced = withSetCommentIDMutation(
           }
           badges
           role
+          scheduledDeletionDate
           ...UsernameWithPopoverContainer_viewer
           ...ReactionButtonContainer_viewer
           ...ReportButtonContainer_viewer
@@ -391,6 +401,7 @@ const enhanced = withSetCommentIDMutation(
           }
           pending
           lastViewerAction
+          deleted
           ...ReplyCommentFormContainer_comment
           ...EditCommentFormContainer_comment
           ...ReactionButtonContainer_comment

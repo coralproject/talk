@@ -1,0 +1,7 @@
+.phrase {
+  margin-bottom: var(--spacing-2);
+}
+
+.controls {
+  margin-top: var(--spacing-5);
+}

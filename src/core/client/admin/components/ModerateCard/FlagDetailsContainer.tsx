@@ -21,13 +21,13 @@ interface Props {
 }
 
 const FlagDetailsContainer: FunctionComponent<Props> = ({
-  comment: {
-    revision: { metadata },
-    flags: { nodes },
-  },
+  comment,
   onUsernameClick,
   settings,
 }) => {
+  const metadata = comment.revision ? comment.revision.metadata : null;
+  const nodes = comment.flags.nodes;
+
   const offensive = nodes.filter(
     ({ reason }) => reason === GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE
   );
@@ -37,7 +37,7 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter size="oneAndAHalf">
-      {metadata.perspective && (
+      {metadata && metadata.perspective && (
         <FlagDetailsCategory
           category={
             <Localized id="moderate-flagDetails-toxicityScore">
