@@ -5,20 +5,23 @@ exports[`renders profile 1`] = `
   className="Box-root HorizontalGutter-root HorizontalGutter-double"
   data-testid="profile-commentHistory"
 >
-  <h1
-    className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
-  >
-    Comment History
-  </h1>
   <div
     className="Box-root HorizontalGutter-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-0"
   >
-    <h1
+    <div>
+      <p
       className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary coral coral-myComment-story"
-    >
-      Story: title
-    </h1>
+      >
+        Missing translation "profile-historyComment-comment-on"
+      </p>
+      <h1
+        className="Box-root Typography-root Typography-heading4 Typography-colorTextDark"
+      >
+        title
+      </h1>
+    </div>
+    <div>
     <time
       className="RelativeTime-root Timestamp-root coral coral-myComment-timestamp"
       dateTime="2018-07-06T18:24:00.000Z"
@@ -26,17 +29,18 @@ exports[`renders profile 1`] = `
     >
       2018-07-06T18:24:00.000Z
     </time>
-    <div
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
       <div
         className="HTMLContent-root coral coral-myComment-content"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "Joining Too",
+      >
+        <div
+          className="HTMLContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Joining Too",
+            }
           }
-        }
-      />
+        />
+      </div>
     </div>
     <div
       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow gutter"
@@ -55,11 +59,19 @@ exports[`renders profile 1`] = `
     className="Box-root HorizontalGutter-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-1"
   >
-    <h1
+    <div>
+      <p
       className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary coral coral-myComment-story"
-    >
-      Story: title
-    </h1>
+      >
+        Missing translation "profile-historyComment-comment-on"
+      </p>
+      <h1
+        className="Box-root Typography-root Typography-heading4 Typography-colorTextDark"
+      >
+        title
+      </h1>
+    </div>
+    <div>
     <time
       className="RelativeTime-root Timestamp-root coral coral-myComment-timestamp"
       dateTime="2018-07-06T18:24:00.000Z"
@@ -67,17 +79,18 @@ exports[`renders profile 1`] = `
     >
       2018-07-06T18:24:00.000Z
     </time>
-    <div
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-    >
       <div
         className="HTMLContent-root coral coral-myComment-content"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "What's up?",
+      >
+        <div
+          className="HTMLContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "What's up?",
+            }
           }
-        }
-      />
+        />
+      </div>
     </div>
     <div
       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow gutter"
@@ -96,7 +109,7 @@ exports[`renders profile 1`] = `
     aria-controls="coral-profile-commentHistory-log"
     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth coral coral-loadMoreButton coral-myComments-loadMoreButton"
     data-color="regular"
-    data-variant="outlined"
+    data-variant="outlineFilled"
     disabled={false}
     id="coral-profile-commentHistory-loadMore"
     onBlur={[Function]}

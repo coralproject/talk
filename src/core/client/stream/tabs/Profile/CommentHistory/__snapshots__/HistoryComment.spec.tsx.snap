@@ -5,32 +5,41 @@ exports[`renders correctly 1`] = `
   className="coral coral-myComment"
   data-testid="historyComment-comment-id"
 >
-  <Localized
-    $title="Story Title"
-    id="profile-historyComment-story"
-  >
+  <div>
+    <Localized
+      id="profile-historyComment-comment-on"
+    >
+      <ForwardRef(forwardRef)
+        className="HistoryComment-commentOn"
+        variant="detail"
+      >
+        Comment on:
+      </ForwardRef(forwardRef)>
+    </Localized>
     <ForwardRef(forwardRef)
       className="coral coral-myComment-story"
       variant="heading4"
     >
-      Story: {$title}
+      Story Title
     </ForwardRef(forwardRef)>
   </Localized>
   <Timestamp
     className="coral coral-myComment-timestamp"
   >
-    2018-07-06T18:24:00.000Z
-  </Timestamp>
-  <ForwardRef(forwardRef)
-    container="div"
-    variant="bodyCopy"
+      2018-07-06T18:24:00.000Z
+    </Timestamp>
+    <ForwardRef(forwardRef)
+      container="div"
+      variant="bodyCopy"
   >
     <HTMLContent
       className="coral coral-myComment-content"
     >
-      Hello World
-    </HTMLContent>
-  </ForwardRef(forwardRef)>
+      <HTMLContent>
+        Hello World
+      </HTMLContent>
+    </ForwardRef(forwardRef)>
+  </div>
   <ForwardRef(forwardRef)
     alignItems="center"
     direction="row"

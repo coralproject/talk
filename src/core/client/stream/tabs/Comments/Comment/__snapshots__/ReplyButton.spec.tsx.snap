@@ -3,15 +3,18 @@
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   active={true}
+  className="ReplyButton-button"
   id="id"
   onClick={[Function]}
   size="small"
-  variant="ghost"
+  variant="textUnderlined"
 >
   <MatchMediaWithContext
     gtWidth="xs"
   >
-    <ForwardRef(forwardRef)>
+    <ForwardRef(forwardRef)
+      className="ReplyButton-icon"
+    >
       reply
     </ForwardRef(forwardRef)>
   </MatchMediaWithContext>

@@ -357,7 +357,7 @@ exports[`renders comment stream 1`] = `
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-featuredComment-reactButton"
                   data-color="regular"
-                  data-variant="ghost"
+                  data-variant="textUnderlined"
                   disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -459,7 +459,7 @@ exports[`renders comment stream 1`] = `
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-featuredComment-reactButton"
                   data-color="regular"
-                  data-variant="ghost"
+                  data-variant="textUnderlined"
                   disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}

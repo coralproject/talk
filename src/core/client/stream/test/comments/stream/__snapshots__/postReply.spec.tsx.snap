@@ -15,7 +15,7 @@ exports[`post a reply: open reply form 1`] = `
         className=""
       >
         <div
-          className="Comment-root"
+          className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
           role="article"
         >
           <div
@@ -81,7 +81,7 @@ exports[`post a reply: open reply form 1`] = `
             </div>
           </div>
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <div
               className="HTMLContent-root coral coral-content coral-comment-content"
@@ -95,12 +95,12 @@ exports[`post a reply: open reply form 1`] = `
               className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
             >
               <div
-                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                   data-color="regular"
-                  data-variant="ghost"
+                  data-variant="textUnderlined"
                   disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -118,7 +118,7 @@ exports[`post a reply: open reply form 1`] = `
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active coral coral-comment-replyButton"
                   data-active={true}
                   data-color="regular"
-                  data-variant="ghost"
+                  data-variant="textUnderlined"
                   disabled={false}
                   id="comments-commentContainer-replyButton-comment-0"
                   onBlur={[Function]}
@@ -141,7 +141,7 @@ exports[`post a reply: open reply form 1`] = `
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
                     data-active={false}
                     data-color="regular"
-                    data-variant="ghost"
+                    data-variant="textUnderlined"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -170,7 +170,7 @@ exports[`post a reply: open reply form 1`] = `
                 </div>
               </div>
               <div
-                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
               >
                 <div
                   className="Popover-root"
@@ -179,8 +179,8 @@ exports[`post a reply: open reply form 1`] = `
                     aria-controls="report-popover-comment-0"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                     data-active={false}
-                    data-color="regular"
-                    data-variant="ghost"
+                    data-color="error"
+                    data-variant="textUnderlined"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -403,7 +403,7 @@ exports[`post a reply: optimistic response 1`] = `
             className="Indent-level1 coral coral-indent-1"
           >
             <div
-              className="Comment-root"
+              className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
               role="article"
             >
               <div
@@ -511,7 +511,7 @@ exports[`post a reply: optimistic response 1`] = `
                 </div>
               </div>
               <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
               >
                 <div
                   className="HTMLContent-root coral coral-content coral-comment-content"
@@ -525,12 +525,12 @@ exports[`post a reply: optimistic response 1`] = `
                   className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                       data-color="regular"
-                      data-variant="ghost"
+                      data-variant="textUnderlined"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -548,7 +548,7 @@ exports[`post a reply: optimistic response 1`] = `
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
                       data-active={false}
                       data-color="regular"
-                      data-variant="ghost"
+                      data-variant="textUnderlined"
                       disabled={false}
                       id="comments-commentContainer-replyButton-uuid-0"
                       onBlur={[Function]}
@@ -571,7 +571,7 @@ exports[`post a reply: optimistic response 1`] = `
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
                         data-active={false}
                         data-color="regular"
-                        data-variant="ghost"
+                        data-variant="textUnderlined"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -600,7 +600,7 @@ exports[`post a reply: optimistic response 1`] = `
                     </div>
                   </div>
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                   >
                     <div
                       className="Popover-root"
@@ -609,8 +609,8 @@ exports[`post a reply: optimistic response 1`] = `
                         aria-controls="report-popover-uuid-0"
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                         data-active={false}
-                        data-color="regular"
-                        data-variant="ghost"
+                        data-color="error"
+                        data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}

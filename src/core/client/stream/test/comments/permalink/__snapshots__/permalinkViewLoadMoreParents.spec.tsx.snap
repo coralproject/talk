@@ -148,7 +148,7 @@ exports[`renders conversation thread 1`] = `
               className=""
             >
               <div
-                className="Comment-root Comment-highlight"
+                className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
                 role="article"
               >
                 <div
@@ -214,7 +214,7 @@ exports[`renders conversation thread 1`] = `
                   </div>
                 </div>
                 <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
                 >
                   <div
                     className="HTMLContent-root coral coral-content coral-comment-content"
@@ -228,12 +228,12 @@ exports[`renders conversation thread 1`] = `
                     className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                         data-color="regular"
-                        data-variant="ghost"
+                        data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -251,7 +251,7 @@ exports[`renders conversation thread 1`] = `
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
                         data-active={false}
                         data-color="regular"
-                        data-variant="ghost"
+                        data-variant="textUnderlined"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-0"
                         onBlur={[Function]}
@@ -274,7 +274,7 @@ exports[`renders conversation thread 1`] = `
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
                           data-active={false}
                           data-color="regular"
-                          data-variant="ghost"
+                          data-variant="textUnderlined"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -303,7 +303,7 @@ exports[`renders conversation thread 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
@@ -378,7 +378,7 @@ exports[`shows more of this conversation 1`] = `
               className=""
             >
               <div
-                className="Comment-root"
+                className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
                 role="article"
               >
                 <div
@@ -444,7 +444,7 @@ exports[`shows more of this conversation 1`] = `
                   </div>
                 </div>
                 <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
                 >
                   <div
                     className="HTMLContent-root coral coral-content coral-comment-content"
@@ -458,12 +458,12 @@ exports[`shows more of this conversation 1`] = `
                     className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                         data-color="regular"
-                        data-variant="ghost"
+                        data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -481,7 +481,7 @@ exports[`shows more of this conversation 1`] = `
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
                         data-active={false}
                         data-color="regular"
-                        data-variant="ghost"
+                        data-variant="textUnderlined"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-1"
                         onBlur={[Function]}
@@ -504,7 +504,7 @@ exports[`shows more of this conversation 1`] = `
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
                           data-active={false}
                           data-color="regular"
-                          data-variant="ghost"
+                          data-variant="textUnderlined"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -533,7 +533,7 @@ exports[`shows more of this conversation 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
@@ -595,7 +595,7 @@ exports[`shows more of this conversation 1`] = `
               className=""
             >
               <div
-                className="Comment-root"
+                className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
                 role="article"
               >
                 <div
@@ -666,7 +666,7 @@ exports[`shows more of this conversation 1`] = `
                   </div>
                 </div>
                 <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
                 >
                   <div
                     className="HTMLContent-root coral coral-content coral-comment-content"
@@ -680,12 +680,12 @@ exports[`shows more of this conversation 1`] = `
                     className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                         data-color="regular"
-                        data-variant="ghost"
+                        data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -703,7 +703,7 @@ exports[`shows more of this conversation 1`] = `
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
                         data-active={false}
                         data-color="regular"
-                        data-variant="ghost"
+                        data-variant="textUnderlined"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-from-staff-0"
                         onBlur={[Function]}
@@ -726,7 +726,7 @@ exports[`shows more of this conversation 1`] = `
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
                           data-active={false}
                           data-color="regular"
-                          data-variant="ghost"
+                          data-variant="textUnderlined"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -755,7 +755,7 @@ exports[`shows more of this conversation 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
@@ -815,7 +815,7 @@ exports[`shows more of this conversation 1`] = `
               className=""
             >
               <div
-                className="Comment-root Comment-highlight"
+                className="Box-root HorizontalGutter-root Comment-root Comment-highlight HorizontalGutter-half"
                 role="article"
               >
                 <div
@@ -881,7 +881,7 @@ exports[`shows more of this conversation 1`] = `
                   </div>
                 </div>
                 <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
                 >
                   <div
                     className="HTMLContent-root coral coral-content coral-comment-content"
@@ -895,12 +895,12 @@ exports[`shows more of this conversation 1`] = `
                     className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                         data-color="regular"
-                        data-variant="ghost"
+                        data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -918,7 +918,7 @@ exports[`shows more of this conversation 1`] = `
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
                         data-active={false}
                         data-color="regular"
-                        data-variant="ghost"
+                        data-variant="textUnderlined"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-0"
                         onBlur={[Function]}
@@ -941,7 +941,7 @@ exports[`shows more of this conversation 1`] = `
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
                           data-active={false}
                           data-color="regular"
-                          data-variant="ghost"
+                          data-variant="textUnderlined"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -970,7 +970,7 @@ exports[`shows more of this conversation 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"

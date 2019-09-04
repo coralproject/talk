@@ -191,7 +191,7 @@ exports[`renders message box when commenting disabled 1`] = `
       >
         <div
           aria-live="polite"
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root AllCommentsTabContainer-stream HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
@@ -502,7 +502,7 @@ exports[`renders message box when logged in 1`] = `
       >
         <div
           aria-live="polite"
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root AllCommentsTabContainer-stream HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
@@ -787,7 +787,7 @@ exports[`renders message box when not logged in 1`] = `
       >
         <div
           aria-live="polite"
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root AllCommentsTabContainer-stream HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
@@ -979,7 +979,7 @@ exports[`renders message box when story isClosed 1`] = `
       >
         <div
           aria-live="polite"
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root AllCommentsTabContainer-stream HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
