@@ -91,17 +91,9 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
   // Grab the JTI from the decoded token.
   const { jti, exp }: LogoutToken = validate(LogoutTokenSchema, decoded);
   if (jti && exp) {
-    // Compute the number of seconds that the token will be valid for.
-    const validFor = Math.round(
-      DateTime.fromJSDate(now)
-        .plus({ seconds: -exp })
-        .toSeconds()
-    );
-    if (validFor > 0) {
-      // Invalidate the token, the expiry is in the future and it needs to be
-      // revoked.
-      await revokeJWT(redis, jti, validFor, now);
-    }
+    // Invalidate the token, the expiry is in the future and it needs to be
+    // revoked.
+    await revokeJWT(redis, jti, exp, now);
   }
 
   // Clear the cookie.
