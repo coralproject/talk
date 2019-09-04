@@ -9,12 +9,15 @@ import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import TenantCache from "coral-server/services/tenant/cache";
 
-import { JobCommand, ScheduledJob, ScheduledJobGroup } from "./job";
+import {
+  ScheduledJob,
+  ScheduledJobCommand,
+  ScheduledJobGroup,
+} from "./scheduled";
 
 const BATCH_SIZE = 500;
 
-// TODO: extract this out to a separate file so it
-// can be re-used elsewhere
+// TODO: extract this out to a separate file so it can be re-used elsewhere
 const collections = {
   users: createCollection<User>("users"),
   comments: createCollection<Comment>("comments"),
@@ -31,60 +34,61 @@ interface Options {
 
 export const NAME = "Account Deletion";
 
-export function registerAccountDeletion(options: Options): ScheduledJobGroup {
-  const job = new ScheduledJob({
+export function registerAccountDeletion(
+  options: Options
+): ScheduledJobGroup<Options> {
+  const job = new ScheduledJob(options, {
     name: `Twice Hourly ${NAME}`,
     cronTime: "0,30 * * * *",
-    command: deleteScheduledAccounts(options),
+    command: deleteScheduledAccounts,
   });
 
   return { name: NAME, schedulers: [job] };
 }
 
-function deleteScheduledAccounts({
+const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
+  log,
   mongo,
   mailerQueue,
   tenantCache,
-}: Options): JobCommand {
-  return async job => {
-    // For each of the tenant's, process their users notifications.
-    for await (const tenant of tenantCache) {
-      const log = job.log.child({ tenantID: tenant.id });
+}) => {
+  // For each of the tenant's, process their users notifications.
+  for await (const tenant of tenantCache) {
+    log = log.child({ tenantID: tenant.id });
 
-      while (true) {
-        const now = new Date();
-        const rescheduledDeletionDate = DateTime.fromJSDate(now)
-          .plus({ hours: 1 })
-          .toJSDate();
+    while (true) {
+      const now = new Date();
+      const rescheduledDeletionDate = DateTime.fromJSDate(now)
+        .plus({ hours: 1 })
+        .toJSDate();
 
-        const { value: user } = await collections.users(mongo).findOneAndUpdate(
-          {
-            tenantID: tenant.id,
-            scheduledDeletionDate: { $lte: now },
+      const { value: user } = await collections.users(mongo).findOneAndUpdate(
+        {
+          tenantID: tenant.id,
+          scheduledDeletionDate: { $lte: now },
+        },
+        {
+          $set: {
+            scheduledDeletionDate: rescheduledDeletionDate,
           },
-          {
-            $set: {
-              scheduledDeletionDate: rescheduledDeletionDate,
-            },
-          },
-          {
-            // We want to get back the user with
-            // modified scheduledDeletionDate
-            returnOriginal: false,
-          }
-        );
-        if (!user) {
-          log.debug("no more users were scheduled for deletion");
-          break;
+        },
+        {
+          // We want to get back the user with
+          // modified scheduledDeletionDate
+          returnOriginal: false,
         }
-
-        log.info({ userID: user.id }, "deleting user");
-
-        await deleteUser(mongo, mailerQueue, user.id, user.tenantID, now);
+      );
+      if (!user) {
+        log.debug("no more users were scheduled for deletion");
+        break;
       }
+
+      log.info({ userID: user.id }, "deleting user");
+
+      await deleteUser(mongo, mailerQueue, user.id, user.tenantID, now);
     }
-  };
-}
+  }
+};
 
 async function executeBulkOperations<T>(
   collection: Collection<T>,

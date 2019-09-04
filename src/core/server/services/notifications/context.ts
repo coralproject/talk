@@ -135,23 +135,30 @@ export default class NotificationContext {
   }
 
   /**
-   * getDigests will get the digests for the next User that has digests with the
-   * specified digesting frequency.
+   * digest will return an `asyncIterator` that can be used to iterate over all
+   * the users on a Tenant that have digests available configured with the given
+   * frequency.
    *
-   * @param frequency the frequency to get digests for
+   * @param frequency the frequency to get the digests for
    */
-  public async getDigests(frequency: GQLDIGEST_FREQUENCY) {
-    const user = await pullUserNotificationDigests(
-      this.mongo,
-      this.tenant.id,
-      frequency
-    );
-    if (!user) {
-      return null;
-    }
+  public digest(frequency: GQLDIGEST_FREQUENCY) {
+    // `this` isn't available inside the iterator function, so extract it here.
+    const { mongo, tenant } = this;
+    return {
+      async *[Symbol.asyncIterator]() {
+        while (true) {
+          const user = await pullUserNotificationDigests(
+            mongo,
+            tenant.id,
+            frequency
+          );
+          if (!user) {
+            break;
+          }
 
-    this.users.prime(user.id, user);
-
-    return user;
+          yield user;
+        }
+      },
+    };
   }
 }

@@ -6,12 +6,11 @@ import { JWTSigningConfig } from "coral-server/services/jwt";
 import TenantCache from "coral-server/services/tenant/cache";
 
 import { registerAccountDeletion } from "./accountDeletion";
-import { ScheduledJobGroup } from "./job";
 import { registerNotificationDigesting } from "./notificationDigesting";
 
 export interface ScheduledJobGroups {
-  accountDeletion: ScheduledJobGroup;
-  notificationDigesting: ScheduledJobGroup;
+  accountDeletion: ReturnType<typeof registerAccountDeletion>;
+  notificationDigesting: ReturnType<typeof registerNotificationDigesting>;
 }
 
 interface Options {
