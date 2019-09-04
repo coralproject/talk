@@ -73,10 +73,13 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         </Tab>
       </TabBar>
       <TabContent activeTab={local.profileTab}>
-        <TabPane tabID="MY_COMMENTS">
+        <TabPane
+          className={CLASSES.myCommentsTabPane.$root}
+          tabID="MY_COMMENTS"
+        >
           <CommentHistoryContainer viewer={props.viewer} story={props.story} />
         </TabPane>
-        <TabPane tabID="SETTINGS">
+        <TabPane className={CLASSES.settingsTabPane.$root} tabID="SETTINGS">
           <SettingsContainer viewer={props.viewer} settings={props.settings} />
         </TabPane>
       </TabContent>

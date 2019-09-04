@@ -1,15 +1,18 @@
 import { FORM_ERROR, FormApi } from "final-form";
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import { colorFromMeta } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
   validatePassword,
 } from "coral-framework/lib/validation";
+import CLASSES from "coral-stream/classes";
+import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
   Button,
   CallOut,
@@ -22,7 +25,6 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import { Localized } from "fluent-react/compat";
 import UpdatePasswordMutation from "./UpdatePasswordMutation";
 
 interface Props {
@@ -59,7 +61,10 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
   );
 
   return (
-    <div data-testid="profile-settings-changePassword">
+    <div
+      className={CLASSES.changePassword.$root}
+      data-testid="profile-settings-changePassword"
+    >
       <Form onSubmit={onSubmit}>
         {({
           handleSubmit,
@@ -93,7 +98,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                         autoComplete="current-password"
                         {...input}
                       />
-                      <ValidationMessage fullWidth meta={meta} />
+                      <FieldValidationMessage fullWidth meta={meta} />
 
                       <Flex justifyContent="flex-end">
                         <Localized id="profile-settings-changePassword-forgotPassword">
@@ -101,6 +106,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                             variant="underlined"
                             color="primary"
                             onClick={onResetPassword}
+                            className={CLASSES.changePassword.forgotButton}
                           >
                             Forgot your password?
                           </Button>
@@ -128,18 +134,26 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                         autoComplete="new-password"
                         {...input}
                       />
-                      <ValidationMessage fullWidth meta={meta} />
+                      <FieldValidationMessage fullWidth meta={meta} />
                     </FormField>
                   )}
                 </Field>
                 {submitError && (
-                  <CallOut color="error" fullWidth>
+                  <CallOut
+                    className={CLASSES.changePassword.errorMessage}
+                    color="error"
+                    fullWidth
+                  >
                     {submitError}
                   </CallOut>
                 )}
                 {submitSucceeded && (
                   <Localized id="profile-settings-changePassword-updated">
-                    <CallOut color="success" fullWidth>
+                    <CallOut
+                      className={CLASSES.changePassword.successMessage}
+                      color="success"
+                      fullWidth
+                    >
                       Your password has been updated
                     </CallOut>
                   </Localized>
@@ -151,6 +165,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                       variant="filled"
                       type="submit"
                       disabled={submitting || pristine}
+                      className={CLASSES.changePassword.changeButton}
                     >
                       Change Password
                     </Button>

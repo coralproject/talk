@@ -712,12 +712,12 @@ improve the API over time.
                     tabIndex={0}
                     title="Hide API Key"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-sm"
                     >
                       visibility
-                    </span>
+                    </i>
                   </div>
                 </div>
               </div>
@@ -903,12 +903,12 @@ in your Akismet account:
                     tabIndex={0}
                     title="Hide API Key"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-sm"
                     >
                       visibility
-                    </span>
+                    </i>
                   </div>
                 </div>
               </div>

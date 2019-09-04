@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
@@ -6,6 +7,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
 import { CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
 import { CaretContainer_viewer } from "coral-stream/__generated__/CaretContainer_viewer.graphql";
+import CLASSES from "coral-stream/classes";
 import { Button, ClickOutside, Icon, Popover } from "coral-ui/components";
 
 import ModerationDropdownContainer from "./ModerationDropdownContainer";
@@ -49,7 +51,7 @@ const CaretContainer: FunctionComponent<Props> = props => {
             <Button
               variant="ghost"
               size="small"
-              className={styles.root}
+              className={cn(styles.root, CLASSES.comment.topBar.caretButton)}
               onClick={toggleVisibility}
               aria-controls={popoverID}
               active={visible}

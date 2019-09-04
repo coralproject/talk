@@ -91,12 +91,12 @@ exports[`approves comment in reported queue: dangling 1`] = `
               target="_blank"
             >
               View Context
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-xs TextLink-icon"
               >
                 open_in_new
-              </span>
+              </i>
             </a>
           </div>
           <div>
@@ -158,12 +158,12 @@ exports[`approves comment in reported queue: dangling 1`] = `
                 >
                   Details
                 </span>
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   arrow_drop_down
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -196,12 +196,12 @@ exports[`approves comment in reported queue: dangling 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg RejectButton-icon"
           >
             close
-          </span>
+          </i>
         </button>
         <button
           aria-label="Approve"
@@ -215,12 +215,12 @@ exports[`approves comment in reported queue: dangling 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
-          </span>
+          </i>
         </button>
       </div>
     </div>
@@ -319,12 +319,12 @@ exports[`rejects comment in reported queue: dangling 1`] = `
               target="_blank"
             >
               View Context
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-xs TextLink-icon"
               >
                 open_in_new
-              </span>
+              </i>
             </a>
           </div>
           <div>
@@ -386,12 +386,12 @@ exports[`rejects comment in reported queue: dangling 1`] = `
                 >
                   Details
                 </span>
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   arrow_drop_down
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -424,12 +424,12 @@ exports[`rejects comment in reported queue: dangling 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg RejectButton-icon"
           >
             close
-          </span>
+          </i>
         </button>
         <button
           aria-label="Approve"
@@ -443,12 +443,12 @@ exports[`rejects comment in reported queue: dangling 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
-          </span>
+          </i>
         </button>
       </div>
     </div>
@@ -544,12 +544,12 @@ exports[`renders reported queue with comments 1`] = `
                     target="_blank"
                   >
                     View Context
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-xs TextLink-icon"
                     >
                       open_in_new
-                    </span>
+                    </i>
                   </a>
                 </div>
                 <div>
@@ -611,12 +611,12 @@ exports[`renders reported queue with comments 1`] = `
                       >
                         Details
                       </span>
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-sm"
                       >
                         arrow_drop_down
-                      </span>
+                      </i>
                     </button>
                   </div>
                 </div>
@@ -649,12 +649,12 @@ exports[`renders reported queue with comments 1`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg RejectButton-icon"
                 >
                   close
-                </span>
+                </i>
               </button>
               <button
                 aria-label="Approve"
@@ -668,12 +668,12 @@ exports[`renders reported queue with comments 1`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -756,12 +756,12 @@ exports[`renders reported queue with comments 1`] = `
                     target="_blank"
                   >
                     View Context
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-xs TextLink-icon"
                     >
                       open_in_new
-                    </span>
+                    </i>
                   </a>
                 </div>
                 <div>
@@ -823,12 +823,12 @@ exports[`renders reported queue with comments 1`] = `
                       >
                         Details
                       </span>
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-sm"
                       >
                         arrow_drop_down
-                      </span>
+                      </i>
                     </button>
                   </div>
                 </div>
@@ -861,12 +861,12 @@ exports[`renders reported queue with comments 1`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg RejectButton-icon"
                 >
                   close
-                </span>
+                </i>
               </button>
               <button
                 aria-label="Approve"
@@ -880,12 +880,12 @@ exports[`renders reported queue with comments 1`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -984,12 +984,12 @@ exports[`renders reported queue with comments 2`] = `
                     target="_blank"
                   >
                     View Context
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-xs TextLink-icon"
                     >
                       open_in_new
-                    </span>
+                    </i>
                   </a>
                 </div>
                 <div>
@@ -1051,12 +1051,12 @@ exports[`renders reported queue with comments 2`] = `
                       >
                         Details
                       </span>
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-sm"
                       >
                         arrow_drop_down
-                      </span>
+                      </i>
                     </button>
                   </div>
                 </div>
@@ -1089,12 +1089,12 @@ exports[`renders reported queue with comments 2`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg RejectButton-icon"
                 >
                   close
-                </span>
+                </i>
               </button>
               <button
                 aria-label="Approve"
@@ -1108,12 +1108,12 @@ exports[`renders reported queue with comments 2`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -1196,12 +1196,12 @@ exports[`renders reported queue with comments 2`] = `
                     target="_blank"
                   >
                     View Context
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-xs TextLink-icon"
                     >
                       open_in_new
-                    </span>
+                    </i>
                   </a>
                 </div>
                 <div>
@@ -1263,12 +1263,12 @@ exports[`renders reported queue with comments 2`] = `
                       >
                         Details
                       </span>
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-sm"
                       >
                         arrow_drop_down
-                      </span>
+                      </i>
                     </button>
                   </div>
                 </div>
@@ -1301,12 +1301,12 @@ exports[`renders reported queue with comments 2`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg RejectButton-icon"
                 >
                   close
-                </span>
+                </i>
               </button>
               <button
                 aria-label="Approve"
@@ -1320,12 +1320,12 @@ exports[`renders reported queue with comments 2`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -1414,12 +1414,12 @@ exports[`renders reported queue with comments and load more 1`] = `
               target="_blank"
             >
               View Context
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-xs TextLink-icon"
               >
                 open_in_new
-              </span>
+              </i>
             </a>
           </div>
           <div>
@@ -1499,12 +1499,12 @@ exports[`renders reported queue with comments and load more 1`] = `
                 >
                   Details
                 </span>
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   arrow_drop_down
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -1537,12 +1537,12 @@ exports[`renders reported queue with comments and load more 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg RejectButton-icon"
           >
             close
-          </span>
+          </i>
         </button>
         <button
           aria-label="Approve"
@@ -1556,12 +1556,12 @@ exports[`renders reported queue with comments and load more 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
-          </span>
+          </i>
         </button>
       </div>
     </div>

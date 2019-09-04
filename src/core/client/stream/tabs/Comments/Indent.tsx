@@ -1,6 +1,8 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
+
 import styles from "./Indent.css";
 
 export interface IndentProps {
@@ -24,7 +26,7 @@ function getLevelClassName(level: number = 0) {
   if (!(level in levels)) {
     throw new Error(`Indent level ${level} does not exist`);
   }
-  return levels[level];
+  return cn(levels[level], CLASSES.comment.indent[level]);
 }
 
 const Indent: FunctionComponent<IndentProps> = props => {

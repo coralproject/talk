@@ -1,7 +1,9 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import CLASSES from "coral-stream/classes";
 import { Button, Flex, Typography } from "coral-ui/components";
 
 import PageStepBar from "./Common/PageStepBar";
@@ -43,7 +45,7 @@ const CompletionPage: FunctionComponent<Props> = ({
       <Flex
         alignItems="center"
         justifyContent="center"
-        className={styles.header}
+        className={cn(styles.header, CLASSES.deleteMyAccountModal.header)}
       >
         <Localized id="profile-settings-deleteAccount-pages-completeHeader">
           <Typography variant="header2" className={styles.headerText}>
@@ -106,6 +108,7 @@ const CompletionPage: FunctionComponent<Props> = ({
             color="primary"
             fullWidth
             onClick={onDoneClicked}
+            className={CLASSES.deleteMyAccountModal.doneButton}
           >
             <Localized id="profile-settings-deleteAccount-pages-done">
               Done

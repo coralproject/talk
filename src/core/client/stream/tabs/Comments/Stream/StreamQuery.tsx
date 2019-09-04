@@ -1,3 +1,7 @@
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent } from "react";
+import { ReadyState } from "react-relay";
+
 import {
   graphql,
   QueryRenderer,
@@ -6,10 +10,8 @@ import {
 import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import { StreamQuery as QueryTypes } from "coral-stream/__generated__/StreamQuery.graphql";
 import { StreamQueryLocal as Local } from "coral-stream/__generated__/StreamQueryLocal.graphql";
-import { Delay, Flex, Spinner } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
-import { ReadyState } from "react-relay";
+import Spinner from "coral-stream/common/Spinner";
+import { Delay, Flex } from "coral-ui/components";
 
 import { AllCommentsTabQuery } from "./AllCommentsTab";
 import StreamContainer from "./StreamContainer";

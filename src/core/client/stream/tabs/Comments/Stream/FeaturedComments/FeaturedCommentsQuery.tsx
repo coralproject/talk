@@ -1,3 +1,6 @@
+import React, { FunctionComponent } from "react";
+import { ReadyState } from "react-relay";
+
 import {
   graphql,
   QueryRenderer,
@@ -5,9 +8,8 @@ import {
 } from "coral-framework/lib/relay";
 import { FeaturedCommentsQuery as QueryTypes } from "coral-stream/__generated__/FeaturedCommentsQuery.graphql";
 import { FeaturedCommentsQueryLocal as Local } from "coral-stream/__generated__/FeaturedCommentsQueryLocal.graphql";
-import { Delay, Flex, Spinner } from "coral-ui/components";
-import React, { FunctionComponent } from "react";
-import { ReadyState } from "react-relay";
+import Spinner from "coral-stream/common/Spinner";
+import { Delay, Flex } from "coral-ui/components";
 
 import FeaturedCommentsContainer from "./FeaturedCommentsContainer";
 

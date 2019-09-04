@@ -21,14 +21,14 @@ exports[`renders reply list 1`] = `
           className="Indent-root"
         >
           <div
-            className="Indent-level1"
+            className="Indent-level1 coral coral-indent-1"
           >
             <div
               className="Comment-root"
               role="article"
             >
               <div
-                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
               >
                 <div
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -41,7 +41,7 @@ exports[`renders reply list 1`] = `
                     >
                       <button
                         aria-controls="username-popover"
-                        className="BaseButton-root"
+                        className="BaseButton-root coral coral-username coral-comment-username"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -51,7 +51,7 @@ exports[`renders reply list 1`] = `
                         type="button"
                       >
                         <span
-                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                         >
                           Markus
                         </span>
@@ -75,7 +75,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
-                      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                      className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >
@@ -95,21 +95,21 @@ exports[`renders reply list 1`] = `
                 <div
                   className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-sm InReplyTo-icon"
                   >
                     reply
-                  </span>
+                  </i>
                   <span>
                      
                   </span>
                   <span
-                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                   >
                     In reply to 
                     <span
-                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                     >
                       Markus
                     </span>
@@ -120,7 +120,7 @@ exports[`renders reply list 1`] = `
                 className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
               >
                 <div
-                  className="HTMLContent-root"
+                  className="HTMLContent-root coral coral-content coral-comment-content"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "I like yoghurt",
@@ -128,13 +128,13 @@ exports[`renders reply list 1`] = `
                   }
                 />
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                  className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                       data-color="regular"
                       data-variant="ghost"
                       disabled={false}
@@ -151,7 +151,8 @@ exports[`renders reply list 1`] = `
                       </span>
                     </button>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                      data-active={false}
                       data-color="regular"
                       data-variant="ghost"
                       disabled={false}
@@ -173,7 +174,8 @@ exports[`renders reply list 1`] = `
                     >
                       <button
                         aria-controls="permalink-popover-comment-with-replies"
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                        data-active={false}
                         data-color="regular"
                         data-variant="ghost"
                         onBlur={[Function]}
@@ -207,7 +209,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                       data-color="regular"
                       data-variant="ghost"
                       disabled={false}
@@ -251,14 +253,14 @@ exports[`renders reply list 1`] = `
               className="Indent-root"
             >
               <div
-                className="Indent-level2"
+                className="Indent-level2 coral coral-indent-2"
               >
                 <div
                   className="Comment-root"
                   role="article"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -271,7 +273,7 @@ exports[`renders reply list 1`] = `
                         >
                           <button
                             aria-controls="username-popover"
-                            className="BaseButton-root"
+                            className="BaseButton-root coral coral-username coral-comment-username"
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
@@ -281,7 +283,7 @@ exports[`renders reply list 1`] = `
                             type="button"
                           >
                             <span
-                              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                             >
                               Isabelle
                             </span>
@@ -305,7 +307,7 @@ exports[`renders reply list 1`] = `
                         className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                       >
                         <time
-                          className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                          className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                           dateTime="2018-07-06T18:24:00.000Z"
                           title="2018-07-06T18:24:00.000Z"
                         >
@@ -325,21 +327,21 @@ exports[`renders reply list 1`] = `
                     <div
                       className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                     >
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-sm InReplyTo-icon"
                       >
                         reply
-                      </span>
+                      </i>
                       <span>
                          
                       </span>
                       <span
-                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                       >
                         In reply to 
                         <span
-                          className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                          className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                         >
                           Markus
                         </span>
@@ -350,7 +352,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                   >
                     <div
-                      className="HTMLContent-root"
+                      className="HTMLContent-root coral coral-content coral-comment-content"
                       dangerouslySetInnerHTML={
                         Object {
                           "__html": "Comment Body 3",
@@ -358,13 +360,13 @@ exports[`renders reply list 1`] = `
                       }
                     />
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                      className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
                         className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                       >
                         <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                           data-color="regular"
                           data-variant="ghost"
                           disabled={false}
@@ -381,7 +383,8 @@ exports[`renders reply list 1`] = `
                           </span>
                         </button>
                         <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                          data-active={false}
                           data-color="regular"
                           data-variant="ghost"
                           disabled={false}
@@ -403,7 +406,8 @@ exports[`renders reply list 1`] = `
                         >
                           <button
                             aria-controls="permalink-popover-comment-3"
-                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                            data-active={false}
                             data-color="regular"
                             data-variant="ghost"
                             onBlur={[Function]}
@@ -437,7 +441,7 @@ exports[`renders reply list 1`] = `
                         className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                       >
                         <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                           data-color="regular"
                           data-variant="ghost"
                           disabled={false}
@@ -476,14 +480,14 @@ exports[`renders reply list 1`] = `
               className="Indent-root"
             >
               <div
-                className="Indent-level2"
+                className="Indent-level2 coral coral-indent-2"
               >
                 <div
                   className="Comment-root"
                   role="article"
                 >
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -496,7 +500,7 @@ exports[`renders reply list 1`] = `
                         >
                           <button
                             aria-controls="username-popover"
-                            className="BaseButton-root"
+                            className="BaseButton-root coral coral-username coral-comment-username"
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
@@ -506,7 +510,7 @@ exports[`renders reply list 1`] = `
                             type="button"
                           >
                             <span
-                              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                             >
                               Isabelle
                             </span>
@@ -530,7 +534,7 @@ exports[`renders reply list 1`] = `
                         className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                       >
                         <time
-                          className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                          className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                           dateTime="2018-07-06T18:24:00.000Z"
                           title="2018-07-06T18:24:00.000Z"
                         >
@@ -550,21 +554,21 @@ exports[`renders reply list 1`] = `
                     <div
                       className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                     >
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-sm InReplyTo-icon"
                       >
                         reply
-                      </span>
+                      </i>
                       <span>
                          
                       </span>
                       <span
-                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                       >
                         In reply to 
                         <span
-                          className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                          className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                         >
                           Markus
                         </span>
@@ -575,7 +579,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                   >
                     <div
-                      className="HTMLContent-root"
+                      className="HTMLContent-root coral coral-content coral-comment-content"
                       dangerouslySetInnerHTML={
                         Object {
                           "__html": "Comment Body 4",
@@ -583,13 +587,13 @@ exports[`renders reply list 1`] = `
                       }
                     />
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                      className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
                         className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                       >
                         <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                           data-color="regular"
                           data-variant="ghost"
                           disabled={false}
@@ -606,7 +610,8 @@ exports[`renders reply list 1`] = `
                           </span>
                         </button>
                         <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                          data-active={false}
                           data-color="regular"
                           data-variant="ghost"
                           disabled={false}
@@ -628,7 +633,8 @@ exports[`renders reply list 1`] = `
                         >
                           <button
                             aria-controls="permalink-popover-comment-4"
-                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                            data-active={false}
                             data-color="regular"
                             data-variant="ghost"
                             onBlur={[Function]}
@@ -662,7 +668,7 @@ exports[`renders reply list 1`] = `
                         className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                       >
                         <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                           data-color="regular"
                           data-variant="ghost"
                           disabled={false}
@@ -703,14 +709,14 @@ exports[`renders reply list 1`] = `
           className="Indent-root"
         >
           <div
-            className="Indent-level1"
+            className="Indent-level1 coral coral-indent-1"
           >
             <div
               className="Comment-root"
               role="article"
             >
               <div
-                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
               >
                 <div
                   className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -723,7 +729,7 @@ exports[`renders reply list 1`] = `
                     >
                       <button
                         aria-controls="username-popover"
-                        className="BaseButton-root"
+                        className="BaseButton-root coral coral-username coral-comment-username"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -733,7 +739,7 @@ exports[`renders reply list 1`] = `
                         type="button"
                       >
                         <span
-                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                         >
                           Isabelle
                         </span>
@@ -757,7 +763,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
-                      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                      className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >
@@ -777,21 +783,21 @@ exports[`renders reply list 1`] = `
                 <div
                   className="Box-root Flex-root coral coral-comment-inReplyTo Flex-flex Flex-alignCenter"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-sm InReplyTo-icon"
                   >
                     reply
-                  </span>
+                  </i>
                   <span>
                      
                   </span>
                   <span
-                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                   >
                     In reply to 
                     <span
-                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                     >
                       Markus
                     </span>
@@ -802,7 +808,7 @@ exports[`renders reply list 1`] = `
                 className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
               >
                 <div
-                  className="HTMLContent-root"
+                  className="HTMLContent-root coral coral-content coral-comment-content"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "Comment Body 5",
@@ -810,13 +816,13 @@ exports[`renders reply list 1`] = `
                   }
                 />
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                  className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                       data-color="regular"
                       data-variant="ghost"
                       disabled={false}
@@ -833,7 +839,8 @@ exports[`renders reply list 1`] = `
                       </span>
                     </button>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                      data-active={false}
                       data-color="regular"
                       data-variant="ghost"
                       disabled={false}
@@ -855,7 +862,8 @@ exports[`renders reply list 1`] = `
                     >
                       <button
                         aria-controls="permalink-popover-comment-5"
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                        data-active={false}
                         data-color="regular"
                         data-variant="ghost"
                         onBlur={[Function]}
@@ -889,7 +897,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                       data-color="regular"
                       data-variant="ghost"
                       disabled={false}

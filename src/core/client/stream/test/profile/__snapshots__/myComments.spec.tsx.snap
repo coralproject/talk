@@ -11,16 +11,16 @@ exports[`renders profile 1`] = `
     Comment History
   </h1>
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-0"
   >
     <h1
-      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary coral coral-myComment-story"
     >
       Story: title
     </h1>
     <time
-      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+      className="RelativeTime-root Timestamp-root coral coral-myComment-timestamp"
       dateTime="2018-07-06T18:24:00.000Z"
       title="2018-07-06T18:24:00.000Z"
     >
@@ -30,7 +30,7 @@ exports[`renders profile 1`] = `
       className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       <div
-        className="HTMLContent-root"
+        className="HTMLContent-root coral coral-myComment-content"
         dangerouslySetInnerHTML={
           Object {
             "__html": "Joining Too",
@@ -42,7 +42,7 @@ exports[`renders profile 1`] = `
       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow gutter"
     >
       <a
-        className="TextLink-root HistoryComment-viewConversation"
+        className="TextLink-root HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
         href="http://localhost/stories/story-1?commentID=comment-0"
         onClick={[Function]}
         target="_parent"
@@ -52,16 +52,16 @@ exports[`renders profile 1`] = `
     </div>
   </div>
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-1"
   >
     <h1
-      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary coral coral-myComment-story"
     >
       Story: title
     </h1>
     <time
-      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+      className="RelativeTime-root Timestamp-root coral coral-myComment-timestamp"
       dateTime="2018-07-06T18:24:00.000Z"
       title="2018-07-06T18:24:00.000Z"
     >
@@ -71,7 +71,7 @@ exports[`renders profile 1`] = `
       className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       <div
-        className="HTMLContent-root"
+        className="HTMLContent-root coral coral-myComment-content"
         dangerouslySetInnerHTML={
           Object {
             "__html": "What's up?",
@@ -83,7 +83,7 @@ exports[`renders profile 1`] = `
       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow gutter"
     >
       <a
-        className="TextLink-root HistoryComment-viewConversation"
+        className="TextLink-root HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
         href="http://localhost/stories/story-1?commentID=comment-1"
         onClick={[Function]}
         target="_parent"
@@ -94,7 +94,7 @@ exports[`renders profile 1`] = `
   </div>
   <button
     aria-controls="coral-profile-commentHistory-log"
-    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth"
+    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth coral coral-loadMoreButton coral-myComments-loadMoreButton"
     data-color="regular"
     data-variant="outlined"
     disabled={false}

@@ -12,12 +12,12 @@ exports[`renders icon 1`] = `
 <div
   className="Message-root Message-colorGrey"
 >
-  <span
+  <i
     aria-hidden="true"
     className="Icon-root Icon-sm MessageIcon-root"
   >
     alert
-  </span>
+  </i>
   Alert Message
 </div>
 `;

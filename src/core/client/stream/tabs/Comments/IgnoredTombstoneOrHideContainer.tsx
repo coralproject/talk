@@ -10,6 +10,7 @@ import { usePrevious } from "coral-framework/hooks";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { IgnoredTombstoneOrHideContainer_comment as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
 import { IgnoredTombstoneOrHideContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_viewer.graphql";
+import CLASSES from "coral-stream/classes";
 import { CallOut } from "coral-ui/components";
 
 interface Props {
@@ -48,7 +49,7 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
     return (
       <>
         <Localized id="comments-tombstone-deleted">
-          <CallOut fullWidth>
+          <CallOut className={CLASSES.deletedTombstone} fullWidth>
             This comment is no longer available. The commenter has deleted their
             account.
           </CallOut>
@@ -75,7 +76,7 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
         id="comments-tombstone-ignore"
         $username={comment.author!.username}
       >
-        <CallOut fullWidth>
+        <CallOut className={CLASSES.ignoredTombstone} fullWidth>
           This comment is hidden because you ignored {comment.author!.username}
         </CallOut>
       </Localized>

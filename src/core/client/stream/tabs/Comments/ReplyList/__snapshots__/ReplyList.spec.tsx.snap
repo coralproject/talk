@@ -198,6 +198,7 @@ exports[`when there is more disables load more button 1`] = `
     >
       <ForwardRef(forwardRef)
         aria-controls="coral-comments-replyList-log--comment-id"
+        className="coral coral-replyList-showAllButton"
         disabled={true}
         fullWidth={true}
         id="coral-comments-replyList-showAll--comment-id"
@@ -310,6 +311,7 @@ exports[`when there is more renders a load more button 1`] = `
     >
       <ForwardRef(forwardRef)
         aria-controls="coral-comments-replyList-log--comment-id"
+        className="coral coral-replyList-showAllButton"
         disabled={false}
         fullWidth={true}
         id="coral-comments-replyList-showAll--comment-id"

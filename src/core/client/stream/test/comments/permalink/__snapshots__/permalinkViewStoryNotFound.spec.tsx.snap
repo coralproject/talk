@@ -3,7 +3,7 @@
 exports[`renders permalink view with unknown story 1`] = `
 <section
   aria-labelledby="tab-COMMENTS"
-  className="App-tabContent"
+  className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
   role="tabpanel"

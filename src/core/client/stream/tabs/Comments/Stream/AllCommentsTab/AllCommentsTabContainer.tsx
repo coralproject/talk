@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -16,8 +17,8 @@ import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCom
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
+import CLASSES from "coral-stream/classes";
 import { Box, Button, HorizontalGutter } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
 
 import { CommentContainer } from "../../Comment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
@@ -108,6 +109,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
             variant="outlined"
             color="primary"
             onClick={onViewMore}
+            className={CLASSES.allCommentsTabPane.viewNewButton}
             fullWidth
           >
             <Localized id="comments-viewNew" $count={viewNewCount}>
@@ -154,6 +156,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
               fullWidth
               disabled={isLoadingMore}
               aria-controls="comments-allComments-log"
+              className={CLASSES.allCommentsTabPane.loadMoreButton}
             >
               Load More
             </Button>

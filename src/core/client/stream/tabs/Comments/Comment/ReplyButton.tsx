@@ -8,10 +8,12 @@ interface Props {
   onClick?: EventHandler<MouseEvent<HTMLButtonElement>>;
   active?: boolean;
   disabled?: boolean;
+  className?: string;
 }
 
 const ReplyButton: FunctionComponent<Props> = props => (
   <Button
+    className={props.className}
     id={props.id}
     onClick={props.onClick}
     variant="ghost"

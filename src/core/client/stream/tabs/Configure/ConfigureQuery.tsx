@@ -10,7 +10,8 @@ import {
 } from "coral-framework/lib/relay";
 import { ConfigureQuery as QueryTypes } from "coral-stream/__generated__/ConfigureQuery.graphql";
 import { ConfigureQueryLocal as Local } from "coral-stream/__generated__/ConfigureQueryLocal.graphql";
-import { Delay, Spinner } from "coral-ui/components";
+import Spinner from "coral-stream/common/Spinner";
+import { Delay } from "coral-ui/components";
 
 const loadConfigureContainer = () =>
   import("./ConfigureContainer" /* webpackChunkName: "configure" */);

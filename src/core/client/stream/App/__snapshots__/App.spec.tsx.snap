@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
-  className="App-root"
+  className="coral coral-stream App-root"
 >
   <withContext(withLocalStateContainer(TabBarQuery)) />
   <TabContent
@@ -10,18 +10,21 @@ exports[`renders correctly 1`] = `
     className="App-tabContent"
   >
     <TabPane
+      className="coral coral-comments"
       data-testid="current-tab-pane"
       tabID="COMMENTS"
     >
       <CommentsPane />
     </TabPane>
     <TabPane
+      className="coral coral-myProfile"
       data-testid="current-tab-pane"
       tabID="PROFILE"
     >
       <withContext(withLocalStateContainer(ProfileQuery)) />
     </TabPane>
     <TabPane
+      className="coral coral-configure"
       data-testid="current-tab-pane"
       tabID="CONFIGURE"
     >

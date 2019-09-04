@@ -10,7 +10,8 @@ import {
 } from "coral-framework/lib/relay";
 import { ProfileQuery as QueryTypes } from "coral-stream/__generated__/ProfileQuery.graphql";
 import { ProfileQueryLocal as Local } from "coral-stream/__generated__/ProfileQueryLocal.graphql";
-import { CallOut, Delay, Spinner } from "coral-ui/components";
+import Spinner from "coral-stream/common/Spinner";
+import { CallOut, Delay } from "coral-ui/components";
 
 const loadProfileContainer = () =>
   import("./ProfileContainer" /* webpackChunkName: "profile" */);

@@ -36,12 +36,12 @@ exports[`accepts correct password 1`] = `
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>
@@ -85,12 +85,12 @@ exports[`accepts correct password 1`] = `
             tabIndex={0}
             title="Show password"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               visibility
-            </span>
+            </i>
           </div>
         </div>
       </div>
@@ -122,12 +122,12 @@ exports[`accepts correct password 1`] = `
       onTouchEnd={[Function]}
       type="submit"
     >
-      <span
+      <i
         aria-hidden="true"
         className="Icon-root Icon-md ButtonIcon-root"
       >
         email
-      </span>
+      </i>
       <span>
         Sign in with Email
       </span>
@@ -208,24 +208,24 @@ exports[`accepts valid email 1`] = `
             tabIndex={0}
             title="Show password"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               visibility
-            </span>
+            </i>
           </div>
         </div>
       </div>
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>
@@ -258,12 +258,12 @@ exports[`accepts valid email 1`] = `
       onTouchEnd={[Function]}
       type="submit"
     >
-      <span
+      <i
         aria-hidden="true"
         className="Icon-root Icon-md ButtonIcon-root"
       >
         email
-      </span>
+      </i>
       <span>
         Sign in with Email
       </span>
@@ -351,12 +351,12 @@ exports[`auth configuration renders all auth enabled 1`] = `
                 tabIndex={0}
                 title="Show password"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   visibility
-                </span>
+                </i>
               </div>
             </div>
           </div>
@@ -388,12 +388,12 @@ exports[`auth configuration renders all auth enabled 1`] = `
           onTouchEnd={[Function]}
           type="submit"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-md ButtonIcon-root"
           >
             email
-          </span>
+          </i>
           <span>
             Sign in with Email
           </span>
@@ -600,12 +600,12 @@ exports[`checks for invalid email 1`] = `
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           Please enter a valid email address.
         </span>
@@ -649,24 +649,24 @@ exports[`checks for invalid email 1`] = `
             tabIndex={0}
             title="Show password"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               visibility
-            </span>
+            </i>
           </div>
         </div>
       </div>
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>
@@ -699,12 +699,12 @@ exports[`checks for invalid email 1`] = `
       onTouchEnd={[Function]}
       type="submit"
     >
-      <span
+      <i
         aria-hidden="true"
         className="Icon-root Icon-md ButtonIcon-root"
       >
         email
-      </span>
+      </i>
       <span>
         Sign in with Email
       </span>
@@ -833,12 +833,12 @@ exports[`renders sign in view 1`] = `
                       tabIndex={0}
                       title="Show password"
                     >
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-sm"
                       >
                         visibility
-                      </span>
+                      </i>
                     </div>
                   </div>
                 </div>
@@ -870,12 +870,12 @@ exports[`renders sign in view 1`] = `
                 onTouchEnd={[Function]}
                 type="submit"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md ButtonIcon-root"
                 >
                   email
-                </span>
+                </i>
                 <span>
                   Sign in with Email
                 </span>
@@ -1017,12 +1017,12 @@ exports[`renders sign in view with error 1`] = `
                   tabIndex={0}
                   title="Show password"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-sm"
                   >
                     visibility
-                  </span>
+                  </i>
                 </div>
               </div>
             </div>
@@ -1054,12 +1054,12 @@ exports[`renders sign in view with error 1`] = `
             onTouchEnd={[Function]}
             type="submit"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-md ButtonIcon-root"
             >
               email
-            </span>
+            </i>
             <span>
               Sign in with Email
             </span>
@@ -1110,12 +1110,12 @@ exports[`shows error when submitting empty form 1`] = `
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>
@@ -1159,24 +1159,24 @@ exports[`shows error when submitting empty form 1`] = `
             tabIndex={0}
             title="Show password"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               visibility
-            </span>
+            </i>
           </div>
         </div>
       </div>
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>
@@ -1209,12 +1209,12 @@ exports[`shows error when submitting empty form 1`] = `
       onTouchEnd={[Function]}
       type="submit"
     >
-      <span
+      <i
         aria-hidden="true"
         className="Icon-root Icon-md ButtonIcon-root"
       >
         email
-      </span>
+      </i>
       <span>
         Sign in with Email
       </span>
@@ -1302,12 +1302,12 @@ exports[`shows server error 1`] = `
             tabIndex={0}
             title="Show password"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               visibility
-            </span>
+            </i>
           </div>
         </div>
       </div>
@@ -1339,12 +1339,12 @@ exports[`shows server error 1`] = `
       onTouchEnd={[Function]}
       type="submit"
     >
-      <span
+      <i
         aria-hidden="true"
         className="Icon-root Icon-md ButtonIcon-root"
       >
         email
-      </span>
+      </i>
       <span>
         Sign in with Email
       </span>
@@ -1425,12 +1425,12 @@ exports[`submits form successfully 1`] = `
             tabIndex={0}
             title="Show password"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               visibility
-            </span>
+            </i>
           </div>
         </div>
       </div>
@@ -1462,12 +1462,12 @@ exports[`submits form successfully 1`] = `
       onTouchEnd={[Function]}
       type="submit"
     >
-      <span
+      <i
         aria-hidden="true"
         className="Icon-root Icon-md ButtonIcon-root"
       >
         email
-      </span>
+      </i>
       <span>
         Sign in with Email
       </span>

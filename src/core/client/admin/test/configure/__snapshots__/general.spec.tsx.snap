@@ -556,12 +556,12 @@ moderation panel.
                     aria-hidden={true}
                     className="SelectField-afterWrapper"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-sm"
                     >
                       expand_more
-                    </span>
+                    </i>
                   </span>
                 </span>
               </div>
@@ -701,12 +701,12 @@ moderation panel.
                     aria-hidden={true}
                     className="SelectField-afterWrapper"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-sm"
                     >
                       expand_more
-                    </span>
+                    </i>
                   </span>
                 </span>
               </div>
@@ -942,12 +942,12 @@ based on the needs of your community.
                           aria-hidden={true}
                           className="SelectField-afterWrapper"
                         >
-                          <span
+                          <i
                             aria-hidden="true"
                             className="Icon-root Icon-sm"
                           >
                             expand_more
-                          </span>
+                          </i>
                         </span>
                       </span>
                     </div>

@@ -81,12 +81,12 @@ exports[`show restricted screen for commenters and staff 1`] = `
           <div
             className="Box-root Flex-root Flex-flex Flex-justifyCenter"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-lg Restricted-lockIcon"
             >
               lock
-            </span>
+            </i>
           </div>
           <h1
             className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter Restricted-noPermission"
@@ -216,12 +216,12 @@ exports[`show restricted screen for commenters and staff 2`] = `
           <div
             className="Box-root Flex-root Flex-flex Flex-justifyCenter"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-lg Restricted-lockIcon"
             >
               lock
-            </span>
+            </i>
           </div>
           <h1
             className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter Restricted-noPermission"

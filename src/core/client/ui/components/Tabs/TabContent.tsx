@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 export interface TabContentProps {
@@ -22,7 +23,7 @@ const TabContent: FunctionComponent<TabContentProps> = props => {
         .map((child: React.ReactElement<any>, i) =>
           React.cloneElement(child, {
             tabID: child.props.tabID ? child.props.tabID : i,
-            className,
+            className: cn(className, child.props.className),
           })
         )}
     </>

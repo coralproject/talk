@@ -1,6 +1,8 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Button, Flex, Typography } from "coral-ui/components";
 
 import PageStepBar from "./Common/PageStepBar";
@@ -30,7 +32,7 @@ const DescriptionPage: FunctionComponent<Props> = ({
       <Flex
         alignItems="center"
         justifyContent="center"
-        className={styles.header}
+        className={cn(styles.header, CLASSES.deleteMyAccountModal.header)}
       >
         <Localized id="profile-settings-deleteAccount-pages-descriptionHeader">
           <Typography variant="header2" className={styles.headerText}>
@@ -72,7 +74,10 @@ const DescriptionPage: FunctionComponent<Props> = ({
           <Button
             variant="filled"
             color="primary"
-            className={styles.proceedButton}
+            className={cn(
+              styles.proceedButton,
+              CLASSES.deleteMyAccountModal.proceedButton
+            )}
             onClick={onProceedClicked}
           >
             <Localized id="profile-settings-deleteAccount-pages-proceed">
@@ -81,7 +86,10 @@ const DescriptionPage: FunctionComponent<Props> = ({
           </Button>
           <Button
             variant="outlined"
-            className={styles.cancelButton}
+            className={cn(
+              styles.cancelButton,
+              CLASSES.deleteMyAccountModal.cancelButton
+            )}
             onClick={onCancelClicked}
           >
             <Localized id="profile-settings-deleteAccount-pages-cancel">

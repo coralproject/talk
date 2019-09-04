@@ -78,12 +78,12 @@ exports[`approves single comment 1`] = `
               target="_blank"
             >
               View Context
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-xs TextLink-icon"
               >
                 open_in_new
-              </span>
+              </i>
             </a>
           </div>
           <div
@@ -124,12 +124,12 @@ exports[`approves single comment 1`] = `
                 >
                   Details
                 </span>
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   arrow_drop_down
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -162,12 +162,12 @@ exports[`approves single comment 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg RejectButton-icon"
           >
             close
-          </span>
+          </i>
         </button>
         <button
           aria-label="Approve"
@@ -181,12 +181,12 @@ exports[`approves single comment 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
-          </span>
+          </i>
         </button>
       </div>
     </div>
@@ -272,12 +272,12 @@ exports[`rejects single comment 1`] = `
               target="_blank"
             >
               View Context
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-xs TextLink-icon"
               >
                 open_in_new
-              </span>
+              </i>
             </a>
           </div>
           <div
@@ -318,12 +318,12 @@ exports[`rejects single comment 1`] = `
                 >
                   Details
                 </span>
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   arrow_drop_down
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -356,12 +356,12 @@ exports[`rejects single comment 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg RejectButton-icon"
           >
             close
-          </span>
+          </i>
         </button>
         <button
           aria-label="Approve"
@@ -375,12 +375,12 @@ exports[`rejects single comment 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
-          </span>
+          </i>
         </button>
       </div>
     </div>
@@ -501,12 +501,12 @@ exports[`renders single comment view 1`] = `
                       target="_blank"
                     >
                       View Context
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-xs TextLink-icon"
                       >
                         open_in_new
-                      </span>
+                      </i>
                     </a>
                   </div>
                   <div
@@ -547,12 +547,12 @@ exports[`renders single comment view 1`] = `
                         >
                           Details
                         </span>
-                        <span
+                        <i
                           aria-hidden="true"
                           className="Icon-root Icon-sm"
                         >
                           arrow_drop_down
-                        </span>
+                        </i>
                       </button>
                     </div>
                   </div>
@@ -585,12 +585,12 @@ exports[`renders single comment view 1`] = `
                   onTouchEnd={[Function]}
                   type="button"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg RejectButton-icon"
                   >
                     close
-                  </span>
+                  </i>
                 </button>
                 <button
                   aria-label="Approve"
@@ -604,12 +604,12 @@ exports[`renders single comment view 1`] = `
                   onTouchEnd={[Function]}
                   type="button"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg ApproveButton-icon"
                   >
                     done
-                  </span>
+                  </i>
                 </button>
               </div>
             </div>

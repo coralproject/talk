@@ -6,16 +6,18 @@ import { Field, Form } from "react-final-form";
 import { OnSubmit } from "coral-framework/lib/form";
 import { validateMaxLength } from "coral-framework/lib/validation";
 import { PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
+import ValidationMessage from "coral-stream/common/ValidationMessage";
 import {
   Button,
   Flex,
   HorizontalGutter,
   RadioButton,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import PropagateMount from "./PropagateMount";
+
 import styles from "./ReportCommentForm.css";
 
 const RadioField: FunctionComponent<
@@ -195,12 +197,18 @@ class ReportCommentForm extends React.Component<Props> {
               {get(form.getFieldState("reason"), "value") && (
                 <Flex alignItems="center" justifyContent="flex-end">
                   <Localized id="comments-reportPopover-cancel">
-                    <Button color="primary" size="small" onClick={onCancel}>
+                    <Button
+                      className={CLASSES.reportPopover.cancelButton}
+                      color="primary"
+                      size="small"
+                      onClick={onCancel}
+                    >
                       Cancel
                     </Button>
                   </Localized>
                   <Localized id="comments-reportPopover-submit">
                     <Button
+                      className={CLASSES.reportPopover.submitButton}
                       color="primary"
                       size="small"
                       variant="filled"

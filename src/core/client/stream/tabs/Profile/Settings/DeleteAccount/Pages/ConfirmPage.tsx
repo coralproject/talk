@@ -1,16 +1,19 @@
+import cn from "classnames";
 import { FORM_ERROR, FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import { colorFromMeta } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
   validateDeleteConfirmation,
 } from "coral-framework/lib/validation";
+import CLASSES from "coral-stream/classes";
+import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
   Button,
   CallOut,
@@ -94,7 +97,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
       <Flex
         alignItems="center"
         justifyContent="center"
-        className={sharedStyles.header}
+        className={cn(sharedStyles.header, CLASSES.deleteMyAccountModal.header)}
       >
         <Localized id="profile-settings-deleteAccount-pages-confirmHeader">
           <Typography variant="header2" className={sharedStyles.headerText}>
@@ -162,7 +165,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           autoComplete="confirmation"
                           {...input}
                         />
-                        <ValidationMessage fullWidth meta={meta} />
+                        <FieldValidationMessage fullWidth meta={meta} />
                       </FormField>
                     )}
                   </Field>
@@ -183,7 +186,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           autoComplete="password"
                           {...input}
                         />
-                        <ValidationMessage fullWidth meta={meta} />
+                        <FieldValidationMessage fullWidth meta={meta} />
                       </FormField>
                     )}
                   </Field>
@@ -201,7 +204,10 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     <Localized id="profile-settings-deleteAccount-pages-cancel">
                       <Button
                         variant="outlined"
-                        className={sharedStyles.cancelButton}
+                        className={cn(
+                          sharedStyles.cancelButton,
+                          CLASSES.deleteMyAccountModal.cancelButton
+                        )}
                         onClick={onCancelClicked}
                       >
                         Cancel
@@ -213,7 +219,10 @@ const ConfirmPage: FunctionComponent<Props> = ({
                         variant="filled"
                         type="submit"
                         disabled={preventSubmit(formProps)}
-                        className={sharedStyles.deleteButton}
+                        className={cn(
+                          sharedStyles.deleteButton,
+                          CLASSES.deleteMyAccountModal.deleteMyAccountButton
+                        )}
                       >
                         Delete my account
                       </Button>
