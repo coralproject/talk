@@ -44,7 +44,7 @@ exports[`renders conversation thread 1`] = `
               </span>
             </div>
             <span
-              className="Tag-root coral coral-userTag coral-rootParent-userTag Tag-colorGrey"
+              className="Tag-root coral coral-userTag coral-rootParent-userTag Tag-colorGrey Tag-uppercase"
             >
               Staff
             </span>
@@ -231,7 +231,7 @@ exports[`renders conversation thread 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                         data-color="regular"
                         data-variant="textUnderlined"
                         disabled={false}
@@ -248,7 +248,7 @@ exports[`renders conversation thread 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
                         data-active={false}
                         data-color="regular"
                         data-variant="textUnderlined"
@@ -271,7 +271,7 @@ exports[`renders conversation thread 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-0"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
                           data-active={false}
                           data-color="regular"
                           data-variant="textUnderlined"
@@ -306,9 +306,9 @@ exports[`renders conversation thread 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
-                        data-color="regular"
-                        data-variant="ghost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorError Button-variantTextUnderlined coral coral-reportButton coral-comment-reportButton"
+                        data-color="error"
+                        data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -461,7 +461,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                         data-color="regular"
                         data-variant="textUnderlined"
                         disabled={false}
@@ -478,7 +478,7 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
                         data-active={false}
                         data-color="regular"
                         data-variant="textUnderlined"
@@ -501,7 +501,7 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-1"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
                           data-active={false}
                           data-color="regular"
                           data-variant="textUnderlined"
@@ -536,9 +536,9 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
-                        data-color="regular"
-                        data-variant="ghost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorError Button-variantTextUnderlined coral coral-reportButton coral-comment-reportButton"
+                        data-color="error"
+                        data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -642,7 +642,7 @@ exports[`shows more of this conversation 1`] = `
                         </div>
                       </div>
                       <span
-                        className="Tag-root coral coral-userTag coral-comment-userTag Tag-colorGrey"
+                        className="Tag-root coral coral-userTag coral-comment-userTag Tag-colorGrey Tag-uppercase"
                       >
                         Staff
                       </span>
@@ -683,7 +683,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                         data-color="regular"
                         data-variant="textUnderlined"
                         disabled={false}
@@ -700,7 +700,7 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
                         data-active={false}
                         data-color="regular"
                         data-variant="textUnderlined"
@@ -723,7 +723,7 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-from-staff-0"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
                           data-active={false}
                           data-color="regular"
                           data-variant="textUnderlined"
@@ -758,9 +758,9 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
-                        data-color="regular"
-                        data-variant="ghost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorError Button-variantTextUnderlined coral coral-reportButton coral-comment-reportButton"
+                        data-color="error"
+                        data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -898,7 +898,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                         data-color="regular"
                         data-variant="textUnderlined"
                         disabled={false}
@@ -915,7 +915,7 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
                         data-active={false}
                         data-color="regular"
                         data-variant="textUnderlined"
@@ -938,7 +938,7 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-0"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
                           data-active={false}
                           data-color="regular"
                           data-variant="textUnderlined"
@@ -973,9 +973,9 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
-                        data-color="regular"
-                        data-variant="ghost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorError Button-variantTextUnderlined coral coral-reportButton coral-comment-reportButton"
+                        data-color="error"
+                        data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
                         onClick={[Function]}

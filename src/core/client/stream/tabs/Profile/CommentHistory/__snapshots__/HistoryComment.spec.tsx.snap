@@ -18,24 +18,25 @@ exports[`renders correctly 1`] = `
     </Localized>
     <ForwardRef(forwardRef)
       className="coral coral-myComment-story"
+      color="textDark"
       variant="heading4"
     >
       Story Title
     </ForwardRef(forwardRef)>
-  </Localized>
-  <Timestamp
-    className="coral coral-myComment-timestamp"
-  >
+  </div>
+  <div>
+    <Timestamp
+      className="coral coral-myComment-timestamp"
+    >
       2018-07-06T18:24:00.000Z
     </Timestamp>
     <ForwardRef(forwardRef)
       container="div"
       variant="bodyCopy"
-  >
-    <HTMLContent
-      className="coral coral-myComment-content"
     >
-      <HTMLContent>
+      <HTMLContent
+        className="coral coral-myComment-content"
+      >
         Hello World
       </HTMLContent>
     </ForwardRef(forwardRef)>

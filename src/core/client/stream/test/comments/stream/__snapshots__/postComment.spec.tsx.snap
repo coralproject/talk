@@ -113,7 +113,7 @@ exports[`post a comment: optimistic response 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                   data-color="regular"
                   data-variant="textUnderlined"
                   disabled={false}
@@ -130,7 +130,7 @@ exports[`post a comment: optimistic response 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
                   data-active={false}
                   data-color="regular"
                   data-variant="textUnderlined"
@@ -153,7 +153,7 @@ exports[`post a comment: optimistic response 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-uuid-0"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
                     data-active={false}
                     data-color="regular"
                     data-variant="textUnderlined"
@@ -192,7 +192,7 @@ exports[`post a comment: optimistic response 1`] = `
                 >
                   <button
                     aria-controls="report-popover-uuid-0"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorError Button-variantTextUnderlined coral coral-reportButton coral-comment-reportButton"
                     data-active={false}
                     data-color="error"
                     data-variant="textUnderlined"

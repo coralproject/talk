@@ -355,7 +355,7 @@ exports[`renders comment stream 1`] = `
                 className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-featuredComment-reactButton"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
                   data-color="regular"
                   data-variant="textUnderlined"
                   disabled={false}
@@ -457,7 +457,7 @@ exports[`renders comment stream 1`] = `
                 className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-featuredComment-reactButton"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
                   data-color="regular"
                   data-variant="textUnderlined"
                   disabled={false}

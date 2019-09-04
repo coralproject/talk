@@ -108,7 +108,7 @@ exports[`renders comment stream with load more button 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                       data-color="regular"
                       data-variant="textUnderlined"
                       disabled={false}
@@ -125,7 +125,7 @@ exports[`renders comment stream with load more button 1`] = `
                       </span>
                     </button>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
                       data-active={false}
                       data-color="regular"
                       data-variant="textUnderlined"
@@ -148,7 +148,7 @@ exports[`renders comment stream with load more button 1`] = `
                     >
                       <button
                         aria-controls="permalink-popover-comment-0"
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
                         data-active={false}
                         data-color="regular"
                         data-variant="textUnderlined"
@@ -183,9 +183,9 @@ exports[`renders comment stream with load more button 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
-                      data-color="regular"
-                      data-variant="ghost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorError Button-variantTextUnderlined coral coral-reportButton coral-comment-reportButton"
+                      data-color="error"
+                      data-variant="textUnderlined"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -308,7 +308,7 @@ exports[`renders comment stream with load more button 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                       data-color="regular"
                       data-variant="textUnderlined"
                       disabled={false}
@@ -325,7 +325,7 @@ exports[`renders comment stream with load more button 1`] = `
                       </span>
                     </button>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
                       data-active={false}
                       data-color="regular"
                       data-variant="textUnderlined"
@@ -348,7 +348,7 @@ exports[`renders comment stream with load more button 1`] = `
                     >
                       <button
                         aria-controls="permalink-popover-comment-1"
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
                         data-active={false}
                         data-color="regular"
                         data-variant="textUnderlined"
@@ -383,9 +383,9 @@ exports[`renders comment stream with load more button 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
-                      data-color="regular"
-                      data-variant="ghost"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorError Button-variantTextUnderlined coral coral-reportButton coral-comment-reportButton"
+                      data-color="error"
+                      data-variant="textUnderlined"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -410,7 +410,7 @@ exports[`renders comment stream with load more button 1`] = `
   </div>
   <button
     aria-controls="comments-allComments-log"
-    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth coral coral-loadMoreButton coral-allComments-loadMoreButton"
+    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlineFilled Button-fullWidth coral coral-loadMoreButton coral-allComments-loadMoreButton"
     data-color="regular"
     data-variant="outlineFilled"
     disabled={false}

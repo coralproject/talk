@@ -100,7 +100,7 @@ exports[`renders deepest comment with link 1`] = `
               >
                 In reply to 
                 <span
-                  className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
+                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
                 >
                   Markus
                 </span>
@@ -125,7 +125,7 @@ exports[`renders deepest comment with link 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
                   data-color="regular"
                   data-variant="textUnderlined"
                   disabled={false}
@@ -142,7 +142,7 @@ exports[`renders deepest comment with link 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
                   data-active={false}
                   data-color="regular"
                   data-variant="textUnderlined"
@@ -165,7 +165,7 @@ exports[`renders deepest comment with link 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-comment-with-deepest-replies-5"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
                     data-active={false}
                     data-color="regular"
                     data-variant="textUnderlined"
@@ -200,9 +200,9 @@ exports[`renders deepest comment with link 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
-                  data-color="regular"
-                  data-variant="ghost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorError Button-variantTextUnderlined coral coral-reportButton coral-comment-reportButton"
+                  data-color="error"
+                  data-variant="textUnderlined"
                   disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
