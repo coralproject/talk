@@ -14,6 +14,7 @@ import * as comment from "coral-server/models/comment";
 import {
   getLatestRevision,
   hasAncestors,
+  hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
 import { createConnection } from "coral-server/models/helpers";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
@@ -64,8 +65,17 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.childCount > 0
       ? ctx.loaders.Comments.forParent(c.storyID, c.id, input)
       : createConnection(),
-  replyCount: async ({ childIDs }, input, ctx) =>
-    await ctx.loaders.Comments.countPublishedComments(childIDs),
+  replyCount: async ({ childIDs }, input, ctx) => {
+    if (childIDs.length === 0) {
+      return 0;
+    }
+
+    const children = await ctx.loaders.Comments.comment.loadMany(childIDs);
+    return children.reduce(
+      (sum, c) => (c && hasPublishedStatus(c) ? sum + 1 : sum),
+      0
+    );
+  },
   // Action Counts are encoded, decode them for use with the GraphQL system.
   actionCounts: c => decodeActionCounts(c.actionCounts),
   flags: ({ id }, { first = 10, after }, ctx) =>

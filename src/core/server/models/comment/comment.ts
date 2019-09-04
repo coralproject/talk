@@ -1135,23 +1135,3 @@ export async function retrieveRecentStatusCounts(
   ]);
   return counts[0];
 }
-
-export async function countPublishedComments(
-  mongo: Db,
-  tenantID: string,
-  commentIDs: string[]
-) {
-  if (commentIDs.length <= 0) {
-    return 0;
-  }
-
-  const count = await collection(mongo)
-    .find({
-      tenantID,
-      id: { $in: commentIDs },
-      status: { $in: PUBLISHED_STATUSES },
-    })
-    .count();
-
-  return count;
-}

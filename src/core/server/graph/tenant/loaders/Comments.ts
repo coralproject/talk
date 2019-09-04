@@ -20,7 +20,6 @@ import { retrieveManyUserActionPresence } from "coral-server/models/action/comme
 import {
   Comment,
   CommentConnectionInput,
-  countPublishedComments,
   retrieveAllCommentsUserConnection,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
@@ -281,6 +280,4 @@ export default (ctx: Context) => ({
       authorIDs
     )
   ),
-  countPublishedComments: (commentIDs: string[]) =>
-    countPublishedComments(ctx.mongo, ctx.tenant.id, commentIDs),
 });
