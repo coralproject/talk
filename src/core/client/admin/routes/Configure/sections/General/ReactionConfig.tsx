@@ -148,7 +148,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 <Localized id="configure-general-reactions-preview">
                   <Typography variant="heading3">Preview</Typography>
                 </Localized>
-                <Flex justifyContent="center" itemGutter>
+                <Flex justifyContent="center" alignItems="center" itemGutter>
                   <Localized id="configure-general-reaction-sortMenu-sortBy">
                     <Typography variant="bodyCopyBold">Sort By</Typography>
                   </Localized>
