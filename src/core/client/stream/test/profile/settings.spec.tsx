@@ -102,6 +102,7 @@ it("render password change form", async () => {
   const changePassword = await waitForElement(() =>
     within(testRenderer.root).getByTestID("profile-settings-changePassword")
   );
+
   const form = within(changePassword).getByType("form");
   const oldPassword = await waitForElement(() =>
     within(form).getByID("oldPassword", { exact: false })

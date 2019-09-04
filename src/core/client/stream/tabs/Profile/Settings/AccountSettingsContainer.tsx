@@ -12,7 +12,10 @@ import ChangeUsernameContainer from "./ChangeUsername";
 import DeleteAccountContainer from "./DeleteAccount/DeleteAccountContainer";
 import DownloadCommentsContainer from "./DownloadCommentsContainer";
 import IgnoreUserSettingsContainer from "./IgnoreUserSettingsContainer";
+<<<<<<< HEAD
 import NotificationSettingsContainer from "./NotificationSettingsContainer";
+=======
+>>>>>>> move userbox
 
 import { Localized } from "fluent-react/compat";
 import styles from "./AccountSettingsContainer.css";
@@ -35,6 +38,7 @@ const AccountSettingsContainer: FunctionComponent<Props> = ({
       <ChangeEmailContainer settings={settings} viewer={viewer} />
       <ChangePasswordContainer settings={settings} />
       <NotificationSettingsContainer viewer={viewer} />
+      <IgnoreUserSettingsContainer viewer={viewer} />
       {settings.accountFeatures.downloadComments && (
         <DownloadCommentsContainer viewer={viewer} />
       )}

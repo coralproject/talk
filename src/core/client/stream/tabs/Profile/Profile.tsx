@@ -42,6 +42,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
   );
   return (
     <HorizontalGutter size="double">
+      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
       <TabBar
         variant="secondary"
         activeTab={local.profileTab}
@@ -59,7 +60,6 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           </Localized>
         </Tab>
       </TabBar>
-      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
       <TabContent activeTab={local.profileTab}>
         <TabPane
           className={CLASSES.myCommentsTabPane.$root}
