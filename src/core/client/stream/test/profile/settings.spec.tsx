@@ -102,6 +102,10 @@ it("render password change form", async () => {
   const changePassword = await waitForElement(() =>
     within(testRenderer.root).getByTestID("profile-settings-changePassword")
   );
+  const editButton = within(changePassword).getByText("Edit");
+  act(() => {
+    editButton.props.onClick();
+  });
 
   const form = within(changePassword).getByType("form");
   const oldPassword = await waitForElement(() =>
@@ -142,6 +146,10 @@ it("render password change form", async () => {
 
 it("render empty ignored users list", async () => {
   const { ignoredCommenters } = await createTestRenderer();
+  const editButton = within(ignoredCommenters).getByText("Manage");
+  act(() => {
+    editButton.props.onClick();
+  });
   await waitForElement(() =>
     within(ignoredCommenters).getByText(
       "You are not currently ignoring anyone",
@@ -170,6 +178,10 @@ it("render ignored users list", async () => {
         },
       },
     }),
+  });
+  const editButton = within(ignoredCommenters).getByText("Manage");
+  act(() => {
+    editButton.props.onClick();
   });
   within(ignoredCommenters).getByText(commenters[0].username!);
   within(ignoredCommenters).getByText(commenters[1].username!);

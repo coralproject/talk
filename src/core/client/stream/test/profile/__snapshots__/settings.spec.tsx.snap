@@ -63,24 +63,24 @@ exports[`renders the empty settings pane 1`] = `
     role="tabpanel"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <div
-        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+        className="Box-root Flex-root"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
-          data-testid="profile-changeUsername"
+          className="Flex-flex Flex-halfItemGutter Flex-wrap gutter"
         >
           <div
-            className="Box-root Flex-root Flex-flex Flex-alignBaseline"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
-            <h1
+            Signed in as 
+            <span
               className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary coral coral-myUsername"
             >
               Passivo
-            </h1>
-            <button
+            </span>
+            .
               className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular coral coral-myUsername-editButton"
               data-color="primary"
               data-variant="regular"
@@ -101,13 +101,10 @@ exports[`renders the empty settings pane 1`] = `
           data-testid="profile-changeEmail"
         >
           <div
-            className="Box-root Flex-root Flex-flex Flex-alignCenter"
+            className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
           >
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-            />
             <span>
-               
+              Not you? 
             </span>
             <p
               className="Box-root Typography-root Typography-bodyCopy Typography-colorTextSecondary coral coral-myEmail-unverified"
@@ -117,7 +114,7 @@ exports[`renders the empty settings pane 1`] = `
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular coral coral-myEmail-editButton"
               data-color="primary"
-              data-variant="regular"
+              data-variant="underlined"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -126,7 +123,7 @@ exports[`renders the empty settings pane 1`] = `
               onTouchEnd={[Function]}
               type="button"
             >
-              Edit
+              Sign Out
             </button>
           </div>
           <div
@@ -200,7 +197,7 @@ signing into your account or for email notifications.
             type="button"
           >
             <span>
-              My Comments
+              Missing translation "profile-myCommentsTab-comments"
             </span>
           </button>
         </li>
@@ -223,7 +220,7 @@ signing into your account or for email notifications.
             type="button"
           >
             <span>
-              Settings
+              Account
             </span>
           </button>
         </li>
@@ -235,68 +232,109 @@ signing into your account or for email notifications.
         role="tabpanel"
       >
         <div
-          className="Box-root HorizontalGutter-root SettingsContainer-root HorizontalGutter-spacing-5"
+          className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
         >
+          <h1
+            className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary"
+          >
+            Missing translation "accountSettings-manage-account"
+          </h1>
           <div
             className="coral coral-ignoredCommenters"
             data-testid="profile-settings-ignoredCommenters"
           >
-            <h1
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
-            >
-              Ignored Commenters
-            </h1>
-            <p
-              className="IgnoreUserSettingsContainer-description"
-            >
-              Once you ignore someone, all of their comments are hidden from you.
-Commenters you ignore will still be able to see your comments.
-            </p>
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+              className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
+              data-testid="profile-changeUsername"
             >
               <div
-                className="IgnoreUserSettingsContainer-empty"
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignBaseline"
               >
-                You are not currently ignoring anyone
+                <div>
+                  <h1
+                    className="Box-root Typography-root Typography-heading2 Typography-colorTextDark"
+                  >
+                    Username
+                  </h1>
+                  <p
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    Passivo
+                  </p>
+                </div>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled"
+                  data-color="primary"
+                  data-variant="outlineFilled"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Edit
+                </button>
               </div>
             </div>
-          </div>
-          <div
+            <div
             className="coral coral-changePassword"
             data-testid="profile-settings-changePassword"
-          >
-            <form
-              autoComplete="off"
-              onSubmit={[Function]}
             >
               <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignCenter"
               >
-                <h1
-                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
-                >
-                  Change Password
-                </h1>
-                <fieldset
-                  className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-full"
-                >
-                  <fieldset
-                    className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                <div>
+                  <h1
+                    className="Box-root Typography-root Typography-heading2 Typography-colorTextDark"
                   >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                      htmlFor="oldPassword"
+                    Missing translation "profile-changeEmail-email"
+                  </h1>
+                  <div
+                    className="Box-root Flex-root Flex-flex"
+                  >
+                    <p
+                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                    />
+                    <span>
+                       
+                    </span>
+                    <p
+                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextSecondary"
                     >
-                      Old Password
-                    </label>
-                    <div
-                      className="PasswordField-fullWidth PasswordField-root"
-                    >
-                      <div
-                        className="PasswordField-wrapper"
+                      (Unverified)
+                    </p>
+                  </div>
+                </div>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled"
+                  data-color="primary"
+                  data-variant="outlineFilled"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Edit
+                </button>
+              </div>
+              <div
+                className="CallOut-root CallOut-colorRegular"
+              >
+                <div>
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+                  >
+                    <div>
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-lg"
                       >
-                        <input
+                        email
                           autoCapitalize="off"
                           autoComplete="current-password"
                           autoCorrect="off"
@@ -326,15 +364,25 @@ Commenters you ignore will still be able to see your comments.
                             visibility
                           </i>
                         </div>
-                      </div>
+                      </span>
                     </div>
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
-                    >
+                    <div>
+                      <h1
+                        className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-gutterBottom"
+                      >
+                        Verify your email address
+                      </h1>
+                      <p
+                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                      >
+                        An email has been sent to $email to verify your account.
+You must verify your new email address before it can be used for
+signing into your account or for email notifications.
+                      </p>
                       <button
                         className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-changePassword-forgotButton"
                         data-color="primary"
-                        data-variant="underlined"
+                        data-variant="regular"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -343,7 +391,7 @@ Commenters you ignore will still be able to see your comments.
                         onTouchEnd={[Function]}
                         type="button"
                       >
-                        Forgot your password?
+                        Resend verification
                       </button>
                     </div>
                   </fieldset>
@@ -413,27 +461,89 @@ Commenters you ignore will still be able to see your comments.
                       Change Password
                     </button>
                   </div>
-                </fieldset>
+                </div>
               </div>
-            </form>
-          </div>
-          <div
+            </div>
+            <div
+              data-testid="profile-settings-changePassword"
+            >
+              <div
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignCenter"
+              >
+                <h1
+                  className="Box-root Typography-root Typography-heading2 Typography-colorTextDark"
+                >
+                  Missing translation "profile-settings-changePassword-password"
+                </h1>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled"
+                  data-color="primary"
+                  data-variant="outlineFilled"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+            <div
             className="DownloadCommentsContainer-root coral coral-downloadCommentHistory"
           >
             <h1
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary DownloadCommentsContainer-title"
+              data-testid="profile-settings-ignoredCommenters"
             >
-              Download my comment history
-            </h1>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DownloadCommentsContainer-description"
+              <div
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignCenter"
+              >
+                <h1
+                  className="Box-root Typography-root Typography-heading2 Typography-colorTextDark"
+                >
+                  Ignored Commenters
+                </h1>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled"
+                  data-color="primary"
+                  data-variant="outlineFilled"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Manage
+                </button>
+              </div>
+            </div>
+            <div
+              className="DownloadCommentsContainer-root"
             >
-              You will receive an email with a link to download your comment history.
+              <div
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart"
+              >
+                <div>
+                  <h1
+                    className="Box-root Typography-root Typography-heading2 Typography-colorTextDark DownloadCommentsContainer-title"
+                  >
+                    Download my comment history
+                  </h1>
+                  <p
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DownloadCommentsContainer-description"
+                  >
+                    You will receive an email with a link to download your comment history.
 You can make 
-              <strong>
-                one download request every 14 days.
-              </strong>
-            </p>
+                    <strong>
+                      one download request every 14 days.
+                    </strong>
+                  </p>
+                </div>
+                <div>
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined coral coral-downloadCommentHistory-requestButton"
               data-color="regular"
@@ -444,14 +554,20 @@ You can make
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               onTouchEnd={[Function]}
-              type="button"
+                    type="button"
+                  >
+                    Missing translation "profile-settings-download-comments-request-button"
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              className="DeleteAccountContainer-root"
             >
               <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm DownloadCommentsContainer-icon"
-                title="Request comment history"
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart"
               >
-                file_download
+                <div>
               </i>
               <span>
                 Request comment history
@@ -461,17 +577,18 @@ You can make
           <div
             className="DeleteAccountContainer-root coral coral-deleteMyAccount"
           >
-            <h1
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary DeleteAccountContainer-title"
-            >
-              Delete My Account
-            </h1>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DeleteAccountContainer-section"
-            >
-              Deleting your account will permanently erase your profile and remove
+                  <h1
+                    className="Box-root Typography-root Typography-heading2 Typography-colorTextDark DeleteAccountContainer-title"
+                  >
+                    Delete My Account
+                  </h1>
+                  <p
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DeleteAccountContainer-section"
+                  >
+                    Deleting your account will permanently erase your profile and remove
 all your comments from this site.
-            </p>
+                  </p>
+                </div>
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined coral coral-deleteMyAccount-requestButton"
               data-color="regular"
@@ -486,14 +603,13 @@ all your comments from this site.
             >
               <i
                 aria-hidden="true"
-                className="Icon-root Icon-sm DeleteAccountContainer-icon"
-              >
-                cancel
+                  Missing translation "profile-settings-deleteAccount-request"
+                </button>
               </i>
               <span>
                 Request account deletion
-              </span>
-            </button>
+              </div>
+            </div>
           </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"

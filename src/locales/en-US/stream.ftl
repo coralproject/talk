@@ -197,6 +197,7 @@ profile-settings-description =
   Commenters you ignore will still be able to see your comments.
 profile-settings-empty = You are not currently ignoring anyone
 profile-settings-stopIgnoring = Stop ignoring
+profile-settings-ignoredCommenters-manage = Manage
 
 profile-settings-changePassword = Change Password
 profile-settings-changePassword-oldPassword = Old Password
@@ -292,6 +293,8 @@ profile-settings-deleteAccount-pages-completeTellUsWhy = Tell us why.
 profile-settings-deleteAccount-pages-completeWhyDeleteAccount =
   We'd like to know why you chose to delete your account. Send us feedback on
   our comment system by emailing { $email }.
+profile-settings-changePassword-edit = Edit
+
 
 ## Notifications
 
