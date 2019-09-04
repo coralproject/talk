@@ -1,5 +1,4 @@
 .root {
-  padding-bottom: calc(0.5 * var(--mini-unit));
   border-style: none;
   border-radius: 1px;
   background: var(--palette-text-primary);
@@ -7,6 +6,6 @@
   padding: var(--spacing-2);
   margin-bottom: calc(1.5 * var(--mini-unit));
   display: block;
-  width: 100%;
+  width: calc(100% - 2 * var(--spacing-2));
   font-family: var(--font-family-sans-serif);
 }
