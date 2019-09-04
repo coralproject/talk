@@ -301,7 +301,7 @@ exports[`renders message box when logged in 1`] = `
                 >
                   <div
                     aria-placeholder="Post a comment"
-                    className="RTE-contentEditable coral coral-rte-content RTE-content"
+                    className="RTE-contentEditable coral coral-rte-content PostCommentForm-rteBorderless RTE-content"
                     contentEditable={true}
                     dangerouslySetInnerHTML={
                       Object {
