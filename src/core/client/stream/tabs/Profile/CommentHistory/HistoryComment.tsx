@@ -35,14 +35,16 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = props => {
       className={CLASSES.myComment.$root}
       data-testid={`historyComment-${props.id}`}
     >
-      <Localized
-        id="profile-historyComment-story"
-        $title={props.story.metadata ? props.story.metadata.title : "N/A"} // FIXME: (wyattjoh) When a title for a Story isn't available, we need a fallback.
-      >
-        <Typography className={CLASSES.myComment.story} variant="heading4">
-          {"Story: {$title}"}
-        </Typography>
+      <Localized id="profile-historyComment-comment-on">
+        <Typography variant="timestamp">Comment on:</Typography>
       </Localized>
+      <Typography
+        className={CLASSES.myComment.story}
+        variant="heading4"
+        color="textDark"
+      >
+        {props.story.metadata ? props.story.metadata.title : "N/A"}
+      </Typography>
       <Timestamp className={CLASSES.myComment.timestamp}>
         {props.createdAt}
       </Timestamp>

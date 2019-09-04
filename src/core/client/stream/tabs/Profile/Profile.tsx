@@ -49,8 +49,8 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         className={CLASSES.tabBarMyProfile.$root}
       >
         <Tab tabID="MY_COMMENTS" className={CLASSES.tabBarMyProfile.myComments}>
-          <Localized id="profile-myCommentsTab">
-            <span>My Comments</span>
+          <Localized id="profile-myCommentsTab-comments">
+            <span>My comments</span>
           </Localized>
         </Tab>
         <Tab tabID="SETTINGS" className={CLASSES.tabBarMyProfile.settings}>
@@ -59,6 +59,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           </Localized>
         </Tab>
       </TabBar>
+      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
       <TabContent activeTab={local.profileTab}>
         <TabPane
           className={CLASSES.myCommentsTabPane.$root}

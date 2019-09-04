@@ -156,7 +156,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
           <Localized id="comments-loadMore">
             <Button
               onClick={loadMore}
-              variant="outlined"
+              variant="outlineFilled"
               fullWidth
               disabled={isLoadingMore}
               aria-controls="comments-allComments-log"
