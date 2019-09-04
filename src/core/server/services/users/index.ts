@@ -71,7 +71,7 @@ import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 import {
   generateAdminDownloadLink,
   generateDownloadLink,
-} from "./download/download";
+} from "./download/token";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
 export type InsertUser = InsertUserInput;

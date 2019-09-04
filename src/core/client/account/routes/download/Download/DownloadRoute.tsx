@@ -17,7 +17,7 @@ import styles from "./DownloadRoute.css";
 const fetcher = createFetch(
   "downloadToken",
   async (environment: Environment, variables: { token: string }, { rest }) =>
-    await rest.fetch<void>("/account/downloadcheck", {
+    await rest.fetch<void>("/account/download", {
       method: "GET",
       token: variables.token,
     })
