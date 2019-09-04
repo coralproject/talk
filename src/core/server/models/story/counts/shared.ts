@@ -106,8 +106,10 @@ export async function recalculateSharedModerationQueueQueueCounts(
   // Increment the hash key values.
   const pipeline = redis.pipeline();
 
-  // Mark the key as fresh, and update the values!
-  pipeline.mhincrby(
+  // Mark the key as fresh, and update the values! We're using `HMSET` here
+  // because this can still result in race conditions when the call is made
+  // twice.
+  pipeline.hmset(
     key,
     ...queues.reduce((acc, queue) => [...acc, queue._id, queue.total], [])
   );
