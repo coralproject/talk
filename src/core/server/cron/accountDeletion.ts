@@ -1,14 +1,15 @@
-import { CronCommand, CronJob } from "cron";
 import { DateTime } from "luxon";
 import { Collection, Db } from "mongodb";
 
-import logger from "coral-server/logger";
 import { CommentAction } from "coral-server/models/action/comment";
 import { createCollection } from "coral-server/models/helpers";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import TenantCache from "coral-server/services/tenant/cache";
+
+import { JobCommand, ScheduledJob, ScheduledJobGroup } from "./job";
 
 const BATCH_SIZE = 500;
 
@@ -22,39 +23,43 @@ const collections = {
   commentActions: createCollection<CommentAction>("commentActions"),
 };
 
-export function registerAccountDeletion(
-  mongo: Db,
-  mailer: MailerQueue
-): CronJob {
-  const job = new CronJob({
-    cronTime: "0,30 * * * *",
-    timeZone: "America/New_York",
-    start: true,
-    runOnInit: false,
-    onTick: deleteScheduledAccounts(mongo, mailer),
-  });
-
-  if (job.running) {
-    logger.info("account deletion scheduler now running");
-  }
-
-  return job;
+interface Options {
+  mongo: Db;
+  mailerQueue: MailerQueue;
+  tenantCache: TenantCache;
 }
 
-function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue): CronCommand {
-  return async () => {
-    try {
-      logger.info("checking for accounts that require deletion");
+export const NAME = "Account Deletion";
 
-      // TODO: iterate over tenants in tenant cache
+export function registerAccountDeletion(options: Options): ScheduledJobGroup {
+  const job = new ScheduledJob({
+    name: `Twice Hourly ${NAME}`,
+    cronTime: "0,30 * * * *",
+    command: deleteScheduledAccounts(options),
+  });
+
+  return { name: NAME, schedulers: [job] };
+}
+
+function deleteScheduledAccounts({
+  mongo,
+  mailerQueue,
+  tenantCache,
+}: Options): JobCommand {
+  return async job => {
+    // For each of the tenant's, process their users notifications.
+    for await (const tenant of tenantCache) {
+      const log = job.log.child({ tenantID: tenant.id });
+
       while (true) {
         const now = new Date();
         const rescheduledDeletionDate = DateTime.fromJSDate(now)
           .plus({ hours: 1 })
           .toJSDate();
 
-        const userResult = await collections.users(mongo).findOneAndUpdate(
+        const { value: user } = await collections.users(mongo).findOneAndUpdate(
           {
+            tenantID: tenant.id,
             scheduledDeletionDate: { $lte: now },
           },
           {
@@ -68,26 +73,15 @@ function deleteScheduledAccounts(mongo: Db, mailer: MailerQueue): CronCommand {
             returnOriginal: false,
           }
         );
-
-        if (!userResult.value) {
-          logger.info("no more users were scheduled for deletion");
+        if (!user) {
+          log.debug("no more users were scheduled for deletion");
           break;
         }
 
-        const userToDelete = userResult.value;
+        log.info({ userID: user.id }, "deleting user");
 
-        logger.info(
-          { userID: userToDelete.id, tenantID: userToDelete.tenantID },
-          `deleting user`
-        );
-
-        deleteUser(mongo, mailer, userToDelete.id, userToDelete.tenantID, now);
+        await deleteUser(mongo, mailerQueue, user.id, user.tenantID, now);
       }
-    } catch (error) {
-      logger.error(
-        { error },
-        "an error occurred trying to perform scheduled account deletions"
-      );
     }
   };
 }
@@ -96,6 +90,7 @@ async function executeBulkOperations<T>(
   collection: Collection<T>,
   operations: any[]
 ) {
+  // TODO: (wyattjoh) fix types here to support actual types when upstream changes applied
   const bulk: any = collection.initializeUnorderedBulkOp();
 
   for (const operation of operations) {
@@ -110,7 +105,11 @@ interface Batch {
   stories: any[];
 }
 
-async function deleteUserActionCounts(db: Db, userID: string) {
+async function deleteUserActionCounts(
+  mongo: Db,
+  userID: string,
+  tenantID: string
+) {
   const batch: Batch = {
     comments: [],
     stories: [],
@@ -118,24 +117,30 @@ async function deleteUserActionCounts(db: Db, userID: string) {
 
   async function processBatch() {
     await executeBulkOperations<Comment>(
-      collections.comments(db),
+      collections.comments(mongo),
       batch.comments
     );
     batch.comments = [];
 
-    await executeBulkOperations<Story>(collections.stories(db), batch.stories);
+    await executeBulkOperations<Story>(
+      collections.stories(mongo),
+      batch.stories
+    );
     batch.stories = [];
   }
 
-  const cursor = db
-    .collection("commentActions")
-    .find({ userID, actionType: "REACTION" });
+  const cursor = collections
+    .commentActions(mongo)
+    .find({ tenantID, userID, actionType: "REACTION" });
   while (await cursor.hasNext()) {
     const action = await cursor.next();
+    if (!action) {
+      continue;
+    }
 
     batch.comments.push({
       updateOne: {
-        filter: { id: action.commentID },
+        filter: { tenantID, id: action.commentID },
         update: {
           $inc: {
             "revisions.$[revisions].actionCounts.REACTION": -1,
@@ -148,7 +153,7 @@ async function deleteUserActionCounts(db: Db, userID: string) {
 
     batch.stories.push({
       updateOne: {
-        filter: { id: action.storyID },
+        filter: { tenantID, id: action.storyID },
         update: {
           $inc: {
             "commentCounts.action.REACTION": -1,
@@ -169,15 +174,20 @@ async function deleteUserActionCounts(db: Db, userID: string) {
     await processBatch();
   }
 
-  await collections.commentActions(db).deleteMany({
+  await collections.commentActions(mongo).deleteMany({
+    tenantID,
     userID,
     actionType: "REACTION",
   });
 }
 
-async function deleteUserComments(db: Db, authorID: string) {
-  await collections.comments(db).updateMany(
-    { authorID },
+async function deleteUserComments(
+  mongo: Db,
+  authorID: string,
+  tenantID: string
+) {
+  await collections.comments(mongo).updateMany(
+    { tenantID, authorID },
     {
       $set: {
         authorID: null,
@@ -190,29 +200,31 @@ async function deleteUserComments(db: Db, authorID: string) {
 }
 
 async function deleteUser(
-  db: Db,
+  mongo: Db,
   mailer: MailerQueue,
   userID: string,
   tenantID: string,
   now: Date
 ) {
-  const user = await collections.users(db).findOne({ id: userID, tenantID });
+  const user = await collections.users(mongo).findOne({ id: userID, tenantID });
   if (!user) {
-    logger.warn({ userID, tenantID }, `could not find user`);
-    return;
+    throw new Error("could not find user by ID");
   }
 
-  const tenant = await collections.tenants(db).findOne({ id: tenantID });
+  const tenant = await collections.tenants(mongo).findOne({ id: tenantID });
   if (!tenant) {
-    logger.warn({ userID, tenantID }, `could not find tenant`);
-    return;
+    throw new Error("could not find tenant by ID");
   }
 
-  await deleteUserActionCounts(db, userID);
-  await deleteUserComments(db, userID);
+  // Delete the user's action counts.
+  await deleteUserActionCounts(mongo, userID, tenantID);
 
-  collections.users(db).updateOne(
-    { id: userID },
+  // Delete the user's comments.
+  await deleteUserComments(mongo, userID, tenantID);
+
+  // Mark the user as deleted.
+  await collections.users(mongo).updateOne(
+    { tenantID, id: userID },
     {
       $set: {
         profiles: [],
@@ -224,9 +236,11 @@ async function deleteUser(
     }
   );
 
+  // If the user has an email, then send them a confirmation that their account
+  // was deleted.
   if (user.email) {
     await mailer.add({
-      tenantID: tenant.id,
+      tenantID,
       message: {
         to: user.email,
       },

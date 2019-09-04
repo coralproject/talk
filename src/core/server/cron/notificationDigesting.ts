@@ -1,17 +1,15 @@
-import { CronCommand, CronJob } from "cron";
 import { Db } from "mongodb";
 import path from "path";
-import now from "performance-now";
 
 import { Config } from "coral-server/config";
 import { GQLDIGEST_FREQUENCY } from "coral-server/graph/tenant/schema/__generated__/types";
-import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import { JWTSigningConfig } from "coral-server/services/jwt";
+import NotificationContext from "coral-server/services/notifications/context";
 import TenantCache from "coral-server/services/tenant/cache";
 
-import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
-import NotificationContext from "./context";
+import { JobCommand, ScheduledJob, ScheduledJobGroup } from "./job";
 
 interface Options {
   mongo: Db;
@@ -21,24 +19,27 @@ interface Options {
   tenantCache: TenantCache;
 }
 
-export async function registerNotificationDigesting(options: Options) {
-  const hourly = new CronJob({
+export const NAME = "Notification Digesting";
+
+export function registerNotificationDigesting(
+  options: Options
+): ScheduledJobGroup {
+  const hourly = new ScheduledJob({
+    name: `Hourly ${NAME}`,
     cronTime: "0 * * * *",
-    timeZone: "America/New_York",
-    start: true,
-    runOnInit: false,
-    onTick: processNotificationDigesting(options, GQLDIGEST_FREQUENCY.HOURLY),
+    command: processNotificationDigesting(options, GQLDIGEST_FREQUENCY.HOURLY),
   });
 
-  const daily = new CronJob({
+  const daily = new ScheduledJob({
+    name: `Daily ${NAME}`,
     cronTime: "0 0 * * *",
-    timeZone: "America/New_York",
-    start: true,
-    runOnInit: false,
-    onTick: processNotificationDigesting(options, GQLDIGEST_FREQUENCY.DAILY),
+    command: processNotificationDigesting(options, GQLDIGEST_FREQUENCY.DAILY),
   });
 
-  return [hourly, daily];
+  return {
+    name: NAME,
+    schedulers: [hourly, daily],
+  };
 }
 
 /**
@@ -54,13 +55,8 @@ interface DigestElement {
 function processNotificationDigesting(
   { mongo, config, signingConfig, tenantCache, mailerQueue }: Options,
   frequency: GQLDIGEST_FREQUENCY
-): CronCommand {
-  const log = logger.child({ frequency });
-
-  return async () => {
-    const start = now();
-    log.debug("starting digesting operation");
-
+): JobCommand {
+  return async job => {
     // For each of the tenant's, process their users notifications.
     for await (const tenant of tenantCache) {
       // Create a notification context to handle processing notifications. Note
@@ -72,7 +68,7 @@ function processNotificationDigesting(
         config,
         signingConfig,
         tenant,
-        log,
+        log: job.log,
       });
 
       ctx.log.debug("starting digesting for tenant");
@@ -83,7 +79,7 @@ function processNotificationDigesting(
         const user = await ctx.getDigests(frequency);
         if (!user) {
           // There are no more users to digest for this Tenant.
-          ctx.log.debug("no more digests to process for Tenant");
+          ctx.log.debug("no more digests to process for tenant");
           break;
         }
 
@@ -131,8 +127,5 @@ function processNotificationDigesting(
         });
       }
     }
-
-    const processingTime = Math.floor(now() - start);
-    log.debug({ processingTime }, "finished digesting operation");
   };
 }

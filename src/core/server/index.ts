@@ -15,7 +15,7 @@ import { JSONErrorHandler } from "coral-server/app/middleware/error";
 import { accessLogger, errorLogger } from "coral-server/app/middleware/logging";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import config, { Config } from "coral-server/config";
-import startScheduledTasks, { ScheduledTasks } from "coral-server/cron";
+import startScheduledTasks, { ScheduledJobGroups } from "coral-server/cron";
 import { createPubSubClient } from "coral-server/graph/common/subscriptions/pubsub";
 import getTenantSchema from "coral-server/graph/tenant/schema";
 import { createSubscriptionServer } from "coral-server/graph/tenant/subscriptions/server";
@@ -29,7 +29,6 @@ import {
 import { createMetrics } from "coral-server/services/metrics";
 import { createMongoDB } from "coral-server/services/mongodb";
 import { ensureIndexes } from "coral-server/services/mongodb/indexes";
-import { registerNotificationDigesting } from "coral-server/services/notifications/cron";
 import { PersistedQueryCache } from "coral-server/services/queries";
 import {
   AugmentedRedis,
@@ -70,7 +69,8 @@ class Server {
   // bind to the requested port to serve websocket traffic.
   public subscriptionServer: SubscriptionServer;
 
-  public scheduledTasks: ScheduledTasks;
+  // scheduledTasks are tasks managed by cron.
+  public scheduledTasks: ScheduledJobGroups;
 
   // tasks stores a reference to the queues that can process operations.
   private tasks: TaskQueue;
@@ -196,8 +196,7 @@ class Server {
     this.tasks.notifier.process();
 
     // Start up the cron job processors.
-    // TODO: rearrange when the delete PR lands.
-    registerNotificationDigesting({
+    this.scheduledTasks = startScheduledTasks({
       mongo: this.mongo,
       config: this.config,
       mailerQueue: this.tasks.mailer,
@@ -330,8 +329,6 @@ class Server {
     );
 
     logger.info({ port }, "now listening");
-
-    this.scheduledTasks = startScheduledTasks(this.mongo, this.tasks.mailer);
   }
 }
 
