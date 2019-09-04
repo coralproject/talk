@@ -6,7 +6,10 @@ import { URL } from "url";
 import { discover } from "coral-server/app/middleware/passport/strategies/oidc/discover";
 import { Config } from "coral-server/config";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
-import { GQLSettingsInput } from "coral-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLSettingsInput,
+  GQLSettingsWordListInput,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   createTenant,
@@ -20,6 +23,21 @@ import { I18n } from "coral-server/services/i18n";
 import TenantCache from "./cache";
 
 export type UpdateTenant = GQLSettingsInput;
+
+export function removeEmptyWordListItems(items?: string[]) {
+  return items ? items.filter(i => i !== "") : items;
+}
+
+export function validateWordList(
+  list?: GQLSettingsWordListInput
+): GQLSettingsWordListInput | undefined {
+  if (list) {
+    list.banned = removeEmptyWordListItems(list.banned);
+    list.suspect = removeEmptyWordListItems(list.suspect);
+  }
+
+  return list;
+}
 
 export async function update(
   mongo: Db,
@@ -38,6 +56,8 @@ export async function update(
   ) {
     delete input.live.enabled;
   }
+
+  input.wordList = validateWordList(input.wordList);
 
   const updatedTenant = await updateTenant(mongo, tenant.id, input);
   if (!updatedTenant) {
