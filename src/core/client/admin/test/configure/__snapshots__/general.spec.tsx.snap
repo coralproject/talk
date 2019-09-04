@@ -917,7 +917,7 @@ based on the needs of your community.
                       Preview
                     </h1>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyCenter gutter"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyCenter Flex-alignCenter gutter"
                     >
                       <p
                         className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
