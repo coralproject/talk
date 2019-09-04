@@ -124,9 +124,7 @@ export async function handleSuccessfulLogin(
       signingConfig,
       user,
       tenant,
-      {
-        expiresIn: Math.round(expiresIn.toSeconds()),
-      },
+      { expiresIn: "1d" },
       coral.now
     );
 
@@ -186,9 +184,7 @@ export async function handleOAuth2Callback(
       signingConfig,
       user,
       tenant,
-      {
-        expiresIn: Math.round(expiresIn.toSeconds()),
-      },
+      { expiresIn: "1d" },
       req.coral!.now
     );
     res.cookie(
