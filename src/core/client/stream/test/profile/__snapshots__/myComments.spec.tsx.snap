@@ -13,7 +13,7 @@ exports[`renders profile 1`] = `
       <p
       className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary coral coral-myComment-story"
       >
-        Missing translation "profile-historyComment-comment-on"
+        Comment on:
       </p>
       <h1
         className="Box-root Typography-root Typography-heading4 Typography-colorTextDark"
@@ -63,7 +63,7 @@ exports[`renders profile 1`] = `
       <p
       className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary coral coral-myComment-story"
       >
-        Missing translation "profile-historyComment-comment-on"
+        Comment on:
       </p>
       <h1
         className="Box-root Typography-root Typography-heading4 Typography-colorTextDark"

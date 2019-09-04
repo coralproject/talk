@@ -169,8 +169,11 @@ comments-featured-replies = Replies
 ## Profile Tab
 
 profile-myCommentsTab = My Comments
+profile-myCommentsTab-comments = My comments
 profile-settingsTab = Settings
 profile-accountTab = Account
+
+accountSettings-manage-account = Manage your account
 
 ### Account Deletion
 
@@ -184,6 +187,7 @@ profile-historyComment-viewConversation = View Conversation
 profile-historyComment-replies = Replies {$replyCount}
 profile-historyComment-commentHistory = Comment History
 profile-historyComment-story = Story: {$title}
+profile-historyComment-comment-on = Comment on:
 profile-profileQuery-errorLoadingProfile = Error loading profile
 profile-profileQuery-storyNotFound = Story not found
 profile-commentHistory-loadMore = Load More
@@ -198,14 +202,17 @@ profile-settings-description =
 profile-settings-empty = You are not currently ignoring anyone
 profile-settings-stopIgnoring = Stop ignoring
 profile-settings-ignoredCommenters-manage = Manage
+profile-settings-ignoredCommenters-cancel = Cancel
 
+profile-settings-changePassword-cancel = Cancel
 profile-settings-changePassword = Change Password
 profile-settings-changePassword-oldPassword = Old Password
 profile-settings-changePassword-forgotPassword = Forgot your password?
 profile-settings-changePassword-newPassword = New Password
 profile-settings-changePassword-button = Change Password
-profile-settings-changePassword-updated =
+profile-settings-changePassword-updated = 
   Your password has been updated
+profile-settings-changePassword-password = Password
 
 profile-settings-download-comments-title = Download my comment history
 profile-settings-download-comments-description =
@@ -219,6 +226,7 @@ profile-settings-download-comments-recentRequest =
   Your most recent request: { $timeStamp }
 profile-settings-download-comments-timeOut =
   You can submit another request in { framework-timeago-time }
+profile-settings-download-comments-request-button = Request
 
 ## Delete Account
 
@@ -234,6 +242,8 @@ profile-settings-deleteAccount-cancelDelete-description =
   You may cancel the request until that time.
 profile-settings-deleteAccount-cancelDelete = Cancel account deletion request
 
+profile-settings-deleteAccount-request = Request
+profile-settings-deleteAccount-cancel = Cancel
 profile-settings-deleteAccount-pages-deleteButton = Delete my account
 profile-settings-deleteAccount-pages-cancel = Cancel
 profile-settings-deleteAccount-pages-proceed = Proceed
@@ -426,3 +436,4 @@ profile-changeEmail-password-input =
   .placeholder = Password
 profile-changeEmail-cancel = Cancel
 profile-changeEmail-submit = Save
+profile-changeEmail-email = Email

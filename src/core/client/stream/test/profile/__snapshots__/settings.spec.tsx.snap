@@ -197,7 +197,7 @@ signing into your account or for email notifications.
             type="button"
           >
             <span>
-              Missing translation "profile-myCommentsTab-comments"
+              My comments
             </span>
           </button>
         </li>
@@ -237,7 +237,7 @@ signing into your account or for email notifications.
           <h1
             className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary"
           >
-            Missing translation "accountSettings-manage-account"
+            Manage your account
           </h1>
           <div
             className="coral coral-ignoredCommenters"
@@ -289,7 +289,7 @@ signing into your account or for email notifications.
                   <h1
                     className="Box-root Typography-root Typography-heading2 Typography-colorTextDark"
                   >
-                    Missing translation "profile-changeEmail-email"
+                    Email
                   </h1>
                   <div
                     className="Box-root Flex-root Flex-flex"
@@ -473,7 +473,7 @@ signing into your account or for email notifications.
                 <h1
                   className="Box-root Typography-root Typography-heading2 Typography-colorTextDark"
                 >
-                  Missing translation "profile-settings-changePassword-password"
+                  Password
                 </h1>
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled"
@@ -556,7 +556,7 @@ You can make
               onTouchEnd={[Function]}
                     type="button"
                   >
-                    Missing translation "profile-settings-download-comments-request-button"
+                    Request
                   </button>
                 </div>
               </div>
@@ -566,6 +566,7 @@ You can make
             >
               <i
                 className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart"
+                data-testid="profile-settings-deleteAccount"
               >
                 <div>
               </i>
@@ -603,7 +604,7 @@ all your comments from this site.
             >
               <i
                 aria-hidden="true"
-                  Missing translation "profile-settings-deleteAccount-request"
+                  Request
                 </button>
               </i>
               <span>

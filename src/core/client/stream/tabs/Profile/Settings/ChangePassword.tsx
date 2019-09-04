@@ -194,7 +194,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                         </Localized>
                       )}
                       <Flex justifyContent="flex-end">
-                        <Localized id="profile-settings-chagnePassword-cancel">
+                        <Localized id="profile-settings-changePassword-cancel">
                           <Button type="button" onClick={toggleForm}>
                             Cancel
                           </Button>

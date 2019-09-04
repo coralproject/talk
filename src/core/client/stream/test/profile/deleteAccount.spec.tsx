@@ -65,24 +65,16 @@ describe("delete account steps", () => {
       }),
     });
     testRenderer = setup.testRenderer;
-
-    const settingsButton = await waitForElement(() =>
-      within(testRenderer.root).getByText("Settings", {
-        selector: "button",
-      })
-    );
-    act(() => {
-      settingsButton.props.onClick();
-    });
   });
 
   it("request account deletion button shows deletion modal", async () => {
-    const requestDeletionButton = within(testRenderer.root).getByText(
-      "Request account deletion",
-      {
-        selector: "button",
-      }
+    const deleteAccount = await waitForElement(() =>
+      within(testRenderer.root).queryByTestID("profile-settings-deleteAccount")
     );
+
+    const requestDeletionButton = within(deleteAccount).getByText("Request", {
+      selector: "button",
+    });
     act(() => {
       requestDeletionButton.props.onClick();
     });
@@ -95,12 +87,13 @@ describe("delete account steps", () => {
   });
 
   it("schedules deletion if deletion steps are followed", async () => {
-    const requestDeletionButton = within(testRenderer.root).getByText(
-      "Request account deletion",
-      {
-        selector: "button",
-      }
+    const deleteAccount = await waitForElement(() =>
+      within(testRenderer.root).queryByTestID("profile-settings-deleteAccount")
     );
+
+    const requestDeletionButton = within(deleteAccount).getByText("Request", {
+      selector: "button",
+    });
     act(() => {
       requestDeletionButton.props.onClick();
     });
@@ -134,12 +127,13 @@ describe("delete account steps", () => {
   });
 
   it("deletion confirmation is required during deletion steps", async () => {
-    const requestDeletionButton = within(testRenderer.root).getByText(
-      "Request account deletion",
-      {
-        selector: "button",
-      }
+    const deleteAccount = await waitForElement(() =>
+      within(testRenderer.root).queryByTestID("profile-settings-deleteAccount")
     );
+
+    const requestDeletionButton = within(deleteAccount).getByText("Request", {
+      selector: "button",
+    });
     act(() => {
       requestDeletionButton.props.onClick();
     });
@@ -171,12 +165,13 @@ describe("delete account steps", () => {
   });
 
   it("password is required during deletion steps", async () => {
-    const requestDeletionButton = within(testRenderer.root).getByText(
-      "Request account deletion",
-      {
-        selector: "button",
-      }
+    const deleteAccount = await waitForElement(() =>
+      within(testRenderer.root).queryByTestID("profile-settings-deleteAccount")
     );
+
+    const requestDeletionButton = within(deleteAccount).getByText("Request", {
+      selector: "button",
+    });
     act(() => {
       requestDeletionButton.props.onClick();
     });

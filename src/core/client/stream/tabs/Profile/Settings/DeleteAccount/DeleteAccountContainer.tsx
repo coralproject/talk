@@ -71,7 +71,11 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
         scheduledDeletionDate={viewer.scheduledDeletionDate}
         organizationEmail={settings.organization.contactEmail}
       />
-      <Flex justifyContent="space-between" alignItems="flex-start">
+      <Flex
+        justifyContent="space-between"
+        alignItems="flex-start"
+        data-testid="profile-settings-deleteAccount"
+      >
         <div>
           <Localized id="profile-settings-deleteAccount-title">
             <Typography
