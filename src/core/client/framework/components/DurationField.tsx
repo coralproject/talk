@@ -82,31 +82,28 @@ function convertFromSeconds(
  */
 const DurationField: FunctionComponent<Props> = ({
   value,
-  units,
+  units = [UNIT.HOURS, UNIT.DAYS, UNIT.WEEKS],
   onChange,
   disabled,
   name,
 }) => {
-  units = units || [UNIT.HOURS, UNIT.DAYS, UNIT.WEEKS];
-
   const [selectedUnit, setSelectedUnit] = useState(
     convertFromSeconds(value, units).unit
   );
 
+  // If value changes, and selectedUnit has not been set, then set the value.
   useEffect(() => {
-    // set default value for selectedUnit if not previously set
     if (!selectedUnit) {
-      setSelectedUnit(convertFromSeconds(value, units!).unit);
+      setSelectedUnit(convertFromSeconds(value, units).unit);
     }
   }, [value]);
 
-  const elementCallbacks = useMemo(
-    () => units!.map(k => DURATION_UNIT_MAP[k]),
-    [units]
-  );
+  const elementCallbacks = useMemo(() => units.map(k => DURATION_UNIT_MAP[k]), [
+    units,
+  ]);
 
   const { value: computedValue } = useMemo(
-    () => convertFromSeconds(value, units!, selectedUnit),
+    () => convertFromSeconds(value, units, selectedUnit),
     [value, selectedUnit]
   );
 
@@ -163,7 +160,7 @@ const DurationField: FunctionComponent<Props> = ({
           value={(selectedUnit || units[0]).toString()}
         >
           {elementCallbacks.map((unit, i) => {
-            const val = units![i];
+            const val = units[i];
             return (
               <Localized
                 id="framework-durationField-unit"
