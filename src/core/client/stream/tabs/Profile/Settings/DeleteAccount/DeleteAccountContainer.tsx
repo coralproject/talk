@@ -8,12 +8,8 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-<<<<<<< HEAD
 import CLASSES from "coral-stream/classes";
-import { Icon, Typography } from "coral-ui/components";
-=======
 import { Flex, Icon, Typography } from "coral-ui/components";
->>>>>>> integrate account deletion to account settings
 import { Button } from "coral-ui/components/Button";
 
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
@@ -92,34 +88,6 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
               remove all your comments from this site.
             </Typography>
           </Localized>
-<<<<<<< HEAD
-          <Button
-            variant="filled"
-            size="small"
-            onClick={cancelDeletion}
-            className={CLASSES.deleteMyAccount.cancelRequestButton}
-          >
-            <Icon size="sm" className={styles.icon}>
-              block
-            </Icon>
-            <Localized id="profile-settings-deleteAccount-cancelDelete">
-              <span>Cancel account deletion request</span>
-            </Localized>
-          </Button>
-        </>
-      ) : (
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={showPopover}
-          className={CLASSES.deleteMyAccount.requestButton}
-        >
-          <Icon size="sm" className={styles.icon}>
-            cancel
-          </Icon>
-          <Localized id="profile-settings-deleteAccount-requestDelete">
-            <span>Request account deletion</span>
-=======
           {deletionDate && (
             <>
               <Localized
@@ -132,7 +100,12 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
                   the request until that time.
                 </Typography>
               </Localized>
-              <Button variant="filled" size="small" onClick={cancelDeletion}>
+              <Button
+                variant="filled"
+                size="small"
+                onClick={cancelDeletion}
+                className={CLASSES.deleteMyAccount.cancelRequestButton}
+              >
                 <Icon size="sm" className={styles.icon}>
                   block
                 </Icon>
@@ -150,11 +123,11 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
               color="primary"
               variant="outlineFilled"
               size="small"
+              className={CLASSES.deleteMyAccount.requestButton}
               onClick={showPopover}
             >
               Request
             </Button>
->>>>>>> integrate account deletion to account settings
           </Localized>
         )}
       </Flex>

@@ -18,7 +18,6 @@ const ReplyButton: FunctionComponent<Props> = props => (
     className={props.className}
     id={props.id}
     onClick={props.onClick}
-    className={styles.button}
     variant="textUnderlined"
     size="small"
     active={props.active}

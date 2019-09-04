@@ -80,7 +80,9 @@ const PostCommentForm: FunctionComponent<Props> = props => (
                           input.onChange(cleanupRTEEmptyHTML(html))
                         }
                         contentClassName={
-                          props.showMessageBox ? styles.rteBorderless : {}
+                          props.showMessageBox
+                            ? styles.rteBorderless
+                            : undefined
                         }
                         value={input.value}
                         placeholder="Post a comment"

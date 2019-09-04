@@ -14,6 +14,8 @@
   margin-left: var(--spacing-2);
 }
 
+.currentUsername {}
+
 .successMessage {
   background-color: var(--palette-primary-lightest);
   border-color: var(--palette-primary-light);
