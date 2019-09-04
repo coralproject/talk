@@ -9,7 +9,7 @@ exports[`renders permalink view 1`] = `
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root PermalinkView-root coral coral-permalink HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root PermalinkView-root coral coral-permalink coral-unauthenticated HorizontalGutter-double"
   >
     <div
       className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"

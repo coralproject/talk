@@ -40,7 +40,7 @@ exports[`renders comment stream 1`] = `
     role="tabpanel"
   >
     <div
-      className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticated HorizontalGutter-double"
     >
       <div
         className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"

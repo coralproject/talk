@@ -117,6 +117,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
       <HorizontalGutter
         className={cn(styles.root, {
           [CLASSES.commentsTabPane.authenticated]: Boolean(props.viewer),
+          [CLASSES.commentsTabPane.unauthenticated]: !Boolean(props.viewer),
         })}
         size="double"
       >

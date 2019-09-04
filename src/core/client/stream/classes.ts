@@ -568,9 +568,13 @@ const CLASSES = {
      */
     $root: "coral coral-comments",
     /**
-     * authenticated will be applied to the container when the user is logged in.
+     * authenticated will indicate that the user is logged in.
      */
     authenticated: "coral coral-authenticated",
+    /**
+     * unauthenticated will indicate that the user hasn't logged in yet.
+     */
+    unauthenticated: "coral coral-unauthenticated",
   },
 
   /**
@@ -610,6 +614,10 @@ const CLASSES = {
      * authenticated will be applied to the container when the user is logged in.
      */
     authenticated: "coral-authenticated",
+    /**
+     * unauthenticated will be applied to the container when the user has not logged in yet.
+     */
+    unauthenticated: "coral-unauthenticated",
 
     /**
      * viewFullDiscussionButton is the button that leads to the full comment stream.
