@@ -11,29 +11,29 @@ exports[`renders profile 1`] = `
   >
     <div>
       <p
-      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary coral coral-myComment-story"
+        className="Box-root Typography-root Typography-detail Typography-colorTextPrimary HistoryComment-commentOn"
       >
         Comment on:
       </p>
       <h1
-        className="Box-root Typography-root Typography-heading4 Typography-colorTextDark"
+        className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-myComment-story"
       >
         title
       </h1>
     </div>
     <div>
-    <time
-      className="RelativeTime-root Timestamp-root coral coral-myComment-timestamp"
-      dateTime="2018-07-06T18:24:00.000Z"
-      title="2018-07-06T18:24:00.000Z"
-    >
-      2018-07-06T18:24:00.000Z
-    </time>
+      <time
+        className="RelativeTime-root Timestamp-root coral coral-myComment-timestamp"
+        dateTime="2018-07-06T18:24:00.000Z"
+        title="2018-07-06T18:24:00.000Z"
+      >
+        2018-07-06T18:24:00.000Z
+      </time>
       <div
-        className="HTMLContent-root coral coral-myComment-content"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
         <div
-          className="HTMLContent-root"
+          className="HTMLContent-root coral coral-myComment-content"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Joining Too",
@@ -61,29 +61,29 @@ exports[`renders profile 1`] = `
   >
     <div>
       <p
-      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary coral coral-myComment-story"
+        className="Box-root Typography-root Typography-detail Typography-colorTextPrimary HistoryComment-commentOn"
       >
         Comment on:
       </p>
       <h1
-        className="Box-root Typography-root Typography-heading4 Typography-colorTextDark"
+        className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-myComment-story"
       >
         title
       </h1>
     </div>
     <div>
-    <time
-      className="RelativeTime-root Timestamp-root coral coral-myComment-timestamp"
-      dateTime="2018-07-06T18:24:00.000Z"
-      title="2018-07-06T18:24:00.000Z"
-    >
-      2018-07-06T18:24:00.000Z
-    </time>
+      <time
+        className="RelativeTime-root Timestamp-root coral coral-myComment-timestamp"
+        dateTime="2018-07-06T18:24:00.000Z"
+        title="2018-07-06T18:24:00.000Z"
+      >
+        2018-07-06T18:24:00.000Z
+      </time>
       <div
-        className="HTMLContent-root coral coral-myComment-content"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
         <div
-          className="HTMLContent-root"
+          className="HTMLContent-root coral coral-myComment-content"
           dangerouslySetInnerHTML={
             Object {
               "__html": "What's up?",
@@ -107,7 +107,7 @@ exports[`renders profile 1`] = `
   </div>
   <button
     aria-controls="coral-profile-commentHistory-log"
-    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth coral coral-loadMoreButton coral-myComments-loadMoreButton"
+    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlineFilled Button-fullWidth coral coral-loadMoreButton coral-myComments-loadMoreButton"
     data-color="regular"
     data-variant="outlineFilled"
     disabled={false}

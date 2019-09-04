@@ -248,7 +248,7 @@ exports[`renders conversation thread 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
                         data-active={false}
                         data-color="regular"
                         data-variant="textUnderlined"
@@ -478,7 +478,7 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
                         data-active={false}
                         data-color="regular"
                         data-variant="textUnderlined"
@@ -700,7 +700,7 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
                         data-active={false}
                         data-color="regular"
                         data-variant="textUnderlined"
@@ -915,7 +915,7 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
                         data-active={false}
                         data-color="regular"
                         data-variant="textUnderlined"

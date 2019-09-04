@@ -3,7 +3,6 @@
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   active={true}
-  className="ReplyButton-button"
   id="id"
   onClick={[Function]}
   size="small"

@@ -130,7 +130,7 @@ exports[`cancel edit 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
                   data-active={false}
                   data-color="regular"
                   data-variant="textUnderlined"
@@ -894,7 +894,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
                   data-active={false}
                   data-color="regular"
                   data-variant="textUnderlined"
@@ -1136,7 +1136,7 @@ exports[`edit a comment: server response 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
                   data-active={false}
                   data-color="regular"
                   data-variant="textUnderlined"
@@ -1369,7 +1369,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined ReplyButton-button"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
                   data-active={false}
                   data-color="regular"
                   data-variant="textUnderlined"
