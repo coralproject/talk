@@ -1,7 +1,6 @@
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import TenantCache from "coral-server/services/tenant/cache";
