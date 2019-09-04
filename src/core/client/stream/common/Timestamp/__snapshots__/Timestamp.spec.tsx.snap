@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
-  className="Timestamp-root coral coral-comment-timestamp"
+  className="Timestamp-root"
   date="1995-12-17T03:24:00.000Z"
 />
 `;

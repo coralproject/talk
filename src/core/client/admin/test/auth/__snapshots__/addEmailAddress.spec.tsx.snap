@@ -67,12 +67,12 @@ exports[`accepts valid email 1`] = `
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>
@@ -137,12 +137,12 @@ exports[`checks for invalid email 1`] = `
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           Please enter a valid email address.
         </span>
@@ -176,12 +176,12 @@ exports[`checks for invalid email 1`] = `
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           Emails do not match. Try again.
         </span>
@@ -363,12 +363,12 @@ exports[`shows error when submitting empty form 1`] = `
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>
@@ -402,12 +402,12 @@ exports[`shows error when submitting empty form 1`] = `
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>

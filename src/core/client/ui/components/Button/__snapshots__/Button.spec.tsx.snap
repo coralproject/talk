@@ -26,6 +26,7 @@ exports[`renders active state 1`] = `
 <ForwardRef(forwardRef)
   className="active"
   classes={Object {}}
+  data-active={true}
   data-color="regular"
   data-variant="regular"
 >

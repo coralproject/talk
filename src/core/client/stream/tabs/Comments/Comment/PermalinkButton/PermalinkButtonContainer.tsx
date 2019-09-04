@@ -9,14 +9,17 @@ import PermalinkButton from "./PermalinkButton";
 interface Props {
   story: StoryData;
   commentID: string;
+  className?: string;
 }
 
 export const PermalinkButtonContainer: FunctionComponent<Props> = ({
   story,
   commentID,
+  className,
 }) => {
   return (
     <PermalinkButton
+      className={className}
       commentID={commentID}
       url={getURLWithCommentID(story.url, commentID)}
     />

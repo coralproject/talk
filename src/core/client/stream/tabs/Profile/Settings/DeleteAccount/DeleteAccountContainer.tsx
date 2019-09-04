@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
@@ -7,6 +8,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 import { Icon, Typography } from "coral-ui/components";
 import { Button } from "coral-ui/components/Button";
 
@@ -57,7 +59,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
     : null;
 
   return (
-    <div className={styles.root}>
+    <div className={cn(styles.root, CLASSES.deleteMyAccount.$root)}>
       <DeleteAccountModal
         open={deletePopoverVisible}
         onClose={hidePopover}
@@ -90,7 +92,12 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
               request until that time.
             </Typography>
           </Localized>
-          <Button variant="filled" size="small" onClick={cancelDeletion}>
+          <Button
+            variant="filled"
+            size="small"
+            onClick={cancelDeletion}
+            className={CLASSES.deleteMyAccount.cancelRequestButton}
+          >
             <Icon size="sm" className={styles.icon}>
               block
             </Icon>
@@ -100,7 +107,12 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
           </Button>
         </>
       ) : (
-        <Button variant="outlined" size="small" onClick={showPopover}>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={showPopover}
+          className={CLASSES.deleteMyAccount.requestButton}
+        >
           <Icon size="sm" className={styles.icon}>
             cancel
           </Icon>

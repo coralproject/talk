@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
@@ -7,6 +8,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 import {
   Button,
   CallOut,
@@ -52,7 +54,11 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
     : null;
 
   return (
-    <CallOut color="error" fullWidth className={styles.callout}>
+    <CallOut
+      color="error"
+      className={cn(styles.callout, CLASSES.pendingAccountDeletion.$root)}
+      fullWidth
+    >
       <HorizontalGutter>
         <Flex>
           <Icon size="md" className={styles.icon}>
@@ -70,7 +76,12 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
       </HorizontalGutter>
       <HorizontalGutter className={styles.action}>
         <Localized id="profile-accountDeletion-cancelDeletion">
-          <Button variant="underlined" color="primary" onClick={cancelDeletion}>
+          <Button
+            className={CLASSES.pendingAccountDeletion.cancelRequestButton}
+            variant="underlined"
+            color="primary"
+            onClick={cancelDeletion}
+          >
             Cancel account deletion request
           </Button>
         </Localized>

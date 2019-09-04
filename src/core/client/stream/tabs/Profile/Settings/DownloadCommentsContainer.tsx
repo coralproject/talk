@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
@@ -7,6 +8,7 @@ import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
+import CLASSES from "coral-stream/classes";
 import { Button, CallOut, Icon, Typography } from "coral-ui/components";
 
 import RequestCommentsDownloadMutation from "./RequestCommentsDownloadMutation";
@@ -49,7 +51,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
   ]);
 
   return (
-    <div className={styles.root}>
+    <div className={cn(styles.root, CLASSES.downloadCommentHistory.$root)}>
       <Localized id="profile-settings-download-comments-title">
         <Typography variant="heading3" className={styles.title}>
           Download my comment history
@@ -69,13 +71,24 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           id="profile-settings-download-comments-recentRequest"
           $timeStamp={formatter.format(lastDownloadedAt)}
         >
-          <Typography variant="bodyCopy" className={styles.recentRequest}>
+          <Typography
+            variant="bodyCopy"
+            className={cn(
+              styles.recentRequest,
+              CLASSES.downloadCommentHistory.recentRequest
+            )}
+          >
             Your most recent request: {formatter.format(lastDownloadedAt)}
           </Typography>
         </Localized>
       )}
       {canDownload ? (
-        <Button variant="outlined" size="small" onClick={onClick}>
+        <Button
+          className={CLASSES.downloadCommentHistory.requestButton}
+          variant="outlined"
+          size="small"
+          onClick={onClick}
+        >
           <Localized
             id="profile-settings-download-comments-request-icon"
             attrs={{ title: true }}
@@ -89,7 +102,13 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           </Localized>
         </Button>
       ) : (
-        <CallOut fullWidth className={styles.callout}>
+        <CallOut
+          className={cn(
+            styles.callout,
+            CLASSES.downloadCommentHistory.requestLater
+          )}
+          fullWidth
+        >
           <Icon size="lg" className={styles.icon}>
             query_builder
           </Icon>

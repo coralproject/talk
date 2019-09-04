@@ -41,7 +41,7 @@ const Icon: FunctionComponent<Props> = props => {
     className
   );
   return (
-    <span
+    <i
       className={rootClassName}
       aria-hidden="true"
       {...rest}

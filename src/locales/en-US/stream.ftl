@@ -325,7 +325,7 @@ configure-configureQuery-storyNotFound = Story not found
 
 ## Change username
 profile-changeUsername-success = Your username has been successfully updated
-profile-changeUsername-edit = edit
+profile-changeUsername-edit = Edit
 profile-changeUsername-heading = Edit your username
 profile-changeUsername-desc = Change the username that will appear on all of your past and future comments. <strong>Usernames can be changed once every { framework-timeago-time }.</strong>
 profile-changeUsername-current = Current username

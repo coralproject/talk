@@ -2,6 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
+  className="coral coral-myComment"
   data-testid="historyComment-comment-id"
 >
   <Localized
@@ -9,19 +10,24 @@ exports[`renders correctly 1`] = `
     id="profile-historyComment-story"
   >
     <ForwardRef(forwardRef)
+      className="coral coral-myComment-story"
       variant="heading4"
     >
       Story: {$title}
     </ForwardRef(forwardRef)>
   </Localized>
-  <Timestamp>
+  <Timestamp
+    className="coral coral-myComment-timestamp"
+  >
     2018-07-06T18:24:00.000Z
   </Timestamp>
   <ForwardRef(forwardRef)
     container="div"
     variant="bodyCopy"
   >
-    <HTMLContent>
+    <HTMLContent
+      className="coral coral-myComment-content"
+    >
       Hello World
     </HTMLContent>
   </ForwardRef(forwardRef)>
@@ -31,7 +37,7 @@ exports[`renders correctly 1`] = `
     itemGutter={true}
   >
     <div
-      className="HistoryComment-replies"
+      className="HistoryComment-replies coral coral-myComment-replies"
     >
       <ForwardRef(forwardRef)
         className="HistoryComment-icon"
@@ -51,7 +57,7 @@ exports[`renders correctly 1`] = `
       id="profile-historyComment-viewConversation"
     >
       <withPropsOnChange(TextLinkProps)
-        className="HistoryComment-viewConversation"
+        className="HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
         href="http://localhost/conversation"
         onClick={[Function]}
         target="_parent"

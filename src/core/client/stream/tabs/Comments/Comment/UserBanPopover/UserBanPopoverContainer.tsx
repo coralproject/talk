@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
@@ -6,6 +7,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
+import CLASSES from "coral-stream/classes";
 import { Box, Button, Flex, Typography } from "coral-ui/components";
 
 import RejectCommentMutation from "../ModerationDropdown/RejectCommentMutation";
@@ -44,7 +46,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
     onDismiss();
   }, [user, banUser, onDismiss, localeBundles]);
   return (
-    <Box className={styles.root} p={3}>
+    <Box className={cn(styles.root, CLASSES.banUserPopover.$root)} p={3}>
       <Localized id="comments-userBanPopover-title" $username={user.username}>
         <Typography variant="heading3" mb={2}>
           Ban {user.username}?
@@ -58,12 +60,22 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       </Localized>
       <Flex justifyContent="flex-end" itemGutter="half">
         <Localized id="comments-userBanPopover-cancel">
-          <Button variant="outlined" size="small" onClick={onDismiss}>
+          <Button
+            className={CLASSES.banUserPopover.cancelButton}
+            variant="outlined"
+            size="small"
+            onClick={onDismiss}
+          >
             Cancel
           </Button>
         </Localized>
         <Localized id="comments-userBanPopover-ban">
-          <Button variant="filled" size="small" onClick={onBan}>
+          <Button
+            className={CLASSES.banUserPopover.banButton}
+            variant="filled"
+            size="small"
+            onClick={onBan}
+          >
             Ban
           </Button>
         </Localized>

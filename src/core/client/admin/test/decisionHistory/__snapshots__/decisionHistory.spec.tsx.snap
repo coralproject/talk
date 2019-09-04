@@ -7,12 +7,12 @@ exports[`loads more 1`] = `
   <div
     className="Box-root Flex-root Title-root Flex-flex Flex-alignCenter"
   >
-    <span
+    <i
       aria-hidden="true"
       className="Icon-root Icon-sm"
     >
       history
-    </span>
+    </i>
     <span>
        
     </span>
@@ -37,12 +37,12 @@ exports[`loads more 1`] = `
           <div
             className="DecisionItem-leftCol"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm ApprovedIcon-root"
             >
               check
-            </span>
+            </i>
           </div>
           <div>
             <p
@@ -81,12 +81,12 @@ exports[`loads more 1`] = `
                   Go to comment
                 </span>
                  
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   chevron_right
-                </span>
+                </i>
               </a>
             </div>
           </div>
@@ -101,12 +101,12 @@ exports[`loads more 1`] = `
           <div
             className="DecisionItem-leftCol"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm RejectedIcon-root"
             >
               cancel
-            </span>
+            </i>
           </div>
           <div>
             <p
@@ -145,12 +145,12 @@ exports[`loads more 1`] = `
                   Go to comment
                 </span>
                  
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   chevron_right
-                </span>
+                </i>
               </a>
             </div>
           </div>
@@ -165,12 +165,12 @@ exports[`loads more 1`] = `
           <div
             className="DecisionItem-leftCol"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm ApprovedIcon-root"
             >
               check
-            </span>
+            </i>
           </div>
           <div>
             <p
@@ -209,12 +209,12 @@ exports[`loads more 1`] = `
                   Go to comment
                 </span>
                  
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   chevron_right
-                </span>
+                </i>
               </a>
             </div>
           </div>
@@ -232,12 +232,12 @@ exports[`opens popover when clicked on button showing loading state 1`] = `
   <div
     className="Box-root Flex-root Title-root Flex-flex Flex-alignCenter"
   >
-    <span
+    <i
       aria-hidden="true"
       className="Icon-root Icon-sm"
     >
       history
-    </span>
+    </i>
     <span>
        
     </span>
@@ -264,12 +264,12 @@ exports[`render popover content 1`] = `
   <div
     className="Box-root Flex-root Title-root Flex-flex Flex-alignCenter"
   >
-    <span
+    <i
       aria-hidden="true"
       className="Icon-root Icon-sm"
     >
       history
-    </span>
+    </i>
     <span>
        
     </span>
@@ -294,12 +294,12 @@ exports[`render popover content 1`] = `
           <div
             className="DecisionItem-leftCol"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm ApprovedIcon-root"
             >
               check
-            </span>
+            </i>
           </div>
           <div>
             <p
@@ -338,12 +338,12 @@ exports[`render popover content 1`] = `
                   Go to comment
                 </span>
                  
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   chevron_right
-                </span>
+                </i>
               </a>
             </div>
           </div>
@@ -358,12 +358,12 @@ exports[`render popover content 1`] = `
           <div
             className="DecisionItem-leftCol"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm RejectedIcon-root"
             >
               cancel
-            </span>
+            </i>
           </div>
           <div>
             <p
@@ -402,12 +402,12 @@ exports[`render popover content 1`] = `
                   Go to comment
                 </span>
                  
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   chevron_right
-                </span>
+                </i>
               </a>
             </div>
           </div>
@@ -448,12 +448,12 @@ exports[`renders decision history popover button 1`] = `
     onTouchEnd={[Function]}
     type="button"
   >
-    <span
+    <i
       aria-hidden="true"
       className="Icon-root Icon-lg"
     >
       history
-    </span>
+    </i>
   </button>
   <div
     aria-hidden={true}

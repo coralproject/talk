@@ -2,7 +2,7 @@
 
 exports[`renders comment not found 1`] = `
 <ForwardRef(forwardRef)
-  className="PermalinkView-root"
+  className="PermalinkView-root coral coral-permalink coral-authenticated"
   size="double"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
@@ -37,6 +37,7 @@ exports[`renders comment not found 1`] = `
     >
       <ForwardRef(forwardRef)
         anchor={true}
+        className="coral coral-permalink-viewFullDiscussionButton"
         color="primary"
         href="http://localhost/link"
         onClick={[Function]}
@@ -63,7 +64,7 @@ exports[`renders comment not found 1`] = `
 
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
-  className="PermalinkView-root"
+  className="PermalinkView-root coral coral-permalink coral-authenticated"
   size="double"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
@@ -98,6 +99,7 @@ exports[`renders correctly 1`] = `
     >
       <ForwardRef(forwardRef)
         anchor={true}
+        className="coral coral-permalink-viewFullDiscussionButton"
         color="primary"
         href="http://localhost/link"
         onClick={[Function]}

@@ -124,6 +124,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
           status={this.state.submitStatus}
           onDismiss={this.handleOnCancelOrClose}
           buttonClassName={CLASSES.editComment.dismiss}
+          inReviewClassName={CLASSES.editComment.inReview}
         />
       );
     }

@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Button, Flex, Typography } from "coral-ui/components";
 
 export interface UserBoxAuthenticatedProps {
@@ -19,7 +20,7 @@ const UserBoxAuthenticated: FunctionComponent<
   );
 
   return (
-    <Flex itemGutter="half" wrap>
+    <Flex itemGutter="half" className={CLASSES.viewerBox.$root} wrap>
       <Localized
         id="general-userBoxAuthenticated-signedInAs"
         Username={<Username />}
@@ -37,6 +38,7 @@ const UserBoxAuthenticated: FunctionComponent<
               size="small"
               variant="underlined"
               onClick={props.onSignOut}
+              className={CLASSES.viewerBox.logoutButton}
             />
           }
         >

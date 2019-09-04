@@ -7,17 +7,18 @@ import {
   formatEmpty,
   parseBool,
   parseEmptyAsNull,
-  ValidationMessage,
 } from "coral-framework/lib/form";
+import CLASSES from "coral-stream/classes";
+import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
   MessageBox,
   MessageBoxContent,
   MessageBoxIcon,
 } from "coral-stream/common/MessageBox";
+import Spinner from "coral-stream/common/Spinner";
 import {
   HorizontalGutter,
   Icon,
-  Spinner,
   TileOption,
   TileSelector,
   Typography,
@@ -36,6 +37,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
   <Field name="messageBox.enabled" type="checkbox" parse={parseBool}>
     {({ input }) => (
       <ToggleConfig
+        className={CLASSES.configureMessageBox.$root}
         id={input.name}
         disabled={disabled}
         {...input}
@@ -73,7 +75,9 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                             PREVIEW
                           </Typography>
                         </Localized>
-                        <MessageBox>
+                        <MessageBox
+                          className={CLASSES.configureMessageBox.messageBox}
+                        >
                           {iconInput.value && (
                             <MessageBoxIcon>{iconInput.value}</MessageBoxIcon>
                           )}
@@ -95,22 +99,42 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                           onChange={iconInput.onChange}
                           value={iconInput.value}
                         >
-                          <TileOption value="question_answer">
+                          <TileOption
+                            className={CLASSES.configureMessageBox.option}
+                            value="question_answer"
+                          >
                             <Icon size="md">question_answer</Icon>
                           </TileOption>
-                          <TileOption value="today">
+                          <TileOption
+                            className={CLASSES.configureMessageBox.option}
+                            value="today"
+                          >
                             <Icon size="md">today</Icon>
                           </TileOption>
-                          <TileOption value="help_outline">
+                          <TileOption
+                            className={CLASSES.configureMessageBox.option}
+                            value="help_outline"
+                          >
                             <Icon size="md">help_outline</Icon>
                           </TileOption>
-                          <TileOption value="warning">
+                          <TileOption
+                            className={CLASSES.configureMessageBox.option}
+                            value="warning"
+                          >
                             <Icon size="md">warning</Icon>
                           </TileOption>
-                          <TileOption value="chat_bubble_outline">
+                          <TileOption
+                            className={CLASSES.configureMessageBox.option}
+                            value="chat_bubble_outline"
+                          >
                             <Icon size="md">chat_bubble_outline</Icon>
                           </TileOption>
-                          <TileOption value="">No Icon</TileOption>
+                          <TileOption
+                            className={CLASSES.configureMessageBox.option}
+                            value=""
+                          >
+                            No Icon
+                          </TileOption>
                         </TileSelector>
                       </HorizontalGutter>
                       <HorizontalGutter size="half" container="section">
@@ -134,7 +158,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                             value={contentInput.value}
                           />
                         </Suspense>
-                        <ValidationMessage meta={meta} />
+                        <FieldValidationMessage meta={meta} />
                       </HorizontalGutter>
                     </>
                   )}

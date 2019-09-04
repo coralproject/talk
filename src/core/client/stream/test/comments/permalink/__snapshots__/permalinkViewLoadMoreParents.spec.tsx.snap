@@ -2,7 +2,7 @@
 
 exports[`renders conversation thread 1`] = `
 <div
-  className="ConversationThreadContainer-root"
+  className="coral coral-conversationThread ConversationThreadContainer-root"
   data-testid="comments-permalinkView-conversationThread"
 >
   <div
@@ -27,7 +27,7 @@ exports[`renders conversation thread 1`] = `
         </svg>
       </div>
       <div
-        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+        className="Box-root Flex-root coral coral-rootParent Flex-flex Flex-justifySpaceBetween Flex-directionRow"
         id="comment-from-staff-0"
       >
         <div
@@ -38,13 +38,13 @@ exports[`renders conversation thread 1`] = `
           >
             <div>
               <span
-                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-username coral-rootParent-username"
               >
                 Moderator
               </span>
             </div>
             <span
-              className="Tag-root coral coral-comment-userTag Tag-colorGrey"
+              className="Tag-root coral coral-userTag coral-rootParent-userTag Tag-colorGrey"
             >
               Staff
             </span>
@@ -53,7 +53,7 @@ exports[`renders conversation thread 1`] = `
             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
           >
             <time
-              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+              className="RelativeTime-root Timestamp-root coral coral-timestamp coral-rootParent-timestamp"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -87,7 +87,7 @@ exports[`renders conversation thread 1`] = `
         className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined ConversationThreadContainer-showMoreButton"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined coral coral-conversationThread-showMore ConversationThreadContainer-showMoreButton"
           data-color="regular"
           data-variant="underlined"
           disabled={false}
@@ -135,7 +135,7 @@ exports[`renders conversation thread 1`] = `
         </svg>
       </div>
       <div
-        className="coral coral-comment"
+        className="coral coral-comment coral coral-conversationThread-highlighted"
         data-testid="comment-comment-0"
       >
         <div
@@ -152,7 +152,7 @@ exports[`renders conversation thread 1`] = `
                 role="article"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -165,7 +165,7 @@ exports[`renders conversation thread 1`] = `
                       >
                         <button
                           aria-controls="username-popover"
-                          className="BaseButton-root"
+                          className="BaseButton-root coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -175,7 +175,7 @@ exports[`renders conversation thread 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
                             Markus
                           </span>
@@ -199,7 +199,7 @@ exports[`renders conversation thread 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                        className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >
@@ -217,7 +217,7 @@ exports[`renders conversation thread 1`] = `
                   className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
                   <div
-                    className="HTMLContent-root"
+                    className="HTMLContent-root coral coral-content coral-comment-content"
                     dangerouslySetInnerHTML={
                       Object {
                         "__html": "Joining Too",
@@ -225,13 +225,13 @@ exports[`renders conversation thread 1`] = `
                     }
                   />
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                    className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -248,7 +248,8 @@ exports[`renders conversation thread 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                        data-active={false}
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -270,7 +271,8 @@ exports[`renders conversation thread 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-0"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                          data-active={false}
                           data-color="regular"
                           data-variant="ghost"
                           onBlur={[Function]}
@@ -304,7 +306,7 @@ exports[`renders conversation thread 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -335,7 +337,7 @@ exports[`renders conversation thread 1`] = `
 
 exports[`shows more of this conversation 1`] = `
 <div
-  className="ConversationThreadContainer-root"
+  className="coral coral-conversationThread ConversationThreadContainer-root"
   data-testid="comments-permalinkView-conversationThread"
 >
   <div
@@ -380,7 +382,7 @@ exports[`shows more of this conversation 1`] = `
                 role="article"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -393,7 +395,7 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="username-popover"
-                          className="BaseButton-root"
+                          className="BaseButton-root coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -403,7 +405,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
                             Lukas
                           </span>
@@ -427,7 +429,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                        className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >
@@ -445,7 +447,7 @@ exports[`shows more of this conversation 1`] = `
                   className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
                   <div
-                    className="HTMLContent-root"
+                    className="HTMLContent-root coral coral-content coral-comment-content"
                     dangerouslySetInnerHTML={
                       Object {
                         "__html": "What's up?",
@@ -453,13 +455,13 @@ exports[`shows more of this conversation 1`] = `
                     }
                   />
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                    className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -476,7 +478,8 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                        data-active={false}
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -498,7 +501,8 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-1"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                          data-active={false}
                           data-color="regular"
                           data-variant="ghost"
                           onBlur={[Function]}
@@ -532,7 +536,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -595,7 +599,7 @@ exports[`shows more of this conversation 1`] = `
                 role="article"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -608,7 +612,7 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="username-popover"
-                          className="BaseButton-root"
+                          className="BaseButton-root coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -618,7 +622,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
                             Moderator
                           </span>
@@ -638,7 +642,7 @@ exports[`shows more of this conversation 1`] = `
                         </div>
                       </div>
                       <span
-                        className="Tag-root coral coral-comment-userTag Tag-colorGrey"
+                        className="Tag-root coral coral-userTag coral-comment-userTag Tag-colorGrey"
                       >
                         Staff
                       </span>
@@ -647,7 +651,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                        className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >
@@ -665,7 +669,7 @@ exports[`shows more of this conversation 1`] = `
                   className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
                   <div
-                    className="HTMLContent-root"
+                    className="HTMLContent-root coral coral-content coral-comment-content"
                     dangerouslySetInnerHTML={
                       Object {
                         "__html": "Joining Too",
@@ -673,13 +677,13 @@ exports[`shows more of this conversation 1`] = `
                     }
                   />
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                    className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -696,7 +700,8 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                        data-active={false}
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -718,7 +723,8 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-from-staff-0"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                          data-active={false}
                           data-color="regular"
                           data-variant="ghost"
                           onBlur={[Function]}
@@ -752,7 +758,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -796,7 +802,7 @@ exports[`shows more of this conversation 1`] = `
         </svg>
       </div>
       <div
-        className="coral coral-comment"
+        className="coral coral-comment coral coral-conversationThread-highlighted"
         data-testid="comment-comment-0"
       >
         <div
@@ -813,7 +819,7 @@ exports[`shows more of this conversation 1`] = `
                 role="article"
               >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  className="Box-root Flex-root coral coral-comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
@@ -826,7 +832,7 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="username-popover"
-                          className="BaseButton-root"
+                          className="BaseButton-root coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -836,7 +842,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
                             Markus
                           </span>
@@ -860,7 +866,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
+                        className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >
@@ -878,7 +884,7 @@ exports[`shows more of this conversation 1`] = `
                   className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
                   <div
-                    className="HTMLContent-root"
+                    className="HTMLContent-root coral coral-content coral-comment-content"
                     dangerouslySetInnerHTML={
                       Object {
                         "__html": "Joining Too",
@@ -886,13 +892,13 @@ exports[`shows more of this conversation 1`] = `
                     }
                   />
                   <div
-                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                    className="Box-root Flex-root coral coral-comment-actionBar Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -909,7 +915,8 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-replyButton"
+                        data-active={false}
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}
@@ -931,7 +938,8 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-0"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-comment-shareButton"
+                          data-active={false}
                           data-color="regular"
                           data-variant="ghost"
                           onBlur={[Function]}
@@ -965,7 +973,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reportButton coral-comment-reportButton"
                         data-color="regular"
                         data-variant="ghost"
                         disabled={false}

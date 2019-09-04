@@ -12,12 +12,12 @@ exports[`renders icon 1`] = `
 <div
   className="MessageBox-root"
 >
-  <span
+  <i
     aria-hidden="true"
     className="Icon-root Icon-md MessageBoxIcon-root"
   >
     alert
-  </span>
+  </i>
   Alert MessageBox
 </div>
 `;

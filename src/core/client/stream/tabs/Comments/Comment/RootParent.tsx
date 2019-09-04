@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import Timestamp from "coral-stream/common/Timestamp";
 import { Flex } from "coral-ui/components";
 
@@ -15,14 +16,31 @@ export interface RootParentProps {
 
 const RootParent: FunctionComponent<RootParentProps> = props => {
   return (
-    <Flex direction="row" justifyContent="space-between" id={props.id}>
+    <Flex
+      className={CLASSES.conversationThread.rootParent.$root}
+      direction="row"
+      justifyContent="space-between"
+      id={props.id}
+    >
       <TopBarLeft>
         <Flex direction="row" alignItems="center" itemGutter="half">
-          <div>{props.username && <Username>{props.username}</Username>}</div>
+          <div>
+            {props.username && (
+              <Username
+                className={CLASSES.conversationThread.rootParent.username}
+              >
+                {props.username}
+              </Username>
+            )}
+          </div>
           {props.tags}
         </Flex>
         <Flex direction="row" alignItems="baseline" itemGutter>
-          <Timestamp>{props.createdAt}</Timestamp>
+          <Timestamp
+            className={CLASSES.conversationThread.rootParent.timestamp}
+          >
+            {props.createdAt}
+          </Timestamp>
         </Flex>
       </TopBarLeft>
     </Flex>

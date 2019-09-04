@@ -8,6 +8,7 @@ export interface ShowConversationLinkProps {
   id?: string;
   href?: string;
   onClick?: EventHandler<MouseEvent>;
+  className?: string;
 }
 
 const ShowConversationLink: FunctionComponent<
@@ -17,6 +18,7 @@ const ShowConversationLink: FunctionComponent<
     <Localized id="comments-showConversationLink-readMore">
       <Button
         id={props.id}
+        className={props.className}
         variant="underlined"
         color="primary"
         href={props.href}

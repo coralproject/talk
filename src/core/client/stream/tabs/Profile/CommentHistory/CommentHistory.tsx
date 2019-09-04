@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
 import {
   Button,
   Flex,
@@ -67,6 +68,7 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = props => {
             fullWidth
             disabled={props.disableLoadMore}
             aria-controls="coral-profile-commentHistory-log"
+            className={CLASSES.myCommentsTabPane.loadMoreButton}
           >
             Load More
           </Button>

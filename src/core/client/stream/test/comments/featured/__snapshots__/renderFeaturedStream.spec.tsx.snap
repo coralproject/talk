@@ -2,7 +2,7 @@
 
 exports[`renders comment stream 1`] = `
 <div
-  className="Box-root HorizontalGutter-root App-root HorizontalGutter-full"
+  className="Box-root HorizontalGutter-root coral coral-stream App-root HorizontalGutter-full"
 >
   <ul
     className="TabBar-root TabBar-primary coral coral-tabBar"
@@ -34,19 +34,19 @@ exports[`renders comment stream 1`] = `
   </ul>
   <section
     aria-labelledby="tab-COMMENTS"
-    className="App-tabContent"
+    className="App-tabContent coral coral-comments"
     data-testid="current-tab-pane"
     id="tabPane-COMMENTS"
     role="tabpanel"
   >
     <div
-      className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticated HorizontalGutter-double"
     >
       <div
-        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+        className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
           data-color="primary"
           data-variant="underlined"
           onBlur={[Function]}
@@ -60,7 +60,7 @@ exports[`renders comment stream 1`] = `
           Sign in
         </button>
         <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
           data-color="primary"
           data-variant="outlined"
           onBlur={[Function]}
@@ -125,12 +125,12 @@ exports[`renders comment stream 1`] = `
                     title="Bold"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_bold
-                    </span>
+                    </i>
                   </button>
                   <button
                     className="Button-button"
@@ -139,12 +139,12 @@ exports[`renders comment stream 1`] = `
                     title="Italic"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_italic
-                    </span>
+                    </i>
                   </button>
                   <button
                     className="Button-button"
@@ -153,12 +153,12 @@ exports[`renders comment stream 1`] = `
                     title="Blockquote"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_quote
-                    </span>
+                    </i>
                   </button>
                 </div>
               </div>
@@ -228,12 +228,12 @@ exports[`renders comment stream 1`] = `
               aria-hidden={true}
               className="SelectField-afterWrapper undefined"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 expand_more
-              </span>
+              </i>
             </span>
           </span>
         </div>
@@ -280,6 +280,7 @@ exports[`renders comment stream 1`] = `
         </ul>
         <section
           aria-labelledby="tab-FEATURED_COMMENTS"
+          className="coral coral-featuredComments"
           id="tabPane-FEATURED_COMMENTS"
           role="tabpanel"
         >
@@ -291,11 +292,11 @@ exports[`renders comment stream 1`] = `
             role="log"
           >
             <div
-              className="FeaturedCommentContainer-root"
+              className="coral coral-featuredComment FeaturedCommentContainer-root"
               data-testid="featuredComment-comment-0"
             >
               <div
-                className="HTMLContent-root"
+                className="HTMLContent-root coral coral-content coral-featuredComment-content"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "Joining Too",
@@ -303,14 +304,14 @@ exports[`renders comment stream 1`] = `
                 }
               />
               <div
-                className="Box-root Flex-root Flex-flex Flex-alignCenter Flex-directionRow Box-mt-4"
+                className="Box-root Flex-root coral coral-featuredComment-authorBar Flex-flex Flex-alignCenter Flex-directionRow Box-mt-4"
               >
                 <div
                   className="Popover-root"
                 >
                   <button
                     aria-controls="username-popover"
-                    className="BaseButton-root"
+                    className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -320,7 +321,7 @@ exports[`renders comment stream 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
                       Markus
                     </span>
@@ -343,7 +344,7 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Box-ml-1"
                 />
                 <time
-                  className="RelativeTime-root Timestamp-root Box-root Box-ml-2 coral coral-comment-timestamp"
+                  className="RelativeTime-root Timestamp-root Box-root Box-ml-2"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -351,10 +352,10 @@ exports[`renders comment stream 1`] = `
                 </time>
               </div>
               <div
-                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Box-mt-2"
+                className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-featuredComment-reactButton"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -375,7 +376,7 @@ exports[`renders comment stream 1`] = `
                 >
                   <div>
                     <a
-                      className="TextLink-root FeaturedCommentContainer-gotoConversation"
+                      className="TextLink-root coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
                       href="http://localhost/stories/story-with-featured-comments?commentID=comment-0"
                       onClick={[Function]}
                     >
@@ -393,11 +394,11 @@ exports[`renders comment stream 1`] = `
               </div>
             </div>
             <div
-              className="FeaturedCommentContainer-root"
+              className="coral coral-featuredComment FeaturedCommentContainer-root"
               data-testid="featuredComment-comment-1"
             >
               <div
-                className="HTMLContent-root"
+                className="HTMLContent-root coral coral-content coral-featuredComment-content"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "What's up?",
@@ -405,14 +406,14 @@ exports[`renders comment stream 1`] = `
                 }
               />
               <div
-                className="Box-root Flex-root Flex-flex Flex-alignCenter Flex-directionRow Box-mt-4"
+                className="Box-root Flex-root coral coral-featuredComment-authorBar Flex-flex Flex-alignCenter Flex-directionRow Box-mt-4"
               >
                 <div
                   className="Popover-root"
                 >
                   <button
                     aria-controls="username-popover"
-                    className="BaseButton-root"
+                    className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -422,7 +423,7 @@ exports[`renders comment stream 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
                       Lukas
                     </span>
@@ -445,7 +446,7 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Box-ml-1"
                 />
                 <time
-                  className="RelativeTime-root Timestamp-root Box-root Box-ml-2 coral coral-comment-timestamp"
+                  className="RelativeTime-root Timestamp-root Box-root Box-ml-2"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -453,10 +454,10 @@ exports[`renders comment stream 1`] = `
                 </time>
               </div>
               <div
-                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Box-mt-2"
+                className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-featuredComment-reactButton"
                   data-color="regular"
                   data-variant="ghost"
                   disabled={false}
@@ -477,7 +478,7 @@ exports[`renders comment stream 1`] = `
                 >
                   <div>
                     <a
-                      className="TextLink-root FeaturedCommentContainer-gotoConversation"
+                      className="TextLink-root coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
                       href="http://localhost/stories/story-with-featured-comments?commentID=comment-1"
                       onClick={[Function]}
                     >

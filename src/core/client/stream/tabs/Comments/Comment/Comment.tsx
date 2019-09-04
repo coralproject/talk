@@ -1,6 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { Flex, HorizontalGutter } from "coral-ui/components";
@@ -30,15 +31,23 @@ const Comment: FunctionComponent<CommentProps> = props => {
       role="article"
       className={cn(styles.root, { [styles.highlight]: props.highlight })}
     >
-      <Flex direction="row" justifyContent="space-between">
+      <Flex
+        direction="row"
+        justifyContent="space-between"
+        className={CLASSES.comment.topBar.$root}
+      >
         <TopBarLeft>
           <Flex direction="row" alignItems="center" itemGutter="half">
             {props.username && props.username}
             {props.userTags}
           </Flex>
           <Flex direction="row" alignItems="baseline" itemGutter>
-            <Timestamp>{props.createdAt}</Timestamp>
-            {props.showEditedMarker && <EditedMarker />}
+            <Timestamp className={CLASSES.comment.topBar.timestamp}>
+              {props.createdAt}
+            </Timestamp>
+            {props.showEditedMarker && (
+              <EditedMarker className={CLASSES.comment.topBar.edited} />
+            )}
           </Flex>
         </TopBarLeft>
         {props.topBarRight && <div>{props.topBarRight}</div>}
@@ -50,7 +59,9 @@ const Comment: FunctionComponent<CommentProps> = props => {
       )}
 
       <HorizontalGutter spacing={1}>
-        <HTMLContent>{props.body || ""}</HTMLContent>
+        <HTMLContent className={CLASSES.comment.content}>
+          {props.body || ""}
+        </HTMLContent>
         {props.footer}
       </HorizontalGutter>
     </div>

@@ -3,19 +3,19 @@
 exports[`renders message box when commenting disabled 1`] = `
 <section
   aria-labelledby="tab-COMMENTS"
-  className="App-tabContent"
+  className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticated HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+      className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
         data-color="primary"
         data-variant="underlined"
         onBlur={[Function]}
@@ -29,7 +29,7 @@ exports[`renders message box when commenting disabled 1`] = `
         Sign in
       </button>
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
         data-color="primary"
         data-variant="outlined"
         onBlur={[Function]}
@@ -67,12 +67,12 @@ exports[`renders message box when commenting disabled 1`] = `
         <div
           className="MessageBox-root coral coral-createComment-message"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-md MessageBoxIcon-root"
           >
             chat
-          </span>
+          </i>
           <div
             className="Markdown-root MessageBoxContent-root"
             dangerouslySetInnerHTML={
@@ -133,12 +133,12 @@ exports[`renders message box when commenting disabled 1`] = `
             aria-hidden={true}
             className="SelectField-afterWrapper undefined"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               expand_more
-            </span>
+            </i>
           </span>
         </span>
       </div>
@@ -185,6 +185,7 @@ exports[`renders message box when commenting disabled 1`] = `
       </ul>
       <section
         aria-labelledby="tab-ALL_COMMENTS"
+        className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
         role="tabpanel"
       >
@@ -204,16 +205,16 @@ exports[`renders message box when commenting disabled 1`] = `
 exports[`renders message box when logged in 1`] = `
 <section
   aria-labelledby="tab-COMMENTS"
-  className="App-tabContent"
+  className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root coral coral-authenticated HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root"
+      className="Box-root Flex-root coral coral-viewerBox"
     >
       <div
         className="Flex-flex Flex-halfItemGutter Flex-wrap gutter"
@@ -236,7 +237,7 @@ exports[`renders message box when logged in 1`] = `
             Not you? 
           </span>
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-logoutButton"
             data-color="primary"
             data-variant="underlined"
             onBlur={[Function]}
@@ -258,12 +259,12 @@ exports[`renders message box when logged in 1`] = `
       <div
         className="MessageBox-root coral coral-createComment-message PostCommentForm-messageBox"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-md MessageBoxIcon-root"
         >
           chat
-        </span>
+        </i>
         <div
           className="Markdown-root MessageBoxContent-root"
           dangerouslySetInnerHTML={
@@ -335,12 +336,12 @@ exports[`renders message box when logged in 1`] = `
                     title="Bold"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_bold
-                    </span>
+                    </i>
                   </button>
                   <button
                     className="Button-button"
@@ -349,12 +350,12 @@ exports[`renders message box when logged in 1`] = `
                     title="Italic"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_italic
-                    </span>
+                    </i>
                   </button>
                   <button
                     className="Button-button"
@@ -363,12 +364,12 @@ exports[`renders message box when logged in 1`] = `
                     title="Blockquote"
                     type="button"
                   >
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-md"
                     >
                       format_quote
-                    </span>
+                    </i>
                   </button>
                 </div>
               </div>
@@ -443,12 +444,12 @@ exports[`renders message box when logged in 1`] = `
             aria-hidden={true}
             className="SelectField-afterWrapper undefined"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               expand_more
-            </span>
+            </i>
           </span>
         </span>
       </div>
@@ -495,6 +496,7 @@ exports[`renders message box when logged in 1`] = `
       </ul>
       <section
         aria-labelledby="tab-ALL_COMMENTS"
+        className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
         role="tabpanel"
       >
@@ -514,19 +516,19 @@ exports[`renders message box when logged in 1`] = `
 exports[`renders message box when not logged in 1`] = `
 <section
   aria-labelledby="tab-COMMENTS"
-  className="App-tabContent"
+  className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticated HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+      className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
         data-color="primary"
         data-variant="underlined"
         onBlur={[Function]}
@@ -540,7 +542,7 @@ exports[`renders message box when not logged in 1`] = `
         Sign in
       </button>
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
         data-color="primary"
         data-variant="outlined"
         onBlur={[Function]}
@@ -560,12 +562,12 @@ exports[`renders message box when not logged in 1`] = `
       <div
         className="MessageBox-root coral coral-createComment-message PostCommentFormFake-messageBox"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-md MessageBoxIcon-root"
         >
           chat
-        </span>
+        </i>
         <div
           className="Markdown-root MessageBoxContent-root"
           dangerouslySetInnerHTML={
@@ -624,12 +626,12 @@ exports[`renders message box when not logged in 1`] = `
                   title="Bold"
                   type="button"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-md"
                   >
                     format_bold
-                  </span>
+                  </i>
                 </button>
                 <button
                   className="Button-button"
@@ -638,12 +640,12 @@ exports[`renders message box when not logged in 1`] = `
                   title="Italic"
                   type="button"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-md"
                   >
                     format_italic
-                  </span>
+                  </i>
                 </button>
                 <button
                   className="Button-button"
@@ -652,12 +654,12 @@ exports[`renders message box when not logged in 1`] = `
                   title="Blockquote"
                   type="button"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-md"
                   >
                     format_quote
-                  </span>
+                  </i>
                 </button>
               </div>
             </div>
@@ -727,12 +729,12 @@ exports[`renders message box when not logged in 1`] = `
             aria-hidden={true}
             className="SelectField-afterWrapper undefined"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               expand_more
-            </span>
+            </i>
           </span>
         </span>
       </div>
@@ -779,6 +781,7 @@ exports[`renders message box when not logged in 1`] = `
       </ul>
       <section
         aria-labelledby="tab-ALL_COMMENTS"
+        className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
         role="tabpanel"
       >
@@ -798,19 +801,19 @@ exports[`renders message box when not logged in 1`] = `
 exports[`renders message box when story isClosed 1`] = `
 <section
   aria-labelledby="tab-COMMENTS"
-  className="App-tabContent"
+  className="App-tabContent coral coral-comments"
   data-testid="current-tab-pane"
   id="tabPane-COMMENTS"
   role="tabpanel"
 >
   <div
-    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root coral coral-unauthenticated HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+      className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
         data-color="primary"
         data-variant="underlined"
         onBlur={[Function]}
@@ -824,7 +827,7 @@ exports[`renders message box when story isClosed 1`] = `
         Sign in
       </button>
       <button
-        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
         data-color="primary"
         data-variant="outlined"
         onBlur={[Function]}
@@ -918,12 +921,12 @@ exports[`renders message box when story isClosed 1`] = `
             aria-hidden={true}
             className="SelectField-afterWrapper undefined"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               expand_more
-            </span>
+            </i>
           </span>
         </span>
       </div>
@@ -970,6 +973,7 @@ exports[`renders message box when story isClosed 1`] = `
       </ul>
       <section
         aria-labelledby="tab-ALL_COMMENTS"
+        className="coral coral-allComments"
         id="tabPane-ALL_COMMENTS"
         role="tabpanel"
       >

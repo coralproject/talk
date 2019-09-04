@@ -35,6 +35,7 @@ exports[`has more disables load more 1`] = `
   >
     <ForwardRef(forwardRef)
       aria-controls="coral-profile-commentHistory-log"
+      className="coral coral-loadMoreButton coral-myComments-loadMoreButton"
       disabled={true}
       fullWidth={true}
       id="coral-profile-commentHistory-loadMore"
@@ -82,6 +83,7 @@ exports[`has more renders correctly 1`] = `
   >
     <ForwardRef(forwardRef)
       aria-controls="coral-profile-commentHistory-log"
+      className="coral coral-loadMoreButton coral-myComments-loadMoreButton"
       disabled={false}
       fullWidth={true}
       id="coral-profile-commentHistory-loadMore"

@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React from "react";
 
@@ -10,10 +11,11 @@ import styles from "./ReplyEditSubmitStatus.css";
 interface Props {
   status: SubmitStatus;
   buttonClassName?: string;
+  inReviewClassName?: string;
   onDismiss: () => void;
 }
 
-function getMessage(status: SubmitStatus) {
+function getMessage(status: SubmitStatus, inReviewClassName: string = "") {
   switch (status) {
     case "RETRY":
       throw new Error(`Invalid status ${status}`);
@@ -22,7 +24,11 @@ function getMessage(status: SubmitStatus) {
     case "IN_REVIEW":
       return (
         <Localized id="comments-submitStatus-submittedAndWillBeReviewed">
-          <CallOut className={styles.callout} color="primary" fullWidth>
+          <CallOut
+            className={cn(inReviewClassName, styles.callout)}
+            color="primary"
+            fullWidth
+          >
             Your comment has been submitted and will be reviewed by a moderator
           </CallOut>
         </Localized>
@@ -38,7 +44,7 @@ function getMessage(status: SubmitStatus) {
 export default function ReplyEditSubmitStatus(props: Props) {
   return (
     <HorizontalGutter>
-      {getMessage(props.status)}
+      {getMessage(props.status, props.inReviewClassName)}
       <Flex justifyContent="flex-end">
         <Localized id="comments-submitStatus-dismiss">
           <Button
