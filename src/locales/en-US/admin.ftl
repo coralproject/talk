@@ -769,7 +769,7 @@ configure-advanced-stories-lazy-detail = Enable stories to be automatically crea
 configure-advanced-stories-scraping = Story scraping
 configure-advanced-stories-scraping-detail = Enable story metadata to be automatically scraped when they are published from your CMS.
 configure-advanced-stories-proxy = Scraper proxy url
-configure-advanced-stories-proxy-detail = 
+configure-advanced-stories-proxy-detail =
   When specified, allows scraping requests to use the provided
   proxy. All requests will then be passed through the appropriote
   proxy as parsed by the <externalLink>npm proxy-agent</externalLink> package.
