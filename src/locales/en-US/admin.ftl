@@ -740,17 +740,17 @@ configure-general-reactions-explanation =
   based on the needs of your community.
 configure-general-reactions-label = Reaction label
 configure-general-reactions-input =
-  .placehodlder = E.g. Respect
+  .placeholder = E.g. Respect
 configure-general-reactions-active-label = Active reaction label
 configure-general-reactions-active-input =
-  .placehodlder = E.g. Respected
+  .placeholder = E.g. Respected
 configure-general-reactions-sort-label = Sort label
 configure-general-reactions-sort-input =
-  .placehodlder = E.g. Most Respected
+  .placeholder = E.g. Most Respected
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
 
-configure-account-features-title = Commenter account mangement features
+configure-account-features-title = Commenter account management features
 configure-account-features-explanation =
   You can enable and disable certain features for your commenters to use
   within their Profile. These features also assist towards GDPR
