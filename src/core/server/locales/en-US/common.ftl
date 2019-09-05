@@ -1,6 +1,6 @@
 closeCommentingDefaultMessage = Comments are closed on this story.
 disableCommentingDefaultMessage = Comments are closed on this story.
 
-default-reaction-labelRespect = Respect
-default-reaction-labelActiveRespected = Respected
-default-reaction-sortLabelMostRespected = Most Respected
+reaction-labelRespect = Respect
+reaction-labelActiveRespected = Respected
+reaction-sortLabelMostRespected = Most Respected

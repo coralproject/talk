@@ -9,16 +9,12 @@ export const getDefaultReactionConfiguration = (
 ): GQLReactionConfiguration => ({
   // By default, the standard reaction style will use the Respect with the
   // handshake.
-  label: translate(bundle, "Respect", "default-reaction-labelRespect"),
-  labelActive: translate(
-    bundle,
-    "Respected",
-    "default-reaction-labelActiveRespected"
-  ),
+  label: translate(bundle, "Respect", "reaction-labelRespect"),
+  labelActive: translate(bundle, "Respected", "reaction-labelActiveRespected"),
   sortLabel: translate(
     bundle,
     "Most Respected",
-    "default-reaction-sortLabelMostRespected"
+    "reaction-sortLabelMostRespected"
   ),
   icon: "thumb_up",
 });
