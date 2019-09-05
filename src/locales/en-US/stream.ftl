@@ -321,6 +321,7 @@ profile-settings-notifications-sendNotifications-daily = Daily
 profile-settings-notifications-sendNotifications-hourly = Hourly
 profile-settings-notifications-updated = Your notification settings have been updated
 profile-settings-notifications-button = Update Notification Settings
+profile-settings-notifications-button-update = Update
 
 ## Report Comment Popover
 comments-reportPopover =

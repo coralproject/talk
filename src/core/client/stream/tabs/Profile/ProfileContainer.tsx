@@ -39,6 +39,7 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
       ...ChangeUsernameContainer_viewer
       ...ChangeEmailContainer_viewer
       ...DeletionRequestCalloutContainer_viewer
+      ...NotificationSettingsContainer_viewer
     }
   `,
   settings: graphql`
