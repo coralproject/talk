@@ -1,9 +1,3 @@
 .icon {
-  color: var(--palette-text-primary);
-}
-.inReplyTo {
-  color: var(--palette-text-primary);
-}
-.username {
-  color: var(--palette-content-black);
+  color: var(--palette-text-dark);
 }

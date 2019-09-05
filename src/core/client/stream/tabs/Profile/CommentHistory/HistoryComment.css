@@ -1,3 +1,8 @@
+.root:not(:first-child) {
+  border-top: 1px solid var(--palette-divider);
+  padding-top: var(--spacing-3)
+}
+
 .icon {
   color: var(--palette-text-secondary);
   margin-right: calc(0.5 * var(--mini-unit));
@@ -5,11 +10,12 @@
 
 .replies {
   composes: button from "coral-ui/shared/typography.css";
+  display: inline-flex;
+  margin-right: var(--spacing-3)!important;
 }
 
 .viewConversation {
   composes: button from "coral-ui/shared/typography.css";
-  color: var(--palette-grey-main);
 }
 
 .container {
@@ -20,4 +26,8 @@
 .commentOn {
   font-weight: var(--font-weight-medium);
   margin-bottom: 0;
+}
+
+.subBar {
+  margin-bottom: calc(0.5 * var(--mini-unit));
 }

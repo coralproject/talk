@@ -5,6 +5,7 @@ import React, { FunctionComponent } from "react";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
+import InReplyTo from "coral-stream/tabs/Comments/Comment/InReplyTo";
 import {
   Flex,
   HorizontalGutter,
@@ -20,6 +21,7 @@ export interface HistoryCommentProps {
   body: string | null;
   createdAt: string;
   replyCount: number | null;
+  parentAuthorName?: string | null;
   story: {
     metadata: {
       title: string | null;
@@ -32,7 +34,7 @@ export interface HistoryCommentProps {
 const HistoryComment: FunctionComponent<HistoryCommentProps> = props => {
   return (
     <HorizontalGutter
-      className={CLASSES.myComment.$root}
+      className={cn(styles.root, CLASSES.myComment.$root)}
       data-testid={`historyComment-${props.id}`}
     >
       <div>
@@ -53,6 +55,11 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = props => {
         <Timestamp className={CLASSES.myComment.timestamp}>
           {props.createdAt}
         </Timestamp>
+        {props.parentAuthorName && (
+          <div className={styles.subBar}>
+            <InReplyTo username={props.parentAuthorName} />
+          </div>
+        )}
         <Typography variant="bodyCopy" container="div">
           {props.body && (
             <HTMLContent className={CLASSES.myComment.content}>
