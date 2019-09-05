@@ -26,46 +26,49 @@ const SSOKeyField: FunctionComponent<Props> = ({
   disabled,
   onRegenerate,
 }) => (
-  <FormField data-testid="configure-auth-sso-key">
+  <FormField className={styles.root} data-testid="configure-auth-sso-key">
     <Localized id="configure-auth-sso-key">
       <InputLabel>Key</InputLabel>
     </Localized>
-    <Flex direction="row" itemGutter="half" alignItems="center">
-      <PasswordField
-        name="key"
-        value={generatedKey}
-        readOnly
-        // TODO: (wyattjoh) figure out how to add translations to these props
-        hidePasswordTitle="Show SSO Key"
-        showPasswordTitle="Hide SSO Key"
-      />
-      <Localized id="configure-auth-sso-regenerate">
-        <Button
-          id="configure-auth-sso-regenerate"
-          variant="filled"
-          color="primary"
-          size="small"
-          disabled={disabled}
-          onClick={onRegenerate}
-        >
-          Regenerate
-        </Button>
-      </Localized>
-    </Flex>
-    <Flex direction="row" itemGutter="half">
-      <Localized id="configure-auth-sso-regenerateAt" $date={keyGeneratedAt}>
-        <Typography className={styles.keyGenerated}>
-          KEY GENERATED AT: {keyGeneratedAt}
-        </Typography>
-      </Localized>
-      <Icon className={styles.warnIcon}>warning</Icon>
-      <Localized id="configure-auth-sso-regenerateWarning">
-        <Typography className={styles.warn} variant="bodyCopy">
-          Regenerating a key will invalidate any existing user sessions, and all
-          signed-in users will be signed out
-        </Typography>
-      </Localized>
-    </Flex>
+    <PasswordField
+      name="key"
+      value={generatedKey}
+      readOnly
+      // TODO: (wyattjoh) figure out how to add translations to these props
+      hidePasswordTitle="Show SSO Key"
+      showPasswordTitle="Hide SSO Key"
+      fullWidth
+    />
+    <Localized id="configure-auth-sso-regenerateAt" $date={keyGeneratedAt}>
+      <Typography className={styles.keyGenerated}>
+        KEY GENERATED AT: {keyGeneratedAt}
+      </Typography>
+    </Localized>
+    <div className={styles.warningSection}>
+      <Flex direction="row" itemGutter="half">
+        <Icon className={styles.warnIcon}>warning</Icon>
+        <Localized id="configure-auth-sso-regenerateWarning">
+          <Typography className={styles.warn} variant="bodyCopy">
+            Regenerating a key will invalidate any existing user sessions, and
+            all signed-in users will be signed out
+          </Typography>
+        </Localized>
+      </Flex>
+    </div>
+
+    <Localized id="configure-auth-sso-regenerate">
+      <Button
+        id="configure-auth-sso-regenerate"
+        variant="filled"
+        color="primary"
+        size="small"
+        disabled={disabled}
+        onClick={onRegenerate}
+        className={styles.regenerateButton}
+      >
+        Regenerate
+      </Button>
+    </Localized>
   </FormField>
 );
 

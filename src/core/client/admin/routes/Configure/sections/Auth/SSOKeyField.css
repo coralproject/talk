@@ -1,7 +1,10 @@
+.root {
+  padding-bottom: var(--spacing-4);
+}
+
 .keyGenerated {
   composes: button from "coral-ui/shared/typography.css";
   color: var(--palette-text-secondary);
-  width: calc(29 * var(--mini-unit));
   flex-shrink: 0;
 }
 
@@ -9,8 +12,18 @@
   color: var(--palette-text-secondary);
   flex-shrink: 0;
   padding-top: 3px;
+  padding-right: var(--spacing-1);
 }
 
 .warn {
   color: var(--palette-text-secondary);
+}
+
+.warningSection {
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+}
+
+.regenerateButton {
+  float: right;
 }
