@@ -107,7 +107,7 @@ export const forgotHandler = ({
       // Add the email to the processing queue.
       await mailerQueue.add({
         template: {
-          name: "forgot-password",
+          name: "account-notification/forgot-password",
           context: {
             resetURL,
             // TODO: (wyattjoh) possibly reevaluate the use of a required username.

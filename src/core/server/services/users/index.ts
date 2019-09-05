@@ -39,6 +39,7 @@ import {
   ignoreUser,
   insertUser,
   InsertUserInput,
+  NotificationSettingsInput,
   removeActiveUserSuspensions,
   removeUserBan,
   removeUserIgnore,
@@ -52,6 +53,7 @@ import {
   suspendUser,
   updateUserAvatar,
   updateUserEmail,
+  updateUserNotificationSettings,
   updateUserPassword,
   updateUserRole,
   updateUserUsername,
@@ -62,7 +64,7 @@ import {
   getLocalProfile,
   hasLocalProfile,
 } from "coral-server/models/user/helpers";
-import { userIsStaff } from "coral-server/models/user/helpers";
+import { hasStaffRole } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
@@ -300,7 +302,7 @@ export async function updatePassword(
         to: updatedUser.email,
       },
       template: {
-        name: "password-change",
+        name: "account-notification/password-change",
         context: {
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: updatedUser.username!,
@@ -362,7 +364,7 @@ export async function requestAccountDeletion(
       to: user.email,
     },
     template: {
-      name: "delete-request-confirmation",
+      name: "account-notification/delete-request-confirmation",
       context: {
         requestDate: formattedDate,
         organizationName: tenant.organization.name,
@@ -392,7 +394,7 @@ export async function cancelAccountDeletion(
       to: user.email,
     },
     template: {
-      name: "delete-request-cancel",
+      name: "account-notification/delete-request-cancel",
       context: {
         organizationName: tenant.organization.name,
         organizationURL: tenant.organization.url,
@@ -524,7 +526,7 @@ export async function updateUsername(
         to: user.email,
       },
       template: {
-        name: "update-username",
+        name: "account-notification/update-username",
         context: {
           username: user.username!,
           organizationName: tenant.organization.name,
@@ -763,7 +765,7 @@ export async function ban(
         to: user.email,
       },
       template: {
-        name: "ban",
+        name: "account-notification/ban",
         context: {
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: user.username!,
@@ -839,7 +841,7 @@ export async function suspend(
         to: updatedUser.email,
       },
       template: {
-        name: "suspend",
+        name: "account-notification/suspend",
         context: {
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: updatedUser.username!,
@@ -922,7 +924,7 @@ export async function ignore(
     throw new UserNotFoundError(userID);
   }
 
-  const userToBeIgnoredIsStaff = userIsStaff(targetUser);
+  const userToBeIgnoredIsStaff = hasStaffRole(targetUser);
   if (userToBeIgnoredIsStaff) {
     throw new UserCannotBeIgnoredError(userID);
   }
@@ -999,7 +1001,7 @@ export async function requestCommentsDownload(
         to: user.email,
       },
       template: {
-        name: "download-comments",
+        name: "account-notification/download-comments",
         context: {
           username: user.username!,
           date: Intl.DateTimeFormat(tenant.locale).format(now),
@@ -1036,4 +1038,13 @@ export async function requestUserCommentsDownload(
   );
 
   return downloadUrl;
+}
+
+export async function updateNotificationSettings(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  settings: NotificationSettingsInput
+) {
+  return updateUserNotificationSettings(mongo, tenant.id, user.id, settings);
 }

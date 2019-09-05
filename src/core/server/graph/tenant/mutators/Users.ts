@@ -21,6 +21,7 @@ import {
   updateAvatar,
   updateEmail,
   updateEmailByID,
+  updateNotificationSettings,
   updatePassword,
   updateRole,
   updateUsername,
@@ -46,6 +47,7 @@ import {
   GQLSetUsernameInput,
   GQLSuspendUserInput,
   GQLUpdateEmailInput,
+  GQLUpdateNotificationSettingsInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
@@ -53,6 +55,7 @@ import {
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
 } from "../schema/__generated__/types";
+import { WithoutMutationID } from "./util";
 
 export const Users = (ctx: TenantContext) => ({
   invite: async ({ role, emails }: GQLInviteUsersInput) =>
@@ -178,6 +181,9 @@ export const Users = (ctx: TenantContext) => ({
       input.email,
       input.password
     ),
+  updateNotificationSettings: async (
+    input: WithoutMutationID<GQLUpdateNotificationSettingsInput>
+  ) => updateNotificationSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>

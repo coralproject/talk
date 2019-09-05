@@ -34,12 +34,12 @@ confirmEmail-youMayClose =
 ## Download
 
 download-landingPage-title = Download Your Comment History
-download-landingPage-description = 
+download-landingPage-description =
   Your comment history will be downloaded into a .zip file. After your
   comment history is unzipped you will have a comma separated value (or .csv)
   file that you can easily import into your favorite spreadsheet
   application.
-download-landingPage-contentsDescription = 
+download-landingPage-contentsDescription =
   For each of your comments the following information is included:
 download-landingPage-contentsDate =
   When you wrote the comment
@@ -52,3 +52,10 @@ download-landingPage-contentsStoryUrl =
 download-landingPage-downloadComments =
   Download My Comment History
 download-landingPage-sorry = Your download link is invalid.
+
+## Unsubscribe
+
+unsubscribe-oopsSorry = Oops Sorry!
+unsubscribe-successfullyUnsubscribed = You are now unsubscribed from all notifications
+unsubscribe-clickToConfirm = Click below to confirm that you want to unsubscribe from all notifications.
+unsubscribe-confirm = Confirm

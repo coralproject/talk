@@ -38,7 +38,7 @@ import { getOperationMetadata } from "coral-server/graph/common/extensions/helpe
 import { getPersistedQuery } from "coral-server/graph/tenant/persisted";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
-import { userIsStaff } from "coral-server/models/user/helpers";
+import { hasStaffRole } from "coral-server/models/user/helpers";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
 
 import TenantContext, { TenantContextOptions } from "../context";
@@ -133,7 +133,7 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
         // TODO: (wyattjoh) if the story settings can only disable, and not
         // enable live updates (as it takes precedence over global settings)
         // then we can add a check for `!tenant.live.enabled` here too.
-        if (!opts.user || !userIsStaff(opts.user)) {
+        if (!opts.user || !hasStaffRole(opts.user)) {
           throw new LiveUpdatesDisabled();
         }
       }

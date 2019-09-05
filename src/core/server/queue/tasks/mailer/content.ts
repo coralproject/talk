@@ -7,7 +7,7 @@ import TenantCache from "coral-server/services/tenant/cache";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
 
 import { Tenant } from "coral-server/models/tenant";
-import { Template } from "./templates";
+import { EmailTemplate } from "./templates";
 
 // templateDirectory is the directory containing the email templates.
 const templateDirectory = path.join(__dirname, "templates");
@@ -23,11 +23,11 @@ export interface MailerContentOptions {
  * @param env the nunjucks rendering environment
  * @param template the template to render
  */
-function render(env: Environment, { name, context }: Template) {
+function render(env: Environment, { name, context }: EmailTemplate) {
   return new Promise<string>((resolve, reject) =>
     env.render(
       name + ".html",
-      { context, name: camelCase(name) },
+      { context, name: camelCase(name), baseName: path.basename(name) },
       (err, html) => {
         if (err) {
           return reject(err);
@@ -90,7 +90,7 @@ export default class MailerContent {
    */
   public async generateHTML(
     tenant: Tenant,
-    template: Template
+    template: EmailTemplate
   ): Promise<string> {
     // Get the environment to render with.
     const env = this.getEnvironment(tenant);

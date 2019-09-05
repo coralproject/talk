@@ -37,7 +37,7 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
         id="configure-organization-emailExplanation"
         strong={<strong />}
       >
-        <Typography variant="detail">This E-Mail will be used</Typography>
+        <Typography variant="detail">This Email will be used</Typography>
       </Localized>
       <Field
         name="organization.contactEmail"

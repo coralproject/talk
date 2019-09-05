@@ -1,9 +1,0 @@
-{% extends "layouts/user-notification.html" %}
-
-{% block content %}
-  Hello {{ context.username }},<br/><br/>
-  To confirm your email address for use with your commenting account at {{ context.organizationName }},
-  please follow this link: <a data-l10n-name="confirmYourEmail" href="{{ context.confirmURL }}">Click here to confirm your email</a><br/><br/>
-  If you did not recently create a commenting account with
-  {{ context.organizationName }}, you can safely ignore this email.
-{% endblock %}
