@@ -344,7 +344,7 @@ a.brand {
   top: 0;
   left: 0;
   z-index: 2;
-  overflow-y: auto;
+  overflow-y: overlay;
   width: $sidebar_width;
 
   @include transition(all, 150ms);
