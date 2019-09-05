@@ -1,8 +1,4 @@
-import {
-  addResolveFunctionsToSchema,
-  attachDirectiveResolvers,
-  IResolvers,
-} from "graphql-tools";
+import { attachDirectiveResolvers, IResolvers } from "graphql-tools";
 
 import { loadSchema } from "coral-common/graphql";
 import auth from "coral-server/graph/common/directives/auth";
@@ -13,12 +9,6 @@ export default function getTenantSchema() {
 
   // Attach the directive resolvers.
   attachDirectiveResolvers(schema, { auth });
-
-  // Attach the GraphQL enum fields.
-  addResolveFunctionsToSchema({
-    schema,
-    resolvers: {},
-  });
 
   return schema;
 }
