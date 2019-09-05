@@ -1,3 +1,7 @@
+.content {
+  max-width: 495px;
+}
+
 .root {
   margin-top: var(--spacing-2);
 }

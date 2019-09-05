@@ -72,7 +72,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
         alignItems="flex-start"
         data-testid="profile-settings-deleteAccount"
       >
-        <div>
+        <div className={styles.content}>
           <Localized id="profile-settings-deleteAccount-title">
             <Typography
               variant="heading2"
