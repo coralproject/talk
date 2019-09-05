@@ -343,7 +343,7 @@ https://domain.com).
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
               >
-                Details about story creation
+                Advanced settings for how stories are created within Coral.
               </p>
             </div>
             <div
@@ -363,7 +363,7 @@ https://domain.com).
                   <p
                     className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
                   >
-                    Missing translation "configure-advanced-stories-lazy-detail"
+                    Enable stories to be automatically created when they are published from your CMS.
                   </p>
                   <div>
                     <div
@@ -431,7 +431,7 @@ https://domain.com).
                   <p
                     className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
                   >
-                    Missing translation "configure-advanced-stories-scraping-detail"
+                    Enable story metadata to be automatically scraped when they are published from your CMS.
                   </p>
                   <div>
                     <div
@@ -500,7 +500,18 @@ https://domain.com).
                   <p
                     className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
                   >
-                    Missing translation "configure-advanced-stories-proxy-detail"
+                    When specified, allows scraping requests to use the provided
+proxy. All requests will then be passed through the appropriote
+proxy as parsed by the 
+                    <a
+                      className="ExternalLink-root"
+                      href="https://www.npmjs.com/package/proxy-agent"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      npm proxy-agent
+                    </a>
+                     package.
                   </p>
                   <div
                     className="TextField-root"
