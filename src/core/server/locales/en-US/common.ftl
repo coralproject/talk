@@ -4,4 +4,3 @@ disableCommentingDefaultMessage = Comments are closed on this story.
 default-reaction-labelRespect = Respect
 default-reaction-labelActiveRespected = Respected
 default-reaction-sortLabelMostRespected = Most Respected
-default-reaction-iconThumbUp = thumb_up

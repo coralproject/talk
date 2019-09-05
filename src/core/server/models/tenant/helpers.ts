@@ -20,7 +20,7 @@ export const getDefaultReactionConfiguration = (
     "Most Respected",
     "default-reaction-sortLabelMostRespected"
   ),
-  icon: translate(bundle, "thumb_up", "default-reaction-iconThumbUp"),
+  icon: "thumb_up",
 });
 
 export function generateSSOKey() {
