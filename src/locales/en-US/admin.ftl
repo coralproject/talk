@@ -761,3 +761,15 @@ configure-account-features-download-comments-details = Commenters can download a
 configure-account-features-delete-account = Delete their account
 configure-account-features-delete-account-details = 
   Removes all of their comment data, username, and email address from the site and the database.
+
+configure-advanced-stories = Story creation
+configure-advanced-stories-explanation = Advanced settings for how stories are created within Coral. 
+configure-advanced-stories-lazy = Lazy story creation
+configure-advanced-stories-lazy-detail = Enable stories to be automatically created when they are published from your CMS.
+configure-advanced-stories-scraping = Story scraping
+configure-advanced-stories-scraping-detail = Enable story metadata to be automatically scraped when they are published from your CMS.
+configure-advanced-stories-proxy = Scraper proxy url
+configure-advanced-stories-proxy-detail =
+  When specified, allows scraping requests to use the provided
+  proxy. All requests will then be passed through the appropriote
+  proxy as parsed by the <externalLink>npm proxy-agent</externalLink> package.

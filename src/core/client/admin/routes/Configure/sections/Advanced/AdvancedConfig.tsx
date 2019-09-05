@@ -7,6 +7,7 @@ import CommentStreamLiveUpdatesContainer from "./CommentStreamLiveUpdatesContain
 import CustomCSSConfigContainer from "./CustomCSSConfigContainer";
 import EmbedCodeContainer from "./EmbedCodeContainer";
 import PermittedDomainsConfigContainer from "./PermittedDomainsConfigContainer";
+import StoryCreationConfigContainer from "./StoryCreationConfigContainer";
 
 interface Props {
   disabled: boolean;
@@ -14,7 +15,8 @@ interface Props {
     PropTypesOf<typeof PermittedDomainsConfigContainer>["settings"] &
     PropTypesOf<typeof CommentStreamLiveUpdatesContainer>["settings"] &
     PropTypesOf<typeof CommentStreamLiveUpdatesContainer>["settingsReadOnly"] &
-    PropTypesOf<typeof EmbedCodeContainer>["settings"];
+    PropTypesOf<typeof EmbedCodeContainer>["settings"] &
+    PropTypesOf<typeof StoryCreationConfigContainer>["settings"];
   onInitValues: (values: any) => void;
 }
 
@@ -37,6 +39,11 @@ const AdvancedConfig: FunctionComponent<Props> = ({
       onInitValues={onInitValues}
     />
     <PermittedDomainsConfigContainer
+      disabled={disabled}
+      settings={settings}
+      onInitValues={onInitValues}
+    />
+    <StoryCreationConfigContainer
       disabled={disabled}
       settings={settings}
       onInitValues={onInitValues}
