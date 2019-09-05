@@ -1729,7 +1729,7 @@ type User {
   notifications stores the notification settings for the given User.
   """
   notifications: UserNotificationSettings!
-    @auth(userIDField: "id", permit: [SUSPENDED, BANNED])
+    @auth(userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
 
   """
   createdAt is the time that the User was created at.
@@ -5050,7 +5050,7 @@ type Mutation {
   """
   cancelAccountDeletion(
     input: CancelAccountDeletionInput!
-  ): CancelAccountDeletionPayload! @auth(permit: [PENDING_DELETION])
+  ): CancelAccountDeletionPayload! @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
 
   """
   createToken allows an administrator to create a Token based on the current
@@ -5138,14 +5138,14 @@ type Mutation {
   ignoreUser will mark the given User as ignored by the current logged in User.
   """
   ignoreUser(input: IgnoreUserInput!): IgnoreUserPayload!
-    @auth(permit: [SUSPENDED, BANNED])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
 
   """
   removeUserIgnore will remove the given User from the ignored user list from
   the current logged in User.
   """
   removeUserIgnore(input: RemoveUserIgnoreInput!): RemoveUserIgnorePayload!
-    @auth(permit: [SUSPENDED, BANNED])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
 
   """
   requestCommentsDownload allows a user to request to download their comments.
