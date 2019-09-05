@@ -8,8 +8,82 @@ exports[`renders permalink view with unknown comment 1`] = `
   id="tabPane-COMMENTS"
   role="tabpanel"
 >
-  <div>
-    TypeError: Must provide Source. Received: null
+  <div
+    className="Box-root HorizontalGutter-root PermalinkView-root coral coral-permalink coral-unauthenticated HorizontalGutter-double"
+  >
+    <div
+      className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+    >
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-signInButton"
+        data-color="primary"
+        data-variant="underlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Sign in
+      </button>
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined coral coral-viewerBox-registerButton"
+        data-color="primary"
+        data-variant="outlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Register
+      </button>
+    </div>
+    <div
+      className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
+    >
+      <p
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary PermalinkView-title1"
+      >
+        You are currently viewing a
+      </p>
+      <p
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary PermalinkView-title2"
+      >
+        SINGLE CONVERSATION
+      </p>
+      <a
+        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-permalink-viewFullDiscussionButton"
+        data-color="primary"
+        data-variant="underlined"
+        href="http://localhost/"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        target="_parent"
+        type="button"
+      >
+        View Full Discussion
+      </a>
+    </div>
+    <div
+      className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+    >
+      <div>
+        <p
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        >
+          This comment has been removed or does not exist.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 `;
