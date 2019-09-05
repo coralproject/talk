@@ -1,5 +1,6 @@
 import { NotificationCategory } from "./category";
 import { featured } from "./featured";
+import { moderation } from "./moderation";
 import { reply } from "./reply";
 import { staffReply } from "./staffReply";
 
@@ -10,6 +11,7 @@ const categories: NotificationCategory[] = [
   ...reply,
   ...staffReply,
   ...featured,
+  ...moderation,
 ];
 
 export default categories;

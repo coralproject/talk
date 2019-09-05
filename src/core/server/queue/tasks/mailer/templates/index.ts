@@ -45,10 +45,24 @@ export type OnFeaturedTemplate = NotificationContext<
   }
 >;
 
+export type OnCommentRejectedTemplate = NotificationContext<
+  "notification/on-comment-rejected",
+  {}
+>;
+
+export type OnCommentApprovedTemplate = NotificationContext<
+  "notification/on-comment-approved",
+  {
+    commentPermalink: string;
+  }
+>;
+
 export type DigestibleTemplate =
   | OnReplyTemplate
   | OnStaffReplyTemplate
-  | OnFeaturedTemplate;
+  | OnFeaturedTemplate
+  | OnCommentRejectedTemplate
+  | OnCommentApprovedTemplate;
 
 type DigestTemplate = NotificationContext<
   "notification/digest",
@@ -187,6 +201,8 @@ type Templates =
   | OnReplyTemplate
   | OnStaffReplyTemplate
   | OnFeaturedTemplate
-  | DigestTemplate;
+  | DigestTemplate
+  | OnCommentRejectedTemplate
+  | OnCommentApprovedTemplate;
 
 export { Templates as EmailTemplate };
