@@ -419,11 +419,12 @@ toxicity, spam or pre-moderation.)
           </fieldset>
           <fieldset
             className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            data-testid="perspective-container"
           >
             <legend
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
-              Perspective toxic comment filter
+              Toxic comment filter
             </legend>
             <p
               className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"

@@ -288,7 +288,7 @@ configure-moderation-akismet-siteURL = Site URL
 
 
 #### Perspective
-configure-moderation-perspective-title = Perspective toxic comment filter
+configure-moderation-perspective-title = Toxic comment filter
 configure-moderation-perspective-explanation =
   Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
   threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
@@ -747,7 +747,7 @@ configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
 
 configure-account-features-title = Commenter account mangement features
-configure-account-features-explanation = 
+configure-account-features-explanation =
   You can enable and disable certain features for your commenters to use
   within their Profile. These features also assist towards GDPR
   compliance.
@@ -759,5 +759,5 @@ configure-account-features-no = No
 configure-account-features-download-comments = Download their comments
 configure-account-features-download-comments-details = Commenters can download a csv of their comment history.
 configure-account-features-delete-account = Delete their account
-configure-account-features-delete-account-details = 
+configure-account-features-delete-account-details =
   Removes all of their comment data, username, and email address from the site and the database.

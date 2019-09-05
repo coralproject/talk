@@ -44,9 +44,13 @@ const isEnabled: Condition = (value, values) =>
 
 const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
-    <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
+    <HorizontalGutter
+      size="oneAndAHalf"
+      container={<FieldSet />}
+      data-testid="perspective-container"
+    >
       <Localized id="configure-moderation-perspective-title">
-        <Header container="legend">Perspective toxic comment filter</Header>
+        <Header container="legend">Toxic comment filter</Header>
       </Localized>
       <Localized
         id="configure-moderation-perspective-explanation"

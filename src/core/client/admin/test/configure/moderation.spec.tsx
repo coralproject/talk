@@ -260,9 +260,8 @@ it("change perspective settings", async () => {
     saveChangesButton,
   } = await createTestRenderer({ resolvers });
 
-  const perspectiveContainer = within(moderationContainer).getByText(
-    "Perspective toxic comment filter",
-    { selector: "fieldset" }
+  const perspectiveContainer = within(moderationContainer).getByTestID(
+    "perspective-container"
   );
 
   const onField = within(perspectiveContainer).getByLabelText("On");
