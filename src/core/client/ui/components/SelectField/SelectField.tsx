@@ -54,8 +54,11 @@ const SelectField: FunctionComponent<SelectFieldProps> = props => {
     ...rest
   } = props;
 
-  const selectClassName = cn(classes.select, {
+  const rootClassName = cn(classes.root, className, {
     [classes.fullWidth]: fullWidth,
+  });
+
+  const selectClassName = cn(classes.select, {
     [classes.keyboardFocus]: keyboardFocus,
   });
 
@@ -64,7 +67,7 @@ const SelectField: FunctionComponent<SelectFieldProps> = props => {
   });
 
   return (
-    <span className={cn(classes.root, className)}>
+    <span className={rootClassName}>
       <select className={selectClassName} disabled={disabled} {...rest}>
         {children}
       </select>

@@ -15,6 +15,7 @@ import {
   Tenant,
   updateTenant,
 } from "coral-server/models/tenant";
+import { I18n } from "coral-server/services/i18n";
 
 import TenantCache from "./cache";
 
@@ -55,6 +56,7 @@ export async function install(
   mongo: Db,
   redis: Redis,
   cache: TenantCache,
+  i18n: I18n,
   input: InstallTenant,
   now = new Date()
 ) {
@@ -64,12 +66,10 @@ export async function install(
 
   // TODO: (wyattjoh) perform any pending migrations.
 
-  // TODO: (wyattjoh) setup database indexes.
-
   logger.info({ tenant: input }, "installing tenant");
 
   // Create the Tenant.
-  const tenant = await createTenant(mongo, input, now);
+  const tenant = await createTenant(mongo, i18n, input, now);
 
   // Update the tenant cache.
   await cache.update(redis, tenant);

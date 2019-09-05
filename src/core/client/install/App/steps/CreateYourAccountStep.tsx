@@ -26,6 +26,7 @@ import {
   Typography,
 } from "coral-ui/components";
 
+import BackButton from "./BackButton";
 import NextButton from "./NextButton";
 
 interface FormProps {
@@ -188,8 +189,12 @@ class CreateYourAccountStep extends Component<Props> {
                 )}
               </Field>
 
-              <Flex direction="row-reverse">
+              <Flex direction="row-reverse" itemGutter>
                 <NextButton submitting={submitting} />
+                <BackButton
+                  submitting={submitting}
+                  onGoToPreviousStep={this.props.onGoToPreviousStep}
+                />
               </Flex>
             </HorizontalGutter>
           </form>

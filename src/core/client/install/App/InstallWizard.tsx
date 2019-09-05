@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import { LanguageCode } from "coral-common/helpers/i18n";
 import { InstallInput } from "coral-framework/rest";
 
 import { InstallMutation, withInstallMutation } from "./InstallMutation";
@@ -8,6 +9,7 @@ import CreateYourAccountStep from "./steps/CreateYourAccountStep";
 import FinalStep from "./steps/FinalStep";
 import InitialStep from "./steps/InitialStep";
 import PermittedDomainsStep from "./steps/PermittedDomainsStep";
+import SelectLanguageStep from "./steps/SelectLanguageStep";
 import Wizard from "./Wizard";
 
 interface FormData {
@@ -19,6 +21,7 @@ interface FormData {
   password: string;
   confirmPassword: string;
   allowedDomains: string[];
+  locale: LanguageCode;
 }
 
 interface InstallWizardState {
@@ -35,6 +38,7 @@ function shapeFinalData(data: FormData): InstallInput {
     username,
     password,
     email,
+    locale,
   } = data;
 
   return {
@@ -45,6 +49,7 @@ function shapeFinalData(data: FormData): InstallInput {
         url: organizationURL,
       },
       allowedDomains,
+      locale,
     },
     user: {
       username,
@@ -70,6 +75,7 @@ class InstallWizard extends Component<Props, InstallWizardState> {
       password: "",
       confirmPassword: "",
       allowedDomains: [],
+      locale: "en-US" as LanguageCode,
     },
   };
 
@@ -99,6 +105,12 @@ class InstallWizard extends Component<Props, InstallWizardState> {
     return (
       <Wizard currentStep={this.state.step}>
         <InitialStep onGoToNextStep={this.handleGoToNextStep} />
+        <SelectLanguageStep
+          data={this.state.data}
+          onSaveData={this.handleSaveData}
+          onGoToNextStep={this.handleGoToNextStep}
+          onGoToPreviousStep={this.handleGoToPreviousStep}
+        />
         <CreateYourAccountStep
           data={this.state.data}
           onSaveData={this.handleSaveData}

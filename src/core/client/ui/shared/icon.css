@@ -6,9 +6,7 @@
     url("material-design-icons/iconfont/MaterialIcons-Regular.woff2")
       format("woff2"),
     url("material-design-icons/iconfont/MaterialIcons-Regular.woff")
-      format("woff"),
-    url("material-design-icons/iconfont/MaterialIcons-Regular.ttf")
-      format("truetype");
+      format("woff");
 }
 
 .icon {

@@ -1,6 +1,7 @@
 import { FormApi, FormState } from "final-form";
 import React from "react";
 
+import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 import { SubmitHookHandler } from "coral-framework/lib/form";
 import { MutationProp, withMutation } from "coral-framework/lib/relay";
 
@@ -9,6 +10,7 @@ import NavigationWarningContainer from "./NavigationWarningContainer";
 import UpdateSettingsMutation from "./UpdateSettingsMutation";
 
 interface Props {
+  changeLocale: CoralContext["changeLocale"];
   updateSettings: MutationProp<typeof UpdateSettingsMutation>;
   children: React.ReactElement;
 }
@@ -27,6 +29,10 @@ class ConfigureRoute extends React.Component<Props, State> {
     form: FormApi
   ) => {
     await this.props.updateSettings({ settings: data });
+    const localeFieldState = form.getFieldState("locale");
+    if (localeFieldState && localeFieldState.dirty) {
+      await this.props.changeLocale(data.locale);
+    }
     form.initialize(data);
   };
 
@@ -52,6 +58,8 @@ class ConfigureRoute extends React.Component<Props, State> {
   }
 }
 
-const enhanced = withMutation(UpdateSettingsMutation)(ConfigureRoute);
+const enhanced = withContext(({ changeLocale }) => ({ changeLocale }))(
+  withMutation(UpdateSettingsMutation)(ConfigureRoute)
+);
 
 export default enhanced;

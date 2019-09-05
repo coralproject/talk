@@ -8,6 +8,7 @@ import ClosingCommentStreamsConfigContainer from "./ClosingCommentStreamsConfigC
 import CommentEditingConfigContainer from "./CommentEditingConfigContainer";
 import CommentLengthConfigContainer from "./CommentLengthConfigContainer";
 import GuidelinesConfigContainer from "./GuidelinesConfigContainer";
+import LocaleConfigContainer from "./LocaleConfigContainer";
 import ReactionConfigContainer from "./ReactionConfigContainer";
 import SitewideCommentingConfigContainer from "./SitewideCommentingConfigContainer";
 
@@ -19,7 +20,8 @@ interface Props {
     PropTypesOf<typeof ClosedStreamMessageConfigContainer>["settings"] &
     PropTypesOf<typeof ReactionConfigContainer>["settings"] &
     PropTypesOf<typeof ClosingCommentStreamsConfigContainer>["settings"] &
-    PropTypesOf<typeof SitewideCommentingConfigContainer>["settings"];
+    PropTypesOf<typeof SitewideCommentingConfigContainer>["settings"] &
+    PropTypesOf<typeof LocaleConfigContainer>["settings"];
   onInitValues: (values: any) => void;
 }
 
@@ -29,6 +31,11 @@ const General: FunctionComponent<Props> = ({
   onInitValues,
 }) => (
   <HorizontalGutter size="double" data-testid="configure-generalContainer">
+    <LocaleConfigContainer
+      disabled={disabled}
+      settings={settings}
+      onInitValues={onInitValues}
+    />
     <SitewideCommentingConfigContainer
       disabled={disabled}
       settings={settings}
