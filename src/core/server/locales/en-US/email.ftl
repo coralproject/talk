@@ -107,6 +107,20 @@ email-template-notificationOnStaffReply =
   { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br/>
   { $authorUsername } works for { $organizationName } and has replied to your comment: <a data-l10n-name="commentPermalink">View comment</a>
 
+## On Comment Approved
+
+email-subject-notificationOnCommentApproved = Your comment on { $organizationName } has been published
+email-template-notificationOnCommentApproved =
+  { $organizationName }<br /><br/>
+  Thank you for submitting your comment. Your comment has now been published: <a data-l10n-name="commentPermalink">View comment</a>
+
+## On Comment Rejected
+
+email-subject-notificationOnCommentRejected = Your comment on { $organizationName } was not published
+email-template-notificationOnCommentRejected =
+  { $organizationName }<br /><br/>
+  The language used in one of your comments did not comply with our community guidelines, and so the comment has been removed.
+
 # Notification Digest
 
 email-subject-notificationDigest = Your latest comment activity at { $organizationName }
