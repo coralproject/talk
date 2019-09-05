@@ -97,6 +97,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
                     autoCapitalize="off"
                     spellCheck={false}
                     color={colorFromMeta(meta)}
+                    fullWidth
                     {...input}
                   />
                   <ValidationMessage meta={meta} />
@@ -140,6 +141,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
                       autoCapitalize="off"
                       spellCheck={false}
                       color={colorFromMeta(meta)}
+                      fullWidth
                       {...input}
                     />
                     <Button
@@ -176,6 +178,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
                     autoCapitalize="off"
                     spellCheck={false}
                     color={colorFromMeta(meta)}
+                    fullWidth
                     {...input}
                   />
                   <ValidationMessage meta={meta} />
@@ -201,6 +204,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
                     autoCapitalize="off"
                     spellCheck={false}
                     color={colorFromMeta(meta)}
+                    fullWidth
                     {...input}
                   />
                   <ValidationMessage meta={meta} />
@@ -226,6 +230,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
                     autoCapitalize="off"
                     spellCheck={false}
                     color={colorFromMeta(meta)}
+                    fullWidth
                     {...input}
                   />
                   <ValidationMessage meta={meta} />

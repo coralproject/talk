@@ -100,6 +100,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
                 autoCapitalize="off"
                 spellCheck={false}
                 color={colorFromMeta(meta)}
+                fullWidth
                 {...input}
               />
               <ValidationMessage meta={meta} />

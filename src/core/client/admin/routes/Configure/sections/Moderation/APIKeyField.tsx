@@ -36,6 +36,7 @@ const APIKeyField: FunctionComponent<Props> = ({
             hidePasswordTitle="Show API Key"
             showPasswordTitle="Hide API Key"
             color={colorFromMeta(meta)}
+            fullWidth
             {...input}
           />
           <ValidationMessage meta={meta} />

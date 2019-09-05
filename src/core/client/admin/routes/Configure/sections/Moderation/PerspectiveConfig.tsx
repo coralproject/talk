@@ -153,6 +153,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
                 autoCapitalize="off"
                 placeholder={TOXICITY_MODEL_DEFAULT}
                 spellCheck={false}
+                fullWidth
                 {...input}
               />
               <ValidationMessage meta={meta} />
@@ -225,6 +226,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
                 autoCapitalize="off"
                 placeholder={TOXICITY_ENDPOINT_DEFAULT}
                 spellCheck={false}
+                fullWidth
                 {...input}
               />
               <ValidationMessage meta={meta} />

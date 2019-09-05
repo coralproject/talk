@@ -35,6 +35,7 @@ const ClientSecretField: FunctionComponent<Props> = ({
             // TODO: (wyattjoh) figure out how to add translations to these props
             hidePasswordTitle="Show Client Secret"
             showPasswordTitle="Hide Client Secret"
+            fullWidth
             {...input}
           />
           <ValidationMessage meta={meta} />

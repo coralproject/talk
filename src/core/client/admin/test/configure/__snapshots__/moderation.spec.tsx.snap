@@ -569,7 +569,7 @@ comment is toxic, according to Perspective API. By default the threshold is set 
                 .
               </p>
               <div
-                className="TextField-root"
+                className="TextField-root TextField-fullWidth"
               >
                 <input
                   autoCapitalize="off"
@@ -683,7 +683,7 @@ improve the API over time.
                 API key
               </label>
               <div
-                className="PasswordField-root"
+                className="PasswordField-fullWidth PasswordField-root"
               >
                 <div
                   className="PasswordField-wrapper"
@@ -692,7 +692,7 @@ improve the API over time.
                     autoCapitalize="off"
                     autoComplete="off"
                     autoCorrect="off"
-                    className="PasswordField-colorRegular PasswordField-input"
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                     disabled={false}
                     id="configure-moderation-integrations.perspective.key"
                     name="integrations.perspective.key"
@@ -736,7 +736,7 @@ improve the API over time.
                 By default the endpoint is set to https://commentanalyzer.googleapis.com/v1alpha1. You may override this here.
               </p>
               <div
-                className="TextField-root"
+                className="TextField-root TextField-fullWidth"
               >
                 <input
                   autoCapitalize="off"
@@ -875,7 +875,7 @@ in your Akismet account:
                 API key
               </label>
               <div
-                className="PasswordField-root"
+                className="PasswordField-fullWidth PasswordField-root"
               >
                 <div
                   className="PasswordField-wrapper"
@@ -884,7 +884,7 @@ in your Akismet account:
                     autoCapitalize="off"
                     autoComplete="off"
                     autoCorrect="off"
-                    className="PasswordField-colorRegular PasswordField-input"
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                     disabled={false}
                     id="configure-moderation-integrations.akismet.key"
                     name="integrations.akismet.key"
@@ -923,7 +923,7 @@ in your Akismet account:
                 Site URL
               </label>
               <div
-                className="TextField-root"
+                className="TextField-root TextField-fullWidth"
               >
                 <input
                   autoCapitalize="off"
