@@ -1,5 +1,5 @@
 import Cursor from "coral-server/graph/common/scalars/cursor";
-import Locale from "coral-server/graph/common/scalars/Locale";
+import Locale from "coral-server/graph/common/scalars/locale";
 import Time from "coral-server/graph/common/scalars/time";
 import { GQLResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 
