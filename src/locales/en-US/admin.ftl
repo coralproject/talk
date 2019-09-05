@@ -269,7 +269,7 @@ configure-moderation-preModeration-premodLinksEnable =
 
 configure-moderation-apiKey = API key
 
-configure-moderation-akismet-title = Akismet spam detection filter
+configure-moderation-akismet-title = Spam detection filter
 configure-moderation-akismet-explanation =
   Submitted comments are passed to the Akismet API for spam detection.
   If a comment is determined to be spam, it will prompt the user,

@@ -177,9 +177,8 @@ it("change akismet settings", async () => {
     saveChangesButton,
   } = await createTestRenderer({ resolvers });
 
-  const akismetContainer = within(moderationContainer).getByText(
-    "Akismet spam detection filter",
-    { selector: "fieldset" }
+  const akismetContainer = within(moderationContainer).getByTestID(
+    "akismet-config"
   );
 
   const onField = within(akismetContainer).getByLabelText("On");

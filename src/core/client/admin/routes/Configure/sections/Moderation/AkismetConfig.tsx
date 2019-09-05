@@ -33,9 +33,13 @@ const isEnabled: Condition = (value, values) =>
 
 const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
-    <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
+    <HorizontalGutter
+      size="oneAndAHalf"
+      container={<FieldSet />}
+      data-testid="akismet-config"
+    >
       <Localized id="configure-moderation-akismet-title">
-        <Header container="legend">Akismet spam detection filter</Header>
+        <Header container="legend">Spam detection filter</Header>
       </Localized>
       <Localized
         id="configure-moderation-akismet-explanation"

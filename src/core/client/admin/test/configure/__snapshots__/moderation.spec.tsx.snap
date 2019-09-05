@@ -759,11 +759,12 @@ improve the API over time.
           </fieldset>
           <fieldset
             className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            data-testid="akismet-config"
           >
             <legend
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
-              Akismet spam detection filter
+              Spam detection filter
             </legend>
             <p
               className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
