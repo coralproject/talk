@@ -726,10 +726,17 @@ const CLASSES = {
   },
 
   /**
-   * settingsTabPane is the tab pane that shows viewers settings.
+   * notificationsTabPane is the tab pane that shows notifications settings.
    */
-  settingsTabPane: {
-    $root: "coral coral-settings",
+  notificationsTabPane: {
+    $root: "coral coral-notifications",
+  },
+
+  /**
+   * accountTabPane is the tab pane that shows account settings.
+   */
+  accountTabPane: {
+    $root: "coral coral-account",
   },
 
   /**
@@ -737,19 +744,25 @@ const CLASSES = {
    */
   ignoredCommenters: {
     $root: "coral coral-ignoredCommenters",
+    manageButton: "coral coral-ignoredComments-manageButton",
     username: "coral coral-ignoredCommenters-username",
     stopIgnoreButton: "coral coral-ignoredCommenters-stopIgnoreButton",
   },
 
   /**
-   * changePassword allows the viewer to change password in settings.
+   * myPassword allows the viewer to change password in settings.
    */
-  changePassword: {
-    $root: "coral coral-changePassword",
-    forgotButton: "coral coral-changePassword-forgotButton",
-    changeButton: "coral coral-changePassword-changeButton",
-    successMessage: "coral coral-changePassword-successMessage",
-    errorMessage: "coral coral-changePassword-errorMessage",
+  myPassword: {
+    $root: "coral coral-myPassword",
+    editButton: "coral coral-myPassword-editButton",
+    form: {
+      $root: "coral coral-changePassword",
+      cancelButton: "coral coral-changePassword-cancelButton",
+      forgotButton: "coral coral-changePassword-forgotButton",
+      changeButton: "coral coral-changePassword-changeButton",
+      successMessage: "coral coral-changePassword-successMessage",
+      errorMessage: "coral coral-changePassword-errorMessage",
+    },
   },
 
   /**
@@ -835,6 +848,11 @@ const CLASSES = {
   openCommentStream: {
     $root: "coral coral-openCommentStream",
     openButton: "coral coral-openCommentStream-openButton",
+  },
+
+  emailNotifications: {
+    $root: "coral coral-emailNotifications",
+    updateButton: "coral coral-emailNotifications-updateButton",
   },
 
   /**

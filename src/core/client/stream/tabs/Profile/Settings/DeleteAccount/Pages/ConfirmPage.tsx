@@ -99,7 +99,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
         justifyContent="center"
         className={cn(sharedStyles.header, CLASSES.deleteMyAccountModal.header)}
       >
-        <Localized id="profile-settings-deleteAccount-pages-confirmHeader">
+        <Localized id="profile-account-deleteAccount-pages-confirmHeader">
           <Typography variant="header2" className={sharedStyles.headerText}>
             Confirm account deletion?
           </Typography>
@@ -108,7 +108,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
       <div className={sharedStyles.body}>
         <PageStepBar step={step} />
 
-        <Localized id="profile-settings-deleteAccount-pages-confirmDescHeader">
+        <Localized id="profile-account-deleteAccount-pages-confirmDescHeader">
           <Typography
             variant="bodyCopyBold"
             className={sharedStyles.sectionHeader}
@@ -116,7 +116,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
             Are you sure you want to delete your account?
           </Typography>
         </Localized>
-        <Localized id="profile-settings-deleteAccount-confirmDescContent">
+        <Localized id="profile-account-deleteAccount-confirmDescContent">
           <Typography
             variant="bodyCopy"
             className={sharedStyles.sectionContent}
@@ -151,7 +151,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                   >
                     {({ input, meta }) => (
                       <FormField>
-                        <Localized id="profile-settings-deleteAccount-pages-confirmPhraseLabel">
+                        <Localized id="profile-account-deleteAccount-pages-confirmPhraseLabel">
                           <InputLabel>
                             To confirm, type phrase below:
                           </InputLabel>
@@ -174,7 +174,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                   <Field name="password" validate={composeValidators(required)}>
                     {({ input, meta }) => (
                       <FormField>
-                        <Localized id="profile-settings-deleteAccount-pages-confirmPasswordLabel">
+                        <Localized id="profile-account-deleteAccount-pages-confirmPasswordLabel">
                           <InputLabel>Enter your password:</InputLabel>
                         </Localized>
                         <PasswordField
@@ -201,7 +201,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
               <div className={styles.controls}>
                 <HorizontalGutter>
                   <Flex justifyContent="flex-end">
-                    <Localized id="profile-settings-deleteAccount-pages-cancel">
+                    <Localized id="profile-account-deleteAccount-pages-cancel">
                       <Button
                         variant="outlined"
                         className={cn(
@@ -213,7 +213,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                         Cancel
                       </Button>
                     </Localized>
-                    <Localized id="profile-settings-deleteAccount-pages-deleteButton">
+                    <Localized id="profile-account-deleteAccount-pages-deleteButton">
                       <Button
                         color="error"
                         variant="filled"

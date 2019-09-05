@@ -54,7 +54,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
     <div className={cn(styles.root, CLASSES.downloadCommentHistory.$root)}>
       <Flex justifyContent="space-between" alignItems="flex-start">
         <div className={styles.content}>
-          <Localized id="profile-settings-download-comments-title">
+          <Localized id="profile-account-download-comments-title">
             <Typography
               variant="heading2"
               color="textDark"
@@ -64,7 +64,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
             </Typography>
           </Localized>
           <Localized
-            id="profile-settings-download-comments-description"
+            id="profile-account-download-comments-description"
             strong={<strong />}
           >
             <Typography variant="bodyCopy" className={styles.description}>
@@ -74,7 +74,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           </Localized>
           {lastDownloadedAt && (
             <Localized
-              id="profile-settings-download-comments-recentRequest"
+              id="profile-account-download-comments-recentRequest"
               $timeStamp={formatter.format(lastDownloadedAt)}
             >
               <Typography
@@ -91,7 +91,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
         </div>
         <div>
           {canDownload && (
-            <Localized id="profile-settings-download-comments-request-button">
+            <Localized id="profile-account-download-comments-request-button">
               <Button
                 variant="outlineFilled"
                 color="primary"
@@ -117,7 +117,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
             query_builder
           </Icon>
           <Localized
-            id="profile-settings-download-comments-timeOut"
+            id="profile-account-download-comments-timeOut"
             $value={scaled}
             $unit={unit}
           >

@@ -170,7 +170,6 @@ comments-featured-replies = Replies
 
 profile-myCommentsTab = My Comments
 profile-myCommentsTab-comments = My comments
-profile-settingsTab = Settings
 profile-accountTab = Account
 
 accountSettings-manage-account = Manage your account
@@ -194,134 +193,134 @@ profile-commentHistory-loadMore = Load More
 profile-commentHistory-empty = You have not written any comments
 profile-commentHistory-empty-subheading = A history of your comments will appear here
 
-### Settings
-profile-settings-ignoredCommenters = Ignored Commenters
-profile-settings-description =
+### Account
+profile-account-ignoredCommenters = Ignored Commenters
+profile-account-ignoredCommenters-description =
   Once you ignore someone, all of their comments are hidden from you.
   Commenters you ignore will still be able to see your comments.
-profile-settings-empty = You are not currently ignoring anyone
-profile-settings-stopIgnoring = Stop ignoring
-profile-settings-ignoredCommenters-manage = Manage
-profile-settings-ignoredCommenters-cancel = Cancel
+profile-account-ignoredCommenters-empty = You are not currently ignoring anyone
+profile-account-ignoredCommenters-stopIgnoring = Stop ignoring
+profile-account-ignoredCommenters-manage = Manage
+profile-account-ignoredCommenters-cancel = Cancel
 
-profile-settings-changePassword-cancel = Cancel
-profile-settings-changePassword = Change Password
-profile-settings-changePassword-oldPassword = Old Password
-profile-settings-changePassword-forgotPassword = Forgot your password?
-profile-settings-changePassword-newPassword = New Password
-profile-settings-changePassword-button = Change Password
-profile-settings-changePassword-updated = 
+profile-account-changePassword-cancel = Cancel
+profile-account-changePassword = Change Password
+profile-account-changePassword-oldPassword = Old Password
+profile-account-changePassword-forgotPassword = Forgot your password?
+profile-account-changePassword-newPassword = New Password
+profile-account-changePassword-button = Change Password
+profile-account-changePassword-updated =
   Your password has been updated
-profile-settings-changePassword-password = Password
+profile-account-changePassword-password = Password
 
-profile-settings-download-comments-title = Download my comment history
-profile-settings-download-comments-description =
+profile-account-download-comments-title = Download my comment history
+profile-account-download-comments-description =
   You will receive an email with a link to download your comment history.
   You can make <strong>one download request every 14 days.</strong>
-profile-settings-download-comments-request =
+profile-account-download-comments-request =
   Request comment history
-profile-settings-download-comments-request-icon =
+profile-account-download-comments-request-icon =
   .title = Request comment history
-profile-settings-download-comments-recentRequest =
+profile-account-download-comments-recentRequest =
   Your most recent request: { $timeStamp }
-profile-settings-download-comments-timeOut =
+profile-account-download-comments-timeOut =
   You can submit another request in { framework-timeago-time }
-profile-settings-download-comments-request-button = Request
+profile-account-download-comments-request-button = Request
 
 ## Delete Account
 
-profile-settings-deleteAccount-title = Delete My Account
-profile-settings-deleteAccount-description =
+profile-account-deleteAccount-title = Delete My Account
+profile-account-deleteAccount-description =
   Deleting your account will permanently erase your profile and remove
   all your comments from this site.
-profile-settings-deleteAccount-requestDelete = Request account deletion
+profile-account-deleteAccount-requestDelete = Request account deletion
 
-profile-settings-deleteAccount-cancelDelete-description =
+profile-account-deleteAccount-cancelDelete-description =
   You have already submitted a request to delete your account.
   Your account will be deleted on { $date }.
   You may cancel the request until that time.
-profile-settings-deleteAccount-cancelDelete = Cancel account deletion request
+profile-account-deleteAccount-cancelDelete = Cancel account deletion request
 
-profile-settings-deleteAccount-request = Request
-profile-settings-deleteAccount-cancel = Cancel
-profile-settings-deleteAccount-pages-deleteButton = Delete my account
-profile-settings-deleteAccount-pages-cancel = Cancel
-profile-settings-deleteAccount-pages-proceed = Proceed
-profile-settings-deleteAccount-pages-done = Done
+profile-account-deleteAccount-request = Request
+profile-account-deleteAccount-cancel = Cancel
+profile-account-deleteAccount-pages-deleteButton = Delete my account
+profile-account-deleteAccount-pages-cancel = Cancel
+profile-account-deleteAccount-pages-proceed = Proceed
+profile-account-deleteAccount-pages-done = Done
 
-profile-settings-deleteAccount-pages-descriptionHeader = Delete my account?
-profile-settings-deleteAccount-pages-descriptionText =
+profile-account-deleteAccount-pages-descriptionHeader = Delete my account?
+profile-account-deleteAccount-pages-descriptionText =
   You are attempting to delete your account. This means:
-profile-settings-deleteAccount-pages-allCommentsRemoved =
+profile-account-deleteAccount-pages-allCommentsRemoved =
   All of your comments are removed from this site
-profile-settings-deleteAccount-pages-allCommentsDeleted =
+profile-account-deleteAccount-pages-allCommentsDeleted =
   All of your comments are deleted from our database
-profile-settings-deleteAccount-pages-emailRemoved =
+profile-account-deleteAccount-pages-emailRemoved =
   Your email address is removed from our system
 
-profile-settings-deleteAccount-pages-whenHeader = Delete my account: When?
-profile-settings-deleteAccount-pages-whenSec1Header =
+profile-account-deleteAccount-pages-whenHeader = Delete my account: When?
+profile-account-deleteAccount-pages-whenSec1Header =
   When will my account be deleted?
-profile-settings-deleteAccount-pages-whenSec1Content =
+profile-account-deleteAccount-pages-whenSec1Content =
   Your account will be deleted 24 hours after your request has been submitted.
-profile-settings-deleteAccount-pages-whenSec2Header =
+profile-account-deleteAccount-pages-whenSec2Header =
   Can I still write comments until my account is deleted?
-profile-settings-deleteAccount-pages-whenSec2Content =
+profile-account-deleteAccount-pages-whenSec2Content =
   No. Once you've requested account deletion, you can no longer write comments,
   reply to comments, or select reactions.
 
-profile-settings-deleteAccount-pages-downloadCommentHeader = Download my comments?
-profile-settings-deleteAccount-pages-downloadCommentsDesc =
+profile-account-deleteAccount-pages-downloadCommentHeader = Download my comments?
+profile-account-deleteAccount-pages-downloadCommentsDesc =
   Before your account is deleted, we recommend you download your comment
   history for your records. After your account is deleted, you will be
   unable to request your comment history.
-profile-settings-deleteAccount-pages-downloadCommentsPath =
+profile-account-deleteAccount-pages-downloadCommentsPath =
   My Profile > Download My Comment History
 
-profile-settings-deleteAccount-pages-confirmHeader = Confirm account deletion?
-profile-settings-deleteAccount-pages-confirmDescHeader =
+profile-account-deleteAccount-pages-confirmHeader = Confirm account deletion?
+profile-account-deleteAccount-pages-confirmDescHeader =
   Are you sure you want to delete your account?
-profile-settings-deleteAccount-confirmDescContent =
+profile-account-deleteAccount-confirmDescContent =
   To confirm you would like to delete your account please type in the following
   phrase into the text box below:
-profile-settings-deleteAccount-pages-confirmPhraseLabel =
+profile-account-deleteAccount-pages-confirmPhraseLabel =
   To confirm, type phrase below:
-profile-settings-deleteAccount-pages-confirmPasswordLabel =
+profile-account-deleteAccount-pages-confirmPasswordLabel =
   Enter your password:
 
-profile-settings-deleteAccount-pages-completeHeader = Account deletion requested
-profile-settings-deleteAccount-pages-completeDescript =
+profile-account-deleteAccount-pages-completeHeader = Account deletion requested
+profile-account-deleteAccount-pages-completeDescript =
   Your request has been submitted and a confirmation has been sent to the email
   address associated with your account.
-profile-settings-deleteAccount-pages-completeTimeHeader =
+profile-account-deleteAccount-pages-completeTimeHeader =
   Your account will be deleted on: { $date }
-profile-settings-deleteAccount-pages-completeChangeYourMindHeader = Changed your mind?
-profile-settings-deleteAccount-pages-completeSignIntoYourAccount =
+profile-account-deleteAccount-pages-completeChangeYourMindHeader = Changed your mind?
+profile-account-deleteAccount-pages-completeSignIntoYourAccount =
   Simply sign in to your account again before this time and select
   <strong>Cancel Account Deletion Request</strong>.
-profile-settings-deleteAccount-pages-completeTellUsWhy = Tell us why.
-profile-settings-deleteAccount-pages-completeWhyDeleteAccount =
+profile-account-deleteAccount-pages-completeTellUsWhy = Tell us why.
+profile-account-deleteAccount-pages-completeWhyDeleteAccount =
   We'd like to know why you chose to delete your account. Send us feedback on
   our comment system by emailing { $email }.
-profile-settings-changePassword-edit = Edit
+profile-account-changePassword-edit = Edit
 
 
 ## Notifications
 profile-notificationsTab = Notifications
-profile-settings-notifications-emailNotifications = E-Mail Notifications
-profile-settings-notifications-emailNotifications = Email Notifications
-profile-settings-notifications-receiveWhen = Receive notifications when:
-profile-settings-notifications-onReply = My comment receives a reply
-profile-settings-notifications-onFeatured = My comment is featured
-profile-settings-notifications-onStaffReplies = A staff member replies to my comment
-profile-settings-notifications-onModeration = My pending comment has been reviewed
-profile-settings-notifications-sendNotifications = Send Notifications:
-profile-settings-notifications-sendNotifications-immediately = Immediately
-profile-settings-notifications-sendNotifications-daily = Daily
-profile-settings-notifications-sendNotifications-hourly = Hourly
-profile-settings-notifications-updated = Your notification settings have been updated
-profile-settings-notifications-button = Update Notification Settings
-profile-settings-notifications-button-update = Update
+profile-account-notifications-emailNotifications = E-Mail Notifications
+profile-account-notifications-emailNotifications = Email Notifications
+profile-account-notifications-receiveWhen = Receive notifications when:
+profile-account-notifications-onReply = My comment receives a reply
+profile-account-notifications-onFeatured = My comment is featured
+profile-account-notifications-onStaffReplies = A staff member replies to my comment
+profile-account-notifications-onModeration = My pending comment has been reviewed
+profile-account-notifications-sendNotifications = Send Notifications:
+profile-account-notifications-sendNotifications-immediately = Immediately
+profile-account-notifications-sendNotifications-daily = Daily
+profile-account-notifications-sendNotifications-hourly = Hourly
+profile-account-notifications-updated = Your notification settings have been updated
+profile-account-notifications-button = Update Notification Settings
+profile-account-notifications-button-update = Update
 
 ## Report Comment Popover
 comments-reportPopover =

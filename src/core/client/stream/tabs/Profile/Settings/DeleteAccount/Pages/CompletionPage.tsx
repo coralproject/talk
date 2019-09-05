@@ -47,7 +47,7 @@ const CompletionPage: FunctionComponent<Props> = ({
         justifyContent="center"
         className={cn(styles.header, CLASSES.deleteMyAccountModal.header)}
       >
-        <Localized id="profile-settings-deleteAccount-pages-completeHeader">
+        <Localized id="profile-account-deleteAccount-pages-completeHeader">
           <Typography variant="header2" className={styles.headerText}>
             Account deletion requested
           </Typography>
@@ -56,7 +56,7 @@ const CompletionPage: FunctionComponent<Props> = ({
       <div className={styles.body}>
         <PageStepBar step={step} />
 
-        <Localized id="profile-settings-deleteAccount-pages-completeDescript">
+        <Localized id="profile-account-deleteAccount-pages-completeDescript">
           <Typography variant="bodyCopy" className={styles.sectionContent}>
             Your request has been submitted and a confirmation has been sent to
             the email address associated with your account.
@@ -64,7 +64,7 @@ const CompletionPage: FunctionComponent<Props> = ({
         </Localized>
 
         <Localized
-          id="profile-settings-deleteAccount-pages-completeTimeHeader"
+          id="profile-account-deleteAccount-pages-completeTimeHeader"
           $date={formattedDate}
         >
           <Typography variant="bodyCopyBold" className={styles.sectionContent}>
@@ -72,13 +72,13 @@ const CompletionPage: FunctionComponent<Props> = ({
           </Typography>
         </Localized>
 
-        <Localized id="profile-settings-deleteAccount-pages-completeChangeYourMindHeader">
+        <Localized id="profile-account-deleteAccount-pages-completeChangeYourMindHeader">
           <Typography variant="bodyCopyBold" className={styles.sectionHeader}>
             Changed your mind?
           </Typography>
         </Localized>
         <Localized
-          id="profile-settings-deleteAccount-pages-completeSignIntoYourAccount"
+          id="profile-account-deleteAccount-pages-completeSignIntoYourAccount"
           strong={<strong />}
         >
           <Typography variant="bodyCopy" className={styles.sectionContent}>
@@ -87,13 +87,13 @@ const CompletionPage: FunctionComponent<Props> = ({
           </Typography>
         </Localized>
 
-        <Localized id="profile-settings-deleteAccount-pages-completeTellUsWhy">
+        <Localized id="profile-account-deleteAccount-pages-completeTellUsWhy">
           <Typography variant="bodyCopyBold" className={styles.sectionHeader}>
             Tell us why.
           </Typography>
         </Localized>
         <Localized
-          id="profile-settings-deleteAccount-pages-completeWhyDeleteAccount"
+          id="profile-account-deleteAccount-pages-completeWhyDeleteAccount"
           $email={organizationEmail}
         >
           <Typography variant="bodyCopy" className={styles.sectionContent}>
@@ -110,7 +110,7 @@ const CompletionPage: FunctionComponent<Props> = ({
             onClick={onDoneClicked}
             className={CLASSES.deleteMyAccountModal.doneButton}
           >
-            <Localized id="profile-settings-deleteAccount-pages-done">
+            <Localized id="profile-account-deleteAccount-pages-done">
               Done
             </Localized>
           </Button>

@@ -157,11 +157,11 @@ exports[`renders the empty settings pane 1`] = `
         </li>
         <li
           className="Tab-root"
-          id="tab-SETTINGS"
+          id="tab-ACCOUNT"
           role="presentation"
         >
           <button
-            aria-controls="tabPane-SETTINGS"
+            aria-controls="tabPane-ACCOUNT"
             aria-selected={true}
             className="BaseButton-root Tab-button Tab-secondary Tab-active coral coral-tabBarSecondary-tab coral-tabBarMyProfile-settings"
             onBlur={[Function]}
@@ -180,9 +180,9 @@ exports[`renders the empty settings pane 1`] = `
         </li>
       </ul>
       <section
-        aria-labelledby="tab-SETTINGS"
-        className="coral coral-settings"
-        id="tabPane-SETTINGS"
+        aria-labelledby="tab-ACCOUNT"
+        className="coral coral-account"
+        id="tabPane-ACCOUNT"
         role="tabpanel"
       >
         <div
@@ -323,8 +323,8 @@ signing into your account or for email notifications.
               </div>
             </div>
             <div
-              className="coral coral-changePassword"
-              data-testid="profile-settings-changePassword"
+              className="coral coral-myPassword"
+              data-testid="profile-account-changePassword"
             >
               <div
                 className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignCenter"
@@ -335,7 +335,7 @@ signing into your account or for email notifications.
                   Password
                 </h1>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled coral coral-myPassword-editButton"
                   data-color="primary"
                   data-variant="outlineFilled"
                   onBlur={[Function]}
@@ -352,7 +352,7 @@ signing into your account or for email notifications.
             </div>
             <div
               className="coral coral-ignoredCommenters"
-              data-testid="profile-settings-ignoredCommenters"
+              data-testid="profile-account-ignoredCommenters"
             >
               <div
                 className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignCenter"
@@ -363,7 +363,7 @@ signing into your account or for email notifications.
                   Ignored Commenters
                 </h1>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled coral coral-ignoredComments-manageButton"
                   data-color="primary"
                   data-variant="outlineFilled"
                   onBlur={[Function]}
@@ -425,7 +425,7 @@ You can make
             >
               <div
                 className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart"
-                data-testid="profile-settings-deleteAccount"
+                data-testid="profile-account-deleteAccount"
               >
                 <div
                   className="DeleteAccountContainer-content"

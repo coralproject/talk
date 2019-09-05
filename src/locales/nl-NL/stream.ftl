@@ -113,8 +113,8 @@ comments-userPopover-ignore = Negeren
 
 comments-userIgnorePopover-ignoreUser = Negeer {$username}?
 comments-userIgnorePopover-description =
-  Wanneer u een gebruiker negeert, dan worden 
-  alle reacties van deze gebruiker niet meer zichtbaar voor u. 
+  Wanneer u een gebruiker negeert, dan worden
+  alle reacties van deze gebruiker niet meer zichtbaar voor u.
   U kunt dit later ongedaan maken in uw profiel.
 comments-userIgnorePopover-ignore = Negeren
 comments-userIgnorePopover-cancel = Annuleren
@@ -144,7 +144,6 @@ comments-featured-replies = Antwoorden
 ## Profile Tab
 
 profile-myCommentsTab = Mijn reacties
-profile-settingsTab = Instellingen
 
 ### Comment History
 profile-historyComment-viewConversation = Bekijk gesprek
@@ -156,13 +155,13 @@ profile-profileQuery-storyNotFound = Bericht niet gevonden
 profile-commentHistory-loadMore = Meer laden
 
 ### Settings
-profile-settings-ignoredCommenters = Genegeerde gebruikers
-profile-settings-description =
-  Als je een gebruiker negeert, dan worden alle reacties van deze gebruiker 
+profile-account-ignoredCommenters = Genegeerde gebruikers
+profile-account-ignoredCommenters-description =
+  Als je een gebruiker negeert, dan worden alle reacties van deze gebruiker
   niet meer zichtbaar voor jou.
   Gebruikers die jij negeert kunnen nog wel jouw reacties zien.
-profile-settings-empty = U negeert niemand
-profile-settings-stopIgnoring = Stop met negeren
+profile-account-ignoredCommenters-empty = U negeert niemand
+profile-account-ignoredCommenters-stopIgnoring = Stop met negeren
 
 
 ## Report Comment Popover
@@ -216,7 +215,7 @@ configure-liveUpdates-description =
 
 configure-messageBox-title = Inschakelen bericht box voor deze reactiestroom
 configure-messageBox-description =
-  Voeg voor je lezers bovenaan de reactie box een bericht toe. Gebruik dit om een vraag te stellen of 
+  Voeg voor je lezers bovenaan de reactie box een bericht toe. Gebruik dit om een vraag te stellen of
   een mededeling te doen gerelateerd aan dit bericht
 configure-messageBox-preview = Voorbeeld
 configure-messageBox-selectAnIcon = Selecteer een icon
@@ -225,14 +224,14 @@ configure-messageBox-writeAMessage = Schrijf een bericht
 
 configure-closeStream-title = Sluit reactiestroom
 configure-closeStream-description =
-  Deze reactiestroom is open. Door het sluiten van deze reactiestroom 
-  kunnen er geen nieuwe reacties toegevoegd worden 
+  Deze reactiestroom is open. Door het sluiten van deze reactiestroom
+  kunnen er geen nieuwe reacties toegevoegd worden
   en alle reeds toegevoegde reacties zullen zichtbaar blijven.
 configure-closeStream-closeStream = Sluit reactiestroom
 
 configure-openStream-title = Open reactiestroom
 configure-openStream-description =
-  Deze reactiestroom is gesloten. Door het openen van deze reactiestroom 
+  Deze reactiestroom is gesloten. Door het openen van deze reactiestroom
   kunnen nieuwe reacties worden toegevoegd en weergegeven.
 configure-openStream-openStream = Open reactiestroom
 

@@ -30,21 +30,22 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
   ]);
   return (
     <div
-      data-testid="profile-settings-ignoredCommenters"
+      data-testid="profile-account-ignoredCommenters"
       className={CLASSES.ignoredCommenters.$root}
     >
       <Flex justifyContent="space-between" alignItems="center">
-        <Localized id="profile-settings-ignoredCommenters">
+        <Localized id="profile-account-ignoredCommenters">
           <Typography color="textDark" variant="heading2">
             Ignored Commenters
           </Typography>
         </Localized>
-        <Localized id="profile-settings-ignoredCommenters-manage">
+        <Localized id="profile-account-ignoredCommenters-manage">
           <Button
             variant="outlineFilled"
             size="small"
             color="primary"
             onClick={toggleManage}
+            className={CLASSES.ignoredCommenters.manageButton}
           >
             Manage
           </Button>
@@ -52,7 +53,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
       </Flex>
       {showManage && (
         <div>
-          <Localized id="profile-settings-description">
+          <Localized id="profile-account-ignoredCommenters-description">
             <p className={styles.description}>
               Once you ignore someone, all of their comments are hidden from
               you. Commenters you ignore will still be able to see your
@@ -76,14 +77,14 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
                   className={CLASSES.ignoredCommenters.stopIgnoreButton}
                 >
                   <Icon>close</Icon>
-                  <Localized id="profile-settings-stopIgnoring">
+                  <Localized id="profile-account-ignoredCommenters-stopIgnoring">
                     <span>Stop ignoring</span>
                   </Localized>
                 </Button>
               </Flex>
             ))}
             {viewer.ignoredUsers.length === 0 && (
-              <Localized id="profile-settings-empty">
+              <Localized id="profile-account-ignoredCommenters-empty">
                 <div className={styles.empty}>
                   You are not currently ignoring anyone
                 </div>
