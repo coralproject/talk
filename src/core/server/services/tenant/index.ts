@@ -24,16 +24,15 @@ import TenantCache from "./cache";
 
 export type UpdateTenant = GQLSettingsInput;
 
-export function removeEmptyWordListItems(items?: string[]) {
-  return items ? items.filter(i => i !== "") : items;
-}
+function cleanWordList(
+  list: GQLSettingsWordListInput
+): GQLSettingsWordListInput {
+  if (list.banned) {
+    list.banned = list.banned.filter(Boolean);
+  }
 
-export function validateWordList(
-  list?: GQLSettingsWordListInput
-): GQLSettingsWordListInput | undefined {
-  if (list) {
-    list.banned = removeEmptyWordListItems(list.banned);
-    list.suspect = removeEmptyWordListItems(list.suspect);
+  if (list.suspect) {
+    list.suspect = list.suspect.filter(Boolean);
   }
 
   return list;
@@ -57,7 +56,11 @@ export async function update(
     delete input.live.enabled;
   }
 
-  input.wordList = validateWordList(input.wordList);
+  // If the word list was specified, we should validate it to ensure there isn't
+  // any empty spaces.
+  if (input.wordList) {
+    input.wordList = cleanWordList(input.wordList);
+  }
 
   const updatedTenant = await updateTenant(mongo, tenant.id, input);
   if (!updatedTenant) {
