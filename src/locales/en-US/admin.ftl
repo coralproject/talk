@@ -176,7 +176,6 @@ configure-email-smtpPasswordLabel = Password
 
 ### Authentication
 
-configure-auth-authIntegrations = Authentication integrations
 configure-auth-clientID = Client ID
 configure-auth-clientSecret = Client secret
 configure-auth-configBoxEnabled = Enabled

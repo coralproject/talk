@@ -2325,11 +2325,6 @@ compliance.
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-double"
             >
-              <h1
-                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
-              >
-                Authentication integrations
-              </h1>
               <div
                 className="ConfigBox-root"
               >

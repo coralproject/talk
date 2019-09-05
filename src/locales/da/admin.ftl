@@ -174,7 +174,6 @@ configure-email-smtpPasswordLabel = Adgangskode
 
 ### Authentication
 
-configure-auth-authIntegrations = Autentificeringsintegrationer
 configure-auth-clientID = Klient-id
 configure-auth-clientSecret = Klienthemmelighed
 configure-auth-configBoxEnabled = Aktiveret
