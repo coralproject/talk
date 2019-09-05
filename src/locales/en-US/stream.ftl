@@ -307,7 +307,7 @@ profile-settings-changePassword-edit = Edit
 
 
 ## Notifications
-
+profile-notificationsTab = Notifications
 profile-settings-notifications-emailNotifications = E-Mail Notifications
 profile-settings-notifications-emailNotifications = Email Notifications
 profile-settings-notifications-receiveWhen = Receive notifications when:

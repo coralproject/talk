@@ -842,11 +842,11 @@ exports[`renders permalink view 1`] = `
                              
                           </span>
                           <span
-                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary coral coral-comment-inReplyToText"
+                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                           >
                             In reply to 
                             <span
-                              className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-comment-inReplyToUsername"
+                              className="Box-root Typography-root Typography-heading4 Typography-colorTextDark InReplyTo-username coral coral-comment-inReplyToUsername"
                             >
                               Markus
                             </span>
@@ -1069,11 +1069,11 @@ exports[`renders permalink view 1`] = `
                              
                           </span>
                           <span
-                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary coral coral-comment-inReplyToText"
+                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                           >
                             In reply to 
                             <span
-                              className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-comment-inReplyToUsername"
+                              className="Box-root Typography-root Typography-heading4 Typography-colorTextDark InReplyTo-username coral coral-comment-inReplyToUsername"
                             >
                               Markus
                             </span>
