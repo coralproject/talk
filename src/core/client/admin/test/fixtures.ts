@@ -24,6 +24,7 @@ export const settings = createFixture<GQLSettings>({
   id: "settings",
   moderation: GQLMODERATION_MODE.POST,
   premodLinksEnable: false,
+  locale: "en-US",
   live: {
     enabled: true,
     configurable: true,

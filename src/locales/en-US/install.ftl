@@ -8,6 +8,13 @@ install-header-title = { -product-name } Installation Wizard
 install-initialStep-theRemainder = The remainder of the installation wizard will take about 10 minutes. Once you are finished, you will have your own instance of { -product-name }.
 install-initialStep-getStarted = Get Started
 
+install-selectLanguage-stepTitleSelect = Select Language
+install-selectLanguage-selectLanguage = Select language for Coral
+install-selectLanguage-description =
+  Choose the language to be used during the installation process.
+  This will also be the default language for your Coral community.
+install-selectLanguage-language = Language
+
 install-addOrganization-stepTitle = Add Organization Details
 install-addOrganization-title = Add Organization
 install-addOrganization-description = Please tell us the name of your organization. This will appear in emails when inviting new team members.

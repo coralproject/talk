@@ -1,5 +1,7 @@
 import convict from "convict";
 
+import { LOCALES } from "../common/helpers/i18n/locales";
+
 const config = convict({
   env: {
     doc: "The application environment.",
@@ -20,6 +22,12 @@ const config = convict({
     default: 8080,
     env: "DEV_PORT",
     arg: "dev-port",
+  },
+  defaultLocale: {
+    doc: "Specify the default locale to use",
+    format: LOCALES,
+    default: "en-US",
+    env: "LOCALE",
   },
   generateReport: {
     doc: "Generate a report using webpack-bundle-analyzer",

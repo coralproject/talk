@@ -68,6 +68,11 @@ Cursor represents a paginating cursor.
 """
 scalar Cursor
 
+"""
+Locale represents a language code in the BCP 47 format.
+"""
+scalar Locale
+
 ################################################################################
 ## Actions
 ################################################################################
@@ -991,17 +996,6 @@ type StoryMessageBox {
 ################################################################################
 
 """
-LOCALES list all the supported locales in a modified BCP 47 format, where the
-hyphen is replaced by an underscore.
-"""
-enum LOCALES {
-  en_US
-  pt_BR
-  es
-  de
-}
-
-"""
 CloseCommenting contains settings related to the automatic closing of commenting
 on Stories.
 """
@@ -1124,7 +1118,7 @@ type Settings {
   """
   locale is the specified locale for this Tenant.
   """
-  locale: LOCALES!
+  locale: Locale!
 
   """
   live provides configuration options related to live updates for stories on
@@ -3371,6 +3365,11 @@ input SettingsInput {
   accountFeatures specifies the configuration for accounts.
   """
   accountFeatures: CommenterAccountFeaturesInput
+
+  """
+  locale specifies the locale for this Tenant.
+  """
+  locale: Locale
 }
 
 """
