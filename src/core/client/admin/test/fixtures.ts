@@ -150,8 +150,8 @@ export const settings = createFixture<GQLSettings>({
   accountFeatures: {
     downloadComments: true,
     changeUsername: true,
-    deleteAccount: true
-  }
+    deleteAccount: true,
+  },
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
