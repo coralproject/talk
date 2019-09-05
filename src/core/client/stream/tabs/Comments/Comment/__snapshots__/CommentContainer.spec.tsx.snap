@@ -13,10 +13,12 @@ exports[`hide reply button 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+                className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "author": Object {
@@ -26,6 +28,7 @@ exports[`hide reply button 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -38,6 +41,7 @@ exports[`hide reply button 1`] = `
                     "tags": Array [],
                   }
                 }
+                reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -49,6 +53,7 @@ exports[`hide reply button 1`] = `
                 viewer={null}
               />
               <Relay(PermalinkButtonContainer)
+                className="coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -60,6 +65,7 @@ exports[`hide reply button 1`] = `
             </ButtonsBar>
             <ButtonsBar>
               <withContext(createMutationContainer(Relay(ReportButtonContainer)))
+                className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
                     "author": Object {
@@ -69,6 +75,7 @@ exports[`hide reply button 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -81,6 +88,7 @@ exports[`hide reply button 1`] = `
                     "tags": Array [],
                   }
                 }
+                reportedClassName="coral-reportedButton coral-comment-reportedButton"
                 viewer={null}
               />
             </ButtonsBar>
@@ -101,6 +109,7 @@ exports[`hide reply button 1`] = `
       username={
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
+            className="coral coral-username coral-comment-username"
             user={
               Object {
                 "badges": Array [],
@@ -111,6 +120,7 @@ exports[`hide reply button 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
                 "author": Object {
@@ -120,6 +130,7 @@ exports[`hide reply button 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -134,6 +145,7 @@ exports[`hide reply button 1`] = `
             }
           />
           <Relay(AuthorBadgesContainer)
+            className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
                 "author": Object {
@@ -143,6 +155,7 @@ exports[`hide reply button 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -176,10 +189,12 @@ exports[`renders body only 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+                className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "author": Object {
@@ -189,6 +204,7 @@ exports[`renders body only 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -201,6 +217,7 @@ exports[`renders body only 1`] = `
                     "tags": Array [],
                   }
                 }
+                reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -213,11 +230,13 @@ exports[`renders body only 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                className="coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -229,6 +248,7 @@ exports[`renders body only 1`] = `
             </ButtonsBar>
             <ButtonsBar>
               <withContext(createMutationContainer(Relay(ReportButtonContainer)))
+                className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
                     "author": Object {
@@ -238,6 +258,7 @@ exports[`renders body only 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -250,6 +271,7 @@ exports[`renders body only 1`] = `
                     "tags": Array [],
                   }
                 }
+                reportedClassName="coral-reportedButton coral-comment-reportedButton"
                 viewer={null}
               />
             </ButtonsBar>
@@ -270,6 +292,7 @@ exports[`renders body only 1`] = `
       username={
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
+            className="coral coral-username coral-comment-username"
             user={
               Object {
                 "badges": Array [],
@@ -280,6 +303,7 @@ exports[`renders body only 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
                 "author": Object {
@@ -289,6 +313,7 @@ exports[`renders body only 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -303,6 +328,7 @@ exports[`renders body only 1`] = `
             }
           />
           <Relay(AuthorBadgesContainer)
+            className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
                 "author": Object {
@@ -312,6 +338,7 @@ exports[`renders body only 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -345,10 +372,12 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+                className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "author": Object {
@@ -358,6 +387,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -370,6 +400,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "tags": Array [],
                   }
                 }
+                reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -382,11 +413,13 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-replyButton"
                 disabled={true}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                className="coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -398,6 +431,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             </ButtonsBar>
             <ButtonsBar>
               <withContext(createMutationContainer(Relay(ReportButtonContainer)))
+                className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
                     "author": Object {
@@ -407,6 +441,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -419,6 +454,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "tags": Array [],
                   }
                 }
+                reportedClassName="coral-reportedButton coral-comment-reportedButton"
                 viewer={null}
               />
             </ButtonsBar>
@@ -439,6 +475,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       username={
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
+            className="coral coral-username coral-comment-username"
             user={
               Object {
                 "badges": Array [],
@@ -449,6 +486,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
                 "author": Object {
@@ -458,6 +496,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -472,6 +511,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             }
           />
           <Relay(AuthorBadgesContainer)
+            className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
                 "author": Object {
@@ -481,6 +521,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -514,10 +555,12 @@ exports[`renders disabled reply when story is closed 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+                className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "author": Object {
@@ -527,6 +570,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -539,6 +583,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "tags": Array [],
                   }
                 }
+                reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -551,11 +596,13 @@ exports[`renders disabled reply when story is closed 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-replyButton"
                 disabled={true}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                className="coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -567,6 +614,7 @@ exports[`renders disabled reply when story is closed 1`] = `
             </ButtonsBar>
             <ButtonsBar>
               <withContext(createMutationContainer(Relay(ReportButtonContainer)))
+                className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
                     "author": Object {
@@ -576,6 +624,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -588,6 +637,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "tags": Array [],
                   }
                 }
+                reportedClassName="coral-reportedButton coral-comment-reportedButton"
                 viewer={null}
               />
             </ButtonsBar>
@@ -608,6 +658,7 @@ exports[`renders disabled reply when story is closed 1`] = `
       username={
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
+            className="coral coral-username coral-comment-username"
             user={
               Object {
                 "badges": Array [],
@@ -618,6 +669,7 @@ exports[`renders disabled reply when story is closed 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
                 "author": Object {
@@ -627,6 +679,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -641,6 +694,7 @@ exports[`renders disabled reply when story is closed 1`] = `
             }
           />
           <Relay(AuthorBadgesContainer)
+            className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
                 "author": Object {
@@ -650,6 +704,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -683,10 +738,12 @@ exports[`renders in reply to 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+                className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "author": Object {
@@ -696,6 +753,7 @@ exports[`renders in reply to 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -712,6 +770,7 @@ exports[`renders in reply to 1`] = `
                     "tags": Array [],
                   }
                 }
+                reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -724,11 +783,13 @@ exports[`renders in reply to 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                className="coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -740,6 +801,7 @@ exports[`renders in reply to 1`] = `
             </ButtonsBar>
             <ButtonsBar>
               <withContext(createMutationContainer(Relay(ReportButtonContainer)))
+                className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
                     "author": Object {
@@ -749,6 +811,7 @@ exports[`renders in reply to 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -765,6 +828,7 @@ exports[`renders in reply to 1`] = `
                     "tags": Array [],
                   }
                 }
+                reportedClassName="coral-reportedButton coral-comment-reportedButton"
                 viewer={null}
               />
             </ButtonsBar>
@@ -785,6 +849,7 @@ exports[`renders in reply to 1`] = `
       username={
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
+            className="coral coral-username coral-comment-username"
             user={
               Object {
                 "badges": Array [],
@@ -795,6 +860,7 @@ exports[`renders in reply to 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
                 "author": Object {
@@ -804,6 +870,7 @@ exports[`renders in reply to 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -822,6 +889,7 @@ exports[`renders in reply to 1`] = `
             }
           />
           <Relay(AuthorBadgesContainer)
+            className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
                 "author": Object {
@@ -831,6 +899,7 @@ exports[`renders in reply to 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -868,10 +937,12 @@ exports[`renders username and body 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+                className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "author": Object {
@@ -881,6 +952,7 @@ exports[`renders username and body 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -893,6 +965,7 @@ exports[`renders username and body 1`] = `
                     "tags": Array [],
                   }
                 }
+                reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -905,11 +978,13 @@ exports[`renders username and body 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                className="coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -921,6 +996,7 @@ exports[`renders username and body 1`] = `
             </ButtonsBar>
             <ButtonsBar>
               <withContext(createMutationContainer(Relay(ReportButtonContainer)))
+                className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
                     "author": Object {
@@ -930,6 +1006,7 @@ exports[`renders username and body 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -942,6 +1019,7 @@ exports[`renders username and body 1`] = `
                     "tags": Array [],
                   }
                 }
+                reportedClassName="coral-reportedButton coral-comment-reportedButton"
                 viewer={null}
               />
             </ButtonsBar>
@@ -962,6 +1040,7 @@ exports[`renders username and body 1`] = `
       username={
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
+            className="coral coral-username coral-comment-username"
             user={
               Object {
                 "badges": Array [],
@@ -972,6 +1051,7 @@ exports[`renders username and body 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
                 "author": Object {
@@ -981,6 +1061,7 @@ exports[`renders username and body 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -995,6 +1076,7 @@ exports[`renders username and body 1`] = `
             }
           />
           <Relay(AuthorBadgesContainer)
+            className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
                 "author": Object {
@@ -1004,6 +1086,7 @@ exports[`renders username and body 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -1024,6 +1107,15 @@ exports[`renders username and body 1`] = `
 </div>
 `;
 
+exports[`renders with tombstone when comment has been deleted 1`] = `
+<div
+  className="coral coral-comment"
+  data-testid="comment-comment-id"
+>
+  <ForwardRef(forwardRef) />
+</div>
+`;
+
 exports[`shows conversation link 1`] = `
 <div
   className="coral coral-comment"
@@ -1037,10 +1129,12 @@ exports[`shows conversation link 1`] = `
       footer={
         <React.Fragment>
           <ForwardRef(forwardRef)
+            className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
             <ButtonsBar>
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+                className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "author": Object {
@@ -1050,6 +1144,7 @@ exports[`shows conversation link 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -1062,6 +1157,7 @@ exports[`shows conversation link 1`] = `
                     "tags": Array [],
                   }
                 }
+                reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -1074,11 +1170,13 @@ exports[`shows conversation link 1`] = `
               />
               <ReplyButton
                 active={false}
+                className="coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
+                className="coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -1090,6 +1188,7 @@ exports[`shows conversation link 1`] = `
             </ButtonsBar>
             <ButtonsBar>
               <withContext(createMutationContainer(Relay(ReportButtonContainer)))
+                className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
                     "author": Object {
@@ -1099,6 +1198,7 @@ exports[`shows conversation link 1`] = `
                     },
                     "body": "Woof",
                     "createdAt": "1995-12-17T03:24:00.000Z",
+                    "deleted": false,
                     "editing": Object {
                       "editableUntil": "1995-12-17T03:24:30.000Z",
                       "edited": false,
@@ -1111,11 +1211,13 @@ exports[`shows conversation link 1`] = `
                     "tags": Array [],
                   }
                 }
+                reportedClassName="coral-reportedButton coral-comment-reportedButton"
                 viewer={null}
               />
             </ButtonsBar>
           </ForwardRef(forwardRef)>
           <ShowConversationLink
+            className="coral coral-comment-readMoreOfConveration"
             href="http://localhost/story?commentID=comment-id"
             id="comments-commentContainer-showConversation-comment-id"
             onClick={[Function]}
@@ -1136,6 +1238,7 @@ exports[`shows conversation link 1`] = `
       username={
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
+            className="coral coral-username coral-comment-username"
             user={
               Object {
                 "badges": Array [],
@@ -1146,6 +1249,7 @@ exports[`shows conversation link 1`] = `
             viewer={null}
           />
           <Relay(UserTagsContainer)
+            className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
                 "author": Object {
@@ -1155,6 +1259,7 @@ exports[`shows conversation link 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,
@@ -1169,6 +1274,7 @@ exports[`shows conversation link 1`] = `
             }
           />
           <Relay(AuthorBadgesContainer)
+            className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
                 "author": Object {
@@ -1178,6 +1284,7 @@ exports[`shows conversation link 1`] = `
                 },
                 "body": "Woof",
                 "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
                 "editing": Object {
                   "editableUntil": "1995-12-17T03:24:30.000Z",
                   "edited": false,

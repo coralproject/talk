@@ -14,7 +14,7 @@ const purify = createPurify(window, false);
 
 interface Props {
   className?: string;
-  children: string;
+  children: string | React.ReactElement;
   suspectWords: ReadonlyArray<string>;
   bannedWords: ReadonlyArray<string>;
 }
@@ -117,25 +117,29 @@ const CommentContent: FunctionComponent<Props> = ({
   className,
   children,
 }) => {
-  // We create a Shadow DOM Tree with the HTML body content and
-  // use it as a parser.
-  const node = document.createElement("div");
-  node.innerHTML = purify.sanitize(children);
+  if (typeof children === "string") {
+    // We create a Shadow DOM Tree with the HTML body content and
+    // use it as a parser.
+    const node = document.createElement("div");
+    node.innerHTML = purify.sanitize(children);
 
-  if (suspectWords.length || bannedWords.length) {
-    // Then we traverse it recursively and manipulate it to highlight suspect words
-    // and banned words.
-    markHTMLNode(node, suspectWords, bannedWords);
+    if (suspectWords.length || bannedWords.length) {
+      // Then we traverse it recursively and manipulate it to highlight suspect words
+      // and banned words.
+      markHTMLNode(node, suspectWords, bannedWords);
+    }
+
+    // Finally we render the content of the Shadow DOM Tree
+    return (
+      <Typography
+        className={cn(className, styles.root)}
+        dangerouslySetInnerHTML={{ __html: node.innerHTML }}
+        container="div"
+      />
+    );
   }
 
-  // Finally we render the content of the Shadow DOM Tree
-  return (
-    <Typography
-      className={cn(className, styles.root)}
-      dangerouslySetInnerHTML={{ __html: node.innerHTML }}
-      container="div"
-    />
-  );
+  return <>{children}</>;
 };
 
 export default CommentContent;

@@ -1,9 +1,7 @@
 import { GraphQLResolveInfo } from "graphql";
 import graphqlFields from "graphql-fields";
 import { pull } from "lodash";
-import { URL } from "url";
 
-import { parseQuery, stringifyQuery } from "coral-common/utils";
 import { constructTenantURL, reconstructURL } from "coral-server/app/url";
 
 import TenantContext from "../context";
@@ -15,20 +13,6 @@ import TenantContext from "../context";
  */
 export function getRequestedFields<T>(info: GraphQLResolveInfo) {
   return pull(Object.keys(graphqlFields<T>(info)), "__typename");
-}
-
-/**
- * getURLWithCommentID returns the url with the comment id.
- *
- * @param storyURL url of the story
- * @param commentID id of the comment
- */
-export function getURLWithCommentID(storyURL: string, commentID?: string) {
-  const url = new URL(storyURL);
-  const query = parseQuery(url.search);
-  url.search = stringifyQuery({ ...query, commentID });
-
-  return url.toString();
 }
 
 export function reconstructTenantURLResolver<T = any>(path: string) {

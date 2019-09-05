@@ -1,0 +1,11 @@
+{% extends "layouts/account-notification.html" %}
+
+{% block content %}
+  <div data-l10n-id="email-template-accountNotificationConfirmEmail" data-l10n-args="{{ context | dump }}">
+    Hello {{ context.username }},<br/><br/>
+    To confirm your email address for use with your commenting account at {{ context.organizationName }},
+    please follow this link: <a data-l10n-name="confirmYourEmail" href="{{ context.confirmURL }}">Click here to confirm your email</a><br/><br/>
+    If you did not recently create a commenting account with
+    {{ context.organizationName }}, you can safely ignore this email.
+  </div>
+{% endblock %}

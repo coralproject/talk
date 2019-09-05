@@ -13,6 +13,7 @@ import Username from "./Username";
 interface Props {
   user: UserData;
   viewer: ViewerData | null;
+  className?: string;
 }
 
 const UsernameWithPopoverContainer: FunctionComponent<Props> = props => {
@@ -38,6 +39,7 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = props => {
             onClick={toggleVisibility}
             aria-controls={popoverID}
             ref={ref}
+            className={props.className}
           >
             <Username>{props.user.username!}</Username>
           </BaseButton>

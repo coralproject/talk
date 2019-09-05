@@ -56,12 +56,12 @@ exports[`renders community 1`] = `
                   onTouchEnd={[Function]}
                   type="submit"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-md"
                   >
                     search
-                  </span>
+                  </i>
                 </button>
               </div>
             </div>
@@ -127,12 +127,12 @@ exports[`renders community 1`] = `
                 aria-hidden={true}
                 className="SelectField-afterWrapper"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   expand_more
-                </span>
+                </i>
               </span>
             </span>
             <span
@@ -171,12 +171,12 @@ exports[`renders community 1`] = `
                 aria-hidden={true}
                 className="SelectField-afterWrapper"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   expand_more
-                </span>
+                </i>
               </span>
             </span>
           </div>
@@ -373,12 +373,12 @@ exports[`renders community 1`] = `
                   >
                     Moderator
                   </span>
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg ButtonIcon-root"
                   >
                     arrow_drop_down
-                  </span>
+                  </i>
                 </button>
                 <div
                   aria-hidden={true}
@@ -475,12 +475,12 @@ exports[`renders community 1`] = `
                   >
                     Staff
                   </span>
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg ButtonIcon-root"
                   >
                     arrow_drop_down
-                  </span>
+                  </i>
                 </button>
                 <div
                   aria-hidden={true}
@@ -577,12 +577,12 @@ exports[`renders community 1`] = `
                   >
                     Commenter
                   </span>
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg ButtonIcon-root"
                   >
                     arrow_drop_down
-                  </span>
+                  </i>
                 </button>
                 <div
                   aria-hidden={true}
@@ -629,12 +629,12 @@ exports[`renders community 1`] = `
                       </div>
                     </div>
                   </div>
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg ButtonIcon-root"
                   >
                     arrow_drop_down
-                  </span>
+                  </i>
                 </button>
                 <div
                   aria-hidden={true}
@@ -715,12 +715,12 @@ exports[`renders empty community 1`] = `
                   onTouchEnd={[Function]}
                   type="submit"
                 >
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-md"
                   >
                     search
-                  </span>
+                  </i>
                 </button>
               </div>
             </div>
@@ -786,12 +786,12 @@ exports[`renders empty community 1`] = `
                 aria-hidden={true}
                 className="SelectField-afterWrapper"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   expand_more
-                </span>
+                </i>
               </span>
             </span>
             <span
@@ -830,12 +830,12 @@ exports[`renders empty community 1`] = `
                 aria-hidden={true}
                 className="SelectField-afterWrapper"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   expand_more
-                </span>
+                </i>
               </span>
             </span>
           </div>

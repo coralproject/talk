@@ -172,6 +172,43 @@ export default class TenantCache {
   }
 
   /**
+   * Symbol.asyncIterator implements the asyncIterator interface for the
+   * TenantCache. This allows you to use the TenantCache as a asyncIterator with
+   * a `for await (const tenant of tenants) {}` pattern to iterate over all the
+   * tenant's on the cache. If the cache is cacheable, and not primed, the cache
+   * will be primed at the first async iteration process. If caching is
+   * disabled, then the tenants will bne loaded on demand and not persisted
+   * after the iteration.
+   */
+  public async *[Symbol.asyncIterator]() {
+    // If the cache isn't primed, and caching is enabled, then prime the cache
+    // now, as this will increase performance dramatically.
+    if (!this.primed && this.cachingEnabled) {
+      await this.primeAll();
+    }
+
+    // If the tenant's are primed in the cache, then just use the count cache as
+    // the iteration source.
+    if (this.primed) {
+      for (const tenantID of this.tenantCountCache) {
+        const tenant = await this.tenantsByID.load(tenantID);
+        if (!tenant) {
+          continue;
+        }
+
+        yield tenant;
+      }
+    }
+
+    // Caching must be disabled, so just grab all the tenants for this node and
+    // iterate through each of them as we handle it.
+    const tenants = await retrieveAllTenants(this.mongo);
+    for (const tenant of tenants) {
+      yield tenant;
+    }
+  }
+
+  /**
    *  onMessage is fired every time the client gets a subscription event.
    */
   private onMessage = async (

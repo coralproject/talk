@@ -28,6 +28,7 @@ import { PropTypesOf } from "coral-ui/types";
 import AllCommentsTab from "./AllCommentsTab";
 import BannedInfo from "./BannedInfo";
 import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
+import StreamDeletionRequestCalloutContainer from "./DeleteAccount/StreamDeletionRequestCalloutContainer";
 import FeaturedComments from "./FeaturedComments";
 import FeaturedCommentTooltip from "./FeaturedCommentTooltip";
 import { PostCommentFormContainer } from "./PostCommentForm";
@@ -113,8 +114,17 @@ export const StreamContainer: FunctionComponent<Props> = props => {
   return (
     <>
       <StoryClosedTimeoutContainer story={props.story} />
-      <HorizontalGutter className={styles.root} size="double">
+      <HorizontalGutter
+        className={cn(styles.root, {
+          [CLASSES.commentsTabPane.authenticated]: Boolean(props.viewer),
+          [CLASSES.commentsTabPane.unauthenticated]: !Boolean(props.viewer),
+        })}
+        size="double"
+      >
         <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+        {props.viewer && (
+          <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
+        )}
         <CommunityGuidelinesContainer settings={props.settings} />
         {!banned && !suspended && (
           <PostCommentFormContainer
@@ -185,10 +195,16 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             </Tab>
           </TabBar>
           <TabContent activeTab={local.commentsTab}>
-            <TabPane tabID="FEATURED_COMMENTS">
+            <TabPane
+              className={CLASSES.featuredCommentsTabPane.$root}
+              tabID="FEATURED_COMMENTS"
+            >
               <FeaturedComments />
             </TabPane>
-            <TabPane tabID="ALL_COMMENTS">
+            <TabPane
+              className={CLASSES.allCommentsTabPane.$root}
+              tabID="ALL_COMMENTS"
+            >
               <AllCommentsTab />
             </TabPane>
           </TabContent>
@@ -220,6 +236,7 @@ const enhanced = withFragmentContainer<Props>({
       ...CreateCommentMutation_viewer
       ...PostCommentFormContainer_viewer
       ...SuspendedInfoContainer_viewer
+      ...StreamDeletionRequestCalloutContainer_viewer
       status {
         current
       }

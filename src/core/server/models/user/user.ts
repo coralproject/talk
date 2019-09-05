@@ -19,10 +19,12 @@ import {
 } from "coral-server/errors";
 import {
   GQLBanStatus,
+  GQLDIGEST_FREQUENCY,
   GQLSuspensionStatus,
   GQLTimeRange,
   GQLUSER_ROLE,
   GQLUsernameStatus,
+  GQLUserNotificationSettings,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
@@ -35,6 +37,7 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
+import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 
 import { getLocalProfile, hasLocalProfile } from "./helpers";
 
@@ -269,6 +272,24 @@ export interface IgnoredUser {
 }
 
 /**
+ * Digest is the actual digest entry that is created every time a digest is
+ * queued for aUser.
+ */
+export interface Digest {
+  /**
+   * template is a given digestable template that was generated during the
+   * notification processing phase. This contains the context typically provided
+   * to the individual notification emails that are sent.
+   */
+  template: DigestibleTemplate;
+
+  /**
+   * createdAt is the date that the digest entry was created at.
+   */
+  createdAt: Date;
+}
+
+/**
  * User is someone that leaves Comments, and logs in.
  */
 export interface User extends TenantResource {
@@ -325,6 +346,17 @@ export interface User extends TenantResource {
   role: GQLUSER_ROLE;
 
   /**
+   * notifications stores the notification settings for the given User.
+   */
+  notifications: GQLUserNotificationSettings;
+
+  /**
+   * digests stores all the notification digests on the User that are scheduled
+   * to be sent out based on the User's notification preferences.
+   */
+  digests: Digest[];
+
+  /**
    * status stores the user status information regarding moderation state.
    */
   status: UserStatus;
@@ -344,6 +376,17 @@ export interface User extends TenantResource {
    * createdAt is the time that the User was created at.
    */
   createdAt: Date;
+
+  /**
+   * scheduledDeletionDate is the time that a user is scheduled to be deleted.
+   * If this is null, the user has not requested for their account to be deleted.
+   */
+  scheduledDeletionDate?: Date;
+
+  /**
+   * deletedAt is the time that this user was deleted from our system.
+   */
+  deletedAt?: Date;
 }
 
 export async function createUserIndexes(mongo: Db) {
@@ -431,6 +474,8 @@ export type InsertUserInput = Omit<
   | "tokens"
   | "status"
   | "ignoredUsers"
+  | "notifications"
+  | "digests"
   | "emailVerificationID"
   | "createdAt"
 > &
@@ -455,6 +500,14 @@ export async function insertUser(
       suspension: { history: [] },
       ban: { active: false, history: [] },
     },
+    notifications: {
+      onReply: false,
+      onFeatured: false,
+      onModeration: false,
+      onStaffReplies: false,
+      digestFrequency: GQLDIGEST_FREQUENCY.NONE,
+    },
+    digests: [],
     createdAt: now,
   };
 
@@ -666,6 +719,64 @@ export async function updateUserPassword(
     }
 
     throw new Error("an unexpected error occurred");
+  }
+
+  return result.value || null;
+}
+
+export async function scheduleDeletionDate(
+  mongo: Db,
+  tenantID: string,
+  userID: string,
+  deletionDate: Date
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $set: {
+        scheduledDeletionDate: deletionDate,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    throw new Error("Unable to update user deletion date.");
+  }
+
+  return result.value || null;
+}
+
+export async function clearDeletionDate(
+  mongo: Db,
+  tenantID: string,
+  userID: string
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $unset: {
+        scheduledDeletionDate: "",
+      },
+    },
+    {
+      // We want to return edited user so that
+      // we send back the cleared scheduledDeletionDate
+      // to the client
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    throw new Error("Unable to update user deletion date.");
   }
 
   return result.value || null;
@@ -1905,4 +2016,123 @@ export async function setUserLastDownloadedAt(
   }
 
   return result.value;
+}
+
+export type NotificationSettingsInput = Partial<GQLUserNotificationSettings>;
+
+export async function updateUserNotificationSettings(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  settings: NotificationSettingsInput
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: dotize({
+        notifications: settings,
+      }),
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the update operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * insertUserNotificationDigests will push the notification contexts onto the
+ * User so that notifications can now be queued.
+ *
+ * @param mongo the database to put the notification digests into
+ * @param tenantID the ID of the Tenant that this User exists on
+ * @param id the ID of the User to insert the digests onto
+ * @param templates the templates that represent the digests to be inserted
+ * @param now the current time
+ */
+export async function insertUserNotificationDigests(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  templates: DigestibleTemplate[],
+  now: Date
+) {
+  // Form the templates into digests to be sent.
+  const digests: Digest[] = templates.map(template => ({
+    template,
+    createdAt: now,
+  }));
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $push: {
+        digests: { $each: digests },
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the update operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * pullUserNotificationDigests will pull notification digests for a given User
+ * so it can be added to the mailer queue.
+ *
+ * @param mongo the database to pull digests from
+ * @param tenantID the tenant ID to pull digests for
+ * @param frequency the frequency that we're scanning for to limit the digest
+ *                  operation
+ */
+export async function pullUserNotificationDigests(
+  mongo: Db,
+  tenantID: string,
+  frequency: GQLDIGEST_FREQUENCY
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      "notifications.digestFrequency": frequency,
+      digests: { $ne: [] },
+    },
+    { $set: { digests: [] } },
+    {
+      // True to return the original document instead of the updated document.
+      returnOriginal: true,
+    }
+  );
+
+  return result.value || null;
 }

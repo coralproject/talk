@@ -28,6 +28,12 @@ enum USER_AUTH_CONDITIONS {
   SUSPENDED is provided when the User is currently under an active suspension.
   """
   SUSPENDED
+
+  """
+  PENDING_DELETION is provided when the User is scheduled for deletion and will
+  remain after being deleted.
+  """
+  PENDING_DELETION
 }
 
 """
@@ -1074,6 +1080,24 @@ type StoryConfiguration {
 }
 
 """
+CommenterAccountFeatures stores the configuration for commenter account features.
+"""
+type CommenterAccountFeatures {
+  """
+  changeUsername when true, non-sso user may change username every 14 days
+  """
+  changeUsername: Boolean!
+  """
+  downloadComments when true, user may download their comment history
+  """
+  downloadComments: Boolean!
+  """
+  deleteAccount when true, non-sso user may permanently delete their account
+  """
+  deleteAccount: Boolean!
+}
+
+"""
 Settings stores the global settings for a given Tenant.
 """
 type Settings {
@@ -1187,6 +1211,11 @@ type Settings {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfiguration!
+
+  """
+  accountFeatures stores the configuration for commenter account features.
+  """
+  accountFeatures: CommenterAccountFeatures!
 
   """
   stories stores the configuration around stories.
@@ -1321,7 +1350,7 @@ type BanStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1401,7 +1430,7 @@ type SuspensionStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1411,7 +1440,7 @@ type SuspensionStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1428,7 +1457,7 @@ type UsernameHistory {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1443,7 +1472,7 @@ type UsernameHistory {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 }
 
@@ -1465,7 +1494,7 @@ type UserStatus {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "userID"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1506,6 +1535,60 @@ enum USER_STATUS {
   SUSPENDED
 }
 
+enum DIGEST_FREQUENCY {
+  """
+  NONE will have the notifications send immediatly rather than bundling for digesting.
+  """
+  NONE
+
+  """
+  DAILY will queue up the notifications and send them daily.
+  """
+  DAILY
+
+  """
+  HOURLY will queue up the notifications and send them hourly.
+  """
+  HOURLY
+}
+
+"""
+UserNotificationSettings stores the notification settings for a given User.
+"""
+type UserNotificationSettings {
+  """
+  onReply, when true, will enable notifications to be sent to users that have
+  replies to their comments.
+  """
+  onReply: Boolean!
+
+  """
+  onFeatured, when true, will enable notifications to be sent to users that have
+  their comment's featured.
+  """
+  onFeatured: Boolean!
+
+  """
+  onStaffReplies when true, will enable notifications to be sent to users that
+  have a staff member reply to their comments. These notifications will
+  supercede notifications that would have been sent for a basic reply
+  notification.
+  """
+  onStaffReplies: Boolean!
+
+  """
+  onModeration when true, will enable notifications to be sent to users when a
+  comment that they wrote that was previously unpublished, becomes published due
+  to a moderator action.
+  """
+  onModeration: Boolean!
+
+  """
+  digestFrequency is the frequency to send notifications.
+  """
+  digestFrequency: DIGEST_FREQUENCY!
+}
+
 """
 User is someone that leaves Comments, and logs in.
 """
@@ -1536,7 +1619,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED]
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1547,7 +1630,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1557,7 +1640,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED]
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1567,7 +1650,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1588,7 +1671,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1626,7 +1709,11 @@ type User {
   tokens lists the access tokens associated with the account.
   """
   tokens: [Token!]!
-    @auth(roles: [ADMIN], userIDField: "id", permit: [SUSPENDED, BANNED])
+    @auth(
+      roles: [ADMIN]
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+    )
 
   """
   ignoredUsers will return the list of ignored users.
@@ -1635,8 +1722,14 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
+
+  """
+  notifications stores the notification settings for the given User.
+  """
+  notifications: UserNotificationSettings!
+    @auth(userIDField: "id", permit: [SUSPENDED, BANNED])
 
   """
   createdAt is the time that the User was created at.
@@ -1648,6 +1741,17 @@ type User {
   of their account data.
   """
   lastDownloadedAt: Time
+
+  """
+  scheduledDeletionDate is the time when the User is
+  scheduled to be deleted.
+  """
+  scheduledDeletionDate: Time
+
+  """
+  deletedAt is the time when the User was deleted.
+  """
+  deletedAt: Time
 }
 
 """
@@ -1900,7 +2004,7 @@ type Comment {
   """
   revision is the current revision of the Comment's body.
   """
-  revision: CommentRevision!
+  revision: CommentRevision
 
   """
   revisionHistory stores the previous CommentRevision's, with the most recent
@@ -1910,7 +2014,7 @@ type Comment {
     @auth(
       roles: [MODERATOR, ADMIN]
       userIDField: "author_id"
-      permit: [SUSPENDED, BANNED]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -2017,6 +2121,11 @@ type Comment {
   tags are the list of tags assigned to the Comment.
   """
   tags: [Tag!]!
+
+  """
+  deleted is whether the comment has been deleted.
+  """
+  deleted: Boolean
 }
 
 type PageInfo {
@@ -2457,6 +2566,61 @@ type Query {
 ################################################################################
 ## Mutations
 ################################################################################
+
+##################
+## updateNotificationSettings
+##################
+
+input UpdateNotificationSettingsInput {
+  """
+  onReply, when true, will enable notifications to be sent to users that have
+  replies to their comments.
+  """
+  onReply: Boolean
+
+  """
+  onFeatured, when true, will enable notifications to be sent to users that have
+  their comment's featured.
+  """
+  onFeatured: Boolean
+
+  """
+  onStaffReplies when true, will enable notifications to be sent to users that
+  have a staff member reply to their comments. These notifications will
+  supercede notifications that would have been sent for a basic reply
+  notification.
+  """
+  onStaffReplies: Boolean
+
+  """
+  onModeration when true, will enable notifications to be sent to users when a
+  comment that they wrote that was previously unpublished, becomes published due
+  to a moderator action.
+  """
+  onModeration: Boolean
+
+  """
+  digestFrequency is the frequency to send notifications.
+  """
+  digestFrequency: DIGEST_FREQUENCY
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateNotificationSettingsPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
 
 ##################
 ## createComment
@@ -3087,6 +3251,24 @@ input ReactionConfigurationInput {
 }
 
 """
+CommenterAccountFeatures stores the configuration for commenter account features.
+"""
+input CommenterAccountFeaturesInput {
+  """
+  changeUsername when true, non-sso user may change username every 14 days
+  """
+  changeUsername: Boolean
+  """
+  downloadComments when true, user may download their comment history
+  """
+  downloadComments: Boolean
+  """
+  deleteAccount when true, non-sso user may permanently delete their account
+  """
+  deleteAccount: Boolean
+}
+
+"""
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
@@ -3184,6 +3366,11 @@ input SettingsInput {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfigurationInput
+
+  """
+  accountFeatures specifies the configuration for accounts.
+  """
+  accountFeatures: CommenterAccountFeaturesInput
 }
 
 """
@@ -3479,6 +3666,13 @@ input CreateStory {
   be scraped, but can be provided here.
   """
   metadata: StoryMetadataInput
+
+  """
+  closedAt when provided specifies the date that the given story will be closed
+  at. If not provided, the story close will use the settings to determine the
+  automatic close date.
+  """
+  closedAt: Time
 }
 
 input CreateStoryInput {
@@ -4134,6 +4328,57 @@ type UpdatePasswordPayload {
 }
 
 ##################
+# requestAccountDeletion
+##################
+
+input RequestAccountDeletionInput {
+  """
+  password to verify for the current User.
+  """
+  password: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RequestAccountDeletionPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# cancelAccountDeletion
+##################
+
+input CancelAccountDeletionInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CancelAccountDeletionPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # createToken
 ##################
 
@@ -4572,6 +4817,33 @@ type RequestCommentsDownloadPayload {
   clientMutationId: String!
 }
 
+#########################
+# requestUserCommentsDownload
+#########################
+
+input RequestUserCommentsDownloadInput {
+  """
+  userID specifies user to download comments for
+  """
+  userID: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RequestUserCommentsDownloadPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  archiveURL is the archive url
+  """
+  archiveURL: String!
+}
 ##################
 ## Mutation
 ##################
@@ -4734,21 +5006,23 @@ type Mutation {
   before. This mutation will fail if the username is already set.
   """
   setUsername(input: SetUsernameInput!): SetUsernamePayload!
-    @auth(permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED])
+    @auth(
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+    )
 
   """
   updateUsername will set the username on the current User if they have not set one
   before. This mutation will fail if the username is already set.
   """
   updateUsername(input: UpdateUsernameInput!): UpdateUsernamePayload!
-    @auth(permit: [SUSPENDED, BANNED])
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
 
   """
   setEmail will set the email address on the current User if they have not set
   one already. This mutation will fail if the email address is already set.
   """
   setEmail(input: SetEmailInput!): SetEmailPayload!
-    @auth(permit: [MISSING_EMAIL, SUSPENDED, BANNED])
+    @auth(permit: [MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION])
 
   """
   setPassword will set the password on the current User if they have not set
@@ -4761,6 +5035,22 @@ type Mutation {
   they already have one associated with them.
   """
   updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload! @auth
+
+  """
+  requestAccountDeletion allows the current logged in User to request to
+  delete their account.
+  """
+  requestAccountDeletion(
+    input: RequestAccountDeletionInput!
+  ): RequestAccountDeletionPayload! @auth
+
+  """
+  cancelAccountDeletion allows the current logged in User to cancel the
+  request to delete their account
+  """
+  cancelAccountDeletion(
+    input: CancelAccountDeletionInput!
+  ): CancelAccountDeletionPayload! @auth(permit: [PENDING_DELETION])
 
   """
   createToken allows an administrator to create a Token based on the current
@@ -4789,6 +5079,14 @@ type Mutation {
   to the one provided.
   """
   updateEmail(input: UpdateEmailInput!): UpdateEmailPayload! @auth
+
+  """
+  updateNotificationSettings can be used to update the notification settings for
+  the current logged in user.
+  """
+  updateNotificationSettings(
+    input: UpdateNotificationSettingsInput!
+  ): UpdateNotificationSettingsPayload! @auth
 
   """
   updateUserEmail allows administrators to update a given User's email address
@@ -4854,7 +5152,15 @@ type Mutation {
   """
   requestCommentsDownload(
     input: RequestCommentsDownloadInput!
-  ): RequestCommentsDownloadPayload! @auth(permit: [SUSPENDED, BANNED])
+  ): RequestCommentsDownloadPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+
+  """
+  requestUserCommentsDownload allows a user to request to download their comments.
+  """
+  requestUserCommentsDownload(
+    input: RequestUserCommentsDownloadInput!
+  ): RequestUserCommentsDownloadPayload! @auth(roles: [ADMIN])
 }
 
 ##################

@@ -110,6 +110,7 @@ export class Button extends React.Component<Props> {
         type={type}
         data-variant={variant}
         data-color={color}
+        data-active={active}
         {...rest}
       />
     );

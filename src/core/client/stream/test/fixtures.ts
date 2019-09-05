@@ -1,11 +1,12 @@
 import {
   GQLComment,
   GQLCOMMENT_STATUS,
+  GQLDIGEST_FREQUENCY,
   GQLMODERATION_MODE,
   GQLSettings,
   GQLStory,
-  GQLTag,
   GQLTAG,
+  GQLTag,
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
@@ -96,6 +97,11 @@ export const settings = createFixture<GQLSettings>({
   charCount: {
     enabled: false,
   },
+  accountFeatures: {
+    downloadComments: true,
+    changeUsername: true,
+    deleteAccount: true,
+  },
 });
 
 export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
@@ -137,6 +143,13 @@ export const baseUser = createFixture<GQLUser>({
     pageInfo: {
       hasNextPage: false,
     },
+  },
+  notifications: {
+    onReply: false,
+    onModeration: false,
+    onStaffReplies: false,
+    onFeatured: false,
+    digestFrequency: GQLDIGEST_FREQUENCY.NONE,
   },
   ignoreable: true,
   profiles: [
@@ -254,6 +267,7 @@ export const baseComment = createFixture<GQLComment>({
   parent: undefined,
   viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
   tags: [],
+  deleted: undefined,
 });
 
 export const comments = denormalizeComments(

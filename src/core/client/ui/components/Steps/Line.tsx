@@ -3,15 +3,19 @@ import React, { FunctionComponent } from "react";
 
 import styles from "./Line.css";
 
-interface CircleProps {
-  active?: boolean;
+interface LineProps {
   completed?: boolean;
+  className?: string;
 }
 
-const Line: FunctionComponent<CircleProps> = ({ active, completed }) => {
-  const rootClassName = cn(styles.root, {
-    [styles.completed]: completed,
-  });
+const Line: FunctionComponent<LineProps> = ({ completed, className }) => {
+  const rootClassName = cn(
+    styles.root,
+    {
+      [styles.completed]: completed,
+    },
+    className
+  );
   return <span className={rootClassName} />;
 };
 

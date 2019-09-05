@@ -39,6 +39,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         pending: false,
         tags: [],
         lastViewerAction: null,
+        deleted: false,
       },
       settings: {
         disableCommenting: {
@@ -125,6 +126,17 @@ it("renders disabled reply when commenting has been disabled", () => {
       disableCommenting: {
         enabled: true,
       },
+    },
+  });
+  const renderer = createRenderer();
+  renderer.render(<CommentContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
+});
+
+it("renders with tombstone when comment has been deleted", () => {
+  const props = createDefaultProps({
+    comment: {
+      deleted: true,
     },
   });
   const renderer = createRenderer();

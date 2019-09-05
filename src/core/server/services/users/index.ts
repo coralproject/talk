@@ -5,6 +5,7 @@ import {
   ALLOWED_USERNAME_CHANGE_FREQUENCY,
   DOWNLOAD_LIMIT_TIMEFRAME,
 } from "coral-common/constants";
+import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -30,6 +31,7 @@ import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
+  clearDeletionDate,
   consolidateUserBanStatus,
   consolidateUserSuspensionStatus,
   createUserToken,
@@ -37,11 +39,13 @@ import {
   ignoreUser,
   insertUser,
   InsertUserInput,
+  NotificationSettingsInput,
   removeActiveUserSuspensions,
   removeUserBan,
   removeUserIgnore,
   retrieveUser,
   retrieveUserWithEmail,
+  scheduleDeletionDate,
   setUserEmail,
   setUserLastDownloadedAt,
   setUserLocalProfile,
@@ -49,6 +53,7 @@ import {
   suspendUser,
   updateUserAvatar,
   updateUserEmail,
+  updateUserNotificationSettings,
   updateUserPassword,
   updateUserRole,
   updateUserUsername,
@@ -59,13 +64,16 @@ import {
   getLocalProfile,
   hasLocalProfile,
 } from "coral-server/models/user/helpers";
-import { userIsStaff } from "coral-server/models/user/helpers";
+import { hasStaffRole } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
-import { generateDownloadLink } from "./download/download";
+import {
+  generateAdminDownloadLink,
+  generateDownloadLink,
+} from "./download/token";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
 export type InsertUser = InsertUserInput;
@@ -294,7 +302,7 @@ export async function updatePassword(
         to: updatedUser.email,
       },
       template: {
-        name: "password-change",
+        name: "account-notification/password-change",
         context: {
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: updatedUser.username!,
@@ -307,6 +315,94 @@ export async function updatePassword(
   }
 
   return user;
+}
+
+export async function requestAccountDeletion(
+  mongo: Db,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  user: User,
+  password: string,
+  now: Date
+) {
+  if (!user.email) {
+    throw new EmailNotSetError();
+  }
+
+  const passwordVerified = await verifyUserPassword(user, password, user.email);
+  if (!passwordVerified) {
+    // We throw a PasswordIncorrect error here instead of an
+    // InvalidCredentialsError because the current user is already signed in.
+    throw new PasswordIncorrect();
+  }
+
+  const deletionDate = DateTime.fromJSDate(now).plus({
+    days: SCHEDULED_DELETION_TIMESPAN_DAYS,
+  });
+
+  const updatedUser = await scheduleDeletionDate(
+    mongo,
+    tenant.id!,
+    user.id,
+    deletionDate.toJSDate()
+  );
+
+  // TODO: extract out into a common shared formatter
+  // this is being duplicated everywhere
+  const formattedDate = Intl.DateTimeFormat(tenant.locale, {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  }).format(deletionDate.toJSDate());
+
+  await mailer.add({
+    tenantID: tenant.id,
+    message: {
+      to: user.email,
+    },
+    template: {
+      name: "account-notification/delete-request-confirmation",
+      context: {
+        requestDate: formattedDate,
+        organizationName: tenant.organization.name,
+        organizationURL: tenant.organization.url,
+      },
+    },
+  });
+
+  return updatedUser;
+}
+
+export async function cancelAccountDeletion(
+  mongo: Db,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  user: User
+) {
+  if (!user.email) {
+    throw new EmailNotSetError();
+  }
+
+  const updatedUser = await clearDeletionDate(mongo, tenant.id, user.id);
+
+  await mailer.add({
+    tenantID: tenant.id,
+    message: {
+      to: user.email,
+    },
+    template: {
+      name: "account-notification/delete-request-cancel",
+      context: {
+        organizationName: tenant.organization.name,
+        organizationURL: tenant.organization.url,
+      },
+    },
+  });
+
+  return updatedUser;
 }
 
 /**
@@ -430,7 +526,7 @@ export async function updateUsername(
         to: user.email,
       },
       template: {
-        name: "update-username",
+        name: "account-notification/update-username",
         context: {
           username: user.username!,
           organizationName: tenant.organization.name,
@@ -518,6 +614,10 @@ function enabledAuthenticationIntegrations(
  * @param user the User that we are updating
  */
 function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
+  if (!tenant.accountFeatures.changeUsername) {
+    return false;
+  }
+
   if (!hasLocalProfile(user)) {
     return false;
   }
@@ -665,7 +765,7 @@ export async function ban(
         to: user.email,
       },
       template: {
-        name: "ban",
+        name: "account-notification/ban",
         context: {
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: user.username!,
@@ -741,7 +841,7 @@ export async function suspend(
         to: updatedUser.email,
       },
       template: {
-        name: "suspend",
+        name: "account-notification/suspend",
         context: {
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: updatedUser.username!,
@@ -824,7 +924,7 @@ export async function ignore(
     throw new UserNotFoundError(userID);
   }
 
-  const userToBeIgnoredIsStaff = userIsStaff(targetUser);
+  const userToBeIgnoredIsStaff = hasStaffRole(targetUser);
   if (userToBeIgnoredIsStaff) {
     throw new UserCannotBeIgnoredError(userID);
   }
@@ -871,6 +971,9 @@ export async function requestCommentsDownload(
   user: User,
   now: Date
 ) {
+  if (!tenant.accountFeatures.downloadComments) {
+    throw new Error("Downloading comments is not enabled");
+  }
   // Check to see if the user is allowed to download this now.
   if (
     user.lastDownloadedAt &&
@@ -898,7 +1001,7 @@ export async function requestCommentsDownload(
         to: user.email,
       },
       template: {
-        name: "download-comments",
+        name: "account-notification/download-comments",
         context: {
           username: user.username!,
           date: Intl.DateTimeFormat(tenant.locale).format(now),
@@ -916,4 +1019,32 @@ export async function requestCommentsDownload(
   }
 
   return user;
+}
+
+export async function requestUserCommentsDownload(
+  mongo: Db,
+  tenant: Tenant,
+  config: Config,
+  signingConfig: JWTSigningConfig,
+  userID: string,
+  now: Date
+) {
+  const downloadUrl = await generateAdminDownloadLink(
+    userID,
+    tenant,
+    config,
+    signingConfig,
+    now
+  );
+
+  return downloadUrl;
+}
+
+export async function updateNotificationSettings(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  settings: NotificationSettingsInput
+) {
+  return updateUserNotificationSettings(mongo, tenant.id, user.id, settings);
 }

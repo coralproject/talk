@@ -62,12 +62,12 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           target="_blank"
         >
           https://openid.net/connect/
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-xs TextLink-icon"
           >
             open_in_new
-          </span>
+          </i>
         </a>
       </p>
       <hr
@@ -215,12 +215,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
               tabIndex={0}
               title="Hide Client Secret"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 visibility
-              </span>
+              </i>
             </div>
           </div>
         </div>
@@ -544,12 +544,12 @@ For more information visit:
           target="_blank"
         >
           https://developers.facebook.com/docs/facebook-login/web
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-xs TextLink-icon"
           >
             open_in_new
-          </span>
+          </i>
         </a>
         .
       </p>
@@ -664,12 +664,12 @@ For more information visit:
               tabIndex={0}
               title="Hide Client Secret"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 visibility
-              </span>
+              </i>
             </div>
           </div>
         </div>
@@ -853,12 +853,12 @@ exports[`change settings: enable oidc configure box 1`] = `
           target="_blank"
         >
           https://openid.net/connect/
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-xs TextLink-icon"
           >
             open_in_new
-          </span>
+          </i>
         </a>
       </p>
       <hr
@@ -1006,12 +1006,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
               tabIndex={0}
               title="Hide Client Secret"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 visibility
-              </span>
+              </i>
             </div>
           </div>
         </div>
@@ -1333,12 +1333,12 @@ exports[`change settings: oidc validation errors 1`] = `
           target="_blank"
         >
           https://openid.net/connect/
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-xs TextLink-icon"
           >
             open_in_new
-          </span>
+          </i>
         </a>
       </p>
       <hr
@@ -1424,12 +1424,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1465,12 +1465,12 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         <div
           className="Message-root Message-colorError ValidationMessage-root"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1512,24 +1512,24 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
               tabIndex={0}
               title="Hide Client Secret"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm"
               >
                 visibility
-              </span>
+              </i>
             </div>
           </div>
         </div>
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1591,12 +1591,12 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1632,12 +1632,12 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1673,12 +1673,12 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1714,12 +1714,12 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Message-root Message-colorError"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
-          </span>
+          </i>
           <span>
             This field is required.
           </span>
@@ -1893,12 +1893,12 @@ exports[`regenerate sso key 1`] = `
           tabIndex={0}
           title="Hide SSO Key"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-sm"
           >
             visibility
-          </span>
+          </i>
         </div>
       </div>
     </div>
@@ -1928,12 +1928,12 @@ exports[`regenerate sso key 1`] = `
       KEY GENERATED AT:
 11/12/2018, 11:26 PM
     </p>
-    <span
+    <i
       aria-hidden="true"
       className="Icon-root Icon-sm SSOKeyField-warnIcon"
     >
       warning
-    </span>
+    </i>
     <p
       className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
     >
@@ -2060,147 +2060,288 @@ exports[`renders configure auth 1`] = `
       >
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
-          data-testid="configure-authContainer"
         >
-          <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-double"
-          >
-            <h1
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
-            >
-              Authentication Integrations
-            </h1>
+          <div>
             <div
-              className="ConfigBox-root"
+              className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
             >
-              <div
-                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+              <legend
+                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
               >
-                <div>
-                  <span>
-                    Login with Email Authentication
-                  </span>
-                </div>
-                <div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <div
-                      className="CheckBox-root"
-                    >
-                      <input
-                        checked={true}
-                        className="CheckBox-input"
-                        disabled={false}
-                        id="auth.integrations.local.enabled"
-                        name="auth.integrations.local.enabled"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        type="checkbox"
-                        value={true}
-                      />
-                      <label
-                        className="CheckBox-label CheckBox-labelLight"
-                        htmlFor="auth.integrations.local.enabled"
-                      >
-                        <span
-                          className="CheckBox-labelSpan"
-                        >
-                          Enabled
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="ConfigBox-content"
+                Commenter account mangement features
+              </legend>
+              <p
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                You can enable and disable certain features for your commenters to use
+within their Profile. These features also assist towards GDPR
+compliance.
+              </p>
+              <fieldset
+                className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-full"
+              >
+                <h1
+                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
+                >
+                  Allow users to:
+                </h1>
+                <fieldset
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                   >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      <span>
-                        Use Email Authentication login on
-                      </span>
-                    </label>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
+                      className="Box-root HorizontalGutter-root HorizontalGutter-half"
+                    >
+                      <legend
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Change their usernames
+                      </legend>
+                      <p
+                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                      >
+                        Usernames can be changed once every 14 days.
+                      </p>
+                    </div>
+                    <div
+                      className="AccountFeaturesConfig-radioButtons"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="RadioButton-input"
                           disabled={false}
-                          id="auth.integrations.local.targetFilter.admin"
-                          name="auth.integrations.local.targetFilter.admin"
+                          id="accountFeatures.changeUsername-true"
+                          name="accountFeatures.changeUsername"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
-                          type="checkbox"
+                          type="radio"
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.local.targetFilter.admin"
+                          className="RadioButton-label"
+                          htmlFor="accountFeatures.changeUsername-true"
                         >
-                          <span
-                            className="CheckBox-labelSpan"
-                          >
-                            Coral Admin
+                          <span>
+                            Yes
                           </span>
                         </label>
                       </div>
                       <div
-                        className="CheckBox-root"
+                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                       >
                         <input
-                          checked={true}
-                          className="CheckBox-input"
+                          checked={false}
+                          className="RadioButton-input"
                           disabled={false}
-                          id="auth.integrations.local.targetFilter.stream"
-                          name="auth.integrations.local.targetFilter.stream"
+                          id="accountFeatures.changeUsername-false"
+                          name="accountFeatures.changeUsername"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
-                          type="checkbox"
-                          value={true}
+                          type="radio"
+                          value={false}
                         />
                         <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.local.targetFilter.stream"
+                          className="RadioButton-label"
+                          htmlFor="accountFeatures.changeUsername-false"
                         >
-                          <span
-                            className="CheckBox-labelSpan"
-                          >
-                            Comment Stream
+                          <span>
+                            No
                           </span>
                         </label>
                       </div>
                     </div>
                   </div>
+                </fieldset>
+              </fieldset>
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-double"
+              >
+                <fieldset
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                >
                   <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                   >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                    <div
+                      className="Box-root HorizontalGutter-root HorizontalGutter-half"
                     >
-                      Registration
-                    </label>
-                    <p
-                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      <legend
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Download their comments
+                      </legend>
+                      <p
+                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                      >
+                        Commenters can download a csv of their comment history.
+                      </p>
+                    </div>
+                    <div
+                      className="AccountFeaturesConfig-radioButtons"
                     >
-                      Allow users that have not signed up before with this authentication
-integration to register for a new account.
-                    </p>
+                      <div
+                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                      >
+                        <input
+                          checked={true}
+                          className="RadioButton-input"
+                          disabled={false}
+                          id="accountFeatures.downloadComments-true"
+                          name="accountFeatures.downloadComments"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          type="radio"
+                          value={true}
+                        />
+                        <label
+                          className="RadioButton-label"
+                          htmlFor="accountFeatures.downloadComments-true"
+                        >
+                          <span>
+                            Yes
+                          </span>
+                        </label>
+                      </div>
+                      <div
+                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                      >
+                        <input
+                          checked={false}
+                          className="RadioButton-input"
+                          disabled={false}
+                          id="accountFeatures.downloadComments-false"
+                          name="accountFeatures.downloadComments"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          type="radio"
+                          value={false}
+                        />
+                        <label
+                          className="RadioButton-label"
+                          htmlFor="accountFeatures.downloadComments-false"
+                        >
+                          <span>
+                            No
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-double"
+              >
+                <fieldset
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                >
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                  >
+                    <div
+                      className="Box-root HorizontalGutter-root HorizontalGutter-half"
+                    >
+                      <legend
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Delete their account
+                      </legend>
+                      <p
+                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                      >
+                        Removes all of their comment data, username, and email address from the site and the database.
+                      </p>
+                    </div>
+                    <div
+                      className="AccountFeaturesConfig-radioButtons"
+                    >
+                      <div
+                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                      >
+                        <input
+                          checked={true}
+                          className="RadioButton-input"
+                          disabled={false}
+                          id="accountFeatures.deleteAccount-true"
+                          name="accountFeatures.deleteAccount"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          type="radio"
+                          value={true}
+                        />
+                        <label
+                          className="RadioButton-label"
+                          htmlFor="accountFeatures.deleteAccount-true"
+                        >
+                          <span>
+                            Yes
+                          </span>
+                        </label>
+                      </div>
+                      <div
+                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                      >
+                        <input
+                          checked={false}
+                          className="RadioButton-input"
+                          disabled={false}
+                          id="accountFeatures.deleteAccount-false"
+                          name="accountFeatures.deleteAccount"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          type="radio"
+                          value={false}
+                        />
+                        <label
+                          className="RadioButton-label"
+                          htmlFor="accountFeatures.deleteAccount-false"
+                        >
+                          <span>
+                            No
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            data-testid="configure-authContainer"
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            >
+              <h1
+                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              >
+                Authentication Integrations
+              </h1>
+              <div
+                className="ConfigBox-root"
+              >
+                <div
+                  className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+                >
+                  <div>
+                    <span>
+                      Login with Email Authentication
+                    </span>
+                  </div>
+                  <div>
                     <div
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
@@ -2211,8 +2352,8 @@ integration to register for a new account.
                           checked={true}
                           className="CheckBox-input"
                           disabled={false}
-                          id="auth.integrations.local.allowRegistration"
-                          name="auth.integrations.local.allowRegistration"
+                          id="auth.integrations.local.enabled"
+                          name="auth.integrations.local.enabled"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2220,464 +2361,153 @@ integration to register for a new account.
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.local.allowRegistration"
+                          className="CheckBox-label CheckBox-labelLight"
+                          htmlFor="auth.integrations.local.enabled"
                         >
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Allow Registration
+                            Enabled
                           </span>
                         </label>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div
-              className="ConfigBox-root"
-              data-testid="configure-auth-oidc-container"
-            >
-              <div
-                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
-              >
-                <div>
-                  <span>
-                    Login with OpenID Connect
-                  </span>
-                </div>
-                <div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <div
-                      className="CheckBox-root"
-                    >
-                      <input
-                        checked={false}
-                        className="CheckBox-input"
-                        disabled={false}
-                        id="auth.integrations.oidc.enabled"
-                        name="auth.integrations.oidc.enabled"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        type="checkbox"
-                        value={false}
-                      />
-                      <label
-                        className="CheckBox-label CheckBox-labelLight"
-                        htmlFor="auth.integrations.oidc.enabled"
-                      >
-                        <span
-                          className="CheckBox-labelSpan"
-                        >
-                          Enabled
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="ConfigBox-content"
-              >
                 <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                  className="ConfigBox-content"
                 >
-                  <p
-                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                  >
-                    To learn more: 
-                    <a
-                      className="TextLink-root"
-                      href="https://openid.net/connect/"
-                      target="_blank"
-                    >
-                      https://openid.net/connect/
-                      <span
-                        aria-hidden="true"
-                        className="Icon-root Icon-xs TextLink-icon"
-                      >
-                        open_in_new
-                      </span>
-                    </a>
-                  </p>
-                  <hr
-                    className="HorizontalRule-root"
-                  />
                   <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
                   >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Redirect URI
-                    </label>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
-                      <div
-                        className="TextField-root"
-                      >
-                        <input
-                          className="TextField-input TextField-colorRegular"
-                          name="redirectURI"
-                          placeholder=""
-                          readOnly={true}
-                          type="text"
-                          value="http://localhost/oidc/callback"
-                        />
-                      </div>
-                      <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-                        data-color="primary"
-                        data-variant="filled"
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        type="button"
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
                         <span>
-                          Copy
+                          Use Email Authentication login on
                         </span>
-                      </button>
-                    </div>
-                  </div>
-                  <hr
-                    className="HorizontalRule-root"
-                  />
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Provider Name
-                    </label>
-                    <p
-                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-                    >
-                      The provider of the OpenID Connect integration. This will be used when the name of the provider
-needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
-                    </p>
-                    <div
-                      className="TextField-root"
-                    >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.oidc.name"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Client ID
-                    </label>
-                    <div
-                      className="TextField-root"
-                    >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.oidc.clientID"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Client Secret
-                    </label>
-                    <div
-                      className="PasswordField-root"
-                    >
+                      </label>
                       <div
-                        className="PasswordField-wrapper"
+                        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                       >
-                        <input
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                          className="PasswordField-colorRegular PasswordField-input"
-                          disabled={true}
-                          name="auth.integrations.oidc.clientSecret"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          placeholder=""
-                          spellCheck={false}
-                          type="password"
-                          value=""
-                        />
                         <div
-                          className="PasswordField-icon"
-                          onClick={[Function]}
-                          role="button"
-                          tabIndex={0}
-                          title="Hide Client Secret"
+                          className="CheckBox-root"
                         >
-                          <span
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm"
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={false}
+                            id="auth.integrations.local.targetFilter.admin"
+                            name="auth.integrations.local.targetFilter.admin"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.local.targetFilter.admin"
                           >
-                            visibility
-                          </span>
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Coral Admin
+                            </span>
+                          </label>
+                        </div>
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={false}
+                            id="auth.integrations.local.targetFilter.stream"
+                            name="auth.integrations.local.targetFilter.stream"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.local.targetFilter.stream"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Comment Stream
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Registration
+                      </label>
+                      <p
+                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      >
+                        Allow users that have not signed up before with this authentication
+integration to register for a new account.
+                      </p>
+                      <div
+                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      >
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={false}
+                            id="auth.integrations.local.allowRegistration"
+                            name="auth.integrations.local.allowRegistration"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.local.allowRegistration"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Allow Registration
+                            </span>
+                          </label>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Issuer
-                    </label>
-                    <p
-                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-                    >
-                      After entering your Issuer information, click the Discover button to have Coral complete
-the remaining fields. You may also enter the information manually.
-                    </p>
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
-                    >
-                      <div
-                        className="TextField-root"
-                      >
-                        <input
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                          className="TextField-input TextField-colorRegular"
-                          disabled={true}
-                          name="auth.integrations.oidc.issuer"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          placeholder=""
-                          spellCheck={false}
-                          type="text"
-                          value=""
-                        />
-                      </div>
-                      <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
-                        data-color="primary"
-                        data-variant="filled"
-                        disabled={true}
-                        id="configure-auth-oidc-discover"
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        type="button"
-                      >
-                        Discover
-                      </button>
-                    </div>
+                </div>
+              </div>
+              <div
+                className="ConfigBox-root"
+                data-testid="configure-auth-oidc-container"
+              >
+                <div
+                  className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+                >
+                  <div>
+                    <span>
+                      Login with OpenID Connect
+                    </span>
                   </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Authorization URL
-                    </label>
-                    <div
-                      className="TextField-root"
-                    >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.oidc.authorizationURL"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Token URL
-                    </label>
-                    <div
-                      className="TextField-root"
-                    >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.oidc.tokenURL"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      JWKS URI
-                    </label>
-                    <div
-                      className="TextField-root"
-                    >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.oidc.jwksURI"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      <span>
-                        Use OpenID Connect login on
-                      </span>
-                    </label>
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
-                    >
-                      <div
-                        className="CheckBox-root"
-                      >
-                        <input
-                          checked={true}
-                          className="CheckBox-input"
-                          disabled={true}
-                          id="auth.integrations.oidc.targetFilter.admin"
-                          name="auth.integrations.oidc.targetFilter.admin"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="checkbox"
-                          value={true}
-                        />
-                        <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.oidc.targetFilter.admin"
-                        >
-                          <span
-                            className="CheckBox-labelSpan"
-                          >
-                            Coral Admin
-                          </span>
-                        </label>
-                      </div>
-                      <div
-                        className="CheckBox-root"
-                      >
-                        <input
-                          checked={true}
-                          className="CheckBox-input"
-                          disabled={true}
-                          id="auth.integrations.oidc.targetFilter.stream"
-                          name="auth.integrations.oidc.targetFilter.stream"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="checkbox"
-                          value={true}
-                        />
-                        <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.oidc.targetFilter.stream"
-                        >
-                          <span
-                            className="CheckBox-labelSpan"
-                          >
-                            Comment Stream
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Registration
-                    </label>
-                    <p
-                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-                    >
-                      Allow users that have not signed up before with this authentication
-integration to register for a new account.
-                    </p>
+                  <div>
                     <div
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
@@ -2687,9 +2517,9 @@ integration to register for a new account.
                         <input
                           checked={false}
                           className="CheckBox-input"
-                          disabled={true}
-                          id="auth.integrations.oidc.allowRegistration"
-                          name="auth.integrations.oidc.allowRegistration"
+                          disabled={false}
+                          id="auth.integrations.oidc.enabled"
+                          name="auth.integrations.oidc.enabled"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2697,83 +2527,160 @@ integration to register for a new account.
                           value={false}
                         />
                         <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.oidc.allowRegistration"
+                          className="CheckBox-label CheckBox-labelLight"
+                          htmlFor="auth.integrations.oidc.enabled"
                         >
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Allow Registration
+                            Enabled
                           </span>
                         </label>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div
-              className="ConfigBox-root"
-            >
-              <div
-                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
-              >
-                <div>
-                  <span>
-                    Login with Single Sign On
-                  </span>
-                </div>
-                <div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <div
-                      className="CheckBox-root"
-                    >
-                      <input
-                        checked={false}
-                        className="CheckBox-input"
-                        disabled={false}
-                        id="auth.integrations.sso.enabled"
-                        name="auth.integrations.sso.enabled"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        type="checkbox"
-                        value={false}
-                      />
-                      <label
-                        className="CheckBox-label CheckBox-labelLight"
-                        htmlFor="auth.integrations.sso.enabled"
-                      >
-                        <span
-                          className="CheckBox-labelSpan"
-                        >
-                          Enabled
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="ConfigBox-content"
-              >
                 <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                  className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                    data-testid="configure-auth-sso-key"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
                   >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                    <p
+                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                     >
-                      Key
-                    </label>
+                      To learn more: 
+                      <a
+                        className="TextLink-root"
+                        href="https://openid.net/connect/"
+                        target="_blank"
+                      >
+                        https://openid.net/connect/
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-xs TextLink-icon"
+                        >
+                          open_in_new
+                        </i>
+                      </a>
+                    </p>
+                    <hr
+                      className="HorizontalRule-root"
+                    />
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Redirect URI
+                      </label>
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                      >
+                        <div
+                          className="TextField-root"
+                        >
+                          <input
+                            className="TextField-input TextField-colorRegular"
+                            name="redirectURI"
+                            placeholder=""
+                            readOnly={true}
+                            type="text"
+                            value="http://localhost/oidc/callback"
+                          />
+                        </div>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+                          data-color="primary"
+                          data-variant="filled"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Copy
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                    <hr
+                      className="HorizontalRule-root"
+                    />
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Provider Name
+                      </label>
+                      <p
+                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      >
+                        The provider of the OpenID Connect integration. This will be used when the name of the provider
+needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
+                      </p>
+                      <div
+                        className="TextField-root"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="TextField-input TextField-colorRegular"
+                          disabled={true}
+                          name="auth.integrations.oidc.name"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Client ID
+                      </label>
+                      <div
+                        className="TextField-root"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="TextField-input TextField-colorRegular"
+                          disabled={true}
+                          name="auth.integrations.oidc.clientID"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Client Secret
+                      </label>
                       <div
                         className="PasswordField-root"
                       >
@@ -2785,149 +2692,298 @@ integration to register for a new account.
                             autoComplete="off"
                             autoCorrect="off"
                             className="PasswordField-colorRegular PasswordField-input"
-                            name="key"
+                            disabled={true}
+                            name="auth.integrations.oidc.clientSecret"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
                             placeholder=""
-                            readOnly={true}
                             spellCheck={false}
                             type="password"
+                            value=""
                           />
                           <div
                             className="PasswordField-icon"
                             onClick={[Function]}
                             role="button"
                             tabIndex={0}
-                            title="Hide SSO Key"
+                            title="Hide Client Secret"
                           >
-                            <span
+                            <i
                               aria-hidden="true"
                               className="Icon-root Icon-sm"
                             >
                               visibility
-                            </span>
+                            </i>
                           </div>
                         </div>
                       </div>
-                      <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
-                        data-color="primary"
-                        data-variant="filled"
-                        disabled={true}
-                        id="configure-auth-sso-regenerate"
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        type="button"
-                      >
-                        Regenerate
-                      </button>
                     </div>
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Issuer
+                      </label>
                       <p
-                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-keyGenerated"
+                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                       >
-                        KEY GENERATED AT:
-Invalid Date
+                        After entering your Issuer information, click the Discover button to have Coral complete
+the remaining fields. You may also enter the information manually.
                       </p>
-                      <span
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm SSOKeyField-warnIcon"
-                      >
-                        warning
-                      </span>
-                      <p
-                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
-                      >
-                        Regenerating a key will invalidate any existing user sessions,
-and all signed-in users will be signed out.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      <span>
-                        Use Single Sign On login on
-                      </span>
-                    </label>
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
-                    >
                       <div
-                        className="CheckBox-root"
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                      >
+                        <div
+                          className="TextField-root"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="TextField-input TextField-colorRegular"
+                            disabled={true}
+                            name="auth.integrations.oidc.issuer"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder=""
+                            spellCheck={false}
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
+                          data-color="primary"
+                          data-variant="filled"
+                          disabled={true}
+                          id="configure-auth-oidc-discover"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          Discover
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Authorization URL
+                      </label>
+                      <div
+                        className="TextField-root"
                       >
                         <input
-                          checked={true}
-                          className="CheckBox-input"
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="TextField-input TextField-colorRegular"
                           disabled={true}
-                          id="auth.integrations.sso.targetFilter.admin"
-                          name="auth.integrations.sso.targetFilter.admin"
+                          name="auth.integrations.oidc.authorizationURL"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
-                          type="checkbox"
-                          value={true}
+                          placeholder=""
+                          spellCheck={false}
+                          type="text"
+                          value=""
                         />
-                        <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.sso.targetFilter.admin"
-                        >
-                          <span
-                            className="CheckBox-labelSpan"
-                          >
-                            Coral Admin
-                          </span>
-                        </label>
                       </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Token URL
+                      </label>
                       <div
-                        className="CheckBox-root"
+                        className="TextField-root"
                       >
                         <input
-                          checked={true}
-                          className="CheckBox-input"
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="TextField-input TextField-colorRegular"
                           disabled={true}
-                          id="auth.integrations.sso.targetFilter.stream"
-                          name="auth.integrations.sso.targetFilter.stream"
+                          name="auth.integrations.oidc.tokenURL"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
-                          type="checkbox"
-                          value={true}
+                          placeholder=""
+                          spellCheck={false}
+                          type="text"
+                          value=""
                         />
-                        <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.sso.targetFilter.stream"
-                        >
-                          <span
-                            className="CheckBox-labelSpan"
-                          >
-                            Comment Stream
-                          </span>
-                        </label>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
-                      Registration
-                    </label>
-                    <p
-                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        JWKS URI
+                      </label>
+                      <div
+                        className="TextField-root"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="TextField-input TextField-colorRegular"
+                          disabled={true}
+                          name="auth.integrations.oidc.jwksURI"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
-                      Allow users that have not signed up before with this authentication
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        <span>
+                          Use OpenID Connect login on
+                        </span>
+                      </label>
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
+                      >
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.oidc.targetFilter.admin"
+                            name="auth.integrations.oidc.targetFilter.admin"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.oidc.targetFilter.admin"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Coral Admin
+                            </span>
+                          </label>
+                        </div>
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.oidc.targetFilter.stream"
+                            name="auth.integrations.oidc.targetFilter.stream"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.oidc.targetFilter.stream"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Comment Stream
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Registration
+                      </label>
+                      <p
+                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      >
+                        Allow users that have not signed up before with this authentication
 integration to register for a new account.
-                    </p>
+                      </p>
+                      <div
+                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      >
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={false}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.oidc.allowRegistration"
+                            name="auth.integrations.oidc.allowRegistration"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.oidc.allowRegistration"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Allow Registration
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="ConfigBox-root"
+              >
+                <div
+                  className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+                >
+                  <div>
+                    <span>
+                      Login with Single Sign On
+                    </span>
+                  </div>
+                  <div>
                     <div
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
@@ -2935,614 +2991,557 @@ integration to register for a new account.
                         className="CheckBox-root"
                       >
                         <input
-                          checked={true}
+                          checked={false}
                           className="CheckBox-input"
-                          disabled={true}
-                          id="auth.integrations.sso.allowRegistration"
-                          name="auth.integrations.sso.allowRegistration"
+                          disabled={false}
+                          id="auth.integrations.sso.enabled"
+                          name="auth.integrations.sso.enabled"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
-                          value={true}
+                          value={false}
                         />
                         <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.sso.allowRegistration"
+                          className="CheckBox-label CheckBox-labelLight"
+                          htmlFor="auth.integrations.sso.enabled"
                         >
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Allow Registration
+                            Enabled
                           </span>
                         </label>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div
-              className="ConfigBox-root"
-            >
-              <div
-                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
-              >
-                <div>
-                  <span>
-                    Login with Google
-                  </span>
-                </div>
-                <div>
+                <div
+                  className="ConfigBox-content"
+                >
                   <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
                   >
                     <div
-                      className="CheckBox-root"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      data-testid="configure-auth-sso-key"
                     >
-                      <input
-                        checked={false}
-                        className="CheckBox-input"
-                        disabled={false}
-                        id="auth.integrations.google.enabled"
-                        name="auth.integrations.google.enabled"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        type="checkbox"
-                        value={false}
-                      />
                       <label
-                        className="CheckBox-label CheckBox-labelLight"
-                        htmlFor="auth.integrations.google.enabled"
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
-                        <span
-                          className="CheckBox-labelSpan"
+                        Key
+                      </label>
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                      >
+                        <div
+                          className="PasswordField-root"
                         >
-                          Enabled
+                          <div
+                            className="PasswordField-wrapper"
+                          >
+                            <input
+                              autoCapitalize="off"
+                              autoComplete="off"
+                              autoCorrect="off"
+                              className="PasswordField-colorRegular PasswordField-input"
+                              name="key"
+                              placeholder=""
+                              readOnly={true}
+                              spellCheck={false}
+                              type="password"
+                            />
+                            <div
+                              className="PasswordField-icon"
+                              onClick={[Function]}
+                              role="button"
+                              tabIndex={0}
+                              title="Hide SSO Key"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="Icon-root Icon-sm"
+                              >
+                                visibility
+                              </i>
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
+                          data-color="primary"
+                          data-variant="filled"
+                          disabled={true}
+                          id="configure-auth-sso-regenerate"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          Regenerate
+                        </button>
+                      </div>
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
+                      >
+                        <p
+                          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-keyGenerated"
+                        >
+                          KEY GENERATED AT:
+Invalid Date
+                        </p>
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm SSOKeyField-warnIcon"
+                        >
+                          warning
+                        </i>
+                        <p
+                          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
+                        >
+                          Regenerating a key will invalidate any existing user sessions,
+and all signed-in users will be signed out.
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        <span>
+                          Use Single Sign On login on
                         </span>
                       </label>
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
+                      >
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.sso.targetFilter.admin"
+                            name="auth.integrations.sso.targetFilter.admin"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.sso.targetFilter.admin"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Coral Admin
+                            </span>
+                          </label>
+                        </div>
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.sso.targetFilter.stream"
+                            name="auth.integrations.sso.targetFilter.stream"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.sso.targetFilter.stream"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Comment Stream
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Registration
+                      </label>
+                      <p
+                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      >
+                        Allow users that have not signed up before with this authentication
+integration to register for a new account.
+                      </p>
+                      <div
+                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      >
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.sso.allowRegistration"
+                            name="auth.integrations.sso.allowRegistration"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.sso.allowRegistration"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Allow Registration
+                            </span>
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div
-                className="ConfigBox-content"
+                className="ConfigBox-root"
               >
                 <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                  className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
-                  <p
-                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  <div>
+                    <span>
+                      Login with Google
+                    </span>
+                  </div>
+                  <div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <div
+                        className="CheckBox-root"
+                      >
+                        <input
+                          checked={false}
+                          className="CheckBox-input"
+                          disabled={false}
+                          id="auth.integrations.google.enabled"
+                          name="auth.integrations.google.enabled"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          type="checkbox"
+                          value={false}
+                        />
+                        <label
+                          className="CheckBox-label CheckBox-labelLight"
+                          htmlFor="auth.integrations.google.enabled"
+                        >
+                          <span
+                            className="CheckBox-labelSpan"
+                          >
+                            Enabled
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="ConfigBox-content"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
                   >
-                    To enable the integration with Google Authentication you need
+                    <p
+                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                    >
+                      To enable the integration with Google Authentication you need
 to create and set up a web application. For more information visit:
 
-                    <a
-                      className="TextLink-root"
-                      href="https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred"
-                      target="_blank"
-                    >
-                      https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred
-                      <span
-                        aria-hidden="true"
-                        className="Icon-root Icon-xs TextLink-icon"
+                      <a
+                        className="TextLink-root"
+                        href="https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred"
+                        target="_blank"
                       >
-                        open_in_new
-                      </span>
-                    </a>
-                    .
-                  </p>
-                  <hr
-                    className="HorizontalRule-root"
-                  />
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Redirect URI
-                    </label>
+                        https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-xs TextLink-icon"
+                        >
+                          open_in_new
+                        </i>
+                      </a>
+                      .
+                    </p>
+                    <hr
+                      className="HorizontalRule-root"
+                    />
                     <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Redirect URI
+                      </label>
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                      >
+                        <div
+                          className="TextField-root"
+                        >
+                          <input
+                            className="TextField-input TextField-colorRegular"
+                            name="redirectURI"
+                            placeholder=""
+                            readOnly={true}
+                            type="text"
+                            value="http://localhost/google/callback"
+                          />
+                        </div>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+                          data-color="primary"
+                          data-variant="filled"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Copy
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                    <hr
+                      className="HorizontalRule-root"
+                    />
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Client ID
+                      </label>
                       <div
                         className="TextField-root"
-                      >
-                        <input
-                          className="TextField-input TextField-colorRegular"
-                          name="redirectURI"
-                          placeholder=""
-                          readOnly={true}
-                          type="text"
-                          value="http://localhost/google/callback"
-                        />
-                      </div>
-                      <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-                        data-color="primary"
-                        data-variant="filled"
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        type="button"
-                      >
-                        <span>
-                          Copy
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                  <hr
-                    className="HorizontalRule-root"
-                  />
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Client ID
-                    </label>
-                    <div
-                      className="TextField-root"
-                    >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.google.clientID"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Client Secret
-                    </label>
-                    <div
-                      className="PasswordField-root"
-                    >
-                      <div
-                        className="PasswordField-wrapper"
                       >
                         <input
                           autoCapitalize="off"
                           autoComplete="off"
                           autoCorrect="off"
-                          className="PasswordField-colorRegular PasswordField-input"
+                          className="TextField-input TextField-colorRegular"
                           disabled={true}
-                          name="auth.integrations.google.clientSecret"
+                          name="auth.integrations.google.clientID"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
                           placeholder=""
                           spellCheck={false}
-                          type="password"
+                          type="text"
                           value=""
                         />
-                        <div
-                          className="PasswordField-icon"
-                          onClick={[Function]}
-                          role="button"
-                          tabIndex={0}
-                          title="Hide Client Secret"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm"
-                          >
-                            visibility
-                          </span>
-                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      <span>
-                        Use Google login on
-                      </span>
-                    </label>
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
-                    >
-                      <div
-                        className="CheckBox-root"
-                      >
-                        <input
-                          checked={true}
-                          className="CheckBox-input"
-                          disabled={true}
-                          id="auth.integrations.google.targetFilter.admin"
-                          name="auth.integrations.google.targetFilter.admin"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="checkbox"
-                          value={true}
-                        />
-                        <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.google.targetFilter.admin"
-                        >
-                          <span
-                            className="CheckBox-labelSpan"
-                          >
-                            Coral Admin
-                          </span>
-                        </label>
-                      </div>
-                      <div
-                        className="CheckBox-root"
-                      >
-                        <input
-                          checked={true}
-                          className="CheckBox-input"
-                          disabled={true}
-                          id="auth.integrations.google.targetFilter.stream"
-                          name="auth.integrations.google.targetFilter.stream"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="checkbox"
-                          value={true}
-                        />
-                        <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.google.targetFilter.stream"
-                        >
-                          <span
-                            className="CheckBox-labelSpan"
-                          >
-                            Comment Stream
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Registration
-                    </label>
-                    <p
-                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-                    >
-                      Allow users that have not signed up before with this authentication
-integration to register for a new account.
-                    </p>
                     <div
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
-                      <div
-                        className="CheckBox-root"
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
-                        <input
-                          checked={true}
-                          className="CheckBox-input"
-                          disabled={true}
-                          id="auth.integrations.google.allowRegistration"
-                          name="auth.integrations.google.allowRegistration"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="checkbox"
-                          value={true}
-                        />
-                        <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.google.allowRegistration"
+                        Client Secret
+                      </label>
+                      <div
+                        className="PasswordField-root"
+                      >
+                        <div
+                          className="PasswordField-wrapper"
                         >
-                          <span
-                            className="CheckBox-labelSpan"
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="PasswordField-colorRegular PasswordField-input"
+                            disabled={true}
+                            name="auth.integrations.google.clientSecret"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder=""
+                            spellCheck={false}
+                            type="password"
+                            value=""
+                          />
+                          <div
+                            className="PasswordField-icon"
+                            onClick={[Function]}
+                            role="button"
+                            tabIndex={0}
+                            title="Hide Client Secret"
                           >
-                            Allow Registration
-                          </span>
-                        </label>
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              visibility
+                            </i>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="ConfigBox-root"
-              data-testid="configure-auth-facebook-container"
-            >
-              <div
-                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
-              >
-                <div>
-                  <span>
-                    Login with Facebook
-                  </span>
-                </div>
-                <div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
                     <div
-                      className="CheckBox-root"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
-                      <input
-                        checked={false}
-                        className="CheckBox-input"
-                        disabled={false}
-                        id="auth.integrations.facebook.enabled"
-                        name="auth.integrations.facebook.enabled"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        type="checkbox"
-                        value={false}
-                      />
                       <label
-                        className="CheckBox-label CheckBox-labelLight"
-                        htmlFor="auth.integrations.facebook.enabled"
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                       >
-                        <span
-                          className="CheckBox-labelSpan"
-                        >
-                          Enabled
+                        <span>
+                          Use Google login on
                         </span>
                       </label>
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
+                      >
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.google.targetFilter.admin"
+                            name="auth.integrations.google.targetFilter.admin"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.google.targetFilter.admin"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Coral Admin
+                            </span>
+                          </label>
+                        </div>
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.google.targetFilter.stream"
+                            name="auth.integrations.google.targetFilter.stream"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.google.targetFilter.stream"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Comment Stream
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Registration
+                      </label>
+                      <p
+                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      >
+                        Allow users that have not signed up before with this authentication
+integration to register for a new account.
+                      </p>
+                      <div
+                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      >
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.google.allowRegistration"
+                            name="auth.integrations.google.allowRegistration"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.google.allowRegistration"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Allow Registration
+                            </span>
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div
-                className="ConfigBox-content"
+                className="ConfigBox-root"
+                data-testid="configure-auth-facebook-container"
               >
                 <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                  className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
-                  <p
-                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                  >
-                    To enable the integration with Facebook Authentication,
-you need to create and set up a web application.
-For more information visit: 
-                    <a
-                      className="TextLink-root"
-                      href="https://developers.facebook.com/docs/facebook-login/web"
-                      target="_blank"
-                    >
-                      https://developers.facebook.com/docs/facebook-login/web
-                      <span
-                        aria-hidden="true"
-                        className="Icon-root Icon-xs TextLink-icon"
-                      >
-                        open_in_new
-                      </span>
-                    </a>
-                    .
-                  </p>
-                  <hr
-                    className="HorizontalRule-root"
-                  />
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Redirect URI
-                    </label>
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
-                    >
-                      <div
-                        className="TextField-root"
-                      >
-                        <input
-                          className="TextField-input TextField-colorRegular"
-                          name="redirectURI"
-                          placeholder=""
-                          readOnly={true}
-                          type="text"
-                          value="http://localhost/facebook/callback"
-                        />
-                      </div>
-                      <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-                        data-color="primary"
-                        data-variant="filled"
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        type="button"
-                      >
-                        <span>
-                          Copy
-                        </span>
-                      </button>
-                    </div>
+                  <div>
+                    <span>
+                      Login with Facebook
+                    </span>
                   </div>
-                  <hr
-                    className="HorizontalRule-root"
-                  />
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Client ID
-                    </label>
-                    <div
-                      className="TextField-root"
-                    >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.facebook.clientID"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Client Secret
-                    </label>
-                    <div
-                      className="PasswordField-root"
-                    >
-                      <div
-                        className="PasswordField-wrapper"
-                      >
-                        <input
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                          className="PasswordField-colorRegular PasswordField-input"
-                          disabled={true}
-                          name="auth.integrations.facebook.clientSecret"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          placeholder=""
-                          spellCheck={false}
-                          type="password"
-                          value=""
-                        />
-                        <div
-                          className="PasswordField-icon"
-                          onClick={[Function]}
-                          role="button"
-                          tabIndex={0}
-                          title="Hide Client Secret"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="Icon-root Icon-sm"
-                          >
-                            visibility
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      <span>
-                        Use Facebook login on
-                      </span>
-                    </label>
-                    <div
-                      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
-                    >
-                      <div
-                        className="CheckBox-root"
-                      >
-                        <input
-                          checked={true}
-                          className="CheckBox-input"
-                          disabled={true}
-                          id="auth.integrations.facebook.targetFilter.admin"
-                          name="auth.integrations.facebook.targetFilter.admin"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="checkbox"
-                          value={true}
-                        />
-                        <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.facebook.targetFilter.admin"
-                        >
-                          <span
-                            className="CheckBox-labelSpan"
-                          >
-                            Coral Admin
-                          </span>
-                        </label>
-                      </div>
-                      <div
-                        className="CheckBox-root"
-                      >
-                        <input
-                          checked={true}
-                          className="CheckBox-input"
-                          disabled={true}
-                          id="auth.integrations.facebook.targetFilter.stream"
-                          name="auth.integrations.facebook.targetFilter.stream"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="checkbox"
-                          value={true}
-                        />
-                        <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.facebook.targetFilter.stream"
-                        >
-                          <span
-                            className="CheckBox-labelSpan"
-                          >
-                            Comment Stream
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-                  >
-                    <label
-                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                    >
-                      Registration
-                    </label>
-                    <p
-                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-                    >
-                      Allow users that have not signed up before with this authentication
-integration to register for a new account.
-                    </p>
+                  <div>
                     <div
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
@@ -3550,27 +3549,289 @@ integration to register for a new account.
                         className="CheckBox-root"
                       >
                         <input
-                          checked={true}
+                          checked={false}
                           className="CheckBox-input"
-                          disabled={true}
-                          id="auth.integrations.facebook.allowRegistration"
-                          name="auth.integrations.facebook.allowRegistration"
+                          disabled={false}
+                          id="auth.integrations.facebook.enabled"
+                          name="auth.integrations.facebook.enabled"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
                           type="checkbox"
-                          value={true}
+                          value={false}
                         />
                         <label
-                          className="CheckBox-label"
-                          htmlFor="auth.integrations.facebook.allowRegistration"
+                          className="CheckBox-label CheckBox-labelLight"
+                          htmlFor="auth.integrations.facebook.enabled"
                         >
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Allow Registration
+                            Enabled
                           </span>
                         </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="ConfigBox-content"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                  >
+                    <p
+                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                    >
+                      To enable the integration with Facebook Authentication,
+you need to create and set up a web application.
+For more information visit: 
+                      <a
+                        className="TextLink-root"
+                        href="https://developers.facebook.com/docs/facebook-login/web"
+                        target="_blank"
+                      >
+                        https://developers.facebook.com/docs/facebook-login/web
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-xs TextLink-icon"
+                        >
+                          open_in_new
+                        </i>
+                      </a>
+                      .
+                    </p>
+                    <hr
+                      className="HorizontalRule-root"
+                    />
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Redirect URI
+                      </label>
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
+                      >
+                        <div
+                          className="TextField-root"
+                        >
+                          <input
+                            className="TextField-input TextField-colorRegular"
+                            name="redirectURI"
+                            placeholder=""
+                            readOnly={true}
+                            type="text"
+                            value="http://localhost/facebook/callback"
+                          />
+                        </div>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+                          data-color="primary"
+                          data-variant="filled"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Copy
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                    <hr
+                      className="HorizontalRule-root"
+                    />
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Client ID
+                      </label>
+                      <div
+                        className="TextField-root"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="TextField-input TextField-colorRegular"
+                          disabled={true}
+                          name="auth.integrations.facebook.clientID"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Client Secret
+                      </label>
+                      <div
+                        className="PasswordField-root"
+                      >
+                        <div
+                          className="PasswordField-wrapper"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="PasswordField-colorRegular PasswordField-input"
+                            disabled={true}
+                            name="auth.integrations.facebook.clientSecret"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder=""
+                            spellCheck={false}
+                            type="password"
+                            value=""
+                          />
+                          <div
+                            className="PasswordField-icon"
+                            onClick={[Function]}
+                            role="button"
+                            tabIndex={0}
+                            title="Hide Client Secret"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              visibility
+                            </i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        <span>
+                          Use Facebook login on
+                        </span>
+                      </label>
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
+                      >
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.facebook.targetFilter.admin"
+                            name="auth.integrations.facebook.targetFilter.admin"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.facebook.targetFilter.admin"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Coral Admin
+                            </span>
+                          </label>
+                        </div>
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.facebook.targetFilter.stream"
+                            name="auth.integrations.facebook.targetFilter.stream"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.facebook.targetFilter.stream"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Comment Stream
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Registration
+                      </label>
+                      <p
+                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      >
+                        Allow users that have not signed up before with this authentication
+integration to register for a new account.
+                      </p>
+                      <div
+                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      >
+                        <div
+                          className="CheckBox-root"
+                        >
+                          <input
+                            checked={true}
+                            className="CheckBox-input"
+                            disabled={true}
+                            id="auth.integrations.facebook.allowRegistration"
+                            name="auth.integrations.facebook.allowRegistration"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={true}
+                          />
+                          <label
+                            className="CheckBox-label"
+                            htmlFor="auth.integrations.facebook.allowRegistration"
+                          >
+                            <span
+                              className="CheckBox-labelSpan"
+                            >
+                              Allow Registration
+                            </span>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>

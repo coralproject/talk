@@ -7,6 +7,7 @@ import { Field, Form } from "react-final-form";
 import { OnSubmit } from "coral-framework/lib/form";
 import CLASSES from "coral-stream/classes";
 import Timestamp from "coral-stream/common/Timestamp";
+import ValidationMessage from "coral-stream/common/ValidationMessage";
 import {
   AriaInfo,
   Button,
@@ -16,7 +17,6 @@ import {
   Message,
   MessageIcon,
   RelativeTime,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../../helpers";
@@ -98,14 +98,20 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
                     </Localized>
                     {props.expired ? (
                       <Localized id="comments-editCommentForm-editTimeExpired">
-                        <ValidationMessage fullWidth>
+                        <ValidationMessage
+                          className={CLASSES.editComment.expiredTime}
+                          fullWidth
+                        >
                           Edit time has expired. You can no longer edit this
                           comment. Why not post another one?
                         </ValidationMessage>
                       </Localized>
                     ) : (
                       <>
-                        <Message fullWidth>
+                        <Message
+                          className={CLASSES.editComment.remainingTime}
+                          fullWidth
+                        >
                           <MessageIcon>alarm</MessageIcon>
                           <Localized
                             id="comments-editCommentForm-editRemainingTime"

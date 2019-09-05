@@ -12,13 +12,13 @@ import {
   MailerData,
   MailProcessorOptions,
 } from "./processor";
-import { Template } from "./templates";
+import { EmailTemplate } from "./templates";
 
 export interface MailerInput {
   message: {
     to: string;
   };
-  template: Template;
+  template: EmailTemplate;
   tenantID: string;
 }
 

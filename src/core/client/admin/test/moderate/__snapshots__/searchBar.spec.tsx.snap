@@ -33,12 +33,12 @@ exports[`all stories active search with no results 1`] = `
             <div
               className="Box-root Flex-root Field-begin Flex-flex Flex-alignCenter"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-md Field-searchIcon"
               >
                 search
-              </span>
+              </i>
               <div
                 className="Field-beginStories"
               >
@@ -172,12 +172,12 @@ exports[`all stories active search with too many results 1`] = `
     <span>
       See all results
     </span>
-    <span
+    <i
       aria-hidden="true"
       className="Icon-root Icon-sm SeeAllOption-icon"
     >
       arrow_forward
-    </span>
+    </i>
   </a>
 </li>
 `;
@@ -215,12 +215,12 @@ exports[`all stories renders search bar 1`] = `
             <div
               className="Box-root Flex-root Field-begin Flex-flex Flex-alignCenter"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-md Field-searchIcon"
               >
                 search
-              </span>
+              </i>
             </div>
             <input
               aria-autocomplete="list"

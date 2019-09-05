@@ -46,12 +46,12 @@ exports[`checks for invalid username 1`] = `
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           Username must contain at least 3 characters.
         </span>
@@ -207,12 +207,12 @@ exports[`shows error when submitting empty form 1`] = `
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
-        </span>
+        </i>
         <span>
           This field is required.
         </span>

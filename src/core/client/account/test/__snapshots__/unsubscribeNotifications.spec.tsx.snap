@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders form 1`] = `
+<div
+  data-testid="main-layout"
+>
+  <div
+    className="MainLayout-bar"
+  />
+  <div
+    className="MainLayout-centered"
+  >
+    <div
+      className="UnsubscribeRoute-container"
+    >
+      <div
+        className="UnsubscribeRoute-root"
+      >
+        <div
+          data-testid="unsubscribe-form"
+        >
+          <form
+            onSubmit={[Function]}
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <h1
+                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary"
+              >
+                Click below to confirm that you want to unsubscribe from all notifications.
+              </h1>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
+                data-color="primary"
+                data-variant="filled"
+                disabled={false}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                Confirm
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders missing confirm token 1`] = `
+<div
+  data-testid="main-layout"
+>
+  <div
+    className="MainLayout-bar"
+  />
+  <div
+    className="MainLayout-centered"
+  >
+    <div
+      className="UnsubscribeRoute-container"
+    >
+      <div
+        className="UnsubscribeRoute-root"
+      >
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
+        >
+          <h1
+            className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary"
+          >
+            Oops Sorry!
+          </h1>
+          <div
+            className="CallOut-root CallOut-colorError CallOut-fullWidth"
+          >
+            <div>
+              <span
+                data-testid="invalid-link"
+              >
+                The specified link is invalid, check to see if it was copied correctly.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

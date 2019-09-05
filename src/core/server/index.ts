@@ -15,13 +15,17 @@ import { JSONErrorHandler } from "coral-server/app/middleware/error";
 import { accessLogger, errorLogger } from "coral-server/app/middleware/logging";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import config, { Config } from "coral-server/config";
+import startScheduledTasks, { ScheduledJobGroups } from "coral-server/cron";
 import { createPubSubClient } from "coral-server/graph/common/subscriptions/pubsub";
 import getTenantSchema from "coral-server/graph/tenant/schema";
 import { createSubscriptionServer } from "coral-server/graph/tenant/subscriptions/server";
 import logger from "coral-server/logger";
 import { createQueue, TaskQueue } from "coral-server/queue";
 import { I18n } from "coral-server/services/i18n";
-import { createJWTSigningConfig } from "coral-server/services/jwt";
+import {
+  createJWTSigningConfig,
+  JWTSigningConfig,
+} from "coral-server/services/jwt";
 import { createMetrics } from "coral-server/services/metrics";
 import { createMongoDB } from "coral-server/services/mongodb";
 import { ensureIndexes } from "coral-server/services/mongodb/indexes";
@@ -65,6 +69,9 @@ class Server {
   // bind to the requested port to serve websocket traffic.
   public subscriptionServer: SubscriptionServer;
 
+  // scheduledTasks are tasks managed by cron.
+  public scheduledTasks: ScheduledJobGroups;
+
   // tasks stores a reference to the queues that can process operations.
   private tasks: TaskQueue;
 
@@ -89,6 +96,9 @@ class Server {
   // i18n is the server reference to the i18n framework.
   private i18n: I18n;
 
+  // signingConfig is the server reference to the signing configuration.
+  private signingConfig: JWTSigningConfig;
+
   constructor(options: ServerOptions) {
     this.parentApp = express();
 
@@ -107,6 +117,9 @@ class Server {
 
     // Setup the translation framework.
     this.i18n = new I18n(defaultLocale);
+
+    // Create the signing config.
+    this.signingConfig = createJWTSigningConfig(this.config);
   }
 
   /**
@@ -145,6 +158,7 @@ class Server {
       mongo: this.mongo,
       tenantCache: this.tenantCache,
       i18n: this.i18n,
+      signingConfig: this.signingConfig,
     });
 
     // Create the pubsub client.
@@ -179,6 +193,16 @@ class Server {
     // Launch all of the job processors.
     this.tasks.mailer.process();
     this.tasks.scraper.process();
+    this.tasks.notifier.process();
+
+    // Start up the cron job processors.
+    this.scheduledTasks = startScheduledTasks({
+      mongo: this.mongo,
+      config: this.config,
+      mailerQueue: this.tasks.mailer,
+      tenantCache: this.tenantCache,
+      signingConfig: this.signingConfig,
+    });
 
     // If we are running in concurrency mode, and we are the master, we should
     // setup the aggregator for the cluster metrics.
@@ -254,9 +278,6 @@ class Server {
     // Ensure we have an app to bind to.
     parent = parent ? parent : this.parentApp;
 
-    // Create the signing config.
-    const signingConfig = createJWTSigningConfig(this.config);
-
     // Disables the client routes to serve bundles etc. Useful for developing with
     // Webpack Dev Server.
     const disableClientRoutes = this.config.get("disable_client_routes");
@@ -272,13 +293,14 @@ class Server {
       pubsub: this.pubsub,
       mongo: this.mongo,
       redis: this.redis,
-      signingConfig,
+      signingConfig: this.signingConfig,
       tenantCache: this.tenantCache,
       config: this.config,
       schema: this.schema,
       i18n: this.i18n,
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
+      notifierQueue: this.tasks.notifier,
       disableClientRoutes,
       persistedQueryCache,
       persistedQueriesRequired:

@@ -1,6 +1,8 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Button, Flex, Typography } from "coral-ui/components";
 
 import styles from "./CloseStream.css";
@@ -11,7 +13,7 @@ interface Props {
 }
 
 const CloseStream: FunctionComponent<Props> = ({ onClick, disableButton }) => (
-  <div>
+  <div className={CLASSES.closeCommentStream.$root}>
     <Localized id="configure-closeStream-title">
       <Typography variant="heading2" className={styles.heading}>
         Close Comment Stream
@@ -29,7 +31,7 @@ const CloseStream: FunctionComponent<Props> = ({ onClick, disableButton }) => (
         <Button
           variant="outlined"
           color="error"
-          className={styles.button}
+          className={cn(styles.button, CLASSES.closeCommentStream.closeButton)}
           onClick={onClick}
           disabled={disableButton}
         >

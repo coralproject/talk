@@ -17,6 +17,7 @@ import {
 import ChangeEmailContainer from "./ChangeEmail";
 import ChangeUsernameContainer from "./ChangeUsername";
 import CommentHistoryContainer from "./CommentHistory";
+import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";
 import SettingsContainer from "./Settings";
 
 export interface ProfileProps {
@@ -26,7 +27,8 @@ export interface ProfileProps {
     PropTypesOf<typeof SettingsContainer>["viewer"] &
     PropTypesOf<typeof ChangeUsernameContainer>["viewer"] &
     PropTypesOf<typeof ChangeEmailContainer>["viewer"] &
-    PropTypesOf<typeof SettingsContainer>["viewer"];
+    PropTypesOf<typeof SettingsContainer>["viewer"] &
+    PropTypesOf<typeof DeletionRequestCalloutContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
     PropTypesOf<typeof ChangeEmailContainer>["settings"] &
     PropTypesOf<typeof SettingsContainer>["settings"] &
@@ -51,6 +53,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           viewer={props.viewer}
         />
         <ChangeEmailContainer settings={props.settings} viewer={props.viewer} />
+        <DeletionRequestCalloutContainer viewer={props.viewer} />
       </HorizontalGutter>
       <TabBar
         variant="secondary"
@@ -70,10 +73,13 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         </Tab>
       </TabBar>
       <TabContent activeTab={local.profileTab}>
-        <TabPane tabID="MY_COMMENTS">
+        <TabPane
+          className={CLASSES.myCommentsTabPane.$root}
+          tabID="MY_COMMENTS"
+        >
           <CommentHistoryContainer viewer={props.viewer} story={props.story} />
         </TabPane>
-        <TabPane tabID="SETTINGS">
+        <TabPane className={CLASSES.settingsTabPane.$root} tabID="SETTINGS">
           <SettingsContainer viewer={props.viewer} settings={props.settings} />
         </TabPane>
       </TabContent>

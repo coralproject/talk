@@ -5,6 +5,7 @@ import { Form } from "react-final-form";
 
 import { FormInitializer } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
 import {
   Button,
   CallOut,
@@ -37,7 +38,12 @@ const ConfigureStream: FunctionComponent<Props> = ({
     {({ handleSubmit, submitting, pristine, form, submitError }) => (
       <FormInitializer form={form}>
         {({ onInitValues }) => (
-          <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
+          <form
+            className={CLASSES.configureCommentStream.$root}
+            autoComplete="off"
+            onSubmit={handleSubmit}
+            id="configure-form"
+          >
             <Flex
               justifyContent="space-between"
               alignItems="flex-start"
@@ -50,6 +56,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
               </Localized>
               <Localized id="configure-stream-apply">
                 <Button
+                  className={CLASSES.configureCommentStream.applyButton}
                   color="success"
                   variant="filled"
                   type="submit"
@@ -60,7 +67,14 @@ const ConfigureStream: FunctionComponent<Props> = ({
               </Localized>
             </Flex>
             <HorizontalGutter size="double">
-              {submitError && <CallOut color="error">{submitError}</CallOut>}
+              {submitError && (
+                <CallOut
+                  className={CLASSES.configureCommentStream.errorMessage}
+                  color="error"
+                >
+                  {submitError}
+                </CallOut>
+              )}
               <LiveUpdatesConfigContainer
                 onInitValues={onInitValues}
                 storySettings={storySettings}

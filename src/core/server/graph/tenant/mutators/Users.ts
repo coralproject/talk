@@ -4,13 +4,16 @@ import TenantContext from "coral-server/graph/tenant/context";
 import { User } from "coral-server/models/user";
 import {
   ban,
+  cancelAccountDeletion,
   createToken,
   deactivateToken,
   ignore,
   removeBan,
   removeIgnore,
   removeSuspension,
+  requestAccountDeletion,
   requestCommentsDownload,
+  requestUserCommentsDownload,
   setEmail,
   setPassword,
   setUsername,
@@ -18,6 +21,7 @@ import {
   updateAvatar,
   updateEmail,
   updateEmailByID,
+  updateNotificationSettings,
   updatePassword,
   updateRole,
   updateUsername,
@@ -27,6 +31,7 @@ import { invite } from "coral-server/services/users/auth/invite";
 
 import {
   GQLBanUserInput,
+  GQLCancelAccountDeletionInput,
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
   GQLIgnoreUserInput,
@@ -34,12 +39,15 @@ import {
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
+  GQLRequestAccountDeletionInput,
   GQLRequestCommentsDownloadInput,
+  GQLRequestUserCommentsDownloadInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
   GQLSetUsernameInput,
   GQLSuspendUserInput,
   GQLUpdateEmailInput,
+  GQLUpdateNotificationSettingsInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
@@ -47,6 +55,7 @@ import {
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
 } from "../schema/__generated__/types";
+import { WithoutMutationID } from "./util";
 
 export const Users = (ctx: TenantContext) => ({
   invite: async ({ role, emails }: GQLInviteUsersInput) =>
@@ -112,6 +121,24 @@ export const Users = (ctx: TenantContext) => ({
       ),
       { "input.oldPassword": [ERROR_CODES.PASSWORD_INCORRECT] }
     ),
+  requestAccountDeletion: async (
+    input: GQLRequestAccountDeletionInput
+  ): Promise<Readonly<User> | null> =>
+    mapFieldsetToErrorCodes(
+      requestAccountDeletion(
+        ctx.mongo,
+        ctx.mailerQueue,
+        ctx.tenant,
+        ctx.user!,
+        input.password,
+        ctx.now
+      ),
+      { "input.password": [ERROR_CODES.PASSWORD_INCORRECT] }
+    ),
+  cancelAccountDeletion: async (
+    input: GQLCancelAccountDeletionInput
+  ): Promise<Readonly<User> | null> =>
+    cancelAccountDeletion(ctx.mongo, ctx.mailerQueue, ctx.tenant, ctx.user!),
   createToken: async (input: GQLCreateTokenInput) =>
     createToken(
       ctx.mongo,
@@ -154,6 +181,9 @@ export const Users = (ctx: TenantContext) => ({
       input.email,
       input.password
     ),
+  updateNotificationSettings: async (
+    input: WithoutMutationID<GQLUpdateNotificationSettingsInput>
+  ) => updateNotificationSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
@@ -187,6 +217,17 @@ export const Users = (ctx: TenantContext) => ({
     ignore(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeIgnore: async (input: GQLRemoveUserIgnoreInput) =>
     removeIgnore(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
+  requestUserCommentsDownload: async (
+    input: GQLRequestUserCommentsDownloadInput
+  ) =>
+    requestUserCommentsDownload(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.config,
+      ctx.signingConfig!,
+      input.userID,
+      ctx.now
+    ),
   requestCommentsDownload: async (input: GQLRequestCommentsDownloadInput) =>
     requestCommentsDownload(
       ctx.mongo,

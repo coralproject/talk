@@ -1,4 +1,4 @@
-import { useCoralContext } from "coral-framework/lib/bootstrap";
+import cn from "classnames";
 import { FORM_ERROR, FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, {
@@ -12,8 +12,8 @@ import { Field, Form } from "react-final-form";
 import { ALLOWED_USERNAME_CHANGE_FREQUENCY } from "coral-common/constants";
 import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { ValidationMessage } from "coral-framework/lib/form";
 import {
   graphql,
   useMutation,
@@ -27,6 +27,8 @@ import {
 } from "coral-framework/lib/validation";
 import { ChangeUsernameContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
 import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
+import CLASSES from "coral-stream/classes";
+import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
   Box,
   Button,
@@ -167,18 +169,28 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       )}
       {!showEditForm && (
         <Flex alignItems="baseline">
-          <Typography variant="header2">{viewer.username}</Typography>
-          {canChangeLocalAuth && (
+          <Typography variant="header2" className={CLASSES.myUsername.username}>
+            {viewer.username}
+          </Typography>
+          {canChangeLocalAuth && settings.accountFeatures.changeUsername && (
             <Localized id="profile-changeUsername-edit">
-              <Button size="small" color="primary" onClick={toggleEditForm}>
-                edit
+              <Button
+                className={CLASSES.myUsername.editButton}
+                size="small"
+                color="primary"
+                onClick={toggleEditForm}
+              >
+                Edit
               </Button>
             </Localized>
           )}
         </Flex>
       )}
       {showEditForm && (
-        <CallOut className={styles.callOut} color="primary">
+        <CallOut
+          className={cn(styles.callOut, CLASSES.myUsername.form.$root)}
+          color="primary"
+        >
           <HorizontalGutter spacing={4}>
             <div>
               <Localized id="profile-changeUsername-heading">
@@ -205,7 +217,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
             <div>
               <Localized id="profile-changeUsername-current">
                 <Typography
-                  className={styles.currentUsername}
+                  className={cn(
+                    styles.currentUsername,
+                    CLASSES.myUsername.form.username
+                  )}
                   variant="bodyCopyBold"
                 >
                   Current username
@@ -242,7 +257,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                                   {...input}
                                   id="profile-changeUsername-username"
                                 />
-                                <ValidationMessage meta={meta} />
+                                <FieldValidationMessage meta={meta} />
                               </>
                             )}
                           </Field>
@@ -268,21 +283,29 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                                   {...input}
                                   id="profile-changeUsername-username-confirm"
                                 />
-                                <ValidationMessage meta={meta} />
+                                <FieldValidationMessage meta={meta} />
                               </>
                             )}
                           </Field>
                         </HorizontalGutter>
                       </FormField>
                       {submitError && (
-                        <CallOut color="error" fullWidth>
+                        <CallOut
+                          className={CLASSES.myUsername.form.errorMessage}
+                          color="error"
+                          fullWidth
+                        >
                           {submitError}
                         </CallOut>
                       )}
                     </HorizontalGutter>
                     <Flex justifyContent="flex-end" className={styles.footer}>
                       <Localized id="profile-changeUsername-cancel">
-                        <Button type="button" onClick={toggleEditForm}>
+                        <Button
+                          className={CLASSES.myUsername.form.cancelButton}
+                          type="button"
+                          onClick={toggleEditForm}
+                        >
                           Cancel
                         </Button>
                       </Localized>
@@ -292,6 +315,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                         span={<span />}
                       >
                         <Button
+                          className={CLASSES.myUsername.form.saveButton}
                           variant={pristine || invalid ? "outlined" : "filled"}
                           type="submit"
                           data-testid="profile-changeUsername-save"
@@ -341,6 +365,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                       variant="filled"
                       type="button"
                       onClick={toggleEditForm}
+                      className={CLASSES.myUsername.form.closeButton}
                     >
                       Close
                     </Button>
@@ -374,6 +399,9 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment ChangeUsernameContainer_settings on Settings {
+      accountFeatures {
+        changeUsername
+      }
       auth {
         integrations {
           local {

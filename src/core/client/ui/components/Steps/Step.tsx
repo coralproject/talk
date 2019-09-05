@@ -7,16 +7,19 @@ import Line from "./Line";
 import styles from "./Step.css";
 
 interface StepProps {
-  children: ReactText | ReactNode;
+  children?: ReactText | ReactNode;
   active?: boolean;
   completed?: boolean;
   last?: boolean;
   hidden?: boolean;
+  classes?: {
+    line?: string;
+  };
 }
 
 class Step extends Component<StepProps> {
   public render() {
-    const { children, completed, active, last, hidden } = this.props;
+    const { children, completed, active, last, hidden, classes } = this.props;
     if (hidden) {
       return null;
     }
@@ -29,7 +32,12 @@ class Step extends Component<StepProps> {
           itemGutter
         >
           <Circle completed={completed} active={active} />
-          {!last && <Line completed={completed} />}
+          {!last && (
+            <Line
+              completed={completed}
+              className={classes ? classes.line : undefined}
+            />
+          )}
         </Flex>
         <Typography className={styles.text}>{children}</Typography>
       </div>

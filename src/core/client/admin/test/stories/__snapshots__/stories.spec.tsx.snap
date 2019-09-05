@@ -53,12 +53,12 @@ exports[`renders empty stories 1`] = `
                 onTouchEnd={[Function]}
                 type="submit"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   search
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -103,12 +103,12 @@ exports[`renders empty stories 1`] = `
             aria-hidden={true}
             className="SelectField-afterWrapper"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               expand_more
-            </span>
+            </i>
           </span>
         </span>
       </fieldset>
@@ -210,12 +210,12 @@ exports[`renders empty stories 1`] = `
                   >
                     Open
                   </span>
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg ButtonIcon-root"
                   >
                     arrow_drop_down
-                  </span>
+                  </i>
                 </button>
                 <div
                   aria-hidden={true}
@@ -281,12 +281,12 @@ exports[`renders empty stories 1`] = `
                   >
                     Open
                   </span>
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg ButtonIcon-root"
                   >
                     arrow_drop_down
-                  </span>
+                  </i>
                 </button>
                 <div
                   aria-hidden={true}
@@ -364,12 +364,12 @@ exports[`renders stories 1`] = `
                 onTouchEnd={[Function]}
                 type="submit"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-md"
                 >
                   search
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -414,12 +414,12 @@ exports[`renders stories 1`] = `
             aria-hidden={true}
             className="SelectField-afterWrapper"
           >
-            <span
+            <i
               aria-hidden="true"
               className="Icon-root Icon-sm"
             >
               expand_more
-            </span>
+            </i>
           </span>
         </span>
       </fieldset>
@@ -521,12 +521,12 @@ exports[`renders stories 1`] = `
                   >
                     Open
                   </span>
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg ButtonIcon-root"
                   >
                     arrow_drop_down
-                  </span>
+                  </i>
                 </button>
                 <div
                   aria-hidden={true}
@@ -592,12 +592,12 @@ exports[`renders stories 1`] = `
                   >
                     Open
                   </span>
-                  <span
+                  <i
                     aria-hidden="true"
                     className="Icon-root Icon-lg ButtonIcon-root"
                   >
                     arrow_drop_down
-                  </span>
+                  </i>
                 </button>
                 <div
                   aria-hidden={true}

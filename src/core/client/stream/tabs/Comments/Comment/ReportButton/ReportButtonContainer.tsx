@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React from "react";
 import { graphql } from "react-relay";
 
@@ -17,6 +18,8 @@ interface ReportButtonContainerProps {
   comment: CommentData;
   viewer: ViewerData | null;
   showAuthPopup: ShowAuthPopupMutation;
+  className?: string;
+  reportedClassName?: string;
 }
 
 class ReportButtonContainer extends React.Component<
@@ -28,6 +31,7 @@ class ReportButtonContainer extends React.Component<
   private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
 
   public render() {
+    const { className, reportedClassName = "" } = this.props;
     const reported =
       this.props.comment.viewerActionPresence &&
       (this.props.comment.viewerActionPresence.flag ||
@@ -35,11 +39,16 @@ class ReportButtonContainer extends React.Component<
 
     return this.loggedIn ? (
       <ReportButtonWithPopover
+        className={cn(className, { [reportedClassName]: Boolean(reported) })}
         comment={this.props.comment}
         reported={!!reported}
       />
     ) : (
-      <ReportButton onClick={this.handleSignIn} reported={!!reported} />
+      <ReportButton
+        className={cn(className, { [reportedClassName]: Boolean(reported) })}
+        onClick={this.handleSignIn}
+        reported={Boolean(reported)}
+      />
     );
   }
 }

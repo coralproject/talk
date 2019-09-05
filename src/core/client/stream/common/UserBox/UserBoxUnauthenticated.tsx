@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Button, Flex, Typography } from "coral-ui/components";
 import MatchMedia from "coral-ui/components/MatchMedia";
 
@@ -16,7 +17,7 @@ const UserBoxUnauthenticated: FunctionComponent<
   UserBoxUnauthenticatedProps
 > = props => {
   return (
-    <Flex itemGutter alignItems="center">
+    <Flex itemGutter alignItems="center" className={CLASSES.viewerBox.$root}>
       <MatchMedia gteWidth="sm">
         <Localized id="general-userBoxUnauthenticated-joinTheConversation">
           <Typography
@@ -37,6 +38,7 @@ const UserBoxUnauthenticated: FunctionComponent<
           size="small"
           variant="underlined"
           onClick={props.onSignIn}
+          className={CLASSES.viewerBox.signInButton}
         >
           Sign in
         </Button>
@@ -48,6 +50,7 @@ const UserBoxUnauthenticated: FunctionComponent<
             size="small"
             variant="outlined"
             onClick={props.onRegister}
+            className={CLASSES.viewerBox.registerButton}
           >
             Register
           </Button>

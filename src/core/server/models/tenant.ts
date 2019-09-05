@@ -192,6 +192,11 @@ export async function createTenant(
       },
       disableLazy: false,
     },
+    accountFeatures: {
+      changeUsername: false,
+      deleteAccount: false,
+      downloadComments: false,
+    },
     createdAt: now,
   };
 

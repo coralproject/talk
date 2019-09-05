@@ -141,6 +141,11 @@ export const settings = createFixture<GQLSettings>({
       },
     },
   },
+  accountFeatures: {
+    downloadComments: true,
+    changeUsername: true,
+    deleteAccount: true,
+  },
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
@@ -502,6 +507,7 @@ export const baseComment = createFixture<GQLComment>({
   story: stories[0],
   // TODO: Should be allowed to pass null here..
   parent: undefined,
+  deleted: undefined,
 });
 
 export const unmoderatedComments = createFixtures<GQLComment>(

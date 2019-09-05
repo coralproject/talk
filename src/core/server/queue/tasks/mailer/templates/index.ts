@@ -1,9 +1,67 @@
-interface Template<T extends string, U extends {}> {
+interface EmailTemplate<T extends string, U extends {}> {
   name: T;
   context: U;
 }
 
-type UserNotificationContext<T extends string, U extends {}> = Template<
+/**
+ * NotificationContext
+ */
+
+type NotificationContext<T extends string, U extends {}> = EmailTemplate<
+  T,
+  U & {
+    organizationURL: string;
+    organizationName: string;
+    unsubscribeURL: string;
+  }
+>;
+
+export type OnReplyTemplate = NotificationContext<
+  "notification/on-reply",
+  {
+    storyTitle: string;
+    storyURL: string;
+    authorUsername: string;
+    commentPermalink: string;
+  }
+>;
+
+export type OnStaffReplyTemplate = NotificationContext<
+  "notification/on-staff-reply",
+  {
+    storyTitle: string;
+    storyURL: string;
+    authorUsername: string;
+    commentPermalink: string;
+  }
+>;
+
+export type DigestibleTemplate = OnReplyTemplate | OnStaffReplyTemplate;
+
+type DigestTemplate = NotificationContext<
+  "notification/digest",
+  {
+    digests: Array<{
+      /**
+       * partial stores the part of the filename that can be used to tie the
+       * given notification into a specific template.
+       */
+      partial: string;
+
+      /**
+       * contexts is the array of all the contexts under this partial that
+       * should be used to create the digest context.
+       */
+      contexts: Array<DigestibleTemplate["context"]>;
+    }>;
+  }
+>;
+
+/**
+ * AccountNotificationContext
+ */
+
+type AccountNotificationContext<T extends string, U extends {}> = EmailTemplate<
   T,
   U & {
     organizationURL: string;
@@ -11,16 +69,16 @@ type UserNotificationContext<T extends string, U extends {}> = Template<
   }
 >;
 
-export type ForgotPasswordTemplate = UserNotificationContext<
-  "forgot-password",
+export type ForgotPasswordTemplate = AccountNotificationContext<
+  "account-notification/forgot-password",
   {
     username: string;
     resetURL: string;
   }
 >;
 
-export type BanTemplate = UserNotificationContext<
-  "ban",
+export type BanTemplate = AccountNotificationContext<
+  "account-notification/ban",
   {
     username: string;
     organizationContactEmail: string;
@@ -28,8 +86,8 @@ export type BanTemplate = UserNotificationContext<
   }
 >;
 
-export type SuspendTemplate = UserNotificationContext<
-  "suspend",
+export type SuspendTemplate = AccountNotificationContext<
+  "account-notification/suspend",
   {
     username: string;
     until: string;
@@ -38,16 +96,16 @@ export type SuspendTemplate = UserNotificationContext<
   }
 >;
 
-export type PasswordChangeTemplate = UserNotificationContext<
-  "password-change",
+export type PasswordChangeTemplate = AccountNotificationContext<
+  "account-notification/password-change",
   {
     username: string;
     organizationContactEmail: string;
   }
 >;
 
-export type ConfirmEmailTemplate = UserNotificationContext<
-  "confirm-email",
+export type ConfirmEmailTemplate = AccountNotificationContext<
+  "account-notification/confirm-email",
   {
     username: string;
     confirmURL: string;
@@ -55,15 +113,15 @@ export type ConfirmEmailTemplate = UserNotificationContext<
   }
 >;
 
-export type InviteEmailTemplate = UserNotificationContext<
-  "invite",
+export type InviteEmailTemplate = AccountNotificationContext<
+  "account-notification/invite",
   {
     inviteURL: string;
   }
 >;
 
-export type DownloadCommentsTemplate = UserNotificationContext<
-  "download-comments",
+export type DownloadCommentsTemplate = AccountNotificationContext<
+  "account-notification/download-comments",
   {
     username: string;
     date: string;
@@ -71,13 +129,36 @@ export type DownloadCommentsTemplate = UserNotificationContext<
   }
 >;
 
-export type UpdateUsernameTemplate = UserNotificationContext<
-  "update-username",
+export type UpdateUsernameTemplate = AccountNotificationContext<
+  "account-notification/update-username",
   {
     username: string;
     organizationContactEmail: string;
   }
 >;
+
+export type AccountDeletionConfirmation = AccountNotificationContext<
+  "account-notification/delete-request-confirmation",
+  {
+    requestDate: string;
+  }
+>;
+
+export type AccountDeletionCancellation = AccountNotificationContext<
+  "account-notification/delete-request-cancel",
+  {}
+>;
+
+export type AccountDeletionCompleted = AccountNotificationContext<
+  "account-notification/delete-request-completed",
+  {
+    organizationContactEmail: string;
+  }
+>;
+
+/**
+ * Templates
+ */
 
 type Templates =
   | BanTemplate
@@ -87,6 +168,12 @@ type Templates =
   | PasswordChangeTemplate
   | SuspendTemplate
   | DownloadCommentsTemplate
-  | UpdateUsernameTemplate;
+  | UpdateUsernameTemplate
+  | AccountDeletionConfirmation
+  | AccountDeletionCancellation
+  | AccountDeletionCompleted
+  | OnReplyTemplate
+  | OnStaffReplyTemplate
+  | DigestTemplate;
 
-export { Templates as Template };
+export { Templates as EmailTemplate };

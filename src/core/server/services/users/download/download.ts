@@ -1,104 +1,139 @@
-import Joi from "joi";
-import { isNull } from "lodash";
-import { DateTime } from "luxon";
+import archiver from "archiver";
+import stringify from "csv-stringify";
+import DataLoader from "dataloader";
+import { Response } from "express";
+import { kebabCase } from "lodash";
 import { Db } from "mongodb";
-import uuid from "uuid";
 
-import { constructTenantURL } from "coral-server/app/url";
-import { Config } from "coral-server/config";
-import { TokenInvalidError, UserNotFoundError } from "coral-server/errors";
+import { getLatestRevision } from "coral-server/models/comment";
+import { Comment } from "coral-server/models/comment";
+import { retrieveManyStories } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
-import { retrieveUser } from "coral-server/models/user";
-import {
-  JWTSigningConfig,
-  signString,
-  StandardClaims,
-  StandardClaimsSchema,
-  verifyJWT,
-} from "coral-server/services/jwt";
+import { User } from "coral-server/models/user";
 
-interface DownloadToken extends Required<StandardClaims> {
-  aud: "download";
-}
+const BATCH_SIZE = 100;
 
-const DownloadTokenSchema = StandardClaimsSchema.keys({
-  aud: Joi.string().only("download"),
-});
-
-export async function generateDownloadLink(
-  userID: string,
-  tenant: Tenant,
-  config: Config,
-  signingConfig: JWTSigningConfig,
-  now: Date
-) {
-  const nowDate = DateTime.fromJSDate(now);
-  const nowSeconds = Math.round(nowDate.toSeconds());
-  const expiresAt = Math.round(nowDate.plus({ weeks: 2 }).toSeconds());
-
-  const downloadToken: DownloadToken = {
-    jti: uuid.v4(),
-    iss: tenant.id,
-    sub: userID,
-    exp: expiresAt,
-    iat: nowSeconds,
-    nbf: nowSeconds,
-    aud: "download",
-  };
-
-  const token = await signString(signingConfig, downloadToken);
-
-  return constructTenantURL(
-    config,
-    tenant,
-    `/account/download#downloadToken=${token}`
-  );
-}
-
-export function validateDownloadToken(
-  token: DownloadToken | object
-): Error | null {
-  const { error } = Joi.validate(token, DownloadTokenSchema, {
-    presence: "required",
-  });
-  return error || null;
-}
-
-export function isDownloadToken(
-  token: DownloadToken | object
-): token is DownloadToken {
-  return isNull(validateDownloadToken(token));
-}
-
-export async function verifyDownloadTokenString(
+export async function sendUserDownload(
+  res: Response,
   mongo: Db,
   tenant: Tenant,
-  signingConfig: JWTSigningConfig,
-  tokenString: string,
-  now: Date
+  user: Readonly<User>,
+  latestContentDate: Date
 ) {
-  const token = verifyJWT(tokenString, signingConfig, now, {
-    issuer: tenant.id,
-    audience: "download",
+  // Create the date formatter to format the dates for the CSV.
+  const formatter = Intl.DateTimeFormat(tenant.locale, {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
   });
 
-  if (!isDownloadToken(token)) {
-    throw new TokenInvalidError(
-      tokenString,
-      "does not conform to the download token schema"
+  // Create a DataLoader to load stories for each batch.
+  const getStories = new DataLoader((ids: string[]) =>
+    retrieveManyStories(mongo, tenant.id, ids)
+  );
+
+  // Create a cursor to iterate over the user's comment's in order.
+  const cursor = mongo
+    .collection<Readonly<Comment>>("comments")
+    .find({
+      tenantID: tenant.id,
+      authorID: user.id,
+      createdAt: {
+        $lt: latestContentDate,
+      },
+    })
+    .sort({ createdAt: 1 });
+
+  // Collect all the user's comments in batches.
+  let commentBatch: Array<Readonly<Comment>> = [];
+
+  // Generate the filename of the file that the user will download.
+  const filename = `talk-${kebabCase(user.username)}-${kebabCase(
+    formatter.format(latestContentDate)
+  )}.zip`;
+
+  res.writeHead(200, {
+    "Content-Type": "application/octet-stream",
+    "Content-Disposition": `attachment; filename=${filename}`,
+  });
+
+  // Create the zip archive we'll use to write all the exported files to.
+  const archive = archiver("zip", {
+    zlib: { level: 9 },
+  });
+
+  // Pipe this to the response writer directly.
+  archive.pipe(res);
+
+  // Create all the csv writers that'll write the data to the archive.
+  const csv = stringify();
+
+  // Add all the streams as files to the archive.
+  archive.append(csv, { name: "comments-export/my_comments.csv" });
+
+  csv.write([
+    "Comment ID",
+    "Published Timestamp",
+    "Article URL",
+    "Comment URL",
+    "Comment Text",
+  ]);
+
+  /**
+   * writeAndFlushBatch will write the given batch of comments to the CSV and
+   * flush out the batchfor the next run.
+   */
+  const writeAndFlushBatch = async () => {
+    const stories = await getStories.loadMany(
+      commentBatch.map(({ storyID }) => storyID)
     );
+
+    for (let i = 0; i < commentBatch.length; i++) {
+      const comment = commentBatch[i];
+      const story = stories[i];
+      if (!story) {
+        continue;
+      }
+
+      const revision = getLatestRevision(comment);
+
+      const commentID = comment.id;
+      const createdAt = formatter.format(new Date(comment.createdAt));
+      const storyURL = story.url;
+      const commentURL = `${storyURL}?commentID=${commentID}`;
+      const body = revision.body;
+
+      csv.write([commentID, createdAt, storyURL, commentURL, body]);
+    }
+
+    commentBatch = [];
+  };
+
+  while (await cursor.hasNext()) {
+    const comment = await cursor.next();
+    if (!comment) {
+      break;
+    }
+
+    commentBatch.push(comment);
+
+    if (commentBatch.length >= BATCH_SIZE) {
+      await writeAndFlushBatch();
+    }
   }
 
-  const { sub: userID, iss } = token;
-
-  const user = await retrieveUser(mongo, tenant.id, userID);
-  if (!user) {
-    throw new UserNotFoundError(userID);
+  if (commentBatch.length > 0) {
+    await writeAndFlushBatch();
   }
 
-  if (iss !== tenant.id) {
-    throw new TokenInvalidError(tokenString, "invalid tenant");
-  }
+  csv.end();
 
-  return { token, user };
+  // Mark the end of adding files, no more files can be added after this. Once
+  // all the stream readers have finished writing, and have closed, the
+  // archiver will close which will finish the HTTP request.
+  await archive.finalize();
 }

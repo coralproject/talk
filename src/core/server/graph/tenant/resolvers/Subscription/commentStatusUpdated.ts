@@ -4,7 +4,11 @@ import {
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { createIterator } from "./helpers";
-import { SUBSCRIPTION_CHANNELS, SubscriptionPayload } from "./types";
+import {
+  SUBSCRIPTION_CHANNELS,
+  SubscriptionPayload,
+  SubscriptionType,
+} from "./types";
 
 export interface CommentStatusUpdatedInput extends SubscriptionPayload {
   newStatus: GQLCOMMENT_STATUS;
@@ -12,6 +16,11 @@ export interface CommentStatusUpdatedInput extends SubscriptionPayload {
   moderatorID: string | null;
   commentID: string;
 }
+
+export type CommentStatusUpdatedSubscription = SubscriptionType<
+  SUBSCRIPTION_CHANNELS.COMMENT_STATUS_UPDATED,
+  CommentStatusUpdatedInput
+>;
 
 export const commentStatusUpdated: SubscriptionToCommentStatusUpdatedResolver<
   CommentStatusUpdatedInput

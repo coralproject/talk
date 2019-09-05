@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { Button, HorizontalGutter } from "coral-ui/components";
 
@@ -10,6 +10,11 @@ interface Props {
 }
 
 const DownloadForm: FunctionComponent<Props> = ({ token }) => {
+  const [submitted, setSubmitted] = useState(false);
+  const onClick = useCallback(() => {
+    setSubmitted(true);
+  }, [setSubmitted]);
+
   return (
     <HorizontalGutter size="double">
       <form
@@ -23,7 +28,8 @@ const DownloadForm: FunctionComponent<Props> = ({ token }) => {
             type="submit"
             variant="filled"
             color="primary"
-            fullWidth={false}
+            disabled={submitted}
+            onClick={onClick}
             className={styles.downloadButton}
           >
             Download My Comment History

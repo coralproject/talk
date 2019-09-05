@@ -1,6 +1,8 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Button, Flex, Typography } from "coral-ui/components";
 
 import styles from "./OpenStream.css";
@@ -11,7 +13,7 @@ interface Props {
 }
 
 const OpenStream: FunctionComponent<Props> = ({ onClick, disableButton }) => (
-  <div>
+  <div className={CLASSES.openCommentStream.$root}>
     <Localized id="configure-openStream-title">
       <Typography variant="heading2" className={styles.heading}>
         Open Stream
@@ -28,7 +30,7 @@ const OpenStream: FunctionComponent<Props> = ({ onClick, disableButton }) => (
         <Button
           variant="outlined"
           color="error"
-          className={styles.button}
+          className={cn(styles.button, CLASSES.openCommentStream.openButton)}
           onClick={onClick}
           disabled={disableButton}
         >

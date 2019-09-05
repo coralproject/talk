@@ -3,6 +3,7 @@
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   alignItems="center"
+  className="coral coral-viewerBox"
   itemGutter={true}
 >
   <MatchMediaWithContext
@@ -30,6 +31,7 @@ exports[`renders correctly 1`] = `
     id="general-userBoxUnauthenticated-signIn"
   >
     <ForwardRef(forwardRef)
+      className="coral coral-viewerBox-signInButton"
       color="primary"
       onClick={[Function]}
       size="small"
@@ -42,6 +44,7 @@ exports[`renders correctly 1`] = `
     id="general-userBoxUnauthenticated-register"
   >
     <ForwardRef(forwardRef)
+      className="coral coral-viewerBox-registerButton"
       color="primary"
       onClick={[Function]}
       size="small"
@@ -56,6 +59,7 @@ exports[`renders correctly 1`] = `
 exports[`renders correctly hides showRegisterButton 1`] = `
 <ForwardRef(forwardRef)
   alignItems="center"
+  className="coral coral-viewerBox"
   itemGutter={true}
 >
   <MatchMediaWithContext
@@ -83,6 +87,7 @@ exports[`renders correctly hides showRegisterButton 1`] = `
     id="general-userBoxUnauthenticated-signIn"
   >
     <ForwardRef(forwardRef)
+      className="coral coral-viewerBox-signInButton"
       color="primary"
       onClick={[Function]}
       size="small"

@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import { Child as PymChild } from "pym.js";
 import React from "react";
@@ -10,6 +11,7 @@ import { ConversationThreadContainer_settings as SettingsData } from "coral-stre
 import { ConversationThreadContainer_story as StoryData } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
 import { ConversationThreadContainer_viewer as ViewerData } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
 import { ConversationThreadContainerPaginationQueryVariables } from "coral-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
+import CLASSES from "coral-stream/classes";
 import Counter from "coral-stream/common/Counter";
 import {
   SetCommentIDMutation,
@@ -83,7 +85,10 @@ class ConversationThreadContainer extends React.Component<
       );
     }
     return (
-      <div className={styles.root} data-testid={dataTestID}>
+      <div
+        className={cn(CLASSES.conversationThread.$root, styles.root)}
+        data-testid={dataTestID}
+      >
         <HorizontalGutter container={<Line dotted />}>
           {rootParent && (
             <Circle>
@@ -91,7 +96,12 @@ class ConversationThreadContainer extends React.Component<
                 id={rootParent.id}
                 username={rootParent.author && rootParent.author.username}
                 createdAt={rootParent.createdAt}
-                tags={<UserTagsContainer comment={rootParent} />}
+                tags={
+                  <UserTagsContainer
+                    className={CLASSES.conversationThread.rootParent.userTag}
+                    comment={rootParent}
+                  />
+                }
               />
             </Circle>
           )}
@@ -103,7 +113,10 @@ class ConversationThreadContainer extends React.Component<
                   $count={remaining}
                 >
                   <Button
-                    className={styles.showMoreButton}
+                    className={cn(
+                      CLASSES.conversationThread.showMore,
+                      styles.showMoreButton
+                    )}
                     onClick={this.loadMore}
                     disabled={this.state.disableLoadMore}
                     variant="underlined"
@@ -139,6 +152,7 @@ class ConversationThreadContainer extends React.Component<
           ))}
           <Circle end>
             <CommentContainer
+              className={CLASSES.conversationThread.hightlighted}
               comment={comment}
               story={story}
               settings={settings}

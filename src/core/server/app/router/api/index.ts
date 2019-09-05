@@ -18,6 +18,7 @@ import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 
 import { createNewAccountRouter } from "./account";
 import { createNewAuthRouter } from "./auth";
+import { createNewUserRouter } from "./user";
 
 export interface RouterOptions {
   /**
@@ -55,6 +56,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Create the auth router.
   router.use("/auth", createNewAuthRouter(app, options));
   router.use("/account", createNewAccountRouter(app, options));
+  router.use("/user", createNewUserRouter(app));
 
   // Configure the GraphQL route.
   router.use(

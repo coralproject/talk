@@ -46,11 +46,11 @@ exports[`render popup 1`] = `
       style={Object {}}
     />
     <div
-      className="ReportPopover-root"
+      className="ReportPopover-root coral coral-reportPopover"
     >
       <button
         aria-label="Close Popover"
-        className="BaseButton-root ReportPopover-close"
+        className="BaseButton-root ReportPopover-close coral coral-reportPopover-closeButton"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -59,12 +59,12 @@ exports[`render popup 1`] = `
         onTouchEnd={[Function]}
         type="button"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm"
         >
           close
-        </span>
+        </i>
       </button>
       <form
         autoComplete="off"
@@ -226,11 +226,11 @@ exports[`render popup expanded 1`] = `
       style={Object {}}
     />
     <div
-      className="ReportPopover-root"
+      className="ReportPopover-root coral coral-reportPopover"
     >
       <button
         aria-label="Close Popover"
-        className="BaseButton-root ReportPopover-close"
+        className="BaseButton-root ReportPopover-close coral coral-reportPopover-closeButton"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -239,12 +239,12 @@ exports[`render popup expanded 1`] = `
         onTouchEnd={[Function]}
         type="button"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm"
         >
           close
-        </span>
+        </i>
       </button>
       <form
         autoComplete="off"
@@ -398,7 +398,7 @@ exports[`render popup expanded 1`] = `
             className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd Flex-alignCenter"
           >
             <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular coral coral-reportPopover-cancelButton"
               data-color="primary"
               data-variant="regular"
               onBlur={[Function]}
@@ -412,7 +412,7 @@ exports[`render popup expanded 1`] = `
               Cancel
             </button>
             <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled coral coral-reportPopover-submitButton"
               data-color="primary"
               data-variant="filled"
               disabled={false}
@@ -463,11 +463,11 @@ exports[`report comment as offensive 1`] = `
       style={Object {}}
     />
     <div
-      className="ReportPopover-root"
+      className="ReportPopover-root coral coral-reportPopover"
     >
       <button
         aria-label="Close Popover"
-        className="BaseButton-root ReportPopover-close"
+        className="BaseButton-root ReportPopover-close coral coral-reportPopover-closeButton"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -476,12 +476,12 @@ exports[`report comment as offensive 1`] = `
         onTouchEnd={[Function]}
         type="button"
       >
-        <span
+        <i
           aria-hidden="true"
           className="Icon-root Icon-sm"
         >
           close
-        </span>
+        </i>
       </button>
       <div
         className="Box-root HorizontalGutter-root ThankYou-root HorizontalGutter-full"

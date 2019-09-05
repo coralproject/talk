@@ -3,6 +3,7 @@ import React from "react";
 
 import DownloadRoute from "./routes/download/Download";
 import ConfirmRoute from "./routes/email/Confirm";
+import UnsubscribeRoute from "./routes/notifications/Unsubscribe";
 import ResetRoute from "./routes/password/Reset";
 
 export default makeRouteConfig(
@@ -14,5 +15,8 @@ export default makeRouteConfig(
       <Route path="confirm" {...ConfirmRoute.routeConfig} />
     </Route>
     <Route path="download" {...DownloadRoute.routeConfig} />
+    <Route path="notifications">
+      <Route path="unsubscribe" {...UnsubscribeRoute.routeConfig} />
+    </Route>
   </Route>
 );

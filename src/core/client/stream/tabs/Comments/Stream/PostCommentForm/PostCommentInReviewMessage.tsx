@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Button, Flex, Message } from "coral-ui/components";
 
 import styles from "./PostCommentInReviewMessage.css";
@@ -13,7 +14,11 @@ const PostCommentInReview: FunctionComponent<
   PostCommentInReviewProps
 > = props => {
   return (
-    <Message color="primary" fullWidth>
+    <Message
+      color="primary"
+      className={CLASSES.createComment.inReview}
+      fullWidth
+    >
       <Flex justifyContent="space-between" className={styles.flex}>
         <Localized id="comments-submitStatus-submittedAndWillBeReviewed">
           <div>
@@ -23,6 +28,7 @@ const PostCommentInReview: FunctionComponent<
         <div className={styles.buttonWrapper}>
           <Localized id="comments-submitStatus-dismiss">
             <Button
+              className={CLASSES.createComment.dismissButton}
               onClick={props.onDismiss}
               variant="underlined"
               color="light"

@@ -10,6 +10,7 @@ import { FeaturedCommentsContainer_settings as SettingsData } from "coral-stream
 import { FeaturedCommentsContainer_story as StoryData } from "coral-stream/__generated__/FeaturedCommentsContainer_story.graphql";
 import { FeaturedCommentsContainer_viewer as ViewerData } from "coral-stream/__generated__/FeaturedCommentsContainer_viewer.graphql";
 import { FeaturedCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/FeaturedCommentsContainerPaginationQuery.graphql";
+import CLASSES from "coral-stream/classes";
 import { Button, HorizontalGutter } from "coral-ui/components";
 import { Localized } from "fluent-react/compat";
 
@@ -57,6 +58,7 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = props => {
               fullWidth
               disabled={isLoadingMore}
               aria-controls="comments-featuredComments-log"
+              className={CLASSES.featuredCommentsTabPane.loadMoreButton}
             >
               Load More
             </Button>

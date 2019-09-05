@@ -1,4 +1,5 @@
 import { Job } from "bull";
+import createDOMPurify from "dompurify";
 import { DOMLocalization } from "fluent-dom/compat";
 import { FluentBundle } from "fluent/compat";
 import { minify } from "html-minifier";
@@ -16,6 +17,7 @@ import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { Config } from "coral-server/config";
 import { InternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
+import { Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
 import TenantCache from "coral-server/services/tenant/cache";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
@@ -98,6 +100,7 @@ function createMessageTranslator(i18n: I18n) {
    * @param data data used to send the message
    */
   return async (
+    tenant: Tenant,
     templateName: string,
     locale: LanguageCode,
     fromAddress: string,
@@ -121,22 +124,35 @@ function createMessageTranslator(i18n: I18n) {
     // Translate the bundle.
     await loc.translateFragment(dom.window.document);
 
-    // TODO: (wyattjoh) strip the i18n attributes from the source.
-
     // Grab the rendered HTML from the dom, and juice them.
     if (!dom.window.document.documentElement) {
       throw new Error("dom did not have a document element");
     }
-    const translatedHTML = dom.window.document.documentElement.outerHTML;
+
+    // Configure the purification.
+    const purify = createDOMPurify<false>(dom.window);
+
+    // Strip the l10n attributes from the email HTML.
+    purify.sanitize(dom.window.document.documentElement, {
+      ALLOW_DATA_ATTR: false,
+      WHOLE_DOCUMENT: true,
+      SANITIZE_DOM: false,
+      RETURN_DOM: false,
+      ADD_TAGS: ["link"],
+      FORBID_TAGS: [],
+      FORBID_ATTR: [],
+      IN_PLACE: true,
+    });
 
     // Juice the HTML to inline resources.
-    const html = await juiceHTML(translatedHTML);
+    const html = await juiceHTML(dom.serialize());
 
     // Get the translated subject.
     const subject = translate(
       bundle,
       templateName,
-      `email-subject-${camelCase(templateName)}`
+      `email-subject-${camelCase(templateName)}`,
+      { organizationName: tenant.organization.name }
     );
 
     // Generate the text content of the message from the HTML.
@@ -231,6 +247,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     let message: Message;
     try {
       message = await translateMessage(
+        tenant,
         data.templateName,
         tenant.locale,
         fromAddress,

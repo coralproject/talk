@@ -2,7 +2,7 @@
 
 exports[`renders the empty settings pane 1`] = `
 <div
-  className="Box-root HorizontalGutter-root App-root HorizontalGutter-full"
+  className="Box-root HorizontalGutter-root coral coral-stream App-root HorizontalGutter-full"
 >
   <ul
     className="TabBar-root TabBar-primary coral coral-tabBar"
@@ -57,7 +57,7 @@ exports[`renders the empty settings pane 1`] = `
   </ul>
   <section
     aria-labelledby="tab-PROFILE"
-    className="App-tabContent"
+    className="App-tabContent coral coral-myProfile"
     data-testid="current-tab-pane"
     id="tabPane-PROFILE"
     role="tabpanel"
@@ -76,46 +76,12 @@ exports[`renders the empty settings pane 1`] = `
             className="Box-root Flex-root Flex-flex Flex-alignBaseline"
           >
             <h1
-              className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary coral coral-myUsername"
             >
               Passivo
             </h1>
             <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
-              data-color="primary"
-              data-variant="regular"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              edit
-            </button>
-          </div>
-        </div>
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
-          data-testid="profile-changeEmail"
-        >
-          <div
-            className="Box-root Flex-root Flex-flex Flex-alignCenter"
-          >
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-            />
-            <span>
-               
-            </span>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextSecondary"
-            >
-              (Unverified)
-            </p>
-            <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular coral coral-myUsername-editButton"
               data-color="primary"
               data-variant="regular"
               onBlur={[Function]}
@@ -128,6 +94,86 @@ exports[`renders the empty settings pane 1`] = `
             >
               Edit
             </button>
+          </div>
+        </div>
+        <div
+          className="Box-root HorizontalGutter-root coral coral-myEmail HorizontalGutter-spacing-5"
+          data-testid="profile-changeEmail"
+        >
+          <div
+            className="Box-root Flex-root Flex-flex Flex-alignCenter"
+          >
+            <p
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            />
+            <span>
+               
+            </span>
+            <p
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextSecondary coral coral-myEmail-unverified"
+            >
+              (Unverified)
+            </p>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular coral coral-myEmail-editButton"
+              data-color="primary"
+              data-variant="regular"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Edit
+            </button>
+          </div>
+          <div
+            className="CallOut-root CallOut-colorRegular coral coral-verifyEmail"
+          >
+            <div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              >
+                <div>
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg"
+                  >
+                    email
+                  </i>
+                </div>
+                <div>
+                  <h1
+                    className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-gutterBottom"
+                  >
+                    Verify your email address
+                  </h1>
+                  <p
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    An email has been sent to $email to verify your account.
+You must verify your new email address before it can be used for
+signing into your account or for email notifications.
+                  </p>
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular ChangeEmailContainer-resendButton coral coral-verifyEmail-resendButton"
+                    data-color="primary"
+                    data-variant="regular"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    Resend verification
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -184,6 +230,7 @@ exports[`renders the empty settings pane 1`] = `
       </ul>
       <section
         aria-labelledby="tab-SETTINGS"
+        className="coral coral-settings"
         id="tabPane-SETTINGS"
         role="tabpanel"
       >
@@ -191,6 +238,7 @@ exports[`renders the empty settings pane 1`] = `
           className="Box-root HorizontalGutter-root SettingsContainer-root HorizontalGutter-spacing-5"
         >
           <div
+            className="coral coral-ignoredCommenters"
             data-testid="profile-settings-ignoredCommenters"
           >
             <h1
@@ -215,6 +263,7 @@ Commenters you ignore will still be able to see your comments.
             </div>
           </div>
           <div
+            className="coral coral-changePassword"
             data-testid="profile-settings-changePassword"
           >
             <form
@@ -270,12 +319,12 @@ Commenters you ignore will still be able to see your comments.
                           tabIndex={0}
                           title="Hide password"
                         >
-                          <span
+                          <i
                             aria-hidden="true"
                             className="Icon-root Icon-sm"
                           >
                             visibility
-                          </span>
+                          </i>
                         </div>
                       </div>
                     </div>
@@ -283,7 +332,7 @@ Commenters you ignore will still be able to see your comments.
                       className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-changePassword-forgotButton"
                         data-color="primary"
                         data-variant="underlined"
                         onBlur={[Function]}
@@ -336,12 +385,12 @@ Commenters you ignore will still be able to see your comments.
                           tabIndex={0}
                           title="Hide password"
                         >
-                          <span
+                          <i
                             aria-hidden="true"
                             className="Icon-root Icon-sm"
                           >
                             visibility
-                          </span>
+                          </i>
                         </div>
                       </div>
                     </div>
@@ -350,7 +399,7 @@ Commenters you ignore will still be able to see your comments.
                     className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled coral coral-changePassword-changeButton"
                       data-color="primary"
                       data-variant="filled"
                       disabled={true}
@@ -369,7 +418,7 @@ Commenters you ignore will still be able to see your comments.
             </form>
           </div>
           <div
-            className="DownloadCommentsContainer-root"
+            className="DownloadCommentsContainer-root coral coral-downloadCommentHistory"
           >
             <h1
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary DownloadCommentsContainer-title"
@@ -386,7 +435,7 @@ You can make
               </strong>
             </p>
             <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined coral coral-downloadCommentHistory-requestButton"
               data-color="regular"
               data-variant="outlined"
               onBlur={[Function]}
@@ -397,17 +446,273 @@ You can make
               onTouchEnd={[Function]}
               type="button"
             >
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-sm DownloadCommentsContainer-icon"
                 title="Request comment history"
               >
                 file_download
-              </span>
+              </i>
               <span>
                 Request comment history
               </span>
             </button>
+          </div>
+          <div
+            className="DeleteAccountContainer-root coral coral-deleteMyAccount"
+          >
+            <h1
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary DeleteAccountContainer-title"
+            >
+              Delete My Account
+            </h1>
+            <p
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DeleteAccountContainer-section"
+            >
+              Deleting your account will permanently erase your profile and remove
+all your comments from this site.
+            </p>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined coral coral-deleteMyAccount-requestButton"
+              data-color="regular"
+              data-variant="outlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm DeleteAccountContainer-icon"
+              >
+                cancel
+              </i>
+              <span>
+                Request account deletion
+              </span>
+            </button>
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            data-testid="profile-settings-notifications"
+          >
+            <h1
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
+            >
+              Email Notifications
+            </h1>
+            <h1
+              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
+            >
+              Receive notifications when:
+            </h1>
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <form
+                onSubmit={[Function]}
+              >
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <fieldset
+                    className="FieldSet-root"
+                  >
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <div
+                        className="CheckBox-root"
+                      >
+                        <input
+                          checked={false}
+                          className="CheckBox-input"
+                          id="onReply"
+                          name="onReply"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          type="checkbox"
+                          value={false}
+                        />
+                        <label
+                          className="CheckBox-label"
+                          htmlFor="onReply"
+                        >
+                          <span
+                            className="CheckBox-labelSpan"
+                          >
+                            My comment receives a reply
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <div
+                        className="CheckBox-root"
+                      >
+                        <input
+                          checked={false}
+                          className="CheckBox-input"
+                          id="onFeatured"
+                          name="onFeatured"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          type="checkbox"
+                          value={false}
+                        />
+                        <label
+                          className="CheckBox-label"
+                          htmlFor="onFeatured"
+                        >
+                          <span
+                            className="CheckBox-labelSpan"
+                          >
+                            My comment is featured
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <div
+                        className="CheckBox-root"
+                      >
+                        <input
+                          checked={false}
+                          className="CheckBox-input"
+                          id="onStaffReplies"
+                          name="onStaffReplies"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          type="checkbox"
+                          value={false}
+                        />
+                        <label
+                          className="CheckBox-label"
+                          htmlFor="onStaffReplies"
+                        >
+                          <span
+                            className="CheckBox-labelSpan"
+                          >
+                            A staff member replies to my comment
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <div
+                        className="CheckBox-root"
+                      >
+                        <input
+                          checked={false}
+                          className="CheckBox-input"
+                          id="onModeration"
+                          name="onModeration"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          type="checkbox"
+                          value={false}
+                        />
+                        <label
+                          className="CheckBox-label"
+                          htmlFor="onModeration"
+                        >
+                          <span
+                            className="CheckBox-labelSpan"
+                          >
+                            My pending comment has been reviewed
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    >
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+                      >
+                        <p
+                          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+                        >
+                          Send Notifications:
+                        </p>
+                        <span
+                          className="SelectField-root"
+                        >
+                          <select
+                            className="SelectField-select"
+                            disabled={true}
+                            id="digestFrequency"
+                            name="digestFrequency"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            value="NONE"
+                          >
+                            <option
+                              value="NONE"
+                            >
+                              Immediately
+                            </option>
+                            <option
+                              value="DAILY"
+                            >
+                              Daily
+                            </option>
+                            <option
+                              value="HOURLY"
+                            >
+                              Hourly
+                            </option>
+                          </select>
+                          <span
+                            aria-hidden={true}
+                            className="SelectField-afterWrapper SelectField-afterWrapperDisabled"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              expand_more
+                            </i>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                  >
+                    <button
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+                      data-color="primary"
+                      data-variant="filled"
+                      disabled={true}
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="submit"
+                    >
+                      Update Notification Settings
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </section>

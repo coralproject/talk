@@ -1,8 +1,10 @@
+import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { UserIgnorePopoverContainer_user as UserData } from "coral-stream/__generated__/UserIgnorePopoverContainer_user.graphql";
+import CLASSES from "coral-stream/classes";
 import { Box, Button, Flex, Typography } from "coral-ui/components";
 
 import IgnoreUserMutation from "./IgnoreUserMutation";
@@ -25,7 +27,7 @@ export const UserIgnorePopoverContainer: FunctionComponent<Props> = ({
     onDismiss();
   }, [user.id, ignoreUser]);
   return (
-    <Box className={styles.root} p={3}>
+    <Box p={3} className={cn(styles.root, CLASSES.ignoreUserPopover.$root)}>
       <Localized
         id="comments-userIgnorePopover-ignoreUser"
         $username={user.username}
@@ -42,12 +44,22 @@ export const UserIgnorePopoverContainer: FunctionComponent<Props> = ({
       </Localized>
       <Flex justifyContent="flex-end" itemGutter="half">
         <Localized id="comments-userIgnorePopover-cancel">
-          <Button variant="outlined" size="small" onClick={onDismiss}>
+          <Button
+            className={CLASSES.ignoreUserPopover.cancelButton}
+            variant="outlined"
+            size="small"
+            onClick={onDismiss}
+          >
             Cancel
           </Button>
         </Localized>
         <Localized id="comments-userIgnorePopover-ignore">
-          <Button variant="filled" size="small" onClick={onIgnore}>
+          <Button
+            className={CLASSES.ignoreUserPopover.ignoreButton}
+            variant="filled"
+            size="small"
+            onClick={onIgnore}
+          >
             Ignore
           </Button>
         </Localized>

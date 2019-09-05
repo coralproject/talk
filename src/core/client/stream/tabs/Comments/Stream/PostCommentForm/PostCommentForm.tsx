@@ -7,13 +7,8 @@ import { Field, Form, FormSpy } from "react-final-form";
 
 import { OnSubmit } from "coral-framework/lib/form";
 import CLASSES from "coral-stream/classes";
-import {
-  AriaInfo,
-  Button,
-  Flex,
-  HorizontalGutter,
-  ValidationMessage,
-} from "coral-ui/components";
+import ValidationMessage from "coral-stream/common/ValidationMessage";
+import { AriaInfo, Button, Flex, HorizontalGutter } from "coral-ui/components";
 
 import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";

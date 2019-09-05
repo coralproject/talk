@@ -16,9 +16,14 @@ import styles from "./PermalinkButton.css";
 interface PermalinkProps {
   commentID: string;
   url: string;
+  className?: string;
 }
 
-const Permalink: FunctionComponent<PermalinkProps> = ({ commentID, url }) => {
+const Permalink: FunctionComponent<PermalinkProps> = ({
+  commentID,
+  url,
+  className,
+}) => {
   const popoverID = `permalink-popover-${commentID}`;
   return (
     <Localized id="comments-permalinkPopover" attrs={{ description: true }}>
@@ -41,6 +46,7 @@ const Permalink: FunctionComponent<PermalinkProps> = ({ commentID, url }) => {
             variant="ghost"
             active={visible}
             size="small"
+            className={className}
           >
             <MatchMedia gtWidth="xs">
               <ButtonIcon>share</ButtonIcon>

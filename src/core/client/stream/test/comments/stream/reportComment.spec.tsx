@@ -29,7 +29,7 @@ function createTestRenderer(
       createCommentFlag: sinon.stub().callsFake((_: any, data: any) => {
         expectAndFail(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
-          commentRevisionID: stories[0].comments.edges[0].node.revision.id,
+          commentRevisionID: stories[0].comments.edges[0].node.revision!.id,
           reason: "COMMENT_REPORTED_OFFENSIVE",
           additionalDetails: "More info",
         });
@@ -44,7 +44,7 @@ function createTestRenderer(
       createCommentDontAgree: sinon.stub().callsFake((_: any, data: any) => {
         expectAndFail(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
-          commentRevisionID: stories[0].comments.edges[0].node.revision.id,
+          commentRevisionID: stories[0].comments.edges[0].node.revision!.id,
           additionalDetails: "More info",
         });
         return {

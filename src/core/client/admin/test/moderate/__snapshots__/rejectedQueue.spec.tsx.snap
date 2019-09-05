@@ -55,6 +55,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
           </time>
           <button
             className="BaseButton-root FeatureButton-root"
+            disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -90,12 +91,12 @@ exports[`approves comment in rejected queue: dangling 1`] = `
               target="_blank"
             >
               View Context
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-xs TextLink-icon"
               >
                 open_in_new
-              </span>
+              </i>
             </a>
           </div>
           <div>
@@ -157,12 +158,12 @@ exports[`approves comment in rejected queue: dangling 1`] = `
                 >
                   Details
                 </span>
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   arrow_drop_down
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -195,12 +196,12 @@ exports[`approves comment in rejected queue: dangling 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg RejectButton-icon"
           >
             close
-          </span>
+          </i>
         </button>
         <button
           aria-label="Approve"
@@ -214,12 +215,12 @@ exports[`approves comment in rejected queue: dangling 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
-          </span>
+          </i>
         </button>
       </div>
     </div>
@@ -279,6 +280,7 @@ exports[`renders rejected queue with comments 1`] = `
                 </time>
                 <button
                   className="BaseButton-root FeatureButton-root"
+                  disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -314,12 +316,12 @@ exports[`renders rejected queue with comments 1`] = `
                     target="_blank"
                   >
                     View Context
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-xs TextLink-icon"
                     >
                       open_in_new
-                    </span>
+                    </i>
                   </a>
                 </div>
                 <div>
@@ -381,12 +383,12 @@ exports[`renders rejected queue with comments 1`] = `
                       >
                         Details
                       </span>
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-sm"
                       >
                         arrow_drop_down
-                      </span>
+                      </i>
                     </button>
                   </div>
                 </div>
@@ -419,12 +421,12 @@ exports[`renders rejected queue with comments 1`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg RejectButton-icon"
                 >
                   close
-                </span>
+                </i>
               </button>
               <button
                 aria-label="Approve"
@@ -438,12 +440,12 @@ exports[`renders rejected queue with comments 1`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -490,6 +492,7 @@ exports[`renders rejected queue with comments 1`] = `
                 </time>
                 <button
                   className="BaseButton-root FeatureButton-root"
+                  disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -525,12 +528,12 @@ exports[`renders rejected queue with comments 1`] = `
                     target="_blank"
                   >
                     View Context
-                    <span
+                    <i
                       aria-hidden="true"
                       className="Icon-root Icon-xs TextLink-icon"
                     >
                       open_in_new
-                    </span>
+                    </i>
                   </a>
                 </div>
                 <div>
@@ -592,12 +595,12 @@ exports[`renders rejected queue with comments 1`] = `
                       >
                         Details
                       </span>
-                      <span
+                      <i
                         aria-hidden="true"
                         className="Icon-root Icon-sm"
                       >
                         arrow_drop_down
-                      </span>
+                      </i>
                     </button>
                   </div>
                 </div>
@@ -630,12 +633,12 @@ exports[`renders rejected queue with comments 1`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg RejectButton-icon"
                 >
                   close
-                </span>
+                </i>
               </button>
               <button
                 aria-label="Approve"
@@ -649,12 +652,12 @@ exports[`renders rejected queue with comments 1`] = `
                 onTouchEnd={[Function]}
                 type="button"
               >
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -707,6 +710,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
           </time>
           <button
             className="BaseButton-root FeatureButton-root"
+            disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -742,12 +746,12 @@ exports[`renders rejected queue with comments and load more 1`] = `
               target="_blank"
             >
               View Context
-              <span
+              <i
                 aria-hidden="true"
                 className="Icon-root Icon-xs TextLink-icon"
               >
                 open_in_new
-              </span>
+              </i>
             </a>
           </div>
           <div>
@@ -822,12 +826,12 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 >
                   Details
                 </span>
-                <span
+                <i
                   aria-hidden="true"
                   className="Icon-root Icon-sm"
                 >
                   arrow_drop_down
-                </span>
+                </i>
               </button>
             </div>
           </div>
@@ -860,12 +864,12 @@ exports[`renders rejected queue with comments and load more 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg RejectButton-icon"
           >
             close
-          </span>
+          </i>
         </button>
         <button
           aria-label="Approve"
@@ -879,12 +883,12 @@ exports[`renders rejected queue with comments and load more 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          <span
+          <i
             aria-hidden="true"
             className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
-          </span>
+          </i>
         </button>
       </div>
     </div>

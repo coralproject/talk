@@ -14,12 +14,13 @@ import * as comment from "coral-server/models/comment";
 import {
   getLatestRevision,
   hasAncestors,
+  hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
 import { createConnection } from "coral-server/models/helpers";
+import { getURLWithCommentID } from "coral-server/models/story";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import TenantContext from "../context";
-import { getURLWithCommentID } from "./util";
 
 export const maybeLoadOnlyID = (
   ctx: TenantContext,
@@ -41,11 +42,14 @@ export const maybeLoadOnlyID = (
 };
 
 export const Comment: GQLCommentTypeResolver<comment.Comment> = {
-  body: c => getLatestRevision(c).body,
+  body: c => (c.revisions.length > 0 ? getLatestRevision(c).body : null),
   // Send the whole comment back when you request revisions. This way, we get to
   // know the comment ID. The field mapping is handled by the CommentRevision
   // resolver.
-  revision: c => ({ revision: getLatestRevision(c), comment: c }),
+  revision: c =>
+    c.revisions.length > 0
+      ? { revision: getLatestRevision(c), comment: c }
+      : null,
   revisionHistory: c => c.revisions.map(revision => ({ revision, comment: c })),
   editing: ({ revisions, createdAt }, input, ctx) => ({
     // When there is more than one body history, then the comment has been
@@ -55,7 +59,8 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     // length added to the comment created date.
     editableUntil: getCommentEditableUntilDate(ctx.tenant, createdAt),
   }),
-  author: (c, input, ctx) => ctx.loaders.Users.user.load(c.authorID),
+  author: (c, input, ctx) =>
+    c.authorID ? ctx.loaders.Users.user.load(c.authorID) : null,
   statusHistory: ({ id }, input, ctx) =>
     ctx.loaders.CommentModerationActions.forComment(input, id),
   replies: (c, input, ctx) =>
@@ -64,7 +69,18 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.childCount > 0
       ? ctx.loaders.Comments.forParent(c.storyID, c.id, input)
       : createConnection(),
-  replyCount: ({ childCount }) => childCount || 0,
+  replyCount: async ({ childIDs }, input, ctx) => {
+    // TODO: (wyattjoh) the childCount should be used eventually, but it should be managed with the status so it's only a count of published comments
+    if (childIDs.length === 0) {
+      return 0;
+    }
+
+    const children = await ctx.loaders.Comments.comment.loadMany(childIDs);
+    return children.reduce(
+      (sum, c) => (c && hasPublishedStatus(c) ? sum + 1 : sum),
+      0
+    );
+  },
   // Action Counts are encoded, decode them for use with the GraphQL system.
   actionCounts: c => decodeActionCounts(c.actionCounts),
   flags: ({ id }, { first = 10, after }, ctx) =>
