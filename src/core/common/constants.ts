@@ -52,3 +52,8 @@ export const ALLOWED_USERNAME_CHANGE_FREQUENCY = 14 * 86400;
  * deletion.
  */
 export const SCHEDULED_DELETION_TIMESPAN_DAYS = 14;
+
+/**
+ * DEFAULT_SESSION_LENTTH is the length of time in seconds a session is valid for unless configured in tenant.
+ */
+export const DEFAULT_SESSION_LENGTH = 7776000;

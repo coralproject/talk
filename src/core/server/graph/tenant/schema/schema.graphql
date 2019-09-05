@@ -3007,6 +3007,10 @@ input SettingsAuthInput {
   authentication solutions.
   """
   integrations: SettingsAuthIntegrationsInput
+  """
+  sessionDuration determines the duration in seconds for which an access token is valid
+  """
+  sessionDuration: Int!
 }
 
 input SettingsAkismetExternalIntegrationInput {
