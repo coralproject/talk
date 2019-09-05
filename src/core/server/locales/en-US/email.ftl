@@ -93,6 +93,13 @@ email-template-notificationOnReply =
   { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br />
   { $authorUsername } has replied to your comment: <a data-l10n-name="commentPermalink">View comment</a>
 
+## On Featured
+
+email-subject-notificationOnFeatured = One of your comments was featured on { $organizationName }
+email-template-notificationOnFeatured =
+  { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br />
+  A member of our team has selected this comment to be featured for other readers: <a data-l10n-name="commentPermalink">View comment</a>
+
 ## On Staff Reply
 
 email-subject-notificationOnStaffReply = Someone at { $organizationName } has replied to your comment
