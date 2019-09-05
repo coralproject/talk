@@ -7,17 +7,10 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
-  waitUntilThrow,
   within,
 } from "coral-framework/testHelpers";
 
-import {
-  commenters,
-  settings,
-  settingsWithoutLocalAuth,
-  stories,
-  viewerPassive,
-} from "../fixtures";
+import { settings, stories, viewerPassive } from "../fixtures";
 import create from "./create";
 
 const story = stories[0];
