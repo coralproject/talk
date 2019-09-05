@@ -6,7 +6,10 @@ import { URL } from "url";
 import { discover } from "coral-server/app/middleware/passport/strategies/oidc/discover";
 import { Config } from "coral-server/config";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
-import { GQLSettingsInput } from "coral-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLSettingsInput,
+  GQLSettingsWordListInput,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   createTenant,
@@ -20,6 +23,20 @@ import { I18n } from "coral-server/services/i18n";
 import TenantCache from "./cache";
 
 export type UpdateTenant = GQLSettingsInput;
+
+function cleanWordList(
+  list: GQLSettingsWordListInput
+): GQLSettingsWordListInput {
+  if (list.banned) {
+    list.banned = list.banned.filter(Boolean);
+  }
+
+  if (list.suspect) {
+    list.suspect = list.suspect.filter(Boolean);
+  }
+
+  return list;
+}
 
 export async function update(
   mongo: Db,
@@ -37,6 +54,12 @@ export async function update(
     !isUndefined(input.live.enabled)
   ) {
     delete input.live.enabled;
+  }
+
+  // If the word list was specified, we should validate it to ensure there isn't
+  // any empty spaces.
+  if (input.wordList) {
+    input.wordList = cleanWordList(input.wordList);
   }
 
   const updatedTenant = await updateTenant(mongo, tenant.id, input);
