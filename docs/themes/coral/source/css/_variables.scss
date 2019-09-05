@@ -1,21 +1,59 @@
-$coral_orange: #f67150;
+// Palate
+$coral_orange: rgb(245, 100, 85);
+$coral_dark_blue: rgb(19, 28, 84);
+$coral_light_blue: rgb(83, 192, 191);
+$coral_light_gray: rgb(238, 238, 238);
+$coral_dark_gray: rgb(46, 56, 61);
+$coral_success: rgb(35, 131, 53);
+$coral_error: rgb(208, 48, 53);
+
+// Variables
+
+// // Sidebar
+
 $sidebar_width: 320px;
-$sidebar_background: $coral_orange;
-$sidebar_color: white;
+$sidebar_background: white;
+$sidebar_color: black;
 $sidebar_gutter: 35px;
+
+// // Layout
+
 $content_gutter: 40px;
 $header_padding_bottom: $content_gutter;
 $breakpoint: 960px;
-$hljs_string_color: $coral_orange;
-$code_background: #F0F0F0;
-$code_border: 1px solid darken($code_background, 10%);
-$copy_button_background: white;
-$coral_button_background: $coral_orange;
-$coral_button_border: darken($coral_button_background, 5%);
-$demo_border: lighten($coral_button_border, 30%);
-$coral_button_border_color: $coral_orange;
+
+// // Code
+
+$hljs_string_color: $coral_light_blue;
+$code_background: $coral_light_gray;
+$code_border: 0;
+$copy_button_color: white;
+$copy_button_background: $coral_light_blue;
+
+// // Call out
+
+$callout_color: white;
+$callout_background: $coral_dark_blue;
+$callout_link_color: darken($callout_color, 20%);
+$callout_link_hover_color: darken($callout_link_color, 5%);
+
+// // Buttons
+
+$coral_button_background: $coral_light_blue;
 $coral_button_color: black;
-$coral_button_hover_color: $coral_button_border_color;
-$coral_button_invert_border_color: lighten($coral_button_border_color, 20%);
-$coral_button_invert_color: white;
-$coral_button_invert_hover_color: $coral_button_invert_border_color;
+$coral_button_hover_color: darken($coral_button_background, 5%);
+$coral_button_invert_color: $coral_dark_gray;
+$coral_button_invert_hover_color: lighten($coral_button_invert_color, 20%);
+
+// // Search
+
+$algolia_suggestion_highlight_color: $coral_light_blue;
+$algolia_suggestion_highlight_background: fade-out(
+  $algolia_suggestion_highlight_color,
+  0.9
+);
+
+// // Navigation
+
+$header_nav_link_color: $coral_dark_gray;
+$header_nav_icon_color: $coral_dark_gray;

@@ -3,7 +3,7 @@
 @import "hljs";
 
 body {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-variant: normal;
   font-weight: 400;
@@ -58,31 +58,20 @@ h4 {
   font-weight: 500;
 }
 
-.btn-coral {
-  color: white;
-  background: $coral_button_background;
-  border: 1px solid $coral_button_border;
-
-  &:hover {
-    color: white;
-    cursor: pointer;
-    background: darken($coral_button_background, 5%);
-    border-color: darken($coral_button_border, 5%);
-  }
-}
-
 .param {
-  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
 }
 
 article.configuration {
-  h2, .toc {
+  h2,
+  .toc {
     @extend .param;
   }
 }
 
 .suggest-edits {
-  padding: .20rem .5rem;
+  padding: 0.2rem 0.5rem;
 }
 
 /**
@@ -91,14 +80,14 @@ article.configuration {
 
 .demo {
   background: $coral_orange;
-  border: 1px solid $demo_border;
   overflow: hidden;
   margin: 0 auto;
   padding: 0;
   margin-bottom: 1rem;
   max-width: 650px;
 
-  .btn, .alert {
+  .btn,
+  .alert {
     border: none;
     border-radius: 0;
     margin: 0;
@@ -109,7 +98,6 @@ article.configuration {
   }
 
   .mount {
-    border-top: 1px solid $demo_border;
     display: none;
     background: white;
     padding: 10px;
@@ -123,6 +111,7 @@ article.configuration {
   background: $copy_button_background;
   padding: 3px 10px;
   border: $code_border;
+  color: $copy_button_color;
 
   &:hover {
     background: darken($copy_button_background, 10%);
@@ -141,7 +130,6 @@ pre {
   font-size: 90%;
   color: #212529;
   position: relative;
-
 
   & > code {
     display: block;
@@ -196,8 +184,8 @@ pre {
     left: 0 !important;
 
     .algolia-docsearch-suggestion--highlight {
-      color: $coral_orange;
-      background: fade-out($coral_orange, 0.9);
+      color: $algolia_suggestion_highlight_color;
+      background: $algolia_suggestion_highlight_background;
     }
 
     .ds-dropdown-menu {
@@ -207,7 +195,7 @@ pre {
 
       // Hide the carrot.
       &:before {
-        display: none
+        display: none;
       }
 
       // Fix for smaller screens.
@@ -215,7 +203,6 @@ pre {
         min-width: 200px;
       }
     }
-
   }
 
   &.header--toggled {
@@ -232,7 +219,7 @@ pre {
       display: inline-block;
       text-align: center;
       margin-left: 15px;
-      color: $coral_orange;
+      color: $header_nav_link_color;
       white-space: nowrap;
 
       & > svg {
@@ -240,12 +227,12 @@ pre {
         width: 20px;
 
         rect {
-          fill: $coral_orange;
+          fill: $header_nav_icon_color;
         }
       }
 
       &:hover {
-        color: darken($coral_orange, 10%);
+        color: darken($header_nav_icon_color, 10%);
       }
     }
   }
@@ -262,7 +249,6 @@ pre {
 }
 
 .coral-link {
-  border-bottom: 1px solid $coral_button_border_color;
   color: $coral_button_color;
   text-decoration: none;
 
@@ -274,7 +260,6 @@ pre {
 
 .coral-link-invert {
   @extend .coral-link;
-  border-color: $coral_button_invert_border_color;
   color: $coral_button_invert_color;
 
   &:hover {
@@ -310,6 +295,7 @@ a.brand {
   padding: $sidebar_gutter;
   color: #fff;
   text-decoration: none;
+  min-height: 90px;
 
   h2 {
     margin: 0;
@@ -328,15 +314,9 @@ a.brand {
     font-weight: 500;
   }
 
-  .logo {
+  img {
     vertical-align: middle;
-    height: 50px;
-    width: 50px;
-    @include transition(all, 250ms);
-
-    &:hover {
-      @include transform(rotate(8deg));
-    }
+    width: 100%;
   }
 }
 
@@ -358,6 +338,9 @@ a.brand {
   color: $sidebar_color;
   height: 100%;
   position: fixed;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   top: 0;
   left: 0;
   z-index: 2;
@@ -369,7 +352,7 @@ a.brand {
   @media (max-width: $breakpoint) {
     &.sidebar--toggled {
       @include transform(translate3d(0, 0, 0));
-      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
       z-index: 3;
     }
   }
@@ -382,26 +365,49 @@ a.brand {
     padding: 0px;
   }
 
-  .notice {
-    padding: $sidebar_gutter $sidebar_gutter 0;
-    color: fade-out($sidebar_color, 0.5);
-  }
-
   .sidebar__section {
     list-style: none;
     border-bottom: 1px solid lighten($sidebar_background, 3%);
 
-    &.active {
-      .sidebar__header {
-        background-color: darken($sidebar_background, 2%);
-      }
-    }
-
     &.toggled {
+      & > .sidebar__header {
+        background: darken($sidebar_background, 10%);
+        // color: white;
+      }
+
+      .sidebar__subsection {
+        display: block;
+      }
+
       .sidebar__links {
         display: block;
       }
     }
+
+    &.active {
+      & > .sidebar__header {
+        background: darken($sidebar_background, 30%);
+      }
+    }
+  }
+
+  .sidebar__subsection {
+    display: none;
+  }
+
+  .sidebar__subsection {
+    list-style: none;
+
+    &.active {
+      & > .sidebar__header {
+        color: fade-out($sidebar_color, 0.3);
+        background-color: darken($sidebar_background, 2%);
+      }
+    }
+  }
+
+  .sidebar__headers {
+    padding: 0;
   }
 
   a.sidebar__header {
@@ -425,7 +431,6 @@ a.brand {
     overflow-y: hidden;
 
     & > li {
-
       & > a {
         display: block;
         padding: 6px $sidebar_gutter;
@@ -438,11 +443,11 @@ a.brand {
       }
 
       &.active > a {
-        color: fade-out($sidebar_color, 0.3);
+        color: fade-out($sidebar_color, 0.2);
       }
 
       &.active {
-        background: darken($sidebar_background, 5%);
+        background: darken($sidebar_background, 1%);
       }
     }
   }
@@ -467,20 +472,18 @@ a.brand {
 }
 
 .callout {
-  background-color: $coral_button_background;
-  color: white;
+  background-color: $callout_background;
+  color: $callout_color;
   margin: 20px 0;
   padding: 20px;
   text-align: center;
 
   a {
     @extend .coral-link;
-    color: #FFF;
-    border-color: #FFF;
+    color: $callout_link_color;
 
     &:hover {
-      color: #FFF;
-      border-color: darken(#FFF, 5%);
+      color: $callout_link_hover_color;
     }
   }
 }
