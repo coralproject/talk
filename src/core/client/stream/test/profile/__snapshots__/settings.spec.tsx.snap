@@ -72,26 +72,26 @@ exports[`renders the empty settings pane 1`] = `
           className="Flex-flex Flex-halfItemGutter Flex-wrap gutter"
         >
           <div
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText"
           >
             Signed in as 
             <span
-              className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
             >
               Passivo
             </span>
             .
           </div>
           <div
-            className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+            className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText Flex-flex"
           >
             <span>
               Not you? 
             </span>
             <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-logoutButton"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
               data-color="primary"
-              data-variant="underlined"
+              data-variant="regular"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}

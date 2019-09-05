@@ -6,7 +6,7 @@ exports[`renders profile 1`] = `
   data-testid="profile-commentHistory"
 >
   <div
-    className="Box-root HorizontalGutter-root coral coral-myComment HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HistoryComment-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-0"
   >
     <div>
@@ -56,7 +56,7 @@ exports[`renders profile 1`] = `
     </div>
   </div>
   <div
-    className="Box-root HorizontalGutter-root coral coral-myComment HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HistoryComment-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-1"
   >
     <div>

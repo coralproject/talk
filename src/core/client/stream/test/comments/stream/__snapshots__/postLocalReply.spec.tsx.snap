@@ -96,11 +96,11 @@ exports[`post a reply: open reply form 1`] = `
                  
               </span>
               <span
-                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary coral coral-comment-inReplyToText"
               >
                 In reply to 
                 <span
-                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
+                  className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-comment-inReplyToUsername"
                 >
                   Markus
                 </span>
@@ -543,11 +543,11 @@ exports[`post a reply: optimistic response 1`] = `
                      
                   </span>
                   <span
-                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary coral coral-comment-inReplyToText"
                   >
                     In reply to 
                     <span
-                      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
+                      className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-comment-inReplyToUsername"
                     >
                       Markus
                     </span>
@@ -1005,11 +1005,11 @@ exports[`renders comment stream 1`] = `
                          
                       </span>
                       <span
-                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary coral coral-comment-inReplyToText"
                       >
                         In reply to 
                         <span
-                          className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
+                          className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-comment-inReplyToUsername"
                         >
                           Markus
                         </span>
@@ -1256,11 +1256,11 @@ exports[`renders comment stream 1`] = `
                              
                           </span>
                           <span
-                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary coral coral-comment-inReplyToText"
                           >
                             In reply to 
                             <span
-                              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
+                              className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-comment-inReplyToUsername"
                             >
                               Markus
                             </span>
@@ -1507,11 +1507,11 @@ exports[`renders comment stream 1`] = `
                                  
                               </span>
                               <span
-                                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary coral coral-comment-inReplyToText"
                               >
                                 In reply to 
                                 <span
-                                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
+                                  className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-comment-inReplyToUsername"
                                 >
                                   Markus
                                 </span>
@@ -1758,11 +1758,11 @@ exports[`renders comment stream 1`] = `
                                      
                                   </span>
                                   <span
-                                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary coral coral-comment-inReplyToText"
                                   >
                                     In reply to 
                                     <span
-                                      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
+                                      className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-comment-inReplyToUsername"
                                     >
                                       Markus
                                     </span>
@@ -2009,11 +2009,11 @@ exports[`renders comment stream 1`] = `
                                          
                                       </span>
                                       <span
-                                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary coral coral-comment-inReplyToText"
                                       >
                                         In reply to 
                                         <span
-                                          className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary InReplyTo-username coral coral-comment-inReplyToUsername"
+                                          className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-comment-inReplyToUsername"
                                         >
                                           Markus
                                         </span>

@@ -11,6 +11,7 @@ exports[`renders correctly with logout button 1`] = `
     id="general-userBoxAuthenticated-signedInAs"
   >
     <ForwardRef(forwardRef)
+      className="UserBoxAuthenticated-userBoxText"
       container="div"
       variant="bodyCopy"
     >
@@ -20,16 +21,17 @@ exports[`renders correctly with logout button 1`] = `
   <Localized
     button={
       <ForwardRef(forwardRef)
-        className="coral coral-viewerBox-logoutButton"
+        className="UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
         color="primary"
         onClick={[Function]}
         size="small"
-        variant="underlined"
+        variant="regular"
       />
     }
     id="general-userBoxAuthenticated-notYou"
   >
     <ForwardRef(forwardRef)
+      className="UserBoxAuthenticated-userBoxText"
       container={
         Object {
           "$$typeof": Symbol(react.forward_ref),
@@ -55,6 +57,7 @@ exports[`renders correctly without logout button 1`] = `
     id="general-userBoxAuthenticated-signedInAs"
   >
     <ForwardRef(forwardRef)
+      className="UserBoxAuthenticated-userBoxText"
       container="div"
       variant="bodyCopy"
     >
