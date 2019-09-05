@@ -46,13 +46,20 @@ export default class Task<T, U = any> {
         "processing job from queue"
       );
 
-      // Send the job off to the job processor to be handled.
-      const promise: U = await this.options.jobProcessor(job);
-      logger.trace(
-        { jobID: job.id, jobName: this.options.jobName },
-        "processing completed"
-      );
-      return promise;
+      try {
+        // Send the job off to the job processor to be handled.
+        const promise: U = await this.options.jobProcessor(job);
+        logger.trace(
+          { jobID: job.id, jobName: this.options.jobName },
+          "processing completed"
+        );
+
+        return promise;
+      } catch (err) {
+        logger.error({ err }, "failed to process job from queue");
+
+        throw err;
+      }
     });
 
     logger.trace(

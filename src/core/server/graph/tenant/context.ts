@@ -9,6 +9,7 @@ import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import TenantCache from "coral-server/services/tenant/cache";
@@ -20,6 +21,7 @@ export interface TenantContextOptions extends CommonContextOptions {
   tenant: Tenant;
   tenantCache: TenantCache;
   mailerQueue: MailerQueue;
+  notifierQueue: NotifierQueue;
   scraperQueue: ScraperQueue;
   signingConfig?: JWTSigningConfig;
   clientID?: string;
@@ -41,6 +43,7 @@ export default class TenantContext extends CommonContext {
   constructor({
     tenant,
     logger: log = logger,
+    notifierQueue,
     ...options
   }: TenantContextOptions) {
     super({
@@ -57,6 +60,7 @@ export default class TenantContext extends CommonContext {
     this.clientID = options.clientID;
     this.publisher = createPublisher(
       this.pubsub,
+      notifierQueue,
       this.tenant.id,
       this.clientID
     );

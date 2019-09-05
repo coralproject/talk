@@ -1088,11 +1088,11 @@ type CommenterAccountFeatures {
   """
   changeUsername: Boolean!
   """
-  downloadComments when true, user may download their comment history 
+  downloadComments when true, user may download their comment history
   """
   downloadComments: Boolean!
   """
-  deleteAccount when true, non-sso user may permanently delete their account 
+  deleteAccount when true, non-sso user may permanently delete their account
   """
   deleteAccount: Boolean!
 }
@@ -1535,6 +1535,60 @@ enum USER_STATUS {
   SUSPENDED
 }
 
+enum DIGEST_FREQUENCY {
+  """
+  NONE will have the notifications send immediatly rather than bundling for digesting.
+  """
+  NONE
+
+  """
+  DAILY will queue up the notifications and send them daily.
+  """
+  DAILY
+
+  """
+  HOURLY will queue up the notifications and send them hourly.
+  """
+  HOURLY
+}
+
+"""
+UserNotificationSettings stores the notification settings for a given User.
+"""
+type UserNotificationSettings {
+  """
+  onReply, when true, will enable notifications to be sent to users that have
+  replies to their comments.
+  """
+  onReply: Boolean!
+
+  """
+  onFeatured, when true, will enable notifications to be sent to users that have
+  their comment's featured.
+  """
+  onFeatured: Boolean!
+
+  """
+  onStaffReplies when true, will enable notifications to be sent to users that
+  have a staff member reply to their comments. These notifications will
+  supercede notifications that would have been sent for a basic reply
+  notification.
+  """
+  onStaffReplies: Boolean!
+
+  """
+  onModeration when true, will enable notifications to be sent to users when a
+  comment that they wrote that was previously unpublished, becomes published due
+  to a moderator action.
+  """
+  onModeration: Boolean!
+
+  """
+  digestFrequency is the frequency to send notifications.
+  """
+  digestFrequency: DIGEST_FREQUENCY!
+}
+
 """
 User is someone that leaves Comments, and logs in.
 """
@@ -1655,7 +1709,11 @@ type User {
   tokens lists the access tokens associated with the account.
   """
   tokens: [Token!]!
-    @auth(roles: [ADMIN], userIDField: "id", permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(
+      roles: [ADMIN]
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+    )
 
   """
   ignoredUsers will return the list of ignored users.
@@ -1666,6 +1724,12 @@ type User {
       userIDField: "id"
       permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
+
+  """
+  notifications stores the notification settings for the given User.
+  """
+  notifications: UserNotificationSettings!
+    @auth(userIDField: "id", permit: [SUSPENDED, BANNED])
 
   """
   createdAt is the time that the User was created at.
@@ -2504,6 +2568,61 @@ type Query {
 ################################################################################
 
 ##################
+## updateNotificationSettings
+##################
+
+input UpdateNotificationSettingsInput {
+  """
+  onReply, when true, will enable notifications to be sent to users that have
+  replies to their comments.
+  """
+  onReply: Boolean
+
+  """
+  onFeatured, when true, will enable notifications to be sent to users that have
+  their comment's featured.
+  """
+  onFeatured: Boolean
+
+  """
+  onStaffReplies when true, will enable notifications to be sent to users that
+  have a staff member reply to their comments. These notifications will
+  supercede notifications that would have been sent for a basic reply
+  notification.
+  """
+  onStaffReplies: Boolean
+
+  """
+  onModeration when true, will enable notifications to be sent to users when a
+  comment that they wrote that was previously unpublished, becomes published due
+  to a moderator action.
+  """
+  onModeration: Boolean
+
+  """
+  digestFrequency is the frequency to send notifications.
+  """
+  digestFrequency: DIGEST_FREQUENCY
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateNotificationSettingsPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## createComment
 ##################
 
@@ -3140,11 +3259,11 @@ input CommenterAccountFeaturesInput {
   """
   changeUsername: Boolean
   """
-  downloadComments when true, user may download their comment history 
+  downloadComments when true, user may download their comment history
   """
   downloadComments: Boolean
   """
-  deleteAccount when true, non-sso user may permanently delete their account 
+  deleteAccount when true, non-sso user may permanently delete their account
   """
   deleteAccount: Boolean
 }
@@ -4887,7 +5006,9 @@ type Mutation {
   before. This mutation will fail if the username is already set.
   """
   setUsername(input: SetUsernameInput!): SetUsernamePayload!
-    @auth(permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+    )
 
   """
   updateUsername will set the username on the current User if they have not set one
@@ -4960,6 +5081,14 @@ type Mutation {
   updateEmail(input: UpdateEmailInput!): UpdateEmailPayload! @auth
 
   """
+  updateNotificationSettings can be used to update the notification settings for
+  the current logged in user.
+  """
+  updateNotificationSettings(
+    input: UpdateNotificationSettingsInput!
+  ): UpdateNotificationSettingsPayload! @auth
+
+  """
   updateUserEmail allows administrators to update a given User's email address
   to the one provided.
   """
@@ -5023,7 +5152,8 @@ type Mutation {
   """
   requestCommentsDownload(
     input: RequestCommentsDownloadInput!
-  ): RequestCommentsDownloadPayload! @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+  ): RequestCommentsDownloadPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
 
   """
   requestUserCommentsDownload allows a user to request to download their comments.

@@ -1,0 +1,128 @@
+import { Job } from "bull";
+import { Db } from "mongodb";
+
+import { Config } from "coral-server/config";
+import {
+  SUBSCRIPTION_CHANNELS,
+  SUBSCRIPTION_INPUT,
+} from "coral-server/graph/tenant/resolvers/Subscription/types";
+import logger from "coral-server/logger";
+import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { JWTSigningConfig } from "coral-server/services/jwt";
+import { NotificationCategory } from "coral-server/services/notifications/categories";
+import NotificationContext from "coral-server/services/notifications/context";
+import { Notification } from "coral-server/services/notifications/notification";
+import TenantCache from "coral-server/services/tenant/cache";
+
+import {
+  filterSuperseded,
+  handleHandlers,
+  processNewNotifications,
+} from "./messages";
+
+export const JOB_NAME = "notifications";
+
+/**
+ * NotifierData stores the data used by the notification system.
+ */
+export interface NotifierData {
+  tenantID: string;
+  input: SUBSCRIPTION_INPUT;
+}
+
+interface Options {
+  mailerQueue: MailerQueue;
+  mongo: Db;
+  config: Config;
+  registry: Record<SUBSCRIPTION_CHANNELS, NotificationCategory[]>;
+  tenantCache: TenantCache;
+  signingConfig: JWTSigningConfig;
+}
+
+/**
+ * CategoryNotification combines the category and notification's to collect the
+ * appropriate elements together that can be used for digesting purposes.
+ */
+export interface CategoryNotification {
+  category: NotificationCategory;
+  notification: Notification;
+}
+
+/**
+ * createJobProcessor creates the processor that is used to process the
+ * possible notifications and queueing them up in the mailer if they need to be
+ * sent.
+ *
+ * @param options options for the processor
+ */
+export const createJobProcessor = ({
+  mailerQueue,
+  mongo,
+  config,
+  registry,
+  tenantCache,
+  signingConfig,
+}: Options) => {
+  return async (job: Job<NotifierData>) => {
+    const now = new Date();
+
+    // Pull the data out of the model.
+    const { tenantID, input } = job.data;
+
+    // Create a new logger to handle logging for this job.
+    const log = logger.child({
+      jobID: job.id,
+      jobName: JOB_NAME,
+      tenantID,
+    });
+
+    log.debug("starting to handle a notify operation");
+
+    try {
+      // Get all the handlers that are active for this channel.
+      const categories = registry[input.channel];
+      if (!categories || categories.length === 0) {
+        return;
+      }
+
+      // Grab the tenant from the cache.
+      const tenant = await tenantCache.retrieveByID(tenantID);
+      if (!tenant) {
+        throw new Error("tenant not found with ID");
+      }
+
+      // Create a notification context to handle processing notifications.
+      const ctx = new NotificationContext({
+        mongo,
+        config,
+        signingConfig,
+        tenant,
+        now,
+      });
+
+      // For each of the handler's we need to process, we should iterate to
+      // generate their notifications.
+      let notifications = await handleHandlers(ctx, categories, input);
+
+      // Check to see if some of the other notifications that are queued
+      // had this notification superseded.
+      notifications = notifications.filter(filterSuperseded);
+
+      // Send all the notifications now.
+      await processNewNotifications(
+        ctx,
+        notifications.map(({ notification }) => notification),
+        mailerQueue
+      );
+
+      log.debug(
+        { notifications: notifications.length },
+        "notifications handled"
+      );
+    } catch (err) {
+      log.error({ err }, "could not handle the notifications");
+
+      throw err;
+    }
+  };
+};

@@ -1,0 +1,11 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+  {% include "notification/partials/" + baseName + ".html" %}
+{% endblock %}
+
+{% block footer %}
+  <div data-l10n-id="email-footer-notification" data-l10n-args="{{ context | dump }}">
+    Sent by <a data-l10n-name="organizationLink" href="{{ context.organizationURL }}">{{ context.organizationName }}</a> - <a data-l10n-name="unsubscribeLink" href="{{ context.unsubscribeURL }}">Unsubscribe from these notifications</a>
+  </div>
+{% endblock %}

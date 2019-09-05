@@ -1,0 +1,11 @@
+{% extends "layouts/account-notification.html" %}
+
+{% block content %}
+  <div data-l10n-id="email-template-accountNotificationUpdateUsername" data-l10n-args="{{ context | dump }}">
+    Hello {{ context.username }},<br /><br />
+
+    Thank you for updating your {{ context.organizationName }} commenter account
+    information. The changes you made are effective immediately. If you did not make
+    this change please reach out to <a data-l10n-name="organizationContactEmail" href="mailto:{{ context.organizationContactEmail }}">{{ context.organizationContactEmail }}</a>.
+  </div>
+{% endblock %}

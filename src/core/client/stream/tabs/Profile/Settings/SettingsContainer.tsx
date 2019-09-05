@@ -10,6 +10,7 @@ import ChangePasswordContainer from "./ChangePasswordContainer";
 import DeleteAccountContainer from "./DeleteAccount/DeleteAccountContainer";
 import DownloadCommentsContainer from "./DownloadCommentsContainer";
 import IgnoreUserSettingsContainer from "./IgnoreUserSettingsContainer";
+import NotificationSettingsContainer from "./NotificationSettingsContainer";
 
 import styles from "./SettingsContainer.css";
 
@@ -28,6 +29,7 @@ const SettingsContainer: FunctionComponent<Props> = ({ viewer, settings }) => (
     {settings.accountFeatures.deleteAccount && (
       <DeleteAccountContainer viewer={viewer} settings={settings} />
     )}
+    <NotificationSettingsContainer viewer={viewer} />
   </HorizontalGutter>
 );
 
@@ -37,6 +39,7 @@ const enhanced = withFragmentContainer<Props>({
       ...IgnoreUserSettingsContainer_viewer
       ...DownloadCommentsContainer_viewer
       ...DeleteAccountContainer_viewer
+      ...NotificationSettingsContainer_viewer
     }
   `,
   settings: graphql`

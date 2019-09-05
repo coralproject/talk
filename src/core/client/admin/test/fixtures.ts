@@ -141,6 +141,12 @@ export const settings = createFixture<GQLSettings>({
       },
     },
   },
+  stories: {
+    scraping: {
+      enabled: true,
+    },
+    disableLazy: false,
+  },
   accountFeatures: {
     downloadComments: true,
     changeUsername: true,

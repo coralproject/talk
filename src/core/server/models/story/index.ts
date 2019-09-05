@@ -26,8 +26,8 @@ import {
   StoryCommentCounts,
 } from "./counts";
 
-// Export everything under counts.
 export * from "./counts";
+export * from "./helpers";
 
 const collection = createCollection<Story>("stories");
 

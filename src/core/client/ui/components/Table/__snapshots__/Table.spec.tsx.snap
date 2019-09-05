@@ -16,7 +16,7 @@ exports[`renders correctly 1`] = `
         Username
       </withPropsOnChange(TableCell)>
       <withPropsOnChange(TableCell)>
-        E-Mail Address
+        Email Address
       </withPropsOnChange(TableCell)>
       <withPropsOnChange(TableCell)>
         Member Since

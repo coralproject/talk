@@ -10,7 +10,7 @@ it("renders correctly", () => {
       <TableHead>
         <TableRow>
           <TableCell>Username</TableCell>
-          <TableCell>E-Mail Address</TableCell>
+          <TableCell>Email Address</TableCell>
           <TableCell>Member Since</TableCell>
         </TableRow>
       </TableHead>

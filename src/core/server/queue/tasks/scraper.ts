@@ -39,7 +39,6 @@ const createJobProcessor = ({ mongo }: ScrapeProcessorOptions) => async (
 
   try {
     await scrape(mongo, tenantID, storyID, storyURL);
-    log.debug("scraped the story");
   } catch (err) {
     log.error({ err }, "could not scrape the story");
 

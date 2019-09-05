@@ -1,6 +1,8 @@
 import Joi from "joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
+import { Db } from "mongodb";
+import uuid from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
@@ -24,8 +26,6 @@ import {
   StandardClaimsSchema,
   verifyJWT,
 } from "coral-server/services/jwt";
-import { Db } from "mongodb";
-import uuid = require("uuid");
 
 export interface ConfirmToken extends Required<StandardClaims> {
   // aud specifies `confirm` as the audience to indicate that this is a confirm
@@ -109,7 +109,6 @@ export async function generateConfirmURL(
   return constructTenantURL(
     config,
     tenant,
-    // TODO: (kiwi) verify that url is correct.
     `/account/email/confirm#confirmToken=${token}`
   );
 }
@@ -233,7 +232,7 @@ export async function sendConfirmationEmail(
       to: user.email,
     },
     template: {
-      name: "confirm-email",
+      name: "account-notification/confirm-email",
       context: {
         // TODO: (wyattjoh) possibly reevaluate the use of a required username.
         username: user.username,

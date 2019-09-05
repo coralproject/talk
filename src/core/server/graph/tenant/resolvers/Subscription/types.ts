@@ -1,8 +1,8 @@
-import { CommentCreatedInput } from "./commentCreated";
-import { CommentEnteredModerationQueueInput } from "./commentEnteredModerationQueue";
-import { CommentLeftModerationQueueInput } from "./commentLeftModerationQueue";
-import { CommentReplyCreatedInput } from "./commentReplyCreated";
-import { CommentStatusUpdatedInput } from "./commentStatusUpdated";
+import { CommentCreatedSubscription } from "./commentCreated";
+import { CommentEnteredModerationQueueSubscription } from "./commentEnteredModerationQueue";
+import { CommentLeftModerationQueueSubscription } from "./commentLeftModerationQueue";
+import { CommentReplyCreatedSubscription } from "./commentReplyCreated";
+import { CommentStatusUpdatedSubscription } from "./commentStatusUpdated";
 
 export enum SUBSCRIPTION_CHANNELS {
   COMMENT_ENTERED_MODERATION_QUEUE = "COMMENT_ENTERED_MODERATION_QUEUE",
@@ -25,23 +25,8 @@ export interface SubscriptionType<
 }
 
 export type SUBSCRIPTION_INPUT =
-  | SubscriptionType<
-      SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
-      CommentEnteredModerationQueueInput
-    >
-  | SubscriptionType<
-      SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
-      CommentLeftModerationQueueInput
-    >
-  | SubscriptionType<
-      SUBSCRIPTION_CHANNELS.COMMENT_STATUS_UPDATED,
-      CommentStatusUpdatedInput
-    >
-  | SubscriptionType<
-      SUBSCRIPTION_CHANNELS.COMMENT_REPLY_CREATED,
-      CommentReplyCreatedInput
-    >
-  | SubscriptionType<
-      SUBSCRIPTION_CHANNELS.COMMENT_CREATED,
-      CommentCreatedInput
-    >;
+  | CommentEnteredModerationQueueSubscription
+  | CommentLeftModerationQueueSubscription
+  | CommentStatusUpdatedSubscription
+  | CommentReplyCreatedSubscription
+  | CommentCreatedSubscription;

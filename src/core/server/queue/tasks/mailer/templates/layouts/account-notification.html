@@ -1,0 +1,7 @@
+{% extends "layouts/base.html" %}
+
+{% block footer %}
+  <div data-l10n-id="email-footer-accountNotification" data-l10n-args="{{ context | dump }}">
+    Sent by <a data-l10n-name="organizationLink" href="{{ context.organizationURL }}">{{ context.organizationName }}</a>
+  </div>
+{% endblock %}
