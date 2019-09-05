@@ -54,13 +54,14 @@ const TenantInstallBodySchema = Joi.object().keys({
 
 export type TenantInstallHandlerOptions = Pick<
   AppOptions,
-  "redis" | "mongo" | "config" | "mailerQueue"
+  "redis" | "mongo" | "config" | "mailerQueue" | "i18n"
 >;
 
 export const installHandler = ({
   mongo,
   redis,
   config,
+  i18n,
 }: TenantInstallHandlerOptions): RequestHandler => async (req, res, next) => {
   try {
     if (!req.coral) {
@@ -95,6 +96,7 @@ export const installHandler = ({
       mongo,
       redis,
       req.coral.cache.tenant,
+      i18n,
       {
         ...tenantInput,
         // Infer the Tenant domain via the hostname parameter.

@@ -24,6 +24,7 @@ export const settings = createFixture<GQLSettings>({
   id: "settings",
   moderation: GQLMODERATION_MODE.POST,
   premodLinksEnable: false,
+  locale: "en-US",
   live: {
     enabled: true,
     configurable: true,
@@ -140,6 +141,12 @@ export const settings = createFixture<GQLSettings>({
         redirectURL: "http://localhost/oidc",
       },
     },
+  },
+  stories: {
+    scraping: {
+      enabled: true,
+    },
+    disableLazy: false,
   },
   accountFeatures: {
     downloadComments: true,

@@ -1,5 +1,12 @@
 import { Localized } from "fluent-react/compat";
-import React, { ChangeEvent, Component } from "react";
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { UNIT } from "coral-common/helpers/i18n";
 import {
@@ -35,27 +42,16 @@ interface Props {
   units?: ReadonlyArray<UNIT>;
 }
 
-interface State {
-  /** Current value */
-  value: string;
-  /** Current unit */
-  unit?: UNIT;
-  /** All available units */
-  units: ReadonlyArray<UNIT>;
-  /**
-   * Element callbacks to generate the rendered
-   * Option element for the select field
-   */
-  elementCallbacks: ReadonlyArray<string>;
+function convertToSeconds(value: string, unit?: UNIT) {
+  const parsed = parseInt(value, 10);
+  return (isNaN(parsed) || !unit ? value : parsed * unit).toString();
 }
 
-/**
- * valueToState converts the value we receive from props to a new state.
- * @param value The value that was passed through props.
- * @param units The units that we use.
- * @param unit The current value if any otherwise the best matching unit will be used.
- */
-function valueToState(value: string, units: ReadonlyArray<UNIT>, unit?: UNIT) {
+function convertFromSeconds(
+  value: string,
+  units: ReadonlyArray<UNIT>,
+  unit?: UNIT
+) {
   const parsed = parseInt(value, 10);
 
   // If value was a valid number..
@@ -76,19 +72,7 @@ function valueToState(value: string, units: ReadonlyArray<UNIT>, unit?: UNIT) {
   return {
     unit,
     value,
-    units,
-    elementCallbacks: units.map(k => DURATION_UNIT_MAP[k]),
   };
-}
-
-/**
- * stateToValue converts current state to the value we pass to onChange.
- * @param state
- */
-function stateToValue(state: State) {
-  const parsed = parseInt(state.value, 10);
-  // If state.value was a number, return computed result, otherwise return the string.
-  return (isNaN(parsed) ? state.value : parsed * state.unit!).toString();
 }
 
 /**
@@ -96,106 +80,102 @@ function stateToValue(state: State) {
  * If the entered value is a valid number, it'll propagate the computed value in seconds via
  * onChange otherwise it'll just propogate whatever was entered as the value TextField.
  */
-class DurationField extends Component<Props, State> {
-  public static defaultProps: Partial<Props> = {
-    units: [UNIT.HOURS, UNIT.DAYS, UNIT.WEEKS],
-  };
+const DurationField: FunctionComponent<Props> = ({
+  value,
+  units = [UNIT.HOURS, UNIT.DAYS, UNIT.WEEKS],
+  onChange,
+  disabled,
+  name,
+}) => {
+  const [selectedUnit, setSelectedUnit] = useState(
+    convertFromSeconds(value, units).unit
+  );
 
-  public state: State = valueToState(this.props.value, this.props.units!);
-
-  public componentWillReceiveProps(nextProps: Props) {
-    this.setState(
-      valueToState(nextProps.value, this.props.units!, this.state.unit)
-    );
-  }
-
-  private handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (this.props.onChange) {
-      const newState: State = {
-        ...this.state,
-        value: e.target.value,
-      };
-      // Assume we have a controlled component and propage the value up,
-      // it then should come back in the props.
-      this.props.onChange(stateToValue(newState));
+  // If value changes, and selectedUnit has not been set, then set the value.
+  useEffect(() => {
+    if (!selectedUnit) {
+      setSelectedUnit(convertFromSeconds(value, units).unit);
     }
-  };
+  }, [value]);
 
-  private handleUnitChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    // First set new unit before propagting new value.
-    this.setState(
-      {
-        unit: parseInt(e.target.value, 10),
-      },
-      () => {
-        if (this.props.onChange) {
-          this.props.onChange(stateToValue(this.state));
-        }
-      }
-    );
-  };
+  const elementCallbacks = useMemo(() => units.map(k => DURATION_UNIT_MAP[k]), [
+    units,
+  ]);
 
-  public render() {
-    const { disabled, name } = this.props;
+  const { value: computedValue } = useMemo(
+    () => convertFromSeconds(value, units, selectedUnit),
+    [value, selectedUnit]
+  );
 
-    if (!this.state.elementCallbacks) {
-      return null;
-    }
+  const handleValueChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      onChange(convertToSeconds(e.target.value, selectedUnit));
+    },
+    [onChange, selectedUnit]
+  );
 
-    return (
-      <Flex itemGutter>
-        <TextField
-          className={styles.value}
-          name={`${name}-value`}
-          onChange={this.handleValueChange}
-          value={this.state.value}
+  const handleUnitChange = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      const unit = parseInt(e.target.value, 10);
+      setSelectedUnit(unit);
+      onChange(convertToSeconds(computedValue, unit));
+    },
+    [setSelectedUnit, onChange, computedValue]
+  );
+
+  return (
+    <Flex itemGutter>
+      <TextField
+        className={styles.value}
+        name={`${name}-value`}
+        onChange={handleValueChange}
+        value={computedValue}
+        disabled={disabled}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
+        textAlignCenter
+        aria-label="value"
+      />
+      {elementCallbacks.length === 1 ? (
+        <Localized
+          id="framework-durationField-unit"
+          $unit={elementCallbacks[0]}
+          $value={parseInt(computedValue, 10)}
+        >
+          <Typography variant="bodyCopy" className={styles.unit}>
+            {elementCallbacks[0]}
+          </Typography>
+        </Localized>
+      ) : (
+        <SelectField
+          name={`${name}-unit`}
+          onChange={handleUnitChange}
           disabled={disabled}
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-          spellCheck={false}
-          textAlignCenter
-          aria-label="value"
-        />
-        {this.state.elementCallbacks.length === 1 ? (
-          <Localized
-            id="framework-durationField-unit"
-            $unit={this.state.elementCallbacks[0]}
-            $value={parseInt(this.state.value, 10)}
-          >
-            <Typography variant="bodyCopy" className={styles.unit}>
-              {this.state.elementCallbacks[0]}
-            </Typography>
-          </Localized>
-        ) : (
-          <SelectField
-            name={`${name}-unit`}
-            onChange={this.handleUnitChange}
-            disabled={disabled}
-            aria-label="unit"
-            classes={{
-              select: styles.select,
-            }}
-            value={(this.state.unit || this.state.units[0]).toString()}
-          >
-            {this.state.elementCallbacks.map((unit, i) => {
-              const value = this.state.units[i];
-              return (
-                <Localized
-                  id="framework-durationField-unit"
-                  $unit={unit}
-                  $value={parseInt(this.state.value, 10)}
-                  key={i}
-                >
-                  <Option value={value.toString()}>{unit}</Option>
-                </Localized>
-              );
-            })}
-          </SelectField>
-        )}
-      </Flex>
-    );
-  }
-}
+          aria-label="unit"
+          classes={{
+            select: styles.select,
+          }}
+          value={(selectedUnit || units[0]).toString()}
+        >
+          {elementCallbacks.map((unit, i) => {
+            const val = units[i];
+            return (
+              <Localized
+                id="framework-durationField-unit"
+                $unit={unit}
+                $value={parseInt(computedValue, 10)}
+                key={i}
+              >
+                <Option value={val.toString()}>{unit}</Option>
+              </Localized>
+            );
+          })}
+        </SelectField>
+      )}
+    </Flex>
+  );
+};
 
 export default DurationField;

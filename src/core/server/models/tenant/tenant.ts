@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -14,6 +13,8 @@ import {
   createIndexFactory,
 } from "coral-server/models/helpers";
 import { Settings } from "coral-server/models/settings";
+import { I18n } from "coral-server/services/i18n";
+import { generateSSOKey, getDefaultReactionConfiguration } from "./helpers";
 
 const collection = createCollection<Tenant>("tenants");
 
@@ -72,6 +73,7 @@ export type CreateTenantInput = Pick<
  */
 export async function createTenant(
   mongo: Db,
+  i18n: I18n,
   input: CreateTenantInput,
   now = new Date()
 ) {
@@ -178,14 +180,7 @@ export async function createTenant(
         doNotStore: true,
       },
     },
-    reaction: {
-      // By default, the standard reaction style will use the Respect with the
-      // handshake.
-      label: "Respect",
-      labelActive: "Respected",
-      sortLabel: "Most Respected",
-      icon: "thumb_up",
-    },
+    reaction: getDefaultReactionConfiguration(i18n.getBundle(input.locale)),
     stories: {
       scraping: {
         enabled: true,
@@ -279,14 +274,6 @@ export async function updateTenant(
   );
 
   return result.value || null;
-}
-
-function generateSSOKey() {
-  // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
-  // as 16 was the minimum length recommended.
-  //
-  // Reference: https://security.stackexchange.com/a/96176
-  return crypto.randomBytes(32 + Math.floor(Math.random() * 5)).toString("hex");
 }
 
 /**

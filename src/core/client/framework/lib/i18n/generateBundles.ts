@@ -36,8 +36,6 @@ if (process.env.NODE_ENV !== "production") {
  * Given a locales array and the `data` from the `locales-loader`,
  * generateMessages returns an Array of MessageContext as a Promise.
  * This array is meant to be consumed by `react-fluent`.
- *
- * Use it in conjunction with `negotiateLanguages`.
  */
 export default async function generateBundles(
   locales: ReadonlyArray<string>,

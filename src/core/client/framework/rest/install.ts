@@ -1,3 +1,5 @@
+import { LanguageCode } from "coral-common/helpers/i18n";
+
 import { RestClient } from "../lib/rest";
 
 export interface InstallInput {
@@ -8,6 +10,7 @@ export interface InstallInput {
       url: string;
     };
     allowedDomains: string[];
+    locale: LanguageCode;
   };
   user: {
     username: string;

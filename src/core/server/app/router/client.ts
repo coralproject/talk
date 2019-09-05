@@ -2,16 +2,20 @@ import express, { Router } from "express";
 import { minify } from "html-minifier";
 import path from "path";
 
+import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { cacheHeadersMiddleware } from "coral-server/app/middleware/cacheHeaders";
 import { cspTenantMiddleware } from "coral-server/app/middleware/csp/tenant";
 import { installedMiddleware } from "coral-server/app/middleware/installed";
 import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 import logger from "coral-server/logger";
 import TenantCache from "coral-server/services/tenant/cache";
+import { RequestHandler } from "coral-server/types/express";
 
 import Entrypoints, { Entrypoint } from "../helpers/entrypoints";
 
 export interface ClientTargetHandlerOptions {
+  defaultLocale: LanguageCode;
+
   /**
    * entrypoint is the entrypoint entry to load.
    */
@@ -35,50 +39,64 @@ export interface ClientTargetHandlerOptions {
   staticURI: string;
 }
 
-function createClientTargetRouter({
-  staticURI,
-  entrypoint,
-  enableCustomCSS = false,
-  cacheDuration = "1h",
-}: ClientTargetHandlerOptions) {
+function createClientTargetRouter(options: ClientTargetHandlerOptions) {
   // Create a router.
   const router = express.Router();
 
   // Always send the cache headers.
-  router.use(cacheHeadersMiddleware(cacheDuration));
+  router.use(cacheHeadersMiddleware(options.cacheDuration));
 
   // Wildcard display all the client routes under the provided prefix.
-  router.get("/*", (req, res, next) =>
-    res.render(
-      "client",
-      { staticURI, entrypoint, enableCustomCSS },
-      (err, html) => {
-        if (err) {
-          return next(err);
-        }
-
-        // Send back the HTML minified.
-        res.send(
-          minify(html, {
-            removeComments: true,
-            collapseWhitespace: true,
-          })
-        );
-      }
-    )
-  );
+  router.get("/*", clientHandler(options));
 
   return router;
 }
 
 interface MountClientRouteOptions {
+  defaultLocale: LanguageCode;
   tenantCache: TenantCache;
   staticURI: string;
 }
 
+const clientHandler = ({
+  staticURI,
+  entrypoint,
+  enableCustomCSS,
+  defaultLocale,
+}: ClientTargetHandlerOptions): RequestHandler => (req, res, next) => {
+  // Provide configuration to the frontend in the HTML.
+  const config = {
+    staticURI,
+  };
+
+  // Grab the locale code from the tenant configuration, if available.
+  let locale: LanguageCode = defaultLocale;
+  if (req.coral && req.coral.tenant) {
+    locale = req.coral.tenant.locale;
+  }
+
+  res.render(
+    "client",
+    { staticURI, entrypoint, enableCustomCSS, locale, config },
+    (err, html) => {
+      if (err) {
+        return next(err);
+      }
+
+      // Send back the HTML minified.
+      res.send(
+        minify(html, {
+          removeComments: true,
+          collapseWhitespace: true,
+        })
+      );
+    }
+  );
+};
+
 export function mountClientRoutes(
   router: Router,
-  { staticURI, tenantCache }: MountClientRouteOptions
+  { staticURI, tenantCache, defaultLocale }: MountClientRouteOptions
 ) {
   // TODO: (wyattjoh) figure out a better way of referencing paths.
   // Load the entrypoint manifest.
@@ -119,6 +137,7 @@ export function mountClientRoutes(
       staticURI,
       enableCustomCSS: true,
       entrypoint: entrypoints.get("stream"),
+      defaultLocale,
     })
   );
   router.use(
@@ -127,6 +146,7 @@ export function mountClientRoutes(
       staticURI,
       cacheDuration: false,
       entrypoint: entrypoints.get("authCallback"),
+      defaultLocale,
     })
   );
   router.use(
@@ -135,6 +155,7 @@ export function mountClientRoutes(
       staticURI,
       cacheDuration: false,
       entrypoint: entrypoints.get("auth"),
+      defaultLocale,
     })
   );
 
@@ -147,6 +168,7 @@ export function mountClientRoutes(
       staticURI,
       cacheDuration: false,
       entrypoint: entrypoints.get("account"),
+      defaultLocale,
     })
   );
   // Add the standalone targets.
@@ -158,6 +180,7 @@ export function mountClientRoutes(
       staticURI,
       cacheDuration: false,
       entrypoint: entrypoints.get("admin"),
+      defaultLocale,
     })
   );
   router.use(
@@ -171,6 +194,7 @@ export function mountClientRoutes(
       staticURI,
       cacheDuration: false,
       entrypoint: entrypoints.get("install"),
+      defaultLocale,
     })
   );
 

@@ -1,4 +1,12 @@
-{% macro css(src, integrity = '', prefix = '') %}
+{% macro preload(src, htmlAs, prefix = "", crossorigin = false) %}
+  {% if crossorigin %}
+    <link rel="preload" href="{{ prefix }}{{ src }}" as="{{ htmlAs }}" crossorigin>
+  {% else %}
+    <link rel="preload" href="{{ prefix }}{{ src }}" as="{{ htmlAs }}">
+  {% endif %}
+{% endmacro %}
+
+{% macro css(src, integrity = "", prefix = "") %}
   <link type="text/css" rel="stylesheet" href="{{ prefix }}{{ src }}"/>
   {# TODO: evaluate when to enable SRI, non-SSL connections cause issues #}
   {# {% if integrity %}
@@ -8,7 +16,7 @@
   {% endif %} #}
 {% endmacro %}
 
-{% macro js(src, integrity = '', prefix = '') %}
+{% macro js(src, integrity = "", prefix = "") %}
     <script type="application/javascript" src="{{ prefix }}{{ src }}"></script>
   {# TODO: evaluate when to enable SRI, non-SSL connections cause issues #}
   {# {% if false %}
