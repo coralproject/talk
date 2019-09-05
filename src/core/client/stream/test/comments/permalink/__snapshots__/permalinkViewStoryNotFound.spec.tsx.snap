@@ -9,7 +9,7 @@ exports[`renders permalink view with unknown story 1`] = `
   role="tabpanel"
 >
   <div>
-    Story not found
+    TypeError: Must provide Source. Received: null
   </div>
 </section>
 `;
