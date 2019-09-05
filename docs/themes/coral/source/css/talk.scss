@@ -344,7 +344,7 @@ a.brand {
   top: 0;
   left: 0;
   z-index: 2;
-  overflow-y: overlay;
+  overflow-y: auto;
   width: $sidebar_width;
 
   @include transition(all, 150ms);
@@ -363,11 +363,6 @@ a.brand {
 
   .sidebar__list {
     padding: 0px;
-  }
-
-  .notice {
-    padding: $sidebar_gutter $sidebar_gutter 0;
-    color: fade-out($sidebar_color, 0.5);
   }
 
   .sidebar__section {

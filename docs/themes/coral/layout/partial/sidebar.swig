@@ -31,11 +31,5 @@
       {% endfor %}
     </ul>
   </div>
-
-
-  <div class="notice">
-    <p>Made by <a href="https://coralproject.net/" class="coral-link-invert" target="_blank">The Coral Project</a> by <a href="https://www.voxmedia.com/" class="coral-link-invert" target="_blank" title="Vox Media">Vox Media</a>.</p>
-    <a href="https://www.voxmedia.com/" target="_blank" title="Vox Media"><figure class="voxmedia" alt="Vox Media">{{ image_tag('images/voxmedia.svg') }}</figure></a>
-  </div>
 </aside>
 <div class="sidebar__backdrop"></div>
