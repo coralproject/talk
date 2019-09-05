@@ -31,6 +31,7 @@ import {
 } from "coral-server/services/comments/actions";
 
 import { approve } from "coral-server/services/comments/moderation";
+import { publishCommentFeatured } from "coral-server/services/events";
 import { validateMaximumLength, WithoutMutationID } from "./util";
 
 export const Comments = (ctx: TenantContext) => ({
@@ -164,15 +165,23 @@ export const Comments = (ctx: TenantContext) => ({
       ctx.user!,
       GQLTAG.FEATURED,
       ctx.now
-    ).then(comment =>
-      comment.status !== GQLCOMMENT_STATUS.APPROVED
-        ? approve(ctx.mongo, ctx.redis, ctx.publisher, ctx.tenant, {
-            commentID,
-            commentRevisionID,
-            moderatorID: ctx.user!.id,
-          })
-        : comment
-    ),
+    )
+      .then(comment =>
+        comment.status !== GQLCOMMENT_STATUS.APPROVED
+          ? approve(ctx.mongo, ctx.redis, ctx.publisher, ctx.tenant, {
+              commentID,
+              commentRevisionID,
+              moderatorID: ctx.user!.id,
+            })
+          : comment
+      )
+      .then(comment => {
+        // Publish that the comment was featured.
+        publishCommentFeatured(ctx.publisher, comment);
+
+        // Return it to the next step.
+        return comment;
+      }),
   unfeature: ({ commentID }: WithoutMutationID<GQLUnfeatureCommentInput>) =>
     removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED),
 });

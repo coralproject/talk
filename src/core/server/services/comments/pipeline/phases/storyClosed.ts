@@ -1,9 +1,9 @@
 import { StoryClosedError } from "coral-server/errors";
+import { getStoryClosedAt } from "coral-server/models/story";
 import {
   IntermediatePhaseResult,
   ModerationPhaseContext,
 } from "coral-server/services/comments/pipeline";
-import { getStoryClosedAt } from "coral-server/services/stories";
 
 // This phase checks to see if the story being processed is closed or not.
 export const storyClosed = ({

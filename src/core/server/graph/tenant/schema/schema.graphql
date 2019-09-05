@@ -5276,6 +5276,16 @@ type CommentReplyCreatedPayload {
   comment: Comment!
 }
 
+"""
+CommentFeaturedPayload is returned when a Comment is featured.
+"""
+type CommentFeaturedPayload {
+  """
+  comment is the Comment that was featured.
+  """
+  comment: Comment!
+}
+
 type Subscription {
   """
   commentEnteredModerationQueue returns when a Comment enters a ModerationQueue.
@@ -5313,4 +5323,10 @@ type Subscription {
   comments.
   """
   commentReplyCreated(ancestorID: ID!): CommentReplyCreatedPayload!
+
+  """
+  commentFeatured returns when a Comment is featured.
+  """
+  commentFeatured(storyID: ID!): CommentFeaturedPayload!
+    @auth(roles: [MODERATOR, ADMIN])
 }
