@@ -44,7 +44,7 @@ exports[`renders correctly 1`] = `
   <ForwardRef(forwardRef)
     alignItems="center"
     direction="row"
-    itemGutter={true}
+    itemGutter="double"
   >
     <div
       className="HistoryComment-replies coral coral-myComment-replies"

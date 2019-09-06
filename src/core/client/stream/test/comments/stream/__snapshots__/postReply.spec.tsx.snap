@@ -42,7 +42,7 @@ exports[`post a reply: open reply form 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                     >
                       Markus
                     </span>
@@ -98,8 +98,8 @@ exports[`post a reply: open reply form 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                  data-color="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                  data-color="primary"
                   data-variant="textUnderlined"
                   disabled={false}
                   onBlur={[Function]}
@@ -115,9 +115,9 @@ exports[`post a reply: open reply form 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined Button-active coral coral-comment-replyButton"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined Button-active coral coral-comment-replyButton"
                   data-active={true}
-                  data-color="regular"
+                  data-color="primary"
                   data-variant="textUnderlined"
                   disabled={false}
                   id="comments-commentContainer-replyButton-comment-0"
@@ -138,9 +138,9 @@ exports[`post a reply: open reply form 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-comment-0"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                     data-active={false}
-                    data-color="regular"
+                    data-color="primary"
                     data-variant="textUnderlined"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -430,7 +430,7 @@ exports[`post a reply: optimistic response 1`] = `
                         type="button"
                       >
                         <span
-                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                         >
                           Markus
                         </span>
@@ -528,8 +528,8 @@ exports[`post a reply: optimistic response 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                   >
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                      data-color="regular"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                      data-color="primary"
                       data-variant="textUnderlined"
                       disabled={false}
                       onBlur={[Function]}
@@ -545,9 +545,9 @@ exports[`post a reply: optimistic response 1`] = `
                       </span>
                     </button>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                       data-active={false}
-                      data-color="regular"
+                      data-color="primary"
                       data-variant="textUnderlined"
                       disabled={false}
                       id="comments-commentContainer-replyButton-uuid-0"
@@ -568,9 +568,9 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <button
                         aria-controls="permalink-popover-uuid-0"
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                         data-active={false}
-                        data-color="regular"
+                        data-color="primary"
                         data-variant="textUnderlined"
                         onBlur={[Function]}
                         onClick={[Function]}

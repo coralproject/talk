@@ -798,8 +798,8 @@ based on the needs of your community.
                       Preview
                     </h1>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
-                      data-color="regular"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
+                      data-color="primary"
                       data-variant="textUnderlined"
                       disabled={true}
                       onBlur={[Function]}
@@ -857,8 +857,8 @@ based on the needs of your community.
                       Preview
                     </h1>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
-                      data-color="regular"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
+                      data-color="primary"
                       data-variant="textUnderlined"
                       disabled={true}
                       onBlur={[Function]}

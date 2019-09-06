@@ -43,7 +43,7 @@ exports[`renders profile 1`] = `
       </div>
     </div>
     <div
-      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow gutter"
+      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-alignCenter Flex-directionRow gutter"
     >
       <a
         className="TextLink-root HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
@@ -93,7 +93,7 @@ exports[`renders profile 1`] = `
       </div>
     </div>
     <div
-      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow gutter"
+      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-alignCenter Flex-directionRow gutter"
     >
       <a
         className="TextLink-root HistoryComment-viewConversation coral coral-myComment-viewConversationButton"

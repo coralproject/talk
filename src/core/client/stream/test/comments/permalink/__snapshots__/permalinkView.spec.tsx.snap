@@ -145,7 +145,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                                 >
                                   Lukas
                                 </span>
@@ -201,8 +201,8 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                              data-color="regular"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                              data-color="primary"
                               data-variant="textUnderlined"
                               disabled={false}
                               onBlur={[Function]}
@@ -218,9 +218,9 @@ exports[`renders permalink view 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                               data-active={false}
-                              data-color="regular"
+                              data-color="primary"
                               data-variant="textUnderlined"
                               disabled={false}
                               id="comments-commentContainer-replyButton-comment-1"
@@ -241,9 +241,9 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-1"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                                 data-active={false}
-                                data-color="regular"
+                                data-color="primary"
                                 data-variant="textUnderlined"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -362,7 +362,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                                 >
                                   Isabelle
                                 </span>
@@ -418,8 +418,8 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                              data-color="regular"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                              data-color="primary"
                               data-variant="textUnderlined"
                               disabled={false}
                               onBlur={[Function]}
@@ -435,9 +435,9 @@ exports[`renders permalink view 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                               data-active={false}
-                              data-color="regular"
+                              data-color="primary"
                               data-variant="textUnderlined"
                               disabled={false}
                               id="comments-commentContainer-replyButton-comment-2"
@@ -458,9 +458,9 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-2"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                                 data-active={false}
-                                data-color="regular"
+                                data-color="primary"
                                 data-variant="textUnderlined"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -577,7 +577,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                                 >
                                   Markus
                                 </span>
@@ -633,8 +633,8 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                              data-color="regular"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                              data-color="primary"
                               data-variant="textUnderlined"
                               disabled={false}
                               onBlur={[Function]}
@@ -650,9 +650,9 @@ exports[`renders permalink view 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                               data-active={false}
-                              data-color="regular"
+                              data-color="primary"
                               data-variant="textUnderlined"
                               disabled={false}
                               id="comments-commentContainer-replyButton-comment-with-replies"
@@ -673,9 +673,9 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-with-replies"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                                 data-active={false}
-                                data-color="regular"
+                                data-color="primary"
                                 data-variant="textUnderlined"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -788,7 +788,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                                 >
                                   Isabelle
                                 </span>
@@ -871,8 +871,8 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                              data-color="regular"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                              data-color="primary"
                               data-variant="textUnderlined"
                               disabled={false}
                               onBlur={[Function]}
@@ -888,9 +888,9 @@ exports[`renders permalink view 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                               data-active={false}
-                              data-color="regular"
+                              data-color="primary"
                               data-variant="textUnderlined"
                               disabled={false}
                               id="comments-commentContainer-replyButton-comment-3"
@@ -911,9 +911,9 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-3"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                                 data-active={false}
-                                data-color="regular"
+                                data-color="primary"
                                 data-variant="textUnderlined"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -1015,7 +1015,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                                 >
                                   Isabelle
                                 </span>
@@ -1098,8 +1098,8 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                           >
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                              data-color="regular"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                              data-color="primary"
                               data-variant="textUnderlined"
                               disabled={false}
                               onBlur={[Function]}
@@ -1115,9 +1115,9 @@ exports[`renders permalink view 1`] = `
                               </span>
                             </button>
                             <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                               data-active={false}
-                              data-color="regular"
+                              data-color="primary"
                               data-variant="textUnderlined"
                               disabled={false}
                               id="comments-commentContainer-replyButton-comment-4"
@@ -1138,9 +1138,9 @@ exports[`renders permalink view 1`] = `
                             >
                               <button
                                 aria-controls="permalink-popover-comment-4"
-                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                                 data-active={false}
-                                data-color="regular"
+                                data-color="primary"
                                 data-variant="textUnderlined"
                                 onBlur={[Function]}
                                 onClick={[Function]}

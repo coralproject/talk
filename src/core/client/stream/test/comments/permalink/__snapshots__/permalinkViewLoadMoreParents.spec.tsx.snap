@@ -38,7 +38,7 @@ exports[`renders conversation thread 1`] = `
           >
             <div>
               <span
-                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-username coral-rootParent-username"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root coral coral-username coral-rootParent-username"
               >
                 Moderator
               </span>
@@ -175,7 +175,7 @@ exports[`renders conversation thread 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                           >
                             Markus
                           </span>
@@ -231,8 +231,8 @@ exports[`renders conversation thread 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                        data-color="regular"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                        data-color="primary"
                         data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
@@ -248,9 +248,9 @@ exports[`renders conversation thread 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                         data-active={false}
-                        data-color="regular"
+                        data-color="primary"
                         data-variant="textUnderlined"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-0"
@@ -271,9 +271,9 @@ exports[`renders conversation thread 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-0"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                           data-active={false}
-                          data-color="regular"
+                          data-color="primary"
                           data-variant="textUnderlined"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -405,7 +405,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                           >
                             Lukas
                           </span>
@@ -461,8 +461,8 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                        data-color="regular"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                        data-color="primary"
                         data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
@@ -478,9 +478,9 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                         data-active={false}
-                        data-color="regular"
+                        data-color="primary"
                         data-variant="textUnderlined"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-1"
@@ -501,9 +501,9 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-1"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                           data-active={false}
-                          data-color="regular"
+                          data-color="primary"
                           data-variant="textUnderlined"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -622,7 +622,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                           >
                             Moderator
                           </span>
@@ -683,8 +683,8 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                        data-color="regular"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                        data-color="primary"
                         data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
@@ -700,9 +700,9 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                         data-active={false}
-                        data-color="regular"
+                        data-color="primary"
                         data-variant="textUnderlined"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-from-staff-0"
@@ -723,9 +723,9 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-from-staff-0"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                           data-active={false}
-                          data-color="regular"
+                          data-color="primary"
                           data-variant="textUnderlined"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -842,7 +842,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                           >
                             Markus
                           </span>
@@ -898,8 +898,8 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                        data-color="regular"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                        data-color="primary"
                         data-variant="textUnderlined"
                         disabled={false}
                         onBlur={[Function]}
@@ -915,9 +915,9 @@ exports[`shows more of this conversation 1`] = `
                         </span>
                       </button>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                         data-active={false}
-                        data-color="regular"
+                        data-color="primary"
                         data-variant="textUnderlined"
                         disabled={false}
                         id="comments-commentContainer-replyButton-comment-0"
@@ -938,9 +938,9 @@ exports[`shows more of this conversation 1`] = `
                       >
                         <button
                           aria-controls="permalink-popover-comment-0"
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                           data-active={false}
-                          data-color="regular"
+                          data-color="primary"
                           data-variant="textUnderlined"
                           onBlur={[Function]}
                           onClick={[Function]}

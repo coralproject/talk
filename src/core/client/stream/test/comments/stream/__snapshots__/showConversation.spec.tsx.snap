@@ -42,7 +42,7 @@ exports[`renders deepest comment with link 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
                     >
                       Markus
                     </span>
@@ -125,8 +125,8 @@ exports[`renders deepest comment with link 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-                  data-color="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+                  data-color="primary"
                   data-variant="textUnderlined"
                   disabled={false}
                   onBlur={[Function]}
@@ -142,9 +142,9 @@ exports[`renders deepest comment with link 1`] = `
                   </span>
                 </button>
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-replyButton"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-replyButton"
                   data-active={false}
-                  data-color="regular"
+                  data-color="primary"
                   data-variant="textUnderlined"
                   disabled={false}
                   id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
@@ -165,9 +165,9 @@ exports[`renders deepest comment with link 1`] = `
                 >
                   <button
                     aria-controls="permalink-popover-comment-with-deepest-replies-5"
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantTextUnderlined coral coral-comment-shareButton"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                     data-active={false}
-                    data-color="regular"
+                    data-color="primary"
                     data-variant="textUnderlined"
                     onBlur={[Function]}
                     onClick={[Function]}
