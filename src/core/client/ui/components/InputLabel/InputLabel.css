@@ -1,3 +1,4 @@
 .root {
   display: block;
+  padding-bottom: var(--spacing-1)
 }
