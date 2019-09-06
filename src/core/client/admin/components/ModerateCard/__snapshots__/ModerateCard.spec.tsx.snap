@@ -481,9 +481,14 @@ exports[`renders reply correctly 1`] = `
           />
         </ForwardRef(forwardRef)>
         <div>
-          <InReplyTo>
-            Julian
-          </InReplyTo>
+          <ForwardRef(forwardRef)
+            className="ModerateCard-username"
+            onClick={[Function]}
+          >
+            <InReplyTo>
+              Julian
+            </InReplyTo>
+          </ForwardRef(forwardRef)>
         </div>
       </div>
       <CommentContent
