@@ -1,5 +1,4 @@
 import { zip } from "lodash";
-import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import { StoryURLInvalidError } from "coral-server/errors";
@@ -355,35 +354,4 @@ export async function merge(
 
   // Return the story that had the other stories merged into.
   return destinationStory;
-}
-
-export function getStoryClosedAt(
-  tenant: Pick<Tenant, "closeCommenting">,
-  story: Pick<Story, "closedAt" | "createdAt">
-): Story["closedAt"] {
-  // Try to get the closedAt time from the story.
-  if (story.closedAt) {
-    return story.closedAt;
-  }
-
-  // Check to see if the story has been forced open again.
-  if (story.closedAt === false) {
-    return false;
-  }
-
-  // If the story hasn't already been closed, then check to see if the Tenant
-  // has the auto close stream enabled.
-  if (tenant.closeCommenting.auto) {
-    // Auto-close stream has been enabled, convert the createdAt time into the
-    // closedAt time by adding the closedTimeout.
-    return (
-      DateTime.fromJSDate(story.createdAt)
-        // closedTimeout is in seconds, so multiply by 1000 to get
-        // milliseconds.
-        .plus(tenant.closeCommenting.timeout * 1000)
-        .toJSDate()
-    );
-  }
-
-  return;
 }

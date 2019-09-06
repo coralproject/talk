@@ -7,6 +7,7 @@ import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
 
+import { LanguageCode } from "coral-common/helpers/i18n";
 import { BrowserInfo } from "coral-framework/lib/browserInfo";
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
@@ -63,6 +64,9 @@ export interface CoralContext {
 
   /** Clear session data. */
   clearSession: (nextAccessToken?: string | null) => Promise<void>;
+
+  /** Change locale and rerender */
+  changeLocale: (locale: LanguageCode) => Promise<void>;
 
   /** Controls router transitions (for tests) */
   transitionControl?: TransitionControlData;

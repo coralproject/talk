@@ -2,7 +2,7 @@ import { CommentReplyCreatedInput } from "coral-server/graph/tenant/resolvers/Su
 import { CommentStatusUpdatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentStatusUpdated";
 import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
 import { hasPublishedStatus } from "coral-server/models/comment";
-import { getURLWithCommentID } from "coral-server/models/story";
+import { getStoryTitle, getURLWithCommentID } from "coral-server/models/story";
 
 import NotificationContext from "../context";
 import { Notification } from "../notification";
@@ -73,10 +73,7 @@ async function processor(
         // We know that the user had a username because they wrote a comment!
         authorUsername: author.username!,
         commentPermalink: getURLWithCommentID(story.url, comment.id),
-        storyTitle:
-          story.metadata && story.metadata.title
-            ? story.metadata.title
-            : story.url,
+        storyTitle: getStoryTitle(story),
         storyURL: story.url,
         organizationName: ctx.tenant.organization.name,
         organizationURL: ctx.tenant.organization.url,

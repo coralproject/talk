@@ -93,12 +93,33 @@ email-template-notificationOnReply =
   { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br />
   { $authorUsername } has replied to your comment: <a data-l10n-name="commentPermalink">View comment</a>
 
+## On Featured
+
+email-subject-notificationOnFeatured = One of your comments was featured on { $organizationName }
+email-template-notificationOnFeatured =
+  { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br />
+  A member of our team has selected this comment to be featured for other readers: <a data-l10n-name="commentPermalink">View comment</a>
+
 ## On Staff Reply
 
 email-subject-notificationOnStaffReply = Someone at { $organizationName } has replied to your comment
 email-template-notificationOnStaffReply =
   { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br/>
   { $authorUsername } works for { $organizationName } and has replied to your comment: <a data-l10n-name="commentPermalink">View comment</a>
+
+## On Comment Approved
+
+email-subject-notificationOnCommentApproved = Your comment on { $organizationName } has been published
+email-template-notificationOnCommentApproved =
+  { $organizationName }<br /><br/>
+  Thank you for submitting your comment. Your comment has now been published: <a data-l10n-name="commentPermalink">View comment</a>
+
+## On Comment Rejected
+
+email-subject-notificationOnCommentRejected = Your comment on { $organizationName } was not published
+email-template-notificationOnCommentRejected =
+  { $organizationName }<br /><br/>
+  The language used in one of your comments did not comply with our community guidelines, and so the comment has been removed.
 
 # Notification Digest
 
