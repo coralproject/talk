@@ -28,6 +28,7 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
         size="small"
         onClick={this.props.onClick}
         disabled={readOnly}
+        color="primary"
         className={cn(
           { [styles.readOnly]: readOnly },
           className,
@@ -35,7 +36,7 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
         )}
       >
         <MatchMedia gtWidth="xs">
-          <Icon className={styles.icon}>
+          <Icon>
             {reacted
               ? this.props.iconActive
                 ? this.props.iconActive

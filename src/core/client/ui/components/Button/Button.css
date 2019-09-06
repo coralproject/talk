@@ -584,28 +584,28 @@
 .variantTextUnderlined {
   font-weight: 700;
   &:not(.disabled) {
-    &.colorRegular {
+    &.colorPrimary {
       &.mouseHover {
-        color: var(--palette-primary-main)!important;
+        color: var(--palette-primary-main);
         & > span {
           text-decoration: underline;
         }
       }
       &.active,
       &:active {
-        color: var(--palette-primary-main)!important;
+        color: var(--palette-primary-main);
       }
     }
     &.colorError {
       &.mouseHover {
-        color: var(--palette-error-main)!important;
+        color: var(--palette-error-main);
         & > span {
           text-decoration: underline;
         }
       }
       &.active,
       &:active {
-        color: var(--palette-error-main)!important;
+        color: var(--palette-error-main);
       }
     }
   }

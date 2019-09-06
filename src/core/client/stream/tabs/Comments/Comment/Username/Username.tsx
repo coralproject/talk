@@ -14,6 +14,7 @@ const Username: FunctionComponent<Props> = props => {
   return (
     <Typography
       variant={"heading3"}
+      color="textDark"
       className={cn(styles.root, props.className)}
       container="span"
     >

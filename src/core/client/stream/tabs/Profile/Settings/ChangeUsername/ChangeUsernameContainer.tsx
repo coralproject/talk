@@ -229,10 +229,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                 <Typography
                   variant="bodyCopyBold"
                   color="textPrimary"
-                  className={cn(
-                    styles.currentUsername,
-                    CLASSES.myUsername.form.username
-                  )}
+                  className={CLASSES.myUsername.form.username}
                 >
                   Current username
                 </Typography>

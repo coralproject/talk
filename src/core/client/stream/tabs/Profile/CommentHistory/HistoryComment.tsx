@@ -68,7 +68,7 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = props => {
           )}
         </Typography>
       </div>
-      <Flex direction="row" alignItems="center" itemGutter>
+      <Flex direction="row" alignItems="center" itemGutter="double">
         {!!props.replyCount && (
           <div className={cn(styles.replies, CLASSES.myComment.replies)}>
             <Icon className={styles.icon}>reply</Icon>

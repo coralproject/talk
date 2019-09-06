@@ -35,7 +35,7 @@ class ReportButton extends React.Component<Props> {
         ref={ref}
       >
         <MatchMedia gtWidth="xs">
-          <Icon className={styles.icon}>flag</Icon>
+          <Icon>flag</Icon>
         </MatchMedia>
         {!reported && (
           <Localized id="comments-reportButton-report">

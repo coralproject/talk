@@ -1,6 +1,5 @@
 .root {
   line-height: 1;
-  color: var(--palette-text-dark);
 }
 .popover {
   width: 232px;

@@ -4,14 +4,15 @@
 }
 
 .icon {
-  color: var(--palette-text-secondary);
+  color: var(--palette-text-primary);
   margin-right: calc(0.5 * var(--mini-unit));
 }
 
 .replies {
   composes: button from "coral-ui/shared/typography.css";
+  color: var(--palette-text-primary);
   display: inline-flex;
-  margin-right: var(--spacing-3)!important;
+  align-items: center;
 }
 
 .viewConversation {

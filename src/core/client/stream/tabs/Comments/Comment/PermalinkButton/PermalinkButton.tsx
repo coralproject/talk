@@ -46,10 +46,11 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
             variant="textUnderlined"
             active={visible}
             size="small"
+            color="primary"
             className={className}
           >
             <MatchMedia gtWidth="xs">
-              <Icon className={styles.icon}>share</Icon>
+              <Icon>share</Icon>
             </MatchMedia>
             <Localized id="comments-permalinkButton-share">
               <span>Share</span>
