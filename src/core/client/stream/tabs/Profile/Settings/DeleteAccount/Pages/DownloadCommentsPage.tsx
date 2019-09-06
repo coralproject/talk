@@ -34,7 +34,7 @@ const DownloadCommentsPage: FunctionComponent<Props> = ({
         justifyContent="center"
         className={cn(styles.header, CLASSES.deleteMyAccountModal.header)}
       >
-        <Localized id="profile-settings-deleteAccount-pages-downloadCommentHeader">
+        <Localized id="profile-account-deleteAccount-pages-downloadCommentHeader">
           <Typography variant="header2" className={styles.headerText}>
             Download my comments?
           </Typography>
@@ -43,14 +43,14 @@ const DownloadCommentsPage: FunctionComponent<Props> = ({
       <div className={styles.body}>
         <PageStepBar step={step} />
 
-        <Localized id="profile-settings-deleteAccount-pages-downloadCommentsDesc">
+        <Localized id="profile-account-deleteAccount-pages-downloadCommentsDesc">
           <Typography variant="bodyCopy" className={styles.sectionContent}>
             Before your account is deleted, we recommend you download your
             comment history for your records. After your account is deleted, you
             will be unable to request your comment history.
           </Typography>
         </Localized>
-        <Localized id="profile-settings-deleteAccount-pages-downloadCommentsPath">
+        <Localized id="profile-account-deleteAccount-pages-downloadCommentsPath">
           <Typography variant="bodyCopyBold" className={styles.sectionContent}>
             My Profile > Download My Comment History
           </Typography>
@@ -66,7 +66,7 @@ const DownloadCommentsPage: FunctionComponent<Props> = ({
             )}
             onClick={onProceedClicked}
           >
-            <Localized id="profile-settings-deleteAccount-pages-proceed">
+            <Localized id="profile-account-deleteAccount-pages-proceed">
               Proceed
             </Localized>
           </Button>
@@ -78,7 +78,7 @@ const DownloadCommentsPage: FunctionComponent<Props> = ({
             )}
             onClick={onCancelClicked}
           >
-            <Localized id="profile-settings-deleteAccount-pages-cancel">
+            <Localized id="profile-account-deleteAccount-pages-cancel">
               Cancel
             </Localized>
           </Button>

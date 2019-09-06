@@ -4,7 +4,7 @@ import { Flex } from "coral-ui/components";
 
 const ButtonsBar: FunctionComponent = props => {
   return (
-    <Flex direction="row" itemGutter="half">
+    <Flex direction="row" itemGutter="half" alignItems="center">
       {props.children}
     </Flex>
   );

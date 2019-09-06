@@ -1,3 +1,14 @@
 .child {
   width: initial;
 }
+
+.userBoxText {
+  font-size: var(--font-size-4);
+}
+
+.userBoxButton {
+  font-size: var(--font-size-4);
+  padding: 0;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: normal;
+}

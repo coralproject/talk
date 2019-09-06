@@ -39,7 +39,7 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue("SETTINGS", "profileTab");
+      localRecord.setValue("ACCOUNT", "profileTab");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -47,13 +47,11 @@ async function createTestRenderer(
   });
 
   const ignoredCommenters = await waitForElement(() =>
-    within(testRenderer.root).queryByTestID(
-      "profile-settings-ignoredCommenters"
-    )
+    within(testRenderer.root).queryByTestID("profile-account-ignoredCommenters")
   );
 
   const changePassword = within(testRenderer.root).queryByTestID(
-    "profile-settings-changePassword"
+    "profile-account-changePassword"
   );
 
   return {
@@ -100,8 +98,13 @@ it("render password change form", async () => {
     }),
   });
   const changePassword = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("profile-settings-changePassword")
+    within(testRenderer.root).getByTestID("profile-account-changePassword")
   );
+  const editButton = within(changePassword).getByText("Edit");
+  act(() => {
+    editButton.props.onClick();
+  });
+
   const form = within(changePassword).getByType("form");
   const oldPassword = await waitForElement(() =>
     within(form).getByID("oldPassword", { exact: false })
@@ -141,6 +144,10 @@ it("render password change form", async () => {
 
 it("render empty ignored users list", async () => {
   const { ignoredCommenters } = await createTestRenderer();
+  const editButton = within(ignoredCommenters).getByText("Manage");
+  act(() => {
+    editButton.props.onClick();
+  });
   await waitForElement(() =>
     within(ignoredCommenters).getByText(
       "You are not currently ignoring anyone",
@@ -170,6 +177,10 @@ it("render ignored users list", async () => {
       },
     }),
   });
+  const editButton = within(ignoredCommenters).getByText("Manage");
+  act(() => {
+    editButton.props.onClick();
+  });
   within(ignoredCommenters).getByText(commenters[0].username!);
   within(ignoredCommenters).getByText(commenters[1].username!);
 
@@ -183,101 +194,4 @@ it("render ignored users list", async () => {
     within(ignoredCommenters).getByText(commenters[0].username!)
   );
   within(ignoredCommenters).getByText(commenters[1].username!);
-});
-
-it("render notifications form", async () => {
-  const updateNotificationSettings = sinon
-    .stub()
-    .callsFake((_: any, { input: { clientMutationId, ...notifications } }) => {
-      expectAndFail(notifications).toMatchObject({
-        onReply: true,
-        onFeatured: true,
-        onStaffReplies: true,
-        onModeration: true,
-        digestFrequency: "HOURLY",
-      });
-      return {
-        user: pureMerge<typeof viewer>(viewer, {
-          notifications,
-        }),
-        clientMutationId,
-      };
-    });
-  const { testRenderer } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Mutation: {
-        updateNotificationSettings,
-      },
-    }),
-  });
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("profile-settings-notifications")
-  );
-  const form = within(container).getByType("form");
-
-  // Get the form fields.
-  const onReply = await waitForElement(() =>
-    within(form).getByID("onReply", { exact: false })
-  );
-  const onStaffReplies = await waitForElement(() =>
-    within(form).getByID("onStaffReplies", { exact: false })
-  );
-  const onModeration = await waitForElement(() =>
-    within(form).getByID("onModeration", { exact: false })
-  );
-  const onFeatured = await waitForElement(() =>
-    within(form).getByID("onFeatured", { exact: false })
-  );
-  const digestFrequency = await waitForElement(() =>
-    within(form).getByID("digestFrequency", { exact: false })
-  );
-  const save = await waitForElement(() => within(form).getByType("button"));
-
-  // The save button should be disabled for unchanged fields.
-  expect(save.props.disabled).toEqual(true);
-
-  // The digest frequency select should be disabled with no options enabled.
-  expect(digestFrequency.props.disabled).toEqual(true);
-
-  // Enable the options.
-  act(() => {
-    onReply.props.onChange(true);
-    onStaffReplies.props.onChange(true);
-    onModeration.props.onChange(true);
-    onFeatured.props.onChange(true);
-  });
-
-  // The digest frequency select should now be enabled.
-  expect(digestFrequency.props.disabled).toEqual(false);
-
-  // Change the digest frequency.
-  act(() => {
-    digestFrequency.props.onChange("HOURLY");
-  });
-
-  // Submit the form.
-  await act(async () => {
-    await form.props.onSubmit();
-  });
-
-  // Ensure that the mutation was called and that the save button is now
-  // disabled.
-  expect(updateNotificationSettings.calledOnce).toEqual(true);
-  expect(save.props.disabled).toEqual(true);
-
-  // Change a notification option.
-  act(() => {
-    onReply.props.onChange(false);
-  });
-
-  // The save button should now be enabled.
-  expect(save.props.disabled).toEqual(false);
-
-  // Change a notification back (making it pristine).
-  act(() => {
-    onReply.props.onChange(true);
-  });
-
-  // The save button should now be disabled.
-  expect(save.props.disabled).toEqual(true);
 });

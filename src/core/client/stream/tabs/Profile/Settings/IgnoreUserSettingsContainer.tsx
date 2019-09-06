@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -23,51 +23,76 @@ interface Props {
 
 const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
   const removeUserIgnore = useMutation(RemoveUserIgnoreMutation);
+  const [showManage, setShowManage] = useState(false);
+  const toggleManage = useCallback(() => setShowManage(!showManage), [
+    showManage,
+    setShowManage,
+  ]);
   return (
     <div
+      data-testid="profile-account-ignoredCommenters"
       className={CLASSES.ignoredCommenters.$root}
-      data-testid="profile-settings-ignoredCommenters"
     >
-      <Localized id="profile-settings-ignoredCommenters">
-        <Typography variant="heading3">Ignored Commenters</Typography>
-      </Localized>
-      <Localized id="profile-settings-description">
-        <p className={styles.description}>
-          Once you ignore someone, all of their comments are hidden from you.
-          Commenters you ignore will still be able to see your comments.
-        </p>
-      </Localized>
-      <HorizontalGutter spacing={1}>
-        {viewer.ignoredUsers.map(user => (
-          <Flex
-            key={user.id}
-            justifyContent="space-between"
-            alignItems="center"
+      <Flex justifyContent="space-between" alignItems="center">
+        <Localized id="profile-account-ignoredCommenters">
+          <Typography color="textDark" variant="heading2">
+            Ignored Commenters
+          </Typography>
+        </Localized>
+        <Localized id="profile-account-ignoredCommenters-manage">
+          <Button
+            variant="outlineFilled"
+            size="small"
+            color="primary"
+            onClick={toggleManage}
+            className={CLASSES.ignoredCommenters.manageButton}
           >
-            <Username className={CLASSES.ignoredCommenters.username}>
-              {user.username}
-            </Username>
-            <Button
-              className={CLASSES.ignoredCommenters.stopIgnoreButton}
-              size="small"
-              color="primary"
-              onClick={() => removeUserIgnore({ userID: user.id })}
-            >
-              <Icon>close</Icon>
-              <Localized id="profile-settings-stopIgnoring">
-                <span>Stop ignoring</span>
-              </Localized>
-            </Button>
-          </Flex>
-        ))}
-        {viewer.ignoredUsers.length === 0 && (
-          <Localized id="profile-settings-empty">
-            <div className={styles.empty}>
-              You are not currently ignoring anyone
-            </div>
+            Manage
+          </Button>
+        </Localized>
+      </Flex>
+      {showManage && (
+        <div>
+          <Localized id="profile-account-ignoredCommenters-description">
+            <p className={styles.description}>
+              Once you ignore someone, all of their comments are hidden from
+              you. Commenters you ignore will still be able to see your
+              comments.
+            </p>
           </Localized>
-        )}
-      </HorizontalGutter>
+          <HorizontalGutter spacing={1}>
+            {viewer.ignoredUsers.map(user => (
+              <Flex
+                key={user.id}
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Username className={CLASSES.ignoredCommenters.username}>
+                  {user.username}
+                </Username>
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={() => removeUserIgnore({ userID: user.id })}
+                  className={CLASSES.ignoredCommenters.stopIgnoreButton}
+                >
+                  <Icon>close</Icon>
+                  <Localized id="profile-account-ignoredCommenters-stopIgnoring">
+                    <span>Stop ignoring</span>
+                  </Localized>
+                </Button>
+              </Flex>
+            ))}
+            {viewer.ignoredUsers.length === 0 && (
+              <Localized id="profile-account-ignoredCommenters-empty">
+                <div className={styles.empty}>
+                  You are not currently ignoring anyone
+                </div>
+              </Localized>
+            )}
+          </HorizontalGutter>
+        </div>
+      )}
     </div>
   );
 };

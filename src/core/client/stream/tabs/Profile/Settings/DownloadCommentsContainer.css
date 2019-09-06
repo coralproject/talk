@@ -1,7 +1,9 @@
 .root {
-  max-width: 500px;
-
   margin-top: var(--spacing-2);
+}
+
+.content {
+  max-width: 495px;
 }
 
 .title {

@@ -150,22 +150,32 @@ const changeEmailContainer: FunctionComponent<Props> = ({
       data-testid="profile-changeEmail"
     >
       {!showEditForm && (
-        <Flex alignItems="center">
-          <Typography>{viewer.email}</Typography>{" "}
-          {!viewer.emailVerified && (
-            <Localized id="profile-changeEmail-unverified">
-              <Typography
-                className={CLASSES.myEmail.unverified}
-                color="textSecondary"
-              >
-                (Unverified)
+        <Flex alignItems="center" justifyContent="space-between">
+          <div>
+            <Localized id="profile-changeEmail-email">
+              <Typography color="textDark" variant="heading2">
+                Email
               </Typography>
             </Localized>
-          )}
+            <Flex>
+              <Typography>{viewer.email}</Typography>{" "}
+              {!viewer.emailVerified && (
+                <Localized id="profile-changeEmail-unverified">
+                  <Typography
+                    color="textSecondary"
+                    className={CLASSES.myEmail.unverified}
+                  >
+                    (Unverified)
+                  </Typography>
+                </Localized>
+              )}
+            </Flex>
+          </div>
           {canChangeEmail && (
             <Localized id="profile-changeEmail-edit">
               <Button
                 className={CLASSES.myEmail.editButton}
+                variant="outlineFilled"
                 size="small"
                 color="primary"
                 onClick={toggleEditForm}
@@ -231,11 +241,12 @@ const changeEmailContainer: FunctionComponent<Props> = ({
         <CallOut
           className={cn(styles.callOut, CLASSES.myEmail.form.$root)}
           color="primary"
+          borderless
         >
           <HorizontalGutter spacing={4}>
             <div>
               <Localized id="profile-changeEmail-heading">
-                <Typography variant="heading2" gutterBottom>
+                <Typography variant="heading1" color="textDark" gutterBottom>
                   Edit your email address
                 </Typography>
               </Localized>
@@ -248,15 +259,11 @@ const changeEmailContainer: FunctionComponent<Props> = ({
             </div>
             <div>
               <Localized id="profile-changeEmail-current">
-                <Typography
-                  className={styles.currentEmail}
-                  variant="bodyCopyBold"
-                >
-                  Current email
-                </Typography>
+                <Typography variant="bodyCopyBold">Current email</Typography>
               </Localized>
               <Typography
                 variant="heading2"
+                color="textDark"
                 className={CLASSES.myEmail.form.currentEmail}
               >
                 {viewer.email}

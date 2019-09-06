@@ -14,25 +14,22 @@ import {
   TabPane,
 } from "coral-ui/components";
 
-import ChangeEmailContainer from "./ChangeEmail";
-import ChangeUsernameContainer from "./ChangeUsername";
 import CommentHistoryContainer from "./CommentHistory";
 import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";
-import SettingsContainer from "./Settings";
+import AccountSettingsContainer from "./Settings";
+import NotificationSettingsContainer from "./Settings/NotificationSettingsContainer";
 
 export interface ProfileProps {
   story: PropTypesOf<typeof CommentHistoryContainer>["story"];
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
     PropTypesOf<typeof CommentHistoryContainer>["viewer"] &
-    PropTypesOf<typeof SettingsContainer>["viewer"] &
-    PropTypesOf<typeof ChangeUsernameContainer>["viewer"] &
-    PropTypesOf<typeof ChangeEmailContainer>["viewer"] &
-    PropTypesOf<typeof SettingsContainer>["viewer"] &
-    PropTypesOf<typeof DeletionRequestCalloutContainer>["viewer"];
+    PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
+    PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
+    PropTypesOf<typeof DeletionRequestCalloutContainer>["viewer"] &
+    PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
+    PropTypesOf<typeof NotificationSettingsContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
-    PropTypesOf<typeof ChangeEmailContainer>["settings"] &
-    PropTypesOf<typeof SettingsContainer>["settings"] &
-    PropTypesOf<typeof ChangeUsernameContainer>["settings"];
+    PropTypesOf<typeof AccountSettingsContainer>["settings"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
@@ -46,15 +43,8 @@ const Profile: FunctionComponent<ProfileProps> = props => {
     [setLocal]
   );
   return (
-    <HorizontalGutter spacing={5}>
-      <HorizontalGutter spacing={2}>
-        <ChangeUsernameContainer
-          settings={props.settings}
-          viewer={props.viewer}
-        />
-        <ChangeEmailContainer settings={props.settings} viewer={props.viewer} />
-        <DeletionRequestCalloutContainer viewer={props.viewer} />
-      </HorizontalGutter>
+    <HorizontalGutter size="double">
+      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
       <TabBar
         variant="secondary"
         activeTab={local.profileTab}
@@ -62,13 +52,21 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         className={CLASSES.tabBarMyProfile.$root}
       >
         <Tab tabID="MY_COMMENTS" className={CLASSES.tabBarMyProfile.myComments}>
-          <Localized id="profile-myCommentsTab">
-            <span>My Comments</span>
+          <Localized id="profile-myCommentsTab-comments">
+            <span>My comments</span>
           </Localized>
         </Tab>
-        <Tab tabID="SETTINGS" className={CLASSES.tabBarMyProfile.settings}>
-          <Localized id="profile-settingsTab">
-            <span>Settings</span>
+        <Tab
+          tabID="NOTIFICATIONS"
+          className={CLASSES.tabBarMyProfile.notifications}
+        >
+          <Localized id="profile-notificationsTab">
+            <span>Notifications</span>
+          </Localized>
+        </Tab>
+        <Tab tabID="ACCOUNT" className={CLASSES.tabBarMyProfile.settings}>
+          <Localized id="profile-accountTab">
+            <span>Account</span>
           </Localized>
         </Tab>
       </TabBar>
@@ -79,8 +77,18 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         >
           <CommentHistoryContainer viewer={props.viewer} story={props.story} />
         </TabPane>
-        <TabPane className={CLASSES.settingsTabPane.$root} tabID="SETTINGS">
-          <SettingsContainer viewer={props.viewer} settings={props.settings} />
+        <TabPane
+          className={CLASSES.notificationsTabPane.$root}
+          tabID="NOTIFICATIONS"
+        >
+          <NotificationSettingsContainer viewer={props.viewer} />
+        </TabPane>
+        <TabPane className={CLASSES.accountTabPane.$root} tabID="ACCOUNT">
+          <AccountSettingsContainer
+            viewer={props.viewer}
+            settings={props.settings}
+          />
+          <DeletionRequestCalloutContainer viewer={props.viewer} />
         </TabPane>
       </TabContent>
     </HorizontalGutter>

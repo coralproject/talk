@@ -1,5 +1,6 @@
 .root {
   composes: bodyCopy from "coral-ui/shared/typography.css";
+  color: var(--palette-text-dark);
   overflow-wrap: break-word;
 
   & * bold,

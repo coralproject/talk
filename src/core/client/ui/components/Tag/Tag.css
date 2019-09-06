@@ -4,7 +4,7 @@
   line-height: 1;
   padding: var(--spacing-1);
   white-space: nowrap;
-  border-radius: 1px;
+  border-radius: 2px;
   display: inline-block;
 }
 
@@ -43,4 +43,8 @@
     background-color: var(--palette-error-lightest);
     color: var(--palette-error-dark);
   }
+}
+
+.uppercase {
+  text-transform: uppercase;
 }

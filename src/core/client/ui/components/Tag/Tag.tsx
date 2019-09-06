@@ -26,6 +26,7 @@ const Tag: FunctionComponent<Props> = props => {
     [classes.colorError]: color === "error",
     [classes.colorGrey]: color === "grey",
     [classes.colorDarkest]: color === "dark",
+    [classes.uppercase]: variant !== "pill",
   });
 
   return (
