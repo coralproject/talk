@@ -12,7 +12,7 @@ import styles from "./ModeratedByContainer.css";
 interface Props {
   viewer: ModeratedByContainer_viewer;
   comment: ModeratedByContainer_comment;
-  onUsernameClicked: (id: string | null) => void;
+  onUsernameClicked: (id?: string | null) => void;
 }
 
 const ModeratedByContainer: React.FunctionComponent<Props> = ({
