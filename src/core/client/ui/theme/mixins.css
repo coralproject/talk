@@ -7,6 +7,22 @@
   color: var(--palette-text-primary);
 }
 
+@define-mixin bodyShort {
+  font-size: var(--font-size-rem-4);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-sans-serif);
+  line-height: var(--line-height-body-short);
+  color: var(--palette-text-primary);
+}
+
+@define-mixin fieldDescription {
+  font-size: var(--font-size-rem-3);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-sans-serif);
+  line-height: var(--line-height-body-short);
+  color: var(--palette-grey-dark);
+}
+
 @define-mixin heading1 {
   font-size: calc(24rem / var(--rem-base));
   font-weight: var(--font-weight-medium);

@@ -99,6 +99,16 @@ const variables = {
     6: "24px",
     7: "28px",
     8: "32px",
+    rem: {
+      1: "0.75rem",
+      2: "0.875rem",
+      3: "1rem",
+      4: "1.125rem",
+      5: "1.25rem",
+      6: "1.5rem",
+      7: "1.75rem",
+      8: "2rem",
+    },
   },
   fontWeight: {
     sans: {
@@ -116,6 +126,7 @@ const variables = {
     1: "1.1em",
     2: "1.2em",
     3: "1.45em",
+    bodyShort: 1.142,
   },
   /* Breakpoints */
   breakpoints: {

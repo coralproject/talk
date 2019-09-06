@@ -143,6 +143,14 @@
   @mixin bodyCopy;
 }
 
+.bodyShort {
+  @mixin bodyShort;
+}
+
+.fieldDescription {
+  @mixin fieldDescription;
+}
+
 .button {
   color: var(--palette-text-secondary);
   font-family: var(--font-family-sans-serif);
