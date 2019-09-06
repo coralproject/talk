@@ -207,6 +207,49 @@ status of their accounts or moderation questions.
               </div>
             </div>
           </div>
+          <div
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <label
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+                htmlFor="configure-organization-organization.url"
+              >
+                Organization URL
+              </label>
+              <div
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+              >
+                <p
+                  className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+                >
+                  Your organization url will appear on emails sent by Coral to your community and organization members.
+                </p>
+                <div
+                  className="TextField-root TextField-fullWidth"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="TextField-input TextField-colorRegular"
+                    disabled={false}
+                    id="configure-organization-organization.url"
+                    name="organization.url"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="text"
+                    value="https://test.com/"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

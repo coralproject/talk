@@ -47,6 +47,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment OrganizationConfigContainer_settings on Settings {
       ...OrganizationNameConfigContainer_settings
       ...OrganizationContactEmailConfigContainer_settings
+      ...OrganizationURLConfigContainer_settings
     }
   `,
 })(OrganizationConfigContainer);

@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React from "react";
 
-import { Button, ButtonIcon, MatchMedia } from "coral-ui/components";
+import { Button, Icon, MatchMedia } from "coral-ui/components";
 import { ButtonProps } from "coral-ui/components/Button";
 
 import styles from "./ReactionButton.css";
@@ -24,20 +24,25 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
     const { totalReactions, reacted, readOnly, className } = this.props;
     return (
       <Button
-        variant="ghost"
+        variant="textUnderlined"
         size="small"
         onClick={this.props.onClick}
         disabled={readOnly}
-        className={cn({ [styles.readOnly]: readOnly }, className)}
+        color="primary"
+        className={cn(
+          { [styles.readOnly]: readOnly },
+          className,
+          styles.button
+        )}
       >
         <MatchMedia gtWidth="xs">
-          <ButtonIcon>
+          <Icon>
             {reacted
               ? this.props.iconActive
                 ? this.props.iconActive
                 : this.props.icon
               : this.props.icon}
-          </ButtonIcon>
+          </Icon>
         </MatchMedia>
         <span>{reacted ? this.props.labelActive : this.props.label}</span>
         {!!totalReactions && <span>{totalReactions}</span>}

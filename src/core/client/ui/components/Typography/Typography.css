@@ -68,10 +68,6 @@
   composes: buttonLarge from "coral-ui/shared/typography.css";
 }
 
-.inputLabel {
-  composes: inputLabel from "coral-ui/shared/typography.css";
-}
-
 .detail {
   composes: detail from "coral-ui/shared/typography.css";
 }
@@ -122,6 +118,10 @@
   color: var(--palette-text-secondary);
 }
 
+.colorTextDark {
+  color: var(--palette-text-dark);
+}
+
 .colorTextLight {
   color: var(--palette-text-light);
 }
@@ -140,4 +140,8 @@
 
 .colorSuccess {
   color: var(--palette-success-darkest);
+}
+
+.inputLabel {
+  composes: inputLabel from "coral-ui/shared/typography.css";
 }

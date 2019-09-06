@@ -2,39 +2,49 @@
 
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
-  className="coral coral-myComment"
+  className="HistoryComment-root coral coral-myComment"
   data-testid="historyComment-comment-id"
 >
-  <Localized
-    $title="Story Title"
-    id="profile-historyComment-story"
-  >
+  <div>
+    <Localized
+      id="profile-historyComment-comment-on"
+    >
+      <ForwardRef(forwardRef)
+        className="HistoryComment-commentOn"
+        variant="detail"
+      >
+        Comment on:
+      </ForwardRef(forwardRef)>
+    </Localized>
     <ForwardRef(forwardRef)
       className="coral coral-myComment-story"
+      color="textDark"
       variant="heading4"
     >
-      Story: {$title}
+      Story Title
     </ForwardRef(forwardRef)>
-  </Localized>
-  <Timestamp
-    className="coral coral-myComment-timestamp"
-  >
-    2018-07-06T18:24:00.000Z
-  </Timestamp>
-  <ForwardRef(forwardRef)
-    container="div"
-    variant="bodyCopy"
-  >
-    <HTMLContent
-      className="coral coral-myComment-content"
+  </div>
+  <div>
+    <Timestamp
+      className="coral coral-myComment-timestamp"
     >
-      Hello World
-    </HTMLContent>
-  </ForwardRef(forwardRef)>
+      2018-07-06T18:24:00.000Z
+    </Timestamp>
+    <ForwardRef(forwardRef)
+      container="div"
+      variant="bodyCopy"
+    >
+      <HTMLContent
+        className="coral coral-myComment-content"
+      >
+        Hello World
+      </HTMLContent>
+    </ForwardRef(forwardRef)>
+  </div>
   <ForwardRef(forwardRef)
     alignItems="center"
     direction="row"
-    itemGutter={true}
+    itemGutter="double"
   >
     <div
       className="HistoryComment-replies coral coral-myComment-replies"

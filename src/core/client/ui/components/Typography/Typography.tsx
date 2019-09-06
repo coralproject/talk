@@ -62,6 +62,7 @@ interface Props extends PropTypesOf<typeof Box> {
     | "warning"
     | "error"
     | "errorDark"
+    | "textDark"
     | "success";
   /**
    * The container used for the root node.
@@ -120,6 +121,7 @@ const Typography: FunctionComponent<Props> = props => {
       [classes.colorTextSecondary]: color === "textSecondary",
       [classes.colorTextLight]: color === "textLight",
       [classes.colorPrimary]: color === "primary",
+      [classes.colorTextDark]: color === "textDark",
       [classes.colorError]: color === "error",
       [classes.colorErrorDark]: color === "errorDark",
       [classes.colorSuccess]: color === "success",

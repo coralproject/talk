@@ -1,13 +1,34 @@
+.root:not(:first-child) {
+  border-top: 1px solid var(--palette-divider);
+  padding-top: var(--spacing-3)
+}
+
 .icon {
-  color: var(--palette-text-secondary);
+  color: var(--palette-text-primary);
   margin-right: calc(0.5 * var(--mini-unit));
 }
 
 .replies {
   composes: button from "coral-ui/shared/typography.css";
+  color: var(--palette-text-primary);
+  display: inline-flex;
+  align-items: center;
 }
 
 .viewConversation {
   composes: button from "coral-ui/shared/typography.css";
-  color: var(--palette-grey-main);
+}
+
+.container {
+  border-bottom: 1px solid var(--palette-divider);
+  padding-bottom: var(--spacing-3)
+}
+
+.commentOn {
+  font-weight: var(--font-weight-medium);
+  margin-bottom: 0;
+}
+
+.subBar {
+  margin-bottom: calc(0.5 * var(--mini-unit));
 }

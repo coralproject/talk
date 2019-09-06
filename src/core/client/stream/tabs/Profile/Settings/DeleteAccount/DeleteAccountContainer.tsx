@@ -9,7 +9,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Icon, Typography } from "coral-ui/components";
+import { Flex, Icon, Typography } from "coral-ui/components";
 import { Button } from "coral-ui/components/Button";
 
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
@@ -67,60 +67,70 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
         scheduledDeletionDate={viewer.scheduledDeletionDate}
         organizationEmail={settings.organization.contactEmail}
       />
-
-      <Localized id="profile-settings-deleteAccount-title">
-        <Typography variant="heading3" className={styles.title}>
-          Delete My Account
-        </Typography>
-      </Localized>
-      <Localized id="profile-settings-deleteAccount-description">
-        <Typography variant="bodyCopy" className={styles.section}>
-          Deleting your account will permanently erase your profile and remove
-          all your comments from this site.
-        </Typography>
-      </Localized>
-
-      {deletionDate ? (
-        <>
-          <Localized
-            id="profile-settings-deleteAccount-cancelDelete-description"
-            $date={deletionDate}
-          >
-            <Typography variant="bodyCopy" className={styles.section}>
-              You have already submitted a request to delete your account. Your
-              account will be deleted on {deletionDate}. You may cancel the
-              request until that time.
+      <Flex
+        justifyContent="space-between"
+        alignItems="flex-start"
+        data-testid="profile-account-deleteAccount"
+      >
+        <div className={styles.content}>
+          <Localized id="profile-account-deleteAccount-title">
+            <Typography
+              variant="heading2"
+              color="textDark"
+              className={styles.title}
+            >
+              Delete My Account
             </Typography>
           </Localized>
-          <Button
-            variant="filled"
-            size="small"
-            onClick={cancelDeletion}
-            className={CLASSES.deleteMyAccount.cancelRequestButton}
-          >
-            <Icon size="sm" className={styles.icon}>
-              block
-            </Icon>
-            <Localized id="profile-settings-deleteAccount-cancelDelete">
-              <span>Cancel account deletion request</span>
-            </Localized>
-          </Button>
-        </>
-      ) : (
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={showPopover}
-          className={CLASSES.deleteMyAccount.requestButton}
-        >
-          <Icon size="sm" className={styles.icon}>
-            cancel
-          </Icon>
-          <Localized id="profile-settings-deleteAccount-requestDelete">
-            <span>Request account deletion</span>
+          <Localized id="profile-account-deleteAccount-description">
+            <Typography variant="bodyCopy" className={styles.section}>
+              Deleting your account will permanently erase your profile and
+              remove all your comments from this site.
+            </Typography>
           </Localized>
-        </Button>
-      )}
+          {deletionDate && (
+            <>
+              <Localized
+                id="profile-account-deleteAccount-cancelDelete-description"
+                $date={deletionDate}
+              >
+                <Typography variant="bodyCopy" className={styles.section}>
+                  You have already submitted a request to delete your account.
+                  Your account will be deleted on {deletionDate}. You may cancel
+                  the request until that time.
+                </Typography>
+              </Localized>
+              <Button
+                variant="filled"
+                size="small"
+                onClick={cancelDeletion}
+                className={CLASSES.deleteMyAccount.cancelRequestButton}
+              >
+                <Icon size="sm" className={styles.icon}>
+                  block
+                </Icon>
+                <Localized id="profile-account-deleteAccount-cancelDelete">
+                  <span>Cancel account deletion request</span>
+                </Localized>
+              </Button>
+            </>
+          )}
+        </div>
+
+        {!deletionDate && (
+          <Localized id="profile-account-deleteAccount-request">
+            <Button
+              color="primary"
+              variant="outlineFilled"
+              size="small"
+              className={CLASSES.deleteMyAccount.requestButton}
+              onClick={showPopover}
+            >
+              Request
+            </Button>
+          </Localized>
+        )}
+      </Flex>
     </div>
   );
 };

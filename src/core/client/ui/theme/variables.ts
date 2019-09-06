@@ -56,6 +56,7 @@ const variables = {
       primary: "#3B4A53",
       secondary: "#787D80",
       light: "#fff",
+      dark: "#14171A",
     },
     /* Background colors */
     background: {

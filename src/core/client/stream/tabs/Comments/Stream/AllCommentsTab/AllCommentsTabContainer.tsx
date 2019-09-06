@@ -26,6 +26,8 @@ import { ReplyListContainer } from "../../ReplyList";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentCreatedSubscription from "./CommentCreatedSubscription";
 
+import styles from "./AllCommentsTabContainer.css";
+
 interface Props {
   story: AllCommentsTabContainer_story;
   settings: AllCommentsTabContainer_settings;
@@ -123,6 +125,8 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
         data-testid="comments-allComments-log"
         role="log"
         aria-live="polite"
+        size="oneAndAHalf"
+        className={styles.stream}
       >
         {comments.map(comment => (
           <IgnoredTombstoneOrHideContainer
@@ -152,7 +156,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
           <Localized id="comments-loadMore">
             <Button
               onClick={loadMore}
-              variant="outlined"
+              variant="outlineFilled"
               fullWidth
               disabled={isLoadingMore}
               aria-controls="comments-allComments-log"
