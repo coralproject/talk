@@ -11,6 +11,10 @@
   word-break: break-word;
 }
 
+.borderless {
+  border-style: none;
+}
+
 .colorRegular {
   background-color: var(--palette-grey-lightest);
   border-color: var(--palette-grey-light);

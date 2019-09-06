@@ -38,7 +38,7 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue("SETTINGS", "profileTab");
+      localRecord.setValue("ACCOUNT", "profileTab");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }

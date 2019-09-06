@@ -5,15 +5,6 @@ exports[`has more disables load more 1`] = `
   data-testid="profile-commentHistory"
   size="double"
 >
-  <Localized
-    id="profile-historyComment-commentHistory"
-  >
-    <ForwardRef(forwardRef)
-      variant="heading3"
-    >
-      Comment History
-    </ForwardRef(forwardRef)>
-  </Localized>
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
     comment={
       Object {
@@ -40,7 +31,7 @@ exports[`has more disables load more 1`] = `
       fullWidth={true}
       id="coral-profile-commentHistory-loadMore"
       onClick={[Function]}
-      variant="outlined"
+      variant="outlineFilled"
     >
       Load More
     </ForwardRef(forwardRef)>
@@ -53,15 +44,6 @@ exports[`has more renders correctly 1`] = `
   data-testid="profile-commentHistory"
   size="double"
 >
-  <Localized
-    id="profile-historyComment-commentHistory"
-  >
-    <ForwardRef(forwardRef)
-      variant="heading3"
-    >
-      Comment History
-    </ForwardRef(forwardRef)>
-  </Localized>
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
     comment={
       Object {
@@ -88,7 +70,7 @@ exports[`has more renders correctly 1`] = `
       fullWidth={true}
       id="coral-profile-commentHistory-loadMore"
       onClick={[Function]}
-      variant="outlined"
+      variant="outlineFilled"
     >
       Load More
     </ForwardRef(forwardRef)>
@@ -101,15 +83,6 @@ exports[`renders correctly 1`] = `
   data-testid="profile-commentHistory"
   size="double"
 >
-  <Localized
-    id="profile-historyComment-commentHistory"
-  >
-    <ForwardRef(forwardRef)
-      variant="heading3"
-    >
-      Comment History
-    </ForwardRef(forwardRef)>
-  </Localized>
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
     comment={
       Object {

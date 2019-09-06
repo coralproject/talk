@@ -9,7 +9,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
-import { Button, CallOut, Icon, Typography } from "coral-ui/components";
+import { Button, CallOut, Flex, Icon, Typography } from "coral-ui/components";
 
 import RequestCommentsDownloadMutation from "./RequestCommentsDownloadMutation";
 
@@ -52,68 +52,72 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
 
   return (
     <div className={cn(styles.root, CLASSES.downloadCommentHistory.$root)}>
-      <Localized id="profile-settings-download-comments-title">
-        <Typography variant="heading3" className={styles.title}>
-          Download my comment history
-        </Typography>
-      </Localized>
-      <Localized
-        id="profile-settings-download-comments-description"
-        strong={<strong />}
-      >
-        <Typography variant="bodyCopy" className={styles.description}>
-          You will receive an email with a link to download your comment
-          history. You can make one download request every 14 days.
-        </Typography>
-      </Localized>
-      {lastDownloadedAt && (
-        <Localized
-          id="profile-settings-download-comments-recentRequest"
-          $timeStamp={formatter.format(lastDownloadedAt)}
-        >
-          <Typography
-            variant="bodyCopy"
-            className={cn(
-              styles.recentRequest,
-              CLASSES.downloadCommentHistory.recentRequest
-            )}
-          >
-            Your most recent request: {formatter.format(lastDownloadedAt)}
-          </Typography>
-        </Localized>
-      )}
-      {canDownload ? (
-        <Button
-          className={CLASSES.downloadCommentHistory.requestButton}
-          variant="outlined"
-          size="small"
-          onClick={onClick}
-        >
+      <Flex justifyContent="space-between" alignItems="flex-start">
+        <div className={styles.content}>
+          <Localized id="profile-account-download-comments-title">
+            <Typography
+              variant="heading2"
+              color="textDark"
+              className={styles.title}
+            >
+              Download my comment history
+            </Typography>
+          </Localized>
           <Localized
-            id="profile-settings-download-comments-request-icon"
-            attrs={{ title: true }}
+            id="profile-account-download-comments-description"
+            strong={<strong />}
           >
-            <Icon size="sm" className={styles.icon}>
-              file_download
-            </Icon>
+            <Typography variant="bodyCopy" className={styles.description}>
+              You will receive an email with a link to download your comment
+              history. You can make one download request every 14 days.
+            </Typography>
           </Localized>
-          <Localized id="profile-settings-download-comments-request">
-            <span>Request comment history</span>
-          </Localized>
-        </Button>
-      ) : (
+          {lastDownloadedAt && (
+            <Localized
+              id="profile-account-download-comments-recentRequest"
+              $timeStamp={formatter.format(lastDownloadedAt)}
+            >
+              <Typography
+                variant="bodyCopy"
+                className={cn(
+                  styles.recentRequest,
+                  CLASSES.downloadCommentHistory.recentRequest
+                )}
+              >
+                Your most recent request: {formatter.format(lastDownloadedAt)}
+              </Typography>
+            </Localized>
+          )}
+        </div>
+        <div>
+          {canDownload && (
+            <Localized id="profile-account-download-comments-request-button">
+              <Button
+                variant="outlineFilled"
+                color="primary"
+                size="small"
+                className={CLASSES.downloadCommentHistory.requestButton}
+                onClick={onClick}
+              >
+                Request
+              </Button>
+            </Localized>
+          )}
+        </div>
+      </Flex>
+      {!canDownload && (
         <CallOut
+          fullWidth
           className={cn(
             styles.callout,
             CLASSES.downloadCommentHistory.requestLater
           )}
-          fullWidth
         >
           <Icon size="lg" className={styles.icon}>
             query_builder
           </Icon>
           <Localized
-            id="profile-settings-download-comments-timeOut"
+            id="profile-account-download-comments-timeOut"
             $value={scaled}
             $unit={unit}
           >

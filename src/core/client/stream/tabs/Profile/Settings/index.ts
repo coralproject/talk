@@ -1,1 +1,4 @@
-export { default, default as SettingsContainer } from "./SettingsContainer";
+export {
+  default,
+  default as AccountSettingsContainer,
+} from "./AccountSettingsContainer";

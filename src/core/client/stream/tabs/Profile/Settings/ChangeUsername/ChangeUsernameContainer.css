@@ -1,5 +1,4 @@
 .callOut {
-  max-width: 500px;
 }
 
 .footer {
@@ -28,8 +27,4 @@
 .closeButton {
   float: none;
   position: static;
-}
-
-.currentUsername {
-  color: var(--palette-grey-dark);
 }

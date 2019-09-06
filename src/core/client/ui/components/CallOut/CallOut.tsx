@@ -27,10 +27,23 @@ export interface CallOutProps {
    * If set renders a full width CallOut
    */
   fullWidth?: boolean;
+
+  /*
+   * If set removes border
+   */
+  borderless?: boolean;
 }
 
 const CallOut: FunctionComponent<CallOutProps> = props => {
-  const { className, classes, color, fullWidth, children, ...rest } = props;
+  const {
+    borderless,
+    className,
+    classes,
+    color,
+    fullWidth,
+    children,
+    ...rest
+  } = props;
 
   const rootClassName = cn(
     classes.root,
@@ -39,6 +52,7 @@ const CallOut: FunctionComponent<CallOutProps> = props => {
       [classes.colorError]: color === "error",
       [classes.colorPrimary]: color === "primary",
       [classes.colorSuccess]: color === "success",
+      [classes.borderless]: borderless,
       [classes.fullWidth]: fullWidth,
     },
     className

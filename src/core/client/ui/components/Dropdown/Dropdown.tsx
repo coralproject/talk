@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { withStyles } from "coral-ui/hocs";
@@ -17,7 +18,7 @@ const Dropdown: FunctionComponent<Props> = ({
   ...rest
 }) => {
   return (
-    <div className={classes.root} {...rest}>
+    <div className={cn(classes.root, className)} {...rest}>
       {children}
     </div>
   );

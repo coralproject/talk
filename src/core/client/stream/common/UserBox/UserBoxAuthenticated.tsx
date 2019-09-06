@@ -1,8 +1,11 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
 import { Button, Flex, Typography } from "coral-ui/components";
+
+import styles from "./UserBoxAuthenticated.css";
 
 export interface UserBoxAuthenticatedProps {
   onSignOut?: () => void;
@@ -14,7 +17,7 @@ const UserBoxAuthenticated: FunctionComponent<
   UserBoxAuthenticatedProps
 > = props => {
   const Username = () => (
-    <Typography variant="bodyCopyBold" container="span">
+    <Typography variant="heading3" container="span">
       {props.username}
     </Typography>
   );
@@ -25,7 +28,11 @@ const UserBoxAuthenticated: FunctionComponent<
         id="general-userBoxAuthenticated-signedInAs"
         Username={<Username />}
       >
-        <Typography variant="bodyCopy" container="div">
+        <Typography
+          className={styles.userBoxText}
+          variant="bodyCopy"
+          container="div"
+        >
           {"Signed in as <Username></Username>."}
         </Typography>
       </Localized>
@@ -36,13 +43,20 @@ const UserBoxAuthenticated: FunctionComponent<
             <Button
               color="primary"
               size="small"
-              variant="underlined"
               onClick={props.onSignOut}
-              className={CLASSES.viewerBox.logoutButton}
+              variant="regular"
+              className={cn(
+                styles.userBoxButton,
+                CLASSES.viewerBox.logoutButton
+              )}
             />
           }
         >
-          <Typography variant="bodyCopy" container={Flex}>
+          <Typography
+            variant="bodyCopy"
+            className={styles.userBoxText}
+            container={Flex}
+          >
             {"Not you? <button>Sign Out</button>"}
           </Typography>
         </Localized>

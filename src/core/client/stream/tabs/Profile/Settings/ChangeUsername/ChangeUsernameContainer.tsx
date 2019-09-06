@@ -78,6 +78,9 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   ]);
 
   const canChangeLocalAuth = useMemo(() => {
+    if (!settings.accountFeatures.changeUsername) {
+      return false;
+    }
     if (
       !viewer.profiles.find(profile => profile.__typename === "LocalProfile")
     ) {
@@ -168,14 +171,24 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
         </Box>
       )}
       {!showEditForm && (
-        <Flex alignItems="baseline">
-          <Typography variant="header2" className={CLASSES.myUsername.username}>
-            {viewer.username}
-          </Typography>
-          {canChangeLocalAuth && settings.accountFeatures.changeUsername && (
+        <Flex alignItems="baseline" justifyContent="space-between">
+          <div>
+            <Localized id="profile-changeUsername-username">
+              <Typography
+                className={CLASSES.myUsername.username}
+                color="textDark"
+                variant="heading2"
+              >
+                Username
+              </Typography>
+            </Localized>
+            <Typography variant="bodyCopy">{viewer.username}</Typography>
+          </div>
+          {canChangeLocalAuth && (
             <Localized id="profile-changeUsername-edit">
               <Button
                 className={CLASSES.myUsername.editButton}
+                variant="outlineFilled"
                 size="small"
                 color="primary"
                 onClick={toggleEditForm}
@@ -188,45 +201,42 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       )}
       {showEditForm && (
         <CallOut
+          borderless
           className={cn(styles.callOut, CLASSES.myUsername.form.$root)}
           color="primary"
         >
           <HorizontalGutter spacing={4}>
             <div>
               <Localized id="profile-changeUsername-heading">
-                <Typography variant="heading2" gutterBottom>
+                <Typography variant="heading1" gutterBottom color="textDark">
                   Edit your username
                 </Typography>
               </Localized>
               <Localized
-                id="profile-changeUsername-desc"
-                strong={<strong />}
+                id="profile-changeUsername-desc-text"
                 $value={FREQUENCYSCALED.scaled}
                 $unit={FREQUENCYSCALED.unit}
               >
-                <Typography>
+                <Typography color="textDark">
                   Change the username that will appear on all of your past and
-                  future comments.{" "}
-                  <strong>
-                    Usernames can be changed once every {FREQUENCYSCALED.scaled}{" "}
-                    {FREQUENCYSCALED.unit}.
-                  </strong>
+                  future comments. Usernames can be changed once every{" "}
+                  {FREQUENCYSCALED.scaled} {FREQUENCYSCALED.unit}.
                 </Typography>
               </Localized>
             </div>
             <div>
               <Localized id="profile-changeUsername-current">
                 <Typography
-                  className={cn(
-                    styles.currentUsername,
-                    CLASSES.myUsername.form.username
-                  )}
                   variant="bodyCopyBold"
+                  color="textPrimary"
+                  className={CLASSES.myUsername.form.username}
                 >
                   Current username
                 </Typography>
               </Localized>
-              <Typography variant="heading2">{viewer.username}</Typography>
+              <Typography variant="heading2" color="textDark">
+                {viewer.username}
+              </Typography>
             </div>
             {canChangeUsername && (
               <Form onSubmit={onSubmit}>
@@ -255,6 +265,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                               <>
                                 <TextField
                                   {...input}
+                                  fullWidth
                                   id="profile-changeUsername-username"
                                 />
                                 <FieldValidationMessage meta={meta} />
@@ -280,6 +291,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                             {({ input, meta }) => (
                               <>
                                 <TextField
+                                  fullWidth
                                   {...input}
                                   id="profile-changeUsername-username-confirm"
                                 />

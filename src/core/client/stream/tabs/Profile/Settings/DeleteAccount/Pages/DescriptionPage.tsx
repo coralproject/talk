@@ -34,7 +34,7 @@ const DescriptionPage: FunctionComponent<Props> = ({
         justifyContent="center"
         className={cn(styles.header, CLASSES.deleteMyAccountModal.header)}
       >
-        <Localized id="profile-settings-deleteAccount-pages-descriptionHeader">
+        <Localized id="profile-account-deleteAccount-pages-descriptionHeader">
           <Typography variant="header2" className={styles.headerText}>
             Delete my account?
           </Typography>
@@ -42,28 +42,28 @@ const DescriptionPage: FunctionComponent<Props> = ({
       </Flex>
       <div className={styles.body}>
         <PageStepBar step={step} />
-        <Localized id="profile-settings-deleteAccount-pages-descriptionText">
+        <Localized id="profile-account-deleteAccount-pages-descriptionText">
           <Typography variant="bodyCopy">
             You are attempting to delete your account. This means:
           </Typography>
         </Localized>
         <ul className={styles.ul}>
           <li>
-            <Localized id="profile-settings-deleteAccount-pages-allCommentsRemoved">
+            <Localized id="profile-account-deleteAccount-pages-allCommentsRemoved">
               <Typography variant="bodyCopy">
                 All of your comments are removed from this site
               </Typography>
             </Localized>
           </li>
           <li>
-            <Localized id="profile-settings-deleteAccount-pages-allCommentsDeleted">
+            <Localized id="profile-account-deleteAccount-pages-allCommentsDeleted">
               <Typography variant="bodyCopy">
                 All of your comments are deleted from our database
               </Typography>
             </Localized>
           </li>
           <li>
-            <Localized id="profile-settings-deleteAccount-pages-emailRemoved">
+            <Localized id="profile-account-deleteAccount-pages-emailRemoved">
               <Typography variant="bodyCopy">
                 Your email address is removed from our system
               </Typography>
@@ -80,7 +80,7 @@ const DescriptionPage: FunctionComponent<Props> = ({
             )}
             onClick={onProceedClicked}
           >
-            <Localized id="profile-settings-deleteAccount-pages-proceed">
+            <Localized id="profile-account-deleteAccount-pages-proceed">
               Proceed
             </Localized>
           </Button>
@@ -92,7 +92,7 @@ const DescriptionPage: FunctionComponent<Props> = ({
             )}
             onClick={onCancelClicked}
           >
-            <Localized id="profile-settings-deleteAccount-pages-cancel">
+            <Localized id="profile-account-deleteAccount-pages-cancel">
               Cancel
             </Localized>
           </Button>

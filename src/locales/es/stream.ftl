@@ -114,7 +114,7 @@ comments-userPopover-ignore = Ignorar
 comments-userIgnorePopover-ignoreUser = ¿Ignorar a {$username}?
 comments-userIgnorePopover-description =
   Cuando ignora a un comentarista, se le ocultarán
-  todos los comentarios que escribieron en el sitio. 
+  todos los comentarios que escribieron en el sitio.
   Puede deshacer esto más tarde desde Mi perfil.
 comments-userIgnorePopover-ignore = Ignorar
 comments-userIgnorePopover-cancel = Cancelar
@@ -144,7 +144,6 @@ comments-featured-replies = Respuestas
 ## Profile Tab
 
 profile-myCommentsTab = Mis comentarios
-profile-settingsTab = Ajustes
 
 ### Comment History
 profile-historyComment-viewConversation = Ver conversación
@@ -156,12 +155,12 @@ profile-profileQuery-storyNotFound = Historia no encontrada
 profile-commentHistory-loadMore = Carga más
 
 ### Settings
-profile-settings-ignoredCommenters = Comentaristas ignorados
-profile-settings-description =
+profile-account-ignoredCommenters = Comentaristas ignorados
+profile-account-ignoredCommenters-description =
   Una vez que ignoras a alguien, todos sus comentarios están ocultos para ti.
   Los comentaristas que ignores podrán ver tus comentarios.
-profile-settings-empty = Actualmente no estás ignorando a nadie
-profile-settings-stopIgnoring = Deja de ignorar
+profile-account-ignoredCommenters-empty = Actualmente no estás ignorando a nadie
+profile-account-ignoredCommenters-stopIgnoring = Deja de ignorar
 
 
 ## Report Comment Popover
@@ -215,7 +214,7 @@ configure-liveUpdates-description =
 
 configure-messageBox-title = Habilitar campo de mensaje para esta secuencia
 configure-messageBox-description =
-  Agregue un mensaje en la parte superior del campo de comentarios para sus lectores. 
+  Agregue un mensaje en la parte superior del campo de comentarios para sus lectores.
   Use esto para plantear un tema, hacer una pregunta o hacer anuncios relacionados
   con esta historia.
 configure-messageBox-preview = Avance
@@ -225,14 +224,14 @@ configure-messageBox-writeAMessage = Escribe un mensaje
 
 configure-closeStream-title = Cerrar los comentarios
 configure-closeStream-description =
-  Los comentarios están actualmente abiertos. Al cerrar los comentarios, 
+  Los comentarios están actualmente abiertos. Al cerrar los comentarios,
   no se pueden enviar nuevos comentarios y todos los comentarios enviados
   anteriormente se seguirán mostrando.
 configure-closeStream-closeStream = Cerrar los comentarios
 
 configure-openStream-title = Abrir los comentarios
 configure-openStream-description =
-  Los comentarios están actualmente cerrados. 
+  Los comentarios están actualmente cerrados.
   Al abrir los comentarios, se pueden enviar y mostrar nuevos comentarios.
 configure-openStream-openStream = Abrir los comentarios
 

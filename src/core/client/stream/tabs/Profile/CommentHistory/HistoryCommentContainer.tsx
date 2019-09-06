@@ -31,6 +31,11 @@ export class HistoryCommentContainer extends React.Component<
     return (
       <HistoryComment
         {...this.props.comment}
+        parentAuthorName={
+          this.props.comment.parent &&
+          this.props.comment.parent.author &&
+          this.props.comment.parent.author.username
+        }
         conversationURL={getURLWithCommentID(
           this.props.comment.story.url,
           this.props.comment.id
@@ -54,6 +59,11 @@ const enhanced = withSetCommentIDMutation(
         body
         createdAt
         replyCount
+        parent {
+          author {
+            username
+          }
+        }
         story {
           id
           url

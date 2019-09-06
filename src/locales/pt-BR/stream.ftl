@@ -114,7 +114,7 @@ comments-userPopover-ignore = Ignorar
 comments-userIgnorePopover-ignoreUser = Ignorar {$username}?
 comments-userIgnorePopover-description =
   Quando você ignora um usuário, todos os comentários
-  que ele escreveu no site será escondido de você. Você 
+  que ele escreveu no site será escondido de você. Você
   pode desfazer isso mais tarde em Meu perfil.
 comments-userIgnorePopover-ignore = Ignorar
 comments-userIgnorePopover-cancel = Cancelar
@@ -144,7 +144,6 @@ comments-featured-replies = Respostas
 ## Profile Tab
 
 profile-myCommentsTab = Meus comentários
-profile-settingsTab = Configurações
 
 ### Comment History
 profile-historyComment-viewConversation = Ver conversa
@@ -156,12 +155,12 @@ profile-profileQuery-storyNotFound = História não encontrada
 profile-commentHistory-loadMore = Carregar Mais
 
 ### Settings
-profile-settings-ignoredCommenters = Usuários ignorados
-profile-settings-description =
+profile-account-ignoredCommenters = Usuários ignorados
+profile-account-ignoredCommenters-description =
   Depois de ignorar alguém, todos os seus comentários ficam ocultos de você.
   Usuários que você ignora ainda poderão ver seus comentários.
-profile-settings-empty = Você não está ignorando ninguém
-profile-settings-stopIgnoring = Parar de ignorar
+profile-account-ignoredCommenters-empty = Você não está ignorando ninguém
+profile-account-ignoredCommenters-stopIgnoring = Parar de ignorar
 
 
 ## Report Comment Popover

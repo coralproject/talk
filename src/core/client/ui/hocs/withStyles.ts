@@ -18,6 +18,8 @@ function withStyles<T>(
       Object.keys(props.classes).forEach(k => {
         if (classes[k]) {
           resolvedClasses[k] += ` ${props.classes[k]}`;
+        } else if (process.env.NODE_ENV === "test") {
+          throw new Error(`Extending non existent className ${k}`);
         } else if (process.env.NODE_ENV !== "production") {
           // tslint:disable:next-line: no-console
           console.warn("Extending non existent className", k);
