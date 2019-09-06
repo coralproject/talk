@@ -7,3 +7,7 @@
 .username {
   color: var(--palette-grey-main);
 }
+
+.usernameButton {
+  display: inline-flex;
+}

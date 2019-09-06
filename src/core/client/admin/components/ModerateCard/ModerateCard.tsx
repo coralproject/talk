@@ -28,7 +28,10 @@ interface Props {
   username: string;
   createdAt: string;
   body: string;
-  inReplyTo: string | null;
+  inReplyTo?: {
+    id: string;
+    username: string | null;
+  } | null;
   comment: PropTypesOf<typeof MarkersContainer>["comment"];
   settings: PropTypesOf<typeof MarkersContainer>["settings"];
   status: "approved" | "rejected" | "undecided";
@@ -44,7 +47,7 @@ interface Props {
   onApprove: () => void;
   onReject: () => void;
   onFeature: () => void;
-  onUsernameClick: () => void;
+  onUsernameClick: (id?: string) => void;
   mini?: boolean;
   hideUsername?: boolean;
   /**
@@ -96,6 +99,11 @@ const ModerateCard: FunctionComponent<Props> = ({
   const commentAuthorClick = useCallback(() => {
     onUsernameClick();
   }, [onUsernameClick]);
+  const commentParentAuthorClick = useCallback(() => {
+    if (inReplyTo) {
+      onUsernameClick(inReplyTo.id);
+    }
+  }, [onUsernameClick, inReplyTo]);
   return (
     <Card
       className={cn(
@@ -129,9 +137,14 @@ const ModerateCard: FunctionComponent<Props> = ({
                 enabled={!deleted}
               />
             </Flex>
-            {inReplyTo && (
+            {inReplyTo && inReplyTo.username && (
               <div>
-                <InReplyTo>{inReplyTo}</InReplyTo>
+                <BaseButton
+                  onClick={commentParentAuthorClick}
+                  className={styles.username}
+                >
+                  <InReplyTo>{inReplyTo.username}</InReplyTo>
+                </BaseButton>
               </div>
             )}
           </div>
@@ -188,7 +201,8 @@ const ModerateCard: FunctionComponent<Props> = ({
           className={cn(styles.aside, {
             [styles.asideWithoutReplyTo]: !inReplyTo,
             [styles.asideMini]: mini && !inReplyTo,
-            [styles.asideMiniWithReplyTo]: mini && inReplyTo,
+            [styles.asideMiniWithReplyTo]:
+              mini && inReplyTo && inReplyTo.username,
           })}
           alignItems="center"
           direction="column"
