@@ -22,7 +22,7 @@ const CommentStreamLiveUpdates: FunctionComponent<Props> = ({ disabled }) => (
         id="configure-advanced-liveUpdates-explanation"
         strong={<strong />}
       >
-        <Typography variant="bodyCopy">
+        <Typography variant="bodyShort">
           When enabled, there will be real-time loading and updating of comments
           as new comments and replies are published
         </Typography>

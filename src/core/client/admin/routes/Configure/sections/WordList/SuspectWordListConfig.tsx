@@ -25,7 +25,7 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
       <Header>Suspect words and phrases</Header>
     </Localized>
     <Localized id="configure-wordList-suspect-explanation" strong={<strong />}>
-      <Typography variant="bodyCopy">
+      <Typography variant="bodyShort">
         Comments containing a word or phrase in the Suspect Words List are
         placed into the Reported Queue for moderator review and are published
         (if comments are not pre-moderated).

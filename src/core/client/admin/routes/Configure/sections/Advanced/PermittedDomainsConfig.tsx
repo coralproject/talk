@@ -36,7 +36,7 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
         id="configure-advanced-permittedDomains-description"
         strong={<strong />}
       >
-        <Typography variant="bodyCopy">
+        <Typography variant="bodyShort">
           The domains you would like to permit for Coral, e.g. your local,
           staging and production environments including the scheme (ex.
           http://localhost:3000, https://staging.domain.com,

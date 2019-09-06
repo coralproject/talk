@@ -15,6 +15,7 @@ import {
   Flex,
   FormField,
   HorizontalGutter,
+  InputDescription,
   InputLabel,
   TextField,
   TextLink,
@@ -26,7 +27,6 @@ import { FormProps } from "./AuthConfigContainer";
 import ClientIDField from "./ClientIDField";
 import ClientSecretField from "./ClientSecretField";
 import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
-import ConfigDescription from "./ConfigDescription";
 import RedirectField from "./RedirectField";
 import RegistrationField from "./RegistrationField";
 import TargetFilterField from "./TargetFilterField";
@@ -77,11 +77,11 @@ const OIDCConfig: FunctionComponent<Props> = ({
               <InputLabel>Provider name</InputLabel>
             </Localized>
             <Localized id="configure-auth-oidc-providerNameDescription">
-              <ConfigDescription>
+              <InputDescription>
                 The provider of the OIDC integration. This will be used when the
                 name of the provider needs to be displayed, e.g. “Log in with
                 {" <Facebook>"}”
-              </ConfigDescription>
+              </InputDescription>
             </Localized>
             <Field
               name={`auth.integrations.oidc.name`}
@@ -120,11 +120,11 @@ const OIDCConfig: FunctionComponent<Props> = ({
               <InputLabel>Issuer</InputLabel>
             </Localized>
             <Localized id="configure-auth-oidc-issuerDescription">
-              <ConfigDescription>
+              <InputDescription>
                 After entering your Issuer information, click the Discover
                 button to have Coral complete the remaining fields. You may also
                 enter the information manually
-              </ConfigDescription>
+              </InputDescription>
             </Localized>
             <Field
               name={`auth.integrations.oidc.issuer`}

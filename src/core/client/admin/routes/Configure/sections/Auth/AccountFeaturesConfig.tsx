@@ -26,7 +26,7 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
         <Header container="legend">Commenter account mangement features</Header>
       </Localized>
       <Localized id="configure-account-features-explanation">
-        <Typography variant="bodyCopy">
+        <Typography variant="bodyShort">
           You can enable and disable certain features for your commenters to use
           within their Profile. These features also assist towards GDPR
           compliance.
@@ -44,7 +44,7 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
                   Change their usernames
                 </InputLabel>
               </Localized>
-              <Localized id="configure-account-features-change-usernames-details">
+              <Localized id="configure-account-features-change-usernames-fieldDescriptions">
                 <Typography>
                   Usernames can be changed once every 14 days.
                 </Typography>
@@ -77,7 +77,7 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
                   Download their comments
                 </InputLabel>
               </Localized>
-              <Localized id="configure-account-features-download-comments-details">
+              <Localized id="configure-account-features-download-comments-fieldDescriptions">
                 <Typography>
                   Commenters can download a csv of their comment history.
                 </Typography>
@@ -108,7 +108,7 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
               <Localized id="configure-account-features-delete-account">
                 <InputLabel container="legend">Delete their account</InputLabel>
               </Localized>
-              <Localized id="configure-account-features-delete-account-details">
+              <Localized id="configure-account-features-delete-account-fieldDescriptions">
                 <Typography>
                   Removes all of their comment data, username, and email address
                   from the site and the database.

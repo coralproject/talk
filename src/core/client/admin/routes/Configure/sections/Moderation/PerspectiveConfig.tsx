@@ -56,7 +56,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         id="configure-moderation-perspective-explanation"
         strong={<strong />}
       >
-        <Typography variant="bodyCopy">
+        <Typography variant="bodyShort">
           Using the Perspective API, the Toxic Comment filter warns users when
           comments exceed the predefined toxicity threshold. Comments with a
           toxicity score above the threshold will not be published and are
@@ -109,7 +109,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
                 autoCorrect="off"
                 autoCapitalize="off"
                 spellCheck={false}
-                adornment={<Typography variant="bodyCopy">%</Typography>}
+                adornment={<Typography variant="bodyShort">%</Typography>}
                 placeholder={TOXICITY_THRESHOLD_DEFAULT.toString()}
                 textAlignCenter
                 {...input}
@@ -188,7 +188,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
           id="configure-moderation-perspective-accountNote"
           externalLink={<ExternalLink />}
         >
-          <Typography variant="detail">
+          <Typography variant="fieldDescription">
             For additional information on how to set up the Perspective Toxic
             Comment Filter please visit:
             https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md

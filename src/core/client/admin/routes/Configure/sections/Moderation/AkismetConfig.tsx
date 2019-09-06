@@ -45,7 +45,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
         id="configure-moderation-akismet-explanation"
         strong={<strong />}
       >
-        <Typography variant="bodyCopy">
+        <Typography variant="bodyShort">
           Submitted comments are passed to the Akismet API for spam detection.
           If a comment is determined to be spam, it will prompt the user,
           indicating that the comment might be considered spam. If the user
@@ -68,7 +68,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
           id="configure-moderation-akismet-accountNote"
           externalLink={<ExternalLink />}
         >
-          <Typography variant="detail">
+          <Typography variant="fieldDescription">
             Note: You must add your active domain(s) in your Akismet account:
             https://akismet.com/account/
           </Typography>

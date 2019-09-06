@@ -37,7 +37,7 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
         id="configure-organization-emailExplanation"
         strong={<strong />}
       >
-        <Typography variant="bodyCopy">
+        <Typography variant="bodyShort">
           This email address will be used as in emails and across the platform
           for community members to get in touch with the organization should
           they have any questions about the status of their accounts or

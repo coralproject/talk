@@ -47,7 +47,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
       id="configure-general-commentLength-setLimit"
       strong={<strong />}
     >
-      <Typography variant="bodyCopy">
+      <Typography variant="bodyShort">
         Set minimum and maximum comment length requirements. Blank spaces at the
         beginning and the end of a comment will be trimmed.
       </Typography>

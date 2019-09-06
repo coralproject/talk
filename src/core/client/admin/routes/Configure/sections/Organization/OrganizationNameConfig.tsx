@@ -33,7 +33,7 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
         id="configure-organization-nameExplanation"
         strong={<strong />}
       >
-        <Typography variant="bodyCopy">
+        <Typography variant="bodyShort">
           Your organization name will appear on emails sent by Coral to your
           community and organization members
         </Typography>

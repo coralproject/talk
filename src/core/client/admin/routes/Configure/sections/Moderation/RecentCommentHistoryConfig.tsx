@@ -115,7 +115,7 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
                 autoCorrect="off"
                 autoCapitalize="off"
                 spellCheck={false}
-                adornment={<Typography variant="bodyCopy">%</Typography>}
+                adornment={<Typography variant="bodyShort">%</Typography>}
                 textAlignCenter
                 {...input}
               />

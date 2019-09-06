@@ -32,7 +32,7 @@ const CustomCSSConfig: FunctionComponent<Props> = ({ disabled }) => (
         id="configure-advanced-customCSS-explanation"
         strong={<strong />}
       >
-        <Typography variant="bodyCopy">
+        <Typography variant="bodyShort">
           URL of a CSS stylesheet that will override default Embed Stream
           styles. Can be internal or external.
         </Typography>

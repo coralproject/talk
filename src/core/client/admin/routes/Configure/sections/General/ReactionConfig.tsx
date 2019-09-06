@@ -33,7 +33,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
       <Header container="legend">Reactions</Header>
     </Localized>
     <Localized id="configure-general-reactions-explanation" strong={<strong />}>
-      <Typography variant="bodyCopy">
+      <Typography variant="bodyShort">
         Allow your community to engage with one another and express themselves
         with one-click reactions. By default, Coral allows commenters to
         "Respect" each other's comments, but you may customize reaction text

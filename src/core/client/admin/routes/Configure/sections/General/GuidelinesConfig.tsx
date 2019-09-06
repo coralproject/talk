@@ -8,9 +8,9 @@ import {
   FieldSet,
   FormField,
   HorizontalGutter,
+  InputDescription,
   InputLabel,
   Spinner,
-  Typography,
 } from "coral-ui/components";
 
 import Header from "../../Header";
@@ -47,12 +47,12 @@ const GuidelinesConfig: FunctionComponent<Props> = ({ disabled }) => (
         strong={<strong />}
         externalLink={<ExternalLink href="#" />}
       >
-        <Typography variant="detail">
+        <InputDescription>
           Write a summary of your community guidelines that will appear at the
           top of each comment stream sitewide. Your summary can be formatted
           using Markdown Syntax. More information on how to use Markdown can be
           found here.
-        </Typography>
+        </InputDescription>
       </Localized>
     </FormField>
 

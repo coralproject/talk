@@ -27,7 +27,7 @@ const ClosedStreamMessageConfig: FunctionComponent<Props> = ({ disabled }) => (
       id="configure-general-closedStreamMessage-explanation"
       strong={<strong />}
     >
-      <Typography variant="bodyCopy">
+      <Typography variant="bodyShort">
         Write a message to appear after a story is closed for commenting.
       </Typography>
     </Localized>

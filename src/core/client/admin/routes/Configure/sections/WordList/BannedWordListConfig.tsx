@@ -25,7 +25,7 @@ const BannedWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
       <Header>Banned words and phrases</Header>
     </Localized>
     <Localized id="configure-wordList-banned-explanation" strong={<strong />}>
-      <Typography variant="bodyCopy">
+      <Typography variant="bodyShort">
         Comments containing a word or phrase in the banned words list are
         automatically rejected and are not published.
       </Typography>
