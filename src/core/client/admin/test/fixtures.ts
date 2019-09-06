@@ -159,6 +159,7 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   {
     id: "settings",
     auth: {
+      sessionDuration: 7776000,
       integrations: {
         local: {
           enabled: true,

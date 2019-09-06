@@ -1,4 +1,5 @@
 import cookie from "cookie";
+import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
 import { IncomingMessage } from "http";
 import { Redis } from "ioredis";
 import Joi from "joi";
@@ -229,7 +230,7 @@ export const signTokenString = async (
     secret,
     {
       jwtid: uuid(),
-      expiresIn: "90 days",
+      expiresIn: DEFAULT_SESSION_LENGTH,
       ...options,
       issuer: tenant.id,
       subject: user.id,
