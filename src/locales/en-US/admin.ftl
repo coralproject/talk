@@ -151,6 +151,9 @@ configure-organization-emailExplanation =
   the platform for community members to get in touch with
   the organization should they have any questions about the
   status of their accounts or moderation questions.
+configure-organization-url = Organization URL
+configure-organization-urlExplanation =
+  Your organization url will appear on emails sent by { -product-name } to your community and organization members.
 
 ### Email
 
