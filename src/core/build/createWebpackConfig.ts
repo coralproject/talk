@@ -92,23 +92,23 @@ export default function createWebpackConfig(
   const localesOptions = {
     pathToLocales: paths.appLocales,
 
-    // Default locale if non could be negotiated.
-    defaultLocale: "en-US",
+    // Default locale if none was specified.
+    defaultLocale: config.get("defaultLocale"),
 
     // Fallback locale if a translation was not found.
     // If not set, will use the text that is already
     // in the code base.
-    fallbackLocale: "en-US",
+    fallbackLocale: config.get("defaultLocale"),
 
     // Common fluent files are always included in the locale bundles.
     commonFiles: ["framework.ftl", "common.ftl", "ui.ftl"],
 
     // Locales that come with the main bundle. Others are loaded on demand.
-    bundled: ["en-US"],
+    bundled: [config.get("defaultLocale")],
 
     // All available locales can be loadable on demand.
     // To restrict available locales set:
-    // availableLocales: ["en-US"],
+    // availableLocales: [config.get("defaultLocale")],
   };
 
   const additionalPlugins = [

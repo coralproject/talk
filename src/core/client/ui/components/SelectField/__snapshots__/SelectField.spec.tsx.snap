@@ -2,11 +2,11 @@
 
 exports[`renders correctly 1`] = `
 <span
-  className="SelectField-root customClassName"
+  className="SelectField-root customClassName SelectField-fullWidth"
 >
   <select
     autofocus={true}
-    className="SelectField-select SelectField-fullWidth"
+    className="SelectField-select"
     disabled={true}
     id="selectID"
     name="selectName"

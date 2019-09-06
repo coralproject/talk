@@ -1,7 +1,7 @@
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { Comment } from "./comment";
-import { PUBLISHED_STATUSES } from "./constants";
+import { MODERATOR_STATUSES, PUBLISHED_STATUSES } from "./constants";
 import { Revision } from "./revision";
 
 /**
@@ -23,6 +23,10 @@ export function hasAncestors(
  */
 export function hasPublishedStatus(comment: Pick<Comment, "status">): boolean {
   return PUBLISHED_STATUSES.includes(comment.status);
+}
+
+export function hasModeratorStatus(comment: Pick<Comment, "status">): boolean {
+  return MODERATOR_STATUSES.includes(comment.status);
 }
 
 /**

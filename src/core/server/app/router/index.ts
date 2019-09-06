@@ -2,6 +2,7 @@ import cookies from "cookie-parser";
 import express, { Router } from "express";
 import { register } from "prom-client";
 
+import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { AppOptions } from "coral-server/app";
 import { noCacheMiddleware } from "coral-server/app/middleware/cacheHeaders";
 import playground from "coral-server/app/middleware/playground";
@@ -31,6 +32,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
 
   if (!options.disableClientRoutes) {
     mountClientRoutes(router, {
+      defaultLocale: app.config.get("default_locale") as LanguageCode,
       // When mounting client routes, we need to provide a staticURI even when
       // not provided to the default current domain relative "/".
       staticURI: app.config.get("static_uri") || "/",

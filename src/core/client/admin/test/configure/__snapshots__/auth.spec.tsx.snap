@@ -2068,7 +2068,7 @@ exports[`renders configure auth 1`] = `
               <legend
                 className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
               >
-                Commenter account mangement features
+                Commenter account management features
               </legend>
               <p
                 className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"

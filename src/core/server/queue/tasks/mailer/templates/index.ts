@@ -36,7 +36,33 @@ export type OnStaffReplyTemplate = NotificationContext<
   }
 >;
 
-export type DigestibleTemplate = OnReplyTemplate | OnStaffReplyTemplate;
+export type OnFeaturedTemplate = NotificationContext<
+  "notification/on-featured",
+  {
+    storyTitle: string;
+    storyURL: string;
+    commentPermalink: string;
+  }
+>;
+
+export type OnCommentRejectedTemplate = NotificationContext<
+  "notification/on-comment-rejected",
+  {}
+>;
+
+export type OnCommentApprovedTemplate = NotificationContext<
+  "notification/on-comment-approved",
+  {
+    commentPermalink: string;
+  }
+>;
+
+export type DigestibleTemplate =
+  | OnReplyTemplate
+  | OnStaffReplyTemplate
+  | OnFeaturedTemplate
+  | OnCommentRejectedTemplate
+  | OnCommentApprovedTemplate;
 
 type DigestTemplate = NotificationContext<
   "notification/digest",
@@ -174,6 +200,9 @@ type Templates =
   | AccountDeletionCompleted
   | OnReplyTemplate
   | OnStaffReplyTemplate
-  | DigestTemplate;
+  | OnFeaturedTemplate
+  | DigestTemplate
+  | OnCommentRejectedTemplate
+  | OnCommentApprovedTemplate;
 
 export { Templates as EmailTemplate };

@@ -13,7 +13,6 @@ async function main() {
   const ManagedCoralContextProvider = await createManaged({
     initLocalState,
     localesData,
-    userLocales: navigator.languages,
   });
 
   const Index: FunctionComponent = () => (

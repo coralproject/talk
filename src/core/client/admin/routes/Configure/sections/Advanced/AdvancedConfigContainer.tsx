@@ -50,6 +50,7 @@ const enhanced = withFragmentContainer<Props>({
       ...PermittedDomainsConfigContainer_settings
       ...CommentStreamLiveUpdatesContainer_settings
       ...CommentStreamLiveUpdatesContainer_settingsReadOnly
+      ...StoryCreationConfigContainer_settings
     }
   `,
 })(AdvancedConfigContainer);

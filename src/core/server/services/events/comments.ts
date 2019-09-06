@@ -57,6 +57,21 @@ export function publishCommentCreated(
   }
 }
 
+export function publishCommentFeatured(
+  publish: Publisher,
+  comment: Pick<Comment, "id" | "status" | "storyID">
+) {
+  if (hasPublishedStatus(comment)) {
+    publish({
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_FEATURED,
+      payload: {
+        commentID: comment.id,
+        storyID: comment.storyID,
+      },
+    });
+  }
+}
+
 export function publishModerationQueueChanges(
   publish: Publisher,
   moderationQueue: Pick<CommentModerationQueueCounts, "queues">,
