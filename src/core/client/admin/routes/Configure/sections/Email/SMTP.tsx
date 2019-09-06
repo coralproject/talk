@@ -97,7 +97,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
     </FormField>
     <FormField>
       <Localized id="configure-email-smtpAuthenticationLabel">
-        <InputLabel>SMTP Authentication</InputLabel>
+        <InputLabel>SMTP authentication</InputLabel>
       </Localized>
       <OnOffField
         name="email.smtp.authentication"

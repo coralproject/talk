@@ -154,7 +154,6 @@ configure-organization-emailExplanation =
 
 ### Authentication
 
-configure-auth-authIntegrations = Integrações de Autenticação
 configure-auth-clientID = Client ID
 configure-auth-clientSecret = Client Secret
 configure-auth-configBoxEnabled = Habilitado

@@ -83,10 +83,10 @@ it("change banned and suspect words", async () => {
   });
 
   const bannedField = within(wordListContainer).getByLabelText(
-    "Banned Word List"
+    "Banned word list"
   );
   const suspectField = within(wordListContainer).getByLabelText(
-    "Suspect Word List"
+    "Suspect word list"
   );
 
   // Let's change the wordlist contents.

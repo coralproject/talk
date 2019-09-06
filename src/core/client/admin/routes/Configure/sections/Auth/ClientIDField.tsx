@@ -35,6 +35,7 @@ const ClientSecretField: FunctionComponent<Props> = ({
             color={colorFromMeta(meta)}
             {...input}
             spellCheck={false}
+            fullWidth
           />
           <ValidationMessage meta={meta} />
         </>

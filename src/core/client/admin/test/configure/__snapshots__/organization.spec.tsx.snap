@@ -125,35 +125,39 @@ exports[`renders configure organization 1`] = `
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <label
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-organization-organization.name"
               >
-                Organization Name
+                Organization name
               </label>
-              <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
-              >
-                Your organization name will appear on emails sent by Coral to your community and organization members.
-              </p>
               <div
-                className="TextField-root TextField-fullWidth"
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
               >
-                <input
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="configure-organization-organization.name"
-                  name="organization.name"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  placeholder=""
-                  spellCheck={false}
-                  type="text"
-                  value="Coral"
-                />
+                <p
+                  className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                >
+                  Your organization name will appear on emails sent by Coral to your community and organization members.
+                </p>
+                <div
+                  className="TextField-root TextField-fullWidth"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="TextField-input TextField-colorRegular"
+                    disabled={false}
+                    id="configure-organization-organization.name"
+                    name="organization.name"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="text"
+                    value="Coral"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -164,38 +168,42 @@ exports[`renders configure organization 1`] = `
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <label
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-organization-organization.contactEmail"
               >
-                Organization Email
+                Organization email
               </label>
-              <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              <div
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
               >
-                This email address will be used as in emails and across
+                <p
+                  className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                >
+                  This email address will be used as in emails and across
 the platform for community members to get in touch with
 the organization should they have any questions about the
 status of their accounts or moderation questions.
-              </p>
-              <div
-                className="TextField-root TextField-fullWidth"
-              >
-                <input
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="configure-organization-organization.contactEmail"
-                  name="organization.contactEmail"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  placeholder=""
-                  spellCheck={false}
-                  type="text"
-                  value="coral@test.com"
-                />
+                </p>
+                <div
+                  className="TextField-root TextField-fullWidth"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="TextField-input TextField-colorRegular"
+                    disabled={false}
+                    id="configure-organization-organization.contactEmail"
+                    name="organization.contactEmail"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="text"
+                    value="coral@test.com"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -206,35 +214,39 @@ status of their accounts or moderation questions.
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <label
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-organization-organization.url"
               >
                 Organization URL
               </label>
-              <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
-              >
-                Your organization url will appear on emails sent by Coral to your community and organization members.
-              </p>
               <div
-                className="TextField-root TextField-fullWidth"
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
               >
-                <input
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="configure-organization-organization.url"
-                  name="organization.url"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  placeholder=""
-                  spellCheck={false}
-                  type="text"
-                  value="https://test.com/"
-                />
+                <p
+                  className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+                >
+                  Your organization url will appear on emails sent by Coral to your community and organization members.
+                </p>
+                <div
+                  className="TextField-root TextField-fullWidth"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="TextField-input TextField-colorRegular"
+                    disabled={false}
+                    id="configure-organization-organization.url"
+                    name="organization.url"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="text"
+                    value="https://test.com/"
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -11,6 +11,7 @@ import {
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 import WordListTextArea from "./WordListTextArea";
 
 import styles from "./BannedWordListConfig.css";
@@ -22,41 +23,43 @@ interface Props {
 const BannedWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="configure-wordList-banned-bannedWordsAndPhrases">
-      <Header>Banned Words and Phrases</Header>
+      <Header>Banned words and phrases</Header>
     </Localized>
-    <Localized id="configure-wordList-banned-explanation" strong={<strong />}>
-      <Typography variant="detail">
-        Comments containing a word or phrase in the banned words list are
-        automatically rejected and are not published.
-      </Typography>
-    </Localized>
+    <SectionContent>
+      <Localized id="configure-wordList-banned-explanation" strong={<strong />}>
+        <Typography variant="bodyShort">
+          Comments containing a word or phrase in the banned words list are
+          automatically rejected and are not published.
+        </Typography>
+      </Localized>
 
-    <FormField>
-      <Localized id="configure-wordList-banned-wordList">
-        <InputLabel htmlFor="configure-wordlist-banned">
-          Banned Word List
-        </InputLabel>
-      </Localized>
-      <Localized
-        id="configure-wordList-banned-wordListDetail"
-        strong={<strong />}
-        externalLink={<ExternalLink href="#" />}
-      >
-        <InputDescription>
-          Separate banned words or phrases with a new line. Attempting to copy
-          and paste a comma separated list? Learn how to convert your list to a
-          new line separated list.
-        </InputDescription>
-      </Localized>
-      <div>
-        <WordListTextArea
-          id="configure-wordlist-banned"
-          name={"wordList.banned"}
-          disabled={disabled}
-          className={styles.textArea}
-        />
-      </div>
-    </FormField>
+      <FormField>
+        <Localized id="configure-wordList-banned-wordList">
+          <InputLabel htmlFor="configure-wordlist-banned">
+            Banned word list
+          </InputLabel>
+        </Localized>
+        <Localized
+          id="configure-wordList-banned-wordListDetail"
+          strong={<strong />}
+          externalLink={<ExternalLink href="#" />}
+        >
+          <InputDescription>
+            Separate banned words or phrases with a new line. Attempting to copy
+            and paste a comma separated list? Learn how to convert your list to
+            a new line separated list.
+          </InputDescription>
+        </Localized>
+        <div>
+          <WordListTextArea
+            id="configure-wordlist-banned"
+            name={"wordList.banned"}
+            disabled={disabled}
+            className={styles.textArea}
+          />
+        </div>
+      </FormField>
+    </SectionContent>
   </HorizontalGutter>
 );
 

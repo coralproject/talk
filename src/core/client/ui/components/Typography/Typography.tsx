@@ -24,6 +24,8 @@ type Variant =
   | "header5"
   | "bodyCopy"
   | "bodyCopyBold"
+  | "bodyShort"
+  | "fieldDescription"
   | "inputLabel"
   | "detail"
   | "timestamp";
@@ -165,6 +167,8 @@ Typography.defaultProps = {
     header5: "h1",
     bodyCopy: "p",
     bodyCopyBold: "p",
+    bodyShort: "p",
+    fieldDescription: "p",
     timestamp: "span",
     inputLabel: "label",
     detail: "p",

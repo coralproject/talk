@@ -187,7 +187,7 @@ it("change permitted domains to be empty", async () => {
   });
 
   const permittedDomainsField = within(advancedContainer).getByLabelText(
-    "Permitted Domains"
+    "Permitted domains"
   );
 
   // Let's change the permitted domains.
@@ -234,7 +234,7 @@ it("change permitted domains to include more domains", async () => {
   });
 
   const permittedDomainsField = within(advancedContainer).getByLabelText(
-    "Permitted Domains"
+    "Permitted domains"
   );
 
   // Let's change the permitted domains.

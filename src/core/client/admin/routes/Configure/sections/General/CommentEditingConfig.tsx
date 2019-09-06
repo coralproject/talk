@@ -17,6 +17,7 @@ import {
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
@@ -26,46 +27,48 @@ interface Props {
 const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="configure-general-commentEditing-title">
-      <Header>Comment Editing</Header>
+      <Header>Comment editing</Header>
     </Localized>
-    <Localized
-      id="configure-general-commentEditing-explanation"
-      strong={<strong />}
-    >
-      <Typography variant="detail">
-        Set a limit on how long commenters have to edit their comments sitewide.
-        Edited comments are marked as (Edited) on the comment stream and the
-        moderation panel.
-      </Typography>
-    </Localized>
-
-    <FormField container={<FieldSet />}>
-      <Localized id="configure-general-commentEditing-commentEditTimeFrame">
-        <InputLabel container="legend">Comment Edit Timeframe</InputLabel>
-      </Localized>
-      <Field
-        name="editCommentWindowLength"
-        validate={composeValidators(
-          required,
-          validateWholeNumberGreaterThanOrEqual(0)
-        )}
+    <SectionContent>
+      <Localized
+        id="configure-general-commentEditing-explanation"
+        strong={<strong />}
       >
-        {({ input, meta }) => (
-          <>
-            <DurationField
-              units={[
-                DURATION_UNIT.SECONDS,
-                DURATION_UNIT.MINUTES,
-                DURATION_UNIT.HOURS,
-              ]}
-              disabled={disabled}
-              {...input}
-            />
-            <ValidationMessage meta={meta} />
-          </>
-        )}
-      </Field>
-    </FormField>
+        <Typography variant="bodyShort">
+          Set a limit on how long commenters have to edit their comments
+          sitewide. Edited comments are marked as (Edited) on the comment stream
+          and the moderation panel.
+        </Typography>
+      </Localized>
+
+      <FormField container={<FieldSet />}>
+        <Localized id="configure-general-commentEditing-commentEditTimeFrame">
+          <InputLabel container="legend">Comment edit timeframe</InputLabel>
+        </Localized>
+        <Field
+          name="editCommentWindowLength"
+          validate={composeValidators(
+            required,
+            validateWholeNumberGreaterThanOrEqual(0)
+          )}
+        >
+          {({ input, meta }) => (
+            <>
+              <DurationField
+                units={[
+                  DURATION_UNIT.SECONDS,
+                  DURATION_UNIT.MINUTES,
+                  DURATION_UNIT.HOURS,
+                ]}
+                disabled={disabled}
+                {...input}
+              />
+              <ValidationMessage meta={meta} />
+            </>
+          )}
+        </Field>
+      </FormField>
+    </SectionContent>
   </HorizontalGutter>
 );
 

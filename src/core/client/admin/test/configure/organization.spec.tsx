@@ -80,7 +80,7 @@ it("change organization name", async () => {
   } = await createTestRenderer({ resolvers });
 
   const organizationNameField = within(organizationContainer).getByLabelText(
-    "Organization Name"
+    "Organization name"
   );
 
   // Let's change some organization name.
@@ -140,7 +140,7 @@ it("change organization contact email", async () => {
   } = await createTestRenderer({ resolvers });
 
   const organizationEmailField = within(organizationContainer).getByLabelText(
-    "Organization Email"
+    "Organization email"
   );
 
   // Let's change some organization name.

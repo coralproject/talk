@@ -15,6 +15,7 @@ import {
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
@@ -33,29 +34,34 @@ const OrganizationURLConfig: FunctionComponent<Props> = ({ disabled }) => (
           Organization URL
         </Header>
       </Localized>
-      <Localized id="configure-organization-urlExplanation" strong={<strong />}>
-        <Typography variant="detail">This URL will be used</Typography>
-      </Localized>
-      <Field
-        name="organization.url"
-        validate={composeValidators(required, validateURL)}
-      >
-        {({ input, meta }) => (
-          <>
-            <TextField
-              id={`configure-organization-${input.name}`}
-              disabled={disabled}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              fullWidth
-              {...input}
-            />
-            <ValidationMessage fullWidth meta={meta} />
-          </>
-        )}
-      </Field>
+      <SectionContent>
+        <Localized
+          id="configure-organization-urlExplanation"
+          strong={<strong />}
+        >
+          <Typography variant="detail">This URL will be used</Typography>
+        </Localized>
+        <Field
+          name="organization.url"
+          validate={composeValidators(required, validateURL)}
+        >
+          {({ input, meta }) => (
+            <>
+              <TextField
+                id={`configure-organization-${input.name}`}
+                disabled={disabled}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                fullWidth
+                {...input}
+              />
+              <ValidationMessage fullWidth meta={meta} />
+            </>
+          )}
+        </Field>
+      </SectionContent>
     </HorizontalGutter>
   </FormField>
 );

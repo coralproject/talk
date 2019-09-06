@@ -52,6 +52,14 @@
   font-weight: var(--font-weight-medium);
 }
 
+.bodyShort {
+  composes: bodyShort from "coral-ui/shared/typography.css";
+}
+
+.fieldDescription {
+  composes: fieldDescription from "coral-ui/shared/typography.css";
+}
+
 .button {
   composes: button from "coral-ui/shared/typography.css";
 }

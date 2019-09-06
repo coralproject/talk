@@ -177,13 +177,12 @@ it("change akismet settings", async () => {
     saveChangesButton,
   } = await createTestRenderer({ resolvers });
 
-  const akismetContainer = within(moderationContainer).getByText(
-    "Akismet Spam Detection Filter",
-    { selector: "fieldset" }
+  const akismetContainer = within(moderationContainer).getByTestID(
+    "akismet-config"
   );
 
   const onField = within(akismetContainer).getByLabelText("On");
-  const keyField = within(akismetContainer).getByLabelText("API Key");
+  const keyField = within(akismetContainer).getByLabelText("API key");
   const siteField = within(akismetContainer).getByLabelText("Site URL");
 
   // Let's turn it on.
@@ -260,19 +259,18 @@ it("change perspective settings", async () => {
     saveChangesButton,
   } = await createTestRenderer({ resolvers });
 
-  const perspectiveContainer = within(moderationContainer).getByText(
-    "Perspective Toxic Comment Filter",
-    { selector: "fieldset" }
+  const perspectiveContainer = within(moderationContainer).getByTestID(
+    "perspective-container"
   );
 
   const onField = within(perspectiveContainer).getByLabelText("On");
   const allowField = within(perspectiveContainer).getByLabelText("Allow");
-  const keyField = within(perspectiveContainer).getByLabelText("API Key");
+  const keyField = within(perspectiveContainer).getByLabelText("API key");
   const thresholdField = within(perspectiveContainer).getByLabelText(
-    "Toxicity Threshold"
+    "Toxicity threshold"
   );
   const endpointField = within(perspectiveContainer).getByLabelText(
-    "Custom Endpoint"
+    "Custom endpoint"
   );
 
   // Let's turn it on.

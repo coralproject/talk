@@ -119,7 +119,7 @@ exports[`renders form 1`] = `
               Username
             </label>
             <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+              className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
             >
               You may use “_” and “.”
             </p>
@@ -150,7 +150,7 @@ exports[`renders form 1`] = `
               Password
             </label>
             <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+              className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
             >
               Must be at least 8 characters
             </p>

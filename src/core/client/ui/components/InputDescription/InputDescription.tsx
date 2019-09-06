@@ -13,7 +13,7 @@ const InputDescription: FunctionComponent<InputDescriptionProps> = props => {
   const { className, children, ...rest } = props;
   return (
     <Typography
-      variant="detail"
+      variant="fieldDescription"
       color="textSecondary"
       className={className}
       {...rest}

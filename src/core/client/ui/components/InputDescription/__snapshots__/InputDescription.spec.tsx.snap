@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <p
-  className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
 >
   Form Components should go here
 </p>

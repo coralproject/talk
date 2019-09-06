@@ -11,6 +11,7 @@ import {
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
@@ -26,35 +27,37 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
             <label htmlFor="configure-organization-organization.name" />
           }
         >
-          Organization Name
+          Organization name
         </Header>
       </Localized>
-      <Localized
-        id="configure-organization-nameExplanation"
-        strong={<strong />}
-      >
-        <Typography variant="detail">
-          Your organization name will appear on emails sent by Coral to your
-          community and organization members
-        </Typography>
-      </Localized>
-      <Field name="organization.name" validate={required}>
-        {({ input, meta }) => (
-          <>
-            <TextField
-              id={`configure-organization-${input.name}`}
-              disabled={disabled}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              fullWidth
-              {...input}
-            />
-            <ValidationMessage meta={meta} fullWidth />
-          </>
-        )}
-      </Field>
+      <SectionContent>
+        <Localized
+          id="configure-organization-nameExplanation"
+          strong={<strong />}
+        >
+          <Typography variant="bodyShort">
+            Your organization name will appear on emails sent by Coral to your
+            community and organization members
+          </Typography>
+        </Localized>
+        <Field name="organization.name" validate={required}>
+          {({ input, meta }) => (
+            <>
+              <TextField
+                id={`configure-organization-${input.name}`}
+                disabled={disabled}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                fullWidth
+                {...input}
+              />
+              <ValidationMessage meta={meta} fullWidth />
+            </>
+          )}
+        </Field>
+      </SectionContent>
     </HorizontalGutter>
   </FormField>
 );

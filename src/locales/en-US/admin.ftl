@@ -85,47 +85,49 @@ configure-permissionField-allow = Allow
 configure-permissionField-dontAllow = Don't allow
 
 ### General
-configure-general-guidelines-title = Community Guidelines Summary
+configure-general-guidelines-title = Community guidelines summary
 configure-general-guidelines-explanation =
   Write a summary of your community guidelines that will appear
   at the top of each comment stream sitewide. Your summary can be
   formatted using Markdown Syntax. More information on how to use
   Markdown can be found <externalLink>here</externalLink>.
-configure-general-guidelines-showCommunityGuidelines = Show Community Guidelines Summary
+configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
 #### Locale
 configure-general-locale-language = Language
 configure-general-locale-chooseLanguage = Choose the language for your Coral community.
 
 #### Sitewide Commenting
-configure-general-sitewideCommenting-title = Sitewide Commenting
+configure-general-sitewideCommenting-title = Sitewide commenting
 configure-general-sitewideCommenting-explanation =
   Open or close comment streams for new comments sitewide. When new comments
   are turned off sitewide, new comments cannot be submitted, but existing
   comments can continue to receive “Respect” reactions, be reported, and be
   shared.
 configure-general-sitewideCommenting-enableNewCommentsSitewide =
-  Enable New Comments Sitewide
+  Enable new comments sitewide
 configure-general-sitewideCommenting-onCommentStreamsOpened =
   On - Comment streams opened for new comments
 configure-general-sitewideCommenting-offCommentStreamsClosed =
   Off - Comment streams closed for new comments
-configure-general-sitewideCommenting-message = Sitewide Closed Comments Message
+configure-general-sitewideCommenting-message = Sitewide closed comments message
 configure-general-sitewideCommenting-messageExplanation =
   Write a message that will be displayed when comment streams are closed sitewide
 
 #### Closing Comment Streams
-configure-general-closingCommentStreams-title = Closing Comment Streams
+configure-general-closingCommentStreams-title = Closing comment streams
 configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after a story’s publication
-configure-general-closingCommentStreams-closeCommentsAutomatically = Close Comments Automatically
-configure-general-closingCommentStreams-closeCommentsAfter = Close Comments After
+configure-general-closingCommentStreams-closeCommentsAutomatically = Close comments automatically
+configure-general-closingCommentStreams-closeCommentsAfter = Close comments after
 
 #### Comment Length
-configure-general-commentLength-title = Comment Length
-configure-general-commentLength-maxCommentLength = Maximum Comment Length
-configure-general-commentLength-setLimit = Set a limit on the length of comments sitewide
-configure-general-commentLength-limitCommentLength = Limit Comment Length
-configure-general-commentLength-minCommentLength = Minimum Comment Length
+configure-general-commentLength-title = Comment length
+configure-general-commentLength-maxCommentLength = Maximum comment length
+configure-general-commentLength-setLimit =
+  Set minimum and maximum comment length requirements.
+  Blank spaces at the beginning and the end of a comment will be trimmed.
+configure-general-commentLength-limitCommentLength = Limit comment length
+configure-general-commentLength-minCommentLength = Minimum comment length
 configure-general-commentLength-characters = Characters
 configure-general-commentLength-textField =
   .placeholder = No limit
@@ -133,23 +135,23 @@ configure-general-commentLength-validateLongerThanMin =
   Please enter a number longer than the minimum length
 
 #### Comment Editing
-configure-general-commentEditing-title = Comment Editing
+configure-general-commentEditing-title = Comment editing
 configure-general-commentEditing-explanation =
   Set a limit on how long commenters have to edit their comments sitewide.
   Edited comments are marked as (Edited) on the comment stream and the
   moderation panel.
-configure-general-commentEditing-commentEditTimeFrame = Comment Edit Timeframe
+configure-general-commentEditing-commentEditTimeFrame = Comment edit timeframe
 configure-general-commentEditing-seconds = Seconds
 
 #### Closed Stream Message
-configure-general-closedStreamMessage-title = Closed Stream Message
+configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear after a story is closed for commenting.
 
 ### Organization
-configure-organization-name = Organization Name
+configure-organization-name = Organization name
 configure-organization-nameExplanation =
   Your organization name will appear on emails sent by { -product-name } to your community and organization members.
-configure-organization-email = Organization Email
+configure-organization-email = Organization email
 configure-organization-emailExplanation =
   This email address will be used as in emails and across
   the platform for community members to get in touch with
@@ -174,16 +176,15 @@ configure-email-smtpHostDescription = (ex. smtp.sendgrid.com)
 configure-email-smtpPortLabel = SMTP port
 configure-email-smtpPortDescription = (ex. 25)
 configure-email-smtpTLSLabel = TLS
-configure-email-smtpAuthenticationLabel = SMTP Authentication
+configure-email-smtpAuthenticationLabel = SMTP authentication
 configure-email-smtpCredentialsHeader = Email credentials
 configure-email-smtpUsernameLabel = Username
 configure-email-smtpPasswordLabel = Password
 
 ### Authentication
 
-configure-auth-authIntegrations = Authentication Integrations
 configure-auth-clientID = Client ID
-configure-auth-clientSecret = Client Secret
+configure-auth-clientSecret = Client secret
 configure-auth-configBoxEnabled = Enabled
 configure-auth-targetFilterCoralAdmin = { -product-name } Admin
 configure-auth-targetFilterCommentStream = Comment Stream
@@ -223,12 +224,12 @@ configure-auth-sso-regenerateWarning =
   Regenerating a key will invalidate any existing user sessions,
   and all signed-in users will be signed out.
 
-configure-auth-local-loginWith = Login with Email Authentication
-configure-auth-local-useLoginOn = Use Email Authentication login on
+configure-auth-local-loginWith = Login with email authentication
+configure-auth-local-useLoginOn = Use email authentication login on
 
 configure-auth-oidc-loginWith = Login with OpenID Connect
 configure-auth-oidc-toLearnMore = To learn more: <Link></Link>
-configure-auth-oidc-providerName = Provider Name
+configure-auth-oidc-providerName = Provider name
 configure-auth-oidc-providerNameDescription =
   The provider of the OpenID Connect integration. This will be used when the name of the provider
   needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
@@ -245,12 +246,11 @@ configure-auth-oidc-useLoginOn = Use OpenID Connect login on
 
 ### Recent Comment History
 
-configure-moderation-recentCommentHistory-title = Recent comment history
-configure-moderation-recentCommentHistory-timeFrame = Recent comment history timeframe
+configure-moderation-recentCommentHistory-title = Recent history
+configure-moderation-recentCommentHistory-timeFrame = Recent comment history time period
 configure-moderation-recentCommentHistory-timeFrame-description =
-  Time period over which a commenter's rejection rate is calcualted
-  and submitted comments are counted.
-configure-moderation-recentCommentHistory-enabled = Recent comment history filter
+  The period of time over which a user’s rejection rate is calculated.
+configure-moderation-recentCommentHistory-enabled = Recent history filter
 configure-moderation-recentCommentHistory-enabled-description =
   Prevents repeat offenders from publishing comments without approval.
   After a commenter's rejection rate rises above the defined threshold
@@ -259,9 +259,8 @@ configure-moderation-recentCommentHistory-enabled-description =
   falls below the threshold.
 configure-moderation-recentCommentHistory-triggerRejectionRate = Rejection rate threshold
 configure-moderation-recentCommentHistory-triggerRejectionRate-description =
-  Calculated by the number of rejected comments divided by the sum of
-  a commenter’s rejected and published comments, over the recent
-  comment history timeframe (does not include comments pending for
+  A user’s rejected comments divided by their published comments, over
+  the time period set below (does not include comments pending for
   toxicity, spam or pre-moderation.)
 
 #### Pre-Moderation
@@ -274,9 +273,9 @@ configure-moderation-preModeration-moderation =
 configure-moderation-preModeration-premodLinksEnable =
   Pre-moderate comments containing links sitewide
 
-configure-moderation-apiKey = API Key
+configure-moderation-apiKey = API key
 
-configure-moderation-akismet-title = Akismet Spam Detection Filter
+configure-moderation-akismet-title = Spam detection filter
 configure-moderation-akismet-explanation =
   Submitted comments are passed to the Akismet API for spam detection.
   If a comment is determined to be spam, it will prompt the user,
@@ -287,7 +286,7 @@ configure-moderation-akismet-explanation =
   the comment will be published.
 
 #### Akismet
-configure-moderation-akismet-filter = Spam Detection Filter
+configure-moderation-akismet-filter = Spam detection filter
 configure-moderation-akismet-accountNote =
   Note: You must add your active domain(s)
   in your Akismet account: <externalLink>https://akismet.com/account/</externalLink>
@@ -295,24 +294,24 @@ configure-moderation-akismet-siteURL = Site URL
 
 
 #### Perspective
-configure-moderation-perspective-title = Perspective Toxic Comment Filter
+configure-moderation-perspective-title = Toxic comment filter
 configure-moderation-perspective-explanation =
   Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
   threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
   the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator, the comment will be published.
-configure-moderation-perspective-filter = Toxic Comment Filter
-configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
+configure-moderation-perspective-filter = Toxic comment filter
+configure-moderation-perspective-toxicityThreshold = Toxicity threshold
 configure-moderation-perspective-toxicityThresholdDescription =
   This value can be set a percentage between 0 and 100. This number represents the likelihood that a
   comment is toxic, according to Perspective API. By default the threshold is set to { $default }.
-configure-moderation-perspective-toxicityModel = Toxicity Model
+configure-moderation-perspective-toxicityModel = Toxicity model
 configure-moderation-perspective-toxicityModelDescription =
   Choose your Perspective Model. The default is { $default }. You can find out more about model choices <externalLink>here</externalLink>.
-configure-moderation-perspective-allowStoreCommentData = Allow Google to Store Comment Data
+configure-moderation-perspective-allowStoreCommentData = Allow Google to store comment data
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Stored comments will be used for future research and community model building purposes to
   improve the API over time.
-configure-moderation-perspective-customEndpoint = Custom Endpoint
+configure-moderation-perspective-customEndpoint = Custom endpoint
 configure-moderation-perspective-defaultEndpoint =
   By default the endpoint is set to { $default }. You may override this here.
 configure-moderation-perspective-accountNote =
@@ -320,22 +319,22 @@ configure-moderation-perspective-accountNote =
   <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
 
 #### Banned Words Configuration
-configure-wordList-banned-bannedWordsAndPhrases = Banned Words and Phrases
+configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
 configure-wordList-banned-explanation =
   Comments containing a word or phrase in the banned words list are <strong>automatically rejected and are not published</strong>.
-configure-wordList-banned-wordList = Banned Word List
+configure-wordList-banned-wordList = Banned word list
 configure-wordList-banned-wordListDetail =
   Separate banned words or phrases with a new line. Attempting to copy
   and paste a comma separated list? <externalLink>Learn how to convert your list
   to a new line separated list.</externalLink>
 
 #### Suspect Words Configuration
-configure-wordList-suspect-bannedWordsAndPhrases = Suspect Words and Phrases
+configure-wordList-suspect-bannedWordsAndPhrases = Suspect words and phrases
 configure-wordList-suspect-explanation =
   Comments containing a word or phrase in the Suspect Words List
   are <strong>placed into the Reported Queue for moderator review and are
   published (if comments are not pre-moderated).</strong>
-configure-wordList-suspect-wordList = Suspect Word List
+configure-wordList-suspect-wordList = Suspect word list
 configure-wordList-suspect-wordListDetail =
   Separate suspect words or phrases with a new line. Attempting to copy
   and paste a comma separated list? <externalLink>Learn how to convert your list
@@ -346,17 +345,17 @@ configure-advanced-customCSS = Custom CSS
 configure-advanced-customCSS-explanation =
   URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
 
-configure-advanced-permittedDomains = Permitted Domains
+configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =
   Domains where your { -product-name } instance is allowed to be embedded
   including the scheme (ex. http://localhost:3000, https://staging.domain.com,
   https://domain.com).
 
-configure-advanced-liveUpdates = Comment Stream Live Updates
+configure-advanced-liveUpdates = Comment stream live updates
 configure-advanced-liveUpdates-explanation =
   When enabled, there will be real-time loading and updating of comments as new comments and replies are published
 
-configure-advanced-embedCode-title = Embed Code
+configure-advanced-embedCode-title = Embed code
 configure-advanced-embedCode-explanation =
   Copy and paste the code below into your CMS to embed Coral comment streams in
   each of your site’s stories.

@@ -20,7 +20,7 @@ const ClientSecretField: FunctionComponent<Props> = ({
 }) => (
   <FormField>
     <Localized id="configure-auth-clientSecret">
-      <InputLabel>Client Secret</InputLabel>
+      <InputLabel>Client secret</InputLabel>
     </Localized>
     <Field
       name={name}
@@ -35,6 +35,7 @@ const ClientSecretField: FunctionComponent<Props> = ({
             // TODO: (wyattjoh) figure out how to add translations to these props
             hidePasswordTitle="Show Client Secret"
             showPasswordTitle="Hide Client Secret"
+            fullWidth
             {...input}
           />
           <ValidationMessage meta={meta} />

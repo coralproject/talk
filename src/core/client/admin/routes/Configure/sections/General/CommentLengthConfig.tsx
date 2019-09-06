@@ -20,7 +20,9 @@ import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 
 import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
+import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
+
 import styles from "./CommentLengthConfig.css";
 
 const validateMaxLongerThanMin = createValidator(
@@ -41,113 +43,116 @@ interface Props {
 const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-commentLength-title">
-      <Header container="legend">Comment Length</Header>
+      <Header container="legend">Comment length</Header>
     </Localized>
-    <Localized
-      id="configure-general-commentLength-setLimit"
-      strong={<strong />}
-    >
-      <Typography variant="detail">
-        Set a limit on the length of comments sitewide
-      </Typography>
-    </Localized>
-
-    <FormField>
-      <Localized id="configure-general-commentLength-limitCommentLength">
-        <InputLabel>Limit Comment Length</InputLabel>
-      </Localized>
-      <OnOffField name="charCount.enabled" disabled={disabled} />
-    </FormField>
-
-    <FormField>
-      <Localized id="configure-general-commentLength-minCommentLength">
-        <InputLabel htmlFor="configure-general-commentLength-min">
-          Minimum Comment Length
-        </InputLabel>
-      </Localized>
-      <Field
-        name="charCount.min"
-        validate={validateWholeNumberGreaterThan(0)}
-        parse={parseEmptyAsNull}
-        format={formatEmpty}
+    <SectionContent>
+      <Localized
+        id="configure-general-commentLength-setLimit"
+        strong={<strong />}
       >
-        {({ input, meta }) => (
-          <>
-            <Localized
-              id="configure-general-commentLength-textField"
-              attrs={{ placeholder: true }}
-            >
-              <TextField
-                id="configure-general-commentLength-min"
-                classes={{
-                  input: styles.commentLengthTextInput,
-                }}
-                {...input}
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                adornment={
-                  <Localized id="configure-general-commentLength-characters">
-                    <Typography variant="bodyCopy">Characters</Typography>
-                  </Localized>
-                }
-                placeholder={"No limit"}
-                textAlignCenter
-              />
-            </Localized>
-            <ValidationMessage meta={meta} />
-          </>
-        )}
-      </Field>
-    </FormField>
-    <FormField>
-      <Localized id="configure-general-commentLength-maxCommentLength">
-        <InputLabel htmlFor="configure-general-commentLength-max">
-          Maximum Comment Length
-        </InputLabel>
+        <Typography variant="bodyShort">
+          Set minimum and maximum comment length requirements. Blank spaces at
+          the beginning and the end of a comment will be trimmed.
+        </Typography>
       </Localized>
-      <Field
-        name="charCount.max"
-        validate={composeValidators(
-          validateWholeNumberGreaterThan(0),
-          validateMaxLongerThanMin
-        )}
-        parse={parseEmptyAsNull}
-        format={formatEmpty}
-      >
-        {({ input, meta }) => (
-          <>
-            <Localized
-              id="configure-general-commentLength-textField"
-              attrs={{ placeholder: true }}
-            >
-              <TextField
-                id="configure-general-commentLength-max"
-                classes={{
-                  input: styles.commentLengthTextInput,
-                }}
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                adornment={
-                  <Localized id="configure-general-commentLength-characters">
-                    <Typography variant="bodyCopy">Characters</Typography>
-                  </Localized>
-                }
-                placeholder={"No limit"}
-                textAlignCenter
-                {...input}
-              />
-            </Localized>
-            <ValidationMessage meta={meta} />
-          </>
-        )}
-      </Field>
-    </FormField>
+
+      <FormField>
+        <Localized id="configure-general-commentLength-limitCommentLength">
+          <InputLabel>Limit comment length</InputLabel>
+        </Localized>
+        <OnOffField name="charCount.enabled" disabled={disabled} />
+      </FormField>
+
+      <FormField>
+        <Localized id="configure-general-commentLength-minCommentLength">
+          <InputLabel htmlFor="configure-general-commentLength-min">
+            Minimum comment length
+          </InputLabel>
+        </Localized>
+        <Field
+          name="charCount.min"
+          validate={validateWholeNumberGreaterThan(0)}
+          parse={parseEmptyAsNull}
+          format={formatEmpty}
+        >
+          {({ input, meta }) => (
+            <>
+              <Localized
+                id="configure-general-commentLength-textField"
+                attrs={{ placeholder: true }}
+              >
+                <TextField
+                  id="configure-general-commentLength-min"
+                  classes={{
+                    input: styles.commentLengthTextInput,
+                  }}
+                  {...input}
+                  disabled={disabled}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  adornment={
+                    <Localized id="configure-general-commentLength-characters">
+                      <Typography variant="bodyCopy">Characters</Typography>
+                    </Localized>
+                  }
+                  placeholder={"No limit"}
+                  textAlignCenter
+                />
+              </Localized>
+              <ValidationMessage meta={meta} />
+            </>
+          )}
+        </Field>
+      </FormField>
+      <FormField>
+        <Localized id="configure-general-commentLength-maxCommentLength">
+          <InputLabel htmlFor="configure-general-commentLength-max">
+            Maximum comment length
+          </InputLabel>
+        </Localized>
+        <Field
+          name="charCount.max"
+          validate={composeValidators(
+            validateWholeNumberGreaterThan(0),
+            validateMaxLongerThanMin
+          )}
+          parse={parseEmptyAsNull}
+          format={formatEmpty}
+        >
+          {({ input, meta }) => (
+            <>
+              <Localized
+                id="configure-general-commentLength-textField"
+                attrs={{ placeholder: true }}
+              >
+                <TextField
+                  id="configure-general-commentLength-max"
+                  classes={{
+                    input: styles.commentLengthTextInput,
+                  }}
+                  disabled={disabled}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  adornment={
+                    <Localized id="configure-general-commentLength-characters">
+                      <Typography variant="bodyCopy">Characters</Typography>
+                    </Localized>
+                  }
+                  placeholder={"No limit"}
+                  textAlignCenter
+                  {...input}
+                />
+              </Localized>
+              <ValidationMessage meta={meta} />
+            </>
+          )}
+        </Field>
+      </FormField>
+    </SectionContent>
   </HorizontalGutter>
 );
 

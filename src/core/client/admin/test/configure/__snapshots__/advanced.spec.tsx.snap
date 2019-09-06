@@ -122,21 +122,24 @@ exports[`renders configure advanced 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
-              Embed Code
+              Embed code
             </legend>
-            <p
-              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+            <div
+              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
             >
-              Copy and paste the code below into your CMS to embed Coral comment streams in
+              <p
+                className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+              >
+                Copy and paste the code below into your CMS to embed Coral comment streams in
 each of your site’s stories.
-            </p>
-            <textarea
-              className="EmbedCode-textArea"
-              readOnly={true}
-              rows={22}
-              value="<div id=\\"coral_thread\\"></div>
+              </p>
+              <textarea
+                className="EmbedCode-textArea"
+                readOnly={true}
+                rows={22}
+                value="<div id=\\"coral_thread\\"></div>
 <script type=\\"text/javascript\\">
   (function() {
       var d = document, s = d.createElement('script');
@@ -158,26 +161,27 @@ each of your site’s stories.
       (d.head || d.body).appendChild(s);
   })();
 </script>"
-            />
-            <div
-              className="Box-root HorizontalGutter-root EmbedCode-copyArea HorizontalGutter-full"
-            >
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                data-color="primary"
-                data-variant="filled"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
+              />
+              <div
+                className="Box-root HorizontalGutter-root EmbedCode-copyArea HorizontalGutter-full"
               >
-                <span>
-                  Copy
-                </span>
-              </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+                  data-color="primary"
+                  data-variant="filled"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Copy
+                  </span>
+                </button>
+              </div>
             </div>
           </fieldset>
           <div
@@ -187,35 +191,39 @@ each of your site’s stories.
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <label
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-advanced-customCSSURL"
               >
                 Custom CSS
               </label>
-              <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
-              >
-                URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
-              </p>
               <div
-                className="TextField-root TextField-fullWidth"
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
               >
-                <input
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="configure-advanced-customCSSURL"
-                  name="customCSSURL"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  placeholder=""
-                  spellCheck={false}
-                  type="text"
-                  value=""
-                />
+                <p
+                  className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                >
+                  URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+                </p>
+                <div
+                  className="TextField-root TextField-fullWidth"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="TextField-input TextField-colorRegular"
+                    disabled={false}
+                    id="configure-advanced-customCSSURL"
+                    name="customCSSURL"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="text"
+                    value=""
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -226,64 +234,68 @@ each of your site’s stories.
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <label
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-advanced-liveUpdates"
               >
-                Comment Stream Live Updates
+                Comment stream live updates
               </label>
-              <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              <div
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
               >
-                When enabled, there will be real-time loading and updating of comments as new comments and replies are published
-              </p>
-              <div>
-                <div
-                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                <p
+                  className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
                 >
-                  <input
-                    checked={true}
-                    className="RadioButton-input"
-                    disabled={false}
-                    id="live.enabled-true"
-                    name="live.enabled"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value={true}
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="live.enabled-true"
+                  When enabled, there will be real-time loading and updating of comments as new comments and replies are published
+                </p>
+                <div>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                   >
-                    <span>
-                      On
-                    </span>
-                  </label>
-                </div>
-                <div
-                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    disabled={false}
-                    id="live.enabled-false"
-                    name="live.enabled"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value={false}
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="live.enabled-false"
+                    <input
+                      checked={true}
+                      className="RadioButton-input"
+                      disabled={false}
+                      id="live.enabled-true"
+                      name="live.enabled"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value={true}
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="live.enabled-true"
+                    >
+                      <span>
+                        On
+                      </span>
+                    </label>
+                  </div>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                   >
-                    <span>
-                      Off
-                    </span>
-                  </label>
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={false}
+                      id="live.enabled-false"
+                      name="live.enabled"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value={false}
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="live.enabled-false"
+                    >
+                      <span>
+                        Off
+                      </span>
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -295,37 +307,41 @@ each of your site’s stories.
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <label
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-advanced-allowedDomains"
               >
-                Permitted Domains
+                Permitted domains
               </label>
-              <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              <div
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
               >
-                Domains where your Coral instance is allowed to be embedded
+                <p
+                  className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                >
+                  Domains where your Coral instance is allowed to be embedded
 including the scheme (ex. http://localhost:3000, https://staging.domain.com,
 https://domain.com).
-              </p>
-              <div
-                className="TextField-root TextField-fullWidth"
-              >
-                <input
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="configure-advanced-allowedDomains"
-                  name="allowedDomains"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  placeholder=""
-                  spellCheck={false}
-                  type="text"
-                  value="http://localhost:8080"
-                />
+                </p>
+                <div
+                  className="TextField-root TextField-fullWidth"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="TextField-input TextField-colorRegular"
+                    disabled={false}
+                    id="configure-advanced-allowedDomains"
+                    name="allowedDomains"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="text"
+                    value="http://localhost:8080"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -336,7 +352,7 @@ https://domain.com).
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <h1
-                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
               >
                 Story creation
               </h1>

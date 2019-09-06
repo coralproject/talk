@@ -1,10 +1,8 @@
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import { HorizontalGutter } from "coral-ui/components";
 
-import Header from "../../Header";
 import { OnInitValuesFct } from "./AuthConfigContainer";
 import FacebookConfigContainer from "./FacebookConfigContainer";
 import GoogleConfigContainer from "./GoogleConfigContainer";
@@ -32,9 +30,6 @@ const AuthIntegrationsConfig: FunctionComponent<Props> = ({
   onInitValues,
 }) => (
   <HorizontalGutter size="double">
-    <Localized id="configure-auth-authIntegrations">
-      <Header>Auth Integrations</Header>
-    </Localized>
     <LocalAuthConfigContainer
       disabled={disabled}
       auth={auth}

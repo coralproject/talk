@@ -23,12 +23,12 @@ const ModerationConfig: FunctionComponent<Props> = ({
   onInitValues,
 }) => (
   <HorizontalGutter size="double" data-testid="configure-moderationContainer">
-    <RecentCommentHistoryConfigContainer
+    <PreModerationConfigContainer
       disabled={disabled}
       settings={settings}
       onInitValues={onInitValues}
     />
-    <PreModerationConfigContainer
+    <RecentCommentHistoryConfigContainer
       disabled={disabled}
       settings={settings}
       onInitValues={onInitValues}

@@ -23,7 +23,7 @@ exports[`checks for invalid username 1`] = `
         Username
       </label>
       <p
-        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
@@ -118,7 +118,7 @@ exports[`renders createUsername view 1`] = `
                 Username
               </label>
               <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
               >
                 You may use “_” and “.” Spaces not permitted.
               </p>
@@ -184,7 +184,7 @@ exports[`shows error when submitting empty form 1`] = `
         Username
       </label>
       <p
-        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
@@ -273,7 +273,7 @@ GraphQL request (4:3)
         Username
       </label>
       <p
-        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
@@ -335,7 +335,7 @@ exports[`successfully sets username 1`] = `
         Username
       </label>
       <p
-        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
       >
         You may use “_” and “.” Spaces not permitted.
       </p>

@@ -16,7 +16,7 @@ const RedirectField: FunctionComponent<Props> = ({ url, description }) => (
     </Localized>
     {description}
     <Flex direction="row" itemGutter="half" alignItems="center">
-      <TextField name="redirectURI" value={url} readOnly />
+      <TextField name="redirectURI" value={url} fullWidth readOnly />
       <CopyButton text={url} />
     </Flex>
   </FormField>

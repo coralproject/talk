@@ -130,7 +130,7 @@ it("change site wide commenting", async () => {
   });
 
   const sitewideCommentingContainer = within(generalContainer).getAllByText(
-    "Sitewide Commenting",
+    "Sitewide commenting",
     { selector: "fieldset" }
   )[0];
 
@@ -138,7 +138,7 @@ it("change site wide commenting", async () => {
     "Off - Comment streams closed for new comments"
   );
   const contentField = within(sitewideCommentingContainer).getByLabelText(
-    "Sitewide Closed Comments Message"
+    "Sitewide closed comments message"
   );
 
   // Let's enable it.
@@ -191,13 +191,13 @@ it("change community guidlines", async () => {
   });
 
   const guidelinesContainer = within(generalContainer).getAllByText(
-    "Community Guidelines Summary",
+    "Community guidelines summary",
     { selector: "fieldset" }
   )[0];
 
   const onField = within(guidelinesContainer).getByLabelText("On");
   const contentField = within(guidelinesContainer).getByLabelText(
-    "Community Guidelines Summary"
+    "Community guidelines summary"
   );
 
   // Let's enable it.
@@ -244,7 +244,7 @@ it("change closed stream message", async () => {
   } = await createTestRenderer({ resolvers });
 
   const contentField = within(generalContainer).getByLabelText(
-    "Closed Stream Message"
+    "Closed comment stream message"
   );
 
   // Let's change the content.
@@ -284,7 +284,7 @@ it("change comment editing time", async () => {
   } = await createTestRenderer({ resolvers });
 
   const durationFieldset = within(generalContainer).getByText(
-    "Comment Edit Timeframe",
+    "Comment edit timeframe",
     { selector: "fieldset" }
   );
   const valueField = within(durationFieldset).getByLabelText("value");
@@ -353,15 +353,15 @@ it("change comment length limitations", async () => {
   });
 
   const commentLengthContainer = within(generalContainer).getByText(
-    "Comment Length",
+    "Comment length",
     { selector: "fieldset" }
   );
   const onField = within(commentLengthContainer).getByLabelText("On");
   const minField = within(commentLengthContainer).getByLabelText(
-    "Minimum Comment Length"
+    "Minimum comment length"
   );
   const maxField = within(commentLengthContainer).getByLabelText(
-    "Maximum Comment Length"
+    "Maximum comment length"
   );
 
   // Let's turn on and set some invalid values.
@@ -439,12 +439,12 @@ it("change closing comment streams", async () => {
   } = await createTestRenderer({ resolvers });
 
   const closingCommentStreamsContainer = within(generalContainer).getByText(
-    "Closing Comment Streams",
+    "Closing comment streams",
     { selector: "fieldset" }
   );
   const onField = within(closingCommentStreamsContainer).getByLabelText("On");
   const durationFieldset = within(closingCommentStreamsContainer).getByText(
-    "Close Comments After",
+    "Close comments after",
     { selector: "fieldset" }
   );
   const valueField = within(durationFieldset).getByLabelText("value");
@@ -503,7 +503,7 @@ it("handle server error", async () => {
   });
 
   const contentField = within(generalContainer).getByLabelText(
-    "Closed Stream Message"
+    "Closed comment stream message"
   );
 
   // Let's change the content.

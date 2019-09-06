@@ -10,6 +10,7 @@ import { required } from "coral-framework/lib/validation";
 import { FormField, HorizontalGutter, Typography } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
@@ -28,26 +29,28 @@ const LocaleConfigContainer: React.FunctionComponent<Props> = props => {
             Language
           </Header>
         </Localized>
-        <Localized
-          id="configure-general-locale-chooseLanguage"
-          strong={<strong />}
-        >
-          <Typography variant="detail">
-            Choose the language for your Coral community.
-          </Typography>
-        </Localized>
-        <Field name="locale" validate={required}>
-          {({ input, meta }) => (
-            <>
-              <LocaleField
-                id={`configure-locale-${input.name}`}
-                disabled={props.disabled}
-                {...input}
-              />
-              <ValidationMessage meta={meta} fullWidth />
-            </>
-          )}
-        </Field>
+        <SectionContent>
+          <Localized
+            id="configure-general-locale-chooseLanguage"
+            strong={<strong />}
+          >
+            <Typography variant="detail">
+              Choose the language for your Coral community.
+            </Typography>
+          </Localized>
+          <Field name="locale" validate={required}>
+            {({ input, meta }) => (
+              <>
+                <LocaleField
+                  id={`configure-locale-${input.name}`}
+                  disabled={props.disabled}
+                  {...input}
+                />
+                <ValidationMessage meta={meta} fullWidth />
+              </>
+            )}
+          </Field>
+        </SectionContent>
       </HorizontalGutter>
     </FormField>
   );

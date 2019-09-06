@@ -26,7 +26,7 @@ const APIKeyField: FunctionComponent<Props> = ({
         <>
           <Localized id="configure-moderation-apiKey">
             <InputLabel htmlFor={`configure-moderation-${input.name}`}>
-              API Key
+              API key
             </InputLabel>
           </Localized>
           <PasswordField
@@ -36,6 +36,7 @@ const APIKeyField: FunctionComponent<Props> = ({
             hidePasswordTitle="Show API Key"
             showPasswordTitle="Hide API Key"
             color={colorFromMeta(meta)}
+            fullWidth
             {...input}
           />
           <ValidationMessage meta={meta} />
