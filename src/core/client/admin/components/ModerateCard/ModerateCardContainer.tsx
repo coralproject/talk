@@ -158,11 +158,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           createdAt={comment.createdAt}
           body={comment.body!}
-          inReplyTo={
-            comment.parent &&
-            comment.parent.author &&
-            comment.parent.author.username
-          }
+          inReplyTo={comment.parent && comment.parent.author}
           comment={comment}
           settings={settings}
           dangling={danglingLogic(comment.status)}
@@ -176,7 +172,11 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onFeature={onFeature}
           onUsernameClick={onUsernameClicked}
           moderatedBy={
-            <ModeratedByContainer viewer={viewer} comment={comment} />
+            <ModeratedByContainer
+              onUsernameClicked={onUsernameClicked}
+              viewer={viewer}
+              comment={comment}
+            />
           }
           showStory={showStoryInfo}
           storyTitle={
@@ -215,6 +215,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       parent {
         author {
+          id
           username
         }
       }

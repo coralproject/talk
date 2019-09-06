@@ -42,7 +42,10 @@ it("renders correctly", () => {
 it("renders reply correctly", () => {
   const props: PropTypesOf<typeof ModerateCardN> = {
     ...baseProps,
-    inReplyTo: "Julian",
+    inReplyTo: {
+      username: "Julian",
+      id: "1234",
+    },
   };
   const renderer = createRenderer();
   renderer.render(<ModerateCardN {...props} />);
