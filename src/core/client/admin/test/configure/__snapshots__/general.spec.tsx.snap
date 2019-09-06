@@ -118,6 +118,85 @@ exports[`renders configure general 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
           data-testid="configure-generalContainer"
         >
+          <div
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <label
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+                htmlFor="configure-locale-locale"
+              >
+                Language
+              </label>
+              <div
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+              >
+                <p
+                  className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+                >
+                  Choose the language for your Coral community.
+                </p>
+                <span
+                  className="SelectField-root"
+                >
+                  <select
+                    className="SelectField-select"
+                    disabled={false}
+                    id="configure-locale-locale"
+                    name="locale"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    value="en-US"
+                  >
+                    <option
+                      value="en-US"
+                    >
+                      English
+                    </option>
+                    <option
+                      value="pt-BR"
+                    >
+                      Português brasileiro
+                    </option>
+                    <option
+                      value="es"
+                    >
+                      Español
+                    </option>
+                    <option
+                      value="de"
+                    >
+                      Deutsch
+                    </option>
+                    <option
+                      value="nl-NL"
+                    >
+                      Nederlands
+                    </option>
+                    <option
+                      value="da"
+                    >
+                      Dansk
+                    </option>
+                  </select>
+                  <span
+                    aria-hidden={true}
+                    className="SelectField-afterWrapper"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      expand_more
+                    </i>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
           <fieldset
             className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >

@@ -104,6 +104,7 @@ export default function createTestRenderer<
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
     clearSession: sinon.stub(),
+    changeLocale: sinon.stub(),
     transitionControl: {
       allowTransition: true,
       history: [],

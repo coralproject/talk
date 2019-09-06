@@ -93,7 +93,11 @@ configure-general-guidelines-explanation =
   Markdown can be found <externalLink>here</externalLink>.
 configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
-### Sitewide Commenting
+#### Locale
+configure-general-locale-language = Language
+configure-general-locale-chooseLanguage = Choose the language for your Coral community.
+
+#### Sitewide Commenting
 configure-general-sitewideCommenting-title = Sitewide commenting
 configure-general-sitewideCommenting-explanation =
   Open or close comment streams for new comments sitewide. When new comments
@@ -110,7 +114,7 @@ configure-general-sitewideCommenting-message = Sitewide closed comments message
 configure-general-sitewideCommenting-messageExplanation =
   Write a message that will be displayed when comment streams are closed sitewide
 
-### Closing Comment Streams
+#### Closing Comment Streams
 configure-general-closingCommentStreams-title = Closing comment streams
 configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after a story’s publication
 configure-general-closingCommentStreams-closeCommentsAutomatically = Close comments automatically
@@ -735,17 +739,17 @@ configure-general-reactions-explanation =
   based on the needs of your community.
 configure-general-reactions-label = Reaction label
 configure-general-reactions-input =
-  .placehodlder = E.g. Respect
+  .placeholder = E.g. Respect
 configure-general-reactions-active-label = Active reaction label
 configure-general-reactions-active-input =
-  .placehodlder = E.g. Respected
+  .placeholder = E.g. Respected
 configure-general-reactions-sort-label = Sort label
 configure-general-reactions-sort-input =
-  .placehodlder = E.g. Most Respected
+  .placeholder = E.g. Most Respected
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
 
-configure-account-features-title = Commenter account mangement features
+configure-account-features-title = Commenter account management features
 configure-account-features-explanation =
   You can enable and disable certain features for your commenters to use
   within their Profile. These features also assist towards GDPR
@@ -760,3 +764,15 @@ configure-account-features-download-comments-details = Commenters can download a
 configure-account-features-delete-account = Delete their account
 configure-account-features-delete-account-details =
   Removes all of their comment data, username, and email address from the site and the database.
+
+configure-advanced-stories = Story creation
+configure-advanced-stories-explanation = Advanced settings for how stories are created within Coral.
+configure-advanced-stories-lazy = Lazy story creation
+configure-advanced-stories-lazy-detail = Enable stories to be automatically created when they are published from your CMS.
+configure-advanced-stories-scraping = Story scraping
+configure-advanced-stories-scraping-detail = Enable story metadata to be automatically scraped when they are published from your CMS.
+configure-advanced-stories-proxy = Scraper proxy url
+configure-advanced-stories-proxy-detail =
+  When specified, allows scraping requests to use the provided
+  proxy. All requests will then be passed through the appropriote
+  proxy as parsed by the <externalLink>npm proxy-agent</externalLink> package.

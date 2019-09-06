@@ -10,7 +10,6 @@ import {
   GQLCOMMENT_FLAG_REPORTED_REASON,
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
-  GQLLOCALES,
   GQLMODERATION_MODE,
   GQLMODERATION_QUEUE,
   GQLSTORY_STATUS,
@@ -35,7 +34,6 @@ export type GQLCOMMENT_FLAG_REPORTED_REASON_RL = RelayEnumLiteral<
 >;
 export type GQLCOMMENT_SORT_RL = RelayEnumLiteral<typeof GQLCOMMENT_SORT>;
 export type GQLCOMMENT_STATUS_RL = RelayEnumLiteral<typeof GQLCOMMENT_STATUS>;
-export type GQLLOCALES_RL = RelayEnumLiteral<typeof GQLLOCALES>;
 export type GQLMODERATION_MODE_RL = RelayEnumLiteral<typeof GQLMODERATION_MODE>;
 export type GQLSTORY_STATUS_RL = RelayEnumLiteral<typeof GQLSTORY_STATUS>;
 export type GQLUSER_AUTH_CONDITIONS_RL = RelayEnumLiteral<

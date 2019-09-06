@@ -2068,7 +2068,7 @@ exports[`renders configure auth 1`] = `
               <legend
                 className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
               >
-                Commenter account mangement features
+                Commenter account management features
               </legend>
               <div
                 className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
@@ -2105,7 +2105,7 @@ compliance.
                         <p
                           className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                         >
-                          Missing translation "configure-account-features-change-usernames-fieldDescriptions"
+                          Usernames can be changed once every 14 days.
                         </p>
                       </div>
                       <div

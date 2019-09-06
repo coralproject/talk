@@ -26,7 +26,7 @@ const roleFilter = (role?: GQLUSER_ROLE): UserConnectionFilterInput => {
 
 const queryFilter = (query?: string): UserConnectionFilterInput => {
   if (query) {
-    return { $text: { $search: query } };
+    return { $text: { $search: `"${query}"` } };
   }
 
   return {};

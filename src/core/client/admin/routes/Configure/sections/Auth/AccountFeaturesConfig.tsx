@@ -46,7 +46,7 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
                     Change their usernames
                   </InputLabel>
                 </Localized>
-                <Localized id="configure-account-features-change-usernames-fieldDescriptions">
+                <Localized id="configure-account-features-change-usernames-details">
                   <Typography>
                     Usernames can be changed once every 14 days.
                   </Typography>

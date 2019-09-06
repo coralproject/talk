@@ -6,7 +6,10 @@ import { URL } from "url";
 import { discover } from "coral-server/app/middleware/passport/strategies/oidc/discover";
 import { Config } from "coral-server/config";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
-import { GQLSettingsInput } from "coral-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLSettingsInput,
+  GQLSettingsWordListInput,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   createTenant,
@@ -15,10 +18,25 @@ import {
   Tenant,
   updateTenant,
 } from "coral-server/models/tenant";
+import { I18n } from "coral-server/services/i18n";
 
 import TenantCache from "./cache";
 
 export type UpdateTenant = GQLSettingsInput;
+
+function cleanWordList(
+  list: GQLSettingsWordListInput
+): GQLSettingsWordListInput {
+  if (list.banned) {
+    list.banned = list.banned.filter(Boolean);
+  }
+
+  if (list.suspect) {
+    list.suspect = list.suspect.filter(Boolean);
+  }
+
+  return list;
+}
 
 export async function update(
   mongo: Db,
@@ -38,6 +56,12 @@ export async function update(
     delete input.live.enabled;
   }
 
+  // If the word list was specified, we should validate it to ensure there isn't
+  // any empty spaces.
+  if (input.wordList) {
+    input.wordList = cleanWordList(input.wordList);
+  }
+
   const updatedTenant = await updateTenant(mongo, tenant.id, input);
   if (!updatedTenant) {
     return null;
@@ -55,6 +79,7 @@ export async function install(
   mongo: Db,
   redis: Redis,
   cache: TenantCache,
+  i18n: I18n,
   input: InstallTenant,
   now = new Date()
 ) {
@@ -64,12 +89,10 @@ export async function install(
 
   // TODO: (wyattjoh) perform any pending migrations.
 
-  // TODO: (wyattjoh) setup database indexes.
-
   logger.info({ tenant: input }, "installing tenant");
 
   // Create the Tenant.
-  const tenant = await createTenant(mongo, input, now);
+  const tenant = await createTenant(mongo, i18n, input, now);
 
   // Update the tenant cache.
   await cache.update(redis, tenant);

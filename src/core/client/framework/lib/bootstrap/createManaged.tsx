@@ -7,12 +7,14 @@ import { Formatter } from "react-timeago";
 import { Environment, RecordSource, Store } from "relay-runtime";
 import uuid from "uuid/v1";
 
+import { LanguageCode } from "coral-common/helpers/i18n";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import {
   commitLocalUpdatePromisified,
   LOCAL_ID,
   setAccessTokenInLocalState,
 } from "coral-framework/lib/relay";
+import { RestClient } from "coral-framework/lib/rest";
 import {
   createLocalStorage,
   createPromisifiedStorage,
@@ -20,11 +22,9 @@ import {
   createSessionStorage,
   PromisifiedStorage,
 } from "coral-framework/lib/storage";
-
-import { RestClient } from "coral-framework/lib/rest";
 import { ClickFarAwayRegister } from "coral-ui/components/ClickOutside";
 
-import { generateBundles, LocalesData, negotiateLanguages } from "../i18n";
+import { generateBundles, LocalesData } from "../i18n";
 import {
   createManagedSubscriptionClient,
   createNetwork,
@@ -41,9 +41,6 @@ export type InitLocalState = (
 ) => void | Promise<void>;
 
 interface CreateContextArguments {
-  /** Locales that the user accepts, usually `navigator.languages`. */
-  userLocales: ReadonlyArray<string>;
-
   /** Locales data that is returned by our `locales-loader`. */
   localesData: LocalesData;
 
@@ -128,11 +125,12 @@ function createRestClient(tokenGetter: () => string, clientID: string) {
  * Returns a managed CoralContextProvider, that includes given context
  * and handles context changes, e.g. when a user session changes.
  */
-function createMangedCoralContextProvider(
+function createManagedCoralContextProvider(
   context: CoralContext,
   subscriptionClient: ManagedSubscriptionClient,
   clientID: string,
-  initLocalState: InitLocalState
+  initLocalState: InitLocalState,
+  localesData: LocalesData
 ) {
   const ManagedCoralContextProvider = class extends Component<
     {},
@@ -144,6 +142,7 @@ function createMangedCoralContextProvider(
         context: {
           ...context,
           clearSession: this.clearSession,
+          changeLocale: this.changeLocale,
         },
       };
     }
@@ -196,6 +195,25 @@ function createMangedCoralContextProvider(
       );
     };
 
+    // This is called when the locale should change.
+    private changeLocale = async (locale: LanguageCode) => {
+      // Add fallback locale.
+      const locales = [localesData.fallbackLocale];
+      if (locale && locale !== localesData.fallbackLocale) {
+        locales.splice(0, 0, locale);
+      }
+      const localeBundles = await generateBundles(locales, localesData);
+      const newContext = {
+        ...this.state.context,
+        locales,
+        localeBundles,
+      };
+      // Propagate new context.
+      this.setState({
+        context: newContext,
+      });
+    };
+
     public render() {
       return (
         <CoralContextProvider value={this.state.context}>
@@ -240,7 +258,6 @@ function resolveSessionStorage(pym?: PymChild): PromisifiedStorage {
  */
 export default async function createManaged({
   initLocalState = noop,
-  userLocales,
   localesData,
   pym,
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 20 }),
@@ -261,11 +278,24 @@ export default async function createManaged({
   }
 
   // Initialize i18n.
-  const locales = negotiateLanguages(userLocales, localesData);
+  const locales = [localesData.fallbackLocale];
+  if (
+    document.documentElement.lang &&
+    document.documentElement.lang !== localesData.fallbackLocale
+  ) {
+    // Use locale specified by the server.
+    locales.splice(0, 0, document.documentElement.lang);
+  } else if (
+    localesData.defaultLocale &&
+    localesData.defaultLocale !== localesData.fallbackLocale
+  ) {
+    // Use default locale.
+    locales.splice(0, 0, localesData.defaultLocale);
+  }
 
   if (process.env.NODE_ENV !== "production") {
     // tslint:disable:next-line: no-console
-    console.log(`Negotiated locales ${JSON.stringify(locales)}`);
+    console.log(`Using locales ${JSON.stringify(locales)}`);
   }
 
   const localeBundles = await generateBundles(locales, localesData);
@@ -304,6 +334,9 @@ export default async function createManaged({
     // Noop, this is later replaced by the
     // managed CoralContextProvider.
     clearSession: (nextAccessToken?: string | null) => Promise.resolve(),
+    // Noop, this is later replaced by the
+    // managed CoralContextProvider.
+    changeLocale: (locale?: LanguageCode) => Promise.resolve(),
   };
 
   // Initialize local state.
@@ -317,10 +350,11 @@ export default async function createManaged({
 
   // Returns a managed CoralContextProvider, that includes the above
   // context and handles context changes, e.g. when a user session changes.
-  return createMangedCoralContextProvider(
+  return createManagedCoralContextProvider(
     context,
     subscriptionClient,
     clientID,
-    initLocalState
+    initLocalState,
+    localesData
   );
 }

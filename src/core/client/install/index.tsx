@@ -12,7 +12,6 @@ import "coral-ui/theme/variables.css";
 async function main() {
   const ManagedCoralContextProvider = await createManaged({
     localesData,
-    userLocales: navigator.languages,
   });
 
   const Index: FunctionComponent = () => (

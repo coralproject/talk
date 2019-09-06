@@ -31,6 +31,11 @@ class Wizard extends Component<WizardProps> {
           <StepBar currentStep={currentStep - 1} className={styles.stepBar}>
             <Step hidden>Start</Step>
             <Step>
+              <Localized id="install-selectLanguage-stepTitleSelect">
+                <span>Select Language</span>
+              </Localized>
+            </Step>
+            <Step>
               <Localized id="install-createYourAccount-stepTitle">
                 <span>Create Admin Account</span>
               </Localized>

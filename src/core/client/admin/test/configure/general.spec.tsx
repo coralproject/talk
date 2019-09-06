@@ -1,3 +1,5 @@
+import { SinonStub } from "sinon";
+
 import { ERROR_CODES } from "coral-common/errors";
 import { pureMerge } from "coral-common/utils";
 import { InvalidRequestError } from "coral-framework/lib/errors";
@@ -61,6 +63,48 @@ async function createTestRenderer(
 it("renders configure general", async () => {
   const { configureContainer } = await createTestRenderer();
   expect(within(configureContainer).toJSON()).toMatchSnapshot();
+});
+
+it("change language", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.locale).toEqual("es");
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const {
+    context: { changeLocale },
+    configureContainer,
+    generalContainer,
+    saveChangesButton,
+  } = await createTestRenderer({ resolvers });
+
+  const languageField = within(generalContainer).getByLabelText("Language");
+
+  // Let's change the language.
+  languageField.props.onChange("es");
+
+  // Send form
+  within(configureContainer)
+    .getByType("form")
+    .props.onSubmit();
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await wait(() => {
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+  });
+
+  // Wait for client to change language.
+  await wait(() => {
+    expect((changeLocale as SinonStub).called).toBe(true);
+  });
 });
 
 it("change site wide commenting", async () => {
