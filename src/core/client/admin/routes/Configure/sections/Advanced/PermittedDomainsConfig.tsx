@@ -17,6 +17,7 @@ import {
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 
 interface Props {
   disabled: boolean;
@@ -32,40 +33,42 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
           Permitted domains
         </Header>
       </Localized>
-      <Localized
-        id="configure-advanced-permittedDomains-description"
-        strong={<strong />}
-      >
-        <Typography variant="bodyShort">
-          The domains you would like to permit for Coral, e.g. your local,
-          staging and production environments including the scheme (ex.
-          http://localhost:3000, https://staging.domain.com,
-          https://domain.com).
-        </Typography>
-      </Localized>
-      <Field
-        name="allowedDomains"
-        parse={parseStringList}
-        format={formatStringList}
-        validate={validateStrictURLList}
-      >
-        {({ input, meta }) => (
-          <>
-            <TextField
-              id={`configure-advanced-${input.name}`}
-              disabled={disabled}
-              color={colorFromMeta(meta)}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              {...input}
-              fullWidth
-            />
-            <ValidationMessage meta={meta} fullWidth />
-          </>
-        )}
-      </Field>
+      <SectionContent>
+        <Localized
+          id="configure-advanced-permittedDomains-description"
+          strong={<strong />}
+        >
+          <Typography variant="bodyShort">
+            The domains you would like to permit for Coral, e.g. your local,
+            staging and production environments including the scheme (ex.
+            http://localhost:3000, https://staging.domain.com,
+            https://domain.com).
+          </Typography>
+        </Localized>
+        <Field
+          name="allowedDomains"
+          parse={parseStringList}
+          format={formatStringList}
+          validate={validateStrictURLList}
+        >
+          {({ input, meta }) => (
+            <>
+              <TextField
+                id={`configure-advanced-${input.name}`}
+                disabled={disabled}
+                color={colorFromMeta(meta)}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                {...input}
+                fullWidth
+              />
+              <ValidationMessage meta={meta} fullWidth />
+            </>
+          )}
+        </Field>
+      </SectionContent>
     </HorizontalGutter>
   </FormField>
 );

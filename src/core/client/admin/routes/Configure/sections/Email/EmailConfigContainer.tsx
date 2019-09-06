@@ -19,6 +19,7 @@ import {
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 import FromContainer from "./FromContainer";
 import SMTPContainer from "./SMTPContainer";
 
@@ -108,7 +109,7 @@ class EmailConfigContainer extends React.Component<Props> {
         </Field>
         <Field name="email.enabled" subscription={{ value: true }}>
           {({ input: { value } }) => (
-            <>
+            <SectionContent>
               <FromContainer
                 email={email}
                 disabled={submitting || !value}
@@ -119,7 +120,7 @@ class EmailConfigContainer extends React.Component<Props> {
                 disabled={submitting || !value}
                 onInitValues={this.handleOnInitValues}
               />
-            </>
+            </SectionContent>
           )}
         </Field>
       </HorizontalGutter>

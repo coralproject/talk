@@ -126,7 +126,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           Provider name
         </label>
         <p
-          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
         >
           The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
@@ -234,7 +234,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           Issuer
         </label>
         <p
-          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
         >
           After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
@@ -439,7 +439,7 @@ the remaining fields. You may also enter the information manually.
           Registration
         </label>
         <p
-          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
         >
           Allow users that have not signed up before with this authentication
 integration to register for a new account.
@@ -750,7 +750,7 @@ For more information visit:
           Registration
         </label>
         <p
-          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
         >
           Allow users that have not signed up before with this authentication
 integration to register for a new account.
@@ -917,7 +917,7 @@ exports[`change settings: enable oidc configure box 1`] = `
           Provider name
         </label>
         <p
-          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
         >
           The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
@@ -1025,7 +1025,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           Issuer
         </label>
         <p
-          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
         >
           After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
@@ -1230,7 +1230,7 @@ the remaining fields. You may also enter the information manually.
           Registration
         </label>
         <p
-          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
         >
           Allow users that have not signed up before with this authentication
 integration to register for a new account.
@@ -1397,7 +1397,7 @@ exports[`change settings: oidc validation errors 1`] = `
           Provider name
         </label>
         <p
-          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
         >
           The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
@@ -1544,7 +1544,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           Issuer
         </label>
         <p
-          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
         >
           After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
@@ -1801,7 +1801,7 @@ the remaining fields. You may also enter the information manually.
           Registration
         </label>
         <p
-          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
         >
           Allow users that have not signed up before with this authentication
 integration to register for a new account.
@@ -1918,7 +1918,7 @@ exports[`regenerate sso key 1`] = `
         warning
       </i>
       <p
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
+        className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary SSOKeyField-warn"
       >
         Regenerating a key will invalidate any existing user sessions,
 and all signed-in users will be signed out.
@@ -2070,251 +2070,255 @@ exports[`renders configure auth 1`] = `
               >
                 Commenter account mangement features
               </legend>
-              <p
-                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              <div
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
               >
-                You can enable and disable certain features for your commenters to use
+                <p
+                  className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                >
+                  You can enable and disable certain features for your commenters to use
 within their Profile. These features also assist towards GDPR
 compliance.
-              </p>
-              <fieldset
-                className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-full"
-              >
-                <h1
-                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
-                >
-                  Allow users to:
-                </h1>
+                </p>
                 <fieldset
-                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                  className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-full"
                 >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                  <h1
+                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
+                  >
+                    Allow users to:
+                  </h1>
+                  <fieldset
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <div
-                      className="Box-root HorizontalGutter-root HorizontalGutter-half"
-                    >
-                      <legend
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                      >
-                        Change their usernames
-                      </legend>
-                      <p
-                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                      >
-                        Usernames can be changed once every 14 days.
-                      </p>
-                    </div>
-                    <div
-                      className="AccountFeaturesConfig-radioButtons"
+                      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-half"
                       >
-                        <input
-                          checked={true}
-                          className="RadioButton-input"
-                          disabled={false}
-                          id="accountFeatures.changeUsername-true"
-                          name="accountFeatures.changeUsername"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="radio"
-                          value={true}
-                        />
-                        <label
-                          className="RadioButton-label"
-                          htmlFor="accountFeatures.changeUsername-true"
+                        <legend
+                          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                         >
-                          <span>
-                            Yes
-                          </span>
-                        </label>
+                          Change their usernames
+                        </legend>
+                        <p
+                          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                        >
+                          Missing translation "configure-account-features-change-usernames-fieldDescriptions"
+                        </p>
                       </div>
                       <div
-                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                        className="AccountFeaturesConfig-radioButtons"
                       >
-                        <input
-                          checked={false}
-                          className="RadioButton-input"
-                          disabled={false}
-                          id="accountFeatures.changeUsername-false"
-                          name="accountFeatures.changeUsername"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="radio"
-                          value={false}
-                        />
-                        <label
-                          className="RadioButton-label"
-                          htmlFor="accountFeatures.changeUsername-false"
+                        <div
+                          className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                         >
-                          <span>
-                            No
-                          </span>
-                        </label>
+                          <input
+                            checked={true}
+                            className="RadioButton-input"
+                            disabled={false}
+                            id="accountFeatures.changeUsername-true"
+                            name="accountFeatures.changeUsername"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="radio"
+                            value={true}
+                          />
+                          <label
+                            className="RadioButton-label"
+                            htmlFor="accountFeatures.changeUsername-true"
+                          >
+                            <span>
+                              Yes
+                            </span>
+                          </label>
+                        </div>
+                        <div
+                          className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                        >
+                          <input
+                            checked={false}
+                            className="RadioButton-input"
+                            disabled={false}
+                            id="accountFeatures.changeUsername-false"
+                            name="accountFeatures.changeUsername"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="radio"
+                            value={false}
+                          />
+                          <label
+                            className="RadioButton-label"
+                            htmlFor="accountFeatures.changeUsername-false"
+                          >
+                            <span>
+                              No
+                            </span>
+                          </label>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </fieldset>
                 </fieldset>
-              </fieldset>
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-double"
-              >
-                <fieldset
-                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
                 >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                  <fieldset
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <div
-                      className="Box-root HorizontalGutter-root HorizontalGutter-half"
-                    >
-                      <legend
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                      >
-                        Download their comments
-                      </legend>
-                      <p
-                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                      >
-                        Commenters can download a csv of their comment history.
-                      </p>
-                    </div>
-                    <div
-                      className="AccountFeaturesConfig-radioButtons"
+                      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-half"
                       >
-                        <input
-                          checked={true}
-                          className="RadioButton-input"
-                          disabled={false}
-                          id="accountFeatures.downloadComments-true"
-                          name="accountFeatures.downloadComments"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="radio"
-                          value={true}
-                        />
-                        <label
-                          className="RadioButton-label"
-                          htmlFor="accountFeatures.downloadComments-true"
+                        <legend
+                          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                         >
-                          <span>
-                            Yes
-                          </span>
-                        </label>
+                          Download their comments
+                        </legend>
+                        <p
+                          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                        >
+                          Commenters can download a csv of their comment history.
+                        </p>
                       </div>
                       <div
-                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                        className="AccountFeaturesConfig-radioButtons"
                       >
-                        <input
-                          checked={false}
-                          className="RadioButton-input"
-                          disabled={false}
-                          id="accountFeatures.downloadComments-false"
-                          name="accountFeatures.downloadComments"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="radio"
-                          value={false}
-                        />
-                        <label
-                          className="RadioButton-label"
-                          htmlFor="accountFeatures.downloadComments-false"
+                        <div
+                          className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                         >
-                          <span>
-                            No
-                          </span>
-                        </label>
+                          <input
+                            checked={true}
+                            className="RadioButton-input"
+                            disabled={false}
+                            id="accountFeatures.downloadComments-true"
+                            name="accountFeatures.downloadComments"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="radio"
+                            value={true}
+                          />
+                          <label
+                            className="RadioButton-label"
+                            htmlFor="accountFeatures.downloadComments-true"
+                          >
+                            <span>
+                              Yes
+                            </span>
+                          </label>
+                        </div>
+                        <div
+                          className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                        >
+                          <input
+                            checked={false}
+                            className="RadioButton-input"
+                            disabled={false}
+                            id="accountFeatures.downloadComments-false"
+                            name="accountFeatures.downloadComments"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="radio"
+                            value={false}
+                          />
+                          <label
+                            className="RadioButton-label"
+                            htmlFor="accountFeatures.downloadComments-false"
+                          >
+                            <span>
+                              No
+                            </span>
+                          </label>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </fieldset>
-              </div>
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-double"
-              >
-                <fieldset
-                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                  </fieldset>
+                </div>
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
                 >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
+                  <fieldset
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <div
-                      className="Box-root HorizontalGutter-root HorizontalGutter-half"
-                    >
-                      <legend
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                      >
-                        Delete their account
-                      </legend>
-                      <p
-                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                      >
-                        Removes all of their comment data, username, and email address from the site and the database.
-                      </p>
-                    </div>
-                    <div
-                      className="AccountFeaturesConfig-radioButtons"
+                      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-half"
                       >
-                        <input
-                          checked={true}
-                          className="RadioButton-input"
-                          disabled={false}
-                          id="accountFeatures.deleteAccount-true"
-                          name="accountFeatures.deleteAccount"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="radio"
-                          value={true}
-                        />
-                        <label
-                          className="RadioButton-label"
-                          htmlFor="accountFeatures.deleteAccount-true"
+                        <legend
+                          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                         >
-                          <span>
-                            Yes
-                          </span>
-                        </label>
+                          Delete their account
+                        </legend>
+                        <p
+                          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                        >
+                          Missing translation "configure-account-features-delete-account-fieldDescriptions"
+                        </p>
                       </div>
                       <div
-                        className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                        className="AccountFeaturesConfig-radioButtons"
                       >
-                        <input
-                          checked={false}
-                          className="RadioButton-input"
-                          disabled={false}
-                          id="accountFeatures.deleteAccount-false"
-                          name="accountFeatures.deleteAccount"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          type="radio"
-                          value={false}
-                        />
-                        <label
-                          className="RadioButton-label"
-                          htmlFor="accountFeatures.deleteAccount-false"
+                        <div
+                          className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                         >
-                          <span>
-                            No
-                          </span>
-                        </label>
+                          <input
+                            checked={true}
+                            className="RadioButton-input"
+                            disabled={false}
+                            id="accountFeatures.deleteAccount-true"
+                            name="accountFeatures.deleteAccount"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="radio"
+                            value={true}
+                          />
+                          <label
+                            className="RadioButton-label"
+                            htmlFor="accountFeatures.deleteAccount-true"
+                          >
+                            <span>
+                              Yes
+                            </span>
+                          </label>
+                        </div>
+                        <div
+                          className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                        >
+                          <input
+                            checked={false}
+                            className="RadioButton-input"
+                            disabled={false}
+                            id="accountFeatures.deleteAccount-false"
+                            name="accountFeatures.deleteAccount"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="radio"
+                            value={false}
+                          />
+                          <label
+                            className="RadioButton-label"
+                            htmlFor="accountFeatures.deleteAccount-false"
+                          >
+                            <span>
+                              No
+                            </span>
+                          </label>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </fieldset>
+                  </fieldset>
+                </div>
               </div>
             </div>
           </div>
@@ -2451,7 +2455,7 @@ compliance.
                         Registration
                       </label>
                       <p
-                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                       >
                         Allow users that have not signed up before with this authentication
 integration to register for a new account.
@@ -2615,7 +2619,7 @@ integration to register for a new account.
                         Provider name
                       </label>
                       <p
-                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                       >
                         The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
@@ -2723,7 +2727,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                         Issuer
                       </label>
                       <p
-                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                       >
                         After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
@@ -2928,7 +2932,7 @@ the remaining fields. You may also enter the information manually.
                         Registration
                       </label>
                       <p
-                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                       >
                         Allow users that have not signed up before with this authentication
 integration to register for a new account.
@@ -3078,7 +3082,7 @@ Invalid Date
                             warning
                           </i>
                           <p
-                            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
+                            className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary SSOKeyField-warn"
                           >
                             Regenerating a key will invalidate any existing user sessions,
 and all signed-in users will be signed out.
@@ -3178,7 +3182,7 @@ and all signed-in users will be signed out.
                         Registration
                       </label>
                       <p
-                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                       >
                         Allow users that have not signed up before with this authentication
 integration to register for a new account.
@@ -3485,7 +3489,7 @@ to create and set up a web application. For more information visit:
                         Registration
                       </label>
                       <p
-                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                       >
                         Allow users that have not signed up before with this authentication
 integration to register for a new account.
@@ -3793,7 +3797,7 @@ For more information visit:
                         Registration
                       </label>
                       <p
-                        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                       >
                         Allow users that have not signed up before with this authentication
 integration to register for a new account.

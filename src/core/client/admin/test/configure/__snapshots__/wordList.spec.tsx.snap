@@ -126,54 +126,58 @@ exports[`renders configure wordList 1`] = `
             >
               Banned words and phrases
             </h1>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-            >
-              Comments containing a word or phrase in the banned words list are 
-              <strong>
-                automatically rejected and are not published
-              </strong>
-              .
-            </p>
             <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
             >
-              <label
-                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                htmlFor="configure-wordlist-banned"
-              >
-                Banned word list
-              </label>
               <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
               >
-                Separate banned words or phrases with a new line. Attempting to copy
-and paste a comma separated list? 
-                <a
-                  className="ExternalLink-root"
-                  href="#"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Learn how to convert your list
-to a new line separated list.
-                </a>
+                Comments containing a word or phrase in the banned words list are 
+                <strong>
+                  automatically rejected and are not published
+                </strong>
+                .
               </p>
-              <div>
-                <textarea
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="BannedWordListConfig-textArea WordListTextArea-textArea"
-                  disabled={false}
-                  id="configure-wordlist-banned"
-                  name="wordList.banned"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  spellCheck={false}
-                  value="fuck"
-                />
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <label
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  htmlFor="configure-wordlist-banned"
+                >
+                  Banned word list
+                </label>
+                <p
+                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+                >
+                  Separate banned words or phrases with a new line. Attempting to copy
+and paste a comma separated list? 
+                  <a
+                    className="ExternalLink-root"
+                    href="#"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Learn how to convert your list
+to a new line separated list.
+                  </a>
+                </p>
+                <div>
+                  <textarea
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="BannedWordListConfig-textArea WordListTextArea-textArea"
+                    disabled={false}
+                    id="configure-wordlist-banned"
+                    name="wordList.banned"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    spellCheck={false}
+                    value="fuck"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -185,56 +189,60 @@ to a new line separated list.
             >
               Suspect words and phrases
             </h1>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-            >
-              Comments containing a word or phrase in the Suspect Words List
-are 
-              <strong>
-                placed into the Reported Queue for moderator review and are
-published (if comments are not pre-moderated).
-              </strong>
-            </p>
             <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
             >
-              <label
-                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                htmlFor="configure-wordlist-suspect"
-              >
-                Suspect word list
-              </label>
               <p
-                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
               >
-                Separate suspect words or phrases with a new line. Attempting to copy
-and paste a comma separated list? 
-                <a
-                  className="ExternalLink-root"
-                  href="#"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Learn how to convert your list
-to a new line separated list.
-                </a>
+                Comments containing a word or phrase in the Suspect Words List
+are 
+                <strong>
+                  placed into the Reported Queue for moderator review and are
+published (if comments are not pre-moderated).
+                </strong>
               </p>
-              <div>
-                <textarea
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="SuspectWordListConfig-textArea WordListTextArea-textArea"
-                  disabled={false}
-                  id="configure-wordlist-suspect"
-                  name="wordList.suspect"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  spellCheck={false}
-                  value="idiot
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <label
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  htmlFor="configure-wordlist-suspect"
+                >
+                  Suspect word list
+                </label>
+                <p
+                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+                >
+                  Separate suspect words or phrases with a new line. Attempting to copy
+and paste a comma separated list? 
+                  <a
+                    className="ExternalLink-root"
+                    href="#"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Learn how to convert your list
+to a new line separated list.
+                  </a>
+                </p>
+                <div>
+                  <textarea
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="SuspectWordListConfig-textArea WordListTextArea-textArea"
+                    disabled={false}
+                    id="configure-wordlist-suspect"
+                    name="wordList.suspect"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    spellCheck={false}
+                    value="idiot
 stupid"
-                />
+                  />
+                </div>
               </div>
             </div>
           </div>

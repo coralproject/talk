@@ -64,7 +64,7 @@ exports[`accepts correct password 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -108,7 +108,7 @@ exports[`accepts correct password 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -233,7 +233,7 @@ exports[`accepts valid email 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -277,7 +277,7 @@ exports[`accepts valid email 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -428,7 +428,7 @@ exports[`accepts valid username 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -459,7 +459,7 @@ exports[`accepts valid username 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -597,7 +597,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -628,7 +628,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -923,7 +923,7 @@ exports[`checks for invalid characters in username 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -967,7 +967,7 @@ exports[`checks for invalid characters in username 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -1118,7 +1118,7 @@ exports[`checks for invalid email 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -1162,7 +1162,7 @@ exports[`checks for invalid email 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -1313,7 +1313,7 @@ exports[`checks for too long username 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -1357,7 +1357,7 @@ exports[`checks for too long username 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -1508,7 +1508,7 @@ exports[`checks for too short password 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -1552,7 +1552,7 @@ exports[`checks for too short password 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -1703,7 +1703,7 @@ exports[`checks for too short username 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -1747,7 +1747,7 @@ exports[`checks for too short username 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -1926,7 +1926,7 @@ exports[`renders sign up form 1`] = `
                   Username
                 </label>
                 <p
-                  className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                 >
                   You may use “_” and “.” Spaces not permitted.
                 </p>
@@ -1957,7 +1957,7 @@ exports[`renders sign up form 1`] = `
                   Password
                 </label>
                 <p
-                  className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                 >
                   Must be at least 8 characters
                 </p>
@@ -2098,7 +2098,7 @@ exports[`shows error when submitting empty form 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -2142,7 +2142,7 @@ exports[`shows error when submitting empty form 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -2287,7 +2287,7 @@ exports[`shows server error 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -2318,7 +2318,7 @@ exports[`shows server error 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -2443,7 +2443,7 @@ exports[`submits form successfully 1`] = `
             Username
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -2474,7 +2474,7 @@ exports[`submits form successfully 1`] = `
             Password
           </label>
           <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>

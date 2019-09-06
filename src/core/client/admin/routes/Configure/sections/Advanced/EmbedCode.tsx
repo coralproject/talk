@@ -8,6 +8,7 @@ import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { HorizontalGutter, Typography } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 
 import styles from "./EmbedCode.css";
 
@@ -80,21 +81,23 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
       <Localized id="configure-advanced-embedCode-title">
         <Header container="legend">Embed code</Header>
       </Localized>
-      <Localized id="configure-advanced-embedCode-explanation">
-        <Typography variant="bodyShort">
-          Copy and paste the code below into your CMS to embed Coral comment
-          streams in each of your site’s stories.
-        </Typography>
-      </Localized>
-      <textarea
-        rows={embed.rows}
-        className={styles.textArea}
-        readOnly
-        value={embed.text}
-      />
-      <HorizontalGutter className={styles.copyArea}>
-        <CopyButton size="regular" text={embed.text} />
-      </HorizontalGutter>
+      <SectionContent>
+        <Localized id="configure-advanced-embedCode-explanation">
+          <Typography variant="bodyShort">
+            Copy and paste the code below into your CMS to embed Coral comment
+            streams in each of your site’s stories.
+          </Typography>
+        </Localized>
+        <textarea
+          rows={embed.rows}
+          className={styles.textArea}
+          readOnly
+          value={embed.text}
+        />
+        <HorizontalGutter className={styles.copyArea}>
+          <CopyButton size="regular" text={embed.text} />
+        </HorizontalGutter>
+      </SectionContent>
     </HorizontalGutter>
   );
 };

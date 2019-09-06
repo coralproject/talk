@@ -15,6 +15,7 @@ import {
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 
 interface Props {
   disabled: boolean;
@@ -28,32 +29,38 @@ const CustomCSSConfig: FunctionComponent<Props> = ({ disabled }) => (
           Custom CSS
         </Header>
       </Localized>
-      <Localized
-        id="configure-advanced-customCSS-explanation"
-        strong={<strong />}
-      >
-        <Typography variant="bodyShort">
-          URL of a CSS stylesheet that will override default Embed Stream
-          styles. Can be internal or external.
-        </Typography>
-      </Localized>
-      <Field name="customCSSURL" parse={parseEmptyAsNull} format={formatEmpty}>
-        {({ input, meta }) => (
-          <>
-            <TextField
-              id={`configure-advanced-${input.name}`}
-              disabled={disabled}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              fullWidth
-              {...input}
-            />
-            <ValidationMessage meta={meta} fullWidth />
-          </>
-        )}
-      </Field>
+      <SectionContent>
+        <Localized
+          id="configure-advanced-customCSS-explanation"
+          strong={<strong />}
+        >
+          <Typography variant="bodyShort">
+            URL of a CSS stylesheet that will override default Embed Stream
+            styles. Can be internal or external.
+          </Typography>
+        </Localized>
+        <Field
+          name="customCSSURL"
+          parse={parseEmptyAsNull}
+          format={formatEmpty}
+        >
+          {({ input, meta }) => (
+            <>
+              <TextField
+                id={`configure-advanced-${input.name}`}
+                disabled={disabled}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                fullWidth
+                {...input}
+              />
+              <ValidationMessage meta={meta} fullWidth />
+            </>
+          )}
+        </Field>
+      </SectionContent>
     </HorizontalGutter>
   </FormField>
 );
