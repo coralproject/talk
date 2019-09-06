@@ -64,7 +64,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
             <span>Notifications</span>
           </Localized>
         </Tab>
-        <Tab tabID="SETTINGS" className={CLASSES.tabBarMyProfile.settings}>
+        <Tab tabID="ACCOUNT" className={CLASSES.tabBarMyProfile.settings}>
           <Localized id="profile-accountTab">
             <span>Account</span>
           </Localized>
@@ -78,12 +78,12 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           <CommentHistoryContainer viewer={props.viewer} story={props.story} />
         </TabPane>
         <TabPane
-          className={CLASSES.myCommentsTabPane.$root}
+          className={CLASSES.notificationsTabPane.$root}
           tabID="NOTIFICATIONS"
         >
           <NotificationSettingsContainer viewer={props.viewer} />
         </TabPane>
-        <TabPane className={CLASSES.settingsTabPane.$root} tabID="SETTINGS">
+        <TabPane className={CLASSES.accountTabPane.$root} tabID="ACCOUNT">
           <AccountSettingsContainer
             viewer={props.viewer}
             settings={props.settings}

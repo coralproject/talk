@@ -31,7 +31,7 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue("SETTINGS", "profileTab");
+      localRecord.setValue("ACCOUNT", "profileTab");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -69,7 +69,7 @@ describe("delete account steps", () => {
 
   it("request account deletion button shows deletion modal", async () => {
     const deleteAccount = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-settings-deleteAccount")
+      within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
     );
 
     const requestDeletionButton = within(deleteAccount).getByText("Request", {
@@ -88,7 +88,7 @@ describe("delete account steps", () => {
 
   it("schedules deletion if deletion steps are followed", async () => {
     const deleteAccount = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-settings-deleteAccount")
+      within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
     );
 
     const requestDeletionButton = within(deleteAccount).getByText("Request", {
@@ -128,7 +128,7 @@ describe("delete account steps", () => {
 
   it("deletion confirmation is required during deletion steps", async () => {
     const deleteAccount = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-settings-deleteAccount")
+      within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
     );
 
     const requestDeletionButton = within(deleteAccount).getByText("Request", {
@@ -166,7 +166,7 @@ describe("delete account steps", () => {
 
   it("password is required during deletion steps", async () => {
     const deleteAccount = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-settings-deleteAccount")
+      within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
     );
 
     const requestDeletionButton = within(deleteAccount).getByText("Request", {

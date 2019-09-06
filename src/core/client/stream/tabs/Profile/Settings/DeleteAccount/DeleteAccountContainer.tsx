@@ -70,10 +70,10 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
       <Flex
         justifyContent="space-between"
         alignItems="flex-start"
-        data-testid="profile-settings-deleteAccount"
+        data-testid="profile-account-deleteAccount"
       >
         <div className={styles.content}>
-          <Localized id="profile-settings-deleteAccount-title">
+          <Localized id="profile-account-deleteAccount-title">
             <Typography
               variant="heading2"
               color="textDark"
@@ -82,7 +82,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
               Delete My Account
             </Typography>
           </Localized>
-          <Localized id="profile-settings-deleteAccount-description">
+          <Localized id="profile-account-deleteAccount-description">
             <Typography variant="bodyCopy" className={styles.section}>
               Deleting your account will permanently erase your profile and
               remove all your comments from this site.
@@ -91,7 +91,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
           {deletionDate && (
             <>
               <Localized
-                id="profile-settings-deleteAccount-cancelDelete-description"
+                id="profile-account-deleteAccount-cancelDelete-description"
                 $date={deletionDate}
               >
                 <Typography variant="bodyCopy" className={styles.section}>
@@ -109,7 +109,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
                 <Icon size="sm" className={styles.icon}>
                   block
                 </Icon>
-                <Localized id="profile-settings-deleteAccount-cancelDelete">
+                <Localized id="profile-account-deleteAccount-cancelDelete">
                   <span>Cancel account deletion request</span>
                 </Localized>
               </Button>
@@ -118,7 +118,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
         </div>
 
         {!deletionDate && (
-          <Localized id="profile-settings-deleteAccount-request">
+          <Localized id="profile-account-deleteAccount-request">
             <Button
               color="primary"
               variant="outlineFilled"

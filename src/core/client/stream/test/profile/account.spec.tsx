@@ -39,7 +39,7 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue("SETTINGS", "profileTab");
+      localRecord.setValue("ACCOUNT", "profileTab");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -47,13 +47,11 @@ async function createTestRenderer(
   });
 
   const ignoredCommenters = await waitForElement(() =>
-    within(testRenderer.root).queryByTestID(
-      "profile-settings-ignoredCommenters"
-    )
+    within(testRenderer.root).queryByTestID("profile-account-ignoredCommenters")
   );
 
   const changePassword = within(testRenderer.root).queryByTestID(
-    "profile-settings-changePassword"
+    "profile-account-changePassword"
   );
 
   return {
@@ -100,7 +98,7 @@ it("render password change form", async () => {
     }),
   });
   const changePassword = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("profile-settings-changePassword")
+    within(testRenderer.root).getByTestID("profile-account-changePassword")
   );
   const editButton = within(changePassword).getByText("Edit");
   act(() => {

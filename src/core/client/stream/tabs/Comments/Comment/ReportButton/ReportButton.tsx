@@ -28,7 +28,14 @@ class ReportButton extends React.Component<Props> {
         {...rest}
         active={active}
         disabled={!active && reported}
-        classes={(reported && !active && styles) || {}}
+        classes={
+          (reported &&
+            !active && {
+              variantGhost: styles.variantGhost,
+              colorRegular: styles.colorRegular,
+            }) ||
+          {}
+        }
         variant="textUnderlined"
         size="small"
         color="error"

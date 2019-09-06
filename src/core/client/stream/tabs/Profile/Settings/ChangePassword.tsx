@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { FORM_ERROR, FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
@@ -70,23 +71,24 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
 
   return (
     <div
-      data-testid="profile-settings-changePassword"
-      className={CLASSES.changePassword.$root}
+      data-testid="profile-account-changePassword"
+      className={CLASSES.myPassword.$root}
     >
       {!showForm && (
         <Flex justifyContent="space-between" alignItems="center">
-          <Localized id="profile-settings-changePassword-password">
+          <Localized id="profile-account-changePassword-password">
             <Typography variant="heading2" color="textDark">
               Password
             </Typography>
           </Localized>
 
-          <Localized id="profile-settings-changePassword-edit">
+          <Localized id="profile-account-changePassword-edit">
             <Button
               variant="outlineFilled"
               color="primary"
               size="small"
               onClick={toggleForm}
+              className={CLASSES.myPassword.editButton}
             >
               Edit
             </Button>
@@ -94,9 +96,13 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
         </Flex>
       )}
       {showForm && (
-        <CallOut color="primary" borderless className={styles.callOut}>
+        <CallOut
+          color="primary"
+          className={cn(styles.callOut, CLASSES.myPassword.form.$root)}
+          borderless
+        >
           <HorizontalGutter size="oneAndAHalf">
-            <Localized id="profile-settings-changePassword">
+            <Localized id="profile-account-changePassword">
               <Typography variant="heading1" color="textDark" gutterBottom>
                 Change Password
               </Typography>
@@ -118,7 +124,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                       >
                         {({ input, meta }) => (
                           <FormField container={<FieldSet />}>
-                            <Localized id="profile-settings-changePassword-oldPassword">
+                            <Localized id="profile-account-changePassword-oldPassword">
                               <InputLabel htmlFor={input.name}>
                                 Old Password
                               </InputLabel>
@@ -134,13 +140,13 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                             <FieldValidationMessage fullWidth meta={meta} />
 
                             <Flex justifyContent="flex-end">
-                              <Localized id="profile-settings-changePassword-forgotPassword">
+                              <Localized id="profile-account-changePassword-forgotPassword">
                                 <Button
                                   variant="underlined"
                                   color="primary"
                                   onClick={onResetPassword}
                                   className={
-                                    CLASSES.changePassword.forgotButton
+                                    CLASSES.myPassword.form.forgotButton
                                   }
                                 >
                                   Forgot your password?
@@ -156,7 +162,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                       >
                         {({ input, meta }) => (
                           <FormField container={<FieldSet />}>
-                            <Localized id="profile-settings-changePassword-newPassword">
+                            <Localized id="profile-account-changePassword-newPassword">
                               <InputLabel htmlFor={input.name}>
                                 New Password
                               </InputLabel>
@@ -177,33 +183,37 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                         <CallOut
                           color="error"
                           fullWidth
-                          className={CLASSES.changePassword.errorMessage}
+                          className={CLASSES.myPassword.form.errorMessage}
                         >
                           {submitError}
                         </CallOut>
                       )}
                       {submitSucceeded && (
-                        <Localized id="profile-settings-changePassword-updated">
+                        <Localized id="profile-account-changePassword-updated">
                           <CallOut
                             color="success"
                             fullWidth
-                            className={CLASSES.changePassword.successMessage}
+                            className={CLASSES.myPassword.form.successMessage}
                           >
                             Your password has been updated
                           </CallOut>
                         </Localized>
                       )}
                       <Flex justifyContent="flex-end">
-                        <Localized id="profile-settings-changePassword-cancel">
-                          <Button type="button" onClick={toggleForm}>
+                        <Localized id="profile-account-changePassword-cancel">
+                          <Button
+                            type="button"
+                            onClick={toggleForm}
+                            className={CLASSES.myPassword.form.cancelButton}
+                          >
                             Cancel
                           </Button>
                         </Localized>
-                        <Localized id="profile-settings-changePassword-button">
+                        <Localized id="profile-account-changePassword-button">
                           <Button
                             color="primary"
                             variant="filled"
-                            className={CLASSES.changePassword.changeButton}
+                            className={CLASSES.myPassword.form.changeButton}
                             type="submit"
                             disabled={submitting || pristine}
                           >
