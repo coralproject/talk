@@ -3,10 +3,11 @@
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   active={true}
+  color="primary"
   id="id"
   onClick={[Function]}
   size="small"
-  variant="ghost"
+  variant="textUnderlined"
 >
   <MatchMediaWithContext
     gtWidth="xs"

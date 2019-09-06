@@ -191,7 +191,7 @@ exports[`renders message box when commenting disabled 1`] = `
       >
         <div
           aria-live="polite"
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root AllCommentsTabContainer-stream HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
@@ -220,26 +220,26 @@ exports[`renders message box when logged in 1`] = `
         className="Flex-flex Flex-halfItemGutter Flex-wrap gutter"
       >
         <div
-          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText"
         >
           Signed in as 
           <span
-            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
           >
             Markus
           </span>
           .
         </div>
         <div
-          className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+          className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText Flex-flex"
         >
           <span>
             Not you? 
           </span>
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined coral coral-viewerBox-logoutButton"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular UserBoxAuthenticated-userBoxButton coral coral-viewerBox-logoutButton"
             data-color="primary"
-            data-variant="underlined"
+            data-variant="regular"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -301,7 +301,7 @@ exports[`renders message box when logged in 1`] = `
                 >
                   <div
                     aria-placeholder="Post a comment"
-                    className="RTE-contentEditable coral coral-rte-content RTE-content"
+                    className="RTE-contentEditable coral coral-rte-content PostCommentForm-rteBorderless RTE-content"
                     contentEditable={true}
                     dangerouslySetInnerHTML={
                       Object {
@@ -502,7 +502,7 @@ exports[`renders message box when logged in 1`] = `
       >
         <div
           aria-live="polite"
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root AllCommentsTabContainer-stream HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
@@ -787,7 +787,7 @@ exports[`renders message box when not logged in 1`] = `
       >
         <div
           aria-live="polite"
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root AllCommentsTabContainer-stream HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
@@ -979,7 +979,7 @@ exports[`renders message box when story isClosed 1`] = `
       >
         <div
           aria-live="polite"
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root AllCommentsTabContainer-stream HorizontalGutter-oneAndAHalf"
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"

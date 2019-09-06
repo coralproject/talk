@@ -164,7 +164,7 @@
 .timestamp {
   color: var(--palette-text-secondary);
   font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-regular);
   font-size: calc(14rem / var(--rem-base));
   line-height: calc(18em / 14);
   letter-spacing: 0;
@@ -185,15 +185,6 @@
   font-size: calc(16rem / var(--rem-base));
   line-height: 1;
   letter-spacing: calc(0.2em / 16);
-  color: var(--palette-text-primary);
-}
-
-.inputLabel {
-  font-size: calc(18rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-serif);
-  line-height: calc(18em / 18);
-  letter-spacing: calc(0.2em / 18);
   color: var(--palette-text-primary);
 }
 
@@ -274,9 +265,9 @@
 
 .tagText {
   font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-regular);
-  font-size: calc(14rem / var(--rem-base));
-  letter-spacing: calc(-0.2em / 14);
+  font-weight: var(--font-weight-medium);
+  font-size: calc(12rem / var(--rem-base));
+  letter-spacing: calc(-0.2em / 12);
 }
 
 .sideNavigationItem {
@@ -311,4 +302,13 @@
   font-size: calc(14rem / var(--rem-base));
   line-height: calc(14em / 14);
   color: var(--palette-grey-dark);
+}
+
+.inputLabel {
+  font-size: calc(18rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-serif);
+  line-height: calc(18em / 18);
+  letter-spacing: calc(0.2em / 18);
+  color: var(--palette-text-dark);
 }

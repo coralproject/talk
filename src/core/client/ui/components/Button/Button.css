@@ -131,7 +131,7 @@
   }
 }
 
-.variantFilled {
+.variantFilled, .variantOutlineFilled.mouseHover {
   color: var(--palette-text-light);
   &.colorRegular {
     background-color: var(--palette-grey-main);
@@ -151,7 +151,13 @@
   &.colorDark {
     background-color: var(--palette-text-primary);
   }
+} 
 
+.variantOutlineFilled.mouseHover {
+  border: 1px solid transparent; /* prevent jumping between outlined and filled on hover */
+}
+
+.variantFilled {
   &:not(.disabled) {
     &.colorRegular {
       &.mouseHover {
@@ -211,7 +217,7 @@
   }
 }
 
-.variantOutlined {
+.variantOutlined, .variantOutlineFilled:not(.mouseHover) {
   border: 1px solid transparent;
   &.colorRegular {
     color: var(--palette-grey-main);
@@ -237,7 +243,8 @@
     color: var(--palette-text-primary);
     border: 1px solid currentColor;
   }
-
+}
+.variantOutlined {
   &:not(.disabled) {
     &.colorRegular {
       &.mouseHover {
@@ -569,6 +576,36 @@
       &:active,
       &.active {
         background-color: var(--palette-text-primary);
+      }
+    }
+  }
+}
+
+.variantTextUnderlined {
+  font-weight: 700;
+  &:not(.disabled) {
+    &.colorPrimary {
+      &.mouseHover {
+        color: var(--palette-primary-main);
+        & > span {
+          text-decoration: underline;
+        }
+      }
+      &.active,
+      &:active {
+        color: var(--palette-primary-main);
+      }
+    }
+    &.colorError {
+      &.mouseHover {
+        color: var(--palette-error-main);
+        & > span {
+          text-decoration: underline;
+        }
+      }
+      &.active,
+      &:active {
+        color: var(--palette-error-main);
       }
     }
   }

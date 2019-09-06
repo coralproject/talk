@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders username and body 1`] = `
-<div
+<ForwardRef(forwardRef)
   className="Comment-root"
   role="article"
+  size="half"
 >
   <ForwardRef(forwardRef)
     className="coral coral-comment-topBar"
@@ -38,7 +39,7 @@ exports[`renders username and body 1`] = `
     </div>
   </ForwardRef(forwardRef)>
   <ForwardRef(forwardRef)
-    spacing={1}
+    size="oneAndAHalf"
   >
     <HTMLContent
       className="coral coral-content coral-comment-content"
@@ -47,5 +48,5 @@ exports[`renders username and body 1`] = `
     </HTMLContent>
     footer
   </ForwardRef(forwardRef)>
-</div>
+</ForwardRef(forwardRef)>
 `;

@@ -2,9 +2,9 @@
 
 exports[`create and remove reaction: Respected 1`] = `
 <button
-  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton coral-reactedButton coral-comment-reactedButton"
-  data-color="regular"
-  data-variant="ghost"
+  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton coral-reactedButton coral-comment-reactedButton ReactionButton-button"
+  data-color="primary"
+  data-variant="textUnderlined"
   disabled={false}
   onBlur={[Function]}
   onClick={[Function]}
@@ -25,9 +25,9 @@ exports[`create and remove reaction: Respected 1`] = `
 
 exports[`create and remove reaction: Unrespected 1`] = `
 <button
-  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost coral coral-reactButton coral-comment-reactButton"
-  data-color="regular"
-  data-variant="ghost"
+  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+  data-color="primary"
+  data-variant="textUnderlined"
   disabled={false}
   onBlur={[Function]}
   onClick={[Function]}

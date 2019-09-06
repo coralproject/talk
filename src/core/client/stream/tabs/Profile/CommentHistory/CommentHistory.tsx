@@ -28,11 +28,6 @@ interface CommentHistoryProps {
 const CommentHistory: FunctionComponent<CommentHistoryProps> = props => {
   return (
     <HorizontalGutter size="double" data-testid="profile-commentHistory">
-      {props.comments.length > 0 && (
-        <Localized id="profile-historyComment-commentHistory">
-          <Typography variant="heading3">Comment History</Typography>
-        </Localized>
-      )}
       {props.comments.length < 1 && (
         <Flex
           direction="column"
@@ -64,7 +59,7 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = props => {
           <Button
             id={"coral-profile-commentHistory-loadMore"}
             onClick={props.onLoadMore}
-            variant="outlined"
+            variant="outlineFilled"
             fullWidth
             disabled={props.disableLoadMore}
             aria-controls="coral-profile-commentHistory-log"

@@ -3,8 +3,10 @@
   position: relative;
   justify-content: flex-start;
   align-items: center;
-  padding: calc(0.5 * var(--mini-unit) + 1px) var(--mini-unit);
+  padding: var(--spacing-3);
   box-sizing: border-box;
   width: 100%;
   background-color: var(--palette-text-primary);
+  border-top-right-radius: 1px;
+  border-top-left-radius: 1px;
 }

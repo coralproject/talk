@@ -5,6 +5,7 @@ import React, { FunctionComponent } from "react";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
+import InReplyTo from "coral-stream/tabs/Comments/Comment/InReplyTo";
 import {
   Flex,
   HorizontalGutter,
@@ -20,6 +21,7 @@ export interface HistoryCommentProps {
   body: string | null;
   createdAt: string;
   replyCount: number | null;
+  parentAuthorName?: string | null;
   story: {
     metadata: {
       title: string | null;
@@ -32,28 +34,41 @@ export interface HistoryCommentProps {
 const HistoryComment: FunctionComponent<HistoryCommentProps> = props => {
   return (
     <HorizontalGutter
-      className={CLASSES.myComment.$root}
+      className={cn(styles.root, CLASSES.myComment.$root)}
       data-testid={`historyComment-${props.id}`}
     >
-      <Localized
-        id="profile-historyComment-story"
-        $title={props.story.metadata ? props.story.metadata.title : "N/A"} // FIXME: (wyattjoh) When a title for a Story isn't available, we need a fallback.
-      >
-        <Typography className={CLASSES.myComment.story} variant="heading4">
-          {"Story: {$title}"}
+      <div>
+        <Localized id="profile-historyComment-comment-on">
+          <Typography variant="detail" className={styles.commentOn}>
+            Comment on:
+          </Typography>
+        </Localized>
+        <Typography
+          variant="heading4"
+          color="textDark"
+          className={CLASSES.myComment.story}
+        >
+          {props.story.metadata ? props.story.metadata.title : "N/A"}
         </Typography>
-      </Localized>
-      <Timestamp className={CLASSES.myComment.timestamp}>
-        {props.createdAt}
-      </Timestamp>
-      <Typography variant="bodyCopy" container="div">
-        {props.body && (
-          <HTMLContent className={CLASSES.myComment.content}>
-            {props.body}
-          </HTMLContent>
+      </div>
+      <div>
+        <Timestamp className={CLASSES.myComment.timestamp}>
+          {props.createdAt}
+        </Timestamp>
+        {props.parentAuthorName && (
+          <div className={styles.subBar}>
+            <InReplyTo username={props.parentAuthorName} />
+          </div>
         )}
-      </Typography>
-      <Flex direction="row" alignItems="center" itemGutter>
+        <Typography variant="bodyCopy" container="div">
+          {props.body && (
+            <HTMLContent className={CLASSES.myComment.content}>
+              {props.body}
+            </HTMLContent>
+          )}
+        </Typography>
+      </div>
+      <Flex direction="row" alignItems="center" itemGutter="double">
         {!!props.replyCount && (
           <div className={cn(styles.replies, CLASSES.myComment.replies)}>
             <Icon className={styles.icon}>reply</Icon>

@@ -3,8 +3,8 @@ import React, { FunctionComponent } from "react";
 
 import {
   Button,
-  ButtonIcon,
   ClickOutside,
+  Icon,
   MatchMedia,
   Popover,
 } from "coral-ui/components";
@@ -43,13 +43,14 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
             onClick={toggleVisibility}
             aria-controls={popoverID}
             ref={ref}
-            variant="ghost"
+            variant="textUnderlined"
             active={visible}
             size="small"
+            color="primary"
             className={className}
           >
             <MatchMedia gtWidth="xs">
-              <ButtonIcon>share</ButtonIcon>
+              <Icon>share</Icon>
             </MatchMedia>
             <Localized id="comments-permalinkButton-share">
               <span>Share</span>
