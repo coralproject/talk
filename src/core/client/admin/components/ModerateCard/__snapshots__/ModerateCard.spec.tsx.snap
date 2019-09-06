@@ -480,6 +480,16 @@ exports[`renders reply correctly 1`] = `
             onClick={[Function]}
           />
         </ForwardRef(forwardRef)>
+        <div>
+          <ForwardRef(forwardRef)
+            className="ModerateCard-username"
+            onClick={[Function]}
+          >
+            <InReplyTo>
+              Julian
+            </InReplyTo>
+          </ForwardRef(forwardRef)>
+        </div>
       </div>
       <CommentContent
         bannedWords={
