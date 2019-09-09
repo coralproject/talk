@@ -18,7 +18,7 @@ import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCo
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 import CLASSES from "coral-stream/classes";
-import { Box, Button, HorizontalGutter } from "coral-ui/components";
+import { Box, Button, CallOut, HorizontalGutter } from "coral-ui/components";
 
 import { CommentContainer } from "../../Comment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
@@ -128,30 +128,38 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
         size="oneAndAHalf"
         className={styles.stream}
       >
-        {comments.map(comment => (
-          <IgnoredTombstoneOrHideContainer
-            key={comment.id}
-            viewer={props.viewer}
-            comment={comment}
-          >
-            <FadeInTransition active={Boolean(comment.enteredLive)}>
-              <HorizontalGutter>
-                <CommentContainer
-                  viewer={props.viewer}
-                  settings={props.settings}
-                  comment={comment}
-                  story={props.story}
-                />
-                <ReplyListContainer
-                  settings={props.settings}
-                  viewer={props.viewer}
-                  comment={comment}
-                  story={props.story}
-                />
-              </HorizontalGutter>
-            </FadeInTransition>
-          </IgnoredTombstoneOrHideContainer>
-        ))}
+        {comments.length <= 0 ? (
+          <Localized id="comments-noCommentsYet">
+            <CallOut fullWidth>
+              There are no comments yet. Why don't you write one?
+            </CallOut>
+          </Localized>
+        ) : (
+          comments.map(comment => (
+            <IgnoredTombstoneOrHideContainer
+              key={comment.id}
+              viewer={props.viewer}
+              comment={comment}
+            >
+              <FadeInTransition active={Boolean(comment.enteredLive)}>
+                <HorizontalGutter>
+                  <CommentContainer
+                    viewer={props.viewer}
+                    settings={props.settings}
+                    comment={comment}
+                    story={props.story}
+                  />
+                  <ReplyListContainer
+                    settings={props.settings}
+                    viewer={props.viewer}
+                    comment={comment}
+                    story={props.story}
+                  />
+                </HorizontalGutter>
+              </FadeInTransition>
+            </IgnoredTombstoneOrHideContainer>
+          ))
+        )}
         {props.relay.hasMore() && (
           <Localized id="comments-loadMore">
             <Button
