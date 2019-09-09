@@ -56,7 +56,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Create the auth router.
   router.use("/auth", createNewAuthRouter(app, options));
   router.use("/account", createNewAccountRouter(app, options));
-  router.use("/user", createNewUserRouter(app));
+  router.use("/user", createNewUserRouter(app, options));
 
   // Configure the GraphQL route.
   router.use(

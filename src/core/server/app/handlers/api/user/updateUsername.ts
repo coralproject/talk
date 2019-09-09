@@ -21,12 +21,12 @@ type AdminUpdateUsernameOptions = Pick<
 
 export interface UpdateUsernameBody {
   userID?: string;
-  newUserName?: string;
+  newUsername?: string;
 }
 
 export const UpdateUsernameBodySchema = Joi.object().keys({
   userID: Joi.string().default(undefined),
-  newUserName: Joi.string().default(undefined),
+  newUsername: Joi.string().default(undefined),
 });
 
 export const userUpdateUsernameHandler = ({
@@ -74,9 +74,11 @@ export const userUpdateUsernameHandler = ({
       const tenant = coral.tenant!;
 
       // Grab the requesting user.
-      const requestingUser = req.user;
+      const requestingUser = await collections
+        .users(mongo)
+        .findOne({ id: userID, tenantID: tenant.id });
       if (!requestingUser) {
-        throw new AuthenticationError("no user on request");
+        throw new AuthenticationError("coult not find requesting user");
       }
 
       // Only administrators can change usernames
@@ -91,13 +93,13 @@ export const userUpdateUsernameHandler = ({
         req.body
       );
 
-      if (!body.userID || !body.newUserName) {
+      if (!body.userID || !body.newUsername) {
         return res.sendStatus(400);
       }
 
       // Check if this username is already taken, we don't want duplicates
       const nameTakenResult = await collections.users(mongo).findOne({
-        username: body.newUserName,
+        username: body.newUsername,
         tenantID: tenant.id,
       });
 
@@ -108,12 +110,12 @@ export const userUpdateUsernameHandler = ({
       // If the username is not taken, update the username
       const updateResult = await collections.users(mongo).findOneAndUpdate(
         {
-          userID: body.userID,
+          id: body.userID,
           tenantID: tenant.id,
         },
         {
           $set: {
-            username: body.newUserName,
+            username: body.newUsername,
           },
         },
         {

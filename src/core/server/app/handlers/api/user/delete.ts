@@ -75,9 +75,11 @@ export const userDeleteHandler = ({
       const tenant = coral.tenant!;
 
       // Grab the requesting user.
-      const requestingUser = req.user;
+      const requestingUser = await collections
+        .users(mongo)
+        .findOne({ id: userID, tenantID: tenant.id });
       if (!requestingUser) {
-        throw new AuthenticationError("no user on request");
+        throw new AuthenticationError("coult not find requesting user");
       }
 
       // Only administrators can change usernames
@@ -102,7 +104,7 @@ export const userDeleteHandler = ({
         .toJSDate();
       const { value: user } = await collections.users(mongo).findOneAndUpdate(
         {
-          userID: body.userID,
+          id: body.userID,
           tenantID: tenant.id,
         },
         {

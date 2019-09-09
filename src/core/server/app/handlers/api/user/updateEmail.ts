@@ -2,7 +2,7 @@ import Joi from "joi";
 
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
-import { RequestLimiter } from "coral-server/app/request/limiter";
+// import { RequestLimiter } from "coral-server/app/request/limiter";
 import { AuthenticationError } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import { createCollection } from "coral-server/models/helpers";
@@ -34,25 +34,25 @@ export const userUpdateEmailHandler = ({
   config,
   mongo,
 }: AdminUpdateUserEmailOptions): RequestHandler => {
-  const ipLimiter = new RequestLimiter({
-    redis,
-    ttl: "10m",
-    max: 10,
-    prefix: "ip",
-    config,
-  });
-  const userIDLimiter = new RequestLimiter({
-    redis,
-    ttl: "10m",
-    max: 10,
-    prefix: "userID",
-    config,
-  });
+  // const ipLimiter = new RequestLimiter({
+  //   redis,
+  //   ttl: "10m",
+  //   max: 10,
+  //   prefix: "ip",
+  //   config,
+  // });
+  // const userIDLimiter = new RequestLimiter({
+  //   redis,
+  //   ttl: "10m",
+  //   max: 10,
+  //   prefix: "userID",
+  //   config,
+  // });
 
   return async (req, res, next) => {
     try {
       // Rate limit based on the IP address
-      await ipLimiter.test(req, req.ip);
+      // await ipLimiter.test(req, req.ip);
 
       const token = extractTokenFromRequest(req);
       if (!token) {
@@ -67,16 +67,18 @@ export const userUpdateEmailHandler = ({
       }
 
       // Rate limit based on requesting user
-      await userIDLimiter.test(req, userID);
+      // await userIDLimiter.test(req, userID);
 
       // Tenant is guaranteed at this point.
       const coral = req.coral!;
       const tenant = coral.tenant!;
 
       // Grab the requesting user.
-      const requestingUser = req.user;
+      const requestingUser = await collections
+        .users(mongo)
+        .findOne({ id: userID, tenantID: tenant.id });
       if (!requestingUser) {
-        throw new AuthenticationError("no user on request");
+        throw new AuthenticationError("coult not find requesting user");
       }
 
       // Only administrators can change emails
@@ -110,7 +112,7 @@ export const userUpdateEmailHandler = ({
       // If the email does not exist, update the email
       const updateResult = await collections.users(mongo).findOneAndUpdate(
         {
-          userID: body.userID,
+          id: body.userID,
           tenantID: tenant.id,
         },
         {
