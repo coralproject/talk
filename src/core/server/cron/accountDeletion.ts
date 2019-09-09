@@ -203,7 +203,7 @@ async function deleteUserComments(
   );
 }
 
-async function deleteUser(
+export async function deleteUser(
   mongo: Db,
   mailer: MailerQueue,
   userID: string,
