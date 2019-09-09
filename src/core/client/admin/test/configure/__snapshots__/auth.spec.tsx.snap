@@ -2261,7 +2261,8 @@ compliance.
                         <p
                           className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                         >
-                          Missing translation "configure-account-features-delete-account-fieldDescriptions"
+                          Removes all of their comment data, username, and email
+address from the site and the database.
                         </p>
                       </div>
                       <div
@@ -2335,7 +2336,7 @@ compliance.
                 <h1
                   className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
                 >
-                  Missing translation "configure-auth-settings"
+                  Session settings
                 </h1>
               </div>
               <fieldset
@@ -2344,7 +2345,7 @@ compliance.
                 <legend
                   className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 >
-                  Missing translation "configure-auth-settings-session-duration-label"
+                  Session duration
                 </legend>
                 <div
                   className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
