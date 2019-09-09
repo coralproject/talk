@@ -39,17 +39,32 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
             Ignored Commenters
           </Typography>
         </Localized>
-        <Localized id="profile-account-ignoredCommenters-manage">
-          <Button
-            variant="outlineFilled"
-            size="small"
-            color="primary"
-            onClick={toggleManage}
-            className={CLASSES.ignoredCommenters.manageButton}
-          >
-            Manage
-          </Button>
-        </Localized>
+        {showManage && (
+          <Localized id="profile-account-ignoredCommenters-cancel">
+            <Button
+              variant="outlineFilled"
+              size="small"
+              color="primary"
+              onClick={toggleManage}
+              className={CLASSES.ignoredCommenters.manageButton}
+            >
+              Cancel
+            </Button>
+          </Localized>
+        )}
+        {!showManage && (
+          <Localized id="profile-account-ignoredCommenters-manage">
+            <Button
+              variant="outlineFilled"
+              size="small"
+              color="primary"
+              onClick={toggleManage}
+              className={CLASSES.ignoredCommenters.manageButton}
+            >
+              Manage
+            </Button>
+          </Localized>
+        )}
       </Flex>
       {showManage && (
         <div>
