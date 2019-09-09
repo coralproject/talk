@@ -10,7 +10,6 @@
 .label {
   composes: bodyCopy from "coral-ui/shared/typography.css";
   display: inline-flex;
-  align-items: center;
   position: relative;
   cursor: pointer;
   user-select: none;
@@ -31,6 +30,8 @@
   border: 1px solid var(--palette-text-primary);
   border-radius: 50%;
   box-sizing: border-box;
+  margin-top: 5px;
+  flex-shrink: 0;
 }
 
 /* Box focus */
@@ -64,7 +65,7 @@
   border-radius: 50%;
   position: absolute;
   left: 3px;
-  top: 6px;
+  top: 8px;
   width: 8px;
   height: 8px;
   box-sizing: border-box;
