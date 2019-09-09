@@ -86,6 +86,7 @@ export const settings = createFixture<GQLSettings>({
     },
   },
   auth: {
+    sessionDuration: 7776000,
     integrations: {
       local: {
         enabled: true,
