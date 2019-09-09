@@ -21,6 +21,13 @@ export interface HistoryCommentProps {
   body: string | null;
   createdAt: string;
   replyCount: number | null;
+  reactionCount: number | null;
+  reactionSettings: {
+    label: string;
+    labelActive: string;
+    icon: string;
+    iconActive: string | null;
+  };
   parentAuthorName?: string | null;
   story: {
     metadata: {
@@ -69,6 +76,18 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = props => {
         </Typography>
       </div>
       <Flex direction="row" alignItems="center" itemGutter="double">
+        {!!props.reactionCount && (
+          <div className={cn(styles.reactions, CLASSES.myComment.reactions)}>
+            <Icon className={styles.icon}>
+              {props.reactionSettings.iconActive
+                ? props.reactionSettings.iconActive
+                : props.reactionSettings.icon}
+            </Icon>
+            <span>
+              {props.reactionCount} {props.reactionSettings.labelActive}
+            </span>
+          </div>
+        )}
         {!!props.replyCount && (
           <div className={cn(styles.replies, CLASSES.myComment.replies)}>
             <Icon className={styles.icon}>reply</Icon>

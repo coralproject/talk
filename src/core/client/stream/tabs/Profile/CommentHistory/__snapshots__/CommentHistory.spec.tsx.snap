@@ -11,6 +11,7 @@ exports[`has more disables load more 1`] = `
         "id": "comment-1",
       }
     }
+    settings={Object {}}
     story={Object {}}
   />
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
@@ -19,6 +20,7 @@ exports[`has more disables load more 1`] = `
         "id": "comment-2",
       }
     }
+    settings={Object {}}
     story={Object {}}
   />
   <Localized
@@ -50,6 +52,7 @@ exports[`has more renders correctly 1`] = `
         "id": "comment-1",
       }
     }
+    settings={Object {}}
     story={Object {}}
   />
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
@@ -58,6 +61,7 @@ exports[`has more renders correctly 1`] = `
         "id": "comment-2",
       }
     }
+    settings={Object {}}
     story={Object {}}
   />
   <Localized
@@ -89,6 +93,7 @@ exports[`renders correctly 1`] = `
         "id": "comment-1",
       }
     }
+    settings={Object {}}
     story={Object {}}
   />
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
@@ -97,6 +102,7 @@ exports[`renders correctly 1`] = `
         "id": "comment-2",
       }
     }
+    settings={Object {}}
     story={Object {}}
   />
 </ForwardRef(forwardRef)>
