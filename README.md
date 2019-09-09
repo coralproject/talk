@@ -25,6 +25,10 @@ Preview Coral easily by running Coral via a Heroku App:
   - [Development](#development)
     - [Email](#email)
     - [Design Language System (UI Components)](#design-language-system-ui-components)
+- [GDPR API Endpoints](#gdpr-api-endpoints)
+  - [Delete](#delete)
+  - [Update email](#update-email)
+  - [Update username](#update-username)
 - [Configuration](#configuration)
 - [License](#license)
 
@@ -398,7 +402,7 @@ You will need to provide a JSON request body indicating the user you want to upd
 }
 ```
 
-### Update email
+### Update username
 
 You will need to provide a JSON request body indicating the user you want to update and the new username you want them to use.
 
