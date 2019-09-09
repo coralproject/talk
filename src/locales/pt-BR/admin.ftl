@@ -67,8 +67,7 @@ login-signInWithOIDC = Entrar com { $name }
 ## Configure
 
 configure-unsavedInputWarning =
-  Você tem entrada não salva.
-  em certeza de que deseja sair desta página?
+  Você tem entrada não salva. Tem certeza de que deseja sair desta página?
 
 configure-sideBarNavigation-general = Geral
 configure-sideBarNavigation-authentication = Autenticação
@@ -151,7 +150,25 @@ configure-organization-emailExplanation =
   da plataforma para os membros da comunidade para entrarem em contato com
   a organização com alguma dúvida sobre o
   status de suas contas ou questões de moderação.
+### Email
 
+configure-email = Configuração de email
+configure-email-configBoxEnabled = Habilitado
+configure-email-fromNameLabel = Do nome
+configure-email-fromNameDescription =
+  Nome como aparecerá no email enviado
+configure-email-fromEmailLabel = Do endereço de email
+configure-email-fromEmailDescription =
+  Endereço de email que será usado para enviar mensagens
+configure-email-smtpHostLabel = hospedeiro de SMTP 
+configure-email-smtpHostDescription = (ex. smtp.sendgrid.com)
+configure-email-smtpPortLabel = porta  SMTP
+configure-email-smtpPortDescription = (ex. 25)
+configure-email-smtpTLSLabel = TLS
+configure-email-smtpAuthenticationLabel = Autenticação SMTP 
+configure-email-smtpCredentialsHeader = credencial de email 
+configure-email-smtpUsernameLabel = nome de usuário
+configure-email-smtpPasswordLabel = senha
 ### Authentication
 
 configure-auth-clientID = Client ID
@@ -214,8 +231,30 @@ configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Usar login com OpenID Connect ligado
 
 ### Moderation
+
+### Recent Comment History
+
+configure-moderation-recentCommentHistory-title = Histórico recente de comentário
+configure-moderation-recentCommentHistory-timeFrame = Período recente do histórico de comentários
+configure-moderation-recentCommentHistory-timeFrame-description =
+  Período de tempo em que a taxa de rejeição de um comentarista é calculada
+  e os comentários enviados são contados.
+configure-moderation-recentCommentHistory-enabled = Filtro de histórico recente de comentários
+configure-moderation-recentCommentHistory-enabled-description =
+  Impede os ofensores de publicar repetidos comentários sem aprovação.
+  Após a taxa de rejeição de um comentarista estourar o limite definido
+  abaixo, os próximos comentários enviados são <strong> enviados para Pendente para
+  aprovação do moderador. </strong> O filtro é removido quando a taxa de rejeição normaliza 
+  novamente.
+configure-moderation-recentCommentHistory-triggerRejectionRate = Limite da taxa de rejeição
+configure-moderation-recentCommentHistory-triggerRejectionRate-description =
+  Calculado pela divisão do número de comentários rejeitados pela soma 
+  dos comentaristas rejeitados e comentários publicados, dentro do período recente 
+  do histórico de comentários(não inclui comentários pendentes para
+  toxicidade, spam ou pré-moderação.)
+
 #### Pre-Moderation
-configure-moderation-preModeration-title = Pre-moderation
+configure-moderation-preModeration-title = Pré-moderação 
 configure-moderation-preModeration-explanation =
   Quando a pré-moderação está ativada, os comentários não serão publicados, a menos que sejam
   aprovados por um moderador.
@@ -243,21 +282,24 @@ configure-moderation-akismet-accountNote =
   na sua conta Akismet: <externalLink>https://akismet.com/account/</externalLink>
 configure-moderation-akismet-siteURL = URL do site
 
-configure-moderation-perspective-title = Filtro de Comentários Tóxicos Perspective API
-configure-moderation-perspective-explanation =
-  Usando a Perspective API, o filtro de comentários tóxicos avisa os usuários quando os comentários excedem a toxicidade predefinida
-  limite. Comentários com uma pontuação de toxicidade acima do limite <strong> não serão publicados </strong> e serão colocados na
-  <strong> fila pendente para revisão por um moderador </strong>. Se aprovado por um moderador, o comentário será publicado.
 
 #### Perspective
 configure-moderation-perspective-filter = Filtro de Comentários Tóxicos
 configure-moderation-perspective-toxicityThreshold = Limite de toxicidade
+
+configure-moderation-perspective-title = Filtro de Comentários Tóxicos Perspective API
+configure-moderation-perspective-explanation =
+  Usando a Perspective API, o filtro de comentários tóxicos avisa os usuários quando 
+  os comentários excedem a toxicidade predefinida limite. Comentários com uma pontuação 
+  de toxicidade acima do limite <strong> não serão publicados </strong> e serão colocados na
+  <strong> fila pendente para revisão por um moderador </strong>. Se aprovado por um moderador,
+ o comentário será publicado.
 configure-moderation-perspective-toxicityThresholdDescription =
   Esse valor pode ser definido como uma porcentagem entre 0 e 100. Esse número representa a probabilidade de
   o comentário ser tóxico, de acordo com a API do Perspective. Por padrão, o limite é definido como { $default } (Disponível apenas para o idioma inglês).
-configure-moderation-perspective-toxicityModel = Toxicity Model
+configure-moderation-perspective-toxicityModel = Modelo de toxicidade
 configure-moderation-perspective-toxicityModelDescription =
-  Choose your Perspective Model. The default is { $default }. You can find out more about model choices <externalLink>here</externalLink>.
+  Escolha seu modelo de perspectiva. O padrão é { $default }. Você pode encontrar mais sobre os modelos <externalLink>aqui</externalLink>.
 configure-moderation-perspective-allowStoreCommentData = Permitir que o Google armazene dados de comentários
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Comentários armazenados serão usados para futuras pesquisas e propósitos de construção de modelos
@@ -297,6 +339,9 @@ configure-advanced-customCSS-explanation =
   URL de uma folha de estilo CSS que substituirá o estilo padrão dos fluxos de comentário das páginas. Pode ser interno ou externo.
 
 configure-advanced-permittedDomains = Domínios Permitidos
+configure-advanced-permittedDomains-description =
+Domínios onde sua instance de { -product-name } pode ser incorporada, incluindo o protocolo
+(ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
 
 configure-advanced-liveUpdates = Atualizações ao vivo do Stream de comentários
 configure-advanced-liveUpdates-explanation =
@@ -306,14 +351,15 @@ configure-advanced-embedCode-title = Incorporar
 configure-advanced-embedCode-explanation =
   Copie e cole o código abaixo no seu CMS para incorporar fluxos de comentários do Coral em
   cada uma das histórias do seu site.
-
-## Decision History
+configure-advanced-embedCode-comment =
+  Substitua essas linhas pelo ID do ID e URL da história do seu CMS para fornecer a maior integração. 
+  Consulte a nossa documentação em https://docs.coralproject.net para todas as opções de configuração.
+  ## Decision History
 decisionHistory-popover =
   .description = Uma caixa de diálogo mostrando o histórico de decisões
 decisionHistory-youWillSeeAList =
   Você verá uma lista de suas ações de moderação de postagens aqui.
-decisionHistory-showMoreButton =
-  Show More
+decisionHistory-showMoreButton = Mostrar mais
 decisionHistory-yourDecisionHistory = Seu Histórico de Decisão
 decisionHistory-rejectedCommentBy = Comentário Rejeitado por <username></username>
 decisionHistory-acceptedCommentBy = Comentário Aceito por <username></username>
@@ -371,6 +417,8 @@ moderate-queue-viewNew =
     [1] Ver {$count} novo comentário
     *[other] Ver {$count} novos comentários
   }
+  moderate-comment-deleted-body =
+  Este comentário não está mais disponível. O comentarista deletou a conta.
 
 ### Moderate Search Bar
 moderate-searchBar-allStories = Todas as histórias
@@ -395,13 +443,77 @@ moderate-searchBar-goTo = Ir para
 moderate-searchBar-seeAllResults = Ver todos os resultados
 
 ### Moderate User History Drawer
-
+moderate-user-drawer-email =
+  .title = Endereço de email
+moderate-user-drawer-created-at =
+  .title = Data de criação da conta
+moderate-user-drawer-member-id =
+  .title = ID do membro
 moderate-user-drawer-tab-all-comments = Todos comentários
 moderate-user-drawer-tab-rejected-comments = Rejeitados
 moderate-user-drawer-load-more = Carregar mais
 moderate-user-drawer-all-no-comments = {$username} não enviou comentários.
 moderate-user-drawer-rejected-no-comments = {$username} não tem comentários rejeitados.
 moderate-user-drawer-user-not-found = Usuário não encontrado.
+moderate-user-drawer-tab-account-history = Histórico da conta
+moderate-user-drawer-status-label = Status:
+
+moderate-user-drawer-account-history-system = <icon>computer</icon> Sistema
+moderate-user-drawer-account-history-suspension-ended = Suspensão terminada
+moderate-user-drawer-account-history-suspension-removed = Suspensão removida
+moderate-user-drawer-account-history-banned = Banida
+moderate-user-drawer-account-history-ban-removed = Banimento removido
+moderate-user-drawer-account-history-no-history = Nenhuma ação foi realizada nesta conta
+moderate-user-drawer-username-change = Nome de usuário alterado
+moderate-user-drawer-username-change-new = Novo:
+moderate-user-drawer-username-change-old = Antigo:
+
+moderate-user-drawer-suspension =
+  Suspensão, { $value } { $unit ->
+    [second] { $value ->
+      [1] segundo
+      *[other] segundos
+    }
+    [minute] { $value ->
+      [1] minuto
+      *[other] minutos
+    }
+    [hour] { $value ->
+      [1] hora
+      *[other] horas
+    }
+    [day] { $value ->
+      [1] dia
+      *[other] dias
+    }
+    [week] { $value ->
+      [1] semana
+      *[other] semanas
+    }
+    [month] { $value ->
+      [1] mês
+      *[other] meses
+    }
+    [year] { $value ->
+      [1] ano
+      *[other] anos
+    }
+    *[other] unidade desconhecida
+  }
+
+
+moderate-user-drawer-recent-history-title = Histórico recente de comentários
+moderate-user-drawer-recent-history-calculated =
+  Calculado nos últimos  { framework-timeago-time }
+moderate-user-drawer-recent-history-rejected = Rejeitado
+moderate-user-drawer-recent-history-tooltip-title = Como isso é calculado?
+moderate-user-drawer-recent-history-tooltip-body =
+  Comentários rejeitados divididos pela soma dos
+  comentários publicados e rejeitados, durante o histórico recente de comentários
+  prazo.
+moderate-user-drawer-recent-history-tooltip-button =
+  .aria-label = Alternar dica de ferramenta do histórico de comentários recentes
+moderate-user-drawer-recent-history-tooltip-submitted = Enviado
 
 ## Create Username
 
@@ -445,6 +557,7 @@ createPassword-passwordTextField =
   .placeholder = Senha
 
 ## Community
+
 community-emptyMessage = Não conseguimos encontrar ninguém na sua comunidade que corresponda aos seus critérios.
 
 community-filter-searchField =
@@ -497,6 +610,26 @@ community-banModal-consequence =
   reações ou relatar comentários.
 community-banModal-cancel = Cancelar
 community-banModal-banUser = Banir Usário
+community-suspendModal-areYouSure = Banir <strong>{ $username }</strong>?
+community-suspendModal-consequence = Uma vez banido, este usuário não poderá mais comentar, reagir ou reportar comentários
+community-suspendModal-duration-3600 = 1 hora
+community-suspendModal-duration-10800 = 3 horas
+community-suspendModal-duration-86400 = 24 horas
+community-suspendModal-duration-604800 = 7 dias
+community-suspendModal-cancel = Cancelar
+community-suspendModal-suspendUser = Usuário banido
+community-suspendModal-emailTemplate =
+  Olá { $username },
+
+  De acordo com as orientações da comunidade da { $organizationName }, sua conta foi banida temporariamente. Durante a suspensão, você não poderá comentar, denunciar ou interagir com os outros comentaristas. Por favor tente comentar novamente em { framework-timeago-time }.
+  
+community-suspendModal-customize = Customize o email de suspensão.
+
+community-suspendModal-success =
+  <strong>{ $username }</strong> foi banido por <strong>{ $duration }</strong>
+
+community-suspendModal-success-close = Fechado
+community-suspendModal-selectDuration = Selecione o período de suspensão.
 
 community-invite-inviteMember = Convidar membros para sua organização
 community-invite-emailAddressLabel = Endereço de email:
@@ -574,3 +707,42 @@ invite-goToAdmin = Ir para a administração { -product-name }
 invite-goToOrganization = Ir para { $organizationName }
 invite-tokenNotFound =
   O link especificado é inválido, verifique se ele foi copiado corretamente.
+
+userDetails-banned-on = <strong>Banido em </strong> { $timestamp }
+userDetails-banned-by = <strong>por</strong> { $username }
+userDetails-suspended-by = <strong>Banido por</strong> { $username }
+userDetails-suspension-start = <strong>Início:</strong> { $timestamp }
+userDetails-suspension-end = <strong>Fim:</strong> { $timestamp }
+
+configure-general-reactions-title = Reações
+configure-general-reactions-explanation =
+  Permitir que sua comunidade interaja com as outras e que se expressem 
+  com as reações de um clique. Por padrão, o Coral permite que os comentaristas "Respeitem" 
+  uns aos outros, mas você pode customizar os textos de reações de acordo com a necessidade
+  da sua comunidade.
+configure-general-reactions-label = Legenda para a reação
+configure-general-reactions-input =
+  .placehodlder = Ex: Respeito
+configure-general-reactions-active-label = Ativar a legenda para a reação
+configure-general-reactions-active-input =
+  .placehodlder = Ex: Respeitado
+configure-general-reactions-sort-label = Legenda para o menu de ordenação
+configure-general-reactions-sort-input =
+  .placehodlder = Ex: Mais Respeitado
+configure-general-reactions-preview = Pré-visualização
+configure-general-reaction-sortMenu-sortBy = Ordenar por
+
+configure-account-features-title = Gerenciamento de recursos da conta de comentaristas
+configure-account-features-explanation = 
+  Você pode habilitar ou desabilitar certos recursos para seus comentaristas para 
+  usar dentro de suas contas. Esses recursos também ajudam na 
+  conformidade com o GDPR
+configure-account-features-allow = Permitir usuários a:
+configure-account-features-change-usernames = Mudar seus nomes de usuário
+configure-account-features-change-usernames-details = O nome de usuário pode ser alterado uma vez a cada 14 dias.
+configure-account-features-yes = Sim
+configure-account-features-no = Não
+configure-account-features-download-comments = Fazer o download de seus comentários
+configure-account-features-download-comments-details = Comentaristas podem fazer download de um csv do histórico de comentarista
+configure-account-features-delete-account = Excluir suas contas.
+configure-account-features-delete-account-details = Remover todos os dados de comentários, nome de usuário e endereço de email do site e do banco de dados
