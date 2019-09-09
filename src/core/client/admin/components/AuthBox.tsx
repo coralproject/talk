@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import {
-  BrandIcon,
+  BrandMark,
   BrandName,
   Flex,
   HorizontalGutter,
@@ -22,7 +22,7 @@ const AuthBox: FunctionComponent<Props> = ({ title, children }) => {
         <HorizontalGutter className={styles.container} size="double">
           <Flex justifyContent="center">
             <div className={styles.brandIcon}>
-              <BrandIcon size="lg" />
+              <BrandMark size="lg" />
             </div>
           </Flex>
           <div>

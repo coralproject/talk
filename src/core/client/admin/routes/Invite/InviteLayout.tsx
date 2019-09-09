@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import Version from "coral-admin/App/Version";
-import { AppBar, Flex, Logo } from "coral-ui/components";
+import { AppBar, Flex, LogoHorizontal } from "coral-ui/components";
 import { Begin } from "coral-ui/components/AppBar";
 
 import styles from "./InviteLayout.css";
@@ -11,7 +11,7 @@ const InviteLayout: FunctionComponent = ({ children }) => (
     <AppBar gutterBegin gutterEnd>
       <Begin itemGutter="double">
         <div className={styles.logoContainer}>
-          <Logo />
+          <LogoHorizontal />
           <Version />
         </div>
       </Begin>

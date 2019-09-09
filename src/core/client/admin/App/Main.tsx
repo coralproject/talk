@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Logo } from "coral-ui/components";
+import { LogoHorizontal } from "coral-ui/components";
 import { AppBar, Begin, Divider, End } from "coral-ui/components/AppBar";
 
 import { DecisionHistoryButton } from "./DecisionHistory";
@@ -22,7 +22,7 @@ const Main: FunctionComponent<Props> = ({ children, viewer }) => (
     <AppBar gutterBegin gutterEnd>
       <Begin itemGutter="double">
         <div className={styles.logoContainer}>
-          <Logo />
+          <LogoHorizontal />
           <Version />
         </div>
         <NavigationContainer viewer={viewer} />
