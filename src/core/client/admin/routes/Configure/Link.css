@@ -8,12 +8,21 @@
 
   &:hover {
     cursor: pointer;
+    border-left: 2px solid var(--palette-brand-main);
+    padding-left: calc(var(--mini-unit) + 1px);
+    color: var(--palette-text-primary);
   }
 }
 
 .linkActive {
   composes: sideNavigationActive from "coral-ui/shared/typography.css";
-  margin-left: 0px;
+  margin-left: 2px;
   border-left: calc(0.5 * var(--mini-unit)) solid var(--palette-brand-main);
   padding-left: var(--mini-unit);
+
+  &:hover {
+    border-left: calc(0.5 * var(--mini-unit)) solid var(--palette-brand-main);
+    padding-left: var(--mini-unit);
+    color: var(--palette-text-primary);
+  }
 }
