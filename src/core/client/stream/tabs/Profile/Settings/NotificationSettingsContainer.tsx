@@ -68,31 +68,18 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
         }) => (
           <form onSubmit={handleSubmit}>
             <HorizontalGutter>
-              <Flex justifyContent="space-between" alignItems="flex-start">
-                <HorizontalGutter>
-                  <Localized id="profile-account-notifications-emailNotifications">
-                    <Typography variant="heading1">
-                      Email Notifications
-                    </Typography>
-                  </Localized>
-                  <Localized id="profile-account-notifications-receiveWhen">
-                    <Typography variant="heading4">
-                      Receive notifications when:
-                    </Typography>
-                  </Localized>
-                </HorizontalGutter>
-                <Localized id="profile-account-notifications-button-update">
-                  <Button
-                    color="primary"
-                    variant="outlineFilled"
-                    type="submit"
-                    disabled={submitting || pristine}
-                    className={CLASSES.emailNotifications.updateButton}
-                  >
-                    Update
-                  </Button>
+              <HorizontalGutter>
+                <Localized id="profile-account-notifications-emailNotifications">
+                  <Typography variant="heading1">
+                    Email Notifications
+                  </Typography>
                 </Localized>
-              </Flex>
+                <Localized id="profile-account-notifications-receiveWhen">
+                  <Typography variant="heading4">
+                    Receive notifications when:
+                  </Typography>
+                </Localized>
+              </HorizontalGutter>
               <FieldSet>
                 <FormField>
                   <Field name="onReply" type="checkbox">
@@ -182,6 +169,17 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                   </Flex>
                 </FormField>
               </FieldSet>
+              <Localized id="profile-account-notifications-button-update">
+                <Button
+                  color="primary"
+                  variant="outlineFilled"
+                  type="submit"
+                  disabled={submitting || pristine}
+                  className={CLASSES.emailNotifications.updateButton}
+                >
+                  Update
+                </Button>
+              </Localized>
               {submitError && (
                 <CallOut color="error" fullWidth>
                   {submitError}
