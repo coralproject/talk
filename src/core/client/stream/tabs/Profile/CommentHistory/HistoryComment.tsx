@@ -23,7 +23,6 @@ export interface HistoryCommentProps {
   replyCount: number | null;
   reactionCount: number | null;
   reactionSettings: {
-    label: string;
     labelActive: string;
     icon: string;
     iconActive: string | null;

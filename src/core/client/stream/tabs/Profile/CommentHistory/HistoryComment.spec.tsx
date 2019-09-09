@@ -17,7 +17,6 @@ it("renders correctly", () => {
     replyCount: 4,
     reactionCount: 0,
     reactionSettings: {
-      label: "reply",
       labelActive: "replies",
       icon: "icon",
       iconActive: "icon",
