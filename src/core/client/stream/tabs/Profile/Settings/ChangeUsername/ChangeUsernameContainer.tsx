@@ -32,7 +32,6 @@ import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
   Box,
   Button,
-  ButtonIcon,
   CallOut,
   CardCloseButton,
   Flex,
@@ -321,11 +320,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                           Cancel
                         </Button>
                       </Localized>
-                      <Localized
-                        id="profile-changeUsername-submit"
-                        ButtonIcon={<ButtonIcon>save</ButtonIcon>}
-                        span={<span />}
-                      >
+                      <Localized id="profile-changeUsername-submit-button-save">
                         <Button
                           className={CLASSES.myUsername.form.saveButton}
                           variant={pristine || invalid ? "outlined" : "filled"}
@@ -334,7 +329,6 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                           color={pristine || invalid ? "regular" : "primary"}
                           disabled={pristine || invalid}
                         >
-                          <ButtonIcon>save</ButtonIcon>
                           <span>Save</span>
                         </Button>
                       </Localized>
