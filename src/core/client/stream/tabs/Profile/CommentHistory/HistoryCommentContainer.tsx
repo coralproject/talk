@@ -60,9 +60,8 @@ const enhanced = withSetCommentIDMutation(
     settings: graphql`
       fragment HistoryCommentContainer_settings on Settings {
         reaction {
-          labelActive
+          label
           icon
-          iconActive
         }
       }
     `,

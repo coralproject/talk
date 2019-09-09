@@ -17,9 +17,8 @@ it("renders correctly", () => {
     replyCount: 4,
     reactionCount: 0,
     reactionSettings: {
-      labelActive: "replies",
+      label: "reaction",
       icon: "icon",
-      iconActive: "icon",
     },
     story: {
       metadata: {
