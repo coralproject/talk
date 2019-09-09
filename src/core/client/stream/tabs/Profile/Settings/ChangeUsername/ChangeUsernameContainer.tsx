@@ -32,7 +32,6 @@ import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
   Box,
   Button,
-  ButtonIcon,
   CallOut,
   CardCloseButton,
   Flex,
