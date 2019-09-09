@@ -364,6 +364,51 @@ npm run docz -- dev
 
 After compilation has finished you can access docz at http://localhost:3030/.
 
+## GDPR API Endpoints
+
+There are 4 end points that you can call into to allow you to automate management of user accounts to comply with GDPR requirements.
+
+- Delete
+- Update email
+- Update username
+- Download user comments
+
+You'll need to compose a POST request with the authentication headers set appropriately. You can grab the authentication header by signing in and monitoring your network requests with the debug tools of your browser of choice. Then you can pull the authentication token off of the request to use in your call scripts.
+
+Please note, only administrator users are authorized to make calls on these endpoints.
+
+### Delete
+
+You will need to provide a JSON request body to indicate which user you wish to delete.
+
+```
+{
+	"userID": "<user_id_you_want_to_delete>"
+}
+```
+
+### Update email
+
+You will need to provide a JSON request body indicating the user you want to update and the new email you want them to use.
+
+```
+{
+	"userID": "<user_id_you_want_to_update>",
+	"email": "<email_you_want_to_update_to>"
+}
+```
+
+### Update email
+
+You will need to provide a JSON request body indicating the user you want to update and the new username you want them to use.
+
+```
+{
+	"userID": "<user_id_you_want_to_update>",
+	"newUsername": "<new_user_name>"
+}
+```
+
 ## Configuration
 
 The following environment variables can be set to configure the Coral Server. You
