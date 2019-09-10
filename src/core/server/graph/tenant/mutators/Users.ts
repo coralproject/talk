@@ -28,12 +28,14 @@ import {
   updateUsernameByID,
 } from "coral-server/services/users";
 import { invite } from "coral-server/services/users/auth/invite";
+import { deleteUser } from "coral-server/services/users/delete";
 
 import {
   GQLBanUserInput,
   GQLCancelAccountDeletionInput,
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
+  GQLDeleteUserAccountInput,
   GQLIgnoreUserInput,
   GQLInviteUsersInput,
   GQLRemoveUserBanInput,
@@ -135,6 +137,15 @@ export const Users = (ctx: TenantContext) => ({
       ),
       { "input.password": [ERROR_CODES.PASSWORD_INCORRECT] }
     ),
+  deleteAccount: async (
+    input: GQLDeleteUserAccountInput
+  ): Promise<Readonly<User> | null> => {
+    if (input.userID === ctx.user!.id) {
+      throw new Error("cannot delete self immediately");
+    }
+
+    return deleteUser(ctx.mongo, input.userID, ctx.tenant.id, ctx.now);
+  },
   cancelAccountDeletion: async (
     input: GQLCancelAccountDeletionInput
   ): Promise<Readonly<User> | null> =>

@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { DateTime, DurationObject } from "luxon";
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
@@ -2134,5 +2135,43 @@ export async function pullUserNotificationDigests(
     }
   );
 
+  return result.value || null;
+}
+
+/**
+ * retrieveUserScheduledForDeletion will return a user that is scheduled for
+ * deletion as well as create a reschedule date in the future.
+ *
+ * @param mongo the database to pull scheduled users to delete from
+ * @param tenantID the tenant ID to pull users that have been scheduled for
+ * deletion on
+ * @param now the current time
+ */
+export async function retrieveUserScheduledForDeletion(
+  mongo: Db,
+  tenantID: string,
+  rescheduledDuration: DurationObject,
+  now: Date
+) {
+  const rescheduledDeletionDate = DateTime.fromJSDate(now)
+    .plus(rescheduledDuration)
+    .toJSDate();
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      scheduledDeletionDate: { $lte: now },
+    },
+    {
+      $set: {
+        scheduledDeletionDate: rescheduledDeletionDate,
+      },
+    },
+    {
+      // We want to get back the user with
+      // modified scheduledDeletionDate
+      returnOriginal: false,
+    }
+  );
   return result.value || null;
 }
