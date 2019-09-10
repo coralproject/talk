@@ -40,7 +40,7 @@ $callout_link_hover_color: darken($callout_link_color, 5%);
 // // Buttons
 
 $coral_button_background: $coral_light_blue;
-$coral_button_color: black;
+$coral_button_color: $coral_orange;
 $coral_button_hover_color: darken($coral_button_background, 5%);
 $coral_button_invert_color: $coral_dark_gray;
 $coral_button_invert_hover_color: lighten($coral_button_invert_color, 20%);

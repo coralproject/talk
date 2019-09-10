@@ -86,10 +86,18 @@ sidebar:
               url: /
             - title: Configuration
               url: /v5/configuration/
-            - title: Integration
-              url: /v5/integrating/
             - title: Developing
               url: /v5/developing/
+        - title: Integration
+          children:
+            - title: CMS Integration
+              url: /v5/integrating/cms/
+            - title: Single Sign On
+              url: /v5/integrating/sso/
+        - title: API
+          children:
+            - title: GraphQL Overview
+              url: /v5/api/overview/
     - title: Version 4
       children:
         - title: Installation
