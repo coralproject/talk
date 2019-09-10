@@ -161,7 +161,7 @@ it("change message box", async () => {
   });
 
   const enableField = within(form).getByLabelText(
-    "Enable Message Box for this Stream"
+    "Enable Message Box for this Story"
   );
 
   expect(applyButton.props.disabled).toBe(true);

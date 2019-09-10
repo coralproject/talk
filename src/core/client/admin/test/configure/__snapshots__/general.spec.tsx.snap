@@ -211,10 +211,10 @@ exports[`renders configure general 1`] = `
               <p
                 className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
               >
-                Open or close comment streams for new comments sitewide. When new comments
-are turned off sitewide, new comments cannot be submitted, but existing
-comments can continue to receive “Respect” reactions, be reported, and be
-shared.
+                Open or close comment streams for new comments sitewide. 
+When new comments are turned off, new comments cannot be 
+submitted, but existing comments can continue to receive 
+reactions, be reported, and be shared.
               </p>
               <fieldset
                 className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -386,10 +386,10 @@ shared.
                 <p
                   className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                 >
-                  Write a summary of your community guidelines that will appear
-at the top of each comment stream sitewide. Your summary can be
-formatted using Markdown Syntax. More information on how to use
-Markdown can be found 
+                  This will appear above the comments sitewide. 
+You can format the text using Markdown. 
+More information on how to use Markdown 
+
                   <a
                     className="ExternalLink-root"
                     href="#"
@@ -827,7 +827,7 @@ moderation panel.
               <p
                 className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
               >
-                Write a message to appear after a story is closed for commenting.
+                Write a message to appear when a story is closed for commenting.
               </p>
               <div
                 className="MarkdownEditor-wrapper"
@@ -858,9 +858,8 @@ moderation panel.
                 className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
               >
                 Allow your community to engage with one another and express themselves
-with one-click reactions. By default, Coral allows commenters to
-"Respect" each other's comments, but you may customize reaction text
-based on the needs of your community.
+with one-click reactions. By default, Coral allows commenters to "Respect" 
+each other's comments.
               </p>
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-double"

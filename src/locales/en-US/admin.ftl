@@ -87,10 +87,10 @@ configure-permissionField-dontAllow = Don't allow
 ### General
 configure-general-guidelines-title = Community guidelines summary
 configure-general-guidelines-explanation =
-  Write a summary of your community guidelines that will appear
-  at the top of each comment stream sitewide. Your summary can be
-  formatted using Markdown Syntax. More information on how to use
-  Markdown can be found <externalLink>here</externalLink>.
+  This will appear above the comments sitewide. 
+  You can format the text using Markdown. 
+  More information on how to use Markdown 
+  <externalLink>here</externalLink>.
 configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
 #### Locale
@@ -100,10 +100,10 @@ configure-general-locale-chooseLanguage = Choose the language for your Coral com
 #### Sitewide Commenting
 configure-general-sitewideCommenting-title = Sitewide commenting
 configure-general-sitewideCommenting-explanation =
-  Open or close comment streams for new comments sitewide. When new comments
-  are turned off sitewide, new comments cannot be submitted, but existing
-  comments can continue to receive “Respect” reactions, be reported, and be
-  shared.
+  Open or close comment streams for new comments sitewide. 
+  When new comments are turned off, new comments cannot be 
+  submitted, but existing comments can continue to receive 
+  reactions, be reported, and be shared.
 configure-general-sitewideCommenting-enableNewCommentsSitewide =
   Enable new comments sitewide
 configure-general-sitewideCommenting-onCommentStreamsOpened =
@@ -145,7 +145,7 @@ configure-general-commentEditing-seconds = Seconds
 
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
-configure-general-closedStreamMessage-explanation = Write a message to appear after a story is closed for commenting.
+configure-general-closedStreamMessage-explanation = Write a message to appear when a story is closed for commenting.
 
 ### Organization
 configure-organization-name = Organization name
@@ -153,10 +153,10 @@ configure-organization-nameExplanation =
   Your organization name will appear on emails sent by { -product-name } to your community and organization members.
 configure-organization-email = Organization email
 configure-organization-emailExplanation =
-  This email address will be used as in emails and across
-  the platform for community members to get in touch with
-  the organization should they have any questions about the
-  status of their accounts or moderation questions.
+  Open or close comment streams for new comments sitewide. When new comments
+  are turned off sitewide, new comments cannot be submitted, but existing
+  comments can continue to receive reactions, be reported, and be
+  shared.
 configure-organization-url = Organization URL
 configure-organization-urlExplanation =
   Your organization url will appear on emails sent by { -product-name } to your community and organization members.
@@ -252,19 +252,18 @@ configure-auth-settings-session-duration-label = Session duration
 configure-moderation-recentCommentHistory-title = Recent history
 configure-moderation-recentCommentHistory-timeFrame = Recent comment history time period
 configure-moderation-recentCommentHistory-timeFrame-description =
-  The period of time over which a user’s rejection rate is calculated.
+  Amount of time to calculate a commenter's rejection rate.
 configure-moderation-recentCommentHistory-enabled = Recent history filter
 configure-moderation-recentCommentHistory-enabled-description =
-  Prevents repeat offenders from publishing comments without approval.
-  After a commenter's rejection rate rises above the defined threshold
-  below, their next submitted comments are <strong>sent to Pending for
-  moderator approval.</strong> The filter is removed when their rejection rate
-  falls below the threshold.
+  Prevents repeat offenders from publishing comments without approval. 
+  When a commenter's rejection rate is above the threshold, their 
+  comments are sent to Pending for moderator approval. This does not 
+  apply to Staff comments.
 configure-moderation-recentCommentHistory-triggerRejectionRate = Rejection rate threshold
 configure-moderation-recentCommentHistory-triggerRejectionRate-description =
-  A user’s rejected comments divided by their published comments, over
-  the time period set below (does not include comments pending for
-  toxicity, spam or pre-moderation.)
+  Rejected comments ÷ (rejected comments + published comments) 
+  over the timeframe above, as a percentage. It does not include 
+  comments pending for toxicity, spam or pre-moderation.
 
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pre-moderation
@@ -280,13 +279,10 @@ configure-moderation-apiKey = API key
 
 configure-moderation-akismet-title = Spam detection filter
 configure-moderation-akismet-explanation =
-  Submitted comments are passed to the Akismet API for spam detection.
-  If a comment is determined to be spam, it will prompt the user,
-  indicating that the comment might be considered spam.
-  If the user continues after this point with the still spam-like comment,
-  the comment will be marked as containing spam, <strong>will not be published</strong> and
-  are placed in the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator,
-  the comment will be published.
+  The Akismet API filter warns users when a comment is determined likely 
+  to be spam. Comments that Akismet thinks are spam will not be published 
+  and are placed in the Pending Queue for review by a moderator. 
+  If approved by a moderator, the comment will be published.
 
 #### Akismet
 configure-moderation-akismet-filter = Spam detection filter
@@ -299,9 +295,12 @@ configure-moderation-akismet-siteURL = Site URL
 #### Perspective
 configure-moderation-perspective-title = Toxic comment filter
 configure-moderation-perspective-explanation =
-  Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
-  threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
-  the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator, the comment will be published.
+  Using the Perspective API, the Toxic Comment filter warns users 
+  when comments exceed the predefined toxicity threshold. 
+  Comments with a toxicity score above the threshold 
+  <strong>will not be published</strong> and are placed in
+  the <strong>Pending Queue for review by a moderator</strong>. 
+  If approved by a moderator, the comment will be published.
 configure-moderation-perspective-filter = Toxic comment filter
 configure-moderation-perspective-toxicityThreshold = Toxicity threshold
 configure-moderation-perspective-toxicityThresholdDescription =
@@ -309,7 +308,8 @@ configure-moderation-perspective-toxicityThresholdDescription =
   comment is toxic, according to Perspective API. By default the threshold is set to { $default }.
 configure-moderation-perspective-toxicityModel = Toxicity model
 configure-moderation-perspective-toxicityModelDescription =
-  Choose your Perspective Model. The default is { $default }. You can find out more about model choices <externalLink>here</externalLink>.
+  Choose your Perspective Model. The default is { $default }. 
+  You can find out more about model choices <externalLink>here</externalLink>.
 configure-moderation-perspective-allowStoreCommentData = Allow Google to store comment data
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Stored comments will be used for future research and community model building purposes to
@@ -327,9 +327,7 @@ configure-wordList-banned-explanation =
   Comments containing a word or phrase in the banned words list are <strong>automatically rejected and are not published</strong>.
 configure-wordList-banned-wordList = Banned word list
 configure-wordList-banned-wordListDetail =
-  Separate banned words or phrases with a new line. Attempting to copy
-  and paste a comma separated list? <externalLink>Learn how to convert your list
-  to a new line separated list.</externalLink>
+  Separate banned words or phrases with a new line.
 
 #### Suspect Words Configuration
 configure-wordList-suspect-bannedWordsAndPhrases = Suspect words and phrases
@@ -339,9 +337,7 @@ configure-wordList-suspect-explanation =
   published (if comments are not pre-moderated).</strong>
 configure-wordList-suspect-wordList = Suspect word list
 configure-wordList-suspect-wordListDetail =
-  Separate suspect words or phrases with a new line. Attempting to copy
-  and paste a comma separated list? <externalLink>Learn how to convert your list
-  to a new line separated list.</externalLink>
+  Separate suspect words or phrases with a new line. 
 
 ### Advanced
 configure-advanced-customCSS = Custom CSS
@@ -356,7 +352,8 @@ configure-advanced-permittedDomains-description =
 
 configure-advanced-liveUpdates = Comment stream live updates
 configure-advanced-liveUpdates-explanation =
-  When enabled, there will be real-time loading and updating of comments as new comments and replies are published
+  When enabled, there will be real-time loading and updating of comments. 
+  When disabled, users will have to refresh the page to see new comments.
 
 configure-advanced-embedCode-title = Embed code
 configure-advanced-embedCode-explanation =
@@ -527,9 +524,8 @@ moderate-user-drawer-recent-history-calculated =
 moderate-user-drawer-recent-history-rejected = Rejected
 moderate-user-drawer-recent-history-tooltip-title = How is this calculated?
 moderate-user-drawer-recent-history-tooltip-body =
-  Rejected comments divided by the sum of rejected and
-  published comments, during the recent comment history
-  time frame.
+  Rejected comments ÷ (rejected comments + published comments). 
+  The threshold can be changed by administrators in Configure > Moderation.
 moderate-user-drawer-recent-history-tooltip-button =
   .aria-label = Toggle recent comment history tooltip
 moderate-user-drawer-recent-history-tooltip-submitted = Submitted
@@ -740,9 +736,8 @@ userDetails-suspension-end = <strong>End:</strong> { $timestamp }
 configure-general-reactions-title = Reactions
 configure-general-reactions-explanation =
   Allow your community to engage with one another and express themselves
-  with one-click reactions. By default, Coral allows commenters to
-  "Respect" each other's comments, but you may customize reaction text
-  based on the needs of your community.
+  with one-click reactions. By default, Coral allows commenters to "Respect" 
+  each other's comments. 
 configure-general-reactions-label = Reaction label
 configure-general-reactions-input =
   .placeholder = E.g. Respect

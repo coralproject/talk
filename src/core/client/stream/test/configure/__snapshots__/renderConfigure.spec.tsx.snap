@@ -123,7 +123,10 @@ exports[`renders configure 1`] = `
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
               >
-                When enabled, there will be real-time loading and updating of comments as new comments and replies are published.
+                When enabled, the comments will be updated instantly 
+as new comments and replies are submitted, instead of 
+requiring a page refresh. You can disable this in the 
+unusual situation of an article getting so much traffic that the comments are loading slowly.
               </p>
             </div>
           </div>
@@ -166,7 +169,7 @@ exports[`renders configure 1`] = `
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
               >
-                Moderators must approve any comment before it is published to this stream.
+                Moderators must approve any comment before it is published to this story.
               </p>
             </div>
           </div>
@@ -209,7 +212,7 @@ exports[`renders configure 1`] = `
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
               >
-                Moderators must approve any comment that contains a link before it is published to this stream.
+                Moderators must approve any comment that contains a link before it is published to this story.
               </p>
             </div>
           </div>
@@ -240,7 +243,7 @@ exports[`renders configure 1`] = `
                     className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
                   >
                     <span>
-                      Enable Message Box for this Stream
+                      Enable Message Box for this Story
                     </span>
                   </span>
                 </span>
@@ -255,8 +258,9 @@ exports[`renders configure 1`] = `
                 <p
                   className="Box-root Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
                 >
-                  Add a message to the top of the comment box for your readers. Use this to pose a topic,
-ask a question or make announcements relating to this story.
+                  Add a message to the top of the comment box for your readers. 
+Use this to suggest a discussion topic, ask a question or make 
+announcements relating to the comments on this story.
                 </p>
               </div>
             </div>

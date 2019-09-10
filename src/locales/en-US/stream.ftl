@@ -22,7 +22,7 @@ comments-allCommentsTab = All Comments
 comments-featuredTab = Featured
 comments-featuredCommentTooltip-how = How is a comment featured?
 comments-featuredCommentTooltip-handSelectedComments =
-  Comments are hand selected by our team as worth reading.
+  Comments are chosen by our team as worth reading. 
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
 
@@ -197,8 +197,10 @@ profile-commentHistory-empty-subheading = A history of your comments will appear
 ### Account
 profile-account-ignoredCommenters = Ignored Commenters
 profile-account-ignoredCommenters-description =
-  Once you ignore someone, all of their comments are hidden from you.
-  Commenters you ignore will still be able to see your comments.
+  You can Ignore other commenters by clicking on their username 
+  and selecting Ignore. When you ignore someone, all of their 
+  comments are hidden from you. Commenters you Ignore will still 
+  be able to see your comments.
 profile-account-ignoredCommenters-empty = You are not currently ignoring anyone
 profile-account-ignoredCommenters-stopIgnoring = Stop ignoring
 profile-account-ignoredCommenters-manage = Manage
@@ -378,20 +380,24 @@ configure-stream-apply = Apply
 
 configure-premod-title = Enable Pre-Moderation
 configure-premod-description =
-  Moderators must approve any comment before it is published to this stream.
+  Moderators must approve any comment before it is published to this story.
 
 configure-premodLink-title = Pre-Moderate Comments Containing Links
 configure-premodLink-description =
-  Moderators must approve any comment that contains a link before it is published to this stream.
+  Moderators must approve any comment that contains a link before it is published to this story.
 
 configure-liveUpdates-title = Enable Live Updates for this Story
 configure-liveUpdates-description =
-  When enabled, there will be real-time loading and updating of comments as new comments and replies are published.
+  When enabled, the comments will be updated instantly 
+  as new comments and replies are submitted, instead of 
+  requiring a page refresh. You can disable this in the 
+  unusual situation of an article getting so much traffic that the comments are loading slowly.
 
-configure-messageBox-title = Enable Message Box for this Stream
+configure-messageBox-title = Enable Message Box for this Story
 configure-messageBox-description =
-  Add a message to the top of the comment box for your readers. Use this to pose a topic,
-  ask a question or make announcements relating to this story.
+  Add a message to the top of the comment box for your readers. 
+  Use this to suggest a discussion topic, ask a question or make 
+  announcements relating to the comments on this story.
 configure-messageBox-preview = Preview
 configure-messageBox-selectAnIcon = Select an Icon
 configure-messageBox-noIcon = No Icon
@@ -426,8 +432,8 @@ profile-changeEmail-edit = Edit
 profile-changeEmail-please-verify = Verify your email address
 profile-changeEmail-please-verify-details =
   An email has been sent to { $email } to verify your account.
-  You must verify your new email address before it can be used for
-  signing into your account or for email notifications.
+  You must verify your new email address before it can be used 
+  to sign in to your account or to receive notifications.
 profile-changeEmail-resend = Resend verification
 profile-changeEmail-heading = Edit your email address
 profile-changeEmail-desc = Change the email address used for signing in and for receiving communication about your account.
