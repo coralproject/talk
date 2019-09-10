@@ -12,7 +12,6 @@ const InviteLayout: FunctionComponent = ({ children }) => (
       <Begin itemGutter="double">
         <div className={styles.logoContainer}>
           <LogoHorizontal />
-          <Version />
         </div>
       </Begin>
     </AppBar>
@@ -24,6 +23,7 @@ const InviteLayout: FunctionComponent = ({ children }) => (
     >
       {children}
     </Flex>
+    <Version />
   </div>
 );
 

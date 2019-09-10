@@ -23,7 +23,6 @@ const Main: FunctionComponent<Props> = ({ children, viewer }) => (
       <Begin itemGutter="double">
         <div className={styles.logoContainer}>
           <LogoHorizontal />
-          <Version />
         </div>
         <NavigationContainer viewer={viewer} />
       </Begin>
@@ -34,6 +33,7 @@ const Main: FunctionComponent<Props> = ({ children, viewer }) => (
       </End>
     </AppBar>
     {children}
+    <Version />
   </div>
 );
 

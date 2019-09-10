@@ -1,7 +1,6 @@
 .base {
   height: 34px;
   width: 89px;
-  padding-top: var(--spacing-2);
 }
 
 .hiddenTitle { 
