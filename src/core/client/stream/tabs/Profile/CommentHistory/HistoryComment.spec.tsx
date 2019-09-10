@@ -15,6 +15,11 @@ it("renders correctly", () => {
     body: "Hello World",
     createdAt: "2018-07-06T18:24:00.000Z",
     replyCount: 4,
+    reactionCount: 0,
+    reactionSettings: {
+      label: "reaction",
+      icon: "icon",
+    },
     story: {
       metadata: {
         title: "Story Title",

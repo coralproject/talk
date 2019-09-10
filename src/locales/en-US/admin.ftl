@@ -242,6 +242,9 @@ configure-auth-oidc-tokenURL = Token URL
 configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Use OpenID Connect login on
 
+configure-auth-settings = Session settings 
+configure-auth-settings-session-duration-label = Session duration
+
 ### Moderation
 
 ### Recent Comment History
@@ -762,6 +765,10 @@ configure-account-features-download-comments-details = Commenters can download a
 configure-account-features-delete-account = Delete their account
 configure-account-features-delete-account-details =
   Removes all of their comment data, username, and email address from the site and the database.
+
+configure-account-features-delete-account-fieldDescriptions = 
+  Removes all of their comment data, username, and email
+  address from the site and the database.
 
 configure-advanced-stories = Story creation
 configure-advanced-stories-explanation = Advanced settings for how stories are created within Coral.

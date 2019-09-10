@@ -26,6 +26,7 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
 
+comments-noCommentsYet = There are no comments yet. Why don't you write one?
 
 comments-streamQuery-storyNotFound = Story not found
 
@@ -369,7 +370,7 @@ profile-changeUsername-newUsername-label = New username
 profile-changeUsername-confirmNewUsername-label = Confirm new username
 profile-changeUsername-cancel = Cancel
 profile-changeUsername-submit = <ButtonIcon>save</ButtonIcon> <span>Save</span>
-profile-changeUsername-submit-button = Save 
+profile-changeUsername-submit-button = Save
 profile-changeUsername-recentChange = Your username has been changed in the last { framework-timeago-time }. You may change your username again on { $nextUpdate }
 profile-changeUsername-close = Close
 
