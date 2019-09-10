@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HistoryCommentContainer_comment as CommentData } from "coral-stream/__generated__/HistoryCommentContainer_comment.graphql";
+import { HistoryCommentContainer_settings as SettingsData } from "coral-stream/__generated__/HistoryCommentContainer_settings.graphql";
 import { HistoryCommentContainer_story as StoryData } from "coral-stream/__generated__/HistoryCommentContainer_story.graphql";
 import {
   SetCommentIDMutation,
@@ -16,6 +17,7 @@ interface HistoryCommentContainerProps {
   setCommentID: SetCommentIDMutation;
   story: StoryData;
   comment: CommentData;
+  settings: SettingsData;
 }
 
 export class HistoryCommentContainer extends React.Component<
@@ -31,6 +33,8 @@ export class HistoryCommentContainer extends React.Component<
     return (
       <HistoryComment
         {...this.props.comment}
+        reactionCount={this.props.comment.actionCounts.reaction.total}
+        reactionSettings={this.props.settings.reaction}
         parentAuthorName={
           this.props.comment.parent &&
           this.props.comment.parent.author &&
@@ -53,6 +57,14 @@ const enhanced = withSetCommentIDMutation(
         id
       }
     `,
+    settings: graphql`
+      fragment HistoryCommentContainer_settings on Settings {
+        reaction {
+          label
+          icon
+        }
+      }
+    `,
     comment: graphql`
       fragment HistoryCommentContainer_comment on Comment {
         id
@@ -69,6 +81,11 @@ const enhanced = withSetCommentIDMutation(
           url
           metadata {
             title
+          }
+        }
+        actionCounts {
+          reaction {
+            total
           }
         }
       }
