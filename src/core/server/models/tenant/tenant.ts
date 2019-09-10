@@ -1,6 +1,7 @@
 import { Db } from "mongodb";
 import uuid from "uuid";
 
+import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { DeepPartial, Omit, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
@@ -114,6 +115,7 @@ export async function createTenant(
       banned: [],
     },
     auth: {
+      sessionDuration: DEFAULT_SESSION_LENGTH,
       integrations: {
         local: {
           enabled: true,
