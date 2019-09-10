@@ -12,7 +12,7 @@ Built with ❤️ by The Coral Project, a part of [Vox Media](https://product.vo
 
 Preview Coral easily by running Coral via a Heroku App:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk/tree/next)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk)
 
 ## Requirements
 
