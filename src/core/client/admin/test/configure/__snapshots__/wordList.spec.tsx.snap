@@ -150,17 +150,7 @@ exports[`renders configure wordList 1`] = `
                 <p
                   className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                 >
-                  Separate banned words or phrases with a new line. Attempting to copy
-and paste a comma separated list? 
-                  <a
-                    className="ExternalLink-root"
-                    href="#"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Learn how to convert your list
-to a new line separated list.
-                  </a>
+                  Separate banned words or phrases with a new line.
                 </p>
                 <div>
                   <textarea
@@ -214,17 +204,7 @@ published (if comments are not pre-moderated).
                 <p
                   className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                 >
-                  Separate suspect words or phrases with a new line. Attempting to copy
-and paste a comma separated list? 
-                  <a
-                    className="ExternalLink-root"
-                    href="#"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Learn how to convert your list
-to a new line separated list.
-                  </a>
+                  Separate suspect words or phrases with a new line.
                 </p>
                 <div>
                   <textarea
