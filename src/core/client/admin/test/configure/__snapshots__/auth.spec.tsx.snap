@@ -2261,7 +2261,8 @@ compliance.
                         <p
                           className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                         >
-                          Missing translation "configure-account-features-delete-account-fieldDescriptions"
+                          Removes all of their comment data, username, and email
+address from the site and the database.
                         </p>
                       </div>
                       <div
@@ -2326,6 +2327,91 @@ compliance.
             className="Box-root HorizontalGutter-root HorizontalGutter-double"
             data-testid="configure-authContainer"
           >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              >
+                <h1
+                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+                >
+                  Session settings
+                </h1>
+              </div>
+              <fieldset
+                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <legend
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                >
+                  Session duration
+                </legend>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+                >
+                  <div
+                    className="TextField-root DurationField-value"
+                  >
+                    <input
+                      aria-label="value"
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                      disabled={false}
+                      name="auth.sessionDuration-value"
+                      onChange={[Function]}
+                      placeholder=""
+                      spellCheck={false}
+                      type="text"
+                      value="90"
+                    />
+                  </div>
+                  <span
+                    className="SelectField-root"
+                  >
+                    <select
+                      aria-label="unit"
+                      className="SelectField-select DurationField-select"
+                      disabled={false}
+                      name="auth.sessionDuration-unit"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      value="86400"
+                    >
+                      <option
+                        value="3600"
+                      >
+                        Hours
+                      </option>
+                      <option
+                        value="86400"
+                      >
+                        Days
+                      </option>
+                      <option
+                        value="604800"
+                      >
+                        Weeks
+                      </option>
+                    </select>
+                    <span
+                      aria-hidden={true}
+                      className="SelectField-afterWrapper"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm"
+                      >
+                        expand_more
+                      </i>
+                    </span>
+                  </span>
+                </div>
+              </fieldset>
+            </div>
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-double"
             >

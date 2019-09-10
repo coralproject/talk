@@ -5,10 +5,12 @@ import { HorizontalGutter } from "coral-ui/components";
 
 import { OnInitValuesFct } from "./AuthConfigContainer";
 import AuthIntegrationsConfig from "./AuthIntegrationsConfig";
+import SessionConfigContainer from "./SessionConfigContainer";
 
 interface Props {
   disabled?: boolean;
-  auth: PropTypesOf<typeof AuthIntegrationsConfig>["auth"];
+  auth: PropTypesOf<typeof AuthIntegrationsConfig>["auth"] &
+    PropTypesOf<typeof SessionConfigContainer>["auth"];
   onInitValues: OnInitValuesFct;
 }
 
@@ -18,6 +20,11 @@ const AuthConfig: FunctionComponent<Props> = ({
   onInitValues,
 }) => (
   <HorizontalGutter size="double" data-testid="configure-authContainer">
+    <SessionConfigContainer
+      auth={auth}
+      disabled={disabled}
+      onInitValues={onInitValues}
+    />
     <AuthIntegrationsConfig
       disabled={disabled}
       auth={auth}
