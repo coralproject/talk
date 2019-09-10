@@ -79,6 +79,7 @@ sidebar:
       url: https://hub.docker.com/r/coralproject/talk/
   side:
     - title: Version 5
+      url: /
       children:
         - title: Getting Started
           children:
@@ -99,6 +100,7 @@ sidebar:
             - title: GraphQL Overview
               url: /v5/api/overview/
     - title: Version 4
+      url: /installation-quickstart
       children:
         - title: Installation
           children:
