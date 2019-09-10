@@ -22,6 +22,10 @@
     color: var(--palette-text-secondary);
     background-color: var(--palette-grey-lightest);
   }
+  &:focus {
+    box-shadow: 0 0 3px rgba(81, 125, 207, 1);
+    border: 1px solid rgba(81, 125, 207, 1);
+  }
 }
 
 .adornment {
