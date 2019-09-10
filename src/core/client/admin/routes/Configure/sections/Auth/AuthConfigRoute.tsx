@@ -41,6 +41,7 @@ const enhanced = withRouteConfig<Props>({
         ...AuthConfigContainer_settings
         auth {
           ...AuthConfigContainer_auth
+          ...SessionConfigContainer_auth
         }
       }
     }

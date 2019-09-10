@@ -29,7 +29,8 @@ export interface ProfileProps {
     PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
     PropTypesOf<typeof NotificationSettingsContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
-    PropTypesOf<typeof AccountSettingsContainer>["settings"];
+    PropTypesOf<typeof AccountSettingsContainer>["settings"] &
+    PropTypesOf<typeof CommentHistoryContainer>["settings"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
@@ -75,7 +76,11 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           className={CLASSES.myCommentsTabPane.$root}
           tabID="MY_COMMENTS"
         >
-          <CommentHistoryContainer viewer={props.viewer} story={props.story} />
+          <CommentHistoryContainer
+            settings={props.settings}
+            viewer={props.viewer}
+            story={props.story}
+          />
         </TabPane>
         <TabPane
           className={CLASSES.notificationsTabPane.$root}
