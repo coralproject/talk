@@ -1,7 +1,7 @@
 <aside class="sidebar">
   <div>
     <a class="brand" href="{{ url_for("/") }}">
-      {{ image_tag('images/coralproject.png') }}
+      {{ image_tag('images/coralproject_color.svg') }}
     </a>
     <ul class="sidebar__list">
     {% for item in config.sidebar.side %}
