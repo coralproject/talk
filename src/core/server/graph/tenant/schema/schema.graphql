@@ -422,6 +422,7 @@ type LocalAuthIntegration {
   integration should be displayed in all targets.
   """
   targetFilter: AuthenticationTargetFilter!
+
 }
 
 ##########################
@@ -738,6 +739,10 @@ type Auth {
   authentication solutions.
   """
   integrations: AuthIntegrations!
+  """
+  sessionDuration determines the duration in seconds for which an access token is valid
+  """
+  sessionDuration: Int!
 }
 
 ################################################################################
@@ -3002,6 +3007,10 @@ input SettingsAuthInput {
   authentication solutions.
   """
   integrations: SettingsAuthIntegrationsInput
+  """
+  sessionDuration determines the duration in seconds for which an access token is valid
+  """
+  sessionDuration: Int!
 }
 
 input SettingsAkismetExternalIntegrationInput {

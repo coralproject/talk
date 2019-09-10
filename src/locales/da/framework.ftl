@@ -32,6 +32,7 @@ framework-validation-notAWholeNumberBetween = Indtast et helt tal mellem { $min
 framework-validation-notAWholeNumberGreaterThan = Indtast et helt tal større end { $x }
 framework-validation-notAWholeNumberGreaterThanOrEqual = Indtast et helt tal større end eller lig med { $x }
 
+
 framework-timeago-just-now = Lige nu
 
 framework-timeago-time =

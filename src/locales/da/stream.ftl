@@ -113,8 +113,8 @@ comments-userPopover-ignore = Ignorere
 
 comments-userIgnorePopover-ignoreUser = Ignorerer {$username}?
 comments-userIgnorePopover-description =
-  Når du ignorerer en kommentator, vil alle kommentarer,
-  de skrev på webstedet, være skjult for dig. Du kan fortryde
+  Når du ignorerer en kommentator, vil alle kommentarer, 
+  de skrev på webstedet, være skjult for dig. Du kan fortryde 
   dette senere fra Min profil.
 comments-userIgnorePopover-ignore = Ignorerer
 comments-userIgnorePopover-cancel = Afbestille
@@ -144,6 +144,7 @@ comments-featured-replies = Svar
 ## Profile Tab
 
 profile-myCommentsTab = Mine kommentarer
+profile-settingsTab = Indstillinger
 
 ### Comment History
 profile-historyComment-viewConversation = Se samtale
@@ -157,19 +158,19 @@ profile-commentHistory-empty = Du har ikke skrevet nogen kommentarer
 profile-commentHistory-empty-subheading = En historie med dine kommentarer vises her
 
 ### Settings
-profile-account-ignoredCommenters = Ignorerede kommentarer
-profile-account-ignoredCommenters-description =
+profile-settings-ignoredCommenters = Ignorerede kommentarer
+profile-settings-description =
   Når du ignorerer nogen, er alle deres kommentarer skjult for dig.
   Kommentarer, du ignorerer, kan stadig se dine kommentarer.
-profile-account-ignoredCommenters-empty = Du ignorerer i øjeblikket ingen
-profile-account-ignoredCommenters-stopIgnoring = Stop med at ignorere
+profile-settings-empty = Du ignorerer i øjeblikket ingen
+profile-settings-stopIgnoring = Stop med at ignorere
 
-profile-account-changePassword = Skift kodeord
-profile-account-changePassword-oldPassword = Gammelt kodeord
-profile-account-changePassword-forgotPassword = Glemt din adgangskode?
-profile-account-changePassword-newPassword = Nyt kodeord
-profile-account-changePassword-button = Skift kodeord
-profile-account-changePassword-updated =
+profile-settings-changePassword = Skift kodeord
+profile-settings-changePassword-oldPassword = Gammelt kodeord
+profile-settings-changePassword-forgotPassword = Glemt din adgangskode?
+profile-settings-changePassword-newPassword = Nyt kodeord
+profile-settings-changePassword-button = Skift kodeord
+profile-settings-changePassword-updated =
   Din adgangskode er blevet opdateret
 
 ## Report Comment Popover
@@ -223,8 +224,8 @@ configure-liveUpdates-description =
 
 configure-messageBox-title = Aktivér meddelelsesboks til denne stream
 configure-messageBox-description =
-  Tilføj en besked øverst i kommentarfeltet for dine læsere. Brug dette til at stille et emne,
-  stille et spørgsmål eller offentliggøre meddelelser vedrørende denne historie.
+  Tilføj en besked øverst i kommentarfeltet for dine læsere. Brug dette til at stille et emne, 
+  stille et spørgsmål eller offentliggøre meddelelser vedrørende denne historie. 
 configure-messageBox-preview = Forhåndsvisning
 configure-messageBox-selectAnIcon = Vælg et ikon
 configure-messageBox-noIcon = Intet ikon
@@ -232,8 +233,8 @@ configure-messageBox-writeAMessage = Skriv en besked
 
 configure-closeStream-title = Luk kommentarer
 configure-closeStream-description =
-  Kommentarerne er i øjeblikket åbne.
-  Ved at lukke kommentarerne kan der ikke indsendes nye kommentarer,
+  Kommentarerne er i øjeblikket åbne. 
+  Ved at lukke kommentarerne kan der ikke indsendes nye kommentarer, 
   og alle tidligere indsendte kommentarer vises stadig.
 configure-closeStream-closeStream = Luk kommentarer
 
@@ -246,8 +247,8 @@ configure-openStream-openStream = Åbn kommentarer
 comments-tombstone-ignore = Denne kommentar er skjult, fordi du ignorerede {$username}
 
 suspendInfo-heading = Din konto er midlertidigt suspenderet for at kommentere.
-suspendInfo-info =
-  I overensstemmelse med fællesskabsretningslinjerne for { $organization}
-  er din konto midlertidigt suspenderet. Mens du er suspenderet,
-  kan du ikke kommentere, respektere eller rapportere kommentarer.
+suspendInfo-info = 
+  I overensstemmelse med fællesskabsretningslinjerne for { $organization} 
+  er din konto midlertidigt suspenderet. Mens du er suspenderet, 
+  kan du ikke kommentere, respektere eller rapportere kommentarer. 
   Gå igen med til samtalen på { $until }.

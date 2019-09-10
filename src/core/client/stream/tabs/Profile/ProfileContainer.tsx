@@ -46,6 +46,7 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
     fragment ProfileContainer_settings on Settings {
       ...UserBoxContainer_settings
       ...AccountSettingsContainer_settings
+      ...CommentHistoryContainer_settings
     }
   `,
 })(ProfileContainer);
