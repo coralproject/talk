@@ -2,6 +2,7 @@ import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "coral-framework/lib/relay";
+import { CommentHistoryContainer_settings as SettingsData } from "coral-stream/__generated__/CommentHistoryContainer_settings.graphql";
 import { CommentHistoryContainer_story as StoryData } from "coral-stream/__generated__/CommentHistoryContainer_story.graphql";
 import { CommentHistoryContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentHistoryContainer_viewer.graphql";
 import { CommentHistoryContainerPaginationQueryVariables } from "coral-stream/__generated__/CommentHistoryContainerPaginationQuery.graphql";
@@ -11,6 +12,7 @@ import CommentHistory from "./CommentHistory";
 interface CommentHistoryContainerProps {
   viewer: ViewerData;
   story: StoryData;
+  settings: SettingsData;
   relay: RelayPaginationProp;
 }
 
@@ -26,6 +28,7 @@ export class CommentHistoryContainer extends React.Component<
     return (
       <CommentHistory
         story={this.props.story}
+        settings={this.props.settings}
         comments={comments}
         onLoadMore={this.loadMore}
         hasMore={this.props.relay.hasMore()}
@@ -64,6 +67,11 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment CommentHistoryContainer_story on Story {
         ...HistoryCommentContainer_story
+      }
+    `,
+    settings: graphql`
+      fragment CommentHistoryContainer_settings on Settings {
+        ...HistoryCommentContainer_settings
       }
     `,
     viewer: graphql`

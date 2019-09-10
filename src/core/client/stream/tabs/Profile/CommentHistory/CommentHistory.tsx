@@ -17,6 +17,7 @@ import styles from "./CommentHistory.css";
 
 interface CommentHistoryProps {
   story: PropTypesOf<typeof HistoryCommentContainer>["story"];
+  settings: PropTypesOf<typeof HistoryCommentContainer>["settings"];
   comments: Array<
     { id: string } & PropTypesOf<typeof HistoryCommentContainer>["comment"]
   >;
@@ -51,6 +52,7 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = props => {
         <HistoryCommentContainer
           key={comment.id}
           story={props.story}
+          settings={props.settings}
           comment={comment}
         />
       ))}

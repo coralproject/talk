@@ -722,6 +722,7 @@ const CLASSES = {
     timestamp: "coral coral-myComment-timestamp",
     content: "coral coral-myComment-content",
     replies: "coral coral-myComment-replies",
+    reactions: "coral coral-myComment-reactions",
     viewConversationButton: "coral coral-myComment-viewConversationButton",
   },
 

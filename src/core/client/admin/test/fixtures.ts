@@ -1,4 +1,7 @@
-import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/constants";
+import {
+  DEFAULT_SESSION_LENGTH,
+  TOXICITY_THRESHOLD_DEFAULT,
+} from "coral-common/constants";
 import { pureMerge } from "coral-common/utils";
 import {
   GQLComment,
@@ -86,6 +89,7 @@ export const settings = createFixture<GQLSettings>({
     },
   },
   auth: {
+    sessionDuration: DEFAULT_SESSION_LENGTH,
     integrations: {
       local: {
         enabled: true,
@@ -159,6 +163,7 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   {
     id: "settings",
     auth: {
+      sessionDuration: DEFAULT_SESSION_LENGTH,
       integrations: {
         local: {
           enabled: true,
