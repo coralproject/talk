@@ -1,6 +1,6 @@
 .version {
-  position: absolute;
-  right: 0;
-  top: 23px;
   font-size: calc(10rem / var(--rem-base));
+  color: var(--palette-text-secondary);
+  text-align: center;
+  padding-bottom: var(--spacing-3);
 }

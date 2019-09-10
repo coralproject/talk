@@ -14,8 +14,7 @@ exports[`renders correctly 1`] = `
       <div
         className="Main-logoContainer"
       >
-        <withPropsOnChange(Logo) />
-        <Version />
+        <withPropsOnChange(LogoHorizontal) />
       </div>
       <withContext(createMutationContainer(Relay(NavigationContainer)))
         viewer={Object {}}
@@ -30,5 +29,6 @@ exports[`renders correctly 1`] = `
     </withPropsOnChange(End)>
   </withPropsOnChange(AppBar)>
   child
+  <Version />
 </div>
 `;

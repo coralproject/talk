@@ -17,7 +17,7 @@ exports[`renders correctly 1`] = `
         <div
           className="AuthBox-brandIcon"
         >
-          <withPropsOnChange(BrandIcon)
+          <withPropsOnChange(BrandMark)
             size="lg"
           />
         </div>

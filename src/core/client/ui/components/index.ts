@@ -46,7 +46,7 @@ export {
   Navigation as SubBarNavigation,
   NavigationItem as SubBarNavigationItem,
 } from "./SubBar";
-export { BrandIcon, BrandName, Logo } from "./Brand";
+export { BrandName, BrandMark, LogoHorizontal } from "./Brand";
 export { default as Counter } from "./Counter";
 export { Marker, Count as MarkerCount } from "./Marker";
 export { default as Card, CardCloseButton } from "./Card";
