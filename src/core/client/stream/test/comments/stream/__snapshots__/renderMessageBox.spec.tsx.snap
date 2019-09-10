@@ -195,7 +195,15 @@ exports[`renders message box when commenting disabled 1`] = `
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
-        />
+        >
+          <div
+            className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+          >
+            <div>
+              There are no comments yet. Why don't you write one?
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>
@@ -506,7 +514,15 @@ exports[`renders message box when logged in 1`] = `
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
-        />
+        >
+          <div
+            className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+          >
+            <div>
+              There are no comments yet. Why don't you write one?
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>
@@ -791,7 +807,15 @@ exports[`renders message box when not logged in 1`] = `
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
-        />
+        >
+          <div
+            className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+          >
+            <div>
+              There are no comments yet. Why don't you write one?
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>
@@ -983,7 +1007,15 @@ exports[`renders message box when story isClosed 1`] = `
           data-testid="comments-allComments-log"
           id="comments-allComments-log"
           role="log"
-        />
+        >
+          <div
+            className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+          >
+            <div>
+              There are no comments yet. Why don't you write one?
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>
