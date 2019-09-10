@@ -576,7 +576,7 @@ curl --request POST \
   --url "http://localhost:8080/api/graphql" \
   --header "content-type: application/json" \
   --header "Authorization: Bearer ${TOKEN}" \
-  --data '{"query":"query GetComments($url: String!) {story(url: $url) { id metadata { title } url title comments { nodes { id body author { id username } } } } }","variables":{"url":"http://localhost:8080/"},"operationName":"GetComments"}'
+  --data '{"query":"query GetComments($url: String!) {story(url: $url) { id metadata { title } url comments { nodes { id body author { id username } } } } }","variables":{"url":"http://localhost:8080/"},"operationName":"GetComments"}'
 ```
 
 #### Cookie
@@ -586,7 +586,7 @@ curl --request POST \
   --url "http://localhost:8080/api/graphql" \
   --header "content-type: application/json" \
   --cookie "authorization=${TOKEN}"
-  --data '{"query":"query GetComments($url: String!) {story(url: $url) { id metadata { title } url title comments { nodes { id body author { id username } } } } }","variables":{"url":"http://localhost:8080/"},"operationName":"GetComments"}'
+  --data '{"query":"query GetComments($url: String!) {story(url: $url) { id metadata { title } url comments { nodes { id body author { id username } } } } }","variables":{"url":"http://localhost:8080/"},"operationName":"GetComments"}'
 ```
 
 ### Persisted Queries
