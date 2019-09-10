@@ -98,11 +98,6 @@ exports[`renders form 1`] = `
               fill="#f77160"
             />
           </svg>
-          <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextPrimary Version-version"
-          >
-            vTest
-          </p>
         </div>
       </div>
     </div>
@@ -241,6 +236,11 @@ exports[`renders form 1`] = `
       </form>
     </div>
   </div>
+  <p
+    className="Box-root Typography-root Typography-detail Typography-colorTextPrimary Version-version"
+  >
+    vTest
+  </p>
 </div>
 `;
 
@@ -342,11 +342,6 @@ exports[`renders missing the token 1`] = `
               fill="#f77160"
             />
           </svg>
-          <p
-            className="Box-root Typography-root Typography-detail Typography-colorTextPrimary Version-version"
-          >
-            vTest
-          </p>
         </div>
       </div>
     </div>
@@ -376,5 +371,10 @@ exports[`renders missing the token 1`] = `
       </div>
     </div>
   </div>
+  <p
+    className="Box-root Typography-root Typography-detail Typography-colorTextPrimary Version-version"
+  >
+    vTest
+  </p>
 </div>
 `;
