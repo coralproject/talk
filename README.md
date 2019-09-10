@@ -522,11 +522,7 @@ there in your request if there were no errors.
 Some queries you may notice seem to return an error of
 `USER_NOT_ENTITLED`. It's likely the case that you are making a request to a
 route that requires authorization. You can perform authorization a few ways in
-Talk:
-
-1. As a [Bearer Token](#bearer-token)
-2. As a [Query Parameter](#query-parameter)
-3. As a [Cookie](#cookie)
+Talk.
 
 Essentially, you need to get access to a JWT token that you can use to authorize
 your requests.
