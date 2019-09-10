@@ -288,7 +288,7 @@
     "jest-mock-console": "^1.0.0",
     "lint-staged": "^8.1.6",
     "loader-utils": "^1.2.3",
-    "lodash-es": "^4.17.11",
+    "lodash-es": "^4.17.14",
     "marked": "^0.7.0",
     "material-design-icons": "^3.0.1",
     "mini-css-extract-plugin": "^0.6.0",
