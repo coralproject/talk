@@ -209,4 +209,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.cancelAccountDeletion(input),
     clientMutationId: input.clientMutationId,
   }),
+  deleteUserAccount: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.deleteAccount(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };
