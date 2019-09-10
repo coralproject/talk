@@ -155,7 +155,7 @@ configure-organization-email = Organization email
 configure-organization-emailExplanation =
   Open or close comment streams for new comments sitewide. When new comments
   are turned off sitewide, new comments cannot be submitted, but existing
-  comments can continue to receive “Respect” reactions, be reported, and be
+  comments can continue to receive reactions, be reported, and be
   shared.
 configure-organization-url = Organization URL
 configure-organization-urlExplanation =
