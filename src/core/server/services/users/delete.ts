@@ -141,6 +141,11 @@ export async function deleteUser(
     throw new Error("could not find user by ID");
   }
 
+  // Check to see if the user was already deleted.
+  if (user.deletedAt) {
+    throw new Error("user was already deleted");
+  }
+
   const tenant = await collections.tenants(mongo).findOne({ id: tenantID });
   if (!tenant) {
     throw new Error("could not find tenant by ID");
