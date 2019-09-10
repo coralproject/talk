@@ -410,7 +410,7 @@ examples below will use the common `curl` tool:
 curl --request POST \
   --url "http://localhost:8080/api/graphql" \
   --header "content-type: application/json" \
-  --data '{"query":"query GetComments($url: String!) {story(url: $url) { id metadata { title } url title comments { nodes { id body author { id username } } } } }","variables":{"url":"http://localhost:8080/"},"operationName":"GetComments"}'
+  --data '{"query":"query GetComments($url: String!) {story(url: $url) { id metadata { title } url comments { nodes { id body author { id username } } } } }","variables":{"url":"http://localhost:8080/"},"operationName":"GetComments"}'
 ```
 
 When you unpack that, it's really quite simple. We're executing a `POST` request
