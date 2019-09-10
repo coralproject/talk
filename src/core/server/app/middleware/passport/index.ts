@@ -190,7 +190,7 @@ export async function handleOAuth2Callback(
       signingConfig,
       user,
       tenant,
-      { expiresIn: "1d" },
+      { expiresIn: tenant.auth.sessionDuration },
       req.coral!.now
     );
     res.cookie(
