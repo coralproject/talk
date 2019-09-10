@@ -46,10 +46,10 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
       const user = await retrieveUserScheduledForDeletion(
         mongo,
         tenant.id,
-        now,
         {
           hours: 1,
-        }
+        },
+        now
       );
       if (!user) {
         log.debug("no more users were scheduled for deletion");

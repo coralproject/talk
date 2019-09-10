@@ -2150,8 +2150,8 @@ export async function pullUserNotificationDigests(
 export async function retrieveUserScheduledForDeletion(
   mongo: Db,
   tenantID: string,
-  now: Date,
-  rescheduledDuration: DurationObject
+  rescheduledDuration: DurationObject,
+  now: Date
 ) {
   const rescheduledDeletionDate = DateTime.fromJSDate(now)
     .plus(rescheduledDuration)
