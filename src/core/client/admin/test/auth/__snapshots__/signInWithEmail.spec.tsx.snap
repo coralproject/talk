@@ -94,6 +94,21 @@ exports[`accepts correct password 1`] = `
           </div>
         </div>
       </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <p
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        >
+          <a
+            className="SignInWithEmail-textLink"
+            href="/admin/forgot-password"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
+      </div>
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
@@ -214,6 +229,21 @@ exports[`accepts valid email 1`] = `
         <span>
           This field is required.
         </span>
+      </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <p
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        >
+          <a
+            className="SignInWithEmail-textLink"
+            href="/admin/forgot-password"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
       </div>
     </div>
     <button
@@ -348,6 +378,21 @@ exports[`checks for invalid email 1`] = `
         <span>
           This field is required.
         </span>
+      </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <p
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        >
+          <a
+            className="SignInWithEmail-textLink"
+            href="/admin/forgot-password"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
       </div>
     </div>
     <button
@@ -504,6 +549,21 @@ exports[`renders sign in form 1`] = `
                     </div>
                   </div>
                 </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                >
+                  <p
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    <a
+                      className="SignInWithEmail-textLink"
+                      href="/admin/forgot-password"
+                      onClick={[Function]}
+                    >
+                      Forgot your password?
+                    </a>
+                  </p>
+                </div>
               </div>
               <button
                 className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
@@ -652,6 +712,21 @@ exports[`shows error when submitting empty form 1`] = `
           This field is required.
         </span>
       </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <p
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        >
+          <a
+            className="SignInWithEmail-textLink"
+            href="/admin/forgot-password"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
+      </div>
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
@@ -766,6 +841,21 @@ exports[`shows server error 1`] = `
             </i>
           </div>
         </div>
+      </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <p
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        >
+          <a
+            className="SignInWithEmail-textLink"
+            href="/admin/forgot-password"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
       </div>
     </div>
     <button
