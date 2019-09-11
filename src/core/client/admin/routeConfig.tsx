@@ -16,6 +16,7 @@ import {
   OrganizationConfigRoute,
   WordListConfigRoute,
 } from "./routes/Configure/sections";
+import ForgotPasswordRoute from "./routes/ForgotPassword";
 import InviteRoute from "./routes/Invite";
 import LoginRoute from "./routes/Login";
 import ModerateRoute from "./routes/Moderate";
@@ -79,5 +80,6 @@ export default makeRouteConfig(
     </Route>
     <Route path="invite" {...InviteRoute.routeConfig} />
     <Route path="login" {...LoginRoute.routeConfig} />
+    <Route path="forgot-password" {...ForgotPasswordRoute.routeConfig} />
   </Route>
 );
