@@ -59,6 +59,7 @@ login-signIn-passwordTextField =
 
 login-signIn-signInWithEmail = Sign in with Email
 login-signIn-orSeparator = Or
+login-signIn-forgot-password = Forgot your password?
 
 login-signInWithFacebook = Sign in with Facebook
 login-signInWithGoogle = Sign in with Google
@@ -781,3 +782,17 @@ configure-advanced-stories-proxy-detail =
   When specified, allows scraping requests to use the provided
   proxy. All requests will then be passed through the appropriote
   proxy as parsed by the <externalLink>npm proxy-agent</externalLink> package.
+
+forgotPassword-forgotPasswordHeader = Forgot password?
+forgotPassword-checkEmailHeader = Check your email
+forgotPassword-gotBackToSignIn = Go back to sign in page
+forgotPassword-checkEmail-receiveEmail =
+  If there is an account associated with <email></email>,
+  you will receive an email with a link to create a new password.
+forgotPassword-enterEmailAndGetALink = 
+  Enter your email address below and we will send you a link
+  to reset your password.
+forgotPassword-emailAddressLabel = Email address
+forgotPassword-emailAddressTextField =
+  .placeholder = Email Address
+forgotPassword-sendEmailButton = Send email
