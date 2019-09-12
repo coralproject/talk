@@ -54,10 +54,13 @@ export default class CommonContext {
     disableCaching = false,
   }: CommonContextOptions) {
     this.id = id;
-    this.logger = log.child({
-      context: "graph",
-      contextID: id,
-    });
+    this.logger = log.child(
+      {
+        context: "graph",
+        contextID: id,
+      },
+      true
+    );
     this.now = now;
     this.user = user;
     this.req = req;

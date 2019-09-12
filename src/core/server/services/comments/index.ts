@@ -68,13 +68,16 @@ export async function create(
   now = new Date(),
   req?: Request
 ) {
-  let log = logger.child({
-    authorID: author.id,
-    tenantID: tenant.id,
-    storyID: input.storyID,
-    parentID: input.parentID,
-    nudge,
-  });
+  let log = logger.child(
+    {
+      authorID: author.id,
+      tenantID: tenant.id,
+      storyID: input.storyID,
+      parentID: input.parentID,
+      nudge,
+    },
+    true
+  );
 
   // TODO: (wyattjoh) perform rate limiting based on the user?
 
@@ -178,7 +181,10 @@ export async function create(
   // Pull the revision out.
   const revision = getLatestRevision(comment);
 
-  log = log.child({ commentID: comment.id, status, revisionID: revision.id });
+  log = log.child(
+    { commentID: comment.id, status, revisionID: revision.id },
+    true
+  );
 
   log.trace("comment created");
 
@@ -262,7 +268,7 @@ export async function edit(
   now = new Date(),
   req?: Request
 ) {
-  let log = logger.child({ commentID: input.id, tenantID: tenant.id });
+  let log = logger.child({ commentID: input.id, tenantID: tenant.id }, true);
 
   // Get the comment that we're editing. This comment is considered stale,
   // because it wasn't involved in the atomic transaction.
@@ -345,7 +351,7 @@ export async function edit(
   // Pull the old/edited comments out of the edit result.
   const { oldComment, editedComment, newRevision } = result;
 
-  log = log.child({ revisionID: newRevision.id });
+  log = log.child({ revisionID: newRevision.id }, true);
 
   if (actions.length > 0) {
     // Insert and handle creating the actions.

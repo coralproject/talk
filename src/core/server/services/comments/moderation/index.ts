@@ -34,11 +34,14 @@ const moderate = (
   // TODO: wrap these operations in a transaction?
 
   // Create the logger.
-  const log = logger.child({
-    ...input,
-    tenantID: tenant.id,
-    newStatus: status,
-  });
+  const log = logger.child(
+    {
+      ...input,
+      tenantID: tenant.id,
+      newStatus: status,
+    },
+    true
+  );
 
   // Update the Comment's status.
   const result = await updateCommentStatus(

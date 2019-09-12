@@ -25,3 +25,10 @@ export type RequestHandler = (
   res: Response,
   next: NextFunction
 ) => void;
+
+export type ErrorRequestHandler = (
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => void;
