@@ -245,7 +245,7 @@ each of your site’s stories.
                 <p
                   className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
                 >
-                  When enabled, there will be real-time loading and updating of comments. 
+                  When enabled, there will be real-time loading and updating of comments.
 When disabled, users will have to refresh the page to see new comments.
                 </p>
                 <div>
