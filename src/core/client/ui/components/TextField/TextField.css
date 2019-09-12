@@ -14,6 +14,8 @@
   border-radius: var(--round-corners);
   width: 100%;
   align-self: stretch;
+  margin-top: 0;
+  margin-bottom: 0;
 
   &:read-only {
     background-color: var(--palette-grey-lightest);
