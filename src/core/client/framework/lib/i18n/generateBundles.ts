@@ -44,7 +44,10 @@ export default async function generateBundles(
   const promises = [];
 
   for (const locale of locales) {
-    const bundle = new FluentBundle(locale, { functions });
+    // `useIsolating: false` will remove bidi characters.
+    // https://github.com/projectfluent/fluent.js/wiki/Unicode-Isolation
+    // We should be able to use `<bdi>` tags instead to support rtl languages.
+    const bundle = new FluentBundle(locale, { functions, useIsolating: false });
     if (locale in data.bundled) {
       bundle.addMessages(data.bundled[locale]);
       promises.push(decorateWarnMissing(bundle));

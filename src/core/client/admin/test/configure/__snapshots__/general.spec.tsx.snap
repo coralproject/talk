@@ -211,9 +211,9 @@ exports[`renders configure general 1`] = `
               <p
                 className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
               >
-                Open or close comment streams for new comments sitewide. 
-When new comments are turned off, new comments cannot be 
-submitted, but existing comments can continue to receive 
+                Open or close comment streams for new comments sitewide.
+When new comments are turned off, new comments cannot be
+submitted, but existing comments can continue to receive
 reactions, be reported, and be shared.
               </p>
               <fieldset
@@ -386,9 +386,9 @@ reactions, be reported, and be shared.
                 <p
                   className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                 >
-                  This will appear above the comments sitewide. 
-You can format the text using Markdown. 
-More information on how to use Markdown 
+                  This will appear above the comments sitewide.
+You can format the text using Markdown.
+More information on how to use Markdown
 
                   <a
                     className="ExternalLink-root"
@@ -858,7 +858,7 @@ moderation panel.
                 className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
               >
                 Allow your community to engage with one another and express themselves
-with one-click reactions. By default, Coral allows commenters to "Respect" 
+with one-click reactions. By default, Coral allows commenters to "Respect"
 each other's comments.
               </p>
               <div
