@@ -1,4 +1,5 @@
 import { Localized } from "fluent-react/compat";
+import { Link } from "found";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
@@ -13,12 +14,16 @@ import {
   Button,
   ButtonIcon,
   CallOut,
+  Flex,
   FormField,
   HorizontalGutter,
   InputLabel,
+  Typography,
 } from "coral-ui/components";
 
 import EmailField from "../../EmailField";
+
+import styles from "./SignInWithEmail.css";
 
 interface FormProps {
   email: string;
@@ -62,6 +67,18 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
                     />
                   </Localized>
                   <ValidationMessage meta={meta} fullWidth />
+                  <Flex justifyContent="flex-end">
+                    <Typography>
+                      <Localized id="login-signIn-forgot-password">
+                        <Link
+                          className={styles.textLink}
+                          to="/admin/forgot-password"
+                        >
+                          Forgot your password?
+                        </Link>
+                      </Localized>
+                    </Typography>
+                  </Flex>
                 </FormField>
               )}
             </Field>
@@ -74,6 +91,7 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
               fullWidth
             >
               <ButtonIcon size="md">email</ButtonIcon>
+
               <Localized id="login-signIn-signInWithEmail">
                 <span>Sign in with Email</span>
               </Localized>
