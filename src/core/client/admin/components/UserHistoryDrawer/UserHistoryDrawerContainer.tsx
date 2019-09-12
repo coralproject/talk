@@ -39,28 +39,30 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
       <Button className={styles.close} onClick={onClose}>
         <Icon size="md">close</Icon>
       </Button>
-      <Flex className={styles.username} itemGutter>
-        <span>{user.username}</span>
-        <div>
-          <UserBadgesContainer user={user} />
-        </div>
-      </Flex>
-      <div className={styles.userStatus}>
-        <Flex alignItems="center" itemGutter="half">
-          <div className={styles.userStatusLabel}>
-            <Typography variant="bodyCopyBold" container="div">
-              <Flex alignItems="center" itemGutter="half">
-                <Localized id="moderate-user-drawer-status-label">
-                  Status:
-                </Localized>
-              </Flex>
-            </Typography>
+      <div>
+        <Flex className={styles.username} itemGutter>
+          <span>{user.username}</span>
+          <div>
+            <UserBadgesContainer user={user} />
           </div>
-          <div className={styles.userStatusChange}>
-            <UserStatusChangeContainer settings={settings} user={user} />
-          </div>
-          <UserStatusDetailsContainer user={user} />
         </Flex>
+        <div className={styles.userStatus}>
+          <Flex alignItems="center" itemGutter="half">
+            <div className={styles.userStatusLabel}>
+              <Typography variant="bodyCopyBold" container="div">
+                <Flex alignItems="center" itemGutter="half">
+                  <Localized id="moderate-user-drawer-status-label">
+                    Status:
+                  </Localized>
+                </Flex>
+              </Typography>
+            </div>
+            <div className={styles.userStatusChange}>
+              <UserStatusChangeContainer settings={settings} user={user} />
+            </div>
+            <UserStatusDetailsContainer user={user} />
+          </Flex>
+        </div>
       </div>
       <div>
         <Flex alignItems="center" className={styles.userDetail}>

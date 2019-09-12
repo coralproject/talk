@@ -49,7 +49,11 @@ export class I18n {
 
         // Now we have a language code.
         const bundle: FluentBundle =
-          this.bundles[locale] || new FluentBundle(locale);
+          // `useIsolating: false` will remove bidi characters.
+          // https://github.com/projectfluent/fluent.js/wiki/Unicode-Isolation
+          // We should be able to use `<bdi>` tags instead to support rtl languages.
+          this.bundles[locale] ||
+          new FluentBundle(locale, { useIsolating: false });
 
         // Load all the translations in the folder.
         const files = await fs.readdir(path.join(localesFolder, folder));
