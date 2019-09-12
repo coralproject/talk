@@ -1,4 +1,0 @@
-.root {
-  composes: timestamp from "coral-ui/shared/typography.css";
-  color: var(--palette-grey-lighter);
-}

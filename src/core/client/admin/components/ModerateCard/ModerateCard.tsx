@@ -9,10 +9,9 @@ import {
   Flex,
   HorizontalGutter,
   TextLink,
+  Timestamp,
   Typography,
 } from "coral-ui/components";
-
-import Timestamp from "coral-admin/components/Timestamp";
 
 import ApproveButton from "./ApproveButton";
 import CommentContent from "./CommentContent";

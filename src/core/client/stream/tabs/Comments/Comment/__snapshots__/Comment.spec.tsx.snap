@@ -26,6 +26,7 @@ exports[`renders username and body 1`] = `
       >
         <Timestamp
           className="coral coral-timestamp coral-comment-timestamp"
+          toggleAbsolute={true}
         >
           1995-12-17T03:24:00.000Z
         </Timestamp>

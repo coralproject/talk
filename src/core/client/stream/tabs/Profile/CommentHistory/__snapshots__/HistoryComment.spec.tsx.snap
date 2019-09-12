@@ -27,6 +27,7 @@ exports[`renders correctly 1`] = `
   <div>
     <Timestamp
       className="coral coral-myComment-timestamp"
+      toggleAbsolute={true}
     >
       2018-07-06T18:24:00.000Z
     </Timestamp>

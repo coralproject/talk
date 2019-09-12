@@ -22,13 +22,24 @@ exports[`renders profile 1`] = `
       </h1>
     </div>
     <div>
-      <time
-        className="RelativeTime-root Timestamp-root coral coral-myComment-timestamp"
-        dateTime="2018-07-06T18:24:00.000Z"
-        title="2018-07-06T18:24:00.000Z"
+      <button
+        className="BaseButton-root Timestamp-root"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
       >
-        2018-07-06T18:24:00.000Z
-      </time>
+        <time
+          className="RelativeTime-root Timestamp-text coral coral-myComment-timestamp"
+          dateTime="2018-07-06T18:24:00.000Z"
+          title="2018-07-06T18:24:00.000Z"
+        >
+          2018-07-06T18:24:00.000Z
+        </time>
+      </button>
       <div
         className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
@@ -72,13 +83,24 @@ exports[`renders profile 1`] = `
       </h1>
     </div>
     <div>
-      <time
-        className="RelativeTime-root Timestamp-root coral coral-myComment-timestamp"
-        dateTime="2018-07-06T18:24:00.000Z"
-        title="2018-07-06T18:24:00.000Z"
+      <button
+        className="BaseButton-root Timestamp-root"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
       >
-        2018-07-06T18:24:00.000Z
-      </time>
+        <time
+          className="RelativeTime-root Timestamp-text coral coral-myComment-timestamp"
+          dateTime="2018-07-06T18:24:00.000Z"
+          title="2018-07-06T18:24:00.000Z"
+        >
+          2018-07-06T18:24:00.000Z
+        </time>
+      </button>
       <div
         className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
