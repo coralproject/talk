@@ -56,11 +56,11 @@
   padding: calc(0.5 * var(--mini-unit));
   box-sizing: border-box;
   width: 100%;
-  line-height: 30px;
   align-self: stretch;
   color: var(--palette-text-light);
   border: 0;
   background-color: var(--palette-primary-darkest);
+  margin: 0;
 
   &:focus {
     outline: none;
