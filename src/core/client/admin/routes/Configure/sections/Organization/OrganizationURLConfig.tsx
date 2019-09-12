@@ -39,7 +39,7 @@ const OrganizationURLConfig: FunctionComponent<Props> = ({ disabled }) => (
           id="configure-organization-urlExplanation"
           strong={<strong />}
         >
-          <Typography variant="detail">This URL will be used</Typography>
+          <Typography variant="bodyShort">This URL will be used</Typography>
         </Localized>
         <Field
           name="organization.url"
