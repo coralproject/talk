@@ -48,8 +48,10 @@ interface Props {
   onReject: () => void;
   onFeature: () => void;
   onUsernameClick: (id?: string) => void;
+  onFocusOrClick: () => void;
   mini?: boolean;
   hideUsername?: boolean;
+  selected: boolean;
   /**
    * If set to true, it means this comment is about to be removed
    * from the queue. This will trigger some styling changes to
@@ -82,6 +84,8 @@ const ModerateCard: FunctionComponent<Props> = ({
   storyHref,
   onModerateStory,
   moderatedBy,
+  selected,
+  onFocusOrClick,
   mini = false,
   hideUsername = false,
   deleted = false,
@@ -110,9 +114,12 @@ const ModerateCard: FunctionComponent<Props> = ({
         styles.root,
         { [styles.borderless]: mini },
         { [styles.dangling]: dangling },
-        { [styles.deleted]: deleted }
+        { [styles.deleted]: deleted },
+        { [styles.selected]: selected }
       )}
       data-testid={`moderate-comment-${id}`}
+      onClick={onFocusOrClick}
+      onFocus={onFocusOrClick}
     >
       <Flex>
         <div className={styles.mainContainer}>

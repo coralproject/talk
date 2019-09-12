@@ -159,4 +159,8 @@
 
 .timestamp {
   color: var(--palette-grey-lighter);
+} 
+
+.selected {
+  box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.25);
 }

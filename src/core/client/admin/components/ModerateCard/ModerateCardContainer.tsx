@@ -40,6 +40,8 @@ interface Props {
   mini?: boolean;
   hideUsername?: boolean;
   onUsernameClicked?: (userID: string) => void;
+  onSetSelected: (comment: ModerateCardContainer_comment) => void;
+  selected: boolean;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
@@ -71,7 +73,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   unfeatureComment,
   mini,
   hideUsername,
+  selected,
   onUsernameClicked: usernameClicked,
+  onSetSelected: setSelected,
 }) => {
   const handleApprove = useCallback(() => {
     if (!comment.revision) {
@@ -146,6 +150,13 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     [router, comment]
   );
 
+  const onFocusOrClick = useCallback(() => {
+    if (selected) {
+      return;
+    }
+    setSelected(comment);
+  }, [selected, comment]);
+
   return (
     <>
       <FadeInTransition active={Boolean(comment.enteredLive)}>
@@ -171,6 +182,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onReject={handleReject}
           onFeature={onFeature}
           onUsernameClick={onUsernameClicked}
+          selected={selected}
           moderatedBy={
             <ModeratedByContainer
               onUsernameClicked={onUsernameClicked}
@@ -178,6 +190,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
               comment={comment}
             />
           }
+          onFocusOrClick={onFocusOrClick}
           showStory={showStoryInfo}
           storyTitle={
             (comment.story.metadata && comment.story.metadata.title) || (

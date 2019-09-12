@@ -5,6 +5,9 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
+import { ApproveCommentMutation } from "coral-admin/mutations";
+import { RejectCommentMutation } from "coral-admin/mutations";
+import { MutationProp } from "coral-framework/lib/relay";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -24,6 +27,8 @@ interface Props {
   emptyElement?: React.ReactElement;
   allStories?: boolean;
   viewNewCount?: number;
+  approveComment: MutationProp<typeof ApproveCommentMutation>;
+  rejectComment: MutationProp<typeof RejectCommentMutation>;
 }
 
 const Queue: FunctionComponent<Props> = ({
@@ -38,9 +43,14 @@ const Queue: FunctionComponent<Props> = ({
   viewer,
   viewNewCount,
   onViewNew,
+  approveComment,
+  rejectComment,
 }) => {
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
   const [userDrawerId, setUserDrawerID] = useState("");
+  const [selectedComment, setSelectedComment] = useState<
+    { id: string } & PropTypesOf<typeof ModerateCardContainer>["comment"] | null
+  >(null);
 
   const onShowUserDrawer = useCallback(
     (userID: string) => {
@@ -91,6 +101,8 @@ const Queue: FunctionComponent<Props> = ({
                 danglingLogic={danglingLogic}
                 showStoryInfo={Boolean(allStories)}
                 onUsernameClicked={onShowUserDrawer}
+                onSetSelected={setSelectedComment}
+                selected={selectedComment ? selectedComment.id === c.id : false}
               />
             </CSSTransition>
           ))}
