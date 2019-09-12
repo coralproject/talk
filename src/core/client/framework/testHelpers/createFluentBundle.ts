@@ -38,9 +38,9 @@ function createFluentBundle(
   target: string,
   pathToLocale: string
 ): FluentBundle {
-  // `useIsolating: false` will remove bidi characterse.
-  // See https://github.com/projectfluent/fluent.js/commit/41e5445d2e399f090306c5b9a084bcce5111bbd3
-  // And https://www.w3.org/International/questions/qa-bidi-unicode-controls
+  // `useIsolating: false` will remove bidi characters.
+  // https://github.com/projectfluent/fluent.js/wiki/Unicode-Isolation
+  // We should be able to use `<bdi>` tags instead to support rtl languages.
   const bundle = new FluentBundle("en-US", { functions, useIsolating: false });
   const files = fs.readdirSync(pathToLocale);
   const prefixes = commonPrefixes.concat(target);
