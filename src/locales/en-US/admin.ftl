@@ -154,10 +154,10 @@ configure-organization-nameExplanation =
   Your organization name will appear on emails sent by { -product-name } to your community and organization members.
 configure-organization-email = Organization email
 configure-organization-emailExplanation =
-  Open or close comment streams for new comments sitewide. When new comments
-  are turned off sitewide, new comments cannot be submitted, but existing
-  comments can continue to receive reactions, be reported, and be
-  shared.
+  This email address will be used as in emails and across the platform
+  for community members to get in touch with the organization should
+  they have any questions about the status of their accounts or
+  moderation questions.
 configure-organization-url = Organization URL
 configure-organization-urlExplanation =
   Your organization url will appear on emails sent by { -product-name } to your community and organization members.
