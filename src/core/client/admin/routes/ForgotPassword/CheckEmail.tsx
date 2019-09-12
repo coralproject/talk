@@ -8,26 +8,23 @@ interface Props {
   email: string;
 }
 
-const CheckEmail: FunctionComponent<Props> = ({ email }) => {
-  const UserEmail = () => <strong>{email}</strong>;
-  return (
-    <div data-testid="forgotPassword-checkEmail-container">
-      <Main data-testid="forgotPassword-checkEmail-main">
-        <HorizontalGutter size="full">
-          <Localized
-            id="forgotPassword-checkEmail-receiveEmail"
-            email={<UserEmail />}
-          >
-            <Typography variant="bodyCopy">
-              {
-                "If there is an account associated with <email></email>, you will receive an email with a link to create a new password."
-              }
-            </Typography>
-          </Localized>
-        </HorizontalGutter>
-      </Main>
-    </div>
-  );
-};
+const CheckEmail: FunctionComponent<Props> = ({ email }) => (
+  <div data-testid="forgotPassword-checkEmail-container">
+    <Main data-testid="forgotPassword-checkEmail-main">
+      <HorizontalGutter size="full">
+        <Localized
+          id="forgotPassword-checkEmail-receiveEmail"
+          $email={email}
+          strong={<strong />}
+        >
+          <Typography variant="bodyCopy">
+            If there is an account associated with <strong>{email}</strong>, you
+            will receive an email with a link to create a new password.
+          </Typography>
+        </Localized>
+      </HorizontalGutter>
+    </Main>
+  </div>
+);
 
 export default CheckEmail;
