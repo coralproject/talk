@@ -12,13 +12,14 @@ import {
   Typography,
 } from "coral-ui/components";
 
+import Timestamp from "coral-admin/components/Timestamp";
+
 import ApproveButton from "./ApproveButton";
 import CommentContent from "./CommentContent";
 import FeatureButton from "./FeatureButton";
 import InReplyTo from "./InReplyTo";
 import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
-import Timestamp from "./Timestamp";
 import Username from "./Username";
 
 import styles from "./ModerateCard.css";
@@ -130,7 +131,7 @@ const ModerateCard: FunctionComponent<Props> = ({
                   <Username>{username}</Username>
                 </BaseButton>
               )}
-              <Timestamp>{createdAt}</Timestamp>
+              <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
               <FeatureButton
                 featured={featured}
                 onClick={onFeature}

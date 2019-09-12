@@ -6,8 +6,8 @@ import { AbsoluteTime, RelativeTime } from "coral-ui/components";
 import styles from "./Timestamp.css";
 
 export interface TimestampProps {
-  className?: string;
   children: string;
+  className?: string;
   toggleAbsolute?: boolean;
 }
 
@@ -23,11 +23,11 @@ const Timestamp: FunctionComponent<TimestampProps> = props => {
       {showAbsolute ? (
         <AbsoluteTime
           date={props.children}
-          className={cn(styles.text, props.className)}
+          className={cn(styles.root, props.className)}
         />
       ) : (
         <RelativeTime
-          className={cn(styles.text, props.className)}
+          className={cn(styles.root, props.className)}
           date={props.children}
         />
       )}

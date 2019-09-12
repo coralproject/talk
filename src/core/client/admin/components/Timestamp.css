@@ -1,7 +1,3 @@
 .root {
-  cursor: default;
-}
-
-.text {
   composes: timestamp from "coral-ui/shared/typography.css";
 }
