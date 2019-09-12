@@ -87,6 +87,7 @@ const ForgotPasswordForm: FunctionComponent<Props> = props => {
                           placeholder="Email Address"
                           color={colorFromMeta(meta)}
                           disabled={submitting}
+                          type="email"
                           fullWidth
                           {...input}
                         />
