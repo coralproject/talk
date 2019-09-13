@@ -1,17 +1,22 @@
 import { AppOptions } from "coral-server/app";
 import { RawQueryNotAuthorized } from "coral-server/errors";
-import { getPersistedQuery } from "coral-server/graph/tenant/persisted";
+import { getPersistedQuery } from "coral-server/graph/common/persisted";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import { RequestHandler } from "coral-server/types/express";
 
 type PersistedQueryMiddlewareOptions = Pick<
   AppOptions,
-  "config" | "persistedQueryCache" | "persistedQueriesRequired"
+  "persistedQueryCache" | "persistedQueriesRequired"
 >;
 
-const persistedQueryMiddleware = (
-  options: PersistedQueryMiddlewareOptions
-): RequestHandler => async (req, res, next) => {
+const persistedQueryMiddleware = ({
+  persistedQueriesRequired,
+  persistedQueryCache,
+}: PersistedQueryMiddlewareOptions): RequestHandler => async (
+  req,
+  res,
+  next
+) => {
   try {
     if (!req.coral) {
       throw new Error("coral was not set");
@@ -25,12 +30,12 @@ const persistedQueryMiddleware = (
 
     // Handle the payload if it is a persisted query.
     const body = req.method === "GET" ? req.query : req.body;
-    const query = await getPersistedQuery(options.persistedQueryCache, body);
-    if (!query) {
+    const persisted = await getPersistedQuery(persistedQueryCache, body);
+    if (!persisted) {
       // Check to see if this is from an ADMIN token which is allowed to run
       // un-persisted queries.
       if (
-        options.persistedQueriesRequired &&
+        persistedQueriesRequired &&
         (!req.user || req.user.role !== GQLUSER_ROLE.ADMIN)
       ) {
         throw new RawQueryNotAuthorized(
@@ -41,7 +46,11 @@ const persistedQueryMiddleware = (
     } else {
       // The query was found for this operation, replace the query with the one
       // provided.
-      body.query = query.query;
+      body.query = persisted.query;
+
+      // Associate the persisted query with the request so it can be attached to
+      // the context.
+      req.coral.persisted = persisted;
     }
 
     return next();

@@ -7,7 +7,8 @@ import {
 import now from "performance-now";
 
 import CommonContext from "coral-server/graph/common/context";
-import { getOperationMetadata } from "./helpers";
+
+import { getOperationMetadata, getPersistedQueryMetadata } from "./helpers";
 
 export function logError(ctx: CommonContext, err: GraphQLError) {
   ctx.logger.error({ err }, "graphql query error");
@@ -16,12 +17,20 @@ export function logError(ctx: CommonContext, err: GraphQLError) {
 export function logQuery(
   ctx: CommonContext,
   document: DocumentNode,
+  persisted = ctx.persisted,
   responseTime?: number
 ) {
-  ctx.logger.debug(
+  ctx.logger.info(
     {
       responseTime,
-      ...getOperationMetadata(document),
+      authenticated: ctx.user ? true : false,
+      ...(persisted
+        ? // A persisted query was provided, we can pull the operation metadata
+          // out from the persisted object.
+          getPersistedQueryMetadata(persisted)
+        : // A persisted query was not provided, parse the operation metadata
+          // out from the document.
+          getOperationMetadata(document)),
     },
     "graphql query"
   );
@@ -44,6 +53,7 @@ export class LoggerExtension implements GraphQLExtension<CommonContext> {
         logQuery(
           o.executionArgs.contextValue,
           o.executionArgs.document,
+          undefined,
           responseTime
         );
       };

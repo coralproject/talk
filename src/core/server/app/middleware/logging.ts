@@ -21,7 +21,7 @@ export const accessLogger: RequestHandler = (req, res, next) => {
     const log = req.coral ? req.coral.logger : logger;
 
     // Log this out.
-    log.info(
+    log.debug(
       {
         url: req.originalUrl || req.url,
         method: req.method,

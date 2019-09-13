@@ -4,6 +4,7 @@ import uuid from "uuid";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { Config } from "coral-server/config";
 import logger, { Logger } from "coral-server/logger";
+import { PersistedQuery } from "coral-server/models/queries";
 import { User } from "coral-server/models/user";
 import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -18,6 +19,7 @@ export interface CommonContextOptions {
   logger?: Logger;
   lang?: LanguageCode;
   disableCaching?: boolean;
+  persisted?: PersistedQuery;
   config: Config;
   i18n: I18n;
   pubsub: RedisPubSub;
@@ -28,6 +30,7 @@ export interface CommonContextOptions {
 export default class CommonContext {
   public readonly user?: User;
   public readonly req?: Request;
+  public readonly persisted?: PersistedQuery;
   public readonly id: string;
   public readonly config: Config;
   public readonly i18n: I18n;
@@ -45,6 +48,7 @@ export default class CommonContext {
     logger: log = logger,
     user,
     req,
+    persisted,
     config,
     i18n,
     lang = i18n.getDefaultLang(),
@@ -64,6 +68,7 @@ export default class CommonContext {
     this.now = now;
     this.user = user;
     this.req = req;
+    this.persisted = persisted;
     this.config = config;
     this.i18n = i18n;
     this.lang = lang;
