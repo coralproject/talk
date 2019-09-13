@@ -89,6 +89,9 @@ class CreateYourAccountStep extends Component<Props> {
                         placeholder="Email"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
+                        type="email"
+                        autoCapitalize="off"
+                        autoCorrect="off"
                         fullWidth
                         {...input}
                       />
@@ -121,6 +124,8 @@ class CreateYourAccountStep extends Component<Props> {
                         placeholder="Username"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
+                        autoCapitalize="off"
+                        autoCorrect="off"
                         fullWidth
                         {...input}
                       />

@@ -59,6 +59,7 @@ login-signIn-passwordTextField =
 
 login-signIn-signInWithEmail = Sign in with Email
 login-signIn-orSeparator = Or
+login-signIn-forgot-password = Forgot your password?
 
 login-signInWithFacebook = Sign in with Facebook
 login-signInWithGoogle = Sign in with Google
@@ -87,9 +88,9 @@ configure-permissionField-dontAllow = Don't allow
 ### General
 configure-general-guidelines-title = Community guidelines summary
 configure-general-guidelines-explanation =
-  This will appear above the comments sitewide. 
-  You can format the text using Markdown. 
-  More information on how to use Markdown 
+  This will appear above the comments sitewide.
+  You can format the text using Markdown.
+  More information on how to use Markdown
   <externalLink>here</externalLink>.
 configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
@@ -100,9 +101,9 @@ configure-general-locale-chooseLanguage = Choose the language for your Coral com
 #### Sitewide Commenting
 configure-general-sitewideCommenting-title = Sitewide commenting
 configure-general-sitewideCommenting-explanation =
-  Open or close comment streams for new comments sitewide. 
-  When new comments are turned off, new comments cannot be 
-  submitted, but existing comments can continue to receive 
+  Open or close comment streams for new comments sitewide.
+  When new comments are turned off, new comments cannot be
+  submitted, but existing comments can continue to receive
   reactions, be reported, and be shared.
 configure-general-sitewideCommenting-enableNewCommentsSitewide =
   Enable new comments sitewide
@@ -153,10 +154,10 @@ configure-organization-nameExplanation =
   Your organization name will appear on emails sent by { -product-name } to your community and organization members.
 configure-organization-email = Organization email
 configure-organization-emailExplanation =
-  Open or close comment streams for new comments sitewide. When new comments
-  are turned off sitewide, new comments cannot be submitted, but existing
-  comments can continue to receive reactions, be reported, and be
-  shared.
+  This email address will be used as in emails and across the platform
+  for community members to get in touch with the organization should
+  they have any questions about the status of their accounts or
+  moderation questions.
 configure-organization-url = Organization URL
 configure-organization-urlExplanation =
   Your organization url will appear on emails sent by { -product-name } to your community and organization members.
@@ -242,7 +243,7 @@ configure-auth-oidc-tokenURL = Token URL
 configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Use OpenID Connect login on
 
-configure-auth-settings = Session settings 
+configure-auth-settings = Session settings
 configure-auth-settings-session-duration-label = Session duration
 
 ### Moderation
@@ -255,14 +256,14 @@ configure-moderation-recentCommentHistory-timeFrame-description =
   Amount of time to calculate a commenter's rejection rate.
 configure-moderation-recentCommentHistory-enabled = Recent history filter
 configure-moderation-recentCommentHistory-enabled-description =
-  Prevents repeat offenders from publishing comments without approval. 
-  When a commenter's rejection rate is above the threshold, their 
-  comments are sent to Pending for moderator approval. This does not 
+  Prevents repeat offenders from publishing comments without approval.
+  When a commenter's rejection rate is above the threshold, their
+  comments are sent to Pending for moderator approval. This does not
   apply to Staff comments.
 configure-moderation-recentCommentHistory-triggerRejectionRate = Rejection rate threshold
 configure-moderation-recentCommentHistory-triggerRejectionRate-description =
-  Rejected comments ÷ (rejected comments + published comments) 
-  over the timeframe above, as a percentage. It does not include 
+  Rejected comments ÷ (rejected comments + published comments)
+  over the timeframe above, as a percentage. It does not include
   comments pending for toxicity, spam or pre-moderation.
 
 #### Pre-Moderation
@@ -279,9 +280,9 @@ configure-moderation-apiKey = API key
 
 configure-moderation-akismet-title = Spam detection filter
 configure-moderation-akismet-explanation =
-  The Akismet API filter warns users when a comment is determined likely 
-  to be spam. Comments that Akismet thinks are spam will not be published 
-  and are placed in the Pending Queue for review by a moderator. 
+  The Akismet API filter warns users when a comment is determined likely
+  to be spam. Comments that Akismet thinks are spam will not be published
+  and are placed in the Pending Queue for review by a moderator.
   If approved by a moderator, the comment will be published.
 
 #### Akismet
@@ -295,11 +296,11 @@ configure-moderation-akismet-siteURL = Site URL
 #### Perspective
 configure-moderation-perspective-title = Toxic comment filter
 configure-moderation-perspective-explanation =
-  Using the Perspective API, the Toxic Comment filter warns users 
-  when comments exceed the predefined toxicity threshold. 
-  Comments with a toxicity score above the threshold 
+  Using the Perspective API, the Toxic Comment filter warns users
+  when comments exceed the predefined toxicity threshold.
+  Comments with a toxicity score above the threshold
   <strong>will not be published</strong> and are placed in
-  the <strong>Pending Queue for review by a moderator</strong>. 
+  the <strong>Pending Queue for review by a moderator</strong>.
   If approved by a moderator, the comment will be published.
 configure-moderation-perspective-filter = Toxic comment filter
 configure-moderation-perspective-toxicityThreshold = Toxicity threshold
@@ -308,7 +309,7 @@ configure-moderation-perspective-toxicityThresholdDescription =
   comment is toxic, according to Perspective API. By default the threshold is set to { $default }.
 configure-moderation-perspective-toxicityModel = Toxicity model
 configure-moderation-perspective-toxicityModelDescription =
-  Choose your Perspective Model. The default is { $default }. 
+  Choose your Perspective Model. The default is { $default }.
   You can find out more about model choices <externalLink>here</externalLink>.
 configure-moderation-perspective-allowStoreCommentData = Allow Google to store comment data
 configure-moderation-perspective-allowStoreCommentDataDescription =
@@ -337,7 +338,7 @@ configure-wordList-suspect-explanation =
   published (if comments are not pre-moderated).</strong>
 configure-wordList-suspect-wordList = Suspect word list
 configure-wordList-suspect-wordListDetail =
-  Separate suspect words or phrases with a new line. 
+  Separate suspect words or phrases with a new line.
 
 ### Advanced
 configure-advanced-customCSS = Custom CSS
@@ -352,7 +353,7 @@ configure-advanced-permittedDomains-description =
 
 configure-advanced-liveUpdates = Comment stream live updates
 configure-advanced-liveUpdates-explanation =
-  When enabled, there will be real-time loading and updating of comments. 
+  When enabled, there will be real-time loading and updating of comments.
   When disabled, users will have to refresh the page to see new comments.
 
 configure-advanced-embedCode-title = Embed code
@@ -524,7 +525,7 @@ moderate-user-drawer-recent-history-calculated =
 moderate-user-drawer-recent-history-rejected = Rejected
 moderate-user-drawer-recent-history-tooltip-title = How is this calculated?
 moderate-user-drawer-recent-history-tooltip-body =
-  Rejected comments ÷ (rejected comments + published comments). 
+  Rejected comments ÷ (rejected comments + published comments).
   The threshold can be changed by administrators in Configure > Moderation.
 moderate-user-drawer-recent-history-tooltip-button =
   .aria-label = Toggle recent comment history tooltip
@@ -736,8 +737,8 @@ userDetails-suspension-end = <strong>End:</strong> { $timestamp }
 configure-general-reactions-title = Reactions
 configure-general-reactions-explanation =
   Allow your community to engage with one another and express themselves
-  with one-click reactions. By default, Coral allows commenters to "Respect" 
-  each other's comments. 
+  with one-click reactions. By default, Coral allows commenters to "Respect"
+  each other's comments.
 configure-general-reactions-label = Reaction label
 configure-general-reactions-input =
   .placeholder = E.g. Respect
@@ -766,7 +767,7 @@ configure-account-features-delete-account = Delete their account
 configure-account-features-delete-account-details =
   Removes all of their comment data, username, and email address from the site and the database.
 
-configure-account-features-delete-account-fieldDescriptions = 
+configure-account-features-delete-account-fieldDescriptions =
   Removes all of their comment data, username, and email
   address from the site and the database.
 
@@ -781,3 +782,17 @@ configure-advanced-stories-proxy-detail =
   When specified, allows scraping requests to use the provided
   proxy. All requests will then be passed through the appropriote
   proxy as parsed by the <externalLink>npm proxy-agent</externalLink> package.
+
+forgotPassword-forgotPasswordHeader = Forgot password?
+forgotPassword-checkEmailHeader = Check your email
+forgotPassword-gotBackToSignIn = Go back to sign in page
+forgotPassword-checkEmail-receiveEmail =
+  If there is an account associated with <strong>{ $email }</strong>,
+  you will receive an email with a link to create a new password.
+forgotPassword-enterEmailAndGetALink =
+  Enter your email address below and we will send you a link
+  to reset your password.
+forgotPassword-emailAddressLabel = Email address
+forgotPassword-emailAddressTextField =
+  .placeholder = Email Address
+forgotPassword-sendEmailButton = Send email

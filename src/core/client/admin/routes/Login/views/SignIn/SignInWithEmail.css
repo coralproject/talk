@@ -1,0 +1,4 @@
+.textLink {
+  color: var(--palette-primary-main);
+  text-decoration: underline;
+}
