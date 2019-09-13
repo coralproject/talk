@@ -1,5 +1,7 @@
 import { Db, MongoError } from "mongodb";
 
+import { waitFor } from "coral-common/helpers";
+import logger from "coral-server/logger";
 import {
   createCollection,
   createIndexFactory,
@@ -23,7 +25,11 @@ export async function createQueriesIndexes(mongo: Db) {
   await createIndex({ id: 1 }, { unique: true });
 }
 
-export async function primeQueries(mongo: Db, queries: PersistedQuery[]) {
+export async function primeQueries(
+  mongo: Db,
+  queries: PersistedQuery[],
+  tries = 1
+) {
   // Setup persisting these queries.
   const bulk = collection(mongo).initializeUnorderedBulkOp({});
 
@@ -45,13 +51,22 @@ export async function primeQueries(mongo: Db, queries: PersistedQuery[]) {
     return;
   } catch (err) {
     if (err instanceof MongoError && err.code === 11000) {
-      // The error was due to a race causing a duplicate insert, we should retry
-      // this operation.
-      await bulk.execute({ w: "majority" });
+      if (tries > 2) {
+        logger.warn(
+          { err, tries },
+          "duplicate error on inserting persisted queries after maximum tries reached"
+        );
+        return;
+      }
 
-      return;
+      // Wait for 500ms before trying again.
+      await waitFor(500);
+
+      // Retry the priming operation.
+      await primeQueries(mongo, queries, tries + 1);
     }
 
+    // An error unrelated to duplicate indexes was thrown, just rethrow it.
     throw err;
   }
 }
