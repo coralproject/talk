@@ -1,4 +1,4 @@
-import { Db } from "mongodb";
+import { Db, MongoError } from "mongodb";
 
 import {
   createCollection,
@@ -38,8 +38,22 @@ export async function primeQueries(mongo: Db, queries: PersistedQuery[]) {
       .replaceOne(query);
   }
 
-  // Execute the bulk operations.
-  await bulk.execute();
+  try {
+    // Execute the bulk operations.
+    await bulk.execute({ w: "majority" });
+
+    return;
+  } catch (err) {
+    if (err instanceof MongoError && err.code === 11000) {
+      // The error was due to a race causing a duplicate insert, we should retry
+      // this operation.
+      await bulk.execute({ w: "majority" });
+
+      return;
+    }
+
+    throw err;
+  }
 }
 
 export async function getQueries(mongo: Db, ids: string[]) {
