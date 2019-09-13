@@ -16,6 +16,7 @@ import {
   Typography,
 } from "coral-ui/components";
 
+import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { SetEmailMutation, withSetEmailMutation } from "./SetEmailMutation";
 import { ListItem, UnorderedList } from "./UnorderedList";
 
@@ -38,9 +39,10 @@ class AddEmailAddressContainer extends Component<Props> {
   };
 
   public render() {
-    // tslint:disable-next-line:no-empty
+    const ref = useResizePopup();
+
     return (
-      <div data-testid="addEmailAddress-container">
+      <div ref={ref} data-testid="addEmailAddress-container">
         <Bar>
           <Localized id="addEmailAddress-addEmailAddressHeader">
             <Title>Add Email Address</Title>

@@ -6,6 +6,7 @@ import { Form } from "react-final-form";
 import { Bar, Title } from "coral-auth/components//Header";
 import Main from "coral-auth/components/Main";
 import UsernameField from "coral-auth/components/UsernameField";
+import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { OnSubmit } from "coral-framework/lib/form";
 import {
   Button,
@@ -38,9 +39,10 @@ class CreateUsernameContainer extends Component<Props> {
   };
 
   public render() {
-    // tslint:disable-next-line:no-empty
+    const ref = useResizePopup();
+
     return (
-      <div data-testid="createUsername-container">
+      <div ref={ref} data-testid="createUsername-container">
         <Bar>
           <Localized id="createUsername-createUsernameHeader">
             <Title>Create Username</Title>

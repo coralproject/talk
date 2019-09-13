@@ -6,6 +6,7 @@ import { Form } from "react-final-form";
 import { Bar, Title } from "coral-auth/components//Header";
 import Main from "coral-auth/components/Main";
 import SetPasswordField from "coral-auth/components/SetPasswordField";
+import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { OnSubmit } from "coral-framework/lib/form";
 import {
   Button,
@@ -38,8 +39,10 @@ class CreatePasswordContainer extends Component<Props> {
   };
 
   public render() {
+    const ref = useResizePopup();
+
     return (
-      <div data-testid="createPassword-container">
+      <div ref={ref} data-testid="createPassword-container">
         <Bar>
           <Localized id="createPassword-createPasswordHeader">
             <Title>Create Password</Title>
