@@ -237,6 +237,50 @@ export interface UsernameStatus {
 }
 
 /**
+ * PremodStatusHistory is the history of premod status changes
+ * against a specific User.
+ */
+export interface PremodStatusHistory {
+  /**
+   * createdBy is the ID for the User that premodded the User. If `null`, the
+   * premod was created by the system.
+   */
+  createdBy?: string;
+
+  /**
+   * createdAt is the time that the given premod status was set.
+   */
+  createdAt: Date;
+
+  /**
+   * modifiedBy is the ID for the User that modified the premod status for this
+   * User.
+   */
+  modifiedBy?: string;
+
+  /**
+   * modifiedAt is the time that the date that the given premod status
+   * was edited at.
+   */
+  modifiedAt?: Date;
+}
+
+/**
+ * PremodStatus is the status of whether a user is set to mandatory premod
+ */
+export interface PremodStatus {
+  /**
+   * active when true, indicates that the given user is set to mandatory premod.
+   */
+  active: boolean;
+
+  /**
+   * history is a list of previous enable/disable of premod status
+   */
+  history: PremodStatusHistory[];
+}
+
+/**
  * UserStatus stores the user status information regarding moderation state.
  */
 export interface UserStatus {
@@ -255,6 +299,11 @@ export interface UserStatus {
    * username stores the history of username changes for this user.
    */
   username: UsernameStatus;
+
+  /**
+   * premod stores whether a user is set to mandatory premod and history of premod status.
+   */
+  premod: PremodStatus;
 }
 
 /**
@@ -500,6 +549,7 @@ export async function insertUser(
       },
       suspension: { history: [] },
       ban: { active: false, history: [] },
+      premod: { active: false, history: [] },
     },
     notifications: {
       onReply: false,
