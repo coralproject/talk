@@ -82,17 +82,17 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
       // Only chronological sort supports top level live updates of incoming comments.
       return;
     }
-    const disposable = subscribeToCommentCreated({
+    const newCommentDisposable = subscribeToCommentCreated({
       storyID: props.story.id,
       orderBy: commentsOrderBy,
     });
-    const disposable2 = subscribeToCommentReleased({
+    const releasedCommentDisposable = subscribeToCommentReleased({
       storyID: props.story.id,
       orderBy: commentsOrderBy,
     });
     return () => {
-      disposable.dispose();
-      disposable2.dispose();
+      newCommentDisposable.dispose();
+      releasedCommentDisposable.dispose();
     };
   }, [
     commentsOrderBy,
