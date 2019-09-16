@@ -17,6 +17,7 @@ import {
   PasswordIncorrect,
   TokenNotFoundError,
   UserAlreadyBannedError,
+  UserAlreadyPremoderated,
   UserAlreadySuspendedError,
   UserCannotBeIgnoredError,
   UsernameAlreadySetError,
@@ -33,6 +34,7 @@ import {
   banUser,
   clearDeletionDate,
   consolidateUserBanStatus,
+  consolidateUserPremodStatus,
   consolidateUserSuspensionStatus,
   createUserToken,
   deactivateUserToken,
@@ -40,9 +42,11 @@ import {
   insertUser,
   InsertUserInput,
   NotificationSettingsInput,
+  premodUser,
   removeActiveUserSuspensions,
   removeUserBan,
   removeUserIgnore,
+  removeUserPremod,
   retrieveUser,
   retrieveUserWithEmail,
   scheduleDeletionDate,
@@ -781,6 +785,64 @@ export async function ban(
   return user;
 }
 
+/**
+ * premod will premod a specific user.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be banned on
+ * @param moderator the User that is banning the User
+ * @param userID the ID of the User being banned
+ * @param now the current time that the ban took effect
+ */
+export async function premod(
+  mongo: Db,
+  tenant: Tenant,
+  moderator: User,
+  userID: string,
+  now = new Date()
+) {
+  // Get the user being banned to check to see if the user already has an
+  // existing ban.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently banned.
+  const premodStatus = consolidateUserPremodStatus(targetUser.status.premod);
+  if (premodStatus.active) {
+    throw new UserAlreadyPremoderated();
+  }
+
+  // Ban the user.
+  return premodUser(mongo, tenant.id, userID, moderator.id, now);
+}
+
+export async function removePremod(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  userID: string,
+  now = new Date()
+) {
+  // Get the user being suspended to check to see if the user already has an
+  // existing suspension.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently suspended.
+  const premodStatus = consolidateUserPremodStatus(targetUser.status.premod);
+  if (!premodStatus.active) {
+    // The user is not premodded currently, just return the user because we
+    // don't have to do anything.
+    return targetUser;
+  }
+
+  // For each of the suspensions, remove it.
+  return removeUserPremod(mongo, tenant.id, user.id, userID, now);
+}
 /**
  * suspend will suspend a give user from interacting with Coral.
  *

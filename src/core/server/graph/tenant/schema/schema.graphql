@@ -1455,7 +1455,11 @@ type SuspensionStatus {
   history: [SuspensionStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
-type PreModStatusHistory {
+type PremodStatusHistory {
+  """
+  active when true, indicates that the given user is premodded.
+  """
+  active: Boolean!
   """
   createdBy is the user that flagged the commenter as pre-mod 
   """
@@ -1470,21 +1474,9 @@ type PreModStatusHistory {
       userIDField: "userID"
       permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
-  
-  """
-  modifiedBy is the User that cancelled/edited the premod status. If `null`, then
-  the user is still premod
-  """
-  modifiedBy: User
-
-  """
-  modifiedAt is the time that the premod was cancelled/edited. If `null`,
-  then the premod has not been cancelled/edited.
-  """
-  modifiedAt: Time
 }
 
-type PreModStatus {
+type PremodStatus {
   """
   active when true, indicates that the given user is set to pre-mod.
   """
@@ -1498,7 +1490,7 @@ type PreModStatus {
   """
   history is the list of all suspension events against a specific User.
   """
-  history: [PreModStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
+  history: [PremodStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 type UsernameHistory {
@@ -1568,7 +1560,7 @@ type UserStatus {
   """
   premod stores the user premod status as well as the history of changes.
   """
-  premod: PreModStatus!
+  premod: PremodStatus!
 }
 
 """
@@ -4843,7 +4835,7 @@ type RemoveUserSuspensionPayload {
 }
 
 ##################
-# banUser
+# premodUser
 ##################
 
 input PremodUserInput {
@@ -4859,6 +4851,34 @@ input PremodUserInput {
 }
 
 type PremodUserPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# removePremod
+##################
+
+input RemovePremodUserInput {
+  """
+  userID is the ID of the User that should be premodded.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RemovePremodUserPayload {
   """
   user is the possibly modified User.
   """
@@ -5295,6 +5315,16 @@ type Mutation {
   requestUserCommentsDownload(
     input: RequestUserCommentsDownloadInput!
   ): RequestUserCommentsDownloadPayload! @auth(roles: [ADMIN])
+
+  """
+  premodUser sets a user to mandatory premod 
+  """
+  premodUser(input: PremodUserInput!): PremodUserPayload! @auth(roles: [ADMIN, MODERATOR])
+  
+  """
+  removeUserPremod removes a user from mandatory premod 
+  """
+  removeUserPremod(input: RemovePremodUserInput!): RemovePremodUserPayload! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################

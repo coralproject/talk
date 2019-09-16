@@ -308,4 +308,6 @@ export enum ERROR_CODES {
    * all non-admin users.
    */
   RAW_QUERY_NOT_AUTHORIZED = "RAW_QUERY_NOT_AUTHORIZED",
+
+  USER_ALREADY_PREMOD = "USER_ALREADY_PREMOD",
 }

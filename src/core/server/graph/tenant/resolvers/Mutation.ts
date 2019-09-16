@@ -181,6 +181,14 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.suspend(input),
     clientMutationId: input.clientMutationId,
   }),
+  premodUser: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.premodUser(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  removeUserPremod: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.removeUserPremod(input),
+    clientMutationId: input.clientMutationId,
+  }),
   removeUserSuspension: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.removeSuspension(input),
     clientMutationId: input.clientMutationId,

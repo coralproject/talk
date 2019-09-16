@@ -8,8 +8,10 @@ import {
   createToken,
   deactivateToken,
   ignore,
+  premod,
   removeBan,
   removeIgnore,
+  removePremod,
   removeSuspension,
   requestAccountDeletion,
   requestCommentsDownload,
@@ -38,6 +40,8 @@ import {
   GQLDeleteUserAccountInput,
   GQLIgnoreUserInput,
   GQLInviteUsersInput,
+  GQLPremodUserInput,
+  GQLRemovePremodUserInput,
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
@@ -209,6 +213,8 @@ export const Users = (ctx: TenantContext) => ({
       input.message,
       ctx.now
     ),
+  premodUser: async (input: GQLPremodUserInput) =>
+    premod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   suspend: async (input: GQLSuspendUserInput) =>
     suspend(
       ctx.mongo,
@@ -224,6 +230,8 @@ export const Users = (ctx: TenantContext) => ({
     removeBan(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeSuspension: async (input: GQLRemoveUserSuspensionInput) =>
     removeSuspension(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+  removeUserPremod: async (input: GQLRemovePremodUserInput) =>
+    removePremod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   ignore: async (input: GQLIgnoreUserInput) =>
     ignore(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeIgnore: async (input: GQLRemoveUserIgnoreInput) =>

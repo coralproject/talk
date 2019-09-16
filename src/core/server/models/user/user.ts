@@ -14,6 +14,7 @@ import {
   PasswordResetTokenExpired,
   TokenNotFoundError,
   UserAlreadyBannedError,
+  UserAlreadyPremoderated,
   UserAlreadySuspendedError,
   UsernameAlreadySetError,
   UserNotFoundError,
@@ -21,6 +22,7 @@ import {
 import {
   GQLBanStatus,
   GQLDIGEST_FREQUENCY,
+  GQLPremodStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
   GQLUSER_ROLE,
@@ -242,6 +244,10 @@ export interface UsernameStatus {
  */
 export interface PremodStatusHistory {
   /**
+   * active when true, indicates that the given user is premodded.
+   */
+  active: boolean;
+  /**
    * createdBy is the ID for the User that premodded the User. If `null`, the
    * premod was created by the system.
    */
@@ -251,18 +257,6 @@ export interface PremodStatusHistory {
    * createdAt is the time that the given premod status was set.
    */
   createdAt: Date;
-
-  /**
-   * modifiedBy is the ID for the User that modified the premod status for this
-   * User.
-   */
-  modifiedBy?: string;
-
-  /**
-   * modifiedAt is the time that the date that the given premod status
-   * was edited at.
-   */
-  modifiedAt?: Date;
 }
 
 /**
@@ -1358,6 +1352,139 @@ async function retrieveConnection(
 }
 
 /**
+ * premodUser will set a user to mandatory premod.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user being banned
+ * @param createdBy the ID of the user premodding
+ * @param now the current date
+ */
+export async function premodUser(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  now = new Date()
+) {
+  // Create the new ban.
+  const premodStatusHistory: PremodStatusHistory = {
+    active: true,
+    createdBy,
+    createdAt: now,
+  };
+
+  // Try to update the user if the user isn't already banned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "status.premod.active": {
+        $ne: true,
+      },
+    },
+    {
+      $set: {
+        "status.premod.active": true,
+      },
+      $push: {
+        "status.premod.history": premodStatusHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ban operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // Check to see if the user is already banned.
+    const ban = consolidateUserPremodStatus(user.status.premod);
+    if (ban.active) {
+      throw new UserAlreadyPremoderated();
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * removeUserPremod will lift a user premod  requirement
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their ban lifted
+ * @param modifiedBy the ID of the user lifting the premod
+ * @param now the current date
+ */
+export async function removeUserPremod(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  now = new Date()
+) {
+  // Create the new ban.
+  const premod: PremodStatusHistory = {
+    active: false,
+    createdBy,
+    createdAt: now,
+  };
+
+  // Try to update the user if the user isn't already banned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      $or: [
+        {
+          "status.premod.active": {
+            $ne: false,
+          },
+        },
+        {
+          "status.premod.history": {
+            $size: 0,
+          },
+        },
+      ],
+    },
+    {
+      $set: {
+        "status.premod.active": false,
+      },
+      $push: {
+        "status.ban.history": premod,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ban operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user wasn't banned already, so nothing needs to be done!
+    return user;
+  }
+
+  return result.value;
+}
+
+/**
  * banUser will ban a specific user from interacting with the site.
  *
  * @param mongo the mongo database handle
@@ -1650,6 +1777,9 @@ export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history"> &
 export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
   Pick<UsernameStatus, "history">;
 
+export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
+  Pick<PremodStatus, "history">;
+
 export function consolidateUsernameStatus(
   username: User["status"]["username"]
 ): ConsolidatedUsernameStatus {
@@ -1660,6 +1790,12 @@ export function consolidateUserBanStatus(
   ban: User["status"]["ban"]
 ): ConsolidatedBanStatus {
   return ban;
+}
+
+export function consolidateUserPremodStatus(
+  premod: User["status"]["premod"]
+): ConsolidatedPremodStatus {
+  return premod;
 }
 
 export type ConsolidatedSuspensionStatus = Omit<
@@ -1696,6 +1832,7 @@ export function consolidateUserSuspensionStatus(
 export interface ConsolidatedUserStatus {
   suspension: ConsolidatedSuspensionStatus;
   ban: ConsolidatedBanStatus;
+  premod: ConsolidatedPremodStatus;
 }
 
 export function consolidateUserStatus(
@@ -1706,6 +1843,7 @@ export function consolidateUserStatus(
   return {
     suspension: consolidateUserSuspensionStatus(status.suspension, now),
     ban: consolidateUserBanStatus(status.ban),
+    premod: consolidateUserPremodStatus(status.premod),
   };
 }
 
