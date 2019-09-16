@@ -12,7 +12,9 @@ import { GQLUSER_ROLE } from "coral-framework/schema";
 import ButtonPadding from "../ButtonPadding";
 import BanModal from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
+import PremodUserMutation from "./PremodUserMutation";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
+import RemoveUserPremodMudtaion from "./RemoveUserPremodMutation";
 import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
 import SuspendModal from "./SuspendModal";
 import SuspendUserMutation from "./SuspendUserMutation";
@@ -31,6 +33,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
   const suspendUser = useMutation(SuspendUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
+  const premodUser = useMutation(PremodUserMutation);
+  const removeUserPremod = useMutation(RemoveUserPremodMudtaion);
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const [showSuspend, setShowSuspend] = useState<boolean>(false);
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
@@ -58,6 +62,20 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
     }
     removeUserSuspension({ userID: user.id });
   }, [user, removeUserSuspension]);
+
+  const handlePremod = useCallback(() => {
+    if (user.status.premod.active) {
+      return;
+    }
+    premodUser({ userID: user.id });
+  }, [user, premodUser]);
+
+  const handleRemovePremod = useCallback(() => {
+    if (!user.status.premod.active) {
+      return;
+    }
+    removeUserPremod({ userID: user.id });
+  }, [user, premodUser]);
 
   const handleSuspendModalClose = useCallback(() => {
     setShowSuspend(false);
@@ -103,8 +121,11 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
         onRemoveBan={handleRemoveBan}
         onSuspend={handleSuspend}
         onRemoveSuspension={handleRemoveSuspension}
+        onPremod={handlePremod}
+        onRemovePremod={handleRemovePremod}
         banned={user.status.ban.active}
         suspended={user.status.suspension.active}
+        premod={user.status.premod.active}
         fullWidth={fullWidth}
       >
         <UserStatusContainer user={user} />
@@ -138,6 +159,9 @@ const enhanced = withFragmentContainer<Props>({
           active
         }
         suspension {
+          active
+        }
+        premod {
           active
         }
       }

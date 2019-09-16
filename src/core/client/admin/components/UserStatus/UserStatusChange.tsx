@@ -18,8 +18,11 @@ interface Props {
   onRemoveBan: () => void;
   onSuspend: () => void;
   onRemoveSuspension: () => void;
+  onPremod: () => void;
+  onRemovePremod: () => void;
   banned: boolean;
   suspended: boolean;
+  premod: boolean;
   children: React.ReactNode;
   fullWidth?: boolean;
 }
@@ -29,8 +32,11 @@ const UserStatusChange: FunctionComponent<Props> = ({
   onRemoveBan,
   onSuspend,
   onRemoveSuspension,
+  onPremod,
+  onRemovePremod,
   banned,
   suspended,
+  premod,
   children,
   fullWidth = true,
 }) => (
@@ -91,6 +97,32 @@ const UserStatusChange: FunctionComponent<Props> = ({
                   }}
                 >
                   Remove Suspension
+                </DropdownButton>
+              </Localized>
+            )}
+            {!premod && (
+              <Localized id="community-userStatus-premodUser">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  onClick={() => {
+                    onPremod();
+                    toggleVisibility();
+                  }}
+                >
+                  Premod User
+                </DropdownButton>
+              </Localized>
+            )}
+            {premod && (
+              <Localized id="community-userStatus-removePremod">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  onClick={() => {
+                    onRemovePremod();
+                    toggleVisibility();
+                  }}
+                >
+                  Remove Premod
                 </DropdownButton>
               </Localized>
             )}
