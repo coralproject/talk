@@ -17,12 +17,10 @@ import {
   withClearErrorMutation,
 } from "./ClearErrorMutation";
 import SignIn from "./SignIn";
-import { SignInMutation, withSignInMutation } from "./SignInMutation";
 
 interface Props {
   local: LocalData;
   auth: AuthData;
-  signIn: SignInMutation;
   clearError: ClearErrorMutation;
 }
 
@@ -96,53 +94,51 @@ const SignInContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withClearErrorMutation(
-  withSignInMutation(
-    withLocalStateContainer(
-      graphql`
-        fragment SignInContainerLocal on Local {
-          error
-        }
-      `
-    )(
-      withFragmentContainer<Props>({
-        auth: graphql`
-          fragment SignInContainer_auth on Auth {
-            ...SignInWithOIDCContainer_auth
-            ...SignInWithGoogleContainer_auth
-            ...SignInWithFacebookContainer_auth
-            integrations {
-              local {
-                enabled
-                targetFilter {
-                  stream
-                }
+  withLocalStateContainer(
+    graphql`
+      fragment SignInContainerLocal on Local {
+        error
+      }
+    `
+  )(
+    withFragmentContainer<Props>({
+      auth: graphql`
+        fragment SignInContainer_auth on Auth {
+          ...SignInWithOIDCContainer_auth
+          ...SignInWithGoogleContainer_auth
+          ...SignInWithFacebookContainer_auth
+          integrations {
+            local {
+              enabled
+              targetFilter {
+                stream
               }
-              facebook {
-                enabled
-                redirectURL
-                targetFilter {
-                  stream
-                }
+            }
+            facebook {
+              enabled
+              redirectURL
+              targetFilter {
+                stream
               }
-              google {
-                enabled
-                redirectURL
-                targetFilter {
-                  stream
-                }
+            }
+            google {
+              enabled
+              redirectURL
+              targetFilter {
+                stream
               }
-              oidc {
-                enabled
-                redirectURL
-                targetFilter {
-                  stream
-                }
+            }
+            oidc {
+              enabled
+              redirectURL
+              targetFilter {
+                stream
               }
             }
           }
-        `,
-      })(SignInContainer)
-    )
+        }
+      `,
+    })(SignInContainer)
   )
 );
 

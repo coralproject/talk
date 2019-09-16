@@ -3,7 +3,7 @@ import { Environment } from "relay-runtime";
 
 import {
   commitMutationPromiseNormalized,
-  createMutationContainer,
+  createMutation,
 } from "coral-framework/lib/relay";
 import { Omit } from "coral-framework/types";
 
@@ -41,11 +41,6 @@ function commit(environment: Environment, input: SetPasswordInput) {
   });
 }
 
-export const withSetPasswordMutation = createMutationContainer(
-  "setPassword",
-  commit
-);
+const SetPasswordMutation = createMutation("setPassword", commit);
 
-export type SetPasswordMutation = (
-  input: SetPasswordInput
-) => Promise<MutationTypes["response"]["setPassword"]>;
+export default SetPasswordMutation;
