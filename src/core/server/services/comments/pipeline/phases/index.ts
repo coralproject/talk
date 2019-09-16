@@ -24,9 +24,9 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   purify,
   wordList,
   staff,
+  toxic,
   recentCommentHistory,
   spam,
-  toxic,
   detectLinks,
   preModerate,
 ];
