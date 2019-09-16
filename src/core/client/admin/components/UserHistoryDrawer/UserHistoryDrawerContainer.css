@@ -1,6 +1,6 @@
 .comments {
   flex: auto;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .close {

@@ -119,6 +119,9 @@ class AddOrganizationStep extends React.Component<Props> {
                         placeholder="Organization Contact Email"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
+                        type="email"
+                        autoCapitalize="off"
+                        autoCorrect="off"
                         fullWidth
                         {...input}
                       />
