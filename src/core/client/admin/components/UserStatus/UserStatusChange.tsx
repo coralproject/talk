@@ -109,7 +109,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
                     toggleVisibility();
                   }}
                 >
-                  Premod User
+                  Always Premod User
                 </DropdownButton>
               </Localized>
             )}
@@ -122,7 +122,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
                     toggleVisibility();
                   }}
                 >
-                  Remove Premod
+                  Remove Always Premoderate
                 </DropdownButton>
               </Localized>
             )}

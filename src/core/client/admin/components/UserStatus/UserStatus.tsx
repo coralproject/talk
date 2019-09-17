@@ -45,7 +45,7 @@ const UserStatus: FunctionComponent<Props> = props => {
       "warning",
       // tslint:disable-next-line:jsx-wrap-multiline
       <Localized id="userStatus-premod">
-        <div>Premod</div>
+        <div>Always Premoderated</div>
       </Localized>
     );
   }

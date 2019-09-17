@@ -12,6 +12,7 @@ import { GQLUSER_ROLE } from "coral-framework/schema";
 import ButtonPadding from "../ButtonPadding";
 import BanModal from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
+import PremodModal from "./PremodModal";
 import PremodUserMutation from "./PremodUserMutation";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import RemoveUserPremodMudtaion from "./RemoveUserPremodMutation";
@@ -35,6 +36,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const premodUser = useMutation(PremodUserMutation);
   const removeUserPremod = useMutation(RemoveUserPremodMudtaion);
+  const [showPremod, setShowPremod] = useState<boolean>(false);
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const [showSuspend, setShowSuspend] = useState<boolean>(false);
   const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
@@ -67,8 +69,17 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
     if (user.status.premod.active) {
       return;
     }
+    setShowPremod(true);
+  }, [user, setShowPremod]);
+
+  const handlePremodConfirm = useCallback(() => {
     premodUser({ userID: user.id });
-  }, [user, premodUser]);
+    setShowPremod(false);
+  }, [premodUser, user, setShowPremod]);
+
+  const hidePremod = useCallback(() => {
+    setShowPremod(false);
+  }, [setShowPremod]);
 
   const handleRemovePremod = useCallback(() => {
     if (!user.status.premod.active) {
@@ -137,6 +148,12 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
         onClose={handleSuspendModalClose}
         organizationName={settings.organization.name}
         onConfirm={handleSuspendConfirm}
+      />
+      <PremodModal
+        username={user.username}
+        open={showPremod}
+        onClose={hidePremod}
+        onConfirm={handlePremodConfirm}
       />
       <BanModal
         username={user.username}

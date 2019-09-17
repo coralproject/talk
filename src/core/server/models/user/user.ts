@@ -1443,18 +1443,7 @@ export async function removeUserPremod(
     {
       id,
       tenantID,
-      $or: [
-        {
-          "status.premod.active": {
-            $ne: false,
-          },
-        },
-        {
-          "status.premod.history": {
-            $size: 0,
-          },
-        },
-      ],
+      "status.premod.active": true,
     },
     {
       $set: {
@@ -1470,6 +1459,7 @@ export async function removeUserPremod(
       returnOriginal: false,
     }
   );
+
   if (!result.value) {
     // Get the user so we can figure out why the ban operation failed.
     const user = await retrieveUser(mongo, tenantID, id);

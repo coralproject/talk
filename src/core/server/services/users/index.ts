@@ -821,7 +821,7 @@ export async function premod(
 export async function removePremod(
   mongo: Db,
   tenant: Tenant,
-  user: User,
+  moderator: User,
   userID: string,
   now = new Date()
 ) {
@@ -841,7 +841,7 @@ export async function removePremod(
   }
 
   // For each of the suspensions, remove it.
-  return removeUserPremod(mongo, tenant.id, user.id, userID, now);
+  return removeUserPremod(mongo, tenant.id, userID, moderator.id, now);
 }
 /**
  * suspend will suspend a give user from interacting with Coral.
