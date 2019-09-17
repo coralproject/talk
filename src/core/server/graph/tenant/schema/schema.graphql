@@ -1459,7 +1459,7 @@ type PremodStatusHistory {
   """
   active when true, indicates that the given user is premodded.
   """
-  active: Boolean!
+  active: Boolean! @auth(roles: [ADMIN, MODERATOR])
   """
   createdBy is the user that flagged the commenter as pre-mod 
   """
@@ -1471,8 +1471,6 @@ type PremodStatusHistory {
   createdAt: Time!
     @auth(
       roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 }
 
@@ -1483,8 +1481,6 @@ type PremodStatus {
   active: Boolean!
     @auth(
       roles: [ADMIN, MODERATOR]
-      userIDField: "userID"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
@@ -1560,7 +1556,7 @@ type UserStatus {
   """
   premod stores the user premod status as well as the history of changes.
   """
-  premod: PremodStatus!
+  premod: PremodStatus! @auth(roles: [ADMIN, MODERATOR])
 }
 
 """

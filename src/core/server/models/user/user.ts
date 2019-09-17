@@ -1405,8 +1405,8 @@ export async function premodUser(
     }
 
     // Check to see if the user is already banned.
-    const ban = consolidateUserPremodStatus(user.status.premod);
-    if (ban.active) {
+    const premod = consolidateUserPremodStatus(user.status.premod);
+    if (premod.active) {
       throw new UserAlreadyPremoderated();
     }
 
