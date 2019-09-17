@@ -446,7 +446,7 @@ it("suspend user", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Suspend User", { selector: "button" })
+      .getByText("Suspend", { selector: "button" })
       .props.onClick();
   });
 
@@ -515,7 +515,7 @@ it("remove user suspension", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Remove Suspension", { selector: "button" })
+      .getByText("Remove suspension", { selector: "button" })
       .props.onClick();
   });
   expect(resolvers.Mutation!.removeUserSuspension!.called).toBe(true);
@@ -566,7 +566,7 @@ it("suspend user with custom timeout", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Suspend User", { selector: "button" })
+      .getByText("Suspend", { selector: "button" })
       .props.onClick();
   });
 
@@ -632,7 +632,7 @@ it("suspend user with custom message", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Suspend User", { selector: "button" })
+      .getByText("Suspend", { selector: "button" })
       .props.onClick();
   });
 
@@ -704,7 +704,7 @@ it("ban user", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Ban User", { selector: "button" })
+      .getByText("Ban", { selector: "button" })
       .props.onClick();
   });
 
@@ -767,7 +767,7 @@ it("ban user with custom message", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Ban User", { selector: "button" })
+      .getByText("Ban", { selector: "button" })
       .props.onClick();
   });
 
@@ -853,7 +853,7 @@ it("remove user ban", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Remove Ban", { selector: "button" })
+      .getByText("Remove ban", { selector: "button" })
       .props.onClick();
   });
 

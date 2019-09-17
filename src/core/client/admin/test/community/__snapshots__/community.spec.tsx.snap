@@ -169,7 +169,7 @@ exports[`renders community 1`] = `
                 <option
                   value="PREMOD"
                 >
-                  Always Premoderated
+                  Always pre-moderate
                 </option>
               </select>
               <span
@@ -833,7 +833,7 @@ exports[`renders empty community 1`] = `
                 <option
                   value="PREMOD"
                 >
-                  Always Premoderated
+                  Always pre-moderate
                 </option>
               </select>
               <span
