@@ -12,12 +12,11 @@ import { FeaturedCommentContainer_story as StoryData } from "coral-stream/__gene
 import { FeaturedCommentContainer_viewer as ViewerData } from "coral-stream/__generated__/FeaturedCommentContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
-import Timestamp from "coral-stream/common/Timestamp";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
-import { Box, Flex, Icon, TextLink } from "coral-ui/components";
+import { Box, Flex, Icon, TextLink, Timestamp } from "coral-ui/components";
 
 import { UserTagsContainer } from "../../Comment";
 import ReactionButtonContainer from "../../Comment/ReactionButton";
