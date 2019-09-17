@@ -355,6 +355,7 @@ moderate-marker-link = Link
 moderate-marker-bannedWord = Forbudt ord
 moderate-marker-suspectWord = Mistænkte ord
 moderate-marker-spam = Spam
+moderate-marker-spamDetected = Spam opdaget
 moderate-marker-toxic = Giftig
 moderate-marker-karma = Karma
 moderate-marker-bodyCount = Ordtælling
