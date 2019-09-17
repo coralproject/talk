@@ -49,7 +49,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
         <ClickOutside onClickOutside={toggleVisibility}>
           <Dropdown>
             {!banned && (
-              <Localized id="community-userStatus-banUser">
+              <Localized id="community-userStatus-ban">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
@@ -62,7 +62,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
               </Localized>
             )}
             {banned && (
-              <Localized id="community-userStatus-removeBan">
+              <Localized id="community-userStatus-removeUserBan">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
@@ -75,7 +75,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
               </Localized>
             )}
             {!suspended && (
-              <Localized id="community-userStatus-suspendUser">
+              <Localized id="community-userStatus-suspend">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
@@ -88,7 +88,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
               </Localized>
             )}
             {suspended && (
-              <Localized id="community-userStatus-removeSuspension">
+              <Localized id="community-userStatus-removeUserSuspension">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
