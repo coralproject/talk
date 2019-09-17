@@ -486,6 +486,9 @@ moderate-user-drawer-username-change = Username change
 moderate-user-drawer-username-change-new = New:
 moderate-user-drawer-username-change-old = Old:
 
+moderate-user-drawer-account-history-premod-set = Set always premoderate
+moderate-user-drawer-account-history-premod-removed = Removed always premoderate
+
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
     [second] { $value ->

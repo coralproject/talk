@@ -1450,7 +1450,7 @@ export async function removeUserPremod(
         "status.premod.active": false,
       },
       $push: {
-        "status.ban.history": premod,
+        "status.premod.history": premod,
       },
     },
     {

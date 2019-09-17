@@ -1,14 +1,19 @@
 import React, { FunctionComponent } from "react";
 
 import BanAction, { BanActionProps } from "./BanAction";
+import PremodAction, { PremodActionProps } from "./PremodAction";
 import SuspensionAction, { SuspensionActionProps } from "./SuspensionAction";
 import UsernameChangeAction, {
   UsernameChangeActionProps,
 } from "./UsernameChangeAction";
 
 export interface HistoryActionProps {
-  kind: "username" | "suspension" | "ban";
-  action: UsernameChangeActionProps | SuspensionActionProps | BanActionProps;
+  kind: "username" | "suspension" | "ban" | "premod";
+  action:
+    | UsernameChangeActionProps
+    | SuspensionActionProps
+    | BanActionProps
+    | PremodActionProps;
 }
 
 const AccountHistoryAction: FunctionComponent<HistoryActionProps> = ({
@@ -22,6 +27,8 @@ const AccountHistoryAction: FunctionComponent<HistoryActionProps> = ({
       return <SuspensionAction {...action as SuspensionActionProps} />;
     case "ban":
       return <BanAction {...action as BanActionProps} />;
+    case "premod":
+      return <PremodAction {...action as PremodActionProps} />;
     default:
       return null;
   }
