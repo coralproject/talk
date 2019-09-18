@@ -1,6 +1,14 @@
 import cn from "classnames";
+import { withForwardRef } from "coral-ui/hocs";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import key from "keymaster";
+import React, {
+  FunctionComponent,
+  Ref,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import {
@@ -52,6 +60,7 @@ interface Props {
   mini?: boolean;
   hideUsername?: boolean;
   selected: boolean;
+  forwardRef: Ref<HTMLDivElement>;
   /**
    * If set to true, it means this comment is about to be removed
    * from the queue. This will trigger some styling changes to
@@ -59,6 +68,8 @@ interface Props {
    */
   dangling?: boolean;
   deleted?: boolean;
+  selectPrev: () => void;
+  selectNext: () => void;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -86,10 +97,35 @@ const ModerateCard: FunctionComponent<Props> = ({
   moderatedBy,
   selected,
   onFocusOrClick,
+  forwardRef,
   mini = false,
   hideUsername = false,
   deleted = false,
+  selectNext,
+  selectPrev,
 }) => {
+  const div = useRef(null);
+  useEffect(() => {
+    if (selected) {
+      if (div && div.current && div.current.focus) {
+        div.current.focus();
+      }
+      key("d", onApprove);
+      key("j", selectNext);
+      key("k", selectPrev);
+      key("f", onReject);
+      return () => {
+        key.unbind("d");
+        key.unbind("f");
+      };
+    }
+    key.unbind("d");
+    key.unbind("f");
+    if (div && div.current && div.current.focus) {
+      div.current.blur();
+    }
+    return () => {};
+  }, [selected, div]);
   const commentBody = deleted ? (
     <Localized id="moderate-comment-deleted-body">
       <Typography>
@@ -117,6 +153,8 @@ const ModerateCard: FunctionComponent<Props> = ({
         { [styles.deleted]: deleted },
         { [styles.selected]: selected }
       )}
+      ref={div}
+      tabIndex={0}
       data-testid={`moderate-comment-${id}`}
       onClick={onFocusOrClick}
       onFocus={onFocusOrClick}
@@ -241,4 +279,4 @@ const ModerateCard: FunctionComponent<Props> = ({
   );
 };
 
-export default ModerateCard;
+export default withForwardRef(ModerateCard);

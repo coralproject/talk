@@ -48,9 +48,27 @@ const Queue: FunctionComponent<Props> = ({
 }) => {
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
   const [userDrawerId, setUserDrawerID] = useState("");
-  const [selectedComment, setSelectedComment] = useState<
-    { id: string } & PropTypesOf<typeof ModerateCardContainer>["comment"] | null
-  >(null);
+  const [selectedComment, setSelectedComment] = useState<string | null>(null);
+
+  const selectNext = useCallback(() => {
+    const selectedIndex = comments.findIndex(
+      comment => comment.id === selectedComment
+    );
+    const nextComment = comments[selectedIndex + 1];
+    if (nextComment) {
+      setSelectedComment(nextComment.id);
+    }
+  }, [setSelectedComment, comments, selectedComment]);
+
+  const selectPrev = useCallback(() => {
+    const selectedIndex = comments.findIndex(
+      comment => comment.id === selectedComment
+    );
+    const prevComment = comments[selectedIndex - 1];
+    if (prevComment) {
+      setSelectedComment(prevComment.id);
+    }
+  }, [setSelectedComment, comments, selectedComment]);
 
   const onShowUserDrawer = useCallback(
     (userID: string) => {
@@ -102,7 +120,9 @@ const Queue: FunctionComponent<Props> = ({
                 showStoryInfo={Boolean(allStories)}
                 onUsernameClicked={onShowUserDrawer}
                 onSetSelected={setSelectedComment}
-                selected={selectedComment ? selectedComment.id === c.id : false}
+                selected={selectedComment ? selectedComment === c.id : false}
+                selectPrev={selectPrev}
+                selectNext={selectNext}
               />
             </CSSTransition>
           ))}

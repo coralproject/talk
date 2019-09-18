@@ -1,6 +1,7 @@
 import cn from "classnames";
 import { withStyles } from "coral-ui/hocs";
-import React from "react";
+import { withForwardRef } from "coral-ui/hocs";
+import React, { Ref } from "react";
 import { FunctionComponent, ReactNode } from "react";
 
 import styles from "./Card.css";
@@ -18,19 +19,22 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
    * Override or extend the styles applied to the component.
    */
   classes: typeof styles;
+
+  tabIndex?: number;
+  forwardRef?: Ref<HTMLDivElement>;
 }
 
 const Card: FunctionComponent<CardProps> = props => {
-  const { className, classes, children, ...rest } = props;
+  const { className, classes, children, forwardRef, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);
 
   return (
-    <div className={rootClassName} {...rest}>
+    <div className={rootClassName} {...rest} ref={forwardRef}>
       {children}
     </div>
   );
 };
 
-const enhanced = withStyles(styles)(Card);
+const enhanced = withForwardRef(withStyles(styles)(Card));
 export default enhanced;
