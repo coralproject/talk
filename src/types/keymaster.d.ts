@@ -37,7 +37,7 @@ interface Keymaster {
 
   noConflict(): void;
 
-  unbind(key: string, scopeName: string): void;
+  unbind(key: string, scopeName?: string): void;
 
   isPressed(keyCode: number): boolean;
   getPressedKeyCodes(): number[];
