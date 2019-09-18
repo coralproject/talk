@@ -83,6 +83,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   onSetSelected: setSelected,
 }) => {
   const handleApprove = useCallback(() => {
+    console.log('approve')
     if (!comment.revision) {
       return;
     }
@@ -92,7 +93,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       commentRevisionID: comment.revision.id,
       storyID: match.params.storyID,
     });
-    selectNext();
   }, [approveComment, comment, match]);
 
   const handleReject = useCallback(() => {
@@ -105,7 +105,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       commentRevisionID: comment.revision.id,
       storyID: match.params.storyID,
     });
-    selectNext();
+    // selectNext();
   }, [rejectComment, comment, match]);
 
   const handleFeature = useCallback(() => {
@@ -158,9 +158,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   );
 
   const onFocusOrClick = useCallback(() => {
-    if (selected) {
-      return;
-    }
     setSelected(comment.id);
   }, [selected, comment]);
 

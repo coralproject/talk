@@ -107,25 +107,28 @@ const ModerateCard: FunctionComponent<Props> = ({
   const div = useRef(null);
   useEffect(() => {
     if (selected) {
-      if (div && div.current && div.current.focus) {
-        div.current.focus();
-      }
-      key("d", onApprove);
-      key("j", selectNext);
-      key("k", selectPrev);
-      key("f", onReject);
-      return () => {
-        key.unbind("d");
-        key.unbind("f");
-      };
+      console.log("im selected", id);
+    } else {
+      console.log("im NOT selected", id);
     }
-    key.unbind("d");
-    key.unbind("f");
-    if (div && div.current && div.current.focus) {
-      div.current.blur();
+    // console.log("selected changed", selected);
+    if (selected) {
+      key("j", id, selectNext);
+      key("k", id, selectPrev);
+      console.log("binding for", id);
+      key("d", id, onApprove);
+      key("f", id, () => {
+        console.log("test");
+      });
+      key.setScope(id);
+      return () => {
+        key.deleteScope(id);
+      };
+    } else {
+      key.deleteScope(id);
     }
     return () => {};
-  }, [selected, div]);
+  }, [selected]);
   const commentBody = deleted ? (
     <Localized id="moderate-comment-deleted-body">
       <Typography>
@@ -157,7 +160,6 @@ const ModerateCard: FunctionComponent<Props> = ({
       tabIndex={0}
       data-testid={`moderate-comment-${id}`}
       onClick={onFocusOrClick}
-      onFocus={onFocusOrClick}
     >
       <Flex>
         <div className={styles.mainContainer}>
