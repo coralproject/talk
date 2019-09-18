@@ -83,7 +83,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   onSetSelected: setSelected,
 }) => {
   const handleApprove = useCallback(() => {
-    console.log('approve')
+    console.log("approve");
     if (!comment.revision) {
       return;
     }
@@ -158,7 +158,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   );
 
   const onFocusOrClick = useCallback(() => {
-    setSelected(comment.id);
+    setSelected();
   }, [selected, comment]);
 
   return (
