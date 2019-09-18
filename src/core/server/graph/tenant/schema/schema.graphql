@@ -422,7 +422,6 @@ type LocalAuthIntegration {
   integration should be displayed in all targets.
   """
   targetFilter: AuthenticationTargetFilter!
-
 }
 
 ##########################
@@ -442,13 +441,6 @@ type SSOAuthIntegration {
   before with this authentication integration to sign up.
   """
   allowRegistration: Boolean!
-
-  """
-  redirectURL is the URL that the user should be redirected to in order to start
-  an authentication flow with the given integration. This field is not stored,
-  and is instead computed from the Tenant.
-  """
-  redirectURL: String
 
   """
   targetFilter will restrict where the authentication integration should be

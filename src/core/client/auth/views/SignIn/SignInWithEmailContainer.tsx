@@ -1,46 +1,45 @@
 import { FORM_ERROR } from "final-form";
-import React, { Component } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { SetViewMutation } from "coral-auth/mutations";
-import { MutationProp, withMutation } from "coral-framework/lib/relay";
+import { useMutation } from "coral-framework/lib/relay";
 
 import { getViewURL } from "coral-auth/helpers";
 
-import { SignInMutation, withSignInMutation } from "./SignInMutation";
+import SignInMutation from "./SignInMutation";
 import SignInWithEmail, { SignInWithEmailForm } from "./SignInWithEmail";
 
-interface SignInContainerProps {
-  signIn: SignInMutation;
-  setView: MutationProp<typeof SetViewMutation>;
-}
+const SignInContainer: FunctionComponent = () => {
+  const signIn = useMutation(SignInMutation);
+  const setView = useMutation(SetViewMutation);
+  const onSubmit: SignInWithEmailForm["onSubmit"] = useCallback(
+    async (input, form) => {
+      try {
+        await signIn({ email: input.email, password: input.password });
+        return form.reset();
+      } catch (error) {
+        return { [FORM_ERROR]: error.message };
+      }
+    },
+    [signIn]
+  );
+  const goToForgotPassword = useCallback(
+    (e: React.MouseEvent) => {
+      setView({ view: "FORGOT_PASSWORD", history: "push" });
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+    },
+    [setView]
+  );
 
-class SignInContainer extends Component<SignInContainerProps> {
-  private onSubmit: SignInWithEmailForm["onSubmit"] = async (input, form) => {
-    try {
-      await this.props.signIn({ email: input.email, password: input.password });
-      return form.reset();
-    } catch (error) {
-      return { [FORM_ERROR]: error.message };
-    }
-  };
-  private goToForgotPassword = (e: React.MouseEvent) => {
-    this.props.setView({ view: "FORGOT_PASSWORD", history: "push" });
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-  };
-  public render() {
-    return (
-      <SignInWithEmail
-        onSubmit={this.onSubmit}
-        onGotoForgotPassword={this.goToForgotPassword}
-        forgotPasswordHref={getViewURL("FORGOT_PASSWORD")}
-      />
-    );
-  }
-}
+  return (
+    <SignInWithEmail
+      onSubmit={onSubmit}
+      onGotoForgotPassword={goToForgotPassword}
+      forgotPasswordHref={getViewURL("FORGOT_PASSWORD")}
+    />
+  );
+};
 
-const enhanced = withMutation(SetViewMutation)(
-  withSignInMutation(SignInContainer)
-);
-export default enhanced;
+export default SignInContainer;

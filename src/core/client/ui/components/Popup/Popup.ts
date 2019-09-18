@@ -6,6 +6,7 @@ interface WindowFeatures {
   width: number;
   height: number;
   centered: boolean;
+  innerWidth?: number;
 }
 
 interface PopupProps {

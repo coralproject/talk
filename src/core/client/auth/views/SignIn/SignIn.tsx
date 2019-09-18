@@ -4,6 +4,7 @@ import React, { FunctionComponent } from "react";
 import { Bar, SubBar, Subtitle, Title } from "coral-auth/components/Header";
 import Main from "coral-auth/components/Main";
 import OrSeparator from "coral-auth/components/OrSeparator";
+import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { PropTypesOf } from "coral-framework/types";
 import {
   CallOut,
@@ -41,10 +42,11 @@ const SignIn: FunctionComponent<SignInForm> = ({
   auth,
   error,
 }) => {
+  const ref = useResizePopup();
   const oneClickIntegrationEnabled =
     facebookEnabled || googleEnabled || oidcEnabled;
   return (
-    <div data-testid="signIn-container">
+    <div ref={ref} data-testid="signIn-container">
       <Localized
         id="signIn-signInToJoinHeader"
         title={<Title />}
