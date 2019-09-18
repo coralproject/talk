@@ -125,7 +125,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               {!hideUsername && (
                 <BaseButton
                   onClick={commentAuthorClick}
-                  className={styles.username}
+                  className={styles.usernameButton}
                 >
                   <Username>{username}</Username>
                 </BaseButton>
@@ -141,7 +141,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               <div>
                 <BaseButton
                   onClick={commentParentAuthorClick}
-                  className={styles.username}
+                  className={styles.usernameButton}
                 >
                   <InReplyTo>{inReplyTo.username}</InReplyTo>
                 </BaseButton>
@@ -170,10 +170,12 @@ const ModerateCard: FunctionComponent<Props> = ({
               </div>
               {showStory && (
                 <div>
-                  <Localized id="moderate-comment-story">
-                    <span className={styles.story}>Story</span>
-                  </Localized>
-                  {": "}
+                  <div>
+                    <Localized id="moderate-comment-storyLabel">
+                      <span className={styles.storyLabel}>Comment on</span>
+                    </Localized>
+                    {": "}
+                  </div>
                   <span className={styles.storyTitle}>{storyTitle}</span>{" "}
                   <Localized id="moderate-comment-moderateStory">
                     <TextLink

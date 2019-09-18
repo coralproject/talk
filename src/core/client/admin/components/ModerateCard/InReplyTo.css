@@ -1,11 +1,11 @@
 .icon {
-  color: var(--palette-grey-main);
+  color: var(--v2-palette-label-regular);
 }
 .inReplyTo {
-  color: var(--palette-grey-main);
+  composes: replyToLabel from "coral-admin/components/ModerateCard/shared.css";
 }
 .username {
-  color: var(--palette-grey-main);
+  composes: replyToUsername from "coral-admin/components/ModerateCard/shared.css";
 }
 
 .usernameButton {

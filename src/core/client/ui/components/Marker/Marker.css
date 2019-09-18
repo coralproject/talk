@@ -1,5 +1,5 @@
 .root {
-  composes: markerText from "coral-ui/shared/typography.css";
+  composes: markerTextV2 from "coral-ui/shared/typography.css";
   color: var(--palette-error-main);
   border: 1px solid currentColor;
   border-radius: 20px;
@@ -8,15 +8,15 @@
 }
 
 .colorPrimary {
-  color: var(--palette-primary-darkest);
+  color: var(--v2-palette-primary-darkest);
 }
 
 .colorGrey {
-  color: var(--palette-grey-darkest);
+  color: var(--v2-palette-grey-darkest);
 }
 
 .colorError {
-  color: var(--palette-error-darkest);
+  color: var(--v2-palette-error-darkest);
 }
 
 .variantRegular {
@@ -24,11 +24,11 @@
 
 .variantFilled {
   &.colorPrimary {
-    background-color: var(--palette-primary-lightest);
+    background-color: var(--v2-palette-primary-lightest);
   }
 
   &.colorGrey {
-    background-color: var(--palette-grey-lightest);
+    background-color: var(--v2-palette-grey-lightest);
   }
 
   &.colorError {

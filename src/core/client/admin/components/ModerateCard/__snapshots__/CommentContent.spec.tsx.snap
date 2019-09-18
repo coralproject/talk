@@ -3,6 +3,7 @@
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   className="custom CommentContent-root"
+  color="textPrimaryV2"
   container="div"
   dangerouslySetInnerHTML={
     Object {
@@ -15,6 +16,7 @@ exports[`renders correctly 1`] = `
 exports[`renders empty words correctly 1`] = `
 <ForwardRef(forwardRef)
   className="custom CommentContent-root"
+  color="textPrimaryV2"
   container="div"
   dangerouslySetInnerHTML={
     Object {

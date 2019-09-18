@@ -20,7 +20,7 @@ const ToxicityLabel: FunctionComponent<{
       <Localized id="moderate-toxicityLabel-likely" score={counter}>
         <Typography
           className={styles.root}
-          variant="bodyCopy"
+          variant="bodyShortV2"
           color="errorDark"
         >
           Likely
@@ -30,14 +30,18 @@ const ToxicityLabel: FunctionComponent<{
   } else if (score <= 0.5) {
     return (
       <Localized id="moderate-toxicityLabel-unlikely" score={counter}>
-        <Typography className={styles.root}>Unlikely</Typography>
+        <Typography variant="bodyShortV2" className={styles.root}>
+          Unlikely
+        </Typography>
       </Localized>
     );
   }
 
   return (
     <Localized id="moderate-toxicityLabel-maybe" score={counter}>
-      <Typography className={styles.root}>Maybe</Typography>
+      <Typography variant="bodyShortV2" className={styles.root}>
+        Maybe
+      </Typography>
     </Localized>
   );
 };

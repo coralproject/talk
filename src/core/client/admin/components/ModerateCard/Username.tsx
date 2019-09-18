@@ -13,7 +13,7 @@ export interface UsernameProps {
 const Username: FunctionComponent<UsernameProps> = props => {
   return (
     <Typography
-      variant="heading4"
+      variant="header4V2"
       className={cn(props.className, styles.root)}
       container="span"
     >

@@ -41,7 +41,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+              className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
             >
               Isabelle
             </span>
@@ -82,7 +82,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
         dangerouslySetInnerHTML={
           Object {
             "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -280,7 +280,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+              className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
             >
               Isabelle
             </span>
@@ -321,7 +321,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
         dangerouslySetInnerHTML={
           Object {
             "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -516,7 +516,7 @@ exports[`renders reported queue with comments 1`] = `
                   type="button"
                 >
                   <span
-                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                    className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
                   >
                     Isabelle
                   </span>
@@ -557,7 +557,7 @@ exports[`renders reported queue with comments 1`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -739,7 +739,7 @@ exports[`renders reported queue with comments 1`] = `
                   type="button"
                 >
                   <span
-                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                    className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
                   >
                     Ngoc
                   </span>
@@ -780,7 +780,7 @@ exports[`renders reported queue with comments 1`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "Don't fool with me",
@@ -978,7 +978,7 @@ exports[`renders reported queue with comments 2`] = `
                   type="button"
                 >
                   <span
-                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                    className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
                   >
                     Isabelle
                   </span>
@@ -1019,7 +1019,7 @@ exports[`renders reported queue with comments 2`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -1201,7 +1201,7 @@ exports[`renders reported queue with comments 2`] = `
                   type="button"
                 >
                   <span
-                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                    className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
                   >
                     Ngoc
                   </span>
@@ -1242,7 +1242,7 @@ exports[`renders reported queue with comments 2`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "Don't fool with me",
@@ -1430,7 +1430,7 @@ exports[`renders reported queue with comments and load more 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+              className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
             >
               Max
             </span>
@@ -1471,7 +1471,7 @@ exports[`renders reported queue with comments and load more 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
         dangerouslySetInnerHTML={
           Object {
             "__html": "I think I deserve better",

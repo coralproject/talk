@@ -13,7 +13,7 @@ const FlagDetailsCategory: FunctionComponent<Props> = ({
 }) => {
   return (
     <HorizontalGutter size="half">
-      <Typography variant="bodyCopyBold">{category}</Typography>
+      <Typography variant="bodyShortV2">{category}</Typography>
       <HorizontalGutter size="half">{children}</HorizontalGutter>
     </HorizontalGutter>
   );

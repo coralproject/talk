@@ -17,7 +17,7 @@ exports[`renders correctly 1`] = `
     <ForwardRef(forwardRef)
       className="InReplyTo-inReplyTo"
       container="span"
-      variant="timestamp"
+      variant="timestampV2"
     >
       Reply to &lt;Username&gt;&lt;/Username&gt;
     </ForwardRef(forwardRef)>

@@ -28,7 +28,7 @@ exports[`approves single comment 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+              className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
             >
               Isabelle
             </span>
@@ -69,7 +69,7 @@ exports[`approves single comment 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
         dangerouslySetInnerHTML={
           Object {
             "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -233,7 +233,7 @@ exports[`rejects single comment 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+              className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
             >
               Isabelle
             </span>
@@ -274,7 +274,7 @@ exports[`rejects single comment 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
         dangerouslySetInnerHTML={
           Object {
             "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -473,7 +473,7 @@ exports[`renders single comment view 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                      className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
                     >
                       Isabelle
                     </span>
@@ -514,7 +514,7 @@ exports[`renders single comment view 1`] = `
                 </div>
               </div>
               <div
-                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",

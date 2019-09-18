@@ -420,6 +420,7 @@ moderate-comment-approveButton =
   .aria-label = Approve
 moderate-comment-decision = Decision
 moderate-comment-story = Story
+moderate-comment-storyLabel = Comment On
 moderate-comment-moderateStory = Moderate Story
 moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured

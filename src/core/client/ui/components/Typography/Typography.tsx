@@ -28,7 +28,14 @@ type Variant =
   | "fieldDescription"
   | "inputLabel"
   | "detail"
-  | "timestamp";
+  | "timestamp"
+  // V2
+  | "heading4V2"
+  | "header4V2"
+  | "heading5V2"
+  | "header5V2"
+  | "timestampV2"
+  | "bodyShortV2";
 
 // Based on Typography Component of Material UI.
 // https://github.com/mui-org/material-ui/blob/303199d39b42a321d28347d8440d69166f872f27/packages/material-ui/src/Typography/Typography.js
@@ -63,7 +70,9 @@ interface Props extends PropTypesOf<typeof Box> {
     | "error"
     | "errorDark"
     | "textDark"
-    | "success";
+    | "success"
+    // V2
+    | "textPrimaryV2";
   /**
    * The container used for the root node.
    * Either a string to use a DOM element, a component, or an element.
@@ -133,6 +142,9 @@ const Typography: FunctionComponent<Props> = props => {
       [classes.alignCenter]: align === "center",
       [classes.alignRight]: align === "right",
       [classes.alignJustify]: align === "justify",
+
+      // V2 Classes
+      [classes.colorTextPrimaryV2]: color === "textPrimaryV2",
     },
     className
   );
@@ -172,6 +184,13 @@ Typography.defaultProps = {
     timestamp: "span",
     inputLabel: "label",
     detail: "p",
+    // V2
+    heading4V2: "h1",
+    header4V2: "h1",
+    heading5V2: "h1",
+    header5V2: "h1",
+    bodyShortV2: "p",
+    timestampV2: "span",
   },
   noWrap: false,
   paragraph: false,

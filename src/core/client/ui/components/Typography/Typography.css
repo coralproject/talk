@@ -145,3 +145,41 @@
 .inputLabel {
   composes: inputLabel from "coral-ui/shared/typography.css";
 }
+
+/* V2 Typography */
+
+.bodyCommentV2 {
+  composes: bodyCommentV2 from "coral-ui/shared/typography.css";
+}
+
+.bodyShortV2 {
+  composes: bodyShortV2 from "coral-ui/shared/typography.css";
+}
+
+.header4V2 {
+  composes: header4V2 from "coral-ui/shared/typography.css";
+}
+
+.heading4V2 {
+  composes: heading4V2 from "coral-ui/shared/typography.css";
+}
+
+.header5V2 {
+  composes: header5V2 from "coral-ui/shared/typography.css";
+}
+
+.heading5V2 {
+  composes: heading5V2 from "coral-ui/shared/typography.css";
+}
+
+.timestampV2 {
+  composes: timestampV2 from "coral-ui/shared/typography.css";
+}
+
+.colorTextPrimaryV2 {
+  color: var(--v2-palette-text-primary);
+}
+
+.colorTextSecondaryV2 {
+  color: var(--v2-palette-text-secondary);
+}

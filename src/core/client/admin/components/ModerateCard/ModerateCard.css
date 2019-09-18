@@ -7,20 +7,21 @@
   margin-bottom: var(--spacing-4);
 }
 
-.username {
+.usernameButton {
   margin-right: var(--mini-unit);
   padding: var(--spacing-1);
   margin-left: calc(-1 * var(--spacing-1));
-  line-height: calc(16rem / var(--rem-base));
+
+  line-height: var(--v2-line-height-reset);
 
   &:hover {
-    background-color: var(--palette-grey-lightest);
+    background-color: var(--v2-palette-grey-lightest);
     border-radius: var(--round-corners);
     border-style: none;
   }
 
   &:active {
-    background-color: var(--palette-grey-lighter);
+    background-color: var(--v2-palette-grey-lighter);
     border-radius: var(--round-corners);
     border-style: none;
   }
@@ -66,12 +67,8 @@
 }
 
 .decision {
-  font-size: calc(14rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(16em / 14);
-  letter-spacing: calc(0.2em / 14);
-  color: var(--palette-text-primary);
+  composes: decision from "coral-admin/components/ModerateCard/shared.css";
+
   text-transform: uppercase;
 }
 
@@ -90,36 +87,24 @@
 }
 
 .dangling {
-  background-color: var(--palette-grey-lightest);
+  background-color: var(--v2-palette-grey-lightest);
   box-shadow: none;
 }
 
 .link {
-  font-size: calc(12rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(18em / 12);
-  letter-spacing: calc(0.2em / 12);
+  composes: link from "coral-admin/components/ModerateCard/shared.css";
+
   text-transform: uppercase;
 }
 
-.story {
-  font-size: calc(12rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(18em / 12);
-  letter-spacing: calc(0.2em / 12);
+.storyLabel {
+  composes: storyLabel from "coral-admin/components/ModerateCard/shared.css";
+
   text-transform: uppercase;
-  color: var(--palette-grey-main);
 }
 
 .storyTitle {
-  font-size: calc(12rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(18em / 12);
-  letter-spacing: calc(0.2em / 12);
-  color: var(--palette-text-primary);
+  composes: storyTitle from "coral-admin/components/ModerateCard/shared.css";
 }
 
 .moderatedBy {
@@ -128,7 +113,7 @@
   font-family: var(--font-family-sans-serif);
   line-height: 1;
   letter-spacing: 0;
-  color: var(--palette-text-primary);
+  color: var(--v2-palette-text-primary);
   text-transform: uppercase;
 }
 
@@ -154,9 +139,9 @@
 }
 
 .deleted {
-  background: var(--palette-grey-lightest);
+  background: var(--v2-palette-grey-lightest);
 }
 
 .timestamp {
-  color: var(--palette-grey-lighter);
+  composes: timestamp from "coral-admin/components/ModerateCard/shared.css";
 }
