@@ -112,7 +112,12 @@ const moderate = (
     result.comment.id,
     input.moderatorID
   );
-  if (result.oldStatus === "PREMOD" && status === "APPROVED") {
+  if (
+    [GQLCOMMENT_STATUS.PREMOD, GQLCOMMENT_STATUS.SYSTEM_WITHHELD].includes(
+      result.oldStatus
+    ) &&
+    status === "APPROVED"
+  ) {
     publishCommentReleased(publish, result.comment);
   }
 
