@@ -1,5 +1,11 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import key from "keymaster";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
@@ -50,21 +56,28 @@ const Queue: FunctionComponent<Props> = ({
   const [userDrawerId, setUserDrawerID] = useState("");
   const [selectedComment, setSelectedComment] = useState<string | null>(null);
 
-  const selectNext = useCallback(() => {
-    const selectedIndex = comments.findIndex(
-      comment => comment.id === selectedComment
-    );
-    const nextComment = comments[selectedIndex + 1];
-    if (nextComment) {
-      setSelectedComment(nextComment.id);
-    }
-  }, [setSelectedComment, comments, selectedComment]);
+  const selectNext = useCallback(
+    event => {
+      console.log("run select next, current is: ", selectedComment);
+      const selectedIndex = comments.findIndex(
+        comment => comment.id === selectedComment
+      );
+      const nextComment = comments[selectedIndex + 1];
+      console.log('next', nextComment)
+      if (nextComment) {
+        setSelectedComment(nextComment.id);
+      }
+    },
+    [setSelectedComment, comments, selectedComment]
+  );
 
   const selectPrev = useCallback(() => {
+    console.log("run select prev, current is: ", selectedComment);
     const selectedIndex = comments.findIndex(
       comment => comment.id === selectedComment
     );
     const prevComment = comments[selectedIndex - 1];
+    console.log('prev', prevComment)
     if (prevComment) {
       setSelectedComment(prevComment.id);
     }
@@ -81,6 +94,9 @@ const Queue: FunctionComponent<Props> = ({
     setUserDrawerVisible(false);
     setUserDrawerID("");
   }, [setUserDrawerVisible, setUserDrawerID]);
+
+  useEffect(() => {
+  }, [selectedComment]);
 
   return (
     <HorizontalGutter className={styles.root} size="double">
@@ -120,7 +136,7 @@ const Queue: FunctionComponent<Props> = ({
                 showStoryInfo={Boolean(allStories)}
                 onUsernameClicked={onShowUserDrawer}
                 onSetSelected={setSelectedComment}
-                selected={selectedComment ? selectedComment === c.id : false}
+                selected={selectedComment === c.id}
                 selectPrev={selectPrev}
                 selectNext={selectNext}
               />
