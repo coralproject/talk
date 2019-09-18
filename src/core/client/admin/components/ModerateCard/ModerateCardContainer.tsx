@@ -1,5 +1,5 @@
 import { Match, Router, withRouter } from "found";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql } from "react-relay";
 
 import {
@@ -19,6 +19,7 @@ import {
   withMutation,
 } from "coral-framework/lib/relay";
 import { GQLTAG } from "coral-framework/schema";
+import { useHotkey } from "coral-ui/hooks";
 
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
@@ -40,8 +41,10 @@ interface Props {
   mini?: boolean;
   hideUsername?: boolean;
   onUsernameClicked?: (userID: string) => void;
-  onSetSelected: (comment: ModerateCardContainer_comment) => void;
+  onSetSelected: (commentID: string) => void;
   selected: boolean;
+  selectPrev: () => void;
+  selectNext: () => void;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
@@ -74,6 +77,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   mini,
   hideUsername,
   selected,
+  selectPrev,
+  selectNext,
   onUsernameClicked: usernameClicked,
   onSetSelected: setSelected,
 }) => {
@@ -87,6 +92,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       commentRevisionID: comment.revision.id,
       storyID: match.params.storyID,
     });
+    selectNext();
   }, [approveComment, comment, match]);
 
   const handleReject = useCallback(() => {
@@ -99,6 +105,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       commentRevisionID: comment.revision.id,
       storyID: match.params.storyID,
     });
+    selectNext();
   }, [rejectComment, comment, match]);
 
   const handleFeature = useCallback(() => {
@@ -154,7 +161,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (selected) {
       return;
     }
-    setSelected(comment);
+    setSelected(comment.id);
   }, [selected, comment]);
 
   return (
@@ -183,6 +190,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onFeature={onFeature}
           onUsernameClick={onUsernameClicked}
           selected={selected}
+          selectPrev={selectPrev}
+          selectNext={selectNext}
           moderatedBy={
             <ModeratedByContainer
               onUsernameClicked={onUsernameClicked}
