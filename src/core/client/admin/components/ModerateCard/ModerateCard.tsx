@@ -107,19 +107,10 @@ const ModerateCard: FunctionComponent<Props> = ({
   const div = useRef(null);
   useEffect(() => {
     if (selected) {
-      console.log("im selected", id);
-    } else {
-      console.log("im NOT selected", id);
-    }
-    // console.log("selected changed", selected);
-    if (selected) {
       key("j", id, selectNext);
       key("k", id, selectPrev);
-      console.log("binding for", id);
       key("d", id, onApprove);
-      key("f", id, () => {
-        console.log("test");
-      });
+      key("f", id, onReject);
       key.setScope(id);
       return () => {
         key.deleteScope(id);
