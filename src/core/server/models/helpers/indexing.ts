@@ -19,9 +19,12 @@ type IndexCreationFunction<T> = (
 export function createIndexFactory<T>(
   collection: Collection<T>
 ): IndexCreationFunction<T> {
-  const log = logger.child({
-    collectionName: collection.collectionName,
-  });
+  const log = logger.child(
+    {
+      collectionName: collection.collectionName,
+    },
+    true
+  );
 
   return async (
     indexSpec: IndexSpecification<T>,

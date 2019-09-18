@@ -35,9 +35,10 @@ import {
   logQuery,
 } from "coral-server/graph/common/extensions";
 import { getOperationMetadata } from "coral-server/graph/common/extensions/helpers";
-import { getPersistedQuery } from "coral-server/graph/tenant/persisted";
+import { getPersistedQuery } from "coral-server/graph/common/persisted";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
+import { PersistedQuery } from "coral-server/models/queries";
 import { hasStaffRole } from "coral-server/models/user/helpers";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
 
@@ -166,7 +167,10 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
 
 export type FormatResponseOptions = Pick<AppOptions, "metrics">;
 
-export function formatResponse({ metrics }: FormatResponseOptions) {
+export function formatResponse(
+  { metrics }: FormatResponseOptions,
+  persisted?: PersistedQuery
+) {
   return (
     value: ExecutionResult,
     { context, query }: ExecutionParams<TenantContext>
@@ -177,7 +181,7 @@ export function formatResponse({ metrics }: FormatResponseOptions) {
     }
 
     // Log out the query.
-    logQuery(context, query);
+    logQuery(context, query, persisted);
 
     // Increment the metrics if enabled.
     if (metrics) {
@@ -217,15 +221,12 @@ export function onOperation(options: OnOperationOptions) {
     message: OperationMessage,
     params: ExecutionParams<TenantContext>
   ) => {
-    // Attach the response formatter.
-    params.formatResponse = formatResponse(options);
-
     // Handle the payload if it is a persisted query.
-    const query = await getPersistedQuery(
+    const persisted = await getPersistedQuery(
       options.persistedQueryCache,
       message.payload
     );
-    if (!query) {
+    if (!persisted) {
       // Check to see if this is from an ADMIN token which is allowed to run
       // un-persisted queries.
       if (
@@ -241,8 +242,11 @@ export function onOperation(options: OnOperationOptions) {
     } else {
       // The query was found for this operation, replace the query with the one
       // provided.
-      params.query = query.query;
+      params.query = persisted.query;
     }
+
+    // Attach the response formatter.
+    params.formatResponse = formatResponse(options, persisted);
 
     return params;
   };

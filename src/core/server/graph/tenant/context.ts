@@ -49,7 +49,7 @@ export default class TenantContext extends CommonContext {
     super({
       ...options,
       lang: tenant.locale,
-      logger: logger.child({ tenantID: tenant.id }),
+      logger: logger.child({ tenantID: tenant.id }, true),
     });
 
     this.tenant = tenant;
