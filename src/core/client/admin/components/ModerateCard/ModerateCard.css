@@ -156,3 +156,7 @@
 .deleted {
   background: var(--palette-grey-lightest);
 }
+
+.timestamp {
+  color: var(--palette-grey-lighter);
+}

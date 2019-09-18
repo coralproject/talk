@@ -12,7 +12,18 @@ import {
 import { featuredTag, moderators, settings, stories } from "../../fixtures";
 import create from "./create";
 
-const story = stories[0];
+function createStory() {
+  const base = stories[0];
+
+  for (const edge of base.comments.edges) {
+    const node = edge.node;
+    node.story = base;
+  }
+
+  return base;
+}
+
+const story = createStory();
 const firstComment = story.comments.edges[0].node;
 const viewer = moderators[0];
 
@@ -33,6 +44,7 @@ async function createTestRenderer(
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(story.id, "storyID");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }

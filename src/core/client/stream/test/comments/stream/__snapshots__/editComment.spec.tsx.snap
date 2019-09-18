@@ -65,13 +65,24 @@ exports[`cancel edit 1`] = `
               <div
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
-                <time
-                  className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <button
+                  className="BaseButton-root Timestamp-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="RelativeTime-root Timestamp-text coral coral-timestamp coral-comment-timestamp"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </button>
               </div>
             </div>
             <div>
@@ -256,13 +267,24 @@ exports[`edit a comment and handle server error: edit form 1`] = `
               Markus
             </span>
           </div>
-          <time
-            className="RelativeTime-root Timestamp-root"
-            dateTime="2018-07-06T18:24:00.000Z"
-            title="2018-07-06T18:24:00.000Z"
+          <button
+            className="BaseButton-root Timestamp-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            2018-07-06T18:24:00.000Z
-          </time>
+            <time
+              className="RelativeTime-root Timestamp-text"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </button>
         </div>
       </div>
       <div
@@ -433,13 +455,24 @@ exports[`edit a comment: edit form 1`] = `
               Markus
             </span>
           </div>
-          <time
-            className="RelativeTime-root Timestamp-root"
-            dateTime="2018-07-06T18:24:00.000Z"
-            title="2018-07-06T18:24:00.000Z"
+          <button
+            className="BaseButton-root Timestamp-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            2018-07-06T18:24:00.000Z
-          </time>
+            <time
+              className="RelativeTime-root Timestamp-text"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </button>
         </div>
       </div>
       <div
@@ -610,13 +643,24 @@ exports[`edit a comment: optimistic response 1`] = `
               Markus
             </span>
           </div>
-          <time
-            className="RelativeTime-root Timestamp-root"
-            dateTime="2018-07-06T18:24:00.000Z"
-            title="2018-07-06T18:24:00.000Z"
+          <button
+            className="BaseButton-root Timestamp-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            2018-07-06T18:24:00.000Z
-          </time>
+            <time
+              className="RelativeTime-root Timestamp-text"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </button>
         </div>
       </div>
       <div
@@ -829,13 +873,24 @@ exports[`edit a comment: render comment with edit button 1`] = `
               <div
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
-                <time
-                  className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <button
+                  className="BaseButton-root Timestamp-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="RelativeTime-root Timestamp-text coral coral-timestamp coral-comment-timestamp"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </button>
               </div>
             </div>
             <div>
@@ -1062,13 +1117,24 @@ exports[`edit a comment: server response 1`] = `
               <div
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
-                <time
-                  className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <button
+                  className="BaseButton-root Timestamp-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="RelativeTime-root Timestamp-text coral coral-timestamp coral-comment-timestamp"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </button>
                 <div
                   className="EditedMarker-root coral coral-comment-edited"
                 >
@@ -1304,13 +1370,24 @@ exports[`shows expiry message: edit form closed 1`] = `
               <div
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
-                <time
-                  className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <button
+                  className="BaseButton-root Timestamp-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="RelativeTime-root Timestamp-text coral coral-timestamp coral-comment-timestamp"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </button>
               </div>
             </div>
             <div>
@@ -1495,13 +1572,24 @@ exports[`shows expiry message: edit time expired 1`] = `
               Markus
             </span>
           </div>
-          <time
-            className="RelativeTime-root Timestamp-root"
-            dateTime="2018-07-06T18:24:00.000Z"
-            title="2018-07-06T18:24:00.000Z"
+          <button
+            className="BaseButton-root Timestamp-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            2018-07-06T18:24:00.000Z
-          </time>
+            <time
+              className="RelativeTime-root Timestamp-text"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </button>
         </div>
       </div>
       <div

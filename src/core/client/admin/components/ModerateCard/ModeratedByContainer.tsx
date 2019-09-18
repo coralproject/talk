@@ -29,7 +29,7 @@ const ModeratedByContainer: React.FunctionComponent<Props> = ({
       <Localized id="moderate-comment-moderatedBySystem">System</Localized>
     );
   } else if (viewer.id === comment.statusHistory.edges[0].node.moderator.id) {
-    moderatedBy = null;
+    moderatedBy = viewer.username ? <>{viewer.username}</> : null;
   } else {
     moderatedBy = <>{comment.statusHistory.edges[0].node.moderator.username}</>;
     id = comment.statusHistory.edges[0].node.moderator.id;
@@ -73,6 +73,7 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment ModeratedByContainer_viewer on User {
       id
+      username
     }
   `,
 })(ModeratedByContainer);
