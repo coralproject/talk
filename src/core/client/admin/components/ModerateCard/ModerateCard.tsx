@@ -152,6 +152,7 @@ const ModerateCard: FunctionComponent<Props> = ({
       ref={div}
       tabIndex={0}
       data-testid={`moderate-comment-${id}`}
+      id={`moderate-comment-${id}`}
       onClick={onFocusOrClick}
     >
       <Flex>
