@@ -54,18 +54,16 @@ const Queue: FunctionComponent<Props> = ({
 }) => {
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
   const [userDrawerId, setUserDrawerID] = useState("");
-  const [selectedComment, setSelectedComment] = useState<string | null>(null);
+  const [selectedComment, setSelectedComment] = useState<number | null>(null);
 
   const selectNext = useCallback(
     event => {
       console.log("run select next, current is: ", selectedComment);
-      const selectedIndex = comments.findIndex(
-        comment => comment.id === selectedComment
-      );
-      const nextComment = comments[selectedIndex + 1];
-      console.log('next', nextComment)
+      const index = selectedComment || 0;
+      const nextComment = comments[index + 1];
+      console.log("next", nextComment);
       if (nextComment) {
-        setSelectedComment(nextComment.id);
+        setSelectedComment(index + 1);
       }
     },
     [setSelectedComment, comments, selectedComment]
@@ -73,13 +71,11 @@ const Queue: FunctionComponent<Props> = ({
 
   const selectPrev = useCallback(() => {
     console.log("run select prev, current is: ", selectedComment);
-    const selectedIndex = comments.findIndex(
-      comment => comment.id === selectedComment
-    );
-    const prevComment = comments[selectedIndex - 1];
-    console.log('prev', prevComment)
+    const index = selectedComment || 0;
+    const prevComment = comments[index - 1];
+    console.log("prev", prevComment);
     if (prevComment) {
-      setSelectedComment(prevComment.id);
+      setSelectedComment(index - 1);
     }
   }, [setSelectedComment, comments, selectedComment]);
 
@@ -94,9 +90,6 @@ const Queue: FunctionComponent<Props> = ({
     setUserDrawerVisible(false);
     setUserDrawerID("");
   }, [setUserDrawerVisible, setUserDrawerID]);
-
-  useEffect(() => {
-  }, [selectedComment]);
 
   return (
     <HorizontalGutter className={styles.root} size="double">
@@ -118,7 +111,7 @@ const Queue: FunctionComponent<Props> = ({
         {comments
           // FIXME (Nick/Wyatt): Investigate why comments are coming back null
           .filter(c => Boolean(c))
-          .map(c => (
+          .map((c, i) => (
             <CSSTransition
               key={c.id}
               timeout={400}
@@ -135,8 +128,8 @@ const Queue: FunctionComponent<Props> = ({
                 danglingLogic={danglingLogic}
                 showStoryInfo={Boolean(allStories)}
                 onUsernameClicked={onShowUserDrawer}
-                onSetSelected={setSelectedComment}
-                selected={selectedComment === c.id}
+                onSetSelected={() => setSelectedComment(i)}
+                selected={selectedComment === i}
                 selectPrev={selectPrev}
                 selectNext={selectNext}
               />
