@@ -1,9 +1,12 @@
 import { Localized } from "fluent-react/compat";
-import { identity } from "lodash";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import {
+  colorFromMeta,
+  parseEmptyAsNull,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import {
   composeValidatorsWhen,
   Condition,
@@ -86,7 +89,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
             <Field
               name={`auth.integrations.oidc.name`}
               validate={composeValidatorsWhen(isEnabled, required)}
-              parse={identity}
+              parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
                 <>
@@ -129,7 +132,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
             <Field
               name={`auth.integrations.oidc.issuer`}
               validate={composeValidatorsWhen(isEnabled, required, validateURL)}
-              parse={identity}
+              parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
                 <>
@@ -167,7 +170,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
             <Field
               name={`auth.integrations.oidc.authorizationURL`}
               validate={composeValidatorsWhen(isEnabled, required, validateURL)}
-              parse={identity}
+              parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
                 <>
@@ -193,7 +196,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
             <Field
               name={`auth.integrations.oidc.tokenURL`}
               validate={composeValidatorsWhen(isEnabled, required, validateURL)}
-              parse={identity}
+              parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
                 <>
@@ -219,7 +222,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
             <Field
               name={`auth.integrations.oidc.jwksURI`}
               validate={composeValidatorsWhen(isEnabled, required, validateURL)}
-              parse={identity}
+              parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
                 <>

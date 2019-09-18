@@ -3,6 +3,7 @@ import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
 import { MarkdownEditor } from "coral-framework/components/loadables";
+import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   FieldSet,
@@ -57,7 +58,7 @@ const GuidelinesConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Localized>
       </FormField>
 
-      <Field name="communityGuidelines.content">
+      <Field name="communityGuidelines.content" parse={parseEmptyAsNull}>
         {({ input, meta }) => (
           <>
             <Suspense fallback={<Spinner />}>

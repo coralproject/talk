@@ -3,6 +3,7 @@ import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
 import { MarkdownEditor } from "coral-framework/components/loadables";
+import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { HorizontalGutter, Spinner, Typography } from "coral-ui/components";
 
 import Header from "../../Header";
@@ -34,7 +35,7 @@ const ClosedStreamMessageConfig: FunctionComponent<Props> = ({ disabled }) => (
           Write a message to appear after a story is closed for commenting.
         </Typography>
       </Localized>
-      <Field name="closeCommenting.message">
+      <Field name="closeCommenting.message" parse={parseEmptyAsNull}>
         {({ input, meta }) => (
           <>
             <Suspense fallback={<Spinner />}>

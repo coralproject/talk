@@ -2,7 +2,11 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import {
+  colorFromMeta,
+  parseEmptyAsNull,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import {
   composeValidatorsWhen,
   Condition,
@@ -117,6 +121,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
             </Localized>
             <Field
               name="email.smtp.username"
+              parse={parseEmptyAsNull}
               validate={composeValidatorsWhen(isAuthenticating, required)}
             >
               {({ input, meta }) => (
@@ -139,6 +144,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
             </Localized>
             <Field
               name="email.smtp.password"
+              parse={parseEmptyAsNull}
               validate={composeValidatorsWhen(isAuthenticating, required)}
             >
               {({ input, meta }) => (
