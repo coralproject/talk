@@ -3,7 +3,10 @@ import uuid from "uuid";
 
 import { DeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
-import { DuplicateStoryURLError } from "coral-server/errors";
+import {
+  DuplicateStoryIDError,
+  DuplicateStoryURLError,
+} from "coral-server/errors";
 import {
   GQLStoryMetadata,
   GQLStorySettings,
@@ -120,14 +123,14 @@ export interface UpsertStoryInput {
 export async function upsertStory(
   mongo: Db,
   tenantID: string,
-  { id, url }: UpsertStoryInput,
+  { id = uuid.v4(), url }: UpsertStoryInput,
   now = new Date()
 ) {
   // Create the story, optionally sourcing the id from the input, additionally
   // porting in the tenantID.
   const update: { $setOnInsert: Story } = {
     $setOnInsert: {
-      id: id ? id : uuid.v4(),
+      id,
       url,
       tenantID,
       createdAt: now,
@@ -140,25 +143,35 @@ export async function upsertStory(
     },
   };
 
-  // Perform the find and update operation to try and find and or create the
-  // story.
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      url,
-      tenantID,
-    },
-    update,
-    {
-      // Create the object if it doesn't already exist.
-      upsert: true,
+  try {
+    // Perform the find and update operation to try and find and or create the
+    // story.
+    const result = await collection(mongo).findOneAndUpdate(
+      {
+        url,
+        tenantID,
+      },
+      update,
+      {
+        // Create the object if it doesn't already exist.
+        upsert: true,
 
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
+        // False to return the updated document instead of the original
+        // document.
+        returnOriginal: false,
+      }
+    );
+
+    return result.value || null;
+  } catch (err) {
+    // Evaluate the error, if it is in regards to violating the unique index,
+    // then return a duplicate Story error.
+    if (err instanceof MongoError && err.code === 11000) {
+      throw new DuplicateStoryIDError(err, id, url);
     }
-  );
 
-  return result.value || null;
+    throw err;
+  }
 }
 
 export interface FindStoryInput {
@@ -256,7 +269,7 @@ export async function createStory(
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
     if (err instanceof MongoError && err.code === 11000) {
-      throw new DuplicateStoryURLError(url);
+      throw new DuplicateStoryURLError(err, url, id);
     }
 
     throw err;
@@ -343,7 +356,7 @@ export async function updateStory(
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
     if (input.url && err instanceof MongoError && err.code === 11000) {
-      throw new DuplicateStoryURLError(input.url);
+      throw new DuplicateStoryURLError(err, input.url, id);
     }
 
     throw err;

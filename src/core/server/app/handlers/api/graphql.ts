@@ -36,7 +36,7 @@ export const graphQLHandler = ({
       }
 
       // Pull out some useful properties from Coral.
-      const { id, now, tenant, cache, logger } = req.coral;
+      const { id, now, tenant, cache, logger, persisted } = req.coral;
 
       if (!cache) {
         throw new Error("cache was not set");
@@ -52,6 +52,7 @@ export const graphQLHandler = ({
         id,
         now,
         req,
+        persisted,
         config,
         tenant,
         logger,

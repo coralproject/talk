@@ -31,7 +31,7 @@ class Scraper {
 
   constructor(rules: Rule[]) {
     this.rules = rules;
-    this.log = logger.child({ taskName: "scraper" });
+    this.log = logger.child({ taskName: "scraper" }, true);
   }
 
   public async scrape(
@@ -40,7 +40,7 @@ class Scraper {
   ): Promise<GQLStoryMetadata | null> {
     // Grab the page HTML.
 
-    const log = this.log.child({ storyURL: url });
+    const log = this.log.child({ storyURL: url }, true);
 
     const options: RequestInit = {
       headers: {

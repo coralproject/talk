@@ -77,10 +77,13 @@ export const forgotHandler = ({
       // Limit based on the email address.
       await emailLimiter.test(req, email);
 
-      const log = coral.logger.child({
-        email,
-        tenantID: tenant.id,
-      });
+      const log = coral.logger.child(
+        {
+          email,
+          tenantID: tenant.id,
+        },
+        true
+      );
 
       // Lookup the user.
       const user = await retrieveUserWithProfile(mongo, tenant.id, {

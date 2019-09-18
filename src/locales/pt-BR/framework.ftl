@@ -48,7 +48,7 @@ framework-timeago-time =
     }
     [hour] { $value ->
       [1] hora
-      *[other] houras
+      *[other] horas
     }
     [day] { $value ->
       [1] dia
@@ -71,7 +71,7 @@ framework-timeago-time =
 
 framework-timeago =
   { $suffix ->
-    [ago] {framework-timeago-time} ago
+    [ago] há {framework-timeago-time} 
     *[noSuffix] {framework-timeago-time}
   }
 

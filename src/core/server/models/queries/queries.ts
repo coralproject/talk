@@ -1,3 +1,4 @@
+import { OperationTypeNode } from "graphql";
 import { Db } from "mongodb";
 
 import {
@@ -9,7 +10,7 @@ const collection = createCollection<Readonly<PersistedQuery>>("queries");
 
 export interface PersistedQuery {
   id: string;
-  operation: string;
+  operation: OperationTypeNode;
   operationName: string;
   query: string;
   bundle: string;
