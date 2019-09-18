@@ -54,7 +54,7 @@ const Queue: FunctionComponent<Props> = ({
 }) => {
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
   const [userDrawerId, setUserDrawerID] = useState("");
-  const [selectedComment, setSelectedComment] = useState<number | null>(null);
+  const [selectedComment, setSelectedComment] = useState<number | null>(0);
 
   const selectNext = useCallback(
     event => {
@@ -90,6 +90,15 @@ const Queue: FunctionComponent<Props> = ({
     setUserDrawerVisible(false);
     setUserDrawerID("");
   }, [setUserDrawerVisible, setUserDrawerID]);
+
+  useEffect(() => {
+    if (selectedComment) {
+      const selected = comments[selectedComment];
+      document
+        .getElementById(`moderate-comment-${selected.id}`)
+        .scrollIntoView();
+    }
+  }, [selectedComment]);
 
   return (
     <HorizontalGutter className={styles.root} size="double">
