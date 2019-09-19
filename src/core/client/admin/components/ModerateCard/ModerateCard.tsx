@@ -68,6 +68,7 @@ interface Props {
   deleted?: boolean;
   selectPrev: () => void;
   selectNext: () => void;
+  onBan: () => void;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -100,6 +101,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   deleted = false,
   selectNext,
   selectPrev,
+  onBan,
 }) => {
   const div = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -108,6 +110,7 @@ const ModerateCard: FunctionComponent<Props> = ({
       key(HOTKEYS.PREV, id, selectPrev);
       key(HOTKEYS.APPROVE, id, onApprove);
       key(HOTKEYS.REJECT, id, onReject);
+      key(HOTKEYS.BAN, id, onBan);
       key.setScope(id);
       return () => {
         key.deleteScope(id);
