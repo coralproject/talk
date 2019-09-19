@@ -100,11 +100,14 @@ export const confirmRequestHandler = ({
 
       await userIDLimiter.test(req, targetUserID);
 
-      const log = coral.logger.child({
-        targetUserID,
-        requestingUserID: requestingUser.id,
-        tenantID: tenant.id,
-      });
+      const log = coral.logger.child(
+        {
+          targetUserID,
+          requestingUserID: requestingUser.id,
+          tenantID: tenant.id,
+        },
+        true
+      );
 
       // Lookup the user.
       const targetUser = await retrieveUser(mongo, tenant.id, targetUserID);

@@ -1,9 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-import { useResizeObserver } from "coral-framework/hooks";
 import { PropTypesOf } from "coral-framework/types";
 
-import resizePopup from "../dom/resizePopup";
 import AddEmailAddress from "../views/AddEmailAddress";
 import CreatePassword from "../views/CreatePassword";
 import CreateUsername from "../views/CreateUsername";
@@ -50,11 +48,8 @@ const render = ({ view, auth, viewer }: AppProps) => {
 };
 
 const App: FunctionComponent<AppProps> = props => {
-  const ref = useResizeObserver(entry => {
-    resizePopup();
-  });
   return (
-    <div ref={ref}>
+    <div>
       {process.env.NODE_ENV !== "test" && <ViewRouter />}
       <div>{render(props)}</div>
     </div>

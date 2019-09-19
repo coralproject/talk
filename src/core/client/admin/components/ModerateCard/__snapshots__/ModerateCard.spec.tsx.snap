@@ -23,7 +23,10 @@ exports[`renders approved correctly 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
-          <Timestamp>
+          <Timestamp
+            className="ModerateCard-timestamp"
+            toggleAbsolute={true}
+          >
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
@@ -135,7 +138,10 @@ exports[`renders correctly 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
-          <Timestamp>
+          <Timestamp
+            className="ModerateCard-timestamp"
+            toggleAbsolute={true}
+          >
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
@@ -247,7 +253,10 @@ exports[`renders dangling correctly 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
-          <Timestamp>
+          <Timestamp
+            className="ModerateCard-timestamp"
+            toggleAbsolute={true}
+          >
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
@@ -359,7 +368,10 @@ exports[`renders rejected correctly 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
-          <Timestamp>
+          <Timestamp
+            className="ModerateCard-timestamp"
+            toggleAbsolute={true}
+          >
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
@@ -471,7 +483,10 @@ exports[`renders reply correctly 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
-          <Timestamp>
+          <Timestamp
+            className="ModerateCard-timestamp"
+            toggleAbsolute={true}
+          >
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
@@ -593,7 +608,10 @@ exports[`renders story info 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
-          <Timestamp>
+          <Timestamp
+            className="ModerateCard-timestamp"
+            toggleAbsolute={true}
+          >
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton
@@ -734,7 +752,10 @@ exports[`renders tombstoned when comment is deleted 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
-          <Timestamp>
+          <Timestamp
+            className="ModerateCard-timestamp"
+            toggleAbsolute={true}
+          >
             2018-11-29T16:01:51.897Z
           </Timestamp>
           <FeatureButton

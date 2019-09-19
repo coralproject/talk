@@ -206,11 +206,14 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     // Pull the data out of the validated model.
     const { tenantID } = data;
 
-    const log = logger.child({
-      jobID: job.id,
-      jobName: JOB_NAME,
-      tenantID,
-    });
+    const log = logger.child(
+      {
+        jobID: job.id,
+        jobName: JOB_NAME,
+        tenantID,
+      },
+      true
+    );
 
     // Get the referenced tenant so we know who to send it from.
     const tenant = await tenantCache.retrieveByID(tenantID);

@@ -89,7 +89,7 @@ export async function install(
 
   // TODO: (wyattjoh) perform any pending migrations.
 
-  logger.info({ tenant: input }, "installing tenant");
+  logger.info("installing tenant");
 
   // Create the Tenant.
   const tenant = await createTenant(mongo, i18n, input, now);
@@ -97,7 +97,7 @@ export async function install(
   // Update the tenant cache.
   await cache.update(redis, tenant);
 
-  logger.info({ tenant }, "a tenant has been installed");
+  logger.info({ tenantID: tenant.id }, "a tenant has been installed");
 
   return tenant;
 }

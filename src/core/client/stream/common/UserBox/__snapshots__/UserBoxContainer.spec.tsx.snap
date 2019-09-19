@@ -3,6 +3,12 @@
 exports[`renders fully 1`] = `
 <React.Fragment>
   <Popup
+    features={
+      Object {
+        "innerWidth": 350,
+        "width": 350,
+      }
+    }
     focus={false}
     href="/embed/auth?view=SIGN_IN"
     onBlur={[Function]}
@@ -26,6 +32,12 @@ exports[`renders sso only without logout button 1`] = `null`;
 exports[`renders without logout button 1`] = `
 <React.Fragment>
   <Popup
+    features={
+      Object {
+        "innerWidth": 350,
+        "width": 350,
+      }
+    }
     focus={false}
     href="/embed/auth?view=SIGN_IN"
     onBlur={[Function]}
@@ -45,6 +57,12 @@ exports[`renders without logout button 1`] = `
 exports[`renders without register button 1`] = `
 <React.Fragment>
   <Popup
+    features={
+      Object {
+        "innerWidth": 350,
+        "width": 350,
+      }
+    }
     focus={false}
     href="/embed/auth?view=SIGN_IN"
     onBlur={[Function]}

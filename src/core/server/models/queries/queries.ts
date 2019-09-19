@@ -1,3 +1,4 @@
+import { OperationTypeNode } from "graphql";
 import { Db, MongoError } from "mongodb";
 
 import { waitFor } from "coral-common/helpers";
@@ -11,7 +12,7 @@ const collection = createCollection<Readonly<PersistedQuery>>("queries");
 
 export interface PersistedQuery {
   id: string;
-  operation: string;
+  operation: OperationTypeNode;
   operationName: string;
   query: string;
   bundle: string;

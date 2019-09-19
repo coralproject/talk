@@ -7,6 +7,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
+import { UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
 import CLASSES from "coral-stream/classes";
 import { Box, Button, Flex, Typography } from "coral-ui/components";
 
@@ -18,10 +19,12 @@ import styles from "./UserBanPopoverContainer.css";
 interface Props {
   onDismiss: () => void;
   comment: UserBanPopoverContainer_comment;
+  story: UserBanPopoverContainer_story;
 }
 
 const UserBanPopoverContainer: FunctionComponent<Props> = ({
   comment,
+  story,
   onDismiss,
 }) => {
   const user = comment.author!;
@@ -41,10 +44,14 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       ),
     });
     if (!rejected && comment.revision) {
-      reject({ commentID: comment.id, commentRevisionID: comment.revision.id });
+      reject({
+        commentID: comment.id,
+        commentRevisionID: comment.revision.id,
+        storyID: story.id,
+      });
     }
     onDismiss();
-  }, [user, banUser, onDismiss, localeBundles]);
+  }, [user, banUser, onDismiss, localeBundles, comment, story]);
   return (
     <Box className={cn(styles.root, CLASSES.banUserPopover.$root)} p={3}>
       <Localized id="comments-userBanPopover-title" $username={user.username}>
@@ -96,6 +103,11 @@ const enhanced = withFragmentContainer<Props>({
         id
         username
       }
+    }
+  `,
+  story: graphql`
+    fragment UserBanPopoverContainer_story on Story {
+      id
     }
   `,
 })(UserBanPopoverContainer);

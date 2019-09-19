@@ -1,4 +1,7 @@
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLTAG,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { Comment } from "./comment";
 import { MODERATOR_STATUSES, PUBLISHED_STATUSES } from "./constants";
@@ -72,4 +75,8 @@ export function calculateRejectionRate(counts: CommentStatusCounts): number {
   const rejected = counts[GQLCOMMENT_STATUS.REJECTED];
 
   return rejected / (published + rejected);
+}
+
+export function hasTag(comment: Pick<Comment, "tags">, tag: GQLTAG) {
+  return comment.tags.some(v => v.type === tag);
 }

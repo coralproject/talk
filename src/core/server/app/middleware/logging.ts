@@ -1,8 +1,11 @@
-import { ErrorRequestHandler, RequestHandler } from "express";
 import onFinished from "on-finished";
 import now from "performance-now";
 
 import logger from "coral-server/logger";
+import {
+  ErrorRequestHandler,
+  RequestHandler,
+} from "coral-server/types/express";
 
 export const accessLogger: RequestHandler = (req, res, next) => {
   const startTime = now();
@@ -14,10 +17,12 @@ export const accessLogger: RequestHandler = (req, res, next) => {
     // Get some extra goodies from the request.
     const userAgent = req.get("User-Agent");
 
+    // Grab the logger.
+    const log = req.coral ? req.coral.logger : logger;
+
     // Log this out.
-    logger.info(
+    log.debug(
       {
-        // traceID: req.id,
         url: req.originalUrl || req.url,
         method: req.method,
         statusCode: res.statusCode,
@@ -32,7 +37,11 @@ export const accessLogger: RequestHandler = (req, res, next) => {
 };
 
 export const errorLogger: ErrorRequestHandler = (err, req, res, next) => {
-  logger.error({ err }, "http error");
+  // Grab the logger.
+  const log = req.coral ? req.coral.logger : logger;
+
+  // Log this out.
+  log.error({ err }, "http error");
 
   next(err);
 };
