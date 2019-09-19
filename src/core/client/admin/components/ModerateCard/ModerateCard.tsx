@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { HOTKEYS } from "coral-admin/constants";
 import { Localized } from "fluent-react/compat";
 import key from "keymaster";
 import React, {
@@ -103,10 +104,10 @@ const ModerateCard: FunctionComponent<Props> = ({
   const div = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (selected) {
-      key("j", id, selectNext);
-      key("k", id, selectPrev);
-      key("d", id, onApprove);
-      key("f", id, onReject);
+      key(HOTKEYS.NEXT, id, selectNext);
+      key(HOTKEYS.PREV, id, selectPrev);
+      key(HOTKEYS.APPROVE, id, onApprove);
+      key(HOTKEYS.REJECT, id, onReject);
       key.setScope(id);
       return () => {
         key.deleteScope(id);
