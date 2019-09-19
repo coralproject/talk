@@ -39,7 +39,11 @@ You will then have to generate a JWT with the following claims:
   authentication system. This is required to facilitate notification email's
   about status changes on a user account such as bans or suspensions.
 - `user.username` (**required**) - the username that should be used when being
-  presented inside Coral to moderators and other users.
+  presented inside Coral to moderators and other users. The following restrictions apply :
+  - Can only contain letter (`a-zA-Z`), number (`0-9`), underscore (`_`) or period (`.`) characters. Spaces and other special characters are not allowed.
+  - Min length = 3
+  - Max length = 30
+
 - `user.badges` (_optional_) - array of strings to be displayed as badges beside
   username inside Coral, visible to other users and moderators. For example, to indicate
   a user's subscription status.

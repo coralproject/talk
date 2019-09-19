@@ -1,6 +1,6 @@
 <hr/>
 <footer class="footer">
-  <p class="text-center">Coral Project Talk Technical Documentation. Design inspired by <a href="https://docs.minio.io/" rel="noreferrer" target="_blank">Minio Docs</a>.</p>
+  <p class="text-center">Coral by Vox Media Technical Documentation. Design inspired by <a href="https://docs.minio.io/" rel="noreferrer" target="_blank">Minio Docs</a>.</p>
 </footer>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
