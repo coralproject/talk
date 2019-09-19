@@ -1,10 +1,8 @@
 import cn from "classnames";
-import { withForwardRef } from "coral-ui/hocs";
 import { Localized } from "fluent-react/compat";
 import key from "keymaster";
 import React, {
   FunctionComponent,
-  Ref,
   useCallback,
   useEffect,
   useRef,
@@ -60,7 +58,6 @@ interface Props {
   mini?: boolean;
   hideUsername?: boolean;
   selected: boolean;
-  forwardRef: Ref<HTMLDivElement>;
   /**
    * If set to true, it means this comment is about to be removed
    * from the queue. This will trigger some styling changes to
@@ -98,7 +95,6 @@ const ModerateCard: FunctionComponent<Props> = ({
   moderatedBy,
   selected,
   onFocusOrClick,
-  forwardRef,
   mini = false,
   hideUsername = false,
   deleted = false,
@@ -106,7 +102,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   selectNext,
   selectPrev,
 }) => {
-  const div = useRef(null);
+  const div = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (selected) {
       key("j", id, selectNext);
@@ -120,7 +116,13 @@ const ModerateCard: FunctionComponent<Props> = ({
     } else {
       key.deleteScope(id);
     }
-    return () => {};
+    return () => null;
+  }, [selected]);
+
+  useEffect(() => {
+    if (selected && div && div.current) {
+      div.current.focus();
+    }
   }, [selected]);
   const commentBody = deleted ? (
     <Localized id="moderate-comment-deleted-body">
@@ -282,4 +284,4 @@ const ModerateCard: FunctionComponent<Props> = ({
   );
 };
 
-export default withForwardRef(ModerateCard);
+export default ModerateCard;

@@ -1,19 +1,10 @@
 import { Localized } from "fluent-react/compat";
-import key from "keymaster";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
-import { ApproveCommentMutation } from "coral-admin/mutations";
-import { RejectCommentMutation } from "coral-admin/mutations";
-import { MutationProp } from "coral-framework/lib/relay";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -33,8 +24,6 @@ interface Props {
   emptyElement?: React.ReactElement;
   allStories?: boolean;
   viewNewCount?: number;
-  approveComment: MutationProp<typeof ApproveCommentMutation>;
-  rejectComment: MutationProp<typeof RejectCommentMutation>;
 }
 
 const Queue: FunctionComponent<Props> = ({
@@ -49,33 +38,36 @@ const Queue: FunctionComponent<Props> = ({
   viewer,
   viewNewCount,
   onViewNew,
-  approveComment,
-  rejectComment,
 }) => {
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
   const [userDrawerId, setUserDrawerID] = useState("");
   const [selectedComment, setSelectedComment] = useState<number | null>(0);
 
-  const selectNext = useCallback(
-    event => {
-      console.log("run select next, current is: ", selectedComment);
-      const index = selectedComment || 0;
-      const nextComment = comments[index + 1];
-      console.log("next", nextComment);
-      if (nextComment) {
-        setSelectedComment(index + 1);
+  const selectNext = useCallback(() => {
+    const index = selectedComment || 0;
+    const nextComment = comments[index + 1];
+    if (nextComment) {
+      setSelectedComment(index + 1);
+      const container: HTMLElement | null = document.getElementById(
+        `moderate-comment-${nextComment.id}`
+      );
+      if (container) {
+        container.scrollIntoView();
       }
-    },
-    [setSelectedComment, comments, selectedComment]
-  );
+    }
+  }, [setSelectedComment, comments, selectedComment]);
 
   const selectPrev = useCallback(() => {
-    console.log("run select prev, current is: ", selectedComment);
     const index = selectedComment || 0;
     const prevComment = comments[index - 1];
-    console.log("prev", prevComment);
     if (prevComment) {
       setSelectedComment(index - 1);
+      const container: HTMLElement | null = document.getElementById(
+        `moderate-comment-${prevComment.id}`
+      );
+      if (container) {
+        container.scrollIntoView();
+      }
     }
   }, [setSelectedComment, comments, selectedComment]);
 
@@ -86,19 +78,11 @@ const Queue: FunctionComponent<Props> = ({
     },
     [setUserDrawerVisible, setUserDrawerID]
   );
+
   const onHideUserDrawer = useCallback(() => {
     setUserDrawerVisible(false);
     setUserDrawerID("");
   }, [setUserDrawerVisible, setUserDrawerID]);
-
-  useEffect(() => {
-    if (selectedComment) {
-      const selected = comments[selectedComment];
-      document
-        .getElementById(`moderate-comment-${selected.id}`)
-        .scrollIntoView();
-    }
-  }, [selectedComment]);
 
   return (
     <HorizontalGutter className={styles.root} size="double">
