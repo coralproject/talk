@@ -1,5 +1,12 @@
+import { HOTKEYS } from "coral-admin/constants";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import key from "keymaster";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { Form } from "react-final-form";
 
 import { Backdrop, Icon, Popover, SubBar } from "coral-ui/components";
@@ -39,6 +46,7 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
     ({ search }: { search: string }) => onSearch && onSearch(search),
     [onSearch]
   );
+  const searchInput = useRef<HTMLInputElement>(null);
   const blurOnEscProps = useBlurOnEsc(focused);
   const [
     mappedOptions,
@@ -46,6 +54,13 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
     keyboardNavigationHandlers,
   ] = useComboBox("moderate-searchBar-listBoxOption", options);
 
+  useEffect(() => {
+    key(HOTKEYS.SEARCH, () => {
+      if (searchInput && searchInput.current) {
+        searchInput.current.focus();
+      }
+    });
+  }, []);
   const contextOptions = mappedOptions
     .filter(o => o.group === "CONTEXT")
     .map(o => o.element);
@@ -132,6 +147,7 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
                     <div ref={ref}>
                       <Field
                         title={title}
+                        ref={searchInput}
                         {...combineEventHandlers(
                           focusHandlers,
                           blurOnEscProps,
