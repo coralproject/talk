@@ -1,5 +1,5 @@
 import { Match, Router, withRouter } from "found";
-import React, { FunctionComponent, useCallback, useEffect } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import {
@@ -19,7 +19,6 @@ import {
   withMutation,
 } from "coral-framework/lib/relay";
 import { GQLTAG } from "coral-framework/schema";
-import { useHotkey } from "coral-ui/hooks";
 
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
@@ -41,7 +40,7 @@ interface Props {
   mini?: boolean;
   hideUsername?: boolean;
   onUsernameClicked?: (userID: string) => void;
-  onSetSelected: (commentID: string) => void;
+  onSetSelected: () => void;
   selected: boolean;
   selectPrev: () => void;
   selectNext: () => void;
@@ -83,7 +82,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   onSetSelected: setSelected,
 }) => {
   const handleApprove = useCallback(() => {
-    console.log("approve");
     if (!comment.revision) {
       return;
     }
