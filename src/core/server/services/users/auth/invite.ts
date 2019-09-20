@@ -14,7 +14,7 @@ import {
 } from "coral-server/models/invite";
 import { Tenant } from "coral-server/models/tenant";
 import {
-  insertUser,
+  findOrCreateUser,
   LocalProfile,
   retrieveUserWithEmail,
   User,
@@ -310,7 +310,7 @@ export async function redeem(
   };
 
   // Create the new user based on the invite.
-  const user = await insertUser(
+  const user = await findOrCreateUser(
     mongo,
     tenant.id,
     {

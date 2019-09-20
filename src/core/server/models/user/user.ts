@@ -468,7 +468,7 @@ function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
 
-export type InsertUserInput = Omit<
+export type FindOrCreateUserInput = Omit<
   User,
   | "id"
   | "tenantID"
@@ -482,15 +482,15 @@ export type InsertUserInput = Omit<
 > &
   Partial<Pick<User, "id">>;
 
-export async function insertUser(
+export async function findOrCreateUser(
   mongo: Db,
   tenantID: string,
-  { id = uuid.v4(), ...input }: InsertUserInput,
+  { id = uuid.v4(), ...input }: FindOrCreateUserInput,
   now = new Date()
 ) {
   // default are the properties set by the application when a new user is
   // created.
-  const defaults: Sub<User, InsertUserInput> = {
+  const defaults: Sub<User, FindOrCreateUserInput> = {
     tenantID,
     tokens: [],
     ignoredUsers: [],
@@ -522,25 +522,22 @@ export async function insertUser(
   }
 
   // Guard against empty login profiles (they need some way to login).
-  if (input.profiles.length === 0) {
-    throw new Error("users require at least one profile");
+  if (input.profiles.length !== 1) {
+    throw new Error("users require one profile");
   }
 
+  let profile = input.profiles[0];
+
   // Mutate the profiles to ensure we mask handle any secrets.
-  const profiles: Profile[] = [];
-  for (let profile of input.profiles) {
-    switch (profile.type) {
-      case "local":
-        // Hash the user's password with bcrypt.
-        const password = await hashPassword(profile.password);
-        profile = {
-          ...profile,
-          password,
-        };
-        break;
-    }
-    // Save a copy.
-    profiles.push(profile);
+  switch (profile.type) {
+    case "local":
+      // Hash the user's password with bcrypt.
+      const password = await hashPassword(profile.password);
+      profile = {
+        ...profile,
+        password,
+      };
+      break;
   }
 
   // Merge the defaults and the input together.
@@ -548,12 +545,31 @@ export async function insertUser(
     ...defaults,
     ...input,
     id,
-    profiles,
+    profiles: [profile],
   };
 
   try {
     // Insert it into the database. This may throw an error.
-    await collection(mongo).insert(user);
+    await collection(mongo).findOneAndUpdate(
+      {
+        tenantID,
+        profiles: {
+          $elemMatch: {
+            id: profile.id,
+            type: profile.type,
+          },
+        },
+      },
+      {
+        $setOnInsert: user,
+      },
+      {
+        // False to return the updated document instead of the original
+        // document.
+        returnOriginal: false,
+        upsert: true,
+      }
+    );
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate User error.

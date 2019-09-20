@@ -36,9 +36,9 @@ import {
   consolidateUserSuspensionStatus,
   createUserToken,
   deactivateUserToken,
+  findOrCreateUser,
+  FindOrCreateUserInput,
   ignoreUser,
-  insertUser,
-  InsertUserInput,
   NotificationSettingsInput,
   removeActiveUserSuspensions,
   removeUserBan,
@@ -76,7 +76,7 @@ import {
 } from "./download/token";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
-export type InsertUser = InsertUserInput;
+export type InsertUser = FindOrCreateUserInput;
 
 /**
  * insert will upsert the User into the database for the Tenant.
@@ -129,7 +129,7 @@ export async function insert(
     }
   }
 
-  const user = await insertUser(mongo, tenant.id, input, now);
+  const user = await findOrCreateUser(mongo, tenant.id, input, now);
 
   // // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
   // if (localProfile && user.email) {

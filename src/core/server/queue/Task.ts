@@ -70,7 +70,10 @@ export default class Task<T, U = any> {
    */
   public process() {
     this.queue.process(async (job: Job<T>) => {
-      const log = this.log.child({ jobID: job.id }, true);
+      const log = this.log.child(
+        { jobID: job.id, attemptsMade: job.attemptsMade },
+        true
+      );
 
       log.trace("processing job from queue");
 
