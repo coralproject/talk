@@ -47,8 +47,7 @@ const Queue: FunctionComponent<Props> = ({
   const [userDrawerId, setUserDrawerID] = useState("");
   const [selectedComment, setSelectedComment] = useState<number | null>(0);
 
-  const zenMode =
-    match.location.query.count && parseInt(match.location.query.count, 10);
+  const zenMode = match.location.query.single;
 
   const selectNext = useCallback(() => {
     const index = selectedComment || 0;

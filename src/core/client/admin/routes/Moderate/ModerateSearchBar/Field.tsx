@@ -13,7 +13,7 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   title: string;
   className?: string;
   focused?: boolean;
-  forwardRef?: Ref<HTMLDivElement>;
+  forwardRef?: Ref<HTMLInputElement>;
 }
 
 /**
