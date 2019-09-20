@@ -83,10 +83,10 @@ resetPassword-resetPasswordButton = Redefinir Senha
 
 ## Create Username
 
-createUsername-createUsernameHeader = Create Username
+createUsername-createUsernameHeader = Criar nome de usuário
 createUsername-whatItIs =
-  Your username is an identifier that will appear on all of your comments.
-createUsername-createUsernameButton = Create Username
+  Seu nome de usuário é o identificador que irá aparecer em todos os seus comentários.
+createUsername-createUsernameButton = Criar usuário
 
 ## Add Endereço de E-mail
 addEmailAddress-addEmailAddressHeader = Adicionar Endereço de E-mail

@@ -21,7 +21,7 @@ export default class Task<T, U = any> {
     jobOptions = {},
     queue,
   }: TaskOptions<T, U>) {
-    this.log = logger.child({ jobName });
+    this.log = logger.child({ jobName }, true);
     this.queue = new Queue(jobName, queue);
     this.options = {
       jobName,
@@ -70,7 +70,7 @@ export default class Task<T, U = any> {
    */
   public process() {
     this.queue.process(async (job: Job<T>) => {
-      const log = this.log.child({ jobID: job.id });
+      const log = this.log.child({ jobID: job.id }, true);
 
       log.trace("processing job from queue");
 

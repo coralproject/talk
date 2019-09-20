@@ -24,13 +24,16 @@ const createJobProcessor = ({ mongo }: ScrapeProcessorOptions) => async (
   // Pull out the job data.
   const { storyID, storyURL, tenantID } = job.data;
 
-  const log = logger.child({
-    jobID: job.id,
-    jobName: JOB_NAME,
-    storyID,
-    storyURL,
-    tenantID,
-  });
+  const log = logger.child(
+    {
+      jobID: job.id,
+      jobName: JOB_NAME,
+      storyID,
+      storyURL,
+      tenantID,
+    },
+    true
+  );
 
   // Mark the start time.
   const startTime = now();

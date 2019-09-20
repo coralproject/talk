@@ -21,10 +21,13 @@ export class ScheduledJob<T extends {} = {}> {
 
   constructor(context: T, opts: Options<T>) {
     this.context = context;
-    this.log = logger.child({
-      jobName: opts.name,
-      jobFrequency: opts.cronTime,
-    });
+    this.log = logger.child(
+      {
+        jobName: opts.name,
+        jobFrequency: opts.cronTime,
+      },
+      true
+    );
     this.job = new CronJob({
       cronTime: opts.cronTime,
       onTick: this.command(opts.command),
@@ -36,7 +39,7 @@ export class ScheduledJob<T extends {} = {}> {
 
   private command(command: ScheduledJobCommand<T>): CronCommand {
     return async () => {
-      const log = this.log.child({ scheduledExecutionID: uuid.v1() });
+      const log = this.log.child({ scheduledExecutionID: uuid.v1() }, true);
       log.debug("now starting scheduled job");
       const start = now();
       try {

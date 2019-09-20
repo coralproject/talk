@@ -42,6 +42,9 @@ class OIDCConfigContainer extends React.Component<Props, State> {
         issuer: form.getState().values.auth.integrations.oidc.issuer,
       });
       if (config) {
+        if (config.issuer) {
+          form.change("auth.integrations.oidc.issuer", config.issuer);
+        }
         form.change(
           "auth.integrations.oidc.authorizationURL",
           config.authorizationURL

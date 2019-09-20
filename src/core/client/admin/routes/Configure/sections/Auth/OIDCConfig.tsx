@@ -53,13 +53,13 @@ const OIDCConfig: FunctionComponent<Props> = ({
 }) => {
   return (
     <ConfigBoxWithToggleField
-      data-testid={`configure-auth-oidc-container`}
+      data-testid="configure-auth-oidc-container"
       title={
         <Localized id="configure-auth-oidc-loginWith">
           <span>Login with OIDC</span>
         </Localized>
       }
-      name={`auth.integrations.oidc.enabled`}
+      name="auth.integrations.oidc.enabled"
       disabled={disabled}
     >
       {disabledInside => (
@@ -84,7 +84,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
               </InputDescription>
             </Localized>
             <Field
-              name={`auth.integrations.oidc.name`}
+              name="auth.integrations.oidc.name"
               validate={composeValidatorsWhen(isEnabled, required)}
               parse={identity}
             >
@@ -107,12 +107,12 @@ const OIDCConfig: FunctionComponent<Props> = ({
           </FormField>
           <ClientIDField
             validate={composeValidatorsWhen(isEnabled, required)}
-            name={`auth.integrations.oidc.clientID`}
+            name="auth.integrations.oidc.clientID"
             disabled={disabledInside}
           />
           <ClientSecretField
             validate={composeValidatorsWhen(isEnabled, required)}
-            name={`auth.integrations.oidc.clientSecret`}
+            name="auth.integrations.oidc.clientSecret"
             disabled={disabledInside}
           />
           <FormField>
@@ -127,7 +127,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
               </InputDescription>
             </Localized>
             <Field
-              name={`auth.integrations.oidc.issuer`}
+              name="auth.integrations.oidc.issuer"
               validate={composeValidatorsWhen(isEnabled, required, validateURL)}
               parse={identity}
             >
@@ -165,7 +165,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
               <InputLabel>authorizationURL</InputLabel>
             </Localized>
             <Field
-              name={`auth.integrations.oidc.authorizationURL`}
+              name="auth.integrations.oidc.authorizationURL"
               validate={composeValidatorsWhen(isEnabled, required, validateURL)}
               parse={identity}
             >
@@ -191,7 +191,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
               <InputLabel>tokenURL</InputLabel>
             </Localized>
             <Field
-              name={`auth.integrations.oidc.tokenURL`}
+              name="auth.integrations.oidc.tokenURL"
               validate={composeValidatorsWhen(isEnabled, required, validateURL)}
               parse={identity}
             >
@@ -217,7 +217,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
               <InputLabel>jwksURI</InputLabel>
             </Localized>
             <Field
-              name={`auth.integrations.oidc.jwksURI`}
+              name="auth.integrations.oidc.jwksURI"
               validate={composeValidatorsWhen(isEnabled, required, validateURL)}
               parse={identity}
             >
@@ -244,11 +244,11 @@ const OIDCConfig: FunctionComponent<Props> = ({
                 <span>Use OIDC login on</span>
               </Localized>
             }
-            name={`auth.integrations.oidc.targetFilter`}
+            name="auth.integrations.oidc.targetFilter"
             disabled={disabledInside}
           />
           <RegistrationField
-            name={`auth.integrations.oidc.allowRegistration`}
+            name="auth.integrations.oidc.allowRegistration"
             disabled={disabledInside}
           />
         </HorizontalGutter>

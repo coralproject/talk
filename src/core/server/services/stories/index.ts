@@ -101,10 +101,13 @@ export async function remove(
   includeComments: boolean = false
 ) {
   // Create a logger for this function.
-  const log = logger.child({
-    storyID,
-    includeComments,
-  });
+  const log = logger.child(
+    {
+      storyID,
+      includeComments,
+    },
+    true
+  );
 
   log.debug("starting to remove story");
 
@@ -254,10 +257,13 @@ export async function merge(
   sourceIDs: string[]
 ) {
   // Create a logger for this operation.
-  const log = logger.child({
-    destinationID,
-    sourceIDs,
-  });
+  const log = logger.child(
+    {
+      destinationID,
+      sourceIDs,
+    },
+    true
+  );
 
   if (sourceIDs.length === 0) {
     log.warn("cannot merge from 0 stories");

@@ -70,11 +70,14 @@ export const createJobProcessor = ({
     const { tenantID, input } = job.data;
 
     // Create a new logger to handle logging for this job.
-    const log = logger.child({
-      jobID: job.id,
-      jobName: JOB_NAME,
-      tenantID,
-    });
+    const log = logger.child(
+      {
+        jobID: job.id,
+        jobName: JOB_NAME,
+        tenantID,
+      },
+      true
+    );
 
     log.debug("starting to handle a notify operation");
 
