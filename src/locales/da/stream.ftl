@@ -10,7 +10,7 @@ general-userBoxAuthenticated-signedInAs =
   Logget ind som <Username></Username>.
 
 general-userBoxAuthenticated-notYou =
-  Ikke dig? <button>Log ud</button>
+  Er det ikke dig? <button>Log ud</button>
 
 general-tabBar-commentsTab = Kommentarer
 general-tabBar-myProfileTab = Min profil
@@ -39,12 +39,12 @@ comments-viewNew =
     [1] Se {$count} kommentar
     *[other] Se {$count} kommentarer
   }
-comments-loadMore = Indlæse mere
+comments-loadMore = Vis flere
 
 comments-permalinkPopover =
   .description = En dialog der viser en permalink til kommentaren
 comments-permalinkButton-share = Del
-comments-permalinkView-viewFullDiscussion = Se fuld diskussion
+comments-permalinkView-viewFullDiscussion = Tilbage til alle kommentarer
 comments-permalinkView-commentRemovedOrDoesNotExist = Denne kommentar er blevet fjernet eller findes ikke.
 
 comments-rte-bold =
@@ -73,20 +73,20 @@ comments-replyButton-reply = Svar
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
 comments-replyCommentForm-submit = Indsend
-comments-replyCommentForm-cancel = Afbestille
+comments-replyCommentForm-cancel = Annuller
 comments-replyCommentForm-rteLabel = Skriv et svar
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
-comments-commentContainer-editButton = Redigere
+comments-commentContainer-editButton = Rediger
 
 comments-editCommentForm-saveChanges = Gem ændringer
-comments-editCommentForm-cancel = Afbestille
+comments-editCommentForm-cancel = Annuller
 comments-editCommentForm-close = Lukke
 comments-editCommentForm-rteLabel = Rediger kommentar
 comments-editCommentForm-rte =
   .placeholder = { comments-editCommentForm-rteLabel }
-comments-editCommentForm-editRemainingTime = Udgave: <time></time> tilbage
+comments-editCommentForm-editRemainingTime = Du kan redigere i <time></time> minutter endnu
 comments-editCommentForm-editTimeExpired = Redigeringstiden er udløbet. Du kan ikke længere redigere denne kommentar. Hvorfor ikke lægge en anden?
 comments-editedMarker-edited = Redigeret
 comments-showConversationLink-readMore = Læs mere om denne samtale >
@@ -98,7 +98,7 @@ comments-permalinkView-singleConversation = ENKELKONVERSATION
 comments-inReplyTo = Som svar til <Username></Username>
 comments-replyTo = Svar på: <Username></Username>
 
-comments-reportButton-report = Rapporter
+comments-reportButton-report = Rapportér
 comments-reportButton-reported = Rapporteret
 
 comments-sortMenu-sortBy = Sorter efter
@@ -117,7 +117,7 @@ comments-userIgnorePopover-description =
   de skrev på webstedet, være skjult for dig. Du kan fortryde 
   dette senere fra Min profil.
 comments-userIgnorePopover-ignore = Ignorerer
-comments-userIgnorePopover-cancel = Afbestille
+comments-userIgnorePopover-cancel = Annuller
 
 comments-moderationDropdown-popover =
   .description = En menu med indstillinger til at moderere kommentar
@@ -151,9 +151,10 @@ profile-historyComment-viewConversation = Se samtale
 profile-historyComment-replies = Svar {$replyCount}
 profile-historyComment-commentHistory = Kommentarhistorik
 profile-historyComment-story = Historie: {$title}
+profile-historyComment-comment-on = Kommentar på:
 profile-profileQuery-errorLoadingProfile = Fejl ved indlæsning af profil
 profile-profileQuery-storyNotFound = Historien blev ikke fundet
-profile-commentHistory-loadMore = Indlæse mere
+profile-commentHistory-loadMore = Vis fleree
 profile-commentHistory-empty = Du har ikke skrevet nogen kommentarer
 profile-commentHistory-empty-subheading = En historie med dine kommentarer vises her
 
@@ -188,17 +189,19 @@ comments-reportPopover-pleaseLeaveAdditionalInformation =
   Efterlad venligst yderligere oplysninger, som kan være nyttige for vores moderatorer. (Valgfri)
 
 comments-reportPopover-maxCharacters = Maks. { $maxCharacters } tegn
-comments-reportPopover-cancel = Afbestille
+comments-reportPopover-cancel = Annuller
 comments-reportPopover-submit = Indsend
 
-comments-reportPopover-thankYou = Tak skal du have
+comments-reportPopover-thankYou = Mange tak
 comments-reportPopover-receivedMessage =
-  Vi har modtaget din besked. Rapporter fra medlemmer som dig holder samfundet sikkert.
+  Vi har modtaget din besked.
+  Rapporteringer fra medlemmer som dig, 
+  hjælper til at holde en god tone.
 
-comments-reportPopover-dismiss = Afskedige
+comments-reportPopover-dismiss = Luk
 
 ## Submit Status
-comments-submitStatus-dismiss = Afskedige
+comments-submitStatus-dismiss = Luk
 comments-submitStatus-submittedAndWillBeReviewed =
   Din kommentar er blevet sendt og vil blive gennemgået af en moderator
 
