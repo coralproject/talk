@@ -71,39 +71,10 @@ export class UserBoxContainer extends Component<Props> {
     ].some(i => i.enabled && i.targetFilter.stream);
   }
 
-  private get authUrl(): string {
-    const {
-      facebook,
-      google,
-      local,
-      oidc,
-    } = this.props.settings.auth.integrations;
-
-    const defaultAuthUrl = `${urls.embed.auth}?view=${
-      this.props.local.authPopup.view
-    }`;
-
-    if (local.enabled && local.targetFilter.stream) {
-      return defaultAuthUrl;
-    }
-
-    // For each of these integrations, if only one is enabled for the stream,
-    // then return the redirectURL for that one only.
-    const integrations = [facebook, google, oidc];
-    const enabled = integrations.filter(
-      integration => integration.enabled && integration.targetFilter.stream
-    );
-    if (enabled.length === 1 && enabled[0].redirectURL) {
-      return enabled[0].redirectURL;
-    }
-
-    return defaultAuthUrl;
-  }
-
   public render() {
     const {
       local: {
-        authPopup: { open, focus },
+        authPopup: { open, focus, view },
       },
       viewer,
     } = this.props;
@@ -125,13 +96,14 @@ export class UserBoxContainer extends Component<Props> {
     return (
       <>
         <Popup
-          href={this.authUrl}
+          href={`${urls.embed.auth}?view=${view}`}
           title="Coral Auth"
           open={open}
           focus={focus}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onClose={this.handleClose}
+          features={{ width: 350, innerWidth: 350 }}
         />
         <UserBoxUnauthenticated
           onSignIn={this.handleSignIn}
@@ -182,7 +154,6 @@ const enhanced = withSignOutMutation(
                   oidc {
                     enabled
                     allowRegistration
-                    redirectURL
                     targetFilter {
                       stream
                     }
@@ -190,7 +161,6 @@ const enhanced = withSignOutMutation(
                   google {
                     enabled
                     allowRegistration
-                    redirectURL
                     targetFilter {
                       stream
                     }
@@ -198,7 +168,6 @@ const enhanced = withSignOutMutation(
                   facebook {
                     enabled
                     allowRegistration
-                    redirectURL
                     targetFilter {
                       stream
                     }

@@ -63,8 +63,8 @@ const markers: Array<
   c =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SPAM && (
-        <Localized id="moderate-marker-spam" key={keyCounter++}>
-          <Marker color="error">Spam</Marker>
+        <Localized id="moderate-marker-spamDetected" key={keyCounter++}>
+          <Marker color="error">Spam Detected</Marker>
         </Localized>
       )) ||
     null,

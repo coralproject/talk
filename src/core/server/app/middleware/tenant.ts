@@ -26,7 +26,11 @@ export const tenantMiddleware = ({
       const now = new Date();
 
       // Set Coral on the request.
-      req.coral = { id, now, logger: logger.child({ traceID: id }) };
+      req.coral = {
+        id,
+        now,
+        logger: logger.child({ context: "http", contextID: id }, true),
+      };
     }
 
     // Set the Coral Tenant Cache on the request.
@@ -46,6 +50,9 @@ export const tenantMiddleware = ({
 
       return next(new TenantNotFoundError(req.hostname));
     }
+
+    // Augment the logger with the tenantID.
+    req.coral.logger = req.coral.logger.child({ tenantID: tenant.id }, true);
 
     // Attach the tenant to the request.
     req.coral.tenant = tenant;

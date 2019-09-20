@@ -98,7 +98,7 @@ export default class NotificationContext {
     this.now = now;
     this.config = config;
     this.signingConfig = signingConfig;
-    this.log = log.child({ tenantID: tenant.id });
+    this.log = log.child({ tenantID: tenant.id }, true);
   }
 
   /**

@@ -6,6 +6,7 @@ import { Field, Form } from "react-final-form";
 import { Bar, SubBar, Title } from "coral-auth/components/Header";
 import Main from "coral-auth/components/Main";
 import { getViewURL } from "coral-auth/helpers";
+import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { SetViewMutation } from "coral-auth/mutations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
@@ -42,6 +43,7 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
   email,
   onCheckEmail,
 }) => {
+  const ref = useResizePopup();
   const signInHref = getViewURL("SIGN_IN");
   const forgotPassword = useMutation(ForgotPasswordMutation);
   const setView = useMutation(SetViewMutation);
@@ -71,7 +73,7 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
   );
 
   return (
-    <div data-testid="forgotPassword-container">
+    <div ref={ref} data-testid="forgotPassword-container">
       <Bar>
         <Localized id="forgotPassword-forgotPasswordHeader">
           <Title>Forgot Password?</Title>
