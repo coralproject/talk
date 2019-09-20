@@ -300,7 +300,10 @@ export default class TenantCache {
       JSON.stringify(message)
     );
 
-    logger.debug({ tenantID: tenant.id, subscribers }, "updated tenant");
+    logger.debug(
+      { tenantID: tenant.id, subscribers },
+      "updated tenant in cache"
+    );
 
     // Publish the event for the connected listeners.
     this.emitter.emit(EMITTER_EVENT_NAME, tenant);
