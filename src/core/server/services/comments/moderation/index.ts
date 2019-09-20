@@ -13,6 +13,7 @@ import { updateCommentStatus } from "coral-server/models/comment";
 import { updateStoryCounts } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import {
+  publishCommentReleased,
   publishCommentStatusChanges,
   publishModerationQueueChanges,
 } from "coral-server/services/events";
@@ -114,6 +115,14 @@ const moderate = (
     result.comment.id,
     input.moderatorID
   );
+  if (
+    [GQLCOMMENT_STATUS.PREMOD, GQLCOMMENT_STATUS.SYSTEM_WITHHELD].includes(
+      result.oldStatus
+    ) &&
+    status === "APPROVED"
+  ) {
+    publishCommentReleased(publish, result.comment);
+  }
 
   log.trace({ oldStatus: result.oldStatus }, "adjusted story comment counts");
 
