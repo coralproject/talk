@@ -8,4 +8,5 @@ export const HOTKEYS = {
   ZEN: "z",
   BAN: "b",
   SEARCH: "ctrl+f",
+  GUIDE: "shift+/",
 };
