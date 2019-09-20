@@ -343,13 +343,24 @@ exports[`renders comment stream 1`] = `
                 <span
                   className="Box-root Box-ml-1"
                 />
-                <time
-                  className="RelativeTime-root Timestamp-root Box-root Box-ml-2"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <button
+                  className="BaseButton-root Timestamp-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="RelativeTime-root Timestamp-text Box-root Box-ml-2"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </button>
               </div>
               <div
                 className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
@@ -445,13 +456,24 @@ exports[`renders comment stream 1`] = `
                 <span
                   className="Box-root Box-ml-1"
                 />
-                <time
-                  className="RelativeTime-root Timestamp-root Box-root Box-ml-2"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <button
+                  className="BaseButton-root Timestamp-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="RelativeTime-root Timestamp-text Box-root Box-ml-2"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </button>
               </div>
               <div
                 className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"

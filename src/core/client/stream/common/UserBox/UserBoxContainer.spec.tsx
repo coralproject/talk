@@ -28,7 +28,6 @@ it("renders fully", () => {
           facebook: {
             enabled: true,
             allowRegistration: true,
-            redirectURL: "http://localhost/facebook",
             targetFilter: {
               stream: true,
             },
@@ -36,7 +35,6 @@ it("renders fully", () => {
           google: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/google",
             targetFilter: {
               stream: true,
             },
@@ -44,7 +42,6 @@ it("renders fully", () => {
           oidc: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/oidc",
             targetFilter: {
               stream: true,
             },
@@ -90,7 +87,6 @@ it("renders without logout button", () => {
           facebook: {
             enabled: true,
             allowRegistration: true,
-            redirectURL: "http://localhost/facebook",
             targetFilter: {
               stream: true,
             },
@@ -98,7 +94,6 @@ it("renders without logout button", () => {
           google: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/google",
             targetFilter: {
               stream: true,
             },
@@ -106,7 +101,6 @@ it("renders without logout button", () => {
           oidc: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/oidc",
             targetFilter: {
               stream: true,
             },
@@ -152,7 +146,6 @@ it("renders sso only", () => {
           facebook: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/facebook",
             targetFilter: {
               stream: true,
             },
@@ -160,7 +153,6 @@ it("renders sso only", () => {
           google: {
             enabled: true,
             allowRegistration: true,
-            redirectURL: "http://localhost/google",
             targetFilter: {
               stream: false,
             },
@@ -168,7 +160,6 @@ it("renders sso only", () => {
           oidc: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/oidc",
             targetFilter: {
               stream: true,
             },
@@ -214,7 +205,6 @@ it("renders sso only without logout button", () => {
           facebook: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/facebook",
             targetFilter: {
               stream: true,
             },
@@ -222,7 +212,6 @@ it("renders sso only without logout button", () => {
           google: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/google",
             targetFilter: {
               stream: true,
             },
@@ -230,7 +219,6 @@ it("renders sso only without logout button", () => {
           oidc: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/oidc",
             targetFilter: {
               stream: true,
             },
@@ -276,7 +264,6 @@ it("renders without register button", () => {
           facebook: {
             enabled: true,
             allowRegistration: false,
-            redirectURL: "http://localhost/facebook",
             targetFilter: {
               stream: true,
             },
@@ -284,7 +271,6 @@ it("renders without register button", () => {
           google: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/google",
             targetFilter: {
               stream: false,
             },
@@ -292,7 +278,6 @@ it("renders without register button", () => {
           oidc: {
             enabled: false,
             allowRegistration: true,
-            redirectURL: "http://localhost/oidc",
             targetFilter: {
               stream: true,
             },

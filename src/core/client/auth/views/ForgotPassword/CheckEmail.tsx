@@ -3,6 +3,7 @@ import React, { FunctionComponent, useCallback } from "react";
 
 import { Bar, Title } from "coral-auth/components/Header";
 import Main from "coral-auth/components/Main";
+import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { Button, HorizontalGutter, Typography } from "coral-ui/components";
 
 interface Props {
@@ -10,12 +11,13 @@ interface Props {
 }
 
 const CheckEmail: FunctionComponent<Props> = ({ email }) => {
+  const ref = useResizePopup();
   const closeWindow = useCallback(() => {
     window.close();
   }, []);
   const UserEmail = () => <strong>{email}</strong>;
   return (
-    <div data-testid="forgotPassword-checkEmail-container">
+    <div ref={ref} data-testid="forgotPassword-checkEmail-container">
       <Bar>
         <Localized id="forgotPassword-checkEmail-checkEmailHeader">
           <Title>Check Your Email</Title>

@@ -7,12 +7,12 @@ general-userBoxUnauthenticated-signIn = Entrar
 general-userBoxUnauthenticated-register = Cadastre-se
 
 general-userBoxAuthenticated-signedInAs =
-  Entrar como <username></username>.
+  Logado como <username></username>.
 
 general-userBoxAuthenticated-notYou =
   Não é você? <button>Sair</button>
 
-general-tabBar-commentsTab = Comentários
+general-tabBar-commentsTab = Discussão
 general-tabBar-myProfileTab = Meu Perfil
 general-tabBar-configure = Configurações
 
@@ -29,7 +29,7 @@ comments-featuredCommentTooltip-toggleButton =
 
 comments-streamQuery-storyNotFound = História não encontrada
 
-comments-postCommentForm-submit = Comentar
+comments-postCommentForm-submit = Enviar
 comments-stream-loadMore = Carregar Mais
 comments-replyList-showAll = Mostrar Tudo
 
@@ -60,7 +60,7 @@ comments-remainingCharacters = { $remaining } caracteres restantes
 
 comments-postCommentFormFake-signInAndJoin = Entre e Participe da Conversa
 
-comments-postCommentForm-rteLabel = Postar um comentário
+comments-postCommentForm-rteLabel = Participe da conversa
 
 comments-postCommentForm-rte =
   .placeholder = { comments-postCommentForm-rteLabel }

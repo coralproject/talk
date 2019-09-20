@@ -42,7 +42,7 @@ exports[`renders correctly 1`] = `
     <ForwardRef(forwardRef)
       size="oneAndAHalf"
     >
-      <withContext(withMutation(withContext(createMutationContainer(SignInContainer)))) />
+      <SignInContainer />
       <OrSeparator />
       <ForwardRef(forwardRef)>
         <Relay(SignInWithFacebookContainer)
@@ -108,7 +108,7 @@ exports[`renders error 1`] = `
       >
         Server Error
       </withPropsOnChange(CallOut)>
-      <withContext(withMutation(withContext(createMutationContainer(SignInContainer)))) />
+      <SignInContainer />
       <OrSeparator />
       <ForwardRef(forwardRef)>
         <Relay(SignInWithFacebookContainer)

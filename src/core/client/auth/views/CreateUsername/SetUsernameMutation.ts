@@ -3,7 +3,7 @@ import { Environment } from "relay-runtime";
 
 import {
   commitMutationPromiseNormalized,
-  createMutationContainer,
+  createMutation,
 } from "coral-framework/lib/relay";
 import { Omit } from "coral-framework/types";
 
@@ -39,11 +39,6 @@ function commit(environment: Environment, input: SetUsernameInput) {
   });
 }
 
-export const withSetUsernameMutation = createMutationContainer(
-  "setUsername",
-  commit
-);
+const SetUsernameMutation = createMutation("setUsername", commit);
 
-export type SetUsernameMutation = (
-  input: SetUsernameInput
-) => Promise<MutationTypes["response"]["setUsername"]>;
+export default SetUsernameMutation;

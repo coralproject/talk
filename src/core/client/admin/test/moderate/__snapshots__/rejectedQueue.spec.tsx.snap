@@ -46,13 +46,24 @@ exports[`approves comment in rejected queue: dangling 1`] = `
               Isabelle
             </span>
           </button>
-          <time
-            className="RelativeTime-root Timestamp-root"
-            dateTime="2018-07-06T18:24:00.000Z"
-            title="2018-07-06T18:24:00.000Z"
+          <button
+            className="BaseButton-root Timestamp-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            2018-07-06T18:24:00.000Z
-          </time>
+            <time
+              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </button>
           <button
             className="BaseButton-root FeatureButton-root"
             disabled={false}
@@ -271,13 +282,24 @@ exports[`renders rejected queue with comments 1`] = `
                     Isabelle
                   </span>
                 </button>
-                <time
-                  className="RelativeTime-root Timestamp-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <button
+                  className="BaseButton-root Timestamp-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </button>
                 <button
                   className="BaseButton-root FeatureButton-root"
                   disabled={false}
@@ -483,13 +505,24 @@ exports[`renders rejected queue with comments 1`] = `
                     Ngoc
                   </span>
                 </button>
-                <time
-                  className="RelativeTime-root Timestamp-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <button
+                  className="BaseButton-root Timestamp-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </button>
                 <button
                   className="BaseButton-root FeatureButton-root"
                   disabled={false}
@@ -701,13 +734,24 @@ exports[`renders rejected queue with comments and load more 1`] = `
               Max
             </span>
           </button>
-          <time
-            className="RelativeTime-root Timestamp-root"
-            dateTime="2018-07-06T18:24:00.000Z"
-            title="2018-07-06T18:24:00.000Z"
+          <button
+            className="BaseButton-root Timestamp-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            2018-07-06T18:24:00.000Z
-          </time>
+            <time
+              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </button>
           <button
             className="BaseButton-root FeatureButton-root"
             disabled={false}

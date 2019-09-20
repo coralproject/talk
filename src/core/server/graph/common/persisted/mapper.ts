@@ -29,7 +29,7 @@ export async function getPersistedQuery(
     // empty.
     !(payload.query === "PERSISTED_QUERY" || payload.query === "")
   ) {
-    return null;
+    return undefined;
   }
 
   const query = await cache.get(payload.id);

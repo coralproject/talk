@@ -25,6 +25,7 @@ import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContain
 import { ReplyListContainer } from "../../ReplyList";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentCreatedSubscription from "./CommentCreatedSubscription";
+import CommentReleasedSubscription from "./CommentReleasedSubscription";
 
 import styles from "./AllCommentsTabContainer.css";
 
@@ -54,6 +55,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
     `
   );
   const subscribeToCommentCreated = useSubscription(CommentCreatedSubscription);
+  const subscribeToCommentReleased = useSubscription(
+    CommentReleasedSubscription
+  );
   useEffect(() => {
     if (!props.story.settings.live.enabled) {
       return;
@@ -78,16 +82,22 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
       // Only chronological sort supports top level live updates of incoming comments.
       return;
     }
-    const disposable = subscribeToCommentCreated({
+    const newCommentDisposable = subscribeToCommentCreated({
+      storyID: props.story.id,
+      orderBy: commentsOrderBy,
+    });
+    const releasedCommentDisposable = subscribeToCommentReleased({
       storyID: props.story.id,
       orderBy: commentsOrderBy,
     });
     return () => {
-      disposable.dispose();
+      newCommentDisposable.dispose();
+      releasedCommentDisposable.dispose();
     };
   }, [
     commentsOrderBy,
     subscribeToCommentCreated,
+    subscribeToCommentReleased,
     props.story.id,
     props.relay.hasMore(),
     props.story.settings.live.enabled,

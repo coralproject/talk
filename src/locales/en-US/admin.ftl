@@ -392,6 +392,7 @@ moderate-marker-link = Link
 moderate-marker-bannedWord = Banned Word
 moderate-marker-suspectWord = Suspect Word
 moderate-marker-spam = Spam
+moderate-marker-spamDetected = Spam Detected
 moderate-marker-toxic = Toxic
 moderate-marker-recentHistory = Recent History
 moderate-marker-bodyCount = Body Count

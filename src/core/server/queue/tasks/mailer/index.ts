@@ -38,10 +38,13 @@ export class MailerQueue {
   }
 
   public async add({ template, tenantID, message: { to } }: MailerInput) {
-    const log = logger.child({
-      jobName: JOB_NAME,
-      tenantID,
-    });
+    const log = logger.child(
+      {
+        jobName: JOB_NAME,
+        tenantID,
+      },
+      true
+    );
 
     // All email templates require the tenant in order to insert the footer, so
     // load it from the tenant cache here.

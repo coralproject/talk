@@ -600,7 +600,7 @@ export async function insertUser(
     await collection(mongo).insert(user);
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
-    // then return a duplicate Story error.
+    // then return a duplicate User error.
     if (err instanceof MongoError && err.code === 11000) {
       // Check if duplicate index was about the email.
       if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {

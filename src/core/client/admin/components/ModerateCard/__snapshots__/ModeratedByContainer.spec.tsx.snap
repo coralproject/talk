@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewer's username shows on moderation cards moderated by viewer 1`] = `
+<ForwardRef(Relay(ModeratedByContainer))
+  comment={
+    Object {
+      "id": "comment-id",
+      "statusHistory": Object {
+        "edges": Array [
+          Object {
+            "moderator": Object {
+              "id": "viewer",
+              "username": "viewer",
+            },
+          },
+        ],
+      },
+      "statusLiveUpdated": false,
+    }
+  }
+  onUsernameClicked={[Function]}
+  viewer={
+    Object {
+      "id": "viewer",
+      "username": "viewer",
+    }
+  }
+/>
+`;

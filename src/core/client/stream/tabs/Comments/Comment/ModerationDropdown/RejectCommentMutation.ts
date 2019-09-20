@@ -13,31 +13,52 @@ let clientMutationId = 0;
 
 const RejectCommentMutation = createMutation(
   "rejectComment",
-  (environment: Environment, input: MutationInput<MutationTypes>) =>
+  (
+    environment: Environment,
+    input: MutationInput<MutationTypes> & { storyID: string }
+  ) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation RejectCommentMutation($input: RejectCommentInput!) {
           rejectComment(input: $input) {
             comment {
               status
+              tags {
+                code
+              }
+              story {
+                commentCounts {
+                  tags {
+                    FEATURED
+                  }
+                }
+              }
             }
             clientMutationId
           }
         }
       `,
+      variables: {
+        input: {
+          commentID: input.commentID,
+          commentRevisionID: input.commentRevisionID,
+          clientMutationId: (clientMutationId++).toString(),
+        },
+      },
       optimisticResponse: {
         rejectComment: {
           comment: {
             id: input.commentID,
             status: GQLCOMMENT_STATUS.REJECTED,
+            story: {
+              commentCounts: {
+                tags: {
+                  FEATURED: 0,
+                },
+              },
+            },
           },
           clientMutationId: clientMutationId.toString(),
-        },
-      },
-      variables: {
-        input: {
-          ...input,
-          clientMutationId: (clientMutationId++).toString(),
         },
       },
       updater: store => {
