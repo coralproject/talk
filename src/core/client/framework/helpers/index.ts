@@ -10,3 +10,4 @@ export {
 export { default as getParamsFromHash } from "./getParamsFromHash";
 export { default as clearHash } from "./clearHash";
 export { default as roleIsAtLeast } from "./roleIsAtLeast";
+export { default as resolveStoryURL } from "./resolveStoryURL";

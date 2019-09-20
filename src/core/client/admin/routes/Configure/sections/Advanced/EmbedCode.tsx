@@ -2,9 +2,9 @@ import { stripIndent } from "common-tags";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
-import { getLocationOrigin } from "coral-common/utils";
 import { CopyButton } from "coral-framework/components";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
+import { getLocationOrigin } from "coral-framework/utils";
 import { HorizontalGutter, Typography } from "coral-ui/components";
 
 import Header from "../../Header";

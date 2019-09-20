@@ -29,6 +29,7 @@ module.exports = {
     "^coral-account/(.*)$": "<rootDir>/src/core/client/account/$1",
     "^coral-admin/(.*)$": "<rootDir>/src/core/client/admin/$1",
     "^coral-auth/(.*)$": "<rootDir>/src/core/client/auth/$1",
+    "^coral-count/(.*)$": "<rootDir>/src/core/client/count/$1",
     "^coral-ui/(.*)$": "<rootDir>/src/core/client/ui/$1",
     "^coral-stream/(.*)$": "<rootDir>/src/core/client/stream/$1",
     "^coral-framework/(.*)$": "<rootDir>/src/core/client/framework/$1",

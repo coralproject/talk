@@ -11,6 +11,7 @@
       "coral-account/*": ["./account/*"],
       "coral-admin/*": ["./admin/*"],
       "coral-auth/*": ["./auth/*"],
+      "coral-count/*": ["./count/*"],
       "coral-embed/*": ["./embed/*"],
       "coral-stream/*": ["./stream/*"],
       "coral-framework/*": ["./framework/*"],
