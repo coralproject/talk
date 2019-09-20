@@ -1,5 +1,7 @@
 import cn from "classnames";
+import { ModerateCardContainer_comment } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
 import { HOTKEYS } from "coral-admin/constants";
+import { GQLUSER_STATUS } from "coral-framework/schema";
 import { Localized } from "fluent-react/compat";
 import key from "keymaster";
 import React, {
@@ -15,6 +17,7 @@ import {
   Card,
   Flex,
   HorizontalGutter,
+  Tag,
   TextLink,
   Timestamp,
   Typography,
@@ -39,7 +42,7 @@ interface Props {
     id: string;
     username: string | null;
   } | null;
-  comment: PropTypesOf<typeof MarkersContainer>["comment"];
+  comment: ModerateCardContainer_comment;
   settings: PropTypesOf<typeof MarkersContainer>["settings"];
   status: "approved" | "rejected" | "undecided";
   featured: boolean;
@@ -68,6 +71,7 @@ interface Props {
   deleted?: boolean;
   selectPrev?: () => void;
   selectNext?: () => void;
+  onBan?: () => void;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -113,7 +117,9 @@ const ModerateCard: FunctionComponent<Props> = ({
       }
       key(HOTKEYS.APPROVE, id, onApprove);
       key(HOTKEYS.REJECT, id, onReject);
-      key(HOTKEYS.BAN, id, onBan);
+      if (onBan) {
+        key(HOTKEYS.BAN, id, onBan);
+      }
       key.setScope(id);
       return () => {
         key.deleteScope(id);
@@ -122,7 +128,7 @@ const ModerateCard: FunctionComponent<Props> = ({
       key.deleteScope(id);
     }
     return () => null;
-  }, [selected]);
+  }, [selected, comment]);
 
   useEffect(() => {
     if (selected && div && div.current) {

@@ -18,10 +18,11 @@ import {
   withFragmentContainer,
   withMutation,
 } from "coral-framework/lib/relay";
+import { GQLUSER_STATUS } from "coral-framework/schema";
 import { GQLTAG } from "coral-framework/schema";
 
 import BanModal from "coral-admin/components/UserStatus/BanModal";
-import BanUserMutation from "./BanUserMutation";
+import BanCommentUserMutation from "./BanCommentUserMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -35,7 +36,7 @@ interface Props {
   rejectComment: MutationProp<typeof RejectCommentMutation>;
   featureComment: MutationProp<typeof FeatureCommentMutation>;
   unfeatureComment: MutationProp<typeof UnfeatureCommentMutation>;
-  banUser: MutationProp<typeof BanUserMutation>;
+  banUser: MutationProp<typeof BanCommentUserMutation>;
   danglingLogic: (status: COMMENT_STATUS) => boolean;
   match: Match;
   router: Router;
@@ -176,14 +177,20 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   }, [setShowBanModal]);
 
   const openBanModal = useCallback(() => {
+    if (
+      !comment.author ||
+      comment.author.status.current.includes(GQLUSER_STATUS.BANNED)
+    ) {
+      return;
+    }
     setShowBanModal(true);
-  }, [setShowBanModal]);
+  }, [setShowBanModal, comment]);
 
   const handleBanConfirm = useCallback(
     async (message: string) => {
       if (comment.author) {
         await banUser({ userID: comment.author.id, message });
-        handleReject();
+        // handleReject();
       }
       setShowBanModal(false);
     },
@@ -309,7 +316,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
 })(
   withRouter(
-    withMutation(BanUserMutation)(
+    withMutation(BanCommentUserMutation)(
       withMutation(ApproveCommentMutation)(
         withMutation(RejectCommentMutation)(
           withMutation(FeatureCommentMutation)(

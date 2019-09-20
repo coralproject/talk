@@ -8,7 +8,7 @@
 }
 
 .username {
-  margin-right: var(--mini-unit);
+  margin-right: var(--spacing-1);
   padding: var(--spacing-1);
   margin-left: calc(-1 * var(--spacing-1));
   line-height: calc(16rem / var(--rem-base));
@@ -163,4 +163,8 @@
 
 .selected {
   box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.authorStatus {
+  padding-right: var(--spacing-2);
 }
