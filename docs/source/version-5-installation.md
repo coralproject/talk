@@ -6,7 +6,7 @@ permalink: /
 Online comments are broken. Our open-source commenting platform, Coral, rethinks
 how moderation, comment display, and conversation function, creating the
 opportunity for safer, smarter discussions around your work.
-[Read more about Coral here](https://coralproject.net/talk).
+[Read more about Coral here](https://coralproject.net/).
 
 Built with ❤️ by The Coral Project, a part of [Vox Media](https://product.voxmedia.com/).
 
