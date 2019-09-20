@@ -33,6 +33,7 @@ interface Props {
   relay: RelayPaginationProp;
   emptyElement: React.ReactElement;
   storyID?: string;
+  count?: string;
 }
 
 // TODO: use generated types
@@ -40,7 +41,8 @@ const danglingLogic = (status: string) =>
   ["APPROVED", "REJECTED"].indexOf(status) >= 0;
 
 export const QueueRoute: FunctionComponent<Props> = props => {
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+  const loadMoreCount = props.count ? parseInt(props.count, 10) : 10;
+  const [loadMore, isLoadingMore] = useLoadMore(props.relay, loadMoreCount);
   const subscribeToQueueCommentEntered = useSubscription(
     QueueCommentEnteredSubscription
   );
@@ -107,6 +109,13 @@ const createQueueRoute = (
 ) => {
   const enhanced = withRouteConfig<Props, any>({
     query: queueQuery,
+    prepareVariables: (params, match) => {
+      return {
+        count: match.location.query.count
+          ? parseInt(match.location.query.count, 10)
+          : 5,
+      };
+    },
     cacheConfig: { force: true },
     render: ({ Component, data, match }) => {
       if (!Component) {
@@ -122,6 +131,7 @@ const createQueueRoute = (
             viewer={null}
             emptyElement={emptyElement}
             storyID={match.params.storyID}
+            count={match.location.query.count}
           />
         );
       }
@@ -136,6 +146,7 @@ const createQueueRoute = (
           viewer={data.viewer}
           emptyElement={emptyElement}
           storyID={match.params.storyID}
+          count={match.location.query.count}
         />
       );
     },
@@ -208,10 +219,10 @@ const createQueueRoute = (
 export const PendingQueueRoute = createQueueRoute(
   GQLMODERATION_QUEUE.PENDING,
   graphql`
-    query QueueRoutePendingQuery($storyID: ID) {
+    query QueueRoutePendingQuery($storyID: ID, $count: Int) {
       moderationQueues(storyID: $storyID) {
         pending {
-          ...QueueRoute_queue
+          ...QueueRoute_queue @arguments(count: $count)
         }
       }
       settings {
