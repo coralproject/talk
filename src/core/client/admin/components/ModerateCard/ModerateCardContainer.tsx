@@ -47,6 +47,7 @@ interface Props {
   selected: boolean;
   selectPrev: () => void;
   selectNext: () => void;
+  loadNext: (() => void) | null;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
@@ -84,31 +85,37 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   onUsernameClicked: usernameClicked,
   onSetSelected: setSelected,
   banUser,
+  loadNext,
 }) => {
   const [showBanModal, setShowBanModal] = useState(false);
-  const handleApprove = useCallback(() => {
+  const handleApprove = useCallback(async () => {
     if (!comment.revision) {
       return;
     }
 
-    approveComment({
+    await approveComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
       storyID: match.params.storyID,
     });
+    if (loadNext) {
+      loadNext();
+    }
   }, [approveComment, comment, match]);
 
-  const handleReject = useCallback(() => {
+  const handleReject = useCallback(async () => {
     if (!comment.revision) {
       return;
     }
 
-    rejectComment({
+    await rejectComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
       storyID: match.params.storyID,
     });
-    // selectNext();
+    if (loadNext) {
+      loadNext();
+    }
   }, [rejectComment, comment, match]);
 
   const handleFeature = useCallback(() => {
