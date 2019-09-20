@@ -1,9 +1,17 @@
-import React, { FunctionComponent } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 import MainLayout from "coral-admin/components/MainLayout";
+import { HOTKEYS } from "coral-admin/constants";
 import { PropTypesOf } from "coral-framework/types";
 import { SubBar } from "coral-ui/components/SubBar";
+import key from "keymaster";
 
+import HotkeysModal from "./HotkeysModal";
 import ModerateNavigationContainer from "./ModerateNavigation";
 import ModerateSearchBarContainer from "./ModerateSearchBar";
 
@@ -24,20 +32,34 @@ const Moderate: FunctionComponent<Props> = ({
   story,
   allStories,
   children,
-}) => (
-  <div data-testid="moderate-container">
-    <ModerateSearchBarContainer story={story} allStories={allStories} />
-    <SubBar data-testid="moderate-tabBar-container">
-      <ModerateNavigationContainer
-        moderationQueues={moderationQueues}
-        story={story}
-      />
-    </SubBar>
-    <div className={styles.background} />
-    <MainLayout data-testid="moderate-main-container">
-      <main className={styles.main}>{children}</main>
-    </MainLayout>
-  </div>
-);
+}) => {
+  const [showHotkeysModal, setShowHotkeysModal] = useState(false);
+  const closeModal = useCallback(() => {
+    setShowHotkeysModal(false);
+  }, [setShowHotkeysModal]);
+  const openModal = useCallback(() => {
+    setShowHotkeysModal(true);
+  }, [setShowHotkeysModal]);
+
+  useEffect(() => {
+    key(HOTKEYS.GUIDE, openModal);
+  }, []);
+  return (
+    <div data-testid="moderate-container">
+      <ModerateSearchBarContainer story={story} allStories={allStories} />
+      <SubBar data-testid="moderate-tabBar-container">
+        <ModerateNavigationContainer
+          moderationQueues={moderationQueues}
+          story={story}
+        />
+      </SubBar>
+      <div className={styles.background} />
+      <MainLayout data-testid="moderate-main-container">
+        <main className={styles.main}>{children}</main>
+      </MainLayout>
+      <HotkeysModal open={showHotkeysModal} onClose={closeModal} />
+    </div>
+  );
+};
 
 export default Moderate;
