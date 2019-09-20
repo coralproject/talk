@@ -81,12 +81,12 @@ exports[`renders all markers 1`] = `
     </withPropsOnChange(Marker)>
   </Localized>
   <Localized
-    id="moderate-marker-spam"
+    id="moderate-marker-spamDetected"
   >
     <withPropsOnChange(Marker)
       color="error"
     >
-      Spam
+      Spam Detected
     </withPropsOnChange(Marker)>
   </Localized>
   <Localized
