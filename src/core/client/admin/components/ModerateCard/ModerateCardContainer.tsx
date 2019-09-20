@@ -45,9 +45,9 @@ interface Props {
   onUsernameClicked?: (userID: string) => void;
   onSetSelected: () => void;
   selected: boolean;
-  selectPrev: () => void;
-  selectNext: () => void;
-  loadNext: (() => void) | null;
+  selectPrev?: () => void;
+  selectNext?: () => void;
+  loadNext?: (() => void) | null;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
