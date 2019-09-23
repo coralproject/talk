@@ -14,7 +14,7 @@ import {
   SSOProfile,
   updateUserFromSSO,
 } from "coral-server/models/user";
-import { insert } from "coral-server/services/users";
+import { findOrCreate } from "coral-server/services/users";
 
 import {
   getSSOProfile,
@@ -127,7 +127,7 @@ export async function findOrCreateSSOUser(
     };
 
     // Create the new user, as one didn't exist before!
-    user = await insert(
+    user = await findOrCreate(
       mongo,
       tenant,
       {
@@ -136,7 +136,8 @@ export async function findOrCreateSSOUser(
         role: role || GQLUSER_ROLE.COMMENTER,
         badges,
         email,
-        profiles: [profile],
+        emailVerified: true,
+        profile,
       },
       now
     );
