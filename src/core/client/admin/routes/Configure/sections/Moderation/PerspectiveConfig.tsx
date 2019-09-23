@@ -7,7 +7,11 @@ import {
   TOXICITY_MODEL_DEFAULT,
   TOXICITY_THRESHOLD_DEFAULT,
 } from "coral-common/constants";
-import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
+import {
+  formatPercentage,
+  parseEmptyAsNull,
+  parsePercentage,
+} from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   Condition,
@@ -144,7 +148,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
               find out more about model choices here.
             </InputDescription>
           </Localized>
-          <Field name="integrations.perspective.model">
+          <Field name="integrations.perspective.model" parse={parseEmptyAsNull}>
             {({ input, meta }) => (
               <>
                 <TextField
@@ -219,6 +223,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
           </Localized>
           <Field
             name="integrations.perspective.endpoint"
+            parse={parseEmptyAsNull}
             validate={validateURL}
           >
             {({ input, meta }) => (

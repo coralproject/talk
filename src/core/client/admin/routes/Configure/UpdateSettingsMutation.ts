@@ -21,6 +21,9 @@ const UpdateSettingsMutation = createMutation(
               auth {
                 ...AuthConfigContainer_auth
               }
+              email {
+                ...EmailConfigContainer_email
+              }
               ...ModerationConfigContainer_settings
               ...GeneralConfigContainer_settings
               ...OrganizationConfigContainer_settings

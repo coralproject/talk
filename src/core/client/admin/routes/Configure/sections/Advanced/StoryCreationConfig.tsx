@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { ValidationMessage } from "coral-framework/lib/form";
+import { parseEmptyAsNull, ValidationMessage } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { validateURL } from "coral-framework/lib/validation";
 import {
@@ -72,7 +72,11 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
               proxy as parsed by the npm proxy-agent package.
             </Typography>
           </Localized>
-          <Field name="stories.scraping.proxyURL" validate={validateURL}>
+          <Field
+            name="stories.scraping.proxyURL"
+            parse={parseEmptyAsNull}
+            validate={validateURL}
+          >
             {({ input, meta }) => (
               <>
                 <TextField
