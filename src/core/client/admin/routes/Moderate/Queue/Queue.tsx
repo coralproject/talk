@@ -7,7 +7,6 @@ import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
-import { Match, Router, withRouter } from "found";
 
 import styles from "./Queue.css";
 
@@ -24,9 +23,7 @@ interface Props {
   danglingLogic: PropTypesOf<typeof ModerateCardContainer>["danglingLogic"];
   emptyElement?: React.ReactElement;
   allStories?: boolean;
-  router: Router;
   viewNewCount?: number;
-  match: Match;
 }
 
 const Queue: FunctionComponent<Props> = ({
@@ -41,13 +38,10 @@ const Queue: FunctionComponent<Props> = ({
   viewer,
   viewNewCount,
   onViewNew,
-  match,
 }) => {
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
   const [userDrawerId, setUserDrawerID] = useState("");
   const [selectedComment, setSelectedComment] = useState<number | null>(0);
-
-  const zenMode = match.location.query.single;
 
   const selectNext = useCallback(() => {
     const index = selectedComment || 0;
@@ -131,12 +125,11 @@ const Queue: FunctionComponent<Props> = ({
                 selected={selectedComment === i}
                 selectPrev={selectPrev}
                 selectNext={selectNext}
-                loadNext={zenMode ? onLoadMore : null}
               />
             </CSSTransition>
           ))}
       </TransitionGroup>
-      {!zenMode && hasMore && (
+      {hasMore && (
         <Flex justifyContent="center">
           <AutoLoadMore
             disableLoadMore={disableLoadMore}
@@ -154,4 +147,4 @@ const Queue: FunctionComponent<Props> = ({
   );
 };
 
-export default withRouter(Queue);
+export default Queue;

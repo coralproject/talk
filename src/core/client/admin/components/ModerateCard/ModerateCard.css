@@ -89,6 +89,10 @@
   transition: background 100ms, box-shadow 100ms;
 }
 
+.root:focus {
+  outline: none;
+}
+
 .dangling {
   background-color: var(--palette-grey-lightest);
   box-shadow: none;
@@ -173,3 +177,4 @@
 .authorStatus {
   padding-right: var(--spacing-2);
 }
+
