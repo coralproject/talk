@@ -14,6 +14,7 @@ import { CommentCreatedPayload } from "./CommentCreatedPayload";
 import { CommentEnteredModerationQueuePayload } from "./CommentEnteredModerationQueuePayload";
 import { CommentLeftModerationQueuePayload } from "./CommentLeftModerationQueuePayload";
 import { CommentModerationAction } from "./CommentModerationAction";
+import { CommentReleasedPayload } from "./CommentReleasedPayload";
 import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
@@ -52,6 +53,7 @@ const Resolvers: GQLResolver = {
   Comment,
   CommentCounts,
   CommentCreatedPayload,
+  CommentReleasedPayload,
   CommentEnteredModerationQueuePayload,
   CommentLeftModerationQueuePayload,
   CommentModerationAction,
