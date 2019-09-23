@@ -15,8 +15,8 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   createdAt: "2018-11-29T16:01:51.897Z",
   body: "content",
   inReplyTo: null,
-  comment: {},
   settings: {},
+  comment: {},
   status: "undecided",
   featured: false,
   viewContextHref: "http://localhost/comment",
@@ -26,6 +26,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   onReject: noop,
   onFeature: noop,
   onUsernameClick: noop,
+  onFocusOrClick: noop,
   showStory: false,
   moderatedBy: null,
 };

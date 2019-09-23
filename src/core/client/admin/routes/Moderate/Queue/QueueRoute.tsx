@@ -1,10 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
 import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
@@ -46,9 +41,7 @@ const danglingLogic = (status: string) =>
   ["APPROVED", "REJECTED"].indexOf(status) >= 0;
 
 export const QueueRoute: FunctionComponent<Props> = props => {
-  const [zenMode, setZenMode] = useState(false);
-  const loadMoreCount = zenMode ? 1 : 10;
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, loadMoreCount);
+  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const subscribeToQueueCommentEntered = useSubscription(
     QueueCommentEnteredSubscription
   );
@@ -115,11 +108,6 @@ const createQueueRoute = (
 ) => {
   const enhanced = withRouteConfig<Props, any>({
     query: queueQuery,
-    prepareVariables: (params, match) => {
-      return {
-        count: match.location.query.single ? 1 : 5,
-      };
-    },
     cacheConfig: { force: true },
     render: ({ Component, data, match }) => {
       if (!Component) {

@@ -89,6 +89,10 @@
   transition: background 100ms, box-shadow 100ms;
 }
 
+.root:focus {
+  outline: none;
+}
+
 .dangling {
   background-color: var(--palette-grey-lightest);
   box-shadow: none;
@@ -163,8 +167,4 @@
 
 .selected {
   box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.25);
-}
-
-.authorStatus {
-  padding-right: var(--spacing-2);
 }

@@ -1,6 +1,6 @@
 import { HOTKEYS } from "coral-admin/constants";
 import { Localized } from "fluent-react/compat";
-import { useRouter } from "found";
+import { Match, Router, withRouter } from "found";
 import key from "keymaster";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 
@@ -14,6 +14,8 @@ interface Props {
   reportedCount?: number;
   pendingCount?: number;
   storyID?: string | null;
+  router: Router;
+  match: Match;
 }
 
 const Navigation: FunctionComponent<Props> = ({
@@ -21,9 +23,9 @@ const Navigation: FunctionComponent<Props> = ({
   reportedCount,
   pendingCount,
   storyID,
+  router,
+  match,
 }) => {
-  const { match, router } = useRouter();
-
   const moderationLinks = useMemo(() => {
     return [
       getModerationLink("reported", storyID),
@@ -52,6 +54,9 @@ const Navigation: FunctionComponent<Props> = ({
     }
     return () => {
       key.unbind(HOTKEYS.SWITCH_QUEUE);
+      for (let i = 0; i < moderationLinks.length; i++) {
+        key.unbind(`${i + 1}`);
+      }
     };
   }, [match]);
 
@@ -100,4 +105,4 @@ const Navigation: FunctionComponent<Props> = ({
   );
 };
 
-export default Navigation;
+export default withRouter(Navigation);

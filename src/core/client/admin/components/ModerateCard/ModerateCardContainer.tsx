@@ -44,8 +44,8 @@ interface Props {
   mini?: boolean;
   hideUsername?: boolean;
   onUsernameClicked?: (userID: string) => void;
-  onSetSelected: () => void;
-  selected: boolean;
+  onSetSelected?: () => void;
+  selected?: boolean;
   selectPrev?: () => void;
   selectNext?: () => void;
   loadNext?: (() => void) | null;
@@ -169,7 +169,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   );
 
   const onFocusOrClick = useCallback(() => {
-    setSelected();
+    if (setSelected) {
+      setSelected();
+    }
   }, [selected, comment]);
 
   const handleBanModalClose = useCallback(() => {
@@ -190,7 +192,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     async (message: string) => {
       if (comment.author) {
         await banUser({ userID: comment.author.id, message });
-        // handleReject();
       }
       setShowBanModal(false);
     },
@@ -298,6 +299,7 @@ const enhanced = withFragmentContainer<Props>({
       deleted
       ...MarkersContainer_comment
       ...ModeratedByContainer_comment
+      ...CommentAuthorContainer_comment
     }
   `,
   settings: graphql`

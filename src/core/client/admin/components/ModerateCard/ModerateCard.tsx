@@ -1,7 +1,5 @@
 import cn from "classnames";
-import { ModerateCardContainer_comment } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
 import { HOTKEYS } from "coral-admin/constants";
-import { GQLUSER_STATUS } from "coral-framework/schema";
 import { Localized } from "fluent-react/compat";
 import key from "keymaster";
 import React, {
@@ -17,13 +15,13 @@ import {
   Card,
   Flex,
   HorizontalGutter,
-  Tag,
   TextLink,
   Timestamp,
   Typography,
 } from "coral-ui/components";
 
 import ApproveButton from "./ApproveButton";
+import CommentAuthorContainer from "./CommentAuthorContainer";
 import CommentContent from "./CommentContent";
 import FeatureButton from "./FeatureButton";
 import InReplyTo from "./InReplyTo";
@@ -42,7 +40,8 @@ interface Props {
     id: string;
     username: string | null;
   } | null;
-  comment: ModerateCardContainer_comment;
+  comment: PropTypesOf<typeof MarkersContainer>["comment"] &
+    PropTypesOf<typeof CommentAuthorContainer>["comment"];
   settings: PropTypesOf<typeof MarkersContainer>["settings"];
   status: "approved" | "rejected" | "undecided";
   featured: boolean;
@@ -61,7 +60,7 @@ interface Props {
   onFocusOrClick: () => void;
   mini?: boolean;
   hideUsername?: boolean;
-  selected: boolean;
+  selected?: boolean;
   /**
    * If set to true, it means this comment is about to be removed
    * from the queue. This will trigger some styling changes to
@@ -115,11 +114,11 @@ const ModerateCard: FunctionComponent<Props> = ({
       if (selectPrev) {
         key(HOTKEYS.PREV, id, selectPrev);
       }
-      key(HOTKEYS.APPROVE, id, onApprove);
-      key(HOTKEYS.REJECT, id, onReject);
       if (onBan) {
         key(HOTKEYS.BAN, id, onBan);
       }
+      key(HOTKEYS.APPROVE, id, onApprove);
+      key(HOTKEYS.REJECT, id, onReject);
       key.setScope(id);
       return () => {
         key.deleteScope(id);
@@ -184,7 +183,8 @@ const ModerateCard: FunctionComponent<Props> = ({
                   <Username>{username}</Username>
                 </BaseButton>
               )}
-              <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
+              <CommentAuthorContainer comment={comment} />
+              <Timestamp>{createdAt}</Timestamp>
               <FeatureButton
                 featured={featured}
                 onClick={onFeature}
