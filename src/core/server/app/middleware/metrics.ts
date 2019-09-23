@@ -20,12 +20,14 @@ export const metricsRecorder = ({
       // Increment the request counter.
       httpRequestsTotal.labels(`${res.statusCode}`, req.method).inc();
 
-      // Add the request duration.
-      httpRequestDurationMilliseconds
-        .labels(req.method, req.baseUrl + req.path)
-        .observe(responseTime);
+      // Only compute the request path when status code isn't 404 to avoid flood
+      if (res.statusCode !== 404) {
+        // Add the request duration.
+        httpRequestDurationMilliseconds
+          .labels(req.method, req.baseUrl + req.path)
+          .observe(responseTime);
+      }
     });
-
     next();
   };
 };
