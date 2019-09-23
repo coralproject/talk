@@ -1,5 +1,8 @@
-import { Db } from "mongodb";
+import { OperationTypeNode } from "graphql";
+import { Db, MongoError } from "mongodb";
 
+import { waitFor } from "coral-common/helpers";
+import logger from "coral-server/logger";
 import {
   createCollection,
   createIndexFactory,
@@ -9,7 +12,7 @@ const collection = createCollection<Readonly<PersistedQuery>>("queries");
 
 export interface PersistedQuery {
   id: string;
-  operation: string;
+  operation: OperationTypeNode;
   operationName: string;
   query: string;
   bundle: string;
@@ -23,7 +26,11 @@ export async function createQueriesIndexes(mongo: Db) {
   await createIndex({ id: 1 }, { unique: true });
 }
 
-export async function primeQueries(mongo: Db, queries: PersistedQuery[]) {
+export async function primeQueries(
+  mongo: Db,
+  queries: PersistedQuery[],
+  tries = 1
+) {
   // Setup persisting these queries.
   const bulk = collection(mongo).initializeUnorderedBulkOp({});
 
@@ -38,8 +45,31 @@ export async function primeQueries(mongo: Db, queries: PersistedQuery[]) {
       .replaceOne(query);
   }
 
-  // Execute the bulk operations.
-  await bulk.execute();
+  try {
+    // Execute the bulk operations.
+    await bulk.execute({ w: "majority" });
+
+    return;
+  } catch (err) {
+    if (err instanceof MongoError && err.code === 11000) {
+      if (tries > 2) {
+        logger.warn(
+          { err, tries },
+          "duplicate error on inserting persisted queries after maximum tries reached"
+        );
+        return;
+      }
+
+      // Wait for 500ms before trying again.
+      await waitFor(500);
+
+      // Retry the priming operation.
+      await primeQueries(mongo, queries, tries + 1);
+    }
+
+    // An error unrelated to duplicate indexes was thrown, just rethrow it.
+    throw err;
+  }
 }
 
 export async function getQueries(mongo: Db, ids: string[]) {

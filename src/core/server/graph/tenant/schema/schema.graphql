@@ -422,7 +422,6 @@ type LocalAuthIntegration {
   integration should be displayed in all targets.
   """
   targetFilter: AuthenticationTargetFilter!
-
 }
 
 ##########################
@@ -442,13 +441,6 @@ type SSOAuthIntegration {
   before with this authentication integration to sign up.
   """
   allowRegistration: Boolean!
-
-  """
-  redirectURL is the URL that the user should be redirected to in order to start
-  an authentication flow with the given integration. This field is not stored,
-  and is instead computed from the Tenant.
-  """
-  redirectURL: String
 
   """
   targetFilter will restrict where the authentication integration should be
@@ -5329,6 +5321,16 @@ type CommentFeaturedPayload {
   comment: Comment!
 }
 
+"""
+CommentReleasedPayload is returned when a new top level Comment is approved from premod stream
+"""
+type CommentReleasedPayload {
+  """
+  comment is the new top level Comment that was approved on the Story.
+  """
+  comment: Comment!
+}
+
 type Subscription {
   """
   commentEnteredModerationQueue returns when a Comment enters a ModerationQueue.
@@ -5361,6 +5363,11 @@ type Subscription {
   """
   commentCreated(storyID: ID!): CommentCreatedPayload!
 
+  """
+  commentReleased returns when a Comment on a premoderated stream is approved
+  """
+  commentReleased(storyID: ID!): CommentReleasedPayload!
+  
   """
   commentReplyCreated returns when a Comment is posted in the ancestor chain of
   comments.

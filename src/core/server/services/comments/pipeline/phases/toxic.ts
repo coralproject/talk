@@ -32,7 +32,7 @@ export const toxic: IntermediateModerationPhase = async ({
     return;
   }
 
-  const log = logger.child({ tenantID: tenant.id });
+  const log = logger.child({ tenantID: tenant.id }, true);
 
   const integration = tenant.integrations.perspective;
 

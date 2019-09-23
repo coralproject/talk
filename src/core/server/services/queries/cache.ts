@@ -2,7 +2,7 @@ import DataLoader from "dataloader";
 import LRU from "lru-cache";
 import { Db } from "mongodb";
 
-import { loadPersistedQueries } from "coral-server/graph/tenant/persisted";
+import { loadPersistedQueries } from "coral-server/graph/common/persisted";
 import logger from "coral-server/logger";
 import {
   getQueries,

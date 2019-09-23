@@ -34,11 +34,12 @@ import {
   clearDeletionDate,
   consolidateUserBanStatus,
   consolidateUserSuspensionStatus,
+  createUser,
   createUserToken,
   deactivateUserToken,
+  findOrCreateUser,
+  FindOrCreateUserInput,
   ignoreUser,
-  insertUser,
-  InsertUserInput,
   NotificationSettingsInput,
   removeActiveUserSuspensions,
   removeUserBan,
@@ -76,28 +77,65 @@ import {
 } from "./download/token";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
-export type InsertUser = InsertUserInput;
-
-/**
- * insert will upsert the User into the database for the Tenant.
- *
- * @param mongo mongo database to interact with
- * @param tenant Tenant where the User will be added to
- * @param input the input for creating the User
- */
-export async function insert(
-  mongo: Db,
-  tenant: Tenant,
-  input: InsertUser,
-  now = new Date()
-) {
+function validateFindOrCreateUserInput(input: FindOrCreateUser) {
   if (input.username) {
     validateUsername(input.username);
   }
 
   if (input.email) {
     validateEmail(input.email);
+  }
 
+  const localProfile = getLocalProfile({ profiles: [input.profile] });
+  if (localProfile) {
+    validateEmail(localProfile.id);
+    validatePassword(localProfile.password);
+
+    if (input.email !== localProfile.id) {
+      throw new Error("email addresses don't match profile");
+    }
+  }
+}
+
+export type FindOrCreateUser = FindOrCreateUserInput;
+
+export async function findOrCreate(
+  mongo: Db,
+  tenant: Tenant,
+  input: FindOrCreateUser,
+  now: Date
+) {
+  // Validate the input.
+  validateFindOrCreateUserInput(input);
+
+  const user = await findOrCreateUser(mongo, tenant.id, input, now);
+
+  // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
+
+  return user;
+}
+
+export type CreateUser = FindOrCreateUserInput;
+
+export async function create(
+  mongo: Db,
+  tenant: Tenant,
+  input: CreateUser,
+  now: Date
+) {
+  // Validate the input.
+  validateFindOrCreateUserInput(input);
+
+  if (input.id) {
+    // Try to check to see if there is a user with the same ID before we try to
+    // create the user again.
+    const alreadyFoundUser = await retrieveUser(mongo, tenant.id, input.id);
+    if (alreadyFoundUser) {
+      throw new DuplicateUserError();
+    }
+  }
+
+  if (input.email) {
     // Try to lookup the user to see if this user already has an account if they
     // do, we can short circuit the database index hit.
     const alreadyFoundUser = await retrieveUserWithEmail(
@@ -110,37 +148,9 @@ export async function insert(
     }
   }
 
-  if (input.id) {
-    // Try to check to see if there is a user with the same ID before we try to
-    // create the user again.
-    const alreadyFoundUser = await retrieveUser(mongo, tenant.id, input.id);
-    if (alreadyFoundUser) {
-      throw new DuplicateUserError();
-    }
-  }
+  const user = await createUser(mongo, tenant.id, input, now);
 
-  const localProfile = getLocalProfile(input);
-  if (localProfile) {
-    validateEmail(localProfile.id);
-    validatePassword(localProfile.password);
-
-    if (input.email !== localProfile.id) {
-      throw new Error("email addresses don't match profile");
-    }
-  }
-
-  const user = await insertUser(mongo, tenant.id, input, now);
-
-  // // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
-  // if (localProfile && user.email) {
-  //   if (mailer) {
-  //     // // Send the email confirmation email.
-  //     // await sendConfirmationEmail(mongo, mailer, tenant, user, user.email);
-  //   } else {
-  //     // FIXME: (wyattjoh) extract the local profile based inserts into another function.
-  //     throw new Error("local profile was provided, but the mailer was not");
-  //   }
-  // }
+  // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
 
   return user;
 }

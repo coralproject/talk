@@ -6,6 +6,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   COMMENT_NOT_FOUND: "error-commentNotFound",
   COMMENTING_DISABLED: "error-commentingDisabled",
   DUPLICATE_EMAIL: "error-duplicateEmail",
+  DUPLICATE_STORY_ID: "error-duplicateStoryID",
   DUPLICATE_STORY_URL: "error-duplicateStoryURL",
   DUPLICATE_USER: "error-duplicateUser",
   EMAIL_ALREADY_SET: "error-emailAlreadySet",

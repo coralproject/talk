@@ -44,12 +44,16 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     }
     approve({ commentID: comment.id, commentRevisionID: comment.revision.id });
   }, [approve, comment]);
-  const onReject = useCallback(() => {
+  const onReject = useCallback(async () => {
     if (!comment.revision) {
       return;
     }
-    reject({ commentID: comment.id, commentRevisionID: comment.revision.id });
-  }, [approve, comment]);
+    await reject({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID: story.id,
+    });
+  }, [approve, comment, story]);
   const onFeature = useCallback(() => {
     if (!comment.revision) {
       return;

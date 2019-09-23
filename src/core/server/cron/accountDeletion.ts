@@ -39,7 +39,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
 }) => {
   // For each of the tenant's, process their users notifications.
   for await (const tenant of tenantCache) {
-    log = log.child({ tenantID: tenant.id });
+    log = log.child({ tenantID: tenant.id }, true);
 
     while (true) {
       const now = new Date();
@@ -77,6 +77,8 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
             },
           },
         });
+      } else {
+        log.info({ userID: user.id }, "user did not have an email address");
       }
     }
   }
