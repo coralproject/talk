@@ -57,6 +57,21 @@ export function publishCommentCreated(
   }
 }
 
+export function publishCommentReleased(
+  publish: Publisher,
+  comment: Pick<Comment, "id" | "storyID" | "parentID" | "status">
+) {
+  if (!comment.parentID && hasPublishedStatus(comment)) {
+    publish({
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_RELEASED,
+      payload: {
+        commentID: comment.id,
+        storyID: comment.storyID,
+      },
+    });
+  }
+}
+
 export function publishCommentFeatured(
   publish: Publisher,
   comment: Pick<Comment, "id" | "status" | "storyID">

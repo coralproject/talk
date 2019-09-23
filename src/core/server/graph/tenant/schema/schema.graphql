@@ -5321,6 +5321,16 @@ type CommentFeaturedPayload {
   comment: Comment!
 }
 
+"""
+CommentReleasedPayload is returned when a new top level Comment is approved from premod stream
+"""
+type CommentReleasedPayload {
+  """
+  comment is the new top level Comment that was approved on the Story.
+  """
+  comment: Comment!
+}
+
 type Subscription {
   """
   commentEnteredModerationQueue returns when a Comment enters a ModerationQueue.
@@ -5353,6 +5363,11 @@ type Subscription {
   """
   commentCreated(storyID: ID!): CommentCreatedPayload!
 
+  """
+  commentReleased returns when a Comment on a premoderated stream is approved
+  """
+  commentReleased(storyID: ID!): CommentReleasedPayload!
+  
   """
   commentReplyCreated returns when a Comment is posted in the ancestor chain of
   comments.
