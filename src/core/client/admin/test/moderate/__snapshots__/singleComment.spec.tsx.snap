@@ -36,6 +36,7 @@ exports[`approves single comment 1`] = `
               Isabelle
             </span>
           </button>
+          ;
           <button
             className="BaseButton-root Timestamp-root"
             onBlur={[Function]}
@@ -47,7 +48,7 @@ exports[`approves single comment 1`] = `
             type="button"
           >
             <time
-              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              className="RelativeTime-root Timestamp-text"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -244,6 +245,7 @@ exports[`rejects single comment 1`] = `
               Isabelle
             </span>
           </button>
+          ;
           <button
             className="BaseButton-root Timestamp-root"
             onBlur={[Function]}
@@ -255,7 +257,7 @@ exports[`rejects single comment 1`] = `
             type="button"
           >
             <time
-              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              className="RelativeTime-root Timestamp-text"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -487,6 +489,7 @@ exports[`renders single comment view 1`] = `
                       Isabelle
                     </span>
                   </button>
+                  ;
                   <button
                     className="BaseButton-root Timestamp-root"
                     onBlur={[Function]}
@@ -498,7 +501,7 @@ exports[`renders single comment view 1`] = `
                     type="button"
                   >
                     <time
-                      className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                      className="RelativeTime-root Timestamp-text"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >
