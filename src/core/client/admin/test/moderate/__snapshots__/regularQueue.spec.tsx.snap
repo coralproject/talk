@@ -49,6 +49,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
               Isabelle
             </span>
           </button>
+          ;
           <button
             className="BaseButton-root Timestamp-root"
             onBlur={[Function]}
@@ -60,7 +61,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
             type="button"
           >
             <time
-              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              className="RelativeTime-root Timestamp-text"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -291,6 +292,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
               Isabelle
             </span>
           </button>
+          ;
           <button
             className="BaseButton-root Timestamp-root"
             onBlur={[Function]}
@@ -302,7 +304,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
             type="button"
           >
             <time
-              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              className="RelativeTime-root Timestamp-text"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -530,6 +532,7 @@ exports[`renders reported queue with comments 1`] = `
                     Isabelle
                   </span>
                 </button>
+                ;
                 <button
                   className="BaseButton-root Timestamp-root"
                   onBlur={[Function]}
@@ -541,7 +544,7 @@ exports[`renders reported queue with comments 1`] = `
                   type="button"
                 >
                   <time
-                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    className="RelativeTime-root Timestamp-text"
                     dateTime="2018-07-06T18:24:00.000Z"
                     title="2018-07-06T18:24:00.000Z"
                   >
@@ -756,6 +759,7 @@ exports[`renders reported queue with comments 1`] = `
                     Ngoc
                   </span>
                 </button>
+                ;
                 <button
                   className="BaseButton-root Timestamp-root"
                   onBlur={[Function]}
@@ -767,7 +771,7 @@ exports[`renders reported queue with comments 1`] = `
                   type="button"
                 >
                   <time
-                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    className="RelativeTime-root Timestamp-text"
                     dateTime="2018-07-06T18:24:00.000Z"
                     title="2018-07-06T18:24:00.000Z"
                   >
@@ -998,6 +1002,7 @@ exports[`renders reported queue with comments 2`] = `
                     Isabelle
                   </span>
                 </button>
+                ;
                 <button
                   className="BaseButton-root Timestamp-root"
                   onBlur={[Function]}
@@ -1009,7 +1014,7 @@ exports[`renders reported queue with comments 2`] = `
                   type="button"
                 >
                   <time
-                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    className="RelativeTime-root Timestamp-text"
                     dateTime="2018-07-06T18:24:00.000Z"
                     title="2018-07-06T18:24:00.000Z"
                   >
@@ -1224,6 +1229,7 @@ exports[`renders reported queue with comments 2`] = `
                     Ngoc
                   </span>
                 </button>
+                ;
                 <button
                   className="BaseButton-root Timestamp-root"
                   onBlur={[Function]}
@@ -1235,7 +1241,7 @@ exports[`renders reported queue with comments 2`] = `
                   type="button"
                 >
                   <time
-                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    className="RelativeTime-root Timestamp-text"
                     dateTime="2018-07-06T18:24:00.000Z"
                     title="2018-07-06T18:24:00.000Z"
                   >
@@ -1456,6 +1462,7 @@ exports[`renders reported queue with comments and load more 1`] = `
               Max
             </span>
           </button>
+          ;
           <button
             className="BaseButton-root Timestamp-root"
             onBlur={[Function]}
@@ -1467,7 +1474,7 @@ exports[`renders reported queue with comments and load more 1`] = `
             type="button"
           >
             <time
-              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              className="RelativeTime-root Timestamp-text"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
