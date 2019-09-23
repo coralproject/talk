@@ -26,5 +26,9 @@ exports[`renders correctly 1`] = `
       className="Moderate-main"
     />
   </MainLayout>
+  <HotkeysModal
+    onClose={[Function]}
+    open={false}
+  />
 </div>
 `;
