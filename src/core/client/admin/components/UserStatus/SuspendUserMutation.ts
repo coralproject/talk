@@ -34,6 +34,7 @@ const SuspendUserMutation = createMutation(
                   active
                   history {
                     active
+                    createdAt
                     from {
                       start
                       finish
@@ -78,6 +79,7 @@ const SuspendUserMutation = createMutation(
                       id: viewer.id,
                       username: viewer.username,
                     },
+                    createdAt: now.toISOString(),
                   },
                 ],
               },

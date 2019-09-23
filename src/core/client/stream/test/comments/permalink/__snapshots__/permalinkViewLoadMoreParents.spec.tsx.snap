@@ -52,13 +52,24 @@ exports[`renders conversation thread 1`] = `
           <div
             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
           >
-            <time
-              className="RelativeTime-root Timestamp-root coral coral-timestamp coral-rootParent-timestamp"
-              dateTime="2018-07-06T18:24:00.000Z"
-              title="2018-07-06T18:24:00.000Z"
+            <button
+              className="BaseButton-root Timestamp-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
             >
-              2018-07-06T18:24:00.000Z
-            </time>
+              <time
+                className="RelativeTime-root Timestamp-text coral coral-timestamp coral-rootParent-timestamp"
+                dateTime="2018-07-06T18:24:00.000Z"
+                title="2018-07-06T18:24:00.000Z"
+              >
+                2018-07-06T18:24:00.000Z
+              </time>
+            </button>
           </div>
         </div>
       </div>
@@ -198,13 +209,24 @@ exports[`renders conversation thread 1`] = `
                     <div
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
-                      <time
-                        className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
-                        dateTime="2018-07-06T18:24:00.000Z"
-                        title="2018-07-06T18:24:00.000Z"
+                      <button
+                        className="BaseButton-root Timestamp-root"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
                       >
-                        2018-07-06T18:24:00.000Z
-                      </time>
+                        <time
+                          className="RelativeTime-root Timestamp-text coral coral-timestamp coral-comment-timestamp"
+                          dateTime="2018-07-06T18:24:00.000Z"
+                          title="2018-07-06T18:24:00.000Z"
+                        >
+                          2018-07-06T18:24:00.000Z
+                        </time>
+                      </button>
                     </div>
                   </div>
                   <div>
@@ -428,13 +450,24 @@ exports[`shows more of this conversation 1`] = `
                     <div
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
-                      <time
-                        className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
-                        dateTime="2018-07-06T18:24:00.000Z"
-                        title="2018-07-06T18:24:00.000Z"
+                      <button
+                        className="BaseButton-root Timestamp-root"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
                       >
-                        2018-07-06T18:24:00.000Z
-                      </time>
+                        <time
+                          className="RelativeTime-root Timestamp-text coral coral-timestamp coral-comment-timestamp"
+                          dateTime="2018-07-06T18:24:00.000Z"
+                          title="2018-07-06T18:24:00.000Z"
+                        >
+                          2018-07-06T18:24:00.000Z
+                        </time>
+                      </button>
                     </div>
                   </div>
                   <div>
@@ -650,13 +683,24 @@ exports[`shows more of this conversation 1`] = `
                     <div
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
-                      <time
-                        className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
-                        dateTime="2018-07-06T18:24:00.000Z"
-                        title="2018-07-06T18:24:00.000Z"
+                      <button
+                        className="BaseButton-root Timestamp-root"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
                       >
-                        2018-07-06T18:24:00.000Z
-                      </time>
+                        <time
+                          className="RelativeTime-root Timestamp-text coral coral-timestamp coral-comment-timestamp"
+                          dateTime="2018-07-06T18:24:00.000Z"
+                          title="2018-07-06T18:24:00.000Z"
+                        >
+                          2018-07-06T18:24:00.000Z
+                        </time>
+                      </button>
                     </div>
                   </div>
                   <div>
@@ -865,13 +909,24 @@ exports[`shows more of this conversation 1`] = `
                     <div
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
-                      <time
-                        className="RelativeTime-root Timestamp-root coral coral-timestamp coral-comment-timestamp"
-                        dateTime="2018-07-06T18:24:00.000Z"
-                        title="2018-07-06T18:24:00.000Z"
+                      <button
+                        className="BaseButton-root Timestamp-root"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
                       >
-                        2018-07-06T18:24:00.000Z
-                      </time>
+                        <time
+                          className="RelativeTime-root Timestamp-text coral coral-timestamp coral-comment-timestamp"
+                          dateTime="2018-07-06T18:24:00.000Z"
+                          title="2018-07-06T18:24:00.000Z"
+                        >
+                          2018-07-06T18:24:00.000Z
+                        </time>
+                      </button>
                     </div>
                   </div>
                   <div>

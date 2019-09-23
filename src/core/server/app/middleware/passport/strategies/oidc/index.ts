@@ -22,6 +22,7 @@ import { AsymmetricSigningAlgorithm } from "coral-server/services/jwt";
 import TenantCache from "coral-server/services/tenant/cache";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
 import { insert } from "coral-server/services/users";
+import { validateUsername } from "coral-server/services/users/helpers";
 import { Request } from "coral-server/types/express";
 
 export interface Params {
@@ -170,7 +171,14 @@ export async function findOrCreateOIDCUser(
     // FIXME: implement rules.
 
     // Try to extract the username from the following chain:
-    const username = preferred_username || nickname || name;
+    let username = preferred_username || nickname || name;
+    if (username) {
+      try {
+        validateUsername(username);
+      } catch (err) {
+        username = undefined;
+      }
+    }
 
     // Create the new user, as one didn't exist before!
     user = await insert(

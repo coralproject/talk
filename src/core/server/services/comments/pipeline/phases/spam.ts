@@ -22,9 +22,12 @@ export const spam: IntermediateModerationPhase = async ({
 }): Promise<IntermediatePhaseResult | void> => {
   const integration = tenant.integrations.akismet;
 
-  const log = logger.child({
-    tenantID: tenant.id,
-  });
+  const log = logger.child(
+    {
+      tenantID: tenant.id,
+    },
+    true
+  );
 
   // We can only check for spam if this comment originated from a graphql
   // request via an HTTP call.

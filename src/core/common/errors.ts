@@ -45,6 +45,12 @@ export enum ERROR_CODES {
   TOKEN_NOT_FOUND = "TOKEN_NOT_FOUND",
 
   /**
+   * DUPLICATE_STORY_ID is used when trying to create a Story with the same ID
+   * as another Story.
+   */
+  DUPLICATE_STORY_ID = "DUPLICATE_STORY_ID",
+
+  /**
    * DUPLICATE_STORY_URL is used when trying to create a Story with the same URL
    * as another Story.
    */

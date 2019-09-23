@@ -16,3 +16,36 @@ resetPassword-youMayClose =
   Agora você pode fechar esta janela e fazer login na sua conta com sua nova senha.
 resetPassword-oopsSorry = Oops Desculpe!
 resetPassword-missingResetToken = O token de redefinição parece estar faltando.
+
+
+## Email Confirmation
+
+confirmEmail-emailConfirmation = Confirmação do email
+confirmEmail-confirmEmail = Confirmar email
+confirmEmail-pleaseClickToConfirm = Clique a baixo para confirmar seu email
+confirmEmail-oopsSorry = Oops, desculpe!
+confirmEmail-missingConfirmToken = Está faltando o token de confirmação.
+confirmEmail-successfullyConfirmed = Email confirmado com sucesso
+confirmEmail-youMayClose =
+  Agora você pode fechar esta janela
+
+## Download
+
+download-landingPage-title = Faça o download do seu histórico de comentários
+download-landingPage-description =
+  Seu histórico de comentários será salvo em um arquivo .zip. Depois que o seu
+  arquivo for descompactado, você terá um aquivo de valor separado por vírgula
+  (ou .csv), que você importar facilmente nas suas planilhas favoritas.
+download-landingPage-contentsDescription =
+  Para cada um dos seus comentários, as seguintes informações serão inseridas:
+download-landingPage-contentsDate =
+  Quando você escreveu o comentário
+download-landingPage-contentsUrl =
+  O link permanente da URL para o seu comentário
+download-landingPage-contentsText =
+  O texto comentado
+download-landingPage-contentsStoryUrl =
+  A URL no artigo ou na história onde o comentário aparece
+download-landingPage-downloadComments =
+  Fazer o download do meu histórico de comentário
+download-landingPage-sorry = Seu link de download é inválido

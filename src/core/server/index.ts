@@ -99,6 +99,10 @@ class Server {
   // signingConfig is the server reference to the signing configuration.
   private signingConfig: JWTSigningConfig;
 
+  // persistedQueryCache is the cache of persisted queries used by the GraphQL
+  // server to handle persisted queries.
+  private persistedQueryCache: PersistedQueryCache;
+
   constructor(options: ServerOptions) {
     this.parentApp = express();
 
@@ -149,6 +153,9 @@ class Server {
       config
     );
 
+    // Load and upsert the persisted queries.
+    this.persistedQueryCache = new PersistedQueryCache({ mongo: this.mongo });
+
     // Prime the tenant cache so it'll be ready to serve now.
     await this.tenantCache.primeAll();
 
@@ -189,6 +196,9 @@ class Server {
     } else {
       logger.warn("mongodb autoindexing is disabled, skipping indexing");
     }
+
+    // Prime the queries in the database.
+    await this.persistedQueryCache.prime();
 
     // Launch all of the job processors.
     this.tasks.mailer.process();
@@ -282,12 +292,6 @@ class Server {
     // Webpack Dev Server.
     const disableClientRoutes = this.config.get("disable_client_routes");
 
-    // Load and upsert the persisted queries.
-    const persistedQueryCache = new PersistedQueryCache({ mongo: this.mongo });
-
-    // Prime the queries in the database.
-    await persistedQueryCache.prime();
-
     const options: AppOptions = {
       parent,
       pubsub: this.pubsub,
@@ -302,7 +306,7 @@ class Server {
       scraperQueue: this.tasks.scraper,
       notifierQueue: this.tasks.notifier,
       disableClientRoutes,
-      persistedQueryCache,
+      persistedQueryCache: this.persistedQueryCache,
       persistedQueriesRequired:
         this.config.get("env") === "production" &&
         !this.config.get("enable_graphiql"),

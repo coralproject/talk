@@ -1,6 +1,7 @@
 // tslint:disable:max-classes-per-file
 
 import { FluentBundle } from "fluent/compat";
+import { MongoError } from "mongodb";
 import uuid from "uuid";
 import { VError } from "verror";
 
@@ -280,9 +281,23 @@ export class EmailNotSetError extends CoralError {
   }
 }
 
+export class DuplicateStoryIDError extends CoralError {
+  constructor(cause: MongoError, id: string, url?: string) {
+    super({
+      cause,
+      code: ERROR_CODES.DUPLICATE_STORY_ID,
+      context: { pvt: { id, url } },
+    });
+  }
+}
+
 export class DuplicateStoryURLError extends CoralError {
-  constructor(url: string) {
-    super({ code: ERROR_CODES.DUPLICATE_STORY_URL, context: { pvt: { url } } });
+  constructor(cause: MongoError, url: string, id?: string) {
+    super({
+      cause,
+      code: ERROR_CODES.DUPLICATE_STORY_URL,
+      context: { pvt: { id, url } },
+    });
   }
 }
 
