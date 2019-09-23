@@ -693,13 +693,13 @@ exports[`renders story info 1`] = `
                 Story
               </span>
             </Localized>
-            : 
+            :
             <span
               className="ModerateCard-storyTitle"
             >
               Cancer cured!
             </span>
-             
+
             <Localized
               id="moderate-comment-moderateStory"
             >
