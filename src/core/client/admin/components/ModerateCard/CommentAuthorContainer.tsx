@@ -24,7 +24,6 @@ const CommentAuthorContainer: FunctionComponent<Props> = ({ comment }) => {
             </div>
           </Localized>
         )}
-      ;
     </>
   );
 };

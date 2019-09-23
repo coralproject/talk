@@ -112,6 +112,14 @@ const HotkeysModal: FunctionComponent<Props> = ({ open, onClose }) => {
                     <Typography>Reject</Typography>
                   </Localized>
                 </Flex>
+                <Flex>
+                  <div className={styles.hotKeyContainer}>
+                    <div className={styles.hotKey}>b</div>
+                  </div>
+                  <Localized id="hotkeysModal-shortcuts-ban">
+                    <Typography>Ban comment author</Typography>
+                  </Localized>
+                </Flex>
               </HorizontalGutter>
             </Flex>
           </HorizontalGutter>
