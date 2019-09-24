@@ -112,9 +112,6 @@ const enhanced = withFragmentContainer<Props>({
           additionalDetails
         }
       }
-      editing {
-        edited
-      }
       revision {
         metadata {
           perspective {
