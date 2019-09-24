@@ -77,7 +77,7 @@ const ConfigureQuery: FunctionComponent<Props> = ({
   <QueryRenderer<QueryTypes>
     query={graphql`
       query ConfigureQuery($storyID: ID, $storyURL: String) {
-        story(id: $storyID, url: $storyURL) {
+        story: stream(id: $storyID, url: $storyURL) {
           ...ConfigureContainer_story
         }
         viewer {
