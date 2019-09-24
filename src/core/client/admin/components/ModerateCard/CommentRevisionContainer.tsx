@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { CommentRevisionContainer_comment as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
 import { CommentRevisionContainer_settings as SettingsData } from "coral-admin/__generated__/CommentRevisionContainer_settings.graphql";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { HorizontalGutter, Timestamp, Typography } from "coral-ui/components";
+import { HorizontalGutter, Timestamp } from "coral-ui/components";
 
 import CommentContent from "./CommentContent";
 
@@ -19,6 +19,8 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({
   return (
     <HorizontalGutter>
       {comment.revisionHistory
+        .concat()
+        .reverse()
         .filter(c =>
           comment && comment.revision && comment.revision.id
             ? comment.revision.id !== c.id
