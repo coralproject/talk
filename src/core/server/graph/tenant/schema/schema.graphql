@@ -916,6 +916,23 @@ type EmailConfiguration {
 }
 
 ################################################################################
+## Slack Configuration
+################################################################################
+
+type SlackChannelTriggers {
+  allComments: Boolean
+  reportedComments: Boolean
+  pendingComments: Boolean
+  featuredComments: Boolean
+}
+
+type SlackChannel {
+  enabled: Boolean
+  hookURL: String
+  triggers: SlackChannelTriggers
+}
+
+################################################################################
 ## ReactionConfiguration
 ################################################################################
 
@@ -1195,6 +1212,11 @@ type Settings {
   email is the set of credentials and settings associated with the organization.
   """
   email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  slack is the set of Slack channels configured to receive comments
+  """
+  slackChannels: [SlackChannel] @auth(roles: [ADMIN, MODERATOR])
 
   """
   wordList will return a given list of words.

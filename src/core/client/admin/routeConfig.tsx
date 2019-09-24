@@ -14,6 +14,7 @@ import {
   GeneralConfigRoute,
   ModerationConfigRoute,
   OrganizationConfigRoute,
+  SlackConfigRoute,
   WordListConfigRoute,
 } from "./routes/Configure/sections";
 import ForgotPasswordRoute from "./routes/ForgotPassword";
@@ -74,6 +75,7 @@ export default makeRouteConfig(
             <Route path="auth" {...AuthConfigRoute.routeConfig} />
             <Route path="advanced" {...AdvancedConfigRoute.routeConfig} />
             <Route path="email" {...EmailConfigRoute.routeConfig} />
+            <Route path="slack" {...SlackConfigRoute.routeConfig} />
           </Route>
         </Route>
       </Route>
