@@ -35,6 +35,9 @@ it("renders all markers", () => {
         },
       },
     },
+    editing: {
+      edited: false,
+    },
     settings: {
       integrations: {
         perspective: {
