@@ -50,7 +50,7 @@ Preview Coral easily by running Coral via a Heroku App:
 You can install Coral using Docker or via Source. We recommend Docker, as it
 provides the easiest deployment solution going forward, as all the dependencies
 are baked and shipped with the provided
-[coralproject/talk:next](https://hub.docker.com/r/coralproject/talk) image.
+[coralproject/talk:5](https://hub.docker.com/r/coralproject/talk) image.
 When v5 releases to master, you'll be able to select it using
 `coralproject/talk:5`.
 
