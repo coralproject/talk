@@ -38,9 +38,6 @@ it("renders all markers", () => {
         },
       },
     },
-    editing: {
-      edited: false,
-    },
     settings: {
       integrations: {
         perspective: {
@@ -59,6 +56,9 @@ it("renders some markers", () => {
   const props: PropTypesOf<typeof MarkersContainerN> = {
     comment: {
       status: "PREMOD",
+      editing: {
+        edited: false,
+      },
       revision: {
         actionCounts: {
           flag: {
