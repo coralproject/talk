@@ -36,7 +36,6 @@ exports[`approves single comment 1`] = `
               Isabelle
             </span>
           </button>
-          ;
           <button
             className="BaseButton-root Timestamp-root"
             onBlur={[Function]}
@@ -245,7 +244,6 @@ exports[`rejects single comment 1`] = `
               Isabelle
             </span>
           </button>
-          ;
           <button
             className="BaseButton-root Timestamp-root"
             onBlur={[Function]}
@@ -489,7 +487,6 @@ exports[`renders single comment view 1`] = `
                       Isabelle
                     </span>
                   </button>
-                  ;
                   <button
                     className="BaseButton-root Timestamp-root"
                     onBlur={[Function]}
