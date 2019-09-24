@@ -119,13 +119,13 @@ exports[`approves comment in rejected queue: dangling 1`] = `
             >
               Story
             </span>
-            : 
+            :
             <span
               className="ModerateCard-storyTitle"
             >
               Finally a Cure for Cancer
             </span>
-             
+
             <a
               className="TextLink-root ModerateCard-link"
               href="/admin/moderate/story-1"
@@ -146,7 +146,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
                 <span>
                   Spam
                 </span>
-                 
+
                 <span
                   className="Count-root"
                 >
@@ -251,7 +251,8 @@ exports[`renders rejected queue with comments 1`] = `
     className="Moderate-main"
   >
     <div
-      className="Box-root HorizontalGutter-root Queue-root HorizontalGutter-double"
+      className="Box-root Flex-root Flex-flex Flex-justifyCenter"
+      data-testid="loading-moderate-container"
     >
       <div
         className="Card-root ModerateCard-root ModerateCard-selected"
@@ -358,13 +359,13 @@ exports[`renders rejected queue with comments 1`] = `
                   >
                     Story
                   </span>
-                  : 
+                  :
                   <span
                     className="ModerateCard-storyTitle"
                   >
                     Finally a Cure for Cancer
                   </span>
-                   
+
                   <a
                     className="TextLink-root ModerateCard-link"
                     href="/admin/moderate/story-1"
@@ -385,7 +386,7 @@ exports[`renders rejected queue with comments 1`] = `
                       <span>
                         Spam
                       </span>
-                       
+
                       <span
                         className="Count-root"
                       >
@@ -584,13 +585,13 @@ exports[`renders rejected queue with comments 1`] = `
                   >
                     Story
                   </span>
-                  : 
+                  :
                   <span
                     className="ModerateCard-storyTitle"
                   >
                     Finally a Cure for Cancer
                   </span>
-                   
+
                   <a
                     className="TextLink-root ModerateCard-link"
                     href="/admin/moderate/story-1"
@@ -611,7 +612,7 @@ exports[`renders rejected queue with comments 1`] = `
                       <span>
                         Offensive
                       </span>
-                       
+
                       <span
                         className="Count-root"
                       >
@@ -816,13 +817,13 @@ exports[`renders rejected queue with comments and load more 1`] = `
             >
               Story
             </span>
-            : 
+            :
             <span
               className="ModerateCard-storyTitle"
             >
               Finally a Cure for Cancer
             </span>
-             
+
             <a
               className="TextLink-root ModerateCard-link"
               href="/admin/moderate/story-1"
@@ -843,7 +844,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 <span>
                   Offensive
                 </span>
-                 
+
                 <span
                   className="Count-root"
                 >
@@ -856,7 +857,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 <span>
                   Spam
                 </span>
-                 
+
                 <span
                   className="Count-root"
                 >
