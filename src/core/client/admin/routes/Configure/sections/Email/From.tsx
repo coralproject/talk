@@ -2,7 +2,11 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import {
+  colorFromMeta,
+  parseEmptyAsNull,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import { validateEmail } from "coral-framework/lib/validation";
 import {
   FieldSet,
@@ -28,7 +32,7 @@ const From: FunctionComponent<Props> = ({ disabled }) => (
           Name as it will appear on all outgoing emails
         </InputDescription>
       </Localized>
-      <Field name="email.fromName">
+      <Field name="email.fromName" parse={parseEmptyAsNull}>
         {({ input, meta }) => (
           <>
             <TextField
@@ -51,7 +55,11 @@ const From: FunctionComponent<Props> = ({ disabled }) => (
           Email address that will be used to send messages
         </InputDescription>
       </Localized>
-      <Field name="email.fromEmail" validate={validateEmail}>
+      <Field
+        name="email.fromEmail"
+        parse={parseEmptyAsNull}
+        validate={validateEmail}
+      >
         {({ input, meta }) => (
           <>
             <TextField

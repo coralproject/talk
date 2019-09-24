@@ -14,7 +14,7 @@ import {
   FacebookProfile,
   retrieveUserWithProfile,
 } from "coral-server/models/user";
-import { insert } from "coral-server/services/users";
+import { findOrCreate } from "coral-server/services/users";
 
 export type FacebookStrategyOptions = OAuth2StrategyOptions;
 
@@ -72,7 +72,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
         emailVerified = false;
       }
 
-      user = await insert(
+      user = await findOrCreate(
         this.mongo,
         tenant,
         {
@@ -80,7 +80,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
           email,
           emailVerified,
           avatar,
-          profiles: [profile],
+          profile,
         },
         now
       );

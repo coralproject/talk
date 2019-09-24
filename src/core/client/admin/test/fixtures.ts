@@ -58,6 +58,7 @@ export const settings = createFixture<GQLSettings>({
   },
   email: {
     enabled: true,
+    smtp: {},
   },
   customCSSURL: "",
   allowedDomains: ["http://localhost:8080"],

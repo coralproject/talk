@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { colorFromMeta } from "coral-framework/lib/form";
+import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   Condition,
@@ -90,6 +90,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
           </Localized>
           <Field
             name="integrations.akismet.site"
+            parse={parseEmptyAsNull}
             validate={validateWhen(isEnabled, required)}
           >
             {({ input, meta }) => (

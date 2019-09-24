@@ -106,7 +106,7 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
             name="recentCommentHistory.triggerRejectionRate"
             parse={parsePercentage}
             format={formatPercentage}
-            validate={validatePercentage(0, 1)}
+            validate={composeValidators(required, validatePercentage(0, 1))}
           >
             {({ input, meta }) => (
               <>

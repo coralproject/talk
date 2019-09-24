@@ -9,14 +9,14 @@ import { TenantInstalledAlreadyError } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "coral-server/models/user";
 import { install, InstallTenant } from "coral-server/services/tenant";
-import { insert, InsertUser } from "coral-server/services/users";
+import { create, CreateUser } from "coral-server/services/users";
 import { RequestHandler } from "coral-server/types/express";
 
 export interface TenantInstallBody {
   tenant: Omit<InstallTenant, "domain" | "locale"> & {
     locale: LanguageCode | null;
   };
-  user: Required<Pick<InsertUser, "username" | "email"> & { password: string }>;
+  user: Required<Pick<CreateUser, "username" | "email"> & { password: string }>;
 }
 
 const TenantInstallBodySchema = Joi.object().keys({
@@ -120,13 +120,13 @@ export const installHandler = ({
     };
 
     // Create the first admin user.
-    await insert(
+    await create(
       mongo,
       tenant,
       {
         email,
         username,
-        profiles: [profile],
+        profile,
         role: GQLUSER_ROLE.ADMIN,
       },
       req.coral.now

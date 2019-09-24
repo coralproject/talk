@@ -468,29 +468,32 @@ function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
 
-export type InsertUserInput = Omit<
-  User,
-  | "id"
-  | "tenantID"
-  | "tokens"
-  | "status"
-  | "ignoredUsers"
-  | "notifications"
-  | "digests"
-  | "emailVerificationID"
-  | "createdAt"
-> &
-  Partial<Pick<User, "id">>;
+export interface FindOrCreateUserInput {
+  id?: string;
+  username?: string;
+  avatar?: string;
+  email?: string;
+  badges?: string[];
+  emailVerified?: boolean;
+  role: GQLUSER_ROLE;
+  profile: Profile;
+}
 
-export async function insertUser(
-  mongo: Db,
+/**
+ * findOrCreateUserInput converts the FindOrCreateUserInput input into aUse.
+ *
+ * @param tenantID ID of the Tenant to create the user for
+ * @param input the input for creating a User
+ * @param now the current date
+ */
+async function findOrCreateUserInput(
   tenantID: string,
-  { id = uuid.v4(), ...input }: InsertUserInput,
-  now = new Date()
-) {
+  { id = uuid.v4(), profile, ...input }: FindOrCreateUserInput,
+  now: Date
+): Promise<Readonly<User>> {
   // default are the properties set by the application when a new user is
   // created.
-  const defaults: Sub<User, InsertUserInput> = {
+  const defaults: Sub<User, FindOrCreateUserInput> = {
     tenantID,
     tokens: [],
     ignoredUsers: [],
@@ -508,11 +511,13 @@ export async function insertUser(
       onStaffReplies: false,
       digestFrequency: GQLDIGEST_FREQUENCY.NONE,
     },
+    profiles: [],
     digests: [],
     createdAt: now,
   };
 
   if (input.username) {
+    // Add the username history to the user.
     defaults.status.username.history.push({
       id: uuid.v4(),
       username: input.username,
@@ -521,39 +526,54 @@ export async function insertUser(
     });
   }
 
-  // Guard against empty login profiles (they need some way to login).
-  if (input.profiles.length === 0) {
-    throw new Error("users require at least one profile");
-  }
-
   // Mutate the profiles to ensure we mask handle any secrets.
-  const profiles: Profile[] = [];
-  for (let profile of input.profiles) {
-    switch (profile.type) {
-      case "local":
-        // Hash the user's password with bcrypt.
-        const password = await hashPassword(profile.password);
-        profile = {
-          ...profile,
-          password,
-        };
-        break;
-    }
-    // Save a copy.
-    profiles.push(profile);
+  switch (profile.type) {
+    case "local":
+      // Hash the user's password with bcrypt.
+      const password = await hashPassword(profile.password);
+      defaults.profiles.push({ ...profile, password });
+      break;
+    default:
+      // Push the profile onto the User.
+      defaults.profiles.push(profile);
+      break;
   }
 
   // Merge the defaults and the input together.
-  const user: Readonly<User> = {
+  return {
     ...defaults,
     ...input,
     id,
-    profiles,
   };
+}
+
+export async function findOrCreateUser(
+  mongo: Db,
+  tenantID: string,
+  input: FindOrCreateUserInput,
+  now: Date
+) {
+  const user = await findOrCreateUserInput(tenantID, input, now);
 
   try {
-    // Insert it into the database. This may throw an error.
-    await collection(mongo).insert(user);
+    await collection(mongo).findOneAndUpdate(
+      {
+        tenantID,
+        profiles: {
+          $elemMatch: {
+            id: input.profile.id,
+            type: input.profile.type,
+          },
+        },
+      },
+      { $setOnInsert: user },
+      {
+        // False to return the updated document instead of the original
+        // document.
+        returnOriginal: false,
+        upsert: true,
+      }
+    );
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate User error.
@@ -562,6 +582,37 @@ export async function insertUser(
       if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
         throw new DuplicateEmailError(input.email!);
       }
+      throw new DuplicateUserError();
+    }
+
+    throw err;
+  }
+
+  return user;
+}
+
+export type CreateUserInput = FindOrCreateUserInput;
+
+export async function createUser(
+  mongo: Db,
+  tenantID: string,
+  input: CreateUserInput,
+  now: Date
+) {
+  const user = await findOrCreateUserInput(tenantID, input, now);
+
+  try {
+    // Insert it into the database. This may throw an error.
+    await collection(mongo).insertOne(user);
+  } catch (err) {
+    // Evaluate the error, if it is in regards to violating the unique index,
+    // then return a duplicate User error.
+    if (err instanceof MongoError && err.code === 11000) {
+      // Check if duplicate index was about the email.
+      if (err.errmsg && err.errmsg.includes("tenantID_1_email_1")) {
+        throw new DuplicateEmailError(input.email!);
+      }
+
       throw new DuplicateUserError();
     }
 
@@ -581,15 +632,15 @@ export async function retrieveManyUsers(
   ids: string[]
 ) {
   const cursor = await collection(mongo).find({
+    tenantID,
     id: {
       $in: ids,
     },
-    tenantID,
   });
 
   const users = await cursor.toArray();
 
-  return ids.map(id => users.find(comment => comment.id === id) || null);
+  return ids.map(id => users.find(user => user.id === id) || null);
 }
 
 export async function retrieveUserWithProfile(

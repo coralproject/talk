@@ -8,7 +8,7 @@ import { RequestLimiter } from "coral-server/app/request/limiter";
 import { IntegrationDisabled } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile, User } from "coral-server/models/user";
-import { insert } from "coral-server/services/users";
+import { create } from "coral-server/services/users";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 import { RequestHandler } from "coral-server/types/express";
 
@@ -82,13 +82,13 @@ export const signupHandler = ({
       };
 
       // Create the new user.
-      const user = await insert(
+      const user = await create(
         mongo,
         tenant,
         {
           email,
           username,
-          profiles: [profile],
+          profile,
           // New users signing up via local auth will have the commenter role to
           // start with.
           role: GQLUSER_ROLE.COMMENTER,
