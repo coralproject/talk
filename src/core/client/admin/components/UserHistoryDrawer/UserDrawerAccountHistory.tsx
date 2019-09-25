@@ -107,17 +107,20 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       });
     });
 
-    // Merge in all the premod history items.
-    user.status.premod.history.forEach(record => {
-      history.push({
-        kind: "premod",
-        action: {
-          action: record.active ? "created" : "removed",
-        },
-        date: new Date(record.createdAt),
-        takenBy: record.createdBy ? record.createdBy.username : system,
+    // FIXME: (wyattjoh) once migration has been performed, remove check
+    if (user.status.premod) {
+      // Merge in all the premod history items.
+      user.status.premod.history.forEach(record => {
+        history.push({
+          kind: "premod",
+          action: {
+            action: record.active ? "created" : "removed",
+          },
+          date: new Date(record.createdAt),
+          takenBy: record.createdBy ? record.createdBy.username : system,
+        });
       });
-    });
+    }
 
     user.status.username.history.forEach((record, i) => {
       history.push({

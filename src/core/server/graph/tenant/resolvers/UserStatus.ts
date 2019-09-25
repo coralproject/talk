@@ -31,7 +31,8 @@ export const UserStatus: Required<
     }
 
     // If they are set to mandatory premod, then mark it.
-    if (consolidatedStatus.premod.active) {
+    // FIXME: (wyattjoh) once migration has been performed, remove check
+    if (consolidatedStatus.premod && consolidatedStatus.premod.active) {
       statuses.push(GQLUSER_STATUS.PREMOD);
     }
 
@@ -54,8 +55,17 @@ export const UserStatus: Required<
     ...user.consolidateUserSuspensionStatus(suspension),
     userID,
   }),
-  premod: ({ premod, userID }): PremodStatusInput => ({
-    ...user.consolidateUserPremodStatus(premod),
-    userID,
-  }),
+  // FIXME: (wyattjoh) once migration has been performed, return PremodStatusInput only
+  premod: ({ premod, userID }): PremodStatusInput | null => {
+    const status = user.consolidateUserPremodStatus(premod);
+    // FIXME: (wyattjoh) once migration has been performed, remove check
+    if (!status) {
+      return null;
+    }
+
+    return {
+      ...status,
+      userID,
+    };
+  },
 };

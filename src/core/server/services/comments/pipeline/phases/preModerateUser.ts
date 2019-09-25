@@ -8,7 +8,8 @@ import {
 export const premodUser: IntermediateModerationPhase = ({
   author,
 }): IntermediatePhaseResult | void => {
-  if (author.status.premod.active) {
+  // FIXME: (wyattjoh) once migration has been performed, remove check
+  if (author.status.premod && author.status.premod.active) {
     return {
       status: GQLCOMMENT_STATUS.PREMOD,
     };

@@ -295,9 +295,12 @@ export interface UserStatus {
   username: UsernameStatus;
 
   /**
-   * premod stores whether a user is set to mandatory premod and history of premod status.
+   * premod stores whether a user is set to mandatory premod and history of
+   * premod status.
+   *
+   * FIXME: (wyattjoh) set defaults during migration
    */
-  premod: PremodStatus;
+  premod?: PremodStatus;
 }
 
 /**
@@ -1457,7 +1460,8 @@ export async function premodUser(
 
     // Check to see if the user is already banned.
     const premod = consolidateUserPremodStatus(user.status.premod);
-    if (premod.active) {
+    // FIXME: (wyattjoh) once migration has been performed, remove check
+    if (premod && premod.active) {
       throw new UserAlreadyPremoderated();
     }
 
@@ -1823,19 +1827,15 @@ export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
 
 export function consolidateUsernameStatus(
   username: User["status"]["username"]
-): ConsolidatedUsernameStatus {
+) {
   return username;
 }
 
-export function consolidateUserBanStatus(
-  ban: User["status"]["ban"]
-): ConsolidatedBanStatus {
+export function consolidateUserBanStatus(ban: User["status"]["ban"]) {
   return ban;
 }
 
-export function consolidateUserPremodStatus(
-  premod: User["status"]["premod"]
-): ConsolidatedPremodStatus {
+export function consolidateUserPremodStatus(premod: User["status"]["premod"]) {
   return premod;
 }
 
@@ -1873,7 +1873,8 @@ export function consolidateUserSuspensionStatus(
 export interface ConsolidatedUserStatus {
   suspension: ConsolidatedSuspensionStatus;
   ban: ConsolidatedBanStatus;
-  premod: ConsolidatedPremodStatus;
+  // FIXME: (wyattjoh) once migration has been performed, make required
+  premod?: ConsolidatedPremodStatus;
 }
 
 export function consolidateUserStatus(

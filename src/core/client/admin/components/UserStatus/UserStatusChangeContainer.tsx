@@ -66,7 +66,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
   }, [user, removeUserSuspension]);
 
   const handlePremod = useCallback(() => {
-    if (user.status.premod.active) {
+    // FIXME: (wyattjoh) once migration has been performed, remove check
+    if (user.status.premod && user.status.premod.active) {
       return;
     }
     setShowPremod(true);
@@ -82,7 +83,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
   }, [setShowPremod]);
 
   const handleRemovePremod = useCallback(() => {
-    if (!user.status.premod.active) {
+    // FIXME: (wyattjoh) once migration has been performed, remove check
+    if (!user.status.premod || !user.status.premod.active) {
       return;
     }
     removeUserPremod({ userID: user.id });
@@ -136,7 +138,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
         onRemovePremod={handleRemovePremod}
         banned={user.status.ban.active}
         suspended={user.status.suspension.active}
-        premod={user.status.premod.active}
+        // FIXME: (wyattjoh) once migration has been performed, remove check
+        premod={Boolean(user.status.premod && user.status.premod.active)}
         fullWidth={fullWidth}
       >
         <UserStatusContainer user={user} />
