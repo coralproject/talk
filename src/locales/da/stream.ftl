@@ -26,6 +26,7 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Se information om fremhævede kommentarer
 
+comments-noCommentsYet = Der er ingen kommentarer endnu.
 
 comments-streamQuery-storyNotFound = Historien blev ikke fundet
 
