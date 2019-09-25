@@ -321,6 +321,10 @@ export const baseUser = createFixture<GQLUser>({
       active: false,
       history: [],
     },
+    premod: {
+      active: false,
+      history: [],
+    },
   },
 });
 

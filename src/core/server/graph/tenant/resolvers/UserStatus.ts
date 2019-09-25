@@ -5,6 +5,7 @@ import {
 import * as user from "coral-server/models/user";
 
 import { BanStatusInput } from "./BanStatus";
+import { PremodStatusInput } from "./PremodStatus";
 import { SuspensionStatusInput } from "./SuspensionStatus";
 import { UsernameStatusInput } from "./UsernameStatus";
 
@@ -29,6 +30,12 @@ export const UserStatus: Required<
       statuses.push(GQLUSER_STATUS.SUSPENDED);
     }
 
+    // If they are set to mandatory premod, then mark it.
+    // FIXME: (wyattjoh) once migration has been performed, remove check
+    if (consolidatedStatus.premod && consolidatedStatus.premod.active) {
+      statuses.push(GQLUSER_STATUS.PREMOD);
+    }
+
     // If no other statuses were applied, then apply the active status.
     if (statuses.length === 0) {
       statuses.push(GQLUSER_STATUS.ACTIVE);
@@ -48,4 +55,17 @@ export const UserStatus: Required<
     ...user.consolidateUserSuspensionStatus(suspension),
     userID,
   }),
+  // FIXME: (wyattjoh) once migration has been performed, return PremodStatusInput only
+  premod: ({ premod, userID }): PremodStatusInput | null => {
+    const status = user.consolidateUserPremodStatus(premod);
+    // FIXME: (wyattjoh) once migration has been performed, remove check
+    if (!status) {
+      return null;
+    }
+
+    return {
+      ...status,
+      userID,
+    };
+  },
 };

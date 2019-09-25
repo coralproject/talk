@@ -22,6 +22,7 @@ role-plural-commenter = Commenters
 userStatus-active = Active
 userStatus-banned = Banned
 userStatus-suspended = Suspended
+userStatus-premod = Always pre-moderate
 
 ## Navigation
 navigation-moderate = Moderate
@@ -486,6 +487,9 @@ moderate-user-drawer-username-change = Username change
 moderate-user-drawer-username-change-new = New:
 moderate-user-drawer-username-change-old = Old:
 
+moderate-user-drawer-account-history-premod-set = Always pre-moderate
+moderate-user-drawer-account-history-premod-removed = Removed pre-moderate
+
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
     [second] { $value ->
@@ -614,12 +618,18 @@ community-userStatus-popover =
   .description = A dropdown to change the user status
 
 community-userStatus-banUser = Ban User
+community-userStatus-ban = Ban 
 community-userStatus-removeBan = Remove Ban
+community-userStatus-removeUserBan = Remove ban
 community-userStatus-suspendUser = Suspend User
+community-userStatus-suspend = Suspend 
 community-userStatus-removeSuspension = Remove Suspension
+community-userStatus-removeUserSuspension = Remove suspension
 community-userStatus-unknown = Unknown
 community-userStatus-changeButton =
   .aria-label = Change user status
+community-userStatus-premodUser = Always pre-moderate
+community-userStatus-removePremod = Remove pre-moderate 
 
 community-banModal-areYouSure = Are you sure you want to ban <strong>{ $username }</strong>?
 community-banModal-consequence =
@@ -651,6 +661,13 @@ community-suspendModal-success =
 
 community-suspendModal-success-close = Close
 community-suspendModal-selectDuration = Select suspension length
+
+community-premodModal-areYouSure = 
+  Are you sure you want to always pre-moderate <strong>{ $username }</strong>?
+community-premodModal-consequence =
+  All their comments will go to the Pending queue until you remove this status.
+community-premodModal-cancel = Cancel
+community-premodModal-premodUser = Yes, always pre-moderate 
 
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:

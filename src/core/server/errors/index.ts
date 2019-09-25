@@ -593,6 +593,14 @@ export class UserAlreadySuspendedError extends CoralError {
   }
 }
 
+export class UserAlreadyPremoderated extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.USER_ALREADY_PREMOD,
+    });
+  }
+}
+
 export class UserAlreadyBannedError extends CoralError {
   constructor() {
     super({
