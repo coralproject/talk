@@ -14,7 +14,7 @@ import {
 } from "coral-server/models/invite";
 import { Tenant } from "coral-server/models/tenant";
 import {
-  insertUser,
+  createUser,
   LocalProfile,
   retrieveUserWithEmail,
   User,
@@ -310,14 +310,14 @@ export async function redeem(
   };
 
   // Create the new user based on the invite.
-  const user = await insertUser(
+  const user = await createUser(
     mongo,
     tenant.id,
     {
       username,
       email,
       emailVerified: true, // Verified because the invite link was clicked.
-      profiles: [profile],
+      profile,
       role,
     },
     now

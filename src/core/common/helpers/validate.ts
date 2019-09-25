@@ -1,6 +1,6 @@
 import url from "url-regex";
 
-export const USERNAME_REGEX = new RegExp(/^[a-zA-Z0-9_.]+$/);
+export const USERNAME_REGEX = new RegExp(/^[a-zA-ZÀ-ÖØ-öø-ÿ0-9_.]+$/);
 export const USERNAME_MAX_LENGTH = 30;
 export const USERNAME_MIN_LENGTH = 3;
 

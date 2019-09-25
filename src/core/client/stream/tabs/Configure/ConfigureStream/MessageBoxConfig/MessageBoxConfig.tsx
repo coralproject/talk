@@ -62,7 +62,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
               format={formatEmpty}
             >
               {({ input: iconInput }) => (
-                <Field name="messageBox.content">
+                <Field name="messageBox.content" parse={parseEmptyAsNull}>
                   {({ input: contentInput, meta }) => (
                     <>
                       <HorizontalGutter size="half" container="section">

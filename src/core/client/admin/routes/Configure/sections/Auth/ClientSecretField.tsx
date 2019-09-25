@@ -1,9 +1,8 @@
 import { Localized } from "fluent-react/compat";
-import { identity } from "lodash";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { ValidationMessage } from "coral-framework/lib/form";
+import { parseEmptyAsNull, ValidationMessage } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
 import { FormField, InputLabel, PasswordField } from "coral-ui/components";
 
@@ -25,7 +24,7 @@ const ClientSecretField: FunctionComponent<Props> = ({
     <Field
       name={name}
       key={(disabled && "on") || "off"}
-      parse={identity}
+      parse={parseEmptyAsNull}
       validate={validate}
     >
       {({ input, meta }) => (
