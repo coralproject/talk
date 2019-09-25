@@ -1,8 +1,8 @@
 import { EventEmitter2 } from "eventemitter2";
 
 import { parseQuery } from "coral-common/utils";
-import { resolveStoryURL } from "coral-framework/helpers";
-import { getLocationOrigin } from "coral-framework/utils";
+import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
+import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
 import { default as create, StreamEmbed } from "./StreamEmbed";
 
