@@ -11,7 +11,7 @@ import favicon57 from "./assets/favicon57.png";
 import favicon76 from "./assets/favicon76.png";
 import favicon96 from "./assets/favicon96.png";
 
-const AdminHead: FunctionComponent = () => {
+const Head: FunctionComponent = () => {
   return (
     <Helmet>
       <link rel="icon" href={favicon32} sizes="32x32" />
@@ -28,4 +28,4 @@ const AdminHead: FunctionComponent = () => {
   );
 };
 
-export default AdminHead;
+export default Head;
