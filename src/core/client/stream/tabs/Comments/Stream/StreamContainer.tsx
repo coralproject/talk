@@ -36,6 +36,7 @@ import SortMenu from "./SortMenu";
 import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
 import styles from "./StreamContainer.css";
 import { SuspendedInfoContainer } from "./SuspendedInfo/index";
+import useCommentCountEvent from "./useCommentCountEvent";
 
 interface Props {
   story: StoryData;
@@ -95,6 +96,9 @@ export const StreamContainer: FunctionComponent<Props> = props => {
 
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
+
+  // Emit comment count event.
+  useCommentCountEvent(props.story.id, props.story.url, allCommentsCount);
 
   useEffect(() => {
     // If the comment tab is still in its uninitialized state, "NONE", then we
@@ -221,6 +225,8 @@ const enhanced = withFragmentContainer<Props>({
       ...StoryClosedTimeoutContainer_story
       ...CreateCommentReplyMutation_story
       ...CreateCommentMutation_story
+      id
+      url
       commentCounts {
         totalPublished
         tags {

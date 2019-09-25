@@ -32,6 +32,7 @@ function detectAndInject() {
     const notext = element.dataset.coralNotext === "true";
     if (!url && !id) {
       url = STORY_URL;
+      element.dataset.coralUrl = STORY_URL;
     }
     const args = { id, url, notext };
     const ref = createCountQueryRef(args);

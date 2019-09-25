@@ -15,6 +15,7 @@ import {
   withPymStorage,
   withSetCommentID,
 } from "./decorators";
+import withLiveCommentCount from "./decorators/withLiveCommentCount";
 import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 import PymControl, {
   defaultPymControlFactory,
@@ -132,6 +133,7 @@ export class StreamEmbed {
       withClickEvent,
       withSetCommentID,
       withEventEmitter(this.config.eventEmitter),
+      withLiveCommentCount(this.config.eventEmitter),
       withPymStorage(localStorage, "localStorage"),
       withPymStorage(sessionStorage, "sessionStorage"),
       withConfig(externalConfig),

@@ -7,9 +7,7 @@ reaction-sortLabelMostRespected = Most Respected
 
 comment-count =
   <span class="{ $numberClass }">{ $number }</span>
-  <span class="{ $textClass }">
-  { $number  ->
+  <span class="{ $textClass }">{ $number  ->
     [one] Comment
     *[other] Comments
-  }
-  </span>
+  }</span>
