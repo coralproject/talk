@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
 import App from "./App";
-import Head from "./head";
+import Head from "./Head";
 import { initLocalState } from "./local";
 import localesData from "./locales";
 
