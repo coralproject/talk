@@ -1,7 +1,7 @@
-import { resolveStoryURL } from "coral-framework/helpers";
+import { COUNT_SELECTOR, ORIGIN_FALLBACK_ID } from "coral-framework/constants";
+import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
 import jsonp from "coral-framework/utils/jsonp";
 
-import { COUNT_SELECTOR, ORIGIN_FALLBACK_ID } from "coral-framework/constants";
 import getCurrentScriptOrigin from "./getCurrentScriptOrigin";
 import injectJSONPCallback from "./injectJSONPCallback";
 
@@ -50,9 +50,11 @@ function detectAndInject() {
   });
 }
 
-function main() {
+export function main() {
   injectJSONPCallback();
   detectAndInject();
 }
 
-main();
+if (process.env.NODE_ENV !== "test") {
+  main();
+}
