@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
 
-import { COUNT_SELECTOR } from "coral-count/constants";
+import { COUNT_SELECTOR } from "coral-framework/constants";
 
 import { Decorator } from "./types";
 

@@ -1,4 +1,4 @@
-import { COUNT_SELECTOR } from "./constants";
+import { COUNT_SELECTOR } from "coral-framework/constants";
 
 /** Injects a global CoralCount callback into the window object to be used in JSONP */
 function injectJSONPCallback() {

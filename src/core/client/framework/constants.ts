@@ -1,6 +1,6 @@
 /**
  * COUNT_SELECTOR is a css selector used to identify elements that
- * will be replaced by the count.
+ * will be replaced by the story count.
  */
 export const COUNT_SELECTOR = ".coral-count";
 

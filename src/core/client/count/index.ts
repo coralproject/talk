@@ -1,7 +1,7 @@
 import { resolveStoryURL } from "coral-framework/helpers";
 import jsonp from "coral-framework/utils/jsonp";
 
-import { COUNT_SELECTOR, ORIGIN_FALLBACK_ID } from "./constants";
+import { COUNT_SELECTOR, ORIGIN_FALLBACK_ID } from "coral-framework/constants";
 import getCurrentScriptOrigin from "./getCurrentScriptOrigin";
 import injectJSONPCallback from "./injectJSONPCallback";
 
