@@ -266,6 +266,7 @@
     "enzyme-adapter-react-16": "^1.12.1",
     "enzyme-to-json": "^3.3.5",
     "eventemitter2": "^5.0.1",
+    "favicons-webpack-plugin": "^1.0.2",
     "final-form": "4.11.0",
     "flat": "^4.1.0",
     "fluent-intl-polyfill": "^0.1.0",

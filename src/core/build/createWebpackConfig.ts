@@ -6,7 +6,7 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { identity } from "lodash";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import path from "path";
+import path, { basename } from "path";
 import typescriptFormatter from "react-dev-utils/typescriptFormatter";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import TerserPlugin from "terser-webpack-plugin";
@@ -14,6 +14,9 @@ import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import webpack, { Configuration, Plugin } from "webpack";
 import WebpackAssetsManifest from "webpack-assets-manifest";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+
+// favicons webpack plugin must be imported after html webpack plugin
+import FaviconsWebpackPlugin from "favicons-webpack-plugin";
 
 // TODO: import form coral-common/version, for some reason this fails currently.
 // Try again when we have a chance to upgrade typescript.
@@ -546,6 +549,11 @@ export default function createWebpackConfig(
           formatter: typescriptFormatter,
         })
       ),
+      new FaviconsWebpackPlugin({
+        logo: "logo.png",
+        inject: htmlPlugin =>
+          basename(htmlPlugin.options.filename) === "admin.html",
+      }),
       // Makes some environment variables available to the JS code, for example:
       // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
       new webpack.DefinePlugin(envStringified),
