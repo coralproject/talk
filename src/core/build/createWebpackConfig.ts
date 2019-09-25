@@ -550,7 +550,6 @@ export default function createWebpackConfig(
         })
       ),
       new FaviconsWebpackPlugin({
-        logo: "logo.png",
         inject: htmlPlugin =>
           basename(htmlPlugin.options.filename) === "admin.html",
       }),

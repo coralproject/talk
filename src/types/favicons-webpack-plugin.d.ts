@@ -15,7 +15,7 @@ declare module "favicons-webpack-plugin" {
 
   export namespace FaviconsWebpackPlugin {
     interface FaviconOptions {
-      logo: string;
+      logo?: string;
       prefix?: string;
       emitStats?: boolean;
       statsFilename?: string;
