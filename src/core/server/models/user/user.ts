@@ -295,10 +295,8 @@ export interface UserStatus {
   /**
    * premod stores whether a user is set to mandatory premod and history of
    * premod status.
-   *
-   * FIXME: (wyattjoh) set defaults during migration
    */
-  premod?: PremodStatus;
+  premod: PremodStatus;
 }
 
 /**
@@ -1458,8 +1456,7 @@ export async function premodUser(
 
     // Check to see if the user is already banned.
     const premod = consolidateUserPremodStatus(user.status.premod);
-    // FIXME: (wyattjoh) once migration has been performed, remove check
-    if (premod && premod.active) {
+    if (premod.active) {
       throw new UserAlreadyPremoderated();
     }
 
@@ -1871,8 +1868,7 @@ export function consolidateUserSuspensionStatus(
 export interface ConsolidatedUserStatus {
   suspension: ConsolidatedSuspensionStatus;
   ban: ConsolidatedBanStatus;
-  // FIXME: (wyattjoh) once migration has been performed, make required
-  premod?: ConsolidatedPremodStatus;
+  premod: ConsolidatedPremodStatus;
 }
 
 export function consolidateUserStatus(
