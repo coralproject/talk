@@ -36,9 +36,11 @@ import {
   consolidateUserBanStatus,
   consolidateUserPremodStatus,
   consolidateUserSuspensionStatus,
+  createModeratorNote,
   createUser,
   createUserToken,
   deactivateUserToken,
+  deleteModeratorNote,
   findOrCreateUser,
   FindOrCreateUserInput,
   ignoreUser,
@@ -732,6 +734,49 @@ export async function updateAvatar(
   avatar?: string
 ) {
   return updateUserAvatar(mongo, tenant.id, userID, avatar);
+}
+
+/**
+ * addModeratorNote will add a note to the users account.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be banned on
+ * @param moderator the Moderator that is creating the note
+ * @param userID the ID of the User who is the subject of the note
+ * @param note the contents of the note
+ * @param now the current time that the note was created
+ */
+export async function addModeratorNote(
+  mongo: Db,
+  tenant: Tenant,
+  moderator: User,
+  userID: string,
+  note: string,
+  now = new Date()
+) {
+  if (!note || note.length < 1) {
+    throw new Error("Note cannot be empty");
+  }
+
+  return createModeratorNote(mongo, tenant.id, userID, moderator.id, note, now);
+}
+
+/**
+ * destroyModeratorNote will remove a note from a user
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be banned on
+ * @param userID  id of the user who is the subjet
+ * @param id  id of the note to delete
+ */
+
+export async function destroyModeratorNote(
+  mongo: Db,
+  tenant: Tenant,
+  userID: string,
+  id: string
+) {
+  return deleteModeratorNote(mongo, tenant.id, userID, id);
 }
 
 /**

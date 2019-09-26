@@ -3,10 +3,12 @@ import { mapFieldsetToErrorCodes } from "coral-server/graph/common/errors";
 import TenantContext from "coral-server/graph/tenant/context";
 import { User } from "coral-server/models/user";
 import {
+  addModeratorNote,
   ban,
   cancelAccountDeletion,
   createToken,
   deactivateToken,
+  destroyModeratorNote,
   ignore,
   premod,
   removeBan,
@@ -35,8 +37,10 @@ import { deleteUser } from "coral-server/services/users/delete";
 import {
   GQLBanUserInput,
   GQLCancelAccountDeletionInput,
+  GQLCreateModeratorNoteInput,
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
+  GQLDeleteModeratorNoteInput,
   GQLDeleteUserAccountInput,
   GQLIgnoreUserInput,
   GQLInviteUsersInput,
@@ -203,6 +207,17 @@ export const Users = (ctx: TenantContext) => ({
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
+  createModeratorNote: async (input: GQLCreateModeratorNoteInput) =>
+    addModeratorNote(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.body,
+      ctx.now
+    ),
+  deleteModeratorNote: async (input: GQLDeleteModeratorNoteInput) =>
+    destroyModeratorNote(ctx.mongo, ctx.tenant, input.userID, input.id),
   ban: async (input: GQLBanUserInput) =>
     ban(
       ctx.mongo,
