@@ -25,7 +25,7 @@ import { Db } from "mongodb";
 import Migration from "../migration";
 
 export default class extends Migration {
-  public async run(mongo: Db) {
+  public async run(mongo: Db, tenantID: string) {
     throw new Error("migration not implemented");
   }
 }`;
