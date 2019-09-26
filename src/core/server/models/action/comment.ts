@@ -17,7 +17,6 @@ import logger from "coral-server/logger";
 import {
   Connection,
   ConnectionInput,
-  createCollection,
   createConnectionOrderVariants,
   createIndexFactory,
   FilterQuery,
@@ -25,8 +24,7 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
-
-const collection = createCollection<CommentAction>("commentActions");
+import { commentActions as collection } from "coral-server/services/mongodb/collections";
 
 export enum ACTION_TYPE {
   /**

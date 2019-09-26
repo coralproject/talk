@@ -3,13 +3,9 @@ import uuid from "uuid";
 
 import { Omit, Sub } from "coral-common/types";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
-import {
-  createCollection,
-  createIndexFactory,
-} from "coral-server/models/helpers";
+import { createIndexFactory } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
-
-const collection = createCollection<Readonly<Invite>>("invites");
+import { invites as collection } from "coral-server/services/mongodb/collections";
 
 export async function createInviteIndexes(mongo: Db) {
   const createIndex = createIndexFactory(collection(mongo));

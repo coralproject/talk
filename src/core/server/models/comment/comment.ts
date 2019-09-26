@@ -19,7 +19,6 @@ import {
 } from "coral-server/models/action/comment";
 import {
   Connection,
-  createCollection,
   createConnection,
   createConnectionOrderVariants,
   createIndexFactory,
@@ -32,6 +31,7 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
+import { comments as collection } from "coral-server/services/mongodb/collections";
 
 import { PUBLISHED_STATUSES } from "./constants";
 import {
@@ -41,8 +41,6 @@ import {
 } from "./helpers";
 import { Revision } from "./revision";
 import { CommentTag } from "./tag";
-
-const collection = createCollection<Comment>("comments");
 
 /**
  * Comment's are created by User's on Stories. Each Comment contains a body, and

@@ -33,7 +33,6 @@ import logger from "coral-server/logger";
 import {
   Connection,
   ConnectionInput,
-  createCollection,
   createConnectionOrderVariants,
   createIndexFactory,
   Query,
@@ -41,10 +40,9 @@ import {
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
+import { users as collection } from "coral-server/services/mongodb/collections";
 
 import { getLocalProfile, hasLocalProfile } from "./helpers";
-
-const collection = createCollection<User>("users");
 
 export interface LocalProfile {
   type: "local";

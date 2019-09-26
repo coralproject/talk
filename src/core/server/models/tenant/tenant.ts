@@ -9,15 +9,12 @@ import {
   GQLMODERATION_MODE,
   GQLSettings,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import {
-  createCollection,
-  createIndexFactory,
-} from "coral-server/models/helpers";
+import { createIndexFactory } from "coral-server/models/helpers";
 import { Settings } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
-import { generateSSOKey, getDefaultReactionConfiguration } from "./helpers";
+import { tenants as collection } from "coral-server/services/mongodb/collections";
 
-const collection = createCollection<Tenant>("tenants");
+import { generateSSOKey, getDefaultReactionConfiguration } from "./helpers";
 
 /**
  * TenantResource references a given resource that should be owned by a specific

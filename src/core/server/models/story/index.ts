@@ -21,9 +21,9 @@ import {
 } from "coral-server/models/helpers";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
+import { stories as collection } from "coral-server/services/mongodb/collections";
 
 import { createEmptyCommentStatusCounts } from "../comment/helpers";
-import { createCollection } from "../helpers/collection";
 import {
   createEmptyCommentModerationQueueCounts,
   StoryCommentCounts,
@@ -31,8 +31,6 @@ import {
 
 export * from "./counts";
 export * from "./helpers";
-
-const collection = createCollection<Story>("stories");
 
 export type StorySettings = DeepPartial<
   Pick<GQLStorySettings, "messageBox"> & GlobalModerationSettings

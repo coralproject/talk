@@ -3,12 +3,8 @@ import { Db, MongoError } from "mongodb";
 
 import { waitFor } from "coral-common/helpers";
 import logger from "coral-server/logger";
-import {
-  createCollection,
-  createIndexFactory,
-} from "coral-server/models/helpers";
-
-const collection = createCollection<Readonly<PersistedQuery>>("queries");
+import { createIndexFactory } from "coral-server/models/helpers";
+import { queries as collection } from "coral-server/services/mongodb/collections";
 
 export interface PersistedQuery {
   id: string;
