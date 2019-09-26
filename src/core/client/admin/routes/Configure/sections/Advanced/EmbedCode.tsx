@@ -56,6 +56,8 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
       (function() {
           var d = document, s = d.createElement('script');
           s.src = '${script}/assets/js/embed.js';
+          s.async = false;
+          s.defer = true;
           s.onload = function() {
               Coral.createStreamEmbed({
                   id: "coral_thread",
