@@ -10,25 +10,16 @@
 
 // tslint:disable: no-console
 
-import { stripIndent } from "common-tags";
 import fs from "fs-extra";
 import lodash from "lodash";
 import path from "path";
 
-const template = stripIndent`
-import { Db } from "mongodb";
-
-// Use the following collections reference to interact with specific
-// collections.
-// import collections from "coral-server/services/mongodb/collections";
-
-import Migration from "../migration";
-
-export default class extends Migration {
-  public async run(mongo: Db, tenantID: string) {
-    throw new Error("migration not implemented");
-  }
-}`;
+const templateFilePath = path.resolve(
+  path.join(
+    __dirname,
+    "../../src/core/server/services/migrate/migration_sample.ts"
+  )
+);
 
 const argv = process.argv.slice(2);
 if (argv.length !== 1) {
@@ -56,6 +47,6 @@ if (fs.existsSync(filePath)) {
 }
 
 // Write the template out to the file.
-fs.writeFileSync(filePath, template);
+fs.copyFileSync(templateFilePath, filePath);
 
 console.log(`created new migration at: ${filePath}`);
