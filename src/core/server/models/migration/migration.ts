@@ -7,6 +7,7 @@ import { createIndexFactory } from "../helpers";
 export interface MigrationRecord {
   version: number;
   skipped?: boolean;
+  failed?: boolean;
   createdAt: Date;
 }
 
@@ -24,6 +25,18 @@ export async function createMigrationRecord(
 ) {
   await collection(mongo).insertOne({
     version,
+    createdAt: now,
+  });
+}
+
+export async function createFailedMigrationRecord(
+  mongo: Db,
+  version: number,
+  now = new Date()
+) {
+  await collection(mongo).insertOne({
+    version,
+    failed: true,
     createdAt: now,
   });
 }

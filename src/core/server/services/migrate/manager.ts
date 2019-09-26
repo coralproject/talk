@@ -5,11 +5,14 @@ import now from "performance-now";
 
 import logger from "coral-server/logger";
 import {
+  createFailedMigrationRecord,
   createMigrationRecord,
   createSkippedMigrationRecords,
   retrieveAllMigrationRecords,
 } from "coral-server/models/migration";
+import TenantCache from "coral-server/services/tenant/cache";
 
+import { FailedMigrationDetectedError } from "./error";
 import Migration from "./migration";
 
 // Extract the version from the filename with this regex.
@@ -17,10 +20,12 @@ const fileNamePattern = /^(\d+)_([\S_]+)\.[tj]s$/;
 
 export default class Manager {
   private migrations: Migration[];
+  private tenants: TenantCache;
   private ran: boolean = false;
 
-  constructor() {
+  constructor(tenants: TenantCache) {
     this.migrations = [];
+    this.tenants = tenants;
 
     const fileNames = fs.readdirSync(path.join(__dirname, "migrations"));
     for (const fileName of fileNames) {
@@ -81,6 +86,13 @@ export default class Manager {
    */
   private async pending(mongo: Db): Promise<Migration[]> {
     const records = await retrieveAllMigrationRecords(mongo);
+
+    // Check to see if any of the migrations have failed.
+    records.forEach(record => {
+      if (record.failed) {
+        throw new FailedMigrationDetectedError(record);
+      }
+    });
 
     return this.migrations.filter(
       migration =>
@@ -153,7 +165,7 @@ export default class Manager {
     const migrationsStartTime = now();
 
     for (const migration of pending) {
-      const log = logger.child(
+      let log = logger.child(
         {
           migrationName: migration.name,
           migrationVersion: migration.version,
@@ -161,14 +173,44 @@ export default class Manager {
         true
       );
 
-      const migrationStartTime = now();
-      log.info("starting migration");
+      for await (const tenant of this.tenants) {
+        log = log.child({ tenantID: tenant.id }, true);
 
-      // Run the migration.
-      await migration.run(mongo);
+        const migrationStartTime = now();
+        log.info("starting migration");
 
-      const executionTime = Math.round(now() - migrationStartTime);
-      log.info({ executionTime }, "finished migration");
+        try {
+          // Run the migration.
+          await migration.up(mongo, tenant.id);
+
+          // Test the migration.
+          if (migration.test) {
+            await migration.test(mongo, tenant.id);
+          }
+        } catch (err) {
+          // The migration or test has failed, try to roll back the operation.
+          if (migration.down) {
+            log.error({ err }, "migration has failed, attempting rollback");
+
+            // Attempt the down migration.
+            await migration.down(mongo, tenant.id);
+          } else {
+            log.error(
+              { err },
+              "migration has failed, and does not have a down method available, migration will not be rolled back"
+            );
+          }
+
+          // Mark the migration as failed.
+          await createFailedMigrationRecord(mongo, migration.version);
+
+          // Rethrow the error here to cause the application to crash.
+          throw err;
+        }
+
+        const executionTime = Math.round(now() - migrationStartTime);
+        log.info({ executionTime }, "finished migration");
+      }
 
       // Mark the migration as completed.
       await createMigrationRecord(mongo, migration.version);

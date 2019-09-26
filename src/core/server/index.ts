@@ -129,9 +129,6 @@ class Server {
 
     // Create the signing config.
     this.signingConfig = createJWTSigningConfig(this.config);
-
-    // Create the migration manager.
-    this.migrationManager = new MigrationManager();
   }
 
   /**
@@ -160,6 +157,9 @@ class Server {
       createRedisClient(this.config),
       config
     );
+
+    // Create the migration manager.
+    this.migrationManager = new MigrationManager(this.tenantCache);
 
     // Load and upsert the persisted queries.
     this.persistedQueryCache = new PersistedQueryCache({ mongo: this.mongo });
