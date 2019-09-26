@@ -10,6 +10,17 @@
   padding: calc(0.5 * var(--mini-unit));
   border-radius: 2px;
   margin-bottom: var(--spacing-2);
+  padding: var(--spacing-3);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-sans-serif);
+  font-size: calc(16rem / var(--rem-base));
+  line-height: 1;
+  letter-spacing: calc(0.2em / 16);
+  color: var(--palette-text-primary);
+}
+
+.textArea:focus {
+  outline: none;
 }
 
 .form {

@@ -9,12 +9,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
-import {
-  Button,
-  Flex,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { Button, Flex, HorizontalGutter } from "coral-ui/components";
 import { FormApi } from "final-form";
 import { Field, Form } from "react-final-form";
 import CreateModeratorNoteMutation from "./CreateModeratorNoteMutation";
@@ -62,7 +57,7 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
             onSubmit={handleSubmit}
             data-testid="userdrawer-notes-form"
           >
-            <Localized id="userDrawer-notes-field">
+            <Localized id="moderate-user-drawer-notes-field">
               <Field
                 className={styles.textArea}
                 id="suspendModal-message"
@@ -73,7 +68,7 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
               />
             </Localized>
             <Flex justifyContent="flex-end">
-              <Localized id="userDrawer-notes-button">
+              <Localized id="moderate-user-drawer-notes-button">
                 <Button variant="filled" color="primary" type="submit">
                   Add note
                 </Button>

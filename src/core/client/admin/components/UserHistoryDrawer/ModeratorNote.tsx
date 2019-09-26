@@ -50,12 +50,7 @@ const ModeratorNote: FunctionComponent<Props> = ({
         </Flex>
         {onDelete && (
           <Localized id="moderatorNote-delete">
-            <Button
-              variant="ghost"
-              size="small"
-              color="primary"
-              onClick={deleteNote}
-            >
+            <Button size="small" color="primary" onClick={deleteNote}>
               <Icon>delete</Icon>
               <span>Delete</span>
             </Button>
