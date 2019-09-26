@@ -9,7 +9,12 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
-import { Button, Typography } from "coral-ui/components";
+import {
+  Button,
+  Flex,
+  HorizontalGutter,
+  Typography,
+} from "coral-ui/components";
 import { FormApi } from "final-form";
 import { Field, Form } from "react-final-form";
 import CreateModeratorNoteMutation from "./CreateModeratorNoteMutation";
@@ -20,7 +25,7 @@ import styles from "./UserDrawerNotesContainer.css";
 
 interface Props {
   user: UserData;
-  viewer: ViewerData;
+  viewer: ViewerData | null;
 }
 
 const UserDrawerNotesContainer: FunctionComponent<Props> = ({
@@ -52,38 +57,54 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
     <div>
       <Form onSubmit={onSubmit}>
         {({ handleSubmit, submitError, invalid, submitting, ...formProps }) => (
-          <form onSubmit={handleSubmit} data-testid="userdrawer-notes-form">
-            <Field
-              className={styles.textArea}
-              id="suspendModal-message"
-              component="textarea"
-              name="body"
-              validate={required}
-            />
-
-            <Button variant="filled" color="primary" type="submit">
-              Add note
-            </Button>
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit}
+            data-testid="userdrawer-notes-form"
+          >
+            <Localized id="userDrawer-notes-field">
+              <Field
+                className={styles.textArea}
+                id="suspendModal-message"
+                component="textarea"
+                name="body"
+                validate={required}
+                placeholder="Leave a note..."
+              />
+            </Localized>
+            <Flex justifyContent="flex-end">
+              <Localized id="userDrawer-notes-button">
+                <Button variant="filled" color="primary" type="submit">
+                  Add note
+                </Button>
+              </Localized>
+            </Flex>
           </form>
         )}
       </Form>
-      {user.moderatorNotes &&
-        user.moderatorNotes
-          .concat()
-          .reverse()
-          .map(
-            note =>
-              note && (
-                <ModeratorNote
-                  key={note.id}
-                  id={note.id}
-                  body={note.body}
-                  moderator={note.createdBy.username}
-                  createdAt={note.createdAt}
-                  onDelete={viewer.id === note.createdBy.id ? onDelete : null}
-                />
-              )
-          )}
+      <HorizontalGutter size="double">
+        {user.moderatorNotes &&
+          user.moderatorNotes
+            .concat()
+            .reverse()
+            .map(
+              note =>
+                note && (
+                  <ModeratorNote
+                    key={note.id}
+                    id={note.id}
+                    body={note.body}
+                    moderator={note.createdBy.username}
+                    createdAt={note.createdAt}
+                    onDelete={
+                      viewer && viewer.id === note.createdBy.id
+                        ? onDelete
+                        : null
+                    }
+                  />
+                )
+            )}
+      </HorizontalGutter>
     </div>
   );
 };

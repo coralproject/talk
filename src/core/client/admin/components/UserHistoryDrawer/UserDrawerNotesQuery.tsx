@@ -7,7 +7,6 @@ import { UserDrawerNotesQuery as QueryTypes } from "coral-admin/__generated__/Us
 
 import { CallOut, Spinner } from "coral-ui/components";
 
-import UserDrawerAccountHistory from "./UserDrawerAccountHistory";
 import UserDrawerNotesContainer from "./UserDrawerNotesContainer";
 
 import styles from "./UserDrawerNotesQuery.css";

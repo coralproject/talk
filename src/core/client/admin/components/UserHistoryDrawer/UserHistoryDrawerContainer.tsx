@@ -127,7 +127,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
       </div>
       <hr className={styles.divider} />
       <div className={styles.comments}>
-        <Tabs userID={user.id} />
+        <Tabs userID={user.id} notesCount={user.moderatorNotes.length} />
       </div>
     </>
   );

@@ -2,7 +2,14 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { Icon, Tab, TabBar, TabContent, TabPane } from "coral-ui/components";
+import {
+  Flex,
+  Icon,
+  Tab,
+  TabBar,
+  TabContent,
+  TabPane,
+} from "coral-ui/components";
 
 import UserDrawerAccountHistoryQuery from "./UserDrawerAccountHistoryQuery";
 import UserDrawerNotesQuery from "./UserDrawerNotesQuery";
@@ -19,9 +26,10 @@ type UserTabs =
 
 interface Props {
   userID: string;
+  notesCount: number;
 }
 
-const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
+const UserHistoryTabs: FunctionComponent<Props> = ({ userID, notesCount }) => {
   const [currentTab, setCurrentTab] = useState<UserTabs>("ALL_COMMENTS");
 
   const onTabChanged = useCallback(
@@ -74,11 +82,14 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
             })}
           >
             <Icon size="sm" className={styles.tabIcon}>
-              notes
+              subject
             </Icon>
-            <Localized id="moderate-user-drawer-tab-notes">
-              <span>Notes</span>
-            </Localized>
+            <Flex>
+              <Localized id="moderate-user-drawer-tab-notes">
+                <span>Notes</span>
+              </Localized>
+              {notesCount > 0 && <div className={styles.redDot} />}
+            </Flex>
           </div>
         </Tab>
         <Tab tabID="ACCOUNT_HISTORY" onTabClick={onTabChanged}>

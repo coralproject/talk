@@ -1,3 +1,14 @@
 .root {
   
 }
+
+.spinner {
+  text-align: center;
+}
+
+.callout {
+  width: 100%;
+  font-family: var(--font-family-sans-serif);
+  align-content: center;
+  text-align: center;
+}
