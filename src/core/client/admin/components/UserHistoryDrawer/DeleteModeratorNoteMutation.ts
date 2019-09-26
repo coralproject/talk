@@ -10,27 +10,25 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 import { GQLUser } from "coral-framework/schema";
-import { CreateModeratorNoteMutation as MutationTypes } from "coral-stream/__generated__/CreateModeratorNoteMutation.graphql";
+import { DeleteModeratorNoteMutation as MutationTypes } from "coral-stream/__generated__/DeleteModeratorNoteMutation.graphql";
 
 let clientMutationId = 0;
 
-const CreateModeratorNoteMutation = createMutation(
-  "createModeratorNote",
+const DeleteModeratorNoteMutation = createMutation(
+  "deleteModeratorNote",
   (
     environment: Environment,
     input: MutationInput<MutationTypes>,
     { uuidGenerator }: CoralContext
   ) => {
-    const viewer = getViewer(environment)!;
     const notes =
       lookup<GQLUser>(environment, input.userID)!.moderatorNotes || [];
-    const now = new Date();
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation CreateModeratorNoteMutation(
-          $input: CreateModeratorNoteInput!
+        mutation DeleteModeratorNoteMutation(
+          $input: DeleteModeratorNoteInput!
         ) {
-          createModeratorNote(input: $input) {
+          deleteModeratorNote(input: $input) {
             user {
               moderatorNotes {
                 id
@@ -53,21 +51,10 @@ const CreateModeratorNoteMutation = createMutation(
         },
       },
       optimisticResponse: {
-        createModeratorNote: {
+        deleteModeratorNote: {
           user: {
             id: input.userID,
-            moderatorNotes: [
-              {
-                id: uuidGenerator(),
-                body: input.body,
-                createdAt: now.toISOString(),
-                createdBy: {
-                  username: viewer.username,
-                  id: viewer.id,
-                } as any,
-              },
-              ...notes,
-            ],
+            moderatorNotes: notes.filter(note => note.id !== input.id),
           },
           clientMutationId: (clientMutationId++).toString(),
         },
@@ -76,4 +63,4 @@ const CreateModeratorNoteMutation = createMutation(
   }
 );
 
-export default CreateModeratorNoteMutation;
+export default DeleteModeratorNoteMutation;

@@ -217,7 +217,13 @@ export const Users = (ctx: TenantContext) => ({
       ctx.now
     ),
   deleteModeratorNote: async (input: GQLDeleteModeratorNoteInput) =>
-    destroyModeratorNote(ctx.mongo, ctx.tenant, input.userID, input.id),
+    destroyModeratorNote(
+      ctx.mongo,
+      ctx.tenant,
+      input.userID,
+      input.id,
+      ctx.user!
+    ),
   ban: async (input: GQLBanUserInput) =>
     ban(
       ctx.mongo,

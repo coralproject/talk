@@ -2401,12 +2401,14 @@ export async function createModeratorNote(
  * @param tenantID the ID of the Tenant that this User exists on
  * @param userID the ID of the user
  * @param id the ID of the note to delete
+ * @param createdBy the ID of the note author
  */
 export async function deleteModeratorNote(
   mongo: Db,
   tenantID: string,
   userID: string,
-  id: string
+  id: string,
+  createdBy: string
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     {
@@ -2414,12 +2416,12 @@ export async function deleteModeratorNote(
       tenantID,
     },
     {
-      $pull: { moderatorNotes: { id } },
+      $pull: {
+        moderatorNotes: { id, createdBy },
+      },
     },
     {
-      // True to return the original document instead of the updated
-      // document.
-      returnOriginal: true,
+      returnOriginal: false,
     }
   );
   return result.value;

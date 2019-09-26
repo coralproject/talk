@@ -140,6 +140,9 @@ const enhanced = withFragmentContainer<Props>({
       ...UserStatusChangeContainer_user
       ...UserStatusDetailsContainer_user
       ...RecentHistoryContainer_user
+      moderatorNotes {
+        id
+      }
       id
       username
       email
