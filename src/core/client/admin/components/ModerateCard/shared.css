@@ -118,3 +118,49 @@
 .detailsDivider {
   border-color: var(--v2-palette-details-divider);
 }
+
+.flagDetailsCategory {
+  font-size: var(--v2-font-size-4);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-body-short);
+  color: var(--v2-palette-accordion-label);
+}
+
+.toxicityLabel {
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-body-short);
+  color: var(--v2-palette-accordion-label);
+}
+
+.flagDetailsEntryUser {
+  color: var(--v2-palette-username-emphasis);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-family: var(--v2-font-family-secondary);
+  line-height: var(--v2-line-height-title);
+  letter-spacing: calc(0.2em / 14);
+}
+
+.flagDetailsEntryDetails {
+  color: var(--v2-palette-reason-text);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-title);
+  letter-spacing: calc(0.2em / 14);
+}
+
+.flagDetailsEntryFlagger {
+  line-height: var(--v2-line-height-reset);
+
+  &:hover {
+    background-color: var(--palette-grey-lightest);
+  }
+
+  &:active {
+    background-color: var(--palette-grey-lighter);
+  }
+}
