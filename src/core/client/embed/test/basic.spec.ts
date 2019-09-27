@@ -1,5 +1,5 @@
 import mockConsole from "jest-mock-console";
-import * as Coral from "./";
+import * as Coral from "../";
 
 // tslint:disable:no-console
 
@@ -21,6 +21,14 @@ describe("Basic integration test", () => {
     expect(container.innerHTML).toMatchSnapshot();
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.error).not.toHaveBeenCalled();
+  });
+  it("should not inject count script", () => {
+    mockConsole();
+    const CoralEmbedStream = Coral.createStreamEmbed({
+      id: "basic-integration-test-id",
+    });
+    CoralEmbedStream.render();
+    expect(document.head.querySelector("script")).toBeNull();
   });
   it("should use canonical link", () => {
     mockConsole();

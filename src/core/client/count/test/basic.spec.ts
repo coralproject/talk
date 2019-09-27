@@ -32,7 +32,7 @@ beforeEach(async () => {
     Object.assign(element.dataset, attrs);
     document.body.appendChild(element);
   });
-  (await import("./")).main();
+  (await import("../")).main();
 });
 
 it("Sets the JSONP callback", async () => {

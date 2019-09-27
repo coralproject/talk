@@ -1,4 +1,5 @@
 import { COUNT_SELECTOR, ORIGIN_FALLBACK_ID } from "coral-framework/constants";
+import { detectCountScript } from "coral-framework/helpers";
 import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
 import jsonp from "coral-framework/utils/jsonp";
 
@@ -55,6 +56,6 @@ export function main() {
   detectAndInject();
 }
 
-if (process.env.NODE_ENV !== "test") {
+if (!detectCountScript() && process.env.NODE_ENV !== "test") {
   main();
 }

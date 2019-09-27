@@ -11,6 +11,12 @@ function getCurrentScriptOrigin(fallbackID?: string) {
   if (!script && fallbackID) {
     // Find script tag with `fallbackIdentifier` as its id.
     script = document.getElementById(fallbackID) as HTMLScriptElement | null;
+    if (!script) {
+      // Find script tag with `fallbackIdentifier` as its className.
+      script = document.querySelector(
+        `.${fallbackID}`
+      ) as HTMLScriptElement | null;
+    }
   }
   if (!script) {
     throw new Error("Current script not found");
