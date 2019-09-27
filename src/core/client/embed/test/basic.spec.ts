@@ -22,14 +22,6 @@ describe("Basic integration test", () => {
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.error).not.toHaveBeenCalled();
   });
-  it("should not inject count script", () => {
-    mockConsole();
-    const CoralEmbedStream = Coral.createStreamEmbed({
-      id: "basic-integration-test-id",
-    });
-    CoralEmbedStream.render();
-    expect(document.head.querySelector("script")).toBeNull();
-  });
   it("should use canonical link", () => {
     mockConsole();
     const link = document.createElement("link");
