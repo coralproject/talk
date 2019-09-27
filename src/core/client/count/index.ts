@@ -1,5 +1,5 @@
 import { COUNT_SELECTOR, ORIGIN_FALLBACK_ID } from "coral-framework/constants";
-import { detectCountScript } from "coral-framework/helpers";
+import detectCountScript from "coral-framework/helpers/detectCountScript";
 import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
 import jsonp from "coral-framework/utils/jsonp";
 

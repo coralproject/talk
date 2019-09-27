@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calls JSONP 1`] = `
+<body>
+  <span
+    class="coral-count"
+    data-coral-ref="ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwL3N0b3J5Lmh0bWw="
+    data-coral-url="http://localhost:8080/story.html"
+  />
+  <span
+    class="coral-count"
+    data-coral-id="1234-5678-91021"
+    data-coral-ref="ZmFsc2U7MTIzNC01Njc4LTkxMDIx"
+  />
+  <span
+    class="coral-count"
+    data-coral-ref="ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw=="
+    data-coral-url="http://localhost:8080/"
+    data-notext="true"
+  />
+  <span
+    class="coral-count"
+    data-coral-ref="ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw=="
+    data-coral-url="http://localhost:8080/"
+  />
+  <script
+    src="http://localhost:8080/api/story/count.js?callback=CoralCount.setCount&url=http%3A%2F%2Flocalhost%3A8080%2Fstory.html&notext=false&ref=ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwL3N0b3J5Lmh0bWw%3D"
+  />
+  <script
+    src="http://localhost:8080/api/story/count.js?callback=CoralCount.setCount&id=1234-5678-91021&notext=false&ref=ZmFsc2U7MTIzNC01Njc4LTkxMDIx"
+  />
+  <script
+    src="http://localhost:8080/api/story/count.js?callback=CoralCount.setCount&url=http%3A%2F%2Flocalhost%3A8080%2F&notext=false&ref=ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw%3D%3D"
+  />
+</body>
+`;
+
+exports[`Inject counts 1`] = `
+<body>
+  <span
+    class="coral-count"
+    data-coral-ref="ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwL3N0b3J5Lmh0bWw="
+    data-coral-url="http://localhost:8080/story.html"
+  />
+  <span
+    class="coral-count"
+    data-coral-id="1234-5678-91021"
+    data-coral-ref="ZmFsc2U7MTIzNC01Njc4LTkxMDIx"
+  />
+  <span
+    class="coral-count"
+    data-coral-ref="ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw=="
+    data-coral-url="http://localhost:8080/"
+    data-notext="true"
+  >
+    <span
+      class="coral-count-number"
+    >
+      5
+    </span>
+     
+    <span
+      class="coral-count-text"
+    >
+      Comments
+    </span>
+  </span>
+  <span
+    class="coral-count"
+    data-coral-ref="ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw=="
+    data-coral-url="http://localhost:8080/"
+  >
+    <span
+      class="coral-count-number"
+    >
+      5
+    </span>
+     
+    <span
+      class="coral-count-text"
+    >
+      Comments
+    </span>
+  </span>
+  <script
+    src="http://localhost:8080/api/story/count.js?callback=CoralCount.setCount&url=http%3A%2F%2Flocalhost%3A8080%2Fstory.html&notext=false&ref=ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwL3N0b3J5Lmh0bWw%3D"
+  />
+  <script
+    src="http://localhost:8080/api/story/count.js?callback=CoralCount.setCount&id=1234-5678-91021&notext=false&ref=ZmFsc2U7MTIzNC01Njc4LTkxMDIx"
+  />
+  <script
+    src="http://localhost:8080/api/story/count.js?callback=CoralCount.setCount&url=http%3A%2F%2Flocalhost%3A8080%2F&notext=false&ref=ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw%3D%3D"
+  />
+</body>
+`;
