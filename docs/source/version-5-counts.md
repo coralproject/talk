@@ -3,35 +3,27 @@ title: Comment Count Integration
 permalink: /v5/integrating/counts/
 ---
 
-With the `count.js` script you can inject comment counts of any story across your page on selected elements.
-
-### Example Usage
-
-Insert an html element with the class `coral-count` and configure it using `data-coral-*` attributes. Finally insert the `count.js` script to the bottom of your `body` tag or insert it to the `head` tag with `defer` turned on.
+Add the `count.js` script to your `html` tree. On a page that includes the _Stream Embed_ this is done for you automatically, however for best performance we recommend to include it into the `<head>` tag.
 
 ```html
-<head>
-  <script href="//{{ CORAL_DOMAIN_NAME }}/assets/js/count.js" defer></script>
-</head>
-<body>
-  <span class="coral-count" data-coral-url="http://example.com/blog-entry-1/"></span>
-</body>
+<script href="//{{ CORAL_DOMAIN_NAME }}/assets/js/count.js" defer></script>
 ```
 
 > **NOTE:** Replace the value of `{% raw %}{{ CORAL_DOMAIN_NAME }}{% endraw %}` with the location of your running instance of Coral.
 
+Insert an html element with the class `coral-count` and configure it using `data-coral-*` attributes. 
+
+```html
+<span class="coral-count" data-coral-url="http://example.com/blog-entry-1/"></span>
+```
+
 After successful injection it will become:
 
 ```html
-<head>
-  <script href="//{{ CORAL_DOMAIN_NAME }}/assets/js/count.js" defer></script>
-</head>
-<body>
-  <span class="coral-count" data-coral-url="http://example.com/blog-entry-1/">
-    <span class="coral-count-number">5</span>
-    <span class="coral-count-text">Comments</span>
-  </span>
-</body>
+<span class="coral-count" data-coral-url="http://example.com/blog-entry-1/">
+   <span class="coral-count-number">5</span>
+  <span class="coral-count-text">Comments</span>
+</span>
 ```
 
 ### Available `data-coral-*` attributes
