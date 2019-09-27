@@ -31,7 +31,7 @@ export default class extends Migration {
     const cursor = await collections
       .users(mongo)
       .find({
-        "status.premod": { $ne: null },
+        "status.premod": null,
         tenantID,
       })
       .project({ id: 1 });
