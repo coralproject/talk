@@ -1,5 +1,9 @@
 .root {
-  composes: markerTextV2 from "coral-ui/shared/typography.css";
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: 0.8125rem;
+  letter-spacing: calc(-0.35em / 13);
+
   color: var(--palette-error-main);
   border: 1px solid currentColor;
   border-radius: 20px;

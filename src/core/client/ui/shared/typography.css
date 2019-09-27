@@ -371,40 +371,4 @@
   @mixin bodyCommentV2;
 }
 
-.bodyShortV2 {
-  @mixin bodyShortV2;
-}
-
-.header4V2 {
-  @mixin header4V2;
-}
-
-.heading4 {
-  @mixin header4V2;
-}
-
-.header5V2 {
-  @mixin header5V2;
-}
-
-.heading5V2 {
-  @mixin header5V2;
-}
-
-.markerTextV2 {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: 0.8125rem;
-  letter-spacing: calc(-0.35em / 13);
-}
-
-.timestampV2 {
-  color: var(--v2-palette-text-secondary);
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-reset);
-  letter-spacing: 0;
-}
-
 /* --- */

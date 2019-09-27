@@ -30,12 +30,7 @@ type Variant =
   | "detail"
   | "timestamp"
   // V2
-  | "heading4V2"
-  | "header4V2"
-  | "heading5V2"
-  | "header5V2"
-  | "timestampV2"
-  | "bodyShortV2";
+  | "bodyCommentV2";
 
 // Based on Typography Component of Material UI.
 // https://github.com/mui-org/material-ui/blob/303199d39b42a321d28347d8440d69166f872f27/packages/material-ui/src/Typography/Typography.js
@@ -142,9 +137,6 @@ const Typography: FunctionComponent<Props> = props => {
       [classes.alignCenter]: align === "center",
       [classes.alignRight]: align === "right",
       [classes.alignJustify]: align === "justify",
-
-      // V2 Classes
-      [classes.colorTextPrimaryV2]: color === "textPrimaryV2",
     },
     className
   );
@@ -185,12 +177,7 @@ Typography.defaultProps = {
     inputLabel: "label",
     detail: "p",
     // V2
-    heading4V2: "h1",
-    header4V2: "h1",
-    heading5V2: "h1",
-    header5V2: "h1",
-    bodyShortV2: "p",
-    timestampV2: "span",
+    bodyCommentV2: "p",
   },
   noWrap: false,
   paragraph: false,

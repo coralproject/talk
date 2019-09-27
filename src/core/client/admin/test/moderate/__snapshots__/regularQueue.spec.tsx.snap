@@ -31,7 +31,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-username"
+            className="BaseButton-root ModerateCard-usernameButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -41,7 +41,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
+              className="Username-root"
             >
               Isabelle
             </span>
@@ -82,7 +82,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
+        className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
         dangerouslySetInnerHTML={
           Object {
             "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -111,12 +111,14 @@ exports[`approves comment in reported queue: dangling 1`] = `
             </a>
           </div>
           <div>
-            <span
-              className="ModerateCard-story"
-            >
-              Story
-            </span>
-            : 
+            <div>
+              <span
+                className="ModerateCard-storyLabel"
+              >
+                Comment On
+              </span>
+              : 
+            </div>
             <span
               className="ModerateCard-storyTitle"
             >
@@ -270,7 +272,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-username"
+            className="BaseButton-root ModerateCard-usernameButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -280,7 +282,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
+              className="Username-root"
             >
               Isabelle
             </span>
@@ -321,7 +323,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
+        className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
         dangerouslySetInnerHTML={
           Object {
             "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -350,12 +352,14 @@ exports[`rejects comment in reported queue: dangling 1`] = `
             </a>
           </div>
           <div>
-            <span
-              className="ModerateCard-story"
-            >
-              Story
-            </span>
-            : 
+            <div>
+              <span
+                className="ModerateCard-storyLabel"
+              >
+                Comment On
+              </span>
+              : 
+            </div>
             <span
               className="ModerateCard-storyTitle"
             >
@@ -506,7 +510,7 @@ exports[`renders reported queue with comments 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
               >
                 <button
-                  className="BaseButton-root ModerateCard-username"
+                  className="BaseButton-root ModerateCard-usernameButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -516,7 +520,7 @@ exports[`renders reported queue with comments 1`] = `
                   type="button"
                 >
                   <span
-                    className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
+                    className="Username-root"
                   >
                     Isabelle
                   </span>
@@ -557,7 +561,7 @@ exports[`renders reported queue with comments 1`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
+              className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -586,12 +590,14 @@ exports[`renders reported queue with comments 1`] = `
                   </a>
                 </div>
                 <div>
-                  <span
-                    className="ModerateCard-story"
-                  >
-                    Story
-                  </span>
-                  : 
+                  <div>
+                    <span
+                      className="ModerateCard-storyLabel"
+                    >
+                      Comment On
+                    </span>
+                    : 
+                  </div>
                   <span
                     className="ModerateCard-storyTitle"
                   >
@@ -729,7 +735,7 @@ exports[`renders reported queue with comments 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
               >
                 <button
-                  className="BaseButton-root ModerateCard-username"
+                  className="BaseButton-root ModerateCard-usernameButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -739,7 +745,7 @@ exports[`renders reported queue with comments 1`] = `
                   type="button"
                 >
                   <span
-                    className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
+                    className="Username-root"
                   >
                     Ngoc
                   </span>
@@ -780,7 +786,7 @@ exports[`renders reported queue with comments 1`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
+              className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "Don't fool with me",
@@ -809,12 +815,14 @@ exports[`renders reported queue with comments 1`] = `
                   </a>
                 </div>
                 <div>
-                  <span
-                    className="ModerateCard-story"
-                  >
-                    Story
-                  </span>
-                  : 
+                  <div>
+                    <span
+                      className="ModerateCard-storyLabel"
+                    >
+                      Comment On
+                    </span>
+                    : 
+                  </div>
                   <span
                     className="ModerateCard-storyTitle"
                   >
@@ -968,7 +976,7 @@ exports[`renders reported queue with comments 2`] = `
                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
               >
                 <button
-                  className="BaseButton-root ModerateCard-username"
+                  className="BaseButton-root ModerateCard-usernameButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -978,7 +986,7 @@ exports[`renders reported queue with comments 2`] = `
                   type="button"
                 >
                   <span
-                    className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
+                    className="Username-root"
                   >
                     Isabelle
                   </span>
@@ -1019,7 +1027,7 @@ exports[`renders reported queue with comments 2`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
+              className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -1048,12 +1056,14 @@ exports[`renders reported queue with comments 2`] = `
                   </a>
                 </div>
                 <div>
-                  <span
-                    className="ModerateCard-story"
-                  >
-                    Story
-                  </span>
-                  : 
+                  <div>
+                    <span
+                      className="ModerateCard-storyLabel"
+                    >
+                      Comment On
+                    </span>
+                    : 
+                  </div>
                   <span
                     className="ModerateCard-storyTitle"
                   >
@@ -1191,7 +1201,7 @@ exports[`renders reported queue with comments 2`] = `
                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
               >
                 <button
-                  className="BaseButton-root ModerateCard-username"
+                  className="BaseButton-root ModerateCard-usernameButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1201,7 +1211,7 @@ exports[`renders reported queue with comments 2`] = `
                   type="button"
                 >
                   <span
-                    className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
+                    className="Username-root"
                   >
                     Ngoc
                   </span>
@@ -1242,7 +1252,7 @@ exports[`renders reported queue with comments 2`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
+              className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "Don't fool with me",
@@ -1271,12 +1281,14 @@ exports[`renders reported queue with comments 2`] = `
                   </a>
                 </div>
                 <div>
-                  <span
-                    className="ModerateCard-story"
-                  >
-                    Story
-                  </span>
-                  : 
+                  <div>
+                    <span
+                      className="ModerateCard-storyLabel"
+                    >
+                      Comment On
+                    </span>
+                    : 
+                  </div>
                   <span
                     className="ModerateCard-storyTitle"
                   >
@@ -1420,7 +1432,7 @@ exports[`renders reported queue with comments and load more 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-username"
+            className="BaseButton-root ModerateCard-usernameButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -1430,7 +1442,7 @@ exports[`renders reported queue with comments and load more 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-header4V2 Typography-colorTextPrimary Username-root"
+              className="Username-root"
             >
               Max
             </span>
@@ -1471,7 +1483,7 @@ exports[`renders reported queue with comments and load more 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimaryV2 ModerateCard-content CommentContent-root"
+        className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
         dangerouslySetInnerHTML={
           Object {
             "__html": "I think I deserve better",
@@ -1500,12 +1512,14 @@ exports[`renders reported queue with comments and load more 1`] = `
             </a>
           </div>
           <div>
-            <span
-              className="ModerateCard-story"
-            >
-              Story
-            </span>
-            : 
+            <div>
+              <span
+                className="ModerateCard-storyLabel"
+              >
+                Comment On
+              </span>
+              : 
+            </div>
             <span
               className="ModerateCard-storyTitle"
             >

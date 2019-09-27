@@ -16,7 +16,7 @@ exports[`renders approved correctly 1`] = `
           alignItems="center"
         >
           <ForwardRef(forwardRef)
-            className="ModerateCard-username"
+            className="ModerateCard-usernameButton"
             onClick={[Function]}
           >
             <Username>
@@ -131,7 +131,7 @@ exports[`renders correctly 1`] = `
           alignItems="center"
         >
           <ForwardRef(forwardRef)
-            className="ModerateCard-username"
+            className="ModerateCard-usernameButton"
             onClick={[Function]}
           >
             <Username>
@@ -246,7 +246,7 @@ exports[`renders dangling correctly 1`] = `
           alignItems="center"
         >
           <ForwardRef(forwardRef)
-            className="ModerateCard-username"
+            className="ModerateCard-usernameButton"
             onClick={[Function]}
           >
             <Username>
@@ -361,7 +361,7 @@ exports[`renders rejected correctly 1`] = `
           alignItems="center"
         >
           <ForwardRef(forwardRef)
-            className="ModerateCard-username"
+            className="ModerateCard-usernameButton"
             onClick={[Function]}
           >
             <Username>
@@ -476,7 +476,7 @@ exports[`renders reply correctly 1`] = `
           alignItems="center"
         >
           <ForwardRef(forwardRef)
-            className="ModerateCard-username"
+            className="ModerateCard-usernameButton"
             onClick={[Function]}
           >
             <Username>
@@ -497,7 +497,7 @@ exports[`renders reply correctly 1`] = `
         </ForwardRef(forwardRef)>
         <div>
           <ForwardRef(forwardRef)
-            className="ModerateCard-username"
+            className="ModerateCard-usernameButton"
             onClick={[Function]}
           >
             <InReplyTo>
@@ -601,7 +601,7 @@ exports[`renders story info 1`] = `
           alignItems="center"
         >
           <ForwardRef(forwardRef)
-            className="ModerateCard-username"
+            className="ModerateCard-usernameButton"
             onClick={[Function]}
           >
             <Username>
@@ -654,16 +654,18 @@ exports[`renders story info 1`] = `
             </Localized>
           </div>
           <div>
-            <Localized
-              id="moderate-comment-story"
-            >
-              <span
-                className="ModerateCard-story"
+            <div>
+              <Localized
+                id="moderate-comment-storyLabel"
               >
-                Story
-              </span>
-            </Localized>
-            : 
+                <span
+                  className="ModerateCard-storyLabel"
+                >
+                  Comment on
+                </span>
+              </Localized>
+              : 
+            </div>
             <span
               className="ModerateCard-storyTitle"
             >
@@ -745,7 +747,7 @@ exports[`renders tombstoned when comment is deleted 1`] = `
           alignItems="center"
         >
           <ForwardRef(forwardRef)
-            className="ModerateCard-username"
+            className="ModerateCard-usernameButton"
             onClick={[Function]}
           >
             <Username>
