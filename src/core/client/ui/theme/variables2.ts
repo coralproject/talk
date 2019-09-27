@@ -126,6 +126,10 @@ const variables2 = {
     },
     accordionLabel: colors.mono500,
     reasonText: colors.mono500,
+    details: {
+      header: colors.mono500,
+      divider: colors.grey100,
+    },
   },
   fontFamily: {
     primary: "Open Sans",
