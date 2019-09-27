@@ -57,6 +57,7 @@ interface Props {
    */
   dangling?: boolean;
   deleted?: boolean;
+  edited: boolean;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -85,6 +86,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   mini = false,
   hideUsername = false,
   deleted = false,
+  edited,
 }) => {
   const commentBody = deleted ? (
     <Localized id="moderate-comment-deleted-body">
@@ -131,6 +133,13 @@ const ModerateCard: FunctionComponent<Props> = ({
                 </BaseButton>
               )}
               <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
+              {edited && (
+                <Localized id="moderate-comment-edited">
+                  <Typography variant="timestamp" className={styles.edited}>
+                    (edited)
+                  </Typography>
+                </Localized>
+              )}
               <FeatureButton
                 featured={featured}
                 onClick={onFeature}

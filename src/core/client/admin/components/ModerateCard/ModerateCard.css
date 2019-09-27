@@ -145,3 +145,8 @@
 .timestamp {
   composes: timestamp from "coral-admin/components/ModerateCard/shared.css";
 }
+
+.edited {
+  color: var(--palette-grey-lighter);
+  padding-left: var(--spacing-2)
+}

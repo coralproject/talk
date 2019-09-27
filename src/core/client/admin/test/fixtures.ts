@@ -501,6 +501,16 @@ export const baseComment = createFixture<GQLComment>({
     edges: [],
     pageInfo: { endCursor: null, hasNextPage: false },
   },
+  editing: {
+    edited: false,
+  },
+  revisionHistory: [
+    {
+      id: "revision",
+      body: "Comment body",
+      createdAt: "2018-07-06T18:24:00.000Z",
+    },
+  ],
   revision: {
     actionCounts: {
       flag: {
