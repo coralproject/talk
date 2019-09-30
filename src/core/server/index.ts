@@ -208,6 +208,8 @@ class Server {
     // Run migrations if there is already a Tenant installed.
     if (await isInstalled(this.tenantCache)) {
       await this.migrationManager.executePendingMigrations(this.mongo);
+    } else {
+      logger.info("no tenants are installed, skipping running migrations");
     }
 
     // Prime the queries in the database.

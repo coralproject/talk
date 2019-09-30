@@ -2,28 +2,36 @@ import fs from "fs-extra";
 import { Db } from "mongodb";
 import path from "path";
 import now from "performance-now";
+import uuid from "uuid";
 
 import logger from "coral-server/logger";
 import {
-  createFailedMigrationRecord,
-  createMigrationRecord,
   createSkippedMigrationRecords,
+  failMigration,
+  finishMigration,
+  MIGRATION_STATE,
   retrieveAllMigrationRecords,
+  startMigration,
 } from "coral-server/models/migration";
 import TenantCache from "coral-server/services/tenant/cache";
 
-import { FailedMigrationDetectedError } from "./error";
+import {
+  FailedMigrationDetectedError,
+  InProgressMigrationDetectedError,
+} from "./error";
 import Migration from "./migration";
 
 // Extract the version from the filename with this regex.
 const fileNamePattern = /^(\d+)_([\S_]+)\.[tj]s$/;
 
 export default class Manager {
+  private clientID: string;
   private migrations: Migration[];
   private tenants: TenantCache;
   private ran: boolean = false;
 
   constructor(tenants: TenantCache) {
+    this.clientID = uuid.v4();
     this.migrations = [];
     this.tenants = tenants;
 
@@ -85,19 +93,34 @@ export default class Manager {
    * @param mongo the database handle to use to get the migrations
    */
   private async pending(mongo: Db): Promise<Migration[]> {
+    // Get all the migration records in the database.
     const records = await retrieveAllMigrationRecords(mongo);
 
-    // Check to see if any of the migrations have failed.
-    records.forEach(record => {
-      if (record.failed) {
-        throw new FailedMigrationDetectedError(record);
+    // Check to see if any of the migrations have failed or are in progress.
+    for (const record of records) {
+      switch (record.state) {
+        case MIGRATION_STATE.FAILED:
+          throw new FailedMigrationDetectedError(record);
+        case MIGRATION_STATE.STARTED:
+          throw new InProgressMigrationDetectedError(record);
+        default:
+          break;
       }
-    });
+    }
 
-    return this.migrations.filter(
-      migration =>
-        !Boolean(records.find(record => migration.version === record.version))
-    );
+    return this.migrations.filter(migration => {
+      // Find the record based on the migration.
+      const record = records.find(
+        ({ version }) => migration.version === version
+      );
+      if (record) {
+        // The record exists, so it isn't pending, it's already finished.
+        return false;
+      }
+
+      // A record of the migration does not exist, so mark it as pending.
+      return true;
+    });
   }
 
   private async currentMigration(mongo: Db) {
@@ -179,6 +202,16 @@ export default class Manager {
         const migrationStartTime = now();
         log.info("starting migration");
 
+        // Mark the migration as started.
+        const record = await startMigration(
+          mongo,
+          migration.version,
+          this.clientID
+        );
+        if (record.clientID !== this.clientID) {
+          throw new InProgressMigrationDetectedError(record);
+        }
+
         try {
           // Run the migration.
           await migration.up(mongo, tenant.id);
@@ -202,7 +235,7 @@ export default class Manager {
           }
 
           // Mark the migration as failed.
-          await createFailedMigrationRecord(mongo, migration.version);
+          await failMigration(mongo, migration.version);
 
           // Rethrow the error here to cause the application to crash.
           throw err;
@@ -213,7 +246,7 @@ export default class Manager {
       }
 
       // Mark the migration as completed.
-      await createMigrationRecord(mongo, migration.version);
+      await finishMigration(mongo, migration.version);
     }
 
     const finishTime = Math.round(now() - migrationsStartTime);

@@ -48,3 +48,16 @@ export class FailedMigrationDetectedError extends VError {
     );
   }
 }
+
+export class InProgressMigrationDetectedError extends VError {
+  constructor(record: MigrationRecord) {
+    super(
+      {
+        name: "InProgressMigrationDetectedError",
+        info: record,
+      },
+      'InProgressMigrationDetectedError: migration "%d" was in progress',
+      record.version
+    );
+  }
+}
