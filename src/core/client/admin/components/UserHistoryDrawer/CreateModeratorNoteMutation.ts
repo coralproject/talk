@@ -1,6 +1,8 @@
+import { pick } from "lodash";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { CreateModeratorNoteMutation as MutationTypes } from "coral-admin/__generated__/CreateModeratorNoteMutation.graphql";
 import { getViewer } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
@@ -10,7 +12,6 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 import { GQLUser } from "coral-framework/schema";
-import { CreateModeratorNoteMutation as MutationTypes } from "coral-stream/__generated__/CreateModeratorNoteMutation.graphql";
 
 let clientMutationId = 0;
 
@@ -23,7 +24,13 @@ const CreateModeratorNoteMutation = createMutation(
   ) => {
     const viewer = getViewer(environment)!;
     const notes =
-      lookup<GQLUser>(environment, input.userID)!.moderatorNotes || [];
+      lookup<GQLUser>(environment, input.userID)!.moderatorNotes.map(note => {
+        const createdBy = pick(note.createdBy, ["username", "id"]);
+        return {
+          ...pick(note, ["id", "body", "createdAt"]),
+          createdBy,
+        };
+      }) || [];
     const now = new Date();
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
@@ -55,7 +62,6 @@ const CreateModeratorNoteMutation = createMutation(
       optimisticResponse: {
         createModeratorNote: {
           user: {
-            id: input.userID,
             moderatorNotes: [
               {
                 id: uuidGenerator(),
