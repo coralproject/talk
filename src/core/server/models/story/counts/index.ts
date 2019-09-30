@@ -13,19 +13,11 @@ import {
   CommentStatusCounts,
   createEmptyCommentStatusCounts,
 } from "coral-server/models/comment/helpers";
-import { createIndexFactory } from "coral-server/models/helpers";
 import { retrieveStory, Story } from "coral-server/models/story";
 import { stories as collection } from "coral-server/services/mongodb/collections";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 import { updateSharedCommentCounts } from "./shared";
-
-export async function createStoryCountIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // { createdAt }
-  await createIndex({ tenantID: 1, createdAt: 1 }, { background: true });
-}
 
 /**
  * CommentModerationCountsPerQueue stores the number of Comments that exist in

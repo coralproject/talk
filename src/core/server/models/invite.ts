@@ -3,19 +3,8 @@ import uuid from "uuid";
 
 import { Omit, Sub } from "coral-common/types";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 import { invites as collection } from "coral-server/services/mongodb/collections";
-
-export async function createInviteIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // UNIQUE { id }
-  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
-
-  // UNIQUE { email }
-  await createIndex({ tenantID: 1, email: 1 }, { unique: true });
-}
 
 export interface Invite extends TenantResource {
   readonly id: string;

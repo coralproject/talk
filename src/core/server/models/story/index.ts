@@ -14,8 +14,6 @@ import {
 import {
   Connection,
   ConnectionInput,
-  createConnectionOrderVariants,
-  createIndexFactory,
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
@@ -77,40 +75,6 @@ export interface Story extends TenantResource {
    * createdAt is the date that the Story was added to the Coral database.
    */
   createdAt: Date;
-}
-
-export async function createStoryIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // UNIQUE { id }
-  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
-
-  // UNIQUE { url }
-  await createIndex({ tenantID: 1, url: 1 }, { unique: true });
-
-  // TEXT { $**, createdAt }
-  await createIndex(
-    { tenantID: 1, "$**": "text", createdAt: -1 },
-    { background: true }
-  );
-
-  const variants = createConnectionOrderVariants<Readonly<Story>>(
-    [{ createdAt: -1 }],
-    { background: true }
-  );
-
-  // Story Connection pagination.
-  // { ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-  });
-
-  // Closed At ordered Story Connection pagination.
-  // { closedAt, ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    closedAt: 1,
-  });
 }
 
 export interface UpsertStoryInput {

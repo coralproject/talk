@@ -29,7 +29,6 @@ import {
 import { createMetrics } from "coral-server/services/metrics";
 import { MigrationManager } from "coral-server/services/migrate";
 import { createMongoDB } from "coral-server/services/mongodb";
-import { ensureIndexes } from "coral-server/services/mongodb/indexes";
 import { PersistedQueryCache } from "coral-server/services/queries";
 import {
   AugmentedRedis,
@@ -195,15 +194,6 @@ class Server {
       throw new Error("server has already processing");
     }
     this.processing = true;
-
-    // Create the database indexes if it isn't disabled.
-    if (!this.config.get("disable_mongodb_autoindexing")) {
-      // Setup the database indexes.
-      logger.info("mongodb autoindexing is enabled, starting indexing");
-      await ensureIndexes(this.mongo);
-    } else {
-      logger.warn("mongodb autoindexing is disabled, skipping indexing");
-    }
 
     // Run migrations if there is already a Tenant installed.
     if (await isInstalled(this.tenantCache)) {

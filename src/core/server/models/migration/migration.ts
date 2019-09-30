@@ -2,8 +2,6 @@ import { Db } from "mongodb";
 
 import { migrations as collection } from "coral-server/services/mongodb/collections";
 
-import { createIndexFactory } from "../helpers";
-
 export enum MIGRATION_STATE {
   STARTED = "STARTED",
   FAILED = "FAILED",
@@ -11,31 +9,24 @@ export enum MIGRATION_STATE {
 }
 
 export interface MigrationRecord {
-  version: number;
+  id: number;
   state: MIGRATION_STATE;
   clientID?: string;
   createdAt: Date;
   updatedAt?: Date;
 }
 
-export async function createMigrationRecordIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // UNIQUE { version }
-  await createIndex({ version: 1 }, { unique: true });
-}
-
 export async function startMigration(
   mongo: Db,
-  version: number,
+  id: number,
   clientID: string,
   now = new Date()
 ) {
   const result = await collection(mongo).findOneAndUpdate(
-    { version },
+    { id },
     {
       $setOnInsert: {
-        version,
+        id,
         clientID,
         state: MIGRATION_STATE.STARTED,
         createdAt: now,
@@ -59,18 +50,18 @@ export async function startMigration(
  * the new state as well as un-setting the client ID from the records.
  *
  * @param mongo the database to interact on
- * @param version the migration version to update
+ * @param id the migration version to update
  * @param state the state to switch the record to
  * @param now the current date
  */
 async function updateMigrationState(
   mongo: Db,
-  version: number,
+  id: number,
   state: MIGRATION_STATE.FINISHED | MIGRATION_STATE.FAILED,
   now: Date
 ) {
   const result = await collection(mongo).findOneAndUpdate(
-    { version },
+    { id },
     {
       $set: {
         state,
@@ -89,25 +80,17 @@ async function updateMigrationState(
   return result.value || null;
 }
 
-export async function finishMigration(
-  mongo: Db,
-  version: number,
-  now = new Date()
-) {
-  return updateMigrationState(mongo, version, MIGRATION_STATE.FINISHED, now);
+export async function finishMigration(mongo: Db, id: number, now = new Date()) {
+  return updateMigrationState(mongo, id, MIGRATION_STATE.FINISHED, now);
 }
 
-export async function failMigration(
-  mongo: Db,
-  version: number,
-  now = new Date()
-) {
-  return updateMigrationState(mongo, version, MIGRATION_STATE.FAILED, now);
+export async function failMigration(mongo: Db, id: number, now = new Date()) {
+  return updateMigrationState(mongo, id, MIGRATION_STATE.FAILED, now);
 }
 
 export async function retrieveAllMigrationRecords(mongo: Db) {
   const cursor = await collection(mongo)
     .find({})
-    .sort({ version: 1 });
+    .sort({ id: 1 });
   return cursor.toArray();
 }

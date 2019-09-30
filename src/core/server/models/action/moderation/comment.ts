@@ -6,29 +6,11 @@ import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated_
 import {
   Connection,
   ConnectionInput,
-  createConnectionOrderVariants,
-  createIndexFactory,
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 import { commentModerationActions as collection } from "coral-server/services/mongodb/collections";
-
-export async function createCommentModerationActionIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // UNIQUE { id }
-  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
-
-  const createVariants = createConnectionOrderVariants<
-    Readonly<CommentModerationAction>
-  >([{ createdAt: -1 }]);
-
-  // { moderatorID, ...connectionParams }
-  await createVariants(createIndex, {
-    moderatorID: 1,
-  });
-}
 
 /**
  * CommentModerationAction stores information around a moderation action that

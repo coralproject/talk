@@ -33,8 +33,6 @@ import logger from "coral-server/logger";
 import {
   Connection,
   ConnectionInput,
-  createConnectionOrderVariants,
-  createIndexFactory,
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
@@ -430,80 +428,6 @@ export interface User extends TenantResource {
    * deletedAt is the time that this user was deleted from our system.
    */
   deletedAt?: Date;
-}
-
-export async function createUserIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // UNIQUE { id }
-  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
-
-  // UNIQUE - PARTIAL { email }
-  await createIndex(
-    { tenantID: 1, email: 1 },
-    { unique: true, partialFilterExpression: { email: { $exists: true } } }
-  );
-
-  // UNIQUE { profiles.type, profiles.id }
-  await createIndex(
-    { tenantID: 1, "profiles.type": 1, "profiles.id": 1 },
-    {
-      unique: true,
-      partialFilterExpression: { "profiles.id": { $exists: true } },
-    }
-  );
-
-  // { profiles }
-  await createIndex(
-    { tenantID: 1, profiles: 1, email: 1 },
-    {
-      partialFilterExpression: { profiles: { $exists: true } },
-      background: true,
-    }
-  );
-
-  // TEXT { id, username, email, createdAt }
-  await createIndex(
-    {
-      tenantID: 1,
-      id: "text",
-      username: "text",
-      email: "text",
-      createdAt: -1,
-    },
-    { background: true }
-  );
-
-  const variants = createConnectionOrderVariants<Readonly<User>>(
-    [{ createdAt: -1 }],
-    { background: true }
-  );
-
-  // User Connection pagination.
-  // { ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-  });
-
-  // Role based User Connection pagination.
-  // { role, ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    role: 1,
-  });
-
-  // Suspension based User Connection pagination.
-  await variants(createIndex, {
-    tenantID: 1,
-    "status.suspension.history.from.start": 1,
-    "status.suspension.history.from.finish": 1,
-  });
-
-  // Ban based User Connection pagination.
-  await variants(createIndex, {
-    tenantID: 1,
-    "status.ban.active": 1,
-  });
 }
 
 function hashPassword(password: string): Promise<string> {

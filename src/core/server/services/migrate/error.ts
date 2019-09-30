@@ -44,7 +44,7 @@ export class FailedMigrationDetectedError extends VError {
         info: record,
       },
       'FailedMigrationDetectedError: migration "%d" failed, remove this document to restart the migration process',
-      record.version
+      record.id
     );
   }
 }
@@ -57,7 +57,7 @@ export class InProgressMigrationDetectedError extends VError {
         info: record,
       },
       'InProgressMigrationDetectedError: migration "%d" was in progress',
-      record.version
+      record.id
     );
   }
 }

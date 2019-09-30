@@ -17,8 +17,6 @@ import logger from "coral-server/logger";
 import {
   Connection,
   ConnectionInput,
-  createConnectionOrderVariants,
-  createIndexFactory,
   FilterQuery,
   Query,
   resolveConnection,
@@ -130,32 +128,6 @@ export interface CommentAction extends TenantResource {
    * metadata is arbitrary information stored for this Action.
    */
   metadata?: Record<string, any>;
-}
-
-export async function createCommentActionIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // UNIQUE { id }
-  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
-
-  // { actionType, commentID, userID }
-  await createIndex(
-    { tenantID: 1, actionType: 1, commentID: 1, userID: 1 },
-    { background: true }
-  );
-
-  const variants = createConnectionOrderVariants<Readonly<CommentAction>>(
-    [{ createdAt: -1 }],
-    { background: true }
-  );
-
-  // Connection pagination.
-  // { ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    actionType: 1,
-    commentID: 1,
-  });
 }
 
 const ActionSchema = [

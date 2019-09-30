@@ -20,7 +20,7 @@ import {
 } from "./error";
 import Migration from "./migration";
 
-// Extract the version from the filename with this regex.
+// Extract the id from the filename with this regex.
 const fileNamePattern = /^(\d+)_([\S_]+)\.[tj]s$/;
 
 export default class Manager {
@@ -59,10 +59,10 @@ export default class Manager {
       if (!matches || matches.length !== 3) {
         throw new Error("fileName format is invalid");
       }
-      const version = parseInt(matches[1], 10);
+      const id = parseInt(matches[1], 10);
 
       // Create the migration instance.
-      const migration = new m.default(version, matches[2]);
+      const migration = new m.default(id, matches[2]);
 
       // Insert the migration into the migrations array.
       if (!(migration instanceof Migration)) {
@@ -74,11 +74,11 @@ export default class Manager {
 
     // Sort the migrations.
     this.migrations.sort((a, b) => {
-      if (a.version < b.version) {
+      if (a.id < b.id) {
         return -1;
       }
 
-      if (a.version > b.version) {
+      if (a.id > b.id) {
         return 1;
       }
 
@@ -109,9 +109,7 @@ export default class Manager {
 
     return this.migrations.filter(migration => {
       // Find the record based on the migration.
-      const record = records.find(
-        ({ version }) => migration.version === version
-      );
+      const record = records.find(({ id }) => migration.id === id);
       if (record) {
         // The record exists, so it isn't pending, it's already finished.
         return false;
@@ -136,7 +134,7 @@ export default class Manager {
     // Mark the migrations as ran.
     this.ran = true;
 
-    // Check the current migration version.
+    // Check the current migration id.
     let currentMigration = await this.currentMigration(mongo);
 
     // Determine which migrations need to be ran.
@@ -144,9 +142,7 @@ export default class Manager {
     if (pending.length === 0) {
       logger.info(
         {
-          currentMigrationVersion: currentMigration
-            ? currentMigration.version
-            : null,
+          currentMigrationID: currentMigration ? currentMigration.id : null,
         },
         "there was no pending migrations to run"
       );
@@ -161,62 +157,70 @@ export default class Manager {
       let log = logger.child(
         {
           migrationName: migration.name,
-          migrationVersion: migration.version,
+          migrationID: migration.id,
         },
         true
       );
 
-      for await (const tenant of this.tenants) {
-        log = log.child({ tenantID: tenant.id }, true);
+      // Mark the migration as started.
+      const record = await startMigration(mongo, migration.id, this.clientID);
+      if (record.clientID !== this.clientID) {
+        throw new InProgressMigrationDetectedError(record);
+      }
 
+      // Apply any index changes for the migration.
+      if (migration.indexes) {
         const migrationStartTime = now();
-        log.info("starting migration");
-
-        // Mark the migration as started.
-        const record = await startMigration(
-          mongo,
-          migration.version,
-          this.clientID
-        );
-        if (record.clientID !== this.clientID) {
-          throw new InProgressMigrationDetectedError(record);
-        }
-
-        try {
-          // Run the migration.
-          await migration.up(mongo, tenant.id);
-
-          // Test the migration.
-          if (migration.test) {
-            await migration.test(mongo, tenant.id);
-          }
-        } catch (err) {
-          // The migration or test has failed, try to roll back the operation.
-          if (migration.down) {
-            log.error({ err }, "migration has failed, attempting rollback");
-
-            // Attempt the down migration.
-            await migration.down(mongo, tenant.id);
-          } else {
-            log.error(
-              { err },
-              "migration has failed, and does not have a down method available, migration will not be rolled back"
-            );
-          }
-
-          // Mark the migration as failed.
-          await failMigration(mongo, migration.version);
-
-          // Rethrow the error here to cause the application to crash.
-          throw err;
-        }
-
+        log.info("starting index migration");
+        await migration.indexes(mongo);
         const executionTime = Math.round(now() - migrationStartTime);
-        log.info({ executionTime }, "finished migration");
+        log.info({ executionTime }, "finished index migration");
+      }
+
+      if (migration.up) {
+        // The migration provides an up method, we should run this per Tenant.
+        for await (const tenant of this.tenants) {
+          log = log.child({ tenantID: tenant.id }, true);
+
+          const migrationStartTime = now();
+          log.info("starting migration");
+
+          try {
+            // Up the migration.
+            await migration.up(mongo, tenant.id);
+
+            // Test the migration.
+            if (migration.test) {
+              await migration.test(mongo, tenant.id);
+            }
+          } catch (err) {
+            // The migration or test has failed, try to roll back the operation.
+            if (migration.down) {
+              log.error({ err }, "migration has failed, attempting rollback");
+
+              // Attempt the down migration.
+              await migration.down(mongo, tenant.id);
+            } else {
+              log.error(
+                { err },
+                "migration has failed, and does not have a down method available, migration will not be rolled back"
+              );
+            }
+
+            // Mark the migration as failed.
+            await failMigration(mongo, migration.id);
+
+            // Rethrow the error here to cause the application to crash.
+            throw err;
+          }
+
+          const executionTime = Math.round(now() - migrationStartTime);
+          log.info({ executionTime }, "finished migration");
+        }
       }
 
       // Mark the migration as completed.
-      await finishMigration(mongo, migration.version);
+      await finishMigration(mongo, migration.id);
     }
 
     const finishTime = Math.round(now() - migrationsStartTime);
@@ -226,9 +230,7 @@ export default class Manager {
     logger.info(
       {
         finishTime,
-        currentMigrationVersion: currentMigration
-          ? currentMigration.version
-          : null,
+        currentMigrationID: currentMigration ? currentMigration.id : null,
       },
       "finished running pending migrations"
     );
