@@ -140,7 +140,7 @@ export async function createCommentActionIndexes(mongo: Db) {
   // UNIQUE { id }
   await createIndex({ tenantID: 1, id: 1 }, { unique: true });
 
-  // { actionType, commentID }
+  // { actionType, commentID, userID }
   await createIndex(
     { tenantID: 1, actionType: 1, commentID: 1, userID: 1 },
     { background: true }
@@ -232,7 +232,7 @@ export async function createAction(
   input: CreateActionInput,
   now = new Date()
 ): Promise<CreateActionResultObject> {
-  const { metadata, additionalDetails, ...filter } = input;
+  const { metadata, additionalDetails, ...rest } = input;
 
   // Create a new ID for the action.
   const id = uuid.v4();
@@ -243,6 +243,12 @@ export async function createAction(
     id,
     tenantID,
     createdAt: now,
+  };
+
+  // Extract the filter parameters.
+  const filter: FilterQuery<CommentAction> = {
+    tenantID,
+    ...rest,
   };
 
   // Merge the defaults with the input.
