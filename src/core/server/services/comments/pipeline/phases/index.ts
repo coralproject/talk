@@ -5,6 +5,7 @@ import { commentLength } from "./commentLength";
 import { detectLinks } from "./detectLinks";
 import { linkify } from "./linkify";
 import { preModerate } from "./preModerate";
+import { premodUser } from "./preModerateUser";
 import { purify } from "./purify";
 import { recentCommentHistory } from "./recentCommentHistory";
 import { spam } from "./spam";
@@ -29,4 +30,5 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   spam,
   detectLinks,
   preModerate,
+  premodUser,
 ];

@@ -178,6 +178,11 @@ const UserTableFilter: FunctionComponent<Props> = props => (
               <Localized id="userStatus-banned">
                 <Option value={GQLUSER_STATUS.BANNED}>Banned</Option>
               </Localized>
+              <Localized id="userStatus-premod">
+                <Option value={GQLUSER_STATUS.PREMOD}>
+                  Always Premoderate
+                </Option>
+              </Localized>
             </SelectField>
           </Localized>
         </Flex>

@@ -13,6 +13,9 @@ it("renders all markers", () => {
   const props: PropTypesOf<typeof MarkersContainerN> = {
     comment: {
       status: "PREMOD",
+      editing: {
+        edited: false,
+      },
       revision: {
         actionCounts: {
           flag: {
@@ -53,6 +56,9 @@ it("renders some markers", () => {
   const props: PropTypesOf<typeof MarkersContainerN> = {
     comment: {
       status: "PREMOD",
+      editing: {
+        edited: false,
+      },
       revision: {
         actionCounts: {
           flag: {

@@ -166,6 +166,11 @@ exports[`renders community 1`] = `
                 >
                   Banned
                 </option>
+                <option
+                  value="PREMOD"
+                >
+                  Always pre-moderate
+                </option>
               </select>
               <span
                 aria-hidden={true}
@@ -824,6 +829,11 @@ exports[`renders empty community 1`] = `
                   value="BANNED"
                 >
                   Banned
+                </option>
+                <option
+                  value="PREMOD"
+                >
+                  Always pre-moderate
                 </option>
               </select>
               <span

@@ -54,4 +54,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   USERNAME_UPDATED_WITHIN_WINDOW: "error-usernameAlreadyUpdated",
   PERSISTED_QUERY_NOT_FOUND: "error-persistedQueryNotFound",
   RAW_QUERY_NOT_AUTHORIZED: "error-rawQueryNotAuthorized",
+  USER_ALREADY_PREMOD: "error-userAlreadyPremod",
 };

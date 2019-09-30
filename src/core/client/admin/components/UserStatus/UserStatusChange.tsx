@@ -18,8 +18,11 @@ interface Props {
   onRemoveBan: () => void;
   onSuspend: () => void;
   onRemoveSuspension: () => void;
+  onPremod: () => void;
+  onRemovePremod: () => void;
   banned: boolean;
   suspended: boolean;
+  premod: boolean;
   children: React.ReactNode;
   fullWidth?: boolean;
 }
@@ -29,8 +32,11 @@ const UserStatusChange: FunctionComponent<Props> = ({
   onRemoveBan,
   onSuspend,
   onRemoveSuspension,
+  onPremod,
+  onRemovePremod,
   banned,
   suspended,
+  premod,
   children,
   fullWidth = true,
 }) => (
@@ -42,21 +48,8 @@ const UserStatusChange: FunctionComponent<Props> = ({
       body={({ toggleVisibility }) => (
         <ClickOutside onClickOutside={toggleVisibility}>
           <Dropdown>
-            {!banned && (
-              <Localized id="community-userStatus-banUser">
-                <DropdownButton
-                  className={styles.dropdownButton}
-                  onClick={() => {
-                    onBan();
-                    toggleVisibility();
-                  }}
-                >
-                  Ban User
-                </DropdownButton>
-              </Localized>
-            )}
-            {banned && (
-              <Localized id="community-userStatus-removeBan">
+            {banned ? (
+              <Localized id="community-userStatus-removeUserBan">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
@@ -64,25 +57,24 @@ const UserStatusChange: FunctionComponent<Props> = ({
                     toggleVisibility();
                   }}
                 >
-                  Remove Ban
+                  Remove ban
                 </DropdownButton>
               </Localized>
-            )}
-            {!suspended && (
-              <Localized id="community-userStatus-suspendUser">
+            ) : (
+              <Localized id="community-userStatus-ban">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
-                    onSuspend();
+                    onBan();
                     toggleVisibility();
                   }}
                 >
-                  Suspend User
+                  Ban
                 </DropdownButton>
               </Localized>
             )}
-            {suspended && (
-              <Localized id="community-userStatus-removeSuspension">
+            {suspended ? (
+              <Localized id="community-userStatus-removeUserSuspension">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
@@ -90,7 +82,44 @@ const UserStatusChange: FunctionComponent<Props> = ({
                     toggleVisibility();
                   }}
                 >
-                  Remove Suspension
+                  Remove suspension
+                </DropdownButton>
+              </Localized>
+            ) : (
+              <Localized id="community-userStatus-suspend">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  onClick={() => {
+                    onSuspend();
+                    toggleVisibility();
+                  }}
+                >
+                  Suspend
+                </DropdownButton>
+              </Localized>
+            )}
+            {premod ? (
+              <Localized id="community-userStatus-removePremod">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  onClick={() => {
+                    onRemovePremod();
+                    toggleVisibility();
+                  }}
+                >
+                  Remove always pre-moderate
+                </DropdownButton>
+              </Localized>
+            ) : (
+              <Localized id="community-userStatus-premodUser">
+                <DropdownButton
+                  className={styles.dropdownButton}
+                  onClick={() => {
+                    onPremod();
+                    toggleVisibility();
+                  }}
+                >
+                  Always pre-moderate
                 </DropdownButton>
               </Localized>
             )}
