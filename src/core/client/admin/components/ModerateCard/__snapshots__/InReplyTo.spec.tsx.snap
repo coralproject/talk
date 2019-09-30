@@ -17,7 +17,7 @@ exports[`renders correctly 1`] = `
     <span
       className="InReplyTo-inReplyTo"
     >
-      Reply to 
+      Reply to
       <Username />
     </span>
   </Localized>

@@ -148,12 +148,9 @@ const ModerateCard: FunctionComponent<Props> = ({
             </Flex>
             {inReplyTo && inReplyTo.username && (
               <div>
-                <BaseButton
-                  onClick={commentParentAuthorClick}
-                  className={styles.usernameButton}
-                >
-                  <InReplyTo>{inReplyTo.username}</InReplyTo>
-                </BaseButton>
+                <InReplyTo onUsernameClick={commentParentAuthorClick}>
+                  {inReplyTo.username}
+                </InReplyTo>
               </div>
             )}
           </div>

@@ -15,13 +15,13 @@
   line-height: var(--v2-line-height-reset);
 
   &:hover {
-    background-color: var(--v2-palette-grey-lightest);
+    background-color: var(--v2-palette-username-background-hover);
     border-radius: var(--round-corners);
     border-style: none;
   }
 
   &:active {
-    background-color: var(--v2-palette-grey-lighter);
+    background-color: var(--v2-palette-username-background-hover);
     border-radius: var(--round-corners);
     border-style: none;
   }

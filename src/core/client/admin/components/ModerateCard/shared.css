@@ -31,6 +31,21 @@
   font-size: var(--v2-font-size-3);
   line-height: var(--v2-line-height-reset);
   letter-spacing: 0;
+
+  vertical-align: initial;
+  padding: var(--spacing-1);
+
+  &:hover {
+    background-color: var(--v2-palette-username-background-hover);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+
+  &:active {
+    background-color: var(--v2-palette-username-background-hover);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
 }
 
 .featureButton {

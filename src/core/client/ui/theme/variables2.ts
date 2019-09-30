@@ -88,7 +88,7 @@ const variables2 = {
     },
     grey: {
       main: colors.grey500,
-      lightest: colors.grey100,
+      lightest: colors.grey200,
       lighter: colors.grey300,
       darkest: colors.grey700,
     },
@@ -110,12 +110,27 @@ const variables2 = {
     username: {
       regular: colors.mono500,
       emphasis: colors.mono900,
+      background: {
+        hover: colors.grey200,
+      },
     },
     commentText: colors.mono900,
     linkText: colors.teal700,
     markerText: {
       reported: colors.red500,
       pending: colors.teal700,
+    },
+    counterBadge: {
+      background: {
+        default: "",
+        emphasis: "",
+        alert: "",
+      },
+      foreground: {
+        default: "",
+        emphasis: "",
+        alert: "",
+      },
     },
     button: {
       outline: {
@@ -165,6 +180,17 @@ const variables2 = {
       bold: 700,
       regular: 300,
     },
+  },
+  spacing: {
+    1: "4px",
+    2: "8px",
+    3: "12px",
+    4: "16px",
+    5: "24px",
+    6: "32px",
+    7: "44px",
+    8: "60px",
+    9: "84px",
   },
 };
 

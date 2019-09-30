@@ -496,14 +496,11 @@ exports[`renders reply correctly 1`] = `
           />
         </ForwardRef(forwardRef)>
         <div>
-          <ForwardRef(forwardRef)
-            className="ModerateCard-usernameButton"
-            onClick={[Function]}
+          <InReplyTo
+            onUsernameClick={[Function]}
           >
-            <InReplyTo>
-              Julian
-            </InReplyTo>
-          </ForwardRef(forwardRef)>
+            Julian
+          </InReplyTo>
         </div>
       </div>
       <CommentContent
