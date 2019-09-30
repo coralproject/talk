@@ -8,9 +8,9 @@ how moderation, comment display, and conversation function, creating the
 opportunity for safer, smarter discussions around your work.
 [Read more about Coral here](https://coralproject.net/).
 
-Built with ❤️ by The Coral Project, a part of [Vox Media](https://product.voxmedia.com/).
+Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
 
-Preview Coral easily by running Coral via a Heroku App:
+Preview Coral easily by running it via a Heroku App:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk)
 
