@@ -14,6 +14,7 @@ import {
   PasswordResetTokenExpired,
   TokenNotFoundError,
   UserAlreadyBannedError,
+  UserAlreadyPremoderated,
   UserAlreadySuspendedError,
   UsernameAlreadySetError,
   UserNotFoundError,
@@ -21,6 +22,7 @@ import {
 import {
   GQLBanStatus,
   GQLDIGEST_FREQUENCY,
+  GQLPremodStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
   GQLUSER_ROLE,
@@ -237,6 +239,42 @@ export interface UsernameStatus {
 }
 
 /**
+ * PremodStatusHistory is the history of premod status changes
+ * against a specific User.
+ */
+export interface PremodStatusHistory {
+  /**
+   * active when true, indicates that the given user is premodded.
+   */
+  active: boolean;
+  /**
+   * createdBy is the ID for the User that premodded the User. If `null`, the
+   * premod was created by the system.
+   */
+  createdBy?: string;
+
+  /**
+   * createdAt is the time that the given premod status was set.
+   */
+  createdAt: Date;
+}
+
+/**
+ * PremodStatus is the status of whether a user is set to mandatory premod
+ */
+export interface PremodStatus {
+  /**
+   * active when true, indicates that the given user is set to mandatory premod.
+   */
+  active: boolean;
+
+  /**
+   * history is a list of previous enable/disable of premod status
+   */
+  history: PremodStatusHistory[];
+}
+
+/**
  * UserStatus stores the user status information regarding moderation state.
  */
 export interface UserStatus {
@@ -255,6 +293,14 @@ export interface UserStatus {
    * username stores the history of username changes for this user.
    */
   username: UsernameStatus;
+
+  /**
+   * premod stores whether a user is set to mandatory premod and history of
+   * premod status.
+   *
+   * FIXME: (wyattjoh) set defaults during migration
+   */
+  premod?: PremodStatus;
 }
 
 /**
@@ -503,6 +549,7 @@ async function findOrCreateUserInput(
       },
       suspension: { history: [] },
       ban: { active: false, history: [] },
+      premod: { active: false, history: [] },
     },
     notifications: {
       onReply: false,
@@ -1359,6 +1406,130 @@ async function retrieveConnection(
 }
 
 /**
+ * premodUser will set a user to mandatory premod.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user being banned
+ * @param createdBy the ID of the user premodding
+ * @param now the current date
+ */
+export async function premodUser(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  now = new Date()
+) {
+  // Create the new ban.
+  const premodStatusHistory: PremodStatusHistory = {
+    active: true,
+    createdBy,
+    createdAt: now,
+  };
+
+  // Try to update the user if the user isn't already banned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "status.premod.active": {
+        $ne: true,
+      },
+    },
+    {
+      $set: {
+        "status.premod.active": true,
+      },
+      $push: {
+        "status.premod.history": premodStatusHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ban operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // Check to see if the user is already banned.
+    const premod = consolidateUserPremodStatus(user.status.premod);
+    // FIXME: (wyattjoh) once migration has been performed, remove check
+    if (premod && premod.active) {
+      throw new UserAlreadyPremoderated();
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * removeUserPremod will lift a user premod  requirement
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their ban lifted
+ * @param modifiedBy the ID of the user lifting the premod
+ * @param now the current date
+ */
+export async function removeUserPremod(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  now = new Date()
+) {
+  // Create the new ban.
+  const premod: PremodStatusHistory = {
+    active: false,
+    createdBy,
+    createdAt: now,
+  };
+
+  // Try to update the user if the user isn't already banned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "status.premod.active": true,
+    },
+    {
+      $set: {
+        "status.premod.active": false,
+      },
+      $push: {
+        "status.premod.history": premod,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    // Get the user so we can figure out why the ban operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user wasn't banned already, so nothing needs to be done!
+    return user;
+  }
+
+  return result.value;
+}
+
+/**
  * banUser will ban a specific user from interacting with the site.
  *
  * @param mongo the mongo database handle
@@ -1651,16 +1822,21 @@ export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history"> &
 export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
   Pick<UsernameStatus, "history">;
 
+export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
+  Pick<PremodStatus, "history">;
+
 export function consolidateUsernameStatus(
   username: User["status"]["username"]
-): ConsolidatedUsernameStatus {
+) {
   return username;
 }
 
-export function consolidateUserBanStatus(
-  ban: User["status"]["ban"]
-): ConsolidatedBanStatus {
+export function consolidateUserBanStatus(ban: User["status"]["ban"]) {
   return ban;
+}
+
+export function consolidateUserPremodStatus(premod: User["status"]["premod"]) {
+  return premod;
 }
 
 export type ConsolidatedSuspensionStatus = Omit<
@@ -1697,6 +1873,8 @@ export function consolidateUserSuspensionStatus(
 export interface ConsolidatedUserStatus {
   suspension: ConsolidatedSuspensionStatus;
   ban: ConsolidatedBanStatus;
+  // FIXME: (wyattjoh) once migration has been performed, make required
+  premod?: ConsolidatedPremodStatus;
 }
 
 export function consolidateUserStatus(
@@ -1707,6 +1885,7 @@ export function consolidateUserStatus(
   return {
     suspension: consolidateUserSuspensionStatus(status.suspension, now),
     ban: consolidateUserBanStatus(status.ban),
+    premod: consolidateUserPremodStatus(status.premod),
   };
 }
 

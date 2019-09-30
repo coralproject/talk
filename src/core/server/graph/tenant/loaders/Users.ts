@@ -40,6 +40,7 @@ const statusFilter = (
     case GQLUSER_STATUS.ACTIVE:
       return {
         "status.ban.active": false,
+        "status.premod.active": false,
         "status.suspension.history": {
           $not: {
             $elemMatch: {
@@ -55,6 +56,8 @@ const statusFilter = (
       };
     case GQLUSER_STATUS.BANNED:
       return { "status.ban.active": true };
+    case GQLUSER_STATUS.PREMOD:
+      return { "status.premod.active": true };
     case GQLUSER_STATUS.SUSPENDED:
       return {
         "status.suspension.history": {

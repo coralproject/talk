@@ -29,6 +29,8 @@ import { ModerationQueue } from "./ModerationQueue";
 import { ModerationQueues } from "./ModerationQueues";
 import { Mutation } from "./Mutation";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
+import { PremodStatus } from "./PremodStatus";
+import { PremodStatusHistory } from "./PremodStatusHistory";
 import { Profile } from "./Profile";
 import { Query } from "./Query";
 import { RecentCommentHistory } from "./RecentCommentHistory";
@@ -72,6 +74,8 @@ const Resolvers: GQLResolver = {
   ModerationQueues,
   Mutation,
   OIDCAuthIntegration,
+  PremodStatus,
+  PremodStatusHistory,
   Profile,
   Query,
   RecentCommentHistory,

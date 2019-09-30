@@ -7,6 +7,7 @@ import { PropTypesOf } from "coral-ui/types";
 interface Props {
   banned: boolean;
   suspended: boolean;
+  premod: boolean;
 }
 
 const render = (
@@ -36,6 +37,15 @@ const UserStatus: FunctionComponent<Props> = props => {
       // tslint:disable-next-line:jsx-wrap-multiline
       <Localized id="userStatus-suspended">
         <div>Suspended</div>
+      </Localized>
+    );
+  }
+  if (props.premod) {
+    return render(
+      "warning",
+      // tslint:disable-next-line:jsx-wrap-multiline
+      <Localized id="userStatus-premod">
+        <div>Always Premoderated</div>
       </Localized>
     );
   }
