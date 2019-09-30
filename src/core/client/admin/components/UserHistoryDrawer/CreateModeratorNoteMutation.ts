@@ -62,6 +62,7 @@ const CreateModeratorNoteMutation = createMutation(
       optimisticResponse: {
         createModeratorNote: {
           user: {
+            id: input.userID,
             moderatorNotes: [
               {
                 id: uuidGenerator(),

@@ -59,6 +59,7 @@ const DeleteModeratorNoteMutation = createMutation(
       optimisticResponse: {
         deleteModeratorNote: {
           user: {
+            id: input.userID,
             moderatorNotes: notes.filter(note => note.id !== input.id),
           },
           clientMutationId: (clientMutationId++).toString(),
