@@ -6,8 +6,8 @@ import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersConta
 import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Marker, MarkerCount } from "coral-ui/components";
-import FlagDetailsContainer from "./FlagDetailsContainer";
 import Markers from "./Markers";
+import ModerateCardDetailsContainer from "./ModerateCardDetailsContainer";
 
 interface MarkersContainerProps {
   comment: MarkersContainer_comment;
@@ -123,8 +123,10 @@ export class MarkersContainer extends React.Component<MarkersContainerProps> {
     return (
       <Markers
         details={
-          doesHaveDetails ? (
-            <FlagDetailsContainer
+          doesHaveDetails || this.props.comment.editing.edited ? (
+            <ModerateCardDetailsContainer
+              hasDetails={!!doesHaveDetails}
+              hasRevisions={this.props.comment.editing.edited}
               onUsernameClick={this.props.onUsernameClick}
               comment={this.props.comment}
               settings={this.props.settings}
@@ -141,8 +143,11 @@ export class MarkersContainer extends React.Component<MarkersContainerProps> {
 const enhanced = withFragmentContainer<MarkersContainerProps>({
   comment: graphql`
     fragment MarkersContainer_comment on Comment {
-      ...FlagDetailsContainer_comment
+      ...ModerateCardDetailsContainer_comment
       status
+      editing {
+        edited
+      }
       revision {
         actionCounts {
           flag {
@@ -168,7 +173,7 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
   `,
   settings: graphql`
     fragment MarkersContainer_settings on Settings {
-      ...FlagDetailsContainer_settings
+      ...ModerateCardDetailsContainer_settings
     }
   `,
 })(MarkersContainer);
