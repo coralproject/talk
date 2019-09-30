@@ -1,12 +1,14 @@
+import { HOTKEYS } from "coral-admin/constants";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components";
+import { useHotkey } from "coral-ui/hooks";
 import { PropTypesOf } from "coral-ui/types";
+import QueueWrapper from "./QueueWrapper";
 
 import styles from "./Queue.css";
 
@@ -42,6 +44,16 @@ const Queue: FunctionComponent<Props> = ({
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
   const [userDrawerId, setUserDrawerID] = useState("");
   const [selectedComment, setSelectedComment] = useState<number | null>(0);
+  const [singleView, setSingleView] = useState(false);
+
+  const toggleView = useCallback(() => {
+    if (!singleView) {
+      setSelectedComment(0);
+    }
+    setSingleView(!singleView);
+  }, [singleView, setSingleView, setSelectedComment]);
+
+  useHotkey(HOTKEYS.ZEN, toggleView);
 
   const selectNext = useCallback(() => {
     const index = selectedComment || 0;
@@ -100,35 +112,27 @@ const Queue: FunctionComponent<Props> = ({
           </Localized>
         </Flex>
       )}
-      <TransitionGroup component={null} appear={false} enter={false} exit>
-        {comments
-          // FIXME (Nick/Wyatt): Investigate why comments are coming back null
-          .filter(c => Boolean(c))
-          .map((c, i) => (
-            <CSSTransition
-              key={c.id}
-              timeout={400}
-              classNames={{
-                exit: styles.exitTransition,
-                exitActive: styles.exitTransitionActive,
-                exitDone: styles.exitTransitionDone,
-              }}
-            >
-              <ModerateCardContainer
-                settings={settings}
-                viewer={viewer}
-                comment={c}
-                danglingLogic={danglingLogic}
-                showStoryInfo={Boolean(allStories)}
-                onUsernameClicked={onShowUserDrawer}
-                onSetSelected={() => setSelectedComment(i)}
-                selected={selectedComment === i}
-                selectPrev={selectPrev}
-                selectNext={selectNext}
-              />
-            </CSSTransition>
-          ))}
-      </TransitionGroup>
+
+      <QueueWrapper
+        comments={comments}
+        singleView={singleView}
+        card={(comment, i) => (
+          <ModerateCardContainer
+            key={comment.id}
+            settings={settings}
+            viewer={viewer}
+            comment={comment}
+            danglingLogic={danglingLogic}
+            showStoryInfo={Boolean(allStories)}
+            onUsernameClicked={onShowUserDrawer}
+            onSetSelected={() => setSelectedComment(i)}
+            selected={selectedComment === i}
+            selectPrev={selectPrev}
+            selectNext={selectNext}
+          />
+        )}
+      />
+
       {hasMore && (
         <Flex justifyContent="center">
           <AutoLoadMore

@@ -3,22 +3,11 @@
   position: relative;
 }
 
-.exitTransition {
-  opacity: 1;
-  transition: 300ms opacity;
-}
-
-.exitTransitionActive {
-  opacity: 0;
-}
-
-.exitTransitionDone {
-  opacity: 0;
-}
 .viewNewButtonContainer {
   position: absolute;
   width: 100%;
 }
+
 .viewNewButton {
   position: absolute;
   z-index: 10;

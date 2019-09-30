@@ -1,17 +1,24 @@
 import key from "keymaster";
-import { useCallback, useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 type CallbackFn = (event: KeyboardEvent) => void;
+interface Ref {
+  current: any;
+}
 
-export default function useHotkey(
-  trigger: string,
-  callback: CallbackFn,
-  deps: any[] = []
-) {
-  const memoisedCallback = useCallback(callback, deps);
+export default function useHotkey(trigger: string, handler: CallbackFn) {
+  const savedHandler: Ref = useRef();
   useEffect(() => {
-    key(trigger, callback);
+    savedHandler.current = handler;
+  }, [handler]);
 
-    return () => key.unbind(trigger);
-  }, [memoisedCallback]);
+  useEffect(() => {
+    const eventListener = () => savedHandler.current();
+
+    key(trigger, eventListener);
+
+    return () => {
+      key.unbind(trigger);
+    };
+  }, [trigger]);
 }

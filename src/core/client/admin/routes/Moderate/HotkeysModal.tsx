@@ -75,6 +75,14 @@ const HotkeysModal: FunctionComponent<Props> = ({ open, onClose }) => {
                 </Flex>
                 <Flex>
                   <div className={styles.hotKeyContainer}>
+                    <div className={styles.hotKey}>z</div>
+                  </div>
+                  <Localized id="hotkeysModal-shortcuts-zen">
+                    <Typography>Toggle single-comment view</Typography>
+                  </Localized>
+                </Flex>
+                <Flex>
+                  <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>?</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-modal">
