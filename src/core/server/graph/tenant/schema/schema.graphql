@@ -4351,18 +4351,6 @@ type CreateModeratorNotePayload {
   clientMutationId: String!
 
   """
-  id is the identifier of the note
-  """
-  id: ID!
-  """
-  body is the content of the Note
-  """
-  body: String!
-  """
-  createdAt is time the note was created
-  """
-  createdAt: Time!
-  """
   createdBy is the moderator who created the note
   user is the updated user.
   """
