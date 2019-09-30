@@ -189,6 +189,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           mini={mini}
           hideUsername={hideUsername}
           deleted={comment.deleted ? comment.deleted : false}
+          edited={comment.editing.edited}
         />
       </FadeInTransition>
     </>
@@ -212,6 +213,9 @@ const enhanced = withFragmentContainer<Props>({
       status
       revision {
         id
+      }
+      editing {
+        edited
       }
       parent {
         author {

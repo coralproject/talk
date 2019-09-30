@@ -14,6 +14,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   username: "Theon",
   createdAt: "2018-11-29T16:01:51.897Z",
   body: "content",
+  edited: false,
   inReplyTo: null,
   comment: {},
   settings: {},

@@ -39,6 +39,10 @@ export function createUserStatus(banned: boolean = false) {
       until: null,
       history: [],
     },
+    premod: {
+      active: false,
+      history: [],
+    },
   };
 }
 
@@ -143,6 +147,7 @@ export function createComment(author?: GQLUser) {
           COMMENT_DETECTED_LINKS: 0,
           COMMENT_DETECTED_BANNED_WORD: 0,
           COMMENT_DETECTED_SUSPECT_WORD: 0,
+          COMMENT_DETECTED_PREMOD_USER: 0,
         },
       },
     },

@@ -141,6 +141,11 @@ enum COMMENT_FLAG_DETECTED_REASON {
   recent history of rejected comments.
   """
   COMMENT_DETECTED_RECENT_HISTORY
+
+  """
+  COMMENT_DETECTED_PREMOD_USER is used when a Comment author has been tagged as requiring premoderation
+  """
+  COMMENT_DETECTED_PREMOD_USER
 }
 
 """
@@ -157,6 +162,7 @@ enum COMMENT_FLAG_REASON {
   COMMENT_DETECTED_BANNED_WORD
   COMMENT_DETECTED_SUSPECT_WORD
   COMMENT_DETECTED_RECENT_HISTORY
+  COMMENT_DETECTED_PREMOD_USER
 }
 
 """
@@ -191,6 +197,7 @@ type FlagReasonActionCounts {
   COMMENT_DETECTED_BANNED_WORD: Int!
   COMMENT_DETECTED_SUSPECT_WORD: Int!
   COMMENT_DETECTED_RECENT_HISTORY: Int!
+  COMMENT_DETECTED_PREMOD_USER: Int!
 }
 
 type Flag {
@@ -1440,6 +1447,34 @@ type SuspensionStatus {
   history: [SuspensionStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
+type PremodStatusHistory {
+  """
+  active when true, indicates that the given user is premodded.
+  """
+  active: Boolean!
+  """
+  createdBy is the user that flagged the commenter as pre-mod
+  """
+  createdBy: User!
+
+  """
+  createdAt is the time the user was set to pre-mod
+  """
+  createdAt: Time!
+}
+
+type PremodStatus {
+  """
+  active when true, indicates that the given user is set to pre-mod.
+  """
+  active: Boolean!
+
+  """
+  history is the list of all suspension events against a specific User.
+  """
+  history: [PremodStatusHistory!]!
+}
+
 type UsernameHistory {
   """
   username is the username that was assigned
@@ -1503,6 +1538,13 @@ type UserStatus {
   changes.
   """
   suspension: SuspensionStatus!
+
+  """
+  premod stores the user premod status as well as the history of changes.
+
+  FIXME: (wyattjoh) once migration has been performed, make non-nullable
+  """
+  premod: PremodStatus @auth(roles: [ADMIN, MODERATOR])
 }
 
 """
@@ -1524,6 +1566,11 @@ enum USER_STATUS {
   SUSPENDED is used when a User is currently suspended.
   """
   SUSPENDED
+
+  """
+  PREMOD is used when a User is currently set to require pre-moderation.
+  """
+  PREMOD
 }
 
 enum DIGEST_FREQUENCY {
@@ -4772,6 +4819,62 @@ type RemoveUserSuspensionPayload {
 }
 
 ##################
+# premodUser
+##################
+
+input PremodUserInput {
+  """
+  userID is the ID of the User that should be premodded.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type PremodUserPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# removePremod
+##################
+
+input RemovePremodUserInput {
+  """
+  userID is the ID of the User that should be premodded.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RemovePremodUserPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # ignoreUser
 ##################
 
@@ -5196,6 +5299,18 @@ type Mutation {
   requestUserCommentsDownload(
     input: RequestUserCommentsDownloadInput!
   ): RequestUserCommentsDownloadPayload! @auth(roles: [ADMIN])
+
+  """
+  premodUser sets a user to mandatory premod
+  """
+  premodUser(input: PremodUserInput!): PremodUserPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  removeUserPremod removes a user from mandatory premod
+  """
+  removeUserPremod(input: RemovePremodUserInput!): RemovePremodUserPayload!
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################
@@ -5367,7 +5482,7 @@ type Subscription {
   commentReleased returns when a Comment on a premoderated stream is approved
   """
   commentReleased(storyID: ID!): CommentReleasedPayload!
-  
+
   """
   commentReplyCreated returns when a Comment is posted in the ancestor chain of
   comments.
