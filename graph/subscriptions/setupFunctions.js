@@ -64,14 +64,14 @@ const setupFunctions = {
     return !args.asset_id || comment.asset_id === args.asset_id;
   },
   commentAccepted: (options, args, comment, context) => {
-    if (
-      !args.asset_id &&
-      (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ACCEPTED))
-    ) {
+    if (args.asset_id) {
+      // Allow sending back the comment for the user that has filtered based
+      // on a specific asset.
+      return comment.asset_id === args.asset_id;
+    } else {
       // Only privileged users can subscribe to all assets.
-      return false;
+      return context.user && context.user.can(SUBSCRIBE_ALL_COMMENT_ACCEPTED);
     }
-    return !args.asset_id || comment.asset_id === args.asset_id;
   },
   commentRejected: (options, args, comment, context) => {
     if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_REJECTED)) {
