@@ -2396,7 +2396,7 @@ export async function createModeratorNote(
 }
 
 /**
- * createModeratorNote will add a note to a users account
+ * deleteModeratorNote will remove a note from a user profile
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param userID the ID of the user
