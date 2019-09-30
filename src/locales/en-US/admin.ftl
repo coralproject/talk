@@ -621,18 +621,18 @@ community-userStatus-popover =
   .description = A dropdown to change the user status
 
 community-userStatus-banUser = Ban User
-community-userStatus-ban = Ban 
+community-userStatus-ban = Ban
 community-userStatus-removeBan = Remove Ban
 community-userStatus-removeUserBan = Remove ban
 community-userStatus-suspendUser = Suspend User
-community-userStatus-suspend = Suspend 
+community-userStatus-suspend = Suspend
 community-userStatus-removeSuspension = Remove Suspension
 community-userStatus-removeUserSuspension = Remove suspension
 community-userStatus-unknown = Unknown
 community-userStatus-changeButton =
   .aria-label = Change user status
 community-userStatus-premodUser = Always pre-moderate
-community-userStatus-removePremod = Remove pre-moderate 
+community-userStatus-removePremod = Remove pre-moderate
 
 community-banModal-areYouSure = Are you sure you want to ban <strong>{ $username }</strong>?
 community-banModal-consequence =
@@ -665,12 +665,12 @@ community-suspendModal-success =
 community-suspendModal-success-close = Close
 community-suspendModal-selectDuration = Select suspension length
 
-community-premodModal-areYouSure = 
+community-premodModal-areYouSure =
   Are you sure you want to always pre-moderate <strong>{ $username }</strong>?
 community-premodModal-consequence =
   All their comments will go to the Pending queue until you remove this status.
 community-premodModal-cancel = Cancel
-community-premodModal-premodUser = Yes, always pre-moderate 
+community-premodModal-premodUser = Yes, always pre-moderate
 
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:
@@ -822,17 +822,18 @@ commentAuthor-status-banned = Banned
 
 hotkeysModal-title = Keyboard shortcuts
 hotkeysModal-navigation-shortcuts = Navigation shortcuts
-hotkeysModal-shortcuts-next = Next comment 
-hotkeysModal-shortcuts-prev = Previous comment 
-hotkeysModal-shortcuts-search = Open search 
-hotkeysModal-shortcuts-jump = Jump to specific queue 
-hotkeysModal-shortcuts-switch = Switch queues 
-hotkeysModal-shortcuts-modal = Show shortcuts 
-hotkeysModal-shortcuts-single-view = Single comment view 
-hotkeysModal-moderation-decisions = Moderation decisions 
-hotkeysModal-shortcuts-approve = Approve 
-hotkeysModal-shortcuts-reject = Reject 
-hotkeysModal-shortcuts-ban = Ban comment author 
+hotkeysModal-shortcuts-next = Next comment
+hotkeysModal-shortcuts-prev = Previous comment
+hotkeysModal-shortcuts-search = Open search
+hotkeysModal-shortcuts-jump = Jump to specific queue
+hotkeysModal-shortcuts-switch = Switch queues
+hotkeysModal-shortcuts-modal = Show shortcuts
+hotkeysModal-shortcuts-single-view = Single comment view
+hotkeysModal-moderation-decisions = Moderation decisions
+hotkeysModal-shortcuts-approve = Approve
+hotkeysModal-shortcuts-reject = Reject
+hotkeysModal-shortcuts-ban = Ban comment author
+hotkeysModal-shortcuts-zen = Toggle single-comment view
 
 
 

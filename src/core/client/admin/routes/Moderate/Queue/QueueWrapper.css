@@ -1,0 +1,16 @@
+.exitTransition {
+  opacity: 1;
+  transition: 300ms opacity;
+}
+
+.exitTransitionSingle {
+  opacity: 1;
+}
+
+.exitTransitionActive {
+  opacity: 0;
+}
+
+.exitTransitionDone {
+  opacity: 0;
+}
