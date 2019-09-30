@@ -69,8 +69,8 @@ interface Props {
   dangling?: boolean;
   deleted?: boolean;
   edited: boolean;
-  selectPrev: () => void;
-  selectNext: () => void;
+  selectPrev?: () => void;
+  selectNext?: () => void;
   onBan: () => void;
 }
 
