@@ -7,7 +7,6 @@ import { createIndexFactory } from "../helpers";
 export enum MIGRATION_STATE {
   STARTED = "STARTED",
   FAILED = "FAILED",
-  SKIPPED = "SKIPPED",
   FINISHED = "FINISHED",
 }
 
@@ -55,6 +54,15 @@ export async function startMigration(
   return result.value;
 }
 
+/**
+ * updateMigrationState will update the state of a migration record to reflect
+ * the new state as well as un-setting the client ID from the records.
+ *
+ * @param mongo the database to interact on
+ * @param version the migration version to update
+ * @param state the state to switch the record to
+ * @param now the current date
+ */
 async function updateMigrationState(
   mongo: Db,
   version: number,
@@ -95,20 +103,6 @@ export async function failMigration(
   now = new Date()
 ) {
   return updateMigrationState(mongo, version, MIGRATION_STATE.FAILED, now);
-}
-
-export async function createSkippedMigrationRecords(
-  mongo: Db,
-  versions: number[],
-  now = new Date()
-) {
-  await collection(mongo).insertMany(
-    versions.map(version => ({
-      version,
-      state: MIGRATION_STATE.SKIPPED,
-      createdAt: now,
-    }))
-  );
 }
 
 export async function retrieveAllMigrationRecords(mongo: Db) {

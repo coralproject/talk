@@ -6,7 +6,6 @@ import uuid from "uuid";
 
 import logger from "coral-server/logger";
 import {
-  createSkippedMigrationRecords,
   failMigration,
   finishMigration,
   MIGRATION_STATE,
@@ -126,35 +125,6 @@ export default class Manager {
   private async currentMigration(mongo: Db) {
     const records = await retrieveAllMigrationRecords(mongo);
     return records.length > 0 ? records[records.length - 1] : null;
-  }
-
-  public async skipPendingMigrations(mongo: Db) {
-    // Error out if this is ran twice.
-    if (this.ran) {
-      throw new Error("pending migrations have already been executed");
-    }
-
-    // Mark the migrations as ran.
-    this.ran = true;
-
-    // Check the current migration version.
-    const currentMigration = await this.currentMigration(mongo);
-    if (currentMigration) {
-      throw new Error(
-        "tried to skip migrations when there is incomplete migrations already in the database"
-      );
-    }
-
-    // Mark all the migrations as skipped.
-    await createSkippedMigrationRecords(
-      mongo,
-      this.migrations.map(migration => migration.version)
-    );
-
-    logger.info(
-      { migrations: this.migrations.length },
-      "marked migrations as skipped"
-    );
   }
 
   public async executePendingMigrations(mongo: Db) {

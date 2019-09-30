@@ -109,9 +109,8 @@ export const installHandler = ({
       req.coral.now
     );
 
-    // Skip all pending migrations beacuse we just installed the Tenant (in a
-    // fresh) database.
-    await migrationManager.skipPendingMigrations(mongo);
+    // Execute pending migrations to get everything installed.
+    await migrationManager.executePendingMigrations(mongo);
 
     // Pull the user details out of the input for the user.
     const { email, username, password } = userInput;
