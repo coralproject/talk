@@ -32,7 +32,6 @@
   line-height: var(--v2-line-height-reset);
   letter-spacing: 0;
 
-  vertical-align: initial;
   padding: var(--spacing-1);
 
   &:hover {

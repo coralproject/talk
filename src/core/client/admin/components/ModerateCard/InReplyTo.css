@@ -10,4 +10,5 @@
 
 .usernameButton {
   display: inline-flex;
+  vertical-align: baseline;
 }
