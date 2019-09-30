@@ -160,3 +160,8 @@
 .timestamp {
   color: var(--palette-grey-lighter);
 }
+
+.edited {
+  color: var(--palette-grey-lighter);
+  padding-left: var(--spacing-2)
+}

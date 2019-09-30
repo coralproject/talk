@@ -412,6 +412,7 @@ moderate-emptyQueue-reported = Nicely done! There are no more reported comments 
 moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.
 moderate-emptyQueue-rejected = There are no rejected comments.
 
+moderate-comment-edited = (edited)
 moderate-comment-inReplyTo = Reply to <Username></Username>
 moderate-comment-viewContext = View Context
 moderate-comment-rejectButton =
@@ -460,6 +461,8 @@ moderate-searchBar-comboBoxTextField =
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
+moderateCardDetails-tab-details = Details
+moderateCardDetails-tab-edits = Edit history
 ### Moderate User History Drawer
 
 moderate-user-drawer-email =

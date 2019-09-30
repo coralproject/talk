@@ -16,5 +16,5 @@
 }
 
 .detailsDivider {
-  border: 1px solid var(--palette-grey-lightest);
+  border-color: var(--palette-grey-lightest);
 }
