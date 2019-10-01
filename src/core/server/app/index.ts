@@ -19,6 +19,7 @@ import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { Metrics } from "coral-server/services/metrics";
+import { MigrationManager } from "coral-server/services/migrate";
 import { PersistedQueryCache } from "coral-server/services/queries";
 import { AugmentedRedis } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
@@ -46,6 +47,7 @@ export interface AppOptions {
   scraperQueue: ScraperQueue;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
+  migrationManager: MigrationManager;
 }
 
 /**
