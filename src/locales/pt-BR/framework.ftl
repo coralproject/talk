@@ -31,7 +31,8 @@ framework-validation-emailsDoNotMatch = Emails não coincidem. Tente novamente.
 framework-validation-notAWholeNumberBetween = Por favor, digite um número inteiro entre { $min } e { $max }.
 framework-validation-notAWholeNumberGreaterThan = Por favor, insira um número inteiro maior que { $x }
 framework-validation-notAWholeNumberGreaterThanOrEqual = Por favor insira um número inteiro maior ou igual a { $x }
-
+framework-validation-usernamesDoNotMatch = Os nomes de usuário não coincidem. Tente novamente.
+framework-validation-deleteConfirmationInvalid = Confirmação incorreta. Tente novamente.
 
 framework-timeago-just-now = Agora
 
@@ -101,23 +102,28 @@ framework-markdownEditor-toggleFullscreen = Alternar Fullscreen
 framework-markdownEditor-markdownGuide = Guia de Markdown
 
 ### Duration Field
-framework-durationField-seconds = { $value ->
-   [1]      Segundo
-  *[others] Segundos
-}
-framework-durationField-minutes = { $value ->
-   [1]      Minuto
-  *[others] Minutos
-}
-framework-durationField-hours = { $value ->
-   [1]      Hora
-  *[others] Horas
-}
-framework-durationField-days = { $value ->
-   [1]      Dia
-  *[others] Dias
-}
-framework-durationField-weeks = { $value ->
-   [1]      Semana
-  *[others] Semanas
-}
+
+framework-durationField-unit =
+  { $unit ->
+    [second] { $value ->
+      [1] Segundo
+      *[other] Segundos
+    }
+    [minute] { $value ->
+      [1] Minuto
+      *[other] Minutos
+    }
+    [hour] { $value ->
+      [1] Hora
+      *[other] Horas
+    }
+    [day] { $value ->
+      [1] Dia
+      *[other] Dias
+    }
+    [week] { $value ->
+      [1] Semana
+      *[other] Semanas
+    }
+    *[other] unidade desconhecida
+  }

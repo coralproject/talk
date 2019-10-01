@@ -22,6 +22,7 @@ role-plural-commenter = Comentadores
 userStatus-active = Ativo
 userStatus-banned = Banido
 userStatus-suspended = Suspenso
+userStatus-premod = Sempre pré-moderado
 
 ## Navigation
 navigation-moderate = Moderação
@@ -59,6 +60,7 @@ login-signIn-passwordTextField =
 
 login-signIn-signInWithEmail = Entrar com o e-mail
 login-signIn-orSeparator = Ou
+login-signIn-forgot-password = Esqueceu sua senha?
 
 login-signInWithFacebook = Entrar com Facebook
 login-signInWithGoogle = Entrar com Google
@@ -74,6 +76,7 @@ configure-sideBarNavigation-authentication = Autenticação
 configure-sideBarNavigation-moderation = Moderação
 configure-sideBarNavigation-organization = Organização
 configure-sideBarNavigation-advanced = Avançado
+configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Palavras banidas e suspeitas
 
 configure-sideBar-saveChanges = Salvar mudanças
@@ -91,6 +94,10 @@ configure-general-guidelines-explanation =
   formatado usando a Sintaxe do Markdown. Mais informações sobre como usar
   Markdown podem ser encontradas <externalLink>aqui</externalLink>.
 configure-general-guidelines-showCommunityGuidelines = Mostrar Resumo das Diretrizes da Comunidade
+
+#### Locale
+configure-general-locale-language = Idioma
+configure-general-locale-chooseLanguage = Escolha o idioma para sua comunidade Coral.
 
 ### Sitewide Commenting
 configure-general-sitewideCommenting-title = Comentários em todo o site
@@ -150,6 +157,11 @@ configure-organization-emailExplanation =
   da plataforma para os membros da comunidade para entrarem em contato com
   a organização com alguma dúvida sobre o
   status de suas contas ou questões de moderação.
+configure-organization-url = URL da Organização
+configure-organization-urlExplanation =
+  O URL da sua organização aparecerá nos e-mails enviados por { -product-name }aos membros da sua comunidade e organização.
+
+
 ### Email
 
 configure-email = Configuração de email
@@ -169,6 +181,7 @@ configure-email-smtpAuthenticationLabel = Autenticação SMTP
 configure-email-smtpCredentialsHeader = credencial de email 
 configure-email-smtpUsernameLabel = nome de usuário
 configure-email-smtpPasswordLabel = senha
+
 ### Authentication
 
 configure-auth-clientID = Client ID
@@ -230,6 +243,9 @@ configure-auth-oidc-tokenURL = Token URL
 configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Usar login com OpenID Connect ligado
 
+configure-auth-settings = Configurações de sessão
+configure-auth-settings-session-duration-label = Duração da sessão
+
 ### Moderation
 
 ### Recent Comment History
@@ -267,13 +283,10 @@ configure-moderation-apiKey = API Key
 
 configure-moderation-akismet-title = Filtro de Detecção de Spam Akismet
 configure-moderation-akismet-explanation =
-  Os comentários enviados são transmitidos para a API do Akismet para detecção de spam.
-  Se um comentário for determinado como spam, ele mostrará ao usuário,
-  indicando que o comentário pode ser considerado spam.
-  Se o usuário continuar após esse ponto com o comentário ainda como spam,
-  o comentário será marcado como contendo spam, <strong> não será publicado </strong> e
-  são colocados na <strong> Fila pendente para revisão por um moderador </strong>. Se aprovado por um moderador,
-  o comentário será publicado.
+   O filtro da API Akismet avisa os usuários quando um comentário é determinado como provável
+   spam. Comentários que a Akismet considera spam não serão publicados
+   e são colocados na fila pendente para revisão por um moderador.
+   Se aprovado por um moderador, o comentário será publicado.
 
 #### Akismet
 configure-moderation-akismet-filter = Filtro de Detecção de Spam
@@ -286,7 +299,6 @@ configure-moderation-akismet-siteURL = URL do site
 #### Perspective
 configure-moderation-perspective-filter = Filtro de Comentários Tóxicos
 configure-moderation-perspective-toxicityThreshold = Limite de toxicidade
-
 configure-moderation-perspective-title = Filtro de Comentários Tóxicos Perspective API
 configure-moderation-perspective-explanation =
   Usando a Perspective API, o filtro de comentários tóxicos avisa os usuários quando 
@@ -314,12 +326,11 @@ configure-moderation-perspective-accountNote =
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Palavras e Frases Banidas
 configure-wordList-banned-explanation =
-  Comentários contendo uma palavra ou frase na lista de palavras banidas são <strong> rejeitados automaticamente e não são publicados </strong>.
+  Comentários contendo uma palavra ou frase na lista de palavras banidas são <strong> rejeitados
+  automaticamente e não são publicados </strong>.
 configure-wordList-banned-wordList = Lista de palavras banidas
 configure-wordList-banned-wordListDetail =
-  Separe palavras ou frases banidas com uma nova linha. Tentando copiar
-  e cole uma lista separada por vírgula? <externalLink> Saiba como converter sua lista
-  para uma nova lista separada por linha. </externalLink>
+  Separe palavras ou frases proibidas por uma nova linha.
 
 #### Suspect Words Configuration
 configure-wordList-suspect-bannedWordsAndPhrases = Palavras e Frases Suspeitas
@@ -329,14 +340,13 @@ configure-wordList-suspect-explanation =
   publicado (se os comentários não forem pré-moderados). </ strong>
 configure-wordList-suspect-wordList = Lista de Palavras Suspeitas
 configure-wordList-suspect-wordListDetail =
-  Separe palavras suspeitas ou frases com uma nova linha. Tentando copiar
-  e cole uma lista separada por vírgula? <externalLink> Saiba como converter sua lista
-  para uma nova lista separada por linha. </externalLink>
+  Separe palavras ou frases proibidas por uma nova linha.
 
 ### Advanced
 configure-advanced-customCSS = CSS Customizado
 configure-advanced-customCSS-explanation =
-  URL de uma folha de estilo CSS que substituirá o estilo padrão dos fluxos de comentário das páginas. Pode ser interno ou externo.
+  URL de uma folha de estilo CSS que substituirá o estilo padrão dos fluxos de comentário das páginas.
+  Pode ser interno ou externo.
 
 configure-advanced-permittedDomains = Domínios Permitidos
 configure-advanced-permittedDomains-description =
@@ -345,7 +355,8 @@ Domínios onde sua instance de { -product-name } pode ser incorporada, incluindo
 
 configure-advanced-liveUpdates = Atualizações ao vivo do Stream de comentários
 configure-advanced-liveUpdates-explanation =
-  Quando ativado, habilitará o carregamento e atualização em tempo real dos comentários, à medida que novos comentários e respostas forem publicados.
+  Quando ativado, habilitará o carregamento e atualização em tempo real dos comentários, à medida que novos
+  comentários e respostas forem publicados.
 
 configure-advanced-embedCode-title = Incorporar
 configure-advanced-embedCode-explanation =
@@ -443,6 +454,10 @@ moderate-searchBar-comboBoxTextField =
 moderate-searchBar-goTo = Ir para
 moderate-searchBar-seeAllResults = Ver todos os resultados
 
+moderateCardDetails-tab-details = Detalhes
+moderateCardDetails-tab-edits = Editar História
+### Moderate User History Drawer
+
 ### Moderate User History Drawer
 moderate-user-drawer-email =
   .title = Endereço de email
@@ -468,6 +483,9 @@ moderate-user-drawer-account-history-no-history = Nenhuma ação foi realizada n
 moderate-user-drawer-username-change = Nome de usuário alterado
 moderate-user-drawer-username-change-new = Novo:
 moderate-user-drawer-username-change-old = Antigo:
+
+moderate-user-drawer-account-history-premod-set = Sempre pré moderar
+moderate-user-drawer-account-history-premod-removed = Remover pré moderação
 
 moderate-user-drawer-suspension =
   Suspensão, { $value } { $unit ->
@@ -509,9 +527,8 @@ moderate-user-drawer-recent-history-calculated =
 moderate-user-drawer-recent-history-rejected = Rejeitado
 moderate-user-drawer-recent-history-tooltip-title = Como isso é calculado?
 moderate-user-drawer-recent-history-tooltip-body =
-  Comentários rejeitados divididos pela soma dos
-  comentários publicados e rejeitados, durante o histórico recente de comentários
-  prazo.
+  Comentários rejeitados ÷ (comentários rejeitados + comentários publicados).
+   O limite pode ser alterado pelos administradores em Configuração > Moderação.
 moderate-user-drawer-recent-history-tooltip-button =
   .aria-label = Alternar dica de ferramenta do histórico de comentários recentes
 moderate-user-drawer-recent-history-tooltip-submitted = Enviado
@@ -598,12 +615,17 @@ community-userStatus-popover =
   .description = Um menu suspenso para alterar o status do usuário
 
 community-userStatus-banUser = Banir Usário
+community-userStatus-ban = Banir
 community-userStatus-removeBan = Remover Banimento
 community-userStatus-suspendUser = Suspender Userário
+community-userStatus-suspend = Suspender
 community-userStatus-removeSupsension = Remover Suspensão
+community-userStatus-removeUserSuspension = Remover Suspensão
 community-userStatus-unknown = Desconhecido
 community-userStatus-changeButton =
   .aria-label = Mudar status do usuário
+community-userStatus-premodUser = Sempre pré moderar
+community-userStatus-removePremod = Remover pré moderação
 
 community-banModal-areYouSure = Você tem certeza que quer banir  <strong>{ $username }</strong>?
 community-banModal-consequence =
@@ -611,8 +633,11 @@ community-banModal-consequence =
   reações ou relatar comentários.
 community-banModal-cancel = Cancelar
 community-banModal-banUser = Banir Usário
+community-banModal-customize = Customizar mensagem do email de banimento
+
 community-suspendModal-areYouSure = Banir <strong>{ $username }</strong>?
-community-suspendModal-consequence = Uma vez banido, este usuário não poderá mais comentar, reagir ou reportar comentários
+community-suspendModal-consequence = Uma vez banido, este usuário não poderá mais
+comentar, reagir ou reportar comentários
 community-suspendModal-duration-3600 = 1 hora
 community-suspendModal-duration-10800 = 3 horas
 community-suspendModal-duration-86400 = 24 horas
@@ -624,13 +649,21 @@ community-suspendModal-emailTemplate =
 
   De acordo com as orientações da comunidade da { $organizationName }, sua conta foi banida temporariamente. Durante a suspensão, você não poderá comentar, denunciar ou interagir com os outros comentaristas. Por favor tente comentar novamente em { framework-timeago-time }.
   
-community-suspendModal-customize = Customize o email de suspensão.
+community-suspendModal-customize = Customizar o email de suspensão.
 
 community-suspendModal-success =
   <strong>{ $username }</strong> foi banido por <strong>{ $duration }</strong>
 
 community-suspendModal-success-close = Fechado
 community-suspendModal-selectDuration = Selecione o período de suspensão.
+
+community-premodModal-areYouSure =
+  Tem certeza de que deseja sempre pré-moderar <strong>{ $username }</strong>?
+community-premodModal-consequence =
+  Todos os comentários serão direcionados para a fila Pendente até você remover esse status.
+community-premodModal-cancel = Cancelar
+community-premodModal-premodUser = Sim, sempre pré-moderar
+
 
 community-invite-inviteMember = Convidar membros para sua organização
 community-invite-emailAddressLabel = Endereço de email:
@@ -747,3 +780,33 @@ configure-account-features-download-comments = Fazer o download de seus comentá
 configure-account-features-download-comments-details = Comentaristas podem fazer download de um csv do histórico de comentarista
 configure-account-features-delete-account = Excluir suas contas.
 configure-account-features-delete-account-details = Remover todos os dados de comentários, nome de usuário e endereço de email do site e do banco de dados
+
+configure-account-features-delete-account-fieldDescriptions =
+  Remove todos os dados de comentários, nome de usuário e email
+   endereço do site e do banco de dados.
+
+configure-advanced-stories = Criação de histórias
+configure-advanced-stories-explanation = Configurações avançadas de como as histórias são criadas no Coral.
+configure-advanced-stories-lazy = Criação de histórias Lazy
+configure-advanced-stories-lazy-detail = Permita que as histórias sejam criadas automaticamente quando publicadas no seu CMS.
+configure-advanced-stories-scraping = Scraping de Histórias
+configure-advanced-stories-scraping-detail = Permita que os metadados da história sejam coletados automaticamente quando publicados a partir do seu CMS.
+configure-advanced-stories-proxy = URL do proxy do scraper
+configure-advanced-stories-proxy-detail =
+  Quando especificado, permite que as requisições do scraper usem o
+   proxy. Todos os pedidos serão passados através do proxy realizado
+   pelo pacote <externalLink> npm proxy-agent </externalLink>.
+
+forgotPassword-forgotPasswordHeader = Esqueceu a senha?
+forgotPassword-checkEmailHeader = Verifique seu email
+forgotPassword-gotBackToSignIn = Volte para a página de login
+forgotPassword-checkEmail-receiveEmail =
+  Se houver uma conta associada a <strong> { $email } </strong>,
+   você receberá um email com um link para criar uma nova senha.
+forgotPassword-enterEmailAndGetALink =
+  Digite seu endereço de e-mail abaixo e nós lhe enviaremos um link
+  para redefinir sua senha.
+forgotPassword-emailAddressLabel = Endereço de Email
+forgotPassword-emailAddressTextField =
+  .placeholder = Endereço de Email
+forgotPassword-sendEmailButton = Enviar email
