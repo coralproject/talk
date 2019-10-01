@@ -316,10 +316,6 @@ configure-wordList-banned-bannedWordsAndPhrases = Palavras e Frases Banidas
 configure-wordList-banned-explanation =
   Comentários contendo uma palavra ou frase na lista de palavras banidas são <strong> rejeitados automaticamente e não são publicados </strong>.
 configure-wordList-banned-wordList = Lista de palavras banidas
-configure-wordList-banned-wordListDetail =
-  Separe palavras ou frases banidas com uma nova linha. Tentando copiar
-  e cole uma lista separada por vírgula? <externalLink> Saiba como converter sua lista
-  para uma nova lista separada por linha. </externalLink>
 
 #### Suspect Words Configuration
 configure-wordList-suspect-bannedWordsAndPhrases = Palavras e Frases Suspeitas
@@ -328,10 +324,6 @@ configure-wordList-suspect-explanation =
   são <strong> colocados na Fila de Reportados para revisão de moderadores e são
   publicado (se os comentários não forem pré-moderados). </ strong>
 configure-wordList-suspect-wordList = Lista de Palavras Suspeitas
-configure-wordList-suspect-wordListDetail =
-  Separe palavras suspeitas ou frases com uma nova linha. Tentando copiar
-  e cole uma lista separada por vírgula? <externalLink> Saiba como converter sua lista
-  para uma nova lista separada por linha. </externalLink>
 
 ### Advanced
 configure-advanced-customCSS = CSS Customizado
