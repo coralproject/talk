@@ -74,10 +74,7 @@ then
   then
     deploy_tag
   else
-    if [ "$CIRCLE_BRANCH" = "master" ]
-    then
-
-    else
+    if [ "$CIRCLE_BRANCH" != "master" ]
       deploy_branch
     fi
   fi

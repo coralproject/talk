@@ -223,6 +223,8 @@ filter_deploy: &filter_deploy
   filters:
     tags:
       only: /v[0-9]+(\.[0-9]+)*/
+    branches:
+      ignore: /.*/
 
 # filter_develop will add the filters for a development related commit.
 filter_develop: &filter_develop
