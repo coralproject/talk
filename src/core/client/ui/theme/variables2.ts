@@ -116,21 +116,17 @@ const variables2 = {
     },
     commentText: colors.mono900,
     linkText: colors.teal700,
-    markerText: {
+    marker: {
       reported: colors.red500,
       pending: colors.teal700,
     },
     counterBadge: {
       background: {
-        default: "",
-        emphasis: "",
-        alert: "",
+        default: colors.grey500,
+        emphasis: colors.teal600,
+        alert: colors.red500,
       },
-      foreground: {
-        default: "",
-        emphasis: "",
-        alert: "",
-      },
+      foreground: colors.pure.white,
     },
     button: {
       outline: {

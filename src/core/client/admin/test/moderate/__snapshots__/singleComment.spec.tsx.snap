@@ -104,7 +104,7 @@ exports[`approves single comment 1`] = `
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
-                className="Marker-root Marker-colorError Marker-variantRegular"
+                className="Marker-root Marker-colorReported Marker-variantRegular"
               >
                 <span>
                   Spam
@@ -309,7 +309,7 @@ exports[`rejects single comment 1`] = `
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
-                className="Marker-root Marker-colorError Marker-variantRegular"
+                className="Marker-root Marker-colorReported Marker-variantRegular"
               >
                 <span>
                   Spam
@@ -549,7 +549,7 @@ exports[`renders single comment view 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                     >
                       <span
-                        className="Marker-root Marker-colorError Marker-variantRegular"
+                        className="Marker-root Marker-colorReported Marker-variantRegular"
                       >
                         <span>
                           Spam

@@ -140,7 +140,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
-                className="Marker-root Marker-colorError Marker-variantRegular"
+                className="Marker-root Marker-colorReported Marker-variantRegular"
               >
                 <span>
                   Spam
@@ -378,7 +378,7 @@ exports[`renders rejected queue with comments 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                   >
                     <span
-                      className="Marker-root Marker-colorError Marker-variantRegular"
+                      className="Marker-root Marker-colorReported Marker-variantRegular"
                     >
                       <span>
                         Spam
@@ -603,7 +603,7 @@ exports[`renders rejected queue with comments 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                   >
                     <span
-                      className="Marker-root Marker-colorError Marker-variantRegular"
+                      className="Marker-root Marker-colorReported Marker-variantRegular"
                     >
                       <span>
                         Offensive
@@ -834,7 +834,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
-                className="Marker-root Marker-colorError Marker-variantRegular"
+                className="Marker-root Marker-colorReported Marker-variantRegular"
               >
                 <span>
                   Offensive
@@ -847,7 +847,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 </span>
               </span>
               <span
-                className="Marker-root Marker-colorError Marker-variantRegular"
+                className="Marker-root Marker-colorReported Marker-variantRegular"
               >
                 <span>
                   Spam

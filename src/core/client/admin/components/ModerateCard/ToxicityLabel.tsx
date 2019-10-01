@@ -2,12 +2,12 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Counter } from "coral-ui/components";
+import { Counter } from "coral-admin/ui/components";
 
 import styles from "./ToxicityLabel.css";
 
 const ToxicityCounter: FunctionComponent<{ score: number }> = ({ score }) => (
-  <Counter>{Math.round(score * 100)}%</Counter>
+  <Counter color="inherit">{Math.round(score * 100)}%</Counter>
 );
 
 const ToxicityLabel: FunctionComponent<{

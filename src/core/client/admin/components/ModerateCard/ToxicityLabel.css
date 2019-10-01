@@ -3,5 +3,5 @@
 }
 
 .likely {
-  color: var(--palette-error-dark);
+  color: var(--v2-palette-counter-badge-background-alert);
 }
