@@ -160,7 +160,7 @@ function useSearchOptions(
           nextSearchOptions.push({
             element: (
               <Option
-                href={`/admin/moderate/${e.node.id}`}
+                href={`/admin/moderate/${encodeURIComponent(e.node.id)}`}
                 details={e.node.metadata && e.node.metadata.author}
               >
                 <GoToAriaInfo /> {e.node.metadata && e.node.metadata.title}
