@@ -3,13 +3,14 @@ import { GraphQLError } from "graphql";
 import StackUtils from "stack-utils";
 
 import { CoralError, CoralErrorContext } from "coral-server/errors";
+import VError from "verror";
 
 interface SerializedError {
   id?: string;
   message: string;
   name: string;
   stack?: string;
-  context?: CoralErrorContext;
+  context?: CoralErrorContext | Record<string, any>;
   originalError?: SerializedError;
 }
 
@@ -39,6 +40,8 @@ const errSerializer = (err: Error) => {
     if (cause) {
       obj.originalError = errSerializer(cause);
     }
+  } else if (err instanceof VError) {
+    obj.context = VError.info(err);
   }
 
   return obj;

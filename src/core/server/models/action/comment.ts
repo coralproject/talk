@@ -17,16 +17,12 @@ import logger from "coral-server/logger";
 import {
   Connection,
   ConnectionInput,
-  createCollection,
-  createConnectionOrderVariants,
-  createIndexFactory,
   FilterQuery,
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
-
-const collection = createCollection<CommentAction>("commentActions");
+import { commentActions as collection } from "coral-server/services/mongodb/collections";
 
 export enum ACTION_TYPE {
   /**
@@ -134,32 +130,6 @@ export interface CommentAction extends TenantResource {
   metadata?: Record<string, any>;
 }
 
-export async function createCommentActionIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // UNIQUE { id }
-  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
-
-  // { actionType, commentID }
-  await createIndex(
-    { tenantID: 1, actionType: 1, commentID: 1, userID: 1 },
-    { background: true }
-  );
-
-  const variants = createConnectionOrderVariants<Readonly<CommentAction>>(
-    [{ createdAt: -1 }],
-    { background: true }
-  );
-
-  // Connection pagination.
-  // { ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    actionType: 1,
-    commentID: 1,
-  });
-}
-
 const ActionSchema = [
   // Flags
   {
@@ -232,7 +202,7 @@ export async function createAction(
   input: CreateActionInput,
   now = new Date()
 ): Promise<CreateActionResultObject> {
-  const { metadata, additionalDetails, ...filter } = input;
+  const { metadata, additionalDetails, ...rest } = input;
 
   // Create a new ID for the action.
   const id = uuid.v4();
@@ -243,6 +213,12 @@ export async function createAction(
     id,
     tenantID,
     createdAt: now,
+  };
+
+  // Extract the filter parameters.
+  const filter: FilterQuery<CommentAction> = {
+    tenantID,
+    ...rest,
   };
 
   // Merge the defaults with the input.

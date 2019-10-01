@@ -3,9 +3,12 @@
 exports[`renders all markers 1`] = `
 <Markers
   details={
-    <Relay(FlagDetailsContainer)
+    <Relay(ModerateCardDetailsContainer)
       comment={
         Object {
+          "editing": Object {
+            "edited": false,
+          },
           "revision": Object {
             "actionCounts": Object {
               "flag": Object {
@@ -30,6 +33,8 @@ exports[`renders all markers 1`] = `
           "status": "PREMOD",
         }
       }
+      hasDetails={true}
+      hasRevisions={false}
       onUsernameClick={[Function]}
       settings={
         Object {
@@ -143,9 +148,12 @@ exports[`renders all markers 1`] = `
 exports[`renders some markers 1`] = `
 <Markers
   details={
-    <Relay(FlagDetailsContainer)
+    <Relay(ModerateCardDetailsContainer)
       comment={
         Object {
+          "editing": Object {
+            "edited": false,
+          },
           "revision": Object {
             "actionCounts": Object {
               "flag": Object {
@@ -170,6 +178,8 @@ exports[`renders some markers 1`] = `
           "status": "PREMOD",
         }
       }
+      hasDetails={true}
+      hasRevisions={false}
       onUsernameClick={[Function]}
       settings={
         Object {

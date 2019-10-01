@@ -14,16 +14,14 @@ import {
 import {
   Connection,
   ConnectionInput,
-  createConnectionOrderVariants,
-  createIndexFactory,
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
+import { stories as collection } from "coral-server/services/mongodb/collections";
 
 import { createEmptyCommentStatusCounts } from "../comment/helpers";
-import { createCollection } from "../helpers/collection";
 import {
   createEmptyCommentModerationQueueCounts,
   StoryCommentCounts,
@@ -31,8 +29,6 @@ import {
 
 export * from "./counts";
 export * from "./helpers";
-
-const collection = createCollection<Story>("stories");
 
 export type StorySettings = DeepPartial<
   Pick<GQLStorySettings, "messageBox"> & GlobalModerationSettings
@@ -79,40 +75,6 @@ export interface Story extends TenantResource {
    * createdAt is the date that the Story was added to the Coral database.
    */
   createdAt: Date;
-}
-
-export async function createStoryIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // UNIQUE { id }
-  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
-
-  // UNIQUE { url }
-  await createIndex({ tenantID: 1, url: 1 }, { unique: true });
-
-  // TEXT { $**, createdAt }
-  await createIndex(
-    { tenantID: 1, "$**": "text", createdAt: -1 },
-    { background: true }
-  );
-
-  const variants = createConnectionOrderVariants<Readonly<Story>>(
-    [{ createdAt: -1 }],
-    { background: true }
-  );
-
-  // Story Connection pagination.
-  // { ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-  });
-
-  // Closed At ordered Story Connection pagination.
-  // { closedAt, ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    closedAt: 1,
-  });
 }
 
 export interface UpsertStoryInput {
