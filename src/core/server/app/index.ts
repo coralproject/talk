@@ -110,6 +110,8 @@ export const listenAndServe = (
 function configureApplication(options: AppOptions) {
   const { parent } = options;
 
+  parent.disable("x-powered-by");
+
   // Trust the proxy in front of us, this will enable us to trust the fact that
   // SSL was terminated correctly.
   const trust = options.config.get("trust_proxy");
