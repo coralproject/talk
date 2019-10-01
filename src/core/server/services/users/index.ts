@@ -820,8 +820,7 @@ export async function premod(
 
   // Check to see if the User is currently banned.
   const premodStatus = consolidateUserPremodStatus(targetUser.status.premod);
-  // FIXME: (wyattjoh) once migration has been performed, remove check
-  if (premodStatus && premodStatus.active) {
+  if (premodStatus.active) {
     throw new UserAlreadyPremoderated();
   }
 
@@ -845,8 +844,7 @@ export async function removePremod(
 
   // Check to see if the User is currently suspended.
   const premodStatus = consolidateUserPremodStatus(targetUser.status.premod);
-  // FIXME: (wyattjoh) once migration has been performed, remove check
-  if (!premodStatus || !premodStatus.active) {
+  if (!premodStatus.active) {
     // The user is not premodded currently, just return the user because we
     // don't have to do anything.
     return targetUser;

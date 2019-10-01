@@ -320,7 +320,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                           Cancel
                         </Button>
                       </Localized>
-                      <Localized id="profile-changeUsername-submit-button-save">
+                      <Localized id="profile-changeUsername-save">
                         <Button
                           className={CLASSES.myUsername.form.saveButton}
                           variant={pristine || invalid ? "outlined" : "filled"}

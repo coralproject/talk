@@ -1,5 +1,8 @@
 ### Localization for Account
 
+account-tokenNotFound =
+  O link especificado é inválido, verifique se foi copiado corretamente.
+
 ## Password Reset
 
 resetPassword-resetPassword = Redefinir senha
@@ -16,7 +19,6 @@ resetPassword-youMayClose =
   Agora você pode fechar esta janela e fazer login na sua conta com sua nova senha.
 resetPassword-oopsSorry = Oops Desculpe!
 resetPassword-missingResetToken = O token de redefinição parece estar faltando.
-
 
 ## Email Confirmation
 
@@ -49,3 +51,10 @@ download-landingPage-contentsStoryUrl =
 download-landingPage-downloadComments =
   Fazer o download do meu histórico de comentário
 download-landingPage-sorry = Seu link de download é inválido
+
+## Unsubscribe
+
+unsubscribe-oopsSorry = Oops Desculpe!
+unsubscribe-successfullyUnsubscribed = Agora você está desinscrito de todas as notificações
+unsubscribe-clickToConfirm = Clique abaixo para confirmar que deseja cancelar a inscrição de todas as notificações.
+unsubscribe-confirm = Confirmar

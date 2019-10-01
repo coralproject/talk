@@ -424,6 +424,7 @@ moderate-queue-viewNew =
 ### Moderate Search Bar
 moderate-searchBar-allStories = Todas as histórias
   .title = Todas as histórias
+moderate-searchBar-noResults = Sem resultados
 moderate-searchBar-stories = Histórias:
 moderate-searchBar-searchButton = Pesquisar
 moderate-searchBar-titleNotAvailable =
@@ -623,7 +624,7 @@ community-suspendModal-emailTemplate =
 
   De acordo com as orientações da comunidade da { $organizationName }, sua conta foi banida temporariamente. Durante a suspensão, você não poderá comentar, denunciar ou interagir com os outros comentaristas. Por favor tente comentar novamente em { framework-timeago-time }.
 
-community-suspendModal-customize = Customize o email de suspensão.
+community-suspendModal-customize = Customizar o email de suspensão.
 
 community-suspendModal-success =
   <strong>{ $username }</strong> foi banido por <strong>{ $duration }</strong>

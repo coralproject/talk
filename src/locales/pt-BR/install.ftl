@@ -5,7 +5,15 @@ install-nextButton-next = Próximo
 install-permittedDomains-finishInstall = Finalizar Instalação
 install-header-title = Assistente de instalação de Coral
 
+install-initialStep-theRemainder = O restante do assistente de instalação levará cerca de 10 minutos. Quando terminar, você terá sua própria instância de { -product-name }.
 install-initialStep-getStarted = Iniciar
+
+install-selectLanguage-stepTitleSelect = Selecione o idioma
+install-selectLanguage-selectLanguage = Selecione o idioma para o Coral
+install-selectLanguage-description =
+  Escolha o idioma a ser usado durante o processo de instalação.
+  Este também será o idioma padrão para a sua comunidade Coral.
+install-selectLanguage-language = Idioma
 
 install-addOrganization-stepTitle = Adicionar Detalhes da Organização
 install-addOrganization-title = Adicionar Organização
@@ -40,6 +48,11 @@ install-createYourAccount-confirmPasswordTextField =
 
 install-permittedDomains-stepTitle = Adicionar domínios permitidos
 install-permittedDomains-title =  Domínios Permitidos
+install-allowedDomains-description-with-schema =
+   Digite os domínios que você deseja permitir para { -product-name }, por exemplo
+   seus ambientes locais, de preparação e produção, incluindo o
+   protocolo (por exemplo, http: // localhost: 3000, https://staging.domain.com,
+   https://domain.com).
 install-permittedDomains-permittedDomains = Domínios Permitidos
 install-permittedDomains-permittedDomainsTextField =
   .placeholder = Domínios

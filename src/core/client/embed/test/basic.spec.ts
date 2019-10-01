@@ -1,5 +1,5 @@
 import mockConsole from "jest-mock-console";
-import * as Coral from "./";
+import * as Coral from "../";
 
 // tslint:disable:no-console
 
