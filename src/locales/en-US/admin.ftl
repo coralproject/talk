@@ -442,7 +442,6 @@ moderate-comment-deleted-body =
 ### Moderate Search Bar
 moderate-searchBar-allStories = All stories
   .title = All stories
-moderate-searchBar-noResults = No results
 moderate-searchBar-noStories = We could not find any stories matching your criteria
 moderate-searchBar-stories = Stories:
 moderate-searchBar-searchButton = Search

@@ -160,13 +160,13 @@ configure-email-fromNameDescription =
 configure-email-fromEmailLabel = Do endereço de email
 configure-email-fromEmailDescription =
   Endereço de email que será usado para enviar mensagens
-configure-email-smtpHostLabel = hospedeiro de SMTP 
+configure-email-smtpHostLabel = hospedeiro de SMTP
 configure-email-smtpHostDescription = (ex. smtp.sendgrid.com)
 configure-email-smtpPortLabel = porta  SMTP
 configure-email-smtpPortDescription = (ex. 25)
 configure-email-smtpTLSLabel = TLS
-configure-email-smtpAuthenticationLabel = Autenticação SMTP 
-configure-email-smtpCredentialsHeader = credencial de email 
+configure-email-smtpAuthenticationLabel = Autenticação SMTP
+configure-email-smtpCredentialsHeader = credencial de email
 configure-email-smtpUsernameLabel = nome de usuário
 configure-email-smtpPasswordLabel = senha
 ### Authentication
@@ -244,17 +244,17 @@ configure-moderation-recentCommentHistory-enabled-description =
   Impede os ofensores de publicar repetidos comentários sem aprovação.
   Após a taxa de rejeição de um comentarista estourar o limite definido
   abaixo, os próximos comentários enviados são <strong> enviados para Pendente para
-  aprovação do moderador. </strong> O filtro é removido quando a taxa de rejeição normaliza 
+  aprovação do moderador. </strong> O filtro é removido quando a taxa de rejeição normaliza
   novamente.
 configure-moderation-recentCommentHistory-triggerRejectionRate = Limite da taxa de rejeição
 configure-moderation-recentCommentHistory-triggerRejectionRate-description =
-  Calculado pela divisão do número de comentários rejeitados pela soma 
-  dos comentaristas rejeitados e comentários publicados, dentro do período recente 
+  Calculado pela divisão do número de comentários rejeitados pela soma
+  dos comentaristas rejeitados e comentários publicados, dentro do período recente
   do histórico de comentários(não inclui comentários pendentes para
   toxicidade, spam ou pré-moderação.)
 
 #### Pre-Moderation
-configure-moderation-preModeration-title = Pré-moderação 
+configure-moderation-preModeration-title = Pré-moderação
 configure-moderation-preModeration-explanation =
   Quando a pré-moderação está ativada, os comentários não serão publicados, a menos que sejam
   aprovados por um moderador.
@@ -289,8 +289,8 @@ configure-moderation-perspective-toxicityThreshold = Limite de toxicidade
 
 configure-moderation-perspective-title = Filtro de Comentários Tóxicos Perspective API
 configure-moderation-perspective-explanation =
-  Usando a Perspective API, o filtro de comentários tóxicos avisa os usuários quando 
-  os comentários excedem a toxicidade predefinida limite. Comentários com uma pontuação 
+  Usando a Perspective API, o filtro de comentários tóxicos avisa os usuários quando
+  os comentários excedem a toxicidade predefinida limite. Comentários com uma pontuação
   de toxicidade acima do limite <strong> não serão publicados </strong> e serão colocados na
   <strong> fila pendente para revisão por um moderador </strong>. Se aprovado por um moderador,
  o comentário será publicado.
@@ -352,7 +352,7 @@ configure-advanced-embedCode-explanation =
   Copie e cole o código abaixo no seu CMS para incorporar fluxos de comentários do Coral em
   cada uma das histórias do seu site.
 configure-advanced-embedCode-comment =
-  Substitua essas linhas pelo ID do ID e URL da história do seu CMS para fornecer a maior integração. 
+  Substitua essas linhas pelo ID do ID e URL da história do seu CMS para fornecer a maior integração.
   Consulte a nossa documentação em https://docs.coralproject.net para todas as opções de configuração.
   ## Decision History
 decisionHistory-popover =
@@ -424,7 +424,6 @@ moderate-queue-viewNew =
 ### Moderate Search Bar
 moderate-searchBar-allStories = Todas as histórias
   .title = Todas as histórias
-moderate-searchBar-noResults = Sem resultados
 moderate-searchBar-stories = Histórias:
 moderate-searchBar-searchButton = Pesquisar
 moderate-searchBar-titleNotAvailable =
@@ -623,7 +622,7 @@ community-suspendModal-emailTemplate =
   Olá { $username },
 
   De acordo com as orientações da comunidade da { $organizationName }, sua conta foi banida temporariamente. Durante a suspensão, você não poderá comentar, denunciar ou interagir com os outros comentaristas. Por favor tente comentar novamente em { framework-timeago-time }.
-  
+
 community-suspendModal-customize = Customize o email de suspensão.
 
 community-suspendModal-success =
@@ -717,8 +716,8 @@ userDetails-suspension-end = <strong>Fim:</strong> { $timestamp }
 
 configure-general-reactions-title = Reações
 configure-general-reactions-explanation =
-  Permitir que sua comunidade interaja com as outras e que se expressem 
-  com as reações de um clique. Por padrão, o Coral permite que os comentaristas "Respeitem" 
+  Permitir que sua comunidade interaja com as outras e que se expressem
+  com as reações de um clique. Por padrão, o Coral permite que os comentaristas "Respeitem"
   uns aos outros, mas você pode customizar os textos de reações de acordo com a necessidade
   da sua comunidade.
 configure-general-reactions-label = Legenda para a reação
@@ -734,9 +733,9 @@ configure-general-reactions-preview = Pré-visualização
 configure-general-reaction-sortMenu-sortBy = Ordenar por
 
 configure-account-features-title = Gerenciamento de recursos da conta de comentaristas
-configure-account-features-explanation = 
-  Você pode habilitar ou desabilitar certos recursos para seus comentaristas para 
-  usar dentro de suas contas. Esses recursos também ajudam na 
+configure-account-features-explanation =
+  Você pode habilitar ou desabilitar certos recursos para seus comentaristas para
+  usar dentro de suas contas. Esses recursos também ajudam na
   conformidade com o GDPR
 configure-account-features-allow = Permitir usuários a:
 configure-account-features-change-usernames = Mudar seus nomes de usuário

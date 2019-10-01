@@ -401,7 +401,6 @@ moderate-queue-viewNew =
 ### Moderate Search Bar
 moderate-searchBar-allStories = Alle historier
   .title = Alle historier
-moderate-searchBar-noResults = Ingen resultater
 moderate-searchBar-stories = Historier:
 moderate-searchBar-searchButton = Søg
 moderate-searchBar-titleNotAvailable =
