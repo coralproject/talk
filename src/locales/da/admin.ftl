@@ -306,8 +306,6 @@ configure-wordList-suspect-explanation =
   kø til moderatorgennemgang og offentliggøres
   (hvis kommentarer ikke er før-modereret).
 configure-wordList-suspect-wordList = Mistænkte ordliste
-configure-wordList-suspect-wordListDetail =
-  Adskil mistænkelige ord eller sætninger med en ny linje.
 
 ### Advanced
 configure-advanced-customCSS = Tilpasset CSS

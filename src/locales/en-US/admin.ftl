@@ -338,10 +338,8 @@ configure-wordList-suspect-explanation =
   are <strong>placed into the Reported Queue for moderator review and are
   published (if comments are not pre-moderated).</strong>
 configure-wordList-suspect-wordList = Suspect word list
-configure-wordList-suspect-wordListDetail =
-  Separate suspect words or phrases with a new line.
 configure-wordList-suspect-wordListDetailInstructions =
-  Separate banned words or phrases with a new line. Words/phrases are not case sensitive.
+  Separate suspect words or phrases with a new line. Words/phrases are not case sensitive.
 
 ### Advanced
 configure-advanced-customCSS = Custom CSS

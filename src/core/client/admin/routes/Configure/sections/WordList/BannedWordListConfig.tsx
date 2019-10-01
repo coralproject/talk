@@ -1,7 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   FormField,
   HorizontalGutter,

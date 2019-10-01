@@ -1,7 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   FormField,
   HorizontalGutter,
@@ -45,7 +44,7 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
         </Localized>
         <Localized id="configure-wordList-suspect-wordListDetailInstructions">
           <InputDescription>
-            Separate banned words or phrases with a new line. Words/phrases are
+            Separate suspect words or phrases with a new line. Words/phrases are
             not case sensitive.
           </InputDescription>
         </Localized>

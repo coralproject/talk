@@ -324,10 +324,6 @@ configure-wordList-suspect-explanation =
   são <strong> colocados na Fila de Reportados para revisão de moderadores e são
   publicado (se os comentários não forem pré-moderados). </ strong>
 configure-wordList-suspect-wordList = Lista de Palavras Suspeitas
-configure-wordList-suspect-wordListDetail =
-  Separe palavras suspeitas ou frases com uma nova linha. Tentando copiar
-  e cole uma lista separada por vírgula? <externalLink> Saiba como converter sua lista
-  para uma nova lista separada por linha. </externalLink>
 
 ### Advanced
 configure-advanced-customCSS = CSS Customizado
