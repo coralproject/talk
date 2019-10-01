@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should live update counts when receiving a commentCount event 1`] = `
+<body>
+  <span
+    class="coral-count"
+    data-coral-id="story-1"
+  >
+    <span
+      class="coral-count-number"
+    >
+      2
+    </span>
+     
+    <span
+      class="coral-count-text"
+    >
+      Comments
+    </span>
+  </span>
+  <span
+    class="coral-count"
+    data-coral-url="http://localhost/stories/story-1"
+  >
+    <span
+      class="coral-count-number"
+    >
+      2
+    </span>
+     
+    <span
+      class="coral-count-text"
+    >
+      Comments
+    </span>
+  </span>
+  <span
+    class="coral-count"
+    data-coral-id="story-x"
+  >
+    <span
+      class="coral-count-number"
+    >
+      4
+    </span>
+     
+    <span
+      class="coral-count-text"
+    >
+      Comments
+    </span>
+  </span>
+  <span
+    class="x-count"
+    data-coral-id="story-1"
+  >
+    <span
+      class="coral-count-number"
+    >
+      1
+    </span>
+     
+    <span
+      class="coral-count-text"
+    >
+      Comment
+    </span>
+  </span>
+</body>
+`;

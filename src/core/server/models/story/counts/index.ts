@@ -9,6 +9,7 @@ import { dotize } from "coral-common/utils/dotize";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
+import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import {
   CommentStatusCounts,
   createEmptyCommentStatusCounts,
@@ -225,4 +226,17 @@ export function calculateTotalCommentCount(
     }
   }
   return count;
+}
+
+/**
+ * calculateTotalPublishedCommentCount will compute the total amount of
+ * published comments in a story by parsing the `CommentStatusCounts`.
+ */
+export function calculateTotalPublishedCommentCount(
+  commentCounts: CommentStatusCounts
+) {
+  return PUBLISHED_STATUSES.reduce(
+    (total, status) => total + commentCounts[status],
+    0
+  );
 }
