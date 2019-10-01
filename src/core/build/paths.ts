@@ -34,6 +34,9 @@ export default {
   appAuthCallbackHTML: resolveSrc("core/client/auth-callback/index.html"),
   appAuthCallbackIndex: resolveSrc("core/client/auth-callback/index.ts"),
 
+  appCountHTML: resolveSrc("core/client/count/index.html"),
+  appCountIndex: resolveSrc("core/client/count/index.ts"),
+
   appInstallHTML: resolveSrc("core/client/install/index.html"),
   appInstallLocalesTemplate: resolveSrc("core/client/install/locales.ts"),
   appInstallIndex: resolveSrc("core/client/install/index.tsx"),

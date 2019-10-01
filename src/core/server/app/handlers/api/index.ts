@@ -5,3 +5,4 @@ export * from "./health";
 export * from "./install";
 export * from "./version";
 export * from "./user";
+export * from "./story";

@@ -138,12 +138,14 @@ each of your site’s stories.
               <textarea
                 className="EmbedCode-textArea"
                 readOnly={true}
-                rows={22}
+                rows={24}
                 value="<div id=\\"coral_thread\\"></div>
 <script type=\\"text/javascript\\">
   (function() {
       var d = document, s = d.createElement('script');
       s.src = 'http://localhost/assets/js/embed.js';
+      s.async = false;
+      s.defer = true;
       s.onload = function() {
           Coral.createStreamEmbed({
               id: \\"coral_thread\\",
