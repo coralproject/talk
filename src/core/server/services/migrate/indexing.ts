@@ -1,5 +1,6 @@
 import { merge } from "lodash";
 import { Collection, IndexOptions } from "mongodb";
+import now from "performance-now";
 
 import { Writable } from "coral-common/types";
 import logger from "coral-server/logger";
@@ -32,8 +33,13 @@ export function createIndexFactory<T>(
   ) => {
     try {
       // Try to create the index.
+      const start = now();
+      log.debug({ indexSpec, indexOptions }, "creating index");
       const indexName = await collection.createIndex(indexSpec, indexOptions);
-      log.debug({ indexName, indexSpec, indexOptions }, "index was created");
+      log.debug(
+        { indexName, indexSpec, indexOptions, took: Math.round(now() - start) },
+        "index was created"
+      );
 
       // Match the interface from the `createIndex` function by returning the
       // index name.
@@ -48,11 +54,11 @@ export function createIndexFactory<T>(
 }
 
 export function createConnectionOrderVariants<T>(
+  createIndex: IndexCreationFunction<T>,
   variants: Array<IndexSpecification<T>>,
-  indexOptions: IndexOptions = {}
+  indexOptions: IndexOptions = { background: true }
 ) {
   return async (
-    createIndex: IndexCreationFunction<T>,
     indexSpec: IndexSpecification<T>,
     variantIndexOptions: IndexOptions = {}
   ) => {
@@ -67,9 +73,6 @@ export function createConnectionOrderVariants<T>(
         merge({}, indexSpec, variantSpec),
         merge({}, indexOptions, variantIndexOptions)
       );
-
-    // Create a raw index without the variants applied.
-    await createIndex(indexSpec, merge({}, indexOptions, variantIndexOptions));
 
     // Create all the variants.
     for (const variant of variants) {

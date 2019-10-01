@@ -109,7 +109,23 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
                           </Group>
                         </Localized>
                       )}
-                      {searchOptions.length > 0 && (
+                      {searchOptions.length === 1 && (
+                        <Group
+                          title={
+                            <>
+                              <Icon>search</Icon>{" "}
+                              <Localized id="moderate-searchBar-searchResults">
+                                <span>Search results</span>
+                              </Localized>
+                            </>
+                          }
+                          id="moderate-searchBar-search"
+                          light
+                        >
+                          {searchOptions}
+                        </Group>
+                      )}
+                      {searchOptions.length > 1 && (
                         <Group
                           title={
                             <>

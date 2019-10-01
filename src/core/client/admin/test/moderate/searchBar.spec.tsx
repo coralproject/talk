@@ -109,7 +109,10 @@ describe("all stories", () => {
 
         // Ensure no results message is shown.
         await wait(() =>
-          within(searchBar).getByText("No results", { exact: false })
+          within(searchBar).getByText(
+            "We could not find any stories matching your criteria",
+            { exact: false }
+          )
         );
       });
 

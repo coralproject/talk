@@ -19,10 +19,7 @@ import {
 } from "coral-server/models/action/comment";
 import {
   Connection,
-  createCollection,
   createConnection,
-  createConnectionOrderVariants,
-  createIndexFactory,
   doesNotContainNull,
   FilterQuery,
   nodesToEdges,
@@ -32,6 +29,7 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
+import { comments as collection } from "coral-server/services/mongodb/collections";
 
 import { PUBLISHED_STATUSES } from "./constants";
 import {
@@ -41,8 +39,6 @@ import {
 } from "./helpers";
 import { Revision } from "./revision";
 import { CommentTag } from "./tag";
-
-const collection = createCollection<Comment>("comments");
 
 /**
  * Comment's are created by User's on Stories. Each Comment contains a body, and
@@ -126,84 +122,6 @@ export interface Comment extends TenantResource {
    * undefined, this Comment is not deleted.
    */
   deletedAt?: Date;
-}
-
-export async function createCommentIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // UNIQUE { id }
-  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
-
-  // Facility for counting the tags against a story.
-  await createIndex(
-    {
-      tenantID: 1,
-      storyID: 1,
-      "tags.type": 1,
-      status: 1,
-    },
-    {
-      background: true,
-      partialFilterExpression: {
-        "tags.type": { $exists: true },
-      },
-    }
-  );
-
-  const variants = createConnectionOrderVariants<Readonly<Comment>>([
-    { createdAt: -1 },
-    { createdAt: 1 },
-    { childCount: -1, createdAt: -1 },
-    { "actionCounts.REACTION": -1, createdAt: -1 },
-  ]);
-
-  // Story based Comment Connection pagination.
-  // { storyID, ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    storyID: 1,
-    status: 1,
-  });
-
-  // Moderation based Comment Connection pagination.
-  // { storyID, ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    status: 1,
-  });
-
-  // Story based Comment Connection pagination that are flagged.
-  // { storyID, ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    storyID: 1,
-    status: 1,
-    "actionCounts.FLAG": 1,
-  });
-
-  // Story + Reply based Comment Connection pagination.
-  // { storyID, ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    storyID: 1,
-    parentID: 1,
-    status: 1,
-  });
-
-  // Author based Comment Connection pagination.
-  // { authorID, ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    authorID: 1,
-    status: 1,
-  });
-
-  // Tag based Comment Connection pagination.
-  // { tags.type, ...connectionParams }
-  await variants(createIndex, {
-    tenantID: 1,
-    "tags.type": 1,
-  });
 }
 
 export type CreateCommentInput = Omit<

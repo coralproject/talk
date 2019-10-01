@@ -54,7 +54,7 @@ const TenantInstallBodySchema = Joi.object().keys({
 
 export type TenantInstallHandlerOptions = Pick<
   AppOptions,
-  "redis" | "mongo" | "config" | "mailerQueue" | "i18n"
+  "redis" | "mongo" | "config" | "mailerQueue" | "i18n" | "migrationManager"
 >;
 
 export const installHandler = ({
@@ -62,6 +62,7 @@ export const installHandler = ({
   redis,
   config,
   i18n,
+  migrationManager,
 }: TenantInstallHandlerOptions): RequestHandler => async (req, res, next) => {
   try {
     if (!req.coral) {
@@ -107,6 +108,9 @@ export const installHandler = ({
       },
       req.coral.now
     );
+
+    // Execute pending migrations to get everything installed.
+    await migrationManager.executePendingMigrations(mongo);
 
     // Pull the user details out of the input for the user.
     const { email, username, password } = userInput;

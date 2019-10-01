@@ -24,6 +24,7 @@
     "build:development": "NODE_ENV=development npm-run-all generate --parallel lint:client build:client build:server",
     "build:client": "ts-node --transpile-only ./scripts/build.ts",
     "build:server": "gulp server",
+    "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "doctoc": "doctoc --title='## Table of Contents' --github README.md",
     "generate": "npm-run-all generate:css-types generate:schema generate:relay",
     "generate-persist": "npm-run-all generate:css-types generate:schema generate:relay-persist",

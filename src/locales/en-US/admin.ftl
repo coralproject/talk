@@ -443,7 +443,7 @@ moderate-comment-deleted-body =
 ### Moderate Search Bar
 moderate-searchBar-allStories = All stories
   .title = All stories
-moderate-searchBar-noResults = No results
+moderate-searchBar-noStories = We could not find any stories matching your criteria
 moderate-searchBar-stories = Stories:
 moderate-searchBar-searchButton = Search
 moderate-searchBar-titleNotAvailable =
@@ -454,6 +454,7 @@ moderate-searchBar-searchForm =
   .aria-label = Stories
 moderate-searchBar-currentlyModerating =
   .title = Currently moderating
+moderate-searchBar-searchResults = Search results
 moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent first)
 moderate-searchBar-moderateAllStories = Moderate all stories
 moderate-searchBar-comboBoxTextField =
@@ -622,18 +623,18 @@ community-userStatus-popover =
   .description = A dropdown to change the user status
 
 community-userStatus-banUser = Ban User
-community-userStatus-ban = Ban 
+community-userStatus-ban = Ban
 community-userStatus-removeBan = Remove Ban
 community-userStatus-removeUserBan = Remove ban
 community-userStatus-suspendUser = Suspend User
-community-userStatus-suspend = Suspend 
+community-userStatus-suspend = Suspend
 community-userStatus-removeSuspension = Remove Suspension
 community-userStatus-removeUserSuspension = Remove suspension
 community-userStatus-unknown = Unknown
 community-userStatus-changeButton =
   .aria-label = Change user status
 community-userStatus-premodUser = Always pre-moderate
-community-userStatus-removePremod = Remove pre-moderate 
+community-userStatus-removePremod = Remove pre-moderate
 
 community-banModal-areYouSure = Are you sure you want to ban <strong>{ $username }</strong>?
 community-banModal-consequence =
@@ -666,12 +667,12 @@ community-suspendModal-success =
 community-suspendModal-success-close = Close
 community-suspendModal-selectDuration = Select suspension length
 
-community-premodModal-areYouSure = 
+community-premodModal-areYouSure =
   Are you sure you want to always pre-moderate <strong>{ $username }</strong>?
 community-premodModal-consequence =
   All their comments will go to the Pending queue until you remove this status.
 community-premodModal-cancel = Cancel
-community-premodModal-premodUser = Yes, always pre-moderate 
+community-premodModal-premodUser = Yes, always pre-moderate
 
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:
@@ -683,7 +684,7 @@ community-invite-role-staff =
   comments are automatically approved. Cannot moderate
   or change any { -product-name } configuration.
 community-invite-role-moderator =
-  <strong>Moderator role:</strong> Moderator role: Receives a
+  <strong>Moderator role:</strong> Receives a
   “Staff” badge, and comments are automatically
   approved. Has full moderation privileges (approve,
   reject and feature comments). Can configure individual

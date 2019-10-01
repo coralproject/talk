@@ -1,21 +1,9 @@
 import { Collection, Db } from "mongodb";
 
-import { CommentAction } from "coral-server/models/action/comment";
-import { createCollection } from "coral-server/models/helpers";
 import { Story } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
-import { User } from "coral-server/models/user";
+import collections from "coral-server/services/mongodb/collections";
 
 const BATCH_SIZE = 500;
-
-// TODO: extract this out to a separate file so it can be re-used elsewhere
-const collections = {
-  users: createCollection<User>("users"),
-  comments: createCollection<Comment>("comments"),
-  stories: createCollection<Story>("stories"),
-  tenants: createCollection<Tenant>("tenants"),
-  commentActions: createCollection<CommentAction>("commentActions"),
-};
 
 async function executeBulkOperations<T>(
   collection: Collection<T>,
