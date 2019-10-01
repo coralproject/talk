@@ -4,7 +4,7 @@ const types = require('../constants');
 module.exports = (user, perm) => {
   switch (perm) {
     case types.SUBSCRIBE_COMMENT_FLAGGED:
-    case types.SUBSCRIBE_COMMENT_ACCEPTED:
+    case types.SUBSCRIBE_ALL_COMMENT_ACCEPTED:
     case types.SUBSCRIBE_COMMENT_REJECTED:
     case types.SUBSCRIBE_COMMENT_RESET:
     case types.SUBSCRIBE_ALL_COMMENT_EDITED:
