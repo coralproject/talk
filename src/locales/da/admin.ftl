@@ -298,8 +298,6 @@ configure-wordList-banned-bannedWordsAndPhrases = Forbudte ord og sætninger
 configure-wordList-banned-explanation =
   Kommentarer, der indeholder et ord eller en sætning i listen over forbudte ord, afvises automatisk og offentliggøres ikke.
 configure-wordList-banned-wordList = Liste over forbudte ord
-configure-wordList-banned-wordListDetail =
-  Adskil bannede ord eller sætninger med en ny linje.
 #### Suspect Words Configuration
 configure-wordList-suspect-bannedWordsAndPhrases = Mistænkte ord og sætninger
 configure-wordList-suspect-explanation =

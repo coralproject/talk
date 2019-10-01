@@ -328,8 +328,6 @@ configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
 configure-wordList-banned-explanation =
   Comments containing a word or phrase in the banned words list are <strong>automatically rejected and are not published</strong>.
 configure-wordList-banned-wordList = Banned word list
-configure-wordList-banned-wordListDetail =
-  Separate banned words or phrases with a new line.
 configure-wordList-banned-wordListDetailInstructions =
   Separate banned words or phrases with a new line. Words/phrases are not case sensitive.
 
