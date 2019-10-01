@@ -683,7 +683,7 @@ community-invite-role-staff =
   comments are automatically approved. Cannot moderate
   or change any { -product-name } configuration.
 community-invite-role-moderator =
-  <strong>Moderator role:</strong> Moderator role: Receives a
+  <strong>Moderator role:</strong> Receives a
   “Staff” badge, and comments are automatically
   approved. Has full moderation privileges (approve,
   reject and feature comments). Can configure individual
