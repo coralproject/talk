@@ -221,10 +221,6 @@ jobs:
 # only execute on a deploy related job.
 filter_deploy: &filter_deploy
   filters:
-    branches:
-      only:
-        - master
-        - next
     tags:
       only: /v[0-9]+(\.[0-9]+)*/
 
@@ -233,8 +229,7 @@ filter_develop: &filter_develop
   filters:
     branches:
       ignore:
-        - master
-        - next
+        - /release\/.*/
 
 workflows:
   version: 2

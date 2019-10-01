@@ -30,18 +30,12 @@ deploy_tag() {
   done
 
   # Push each of the tags to dockerhub, including latest
-  for version in $tag_list latest
+  for version in $tag_list
   do
       echo "==> pushing $version"
       docker push coralproject/talk:$version
       docker push coralproject/talk:$version-onbuild
   done
-}
-
-deploy_latest() {
-  echo "==> pushing latest"
-  docker push coralproject/talk:latest
-  docker push coralproject/talk:latest-onbuild
 }
 
 deploy_branch() {
@@ -82,7 +76,7 @@ then
   else
     if [ "$CIRCLE_BRANCH" = "master" ]
     then
-      deploy_latest
+
     else
       deploy_branch
     fi
