@@ -40,7 +40,7 @@ Preview Coral easily by running Coral via a Heroku App:
 
 ## Requirements
 
-- MongoDB >=3.6
+- MongoDB >=4.2
 - Redis >=3.2
 - NodeJS >=10
 - NPM >=6.7
@@ -84,7 +84,7 @@ services:
       - REDIS_URI=redis://redis:6379
       - SIGNING_SECRET=<replace me with something secret>
   mongo:
-    image: mongo:3.6
+    image: mongo:4.2
     volumes:
       - ./data/mongo:/data/db
   redis:
@@ -121,7 +121,7 @@ This should output all the compiled application code to `./dist`.
 
 Running Coral with default settings assumes that you have:
 
-- MongoDB >=3.6 running on `127.0.0.1:27017`
+- MongoDB >=4.2 running on `127.0.0.1:27017`
 - Redis >=3.2 running on `127.0.0.1:6379`
 
 If you don't already have these databases running, you can execute the following
@@ -310,14 +310,14 @@ npm install
 
 Running Coral with default settings assumes that you have:
 
-- MongoDB >=3.6 running on `127.0.0.1:27017`
+- MongoDB >=4.2 running on `127.0.0.1:27017`
 - Redis >=3.2 running on `127.0.0.1:6379`
 
 If you don't already have these databases running, you can execute the following
 assuming you have Docker installed on your local machine:
 
 ```bash
-docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
+docker run -d -p 27017:27017 --restart always --name mongo mongo:4.2
 docker run -d -p 6379:6379 --restart always --name redis redis:3.2
 ```
 
