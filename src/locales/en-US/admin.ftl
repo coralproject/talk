@@ -330,6 +330,8 @@ configure-wordList-banned-explanation =
 configure-wordList-banned-wordList = Banned word list
 configure-wordList-banned-wordListDetail =
   Separate banned words or phrases with a new line.
+configure-wordList-banned-wordListDetailInstructions =
+  Separate banned words or phrases with a new line. Words/phrases are not case sensitive.
 
 #### Suspect Words Configuration
 configure-wordList-suspect-bannedWordsAndPhrases = Suspect words and phrases
@@ -340,6 +342,8 @@ configure-wordList-suspect-explanation =
 configure-wordList-suspect-wordList = Suspect word list
 configure-wordList-suspect-wordListDetail =
   Separate suspect words or phrases with a new line.
+configure-wordList-suspect-wordListDetailInstructions =
+  Separate banned words or phrases with a new line. Words/phrases are not case sensitive.
 
 ### Advanced
 configure-advanced-customCSS = Custom CSS

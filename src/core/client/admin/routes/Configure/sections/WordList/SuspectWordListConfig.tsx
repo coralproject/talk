@@ -44,14 +44,13 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
           </InputLabel>
         </Localized>
         <Localized
-          id="configure-wordList-suspect-wordListDetail"
+          id="configure-wordList-suspect-wordListDetailInstructions"
           strong={<strong />}
           externalLink={<ExternalLink href="#" />}
         >
           <InputDescription>
-            Separate suspect words or phrases with a new line. Attempting to
-            copy and paste a comma separated list? Learn how to convert your
-            list to a new line separated list.
+            Separate banned words or phrases with a new line. Words/phrases are
+            not case sensitive.
           </InputDescription>
         </Localized>
         <div>
