@@ -198,6 +198,8 @@ export default class TenantCache {
 
         yield tenant;
       }
+
+      return;
     }
 
     // Caching must be disabled, so just grab all the tenants for this node and

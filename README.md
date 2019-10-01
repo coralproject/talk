@@ -128,7 +128,7 @@ If you don't already have these databases running, you can execute the following
 assuming you have Docker installed on your local machine:
 
 ```bash
-docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
+docker run -d -p 27017:27017 --restart always --name mongo mongo:4.2
 docker run -d -p 6379:6379 --restart always --name redis redis:3.2
 ```
 
@@ -624,12 +624,6 @@ the variables in a `.env` file in the root of the project in a simple
 - `DISABLE_TENANT_CACHING` - When `true`, all tenants will be loaded from the
   database when needed rather than keeping a in-memory copy in sync via
   published events on Redis. (Default `false`)
-- `DISABLE_MONGODB_AUTOINDEXING` - When `true`, Coral will not perform indexing
-  operations when it starts up. This can be desired when you've already
-  installed Coral on the target MongoDB, but want to improve start performance.
-  **You should not use this parameter unless you know what you're doing! Upgrades
-  may introduce additional indexes that the application relies on.**
-  (Default `false`)
 - `LOCALE` - Specify the default locale to use for all requests without a locale
   specified. (Default `en-US`)
 - `ENABLE_GRAPHIQL` - When `true`, it will enable the GraphiQL interface at `/graphiql`. **(🚨 Note 🚨) we do not recommend using this in production environments as it disables many safety features used by the application**. (Default `false`)

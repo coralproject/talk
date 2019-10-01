@@ -27,8 +27,8 @@ import {
   JWTSigningConfig,
 } from "coral-server/services/jwt";
 import { createMetrics } from "coral-server/services/metrics";
+import { MigrationManager } from "coral-server/services/migrate";
 import { createMongoDB } from "coral-server/services/mongodb";
-import { ensureIndexes } from "coral-server/services/mongodb/indexes";
 import { PersistedQueryCache } from "coral-server/services/queries";
 import {
   AugmentedRedis,
@@ -36,6 +36,7 @@ import {
   createRedisClient,
 } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
+import { isInstalled } from "./services/tenant";
 
 export interface ServerOptions {
   /**
@@ -103,6 +104,9 @@ class Server {
   // server to handle persisted queries.
   private persistedQueryCache: PersistedQueryCache;
 
+  // migrationManager is the manager for performing migrations on Coral.
+  private migrationManager: MigrationManager;
+
   constructor(options: ServerOptions) {
     this.parentApp = express();
 
@@ -153,6 +157,9 @@ class Server {
       config
     );
 
+    // Create the migration manager.
+    this.migrationManager = new MigrationManager(this.tenantCache);
+
     // Load and upsert the persisted queries.
     this.persistedQueryCache = new PersistedQueryCache({ mongo: this.mongo });
 
@@ -188,13 +195,11 @@ class Server {
     }
     this.processing = true;
 
-    // Create the database indexes if it isn't disabled.
-    if (!this.config.get("disable_mongodb_autoindexing")) {
-      // Setup the database indexes.
-      logger.info("mongodb autoindexing is enabled, starting indexing");
-      await ensureIndexes(this.mongo);
+    // Run migrations if there is already a Tenant installed.
+    if (await isInstalled(this.tenantCache)) {
+      await this.migrationManager.executePendingMigrations(this.mongo);
     } else {
-      logger.warn("mongodb autoindexing is disabled, skipping indexing");
+      logger.info("no tenants are installed, skipping running migrations");
     }
 
     // Prime the queries in the database.
@@ -310,6 +315,7 @@ class Server {
       persistedQueriesRequired:
         this.config.get("env") === "production" &&
         !this.config.get("enable_graphiql"),
+      migrationManager: this.migrationManager,
     };
 
     // Only enable the metrics server if concurrency is set to 1.

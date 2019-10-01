@@ -87,8 +87,6 @@ export async function install(
     throw new TenantInstalledAlreadyError();
   }
 
-  // TODO: (wyattjoh) perform any pending migrations.
-
   logger.info("installing tenant");
 
   // Create the Tenant.

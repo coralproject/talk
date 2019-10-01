@@ -3,12 +3,7 @@ import { Db, MongoError } from "mongodb";
 
 import { waitFor } from "coral-common/helpers";
 import logger from "coral-server/logger";
-import {
-  createCollection,
-  createIndexFactory,
-} from "coral-server/models/helpers";
-
-const collection = createCollection<Readonly<PersistedQuery>>("queries");
+import { queries as collection } from "coral-server/services/mongodb/collections";
 
 export interface PersistedQuery {
   id: string;
@@ -17,13 +12,6 @@ export interface PersistedQuery {
   query: string;
   bundle: string;
   version: string;
-}
-
-export async function createQueriesIndexes(mongo: Db) {
-  const createIndex = createIndexFactory(collection(mongo));
-
-  // UNIQUE { id }
-  await createIndex({ id: 1 }, { unique: true });
 }
 
 export async function primeQueries(

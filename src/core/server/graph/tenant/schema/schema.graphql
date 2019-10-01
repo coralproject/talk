@@ -1541,10 +1541,8 @@ type UserStatus {
 
   """
   premod stores the user premod status as well as the history of changes.
-
-  FIXME: (wyattjoh) once migration has been performed, make non-nullable
   """
-  premod: PremodStatus @auth(roles: [ADMIN, MODERATOR])
+  premod: PremodStatus! @auth(roles: [ADMIN, MODERATOR])
 }
 
 """
