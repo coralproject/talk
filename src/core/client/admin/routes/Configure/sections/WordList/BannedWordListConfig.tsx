@@ -39,11 +39,7 @@ const BannedWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
             Banned word list
           </InputLabel>
         </Localized>
-        <Localized
-          id="configure-wordList-banned-wordListDetailInstructions"
-          strong={<strong />}
-          externalLink={<ExternalLink href="#" />}
-        >
+        <Localized id="configure-wordList-banned-wordListDetailInstructions">
           <InputDescription>
             Separate banned words or phrases with a new line. Words/phrases are
             not case sensitive.

@@ -43,11 +43,7 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
             Suspect word list
           </InputLabel>
         </Localized>
-        <Localized
-          id="configure-wordList-suspect-wordListDetailInstructions"
-          strong={<strong />}
-          externalLink={<ExternalLink href="#" />}
-        >
+        <Localized id="configure-wordList-suspect-wordListDetailInstructions">
           <InputDescription>
             Separate banned words or phrases with a new line. Words/phrases are
             not case sensitive.
