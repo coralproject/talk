@@ -94,7 +94,7 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
                   case GQLUSER_ROLE.MODERATOR:
                     return (
                       <Localized
-                        id="community-invite-role-mod"
+                        id="community-invite-role-moderator"
                         strong={<strong />}
                       >
                         <Typography>
