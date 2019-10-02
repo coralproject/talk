@@ -1571,6 +1571,28 @@ enum USER_STATUS {
   PREMOD
 }
 
+type ModeratorNote {
+  """
+  id is the identifier of the Note.
+  """
+  id: ID!
+
+  """
+  body is the content of the Note
+  """
+  body: String!
+
+  """
+  createdAt is the date in which the Note was created.
+  """
+  createdAt: Time!
+
+  """
+  createdBy is the Moderator that authored the Note.
+  """
+  createdBy: User!
+}
+
 enum DIGEST_FREQUENCY {
   """
   NONE will have the notifications send immediatly rather than bundling for digesting.
@@ -1687,6 +1709,14 @@ type User {
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
       permit: [SUSPENDED, BANNED, PENDING_DELETION]
+    )
+
+  """
+  moderatorNotes are notes left by moderators about the User.
+  """
+  moderatorNotes: [ModeratorNote!]!
+    @auth(
+      roles: [ADMIN, MODERATOR]
     )
 
   """
@@ -4283,6 +4313,62 @@ type InviteUsersPayload {
   clientMutationId: String!
 }
 
+input CreateModeratorNoteInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  body is the content of the Note
+  """
+  body: String!
+
+  """
+  userID the id of the User who is the subject of the note.
+  """
+  userID: ID!
+}
+
+input DeleteModeratorNoteInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  userID is the user who is the subject of the note
+  """
+  userID: ID!
+  """
+  id is the identifier of the note
+  """
+  id: ID!
+}
+
+type CreateModeratorNotePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  createdBy is the moderator who created the note
+  user is the updated user.
+  """
+  user: User!
+}
+
+type DeleteModeratorNotePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+  """
+  user is the updated user.
+  """
+  user: User!
+}
+
 ##################
 # setEmail
 ##################
@@ -5310,6 +5396,16 @@ type Mutation {
   """
   removeUserPremod(input: RemovePremodUserInput!): RemovePremodUserPayload!
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  createModeratorNote creates a note on a user account.
+  """
+  createModeratorNote(input: CreateModeratorNoteInput!): CreateModeratorNotePayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  deleteModeratorNote deletes a note on a user account.
+  """
+  deleteModeratorNote(input: DeleteModeratorNoteInput!): DeleteModeratorNotePayload! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################

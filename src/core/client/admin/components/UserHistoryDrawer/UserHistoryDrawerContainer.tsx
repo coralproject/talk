@@ -127,7 +127,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
       </div>
       <hr className={styles.divider} />
       <div className={styles.comments}>
-        <Tabs userID={user.id} />
+        <Tabs userID={user.id} notesCount={user.moderatorNotes.length} />
       </div>
     </>
   );
@@ -140,6 +140,9 @@ const enhanced = withFragmentContainer<Props>({
       ...UserStatusChangeContainer_user
       ...UserStatusDetailsContainer_user
       ...RecentHistoryContainer_user
+      moderatorNotes {
+        id
+      }
       id
       username
       email
