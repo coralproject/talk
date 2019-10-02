@@ -126,6 +126,10 @@
   border-color: var(--v2-palette-details-header);
 }
 
+.detailsText {
+  color: var(--v2-palette-details-header);
+}
+
 .detailsDivider {
   border-color: var(--v2-palette-details-divider);
 }
