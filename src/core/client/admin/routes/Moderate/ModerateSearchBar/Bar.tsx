@@ -60,7 +60,7 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
         searchInput.current.focus();
       }
     });
-  }, []);
+  }, [searchInput.current]);
   const contextOptions = mappedOptions
     .filter(o => o.group === "CONTEXT")
     .map(o => o.element);

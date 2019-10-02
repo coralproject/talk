@@ -51,7 +51,7 @@ const Queue: FunctionComponent<Props> = ({
       setSelectedComment(0);
     }
     setSingleView(!singleView);
-  }, [singleView, setSingleView, setSelectedComment]);
+  }, [singleView]);
 
   useHotkey(HOTKEYS.ZEN, toggleView);
 
@@ -67,7 +67,7 @@ const Queue: FunctionComponent<Props> = ({
         container.scrollIntoView();
       }
     }
-  }, [setSelectedComment, comments, selectedComment]);
+  }, [comments, selectedComment]);
 
   const selectPrev = useCallback(() => {
     const index = selectedComment || 0;
@@ -81,20 +81,17 @@ const Queue: FunctionComponent<Props> = ({
         container.scrollIntoView();
       }
     }
-  }, [setSelectedComment, comments, selectedComment]);
+  }, [comments, selectedComment]);
 
-  const onShowUserDrawer = useCallback(
-    (userID: string) => {
-      setUserDrawerID(userID);
-      setUserDrawerVisible(true);
-    },
-    [setUserDrawerVisible, setUserDrawerID]
-  );
+  const onShowUserDrawer = useCallback((userID: string) => {
+    setUserDrawerID(userID);
+    setUserDrawerVisible(true);
+  }, []);
 
   const onHideUserDrawer = useCallback(() => {
     setUserDrawerVisible(false);
     setUserDrawerID("");
-  }, [setUserDrawerVisible, setUserDrawerID]);
+  }, []);
 
   return (
     <HorizontalGutter className={styles.root} size="double">

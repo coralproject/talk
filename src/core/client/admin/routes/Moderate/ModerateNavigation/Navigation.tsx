@@ -58,7 +58,7 @@ const Navigation: FunctionComponent<Props> = ({
         key.unbind(`${i + 1}`);
       }
     };
-  }, [match]);
+  }, [match, moderationLinks]);
 
   return (
     <SubBarNavigation>

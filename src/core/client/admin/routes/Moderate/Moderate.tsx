@@ -36,10 +36,10 @@ const Moderate: FunctionComponent<Props> = ({
   const [showHotkeysModal, setShowHotkeysModal] = useState(false);
   const closeModal = useCallback(() => {
     setShowHotkeysModal(false);
-  }, [setShowHotkeysModal]);
+  }, []);
   const openModal = useCallback(() => {
     setShowHotkeysModal(true);
-  }, [setShowHotkeysModal]);
+  }, []);
 
   useEffect(() => {
     key(HOTKEYS.GUIDE, openModal);

@@ -129,7 +129,7 @@ const ModerateCard: FunctionComponent<Props> = ({
       key.deleteScope(id);
     }
     return () => null;
-  }, [selected, comment]);
+  }, [selected, comment, id]);
 
   useEffect(() => {
     if (selected && div && div.current) {

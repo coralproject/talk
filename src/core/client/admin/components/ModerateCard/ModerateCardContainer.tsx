@@ -176,7 +176,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const handleBanModalClose = useCallback(() => {
     setShowBanModal(false);
-  }, [setShowBanModal]);
+  }, []);
 
   const openBanModal = useCallback(() => {
     if (
@@ -186,7 +186,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       return;
     }
     setShowBanModal(true);
-  }, [setShowBanModal, comment]);
+  }, [comment]);
 
   const handleBanConfirm = useCallback(
     async (message: string) => {

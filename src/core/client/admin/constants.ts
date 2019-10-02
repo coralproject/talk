@@ -1,6 +1,6 @@
 export const REDIRECT_PATH_KEY = "adminRedirectPath";
 export const HOTKEYS = {
-  NEXT: "J",
+  NEXT: "j",
   PREV: "k",
   APPROVE: "d",
   REJECT: "f",
