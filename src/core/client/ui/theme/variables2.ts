@@ -144,6 +144,7 @@ const variables2 = {
     tab: {
       default: colors.mono100,
       active: colors.teal600,
+      divider: colors.grey100,
     },
   },
   fontFamily: {

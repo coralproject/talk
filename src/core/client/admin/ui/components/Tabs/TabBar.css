@@ -5,7 +5,7 @@
 }
 
 .default {
-  border-bottom: 1px solid var(--v2-palette-tab-default);
+  border-bottom: 1px solid var(--v2-palette-tab-divider);
 }
 
 .primary {
