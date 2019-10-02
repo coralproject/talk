@@ -16,13 +16,21 @@ general-tabBar-commentsTab = Comments
 general-tabBar-myProfileTab = My Profile
 general-tabBar-configure = Configure
 
+## Comment Count
+
+comment-count-text =
+  { $number  ->
+    [one] Comment
+    *[other] Comments
+  }
+
 ## Comments Tab
 
 comments-allCommentsTab = All Comments
 comments-featuredTab = Featured
 comments-featuredCommentTooltip-how = How is a comment featured?
 comments-featuredCommentTooltip-handSelectedComments =
-  Comments are chosen by our team as worth reading. 
+  Comments are chosen by our team as worth reading.
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
 
@@ -197,9 +205,9 @@ profile-commentHistory-empty-subheading = A history of your comments will appear
 ### Account
 profile-account-ignoredCommenters = Ignored Commenters
 profile-account-ignoredCommenters-description =
-  You can Ignore other commenters by clicking on their username 
-  and selecting Ignore. When you ignore someone, all of their 
-  comments are hidden from you. Commenters you Ignore will still 
+  You can Ignore other commenters by clicking on their username
+  and selecting Ignore. When you ignore someone, all of their
+  comments are hidden from you. Commenters you Ignore will still
   be able to see your comments.
 profile-account-ignoredCommenters-empty = You are not currently ignoring anyone
 profile-account-ignoredCommenters-stopIgnoring = Stop ignoring
@@ -369,8 +377,7 @@ profile-changeUsername-current = Current username
 profile-changeUsername-newUsername-label = New username
 profile-changeUsername-confirmNewUsername-label = Confirm new username
 profile-changeUsername-cancel = Cancel
-profile-changeUsername-submit = <ButtonIcon>save</ButtonIcon> <span>Save</span>
-profile-changeUsername-submit-button = Save
+profile-changeUsername-save = Save
 profile-changeUsername-recentChange = Your username has been changed in the last { framework-timeago-time }. You may change your username again on { $nextUpdate }
 profile-changeUsername-close = Close
 
@@ -388,15 +395,15 @@ configure-premodLink-description =
 
 configure-liveUpdates-title = Enable Live Updates for this Story
 configure-liveUpdates-description =
-  When enabled, the comments will be updated instantly 
-  as new comments and replies are submitted, instead of 
-  requiring a page refresh. You can disable this in the 
+  When enabled, the comments will be updated instantly
+  as new comments and replies are submitted, instead of
+  requiring a page refresh. You can disable this in the
   unusual situation of an article getting so much traffic that the comments are loading slowly.
 
 configure-messageBox-title = Enable Message Box for this Story
 configure-messageBox-description =
-  Add a message to the top of the comment box for your readers. 
-  Use this to suggest a discussion topic, ask a question or make 
+  Add a message to the top of the comment box for your readers.
+  Use this to suggest a discussion topic, ask a question or make
   announcements relating to the comments on this story.
 configure-messageBox-preview = Preview
 configure-messageBox-selectAnIcon = Select an Icon
@@ -432,7 +439,7 @@ profile-changeEmail-edit = Edit
 profile-changeEmail-please-verify = Verify your email address
 profile-changeEmail-please-verify-details =
   An email has been sent to { $email } to verify your account.
-  You must verify your new email address before it can be used 
+  You must verify your new email address before it can be used
   to sign in to your account or to receive notifications.
 profile-changeEmail-resend = Resend verification
 profile-changeEmail-heading = Edit your email address

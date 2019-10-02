@@ -48,6 +48,14 @@ const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
   return {};
 };
 
+const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
+  if (query) {
+    return { $text: { $search: `"${query}"` } };
+  }
+
+  return {};
+};
+
 /**
  * primeCommentsFromConnection will prime a given context with the comments
  * retrieved via a connection.
@@ -123,6 +131,7 @@ export default (ctx: Context) => ({
     storyID,
     status,
     tag,
+    query,
   }: QueryToCommentsArgs) =>
     retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
       first,
@@ -130,6 +139,7 @@ export default (ctx: Context) => ({
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       filter: omitBy(
         {
+          ...queryFilter(query),
           ...tagFilter(tag),
           storyID,
           status,

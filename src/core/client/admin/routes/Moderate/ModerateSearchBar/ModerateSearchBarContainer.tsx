@@ -13,7 +13,7 @@ import { ModerateSearchBarContainer_story as ModerationQueuesData } from "coral-
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
-import { Spinner } from "coral-ui/components";
+import { Flex, Spinner } from "coral-ui/components";
 import { blur } from "coral-ui/helpers";
 import {
   ListBoxOptionClickOrEnterHandler,
@@ -174,9 +174,13 @@ function useSearchOptions(
         nextSearchOptions.push({
           element: (
             <Option>
-              <Localized id="moderate-searchBar-noResults">
-                <span>No results</span>
-              </Localized>
+              <Flex justifyContent="center">
+                <Localized id="moderate-searchBar-noStories">
+                  <span>
+                    We could not find any stories matching your criteria
+                  </span>
+                </Localized>
+              </Flex>
             </Option>
           ),
           group: "SEARCH",

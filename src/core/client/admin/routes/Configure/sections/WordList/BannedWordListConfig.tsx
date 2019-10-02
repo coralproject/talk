@@ -1,7 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   FormField,
   HorizontalGutter,
@@ -39,15 +38,10 @@ const BannedWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
             Banned word list
           </InputLabel>
         </Localized>
-        <Localized
-          id="configure-wordList-banned-wordListDetail"
-          strong={<strong />}
-          externalLink={<ExternalLink href="#" />}
-        >
+        <Localized id="configure-wordList-banned-wordListDetailInstructions">
           <InputDescription>
-            Separate banned words or phrases with a new line. Attempting to copy
-            and paste a comma separated list? Learn how to convert your list to
-            a new line separated list.
+            Separate banned words or phrases with a new line. Words/phrases are
+            not case sensitive.
           </InputDescription>
         </Localized>
         <div>
