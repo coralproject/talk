@@ -20,6 +20,8 @@ interface Props {
   hasRevisions: boolean;
 }
 
+type DetailsTabs = "INFO" | "HISTORY";
+
 const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   comment,
   onUsernameClick,
@@ -27,8 +29,8 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   hasDetails,
   hasRevisions,
 }) => {
-  const [activeTab, setActiveTab] = useState<"DETAILS" | "HISTORY">(
-    hasDetails ? "DETAILS" : "HISTORY"
+  const [activeTab, setActiveTab] = useState<DetailsTabs>(
+    hasDetails ? "INFO" : "HISTORY"
   );
 
   return (
@@ -36,14 +38,14 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       <TabBar
         variant="default"
         activeTab={activeTab}
-        onTabClick={id => setActiveTab(id as "DETAILS" | "HISTORY")}
+        onTabClick={id => setActiveTab(id as DetailsTabs)}
       >
         {hasDetails && (
-          <Tab tabID="DETAILS" classes={styles}>
+          <Tab tabID="INFO" classes={styles}>
             <Flex alignItems="center" itemGutter>
               <Icon size="md">list</Icon>
-              <Localized id="moderateCardDetails-tab-details">
-                <span>Details</span>
+              <Localized id="moderateCardDetails-tab-info">
+                <span>Info</span>
               </Localized>
             </Flex>
           </Tab>
@@ -59,7 +61,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
           </Tab>
         )}
       </TabBar>
-      {activeTab === "DETAILS" && (
+      {activeTab === "INFO" && (
         <FlagDetailsContainer
           comment={comment}
           settings={settings}

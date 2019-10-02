@@ -463,7 +463,7 @@ moderate-searchBar-comboBoxTextField =
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
-moderateCardDetails-tab-details = Details
+moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
 ### Moderate User History Drawer
 
