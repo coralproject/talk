@@ -97,6 +97,10 @@
   text-transform: uppercase;
 }
 
+.viewContext {
+  composes: viewContext from "coral-admin/components/ModerateCard/shared.css";
+}
+
 .storyLabel {
   composes: storyLabel from "coral-admin/components/ModerateCard/shared.css";
 

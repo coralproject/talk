@@ -163,7 +163,7 @@ const ModerateCard: FunctionComponent<Props> = ({
           </CommentContent>
           <div className={styles.footer}>
             <HorizontalGutter>
-              <div>
+              <div className={styles.viewContext}>
                 <Localized id="moderate-comment-viewContext">
                   <TextLink
                     className={styles.link}
@@ -176,22 +176,24 @@ const ModerateCard: FunctionComponent<Props> = ({
               </div>
               {showStory && (
                 <div>
-                  <div>
+                  <div className={styles.storyLabel}>
                     <Localized id="moderate-comment-storyLabel">
-                      <span className={styles.storyLabel}>Comment on</span>
+                      <span>Comment on</span>
                     </Localized>
-                    {": "}
+                    <span>:</span>
                   </div>
-                  <span className={styles.storyTitle}>{storyTitle}</span>{" "}
-                  <Localized id="moderate-comment-moderateStory">
-                    <TextLink
-                      className={styles.link}
-                      href={storyHref}
-                      onClick={onModerateStory}
-                    >
-                      Moderate Story
-                    </TextLink>
-                  </Localized>
+                  <div className={styles.storyTitle}>{storyTitle}</div>
+                  <div>
+                    <Localized id="moderate-comment-moderateStory">
+                      <TextLink
+                        href={storyHref}
+                        onClick={onModerateStory}
+                        className={styles.link}
+                      >
+                        Moderate Story
+                      </TextLink>
+                    </Localized>
+                  </div>
                 </div>
               )}
               <MarkersContainer
