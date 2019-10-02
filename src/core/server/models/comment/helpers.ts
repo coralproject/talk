@@ -3,6 +3,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
+import { calculateTotalPublishedCommentCount } from "../story";
 import { Comment } from "./comment";
 import { MODERATOR_STATUSES, PUBLISHED_STATUSES } from "./constants";
 import { Revision } from "./revision";
@@ -68,10 +69,7 @@ export function createEmptyCommentStatusCounts(): CommentStatusCounts {
 }
 
 export function calculateRejectionRate(counts: CommentStatusCounts): number {
-  const published = PUBLISHED_STATUSES.reduce(
-    (acc, status) => counts[status] + acc,
-    0
-  );
+  const published = calculateTotalPublishedCommentCount(counts);
   const rejected = counts[GQLCOMMENT_STATUS.REJECTED];
 
   return rejected / (published + rejected);

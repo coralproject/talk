@@ -98,11 +98,11 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
                         strong={<strong />}
                       >
                         <Typography>
-                          Moderator role: Moderator role: Receives a “Staff”
-                          badge, and comments are automatically approved. Has
-                          full moderation privileges (approve, reject and
-                          feature comments). Can configure individual articles
-                          but no site-wide configuration privileges.
+                          Moderator role: Receives a “Staff” badge, and comments
+                          are automatically approved. Has full moderation
+                          privileges (approve, reject and feature comments). Can
+                          configure individual articles but no site-wide
+                          configuration privileges.
                         </Typography>
                       </Localized>
                     );

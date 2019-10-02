@@ -26,6 +26,7 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Ative a dica de comentários
 
+comments-noCommentsYet = Ainda não há comentários. Seja o primeiro a comentar.
 
 comments-streamQuery-storyNotFound = História não encontrada
 
@@ -39,7 +40,7 @@ comments-viewNew =
     [1] Visualizar {$count} Novo Comentário
     *[other] Visualizar {$count} Novos Comentários
   }
-comments-loadMore = Load More
+comments-loadMore = Carregar Mais
 
 comments-permalinkPopover =
   .description = Uma caixa de diálogo mostrando um link permanente para o comentário
@@ -67,6 +68,9 @@ comments-postCommentForm-rte =
 
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
+
+comments-postCommentForm-userScheduledForDeletion-warning =
+  Os comentários ficam desativados quando sua conta está agendada para exclusão.
 
 comments-replyButton-reply = Responder
 
@@ -119,6 +123,14 @@ comments-userIgnorePopover-description =
 comments-userIgnorePopover-ignore = Ignorar
 comments-userIgnorePopover-cancel = Cancelar
 
+comments-userBanPopover-title = Banir {$username}?
+comments-userBanPopover-description =
+  Depois de banido, este usuário não poderá mais
+  comentar, usar reações ou relatar comentários.
+  Este comentário também será rejeitado.
+comments-userBanPopover-cancel = Cancelar
+comments-userBanPopover-ban = Banir
+
 comments-moderationDropdown-popover =
   .description = Um menu popover para moderar o comentário
 comments-moderationDropdown-feature = Destacar
@@ -127,6 +139,8 @@ comments-moderationDropdown-approve = Aprovar
 comments-moderationDropdown-approved = Aprovado
 comments-moderationDropdown-reject = Rejeitar
 comments-moderationDropdown-rejected = Rejeitado
+comments-moderationDropdown-ban = Banir Usuário
+comments-moderationDropdown-banned = Banido
 comments-moderationDropdown-goToModerate = Moderar
 comments-moderationDropdown-caretButton =
   .aria-label = Moderado
@@ -137,6 +151,18 @@ comments-rejectedTombstone =
 comments-featuredTag = Destaques
 comments-staffTag = Staff
 
+### Account Deletion Stream
+
+comments-stream-deleteAccount-callOut-title =
+  Exclusão de conta solicitada
+comments-stream-deleteAccount-callOut-receivedDesc =
+  Uma solicitação para excluir sua conta foi recebida em { $date }.
+comments-stream-deleteAccount-callOut-cancelDesc =
+  Se você deseja continuar deixando comentários, respostas ou reações,
+  você pode cancelar sua solicitação para excluir sua conta antes de { $date }.
+comments-stream-deleteAccount-callOut-cancel =
+  Cancelar solicitação de exclusão de conta
+
 ### Featured Comments
 comments-featured-gotoConversation = Ir para a conversa
 comments-featured-replies = Respostas
@@ -144,15 +170,29 @@ comments-featured-replies = Respostas
 ## Profile Tab
 
 profile-myCommentsTab = Meus comentários
+profile-myCommentsTab-comments = Meus comentários
+profile-accountTab = Conta
+
+accountSettings-manage-account = Gerencie a sua conta
+
+### Account Deletion
+
+profile-accountDeletion-deletionDesc =
+  Sua conta está agendada para ser excluída em { $date }.
+profile-accountDeletion-cancelDeletion =
+  Cancelar solicitação de exclusão de conta
 
 ### Comment History
 profile-historyComment-viewConversation = Ver conversa
 profile-historyComment-replies = Respostas {$replyCount}
 profile-historyComment-commentHistory = Histórico de Comentários
 profile-historyComment-story = História: {$title}
+profile-historyComment-comment-on = Comentado em:
 profile-profileQuery-errorLoadingProfile = Erro ao carregar o perfil
 profile-profileQuery-storyNotFound = História não encontrada
 profile-commentHistory-loadMore = Carregar Mais
+profile-commentHistory-empty = Você não escreveu nenhum comentário
+profile-commentHistory-empty-subheading = Um histórico dos seus comentários aparecerá aqui
 
 ### Settings
 profile-account-ignoredCommenters = Usuários ignorados
@@ -161,6 +201,128 @@ profile-account-ignoredCommenters-description =
   Usuários que você ignora ainda poderão ver seus comentários.
 profile-account-ignoredCommenters-empty = Você não está ignorando ninguém
 profile-account-ignoredCommenters-stopIgnoring = Parar de ignorar
+profile-account-ignoredCommenters-manage = Gerenciar
+profile-account-ignoredCommenters-cancel = Cancelar
+
+
+profile-account-changePassword-cancel = Cancelar
+profile-account-changePassword = Alterar a Senha
+profile-account-changePassword-oldPassword = Senha Antiga
+profile-account-changePassword-forgotPassword = Esqueceu a senha?
+profile-account-changePassword-newPassword = Nova senha
+profile-account-changePassword-button = Alterar a senha
+profile-account-changePassword-updated =
+  Sua senha foi atualizada
+profile-account-changePassword-password = Senha
+
+profile-account-download-comments-title = Baixe meu histórico de comentários
+profile-account-download-comments-description =
+  Você receberá um email com um link para baixar seu histórico de comentários.
+   Você pode fazer <strong> uma solicitação de download a cada 14 dias. </strong>
+profile-account-download-comments-request =
+  Solicitar histórico de comentários
+profile-account-download-comments-request-icon =
+  .title = Solicitar histórico de comentários
+profile-account-download-comments-recentRequest =
+  Sua solicitação mais recente: { $timeStamp }
+profile-account-download-comments-timeOut =
+  Você pode enviar outra solicitação em { framework-timeago-time }
+profile-account-download-comments-request-button = Solicitar
+
+## Delete Account
+
+profile-account-deleteAccount-title = Deletar minha conta
+profile-account-deleteAccount-description =
+  A exclusão de sua conta apagará permanentemente seu perfil e removerá
+  todos os seus comentários deste site.
+profile-account-deleteAccount-requestDelete = Solicitar exclusão da conta
+
+profile-account-deleteAccount-cancelDelete-description =
+  Você já enviou uma solicitação para excluir sua conta.
+  Sua conta será excluída em { $date }.
+  Você pode cancelar a solicitação até esse momento.
+profile-account-deleteAccount-cancelDelete = Cancelar solicitação de exclusão de conta
+
+profile-account-deleteAccount-request = Solicitar
+profile-account-deleteAccount-cancel = Cancelar
+profile-account-deleteAccount-pages-deleteButton = Deletar minha conta
+profile-account-deleteAccount-pages-cancel = Cancelar
+profile-account-deleteAccount-pages-proceed = Continuar
+profile-account-deleteAccount-pages-done = Pronto
+
+profile-account-deleteAccount-pages-descriptionHeader = Deletar minha conta?
+profile-account-deleteAccount-pages-descriptionText =
+  Você está tentando excluir sua conta. Isso significa:
+profile-account-deleteAccount-pages-allCommentsRemoved =
+  Todos os seus comentários são removidos deste site
+profile-account-deleteAccount-pages-allCommentsDeleted =
+  Todos os seus comentários são excluídos do nosso banco de dados
+profile-account-deleteAccount-pages-emailRemoved =
+  O seu endereço de email foi removido do nosso sistema
+
+profile-account-deleteAccount-pages-whenHeader = Deletar minha conta: When?
+profile-account-deleteAccount-pages-whenSec1Header =
+  Quando minha conta será excluída?
+profile-account-deleteAccount-pages-whenSec1Content =
+  Sua conta será excluída 24 horas após o envio da sua solicitação.
+profile-account-deleteAccount-pages-whenSec2Header =
+  Ainda posso escrever comentários até a minha conta ser excluída?
+profile-account-deleteAccount-pages-whenSec2Content =
+  Não. Depois de solicitar a exclusão da conta, você não poderá mais escrever comentários,
+  responda a comentários ou selecione reações.
+
+profile-account-deleteAccount-pages-downloadCommentHeader = Baixar meus comentários?
+profile-account-deleteAccount-pages-downloadCommentsDesc =
+  Antes de sua conta ser excluída, recomendamos que você baixe seu comentário
+  histórico para seus registros. Depois que sua conta for excluída, você será
+  incapaz de solicitar seu histórico de comentários.
+profile-account-deleteAccount-pages-downloadCommentsPath =
+  Meu perfil > Baixar meu histórico de comentários
+
+profile-account-deleteAccount-pages-confirmHeader = Confirmar exclusão da conta?
+profile-account-deleteAccount-pages-confirmDescHeader =
+  Tem certeza de que deseja excluir sua conta?
+profile-account-deleteAccount-confirmDescContent =
+  Para confirmar que você deseja excluir sua conta, digite o seguinte
+  frase na caixa de texto abaixo:
+profile-account-deleteAccount-pages-confirmPhraseLabel =
+  Para confirmar, digite a frase abaixo:
+profile-account-deleteAccount-pages-confirmPasswordLabel =
+  Insira sua senha:
+
+profile-account-deleteAccount-pages-completeHeader = Exclusão de conta solicitada
+profile-account-deleteAccount-pages-completeDescript =
+  Sua solicitação foi enviada e uma confirmação foi enviada para o e-mail
+  endereço associado à sua conta.
+profile-account-deleteAccount-pages-completeTimeHeader =
+  Sua conta será excluída em: { $date }
+profile-account-deleteAccount-pages-completeChangeYourMindHeader = Mudou de ideia?
+profile-account-deleteAccount-pages-completeSignIntoYourAccount =
+  Basta fazer login na sua conta novamente antes desse horário e selecionar
+  <strong> Cancelar solicitação de exclusão de conta </strong>.
+profile-account-deleteAccount-pages-completeTellUsWhy = Diga-nos o porquê.
+profile-account-deleteAccount-pages-completeWhyDeleteAccount =
+  Gostaríamos de saber por que você optou por excluir sua conta. Envie-nos um feedback sobre
+  nosso sistema de comentários por e-mail { $email }.
+profile-account-changePassword-edit = Editar
+
+
+## Notifications
+profile-notificationsTab = Notificações
+profile-account-notifications-emailNotifications = Notificações de e-mail
+profile-account-notifications-emailNotifications = Notificações de e-mail
+profile-account-notifications-receiveWhen = Receba notificações quando:
+profile-account-notifications-onReply = Meu comentário for respondido
+profile-account-notifications-onFeatured = Meu comentário for destacado
+profile-account-notifications-onStaffReplies = Um membro da equipe responde ao meu comentário
+profile-account-notifications-onModeration = Meu comentário pendente foi revisado
+profile-account-notifications-sendNotifications = Enviar notificações:
+profile-account-notifications-sendNotifications-immediately = Imediatamente
+profile-account-notifications-sendNotifications-daily = Diariamente
+profile-account-notifications-sendNotifications-hourly = A cada hora
+profile-account-notifications-updated = Suas configurações de notificação foram atualizadas
+profile-account-notifications-button = Atualizar configurações de notificação
+profile-account-notifications-button-update = Atualizar
 
 
 ## Report Comment Popover
@@ -195,6 +357,22 @@ comments-submitStatus-submittedAndWillBeReviewed =
 # Configure
 configure-configureQuery-errorLoadingProfile = Erro ao carregar o configure
 configure-configureQuery-storyNotFound = História não encontrada
+
+## Change username
+profile-changeUsername-username = Usuário
+profile-changeUsername-success = Seu nome de usuário foi atualizado com sucesso
+profile-changeUsername-edit = Editar
+profile-changeUsername-heading = Edite seu nome de usuário
+profile-changeUsername-desc = Altere o nome de usuário que aparecerá em todos os seus comentários anteriores e futuros. <strong> Nomes de usuário podem ser alterados uma vez a cada { framework-timeago-time }. </strong>
+profile-changeUsername-desc-text = Altere o nome de usuário que aparecerá em todos os seus comentários anteriores e futuros. Os nomes de usuário podem ser alterados uma vez a cada { framework-timeago-time }.
+profile-changeUsername-current = Nome de usuário atual
+profile-changeUsername-newUsername-label = Novo usuário
+profile-changeUsername-confirmNewUsername-label = Confirme o novo nome de usuário
+profile-changeUsername-cancel = Cancelar
+profile-changeUsername-submit = <ButtonIcon>save</ButtonIcon> <span>Salvar</span>
+profile-changeUsername-submit-button = Salvar
+profile-changeUsername-recentChange = Seu nome de usuário foi alterado em { framework-timeago-time }. Você pode alterar seu nome de usuário novamente em { $nextUpdate }
+profile-changeUsername-close = Fechar
 
 ## Comment Stream
 configure-stream-title = Configurar este fluxo de comentários
@@ -235,3 +413,31 @@ configure-openStream-description =
 configure-openStream-openStream = Abrir Fluxo
 
 comments-tombstone-ignore = Este comentário está oculto porque você ignorou {$username}
+comments-tombstone-deleted =
+  Este comentário não está mais disponível. O usuário excluiu sua conta.
+
+suspendInfo-heading = Sua conta foi temporariamente suspensa de comentar.
+suspendInfo-info =
+  Em concordância com as regras da comunidade { $organization }, sua
+  conta foi temporariamente suspensa. Enquanto suspenso, você não
+  poderá comentar, respeitar ou denunciar comentários. Por favor, junte-se a conversa
+  em { $until }.
+
+profile-changeEmail-unverified = (Não verificado)
+profile-changeEmail-edit = Editar
+profile-changeEmail-please-verify = Verifique seu endereço de e-mail
+profile-changeEmail-please-verify-details =
+  Um email foi enviado para { $email } para verificar sua conta.
+  Você deve verificar seu novo endereço de e-mail antes que ele possa ser usado
+  para fazer login na sua conta ou receber notificações.
+profile-changeEmail-resend = Reenviar notificação
+profile-changeEmail-heading = Edite seu endereço de email
+profile-changeEmail-desc = Altere o endereço de email usado para fazer login e receber comunicações sobre sua conta.
+profile-changeEmail-current = Email atual
+profile-changeEmail-newEmail-label = Novo Endereço de Email
+profile-changeEmail-password = Senha
+profile-changeEmail-password-input =
+  .placeholder = Senha
+profile-changeEmail-cancel = Cancelar
+profile-changeEmail-submit = Salvar
+profile-changeEmail-email = Email

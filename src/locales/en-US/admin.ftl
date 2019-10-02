@@ -328,8 +328,8 @@ configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
 configure-wordList-banned-explanation =
   Comments containing a word or phrase in the banned words list are <strong>automatically rejected and are not published</strong>.
 configure-wordList-banned-wordList = Banned word list
-configure-wordList-banned-wordListDetail =
-  Separate banned words or phrases with a new line.
+configure-wordList-banned-wordListDetailInstructions =
+  Separate banned words or phrases with a new line. Words/phrases are not case sensitive.
 
 #### Suspect Words Configuration
 configure-wordList-suspect-bannedWordsAndPhrases = Suspect words and phrases
@@ -338,8 +338,8 @@ configure-wordList-suspect-explanation =
   are <strong>placed into the Reported Queue for moderator review and are
   published (if comments are not pre-moderated).</strong>
 configure-wordList-suspect-wordList = Suspect word list
-configure-wordList-suspect-wordListDetail =
-  Separate suspect words or phrases with a new line.
+configure-wordList-suspect-wordListDetailInstructions =
+  Separate suspect words or phrases with a new line. Words/phrases are not case sensitive.
 
 ### Advanced
 configure-advanced-customCSS = Custom CSS
@@ -442,7 +442,7 @@ moderate-comment-deleted-body =
 ### Moderate Search Bar
 moderate-searchBar-allStories = All stories
   .title = All stories
-moderate-searchBar-noResults = No results
+moderate-searchBar-noStories = We could not find any stories matching your criteria
 moderate-searchBar-stories = Stories:
 moderate-searchBar-searchButton = Search
 moderate-searchBar-titleNotAvailable =
@@ -453,6 +453,7 @@ moderate-searchBar-searchForm =
   .aria-label = Stories
 moderate-searchBar-currentlyModerating =
   .title = Currently moderating
+moderate-searchBar-searchResults = Search results
 moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent first)
 moderate-searchBar-moderateAllStories = Moderate all stories
 moderate-searchBar-comboBoxTextField =
@@ -682,7 +683,7 @@ community-invite-role-staff =
   comments are automatically approved. Cannot moderate
   or change any { -product-name } configuration.
 community-invite-role-moderator =
-  <strong>Moderator role:</strong> Moderator role: Receives a
+  <strong>Moderator role:</strong> Receives a
   “Staff” badge, and comments are automatically
   approved. Has full moderation privileges (approve,
   reject and feature comments). Can configure individual

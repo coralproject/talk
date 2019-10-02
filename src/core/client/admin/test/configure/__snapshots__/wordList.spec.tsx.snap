@@ -150,7 +150,7 @@ exports[`renders configure wordList 1`] = `
                 <p
                   className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                 >
-                  Separate banned words or phrases with a new line.
+                  Separate banned words or phrases with a new line. Words/phrases are not case sensitive.
                 </p>
                 <div>
                   <textarea
@@ -204,7 +204,7 @@ published (if comments are not pre-moderated).
                 <p
                   className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
                 >
-                  Separate suspect words or phrases with a new line.
+                  Separate suspect words or phrases with a new line. Words/phrases are not case sensitive.
                 </p>
                 <div>
                   <textarea
