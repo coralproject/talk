@@ -10,6 +10,7 @@ import React, {
 import { graphql } from "react-relay";
 
 import { ModerateSearchBarContainer_story as ModerationQueuesData } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
+import { getModerationLink } from "coral-admin/helpers";
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
@@ -160,7 +161,7 @@ function useSearchOptions(
           nextSearchOptions.push({
             element: (
               <Option
-                href={`/admin/moderate/${e.node.id}`}
+                href={getModerationLink("default", e.node.id)}
                 details={e.node.metadata && e.node.metadata.author}
               >
                 <GoToAriaInfo /> {e.node.metadata && e.node.metadata.title}
