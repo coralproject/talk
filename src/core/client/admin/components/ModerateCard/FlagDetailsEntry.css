@@ -12,16 +12,16 @@
   composes: flagDetailsEntryFlagger from "coral-admin/components/ModerateCard/shared.css";
 
   margin-right: var(--mini-unit);
-  padding: var(--spacing-1);
-  margin-left: calc(-1 * var(--spacing-1));
+  padding: var(--v2-spacing-1);
+  margin-left: calc(-1 * var(--v2-spacing-1));
 
   &:hover {
-    border-radius: var(--round-corners);
+    border-radius: var(--v2-round-corners);
     border-style: none;
   }
 
   &:active {
-    border-radius: var(--round-corners);
+    border-radius: var(--v2-round-corners);
     border-style: none;
   }
 }

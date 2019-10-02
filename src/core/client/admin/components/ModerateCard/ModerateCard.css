@@ -4,25 +4,25 @@
 }
 
 .topBarMini {
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--v2-spacing-4);
 }
 
 .usernameButton {
   margin-right: var(--mini-unit);
   padding: var(--spacing-1);
-  margin-left: calc(-1 * var(--spacing-1));
+  margin-left: calc(-1 * var(--v2-spacing-1));
 
   line-height: var(--v2-line-height-reset);
 
   &:hover {
     background-color: var(--v2-palette-username-background-hover);
-    border-radius: var(--round-corners);
+    border-radius: var(--v2-round-corners);
     border-style: none;
   }
 
   &:active {
     background-color: var(--v2-palette-username-background-hover);
-    border-radius: var(--round-corners);
+    border-radius: var(--v2-round-corners);
     border-style: none;
   }
 }
@@ -55,7 +55,7 @@
     No reply to field, so we align below the fattest element
     which is the feature button.
   */
-  padding-top: calc((14rem / var(--rem-base)) + 7px + var(--spacing-4));
+  padding-top: calc(var(--v2-font-size-2) + 7px + var(--v2-spacing-4));
 }
 
 .asideMiniWithReplyTo {
@@ -63,7 +63,7 @@
     We have reply to field, so we align below the fattest
     element plus the reply to field.
   */
-  padding-top: calc(2 * (14rem / var(--rem-base)) + 5px + var(--spacing-4));
+  padding-top: calc(2 * var(--v2-font-size-2) + 5px + var(--v2-spacing-4));
 }
 
 .decision {
@@ -79,7 +79,7 @@
 }
 
 .ruledSeparator {
-  border-right: 1px solid var(--palette-divider);
+  border-right: 1px solid var(--v2-palette-divider);
 }
 
 .root {
@@ -126,6 +126,6 @@
 }
 
 .edited {
-  color: var(--palette-grey-lighter);
-  padding-left: var(--spacing-2)
+  color: var(--v2-palette-grey-lighter);
+  padding-left: var(--v2-spacing-2)
 }

@@ -100,6 +100,7 @@ const variables2 = {
     success: {
       main: colors.green500,
     },
+    divider: "rgba(0, 0, 0, 0.12)",
     // New Tokens
     timestamp: colors.mono100,
     label: {
