@@ -1,11 +1,12 @@
 .root {
-  
+
 }
 
 .textArea {
   width: 100%;
   box-sizing: border-box;
   height: calc(12 * var(--mini-unit));
+  border-width: 1px;
   border-color: var(--palette-grey-main);
   padding: calc(0.5 * var(--mini-unit));
   border-radius: 2px;
