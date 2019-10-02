@@ -4,8 +4,9 @@ import { graphql } from "react-relay";
 
 import { ModerateCardDetailsContainer_comment as CommentData } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
 import { ModerateCardDetailsContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
+import { Tab, TabBar } from "coral-admin/ui/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Flex, HorizontalGutter, Icon, Tab, TabBar } from "coral-ui/components";
+import { Flex, HorizontalGutter, Icon } from "coral-ui/components";
 
 import CommentRevisionContainer from "./CommentRevisionContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
@@ -33,7 +34,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   return (
     <HorizontalGutter>
       <TabBar
-        variant="secondary"
+        variant="default"
         activeTab={activeTab}
         onTabClick={id => setActiveTab(id as "DETAILS" | "HISTORY")}
       >

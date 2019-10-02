@@ -141,6 +141,10 @@ const variables2 = {
       header: colors.mono500,
       divider: colors.grey100,
     },
+    tab: {
+      default: colors.mono100,
+      active: colors.teal600,
+    },
   },
   fontFamily: {
     primary: "Open Sans",
@@ -188,6 +192,7 @@ const variables2 = {
     8: "60px",
     9: "84px",
   },
+  roundCorners: "2px",
 };
 
 export default variables2;
