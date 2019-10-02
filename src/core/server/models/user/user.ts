@@ -2424,5 +2424,8 @@ export async function deleteModeratorNote(
       returnOriginal: false,
     }
   );
+  if (!result.value) {
+    throw new UserNotFoundError(id);
+  }
   return result.value;
 }

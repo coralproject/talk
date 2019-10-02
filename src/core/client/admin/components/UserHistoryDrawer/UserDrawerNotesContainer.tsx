@@ -46,7 +46,7 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
       });
       form.reset();
     },
-    [createNote, user]
+    [user]
   );
   return (
     <div>

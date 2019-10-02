@@ -30,7 +30,9 @@ export default class extends Migration {
     const result = await collections.users(mongo).updateMany(
       {
         tenantID,
-        $exists: "moderatorNotes",
+        moderatorNotes: {
+          $exists: true,
+        },
       },
       {
         $unset: {
