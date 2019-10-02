@@ -44,11 +44,12 @@ email-template-accountNotificationConfirmEmail =
   <a data-l10n-name="confirmYourEmail">Clique aqui</a><br/><br/>
   Se você não criou recentemente uma conta na platforma de comentários em { $organizationName }, você pode ignorar este email.
 
-  email-subject-accountNotificationInvite = Convite do time Coral
-  email-template-accountNotificationInvite =
+email-subject-accountNotificationInvite = Convite do time Coral
+email-template-accountNotificationInvite =
   Você foi convidado para participar do time { $organizationName }
-  no Coral. Finalize o seu cadastro <a data-l10n-name="invite">aqui</a>
-  email-subject-accountNotificationDownloadComments = Seus comentários estão prontos para download
+  no Coral. Finalize o seu cadastro <a data-l10n-name="invite">aqui</a>.
+
+email-subject-accountNotificationDownloadComments = Seus comentários estão prontos para download
 email-template-accountNotificationDownloadComments =
   Estão disponíveis para download os comentários de { $organizationName } a partir de { $date }.<br /><br />
   <a data-l10n-name="downloadUrl">Fazer o download do meu histórico de comentários</a>
@@ -61,7 +62,8 @@ email-template-accountNotificationDeleteRequestConfirmation =
   Depois desta data, todos os seus comentários serão removidos do site, do nosso
   banco de dados e seu nome de usuário e email serão removidos do nosso sistema.<br /><br />
   Você pode também cancelar o pedido pelo site antes da data agendada.
-  email-subject-accountNotificationDeleteRequestCancel =
+
+email-subject-accountNotificationDeleteRequestCancel =
   Seu pedido de exclusão da conta foi cancelado.
 email-template-accountNotificationDeleteRequestCancel =
   Você cancelou o pedido de exclusão da conta de { $organizationName }.

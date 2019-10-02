@@ -123,9 +123,9 @@ exports[`renders configure 1`] = `
               <p
                 className="Box-root Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
               >
-                When enabled, the comments will be updated instantly 
-as new comments and replies are submitted, instead of 
-requiring a page refresh. You can disable this in the 
+                When enabled, the comments will be updated instantly
+as new comments and replies are submitted, instead of
+requiring a page refresh. You can disable this in the
 unusual situation of an article getting so much traffic that the comments are loading slowly.
               </p>
             </div>
@@ -258,8 +258,8 @@ unusual situation of an article getting so much traffic that the comments are lo
                 <p
                   className="Box-root Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
                 >
-                  Add a message to the top of the comment box for your readers. 
-Use this to suggest a discussion topic, ask a question or make 
+                  Add a message to the top of the comment box for your readers.
+Use this to suggest a discussion topic, ask a question or make
 announcements relating to the comments on this story.
                 </p>
               </div>

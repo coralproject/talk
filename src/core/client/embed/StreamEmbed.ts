@@ -12,9 +12,11 @@ import {
   withConfig,
   withEventEmitter,
   withIOSSafariWidthWorkaround,
+  withLiveCommentCount,
   withPymStorage,
   withSetCommentID,
 } from "./decorators";
+import injectCountScriptIfNeeded from "./injectCountScriptIfNeeded";
 import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 import PymControl, {
   defaultPymControlFactory,
@@ -46,6 +48,10 @@ export class StreamEmbed {
   ) {
     this.config = config;
     this.pymControlFactory = pymControlFactory;
+
+    // Detect if comment count injection is needed and add the count script.
+    injectCountScriptIfNeeded(config.rootURL);
+
     if (config.commentID) {
       // Delay emit of `showPermalink` event to allow
       // user enough time to setup event listeners.
@@ -132,6 +138,7 @@ export class StreamEmbed {
       withClickEvent,
       withSetCommentID,
       withEventEmitter(this.config.eventEmitter),
+      withLiveCommentCount(this.config.eventEmitter),
       withPymStorage(localStorage, "localStorage"),
       withPymStorage(sessionStorage, "sessionStorage"),
       withConfig(externalConfig),
