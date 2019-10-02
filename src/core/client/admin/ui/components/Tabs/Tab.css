@@ -1,7 +1,7 @@
 .root {
   display: inline-block;
   list-style: none;
-  margin-right: -1px;
+  margin-right: var(--v2-spacing-3);
   margin-bottom: -1px;
 }
 
@@ -10,7 +10,6 @@
   box-sizing: border-box;
   border-bottom: 0;
   list-style: none;
-  padding: var(--mini-unit);
   font-weight: var(--v2-font-weight-primary-regular);
   font-family: var(--v2-font-family-primary);
 
@@ -30,14 +29,13 @@
 .default {
   font-family: var(--v2-font-family-primary);
   color: var(--v2-palette-tab-default);
-  padding: calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) * 2)
-    calc(0.5 * var(--mini-unit) + 3px) calc(var(--mini-unit) * 2);
+  padding-bottom: calc(var(--v2-spacing-1) + 2px);
 
   &.active {
     color: var(--v2-palette-tab-active);
     font-weight: var(--v2-font-weight-primary-bold);
-    border-bottom: 3px solid var(--v2-palette-tab-active);
-    padding: calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) * 2);
+    border-bottom: 2px solid var(--v2-palette-tab-active);
+    padding-bottom: var(--v2-spacing-1);
   }
 }
 
