@@ -3,10 +3,8 @@ import {
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
-import {
-  compose,
-  ModerationPhaseContext,
-} from "coral-server/services/comments/pipeline";
+
+import { compose, ModerationPhaseContext } from "./pipeline";
 
 const context = {
   comment: { body: "This is a test" },

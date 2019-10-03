@@ -58,3 +58,11 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+.redDot {
+  background-color: var(--palette-error-main);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-left: 2px;
+}
