@@ -78,7 +78,7 @@
 
 .link {
   font-size: var(--v2-font-size-1);
-  font-weight: var(--v2-font-weight-primary-bold);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
   font-family: var(--v2-font-family-primary);
   line-height: var(--v2-line-height-reset);
   color: var(--v2-palette-link-text);
@@ -91,7 +91,7 @@
 .storyLabel {
   color: var(--v2-palette-grey-main);
   font-size: var(--v2-font-size-1);
-  font-weight: var(--v2-font-weight-primary-bold);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
   font-family: var(--v2-font-family-primary);
   line-height: var(--v2-line-height-reset);
   margin-bottom: var(--v2-spacing-1);
@@ -110,7 +110,7 @@
   color: var(--v2-palette-label-emphasis);
 
   font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-primary-bold);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
   font-family: var(--v2-font-family-primary);
   line-height: 1.14;
 }
@@ -144,7 +144,7 @@
 
 .toxicityLabel {
   font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-primary-bold);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
   font-family: var(--v2-font-family-primary);
   line-height: var(--v2-line-height-body-short);
   color: var(--v2-palette-accordion-label);

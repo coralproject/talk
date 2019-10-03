@@ -174,7 +174,7 @@ const variables2 = {
   },
   fontWeight: {
     primary: {
-      bold: 600,
+      bold: 700,
       semiBold: 600,
       regular: 300,
     },

@@ -143,6 +143,16 @@
     url("typeface-open-sans/files/open-sans-latin-600.woff") format("woff");
 }
 
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-display: block;
+  font-weight: 700;
+  src: local("Open Sans Bold"), local("Open Sans-Bold"),
+    url("typeface-open-sans/files/open-sans-latin-700.woff2") format("woff2"),
+    url("typeface-open-sans/files/open-sans-latin-700.woff") format("woff");
+}
+
 /* --- */
 
 .heading1 {

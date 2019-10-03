@@ -33,7 +33,7 @@
 
   &.active {
     color: var(--v2-palette-tab-active);
-    font-weight: var(--v2-font-weight-primary-bold);
+    font-weight: var(--v2-font-weight-primary-semi-bold);
     border-bottom: 2px solid var(--v2-palette-tab-active);
     padding-bottom: var(--v2-spacing-1);
   }
