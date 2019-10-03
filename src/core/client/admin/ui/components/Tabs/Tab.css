@@ -28,12 +28,13 @@
 
 .default {
   font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
   color: var(--v2-palette-tab-default);
   padding-bottom: calc(var(--v2-spacing-1) + 2px);
 
   &.active {
     color: var(--v2-palette-tab-active);
-    font-weight: var(--v2-font-weight-primary-semi-bold);
+    font-weight: var(--v2-font-weight-primary-bold);
     border-bottom: 2px solid var(--v2-palette-tab-active);
     padding-bottom: var(--v2-spacing-1);
   }
