@@ -41,7 +41,7 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = props => {
             ref={ref}
             className={props.className}
           >
-            <Username>{props.user.username!}</Username>
+            <Username>{props.user.username}</Username>
           </BaseButton>
         )}
       </Popover>

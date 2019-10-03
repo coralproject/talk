@@ -38,7 +38,7 @@ export default function createMutationResolverStub<
     expectAndFail(clientMutationId).toBeTruthy();
     expectAndFail(lastClientMutationIds).not.toContain(clientMutationId);
     lastClientMutationIds.push(clientMutationId);
-    const result = await callback({
+    const result = callback({
       variables: omit(data.input, "clientMutationId"),
       callCount: callCount++,
       typecheck: identity,

@@ -14,7 +14,7 @@ export default function changeQueueCount(
     return;
   }
   const queueProxy = moderationQueuesProxy.getLinkedRecord(
-    queue!.toLocaleLowerCase()
+    queue.toLocaleLowerCase()
   );
   if (!queueProxy) {
     return;

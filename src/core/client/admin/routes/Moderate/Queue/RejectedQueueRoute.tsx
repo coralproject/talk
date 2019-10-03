@@ -19,7 +19,7 @@ interface RejectedQueueRouteProps {
 }
 
 // TODO: use generated types
-const danglingLogic = (status: string) => ["APPROVED"].indexOf(status) >= 0;
+const danglingLogic = (status: string) => ["APPROVED"].includes(status);
 
 export class RejectedQueueRoute extends React.Component<
   RejectedQueueRouteProps
@@ -31,7 +31,7 @@ export class RejectedQueueRoute extends React.Component<
   };
 
   public render() {
-    const comments = this.props.query.comments!.edges.map(edge => edge.node);
+    const comments = this.props.query.comments.edges.map(edge => edge.node);
     return (
       <IntersectionProvider>
         <Queue

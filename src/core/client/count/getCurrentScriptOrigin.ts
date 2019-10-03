@@ -13,9 +13,7 @@ function getCurrentScriptOrigin(fallbackID?: string) {
     script = document.getElementById(fallbackID) as HTMLScriptElement | null;
     if (!script) {
       // Find script tag with `fallbackIdentifier` as its className.
-      script = document.querySelector(
-        `.${fallbackID}`
-      ) as HTMLScriptElement | null;
+      script = document.querySelector(`.${fallbackID}`);
     }
   }
   if (!script) {

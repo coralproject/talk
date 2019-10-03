@@ -26,7 +26,7 @@ function decorateErrorWhenMissing(bundle: FluentBundle) {
     return true;
   };
   bundle.getMessage = (id: string) => {
-    if (missing.indexOf(id) !== -1) {
+    if (missing.includes(id)) {
       return `Missing translation "${id}"`;
     }
     return originalGetMessage.apply(bundle, [id]);

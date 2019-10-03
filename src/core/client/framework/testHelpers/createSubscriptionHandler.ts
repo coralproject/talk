@@ -71,7 +71,7 @@ export default function createSubscriptionHandler(): SubscriptionHandler {
     dispatch: (field, callback) => {
       subscriptions.forEach(s => {
         if (s.field === field) {
-          const data = callback(s.variables as any);
+          const data = callback(s.variables);
           if (data) {
             s.dispatch(data);
           }

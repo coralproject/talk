@@ -65,9 +65,7 @@ export function createComment(author?: GQLUser) {
 
   if (author === undefined) {
     author = createUser();
-    author!.createdAt = new Date(
-      createdAt.getTime() - 60 * 60000
-    ).toISOString();
+    author.createdAt = new Date(createdAt.getTime() - 60 * 60000).toISOString();
   }
 
   const comment = denormalizeComment(

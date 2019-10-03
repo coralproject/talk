@@ -50,7 +50,7 @@ const HorizontalGutter: FunctionComponent<Props> = props => {
   const rootClassName = cn(
     classes.root,
     className,
-    spacing ? (classes as any)[`spacing-${spacing!}`] : classes[size!]
+    spacing ? (classes as any)[`spacing-${spacing}`] : classes[size!]
   );
 
   const innerProps = {

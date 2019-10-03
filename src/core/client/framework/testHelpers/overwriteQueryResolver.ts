@@ -47,7 +47,7 @@ function overwriteRecursive(original: any, overwrite: any) {
           if (typeof overwrite[k] === "function") {
             // Resolve overwrite resolver and return it's value
             // or if undefined the original resolved value.
-            const result = (overwrite as any)[k](...args);
+            const result = overwrite[k](...args);
             return result !== undefined ? result : resolve();
           }
           // The overwrite is an Object, so we will recurse into it,

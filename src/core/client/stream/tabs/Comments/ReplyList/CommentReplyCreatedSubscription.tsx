@@ -18,7 +18,7 @@ function determineDepthTillAncestor(comment: RecordProxy, ancestorID: string) {
     if (cur) {
       depth++;
       // Stop when reaching base ancestor.
-      if (cur!.getValue("id") === ancestorID) {
+      if (cur.getValue("id") === ancestorID) {
         return depth;
       }
     }

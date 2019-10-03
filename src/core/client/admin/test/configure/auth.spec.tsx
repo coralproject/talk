@@ -26,8 +26,8 @@ const deprecatedInputPredicate = (nameOrID: string) => (
   n: ReactTestInstance
 ) => {
   return (
-    [n.props.name, n.props.id].indexOf(nameOrID) > -1 &&
-    ["input", "button"].indexOf(n.type as string) > -1
+    [n.props.name, n.props.id].includes(nameOrID) &&
+    ["input", "button"].includes(n.type as string)
   );
 };
 

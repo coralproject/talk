@@ -78,7 +78,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const showBanOption =
     !comment.author || !comment.author.id || viewer === null
       ? false
-      : comment.author!.id !== viewer.id;
+      : comment.author.id !== viewer.id;
 
   return (
     <>

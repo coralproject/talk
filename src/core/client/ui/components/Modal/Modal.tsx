@@ -36,7 +36,7 @@ function useDOMNode(open: boolean) {
       const node = appendDivNode();
       setModalDOMNode(node);
       return () => {
-        node!.parentElement!.removeChild(node!);
+        node.parentElement!.removeChild(node);
         setModalDOMNode(null);
       };
     }

@@ -84,7 +84,7 @@ export default class Query<T> {
       "executing query"
     );
 
-    let cursor = await this.collection.find(this.filter);
+    let cursor = this.collection.find(this.filter);
 
     if (this.limit) {
       // Apply a limit if it exists.

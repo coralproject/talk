@@ -24,7 +24,7 @@ const UserRowContainer: FunctionComponent<Props> = props => {
       settings={props.settings}
       viewer={props.viewer}
       userID={props.user.id}
-      username={props.user.username!}
+      username={props.user.username}
       email={props.user.email}
       memberSince={new Intl.DateTimeFormat(locales, {
         day: "2-digit",

@@ -60,7 +60,7 @@ const UserHistoryDrawerAllCommentsQuery: FunctionComponent<Props> = ({
           <UserHistoryDrawerAllComments
             // We can never get to this part of the UI without being logged in.
             viewer={props.viewer!}
-            settings={props.settings!}
+            settings={props.settings}
             user={props.user}
           />
         );

@@ -54,7 +54,7 @@ function createAuthCheckRoute(check: CheckParams) {
     }
 
     private hasAccess(props: Props = this.props) {
-      const { viewer } = props.data!;
+      const { viewer } = props.data;
       if (viewer) {
         if (
           (check.role && !roleIsAtLeast(viewer.role, check.role)) ||

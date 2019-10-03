@@ -38,7 +38,7 @@ interface Props {
 
 // TODO: use generated types
 const danglingLogic = (status: string) =>
-  ["APPROVED", "REJECTED"].indexOf(status) >= 0;
+  ["APPROVED", "REJECTED"].includes(status);
 
 export const QueueRoute: FunctionComponent<Props> = props => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);

@@ -237,7 +237,7 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
   if (!props.story) {
     return <Bar title={""} {...childProps} />;
   }
-  const t = props.story!.metadata && props.story!.metadata.title;
+  const t = props.story.metadata && props.story.metadata.title;
   if (t) {
     return <Bar title={t} {...childProps} />;
   }

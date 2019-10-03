@@ -60,10 +60,7 @@ export function getOrigin(url: string) {
 export function prefixSchemeIfRequired(secure: boolean, url: string) {
   if (doesRequireSchemePrefixing(url)) {
     return (
-      "http" +
-      (secure ? "s" : "") +
-      (url.indexOf("//") === -1 ? "://" : ":") +
-      url
+      "http" + (secure ? "s" : "") + (!url.includes("//") ? "://" : ":") + url
     );
   }
 

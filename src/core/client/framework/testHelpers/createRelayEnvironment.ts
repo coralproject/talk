@@ -180,7 +180,7 @@ export default function createRelayEnvironment(
       );
       root.setLinkedRecord(localRecord, "local");
       if (typeof params.initLocalState === "function") {
-        params.initLocalState!(localRecord, sourceProxy, environment);
+        params.initLocalState(localRecord, sourceProxy, environment);
       }
     });
   }

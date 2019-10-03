@@ -330,7 +330,7 @@ export async function retrieveManyUserActionPresence(
   userID: string | null,
   commentIDs: string[]
 ): Promise<GQLActionPresence[]> {
-  const cursor = await collection(mongo).find(
+  const cursor = collection(mongo).find(
     {
       tenantID,
       userID,
@@ -508,7 +508,7 @@ function decodeActionCountKey(key: string): DecodedActionCountKey | null {
   let actionType = "";
   let reason = "";
 
-  if (key.indexOf(ACTION_COUNT_JOIN_CHAR) >= 0) {
+  if (key.includes(ACTION_COUNT_JOIN_CHAR)) {
     const keys = key.split(ACTION_COUNT_JOIN_CHAR);
     if (keys.length !== 2) {
       throw new Error(

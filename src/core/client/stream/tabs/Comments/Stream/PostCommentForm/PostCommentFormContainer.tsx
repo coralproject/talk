@@ -117,7 +117,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
   >["onSubmit"] = async (input, form) => {
     try {
       if (this.props.tab === "FEATURED_COMMENTS") {
-        await this.props.onChangeTab("ALL_COMMENTS");
+        this.props.onChangeTab("ALL_COMMENTS");
       }
 
       const submitStatus = getSubmitStatus(

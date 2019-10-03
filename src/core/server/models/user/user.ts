@@ -627,7 +627,7 @@ export async function retrieveManyUsers(
   tenantID: string,
   ids: string[]
 ) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     tenantID,
     id: {
       $in: ids,
@@ -1099,7 +1099,7 @@ export async function updateUserEmail(
     return result.value;
   } catch (err) {
     if (err instanceof MongoError && err.code === 11000) {
-      throw new DuplicateEmailError(email!);
+      throw new DuplicateEmailError(email);
     }
     throw err;
   }

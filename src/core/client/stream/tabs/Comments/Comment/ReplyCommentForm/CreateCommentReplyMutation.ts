@@ -90,7 +90,7 @@ function addLocalCommentReplyToStory(
   const newComment = commentEdge.getLinkedRecord("node");
 
   // Get parent proxy.
-  const parentProxy = store.get(input.parentID!);
+  const parentProxy = store.get(input.parentID);
 
   if (parentProxy) {
     const localReplies = parentProxy.getLinkedRecords("localReplies");

@@ -24,10 +24,10 @@ export default function combineEventHandlers(...propObjects: any[]): any {
         const prev = result[k];
         result[k] = (...args: any[]) => {
           prev(...args);
-          (o as any)[k](...args);
+          o[k](...args);
         };
       } else {
-        result[k] = (o as any)[k];
+        result[k] = o[k];
       }
     });
   });
