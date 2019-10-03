@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { compose, gql } from 'react-apollo';
 import { bindActionCreators } from 'redux';
 import { connect, withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
+import { logout } from 'plugin-api/beta/client/actions/auth';
 import { notify } from 'coral-framework/actions/notification';
 import { withAttachLocalAuth } from '../hocs';
 import { startAttach, finishAttach } from '../actions';
@@ -58,6 +59,10 @@ class AddEmailAddressDialog extends React.Component {
     }
   };
 
+  handleOnCancel = async () => {
+    this.props.logout();
+  };
+
   goToNextStep = () => {
     this.setState(({ step }) => ({
       step: step + 1,
@@ -79,7 +84,12 @@ class AddEmailAddressDialog extends React.Component {
         id="talk-plugin-local-auth-email-dialog"
         className={styles.dialog}
       >
-        {step === 0 && <AddEmailForm onSubmit={this.handleSubmit} />}
+        {step === 0 && (
+          <AddEmailForm
+            onSubmit={this.handleSubmit}
+            onCancel={this.handleOnCancel}
+          />
+        )}
         {step === 1 &&
           !requireEmailConfirmation && (
             <EmailAddressAdded onDone={this.handleDone} />
@@ -98,6 +108,7 @@ AddEmailAddressDialog.propTypes = {
   notify: PropTypes.func.isRequired,
   startAttach: PropTypes.func.isRequired,
   finishAttach: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   root: PropTypes.object,
 };
 
@@ -106,7 +117,7 @@ const mapStateToProps = ({ talkPluginLocalAuth: state }) => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ notify, startAttach, finishAttach }, dispatch);
+  bindActionCreators({ notify, startAttach, finishAttach, logout }, dispatch);
 
 const withData = withFragments({
   root: gql`

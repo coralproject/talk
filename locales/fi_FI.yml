@@ -269,7 +269,6 @@ fi_FI:
       button: Lähetä
       error: 'Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva'
       label: 'Uusi käyttäjänimi'
-      msg: 'Tilisi on suljettu väliaikaisesti, koska käyttäjänimi on todettu sopimattomaksi. Vaihda käyttäjänimi, jos haluat jatkaa tilin käyttöä. Ole meihin yhteydessä, jos sinulla on aiheesta kysyttävää.'
     my_comments: Kommenttini
     my_profile: Profiilini
     new_count: 'Näytä {0} lisää {1}'
@@ -466,4 +465,3 @@ fi_FI:
   view_conversation: 'Näytä keskustelu'
   your_account_has_been_banned: 'Tilillesi on asetettu kirjoituskielto.'
   your_account_has_been_suspended: 'Tilisi on väliaikasesti suljettu.'
-  your_username_has_been_rejected: 'Tilisi on suljettu, koska käyttäjänimesi on epäsopiva. Vaihda käyttäjänimeä jatkaaksesi tilin käyttöä.'

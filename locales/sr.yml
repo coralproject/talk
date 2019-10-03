@@ -323,7 +323,6 @@ sr:
       button: 'Podnesi'
       error: 'Došlo je do greške'
       label: 'Novo korisničko ime'
-      msg: 'Izmjena vašeg korisničkog imena prolazi provjeru našeg tima moderatora'
     my_comments: 'Moji komentari'
     my_profile: 'Moj profil'
     new_count: 'Vidi još {0} / {1}'
@@ -573,4 +572,3 @@ sr:
   view_conversation: 'Vidi razgovor'
   your_account_has_been_banned: 'Vaš nalog je banovan'
   your_account_has_been_suspended: 'Vaš nalog je privremeno suspendovan'
-  your_username_has_been_rejected: 'Vaš nalog je suspendovan jer je korisničko ime označeno kao neprikladno. Da povratite nalog, unesite novo korisničko ime'

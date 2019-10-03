@@ -309,7 +309,6 @@ es:
       button: Enviar
       error: 'Nombres de usuarios pueden solamente incluir letras, números y _'
       label: 'Nuevo Nombre'
-      msg: 'Tu cuenta está suspendida porque tu nombre de usuario ha sido considerado no apropiado para el espacio. Para recuperar la cuenta, por favor ingresar un nuevo nombre de usuario. Contáctanos si tienes alguna pregunta.'
     my_comments: 'Mis Comentarios'
     my_profile: 'Mi perfil'
     new_count: 'Ver {0} más {1} '
@@ -542,4 +541,3 @@ es:
   view_conversation: 'Ver Conversación'
   your_account_has_been_banned: 'Su cuenta ha sido prohibida.'
   your_account_has_been_suspended: 'Su cuenta ha sido suspendida.'
-  your_username_has_been_rejected: 'Su cuenta ha sido suspendida porque tu nombre de usuario ha sido considerado no apropiado para el espacio. Para recuperar la cuenta, por favor ingresar un nuevo nombre de usuario.'

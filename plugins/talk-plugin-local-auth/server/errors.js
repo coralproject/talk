@@ -32,4 +32,18 @@ class ErrIncorrectPassword extends TalkError {
   }
 }
 
-module.exports = { ErrLocalProfile, ErrNoLocalProfile, ErrIncorrectPassword };
+class ErrDuplicateLocalProfile extends TalkError {
+  constructor() {
+    super('Duplicate local profile attachment', {
+      translation_key: 'DUPLICATE_LOCAL_PROFILE',
+      status: 400,
+    });
+  }
+}
+
+module.exports = {
+  ErrDuplicateLocalProfile,
+  ErrLocalProfile,
+  ErrNoLocalProfile,
+  ErrIncorrectPassword,
+};

@@ -1,4 +1,3 @@
-
 # job_environment will setup the environment for any job being executed.
 job_environment: &job_environment
   NODE_ENV: test
@@ -53,7 +52,6 @@ integration_job: &integration_job
     - store_artifacts:
         when: always
         path: /tmp/circleci-test-results
-
 
 version: 2
 jobs:
@@ -223,20 +221,17 @@ jobs:
 # only execute on a deploy related job.
 filter_deploy: &filter_deploy
   filters:
-    branches:
-      only:
-        - master
-        - next
     tags:
       only: /v[0-9]+(\.[0-9]+)*/
+    branches:
+      ignore: /.*/
 
 # filter_develop will add the filters for a development related commit.
 filter_develop: &filter_develop
   filters:
     branches:
       ignore:
-        - master
-        - next
+        - /release\/.*/
 
 workflows:
   version: 2
@@ -258,10 +253,11 @@ workflows:
           <<: *filter_develop
           requires:
             - npm_dependencies
-      - test_integration_chrome_local:
-          <<: *filter_develop
-          requires:
-            - build_assets
+      # TODO: uncomment when we revisit browserstack
+      # - test_integration_chrome_local:
+      #     <<: *filter_develop
+      #     requires:
+      #       - build_assets
       # TODO: uncomment when more reliable
       # - test_integration_firefox_local:
       #     <<: *filter_develop
@@ -283,18 +279,19 @@ workflows:
           <<: *filter_deploy
           requires:
             - npm_dependencies
-      - test_integration_chrome:
-          <<: *filter_deploy
-          requires:
-            - build_assets
-      - test_integration_firefox:
-          <<: *filter_deploy
-          requires:
-            - build_assets
-      - test_integration_edge:
-          <<: *filter_deploy
-          requires:
-            - build_assets
+      # TODO: uncomment when we revisit browserstack
+      # - test_integration_chrome:
+      #     <<: *filter_deploy
+      #     requires:
+      #       - build_assets
+      # - test_integration_firefox:
+      #     <<: *filter_deploy
+      #     requires:
+      #       - build_assets
+      # - test_integration_edge:
+      #     <<: *filter_deploy
+      #     requires:
+      #       - build_assets
       # TODO: uncomment when more reliable
       # - test_integration_ie:
       #    <<: *filter_deploy
@@ -309,9 +306,10 @@ workflows:
           requires:
             - lint
             - test_unit
-            - test_integration_chrome
-            - test_integration_firefox
-            - test_integration_edge
+            # TODO: uncomment when we revisit browserstack
+            # - test_integration_chrome
+            # - test_integration_firefox
+            # - test_integration_edge
             # TODO: uncomment when more reliable
             # - test_integration_ie
             # - test_integration_safari

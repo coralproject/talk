@@ -1,0 +1,3 @@
+[build]
+  command = "yarn generate-introspection && cd docs && yarn build"
+  publish = "docs/public"

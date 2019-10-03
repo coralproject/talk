@@ -3,6 +3,7 @@ const {
   ErrNoLocalProfile,
   ErrLocalProfile,
   ErrIncorrectPassword,
+  ErrDuplicateLocalProfile,
 } = require('./errors');
 const { get } = require('lodash');
 
@@ -115,6 +116,11 @@ async function attachUserLocalAuth(ctx, email, password) {
   // Validate the password.
   await Users.isValidPassword(password);
 
+  // See if this email address already has a local profile setup.
+  if (await Users.findLocalUser(email)) {
+    throw new ErrDuplicateLocalProfile();
+  }
+
   // Hash the new password.
   const hashedPassword = await Users.hashPassword(password);
 
@@ -160,7 +166,7 @@ async function attachUserLocalAuth(ctx, email, password) {
     await Users.sendEmailConfirmation(updatedUser, email, redirectUri);
   } catch (err) {
     if (err.code === 11000) {
-      throw new ErrEmailTaken();
+      throw new ErrDuplicateLocalProfile();
     }
     throw err;
   }

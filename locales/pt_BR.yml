@@ -285,7 +285,6 @@ pt_BR:
       button: Enviar
       error: 'Nomes de usuários podem conter números de letras e _ somente'
       label: 'Novo usuário'
-      msg: 'Sua conta está suspensa porque seu nome de usuário foi considerado inapropriado. Para restaurar sua conta, insira um novo nome de usuário. Entre em contato conosco se você tiver alguma dúvida.'
     my_comments: 'Meus comentários'
     my_profile: 'Meu perfil'
     new_count: 'Ver {0} {1}'
@@ -522,4 +521,3 @@ pt_BR:
   view_conversation: 'Ver conversa'
   your_account_has_been_banned: 'Sua conta foi banida.'
   your_account_has_been_suspended: 'Sua conta foi temporariamente suspensa.'
-  your_username_has_been_rejected: 'Sua conta foi rejeitada porque seu nome de usuário foi considerado inapropriado. Para restaurar sua conta, insira um novo nome de usuário.'
