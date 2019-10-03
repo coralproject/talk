@@ -3,6 +3,7 @@ import { Db } from "mongodb";
 
 import {
   ALLOWED_USERNAME_CHANGE_FREQUENCY,
+  COMMENT_LIMIT_WINDOW_SECONDS,
   DOWNLOAD_LIMIT_TIMEFRAME,
 } from "coral-common/constants";
 import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
@@ -77,6 +78,7 @@ import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
+import { AugmentedRedis } from "../redis";
 import {
   generateAdminDownloadLink,
   generateDownloadLink,
@@ -1165,4 +1167,70 @@ export async function updateNotificationSettings(
   settings: NotificationSettingsInput
 ) {
   return updateUserNotificationSettings(mongo, tenant.id, user.id, settings);
+}
+
+function userLastWroteCommentTimestampKey(
+  tenant: Pick<Tenant, "id">,
+  user: Pick<User, "id">
+) {
+  return `${tenant.id}:lastCommentTimestamp:${user.id}`;
+}
+
+/**
+ * retrieveUserLastWroteCommentTimestamp will return the timestamp (if set) that
+ * the user last wrote a comment on. This will return null if the comment was
+ * written more than COMMENT_LIMIT_WINDOW_SECONDS seconds ago.
+ *
+ * @param redis the Redis instance that Coral interacts with
+ * @param tenant the Tenant to operate on
+ * @param user the User that we're looking up the limit for
+ */
+export async function retrieveUserLastWroteCommentTimestamp(
+  redis: AugmentedRedis,
+  tenant: Tenant,
+  user: User
+): Promise<Date | null> {
+  // Try to get the timestamp for the author.
+  const timestamp: string | null = await redis.get(
+    userLastWroteCommentTimestampKey(tenant, user)
+  );
+  if (!timestamp) {
+    return null;
+  }
+
+  return DateTime.fromISO(timestamp).toJSDate();
+}
+
+/**
+ * updateUserLastWroteCommentTimestamp will update the last time that the user
+ * wrote a comment, and will return whether or not the value was updated or not.
+ * A not updated value means that the user has written a comment within
+ * COMMENT_LIMIT_WINDOW_SECONDS seconds, and should be prevented from writing
+ * another comment.
+ *
+ * @param redis the Redis instance that Coral interacts with
+ * @param tenant the Tenant to operate on
+ * @param user the User that we're setting the limit for
+ * @param when the date that the user wrote the comment
+ */
+export async function updateUserLastWroteCommentTimestamp(
+  redis: AugmentedRedis,
+  tenant: Tenant,
+  user: User,
+  when: Date
+) {
+  const key = userLastWroteCommentTimestampKey(tenant, user);
+
+  // Try to set the last wrote comment timestamp.
+  const [[, set]] = await redis
+    .multi()
+    .setnx(key, when.toISOString())
+    .expire(key, COMMENT_LIMIT_WINDOW_SECONDS)
+    .exec();
+  if (!set) {
+    // The key was already set! Return that the key was not set.
+    return false;
+  }
+
+  return true;
 }

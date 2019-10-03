@@ -1,6 +1,7 @@
 import { Db } from "mongodb";
 
 import { Omit, Promiseable, RequireProperty } from "coral-common/types";
+import { Config } from "coral-server/config";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 import { CreateActionInput } from "coral-server/models/action/comment";
 import {
@@ -11,6 +12,7 @@ import { CommentTag } from "coral-server/models/comment/tag";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
 import { moderationPhases } from "./phases";
@@ -30,11 +32,14 @@ export interface PhaseResult {
 
 export interface ModerationPhaseContext {
   mongo: Db;
+  redis: AugmentedRedis;
+  config: Config;
   story: Story;
   tenant: Tenant;
   comment: RequireProperty<Partial<EditCommentInput>, "body">;
   author: User;
   now: Date;
+  action: "NEW" | "EDIT";
   nudge?: boolean;
   req?: Request;
 }

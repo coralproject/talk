@@ -3,9 +3,11 @@ import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
 import { Omit } from "coral-common/types";
+import { Config } from "coral-server/config";
 import {
   CommentNotFoundError,
   CoralError,
+  RateLimitExceeded,
   StoryNotFoundError,
 } from "coral-server/errors";
 import { GQLTAG } from "coral-server/graph/tenant/schema/__generated__/types";
@@ -48,6 +50,7 @@ import {
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
+import { updateUserLastWroteCommentTimestamp } from "../users";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
 import { PhaseResult, processForModeration } from "./pipeline";
@@ -60,6 +63,7 @@ export type CreateComment = Omit<
 export async function create(
   mongo: Db,
   redis: AugmentedRedis,
+  config: Config,
   publish: Publisher,
   tenant: Tenant,
   author: User,
@@ -78,8 +82,6 @@ export async function create(
     },
     true
   );
-
-  // TODO: (wyattjoh) perform rate limiting based on the user?
 
   log.trace("creating comment on story");
 
@@ -119,7 +121,10 @@ export async function create(
   try {
     // Run the comment through the moderation phases.
     result = await processForModeration({
+      action: "NEW",
       mongo,
+      redis,
+      config,
       nudge,
       story,
       tenant,
@@ -160,6 +165,13 @@ export async function create(
 
     // Encode the action counts.
     actionCounts = encodeActionCounts(...deDuplicatedActions);
+  }
+
+  // Create the comment action in our rate limiter.
+  if (
+    !(await updateUserLastWroteCommentTimestamp(redis, tenant, author, now))
+  ) {
+    throw new RateLimitExceeded("createComment", 1);
   }
 
   // Create the comment!
@@ -261,6 +273,7 @@ export type EditComment = Omit<
 export async function edit(
   mongo: Db,
   redis: AugmentedRedis,
+  config: Config,
   publish: Publisher,
   tenant: Tenant,
   author: User,
@@ -308,7 +321,10 @@ export async function edit(
 
   // Run the comment through the moderation phases.
   const { body, status, metadata, actions } = await processForModeration({
+    action: "EDIT",
     mongo,
+    redis,
+    config,
     story,
     tenant,
     comment: input,
