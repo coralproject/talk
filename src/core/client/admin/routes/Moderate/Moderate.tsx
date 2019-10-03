@@ -1,3 +1,4 @@
+import key from "keymaster";
 import React, {
   FunctionComponent,
   useCallback,
@@ -9,7 +10,6 @@ import MainLayout from "coral-admin/components/MainLayout";
 import { HOTKEYS } from "coral-admin/constants";
 import { PropTypesOf } from "coral-framework/types";
 import { SubBar } from "coral-ui/components/SubBar";
-import key from "keymaster";
 
 import HotkeysModal from "./HotkeysModal";
 import ModerateNavigationContainer from "./ModerateNavigation";
@@ -37,13 +37,19 @@ const Moderate: FunctionComponent<Props> = ({
   const closeModal = useCallback(() => {
     setShowHotkeysModal(false);
   }, []);
-  const openModal = useCallback(() => {
-    setShowHotkeysModal(true);
-  }, []);
+  const toggleModal = useCallback(() => {
+    setShowHotkeysModal(!showHotkeysModal);
+  }, [showHotkeysModal]);
 
   useEffect(() => {
-    key(HOTKEYS.GUIDE, openModal);
-  }, []);
+    // Attach the modal toggle when the GUIDE button is pressed.
+    key(HOTKEYS.GUIDE, toggleModal);
+    return () => {
+      // Detach the modal toggle if we have to rebind it.
+      key.unbind(HOTKEYS.GUIDE);
+    };
+  }, [toggleModal]);
+
   return (
     <div data-testid="moderate-container">
       <ModerateSearchBarContainer story={story} allStories={allStories} />

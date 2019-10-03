@@ -1,7 +1,7 @@
 import cn from "classnames";
-import { HOTKEYS } from "coral-admin/constants";
 import { Localized } from "fluent-react/compat";
 import key from "keymaster";
+import { noop } from "lodash";
 import React, {
   FunctionComponent,
   useCallback,
@@ -9,6 +9,7 @@ import React, {
   useRef,
 } from "react";
 
+import { HOTKEYS } from "coral-admin/constants";
 import { PropTypesOf } from "coral-framework/types";
 import {
   BaseButton,
@@ -121,15 +122,22 @@ const ModerateCard: FunctionComponent<Props> = ({
       }
       key(HOTKEYS.APPROVE, id, onApprove);
       key(HOTKEYS.REJECT, id, onReject);
+
+      // The the scope such that only events attached to the ${id} scope will
+      // be honored.
       key.setScope(id);
+
       return () => {
+        // Remove all events that are set in the ${id} scope.
         key.deleteScope(id);
       };
     } else {
+      // Remove all events that were set in the ${id} scope.
       key.deleteScope(id);
     }
-    return () => null;
-  }, [selected, comment, id]);
+
+    return noop;
+  }, [selected, id]);
 
   useEffect(() => {
     if (selected && div && div.current) {

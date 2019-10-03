@@ -19,7 +19,7 @@ interface Props {
 const HotkeysModal: FunctionComponent<Props> = ({ open, onClose }) => {
   return (
     <Modal open={open} onClose={onClose} aria-labelledby="banModal-title">
-      {({ firstFocusableRef, lastFocusableRef }) => (
+      {({ firstFocusableRef }) => (
         <Card className={styles.root}>
           <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
           <HorizontalGutter size="double">
@@ -85,8 +85,8 @@ const HotkeysModal: FunctionComponent<Props> = ({ open, onClose }) => {
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>?</div>
                   </div>
-                  <Localized id="hotkeysModal-shortcuts-modal">
-                    <Typography>Show shortcuts</Typography>
+                  <Localized id="hotkeysModal-shortcuts-toggle">
+                    <Typography>Toggle shortcuts help</Typography>
                   </Localized>
                 </Flex>
               </HorizontalGutter>
