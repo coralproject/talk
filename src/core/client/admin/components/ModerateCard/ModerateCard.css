@@ -143,6 +143,7 @@
 }
 
 .edited {
-  color: var(--v2-palette-grey-lighter);
+  composes: timestamp from "coral-admin/components/ModerateCard/shared.css";
+
   padding-left: var(--v2-spacing-2)
 }

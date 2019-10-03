@@ -2,6 +2,7 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
+import { Timestamp } from "coral-admin/ui/components";
 import { PropTypesOf } from "coral-framework/types";
 import {
   BaseButton,
@@ -9,7 +10,6 @@ import {
   Flex,
   HorizontalGutter,
   TextLink,
-  Timestamp,
   Typography,
 } from "coral-ui/components";
 
@@ -135,9 +135,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
               {edited && (
                 <Localized id="moderate-comment-edited">
-                  <Typography variant="timestamp" className={styles.edited}>
-                    (edited)
-                  </Typography>
+                  <span className={styles.edited}>(edited)</span>
                 </Localized>
               )}
               <FeatureButton
