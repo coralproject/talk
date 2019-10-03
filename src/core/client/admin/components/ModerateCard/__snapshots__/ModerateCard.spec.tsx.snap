@@ -55,7 +55,9 @@ exports[`renders approved correctly 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <Localized
               id="moderate-comment-viewContext"
             >
@@ -170,7 +172,9 @@ exports[`renders correctly 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <Localized
               id="moderate-comment-viewContext"
             >
@@ -285,7 +289,9 @@ exports[`renders dangling correctly 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <Localized
               id="moderate-comment-viewContext"
             >
@@ -400,7 +406,9 @@ exports[`renders rejected correctly 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <Localized
               id="moderate-comment-viewContext"
             >
@@ -495,7 +503,9 @@ exports[`renders reply correctly 1`] = `
             onClick={[Function]}
           />
         </ForwardRef(forwardRef)>
-        <div>
+        <div
+          className="ModerateCard-inReplyTo"
+        >
           <InReplyTo
             onUsernameClick={[Function]}
           >
@@ -522,7 +532,9 @@ exports[`renders reply correctly 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <Localized
               id="moderate-comment-viewContext"
             >
@@ -637,7 +649,9 @@ exports[`renders story info 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <Localized
               id="moderate-comment-viewContext"
             >
@@ -651,35 +665,38 @@ exports[`renders story info 1`] = `
             </Localized>
           </div>
           <div>
-            <div>
+            <div
+              className="ModerateCard-storyLabel"
+            >
               <Localized
                 id="moderate-comment-storyLabel"
               >
-                <span
-                  className="ModerateCard-storyLabel"
-                >
+                <span>
                   Comment on
                 </span>
               </Localized>
-              : 
+              <span>
+                :
+              </span>
             </div>
-            <span
+            <div
               className="ModerateCard-storyTitle"
             >
               Cancer cured!
-            </span>
-             
-            <Localized
-              id="moderate-comment-moderateStory"
-            >
-              <withPropsOnChange(TextLinkProps)
-                className="ModerateCard-link"
-                href="/story"
-                onClick={[Function]}
+            </div>
+            <div>
+              <Localized
+                id="moderate-comment-moderateStory"
               >
-                Moderate Story
-              </withPropsOnChange(TextLinkProps)>
-            </Localized>
+                <withPropsOnChange(TextLinkProps)
+                  className="ModerateCard-link"
+                  href="/story"
+                  onClick={[Function]}
+                >
+                  Moderate Story
+                </withPropsOnChange(TextLinkProps)>
+              </Localized>
+            </div>
           </div>
           <Relay(MarkersContainer)
             comment={Object {}}
@@ -789,7 +806,9 @@ exports[`renders tombstoned when comment is deleted 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <Localized
               id="moderate-comment-viewContext"
             >

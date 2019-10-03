@@ -1,6 +1,6 @@
 .topBar {
   position: relative;
-  margin-bottom: var(--mini-unit);
+  margin-bottom: var(--v2-spacing-1);
 }
 
 .topBarMini {
@@ -25,6 +25,10 @@
     border-radius: var(--v2-round-corners);
     border-style: none;
   }
+}
+
+.inReplyTo {
+  margin-top: calc(-1 * var(--v2-spacing-1));
 }
 
 .footer {

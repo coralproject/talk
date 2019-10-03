@@ -95,7 +95,9 @@ exports[`approves comment in reported queue: dangling 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <a
               className="TextLink-root ModerateCard-link"
               href="http://localhost/comment/0"
@@ -111,27 +113,30 @@ exports[`approves comment in reported queue: dangling 1`] = `
             </a>
           </div>
           <div>
-            <div>
-              <span
-                className="ModerateCard-storyLabel"
-              >
+            <div
+              className="ModerateCard-storyLabel"
+            >
+              <span>
                 Comment On
               </span>
-              : 
+              <span>
+                :
+              </span>
             </div>
-            <span
+            <div
               className="ModerateCard-storyTitle"
             >
               Finally a Cure for Cancer
-            </span>
-             
-            <a
-              className="TextLink-root ModerateCard-link"
-              href="/admin/moderate/story-1"
-              onClick={[Function]}
-            >
-              Moderate Story
-            </a>
+            </div>
+            <div>
+              <a
+                className="TextLink-root ModerateCard-link"
+                href="/admin/moderate/story-1"
+                onClick={[Function]}
+              >
+                Moderate Story
+              </a>
+            </div>
           </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -336,7 +341,9 @@ exports[`rejects comment in reported queue: dangling 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <a
               className="TextLink-root ModerateCard-link"
               href="http://localhost/comment/0"
@@ -352,27 +359,30 @@ exports[`rejects comment in reported queue: dangling 1`] = `
             </a>
           </div>
           <div>
-            <div>
-              <span
-                className="ModerateCard-storyLabel"
-              >
+            <div
+              className="ModerateCard-storyLabel"
+            >
+              <span>
                 Comment On
               </span>
-              : 
+              <span>
+                :
+              </span>
             </div>
-            <span
+            <div
               className="ModerateCard-storyTitle"
             >
               Finally a Cure for Cancer
-            </span>
-             
-            <a
-              className="TextLink-root ModerateCard-link"
-              href="/admin/moderate/story-1"
-              onClick={[Function]}
-            >
-              Moderate Story
-            </a>
+            </div>
+            <div>
+              <a
+                className="TextLink-root ModerateCard-link"
+                href="/admin/moderate/story-1"
+                onClick={[Function]}
+              >
+                Moderate Story
+              </a>
+            </div>
           </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -574,7 +584,9 @@ exports[`renders reported queue with comments 1`] = `
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div>
+                <div
+                  className="ModerateCard-viewContext"
+                >
                   <a
                     className="TextLink-root ModerateCard-link"
                     href="http://localhost/comment/0"
@@ -590,27 +602,30 @@ exports[`renders reported queue with comments 1`] = `
                   </a>
                 </div>
                 <div>
-                  <div>
-                    <span
-                      className="ModerateCard-storyLabel"
-                    >
+                  <div
+                    className="ModerateCard-storyLabel"
+                  >
+                    <span>
                       Comment On
                     </span>
-                    : 
+                    <span>
+                      :
+                    </span>
                   </div>
-                  <span
+                  <div
                     className="ModerateCard-storyTitle"
                   >
                     Finally a Cure for Cancer
-                  </span>
-                   
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="/admin/moderate/story-1"
-                    onClick={[Function]}
-                  >
-                    Moderate Story
-                  </a>
+                  </div>
+                  <div>
+                    <a
+                      className="TextLink-root ModerateCard-link"
+                      href="/admin/moderate/story-1"
+                      onClick={[Function]}
+                    >
+                      Moderate Story
+                    </a>
+                  </div>
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -799,7 +814,9 @@ exports[`renders reported queue with comments 1`] = `
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div>
+                <div
+                  className="ModerateCard-viewContext"
+                >
                   <a
                     className="TextLink-root ModerateCard-link"
                     href="http://localhost/comment/1"
@@ -815,27 +832,30 @@ exports[`renders reported queue with comments 1`] = `
                   </a>
                 </div>
                 <div>
-                  <div>
-                    <span
-                      className="ModerateCard-storyLabel"
-                    >
+                  <div
+                    className="ModerateCard-storyLabel"
+                  >
+                    <span>
                       Comment On
                     </span>
-                    : 
+                    <span>
+                      :
+                    </span>
                   </div>
-                  <span
+                  <div
                     className="ModerateCard-storyTitle"
                   >
                     Finally a Cure for Cancer
-                  </span>
-                   
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="/admin/moderate/story-1"
-                    onClick={[Function]}
-                  >
-                    Moderate Story
-                  </a>
+                  </div>
+                  <div>
+                    <a
+                      className="TextLink-root ModerateCard-link"
+                      href="/admin/moderate/story-1"
+                      onClick={[Function]}
+                    >
+                      Moderate Story
+                    </a>
+                  </div>
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1040,7 +1060,9 @@ exports[`renders reported queue with comments 2`] = `
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div>
+                <div
+                  className="ModerateCard-viewContext"
+                >
                   <a
                     className="TextLink-root ModerateCard-link"
                     href="http://localhost/comment/0"
@@ -1056,27 +1078,30 @@ exports[`renders reported queue with comments 2`] = `
                   </a>
                 </div>
                 <div>
-                  <div>
-                    <span
-                      className="ModerateCard-storyLabel"
-                    >
+                  <div
+                    className="ModerateCard-storyLabel"
+                  >
+                    <span>
                       Comment On
                     </span>
-                    : 
+                    <span>
+                      :
+                    </span>
                   </div>
-                  <span
+                  <div
                     className="ModerateCard-storyTitle"
                   >
                     Finally a Cure for Cancer
-                  </span>
-                   
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="/admin/moderate/story-1"
-                    onClick={[Function]}
-                  >
-                    Moderate Story
-                  </a>
+                  </div>
+                  <div>
+                    <a
+                      className="TextLink-root ModerateCard-link"
+                      href="/admin/moderate/story-1"
+                      onClick={[Function]}
+                    >
+                      Moderate Story
+                    </a>
+                  </div>
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1265,7 +1290,9 @@ exports[`renders reported queue with comments 2`] = `
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div>
+                <div
+                  className="ModerateCard-viewContext"
+                >
                   <a
                     className="TextLink-root ModerateCard-link"
                     href="http://localhost/comment/1"
@@ -1281,27 +1308,30 @@ exports[`renders reported queue with comments 2`] = `
                   </a>
                 </div>
                 <div>
-                  <div>
-                    <span
-                      className="ModerateCard-storyLabel"
-                    >
+                  <div
+                    className="ModerateCard-storyLabel"
+                  >
+                    <span>
                       Comment On
                     </span>
-                    : 
+                    <span>
+                      :
+                    </span>
                   </div>
-                  <span
+                  <div
                     className="ModerateCard-storyTitle"
                   >
                     Finally a Cure for Cancer
-                  </span>
-                   
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="/admin/moderate/story-1"
-                    onClick={[Function]}
-                  >
-                    Moderate Story
-                  </a>
+                  </div>
+                  <div>
+                    <a
+                      className="TextLink-root ModerateCard-link"
+                      href="/admin/moderate/story-1"
+                      onClick={[Function]}
+                    >
+                      Moderate Story
+                    </a>
+                  </div>
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -1496,7 +1526,9 @@ exports[`renders reported queue with comments and load more 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <a
               className="TextLink-root ModerateCard-link"
               href="http://localhost/comment/2"
@@ -1512,27 +1544,30 @@ exports[`renders reported queue with comments and load more 1`] = `
             </a>
           </div>
           <div>
-            <div>
-              <span
-                className="ModerateCard-storyLabel"
-              >
+            <div
+              className="ModerateCard-storyLabel"
+            >
+              <span>
                 Comment On
               </span>
-              : 
+              <span>
+                :
+              </span>
             </div>
-            <span
+            <div
               className="ModerateCard-storyTitle"
             >
               Finally a Cure for Cancer
-            </span>
-             
-            <a
-              className="TextLink-root ModerateCard-link"
-              href="/admin/moderate/story-1"
-              onClick={[Function]}
-            >
-              Moderate Story
-            </a>
+            </div>
+            <div>
+              <a
+                className="TextLink-root ModerateCard-link"
+                href="/admin/moderate/story-1"
+                onClick={[Function]}
+              >
+                Moderate Story
+              </a>
+            </div>
           </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"

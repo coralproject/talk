@@ -9,6 +9,7 @@
 }
 
 .usernameButton {
-  display: inline-flex;
   vertical-align: baseline;
+
+  margin-left: calc(-1 * var(--v2-spacing-1));
 }
