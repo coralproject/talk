@@ -1,9 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders approved correctly 1`] = `
-<withPropsOnChange(Card)
+<ForwardRef(forwardRef)
   className="ModerateCard-root"
   data-testid="moderate-comment-comment-id"
+  id="moderate-comment-comment-id"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <ForwardRef(forwardRef)>
     <div
@@ -23,8 +26,10 @@ exports[`renders approved correctly 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
+          <Relay(CommentAuthorContainer)
+            comment={Object {}}
+          />
           <Timestamp
-            className="ModerateCard-timestamp"
             toggleAbsolute={true}
           >
             2018-11-29T16:01:51.897Z
@@ -112,13 +117,16 @@ exports[`renders approved correctly 1`] = `
       </ForwardRef(forwardRef)>
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
-</withPropsOnChange(Card)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Card)
+<ForwardRef(forwardRef)
   className="ModerateCard-root"
   data-testid="moderate-comment-comment-id"
+  id="moderate-comment-comment-id"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <ForwardRef(forwardRef)>
     <div
@@ -138,8 +146,10 @@ exports[`renders correctly 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
+          <Relay(CommentAuthorContainer)
+            comment={Object {}}
+          />
           <Timestamp
-            className="ModerateCard-timestamp"
             toggleAbsolute={true}
           >
             2018-11-29T16:01:51.897Z
@@ -227,13 +237,16 @@ exports[`renders correctly 1`] = `
       </ForwardRef(forwardRef)>
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
-</withPropsOnChange(Card)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders dangling correctly 1`] = `
-<withPropsOnChange(Card)
+<ForwardRef(forwardRef)
   className="ModerateCard-root ModerateCard-dangling"
   data-testid="moderate-comment-comment-id"
+  id="moderate-comment-comment-id"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <ForwardRef(forwardRef)>
     <div
@@ -253,8 +266,10 @@ exports[`renders dangling correctly 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
+          <Relay(CommentAuthorContainer)
+            comment={Object {}}
+          />
           <Timestamp
-            className="ModerateCard-timestamp"
             toggleAbsolute={true}
           >
             2018-11-29T16:01:51.897Z
@@ -342,13 +357,16 @@ exports[`renders dangling correctly 1`] = `
       </ForwardRef(forwardRef)>
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
-</withPropsOnChange(Card)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders rejected correctly 1`] = `
-<withPropsOnChange(Card)
+<ForwardRef(forwardRef)
   className="ModerateCard-root"
   data-testid="moderate-comment-comment-id"
+  id="moderate-comment-comment-id"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <ForwardRef(forwardRef)>
     <div
@@ -368,8 +386,10 @@ exports[`renders rejected correctly 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
+          <Relay(CommentAuthorContainer)
+            comment={Object {}}
+          />
           <Timestamp
-            className="ModerateCard-timestamp"
             toggleAbsolute={true}
           >
             2018-11-29T16:01:51.897Z
@@ -457,13 +477,16 @@ exports[`renders rejected correctly 1`] = `
       </ForwardRef(forwardRef)>
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
-</withPropsOnChange(Card)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders reply correctly 1`] = `
-<withPropsOnChange(Card)
+<ForwardRef(forwardRef)
   className="ModerateCard-root"
   data-testid="moderate-comment-comment-id"
+  id="moderate-comment-comment-id"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <ForwardRef(forwardRef)>
     <div
@@ -483,8 +506,10 @@ exports[`renders reply correctly 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
+          <Relay(CommentAuthorContainer)
+            comment={Object {}}
+          />
           <Timestamp
-            className="ModerateCard-timestamp"
             toggleAbsolute={true}
           >
             2018-11-29T16:01:51.897Z
@@ -582,13 +607,16 @@ exports[`renders reply correctly 1`] = `
       </ForwardRef(forwardRef)>
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
-</withPropsOnChange(Card)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders story info 1`] = `
-<withPropsOnChange(Card)
+<ForwardRef(forwardRef)
   className="ModerateCard-root"
   data-testid="moderate-comment-comment-id"
+  id="moderate-comment-comment-id"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <ForwardRef(forwardRef)>
     <div
@@ -608,8 +636,10 @@ exports[`renders story info 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
+          <Relay(CommentAuthorContainer)
+            comment={Object {}}
+          />
           <Timestamp
-            className="ModerateCard-timestamp"
             toggleAbsolute={true}
           >
             2018-11-29T16:01:51.897Z
@@ -726,13 +756,16 @@ exports[`renders story info 1`] = `
       </ForwardRef(forwardRef)>
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
-</withPropsOnChange(Card)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders tombstoned when comment is deleted 1`] = `
-<withPropsOnChange(Card)
+<ForwardRef(forwardRef)
   className="ModerateCard-root ModerateCard-deleted"
   data-testid="moderate-comment-comment-id"
+  id="moderate-comment-comment-id"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <ForwardRef(forwardRef)>
     <div
@@ -752,8 +785,10 @@ exports[`renders tombstoned when comment is deleted 1`] = `
               Theon
             </Username>
           </ForwardRef(forwardRef)>
+          <Relay(CommentAuthorContainer)
+            comment={Object {}}
+          />
           <Timestamp
-            className="ModerateCard-timestamp"
             toggleAbsolute={true}
           >
             2018-11-29T16:01:51.897Z
@@ -847,5 +882,5 @@ exports[`renders tombstoned when comment is deleted 1`] = `
       </ForwardRef(forwardRef)>
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
-</withPropsOnChange(Card)>
+</ForwardRef(forwardRef)>
 `;

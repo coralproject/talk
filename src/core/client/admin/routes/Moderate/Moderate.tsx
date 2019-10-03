@@ -1,9 +1,17 @@
-import React, { FunctionComponent } from "react";
+import key from "keymaster";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 import MainLayout from "coral-admin/components/MainLayout";
+import { HOTKEYS } from "coral-admin/constants";
 import { PropTypesOf } from "coral-framework/types";
 import { SubBar } from "coral-ui/components/SubBar";
 
+import HotkeysModal from "./HotkeysModal";
 import ModerateNavigationContainer from "./ModerateNavigation";
 import ModerateSearchBarContainer from "./ModerateSearchBar";
 
@@ -24,20 +32,40 @@ const Moderate: FunctionComponent<Props> = ({
   story,
   allStories,
   children,
-}) => (
-  <div data-testid="moderate-container">
-    <ModerateSearchBarContainer story={story} allStories={allStories} />
-    <SubBar data-testid="moderate-tabBar-container">
-      <ModerateNavigationContainer
-        moderationQueues={moderationQueues}
-        story={story}
-      />
-    </SubBar>
-    <div className={styles.background} />
-    <MainLayout data-testid="moderate-main-container">
-      <main className={styles.main}>{children}</main>
-    </MainLayout>
-  </div>
-);
+}) => {
+  const [showHotkeysModal, setShowHotkeysModal] = useState(false);
+  const closeModal = useCallback(() => {
+    setShowHotkeysModal(false);
+  }, []);
+  const toggleModal = useCallback(() => {
+    setShowHotkeysModal(!showHotkeysModal);
+  }, [showHotkeysModal]);
+
+  useEffect(() => {
+    // Attach the modal toggle when the GUIDE button is pressed.
+    key(HOTKEYS.GUIDE, toggleModal);
+    return () => {
+      // Detach the modal toggle if we have to rebind it.
+      key.unbind(HOTKEYS.GUIDE);
+    };
+  }, [toggleModal]);
+
+  return (
+    <div data-testid="moderate-container">
+      <ModerateSearchBarContainer story={story} allStories={allStories} />
+      <SubBar data-testid="moderate-tabBar-container">
+        <ModerateNavigationContainer
+          moderationQueues={moderationQueues}
+          story={story}
+        />
+      </SubBar>
+      <div className={styles.background} />
+      <MainLayout data-testid="moderate-main-container">
+        <main className={styles.main}>{children}</main>
+      </MainLayout>
+      <HotkeysModal open={showHotkeysModal} onClose={closeModal} />
+    </div>
+  );
+};
 
 export default Moderate;

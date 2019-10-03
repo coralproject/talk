@@ -2,8 +2,11 @@
 
 exports[`approves single comment 1`] = `
 <div
-  className="Card-root ModerateCard-root"
+  className="Card-root ModerateCard-root ModerateCard-selected"
   data-testid="moderate-comment-comment-0"
+  id="moderate-comment-comment-0"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <div
     className="Box-root Flex-root Flex-flex"
@@ -44,7 +47,7 @@ exports[`approves single comment 1`] = `
             type="button"
           >
             <time
-              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              className="RelativeTime-root Timestamp-text"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -207,8 +210,11 @@ exports[`approves single comment 1`] = `
 
 exports[`rejects single comment 1`] = `
 <div
-  className="Card-root ModerateCard-root"
+  className="Card-root ModerateCard-root ModerateCard-selected"
   data-testid="moderate-comment-comment-0"
+  id="moderate-comment-comment-0"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <div
     className="Box-root Flex-root Flex-flex"
@@ -249,7 +255,7 @@ exports[`rejects single comment 1`] = `
             type="button"
           >
             <time
-              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              className="RelativeTime-root Timestamp-text"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -447,8 +453,11 @@ exports[`renders single comment view 1`] = `
         className="Box-root HorizontalGutter-root Queue-root HorizontalGutter-double"
       >
         <div
-          className="Card-root ModerateCard-root"
+          className="Card-root ModerateCard-root ModerateCard-selected"
           data-testid="moderate-comment-comment-0"
+          id="moderate-comment-comment-0"
+          onClick={[Function]}
+          tabIndex={0}
         >
           <div
             className="Box-root Flex-root Flex-flex"
@@ -489,7 +498,7 @@ exports[`renders single comment view 1`] = `
                     type="button"
                   >
                     <time
-                      className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                      className="RelativeTime-root Timestamp-text"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >

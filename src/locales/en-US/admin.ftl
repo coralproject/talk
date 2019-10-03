@@ -825,3 +825,23 @@ forgotPassword-emailAddressLabel = Email address
 forgotPassword-emailAddressTextField =
   .placeholder = Email Address
 forgotPassword-sendEmailButton = Send email
+
+commentAuthor-status-banned = Banned
+
+hotkeysModal-title = Keyboard shortcuts
+hotkeysModal-navigation-shortcuts = Navigation shortcuts
+hotkeysModal-shortcuts-next = Next comment
+hotkeysModal-shortcuts-prev = Previous comment
+hotkeysModal-shortcuts-search = Open search
+hotkeysModal-shortcuts-jump = Jump to specific queue
+hotkeysModal-shortcuts-switch = Switch queues
+hotkeysModal-shortcuts-toggle = Toggle shortcuts help
+hotkeysModal-shortcuts-single-view = Single comment view
+hotkeysModal-moderation-decisions = Moderation decisions
+hotkeysModal-shortcuts-approve = Approve
+hotkeysModal-shortcuts-reject = Reject
+hotkeysModal-shortcuts-ban = Ban comment author
+hotkeysModal-shortcuts-zen = Toggle single-comment view
+
+
+

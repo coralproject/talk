@@ -8,7 +8,7 @@
 }
 
 .username {
-  margin-right: var(--mini-unit);
+  margin-right: var(--spacing-1);
   padding: var(--spacing-1);
   margin-left: calc(-1 * var(--spacing-1));
   line-height: calc(16rem / var(--rem-base));
@@ -89,6 +89,10 @@
   transition: background 100ms, box-shadow 100ms;
 }
 
+.root:focus {
+  outline: none;
+}
+
 .dangling {
   background-color: var(--palette-grey-lightest);
   box-shadow: none;
@@ -165,3 +169,12 @@
   color: var(--palette-grey-lighter);
   padding-left: var(--spacing-2)
 }
+
+.selected {
+  box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.authorStatus {
+  padding-right: var(--spacing-2);
+}
+

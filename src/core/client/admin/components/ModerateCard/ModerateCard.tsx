@@ -1,7 +1,15 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import key from "keymaster";
+import { noop } from "lodash";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 
+import { HOTKEYS } from "coral-admin/constants";
 import { PropTypesOf } from "coral-framework/types";
 import {
   BaseButton,
@@ -14,6 +22,7 @@ import {
 } from "coral-ui/components";
 
 import ApproveButton from "./ApproveButton";
+import CommentAuthorContainer from "./CommentAuthorContainer";
 import CommentContent from "./CommentContent";
 import FeatureButton from "./FeatureButton";
 import InReplyTo from "./InReplyTo";
@@ -32,7 +41,8 @@ interface Props {
     id: string;
     username: string | null;
   } | null;
-  comment: PropTypesOf<typeof MarkersContainer>["comment"];
+  comment: PropTypesOf<typeof MarkersContainer>["comment"] &
+    PropTypesOf<typeof CommentAuthorContainer>["comment"];
   settings: PropTypesOf<typeof MarkersContainer>["settings"];
   status: "approved" | "rejected" | "undecided";
   featured: boolean;
@@ -48,8 +58,10 @@ interface Props {
   onReject: () => void;
   onFeature: () => void;
   onUsernameClick: (id?: string) => void;
+  onFocusOrClick: () => void;
   mini?: boolean;
   hideUsername?: boolean;
+  selected?: boolean;
   /**
    * If set to true, it means this comment is about to be removed
    * from the queue. This will trigger some styling changes to
@@ -58,6 +70,9 @@ interface Props {
   dangling?: boolean;
   deleted?: boolean;
   edited: boolean;
+  selectPrev?: () => void;
+  selectNext?: () => void;
+  onBan: () => void;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -83,11 +98,52 @@ const ModerateCard: FunctionComponent<Props> = ({
   storyHref,
   onModerateStory,
   moderatedBy,
+  selected,
+  onFocusOrClick,
   mini = false,
   hideUsername = false,
   deleted = false,
   edited,
+  selectNext,
+  selectPrev,
+  onBan,
 }) => {
+  const div = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (selected) {
+      if (selectNext) {
+        key(HOTKEYS.NEXT, id, selectNext);
+      }
+      if (selectPrev) {
+        key(HOTKEYS.PREV, id, selectPrev);
+      }
+      if (onBan) {
+        key(HOTKEYS.BAN, id, onBan);
+      }
+      key(HOTKEYS.APPROVE, id, onApprove);
+      key(HOTKEYS.REJECT, id, onReject);
+
+      // The the scope such that only events attached to the ${id} scope will
+      // be honored.
+      key.setScope(id);
+
+      return () => {
+        // Remove all events that are set in the ${id} scope.
+        key.deleteScope(id);
+      };
+    } else {
+      // Remove all events that were set in the ${id} scope.
+      key.deleteScope(id);
+    }
+
+    return noop;
+  }, [selected, id]);
+
+  useEffect(() => {
+    if (selected && div && div.current) {
+      div.current.focus();
+    }
+  }, [selected]);
   const commentBody = deleted ? (
     <Localized id="moderate-comment-deleted-body">
       <Typography>
@@ -112,9 +168,14 @@ const ModerateCard: FunctionComponent<Props> = ({
         styles.root,
         { [styles.borderless]: mini },
         { [styles.dangling]: dangling },
-        { [styles.deleted]: deleted }
+        { [styles.deleted]: deleted },
+        { [styles.selected]: selected }
       )}
+      ref={div}
+      tabIndex={0}
       data-testid={`moderate-comment-${id}`}
+      id={`moderate-comment-${id}`}
+      onClick={onFocusOrClick}
     >
       <Flex>
         <div className={styles.mainContainer}>
@@ -132,7 +193,8 @@ const ModerateCard: FunctionComponent<Props> = ({
                   <Username>{username}</Username>
                 </BaseButton>
               )}
-              <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
+              <CommentAuthorContainer comment={comment} />
+              <Timestamp>{createdAt}</Timestamp>
               {edited && (
                 <Localized id="moderate-comment-edited">
                   <Typography variant="timestamp" className={styles.edited}>
