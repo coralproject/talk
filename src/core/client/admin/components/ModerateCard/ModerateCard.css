@@ -36,7 +36,8 @@
 }
 
 .content {
-  min-height: calc(5.5 * var(--mini-unit));
+  min-height: 80px;
+  min-width: 496px;
 }
 
 .mainContainer {
