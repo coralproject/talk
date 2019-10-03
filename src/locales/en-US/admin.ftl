@@ -475,6 +475,7 @@ moderate-user-drawer-member-id =
 moderate-user-drawer-tab-all-comments = All Comments
 moderate-user-drawer-tab-rejected-comments = Rejected
 moderate-user-drawer-tab-account-history = Account History
+moderate-user-drawer-tab-notes = Notes
 moderate-user-drawer-load-more = Load More
 moderate-user-drawer-all-no-comments = {$username} has not submitted any comments.
 moderate-user-drawer-rejected-no-comments = {$username} does not have any rejected comments.
@@ -539,6 +540,12 @@ moderate-user-drawer-recent-history-tooltip-body =
 moderate-user-drawer-recent-history-tooltip-button =
   .aria-label = Toggle recent comment history tooltip
 moderate-user-drawer-recent-history-tooltip-submitted = Submitted
+
+moderate-user-drawer-notes-field = 
+  .placeholder = Leave a note...
+moderate-user-drawer-notes-button = Add note
+moderatorNote-left-by = Left by: 
+moderatorNote-delete = Delete
 
 ## Create Username
 
