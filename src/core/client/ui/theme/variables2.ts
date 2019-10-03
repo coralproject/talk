@@ -147,6 +147,18 @@ const variables2 = {
       active: colors.teal600,
       divider: colors.grey100,
     },
+    mainNav: {
+      text: {
+        default: colors.mono100,
+        active: colors.pure.white,
+      },
+      background: {
+        default: colors.pure.white,
+        active: colors.coral500,
+        hover: colors.coral200,
+      },
+      divider: colors.grey300,
+    },
   },
   fontFamily: {
     primary: "Open Sans",
