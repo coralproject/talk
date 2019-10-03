@@ -82,13 +82,20 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+        className="ModerateCard-contentArea"
+      >
+        <div
+          className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+            }
           }
-        }
-      />
+        />
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -188,9 +195,6 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
     >
@@ -325,13 +329,20 @@ exports[`renders rejected queue with comments 1`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+              className="ModerateCard-contentArea"
+            >
+              <div
+                className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                  }
                 }
-              }
-            />
+              />
+              <div
+                className="ModerateCard-separator ModerateCard-ruledSeparator"
+              />
+            </div>
             <div
               className="ModerateCard-footer"
             >
@@ -431,9 +442,6 @@ exports[`renders rejected queue with comments 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="ModerateCard-separator ModerateCard-ruledSeparator"
-          />
           <div
             className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
           >
@@ -555,13 +563,20 @@ exports[`renders rejected queue with comments 1`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "Don't fool with me",
+              className="ModerateCard-contentArea"
+            >
+              <div
+                className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "Don't fool with me",
+                  }
                 }
-              }
-            />
+              />
+              <div
+                className="ModerateCard-separator ModerateCard-ruledSeparator"
+              />
+            </div>
             <div
               className="ModerateCard-footer"
             >
@@ -661,9 +676,6 @@ exports[`renders rejected queue with comments 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="ModerateCard-separator ModerateCard-ruledSeparator"
-          />
           <div
             className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
           >
@@ -791,13 +803,20 @@ exports[`renders rejected queue with comments and load more 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "I think I deserve better",
+        className="ModerateCard-contentArea"
+      >
+        <div
+          className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "I think I deserve better",
+            }
           }
-        }
-      />
+        />
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -910,9 +929,6 @@ exports[`renders rejected queue with comments and load more 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
     >

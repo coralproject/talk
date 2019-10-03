@@ -35,13 +35,19 @@
   margin-top: calc(2 * var(--mini-unit));
 }
 
+.mainContainer {
+  flex-grow: 1;
+
+  margin-right: calc(2 * var(--v2-spacing-5));
+}
+
+.contentArea {
+  position: relative;
+}
+
 .content {
   min-height: 80px;
   min-width: 496px;
-}
-
-.mainContainer {
-  flex-grow: 1;
 }
 
 .aside {
@@ -78,9 +84,11 @@
 }
 
 .separator {
-  flex-shrink: 0;
-  flex-grow: 0;
-  margin: 0 calc(2 * var(--mini-unit));
+  position: absolute;
+  top: 0;
+  right: calc(-1 * var(--v2-spacing-5));
+  bottom: 0;
+  width: 2px;
 }
 
 .ruledSeparator {

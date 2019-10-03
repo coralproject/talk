@@ -154,13 +154,20 @@ const ModerateCard: FunctionComponent<Props> = ({
               </div>
             )}
           </div>
-          <CommentContent
-            suspectWords={suspectWords}
-            bannedWords={bannedWords}
-            className={styles.content}
-          >
-            {commentBody}
-          </CommentContent>
+          <div className={styles.contentArea}>
+            <CommentContent
+              suspectWords={suspectWords}
+              bannedWords={bannedWords}
+              className={styles.content}
+            >
+              {commentBody}
+            </CommentContent>
+            <div
+              className={cn(styles.separator, {
+                [styles.ruledSeparator]: !mini,
+              })}
+            />
+          </div>
           <div className={styles.footer}>
             <HorizontalGutter>
               <div className={styles.viewContext}>
@@ -204,9 +211,6 @@ const ModerateCard: FunctionComponent<Props> = ({
             </HorizontalGutter>
           </div>
         </div>
-        <div
-          className={cn(styles.separator, { [styles.ruledSeparator]: !mini })}
-        />
         <Flex
           className={cn(styles.aside, {
             [styles.asideWithoutReplyTo]: !inReplyTo,

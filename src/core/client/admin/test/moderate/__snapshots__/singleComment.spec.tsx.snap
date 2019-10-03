@@ -69,13 +69,20 @@ exports[`approves single comment 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+        className="ModerateCard-contentArea"
+      >
+        <div
+          className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+            }
           }
-        }
-      />
+        />
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -149,9 +156,6 @@ exports[`approves single comment 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
     >
@@ -276,13 +280,20 @@ exports[`rejects single comment 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+        className="ModerateCard-contentArea"
+      >
+        <div
+          className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+            }
           }
-        }
-      />
+        />
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -356,9 +367,6 @@ exports[`rejects single comment 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
     >
@@ -518,13 +526,20 @@ exports[`renders single comment view 1`] = `
                 </div>
               </div>
               <div
-                className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                className="ModerateCard-contentArea"
+              >
+                <div
+                  className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                    }
                   }
-                }
-              />
+                />
+                <div
+                  className="ModerateCard-separator ModerateCard-ruledSeparator"
+                />
+              </div>
               <div
                 className="ModerateCard-footer"
               >
@@ -598,9 +613,6 @@ exports[`renders single comment view 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="ModerateCard-separator ModerateCard-ruledSeparator"
-            />
             <div
               className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
             >

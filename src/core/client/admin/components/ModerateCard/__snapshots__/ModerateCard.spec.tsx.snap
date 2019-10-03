@@ -36,21 +36,28 @@ exports[`renders approved correctly 1`] = `
           />
         </ForwardRef(forwardRef)>
       </div>
-      <CommentContent
-        bannedWords={
-          Array [
-            "banned",
-          ]
-        }
-        className="ModerateCard-content"
-        suspectWords={
-          Array [
-            "suspect",
-          ]
-        }
+      <div
+        className="ModerateCard-contentArea"
       >
-        content
-      </CommentContent>
+        <CommentContent
+          bannedWords={
+            Array [
+              "banned",
+            ]
+          }
+          className="ModerateCard-content"
+          suspectWords={
+            Array [
+              "suspect",
+            ]
+          }
+        >
+          content
+        </CommentContent>
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -78,9 +85,6 @@ exports[`renders approved correctly 1`] = `
         </ForwardRef(forwardRef)>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
@@ -153,21 +157,28 @@ exports[`renders correctly 1`] = `
           />
         </ForwardRef(forwardRef)>
       </div>
-      <CommentContent
-        bannedWords={
-          Array [
-            "banned",
-          ]
-        }
-        className="ModerateCard-content"
-        suspectWords={
-          Array [
-            "suspect",
-          ]
-        }
+      <div
+        className="ModerateCard-contentArea"
       >
-        content
-      </CommentContent>
+        <CommentContent
+          bannedWords={
+            Array [
+              "banned",
+            ]
+          }
+          className="ModerateCard-content"
+          suspectWords={
+            Array [
+              "suspect",
+            ]
+          }
+        >
+          content
+        </CommentContent>
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -195,9 +206,6 @@ exports[`renders correctly 1`] = `
         </ForwardRef(forwardRef)>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
@@ -270,21 +278,28 @@ exports[`renders dangling correctly 1`] = `
           />
         </ForwardRef(forwardRef)>
       </div>
-      <CommentContent
-        bannedWords={
-          Array [
-            "banned",
-          ]
-        }
-        className="ModerateCard-content"
-        suspectWords={
-          Array [
-            "suspect",
-          ]
-        }
+      <div
+        className="ModerateCard-contentArea"
       >
-        content
-      </CommentContent>
+        <CommentContent
+          bannedWords={
+            Array [
+              "banned",
+            ]
+          }
+          className="ModerateCard-content"
+          suspectWords={
+            Array [
+              "suspect",
+            ]
+          }
+        >
+          content
+        </CommentContent>
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -312,9 +327,6 @@ exports[`renders dangling correctly 1`] = `
         </ForwardRef(forwardRef)>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
@@ -387,21 +399,28 @@ exports[`renders rejected correctly 1`] = `
           />
         </ForwardRef(forwardRef)>
       </div>
-      <CommentContent
-        bannedWords={
-          Array [
-            "banned",
-          ]
-        }
-        className="ModerateCard-content"
-        suspectWords={
-          Array [
-            "suspect",
-          ]
-        }
+      <div
+        className="ModerateCard-contentArea"
       >
-        content
-      </CommentContent>
+        <CommentContent
+          bannedWords={
+            Array [
+              "banned",
+            ]
+          }
+          className="ModerateCard-content"
+          suspectWords={
+            Array [
+              "suspect",
+            ]
+          }
+        >
+          content
+        </CommentContent>
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -429,9 +448,6 @@ exports[`renders rejected correctly 1`] = `
         </ForwardRef(forwardRef)>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
@@ -513,21 +529,28 @@ exports[`renders reply correctly 1`] = `
           </InReplyTo>
         </div>
       </div>
-      <CommentContent
-        bannedWords={
-          Array [
-            "banned",
-          ]
-        }
-        className="ModerateCard-content"
-        suspectWords={
-          Array [
-            "suspect",
-          ]
-        }
+      <div
+        className="ModerateCard-contentArea"
       >
-        content
-      </CommentContent>
+        <CommentContent
+          bannedWords={
+            Array [
+              "banned",
+            ]
+          }
+          className="ModerateCard-content"
+          suspectWords={
+            Array [
+              "suspect",
+            ]
+          }
+        >
+          content
+        </CommentContent>
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -555,9 +578,6 @@ exports[`renders reply correctly 1`] = `
         </ForwardRef(forwardRef)>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside"
@@ -630,21 +650,28 @@ exports[`renders story info 1`] = `
           />
         </ForwardRef(forwardRef)>
       </div>
-      <CommentContent
-        bannedWords={
-          Array [
-            "banned",
-          ]
-        }
-        className="ModerateCard-content"
-        suspectWords={
-          Array [
-            "suspect",
-          ]
-        }
+      <div
+        className="ModerateCard-contentArea"
       >
-        content
-      </CommentContent>
+        <CommentContent
+          bannedWords={
+            Array [
+              "banned",
+            ]
+          }
+          className="ModerateCard-content"
+          suspectWords={
+            Array [
+              "suspect",
+            ]
+          }
+        >
+          content
+        </CommentContent>
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -706,9 +733,6 @@ exports[`renders story info 1`] = `
         </ForwardRef(forwardRef)>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
@@ -781,27 +805,34 @@ exports[`renders tombstoned when comment is deleted 1`] = `
           />
         </ForwardRef(forwardRef)>
       </div>
-      <CommentContent
-        bannedWords={
-          Array [
-            "banned",
-          ]
-        }
-        className="ModerateCard-content"
-        suspectWords={
-          Array [
-            "suspect",
-          ]
-        }
+      <div
+        className="ModerateCard-contentArea"
       >
-        <Localized
-          id="moderate-comment-deleted-body"
+        <CommentContent
+          bannedWords={
+            Array [
+              "banned",
+            ]
+          }
+          className="ModerateCard-content"
+          suspectWords={
+            Array [
+              "suspect",
+            ]
+          }
         >
-          <ForwardRef(forwardRef)>
-            This comment is no longer available. The commenter has deleted their account.
-          </ForwardRef(forwardRef)>
-        </Localized>
-      </CommentContent>
+          <Localized
+            id="moderate-comment-deleted-body"
+          >
+            <ForwardRef(forwardRef)>
+              This comment is no longer available. The commenter has deleted their account.
+            </ForwardRef(forwardRef)>
+          </Localized>
+        </CommentContent>
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
@@ -829,9 +860,6 @@ exports[`renders tombstoned when comment is deleted 1`] = `
         </ForwardRef(forwardRef)>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
