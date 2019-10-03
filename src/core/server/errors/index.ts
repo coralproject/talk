@@ -675,7 +675,7 @@ export class InviteTokenExpired extends CoralError {
 }
 
 export class RateLimitExceeded extends CoralError {
-  constructor(resource: string, max: number, tries: number) {
+  constructor(resource: string, max: number, tries?: number) {
     super({
       code: ERROR_CODES.RATE_LIMIT_EXCEEDED,
       status: 429,
