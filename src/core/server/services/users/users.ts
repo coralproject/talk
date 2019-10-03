@@ -16,6 +16,7 @@ import {
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
   PasswordIncorrect,
+  RateLimitExceeded,
   TokenNotFoundError,
   UserAlreadyBannedError,
   UserAlreadyPremoderated,
@@ -1203,8 +1204,8 @@ export async function retrieveUserLastWroteCommentTimestamp(
 
 /**
  * updateUserLastWroteCommentTimestamp will update the last time that the user
- * wrote a comment, and will return whether or not the value was updated or not.
- * A not updated value means that the user has written a comment within
+ * wrote a comment, and will throw an error if the rate limit was exceeded. If
+ * this throws an error, it means that the user has written a comment within
  * COMMENT_LIMIT_WINDOW_SECONDS seconds, and should be prevented from writing
  * another comment.
  *
@@ -1228,9 +1229,6 @@ export async function updateUserLastWroteCommentTimestamp(
     .expire(key, COMMENT_LIMIT_WINDOW_SECONDS)
     .exec();
   if (!set) {
-    // The key was already set! Return that the key was not set.
-    return false;
+    throw new RateLimitExceeded("createComment", 1);
   }
-
-  return true;
 }

@@ -7,7 +7,6 @@ import { Config } from "coral-server/config";
 import {
   CommentNotFoundError,
   CoralError,
-  RateLimitExceeded,
   StoryNotFoundError,
 } from "coral-server/errors";
 import { GQLTAG } from "coral-server/graph/tenant/schema/__generated__/types";
@@ -167,12 +166,9 @@ export async function create(
     actionCounts = encodeActionCounts(...deDuplicatedActions);
   }
 
-  // Create the comment action in our rate limiter.
-  if (
-    !(await updateUserLastWroteCommentTimestamp(redis, tenant, author, now))
-  ) {
-    throw new RateLimitExceeded("createComment", 1);
-  }
+  // Create the comment action in our rate limiter. This will throw an error if
+  // there is a rate limit error.
+  await updateUserLastWroteCommentTimestamp(redis, tenant, author, now);
 
   // Create the comment!
   const comment = await createComment(
