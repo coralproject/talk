@@ -4,7 +4,7 @@ import createQueryResolverStub, {
 import { Resolver, Resolvers, TestResolvers } from "./createTestRenderer";
 
 type ValueOrCallbackRecursive<T> = {
-  [P in keyof T]?: ValueOrCallbackRecursive<T[P]> | (() => void)
+  [P in keyof T]?: ValueOrCallbackRecursive<T[P]> | (() => void);
 };
 
 type ResolverResult<T extends Resolver<any, any>> = T extends Resolver<
@@ -17,7 +17,7 @@ type ResolverResult<T extends Resolver<any, any>> = T extends Resolver<
 type OverwriteQueryResolverTemplate<T extends Resolvers = any> = {
   [P in keyof Required<T>["Query"]]: ValueOrCallbackRecursive<
     ResolverResult<Required<T>["Query"][P]>
-  >
+  >;
 };
 
 /**
@@ -72,6 +72,7 @@ function overwriteRecursive(original: any, overwrite: any) {
  * but allows you to return `void` which would then fallback to the original resolver.
  *
  * Given a `ResolverType` from the Schema it'll provide types as well!.
+ *
  * @param callback resolver callback
  */
 export function createQueryResolverOverwrite<T extends Resolver<any, any>>(

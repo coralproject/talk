@@ -308,9 +308,7 @@ export class CommentContainer extends Component<Props, State> {
                         !suspended &&
                         !scheduledForDeletion && (
                           <ReplyButton
-                            id={`comments-commentContainer-replyButton-${
-                              comment.id
-                            }`}
+                            id={`comments-commentContainer-replyButton-${comment.id}`}
                             onClick={this.toggleReplyDialog}
                             active={showReplyDialog}
                             disabled={
@@ -342,9 +340,7 @@ export class CommentContainer extends Component<Props, State> {
                   {showConversationLink && (
                     <ShowConversationLink
                       className={CLASSES.comment.readMoreOfConversation}
-                      id={`comments-commentContainer-showConversation-${
-                        comment.id
-                      }`}
+                      id={`comments-commentContainer-showConversation-${comment.id}`}
                       onClick={this.handleShowConversation}
                       href={getURLWithCommentID(
                         this.props.story.url,

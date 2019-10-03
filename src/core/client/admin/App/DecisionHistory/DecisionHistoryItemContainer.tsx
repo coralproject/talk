@@ -16,9 +16,7 @@ class DecisionHistoryItemContainer extends React.Component<
   DecisionHistoryItemContainerProps
 > {
   public render() {
-    const href = `/admin/moderate/comment/${
-      this.props.action.revision.comment.id
-    }`;
+    const href = `/admin/moderate/comment/${this.props.action.revision.comment.id}`;
     const username =
       (this.props.action.revision.comment.author &&
         this.props.action.revision.comment.author.username) ||

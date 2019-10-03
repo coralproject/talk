@@ -26,6 +26,7 @@ function appendDivNode() {
 /**
  * useDOMNode is a React hook that returns a DOM node
  * to be used as a portal for the modal.
+ *
  * @param open whether the modal is open or not.
  */
 function useDOMNode(open: boolean) {

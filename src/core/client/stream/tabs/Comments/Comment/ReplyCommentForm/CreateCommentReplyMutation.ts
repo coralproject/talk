@@ -102,7 +102,7 @@ function addLocalCommentReplyToStory(
 }
 
 /** These are needed to be included when querying for the stream. */
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment CreateCommentReplyMutation_story on Story {
     settings {
@@ -110,7 +110,7 @@ graphql`
     }
   }
 `;
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment CreateCommentReplyMutation_viewer on User {
     role

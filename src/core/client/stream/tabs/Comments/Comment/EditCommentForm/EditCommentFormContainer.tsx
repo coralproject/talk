@@ -111,7 +111,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         }
         return error.invalidArgs;
       }
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     }
     return;

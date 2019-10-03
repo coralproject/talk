@@ -523,11 +523,12 @@ async function findOrCreateUserInput(
 
   // Mutate the profiles to ensure we mask handle any secrets.
   switch (profile.type) {
-    case "local":
+    case "local": {
       // Hash the user's password with bcrypt.
       const password = await hashPassword(profile.password);
       defaults.profiles.push({ ...profile, password });
       break;
+    }
     default:
       // Push the profile onto the User.
       defaults.profiles.push(profile);
@@ -1420,6 +1421,7 @@ export async function premodUser(
 
 /**
  * removeUserPremod will lift a user premod  requirement
+ *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their ban lifted

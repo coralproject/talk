@@ -41,7 +41,7 @@ const Option: FunctionComponent<Props> = ({
           {container}
         </a>
       )}
-      {!Boolean(href) && container}
+      {!href && container}
     </li>
   );
 };

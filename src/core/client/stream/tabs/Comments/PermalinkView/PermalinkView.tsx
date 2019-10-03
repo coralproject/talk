@@ -48,7 +48,7 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
     <HorizontalGutter
       className={cn(styles.root, CLASSES.permalinkView.$root, {
         [CLASSES.permalinkView.authenticated]: Boolean(viewer),
-        [CLASSES.permalinkView.unauthenticated]: !Boolean(viewer),
+        [CLASSES.permalinkView.unauthenticated]: !viewer,
       })}
       size="double"
     >

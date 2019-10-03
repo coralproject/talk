@@ -63,7 +63,7 @@ const enhanced = withRouteConfig<Props, SingleModerateRouteQueryResponse>({
     }
   `,
   cacheConfig: { force: true },
-  render: ({ Component, data }) => {
+  render: function SingleModerateRouteRender({ Component, data }) {
     if (Component && data) {
       return <Component {...data} />;
     }

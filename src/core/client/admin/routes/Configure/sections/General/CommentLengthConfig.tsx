@@ -30,7 +30,7 @@ const validateMaxLongerThanMin = createValidator(
     v === null ||
     values.charCount.min === null ||
     parseInt(v, 10) > parseInt(values.charCount.min, 10),
-  // tslint:disable-next-line:jsx-wrap-multiline
+  // eslint-disable-next-line:jsx-wrap-multiline
   <Localized id="configure-general-commentLength-validateLongerThanMin">
     <span>Please enter a number longer than the minimum length</span>
   </Localized>

@@ -36,7 +36,7 @@ interface Props {
   relay: RelayPaginationProp;
 }
 
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment AllCommentsTabContainer_comment on Comment {
     id

@@ -22,6 +22,7 @@ interface Props {
 /**
  * useTombstone is a React hook that determines whether or not
  * to show a tombstone instead of hiding the comment.
+ *
  * @param hide boolean if comment should be hidden
  */
 const useTombstone = (hide: boolean) => {

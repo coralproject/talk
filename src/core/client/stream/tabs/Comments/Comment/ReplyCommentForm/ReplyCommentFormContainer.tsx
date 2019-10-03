@@ -140,7 +140,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         this.disableNudge();
         return { [FORM_ERROR]: error.message };
       }
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     }
     return;

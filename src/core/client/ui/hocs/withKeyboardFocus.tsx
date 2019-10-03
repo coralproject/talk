@@ -22,7 +22,7 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<
     const Workaround = BaseComponent as React.ComponentType<InjectedProps>;
 
     class WithKeyboardFocus extends React.Component<any> {
-      private lastMouseDownTime: number = 0;
+      private lastMouseDownTime = 0;
       public state = {
         keyboardFocus: false,
       };

@@ -25,7 +25,7 @@ export function randomDate() {
   return createDateInRange(new Date(2000, 0, 1), new Date());
 }
 
-export function createUserStatus(banned: boolean = false): GQLUserStatus {
+export function createUserStatus(banned = false): GQLUserStatus {
   return {
     current: [banned ? GQLUSER_STATUS.BANNED : GQLUSER_STATUS.ACTIVE],
     ban: {
@@ -98,7 +98,7 @@ export function createComment() {
   );
 }
 
-export function createStory(createComments: boolean = true) {
+export function createStory(createComments = true) {
   const id = uuid();
   const comments = [createComment(), createComment()];
 

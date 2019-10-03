@@ -16,16 +16,17 @@ const Router = createFarceRouter({
   historyProtocol: new BrowserProtocol(),
   historyMiddlewares: [queryMiddleware],
   routeConfig,
-  renderReady: ({ elements }) => (
-    <>
-      <ElementsRenderer elements={elements} />
-      {// this enables router transition control when writing tests.
-      process.env.NODE_ENV === "test" && <TransitionControl />}
-    </>
-  ),
-  renderError: ({ error }) => (
-    <div>{error.status === 404 ? <NotFound /> : "Error"}</div>
-  ),
+  renderReady: function FarceRouterReady({ elements }) {
+    return (
+      <>
+        <ElementsRenderer elements={elements} />
+        {process.env.NODE_ENV === "test" && <TransitionControl />}
+      </>
+    );
+  },
+  renderError: function FarceRouterError({ error }) {
+    return <div>{error.status === 404 ? <NotFound /> : "Error"}</div>;
+  },
 });
 
 const EntryContainer: FunctionComponent = () => (

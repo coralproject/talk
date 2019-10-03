@@ -48,7 +48,7 @@ export default class TenantCache {
   /**
    * primed is true when the cache has already been fully primed.
    */
-  private primed: boolean = false;
+  private primed = false;
 
   /**
    * Create a new client application ID. This prevents duplicated messages

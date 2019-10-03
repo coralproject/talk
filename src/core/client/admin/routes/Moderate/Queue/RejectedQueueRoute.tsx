@@ -47,7 +47,7 @@ export class RejectedQueueRoute extends React.Component<
               <EmptyMessage>There are no rejected comments.</EmptyMessage>
             </Localized>
           }
-          allStories={!Boolean(this.props.storyID)}
+          allStories={!this.props.storyID}
         />
       </IntersectionProvider>
     );
@@ -63,7 +63,7 @@ export class RejectedQueueRoute extends React.Component<
       error => {
         this.setState({ disableLoadMore: false });
         if (error) {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           console.error(error);
         }
       }
@@ -151,7 +151,7 @@ enhanced.routeConfig = {
     }
   `,
   cacheConfig: { force: true },
-  render: ({ Component, props, match }) => {
+  render: function RejectedRouteRender({ Component, props, match }) {
     if (Component && props) {
       return <Component query={props} storyID={match.params.storyID} />;
     }

@@ -1,5 +1,4 @@
 import {
-  _RefType,
   createFragmentContainer,
   FragmentOrRegularProp,
   GraphQLTaggedNode,

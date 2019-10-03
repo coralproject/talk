@@ -25,7 +25,7 @@ export function isURLPermitted(
 export function isURLPermitted(
   tenant: Pick<Tenant, "allowedDomains" | "domain">,
   targetURL: string,
-  includeTenantDomain: boolean = false
+  includeTenantDomain = false
 ) {
   // If there aren't any domains, then we reject it, because no url we have can
   // satisfy those requirements.

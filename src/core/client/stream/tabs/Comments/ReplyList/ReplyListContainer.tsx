@@ -98,7 +98,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = props => {
     0;
 
   if (
-    props.comment.replies == null ||
+    props.comment.replies === null ||
     (props.comment.replies.edges.length === 0 && viewNewCount === 0)
   ) {
     return null;

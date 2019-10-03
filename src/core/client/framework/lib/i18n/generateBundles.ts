@@ -16,11 +16,9 @@ if (process.env.NODE_ENV !== "production") {
       bundle.hasMessage = (id: string) => {
         const result = original.apply(bundle, [id]);
         if (!result) {
-          const warn = `${
-            bundle.locales
-          } translation for key "${id}" not found`;
+          const warn = `${bundle.locales} translation for key "${id}" not found`;
           if (!warnings.includes(warn)) {
-            // tslint:disable:next-line: no-console
+            // eslint-disable-next-line no-console
             console.warn(warn);
             warnings.push(warn);
           }

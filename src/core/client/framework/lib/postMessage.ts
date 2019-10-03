@@ -9,7 +9,7 @@ export class PostMessageService {
 
   constructor(
     scope = "coral",
-    origin: string = `${location.protocol}//${location.host}`
+    origin = `${location.protocol}//${location.host}`
   ) {
     this.origin = origin;
     this.scope = scope;
@@ -17,6 +17,7 @@ export class PostMessageService {
 
   /**
    * Send a message over the postMessage API
+   *
    * @param name string name of the message
    * @param value string value of the message
    * @param target Window target window, e.g. window.opener
@@ -36,6 +37,7 @@ export class PostMessageService {
 
   /**
    * Subscribe to messages
+   *
    * @param name string Name of the message
    * @param handler PostMessageHandler
    */
@@ -43,7 +45,7 @@ export class PostMessageService {
     const listener = (event: MessageEvent) => {
       if (!event.origin) {
         if (process.env.NODE_ENV !== "test") {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           console.warn("empty origin received in postMessage", name);
         }
       } else if (event.origin !== this.origin) {

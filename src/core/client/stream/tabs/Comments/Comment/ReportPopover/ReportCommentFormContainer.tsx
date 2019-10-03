@@ -59,7 +59,7 @@ export class ReportCommentFormContainer extends Component<Props, State> {
       if (error instanceof InvalidRequestError) {
         return error.invalidArgs;
       }
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     }
     return undefined;

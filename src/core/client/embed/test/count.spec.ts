@@ -3,7 +3,7 @@ import * as Coral from "../";
 
 import { COUNT_SELECTOR } from "coral-framework/constants";
 
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 describe("Basic integration test", () => {
   const container: HTMLElement = document.createElement("div");

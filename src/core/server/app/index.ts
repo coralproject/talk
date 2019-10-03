@@ -104,7 +104,7 @@ export const listenAndServe = (
   app: Express,
   port: number
 ): Promise<http.Server> =>
-  new Promise(async resolve => {
+  new Promise(resolve => {
     // Listen on the designated port.
     const httpServer = app.listen(port, () => resolve(httpServer));
   });

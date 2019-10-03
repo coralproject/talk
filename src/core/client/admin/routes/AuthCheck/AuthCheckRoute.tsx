@@ -36,7 +36,7 @@ function createAuthCheckRoute(check: CheckParams) {
       this.redirectIfNotLoggedIn();
     }
 
-    public componentWillReceiveProps(nextProps: Props) {
+    public UNSAFE_componentWillReceiveProps(nextProps: Props) {
       if (nextProps.data && nextProps.data.viewer) {
         this.wasLoggedIn = true;
       }

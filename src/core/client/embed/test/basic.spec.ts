@@ -1,7 +1,7 @@
 import mockConsole from "jest-mock-console";
 import * as Coral from "../";
 
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 describe("Basic integration test", () => {
   const container: HTMLElement = document.createElement("div");
@@ -45,7 +45,7 @@ describe("Basic integration test", () => {
     CoralEmbedStream.render();
     CoralEmbedStream.remove();
     expect(container.innerHTML).toBe("");
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.error).not.toHaveBeenCalled();
   });

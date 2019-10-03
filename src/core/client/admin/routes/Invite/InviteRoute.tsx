@@ -82,12 +82,14 @@ const enhanced = withRouteConfig<Props>({
       }
     }
   `,
-  render: ({ match, Component, ...rest }) => (
-    <Component
-      token={parseHashQuery(match.location.hash).inviteToken}
-      {...rest}
-    />
-  ),
+  render: function InviteRouteRender({ match, Component, ...rest }) {
+    return (
+      <Component
+        token={parseHashQuery(match.location.hash).inviteToken}
+        {...rest}
+      />
+    );
+  },
 })(InviteRoute);
 
 export default enhanced;

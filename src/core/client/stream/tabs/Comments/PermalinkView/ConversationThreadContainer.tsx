@@ -56,7 +56,7 @@ class ConversationThreadContainer extends React.Component<
       error => {
         this.setState({ disableLoadMore: false });
         if (error) {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           console.error(error);
         }
       }

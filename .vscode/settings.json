@@ -10,12 +10,12 @@
     "**/.DS_Store": true,
     ".vs": true
   },
-  "tslint.exclude": "**/node_modules/**",
-  "tslint.jsEnable": true,
+  "tslint.enable": false,
+  "eslint.validate": [
+		{ "language": "typescript", "autoFix": true },
+		{ "language": "typescriptreact", "autoFix": true }
+	],
   "typescript.tsdk": "node_modules/typescript/lib",
   "postcss.validate": false,
   "javascript.preferences.importModuleSpecifier": "non-relative",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.tslint": true
-  }
 }

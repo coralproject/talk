@@ -19,18 +19,22 @@ const harnessRouter = (userID: string): ConnectedRouter => {
     historyProtocol: new BrowserProtocol(),
     historyMiddlewares: [queryMiddleware],
     routeConfig,
-    renderReady: ({ elements }) => (
-      <div data-testid="test-container">
-        <UserHistoryDrawer
-          userID={userID}
-          open
-          onClose={() => {
-            return;
-          }}
-        />
-      </div>
-    ),
-    renderError: ({ error }) => <div>Not Found</div>,
+    renderReady: function FarceRouterReady({ elements }) {
+      return (
+        <div data-testid="test-container">
+          <UserHistoryDrawer
+            userID={userID}
+            open
+            onClose={() => {
+              return;
+            }}
+          />
+        </div>
+      );
+    },
+    renderError: function FarceError({ error }) {
+      return <div>Not Found</div>;
+    },
   });
 };
 

@@ -132,7 +132,7 @@ function createManagedCoralContextProvider(
   initLocalState: InitLocalState,
   localesData: LocalesData
 ) {
-  const ManagedCoralContextProvider = class extends Component<
+  const ManagedCoralContextProvider = class ManagedCoralContextProvider extends Component<
     {},
     { context: CoralContext }
   > {
@@ -294,7 +294,7 @@ export default async function createManaged({
   }
 
   if (process.env.NODE_ENV !== "production") {
-    // tslint:disable:next-line: no-console
+    // eslint-disable-next-line no-console
     console.log(`Using locales ${JSON.stringify(locales)}`);
   }
 

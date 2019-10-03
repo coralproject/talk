@@ -54,7 +54,7 @@ class OIDCConfigContainer extends React.Component<Props, State> {
       }
     } catch (error) {
       // FIXME: (wyattjoh) handle error
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.warn(error);
     }
     this.setState({ awaitingResponse: false });

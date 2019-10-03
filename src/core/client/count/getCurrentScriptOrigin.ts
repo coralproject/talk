@@ -2,7 +2,7 @@
  * getCurrentScriptOrigin will try to find the script origin.
  * For legacy browsers a fallbackIdentifier is required.
  *
- * @argument fallbackID id attached to a script tag to get its origin from for legacy browsrs.
+ * @param fallbackID id attached to a script tag to get its origin from for legacy browsrs.
  */
 function getCurrentScriptOrigin(fallbackID?: string) {
   // Find current script (modern browsers).

@@ -259,23 +259,6 @@ export async function signString<T extends {}>(
 }
 
 /**
- * extractJWTFromRequest will extract the token from the request if it can find
- * it. It first tries to get the token from the headers, then from the cookie.
- *
- * @param req the request to extract the JWT from
- * @param excludeQuery when true, does not pull from the query params
- */
-export function extractTokenFromRequest(
-  req: Request | IncomingMessage,
-  excludeQuery: boolean = false
-): string | null {
-  return (
-    extractJWTFromRequestHeaders(req, excludeQuery) ||
-    extractJWTFromRequestCookie(req)
-  );
-}
-
-/**
  * COOKIE_NAME is the name of the authorization cookie used by Coral.
  */
 export const COOKIE_NAME = "authorization";
@@ -330,7 +313,7 @@ function extractJWTFromRequestCookie(
  */
 function extractJWTFromRequestHeaders(
   req: Request | IncomingMessage,
-  excludeQuery: boolean = false
+  excludeQuery = false
 ) {
   const options: BearerOptions = {
     basic: "password",
@@ -343,6 +326,23 @@ function extractJWTFromRequestHeaders(
   const permit = new Bearer(options);
 
   return permit.check(req) || null;
+}
+
+/**
+ * extractJWTFromRequest will extract the token from the request if it can find
+ * it. It first tries to get the token from the headers, then from the cookie.
+ *
+ * @param req the request to extract the JWT from
+ * @param excludeQuery when true, does not pull from the query params
+ */
+export function extractTokenFromRequest(
+  req: Request | IncomingMessage,
+  excludeQuery = false
+): string | null {
+  return (
+    extractJWTFromRequestHeaders(req, excludeQuery) ||
+    extractJWTFromRequestCookie(req)
+  );
 }
 
 function generateJTIRevokedKey(jti: string) {

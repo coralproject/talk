@@ -41,7 +41,7 @@ export default class LongRunningExecutor implements Executor {
       this.isRunning = false;
 
       if (code !== 0 && code !== null) {
-        // tslint:disable-next-line: no-console
+        // eslint-disable-next-line no-console
         console.log(chalk.red(`Command exited with ${code}`));
         return;
       }

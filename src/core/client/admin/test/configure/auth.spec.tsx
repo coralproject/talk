@@ -19,6 +19,7 @@ import { settingsWithEmptyAuth, users } from "../fixtures";
 
 /**
  * This is depreacted, do not use it anymore.
+ *
  * @deprecated
  */
 const deprecatedInputPredicate = (nameOrID: string) => (

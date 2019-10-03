@@ -80,9 +80,7 @@ const CommentReleasedSubscription = createSubscription(
           return;
         }
         throw new Error(
-          `Unsupport new top level comment live updates for sort ${
-            variables.orderBy
-          }`
+          `Unsupport new top level comment live updates for sort ${variables.orderBy}`
         );
       },
     })

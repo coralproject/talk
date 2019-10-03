@@ -73,7 +73,7 @@ const BaseButton: FunctionComponent<Props> = ({
   }
 
   if (anchor && type) {
-    // tslint:disable:next-line: no-console
+    // eslint-disable-next-line no-console
     console.warn(
       "BaseButton used as anchor does not support the `type` property"
     );

@@ -73,7 +73,7 @@ function addCommentToStory(
 }
 
 /** These are needed to be included when querying for the stream. */
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment CreateCommentMutation_viewer on User {
     role
@@ -87,7 +87,7 @@ graphql`
     }
   }
 `;
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment CreateCommentMutation_story on Story {
     settings {

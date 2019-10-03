@@ -55,7 +55,7 @@ class PymStorage implements PromisifiedStorage {
     this.listen();
   }
 
-  get length() {
+  public get length() {
     return this.call<number>("length");
   }
   public key(n: number) {
@@ -78,8 +78,9 @@ class PymStorage implements PromisifiedStorage {
 /**
  * Creates a storage that put requests onto pym.
  * This is the counterpart of `connectStorageToPym`.
+ *
  * @param  {string} pym  pym
- * @return {Object} storage
+ * @returns {object} storage
  */
 export default function createPymStorage(
   pym: Pym,

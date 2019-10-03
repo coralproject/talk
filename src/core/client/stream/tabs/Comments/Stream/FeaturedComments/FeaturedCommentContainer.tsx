@@ -121,7 +121,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
               <Localized id="comments-featured-gotoConversation">
                 <span>Go to Conversation</span>
               </Localized>
-              <span className={styles.gotoArrow}>></span>
+              <span className={styles.gotoArrow}>&gt;</span>
             </TextLink>
           </div>
         </Flex>

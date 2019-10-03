@@ -123,7 +123,7 @@ describe("withPymStorage", () => {
       })
     );
     expect(JSON.stringify(pym.messages)).toMatchSnapshot();
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-console
     expect(console.error).toHaveBeenCalled();
   });
   it("should handle handle errors", () => {
@@ -143,7 +143,7 @@ describe("withPymStorage", () => {
       })
     );
     expect(pym.messages).toMatchSnapshot();
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-console
     expect(console.error).toHaveBeenCalled();
   });
 });

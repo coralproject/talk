@@ -18,7 +18,7 @@ export default function useLoadMore(
     relay.loadMore(count, error => {
       setIsLoadingMore(false);
       if (error) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     });

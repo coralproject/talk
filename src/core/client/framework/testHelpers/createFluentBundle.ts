@@ -17,7 +17,7 @@ function decorateErrorWhenMissing(bundle: FluentBundle) {
     const result = originalHasMessage.apply(bundle, [id]);
     if (!result) {
       const msg = `${bundle.locales} translation for key "${id}" not found`;
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(msg);
       missing.push(id);
     }
@@ -47,6 +47,7 @@ function createFluentBundle(
   files.forEach(f => {
     prefixes.forEach(prefix => {
       if (f.startsWith(prefix)) {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         bundle.addMessages(require(path.resolve(pathToLocale, f)));
       }
     });

@@ -20,7 +20,7 @@ const permissionMap = {
 
 export type AbilityType = keyof typeof permissionMap;
 export const Ability = mapValues(permissionMap, (_, key) => key) as {
-  [P in AbilityType]: P
+  [P in AbilityType]: P;
 };
 
 /**

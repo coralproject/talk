@@ -12,7 +12,7 @@
  */
 "use strict";
 
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 const address = require("address");
 const url = require("url");

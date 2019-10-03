@@ -1,4 +1,4 @@
-// tslint:disable:max-classes-per-file
+/* eslint-disable max-classes-per-file */
 
 import { FluentBundle } from "fluent/compat";
 import { MongoError } from "mongodb";

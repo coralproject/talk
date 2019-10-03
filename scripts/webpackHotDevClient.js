@@ -7,7 +7,7 @@
 
 "use strict";
 
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 // This alternative WebpackDevServer combines the functionality of:
 // https://github.com/webpack/webpack-dev-server/blob/webpack-1/client/index.js

@@ -34,9 +34,9 @@ const enhanced = withRouteConfig<Props>({
       searchFilter: match.location.query.q,
     };
   },
-  render: ({ match, Component, ...rest }) => (
-    <Component initialSearchFilter={match.location.query.q} {...rest} />
-  ),
+  render: function StoriesRouteRender({ match, Component, ...rest }) {
+    return <Component initialSearchFilter={match.location.query.q} {...rest} />;
+  },
 })(StoriesRoute);
 
 export default enhanced;

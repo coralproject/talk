@@ -1,6 +1,6 @@
 import { FluentBundle, FluentNumber, FluentType } from "fluent/compat";
 
-const formatRegExp = /^(0+|0+\.0+)[^\d\.]+$/;
+const formatRegExp = /^(0+|0+\.0+)[^\d.]+$/;
 
 export function validateFormat(fmt: string) {
   return formatRegExp.test(fmt);
@@ -48,7 +48,7 @@ export default class FluentShortNumber extends FluentNumber {
     if (!fmt) {
       const message = `Missing translation key for ${key} for languages ${bundle.locales.toString()}`;
       if (process.env.NODE_ENV === "production") {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.warn(message);
       } else {
         throw new Error(message);
@@ -60,7 +60,7 @@ export default class FluentShortNumber extends FluentNumber {
     if (!validateFormat(fmt)) {
       const message = `Invalid Short Number Format ${fmt}`;
       if (process.env.NODE_ENV === "production") {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.warn(message);
       } else {
         throw new Error(message);

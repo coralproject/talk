@@ -147,7 +147,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
         this.disableNudge();
         return { [FORM_ERROR]: error.message };
       }
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     }
     return;
@@ -213,7 +213,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
       );
     }
 
-    const scheduledForDeletion: boolean = Boolean(
+    const scheduledForDeletion = Boolean(
       this.props.viewer.scheduledDeletionDate !== undefined &&
         this.props.viewer.scheduledDeletionDate !== null
     );

@@ -1,0 +1,133 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true,
+        "jest": true
+    },
+    "globals": {
+      "expectAndFail": "readonly",
+      "fail": "readonly"
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:jsdoc/recommended",
+      "plugin:react/recommended",
+      "plugin:prettier/recommended",
+      "prettier/@typescript-eslint",
+      "prettier/react"
+    ],
+    "settings":  {
+      "react":  {
+        "version": "detect"
+      }
+    },
+    "rules": {
+        "@typescript-eslint/adjacent-overload-signatures": "error",
+        // TODO: (cvle) change `readonly` param to `array-simple` when upgraded typescript.
+        "@typescript-eslint/array-type": ["error", { "default": "array-simple", "readonly": "generic"}],
+        "@typescript-eslint/ban-types": "error",
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/consistent-type-assertions": "error",
+        "@typescript-eslint/consistent-type-definitions": "error",
+        "@typescript-eslint/class-name-casing": "error",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            "overrides": {
+              "constructors": "off"
+            }
+          }
+        ],
+        "@typescript-eslint/indent": "off",
+        "@typescript-eslint/interface-name-prefix": "error",
+        "@typescript-eslint/member-delimiter-style": "off",
+        "@typescript-eslint/no-empty-function": "error",
+        "@typescript-eslint/no-empty-interface": "error",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-misused-new": "error",
+        "@typescript-eslint/no-namespace": "error",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-parameter-properties": "off",
+        "@typescript-eslint/no-unused-vars": ["error", {"args": "none", "ignoreRestSiblings": true}],
+        "@typescript-eslint/no-use-before-define": "off", // TODO: (cvle) Should be on
+        "@typescript-eslint/no-use-before-declare": "off",
+        "@typescript-eslint/no-var-requires": "error",
+        "@typescript-eslint/prefer-for-of": "error",
+        "@typescript-eslint/prefer-function-type": "error",
+        "@typescript-eslint/prefer-namespace-keyword": "error",
+        "@typescript-eslint/triple-slash-reference": "error",
+        "@typescript-eslint/type-annotation-spacing": "off",
+        "@typescript-eslint/unified-signatures": "error",
+        "arrow-body-style": "off",
+        "arrow-parens": [
+            "off",
+            "as-needed"
+        ],
+        "camelcase": "off",
+        "complexity": "off",
+        "constructor-super": "error",
+        "spaced-comment": ["error", "always"],
+        "curly": "error",
+        "dot-notation": "error",
+        "eol-last": "off",
+        "eqeqeq": "error",
+        "guard-for-in": "error",
+        "jsdoc/require-jsdoc": "off",
+        "jsdoc/require-returns": "off",
+        "jsdoc/require-param": "off",
+        "jsdoc/require-param-type": "off",
+        "jsdoc/require-returns-type": "off",
+        "linebreak-style": "off",
+        "max-classes-per-file": [
+            "error",
+            1
+        ],
+        "member-ordering": "off",
+        "new-parens": "off",
+        "newline-per-chained-call": "off",
+        "no-bitwise": "error",
+        "no-caller": "error",
+        "no-cond-assign": "error",
+        "no-console": "error",
+        "no-debugger": "error",
+        "no-empty": "error",
+        "no-eval": "error",
+        "no-extra-semi": "off",
+        "no-fallthrough": "error",
+        "no-invalid-this": "off",
+        "no-irregular-whitespace": "off",
+        "no-multiple-empty-lines": "off",
+        "no-new-wrappers": "error",
+        "no-prototype-builtins": "off",
+        "no-shadow": "error",
+        "no-throw-literal": "error",
+        "no-undef": "off",
+        "no-undef-init": "error",
+        "no-unsafe-finally": "error",
+        "no-unused-expressions": "error",
+        "no-unused-labels": "error",
+        "no-var": "error",
+        "object-shorthand": "error",
+        "one-var": "off",
+        "prefer-arrow-callback": "off",
+        "prefer-const": "error",
+        "quote-props": "off",
+        "radix": "error",
+        "react/display-name": "error",
+        "react/prop-types": "off",
+        "react/no-unescaped-entities": "off",
+        "require-atomic-updates": "off",
+        "space-before-function-paren": "off",
+        "sort-imports": "off",
+        "use-isnan": "error",
+        "valid-typeof": "off"
+    }
+}
