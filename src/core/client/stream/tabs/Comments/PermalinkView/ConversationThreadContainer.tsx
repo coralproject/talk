@@ -100,6 +100,7 @@ class ConversationThreadContainer extends React.Component<
                   <UserTagsContainer
                     className={CLASSES.conversationThread.rootParent.userTag}
                     comment={rootParent}
+                    settings={settings}
                   />
                 }
               />
@@ -192,6 +193,7 @@ const enhanced = withContext(ctx => ({
           fragment ConversationThreadContainer_settings on Settings {
             ...CommentContainer_settings
             ...LocalReplyListContainer_settings
+            ...UserTagsContainer_settings
           }
         `,
         comment: graphql`

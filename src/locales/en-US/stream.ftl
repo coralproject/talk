@@ -157,7 +157,6 @@ comments-rejectedTombstone =
   You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>
 
 comments-featuredTag = Featured
-comments-staffTag = Staff
 
 ### Account Deletion Stream
 

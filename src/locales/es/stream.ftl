@@ -135,7 +135,6 @@ comments-rejectedTombstone =
   Has rechazado este comentario.<TextLink>Vaya a moderación para revisar esta decisión.</TextLink>
 
 comments-featuredTag = Resaltado
-comments-staffTag = Miembro del equipo
 
 ### Featured Comments
 comments-featured-gotoConversation = Ir a conversación

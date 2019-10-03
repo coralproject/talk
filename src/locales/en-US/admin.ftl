@@ -541,10 +541,10 @@ moderate-user-drawer-recent-history-tooltip-button =
   .aria-label = Toggle recent comment history tooltip
 moderate-user-drawer-recent-history-tooltip-submitted = Submitted
 
-moderate-user-drawer-notes-field = 
+moderate-user-drawer-notes-field =
   .placeholder = Leave a note...
 moderate-user-drawer-notes-button = Add note
-moderatorNote-left-by = Left by: 
+moderatorNote-left-by = Left by:
 moderatorNote-delete = Delete
 
 ## Create Username
@@ -779,6 +779,15 @@ configure-general-reactions-sort-input =
   .placeholder = E.g. Most Respected
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
+
+configure-general-staff-title = Staff member badge
+configure-general-staff-explanation =
+  Show a custom badge for staff members of your organization. This badge
+  appears on the comment stream and in the admin interface.
+configure-general-staff-label = Badge text
+configure-general-staff-input =
+  .placeholder = E.g. Staff
+configure-general-staff-preview = Preview
 
 configure-account-features-title = Commenter account management features
 configure-account-features-explanation =

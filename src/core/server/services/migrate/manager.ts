@@ -12,6 +12,7 @@ import {
   retrieveAllMigrationRecords,
   startMigration,
 } from "coral-server/models/migration";
+import { I18n } from "coral-server/services/i18n";
 import TenantCache from "coral-server/services/tenant/cache";
 
 import {
@@ -23,16 +24,21 @@ import Migration from "./migration";
 // Extract the id from the filename with this regex.
 const fileNamePattern = /^(\d+)_([\S_]+)\.[tj]s$/;
 
+export interface ManagerOptions {
+  tenantCache: TenantCache;
+  i18n: I18n;
+}
+
 export default class Manager {
   private clientID: string;
   private migrations: Migration[];
-  private tenants: TenantCache;
+  private tenantCache: TenantCache;
   private ran: boolean = false;
 
-  constructor(tenants: TenantCache) {
+  constructor({ tenantCache, i18n }: ManagerOptions) {
     this.clientID = uuid.v4();
     this.migrations = [];
-    this.tenants = tenants;
+    this.tenantCache = tenantCache;
 
     const fileNames = fs.readdirSync(path.join(__dirname, "migrations"));
     for (const fileName of fileNames) {
@@ -60,9 +66,10 @@ export default class Manager {
         throw new Error("fileName format is invalid");
       }
       const id = parseInt(matches[1], 10);
+      const name = matches[2];
 
       // Create the migration instance.
-      const migration = new m.default(id, matches[2]);
+      const migration = new m.default({ id, name, i18n });
 
       // Insert the migration into the migrations array.
       if (!(migration instanceof Migration)) {
@@ -179,7 +186,7 @@ export default class Manager {
 
       if (migration.up) {
         // The migration provides an up method, we should run this per Tenant.
-        for await (const tenant of this.tenants) {
+        for await (const tenant of this.tenantCache) {
           log = log.child({ tenantID: tenant.id }, true);
 
           const migrationStartTime = now();

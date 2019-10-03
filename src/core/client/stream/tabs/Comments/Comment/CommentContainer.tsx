@@ -253,6 +253,7 @@ export class CommentContainer extends Component<Props, State> {
                     <UserTagsContainer
                       className={CLASSES.comment.topBar.userTag}
                       comment={comment}
+                      settings={settings}
                     />
                     <UserBadgesContainer
                       className={CLASSES.comment.topBar.userBadge}
@@ -445,6 +446,7 @@ const enhanced = withSetCommentIDMutation(
           ...ReactionButtonContainer_settings
           ...ReplyCommentFormContainer_settings
           ...EditCommentFormContainer_settings
+          ...UserTagsContainer_settings
         }
       `,
     })(CommentContainer)

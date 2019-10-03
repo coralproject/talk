@@ -1,0 +1,8 @@
+.textInput {
+  min-width: 300px;
+}
+
+.staffTag {
+  display: inline-block;
+  margin-top: 8px;
+}
