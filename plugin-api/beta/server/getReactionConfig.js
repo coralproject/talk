@@ -21,7 +21,6 @@ function getReactionConfig(reaction) {
         background: true,
       }
     );
-
   }
 
   const reactionPlural = pluralize(reaction);
