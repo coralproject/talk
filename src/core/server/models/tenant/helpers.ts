@@ -1,7 +1,10 @@
 import crypto from "crypto";
 import { FluentBundle } from "fluent/compat";
 
-import { GQLReactionConfiguration } from "coral-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLReactionConfiguration,
+  GQLStaffConfiguration,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 import { translate } from "coral-server/services/i18n";
 
 export const getDefaultReactionConfiguration = (
@@ -17,6 +20,12 @@ export const getDefaultReactionConfiguration = (
     "reaction-sortLabelMostRespected"
   ),
   icon: "thumb_up",
+});
+
+export const getDefaultStaffConfiguration = (
+  bundle: FluentBundle
+): GQLStaffConfiguration => ({
+  label: translate(bundle, "Staff", "staff-label"),
 });
 
 export function generateSSOKey() {

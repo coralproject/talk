@@ -71,6 +71,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
           <UserTagsContainer
             className={CLASSES.featuredComment.authorBar.userTag}
             comment={comment}
+            settings={settings}
           />
         </Box>
         <Box ml={2} clone>
@@ -174,6 +175,7 @@ const enhanced = withSetCommentIDMutation(
     settings: graphql`
       fragment FeaturedCommentContainer_settings on Settings {
         ...ReactionButtonContainer_settings
+        ...UserTagsContainer_settings
       }
     `,
   })(FeaturedCommentContainer)

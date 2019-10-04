@@ -1085,14 +1085,27 @@ type CommenterAccountFeatures {
   changeUsername when true, non-sso user may change username every 14 days
   """
   changeUsername: Boolean!
+
   """
   downloadComments when true, user may download their comment history
   """
   downloadComments: Boolean!
+
   """
   deleteAccount when true, non-sso user may permanently delete their account
   """
   deleteAccount: Boolean!
+}
+
+"""
+StaffConfiguration specifies the configuration for the staff badges assigned to
+users with any role above COMMENTER.
+"""
+type StaffConfiguration {
+  """
+  label is the string used when displaying the STAFF badge to users.
+  """
+  label: String!
 }
 
 """
@@ -1209,6 +1222,12 @@ type Settings {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfiguration!
+
+  """
+  staff specifies the configuration for the staff badges assigned to users with
+  any role above COMMENTER.
+  """
+  staff: StaffConfiguration!
 
   """
   accountFeatures stores the configuration for commenter account features.
@@ -3280,8 +3299,8 @@ input StoryConfigurationInput {
 }
 
 """
-ReactionConfigurationInput stores the configuration for reactions used across this
-Tenant.
+ReactionConfigurationInput stores the configuration for reactions used across
+this Tenant.
 """
 input ReactionConfigurationInput {
   """
@@ -3316,6 +3335,17 @@ input ReactionConfigurationInput {
   color is the hex color code that can be used to change the color of the button.
   """
   color: String
+}
+
+"""
+StaffConfigurationInput specifies the configuration for the staff badges
+assigned to users with any role above COMMENTER.
+"""
+input StaffConfigurationInput {
+  """
+  label is the string used when displaying the STAFF badge to users.
+  """
+  label: String
 }
 
 """
@@ -3434,6 +3464,12 @@ input SettingsInput {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfigurationInput
+
+  """
+  staff specifies the configuration for the staff badges assigned to users with
+  any role above COMMENTER.
+  """
+  staff: StaffConfigurationInput
 
   """
   accountFeatures specifies the configuration for accounts.

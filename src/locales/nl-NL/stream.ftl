@@ -135,7 +135,6 @@ comments-rejectedTombstone =
   U heeft deze reactie afgewezen. <TextLink>Ga naar modereren om dit besluit te herzien.</TextLink>
 
 comments-featuredTag = Uitgelicht
-comments-staffTag = Staf
 
 ### Featured Comments
 comments-featured-gotoConversation = Ga naar het gesprek

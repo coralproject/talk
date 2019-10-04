@@ -2,6 +2,7 @@ import Logger from "bunyan";
 import { Db } from "mongodb";
 
 import logger from "coral-server/logger";
+import { I18n } from "coral-server/services/i18n";
 
 interface Migration {
   indexes?(mongo: Db): Promise<void>;
@@ -10,18 +11,26 @@ interface Migration {
   down?(mongo: Db, tenantID: string): Promise<void>;
 }
 
+export interface MigrationOptions {
+  id: number;
+  name: string;
+  i18n: I18n;
+}
+
 abstract class Migration {
   public readonly name: string;
   public readonly id: number;
   public readonly logger: Logger;
+  public readonly i18n: I18n;
 
-  constructor(version: number, name: string) {
-    this.id = version;
+  constructor({ id, name, i18n }: MigrationOptions) {
+    this.id = id;
     this.name = name;
+    this.i18n = i18n;
     this.logger = logger.child(
       {
         migrationName: this.name,
-        migrationVersion: this.id,
+        migrationID: this.id,
       },
       true
     );

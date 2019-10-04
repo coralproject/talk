@@ -11,3 +11,5 @@ comment-count =
     [one] Comment
     *[other] Comments
   }</span>
+
+staff-label = Staff

@@ -53,6 +53,7 @@ const enhanced = withFragmentContainer<Props>({
       ...ClosingCommentStreamsConfigContainer_settings
       ...SitewideCommentingConfigContainer_settings
       ...ReactionConfigContainer_settings
+      ...StaffConfigContainer_settings
     }
   `,
 })(GeneralConfigContainer);

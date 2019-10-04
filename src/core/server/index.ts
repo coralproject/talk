@@ -158,7 +158,10 @@ class Server {
     );
 
     // Create the migration manager.
-    this.migrationManager = new MigrationManager(this.tenantCache);
+    this.migrationManager = new MigrationManager({
+      tenantCache: this.tenantCache,
+      i18n: this.i18n,
+    });
 
     // Load and upsert the persisted queries.
     this.persistedQueryCache = new PersistedQueryCache({ mongo: this.mongo });
@@ -198,6 +201,7 @@ class Server {
     // Run migrations if there is already a Tenant installed.
     if (await isInstalled(this.tenantCache)) {
       await this.migrationManager.executePendingMigrations(this.mongo);
+      await this.tenantCache.primeAll();
     } else {
       logger.info("no tenants are installed, skipping running migrations");
     }
