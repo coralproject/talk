@@ -37,18 +37,19 @@ const Moderate: FunctionComponent<Props> = ({
   const closeModal = useCallback(() => {
     setShowHotkeysModal(false);
   }, []);
-  const toggleModal = useCallback(() => {
-    setShowHotkeysModal(!showHotkeysModal);
-  }, [showHotkeysModal]);
 
   useEffect(() => {
+    const toggleModal = () => {
+      setShowHotkeysModal(was => !was);
+    };
+
     // Attach the modal toggle when the GUIDE button is pressed.
     key(HOTKEYS.GUIDE, toggleModal);
     return () => {
       // Detach the modal toggle if we have to rebind it.
       key.unbind(HOTKEYS.GUIDE);
     };
-  }, [toggleModal]);
+  }, []);
 
   return (
     <div data-testid="moderate-container">
