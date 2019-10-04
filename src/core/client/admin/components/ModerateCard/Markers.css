@@ -1,6 +1,8 @@
 .detailsButton {
-  composes: detailsButton from "coral-admin/components/ModerateCard/shared.css";
-
+  font-size: var(--v2-font-size-1);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  line-height: 1.28;
   height: 100%;
   padding: 2px 0px;
   margin-left: var(--mini-unit);
@@ -10,14 +12,14 @@
 }
 
 .detailsButtonColorRegular {
-  composes: detailsButtonColorRegular from "coral-admin/components/ModerateCard/shared.css";
+  border-color: var(--v2-palette-details-header);
 }
 
 .detailsText {
-  composes: detailsText from "coral-admin/components/ModerateCard/shared.css";
+  color: var(--v2-palette-details-header);
   margin: 0;
 }
 
 .detailsDivider {
-  composes: detailsDivider from "coral-admin/components/ModerateCard/shared.css";
+  border-color: var(--v2-palette-details-divider);
 }

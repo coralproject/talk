@@ -1,26 +1,34 @@
 .user {
-  composes: flagDetailsEntryUser from "coral-admin/components/ModerateCard/shared.css";
-
+  color: var(--v2-palette-username-emphasis);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-family: var(--v2-font-family-secondary);
+  line-height: var(--v2-line-height-title);
   padding-right: calc(0.5 * var(--mini-unit));
 }
 
 .details {
-  composes: flagDetailsEntryDetails from "coral-admin/components/ModerateCard/shared.css";
+  color: var(--v2-palette-reason-text);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-title);
 }
 
 .flagger {
-  composes: flagDetailsEntryFlagger from "coral-admin/components/ModerateCard/shared.css";
-
+  line-height: var(--v2-line-height-reset);
   margin-right: var(--mini-unit);
   padding: var(--v2-spacing-1);
   margin-left: calc(-1 * var(--v2-spacing-1));
 
   &:hover {
+    background-color: var(--v2-palette-grey-lightest);
     border-radius: var(--v2-round-corners);
     border-style: none;
   }
 
   &:active {
+    background-color: var(--v2-palette-grey-lighter);
     border-radius: var(--v2-round-corners);
     border-style: none;
   }

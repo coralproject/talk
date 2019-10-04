@@ -1,7 +1,31 @@
 .root {
-  composes: featureButton from "coral-admin/components/ModerateCard/shared.css";
+  position: absolute;
+  right: 0px;
+  top: 2px;
+
+  border: 1px solid var(--v2-palette-button-outline-label-secondary);
+  box-sizing: border-box;
+  border-radius: var(--round-corners);
+  padding: 2px var(--spacing-2) 2px var(--spacing-2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--v2-palette-grey-lighter);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: 1.2;
+
+  &:active {
+    background-color: var(--v2-palette-primary-lightest);
+    border-color: var(--v2-palette-primary-main);
+    color: var(--v2-palette-primary-main);
+  }
 }
 
 .invert {
-  composes: featureButtonInvert from "coral-admin/components/ModerateCard/shared.css";
+  background-color: var(--v2-palette-primary-main);
+  border-color: var(--v2-palette-primary-main);
+  color: var(--v2-palette-text-light);
 }
