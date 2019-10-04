@@ -63,3 +63,5 @@ export const COMMENT_LIMIT_WINDOW_SECONDS = 3;
  * DEFAULT_SESSION_LENTTH is the length of time in seconds a session is valid for unless configured in tenant.
  */
 export const DEFAULT_SESSION_LENGTH = 7776000;
+
+export const COMMENT_REPEAT_POST_TIMESPAN = 21600;
