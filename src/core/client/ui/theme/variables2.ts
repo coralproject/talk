@@ -159,6 +159,23 @@ const variables2 = {
       },
       divider: colors.grey300,
     },
+    storySearch: {
+      storyTitle: colors.mono900,
+      results: {
+        heading: colors.white500,
+        headingBackground: colors.grey500,
+        seeAllLabel: colors.white500,
+        seeAllBackground: colors.blue500,
+        border: colors.grey400,
+        divider: colors.grey300,
+      },
+      background: colors.teal600,
+      input: {
+        text: colors.mono500,
+        label: colors.mono500,
+        background: colors.pure.white,
+      },
+    },
   },
   fontFamily: {
     primary: "Open Sans",
