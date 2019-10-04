@@ -1714,10 +1714,7 @@ type User {
   """
   moderatorNotes are notes left by moderators about the User.
   """
-  moderatorNotes: [ModeratorNote!]!
-    @auth(
-      roles: [ADMIN, MODERATOR]
-    )
+  moderatorNotes: [ModeratorNote!]! @auth(roles: [ADMIN, MODERATOR])
 
   """
   ignoreable is a computed property based on the
@@ -5238,7 +5235,9 @@ type Mutation {
   one already. This mutation will fail if the email address is already set.
   """
   setEmail(input: SetEmailInput!): SetEmailPayload!
-    @auth(permit: [MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION])
+    @auth(
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
+    )
 
   """
   setPassword will set the password on the current User if they have not set
@@ -5400,12 +5399,16 @@ type Mutation {
   """
   createModeratorNote creates a note on a user account.
   """
-  createModeratorNote(input: CreateModeratorNoteInput!): CreateModeratorNotePayload! @auth(roles: [ADMIN, MODERATOR])
+  createModeratorNote(
+    input: CreateModeratorNoteInput!
+  ): CreateModeratorNotePayload! @auth(roles: [ADMIN, MODERATOR])
 
   """
   deleteModeratorNote deletes a note on a user account.
   """
-  deleteModeratorNote(input: DeleteModeratorNoteInput!): DeleteModeratorNotePayload! @auth(roles: [ADMIN, MODERATOR])
+  deleteModeratorNote(
+    input: DeleteModeratorNoteInput!
+  ): DeleteModeratorNotePayload! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################
