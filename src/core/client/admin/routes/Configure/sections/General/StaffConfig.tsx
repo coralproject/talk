@@ -5,7 +5,6 @@ import { Field } from "react-final-form";
 import { StaffConfigContainer_settings as SettingsData } from "coral-admin/__generated__/StaffConfigContainer_settings.graphql";
 import { required } from "coral-framework/lib/validation";
 import {
-  Box,
   FieldSet,
   Flex,
   FormField,
@@ -65,11 +64,7 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                   <Localized id="configure-general-staff-preview">
                     <Typography variant="heading3">Preview</Typography>
                   </Localized>
-                  {input.value && (
-                    <Box>
-                      <Tag className={styles.staffTag}>{input.value}</Tag>
-                    </Box>
-                  )}
+                  {input.value && <Tag>{input.value}</Tag>}
                 </HorizontalGutter>
               </Flex>
             )}

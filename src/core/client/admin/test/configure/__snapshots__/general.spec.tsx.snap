@@ -1122,15 +1122,11 @@ appears on the comment stream and in the admin interface.
                       >
                         Preview
                       </h1>
-                      <div
-                        className="Box-root"
+                      <span
+                        className="Tag-root Tag-colorGrey Tag-uppercase"
                       >
-                        <span
-                          className="Tag-root StaffConfig-staffTag Tag-colorGrey Tag-uppercase"
-                        >
-                          Staff
-                        </span>
-                      </div>
+                        Staff
+                      </span>
                     </div>
                   </div>
                 </div>
