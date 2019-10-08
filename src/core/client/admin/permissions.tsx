@@ -19,7 +19,7 @@ const permissionMap = {
   CHANGE_ROLE: [GQLUSER_ROLE.ADMIN],
   // Mutation.openStory
   // Mutation.closeStory
-  CHANGE_STORY_STATUS: [GQLUSER_ROLE.ADMIN],
+  CHANGE_STORY_STATUS: [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR],
   // Mutation.inviteUsers
   INVITE_USERS: [GQLUSER_ROLE.ADMIN],
 };
