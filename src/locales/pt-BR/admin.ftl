@@ -591,7 +591,7 @@ community-userStatus-popover =
 
 community-userStatus-banUser = Banir Usário
 community-userStatus-removeBan = Remover Banimento
-community-userStatus-suspendUser = Suspender Userário
+community-userStatus-suspendUser = Suspender Usuário
 community-userStatus-removeSupsension = Remover Suspensão
 community-userStatus-unknown = Desconhecido
 community-userStatus-changeButton =
