@@ -55,7 +55,6 @@ const typescriptOverrides = {
       "@typescript-eslint/no-empty-interface": "error",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-misused-new": "error",
-      "@typescript-eslint/no-misused-promises": "off",
       "@typescript-eslint/no-namespace": "error",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-parameter-properties": "off",
@@ -66,10 +65,8 @@ const typescriptOverrides = {
       "@typescript-eslint/prefer-for-of": "error",
       "@typescript-eslint/prefer-function-type": "error",
       "@typescript-eslint/prefer-namespace-keyword": "error",
-      "@typescript-eslint/require-await": "off",
       "@typescript-eslint/triple-slash-reference": "error",
       "@typescript-eslint/type-annotation-spacing": "off",
-      "@typescript-eslint/unbound-method": "off", // 10.10.19: (cvle) seems to give false positive.
       "@typescript-eslint/unified-signatures": "error",
       "react/display-name": "error",
       "react/prop-types": "off",
@@ -97,6 +94,9 @@ let typescriptTypeCheckingOverrides = {
           },
         },
       }],
+      "@typescript-eslint/require-await": "off",
+      "@typescript-eslint/no-misused-promises": "off",
+      "@typescript-eslint/unbound-method": "off", // 10.10.19: (cvle) seems to give false positive.
     }
   ),
 };
