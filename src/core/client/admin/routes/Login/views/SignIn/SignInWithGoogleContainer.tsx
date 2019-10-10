@@ -8,6 +8,7 @@ import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 
 interface Props {
   auth: AuthData;
+  autoRedirect: boolean;
 }
 
 class SignInWithGoogleContainer extends Component<Props> {
@@ -16,6 +17,10 @@ class SignInWithGoogleContainer extends Component<Props> {
   };
 
   public render() {
+    if (this.props.autoRedirect) {
+      redirectOAuth2(this.props.auth.integrations.google.redirectURL!);
+      return null;
+    }
     return (
       <Localized id="login-signInWithGoogle">
         <GoogleButton onClick={this.handleOnClick}>

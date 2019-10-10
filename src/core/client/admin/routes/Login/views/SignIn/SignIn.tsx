@@ -33,6 +33,10 @@ const SignIn: FunctionComponent<Props> = ({
 }) => {
   const oneClickIntegrationEnabled =
     facebookEnabled || googleEnabled || oidcEnabled;
+  const autoRedirectEnabled =
+    [emailEnabled, facebookEnabled, googleEnabled, oidcEnabled].filter(
+      enabled => enabled
+    ).length === 1;
   return (
     <>
       <AuthBox
@@ -52,9 +56,24 @@ const SignIn: FunctionComponent<Props> = ({
           {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
           {oneClickIntegrationEnabled && (
             <HorizontalGutter>
-              {facebookEnabled && <SignInWithFacebookContainer auth={auth} />}
-              {googleEnabled && <SignInWithGoogleContainer auth={auth} />}
-              {oidcEnabled && <SignInWithOIDCContainer auth={auth} />}
+              {facebookEnabled && (
+                <SignInWithFacebookContainer
+                  autoRedirect={autoRedirectEnabled}
+                  auth={auth}
+                />
+              )}
+              {googleEnabled && (
+                <SignInWithGoogleContainer
+                  autoRedirect={autoRedirectEnabled}
+                  auth={auth}
+                />
+              )}
+              {oidcEnabled && (
+                <SignInWithOIDCContainer
+                  autoRedirect={autoRedirectEnabled}
+                  auth={auth}
+                />
+              )}
             </HorizontalGutter>
           )}
         </HorizontalGutter>
