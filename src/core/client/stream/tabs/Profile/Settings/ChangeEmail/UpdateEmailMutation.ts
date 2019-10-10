@@ -7,6 +7,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+
 import { UpdateEmailMutation as MutationTypes } from "coral-stream/__generated__/UpdateEmailMutation.graphql";
 
 let clientMutationId = 0;

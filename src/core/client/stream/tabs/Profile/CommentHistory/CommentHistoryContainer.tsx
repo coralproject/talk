@@ -2,6 +2,7 @@ import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "coral-framework/lib/relay";
+
 import { CommentHistoryContainer_settings as SettingsData } from "coral-stream/__generated__/CommentHistoryContainer_settings.graphql";
 import { CommentHistoryContainer_story as StoryData } from "coral-stream/__generated__/CommentHistoryContainer_story.graphql";
 import { CommentHistoryContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentHistoryContainer_viewer.graphql";

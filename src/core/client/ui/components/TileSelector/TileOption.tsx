@@ -1,8 +1,9 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import styles from "./TileOption.css";
 import { SelectorChildProps } from "./TileSelector";
+
+import styles from "./TileOption.css";
 
 interface Props extends SelectorChildProps {
   className?: string;

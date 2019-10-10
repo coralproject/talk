@@ -3,8 +3,10 @@ import {
   FragmentOrRegularProp,
   GraphQLTaggedNode,
 } from "react-relay";
-import { InferableComponentEnhancerWithProps } from "recompose";
-import { wrapDisplayName } from "recompose";
+import {
+  InferableComponentEnhancerWithProps,
+  wrapDisplayName,
+} from "recompose";
 
 import hideForwardRef from "./hideForwardRef";
 import { FragmentKeysNoLocal } from "./types";

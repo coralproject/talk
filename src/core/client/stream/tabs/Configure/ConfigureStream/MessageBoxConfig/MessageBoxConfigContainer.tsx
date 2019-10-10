@@ -2,6 +2,7 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
 import { MessageBoxConfigContainer_storySettings as StorySettingsData } from "coral-stream/__generated__/MessageBoxConfigContainer_storySettings.graphql";
 
 import MessageBoxConfig from "./MessageBoxConfig";

@@ -1,12 +1,15 @@
 import { BrowserProtocol, queryMiddleware } from "farce";
-import { createFarceRouter } from "found";
+import {
+  ConnectedRouter,
+  createFarceRouter,
+  makeRouteConfig,
+  Route,
+} from "found";
 import { Resolver } from "found-relay";
 import React, { FunctionComponent } from "react";
 
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { CoralContextConsumer } from "coral-framework/lib/bootstrap/CoralContext";
-import { makeRouteConfig, Route } from "found";
-import { ConnectedRouter } from "found";
 
 interface Props {
   userID: string;

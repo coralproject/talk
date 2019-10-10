@@ -59,7 +59,6 @@ function generateTarget(target, context) {
     defaultLocale,
     fallbackLocale,
     pathToLocales,
-    resourcePath,
     locales,
     bundled,
   } = context;

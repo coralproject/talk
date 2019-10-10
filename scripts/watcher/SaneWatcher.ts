@@ -18,7 +18,7 @@ function canUseWatchman(): boolean {
   try {
     execSync("watchman --version", { stdio: ["ignore"] });
     return true;
-    // eslint-disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
   } catch (e) {}
   return false;
 }

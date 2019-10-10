@@ -2,8 +2,7 @@ import { cloneDeep } from "lodash";
 import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "coral-common/utils";
-import { pureMerge } from "coral-common/utils";
+import { pureMerge, timeout } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,

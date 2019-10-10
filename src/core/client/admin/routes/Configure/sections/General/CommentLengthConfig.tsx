@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
 import {
   composeValidators,
   createValidator,
@@ -18,8 +19,6 @@ import {
 
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
-
-import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
 import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
 

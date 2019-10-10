@@ -5,6 +5,7 @@ import { create } from "react-test-renderer";
 import sinon from "sinon";
 
 import { PropTypesOf } from "coral-ui/types";
+
 import TrapFocus from "./TrapFocus";
 
 const FakeFocusable: any = class FakeFocusable extends React.Component {

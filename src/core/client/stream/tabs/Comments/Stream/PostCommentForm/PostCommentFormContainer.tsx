@@ -15,14 +15,15 @@ import {
 } from "coral-framework/lib/relay";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import { PropTypesOf } from "coral-framework/types";
-import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
-import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
-import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
-import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
+
+import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
+import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
+import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
+import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import {
   getSubmitStatus,

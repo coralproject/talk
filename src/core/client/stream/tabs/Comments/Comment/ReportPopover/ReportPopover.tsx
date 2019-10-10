@@ -6,6 +6,7 @@ import { BaseButton, Icon } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
 import ReportCommentFormContainer from "./ReportCommentFormContainer";
+
 import styles from "./ReportPopover.css";
 
 interface Props {

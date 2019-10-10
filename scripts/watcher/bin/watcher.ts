@@ -14,7 +14,7 @@ async function run(
     throw new Error("Config file not specified");
   }
 
-  // eslint-disable-next-line:no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   let config: any = require(path.resolve(configFile));
   if (config.__esModule) {
     config = config.default;

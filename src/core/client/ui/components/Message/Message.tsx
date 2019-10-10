@@ -1,6 +1,7 @@
 import cn from "classnames";
-import { withStyles } from "coral-ui/hocs";
 import React, { FunctionComponent, ReactNode } from "react";
+
+import { withStyles } from "coral-ui/hocs";
 
 import styles from "./Message.css";
 

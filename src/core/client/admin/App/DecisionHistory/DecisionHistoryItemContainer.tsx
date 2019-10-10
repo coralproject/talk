@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { DecisionHistoryItemContainer_action as ActionData } from "coral-admin/__generated__/DecisionHistoryItemContainer_action.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { DecisionHistoryItemContainer_action as ActionData } from "coral-admin/__generated__/DecisionHistoryItemContainer_action.graphql";
 
 import ApprovedComment from "./ApprovedComment";
 import RejectedComment from "./RejectedComment";

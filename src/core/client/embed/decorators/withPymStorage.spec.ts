@@ -2,6 +2,7 @@ import mockConsole from "jest-mock-console";
 import sinon from "sinon";
 
 import { createInMemoryStorage } from "coral-framework/lib/storage";
+
 import withPymStorage from "./withPymStorage";
 
 class PymStub {

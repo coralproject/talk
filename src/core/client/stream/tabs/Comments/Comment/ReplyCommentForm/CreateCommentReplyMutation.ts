@@ -1,3 +1,4 @@
+import { pick } from "lodash";
 import { graphql } from "react-relay";
 import {
   ConnectionHandler,
@@ -6,8 +7,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getViewer } from "coral-framework/helpers";
-import { roleIsAtLeast } from "coral-framework/helpers";
+import { getViewer, roleIsAtLeast } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -17,9 +17,9 @@ import {
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 import { GQLComment, GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+
 import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 
-import { pick } from "lodash";
 import {
   incrementStoryCommentCounts,
   isPublished,

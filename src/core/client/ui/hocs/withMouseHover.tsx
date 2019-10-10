@@ -1,5 +1,4 @@
-import React from "react";
-import { MouseEvent, TouchEvent } from "react";
+import React, { MouseEvent, TouchEvent } from "react";
 import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 
 interface InjectedProps {

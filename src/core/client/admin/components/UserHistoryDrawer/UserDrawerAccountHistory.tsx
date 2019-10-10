@@ -1,8 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
-import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
-
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
@@ -15,6 +13,8 @@ import {
   TableHead,
   TableRow,
 } from "coral-ui/components";
+
+import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
 
 import AccountHistoryAction, {
   HistoryActionProps,

@@ -12,6 +12,7 @@
   },
   "tslint.enable": false,
   "eslint.validate": [
+		{ "language": "javascript", "autoFix": true },
 		{ "language": "typescript", "autoFix": true },
 		{ "language": "typescriptreact", "autoFix": true }
 	],
@@ -48,5 +49,10 @@
   "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "newLineEachExpressionAfterCountLimitExceptIfOnlyOne",
   "importSorter.importStringConfiguration.trailingComma": "multiLine",
   "importSorter.importStringConfiguration.tabSize": 2,
-  "eslint.enable": true
+  "eslint.enable": true,
+  "importSorter.generalConfiguration.exclude": [
+    "d\\.ts$",
+    "__generated__"
+  ],
+  "eslint.alwaysShowStatus": true
 }

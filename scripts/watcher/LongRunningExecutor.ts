@@ -17,8 +17,8 @@ export default class LongRunningExecutor implements Executor {
   private cmd: string;
   private args?: ReadonlyArray<string>;
   private process: ChildProcess | null = null;
-  private isRunning: boolean = false;
-  private shouldRestart: boolean = false;
+  private isRunning = false;
+  private shouldRestart = false;
   private restartDebounced: (() => void) & Cancelable;
 
   constructor(cmd: string, opts: LongRunningExecutorOptions = {}) {
@@ -37,7 +37,7 @@ export default class LongRunningExecutor implements Executor {
       shell: !this.args,
     });
 
-    this.process!.on("exit", (code: number) => {
+    this.process.on("exit", (code: number) => {
       this.isRunning = false;
 
       if (code !== 0 && code !== null) {

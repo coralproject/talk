@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { GuidelinesConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GuidelinesConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { GuidelinesConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GuidelinesConfigContainer_settings.graphql";
 
 import GuidelinesConfig from "./GuidelinesConfig";
 

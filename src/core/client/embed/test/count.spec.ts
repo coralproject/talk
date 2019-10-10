@@ -1,7 +1,8 @@
 import mockConsole from "jest-mock-console";
-import * as Coral from "../";
 
 import { COUNT_SELECTOR } from "coral-framework/constants";
+
+import * as Coral from "../";
 
 /* eslint-disable no-console */
 

@@ -1,4 +1,5 @@
 import mockConsole from "jest-mock-console";
+
 import * as Coral from "../";
 
 /* eslint-disable no-console */

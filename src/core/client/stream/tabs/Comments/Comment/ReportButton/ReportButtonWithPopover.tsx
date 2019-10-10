@@ -1,12 +1,11 @@
+import { Localized } from "fluent-react/compat";
 import React from "react";
 
 import { ClickOutside, Popover } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
+import { PropTypesOf } from "coral-ui/types";
 
 import ReportPopover from "../ReportPopover";
 import ReportButton from "./ReportButton";
-
-import { PropTypesOf } from "coral-ui/types";
 
 interface Props {
   comment: { id: string } & PropTypesOf<typeof ReportPopover>["comment"];

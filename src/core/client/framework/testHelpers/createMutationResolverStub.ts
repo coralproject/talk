@@ -1,6 +1,7 @@
-import { Omit } from "coral-framework/types";
 import { identity, omit } from "lodash";
 import sinon from "sinon";
+
+import { Omit } from "coral-framework/types";
 
 import { Fixture } from "./createFixture";
 import { Resolver } from "./createTestRenderer";

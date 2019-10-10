@@ -4,10 +4,11 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { ModerationActionBanContainer_user } from "coral-stream/__generated__/ModerationActionBanContainer_user.graphql";
 import CLASSES from "coral-stream/classes";
 import Spinner from "coral-stream/common/Spinner";
 import { DropdownButton, Icon } from "coral-ui/components";
+
+import { ModerationActionBanContainer_user } from "coral-stream/__generated__/ModerationActionBanContainer_user.graphql";
 
 import styles from "./ModerationActionBanContainer.css";
 

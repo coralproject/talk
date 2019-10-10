@@ -1,3 +1,5 @@
+import uuid from "uuid/v4";
+
 import {
   GQLComment,
   GQLCOMMENT_STATUS,
@@ -13,7 +15,6 @@ import {
   denormalizeComment,
   denormalizeStory,
 } from "coral-framework/testHelpers";
-import uuid from "uuid/v4";
 
 export function createDateInRange(start: Date, end: Date) {
   return new Date(

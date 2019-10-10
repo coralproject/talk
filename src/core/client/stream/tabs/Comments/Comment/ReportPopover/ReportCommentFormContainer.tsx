@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
+
 import { ReportCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
 
 import {

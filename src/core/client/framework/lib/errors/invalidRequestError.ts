@@ -1,5 +1,6 @@
-import { ERROR_CODES } from "coral-common/errors";
 import { FORM_ERROR } from "final-form";
+
+import { ERROR_CODES } from "coral-common/errors";
 
 /**
  * Shape of the `InvalidRequest` extension as

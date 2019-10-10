@@ -1,4 +1,5 @@
 import { toPairs } from "lodash";
+
 import { getShortNumberCode, validateFormat } from "./FluentShortNumber";
 
 describe("getShortNumberCode", () => {

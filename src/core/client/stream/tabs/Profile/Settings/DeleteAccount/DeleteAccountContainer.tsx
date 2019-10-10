@@ -9,10 +9,9 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 import { Flex, Icon, Typography } from "coral-ui/components";
 import { Button } from "coral-ui/components/Button";
-
-import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 
 import { DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
 import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";

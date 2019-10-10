@@ -2,10 +2,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
-import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
-import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
-import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
-import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   combineDisposables,
@@ -14,9 +10,14 @@ import {
   useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { withRouteConfig } from "coral-framework/lib/router";
 import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 
-import { withRouteConfig } from "coral-framework/lib/router";
+import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
+import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
+import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
+import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
+
 import EmptyMessage from "./EmptyMessage";
 import LoadingQueue from "./LoadingQueue";
 import Queue from "./Queue";

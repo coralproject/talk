@@ -1,8 +1,9 @@
-import "fluent-intl-polyfill/compat";
 import { FluentBundle } from "fluent/compat";
 
 import * as functions from "./functions";
 import { LocalesData } from "./locales";
+
+import "fluent-intl-polyfill/compat";
 
 // Don't warn in production.
 let decorateWarnMissing = (bundle: FluentBundle) => bundle;

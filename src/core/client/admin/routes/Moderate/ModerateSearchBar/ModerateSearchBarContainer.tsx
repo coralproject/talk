@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
-import { ModerateSearchBarContainer_story as ModerationQueuesData } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
 import { getModerationLink } from "coral-admin/helpers";
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
@@ -20,6 +19,8 @@ import {
   ListBoxOptionClickOrEnterHandler,
   ListBoxOptionElement,
 } from "coral-ui/hooks/useComboBox";
+
+import { ModerateSearchBarContainer_story as ModerationQueuesData } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
 
 import Bar from "./Bar";
 import GoToAriaInfo from "./GoToAriaInfo";

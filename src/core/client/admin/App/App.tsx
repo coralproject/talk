@@ -1,10 +1,10 @@
-import TransitionControl from "coral-framework/testHelpers/TransitionControl";
 import { BrowserProtocol, queryMiddleware } from "farce";
 import { createFarceRouter, ElementsRenderer } from "found";
 import { Resolver } from "found-relay";
 import React, { FunctionComponent } from "react";
 
 import { CoralContextConsumer } from "coral-framework/lib/bootstrap/CoralContext";
+import TransitionControl from "coral-framework/testHelpers/TransitionControl";
 
 import routeConfig from "../routeConfig";
 import NotFound from "../routes/NotFound";

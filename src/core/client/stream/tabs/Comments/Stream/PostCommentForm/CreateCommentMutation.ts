@@ -6,8 +6,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getViewer } from "coral-framework/helpers";
-import { roleIsAtLeast } from "coral-framework/helpers";
+import { getViewer, roleIsAtLeast } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -17,6 +16,7 @@ import {
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
 
 import {

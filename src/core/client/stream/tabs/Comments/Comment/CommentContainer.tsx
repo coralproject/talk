@@ -8,10 +8,6 @@ import { getURLWithCommentID } from "coral-framework/helpers";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
-import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
-import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
-import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
-import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import {
   SetCommentIDMutation,
@@ -21,6 +17,11 @@ import {
 } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
 import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
+
+import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
+import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
+import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
+import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
 import { isPublished } from "../helpers";
 import UserBadgesContainer from "./AuthorBadgesContainer";

@@ -8,6 +8,7 @@ import Main from "coral-auth/components/Main";
 import SetPasswordField from "coral-auth/components/SetPasswordField";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
 import { OnSubmit } from "coral-framework/lib/form";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,
@@ -15,7 +16,6 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import { useMutation } from "coral-framework/lib/relay";
 import SetPasswordMutation from "./SetPasswordMutation";
 
 interface FormProps {

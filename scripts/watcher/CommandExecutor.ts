@@ -21,8 +21,8 @@ export default class CommandExecutor implements Executor {
   private args?: ReadonlyArray<string>;
   private spawnMultiple: boolean;
   private runOnInit: boolean;
-  private isRunning: boolean = false;
-  private shouldRespawn: boolean = false;
+  private isRunning = false;
+  private shouldRespawn = false;
   private spawnProcessDebounced?: (() => void) & Cancelable;
 
   constructor(cmd: string, opts: CommandExecutorOptions = {}) {

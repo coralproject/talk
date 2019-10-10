@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+
 import { UserRowContainer_settings as SettingsData } from "coral-admin/__generated__/UserRowContainer_settings.graphql";
 import { UserRowContainer_user as UserData } from "coral-admin/__generated__/UserRowContainer_user.graphql";
 import { UserRowContainer_viewer as ViewerData } from "coral-admin/__generated__/UserRowContainer_viewer.graphql";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import UserRow from "./UserRow";
 

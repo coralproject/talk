@@ -7,8 +7,8 @@ import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
 import AriaInfo from "../AriaInfo";
-
 import Arrow from "./Arrow";
+
 import styles from "./Popover.css";
 
 type Placement =

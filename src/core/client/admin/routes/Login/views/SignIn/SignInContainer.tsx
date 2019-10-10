@@ -1,8 +1,6 @@
 import { RouteProps } from "found";
 import React, { Component } from "react";
 
-import { SignInContainer_auth as AuthData } from "coral-admin/__generated__/SignInContainer_auth.graphql";
-import { SignInContainerLocal as LocalData } from "coral-admin/__generated__/SignInContainerLocal.graphql";
 import {
   graphql,
   MutationProp,
@@ -10,6 +8,9 @@ import {
   withLocalStateContainer,
   withMutation,
 } from "coral-framework/lib/relay";
+
+import { SignInContainer_auth as AuthData } from "coral-admin/__generated__/SignInContainer_auth.graphql";
+import { SignInContainerLocal as LocalData } from "coral-admin/__generated__/SignInContainerLocal.graphql";
 
 import ClearAuthErrorMutation from "./ClearAuthErrorMutation";
 import SignIn from "./SignIn";

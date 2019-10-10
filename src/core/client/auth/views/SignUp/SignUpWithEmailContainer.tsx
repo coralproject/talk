@@ -3,9 +3,8 @@ import React, { Component } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 
-import SignUp from "./SignUpWithEmail";
-
 import { SignUpMutation, withSignUpMutation } from "./SignUpMutation";
+import SignUp from "./SignUpWithEmail";
 
 interface SignUpContainerProps {
   signUp: SignUpMutation;

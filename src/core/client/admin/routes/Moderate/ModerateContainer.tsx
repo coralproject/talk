@@ -2,9 +2,10 @@ import { Match, RouteProps, Router, withRouter } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { ModerateContainerQueryResponse } from "coral-admin/__generated__/ModerateContainerQuery.graphql";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { Spinner } from "coral-ui/components";
+
+import { ModerateContainerQueryResponse } from "coral-admin/__generated__/ModerateContainerQuery.graphql";
 
 import Moderate from "./Moderate";
 

@@ -32,7 +32,6 @@ type RemoveFirstArgument<T, R> = T extends [any, any, any, any?]
   ? Func0<R>
   : unknown;
 
-// @TODO: currently tslint fails to parse this: `...any[]`.
 function applyContainer<T extends [ReactTestInstance, ...any[]], R>(
   container: ReactTestInstance,
   fn: (...args: T) => R

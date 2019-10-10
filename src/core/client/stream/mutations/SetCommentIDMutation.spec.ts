@@ -1,8 +1,7 @@
 import { Environment, RecordSource } from "relay-runtime";
 import sinon from "sinon";
 
-import { timeout } from "coral-common/utils";
-import { parseQuery } from "coral-common/utils";
+import { parseQuery, timeout } from "coral-common/utils";
 import { LOCAL_ID } from "coral-framework/lib/relay";
 import { createRelayEnvironment } from "coral-framework/testHelpers";
 

@@ -2,8 +2,9 @@ import { FormApi } from "final-form";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { StoriesRouteQueryResponse } from "coral-admin/__generated__/StoriesRouteQuery.graphql";
 import { withRouteConfig } from "coral-framework/lib/router";
+
+import { StoriesRouteQueryResponse } from "coral-admin/__generated__/StoriesRouteQuery.graphql";
 
 import Stories from "./Stories";
 

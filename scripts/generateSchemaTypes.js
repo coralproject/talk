@@ -1,4 +1,3 @@
-const { Linter, Configuration } = require("tslint");
 const { generateTSTypesAsString } = require("graphql-schema-typescript");
 const { getGraphQLConfig } = require("graphql-config");
 const path = require("path");

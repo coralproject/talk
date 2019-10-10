@@ -1,3 +1,9 @@
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
+import { Field, Form } from "react-final-form";
+
+import NotAvailable from "coral-admin/components/NotAvailable";
+import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import {
   Button,
   Card,
@@ -8,12 +14,6 @@ import {
   Modal,
   Typography,
 } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
-import { Field, Form } from "react-final-form";
-
-import NotAvailable from "coral-admin/components/NotAvailable";
-import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 
 import styles from "./BanModal.css";
 

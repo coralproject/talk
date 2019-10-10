@@ -1,5 +1,6 @@
-import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import React, { Component } from "react";
+
+import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 
 import { ModerationActionBanQuery as QueryTypes } from "coral-stream/__generated__/ModerationActionBanQuery.graphql";
 

@@ -1,5 +1,4 @@
 import cn from "classnames";
-import { withStyles } from "coral-ui/hocs";
 import React, {
   AllHTMLAttributes,
   ChangeEvent,
@@ -8,7 +7,10 @@ import React, {
   MouseEvent,
 } from "react";
 
+import { withStyles } from "coral-ui/hocs";
+
 import Icon from "../Icon";
+
 import styles from "./PasswordField.css";
 
 export interface PasswordFieldProps {

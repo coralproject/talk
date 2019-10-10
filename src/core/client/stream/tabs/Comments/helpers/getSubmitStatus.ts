@@ -1,4 +1,5 @@
 import { MutationResponse } from "coral-framework/lib/relay";
+
 import { CreateCommentMutation } from "coral-stream/__generated__/CreateCommentMutation.graphql";
 import { CreateCommentReplyMutation } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 import { EditCommentMutation } from "coral-stream/__generated__/EditCommentMutation.graphql";
