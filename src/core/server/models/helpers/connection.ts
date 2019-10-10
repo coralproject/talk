@@ -139,7 +139,6 @@ export async function resolveConnection<T>(
   input: PaginationArgs,
   transformer: NodeToCursorTransformer<T>
 ) {
-  console.log(query);
   // We load one more than the limit so we can determine if there is another
   // page of entries. This gets trimmed off below after we've checked to see if
   // this constitutes another page of edges.
