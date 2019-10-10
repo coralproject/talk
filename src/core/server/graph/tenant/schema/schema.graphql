@@ -1109,6 +1109,23 @@ type StaffConfiguration {
 }
 
 """
+NewCommenterConfiguration specifies the features that apply to new commenters
+"""
+type NewCommentersConfiguration {
+  """
+  premodEnabled ensures that new commenters' comments are pre-moderated until they have
+  enough approved comments
+  """
+  premodEnabled: Boolean!
+
+  """
+  approvedCommentsThreshold is the number of comments a user must have approved before their
+  comments do not require premoderation
+  """
+  approvedCommentsThreshold: Int!
+}
+
+"""
 Settings stores the global settings for a given Tenant.
 """
 type Settings {
@@ -1243,6 +1260,11 @@ type Settings {
   createdAt is the time that the Settings was created at.
   """
   createdAt: Time! @auth(roles: [ADMIN])
+
+  """
+  newCommenters is the configuration for how new commenters comments are treated.
+  """
+  newCommenters: NewCommentersConfiguration!
 }
 
 ################################################################################
@@ -3367,6 +3389,23 @@ input CommenterAccountFeaturesInput {
 }
 
 """
+NewCommenterConfigurationInput specifies the features that apply to new commenters
+"""
+input NewCommentersConfigurationInput {
+  """
+  premodEnabled ensures that new commenters' comments are pre-moderated until they have
+  enough approved comments
+  """
+  premodEnabled: Boolean
+
+  """
+  approvedCommentsThreshold is the number of comments a user must have approved before their
+  comments do not require premoderation
+  """
+  approvedCommentsThreshold: Int
+}
+
+"""
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
@@ -3480,6 +3519,11 @@ input SettingsInput {
   locale specifies the locale for this Tenant.
   """
   locale: Locale
+
+  """
+  newCommenters is the configuration for how new commenters comments are treated.
+  """
+  newCommenters: NewCommentersConfigurationInput
 }
 
 """

@@ -49,6 +49,7 @@ const enhanced = withFragmentContainer<Props>({
       ...PerspectiveConfigContainer_settings
       ...PreModerationConfigContainer_settings
       ...RecentCommentHistoryConfigContainer_settings
+      ...NewCommentersConfigContainer_settings
     }
   `,
 })(ModerationConfigContainer);
