@@ -1246,11 +1246,7 @@ export async function updateUserLastWroteCommentTimestamp(
 }
 
 /**
- * updateUserLastWroteCommentTimestamp will update the last time that the user
- * wrote a comment, and will throw an error if the rate limit was exceeded. If
- * this throws an error, it means that the user has written a comment within
- * COMMENT_LIMIT_WINDOW_SECONDS seconds, and should be prevented from writing
- * another comment.
+ * updateUserLastCommentID will update the id of the users most recent comment.
  *
  * @param redis the Redis instance that Coral interacts with
  * @param tenant the Tenant to operate on
@@ -1265,20 +1261,19 @@ export async function updateUserLastCommentID(
 ) {
   const key = userLastCommentIDKey(tenant, user);
 
-  // Try to set the last wrote comment timestamp.
-  const [[, set]] = await redis
+  await redis
     .multi()
     .set(key, commentID)
     .expire(key, COMMENT_REPEAT_POST_TIMESPAN)
     .exec();
-  return set;
 }
 
 /**
- * retrieveUserLastWroteCommentTimestamp will return the timestamp (if set) that
- * the user last wrote a comment on. This will return null if the comment was
- * written more than COMMENT_LIMIT_WINDOW_SECONDS seconds ago.
+ * retrieveUserLastComment will return the id (if set) of the comment that
+ * the user last wrote. This will return null if the user has not made a comment
+ * within the CURRENT_REPEAT_POST_TIMESPAN.
  *
+ * @param mongo the db
  * @param redis the Redis instance that Coral interacts with
  * @param tenant the Tenant to operate on
  * @param user the User that we're looking up the limit for
@@ -1289,7 +1284,6 @@ export async function retrieveUserLastComment(
   tenant: Tenant,
   user: User
 ): Promise<Readonly<CommentModel> | null> {
-  // Try to get the id for the author.
   const id: string | null = await redis.get(userLastCommentIDKey(tenant, user));
   if (!id) {
     return null;
