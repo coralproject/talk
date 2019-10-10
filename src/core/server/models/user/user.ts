@@ -2356,6 +2356,7 @@ export async function retrieveUserScheduledForDeletion(
 
 /**
  * createModeratorNote will add a note to a users account
+ *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param id the ID of the User who is the subject of the note
@@ -2399,6 +2400,7 @@ export async function createModeratorNote(
 
 /**
  * deleteModeratorNote will remove a note from a user profile
+ *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param userID the ID of the user

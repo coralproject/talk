@@ -9,7 +9,6 @@ const typescriptOverrides = {
   files: ["*.ts", "*.tsx"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: ["tsconfig.json", "./src/tsconfig.json", "./src/core/client/tsconfig.json"],
     sourceType: "module",
     ecmaFeatures: {
       jsx: true,
@@ -28,22 +27,10 @@ const typescriptOverrides = {
   rules: Object.assign(
     typescriptEslintRecommended.rules,
     typescriptRecommended.rules,
-    typescriptRecommendedTypeChecking.rules,
     typescriptEslintPrettier.rules,
     react.rules,
     reactPrettier.rules,
     {
-      "@typescript-eslint/tslint/config": ["error", {
-        "rules": {
-          "ordered-imports": {
-            "options": {
-              "import-sources-order": "case-insensitive",
-              "module-source-path": "full",
-              "named-imports-order": "case-insensitive",
-            },
-          },
-        },
-      }],
       "@typescript-eslint/adjacent-overload-signatures": "error",
       // TODO: (cvle) change `readonly` param to `array-simple` when upgraded typescript.
       "@typescript-eslint/array-type": ["error", { "default": "array-simple", "readonly": "generic"}],
@@ -91,6 +78,30 @@ const typescriptOverrides = {
   ),
 };
 
+
+let typescriptTypeCheckingOverrides = {
+  files: ["*.ts", "*.tsx"],
+  parserOptions: {
+    project: ["tsconfig.json", "./src/tsconfig.json", "./src/core/client/tsconfig.json"],
+  },
+  rules: Object.assign(
+    typescriptRecommendedTypeChecking.rules,
+    {
+      "@typescript-eslint/tslint/config": ["error", {
+        "rules": {
+          "ordered-imports": {
+            "options": {
+              "import-sources-order": "case-insensitive",
+              "module-source-path": "full",
+              "named-imports-order": "case-insensitive",
+            },
+          },
+        },
+      }],
+    }
+  ),
+};
+
 const jestOverrides = {
   env: {
     jest: true,
@@ -102,8 +113,15 @@ const jestOverrides = {
   },
 };
 
+// Setup the overrides.
+const overrides = [jestOverrides, typescriptOverrides];
+// Skip type information to make it faster!
+if (process.env.FAST_LINT !== "true") {
+  overrides.push(typescriptTypeCheckingOverrides);
+}
+
 module.exports = {
-  overrides: [typescriptOverrides, jestOverrides],
+  overrides,
   env: {
     browser: true,
     es6: true,
