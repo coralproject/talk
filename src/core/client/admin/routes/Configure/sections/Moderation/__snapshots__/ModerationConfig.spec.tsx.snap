@@ -10,6 +10,11 @@ exports[`renders correctly 1`] = `
     onInitValues={[Function]}
     settings={Object {}}
   />
+  <Relay(NewCommentersConfigContainer)
+    disabled={false}
+    onInitValues={[Function]}
+    settings={Object {}}
+  />
   <Relay(RecentCommentHistoryConfigContainer)
     disabled={false}
     onInitValues={[Function]}

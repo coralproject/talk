@@ -261,6 +261,126 @@ approved by a moderator.
             <legend
               className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
             >
+              New commenters
+            </legend>
+            <div
+              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+            >
+              <fieldset
+                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <legend
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                >
+                  Enable pre-moderation
+                </legend>
+                <p
+                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+                >
+                  Enable pre-moderation for new commenters
+                </p>
+                <div>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={false}
+                      id="newCommenters.premodEnabled-true"
+                      name="newCommenters.premodEnabled"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value={true}
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="newCommenters.premodEnabled-true"
+                    >
+                      <span>
+                        On
+                      </span>
+                    </label>
+                  </div>
+                  <div
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={true}
+                      className="RadioButton-input"
+                      disabled={false}
+                      id="newCommenters.premodEnabled-false"
+                      name="newCommenters.premodEnabled"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value={false}
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="newCommenters.premodEnabled-false"
+                    >
+                      <span>
+                        Off
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <label
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                >
+                  Approved comments threshold
+                </label>
+                <p
+                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+                >
+                  The number of comments a user must have approved before they do
+not have to be premoderated
+                </p>
+                <div
+                  className="TextField-root"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="TextField-input NewCommentersConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
+                    disabled={false}
+                    name="newCommenters.approvedCommentsThreshold"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="text"
+                    value={2}
+                  />
+                  <div
+                    className="TextField-adornment"
+                  >
+                    <p
+                      className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                    >
+                      comments
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+            >
               Recent history
             </legend>
             <div

@@ -161,6 +161,10 @@ export const settings = createFixture<GQLSettings>({
     changeUsername: true,
     deleteAccount: true,
   },
+  newCommenters: {
+    premodEnabled: false,
+    approvedCommentsThreshold: 2,
+  },
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
@@ -526,6 +530,7 @@ export const baseComment = createFixture<GQLComment>({
           COMMENT_DETECTED_SUSPECT_WORD: 0,
           COMMENT_REPORTED_OFFENSIVE: 0,
           COMMENT_REPORTED_SPAM: 0,
+          COMMENT_DETECTED_NEW_COMMENTER: 0,
         },
       },
     },
