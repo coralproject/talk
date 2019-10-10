@@ -12,7 +12,6 @@ import {
   FieldSet,
   FormField,
   HorizontalGutter,
-  InputDescription,
   InputLabel,
   TextField,
   Typography,
