@@ -1858,6 +1858,11 @@ type User {
   deletedAt is the time when the User was deleted.
   """
   deletedAt: Time
+
+  """
+  isNew
+  """
+  isNew: Boolean!
 }
 
 """

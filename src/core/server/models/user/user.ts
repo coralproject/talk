@@ -455,6 +455,8 @@ export interface User extends TenantResource {
    * deletedAt is the time that this user was deleted from our system.
    */
   deletedAt?: Date;
+
+  isNew: boolean;
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -509,6 +511,7 @@ async function findOrCreateUserInput(
     profiles: [],
     digests: [],
     createdAt: now,
+    isNew: true,
   };
 
   if (input.username) {
@@ -2427,5 +2430,33 @@ export async function deleteModeratorNote(
   if (!result.value) {
     throw new UserNotFoundError(id);
   }
+  return result.value;
+}
+
+export async function markUserNotNew(mongo: Db, tenantID: string, id: string) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: { isNew: false },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
   return result.value;
 }
