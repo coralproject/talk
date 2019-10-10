@@ -32,32 +32,26 @@ const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
     <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
       <Localized id="configure-moderation-newCommenters-title">
-        <Header container="legend">New Commenters</Header>
+        <Header container="legend">New commenter approval</Header>
+      </Localized>
+      <Localized id="configure-moderation-newCommenters-description">
+        <Typography variant="bodyShort">
+          When this is active, initial comments by a new commenter will be sent
+          to Pending for moderator approval before publication.
+        </Typography>
       </Localized>
       <SectionContent>
         <FormField container={<FieldSet />}>
           <Localized id="configure-moderation-newCommenters-enable">
-            <InputLabel container="legend">Enable pre-moderation</InputLabel>
-          </Localized>
-          <Localized
-            id="configure-moderation-newCommenters-enable-description"
-            strong={<strong />}
-          >
-            <InputDescription>
-              Enforce premoderation for new commenters
-            </InputDescription>
+            <InputLabel container="legend">
+              Enable new commenter approval
+            </InputLabel>
           </Localized>
           <OnOffField name="newCommenters.premodEnabled" disabled={disabled} />
         </FormField>
         <FormField>
           <Localized id="configure-moderation-newCommenters-approvedCommentsThreshold">
-            <InputLabel>Approved comments threshold</InputLabel>
-          </Localized>
-          <Localized id="configure-moderation-newCommenters-approvedCommentsThreshold-description">
-            <InputDescription>
-              The number of comments a user must have approved before they do
-              not have to be premoderated
-            </InputDescription>
+            <InputLabel>Number of first comments sent for approval</InputLabel>
           </Localized>
           <Field
             name="newCommenters.approvedCommentsThreshold"

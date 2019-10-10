@@ -323,10 +323,13 @@ configure-moderation-perspective-accountNote =
   For additional information on how to set up the Perspective Toxic Comment Filter please visit:
   <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
 
-configure-moderation-newCommenters-title = New commenters
-configure-moderation-newCommenters-enable = Enable pre-moderation
+configure-moderation-newCommenters-title = New commenter approval
+configure-moderation-newCommenters-enable = Enable new commenter approval
+configure-moderation-newCommenters-description =
+  When this is active, initial comments by a new commenter will be sent to Pending
+  for moderator approval before publication.
 configure-moderation-newCommenters-enable-description = Enable pre-moderation for new commenters
-configure-moderation-newCommenters-approvedCommentsThreshold = Approved comments threshold
+configure-moderation-newCommenters-approvedCommentsThreshold = Number of first comments sent for approval
 configure-moderation-newCommenters-approvedCommentsThreshold-description =
   The number of comments a user must have approved before they do
   not have to be premoderated
