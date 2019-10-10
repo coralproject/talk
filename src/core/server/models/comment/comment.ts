@@ -1053,3 +1053,24 @@ export async function retrieveRecentStatusCounts(
   ]);
   return counts[0];
 }
+
+export async function countApprovedComments(
+  mongo: Db,
+  tenantID: string,
+  limit: number | null,
+  authorID: string
+) {
+  const options: { limit?: number } = {};
+  if (limit) {
+    options.limit = limit;
+  }
+  const result = await collection(mongo).countDocuments(
+    {
+      tenantID,
+      authorID,
+      status: GQLCOMMENT_STATUS.APPROVED,
+    },
+    options
+  );
+  return result;
+}

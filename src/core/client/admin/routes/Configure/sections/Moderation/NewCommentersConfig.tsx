@@ -36,11 +36,11 @@ const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
       </Localized>
       <SectionContent>
         <FormField container={<FieldSet />}>
-          <Localized id="configure-moderation-newCommenters-enabled">
+          <Localized id="configure-moderation-newCommenters-enable">
             <InputLabel container="legend">Enable pre-moderation</InputLabel>
           </Localized>
           <Localized
-            id="configure-moderation-newCommenters-enabled-description"
+            id="configure-moderation-newCommenters-enable-description"
             strong={<strong />}
           >
             <InputDescription>
