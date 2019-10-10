@@ -78,7 +78,6 @@ const typescriptOverrides = {
   ),
 };
 
-
 let typescriptTypeCheckingOverrides = {
   files: ["*.ts", "*.tsx"],
   parserOptions: {
