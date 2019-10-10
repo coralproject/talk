@@ -1266,7 +1266,7 @@ type Settings {
   """
   newCommenters is the configuration for how new commenters comments are treated.
   """
-  newCommenters: NewCommentersConfiguration!
+  newCommenters: NewCommentersConfiguration! @auth(roles: [ADMIN])
 }
 
 ################################################################################
