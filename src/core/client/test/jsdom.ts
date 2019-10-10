@@ -13,6 +13,7 @@ window.getSelection = () =>
     addRange() {},
     removeAllRanges() {},
   } as any);
+window.resizeTo = () => {};
 /* eslint-enable @typescript-eslint/no-empty-function */
 
 function copyProps(src: any, target: any) {
