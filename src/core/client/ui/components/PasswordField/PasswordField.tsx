@@ -4,7 +4,7 @@ import React, {
   ChangeEvent,
   Component,
   EventHandler,
-  MouseEvent,
+  KeyboardEvent,
 } from "react";
 
 import { withStyles } from "coral-ui/hocs";
@@ -87,7 +87,14 @@ class PasswordField extends Component<PasswordFieldProps, State> {
     reveal: false,
   };
 
-  private handleToggleVisibility = (e: MouseEvent) => {
+  private handleVisibilityKeyUp = (e: KeyboardEvent) => {
+    // Number 13 is the "Enter" key on the keyboard
+    if (e.keyCode === 13) {
+      this.toggleVisibility();
+    }
+  };
+
+  private toggleVisibility = () => {
     this.setState(state => ({
       reveal: !state.reveal,
     }));
@@ -139,7 +146,8 @@ class PasswordField extends Component<PasswordFieldProps, State> {
             role="button"
             className={styles.icon}
             title={reveal ? hidePasswordTitle : showPasswordTitle}
-            onClick={this.handleToggleVisibility}
+            onClick={this.toggleVisibility}
+            onKeyUp={this.handleVisibilityKeyUp}
             tabIndex={0}
           >
             <Icon>{reveal ? "visibility_off" : "visibility"}</Icon>

@@ -3,6 +3,7 @@ const typescriptRecommended = require('@typescript-eslint/eslint-plugin/dist/con
 const typescriptRecommendedTypeChecking = require('@typescript-eslint/eslint-plugin/dist/configs/recommended-requiring-type-checking.json');
 const typescriptEslintPrettier = require('eslint-config-prettier/@typescript-eslint');
 const react = require('eslint-plugin-react').configs.recommended;
+const jsxA11y = require('eslint-plugin-jsx-a11y').configs.recommended;
 const reactPrettier = require('eslint-config-prettier/react');
 
 const typescriptOverrides = {
@@ -18,6 +19,7 @@ const typescriptOverrides = {
     "@typescript-eslint",
     "@typescript-eslint/tslint",
     "react",
+    "jsx-a11y",
   ],
   settings: {
     react: {
@@ -29,6 +31,7 @@ const typescriptOverrides = {
     typescriptRecommended.rules,
     typescriptEslintPrettier.rules,
     react.rules,
+    jsxA11y.rules,
     reactPrettier.rules,
     {
       "@typescript-eslint/adjacent-overload-signatures": "error",
@@ -68,6 +71,9 @@ const typescriptOverrides = {
       "@typescript-eslint/triple-slash-reference": "error",
       "@typescript-eslint/type-annotation-spacing": "off",
       "@typescript-eslint/unified-signatures": "error",
+      // (cvle) disabled, because the way we use labels in our code cause to many
+      // false positives.
+      "jsx-a11y/label-has-associated-control": "off",
       "react/display-name": "error",
       "react/prop-types": "off",
       "react/no-unescaped-entities": "off",

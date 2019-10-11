@@ -19,6 +19,7 @@ const Option: FunctionComponent<Props> = ({
   children,
   className,
   href,
+  "aria-selected": selected,
   ...rest
 }) => {
   const container = (
@@ -35,7 +36,12 @@ const Option: FunctionComponent<Props> = ({
   );
 
   return (
-    <li role="option" className={cn(className, styles.root)} {...rest}>
+    <li
+      role="option"
+      className={cn(className, styles.root)}
+      aria-selected={selected}
+      {...rest}
+    >
       {href && (
         <a href={href} className={styles.link} tabIndex={-1}>
           {container}

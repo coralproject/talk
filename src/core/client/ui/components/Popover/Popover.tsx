@@ -156,7 +156,7 @@ class Popover extends React.Component<PopoverProps> {
             {props => (
               <div
                 id={id}
-                role="popup"
+                role="dialog"
                 aria-labelledby={`${id}-ariainfo`}
                 aria-hidden={!visible}
               >

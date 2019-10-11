@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { MouseEvent, TouchEvent } from "react";
 import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 
@@ -10,8 +11,7 @@ interface InjectedProps {
 
 /**
  * withMouseHover provides a property `MouseHover: boolean`
- * to indicate a focus on the element, that wasn't triggered by mouse
- * or touch.
+ * to indicate a that the mouse is hovering the element.
  */
 const withMouseHover: DefaultingInferableComponentEnhancer<
   InjectedProps

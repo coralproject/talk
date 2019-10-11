@@ -16,10 +16,16 @@ interface Props extends HTMLAttributes<HTMLLIElement> {
 const ModerateAllOption: FunctionComponent<Props> = ({
   className,
   href,
+  "aria-selected": selected,
   ...rest
 }) => {
   return (
-    <li role="option" className={cn(className, styles.root)} {...rest}>
+    <li
+      role="option"
+      className={cn(className, styles.root)}
+      aria-selected={selected}
+      {...rest}
+    >
       <Button
         href={href}
         color="primary"
