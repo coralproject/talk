@@ -102,19 +102,21 @@ const Modal: FunctionComponent<Props> = ({
   if (open && modalDOMNode) {
     return ReactDOM.createPortal(
       <div role="dialog" className={rootClassName} {...rest}>
-        <div role="presentation" onKeyDown={handleEscapeKeyDown}>
-          <NoScroll active={open} />
-          <Backdrop
-            active={open}
-            data-testid="backdrop"
-            onClick={handleBackdropClick}
-          />
-          <div className={styles.scroll}>
-            <div className={styles.alignContainer1}>
-              <div className={styles.alignContainer2}>
-                <div className={styles.wrapper}>
-                  <TrapFocus>{children}</TrapFocus>
-                </div>
+        <NoScroll active={open} />
+        <Backdrop
+          active={open}
+          data-testid="backdrop"
+          onClick={handleBackdropClick}
+        />
+        <div
+          role="presentation"
+          className={styles.scroll}
+          onKeyDown={handleEscapeKeyDown}
+        >
+          <div className={styles.alignContainer1}>
+            <div className={styles.alignContainer2}>
+              <div className={styles.wrapper}>
+                <TrapFocus>{children}</TrapFocus>
               </div>
             </div>
           </div>
