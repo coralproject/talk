@@ -93,6 +93,7 @@ export const signupHandler = ({
           // start with.
           role: GQLUSER_ROLE.COMMENTER,
         },
+        {},
         now
       );
 

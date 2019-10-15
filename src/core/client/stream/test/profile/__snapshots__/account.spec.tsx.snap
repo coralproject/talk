@@ -9,7 +9,7 @@ exports[`renders the empty settings pane 1`] = `
     role="tablist"
   >
     <li
-      className="Tab-root"
+      className="Tab-root Tab-root"
       id="tab-COMMENTS"
       role="presentation"
     >
@@ -32,7 +32,7 @@ exports[`renders the empty settings pane 1`] = `
       </button>
     </li>
     <li
-      className="Tab-root"
+      className="Tab-root Tab-root"
       id="tab-PROFILE"
       role="presentation"
     >
@@ -110,7 +110,7 @@ exports[`renders the empty settings pane 1`] = `
         role="tablist"
       >
         <li
-          className="Tab-root"
+          className="Tab-root Tab-root"
           id="tab-MY_COMMENTS"
           role="presentation"
         >
@@ -133,7 +133,7 @@ exports[`renders the empty settings pane 1`] = `
           </button>
         </li>
         <li
-          className="Tab-root"
+          className="Tab-root Tab-root"
           id="tab-NOTIFICATIONS"
           role="presentation"
         >
@@ -156,7 +156,7 @@ exports[`renders the empty settings pane 1`] = `
           </button>
         </li>
         <li
-          className="Tab-root"
+          className="Tab-root Tab-root"
           id="tab-ACCOUNT"
           role="presentation"
         >
