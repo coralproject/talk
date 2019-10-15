@@ -22,7 +22,7 @@ function wrapPath(
   { passport }: Pick<RouterOptions, "passport">,
   router: express.Router,
   strategy: string,
-  path: string = `/${strategy}`
+  path = `/${strategy}`
 ) {
   const handler = wrapOAuth2Authn(passport, app.signingConfig, strategy);
 

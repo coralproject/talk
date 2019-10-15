@@ -31,7 +31,7 @@ class BackedPromisifedStorage implements PromisifiedStorage {
     this.storage = storage;
   }
 
-  get length() {
+  public get length() {
     return Promise.resolve(this.storage.length);
   }
 

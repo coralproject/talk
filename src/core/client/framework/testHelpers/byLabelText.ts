@@ -77,7 +77,7 @@ export function queryAllByLabelText(
               x.props["aria-labelledby"] === i.props.id
           )
         );
-      } catch {} // tslint:disable-line:no-empty
+      } catch {} // eslint-disable-line no-empty
     }
   });
   // Find matching labels.
@@ -90,7 +90,7 @@ export function queryAllByLabelText(
               x => typeof x.type === "string" && x.props.id === i.props.htmlFor
             )
           );
-        } catch {} // tslint:disable-line:no-empty
+        } catch {} // eslint-disable-line no-empty
       }
     }
   );

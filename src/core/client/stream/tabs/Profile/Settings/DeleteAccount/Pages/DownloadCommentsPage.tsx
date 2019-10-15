@@ -52,7 +52,7 @@ const DownloadCommentsPage: FunctionComponent<Props> = ({
         </Localized>
         <Localized id="profile-account-deleteAccount-pages-downloadCommentsPath">
           <Typography variant="bodyCopyBold" className={styles.sectionContent}>
-            My Profile > Download My Comment History
+            My Profile &gt; Download My Comment History
           </Typography>
         </Localized>
 

@@ -25,7 +25,7 @@ export class SecretStream extends Transform {
         this.push(SecretStream.replace(JSON.stringify(chunk)));
       }
     } catch (err) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(err);
     }
 

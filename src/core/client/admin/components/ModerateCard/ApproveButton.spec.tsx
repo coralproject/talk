@@ -1,9 +1,9 @@
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
-import ApproveButton from "./ApproveButton";
-
 import { PropTypesOf } from "coral-framework/types";
+
+import ApproveButton from "./ApproveButton";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof ApproveButton> = {

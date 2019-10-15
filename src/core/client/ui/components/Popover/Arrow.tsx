@@ -7,8 +7,11 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   dark?: boolean;
 }
 
-const Arrow = React.forwardRef<HTMLDivElement, Props>(
-  ({ className, dark, ...rest }, ref) => (
+const Arrow = React.forwardRef<HTMLDivElement, Props>(function Arrow(
+  { className, dark, ...rest },
+  ref
+) {
+  return (
     <div
       {...rest}
       className={cn(className, styles.root, {
@@ -16,7 +19,7 @@ const Arrow = React.forwardRef<HTMLDivElement, Props>(
       })}
       ref={ref}
     />
-  )
-);
+  );
+});
 
 export default Arrow;

@@ -1,12 +1,13 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { DiscoverOIDCConfigurationFetchQuery as QueryTypes } from "coral-admin/__generated__/DiscoverOIDCConfigurationFetchQuery.graphql";
 import {
   createFetch,
   fetchQuery,
   FetchVariables,
 } from "coral-framework/lib/relay";
+
+import { DiscoverOIDCConfigurationFetchQuery as QueryTypes } from "coral-admin/__generated__/DiscoverOIDCConfigurationFetchQuery.graphql";
 
 const DiscoverOIDCConfigurationFetch = createFetch(
   "discoverOIDCConfiguration",

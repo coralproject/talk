@@ -12,6 +12,7 @@ export type Publisher = (input: SUBSCRIPTION_INPUT) => Promise<void>;
  * over the pubsub broker to facilitate live updates and notifications.
  *
  * @param pubsub the pubsub broker to be used to facilitate the publish action
+ * @param notifier
  * @param tenantID the ID of the Tenant where the event will be published with
  * @param clientID the ID of the client to de-duplicate mutation responses
  */

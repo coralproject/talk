@@ -93,7 +93,7 @@ export async function retrieveCommentModerationActions(
   tenantID: string,
   filter: CommentModerationActionFilter
 ) {
-  const result = await collection(mongo).find({
+  const result = collection(mongo).find({
     tenantID,
     ...filter,
   });

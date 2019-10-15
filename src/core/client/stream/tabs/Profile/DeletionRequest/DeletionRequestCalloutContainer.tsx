@@ -9,6 +9,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 import {
   Button,
   CallOut,
@@ -17,8 +18,6 @@ import {
   Icon,
   Typography,
 } from "coral-ui/components";
-
-import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 
 import { DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
 

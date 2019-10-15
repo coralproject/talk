@@ -204,6 +204,7 @@ exports[`renders form 1`] = `
                 <div
                   className="PasswordField-icon"
                   onClick={[Function]}
+                  onKeyUp={[Function]}
                   role="button"
                   tabIndex={0}
                   title="Hide password"

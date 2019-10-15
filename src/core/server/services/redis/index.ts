@@ -37,10 +37,7 @@ function attachHandlers(redis: Redis) {
   });
 }
 
-export function createRedisClient(
-  config: Config,
-  lazyConnect: boolean = false
-): Redis {
+export function createRedisClient(config: Config, lazyConnect = false): Redis {
   try {
     const options = config.get("redis_options") || {};
 

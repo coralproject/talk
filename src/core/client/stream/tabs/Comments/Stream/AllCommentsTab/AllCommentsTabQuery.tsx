@@ -1,14 +1,16 @@
+import React, { FunctionComponent } from "react";
+import { ReadyState } from "react-relay";
+
 import {
   graphql,
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import { AllCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/AllCommentsTabQuery.graphql";
-import { AllCommentsTabQueryLocal as Local } from "coral-stream/__generated__/AllCommentsTabQueryLocal.graphql";
 import Spinner from "coral-stream/common/Spinner";
 import { Flex } from "coral-ui/components";
-import React, { FunctionComponent } from "react";
-import { ReadyState } from "react-relay";
+
+import { AllCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/AllCommentsTabQuery.graphql";
+import { AllCommentsTabQueryLocal as Local } from "coral-stream/__generated__/AllCommentsTabQueryLocal.graphql";
 
 import AllCommentsTabContainer from "./AllCommentsTabContainer";
 import SpinnerWhileRendering from "./SpinnerWhileRendering";

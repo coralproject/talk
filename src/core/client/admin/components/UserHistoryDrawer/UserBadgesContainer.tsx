@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { UserBadgesContainer_user as UserData } from "coral-admin/__generated__/UserBadgesContainer_user.graphql";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-
 import CLASSES from "coral-stream/classes";
 import { Tag } from "coral-ui/components";
+
+import { UserBadgesContainer_user as UserData } from "coral-admin/__generated__/UserBadgesContainer_user.graphql";
 
 interface Props {
   user: UserData;

@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { RecentCommentHistoryConfigContainer_settings as SettingsData } from "coral-admin/__generated__/RecentCommentHistoryConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { RecentCommentHistoryConfigContainer_settings as SettingsData } from "coral-admin/__generated__/RecentCommentHistoryConfigContainer_settings.graphql";
 
 import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
 

@@ -1,16 +1,15 @@
 import cn from "classnames";
-import React, { Ref } from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent, Ref } from "react";
 
 import { pascalCase } from "coral-common/utils";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { Spacing } from "coral-ui/theme/variables";
 import { PropTypesOf } from "coral-ui/types";
 
-import styles from "./Flex.css";
-
 /** Needs to be loaded after styles, because Box styles have priority */
 import Box from "../Box";
+
+import styles from "./Flex.css";
 
 interface Props extends PropTypesOf<typeof Box> {
   /**
@@ -83,7 +82,7 @@ const Flex: FunctionComponent<Props> = props => {
     classes.flex,
     classObject,
     (itemGutter || spacing) && "gutter",
-    spacing && (classes as any)[`spacing-${spacing!}`]
+    spacing && (classes as any)[`spacing-${spacing}`]
   );
 
   // text nodes can't be modified with css, so replace them with spans.

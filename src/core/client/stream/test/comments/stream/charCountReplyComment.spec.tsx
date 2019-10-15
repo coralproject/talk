@@ -1,8 +1,9 @@
+import RTE from "@coralproject/rte";
 import sinon from "sinon";
 
-import RTE from "@coralproject/rte";
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
+import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
   findParentWithType,
@@ -10,7 +11,6 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
-import { GQLResolver } from "coral-framework/schema";
 import { commenters, settings, stories } from "../../fixtures";
 import create from "./create";
 

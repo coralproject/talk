@@ -83,7 +83,7 @@ const Field: FunctionComponent<Props> = ({
                 <BaseButton
                   className={styles.searchButton}
                   type="submit"
-                  disabled={!Boolean(input.value)}
+                  disabled={!input.value}
                 >
                   Search
                 </BaseButton>

@@ -3,9 +3,6 @@
  * We keep the `.ts` extension to keep the types.
  */
 
-export type Spacing = keyof typeof variables["spacing"];
-export type Shade = keyof typeof variables["palette"]["primary"];
-
 const variables = {
   elevation: {
     main: "1px 0px 4px rgba(0, 0, 0, 0.25)",
@@ -90,7 +87,7 @@ const variables = {
   fontWeightRegular: 400,
   fontWeightMedium: 600,
   fontWeightBold: 700,
-  /***************/
+  /** End Deprecated */
   fontSize: {
     1: "12px",
     2: "14px",
@@ -154,4 +151,6 @@ const variables = {
   },
 };
 
+export type Spacing = keyof typeof variables["spacing"];
+export type Shade = keyof typeof variables["palette"]["primary"];
 export default variables;

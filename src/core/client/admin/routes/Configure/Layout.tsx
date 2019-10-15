@@ -1,5 +1,6 @@
-import { Flex } from "coral-ui/components";
 import React, { FunctionComponent } from "react";
+
+import { Flex } from "coral-ui/components";
 
 import styles from "./Layout.css";
 

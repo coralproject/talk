@@ -26,9 +26,8 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import RequestAccountDeletionMutation from "./RequestAccountDeletionMutation";
-
 import PageStepBar from "./Common/PageStepBar";
+import RequestAccountDeletionMutation from "./RequestAccountDeletionMutation";
 
 import sharedStyles from "./Common/Page.css";
 import styles from "./ConfirmPage.css";

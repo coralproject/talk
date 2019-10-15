@@ -1,11 +1,12 @@
 import { graphql, requestSubscription } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { ModerationCountsSubscription } from "coral-admin/__generated__/ModerationCountsSubscription.graphql";
 import {
   createSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
+
+import { ModerationCountsSubscription } from "coral-admin/__generated__/ModerationCountsSubscription.graphql";
 
 const ModerationCountsSubscription = createSubscription(
   "subscribeToCounts",

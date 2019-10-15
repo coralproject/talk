@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -6,13 +7,13 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { Omit, PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
+import { Button, HorizontalGutter } from "coral-ui/components";
+
 import { FeaturedCommentsContainer_settings as SettingsData } from "coral-stream/__generated__/FeaturedCommentsContainer_settings.graphql";
 import { FeaturedCommentsContainer_story as StoryData } from "coral-stream/__generated__/FeaturedCommentsContainer_story.graphql";
 import { FeaturedCommentsContainer_viewer as ViewerData } from "coral-stream/__generated__/FeaturedCommentsContainer_viewer.graphql";
 import { FeaturedCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/FeaturedCommentsContainerPaginationQuery.graphql";
-import CLASSES from "coral-stream/classes";
-import { Button, HorizontalGutter } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
 
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import FeaturedCommentContainer from "./FeaturedCommentContainer";

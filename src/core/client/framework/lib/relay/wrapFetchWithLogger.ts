@@ -12,13 +12,13 @@ export default function wrapFetchWithLogger(
     try {
       const result = await (fetch as any)(...args);
       if (options.logResult) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.log(JSON.stringify(result));
       }
       return result;
     } catch (err) {
       if (!options.muteErrors) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(err);
       }
       throw err;

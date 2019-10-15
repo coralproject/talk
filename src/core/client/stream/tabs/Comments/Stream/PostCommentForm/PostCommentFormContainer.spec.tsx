@@ -3,8 +3,7 @@ import { noop } from "lodash";
 import React from "react";
 import sinon from "sinon";
 
-import { timeout } from "coral-common/utils";
-import { pureMerge } from "coral-common/utils";
+import { pureMerge, timeout } from "coral-common/utils";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { removeFragmentRefs } from "coral-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "coral-framework/types";

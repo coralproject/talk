@@ -254,8 +254,8 @@ export function findOrCreateOIDCUserWithToken(
             now
           );
           return resolve(user);
-        } catch (err) {
-          return reject(err);
+        } catch (e) {
+          return reject(e);
         }
       }
     );

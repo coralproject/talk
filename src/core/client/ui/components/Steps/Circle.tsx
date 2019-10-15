@@ -1,5 +1,6 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
+
 import Icon from "../Icon";
 
 import styles from "./Circle.css";

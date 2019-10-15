@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { BannedWordListConfigContainer_settings as SettingsData } from "coral-admin/__generated__/BannedWordListConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { BannedWordListConfigContainer_settings as SettingsData } from "coral-admin/__generated__/BannedWordListConfigContainer_settings.graphql";
 
 import BannedWordListConfig from "./BannedWordListConfig";
 

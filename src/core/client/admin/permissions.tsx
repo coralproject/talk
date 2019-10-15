@@ -1,5 +1,6 @@
-import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import { mapValues } from "lodash";
+
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 
 /**
  * permissionMap describes what abilities certain roles have.
@@ -26,7 +27,7 @@ const permissionMap = {
 
 export type AbilityType = keyof typeof permissionMap;
 export const Ability = mapValues(permissionMap, (_, key) => key) as {
-  [P in AbilityType]: P
+  [P in AbilityType]: P;
 };
 
 /**

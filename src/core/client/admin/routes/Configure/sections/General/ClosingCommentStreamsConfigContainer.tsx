@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { ClosingCommentStreamsConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ClosingCommentStreamsConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { ClosingCommentStreamsConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ClosingCommentStreamsConfigContainer_settings.graphql";
 
 import ClosingCommentStreamsConfig from "./ClosingCommentStreamsConfig";
 

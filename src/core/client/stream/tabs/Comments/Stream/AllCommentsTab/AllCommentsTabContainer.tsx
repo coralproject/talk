@@ -12,13 +12,14 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import { Omit, PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
+import { Box, Button, CallOut, HorizontalGutter } from "coral-ui/components";
+
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
-import CLASSES from "coral-stream/classes";
-import { Box, Button, CallOut, HorizontalGutter } from "coral-ui/components";
 
 import { CommentContainer } from "../../Comment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
@@ -36,7 +37,7 @@ interface Props {
   relay: RelayPaginationProp;
 }
 
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment AllCommentsTabContainer_comment on Comment {
     id

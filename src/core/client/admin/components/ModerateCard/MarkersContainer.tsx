@@ -2,10 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
-import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Marker, MarkerCount } from "coral-ui/components";
+
+import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
+import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
+
 import Markers from "./Markers";
 import ModerateCardDetailsContainer from "./ModerateCardDetailsContainer";
 

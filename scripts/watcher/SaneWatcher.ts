@@ -18,7 +18,7 @@ function canUseWatchman(): boolean {
   try {
     execSync("watchman --version", { stdio: ["ignore"] });
     return true;
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
   } catch (e) {}
   return false;
 }
@@ -34,7 +34,7 @@ export default class SaneWatcher implements Watcher {
     // Autodetect watchman.
     if (this.watchman === undefined && canUseWatchman()) {
       this.watchman = true;
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.log(chalk.grey(`Watchman detected`));
     }
   }

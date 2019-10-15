@@ -371,7 +371,7 @@ export async function requestAccountDeletion(
 
   const updatedUser = await scheduleDeletionDate(
     mongo,
-    tenant.id!,
+    tenant.id,
     user.id,
     deletionDate.toJSDate()
   );
@@ -619,6 +619,7 @@ export async function updateRole(
 
 /**
  * enabledAuthenticationIntegrations returns enabled auth integrations for a tenant
+ *
  * @param tenant Tenant where the User will be interacted with
  * @param target whether to filter by stream or admin enabled. defaults to requiring both.
  */
@@ -639,6 +640,7 @@ function enabledAuthenticationIntegrations(
 
 /**
  * canUpdateLocalProfile will determine if a user is permitted to update their email address.
+ *
  * @param tenant Tenant where the User will be interacted with
  * @param user the User that we are updating
  */
@@ -662,6 +664,7 @@ function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
 
 /**
  * updateEmail will update the current User's email address.
+ *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param mailer The mailer queue
