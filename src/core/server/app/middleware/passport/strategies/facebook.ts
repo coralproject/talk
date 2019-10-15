@@ -82,6 +82,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
           avatar,
           profile,
         },
+        {},
         now
       );
     }
