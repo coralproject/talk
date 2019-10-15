@@ -86,8 +86,11 @@ import {
 } from "./download/token";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
-function validateFindOrCreateUserInput(input: FindOrCreateUser) {
-  if (input.username) {
+function validateFindOrCreateUserInput(
+  input: FindOrCreateUser,
+  options: FindOrCreateUserOptions
+) {
+  if (input.username && !options.skipUsernameValidation) {
     validateUsername(input.username);
   }
 
@@ -108,14 +111,19 @@ function validateFindOrCreateUserInput(input: FindOrCreateUser) {
 
 export type FindOrCreateUser = FindOrCreateUserInput;
 
+export interface FindOrCreateUserOptions {
+  skipUsernameValidation?: boolean;
+}
+
 export async function findOrCreate(
   mongo: Db,
   tenant: Tenant,
   input: FindOrCreateUser,
+  options: FindOrCreateUserOptions,
   now: Date
 ) {
   // Validate the input.
-  validateFindOrCreateUserInput(input);
+  validateFindOrCreateUserInput(input, options);
 
   const user = await findOrCreateUser(mongo, tenant.id, input, now);
 
@@ -125,15 +133,17 @@ export async function findOrCreate(
 }
 
 export type CreateUser = FindOrCreateUserInput;
+export type CreateUserOptions = FindOrCreateUserOptions;
 
 export async function create(
   mongo: Db,
   tenant: Tenant,
   input: CreateUser,
+  options: CreateUserOptions,
   now: Date
 ) {
   // Validate the input.
-  validateFindOrCreateUserInput(input);
+  validateFindOrCreateUserInput(input, options);
 
   if (input.id) {
     // Try to check to see if there is a user with the same ID before we try to

@@ -193,6 +193,7 @@ export async function findOrCreateOIDCUser(
         avatar: picture,
         profile,
       },
+      {},
       now
     );
   }
