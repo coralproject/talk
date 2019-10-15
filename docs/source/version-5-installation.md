@@ -3,14 +3,18 @@ title: Installing Version 5
 permalink: /
 ---
 
-Online comments are broken. Our open-source commenting platform, Coral, rethinks
-how moderation, comment display, and conversation function, creating the
-opportunity for safer, smarter discussions around your work.
-[Read more about Coral here](https://coralproject.net/).
+Online comments are broken. Our open-source commenting platform, Coral, reimagines
+moderation, comment display, and conversation. Use Coral to add safer, smarter discussions to your site without giving away your data.
+
+More than 70 publishers in 14 countries trust Coral to run their on-site communities, including the Washington Post, the Wall Street Journal, and Der Spiegel.[Read more about Coral here](https://coralproject.net/).
+
+<div class="callout">
+  We offer hosting and support packages for Coral, as well as exclusive, customer-only resources. [Contact us for more information.](https://coralproject.net/pricing/)
+</div>
 
 Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
 
-Preview Coral easily by running it via a Heroku App:
+Try out a test version of Coral by running it via a Heroku App:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk)
 
