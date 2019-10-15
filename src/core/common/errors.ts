@@ -317,5 +317,9 @@ export enum ERROR_CODES {
 
   USER_ALREADY_PREMOD = "USER_ALREADY_PREMOD",
 
+  /**
+   * REPEAT_POST is returned if a user attempts to post the same comment more than once
+   * in a row within a given time frame
+   */
   REPEAT_POST = "REPEAT_POST",
 }

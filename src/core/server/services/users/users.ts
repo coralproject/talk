@@ -32,10 +32,7 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
-import {
-  Comment as CommentModel,
-  retrieveComment,
-} from "coral-server/models/comment";
+import { Comment, retrieveComment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
@@ -1261,11 +1258,7 @@ export async function updateUserLastCommentID(
 ) {
   const key = userLastCommentIDKey(tenant, user);
 
-  await redis
-    .multi()
-    .set(key, commentID)
-    .expire(key, COMMENT_REPEAT_POST_TIMESPAN)
-    .exec();
+  await redis.set(key, commentID, "EX", COMMENT_REPEAT_POST_TIMESPAN);
 }
 
 /**
@@ -1283,7 +1276,7 @@ export async function retrieveUserLastComment(
   redis: AugmentedRedis,
   tenant: Tenant,
   user: User
-): Promise<Readonly<CommentModel> | null> {
+): Promise<Readonly<Comment> | null> {
   const id: string | null = await redis.get(userLastCommentIDKey(tenant, user));
   if (!id) {
     return null;

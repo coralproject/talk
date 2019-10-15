@@ -64,4 +64,8 @@ export const COMMENT_LIMIT_WINDOW_SECONDS = 3;
  */
 export const DEFAULT_SESSION_LENGTH = 7776000;
 
+/**
+ * COMMENT_REPEAT_POST_TIMESPAN is the length of time in seconds that a previous comment ID is stored for a
+ * user to prevent them from posting the same comment repeatedly.
+ */
 export const COMMENT_REPEAT_POST_TIMESPAN = 21600;

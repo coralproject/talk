@@ -29,13 +29,6 @@ export const repeatPost: IntermediateModerationPhase = async ({
     true
   );
 
-  // We can only check for spam if this comment originated from a graphql
-  // request via an HTTP call.
-  if (!req) {
-    log.debug("request was not available");
-    return;
-  }
-
   if (!comment.body) {
     return;
   }
