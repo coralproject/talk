@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 
-export let revision: string = "";
-export let version: string = "";
+export let revision = "";
+export let version = "";
 
 // Pull the version information from the package.json file.
 const packagePath = path.join(__dirname, "..", "..", "..", "package.json");

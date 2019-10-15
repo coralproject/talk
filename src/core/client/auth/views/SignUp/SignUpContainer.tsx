@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useCallback } from "react";
 
-import { SignUpContainer_auth as AuthData } from "coral-auth/__generated__/SignUpContainer_auth.graphql";
 import { getViewURL } from "coral-auth/helpers";
 import { SetViewMutation } from "coral-auth/mutations";
 import {
@@ -8,6 +7,8 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+
+import { SignUpContainer_auth as AuthData } from "coral-auth/__generated__/SignUpContainer_auth.graphql";
 
 import SignUp from "./SignUp";
 

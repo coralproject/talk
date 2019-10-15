@@ -10,6 +10,7 @@ import {
 } from "coral-framework/lib/relay";
 import { FragmentKeys } from "coral-framework/lib/relay/types";
 import { Omit, PropTypesOf } from "coral-framework/types";
+
 import { ReplyListContainer1_comment as CommentData } from "coral-stream/__generated__/ReplyListContainer1_comment.graphql";
 import { ReplyListContainer1_settings as SettingsData } from "coral-stream/__generated__/ReplyListContainer1_settings.graphql";
 import { ReplyListContainer1_story as StoryData } from "coral-stream/__generated__/ReplyListContainer1_story.graphql";
@@ -98,7 +99,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = props => {
     0;
 
   if (
-    props.comment.replies == null ||
+    props.comment.replies === null ||
     (props.comment.replies.edges.length === 0 && viewNewCount === 0)
   ) {
     return null;

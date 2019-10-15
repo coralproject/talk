@@ -15,7 +15,7 @@ it("sanitizes evil html", () => {
     <HTMLContent>
       {`
         <script>alert('I am evil')</script>
-        <span onClick=\"javascript:alert('haha')\" title="test">Hello world</span>
+        <span onClick="javascript:alert('haha')" title="test">Hello world</span>
       `}
     </HTMLContent>
   );

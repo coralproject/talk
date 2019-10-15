@@ -5,6 +5,8 @@ import { graphql } from "react-relay";
 import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
+import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 import {
   Button,
   CallOut,
@@ -13,9 +15,6 @@ import {
   Icon,
   Typography,
 } from "coral-ui/components";
-
-import CLASSES from "coral-stream/classes";
-import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
 
 import { StreamDeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/StreamDeletionRequestCalloutContainer_viewer.graphql";
 

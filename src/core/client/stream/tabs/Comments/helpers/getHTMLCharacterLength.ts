@@ -3,6 +3,7 @@ import getHTMLText from "./getHTMLText";
 /**
  * getHTMLCharacterLength will strip all tags and return remaining
  * character length.
+ *
  * @param html the html which length should be determined
  */
 export default function getHTMLCharacterLength(html: string | undefined) {

@@ -69,9 +69,11 @@ const UnsubscribeRoute: React.FunctionComponent<Props> = ({ token }) => {
 };
 
 const enhanced = withRouteConfig<Props>({
-  render: ({ match, Component }) => (
-    <Component token={parseHashQuery(match.location.hash).unsubscribeToken} />
-  ),
+  render: function UnsubscribeRouteRender({ match, Component }) {
+    return (
+      <Component token={parseHashQuery(match.location.hash).unsubscribeToken} />
+    );
+  },
 })(UnsubscribeRoute);
 
 export default enhanced;

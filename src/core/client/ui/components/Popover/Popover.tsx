@@ -7,8 +7,8 @@ import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
 import AriaInfo from "../AriaInfo";
-
 import Arrow from "./Arrow";
+
 import styles from "./Popover.css";
 
 type Placement =
@@ -156,7 +156,7 @@ class Popover extends React.Component<PopoverProps> {
             {props => (
               <div
                 id={id}
-                role="popup"
+                role="dialog"
                 aria-labelledby={`${id}-ariainfo`}
                 aria-hidden={!visible}
               >

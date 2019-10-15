@@ -1,4 +1,4 @@
-// tslint:disable:max-classes-per-file
+/* eslint-disable max-classes-per-file */
 
 // Allowing loading fluent files.
 declare module "*.ftl";

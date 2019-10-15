@@ -1,3 +1,4 @@
+import { isMatch } from "lodash";
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
@@ -8,7 +9,6 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
-import { isMatch } from "lodash";
 
 import { comments, settings, stories } from "../../fixtures";
 import create from "./create";

@@ -1,9 +1,9 @@
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
-import RejectButton from "./RejectButton";
-
 import { PropTypesOf } from "coral-framework/types";
+
+import RejectButton from "./RejectButton";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof RejectButton> = {

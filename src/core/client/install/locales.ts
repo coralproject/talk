@@ -6,4 +6,5 @@
  */
 
 import { LocalesData } from "coral-framework/lib/i18n";
+
 export default {} as LocalesData;

@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
-import { ModerateSearchBarContainer_story as ModerationQueuesData } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
 import { getModerationLink } from "coral-admin/helpers";
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
@@ -20,6 +19,8 @@ import {
   ListBoxOptionClickOrEnterHandler,
   ListBoxOptionElement,
 } from "coral-ui/hooks/useComboBox";
+
+import { ModerateSearchBarContainer_story as ModerationQueuesData } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
 
 import Bar from "./Bar";
 import GoToAriaInfo from "./GoToAriaInfo";
@@ -40,6 +41,7 @@ type SearchBarOptions = PropTypesOf<typeof Bar>["options"];
 /**
  * useLinkNavHandler returns a handler that navigates to `href` prop and blurs
  * the TextField.
+ *
  * @param router Router from the _found_ library
  * @returns A handler for ListBoxOption
  */
@@ -112,6 +114,7 @@ type OnSearchCallback = (search: string) => void;
 
 /**
  * useSearchOptions
+ *
  * @param onClickOrEnter A handler that reacts to click or enter for the search options
  * @param story Current active story
  */
@@ -235,7 +238,7 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
   if (!props.story) {
     return <Bar title={""} {...childProps} />;
   }
-  const t = props.story!.metadata && props.story!.metadata.title;
+  const t = props.story.metadata && props.story.metadata.title;
   if (t) {
     return <Bar title={t} {...childProps} />;
   }

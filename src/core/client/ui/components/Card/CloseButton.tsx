@@ -1,7 +1,7 @@
+import React, { FunctionComponent, Ref } from "react";
+
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { Omit, PropTypesOf } from "coral-ui/types";
-import React, { Ref } from "react";
-import { FunctionComponent } from "react";
 
 import BaseButton from "../BaseButton";
 import Icon from "../Icon";

@@ -2,7 +2,6 @@ import { pick } from "lodash";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { RemoveUserSuspensionMutation as MutationTypes } from "coral-admin/__generated__/RemoveUserSuspensionMutation.graphql";
 import { DeepWritable } from "coral-common/types";
 import {
   commitMutationPromiseNormalized,
@@ -11,6 +10,8 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 import { GQLUser, GQLUSER_STATUS } from "coral-framework/schema";
+
+import { RemoveUserSuspensionMutation as MutationTypes } from "coral-admin/__generated__/RemoveUserSuspensionMutation.graphql";
 
 let clientMutationId = 0;
 

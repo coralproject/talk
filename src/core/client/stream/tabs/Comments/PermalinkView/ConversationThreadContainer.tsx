@@ -6,11 +6,6 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withContext } from "coral-framework/lib/bootstrap";
 import { withPaginationContainer } from "coral-framework/lib/relay";
-import { ConversationThreadContainer_comment as CommentData } from "coral-stream/__generated__/ConversationThreadContainer_comment.graphql";
-import { ConversationThreadContainer_settings as SettingsData } from "coral-stream/__generated__/ConversationThreadContainer_settings.graphql";
-import { ConversationThreadContainer_story as StoryData } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
-import { ConversationThreadContainer_viewer as ViewerData } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
-import { ConversationThreadContainerPaginationQueryVariables } from "coral-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
 import CLASSES from "coral-stream/classes";
 import Counter from "coral-stream/common/Counter";
 import {
@@ -24,6 +19,12 @@ import {
 } from "coral-stream/tabs/Comments/Comment";
 import LocalReplyListContainer from "coral-stream/tabs/Comments/ReplyList/LocalReplyListContainer";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components";
+
+import { ConversationThreadContainer_comment as CommentData } from "coral-stream/__generated__/ConversationThreadContainer_comment.graphql";
+import { ConversationThreadContainer_settings as SettingsData } from "coral-stream/__generated__/ConversationThreadContainer_settings.graphql";
+import { ConversationThreadContainer_story as StoryData } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
+import { ConversationThreadContainer_viewer as ViewerData } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
+import { ConversationThreadContainerPaginationQueryVariables } from "coral-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
 
 import { Circle, Line } from "./Timeline";
 
@@ -56,7 +57,7 @@ class ConversationThreadContainer extends React.Component<
       error => {
         this.setState({ disableLoadMore: false });
         if (error) {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           console.error(error);
         }
       }

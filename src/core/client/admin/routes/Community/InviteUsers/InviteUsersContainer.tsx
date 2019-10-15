@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from "react";
 
-import { InviteUsersContainer_settings } from "coral-admin/__generated__/InviteUsersContainer_settings.graphql";
-import { InviteUsersContainer_viewer } from "coral-admin/__generated__/InviteUsersContainer_viewer.graphql";
 import { Ability, can } from "coral-admin/permissions";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+
+import { InviteUsersContainer_settings } from "coral-admin/__generated__/InviteUsersContainer_settings.graphql";
+import { InviteUsersContainer_viewer } from "coral-admin/__generated__/InviteUsersContainer_viewer.graphql";
 
 import InviteUsers from "./InviteUsers";
 

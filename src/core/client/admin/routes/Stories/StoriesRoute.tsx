@@ -2,8 +2,9 @@ import { FormApi } from "final-form";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { StoriesRouteQueryResponse } from "coral-admin/__generated__/StoriesRouteQuery.graphql";
 import { withRouteConfig } from "coral-framework/lib/router";
+
+import { StoriesRouteQueryResponse } from "coral-admin/__generated__/StoriesRouteQuery.graphql";
 
 import Stories from "./Stories";
 
@@ -34,9 +35,9 @@ const enhanced = withRouteConfig<Props>({
       searchFilter: match.location.query.q,
     };
   },
-  render: ({ match, Component, ...rest }) => (
-    <Component initialSearchFilter={match.location.query.q} {...rest} />
-  ),
+  render: function StoriesRouteRender({ match, Component, ...rest }) {
+    return <Component initialSearchFilter={match.location.query.q} {...rest} />;
+  },
 })(StoriesRoute);
 
 export default enhanced;

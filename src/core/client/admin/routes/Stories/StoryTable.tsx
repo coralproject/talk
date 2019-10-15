@@ -1,9 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "coral-framework/types";
-
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
+import { PropTypesOf } from "coral-framework/types";
 import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 import {
   Table,
@@ -13,10 +12,9 @@ import {
   TableRow,
 } from "coral-ui/components/Table";
 
-import StoryRowContainer from "./StoryRowContainer";
-
 import EmptyMessage from "./EmptyMessage";
 import NoMatchMessage from "./NoMatchMessage";
+import StoryRowContainer from "./StoryRowContainer";
 
 import styles from "./StoryTable.css";
 

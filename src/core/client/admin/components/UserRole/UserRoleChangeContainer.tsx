@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useCallback } from "react";
 
-import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
-import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
 import { Ability, can } from "coral-admin/permissions";
 import {
   graphql,
@@ -9,6 +7,9 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE_RL } from "coral-framework/schema";
+
+import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";
+import { UserRoleChangeContainer_viewer } from "coral-admin/__generated__/UserRoleChangeContainer_viewer.graphql";
 
 import ButtonPadding from "../ButtonPadding";
 import UpdateUserRoleMutation from "./UpdateUserRoleMutation";

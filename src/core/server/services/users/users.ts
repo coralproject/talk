@@ -86,8 +86,11 @@ import {
 } from "./download/token";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
-function validateFindOrCreateUserInput(input: FindOrCreateUser) {
-  if (input.username) {
+function validateFindOrCreateUserInput(
+  input: FindOrCreateUser,
+  options: FindOrCreateUserOptions
+) {
+  if (input.username && !options.skipUsernameValidation) {
     validateUsername(input.username);
   }
 
@@ -108,14 +111,19 @@ function validateFindOrCreateUserInput(input: FindOrCreateUser) {
 
 export type FindOrCreateUser = FindOrCreateUserInput;
 
+export interface FindOrCreateUserOptions {
+  skipUsernameValidation?: boolean;
+}
+
 export async function findOrCreate(
   mongo: Db,
   tenant: Tenant,
   input: FindOrCreateUser,
+  options: FindOrCreateUserOptions,
   now: Date
 ) {
   // Validate the input.
-  validateFindOrCreateUserInput(input);
+  validateFindOrCreateUserInput(input, options);
 
   const user = await findOrCreateUser(mongo, tenant.id, input, now);
 
@@ -125,15 +133,17 @@ export async function findOrCreate(
 }
 
 export type CreateUser = FindOrCreateUserInput;
+export type CreateUserOptions = FindOrCreateUserOptions;
 
 export async function create(
   mongo: Db,
   tenant: Tenant,
   input: CreateUser,
+  options: CreateUserOptions,
   now: Date
 ) {
   // Validate the input.
-  validateFindOrCreateUserInput(input);
+  validateFindOrCreateUserInput(input, options);
 
   if (input.id) {
     // Try to check to see if there is a user with the same ID before we try to
@@ -361,7 +371,7 @@ export async function requestAccountDeletion(
 
   const updatedUser = await scheduleDeletionDate(
     mongo,
-    tenant.id!,
+    tenant.id,
     user.id,
     deletionDate.toJSDate()
   );
@@ -609,6 +619,7 @@ export async function updateRole(
 
 /**
  * enabledAuthenticationIntegrations returns enabled auth integrations for a tenant
+ *
  * @param tenant Tenant where the User will be interacted with
  * @param target whether to filter by stream or admin enabled. defaults to requiring both.
  */
@@ -629,6 +640,7 @@ function enabledAuthenticationIntegrations(
 
 /**
  * canUpdateLocalProfile will determine if a user is permitted to update their email address.
+ *
  * @param tenant Tenant where the User will be interacted with
  * @param user the User that we are updating
  */
@@ -652,6 +664,7 @@ function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
 
 /**
  * updateEmail will update the current User's email address.
+ *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param mailer The mailer queue

@@ -2,9 +2,10 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
-import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
 import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components";
+
+import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
 
 import UserHistoryDrawerContainer from "./UserHistoryDrawerContainer";
 

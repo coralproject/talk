@@ -1,3 +1,5 @@
+const END_SLASH_REGEX = /\/$/;
+
 export default function ensureEndSlash(p: string) {
-  return p.match(/\/$/) ? p : `${p}/`;
+  return END_SLASH_REGEX.exec(p) ? p : `${p}/`;
 }

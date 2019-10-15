@@ -56,11 +56,11 @@ it("renders fully", () => {
         },
       },
     },
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     setAuthPopupState: async () => {},
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     signOut: async () => {},
   };
   const renderer = createRenderer();
@@ -115,11 +115,11 @@ it("renders without logout button", () => {
         },
       },
     },
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     setAuthPopupState: async () => {},
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     signOut: async () => {},
   };
   const renderer = createRenderer();
@@ -174,11 +174,11 @@ it("renders sso only", () => {
         },
       },
     },
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     setAuthPopupState: async () => {},
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     signOut: async () => {},
   };
   const renderer = createRenderer();
@@ -233,11 +233,11 @@ it("renders sso only without logout button", () => {
         },
       },
     },
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     setAuthPopupState: async () => {},
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     signOut: async () => {},
   };
   const renderer = createRenderer();
@@ -292,11 +292,11 @@ it("renders without register button", () => {
         },
       },
     },
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     showAuthPopup: async () => {},
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     setAuthPopupState: async () => {},
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
     signOut: async () => {},
   };
   const renderer = createRenderer();

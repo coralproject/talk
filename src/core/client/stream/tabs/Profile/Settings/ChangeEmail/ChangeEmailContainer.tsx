@@ -14,9 +14,10 @@ import { PasswordField } from "coral-framework/components";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { colorFromMeta } from "coral-framework/lib/form";
-import { createFetch, useFetch } from "coral-framework/lib/relay";
 import {
+  createFetch,
   graphql,
+  useFetch,
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
@@ -25,8 +26,6 @@ import {
   required,
   validateEmail,
 } from "coral-framework/lib/validation";
-import { ChangeEmailContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
-import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
@@ -41,6 +40,9 @@ import {
   TextField,
   Typography,
 } from "coral-ui/components";
+
+import { ChangeEmailContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
+import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
 
 import UpdateEmailMutation from "./UpdateEmailMutation";
 

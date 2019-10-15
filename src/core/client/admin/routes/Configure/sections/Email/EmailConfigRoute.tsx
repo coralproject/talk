@@ -2,9 +2,10 @@ import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { EmailConfigRouteQueryResponse } from "coral-admin/__generated__/EmailConfigRouteQuery.graphql";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { Delay, Spinner } from "coral-ui/components";
+
+import { EmailConfigRouteQueryResponse } from "coral-admin/__generated__/EmailConfigRouteQuery.graphql";
 
 import EmailConfigContainer from "./EmailConfigContainer";
 

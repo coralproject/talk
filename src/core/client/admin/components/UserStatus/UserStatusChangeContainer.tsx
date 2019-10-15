@@ -1,13 +1,14 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { UserStatusChangeContainer_settings as SettingsData } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
-import { UserStatusChangeContainer_user as UserData } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import {
   graphql,
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
+
+import { UserStatusChangeContainer_settings as SettingsData } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
+import { UserStatusChangeContainer_user as UserData } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 
 import ButtonPadding from "../ButtonPadding";
 import BanModal from "./BanModal";

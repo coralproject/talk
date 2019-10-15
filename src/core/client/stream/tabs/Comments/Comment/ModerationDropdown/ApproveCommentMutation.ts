@@ -7,6 +7,7 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_STATUS } from "coral-framework/schema";
+
 import { ApproveCommentMutation as MutationTypes } from "coral-stream/__generated__/ApproveCommentMutation.graphql";
 
 let clientMutationId = 0;

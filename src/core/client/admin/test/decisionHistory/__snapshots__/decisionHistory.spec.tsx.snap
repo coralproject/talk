@@ -459,7 +459,7 @@ exports[`renders decision history popover button 1`] = `
     aria-hidden={true}
     aria-labelledby="decision-history-popover-ariainfo"
     id="decision-history-popover"
-    role="popup"
+    role="dialog"
   >
     <div
       className="AriaInfo-root"

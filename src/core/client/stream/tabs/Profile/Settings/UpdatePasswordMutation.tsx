@@ -6,6 +6,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+
 import { UpdatePasswordMutation as MutationTypes } from "coral-stream/__generated__/UpdatePasswordMutation.graphql";
 
 let clientMutationId = 0;

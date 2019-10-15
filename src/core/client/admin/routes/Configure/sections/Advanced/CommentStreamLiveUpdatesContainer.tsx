@@ -1,9 +1,10 @@
 import React from "react";
 import { graphql } from "react-relay";
 
+import { withFragmentContainer } from "coral-framework/lib/relay";
+
 import { CommentStreamLiveUpdatesContainer_settings } from "coral-admin/__generated__/CommentStreamLiveUpdatesContainer_settings.graphql";
 import { CommentStreamLiveUpdatesContainer_settingsReadOnly } from "coral-admin/__generated__/CommentStreamLiveUpdatesContainer_settingsReadOnly.graphql";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import CommentStreamLiveUpdates from "./CommentStreamLiveUpdates";
 

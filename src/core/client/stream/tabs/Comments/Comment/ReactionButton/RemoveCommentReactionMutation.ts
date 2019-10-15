@@ -9,8 +9,8 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-
 import { GQLComment } from "coral-framework/schema";
+
 import { RemoveCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/RemoveCommentReactionMutation.graphql";
 
 export type RemoveCommentReactionInput = MutationInput<MutationTypes>;

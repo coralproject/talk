@@ -29,18 +29,20 @@ export class ClickOutside extends React.Component<ClickOutsideProps> {
   public handleClick = (e: MouseEvent) => {
     const { onClickOutside } = this.props;
     if (!e || !this.domNode!.contains(e.target as HTMLInputElement)) {
-      // tslint:disable-next-line:no-unused-expression
+      // eslint-disable-next-line no-unused-expressions
       onClickOutside && onClickOutside(e);
     }
   };
 
   public handleClickFarAway = () => {
     const { onClickOutside } = this.props;
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     onClickOutside && onClickOutside();
   };
 
   public componentDidMount() {
+    // TODO: find another solution to `findDOMNode`.
+    // eslint-disable-next-line react/no-find-dom-node
     this.domNode = findDOMNode(this) as Element;
     document.addEventListener("click", this.handleClick, true);
 

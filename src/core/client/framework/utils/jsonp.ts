@@ -1,8 +1,9 @@
 /**
  * Initiate a jsonp request.
- * @argument endpoint  jsonp endpoint
- * @argument callback  name of global callback to receive response
- * @argument args      args to send along the jsonp request.
+ *
+ * @param endpoint  jsonp endpoint
+ * @param callback  name of global callback to receive response
+ * @param args      args to send along the jsonp request.
  */
 function jsonp(
   endpoint: string,

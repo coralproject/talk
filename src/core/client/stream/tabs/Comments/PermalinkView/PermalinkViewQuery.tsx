@@ -7,10 +7,11 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import { PermalinkViewQuery as QueryTypes } from "coral-stream/__generated__/PermalinkViewQuery.graphql";
-import { PermalinkViewQueryLocal as Local } from "coral-stream/__generated__/PermalinkViewQueryLocal.graphql";
 import Spinner from "coral-stream/common/Spinner";
 import { Delay } from "coral-ui/components";
+
+import { PermalinkViewQuery as QueryTypes } from "coral-stream/__generated__/PermalinkViewQuery.graphql";
+import { PermalinkViewQueryLocal as Local } from "coral-stream/__generated__/PermalinkViewQueryLocal.graphql";
 
 import PermalinkViewContainer from "./PermalinkViewContainer";
 

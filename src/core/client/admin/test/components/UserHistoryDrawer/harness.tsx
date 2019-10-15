@@ -1,12 +1,15 @@
 import { BrowserProtocol, queryMiddleware } from "farce";
-import { createFarceRouter } from "found";
+import {
+  ConnectedRouter,
+  createFarceRouter,
+  makeRouteConfig,
+  Route,
+} from "found";
 import { Resolver } from "found-relay";
 import React, { FunctionComponent } from "react";
 
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { CoralContextConsumer } from "coral-framework/lib/bootstrap/CoralContext";
-import { makeRouteConfig, Route } from "found";
-import { ConnectedRouter } from "found";
 
 interface Props {
   userID: string;
@@ -19,18 +22,22 @@ const harnessRouter = (userID: string): ConnectedRouter => {
     historyProtocol: new BrowserProtocol(),
     historyMiddlewares: [queryMiddleware],
     routeConfig,
-    renderReady: ({ elements }) => (
-      <div data-testid="test-container">
-        <UserHistoryDrawer
-          userID={userID}
-          open
-          onClose={() => {
-            return;
-          }}
-        />
-      </div>
-    ),
-    renderError: ({ error }) => <div>Not Found</div>,
+    renderReady: function FarceRouterReady({ elements }) {
+      return (
+        <div data-testid="test-container">
+          <UserHistoryDrawer
+            userID={userID}
+            open
+            onClose={() => {
+              return;
+            }}
+          />
+        </div>
+      );
+    },
+    renderError: function FarceError({ error }) {
+      return <div>Not Found</div>;
+    },
   });
 };
 

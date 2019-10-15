@@ -11,7 +11,7 @@ exports[`renders correctly 1`] = `
     contentContainerClassNameDisabled=""
     features={
       Array [
-        <ForwardRef
+        <ForwardRef(RTELocalized)
           attrs={
             Object {
               "title": true,
@@ -26,8 +26,8 @@ exports[`renders correctly 1`] = `
               format_bold
             </ForwardRef(forwardRef)>
           </Toggle>
-        </ForwardRef>,
-        <ForwardRef
+        </ForwardRef(RTELocalized)>,
+        <ForwardRef(RTELocalized)
           attrs={
             Object {
               "title": true,
@@ -42,8 +42,8 @@ exports[`renders correctly 1`] = `
               format_italic
             </ForwardRef(forwardRef)>
           </Toggle>
-        </ForwardRef>,
-        <ForwardRef
+        </ForwardRef(RTELocalized)>,
+        <ForwardRef(RTELocalized)
           attrs={
             Object {
               "title": true,
@@ -58,7 +58,7 @@ exports[`renders correctly 1`] = `
               format_quote
             </ForwardRef(forwardRef)>
           </Toggle>
-        </ForwardRef>,
+        </ForwardRef(RTELocalized)>,
       ]
     }
     placeholder="Post a comment"
