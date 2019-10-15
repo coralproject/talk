@@ -1,5 +1,4 @@
 import { GQLSubscription } from "coral-framework/schema";
-
 import { DeepPartial } from "coral-framework/types";
 
 export type SubscriptionVariables<
@@ -42,6 +41,7 @@ export interface SubscriptionHandlerReadOnly {
    * dispatch will look for subscriptions of the field `field` and
    * calls the `callback` for each of them. If `callback` returns data,
    * it'll be dispatched to that subscription.
+   *
    * @param field name of subscription field to look for.
    * @param callback callback is called for every subscription on this field.
    */
@@ -70,7 +70,7 @@ export default function createSubscriptionHandler(): SubscriptionHandler {
     dispatch: (field, callback) => {
       subscriptions.forEach(s => {
         if (s.field === field) {
-          const data = callback(s.variables as any);
+          const data = callback(s.variables);
           if (data) {
             s.dispatch(data);
           }

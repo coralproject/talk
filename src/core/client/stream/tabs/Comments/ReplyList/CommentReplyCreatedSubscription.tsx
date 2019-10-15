@@ -5,6 +5,7 @@ import {
   createSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
+
 import { CommentReplyCreatedSubscription } from "coral-stream/__generated__/CommentReplyCreatedSubscription.graphql";
 
 /**
@@ -18,7 +19,7 @@ function determineDepthTillAncestor(comment: RecordProxy, ancestorID: string) {
     if (cur) {
       depth++;
       // Stop when reaching base ancestor.
-      if (cur!.getValue("id") === ancestorID) {
+      if (cur.getValue("id") === ancestorID) {
         return depth;
       }
     }

@@ -76,6 +76,7 @@ function withLocalStateContainer(
           const nextState = { data: snapshot.data };
           // State has not been initialized yet.
           if (!this.state) {
+            // eslint-disable-next-line react/no-direct-mutation-state
             this.state = nextState;
             return;
           }
@@ -86,7 +87,7 @@ function withLocalStateContainer(
           this.subscription.dispose();
         }
 
-        public componentWillReceiveProps(next: Props) {
+        public UNSAFE_componentWillReceiveProps(next: Props) {
           if (this.props.relayEnvironment !== next.relayEnvironment) {
             this.unsubscribe();
             this.subscribe(next.relayEnvironment);

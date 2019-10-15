@@ -2,6 +2,7 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
 import { ProfileContainer_settings as SettingsData } from "coral-stream/__generated__/ProfileContainer_settings.graphql";
 import { ProfileContainer_story as StoryData } from "coral-stream/__generated__/ProfileContainer_story.graphql";
 import { ProfileContainer_viewer as ViewerData } from "coral-stream/__generated__/ProfileContainer_viewer.graphql";

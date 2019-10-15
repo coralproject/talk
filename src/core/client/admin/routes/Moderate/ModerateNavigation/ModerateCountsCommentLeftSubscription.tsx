@@ -1,12 +1,13 @@
 import { graphql, requestSubscription } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { ModerateCountsCommentLeftSubscription } from "coral-admin/__generated__/ModerateCountsCommentLeftSubscription.graphql";
 import {
   createSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLMODERATION_QUEUE } from "coral-framework/schema";
+
+import { ModerateCountsCommentLeftSubscription } from "coral-admin/__generated__/ModerateCountsCommentLeftSubscription.graphql";
 
 import changeQueueCount from "./changeQueueCount";
 

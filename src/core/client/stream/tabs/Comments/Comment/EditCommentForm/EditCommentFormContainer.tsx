@@ -10,11 +10,11 @@ import {
   withFetch,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 
 import { EditCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
 import { EditCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/EditCommentFormContainer_settings.graphql";
 import { EditCommentFormContainer_story as StoryData } from "coral-stream/__generated__/EditCommentFormContainer_story.graphql";
-import CLASSES from "coral-stream/classes";
 
 import {
   getSubmitStatus,
@@ -111,7 +111,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         }
         return error.invalidArgs;
       }
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     }
     return;

@@ -1,8 +1,10 @@
-import { withFragmentContainer } from "coral-framework/lib/relay";
-import { SuspendedInfoContainer_settings as SettingsData } from "coral-stream/__generated__/SuspendedInfoContainer_settings.graphql";
-import { SuspendedInfoContainer_viewer as ViewerData } from "coral-stream/__generated__/SuspendedInfoContainer_viewer.graphql";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
+
+import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { SuspendedInfoContainer_settings as SettingsData } from "coral-stream/__generated__/SuspendedInfoContainer_settings.graphql";
+import { SuspendedInfoContainer_viewer as ViewerData } from "coral-stream/__generated__/SuspendedInfoContainer_viewer.graphql";
 
 import SuspendedInfo from "./SuspendedInfo";
 

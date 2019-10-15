@@ -1,7 +1,7 @@
 import cn from "classnames";
-import { Icon } from "coral-ui/components";
 import React, { AnchorHTMLAttributes, StatelessComponent } from "react";
 
+import { Icon } from "coral-ui/components";
 import { withStyles } from "coral-ui/hocs";
 
 import styles from "./TextLink.css";

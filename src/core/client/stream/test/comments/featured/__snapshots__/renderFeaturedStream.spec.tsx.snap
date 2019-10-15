@@ -336,7 +336,7 @@ exports[`renders comment stream 1`] = `
                     aria-hidden={true}
                     aria-labelledby="username-popover-ariainfo"
                     id="username-popover"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -449,7 +449,7 @@ exports[`renders comment stream 1`] = `
                     aria-hidden={true}
                     aria-labelledby="username-popover-ariainfo"
                     id="username-popover"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"

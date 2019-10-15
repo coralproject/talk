@@ -1,8 +1,8 @@
 import cn from "classnames";
-import { HorizontalGutter, TabContent, TabPane } from "coral-ui/components";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
+import { HorizontalGutter, TabContent, TabPane } from "coral-ui/components";
 
 import Comments from "../tabs/Comments";
 import Configure from "../tabs/Configure";

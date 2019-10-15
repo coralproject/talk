@@ -5,13 +5,6 @@ import { graphql } from "react-relay";
 
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_STATUS } from "coral-framework/schema";
-import { StreamContainer_settings as SettingsData } from "coral-stream/__generated__/StreamContainer_settings.graphql";
-import { StreamContainer_story as StoryData } from "coral-stream/__generated__/StreamContainer_story.graphql";
-import { StreamContainer_viewer as ViewerData } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
-import {
-  COMMENTS_TAB,
-  StreamContainerLocal,
-} from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import CLASSES from "coral-stream/classes";
 import Counter from "coral-stream/common/Counter";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
@@ -25,6 +18,14 @@ import {
 } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
+import { StreamContainer_settings as SettingsData } from "coral-stream/__generated__/StreamContainer_settings.graphql";
+import { StreamContainer_story as StoryData } from "coral-stream/__generated__/StreamContainer_story.graphql";
+import { StreamContainer_viewer as ViewerData } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
+import {
+  COMMENTS_TAB,
+  StreamContainerLocal,
+} from "coral-stream/__generated__/StreamContainerLocal.graphql";
+
 import AllCommentsTab from "./AllCommentsTab";
 import BannedInfo from "./BannedInfo";
 import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
@@ -34,9 +35,10 @@ import FeaturedCommentTooltip from "./FeaturedCommentTooltip";
 import { PostCommentFormContainer } from "./PostCommentForm";
 import SortMenu from "./SortMenu";
 import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
-import styles from "./StreamContainer.css";
 import { SuspendedInfoContainer } from "./SuspendedInfo/index";
 import useCommentCountEvent from "./useCommentCountEvent";
+
+import styles from "./StreamContainer.css";
 
 interface Props {
   story: StoryData;
@@ -121,7 +123,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
       <HorizontalGutter
         className={cn(styles.root, {
           [CLASSES.commentsTabPane.authenticated]: Boolean(props.viewer),
-          [CLASSES.commentsTabPane.unauthenticated]: !Boolean(props.viewer),
+          [CLASSES.commentsTabPane.unauthenticated]: !props.viewer,
         })}
         size="double"
       >

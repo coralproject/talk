@@ -51,7 +51,7 @@ exports[`post a reply: open reply form 1`] = `
                     aria-hidden={true}
                     aria-labelledby="username-popover-ariainfo"
                     id="username-popover"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -196,7 +196,7 @@ exports[`post a reply: open reply form 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-with-deepest-replies-5-ariainfo"
                     id="permalink-popover-comment-with-deepest-replies-5"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -236,7 +236,7 @@ exports[`post a reply: open reply form 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-with-deepest-replies-5-ariainfo"
                     id="report-popover-comment-with-deepest-replies-5"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -494,7 +494,7 @@ exports[`post a reply: optimistic response 1`] = `
                         aria-hidden={true}
                         aria-labelledby="username-popover-ariainfo"
                         id="username-popover"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -635,7 +635,7 @@ exports[`post a reply: optimistic response 1`] = `
                         aria-hidden={true}
                         aria-labelledby="permalink-popover-uuid-0-ariainfo"
                         id="permalink-popover-uuid-0"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -675,7 +675,7 @@ exports[`post a reply: optimistic response 1`] = `
                         aria-hidden={true}
                         aria-labelledby="report-popover-uuid-0-ariainfo"
                         id="report-popover-uuid-0"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -758,7 +758,7 @@ exports[`renders comment stream 1`] = `
                         aria-hidden={true}
                         aria-labelledby="username-popover-ariainfo"
                         id="username-popover"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -876,7 +876,7 @@ exports[`renders comment stream 1`] = `
                         aria-hidden={true}
                         aria-labelledby="permalink-popover-comment-with-deepest-replies-ariainfo"
                         id="permalink-popover-comment-with-deepest-replies"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -916,7 +916,7 @@ exports[`renders comment stream 1`] = `
                         aria-hidden={true}
                         aria-labelledby="report-popover-comment-with-deepest-replies-ariainfo"
                         id="report-popover-comment-with-deepest-replies"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -993,7 +993,7 @@ exports[`renders comment stream 1`] = `
                             aria-hidden={true}
                             aria-labelledby="username-popover-ariainfo"
                             id="username-popover"
-                            role="popup"
+                            role="dialog"
                           >
                             <div
                               className="AriaInfo-root"
@@ -1138,7 +1138,7 @@ exports[`renders comment stream 1`] = `
                             aria-hidden={true}
                             aria-labelledby="permalink-popover-comment-with-deepest-replies-1-ariainfo"
                             id="permalink-popover-comment-with-deepest-replies-1"
-                            role="popup"
+                            role="dialog"
                           >
                             <div
                               className="AriaInfo-root"
@@ -1178,7 +1178,7 @@ exports[`renders comment stream 1`] = `
                             aria-hidden={true}
                             aria-labelledby="report-popover-comment-with-deepest-replies-1-ariainfo"
                             id="report-popover-comment-with-deepest-replies-1"
-                            role="popup"
+                            role="dialog"
                           >
                             <div
                               className="AriaInfo-root"
@@ -1255,7 +1255,7 @@ exports[`renders comment stream 1`] = `
                                 aria-hidden={true}
                                 aria-labelledby="username-popover-ariainfo"
                                 id="username-popover"
-                                role="popup"
+                                role="dialog"
                               >
                                 <div
                                   className="AriaInfo-root"
@@ -1400,7 +1400,7 @@ exports[`renders comment stream 1`] = `
                                 aria-hidden={true}
                                 aria-labelledby="permalink-popover-comment-with-deepest-replies-2-ariainfo"
                                 id="permalink-popover-comment-with-deepest-replies-2"
-                                role="popup"
+                                role="dialog"
                               >
                                 <div
                                   className="AriaInfo-root"
@@ -1440,7 +1440,7 @@ exports[`renders comment stream 1`] = `
                                 aria-hidden={true}
                                 aria-labelledby="report-popover-comment-with-deepest-replies-2-ariainfo"
                                 id="report-popover-comment-with-deepest-replies-2"
-                                role="popup"
+                                role="dialog"
                               >
                                 <div
                                   className="AriaInfo-root"
@@ -1517,7 +1517,7 @@ exports[`renders comment stream 1`] = `
                                     aria-hidden={true}
                                     aria-labelledby="username-popover-ariainfo"
                                     id="username-popover"
-                                    role="popup"
+                                    role="dialog"
                                   >
                                     <div
                                       className="AriaInfo-root"
@@ -1662,7 +1662,7 @@ exports[`renders comment stream 1`] = `
                                     aria-hidden={true}
                                     aria-labelledby="permalink-popover-comment-with-deepest-replies-3-ariainfo"
                                     id="permalink-popover-comment-with-deepest-replies-3"
-                                    role="popup"
+                                    role="dialog"
                                   >
                                     <div
                                       className="AriaInfo-root"
@@ -1702,7 +1702,7 @@ exports[`renders comment stream 1`] = `
                                     aria-hidden={true}
                                     aria-labelledby="report-popover-comment-with-deepest-replies-3-ariainfo"
                                     id="report-popover-comment-with-deepest-replies-3"
-                                    role="popup"
+                                    role="dialog"
                                   >
                                     <div
                                       className="AriaInfo-root"
@@ -1779,7 +1779,7 @@ exports[`renders comment stream 1`] = `
                                         aria-hidden={true}
                                         aria-labelledby="username-popover-ariainfo"
                                         id="username-popover"
-                                        role="popup"
+                                        role="dialog"
                                       >
                                         <div
                                           className="AriaInfo-root"
@@ -1924,7 +1924,7 @@ exports[`renders comment stream 1`] = `
                                         aria-hidden={true}
                                         aria-labelledby="permalink-popover-comment-with-deepest-replies-4-ariainfo"
                                         id="permalink-popover-comment-with-deepest-replies-4"
-                                        role="popup"
+                                        role="dialog"
                                       >
                                         <div
                                           className="AriaInfo-root"
@@ -1964,7 +1964,7 @@ exports[`renders comment stream 1`] = `
                                         aria-hidden={true}
                                         aria-labelledby="report-popover-comment-with-deepest-replies-4-ariainfo"
                                         id="report-popover-comment-with-deepest-replies-4"
-                                        role="popup"
+                                        role="dialog"
                                       >
                                         <div
                                           className="AriaInfo-root"
@@ -2041,7 +2041,7 @@ exports[`renders comment stream 1`] = `
                                             aria-hidden={true}
                                             aria-labelledby="username-popover-ariainfo"
                                             id="username-popover"
-                                            role="popup"
+                                            role="dialog"
                                           >
                                             <div
                                               className="AriaInfo-root"
@@ -2186,7 +2186,7 @@ exports[`renders comment stream 1`] = `
                                             aria-hidden={true}
                                             aria-labelledby="permalink-popover-comment-with-deepest-replies-5-ariainfo"
                                             id="permalink-popover-comment-with-deepest-replies-5"
-                                            role="popup"
+                                            role="dialog"
                                           >
                                             <div
                                               className="AriaInfo-root"
@@ -2226,7 +2226,7 @@ exports[`renders comment stream 1`] = `
                                             aria-hidden={true}
                                             aria-labelledby="report-popover-comment-with-deepest-replies-5-ariainfo"
                                             id="report-popover-comment-with-deepest-replies-5"
-                                            role="popup"
+                                            role="dialog"
                                           >
                                             <div
                                               className="AriaInfo-root"

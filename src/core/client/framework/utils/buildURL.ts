@@ -6,7 +6,7 @@ export default function buildURL({
   search = window.location.search,
   hash = window.location.hash,
 } = {}) {
-  if (search && search[0] !== "?") {
+  if (search && !search.startsWith("?")) {
     search = `?${search}`;
   } else if (search === "?") {
     search = "";

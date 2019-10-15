@@ -1,11 +1,12 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { AccountFeaturesConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AccountFeaturesConfigContainer_settings.graphql";
 import { DeepNullable, DeepPartial } from "coral-common/types";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-
 import { GQLSettings } from "coral-framework/schema";
+
+import { AccountFeaturesConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AccountFeaturesConfigContainer_settings.graphql";
+
 import AccountFeaturesConfig from "./AccountFeaturesConfig";
 
 export type FormProps = DeepNullable<Pick<GQLSettings, "accountFeatures">>;

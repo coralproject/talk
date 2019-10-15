@@ -12,8 +12,9 @@ import {
   Popover,
 } from "coral-ui/components";
 
-import styles from "./UserRoleChange.css";
 import UserRoleText from "./UserRoleText";
+
+import styles from "./UserRoleChange.css";
 
 interface Props {
   onChangeRole: (role: GQLUSER_ROLE_RL) => void;

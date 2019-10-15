@@ -6,8 +6,9 @@ import { getModerationLink } from "coral-admin/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import { TableCell, TableRow, TextLink } from "coral-ui/components";
 
-import styles from "./StoryRow.css";
 import StoryStatus from "./StoryStatus";
+
+import styles from "./StoryRow.css";
 
 interface Props {
   storyID: string;

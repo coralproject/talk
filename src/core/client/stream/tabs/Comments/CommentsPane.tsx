@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { graphql, useLocal } from "coral-framework/lib/relay";
+
 import { CommentsPaneLocal } from "coral-stream/__generated__/CommentsPaneLocal.graphql";
 
 import PermalinkView from "./PermalinkView";

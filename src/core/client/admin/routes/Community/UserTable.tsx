@@ -1,10 +1,10 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { PropTypesOf } from "coral-framework/types";
-
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
+import { PropTypesOf } from "coral-framework/types";
+import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 import {
   Table,
   TableBody,
@@ -13,10 +13,8 @@ import {
   TableRow,
 } from "coral-ui/components/Table";
 
-import UserRowContainer from "./UserRowContainer";
-
-import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 import EmptyMessage from "./EmptyMessage";
+import UserRowContainer from "./UserRowContainer";
 
 import styles from "./UserTable.css";
 

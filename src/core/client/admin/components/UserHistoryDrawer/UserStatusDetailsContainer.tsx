@@ -1,9 +1,8 @@
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
-import { UserStatusDetailsContainer_user as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   BaseButton,
   Box,
@@ -12,6 +11,8 @@ import {
   Popover,
   Typography,
 } from "coral-ui/components";
+
+import { UserStatusDetailsContainer_user as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
 
 interface Props {
   user: UserData;

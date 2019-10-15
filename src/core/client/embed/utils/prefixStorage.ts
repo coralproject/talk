@@ -13,7 +13,7 @@ class PrefixedStorage implements Storage {
     this.prefix = prefix;
   }
 
-  get length() {
+  public get length() {
     let count = 0;
     for (let i = 0; i < this.storage.length; i++) {
       if (startsWith(this.storage.key(i)!, this.prefix)) {

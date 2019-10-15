@@ -1,4 +1,5 @@
 import sinon from "sinon";
+
 import createInMemoryStorage from "./InMemoryStorage";
 import prefixStorage from "./prefixStorage";
 

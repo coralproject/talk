@@ -3,9 +3,10 @@ import { RouteProps } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { AdvancedConfigContainer_settings } from "coral-admin/__generated__/AdvancedConfigContainer_settings.graphql";
 import { pureMerge } from "coral-common/utils";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { AdvancedConfigContainer_settings } from "coral-admin/__generated__/AdvancedConfigContainer_settings.graphql";
 
 import AdvancedConfig from "./AdvancedConfig";
 

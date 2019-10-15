@@ -61,7 +61,7 @@ export default function useComboBox<T extends ListBoxOption>(
           item.element.props.onClick ||
           ((evt: React.MouseEvent) => {
             if (item.onClickOrEnter) {
-              item.onClickOrEnter!(evt, item.element);
+              item.onClickOrEnter(evt, item.element);
             }
           }),
       }),

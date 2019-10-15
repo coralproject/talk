@@ -2,7 +2,6 @@ import { DateTime } from "luxon";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { SuspendUserMutation as MutationTypes } from "coral-admin/__generated__/SuspendUserMutation.graphql";
 import { getViewer } from "coral-framework/helpers";
 import {
   commitMutationPromiseNormalized,
@@ -11,6 +10,8 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 import { GQLUser, GQLUSER_STATUS } from "coral-framework/schema";
+
+import { SuspendUserMutation as MutationTypes } from "coral-admin/__generated__/SuspendUserMutation.graphql";
 
 let clientMutationId = 0;
 

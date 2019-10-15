@@ -523,11 +523,12 @@ async function findOrCreateUserInput(
 
   // Mutate the profiles to ensure we mask handle any secrets.
   switch (profile.type) {
-    case "local":
+    case "local": {
       // Hash the user's password with bcrypt.
       const password = await hashPassword(profile.password);
       defaults.profiles.push({ ...profile, password });
       break;
+    }
     default:
       // Push the profile onto the User.
       defaults.profiles.push(profile);
@@ -626,7 +627,7 @@ export async function retrieveManyUsers(
   tenantID: string,
   ids: string[]
 ) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     tenantID,
     id: {
       $in: ids,
@@ -1098,7 +1099,7 @@ export async function updateUserEmail(
     return result.value;
   } catch (err) {
     if (err instanceof MongoError && err.code === 11000) {
-      throw new DuplicateEmailError(email!);
+      throw new DuplicateEmailError(email);
     }
     throw err;
   }
@@ -1420,6 +1421,7 @@ export async function premodUser(
 
 /**
  * removeUserPremod will lift a user premod  requirement
+ *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their ban lifted
@@ -2354,6 +2356,7 @@ export async function retrieveUserScheduledForDeletion(
 
 /**
  * createModeratorNote will add a note to a users account
+ *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param id the ID of the User who is the subject of the note
@@ -2397,6 +2400,7 @@ export async function createModeratorNote(
 
 /**
  * deleteModeratorNote will remove a note from a user profile
+ *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param userID the ID of the user

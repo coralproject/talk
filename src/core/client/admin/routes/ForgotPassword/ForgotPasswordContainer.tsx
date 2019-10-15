@@ -4,6 +4,7 @@ import React, { FunctionComponent, useState } from "react";
 
 import { Bar, SubBar, Title } from "coral-auth/components/Header";
 import { Flex, Typography } from "coral-ui/components";
+
 import CheckEmail from "./CheckEmail";
 import ForgotPasswordForm from "./ForgotPasswordForm";
 

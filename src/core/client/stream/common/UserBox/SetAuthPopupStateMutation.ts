@@ -4,7 +4,6 @@ import {
   createMutation,
   createMutationContainer,
 } from "coral-framework/lib/relay";
-
 import { AUTH_POPUP_ID } from "coral-stream/local";
 
 export interface SetAuthPopupStateInput {

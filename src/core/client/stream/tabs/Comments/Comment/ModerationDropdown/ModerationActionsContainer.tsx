@@ -4,11 +4,12 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
+import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components";
+
 import { ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
 import { ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
 import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
-import CLASSES from "coral-stream/classes";
-import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
@@ -78,7 +79,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const showBanOption =
     !comment.author || !comment.author.id || viewer === null
       ? false
-      : comment.author!.id !== viewer.id;
+      : comment.author.id !== viewer.id;
 
   return (
     <>

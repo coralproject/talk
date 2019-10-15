@@ -1,4 +1,5 @@
 import RTE from "@coralproject/rte";
+
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {

@@ -69,7 +69,7 @@ it("renders forgot password view", async () => {
 it("shows error when submitting empty form", async () => {
   const { form } = await createTestRenderer();
   act(() => {
-    form!.props.onSubmit();
+    form.props.onSubmit();
   });
   within(form).getByText("This field is required", { exact: false });
 });
@@ -78,7 +78,7 @@ it("checks for invalid email", async () => {
   const { form, emailField } = await createTestRenderer();
   act(() => {
     emailField.props.onChange("invalidemail");
-    form!.props.onSubmit();
+    form.props.onSubmit();
   });
   within(form).getByText("Please enter a valid email address", {
     exact: false,
@@ -102,7 +102,7 @@ it("shows server error", async () => {
 
   act(() => {
     emailField.props.onChange("hans@test.com");
-    form!.props.onSubmit();
+    form.props.onSubmit();
   });
 
   await waitForElement(() =>
@@ -134,7 +134,7 @@ it("submits form successfully", async () => {
 
   await act(async () => {
     emailField.props.onChange("hans@test.com");
-    form!.props.onSubmit();
+    form.props.onSubmit();
     await waitForElement(() =>
       within(testRenderer.root).getByText("Check Your Email", { exact: false })
     );

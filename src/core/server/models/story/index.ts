@@ -258,7 +258,7 @@ export async function retrieveManyStories(
   tenantID: string,
   ids: string[]
 ) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     id: { $in: ids },
     tenantID,
   });
@@ -273,7 +273,7 @@ export async function retrieveManyStoriesByURL(
   tenantID: string,
   urls: string[]
 ) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     url: { $in: urls },
     tenantID,
   });

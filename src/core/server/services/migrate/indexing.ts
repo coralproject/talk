@@ -8,7 +8,7 @@ import logger from "coral-server/logger";
 type IndexType = 1 | -1 | "text";
 
 export type IndexSpecification<T> = {
-  [P in keyof Writable<Partial<T>>]: IndexType
+  [P in keyof Writable<Partial<T>>]: IndexType;
 } &
   Record<string, IndexType>;
 

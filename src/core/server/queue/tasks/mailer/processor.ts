@@ -256,8 +256,8 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
         fromAddress,
         data
       );
-    } catch (err) {
-      throw new InternalError(err, "could not translate the message");
+    } catch (e) {
+      throw new InternalError(e, "could not translate the message");
     }
 
     // Compute the end time.
@@ -285,8 +285,8 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
 
         // Create the transport based on the smtp uri.
         transport = createTransport(opts);
-      } catch (err) {
-        throw new InternalError(err, "could not create email transport");
+      } catch (e) {
+        throw new InternalError(e, "could not create email transport");
       }
 
       // Set the transport back into the cache.
@@ -304,8 +304,8 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     try {
       // Send the mail message.
       await transport.sendMail(message);
-    } catch (err) {
-      throw new InternalError(err, "could not send email");
+    } catch (e) {
+      throw new InternalError(e, "could not send email");
     }
 
     // Compute the end time.

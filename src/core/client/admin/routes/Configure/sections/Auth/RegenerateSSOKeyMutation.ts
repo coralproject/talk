@@ -1,11 +1,12 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { RegenerateSSOKeyMutation as MutationTypes } from "coral-admin/__generated__/RegenerateSSOKeyMutation.graphql";
 import {
   commitMutationPromiseNormalized,
   createMutation,
 } from "coral-framework/lib/relay";
+
+import { RegenerateSSOKeyMutation as MutationTypes } from "coral-admin/__generated__/RegenerateSSOKeyMutation.graphql";
 
 let clientMutationId = 0;
 

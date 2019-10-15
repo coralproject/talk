@@ -1,3 +1,4 @@
+import RTE from "@coralproject/rte";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
@@ -13,7 +14,6 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
-import RTE from "@coralproject/rte";
 import { baseComment, commenters, settings, stories } from "../../fixtures";
 import create from "./create";
 

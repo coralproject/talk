@@ -5,10 +5,10 @@ import {
   withFragmentContainer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
+import { Ability, can } from "coral-stream/permissions";
 
 import { TabBarContainer_viewer as ViewerData } from "coral-stream/__generated__/TabBarContainer_viewer.graphql";
 import { TabBarContainerLocal as Local } from "coral-stream/__generated__/TabBarContainerLocal.graphql";
-import { Ability, can } from "coral-stream/permissions";
 
 import {
   SetActiveTabInput,

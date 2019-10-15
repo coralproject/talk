@@ -6,8 +6,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getViewer } from "coral-framework/helpers";
-import { roleIsAtLeast } from "coral-framework/helpers";
+import { getViewer, roleIsAtLeast } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -17,6 +16,7 @@ import {
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
 
 import {
@@ -73,7 +73,7 @@ function addCommentToStory(
 }
 
 /** These are needed to be included when querying for the stream. */
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment CreateCommentMutation_viewer on User {
     role
@@ -87,7 +87,7 @@ graphql`
     }
   }
 `;
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment CreateCommentMutation_story on Story {
     settings {

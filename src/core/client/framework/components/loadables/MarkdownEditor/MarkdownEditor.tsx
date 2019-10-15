@@ -152,7 +152,7 @@ class MarkdownEditor extends Component<Props> {
     this.editor.codemirror.on("change", this.onChange);
   }
 
-  public componentWillReceiveProps(nextProps: Props) {
+  public UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (
       this.props.value !== nextProps.value &&
       nextProps.value !== this.editor!.value()
@@ -198,18 +198,20 @@ let enhanced = withGetMessage(MarkdownEditor);
 
 if (process.env.NODE_ENV === "test") {
   // Replace with simple texteditor because it won't work in a jsdom environment.
-  enhanced = ({ onChange, ...rest }) => (
-    <div className={styles.wrapper}>
-      <textarea
-        {...rest}
-        onChange={(e: ChangeEvent<HTMLTextAreaElement> | string) => {
-          if (onChange) {
-            onChange(typeof e === "string" ? e : e.target.value);
-          }
-        }}
-      />
-    </div>
-  );
+  enhanced = function MarkdownEditorTest({ onChange, ...rest }) {
+    return (
+      <div className={styles.wrapper}>
+        <textarea
+          {...rest}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement> | string) => {
+            if (onChange) {
+              onChange(typeof e === "string" ? e : e.target.value);
+            }
+          }}
+        />
+      </div>
+    );
+  };
 }
 
 export default enhanced;

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { BaseButton } from "coral-ui/components";
+
 import styles from "./FlagDetailsEntry.css";
 
 interface Props {

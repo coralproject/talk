@@ -17,7 +17,7 @@ export default new GraphQLScalarType({
   },
   parseLiteral(ast) {
     switch (ast.kind) {
-      case Kind.STRING:
+      case Kind.STRING: {
         // This handles an empty string.
         if (ast.value && ast.value.length === 0) {
           return null;
@@ -29,6 +29,7 @@ export default new GraphQLScalarType({
         }
 
         return date.toJSDate();
+      }
       default:
         return null;
     }

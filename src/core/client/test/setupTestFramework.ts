@@ -9,10 +9,10 @@ import "jest-mock-console/dist/setupTestFramework";
 (global as any).expectAndFail = expectAndFail;
 
 // Log unhandled rejections.
-// tslint:disable-next-line:no-console
+// eslint-disable-next-line no-console
 process.on("unhandledRejection", err => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error("Unhandled Rejection");
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error(err);
 });

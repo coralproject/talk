@@ -1,14 +1,15 @@
 import React from "react";
 
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+
 import { OpenOrCloseStreamContainer_story as StoryData } from "coral-stream/__generated__/OpenOrCloseStreamContainer_story.graphql";
+
 import {
   CloseStoryMutation,
   withCloseStoryMutation,
 } from "./CloseStoryMutation";
-import { OpenStoryMutation, withOpenStoryMutation } from "./OpenStoryMutation";
-
 import CloseStream from "./CloseStream";
+import { OpenStoryMutation, withOpenStoryMutation } from "./OpenStoryMutation";
 import OpenStream from "./OpenStream";
 
 interface Props {
