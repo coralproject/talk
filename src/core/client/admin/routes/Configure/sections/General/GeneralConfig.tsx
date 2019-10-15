@@ -11,6 +11,7 @@ import GuidelinesConfigContainer from "./GuidelinesConfigContainer";
 import LocaleConfigContainer from "./LocaleConfigContainer";
 import ReactionConfigContainer from "./ReactionConfigContainer";
 import SitewideCommentingConfigContainer from "./SitewideCommentingConfigContainer";
+import StaffConfigContainer from "./StaffConfigContainer";
 
 interface Props {
   disabled: boolean;
@@ -19,6 +20,7 @@ interface Props {
     PropTypesOf<typeof CommentEditingConfigContainer>["settings"] &
     PropTypesOf<typeof ClosedStreamMessageConfigContainer>["settings"] &
     PropTypesOf<typeof ReactionConfigContainer>["settings"] &
+    PropTypesOf<typeof StaffConfigContainer>["settings"] &
     PropTypesOf<typeof ClosingCommentStreamsConfigContainer>["settings"] &
     PropTypesOf<typeof SitewideCommentingConfigContainer>["settings"] &
     PropTypesOf<typeof LocaleConfigContainer>["settings"];
@@ -67,6 +69,11 @@ const General: FunctionComponent<Props> = ({
       onInitValues={onInitValues}
     />
     <ReactionConfigContainer
+      disabled={disabled}
+      settings={settings}
+      onInitValues={onInitValues}
+    />
+    <StaffConfigContainer
       disabled={disabled}
       settings={settings}
       onInitValues={onInitValues}

@@ -1,27 +1,25 @@
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { UserTagsContainer_comment as CommentData } from "coral-stream/__generated__/UserTagsContainer_comment.graphql";
+import { UserTagsContainer_comment } from "coral-stream/__generated__/UserTagsContainer_comment.graphql";
+import { UserTagsContainer_settings } from "coral-stream/__generated__/UserTagsContainer_settings.graphql";
 import { Tag } from "coral-ui/components";
 
 interface Props {
-  comment: CommentData;
+  comment: UserTagsContainer_comment;
+  settings: UserTagsContainer_settings;
   className?: string;
 }
 
-const UserTagsContainer: FunctionComponent<Props> = props => {
-  const { comment } = props;
+const UserTagsContainer: FunctionComponent<Props> = ({
+  settings,
+  comment,
+  className,
+}) => {
   const staffTag = comment.tags.find(t => t.code === "STAFF");
   return (
-    <>
-      {staffTag && (
-        <Localized id="comments-staffTag">
-          <Tag className={props.className}>Staff</Tag>
-        </Localized>
-      )}
-    </>
+    <>{staffTag && <Tag className={className}>{settings.staff.label}</Tag>}</>
   );
 };
 
@@ -30,6 +28,13 @@ const enhanced = withFragmentContainer<Props>({
     fragment UserTagsContainer_comment on Comment {
       tags {
         code
+      }
+    }
+  `,
+  settings: graphql`
+    fragment UserTagsContainer_settings on Settings {
+      staff {
+        label
       }
     }
   `,

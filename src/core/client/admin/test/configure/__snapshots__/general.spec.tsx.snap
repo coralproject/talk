@@ -1063,6 +1063,76 @@ each other's comments.
               </div>
             </div>
           </fieldset>
+          <fieldset
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+            >
+              Staff member badge
+            </legend>
+            <div
+              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+            >
+              <p
+                className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+              >
+                Show a custom badge for staff members of your organization. This badge
+appears on the comment stream and in the admin interface.
+              </p>
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-double"
+              >
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                >
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
+                  >
+                    <div
+                      className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                    >
+                      <label
+                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      >
+                        Badge text
+                      </label>
+                      <div
+                        className="TextField-root TextField-fullWidth StaffConfig-textInput"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          disabled={false}
+                          id="staff.label"
+                          name="staff.label"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder="E.g. Staff"
+                          type="text"
+                          value="Staff"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                    >
+                      <h1
+                        className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
+                      >
+                        Preview
+                      </h1>
+                      <span
+                        className="Tag-root Tag-colorGrey Tag-uppercase"
+                      >
+                        Staff
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
         </div>
       </div>
     </div>

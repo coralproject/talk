@@ -114,8 +114,8 @@ comments-userPopover-ignore = Ignorere
 
 comments-userIgnorePopover-ignoreUser = Ignorerer {$username}?
 comments-userIgnorePopover-description =
-  Når du ignorerer en kommentator, vil alle kommentarer, 
-  de skrev på webstedet, være skjult for dig. Du kan fortryde 
+  Når du ignorerer en kommentator, vil alle kommentarer,
+  de skrev på webstedet, være skjult for dig. Du kan fortryde
   dette senere fra Min profil.
 comments-userIgnorePopover-ignore = Ignorerer
 comments-userIgnorePopover-cancel = Annuller
@@ -136,7 +136,6 @@ comments-rejectedTombstone =
   Du har afvist denne kommentar. <TextLink>Gå til moderation for at gennemgå denne beslutning.</TextLink>
 
 comments-featuredTag = Fremhævet
-comments-staffTag = Personale
 
 ### Featured Comments
 comments-featured-gotoConversation = Gå til samtale
@@ -196,7 +195,7 @@ comments-reportPopover-submit = Indsend
 comments-reportPopover-thankYou = Mange tak
 comments-reportPopover-receivedMessage =
   Vi har modtaget din besked.
-  Rapporteringer fra medlemmer som dig, 
+  Rapporteringer fra medlemmer som dig,
   hjælper til at holde en god tone.
 
 comments-reportPopover-dismiss = Luk
@@ -228,8 +227,8 @@ configure-liveUpdates-description =
 
 configure-messageBox-title = Aktivér meddelelsesboks til denne stream
 configure-messageBox-description =
-  Tilføj en besked øverst i kommentarfeltet for dine læsere. Brug dette til at stille et emne, 
-  stille et spørgsmål eller offentliggøre meddelelser vedrørende denne historie. 
+  Tilføj en besked øverst i kommentarfeltet for dine læsere. Brug dette til at stille et emne,
+  stille et spørgsmål eller offentliggøre meddelelser vedrørende denne historie.
 configure-messageBox-preview = Forhåndsvisning
 configure-messageBox-selectAnIcon = Vælg et ikon
 configure-messageBox-noIcon = Intet ikon
@@ -237,8 +236,8 @@ configure-messageBox-writeAMessage = Skriv en besked
 
 configure-closeStream-title = Luk kommentarer
 configure-closeStream-description =
-  Kommentarerne er i øjeblikket åbne. 
-  Ved at lukke kommentarerne kan der ikke indsendes nye kommentarer, 
+  Kommentarerne er i øjeblikket åbne.
+  Ved at lukke kommentarerne kan der ikke indsendes nye kommentarer,
   og alle tidligere indsendte kommentarer vises stadig.
 configure-closeStream-closeStream = Luk kommentarer
 
@@ -251,8 +250,8 @@ configure-openStream-openStream = Åbn kommentarer
 comments-tombstone-ignore = Denne kommentar er skjult, fordi du ignorerede {$username}
 
 suspendInfo-heading = Din konto er midlertidigt suspenderet for at kommentere.
-suspendInfo-info = 
-  I overensstemmelse med fællesskabsretningslinjerne for { $organization} 
-  er din konto midlertidigt suspenderet. Mens du er suspenderet, 
-  kan du ikke kommentere, respektere eller rapportere kommentarer. 
+suspendInfo-info =
+  I overensstemmelse med fællesskabsretningslinjerne for { $organization}
+  er din konto midlertidigt suspenderet. Mens du er suspenderet,
+  kan du ikke kommentere, respektere eller rapportere kommentarer.
   Gå igen med til samtalen på { $until }.

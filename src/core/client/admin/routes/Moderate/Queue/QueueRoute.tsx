@@ -33,6 +33,7 @@ interface Props {
   relay: RelayPaginationProp;
   emptyElement: React.ReactElement;
   storyID?: string;
+  count?: string;
 }
 
 // TODO: use generated types
@@ -208,10 +209,10 @@ const createQueueRoute = (
 export const PendingQueueRoute = createQueueRoute(
   GQLMODERATION_QUEUE.PENDING,
   graphql`
-    query QueueRoutePendingQuery($storyID: ID) {
+    query QueueRoutePendingQuery($storyID: ID, $count: Int) {
       moderationQueues(storyID: $storyID) {
         pending {
-          ...QueueRoute_queue
+          ...QueueRoute_queue @arguments(count: $count)
         }
       }
       settings {

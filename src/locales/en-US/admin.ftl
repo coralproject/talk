@@ -541,10 +541,10 @@ moderate-user-drawer-recent-history-tooltip-button =
   .aria-label = Toggle recent comment history tooltip
 moderate-user-drawer-recent-history-tooltip-submitted = Submitted
 
-moderate-user-drawer-notes-field = 
+moderate-user-drawer-notes-field =
   .placeholder = Leave a note...
 moderate-user-drawer-notes-button = Add note
-moderatorNote-left-by = Left by: 
+moderatorNote-left-by = Left by:
 moderatorNote-delete = Delete
 
 ## Create Username
@@ -780,6 +780,15 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
 
+configure-general-staff-title = Staff member badge
+configure-general-staff-explanation =
+  Show a custom badge for staff members of your organization. This badge
+  appears on the comment stream and in the admin interface.
+configure-general-staff-label = Badge text
+configure-general-staff-input =
+  .placeholder = E.g. Staff
+configure-general-staff-preview = Preview
+
 configure-account-features-title = Commenter account management features
 configure-account-features-explanation =
   You can enable and disable certain features for your commenters to use
@@ -825,3 +834,23 @@ forgotPassword-emailAddressLabel = Email address
 forgotPassword-emailAddressTextField =
   .placeholder = Email Address
 forgotPassword-sendEmailButton = Send email
+
+commentAuthor-status-banned = Banned
+
+hotkeysModal-title = Keyboard shortcuts
+hotkeysModal-navigation-shortcuts = Navigation shortcuts
+hotkeysModal-shortcuts-next = Next comment
+hotkeysModal-shortcuts-prev = Previous comment
+hotkeysModal-shortcuts-search = Open search
+hotkeysModal-shortcuts-jump = Jump to specific queue
+hotkeysModal-shortcuts-switch = Switch queues
+hotkeysModal-shortcuts-toggle = Toggle shortcuts help
+hotkeysModal-shortcuts-single-view = Single comment view
+hotkeysModal-moderation-decisions = Moderation decisions
+hotkeysModal-shortcuts-approve = Approve
+hotkeysModal-shortcuts-reject = Reject
+hotkeysModal-shortcuts-ban = Ban comment author
+hotkeysModal-shortcuts-zen = Toggle single-comment view
+
+
+
