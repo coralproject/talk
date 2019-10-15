@@ -38,9 +38,7 @@ const StoryStatusChangeContainer: FunctionComponent<Props> = props => {
     [props.story.id, props.closeStory, props.openStory, props.story.status]
   );
 
-  const canChangeStatus =
-    props.viewer.id !== props.story.id &&
-    can(props.viewer, Ability.CHANGE_STORY_STATUS);
+  const canChangeStatus = can(props.viewer, Ability.CHANGE_STORY_STATUS);
 
   if (!canChangeStatus) {
     return <StoryStatusText>{props.story.status}</StoryStatusText>;
