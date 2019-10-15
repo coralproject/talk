@@ -31,6 +31,7 @@ import {
 import { constructTenantURL } from "coral-server/app/url";
 import {
   IntegrationDisabled,
+  InviteIncludesExistingUser,
   InviteRequiresEmailAddresses,
   InviteTokenExpired,
   TokenInvalidError,
@@ -196,8 +197,7 @@ export async function invite(
     // Check to see if the user with the specified email already has an account.
     const userAlready = await retrieveUserWithEmail(mongo, tenant.id, email);
     if (userAlready) {
-      payloads.push({ email });
-      continue;
+      throw new InviteIncludesExistingUser(email);
     }
 
     // Check to see that the user has not been invited before, if they have,
