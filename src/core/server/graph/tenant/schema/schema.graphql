@@ -54,6 +54,12 @@ directive @auth(
   permit: [USER_AUTH_CONDITIONS!]
 ) on FIELD_DEFINITION
 
+"""
+constraint is a directive that will perform validation on input fields used as
+arguments to parameters passed in to operations.
+"""
+directive @constraint(min: Int, max: Int) on ARGUMENT_DEFINITION
+
 ################################################################################
 ## Custom Scalar Types
 ################################################################################
@@ -372,7 +378,10 @@ type ModerationQueue {
   """
   comments are the comments on the ModerationQueue.
   """
-  comments(first: Int = 10, after: Cursor): CommentsConnection!
+  comments(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): CommentsConnection!
 }
 
 """
@@ -1753,7 +1762,7 @@ type User {
   comments are the comments written by the User.
   """
   comments(
-    first: Int = 10
+    first: Int = 10 @constraint(max: 50)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection!
@@ -1766,14 +1775,18 @@ type User {
   """
   allComments are comments regardless of visibility status.
   """
-  allComments(first: Int = 10, after: Cursor): CommentsConnection!
-    @auth(roles: [ADMIN, MODERATOR])
+  allComments(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
   rejectedComments are comments that have been rejected.
   """
-  rejectedComments(first: Int = 10, after: Cursor): CommentsConnection!
-    @auth(roles: [ADMIN, MODERATOR])
+  rejectedComments(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
   recentCommentHistory returns recent commenting history by the User.
@@ -1785,7 +1798,7 @@ type User {
   that this User has created.
   """
   commentModerationActionHistory(
-    first: Int = 10
+    first: Int = 10 @constraint(max: 50)
     after: Cursor
   ): CommentModerationActionConnection! @auth(roles: [MODERATOR, ADMIN])
 
@@ -2127,7 +2140,7 @@ type Comment {
   recent last.
   """
   statusHistory(
-    first: Int = 10
+    first: Int = 10 @constraint(max: 50)
     after: Cursor
   ): CommentModerationActionConnection! @auth(roles: [MODERATOR, ADMIN])
 
@@ -2187,7 +2200,7 @@ type Comment {
   """
   flags is the actual Flags that were left by the Users or the system.
   """
-  flags(first: Int = 10, after: Cursor): FlagsConnection!
+  flags(first: Int = 10 @constraint(max: 50), after: Cursor): FlagsConnection!
     @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -2466,7 +2479,7 @@ type Story {
   featuredComments are the Comments with the FEATURED tag on the Story.
   """
   featuredComments(
-    first: Int = 10
+    first: Int = 10 @constraint(max: 50)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection!
@@ -2475,7 +2488,7 @@ type Story {
   comments are the comments on the Story.
   """
   comments(
-    first: Int = 10
+    first: Int = 10 @constraint(max: 50)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection!
@@ -2571,7 +2584,7 @@ type Query {
   the dedicated edges for more optimized responses.
   """
   comments(
-    first: Int = 10
+    first: Int = 10 @constraint(max: 50)
     after: Cursor
     storyID: ID
     status: COMMENT_STATUS
@@ -2588,7 +2601,7 @@ type Query {
   stories returns filtered stories that can be paginated.
   """
   stories(
-    first: Int = 10
+    first: Int = 10 @constraint(max: 50)
     after: Cursor
     status: STORY_STATUS
     query: String
@@ -2607,7 +2620,7 @@ type Query {
   TODO: evaluate adding status based filtering.
   """
   users(
-    first: Int = 10
+    first: Int = 10 @constraint(max: 50)
     after: Cursor
     role: USER_ROLE
     query: String
