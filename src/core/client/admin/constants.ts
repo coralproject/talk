@@ -1,4 +1,5 @@
-export const REDIRECT_PATH_KEY = "adminRedirectPath";
+export const REDIRECT_PATH_KEY = "coral:adminRedirectPath";
+export const ACCESS_TOKEN_KEY = "coral:accessToken";
 export const HOTKEYS = {
   NEXT: "j",
   PREV: "k",

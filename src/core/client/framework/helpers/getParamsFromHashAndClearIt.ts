@@ -3,7 +3,7 @@ import getParamsFromHash from "./getParamsFromHash";
 
 export default function getParamsFromHashAndClearIt() {
   try {
-    const params = getParamsFromHash();
+    const params = getParamsFromHash() || {};
 
     // Clear the hash contents.
     clearHash();
