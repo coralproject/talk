@@ -20,8 +20,8 @@
   ],
   "description": "A better commenting experience from Mozilla, The Washington Post, and The New York Times.",
   "scripts": {
-    "build": "NODE_ENV=production npm-run-all generate-persist --parallel lint:client build:client build:server",
-    "build:development": "NODE_ENV=development npm-run-all generate --parallel lint:client build:client build:server",
+    "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:client build:server",
+    "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client build:server",
     "build:client": "ts-node --transpile-only ./scripts/build.ts",
     "build:server": "gulp server",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
