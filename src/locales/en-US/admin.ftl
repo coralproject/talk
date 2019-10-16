@@ -387,16 +387,17 @@ moderate-navigation-pending = Pending
 moderate-navigation-unmoderated = unmoderated
 moderate-navigation-rejected = rejected
 
-moderate-marker-preMod = Pre-Mod
+moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
-moderate-marker-bannedWord = Banned Word
-moderate-marker-suspectWord = Suspect Word
+moderate-marker-bannedWord = Banned word
+moderate-marker-suspectWord = Suspect word
 moderate-marker-spam = Spam
-moderate-marker-spamDetected = Spam Detected
+moderate-marker-spamDetected = Spam detected
 moderate-marker-toxic = Toxic
-moderate-marker-recentHistory = Recent History
-moderate-marker-bodyCount = Body Count
+moderate-marker-recentHistory = Recent history
+moderate-marker-bodyCount = Body count
 moderate-marker-offensive = Offensive
+moderate-marker-repeatPost = Repeat comment
 
 moderate-markers-details = Details
 moderate-flagDetails-offensive = Offensive
