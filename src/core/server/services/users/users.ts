@@ -4,6 +4,7 @@ import { Db } from "mongodb";
 import {
   ALLOWED_USERNAME_CHANGE_FREQUENCY,
   COMMENT_LIMIT_WINDOW_SECONDS,
+  COMMENT_REPEAT_POST_TIMESPAN,
   DOWNLOAD_LIMIT_TIMEFRAME,
 } from "coral-common/constants";
 import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
@@ -31,6 +32,7 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
+import { Comment, retrieveComment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
@@ -1190,6 +1192,13 @@ function userLastWroteCommentTimestampKey(
   return `${tenant.id}:lastCommentTimestamp:${user.id}`;
 }
 
+function userLastCommentIDKey(
+  tenant: Pick<Tenant, "id">,
+  user: Pick<User, "id">
+) {
+  return `${tenant.id}:lastCommentID:${user.id}`;
+}
+
 /**
  * retrieveUserLastWroteCommentTimestamp will return the timestamp (if set) that
  * the user last wrote a comment on. This will return null if the comment was
@@ -1244,4 +1253,47 @@ export async function updateUserLastWroteCommentTimestamp(
   if (!set) {
     throw new RateLimitExceeded("createComment", 1);
   }
+}
+
+/**
+ * updateUserLastCommentID will update the id of the users most recent comment.
+ *
+ * @param redis the Redis instance that Coral interacts with
+ * @param tenant the Tenant to operate on
+ * @param user the User that we're setting the limit for
+ * @param commentID the id of the comment
+ */
+export async function updateUserLastCommentID(
+  redis: AugmentedRedis,
+  tenant: Tenant,
+  user: User,
+  commentID: string
+) {
+  const key = userLastCommentIDKey(tenant, user);
+
+  await redis.set(key, commentID, "EX", COMMENT_REPEAT_POST_TIMESPAN);
+}
+
+/**
+ * retrieveUserLastComment will return the id (if set) of the comment that
+ * the user last wrote. This will return null if the user has not made a comment
+ * within the CURRENT_REPEAT_POST_TIMESPAN.
+ *
+ * @param mongo the db
+ * @param redis the Redis instance that Coral interacts with
+ * @param tenant the Tenant to operate on
+ * @param user the User that we're looking up the limit for
+ */
+export async function retrieveUserLastComment(
+  mongo: Db,
+  redis: AugmentedRedis,
+  tenant: Tenant,
+  user: User
+): Promise<Readonly<Comment> | null> {
+  const id: string | null = await redis.get(userLastCommentIDKey(tenant, user));
+  if (!id) {
+    return null;
+  }
+
+  return retrieveComment(mongo, tenant.id, id);
 }

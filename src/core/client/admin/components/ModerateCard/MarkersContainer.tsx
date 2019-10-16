@@ -32,7 +32,7 @@ const markers: Array<
   c =>
     (c.status === "PREMOD" && (
       <Localized id="moderate-marker-preMod" key={keyCounter++}>
-        <Marker color="primary">Pre-Mod</Marker>
+        <Marker color="primary">Pre-mod</Marker>
       </Localized>
     )) ||
     null,
@@ -48,7 +48,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD && (
         <Localized id="moderate-marker-bannedWord" key={keyCounter++}>
-          <Marker color="error">Banned Word</Marker>
+          <Marker color="error">Banned word</Marker>
         </Localized>
       )) ||
     null,
@@ -57,7 +57,7 @@ const markers: Array<
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD && (
         <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
           <Marker color="error" variant="filled">
-            Suspect Word
+            Suspect word
           </Marker>
         </Localized>
       )) ||
@@ -66,7 +66,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SPAM && (
         <Localized id="moderate-marker-spamDetected" key={keyCounter++}>
-          <Marker color="error">Spam Detected</Marker>
+          <Marker color="error">Spam detected</Marker>
         </Localized>
       )) ||
     null,
@@ -80,9 +80,17 @@ const markers: Array<
     null,
   c =>
     (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_REPEAT_POST && (
+        <Localized id="moderate-marker-repeatPost" key={keyCounter++}>
+          <Marker color="error">Repeat comment</Marker>
+        </Localized>
+      )) ||
+    null,
+  c =>
+    (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_RECENT_HISTORY && (
         <Localized id="moderate-marker-recentHistory" key={keyCounter++}>
-          <Marker color="error">Recent History</Marker>
+          <Marker color="error">Recent history</Marker>
         </Localized>
       )) ||
     null,
@@ -162,6 +170,7 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
               COMMENT_DETECTED_SUSPECT_WORD
               COMMENT_REPORTED_OFFENSIVE
               COMMENT_REPORTED_SPAM
+              COMMENT_DETECTED_REPEAT_POST
             }
           }
         }

@@ -146,6 +146,11 @@ enum COMMENT_FLAG_DETECTED_REASON {
   COMMENT_DETECTED_PREMOD_USER is used when a Comment author has been tagged as requiring premoderation
   """
   COMMENT_DETECTED_PREMOD_USER
+
+  """
+  COMMENT_DETECTED_REPEAT_POST is used when a Comment's text exactly matches a previous recent comment from the same author
+  """
+  COMMENT_DETECTED_REPEAT_POST
 }
 
 """
@@ -163,6 +168,7 @@ enum COMMENT_FLAG_REASON {
   COMMENT_DETECTED_SUSPECT_WORD
   COMMENT_DETECTED_RECENT_HISTORY
   COMMENT_DETECTED_PREMOD_USER
+  COMMENT_DETECTED_REPEAT_POST
 }
 
 """
@@ -198,6 +204,7 @@ type FlagReasonActionCounts {
   COMMENT_DETECTED_SUSPECT_WORD: Int!
   COMMENT_DETECTED_RECENT_HISTORY: Int!
   COMMENT_DETECTED_PREMOD_USER: Int!
+  COMMENT_DETECTED_REPEAT_POST: Int!
 }
 
 type Flag {
