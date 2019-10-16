@@ -34,7 +34,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-username"
+            className="BaseButton-root ModerateCard-usernameButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -44,7 +44,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+              className="Username-root"
             >
               Isabelle
             </span>
@@ -85,20 +85,29 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+        className="ModerateCard-contentArea"
+      >
+        <div
+          className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+            }
           }
-        }
-      />
+        />
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <a
               className="TextLink-root ModerateCard-link"
               href="http://localhost/comment/0"
@@ -114,24 +123,30 @@ exports[`approves comment in rejected queue: dangling 1`] = `
             </a>
           </div>
           <div>
-            <span
-              className="ModerateCard-story"
+            <div
+              className="ModerateCard-storyLabel"
             >
-              Story
-            </span>
-            :
-            <span
+              <span>
+                Comment On
+              </span>
+              <span>
+                :
+              </span>
+            </div>
+            <div
               className="ModerateCard-storyTitle"
             >
               Finally a Cure for Cancer
-            </span>
-            <a
-              className="TextLink-root ModerateCard-link"
-              href="/admin/moderate/story-1"
-              onClick={[Function]}
-            >
-              Moderate Story
-            </a>
+            </div>
+            <div>
+              <a
+                className="TextLink-root ModerateCard-link"
+                href="/admin/moderate/story-1"
+                onClick={[Function]}
+              >
+                Moderate Story
+              </a>
+            </div>
           </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -140,7 +155,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
-                className="Marker-root Marker-colorError Marker-variantRegular"
+                className="Marker-root Marker-colorReported Marker-variantRegular"
               >
                 <span>
                   Spam
@@ -182,9 +197,6 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
     >
@@ -271,7 +283,7 @@ exports[`renders rejected queue with comments 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
               >
                 <button
-                  className="BaseButton-root ModerateCard-username"
+                  className="BaseButton-root ModerateCard-usernameButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -281,7 +293,7 @@ exports[`renders rejected queue with comments 1`] = `
                   type="button"
                 >
                   <span
-                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                    className="Username-root"
                   >
                     Isabelle
                   </span>
@@ -322,20 +334,29 @@ exports[`renders rejected queue with comments 1`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+              className="ModerateCard-contentArea"
+            >
+              <div
+                className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                  }
                 }
-              }
-            />
+              />
+              <div
+                className="ModerateCard-separator ModerateCard-ruledSeparator"
+              />
+            </div>
             <div
               className="ModerateCard-footer"
             >
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div>
+                <div
+                  className="ModerateCard-viewContext"
+                >
                   <a
                     className="TextLink-root ModerateCard-link"
                     href="http://localhost/comment/0"
@@ -351,25 +372,30 @@ exports[`renders rejected queue with comments 1`] = `
                   </a>
                 </div>
                 <div>
-                  <span
-                    className="ModerateCard-story"
+                  <div
+                    className="ModerateCard-storyLabel"
                   >
-                    Story
-                  </span>
-                  :
-                  <span
+                    <span>
+                      Comment On
+                    </span>
+                    <span>
+                      :
+                    </span>
+                  </div>
+                  <div
                     className="ModerateCard-storyTitle"
                   >
                     Finally a Cure for Cancer
-                  </span>
-
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="/admin/moderate/story-1"
-                    onClick={[Function]}
-                  >
-                    Moderate Story
-                  </a>
+                  </div>
+                  <div>
+                    <a
+                      className="TextLink-root ModerateCard-link"
+                      href="/admin/moderate/story-1"
+                      onClick={[Function]}
+                    >
+                      Moderate Story
+                    </a>
+                  </div>
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -378,7 +404,7 @@ exports[`renders rejected queue with comments 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                   >
                     <span
-                      className="Marker-root Marker-colorError Marker-variantRegular"
+                      className="Marker-root Marker-colorReported Marker-variantRegular"
                     >
                       <span>
                         Spam
@@ -421,9 +447,6 @@ exports[`renders rejected queue with comments 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="ModerateCard-separator ModerateCard-ruledSeparator"
-          />
           <div
             className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
           >
@@ -497,7 +520,7 @@ exports[`renders rejected queue with comments 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
               >
                 <button
-                  className="BaseButton-root ModerateCard-username"
+                  className="BaseButton-root ModerateCard-usernameButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -507,7 +530,7 @@ exports[`renders rejected queue with comments 1`] = `
                   type="button"
                 >
                   <span
-                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                    className="Username-root"
                   >
                     Ngoc
                   </span>
@@ -548,20 +571,29 @@ exports[`renders rejected queue with comments 1`] = `
               </div>
             </div>
             <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "Don't fool with me",
+              className="ModerateCard-contentArea"
+            >
+              <div
+                className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "Don't fool with me",
+                  }
                 }
-              }
-            />
+              />
+              <div
+                className="ModerateCard-separator ModerateCard-ruledSeparator"
+              />
+            </div>
             <div
               className="ModerateCard-footer"
             >
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div>
+                <div
+                  className="ModerateCard-viewContext"
+                >
                   <a
                     className="TextLink-root ModerateCard-link"
                     href="http://localhost/comment/1"
@@ -577,24 +609,30 @@ exports[`renders rejected queue with comments 1`] = `
                   </a>
                 </div>
                 <div>
-                  <span
-                    className="ModerateCard-story"
+                  <div
+                    className="ModerateCard-storyLabel"
                   >
-                    Story
-                  </span>
-                  :
-                  <span
+                    <span>
+                      Comment On
+                    </span>
+                    <span>
+                      :
+                    </span>
+                  </div>
+                  <div
                     className="ModerateCard-storyTitle"
                   >
                     Finally a Cure for Cancer
-                  </span>
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="/admin/moderate/story-1"
-                    onClick={[Function]}
-                  >
-                    Moderate Story
-                  </a>
+                  </div>
+                  <div>
+                    <a
+                      className="TextLink-root ModerateCard-link"
+                      href="/admin/moderate/story-1"
+                      onClick={[Function]}
+                    >
+                      Moderate Story
+                    </a>
+                  </div>
                 </div>
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -603,7 +641,7 @@ exports[`renders rejected queue with comments 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                   >
                     <span
-                      className="Marker-root Marker-colorError Marker-variantRegular"
+                      className="Marker-root Marker-colorReported Marker-variantRegular"
                     >
                       <span>
                         Offensive
@@ -645,9 +683,6 @@ exports[`renders rejected queue with comments 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="ModerateCard-separator ModerateCard-ruledSeparator"
-          />
           <div
             className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
           >
@@ -727,7 +762,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-username"
+            className="BaseButton-root ModerateCard-usernameButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -737,7 +772,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+              className="Username-root"
             >
               Max
             </span>
@@ -778,20 +813,29 @@ exports[`renders rejected queue with comments and load more 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "I think I deserve better",
+        className="ModerateCard-contentArea"
+      >
+        <div
+          className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "I think I deserve better",
+            }
           }
-        }
-      />
+        />
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <a
               className="TextLink-root ModerateCard-link"
               href="http://localhost/comment/2"
@@ -807,25 +851,30 @@ exports[`renders rejected queue with comments and load more 1`] = `
             </a>
           </div>
           <div>
-            <span
-              className="ModerateCard-story"
+            <div
+              className="ModerateCard-storyLabel"
             >
-              Story
-            </span>
-            :
-            <span
+              <span>
+                Comment On
+              </span>
+              <span>
+                :
+              </span>
+            </div>
+            <div
               className="ModerateCard-storyTitle"
             >
               Finally a Cure for Cancer
-            </span>
-
-            <a
-              className="TextLink-root ModerateCard-link"
-              href="/admin/moderate/story-1"
-              onClick={[Function]}
-            >
-              Moderate Story
-            </a>
+            </div>
+            <div>
+              <a
+                className="TextLink-root ModerateCard-link"
+                href="/admin/moderate/story-1"
+                onClick={[Function]}
+              >
+                Moderate Story
+              </a>
+            </div>
           </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -834,7 +883,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
-                className="Marker-root Marker-colorError Marker-variantRegular"
+                className="Marker-root Marker-colorReported Marker-variantRegular"
               >
                 <span>
                   Offensive
@@ -847,7 +896,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 </span>
               </span>
               <span
-                className="Marker-root Marker-colorError Marker-variantRegular"
+                className="Marker-root Marker-colorReported Marker-variantRegular"
               >
                 <span>
                   Spam
@@ -890,9 +939,6 @@ exports[`renders rejected queue with comments and load more 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
     >

@@ -2,12 +2,10 @@ import { Localized } from "fluent-react/compat";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Marker, MarkerCount } from "coral-ui/components";
-
 import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
 import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
-
+import { Marker, MarkerCount } from "coral-admin/ui/components";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import Markers from "./Markers";
 import ModerateCardDetailsContainer from "./ModerateCardDetailsContainer";
 
@@ -32,7 +30,11 @@ const markers: Array<
   c =>
     (c.status === "PREMOD" && (
       <Localized id="moderate-marker-preMod" key={keyCounter++}>
+<<<<<<< HEAD
         <Marker color="primary">Pre-mod</Marker>
+=======
+        <Marker color="pending">Pre-Mod</Marker>
+>>>>>>> [CORL-629] Update admin moderation containers to use new branding tokens (#2600)
       </Localized>
     )) ||
     null,
@@ -40,7 +42,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_LINKS && (
         <Localized id="moderate-marker-link" key={keyCounter++}>
-          <Marker color="primary">Link</Marker>
+          <Marker color="pending">Link</Marker>
         </Localized>
       )) ||
     null,
@@ -48,7 +50,11 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD && (
         <Localized id="moderate-marker-bannedWord" key={keyCounter++}>
+<<<<<<< HEAD
           <Marker color="error">Banned word</Marker>
+=======
+          <Marker color="reported">Banned Word</Marker>
+>>>>>>> [CORL-629] Update admin moderation containers to use new branding tokens (#2600)
         </Localized>
       )) ||
     null,
@@ -56,8 +62,13 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD && (
         <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
+<<<<<<< HEAD
           <Marker color="error" variant="filled">
             Suspect word
+=======
+          <Marker color="reported" variant="filled">
+            Suspect Word
+>>>>>>> [CORL-629] Update admin moderation containers to use new branding tokens (#2600)
           </Marker>
         </Localized>
       )) ||
@@ -66,7 +77,11 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SPAM && (
         <Localized id="moderate-marker-spamDetected" key={keyCounter++}>
+<<<<<<< HEAD
           <Marker color="error">Spam detected</Marker>
+=======
+          <Marker color="reported">Spam Detected</Marker>
+>>>>>>> [CORL-629] Update admin moderation containers to use new branding tokens (#2600)
         </Localized>
       )) ||
     null,
@@ -74,7 +89,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_TOXIC && (
         <Localized id="moderate-marker-toxic" key={keyCounter++}>
-          <Marker color="error">Toxic</Marker>
+          <Marker color="reported">Toxic</Marker>
         </Localized>
       )) ||
     null,
@@ -90,14 +105,18 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_RECENT_HISTORY && (
         <Localized id="moderate-marker-recentHistory" key={keyCounter++}>
+<<<<<<< HEAD
           <Marker color="error">Recent history</Marker>
+=======
+          <Marker color="reported">Recent History</Marker>
+>>>>>>> [CORL-629] Update admin moderation containers to use new branding tokens (#2600)
         </Localized>
       )) ||
     null,
   c =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE && (
-        <Marker key={keyCounter++} color="error">
+        <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-offensive">
             <span>Offensive</span>
           </Localized>{" "}
@@ -110,7 +129,7 @@ const markers: Array<
   c =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM && (
-        <Marker key={keyCounter++} color="error">
+        <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-spam">
             <span>Spam</span>
           </Localized>{" "}

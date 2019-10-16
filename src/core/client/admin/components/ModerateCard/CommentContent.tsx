@@ -133,6 +133,7 @@ const CommentContent: FunctionComponent<Props> = ({
     return (
       <Typography
         className={cn(className, styles.root)}
+        color="textPrimaryV2"
         dangerouslySetInnerHTML={{ __html: node.innerHTML }}
         container="div"
       />
