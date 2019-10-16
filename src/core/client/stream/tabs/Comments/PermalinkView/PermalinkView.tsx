@@ -4,6 +4,8 @@ import React, { FunctionComponent, MouseEvent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import UserBoxContainer from "coral-stream/common/UserBox";
+import ReplyListContainer from "coral-stream/tabs/Comments/ReplyList";
 import {
   Button,
   CallOut,
@@ -11,9 +13,6 @@ import {
   HorizontalGutter,
   Typography,
 } from "coral-ui/components";
-
-import UserBoxContainer from "coral-stream/common/UserBox";
-import ReplyListContainer from "coral-stream/tabs/Comments/ReplyList";
 
 import ConversationThreadContainer from "./ConversationThreadContainer";
 
@@ -48,7 +47,7 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
     <HorizontalGutter
       className={cn(styles.root, CLASSES.permalinkView.$root, {
         [CLASSES.permalinkView.authenticated]: Boolean(viewer),
-        [CLASSES.permalinkView.unauthenticated]: !Boolean(viewer),
+        [CLASSES.permalinkView.unauthenticated]: !viewer,
       })}
       size="double"
     >

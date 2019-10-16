@@ -1,5 +1,4 @@
-import React from "react";
-import { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import Responsive, { MediaQueryMatchers } from "react-responsive";
 
 import { PropTypesOf } from "coral-ui/types";

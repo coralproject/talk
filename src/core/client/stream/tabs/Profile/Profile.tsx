@@ -3,7 +3,6 @@ import React, { FunctionComponent, useCallback } from "react";
 
 import { graphql, useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
-import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import {
@@ -13,6 +12,8 @@ import {
   TabContent,
   TabPane,
 } from "coral-ui/components";
+
+import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 
 import CommentHistoryContainer from "./CommentHistory";
 import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";

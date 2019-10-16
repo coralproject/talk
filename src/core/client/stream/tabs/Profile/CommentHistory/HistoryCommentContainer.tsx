@@ -3,13 +3,14 @@ import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { HistoryCommentContainer_comment as CommentData } from "coral-stream/__generated__/HistoryCommentContainer_comment.graphql";
-import { HistoryCommentContainer_settings as SettingsData } from "coral-stream/__generated__/HistoryCommentContainer_settings.graphql";
-import { HistoryCommentContainer_story as StoryData } from "coral-stream/__generated__/HistoryCommentContainer_story.graphql";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
+
+import { HistoryCommentContainer_comment as CommentData } from "coral-stream/__generated__/HistoryCommentContainer_comment.graphql";
+import { HistoryCommentContainer_settings as SettingsData } from "coral-stream/__generated__/HistoryCommentContainer_settings.graphql";
+import { HistoryCommentContainer_story as StoryData } from "coral-stream/__generated__/HistoryCommentContainer_story.graphql";
 
 import HistoryComment from "./HistoryComment";
 

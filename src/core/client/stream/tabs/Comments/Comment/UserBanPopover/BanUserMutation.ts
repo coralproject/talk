@@ -6,6 +6,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+
 import { BanUserMutation } from "coral-stream/__generated__/BanUserMutation.graphql";
 
 let clientMutationId = 0;

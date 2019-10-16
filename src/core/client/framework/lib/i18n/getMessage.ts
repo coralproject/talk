@@ -9,7 +9,7 @@ export default function getMessage<T extends {}>(
   const res = bundles.reduce((val, bundle) => {
     const message = bundle.getMessage(key);
     if (!message && process.env.NODE_ENV !== "production") {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.warn(`Translation ${key} was not found for ${bundle.locales}`);
     }
     if (!args) {

@@ -1,6 +1,7 @@
-import { createManaged } from "coral-framework/lib/bootstrap";
 import React, { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
+
+import { createManaged } from "coral-framework/lib/bootstrap";
 
 import App from "./App";
 import { initLocalState } from "./local";

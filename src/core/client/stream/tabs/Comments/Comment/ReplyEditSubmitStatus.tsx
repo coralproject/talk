@@ -15,12 +15,13 @@ interface Props {
   onDismiss: () => void;
 }
 
-function getMessage(status: SubmitStatus, inReviewClassName: string = "") {
+function getMessage(status: SubmitStatus, inReviewClassName = "") {
   switch (status) {
     case "RETRY":
       throw new Error(`Invalid status ${status}`);
     case "REJECTED":
     // TODO: Show a different message when rejected?
+    // falls through
     case "IN_REVIEW":
       return (
         <Localized id="comments-submitStatus-submittedAndWillBeReviewed">

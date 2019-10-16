@@ -18,25 +18,25 @@ declare module "metascraper" {
 
 declare module "metascraper-author" {
   import { Rules } from "metascraper";
-  export default function(): Rules;
+  export default function def(): Rules;
 }
 
 declare module "metascraper-date" {
   import { Rules } from "metascraper";
-  export default function(): Rules;
+  export default function def(): Rules;
 }
 
 declare module "metascraper-description" {
   import { Rules } from "metascraper";
-  export default function(): Rules;
+  export default function def(): Rules;
 }
 
 declare module "metascraper-image" {
   import { Rules } from "metascraper";
-  export default function(): Rules;
+  export default function def(): Rules;
 }
 
 declare module "metascraper-title" {
   import { Rules } from "metascraper";
-  export default function(): Rules;
+  export default function def(): Rules;
 }

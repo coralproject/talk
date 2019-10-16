@@ -3,10 +3,11 @@ import { RouteProps } from "found";
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { RejectedQueueRoute_query } from "coral-admin/__generated__/RejectedQueueRoute_query.graphql";
-import { RejectedQueueRoutePaginationQueryVariables } from "coral-admin/__generated__/RejectedQueueRoutePaginationQuery.graphql";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { withPaginationContainer } from "coral-framework/lib/relay";
+
+import { RejectedQueueRoute_query } from "coral-admin/__generated__/RejectedQueueRoute_query.graphql";
+import { RejectedQueueRoutePaginationQueryVariables } from "coral-admin/__generated__/RejectedQueueRoutePaginationQuery.graphql";
 
 import EmptyMessage from "./EmptyMessage";
 import LoadingQueue from "./LoadingQueue";
@@ -19,7 +20,7 @@ interface RejectedQueueRouteProps {
 }
 
 // TODO: use generated types
-const danglingLogic = (status: string) => ["APPROVED"].indexOf(status) >= 0;
+const danglingLogic = (status: string) => ["APPROVED"].includes(status);
 
 export class RejectedQueueRoute extends React.Component<
   RejectedQueueRouteProps
@@ -31,7 +32,7 @@ export class RejectedQueueRoute extends React.Component<
   };
 
   public render() {
-    const comments = this.props.query.comments!.edges.map(edge => edge.node);
+    const comments = this.props.query.comments.edges.map(edge => edge.node);
     return (
       <IntersectionProvider>
         <Queue
@@ -47,7 +48,7 @@ export class RejectedQueueRoute extends React.Component<
               <EmptyMessage>There are no rejected comments.</EmptyMessage>
             </Localized>
           }
-          allStories={!Boolean(this.props.storyID)}
+          allStories={!this.props.storyID}
         />
       </IntersectionProvider>
     );
@@ -63,7 +64,7 @@ export class RejectedQueueRoute extends React.Component<
       error => {
         this.setState({ disableLoadMore: false });
         if (error) {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           console.error(error);
         }
       }
@@ -151,7 +152,7 @@ enhanced.routeConfig = {
     }
   `,
   cacheConfig: { force: true },
-  render: ({ Component, props, match }) => {
+  render: function RejectedRouteRender({ Component, props, match }) {
     if (Component && props) {
       return <Component query={props} storyID={match.params.storyID} />;
     }

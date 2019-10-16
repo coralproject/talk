@@ -28,7 +28,7 @@ export type DeepWritableObject<T> = T extends object
         ? Array<DeepWritableObject<U>>
         : T[P] extends (ReadonlyArray<infer V> | undefined)
         ? ReadonlyArray<DeepWritableObject<V>>
-        : DeepWritableObject<T[P]>
+        : DeepWritableObject<T[P]>;
     }
   : T;
 
@@ -44,7 +44,7 @@ export type DeepNullable<T> = T extends object
         ? Array<DeepNullable<U>>
         : T[P] extends (ReadonlyArray<infer V> | undefined)
         ? ReadonlyArray<DeepNullable<V>>
-        : DeepNullable<T[P]>
+        : DeepNullable<T[P]>;
     }
   : T | null;
 
@@ -57,6 +57,6 @@ export type DeepPartial<T> = T extends object
         ? Array<DeepPartial<U>>
         : T[P] extends (ReadonlyArray<infer V> | undefined)
         ? ReadonlyArray<DeepPartial<V>>
-        : DeepPartial<T[P]>
+        : DeepPartial<T[P]>;
     }
   : T;

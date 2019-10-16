@@ -1,4 +1,5 @@
 import DataLoader from "dataloader";
+import { defaultTo } from "lodash";
 
 import TenantContext from "coral-server/graph/tenant/context";
 import {
@@ -99,9 +100,9 @@ export default (ctx: TenantContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  connection: ({ first = 10, after, status, query }: QueryToStoriesArgs) =>
+  connection: ({ first, after, status, query }: QueryToStoriesArgs) =>
     retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
-      first,
+      first: defaultTo(first, 10),
       after,
       filter: {
         // Merge the status filter into the connection filter.

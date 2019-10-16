@@ -139,6 +139,7 @@ export async function findOrCreateSSOUser(
         emailVerified: true,
         profile,
       },
+      { skipUsernameValidation: true },
       now
     );
   } else if (iat && needsSSOUpdate(decodedToken.user, user)) {

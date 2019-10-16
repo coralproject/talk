@@ -1,11 +1,12 @@
 import { graphql, requestSubscription } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { SingleModerateSubscription } from "coral-admin/__generated__/SingleModerateSubscription.graphql";
 import {
   createSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
+
+import { SingleModerateSubscription } from "coral-admin/__generated__/SingleModerateSubscription.graphql";
 
 const SingleModerateSubscription = createSubscription(
   "subscribeToSingleModerate",

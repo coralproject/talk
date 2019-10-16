@@ -201,8 +201,8 @@ export async function handleOAuth2Callback(
 
     // Send back the details!
     res.redirect(path + `#accessToken=${token}`);
-  } catch (err) {
-    res.redirect(path + `#error=${encodeURIComponent(err.message)}`);
+  } catch (e) {
+    res.redirect(path + `#error=${encodeURIComponent(e.message)}`);
   }
 }
 
@@ -227,8 +227,8 @@ export const wrapOAuth2Authn = (
     async (err: Error | null, user: User | null) => {
       try {
         await handleOAuth2Callback(err, user, signingConfig, req, res);
-      } catch (err) {
-        return next(err);
+      } catch (e) {
+        return next(e);
       }
     }
   )(req, res, next);
@@ -262,8 +262,8 @@ export const wrapAuthn = (
       try {
         // Pass the login off to be signed.
         await handleSuccessfulLogin(user, signingConfig, req, res, next);
-      } catch (err) {
-        return next(err);
+      } catch (e) {
+        return next(e);
       }
     }
   )(req, res, next);

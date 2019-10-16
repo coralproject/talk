@@ -4,6 +4,7 @@ import { Db } from "mongodb";
 import {
   ALLOWED_USERNAME_CHANGE_FREQUENCY,
   COMMENT_LIMIT_WINDOW_SECONDS,
+  COMMENT_REPEAT_POST_TIMESPAN,
   DOWNLOAD_LIMIT_TIMEFRAME,
 } from "coral-common/constants";
 import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
@@ -31,6 +32,7 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
+import { Comment, retrieveComment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
@@ -86,8 +88,11 @@ import {
 } from "./download/token";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
-function validateFindOrCreateUserInput(input: FindOrCreateUser) {
-  if (input.username) {
+function validateFindOrCreateUserInput(
+  input: FindOrCreateUser,
+  options: FindOrCreateUserOptions
+) {
+  if (input.username && !options.skipUsernameValidation) {
     validateUsername(input.username);
   }
 
@@ -108,14 +113,19 @@ function validateFindOrCreateUserInput(input: FindOrCreateUser) {
 
 export type FindOrCreateUser = FindOrCreateUserInput;
 
+export interface FindOrCreateUserOptions {
+  skipUsernameValidation?: boolean;
+}
+
 export async function findOrCreate(
   mongo: Db,
   tenant: Tenant,
   input: FindOrCreateUser,
+  options: FindOrCreateUserOptions,
   now: Date
 ) {
   // Validate the input.
-  validateFindOrCreateUserInput(input);
+  validateFindOrCreateUserInput(input, options);
 
   const user = await findOrCreateUser(mongo, tenant.id, input, now);
 
@@ -125,15 +135,17 @@ export async function findOrCreate(
 }
 
 export type CreateUser = FindOrCreateUserInput;
+export type CreateUserOptions = FindOrCreateUserOptions;
 
 export async function create(
   mongo: Db,
   tenant: Tenant,
   input: CreateUser,
+  options: CreateUserOptions,
   now: Date
 ) {
   // Validate the input.
-  validateFindOrCreateUserInput(input);
+  validateFindOrCreateUserInput(input, options);
 
   if (input.id) {
     // Try to check to see if there is a user with the same ID before we try to
@@ -361,7 +373,7 @@ export async function requestAccountDeletion(
 
   const updatedUser = await scheduleDeletionDate(
     mongo,
-    tenant.id!,
+    tenant.id,
     user.id,
     deletionDate.toJSDate()
   );
@@ -609,6 +621,7 @@ export async function updateRole(
 
 /**
  * enabledAuthenticationIntegrations returns enabled auth integrations for a tenant
+ *
  * @param tenant Tenant where the User will be interacted with
  * @param target whether to filter by stream or admin enabled. defaults to requiring both.
  */
@@ -629,6 +642,7 @@ function enabledAuthenticationIntegrations(
 
 /**
  * canUpdateLocalProfile will determine if a user is permitted to update their email address.
+ *
  * @param tenant Tenant where the User will be interacted with
  * @param user the User that we are updating
  */
@@ -652,6 +666,7 @@ function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
 
 /**
  * updateEmail will update the current User's email address.
+ *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param mailer The mailer queue
@@ -1177,6 +1192,13 @@ function userLastWroteCommentTimestampKey(
   return `${tenant.id}:lastCommentTimestamp:${user.id}`;
 }
 
+function userLastCommentIDKey(
+  tenant: Pick<Tenant, "id">,
+  user: Pick<User, "id">
+) {
+  return `${tenant.id}:lastCommentID:${user.id}`;
+}
+
 /**
  * retrieveUserLastWroteCommentTimestamp will return the timestamp (if set) that
  * the user last wrote a comment on. This will return null if the comment was
@@ -1231,4 +1253,47 @@ export async function updateUserLastWroteCommentTimestamp(
   if (!set) {
     throw new RateLimitExceeded("createComment", 1);
   }
+}
+
+/**
+ * updateUserLastCommentID will update the id of the users most recent comment.
+ *
+ * @param redis the Redis instance that Coral interacts with
+ * @param tenant the Tenant to operate on
+ * @param user the User that we're setting the limit for
+ * @param commentID the id of the comment
+ */
+export async function updateUserLastCommentID(
+  redis: AugmentedRedis,
+  tenant: Tenant,
+  user: User,
+  commentID: string
+) {
+  const key = userLastCommentIDKey(tenant, user);
+
+  await redis.set(key, commentID, "EX", COMMENT_REPEAT_POST_TIMESPAN);
+}
+
+/**
+ * retrieveUserLastComment will return the id (if set) of the comment that
+ * the user last wrote. This will return null if the user has not made a comment
+ * within the CURRENT_REPEAT_POST_TIMESPAN.
+ *
+ * @param mongo the db
+ * @param redis the Redis instance that Coral interacts with
+ * @param tenant the Tenant to operate on
+ * @param user the User that we're looking up the limit for
+ */
+export async function retrieveUserLastComment(
+  mongo: Db,
+  redis: AugmentedRedis,
+  tenant: Tenant,
+  user: User
+): Promise<Readonly<Comment> | null> {
+  const id: string | null = await redis.get(userLastCommentIDKey(tenant, user));
+  if (!id) {
+    return null;
+  }
+
+  return retrieveComment(mongo, tenant.id, id);
 }

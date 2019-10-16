@@ -4,7 +4,7 @@ import { ComponentType } from "react";
 export type OmitFragments<T> = Pick<
   T,
   {
-    [P in keyof T]: P extends " $fragmentRefs" | " $refType" ? never : P
+    [P in keyof T]: P extends " $fragmentRefs" | " $refType" ? never : P;
   }[keyof T]
 >;
 

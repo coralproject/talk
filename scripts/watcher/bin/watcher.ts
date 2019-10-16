@@ -14,7 +14,7 @@ async function run(
     throw new Error("Config file not specified");
   }
 
-  // tslint:disable-next-line:no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   let config: any = require(path.resolve(configFile));
   if (config.__esModule) {
     config = config.default;
@@ -31,7 +31,7 @@ const cmd = program
   .parse(process.argv);
 
 run(cmd.args, cmd.opts()).catch(err => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });

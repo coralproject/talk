@@ -1,9 +1,10 @@
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { withPaginationContainer } from "coral-framework/lib/relay";
+
 import { DecisionHistoryContainer_viewer as ViewerData } from "coral-admin/__generated__/DecisionHistoryContainer_viewer.graphql";
 import { DecisionHistoryContainerPaginationQueryVariables } from "coral-admin/__generated__/DecisionHistoryContainerPaginationQuery.graphql";
-import { withPaginationContainer } from "coral-framework/lib/relay";
 
 import DecisionHistory from "./DecisionHistory";
 
@@ -45,7 +46,7 @@ export class DecisionHistoryContainer extends React.Component<
       error => {
         this.setState({ disableLoadMore: false });
         if (error) {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           console.error(error);
         }
       }

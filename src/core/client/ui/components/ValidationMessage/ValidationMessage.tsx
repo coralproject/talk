@@ -1,4 +1,5 @@
 import React, { FunctionComponent, ReactNode } from "react";
+
 import Message from "../Message";
 import MessageIcon from "../Message/MessageIcon";
 

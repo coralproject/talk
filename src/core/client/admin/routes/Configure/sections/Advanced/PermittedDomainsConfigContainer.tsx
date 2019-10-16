@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { PermittedDomainsConfigContainer_settings as SettingsData } from "coral-admin/__generated__/PermittedDomainsConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { PermittedDomainsConfigContainer_settings as SettingsData } from "coral-admin/__generated__/PermittedDomainsConfigContainer_settings.graphql";
 
 import PermittedDomainsConfig from "./PermittedDomainsConfig";
 

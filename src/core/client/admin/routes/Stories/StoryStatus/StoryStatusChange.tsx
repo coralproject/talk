@@ -12,8 +12,9 @@ import {
   Popover,
 } from "coral-ui/components";
 
-import styles from "./StoryStatusChange.css";
 import StoryStatusText from "./StoryStatusText";
+
+import styles from "./StoryStatusChange.css";
 
 interface Props {
   onChangeStatus: (status: GQLSTORY_STATUS_RL) => void;

@@ -1,7 +1,7 @@
-import { removeFragmentRefs } from "coral-framework/testHelpers";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
+import { removeFragmentRefs } from "coral-framework/testHelpers";
 import { PropTypesOf } from "coral-framework/types";
 
 import Main from "./Main";

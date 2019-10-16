@@ -1,9 +1,11 @@
 import React, { FunctionComponent, useMemo } from "react";
 
-import { RecentHistoryContainer_settings } from "coral-admin/__generated__/RecentHistoryContainer_settings.graphql";
-import { RecentHistoryContainer_user } from "coral-admin/__generated__/RecentHistoryContainer_user.graphql";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_STATUS } from "coral-framework/schema";
+
+import { RecentHistoryContainer_settings } from "coral-admin/__generated__/RecentHistoryContainer_settings.graphql";
+import { RecentHistoryContainer_user } from "coral-admin/__generated__/RecentHistoryContainer_user.graphql";
+
 import RecentHistory from "./RecentHistory";
 
 const PUBLISHED_STATUSES = [GQLCOMMENT_STATUS.NONE, GQLCOMMENT_STATUS.APPROVED];

@@ -89,10 +89,10 @@ class Server {
   private tenantCache: TenantCache;
 
   // connected when true, indicates that `connect()` was already called.
-  private connected: boolean = false;
+  private connected = false;
 
   // processing when true, indicates that `process()` was already called.
-  private processing: boolean = false;
+  private processing = false;
 
   // i18n is the server reference to the i18n framework.
   private i18n: I18n;

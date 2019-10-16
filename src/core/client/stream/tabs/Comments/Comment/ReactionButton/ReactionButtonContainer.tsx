@@ -1,25 +1,26 @@
 import cn from "classnames";
-import { withFragmentContainer } from "coral-framework/lib/relay";
-import { ReactionButtonContainer_comment as CommentData } from "coral-stream/__generated__/ReactionButtonContainer_comment.graphql";
-import { ReactionButtonContainer_settings as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";
-import { ReactionButtonContainer_viewer as ViewerData } from "coral-stream/__generated__/ReactionButtonContainer_viewer.graphql";
 import React from "react";
 import { graphql } from "react-relay";
 
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
+
+import { ReactionButtonContainer_comment as CommentData } from "coral-stream/__generated__/ReactionButtonContainer_comment.graphql";
+import { ReactionButtonContainer_settings as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";
+import { ReactionButtonContainer_viewer as ViewerData } from "coral-stream/__generated__/ReactionButtonContainer_viewer.graphql";
+
 import {
   CreateCommentReactionMutation,
   withCreateCommentReactionMutation,
 } from "./CreateCommentReactionMutation";
+import ReactionButton from "./ReactionButton";
 import {
   RemoveCommentReactionMutation,
   withRemoveCommentReactionMutation,
 } from "./RemoveCommentReactionMutation";
-
-import ReactionButton from "./ReactionButton";
 
 interface Props {
   createCommentReaction: CreateCommentReactionMutation;

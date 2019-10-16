@@ -1,10 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
-import { SignInWithGoogleContainer_auth as AuthData } from "coral-auth/__generated__/SignInWithGoogleContainer_auth.graphql";
 import GoogleButton from "coral-framework/components/GoogleButton";
 import { redirectOAuth2 } from "coral-framework/helpers";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+
+import { SignInWithGoogleContainer_auth as AuthData } from "coral-auth/__generated__/SignInWithGoogleContainer_auth.graphql";
 
 interface Props {
   auth: AuthData;

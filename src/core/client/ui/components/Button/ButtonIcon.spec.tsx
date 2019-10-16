@@ -19,7 +19,7 @@ it("renders correctly", () => {
 
 it("forwards ref", () => {
   const props: PropTypesOf<typeof ButtonIcon> = {
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line:no-empty
     forwardRef: () => {},
     classes: {} as any,
     children: "Push me",

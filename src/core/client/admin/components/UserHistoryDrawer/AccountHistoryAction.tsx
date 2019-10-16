@@ -22,13 +22,15 @@ const AccountHistoryAction: FunctionComponent<HistoryActionProps> = ({
 }) => {
   switch (kind) {
     case "username":
-      return <UsernameChangeAction {...action as UsernameChangeActionProps} />;
+      return (
+        <UsernameChangeAction {...(action as UsernameChangeActionProps)} />
+      );
     case "suspension":
-      return <SuspensionAction {...action as SuspensionActionProps} />;
+      return <SuspensionAction {...(action as SuspensionActionProps)} />;
     case "ban":
-      return <BanAction {...action as BanActionProps} />;
+      return <BanAction {...(action as BanActionProps)} />;
     case "premod":
-      return <PremodAction {...action as PremodActionProps} />;
+      return <PremodAction {...(action as PremodActionProps)} />;
     default:
       return null;
   }

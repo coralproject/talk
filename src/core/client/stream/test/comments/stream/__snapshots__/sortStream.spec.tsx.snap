@@ -61,7 +61,7 @@ exports[`renders app with comment stream 1`] = `
                         aria-hidden={true}
                         aria-labelledby="username-popover-ariainfo"
                         id="username-popover"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -179,7 +179,7 @@ exports[`renders app with comment stream 1`] = `
                         aria-hidden={true}
                         aria-labelledby="permalink-popover-comment-2-ariainfo"
                         id="permalink-popover-comment-2"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -272,7 +272,7 @@ exports[`renders app with comment stream 1`] = `
                         aria-hidden={true}
                         aria-labelledby="username-popover-ariainfo"
                         id="username-popover"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -390,7 +390,7 @@ exports[`renders app with comment stream 1`] = `
                         aria-hidden={true}
                         aria-labelledby="permalink-popover-comment-3-ariainfo"
                         id="permalink-popover-comment-3"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"

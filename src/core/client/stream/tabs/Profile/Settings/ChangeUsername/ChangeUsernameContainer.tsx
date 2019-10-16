@@ -25,8 +25,6 @@ import {
   validateUsername,
   validateUsernameEquals,
 } from "coral-framework/lib/validation";
-import { ChangeUsernameContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
-import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
@@ -42,6 +40,9 @@ import {
   TextField,
   Typography,
 } from "coral-ui/components";
+
+import { ChangeUsernameContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
+import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 
 import UpdateUsernameMutation from "./UpdateUsernameMutation";
 

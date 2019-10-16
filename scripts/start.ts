@@ -14,7 +14,7 @@ import createDevServerConfig from "../config/webpackDevServer.config";
 import config from "../src/core/build/config";
 import createWebpackConfig from "../src/core/build/createWebpackConfig";
 
-// tslint:disable: no-console
+/* eslint-disable no-console */
 
 // Enforce environment to be development.
 config.validate().set("env", "development");

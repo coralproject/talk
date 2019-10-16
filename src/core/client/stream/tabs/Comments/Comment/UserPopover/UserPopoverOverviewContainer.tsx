@@ -4,8 +4,6 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { UserPopoverOverviewContainer_user as UserData } from "coral-stream/__generated__/UserPopoverOverviewContainer_user.graphql";
-import { UserPopoverOverviewContainer_viewer as ViewerData } from "coral-stream/__generated__/UserPopoverOverviewContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import {
   Button,
@@ -13,6 +11,9 @@ import {
   HorizontalGutter,
   Typography,
 } from "coral-ui/components";
+
+import { UserPopoverOverviewContainer_user as UserData } from "coral-stream/__generated__/UserPopoverOverviewContainer_user.graphql";
+import { UserPopoverOverviewContainer_viewer as ViewerData } from "coral-stream/__generated__/UserPopoverOverviewContainer_viewer.graphql";
 
 import Username from "../Username";
 
@@ -42,7 +43,7 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
       <HorizontalGutter spacing={2}>
         <div>
           <Username className={CLASSES.userPopover.username}>
-            {user.username!}
+            {user.username}
           </Username>
         </div>
         <Localized

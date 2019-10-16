@@ -73,6 +73,14 @@ export async function update(
   return updatedTenant;
 }
 
+/**
+ * isInstalled will return a promise that if true, indicates that a Tenant has
+ * been installed.
+ */
+export async function isInstalled(cache: TenantCache) {
+  return (await cache.count()) > 0;
+}
+
 export type InstallTenant = CreateTenantInput;
 
 export async function install(
@@ -106,14 +114,6 @@ export async function install(
  */
 export async function canInstall(cache: TenantCache) {
   return (await cache.count()) === 0;
-}
-
-/**
- * isInstalled will return a promise that if true, indicates that a Tenant has
- * been installed.
- */
-export async function isInstalled(cache: TenantCache) {
-  return (await cache.count()) > 0;
 }
 
 /**

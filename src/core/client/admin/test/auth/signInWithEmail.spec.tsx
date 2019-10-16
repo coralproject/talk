@@ -1,3 +1,4 @@
+import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
@@ -13,7 +14,6 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
-import { ReactTestInstance } from "react-test-renderer";
 import create from "../create";
 import {
   emptyModerationQueues,

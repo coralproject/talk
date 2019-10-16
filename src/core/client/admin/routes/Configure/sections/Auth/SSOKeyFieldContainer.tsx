@@ -1,12 +1,13 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { SSOKeyFieldContainer_sso as SSOData } from "coral-admin/__generated__/SSOKeyFieldContainer_sso.graphql";
 import {
   MutationProp,
   withFragmentContainer,
   withMutation,
 } from "coral-framework/lib/relay";
+
+import { SSOKeyFieldContainer_sso as SSOData } from "coral-admin/__generated__/SSOKeyFieldContainer_sso.graphql";
 
 import RegenerateSSOKeyMutation from "./RegenerateSSOKeyMutation";
 import SSOKeyField from "./SSOKeyField";

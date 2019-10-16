@@ -66,7 +66,7 @@ export async function recalculateSharedModerationQueueQueueCounts(
   await redis.del(key, freshKey);
 
   // Fetch all the moderation queue counts.
-  const queueResults = await collection<{
+  const queueResults = collection<{
     _id: string;
     total: number;
   }>(mongo).aggregate([
@@ -142,7 +142,7 @@ export async function recalculateSharedModerationQueueTotalCounts(
   await redis.del(key, freshKey);
 
   // Fetch all the totals for the moderation queues.
-  const totalResults = await collection<{
+  const totalResults = collection<{
     total: number;
   }>(mongo).aggregate([
     {
@@ -197,7 +197,7 @@ export async function recalculateSharedStatusCommentCounts(
   await redis.del(key, freshKey);
 
   // Fetch all the comments of each status.
-  const statusResults = await collection<{
+  const statusResults = collection<{
     _id: string;
     total: number;
   }>(mongo).aggregate([
@@ -271,7 +271,7 @@ export async function recalculateSharedActionCommentCounts(
   await redis.del(key, freshKey);
 
   // Fetch all the comments of each status.
-  const actionResults = await collection<{
+  const actionResults = collection<{
     _id: string;
     total: number;
   }>(mongo).aggregate([

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { RefObject } from "react";
 
 interface RenderProps {
@@ -25,13 +26,13 @@ export default class TrapFocus extends React.Component<TrapFocusProps> {
 
   // Trap keyboard focus inside the dropdown until a value has been chosen.
   private focusBegin = () =>
-    (this.firstFocusableRef.current || this.fallbackRef.current!).focus();
+    (this.firstFocusableRef.current || this.fallbackRef.current).focus();
   private focusEnd = () =>
-    (this.lastFocusableRef.current || this.fallbackRef.current!).focus();
+    (this.lastFocusableRef.current || this.fallbackRef.current).focus();
 
   public componentDidMount() {
     this.previousActiveElement = document.activeElement;
-    this.fallbackRef.current!.focus();
+    this.fallbackRef.current.focus();
   }
 
   public componentWillUnmount() {

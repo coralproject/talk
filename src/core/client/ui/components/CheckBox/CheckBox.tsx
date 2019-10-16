@@ -62,7 +62,7 @@ class CheckBox extends Component<CheckBoxProps> {
     } = this.props;
 
     const rootClassName = cn(classes.root, className);
-    const finalID = this.props.id || this.state.randomID;
+    const finalID = id || this.state.randomID;
 
     return (
       <div className={rootClassName}>
