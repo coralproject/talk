@@ -18,7 +18,7 @@ exports[`approves single comment 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-username"
+            className="BaseButton-root ModerateCard-usernameButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -28,7 +28,7 @@ exports[`approves single comment 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+              className="Username-root"
             >
               Isabelle
             </span>
@@ -69,20 +69,29 @@ exports[`approves single comment 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+        className="ModerateCard-contentArea"
+      >
+        <div
+          className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+            }
           }
-        }
-      />
+        />
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <a
               className="TextLink-root ModerateCard-link"
               href="http://localhost/comment/0"
@@ -104,7 +113,7 @@ exports[`approves single comment 1`] = `
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
-                className="Marker-root Marker-colorError Marker-variantRegular"
+                className="Marker-root Marker-colorReported Marker-variantRegular"
               >
                 <span>
                   Spam
@@ -147,9 +156,6 @@ exports[`approves single comment 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
     >
@@ -223,7 +229,7 @@ exports[`rejects single comment 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-username"
+            className="BaseButton-root ModerateCard-usernameButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -233,7 +239,7 @@ exports[`rejects single comment 1`] = `
             type="button"
           >
             <span
-              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+              className="Username-root"
             >
               Isabelle
             </span>
@@ -274,20 +280,29 @@ exports[`rejects single comment 1`] = `
         </div>
       </div>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+        className="ModerateCard-contentArea"
+      >
+        <div
+          className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+            }
           }
-        }
-      />
+        />
+        <div
+          className="ModerateCard-separator ModerateCard-ruledSeparator"
+        />
+      </div>
       <div
         className="ModerateCard-footer"
       >
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
+          <div
+            className="ModerateCard-viewContext"
+          >
             <a
               className="TextLink-root ModerateCard-link"
               href="http://localhost/comment/0"
@@ -309,7 +324,7 @@ exports[`rejects single comment 1`] = `
               className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
               <span
-                className="Marker-root Marker-colorError Marker-variantRegular"
+                className="Marker-root Marker-colorReported Marker-variantRegular"
               >
                 <span>
                   Spam
@@ -352,9 +367,6 @@ exports[`rejects single comment 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="ModerateCard-separator ModerateCard-ruledSeparator"
-    />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
     >
@@ -463,7 +475,7 @@ exports[`renders single comment view 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-alignCenter"
                 >
                   <button
-                    className="BaseButton-root ModerateCard-username"
+                    className="BaseButton-root ModerateCard-usernameButton"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -473,7 +485,7 @@ exports[`renders single comment view 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                      className="Username-root"
                     >
                       Isabelle
                     </span>
@@ -514,20 +526,29 @@ exports[`renders single comment view 1`] = `
                 </div>
               </div>
               <div
-                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                className="ModerateCard-contentArea"
+              >
+                <div
+                  className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                    }
                   }
-                }
-              />
+                />
+                <div
+                  className="ModerateCard-separator ModerateCard-ruledSeparator"
+                />
+              </div>
               <div
                 className="ModerateCard-footer"
               >
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
                 >
-                  <div>
+                  <div
+                    className="ModerateCard-viewContext"
+                  >
                     <a
                       className="TextLink-root ModerateCard-link"
                       href="http://localhost/comment/0"
@@ -549,7 +570,7 @@ exports[`renders single comment view 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                     >
                       <span
-                        className="Marker-root Marker-colorError Marker-variantRegular"
+                        className="Marker-root Marker-colorReported Marker-variantRegular"
                       >
                         <span>
                           Spam
@@ -592,9 +613,6 @@ exports[`renders single comment view 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="ModerateCard-separator ModerateCard-ruledSeparator"
-            />
             <div
               className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
             >

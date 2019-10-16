@@ -145,3 +145,9 @@
 .inputLabel {
   composes: inputLabel from "coral-ui/shared/typography.css";
 }
+
+/* V2 Typography */
+
+.bodyCommentV2 {
+  composes: bodyCommentV2 from "coral-ui/shared/typography.css";
+}

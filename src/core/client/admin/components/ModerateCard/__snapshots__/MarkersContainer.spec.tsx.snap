@@ -52,7 +52,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-preMod"
   >
     <withPropsOnChange(Marker)
-      color="primary"
+      color="pending"
     >
       Pre-Mod
     </withPropsOnChange(Marker)>
@@ -61,7 +61,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-link"
   >
     <withPropsOnChange(Marker)
-      color="primary"
+      color="pending"
     >
       Link
     </withPropsOnChange(Marker)>
@@ -70,7 +70,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-bannedWord"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Banned Word
     </withPropsOnChange(Marker)>
@@ -79,7 +79,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-suspectWord"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
       variant="filled"
     >
       Suspect Word
@@ -89,7 +89,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-spamDetected"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Spam Detected
     </withPropsOnChange(Marker)>
@@ -98,7 +98,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-toxic"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Toxic
     </withPropsOnChange(Marker)>
@@ -107,13 +107,13 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-recentHistory"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Recent History
     </withPropsOnChange(Marker)>
   </Localized>
   <withPropsOnChange(Marker)
-    color="error"
+    color="reported"
   >
     <Localized
       id="moderate-marker-offensive"
@@ -128,7 +128,7 @@ exports[`renders all markers 1`] = `
     </withPropsOnChange(Count)>
   </withPropsOnChange(Marker)>
   <withPropsOnChange(Marker)
-    color="error"
+    color="reported"
   >
     <Localized
       id="moderate-marker-spam"
@@ -197,7 +197,7 @@ exports[`renders some markers 1`] = `
     id="moderate-marker-preMod"
   >
     <withPropsOnChange(Marker)
-      color="primary"
+      color="pending"
     >
       Pre-Mod
     </withPropsOnChange(Marker)>
@@ -206,7 +206,7 @@ exports[`renders some markers 1`] = `
     id="moderate-marker-bannedWord"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Banned Word
     </withPropsOnChange(Marker)>
@@ -215,7 +215,7 @@ exports[`renders some markers 1`] = `
     id="moderate-marker-toxic"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Toxic
     </withPropsOnChange(Marker)>
@@ -224,13 +224,13 @@ exports[`renders some markers 1`] = `
     id="moderate-marker-recentHistory"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Recent History
     </withPropsOnChange(Marker)>
   </Localized>
   <withPropsOnChange(Marker)
-    color="error"
+    color="reported"
   >
     <Localized
       id="moderate-marker-offensive"

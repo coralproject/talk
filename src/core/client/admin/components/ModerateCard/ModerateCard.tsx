@@ -2,6 +2,7 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
+import { Timestamp } from "coral-admin/ui/components";
 import { PropTypesOf } from "coral-framework/types";
 import {
   BaseButton,
@@ -9,7 +10,6 @@ import {
   Flex,
   HorizontalGutter,
   TextLink,
-  Timestamp,
   Typography,
 } from "coral-ui/components";
 
@@ -127,7 +127,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               {!hideUsername && (
                 <BaseButton
                   onClick={commentAuthorClick}
-                  className={styles.username}
+                  className={styles.usernameButton}
                 >
                   <Username>{username}</Username>
                 </BaseButton>
@@ -135,9 +135,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
               {edited && (
                 <Localized id="moderate-comment-edited">
-                  <Typography variant="timestamp" className={styles.edited}>
-                    (edited)
-                  </Typography>
+                  <span className={styles.edited}>(edited)</span>
                 </Localized>
               )}
               <FeatureButton
@@ -147,26 +145,30 @@ const ModerateCard: FunctionComponent<Props> = ({
               />
             </Flex>
             {inReplyTo && inReplyTo.username && (
-              <div>
-                <BaseButton
-                  onClick={commentParentAuthorClick}
-                  className={styles.username}
-                >
-                  <InReplyTo>{inReplyTo.username}</InReplyTo>
-                </BaseButton>
+              <div className={styles.inReplyTo}>
+                <InReplyTo onUsernameClick={commentParentAuthorClick}>
+                  {inReplyTo.username}
+                </InReplyTo>
               </div>
             )}
           </div>
-          <CommentContent
-            suspectWords={suspectWords}
-            bannedWords={bannedWords}
-            className={styles.content}
-          >
-            {commentBody}
-          </CommentContent>
+          <div className={styles.contentArea}>
+            <CommentContent
+              suspectWords={suspectWords}
+              bannedWords={bannedWords}
+              className={styles.content}
+            >
+              {commentBody}
+            </CommentContent>
+            <div
+              className={cn(styles.separator, {
+                [styles.ruledSeparator]: !mini,
+              })}
+            />
+          </div>
           <div className={styles.footer}>
             <HorizontalGutter>
-              <div>
+              <div className={styles.viewContext}>
                 <Localized id="moderate-comment-viewContext">
                   <TextLink
                     className={styles.link}
@@ -179,20 +181,24 @@ const ModerateCard: FunctionComponent<Props> = ({
               </div>
               {showStory && (
                 <div>
-                  <Localized id="moderate-comment-story">
-                    <span className={styles.story}>Story</span>
-                  </Localized>
-                  {": "}
-                  <span className={styles.storyTitle}>{storyTitle}</span>{" "}
-                  <Localized id="moderate-comment-moderateStory">
-                    <TextLink
-                      className={styles.link}
-                      href={storyHref}
-                      onClick={onModerateStory}
-                    >
-                      Moderate Story
-                    </TextLink>
-                  </Localized>
+                  <div className={styles.storyLabel}>
+                    <Localized id="moderate-comment-storyLabel">
+                      <span>Comment on</span>
+                    </Localized>
+                    <span>:</span>
+                  </div>
+                  <div className={styles.storyTitle}>{storyTitle}</div>
+                  <div>
+                    <Localized id="moderate-comment-moderateStory">
+                      <TextLink
+                        href={storyHref}
+                        onClick={onModerateStory}
+                        className={styles.link}
+                      >
+                        Moderate Story
+                      </TextLink>
+                    </Localized>
+                  </div>
                 </div>
               )}
               <MarkersContainer
@@ -203,9 +209,6 @@ const ModerateCard: FunctionComponent<Props> = ({
             </HorizontalGutter>
           </div>
         </div>
-        <div
-          className={cn(styles.separator, { [styles.ruledSeparator]: !mini })}
-        />
         <Flex
           className={cn(styles.aside, {
             [styles.asideWithoutReplyTo]: !inReplyTo,

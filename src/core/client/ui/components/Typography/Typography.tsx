@@ -28,7 +28,9 @@ type Variant =
   | "fieldDescription"
   | "inputLabel"
   | "detail"
-  | "timestamp";
+  | "timestamp"
+  // V2
+  | "bodyCommentV2";
 
 // Based on Typography Component of Material UI.
 // https://github.com/mui-org/material-ui/blob/303199d39b42a321d28347d8440d69166f872f27/packages/material-ui/src/Typography/Typography.js
@@ -63,7 +65,9 @@ interface Props extends PropTypesOf<typeof Box> {
     | "error"
     | "errorDark"
     | "textDark"
-    | "success";
+    | "success"
+    // V2
+    | "textPrimaryV2";
   /**
    * The container used for the root node.
    * Either a string to use a DOM element, a component, or an element.
@@ -172,6 +176,8 @@ Typography.defaultProps = {
     timestamp: "span",
     inputLabel: "label",
     detail: "p",
+    // V2
+    bodyCommentV2: "p",
   },
   noWrap: false,
   paragraph: false,

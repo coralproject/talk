@@ -1,22 +1,22 @@
 .root {
-  border: 1px solid var(--palette-error-main);
+  border: 1px solid var(--v2-palette-button-outline-reject);
   box-sizing: border-box;
-  border-radius: var(--round-corners);
+  border-radius: var(--v2-round-corners);
   width: 65px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--palette-error-main);
+  color: var(--v2-palette-button-outline-reject);
   &:not(:disabled):active {
-    background-color: var(--palette-error-main);
-    color: var(--palette-common-white);
+    background-color: var(--v2-palette-button-outline-reject);
+    color: var(--v2-colors-pure-white);
   }
 }
 
 .invert {
-  background-color: var(--palette-error-main);
-  color: var(--palette-common-white);
+  background-color: var(--v2-palette-button-outline-reject);
+  color: var(--v2-colors-pure-white);
 }
 
 .icon {

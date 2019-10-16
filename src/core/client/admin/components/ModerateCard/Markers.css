@@ -1,20 +1,25 @@
 .detailsButton {
+  font-size: var(--v2-font-size-1);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  line-height: 1.28;
   height: 100%;
   padding: 2px 0px;
   margin-left: var(--mini-unit);
-  font-size: calc(12rem / var(--rem-base));
-  letter-spacing: calc(-0.1em / 12);
+
   align-self: flex-end;
   text-transform: uppercase;
-  &.detailsButtonColorRegular {
-    color: var(--palette-text-primary);
-  }
+}
+
+.detailsButtonColorRegular {
+  border-color: var(--v2-palette-details-header);
 }
 
 .detailsText {
+  color: var(--v2-palette-details-header);
   margin: 0;
 }
 
 .detailsDivider {
-  border-color: var(--palette-grey-lightest);
+  border-color: var(--v2-palette-details-divider);
 }

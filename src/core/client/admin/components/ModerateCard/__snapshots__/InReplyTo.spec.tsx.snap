@@ -14,13 +14,12 @@ exports[`renders correctly 1`] = `
     Username={<Username />}
     id="moderate-comment-inReplyTo"
   >
-    <ForwardRef(forwardRef)
+    <span
       className="InReplyTo-inReplyTo"
-      container="span"
-      variant="timestamp"
     >
-      Reply to &lt;Username&gt;&lt;/Username&gt;
-    </ForwardRef(forwardRef)>
+      Reply to
+      <Username />
+    </span>
   </Localized>
 </ForwardRef(forwardRef)>
 `;
