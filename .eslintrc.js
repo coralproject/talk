@@ -85,6 +85,8 @@ let typescriptTypeCheckingOverrides = {
   files: ["*.ts", "*.tsx"],
   parserOptions: {
     project: ["tsconfig.json", "./src/tsconfig.json", "./src/core/client/tsconfig.json"],
+    // TODO: (cvle) this is a workaround, see: https://github.com/typescript-eslint/typescript-eslint/issues/1091.
+    createDefaultProgram: true,
   },
   rules: Object.assign(
     typescriptRecommendedTypeChecking.rules,
