@@ -1550,7 +1550,7 @@ exports[`renders reported queue with comments and load more 1`] = `
               <span
                 className="Marker-root Marker-colorPrimary Marker-variantRegular"
               >
-                Pre-Mod
+                Pre-mod
               </span>
               <span
                 className="Marker-root Marker-colorError Marker-variantRegular"
