@@ -57,4 +57,5 @@ error-passwordIncorrect = Incorrect password. Please try again.
 error-usernameAlreadyUpdated = You may only change your username once every { framework-timeago-time }.
 error-persistedQueryNotFound = The persisted query with ID { $id } was not found.
 error-rawQueryNotAuthorized = You are not authorized to execute this query.
+error-inviteIncludesExistingUser = A user with the email address { $email } already exists.
 error-repeatPost = Are you sure? This comment is very similar to your previous comment.
