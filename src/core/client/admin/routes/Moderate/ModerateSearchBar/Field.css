@@ -4,9 +4,9 @@
 }
 
 .begin {
-  background-color: var(--palette-primary-darkest);
-  border-top-left-radius: var(--round-corners);
-  border-bottom-left-radius: var(--round-corners);
+  background-color: var(--v2-palette-story-search-input-background);
+  border-top-left-radius: var(--v2-round-corners);
+  border-bottom-left-radius: var(--v2-round-corners);
   min-width: calc(5 * var(--mini-unit));
   flex-shrink: 0;
   pointer-events: none;
@@ -26,12 +26,12 @@
 .searchIcon {
   padding: 0 calc(0.5 * var(--mini-unit)) 0 calc(0.75 * var(--mini-unit));
   font-weight: var(--font-weight-medium);
-  color: var(--palette-text-light);
+  color: var(--v2-palette-story-search-input-label);
 }
 
 .end {
   min-width: calc(5 * var(--mini-unit));
-  background-color: var(--palette-primary-darkest);
+  background-color: var(--v2-palette-story-search-input-background);
   border-top-right-radius: var(--round-corners);
   border-bottom-right-radius: var(--round-corners);
   flex-shrink: 0;
@@ -50,16 +50,20 @@
 }
 
 .input {
-  composes: inputText placeholderPseudo from "coral-ui/shared/typography.css";
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-size: var(--v2-font-size-3);
+  line-height: 1.25;
+
   position: relative;
   display: block;
   padding: calc(0.5 * var(--mini-unit));
   box-sizing: border-box;
   width: 100%;
   align-self: stretch;
-  color: var(--palette-text-light);
+  color: var(--v2-palette-story-search-input-text);
   border: 0;
-  background-color: var(--palette-primary-darkest);
+  background-color: var(--v2-palette-story-search-input-background);
   margin: 0;
 
   &:focus {
@@ -67,7 +71,7 @@
   }
 
   &::placeholder {
-    color: var(--palette-text-light);
+    color: var(--v2-palette-story-search-input-text);
     opacity: 0.5;
   }
 

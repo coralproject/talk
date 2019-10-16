@@ -147,6 +147,35 @@ const variables2 = {
       active: colors.teal600,
       divider: colors.grey100,
     },
+    mainNav: {
+      text: {
+        default: colors.mono100,
+        active: colors.pure.white,
+      },
+      background: {
+        default: colors.pure.white,
+        active: colors.coral500,
+        hover: colors.coral200,
+      },
+      divider: colors.grey300,
+    },
+    storySearch: {
+      storyTitle: colors.mono900,
+      results: {
+        heading: colors.white500,
+        headingBackground: colors.grey500,
+        seeAllLabel: colors.white500,
+        seeAllBackground: colors.blue500,
+        border: colors.grey400,
+        divider: colors.grey300,
+      },
+      background: colors.teal600,
+      input: {
+        text: colors.mono500,
+        label: colors.mono500,
+        background: colors.pure.white,
+      },
+    },
   },
   fontFamily: {
     primary: "Open Sans",
