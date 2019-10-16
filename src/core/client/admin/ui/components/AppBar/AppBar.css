@@ -1,0 +1,18 @@
+.root {
+  background-color: var(--v2-palette-main-nav-background-default);
+  border-bottom: 1px solid var(--v2-palette-divider);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: calc(8 * var(--mini-unit));
+  box-sizing: border-box;
+}
+
+.gutterBegin {
+  padding-left: calc(2 * var(--mini-unit));
+}
+.gutterEnd {
+  padding-right: calc(2 * var(--mini-unit));
+}

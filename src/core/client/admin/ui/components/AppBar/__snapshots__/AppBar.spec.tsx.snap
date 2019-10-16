@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<AppBar
+  className="custom"
+  classes={
+    Object {
+      "container": "AppBar-container",
+      "gutterBegin": "AppBar-gutterBegin",
+      "gutterEnd": "AppBar-gutterEnd",
+      "root": "AppBar-root",
+    }
+  }
+  gutterBegin={true}
+  gutterEnd={true}
+>
+  child
+</AppBar>
+`;

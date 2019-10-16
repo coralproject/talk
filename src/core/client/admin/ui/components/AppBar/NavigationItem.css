@@ -1,0 +1,37 @@
+.root {
+}
+
+.anchor {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-3);
+  text-transform: uppercase;
+
+  color: var(--v2-palette-main-nav-text-default);
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--mini-unit);
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+
+    background-color: var(--v2-palette-main-nav-background-hover);
+  }
+}
+
+.active {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-size: var(--v2-font-size-3);
+  text-transform: uppercase;
+
+  background-color: var(--v2-palette-main-nav-background-active);
+  text-decoration: none;
+  color: var(--v2-palette-main-nav-text-active);
+
+  &:hover {
+    background-color: var(--v2-palette-main-nav-background-active);
+  }
+}
