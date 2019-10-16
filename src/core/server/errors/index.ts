@@ -580,6 +580,16 @@ export class SpamCommentError extends CoralError {
   }
 }
 
+export class RepeatPostCommentError extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.REPEAT_POST,
+      type: ERROR_TYPES.MODERATION_NUDGE_ERROR,
+      status: 400,
+    });
+  }
+}
+
 export class UserAlreadySuspendedError extends CoralError {
   constructor(until: Date) {
     super({
