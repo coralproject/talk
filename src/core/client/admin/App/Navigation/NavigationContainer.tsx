@@ -1,12 +1,13 @@
 import React from "react";
 
-import { NavigationContainer_viewer as ViewerData } from "coral-admin/__generated__/NavigationContainer_viewer.graphql";
 import { Ability, can } from "coral-admin/permissions";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   SignOutMutation,
   withSignOutMutation,
 } from "coral-framework/mutations";
+
+import { NavigationContainer_viewer as ViewerData } from "coral-admin/__generated__/NavigationContainer_viewer.graphql";
 
 import Navigation from "./Navigation";
 

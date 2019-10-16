@@ -133,6 +133,7 @@ export const installHandler = ({
         profile,
         role: GQLUSER_ROLE.ADMIN,
       },
+      {},
       req.coral.now
     );
 

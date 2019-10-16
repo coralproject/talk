@@ -1,5 +1,6 @@
-import { ERROR_CODES } from "coral-common/errors";
 import { FORM_ERROR } from "final-form";
+
+import { ERROR_CODES } from "coral-common/errors";
 
 /**
  * Shape of the `InvalidRequest` extension as
@@ -41,7 +42,7 @@ export default class InvalidRequestError extends Error
     this.message = extension.message || extension.code;
   }
 
-  get invalidArgs() {
+  public get invalidArgs() {
     if (this.param) {
       return {
         [this.param.substr("input.".length)]: this.message,

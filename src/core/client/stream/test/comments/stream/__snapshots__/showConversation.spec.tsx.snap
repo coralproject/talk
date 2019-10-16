@@ -51,7 +51,7 @@ exports[`renders deepest comment with link 1`] = `
                     aria-hidden={true}
                     aria-labelledby="username-popover-ariainfo"
                     id="username-popover"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -196,7 +196,7 @@ exports[`renders deepest comment with link 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-with-deepest-replies-5-ariainfo"
                     id="permalink-popover-comment-with-deepest-replies-5"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"

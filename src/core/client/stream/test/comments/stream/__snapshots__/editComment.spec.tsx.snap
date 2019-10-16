@@ -51,7 +51,7 @@ exports[`cancel edit 1`] = `
                     aria-hidden={true}
                     aria-labelledby="username-popover-ariainfo"
                     id="username-popover"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -184,7 +184,7 @@ exports[`cancel edit 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
                     id="permalink-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -224,7 +224,7 @@ exports[`cancel edit 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-with-replies-ariainfo"
                     id="report-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -859,7 +859,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     aria-hidden={true}
                     aria-labelledby="username-popover-ariainfo"
                     id="username-popover"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -992,7 +992,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
                     id="permalink-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1032,7 +1032,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-with-replies-ariainfo"
                     id="report-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1103,7 +1103,7 @@ exports[`edit a comment: server response 1`] = `
                     aria-hidden={true}
                     aria-labelledby="username-popover-ariainfo"
                     id="username-popover"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1245,7 +1245,7 @@ exports[`edit a comment: server response 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
                     id="permalink-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1285,7 +1285,7 @@ exports[`edit a comment: server response 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-with-replies-ariainfo"
                     id="report-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1356,7 +1356,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     aria-hidden={true}
                     aria-labelledby="username-popover-ariainfo"
                     id="username-popover"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1489,7 +1489,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
                     id="permalink-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1529,7 +1529,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-with-replies-ariainfo"
                     id="report-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"

@@ -69,9 +69,9 @@ const ResetRoute: React.FunctionComponent<Props> = ({ token }) => {
 };
 
 const enhanced = withRouteConfig<Props>({
-  render: ({ match, Component }) => (
-    <Component token={parseHashQuery(match.location.hash).resetToken} />
-  ),
+  render: function ResetRouteRender({ match, Component }) {
+    return <Component token={parseHashQuery(match.location.hash).resetToken} />;
+  },
 })(ResetRoute);
 
 export default enhanced;

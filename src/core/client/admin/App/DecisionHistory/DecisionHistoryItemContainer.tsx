@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { DecisionHistoryItemContainer_action as ActionData } from "coral-admin/__generated__/DecisionHistoryItemContainer_action.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { DecisionHistoryItemContainer_action as ActionData } from "coral-admin/__generated__/DecisionHistoryItemContainer_action.graphql";
 
 import ApprovedComment from "./ApprovedComment";
 import RejectedComment from "./RejectedComment";
@@ -16,9 +17,7 @@ class DecisionHistoryItemContainer extends React.Component<
   DecisionHistoryItemContainerProps
 > {
   public render() {
-    const href = `/admin/moderate/comment/${
-      this.props.action.revision.comment.id
-    }`;
+    const href = `/admin/moderate/comment/${this.props.action.revision.comment.id}`;
     const username =
       (this.props.action.revision.comment.author &&
         this.props.action.revision.comment.author.username) ||

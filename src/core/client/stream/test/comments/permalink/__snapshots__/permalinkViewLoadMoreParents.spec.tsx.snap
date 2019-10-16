@@ -195,7 +195,7 @@ exports[`renders conversation thread 1`] = `
                           aria-hidden={true}
                           aria-labelledby="username-popover-ariainfo"
                           id="username-popover"
-                          role="popup"
+                          role="dialog"
                         >
                           <div
                             className="AriaInfo-root"
@@ -313,7 +313,7 @@ exports[`renders conversation thread 1`] = `
                           aria-hidden={true}
                           aria-labelledby="permalink-popover-comment-0-ariainfo"
                           id="permalink-popover-comment-0"
-                          role="popup"
+                          role="dialog"
                         >
                           <div
                             className="AriaInfo-root"
@@ -436,7 +436,7 @@ exports[`shows more of this conversation 1`] = `
                           aria-hidden={true}
                           aria-labelledby="username-popover-ariainfo"
                           id="username-popover"
-                          role="popup"
+                          role="dialog"
                         >
                           <div
                             className="AriaInfo-root"
@@ -554,7 +554,7 @@ exports[`shows more of this conversation 1`] = `
                           aria-hidden={true}
                           aria-labelledby="permalink-popover-comment-1-ariainfo"
                           id="permalink-popover-comment-1"
-                          role="popup"
+                          role="dialog"
                         >
                           <div
                             className="AriaInfo-root"
@@ -664,7 +664,7 @@ exports[`shows more of this conversation 1`] = `
                           aria-hidden={true}
                           aria-labelledby="username-popover-ariainfo"
                           id="username-popover"
-                          role="popup"
+                          role="dialog"
                         >
                           <div
                             className="AriaInfo-root"
@@ -787,7 +787,7 @@ exports[`shows more of this conversation 1`] = `
                           aria-hidden={true}
                           aria-labelledby="permalink-popover-comment-from-staff-0-ariainfo"
                           id="permalink-popover-comment-from-staff-0"
-                          role="popup"
+                          role="dialog"
                         >
                           <div
                             className="AriaInfo-root"
@@ -895,7 +895,7 @@ exports[`shows more of this conversation 1`] = `
                           aria-hidden={true}
                           aria-labelledby="username-popover-ariainfo"
                           id="username-popover"
-                          role="popup"
+                          role="dialog"
                         >
                           <div
                             className="AriaInfo-root"
@@ -1013,7 +1013,7 @@ exports[`shows more of this conversation 1`] = `
                           aria-hidden={true}
                           aria-labelledby="permalink-popover-comment-0-ariainfo"
                           id="permalink-popover-comment-0"
-                          role="popup"
+                          role="dialog"
                         >
                           <div
                             className="AriaInfo-root"

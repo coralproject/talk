@@ -1,7 +1,6 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { RemoveUserPremodMutation as MutationTypes } from "coral-admin/__generated__/RemoveUserPremodMutation.graphql";
 import { getViewer } from "coral-framework/helpers";
 import {
   commitMutationPromiseNormalized,
@@ -10,6 +9,8 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 import { GQLUser, GQLUSER_STATUS } from "coral-framework/schema";
+
+import { RemoveUserPremodMutation as MutationTypes } from "coral-admin/__generated__/RemoveUserPremodMutation.graphql";
 
 let clientMutationId = 0;
 

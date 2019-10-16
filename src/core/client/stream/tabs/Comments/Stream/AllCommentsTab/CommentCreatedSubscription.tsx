@@ -11,6 +11,7 @@ import {
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLCOMMENT_SORT_RL } from "coral-framework/schema";
+
 import { CommentCreatedSubscription } from "coral-stream/__generated__/CommentCreatedSubscription.graphql";
 
 function updateForNewestFirst(
@@ -80,9 +81,7 @@ const CommentCreatedSubscription = createSubscription(
           return;
         }
         throw new Error(
-          `Unsupport new top level comment live updates for sort ${
-            variables.orderBy
-          }`
+          `Unsupport new top level comment live updates for sort ${variables.orderBy}`
         );
       },
     })

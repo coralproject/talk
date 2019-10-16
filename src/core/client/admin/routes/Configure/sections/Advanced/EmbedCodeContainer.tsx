@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { EmbedCodeContainer_settings } from "coral-admin/__generated__/EmbedCodeContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { EmbedCodeContainer_settings } from "coral-admin/__generated__/EmbedCodeContainer_settings.graphql";
 
 import EmbedCode from "./EmbedCode";
 

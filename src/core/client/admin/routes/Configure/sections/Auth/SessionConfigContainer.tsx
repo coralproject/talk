@@ -1,8 +1,10 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { SessionConfigContainer_auth as AuthData } from "coral-admin/__generated__/SessionConfigContainer_auth.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { SessionConfigContainer_auth as AuthData } from "coral-admin/__generated__/SessionConfigContainer_auth.graphql";
+
 import { OnInitValuesFct } from "./AuthConfigContainer";
 import SessionConfig from "./SessionConfig";
 

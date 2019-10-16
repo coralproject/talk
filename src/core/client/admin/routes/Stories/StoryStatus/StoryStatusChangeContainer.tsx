@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useCallback } from "react";
 
-import { StoryStatusChangeContainer_story } from "coral-admin/__generated__/StoryStatusChangeContainer_story.graphql";
-import { StoryStatusChangeContainer_viewer } from "coral-admin/__generated__/StoryStatusChangeContainer_viewer.graphql";
 import { Ability, can } from "coral-admin/permissions";
 import {
   graphql,
@@ -10,6 +8,9 @@ import {
   withMutation,
 } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
+
+import { StoryStatusChangeContainer_story } from "coral-admin/__generated__/StoryStatusChangeContainer_story.graphql";
+import { StoryStatusChangeContainer_viewer } from "coral-admin/__generated__/StoryStatusChangeContainer_viewer.graphql";
 
 import CloseStoryMutation from "./CloseStoryMutation";
 import OpenStoryMutation from "./OpenStoryMutation";
@@ -38,9 +39,7 @@ const StoryStatusChangeContainer: FunctionComponent<Props> = props => {
     [props.story.id, props.closeStory, props.openStory, props.story.status]
   );
 
-  const canChangeStatus =
-    props.viewer.id !== props.story.id &&
-    can(props.viewer, Ability.CHANGE_STORY_STATUS);
+  const canChangeStatus = can(props.viewer, Ability.CHANGE_STORY_STATUS);
 
   if (!canChangeStatus) {
     return <StoryStatusText>{props.story.status}</StoryStatusText>;

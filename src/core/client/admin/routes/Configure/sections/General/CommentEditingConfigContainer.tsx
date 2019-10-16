@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { CommentEditingConfigContainer_settings as SettingsData } from "coral-admin/__generated__/CommentEditingConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { CommentEditingConfigContainer_settings as SettingsData } from "coral-admin/__generated__/CommentEditingConfigContainer_settings.graphql";
 
 import CommentEditingConfig from "./CommentEditingConfig";
 

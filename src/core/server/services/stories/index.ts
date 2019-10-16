@@ -98,7 +98,7 @@ export async function remove(
   mongo: Db,
   tenant: Tenant,
   storyID: string,
-  includeComments: boolean = false
+  includeComments = false
 ) {
   // Create a logger for this function.
   const log = logger.child(

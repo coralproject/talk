@@ -12,9 +12,7 @@ const withLiveCommentCount = (eventEmitter: EventEmitter2): Decorator => () => {
   eventEmitter.on("commentCount", args => {
     // Find all matching elements.
     const elements = document.querySelectorAll(
-      `${COUNT_SELECTOR}[data-coral-url='${
-        args.storyURL
-      }'], ${COUNT_SELECTOR}[data-coral-id='${args.storyID}']`
+      `${COUNT_SELECTOR}[data-coral-url='${args.storyURL}'], ${COUNT_SELECTOR}[data-coral-id='${args.storyID}']`
     );
     elements.forEach(element => {
       // Replace number.

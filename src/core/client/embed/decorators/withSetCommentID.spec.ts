@@ -1,7 +1,7 @@
 import simulant from "simulant";
 import sinon from "sinon";
 
-import { CleanupCallback } from ".";
+import { CleanupCallback } from "./";
 import withSetCommentID from "./withSetCommentID";
 
 it("should add commentID", () => {

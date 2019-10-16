@@ -1,6 +1,5 @@
 import cn from "classnames";
-import React from "react";
-import { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 
 import { withStyles } from "coral-ui/hocs";
 

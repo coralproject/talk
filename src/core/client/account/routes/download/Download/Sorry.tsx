@@ -1,7 +1,7 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { CallOut, Flex, Icon } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
 
 import styles from "./Sorry.css";
 

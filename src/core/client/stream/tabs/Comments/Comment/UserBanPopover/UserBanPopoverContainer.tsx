@@ -6,10 +6,11 @@ import { graphql } from "react-relay";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
-import { UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
 import CLASSES from "coral-stream/classes";
 import { Box, Button, Flex, Typography } from "coral-ui/components";
+
+import { UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
+import { UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
 
 import RejectCommentMutation from "../ModerationDropdown/RejectCommentMutation";
 import BanUserMutation from "./BanUserMutation";

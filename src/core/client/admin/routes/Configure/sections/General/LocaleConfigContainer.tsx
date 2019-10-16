@@ -3,11 +3,12 @@ import React, { useMemo } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { LocaleConfigContainer_settings } from "coral-admin/__generated__/LocaleConfigContainer_settings.graphql";
 import { LocaleField } from "coral-framework/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import { FormField, HorizontalGutter, Typography } from "coral-ui/components";
+
+import { LocaleConfigContainer_settings } from "coral-admin/__generated__/LocaleConfigContainer_settings.graphql";
 
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";

@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { UserStatusContainer_user as UserData } from "coral-admin/__generated__/UserStatusContainer_user.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_STATUS } from "coral-framework/schema";
+
+import { UserStatusContainer_user as UserData } from "coral-admin/__generated__/UserStatusContainer_user.graphql";
 
 import UserStatus from "./UserStatus";
 

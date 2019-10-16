@@ -1,3 +1,7 @@
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent } from "react";
+
+import NotAvailable from "coral-admin/components/NotAvailable";
 import {
   Button,
   Card,
@@ -7,10 +11,6 @@ import {
   Modal,
   Typography,
 } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
-
-import NotAvailable from "coral-admin/components/NotAvailable";
 
 import styles from "./PremodModal.css";
 

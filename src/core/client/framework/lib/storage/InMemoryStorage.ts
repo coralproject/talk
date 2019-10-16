@@ -11,7 +11,7 @@ class InMemoryStorage implements Storage {
     this.data = data;
   }
 
-  get length() {
+  public get length() {
     return Object.keys(this.data).length;
   }
 

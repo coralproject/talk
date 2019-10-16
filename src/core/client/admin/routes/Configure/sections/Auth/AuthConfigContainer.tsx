@@ -4,8 +4,6 @@ import { RouteProps } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { AuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/AuthConfigContainer_auth.graphql";
-import { AuthConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AuthConfigContainer_settings.graphql";
 import { DeepNullable, DeepPartial } from "coral-common/types";
 import { pureMerge } from "coral-common/utils";
 import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
@@ -19,6 +17,9 @@ import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSettings } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components";
+
+import { AuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/AuthConfigContainer_auth.graphql";
+import { AuthConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AuthConfigContainer_settings.graphql";
 
 import AccountFeaturesConfigContainer from "./AccountFeaturesConfigContainer";
 import AuthConfig from "./AuthConfig";

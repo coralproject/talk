@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { LocalAuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/LocalAuthConfigContainer_auth.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { LocalAuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/LocalAuthConfigContainer_auth.graphql";
 
 import { OnInitValuesFct } from "./AuthConfigContainer";
 import LocalAuthConfig from "./LocalAuthConfig";

@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { FromContainer_email } from "coral-admin/__generated__/FromContainer_email.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { FromContainer_email } from "coral-admin/__generated__/FromContainer_email.graphql";
 
 import { OnInitValuesFct } from "./EmailConfigContainer";
 import From from "./From";

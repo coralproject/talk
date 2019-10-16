@@ -1,9 +1,10 @@
+import React, { Component } from "react";
+
 import {
   graphql,
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import React, { Component } from "react";
 
 import { TabBarQuery as QueryTypes } from "coral-stream/__generated__/TabBarQuery.graphql";
 import { TabBarQueryLocal as Local } from "coral-stream/__generated__/TabBarQueryLocal.graphql";

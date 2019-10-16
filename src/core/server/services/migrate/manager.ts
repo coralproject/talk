@@ -33,7 +33,7 @@ export default class Manager {
   private clientID: string;
   private migrations: Migration[];
   private tenantCache: TenantCache;
-  private ran: boolean = false;
+  private ran = false;
 
   constructor({ tenantCache, i18n }: ManagerOptions) {
     this.clientID = uuid.v4();
@@ -58,10 +58,11 @@ export default class Manager {
 
       // Load the migration.
       const filePath = path.join(__dirname, "migrations", fileName);
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const m = require(filePath);
 
       // Parse the timestamp out of the migration filename.
-      const matches = fileName.match(fileNamePattern);
+      const matches = fileNamePattern.exec(fileName);
       if (!matches || matches.length !== 3) {
         throw new Error("fileName format is invalid");
       }

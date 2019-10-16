@@ -20,8 +20,8 @@ const wrapError = (err: Error) =>
  * API response.
  *
  * @param err the CoralError that should be serialized
+ * @param req the request
  * @param bundles the translation bundles
- * @param tenant the optional tenant to use when selecting the language
  */
 const serializeError = (err: CoralError, req: Request, bundles?: I18n) => {
   // Get the translation bundle.

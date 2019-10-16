@@ -275,6 +275,20 @@ export async function createActions(
 
 export type CommentActionConnectionInput = ConnectionInput<CommentAction>;
 
+async function retrieveConnection(
+  input: CommentActionConnectionInput,
+  query: Query<CommentAction>
+): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
+  // Apply the pagination arguments to the query.
+  query.orderBy({ createdAt: -1 });
+  if (input.after) {
+    query.where({ createdAt: { $lt: input.after as Date } });
+  }
+
+  // Return a connection.
+  return resolveConnection(query, input, action => action.createdAt);
+}
+
 export async function retrieveCommentActionConnection(
   mongo: Db,
   tenantID: string,
@@ -289,20 +303,6 @@ export async function retrieveCommentActionConnection(
   }
 
   return retrieveConnection(input, query);
-}
-
-async function retrieveConnection(
-  input: CommentActionConnectionInput,
-  query: Query<CommentAction>
-): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
-  // Apply the pagination arguments to the query.
-  query.orderBy({ createdAt: -1 });
-  if (input.after) {
-    query.where({ createdAt: { $lt: input.after as Date } });
-  }
-
-  // Return a connection.
-  return resolveConnection(query, input, action => action.createdAt);
 }
 
 export async function retrieveUserAction(
@@ -330,7 +330,7 @@ export async function retrieveManyUserActionPresence(
   userID: string | null,
   commentIDs: string[]
 ): Promise<GQLActionPresence[]> {
-  const cursor = await collection(mongo).find(
+  const cursor = collection(mongo).find(
     {
       tenantID,
       userID,
@@ -505,10 +505,10 @@ interface DecodedActionCountKey {
  * actionType and reason.
  */
 function decodeActionCountKey(key: string): DecodedActionCountKey | null {
-  let actionType: string = "";
-  let reason: string = "";
+  let actionType = "";
+  let reason = "";
 
-  if (key.indexOf(ACTION_COUNT_JOIN_CHAR) >= 0) {
+  if (key.includes(ACTION_COUNT_JOIN_CHAR)) {
     const keys = key.split(ACTION_COUNT_JOIN_CHAR);
     if (keys.length !== 2) {
       throw new Error(
@@ -651,7 +651,7 @@ function incrementActionCounts(
   actionCounts: ActionCounts,
   actionType: ACTION_TYPE,
   reason: GQLCOMMENT_FLAG_REASON | undefined,
-  count: number = 1
+  count = 1
 ) {
   switch (actionType) {
     case ACTION_TYPE.REACTION:

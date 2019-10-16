@@ -9,6 +9,7 @@ import getHTMLCharacterLength from "./getHTMLCharacterLength";
 
 /**
  * getBodyValidators will return validators based on given min & max parameters.
+ *
  * @param min minimum length or null
  * @param max maximum length or null
  */

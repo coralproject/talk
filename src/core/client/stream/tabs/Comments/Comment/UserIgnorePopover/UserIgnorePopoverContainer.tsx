@@ -1,15 +1,16 @@
 import cn from "classnames";
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { UserIgnorePopoverContainer_user as UserData } from "coral-stream/__generated__/UserIgnorePopoverContainer_user.graphql";
 import CLASSES from "coral-stream/classes";
 import { Box, Button, Flex, Typography } from "coral-ui/components";
 
+import { UserIgnorePopoverContainer_user as UserData } from "coral-stream/__generated__/UserIgnorePopoverContainer_user.graphql";
+
 import IgnoreUserMutation from "./IgnoreUserMutation";
 
-import { Localized } from "fluent-react/compat";
 import styles from "./UserIgnorePopoverContainer.css";
 
 interface Props {

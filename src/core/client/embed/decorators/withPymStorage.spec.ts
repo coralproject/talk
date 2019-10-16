@@ -2,6 +2,7 @@ import mockConsole from "jest-mock-console";
 import sinon from "sinon";
 
 import { createInMemoryStorage } from "coral-framework/lib/storage";
+
 import withPymStorage from "./withPymStorage";
 
 class PymStub {
@@ -123,7 +124,7 @@ describe("withPymStorage", () => {
       })
     );
     expect(JSON.stringify(pym.messages)).toMatchSnapshot();
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-console
     expect(console.error).toHaveBeenCalled();
   });
   it("should handle handle errors", () => {
@@ -143,7 +144,7 @@ describe("withPymStorage", () => {
       })
     );
     expect(pym.messages).toMatchSnapshot();
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-console
     expect(console.error).toHaveBeenCalled();
   });
 });

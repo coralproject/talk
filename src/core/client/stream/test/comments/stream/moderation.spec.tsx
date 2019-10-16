@@ -231,7 +231,7 @@ it("ban user", async () => {
             userID: firstComment.author!.id,
           });
           return {
-            user: pureMerge<typeof firstComment.author>(firstComment.author!, {
+            user: pureMerge<typeof firstComment.author>(firstComment.author, {
               status: {
                 ban: {
                   active: true,

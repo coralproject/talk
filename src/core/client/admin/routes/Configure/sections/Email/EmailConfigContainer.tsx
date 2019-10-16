@@ -5,7 +5,6 @@ import React from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { EmailConfigContainer_email } from "coral-admin/__generated__/EmailConfigContainer_email.graphql";
 import { DeepNullable, DeepPartial } from "coral-common/types";
 import { pureMerge } from "coral-common/utils";
 import { parseBool } from "coral-framework/lib/form";
@@ -17,6 +16,8 @@ import {
   FormField,
   HorizontalGutter,
 } from "coral-ui/components";
+
+import { EmailConfigContainer_email } from "coral-admin/__generated__/EmailConfigContainer_email.graphql";
 
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";

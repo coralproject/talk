@@ -1,3 +1,5 @@
+import uuid from "uuid/v4";
+
 import {
   GQLComment,
   GQLCOMMENT_STATUS,
@@ -13,7 +15,6 @@ import {
   denormalizeComment,
   denormalizeStory,
 } from "coral-framework/testHelpers";
-import uuid from "uuid/v4";
 
 // TODO: Look into a date/time provider that can create
 // predictable date/time (i.e. constantly increasing, or seeded)
@@ -27,7 +28,7 @@ export function randomDate() {
   return createDateInRange(new Date(2000, 0, 1), new Date());
 }
 
-export function createUserStatus(banned: boolean = false) {
+export function createUserStatus(banned = false) {
   return {
     current: [banned ? GQLUSER_STATUS.BANNED : GQLUSER_STATUS.ACTIVE],
     ban: {
@@ -65,9 +66,7 @@ export function createComment(author?: GQLUser) {
 
   if (author === undefined) {
     author = createUser();
-    author!.createdAt = new Date(
-      createdAt.getTime() - 60 * 60000
-    ).toISOString();
+    author.createdAt = new Date(createdAt.getTime() - 60 * 60000).toISOString();
   }
 
   const comment = denormalizeComment(
@@ -156,7 +155,7 @@ export function createComment(author?: GQLUser) {
   return comment;
 }
 
-export function createComments(count: number = 3) {
+export function createComments(count = 3) {
   const comments = [];
   for (let i = 0; i < count; i++) {
     comments.push(createComment());
