@@ -22,7 +22,7 @@ const levels = [
   styles.level6,
 ];
 
-function getLevelClassName(level: number = 0) {
+function getLevelClassName(level = 0) {
   if (!(level in levels)) {
     throw new Error(`Indent level ${level} does not exist`);
   }

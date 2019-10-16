@@ -1,5 +1,6 @@
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import React, { FunctionComponent } from "react";
+
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 
 import { SuccessContainer_settings } from "coral-admin/__generated__/SuccessContainer_settings.graphql";
 

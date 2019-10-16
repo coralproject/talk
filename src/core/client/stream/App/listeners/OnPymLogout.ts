@@ -1,11 +1,11 @@
-import {
-  SignOutMutation,
-  withSignOutMutation,
-} from "coral-framework/mutations";
 import { Child } from "pym.js";
 import { Component } from "react";
 
 import { withContext } from "coral-framework/lib/bootstrap";
+import {
+  SignOutMutation,
+  withSignOutMutation,
+} from "coral-framework/mutations";
 
 interface Props {
   pym: Child;
@@ -17,7 +17,7 @@ export class OnPymLogout extends Component<Props> {
     super(props);
 
     // Sets comment id through pym.
-    props.pym!.onMessage("logout", accessToken => {
+    props.pym.onMessage("logout", accessToken => {
       this.props.signOut();
     });
   }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import sinon from "sinon";
 
 export default function mockWindow() {

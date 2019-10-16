@@ -1,4 +1,5 @@
 import { pureMerge } from "coral-common/utils";
+import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
@@ -8,7 +9,6 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
-import { GQLResolver } from "coral-framework/schema";
 import create from "../create";
 import { settings, users } from "../fixtures";
 

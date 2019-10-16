@@ -4,7 +4,7 @@ export default function parseQueryHash(
   hash: string
 ): Record<string, string | undefined> {
   let normalized = hash;
-  if (normalized[0] === "#") {
+  if (normalized.startsWith("#")) {
     normalized = normalized.substr(1);
   }
   return parseQuery(normalized);

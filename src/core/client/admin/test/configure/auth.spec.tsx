@@ -2,8 +2,7 @@ import { cloneDeep } from "lodash";
 import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "coral-common/utils";
-import { pureMerge } from "coral-common/utils";
+import { pureMerge, timeout } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
@@ -19,14 +18,15 @@ import { settingsWithEmptyAuth, users } from "../fixtures";
 
 /**
  * This is depreacted, do not use it anymore.
+ *
  * @deprecated
  */
 const deprecatedInputPredicate = (nameOrID: string) => (
   n: ReactTestInstance
 ) => {
   return (
-    [n.props.name, n.props.id].indexOf(nameOrID) > -1 &&
-    ["input", "button"].indexOf(n.type as string) > -1
+    [n.props.name, n.props.id].includes(nameOrID) &&
+    ["input", "button"].includes(n.type as string)
   );
 };
 

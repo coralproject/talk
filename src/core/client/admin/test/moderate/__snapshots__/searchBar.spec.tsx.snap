@@ -82,7 +82,7 @@ exports[`all stories active search with no results 1`] = `
           aria-hidden={false}
           aria-labelledby="moderate-searchBar-popover-ariainfo"
           id="moderate-searchBar-popover"
-          role="popup"
+          role="dialog"
         >
           <div
             className="Popover-popover Bar-popover Popover-bottom"
@@ -246,7 +246,7 @@ exports[`all stories renders search bar 1`] = `
           aria-hidden={true}
           aria-labelledby="moderate-searchBar-popover-ariainfo"
           id="moderate-searchBar-popover"
-          role="popup"
+          role="dialog"
         />
       </div>
     </form>

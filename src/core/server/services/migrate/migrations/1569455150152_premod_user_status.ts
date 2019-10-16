@@ -28,7 +28,7 @@ export default class extends Migration {
 
   public async test(mongo: Db, tenantID: string) {
     // Find all the users that still have premod status unset.
-    const cursor = await collections
+    const cursor = collections
       .users(mongo)
       .find({
         "status.premod": null,

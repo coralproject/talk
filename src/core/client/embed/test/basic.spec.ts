@@ -1,7 +1,8 @@
 import mockConsole from "jest-mock-console";
+
 import * as Coral from "../";
 
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 describe("Basic integration test", () => {
   const container: HTMLElement = document.createElement("div");
@@ -27,13 +28,13 @@ describe("Basic integration test", () => {
     const link = document.createElement("link");
     link.rel = "canonical";
     link.href = "http://localhost/canonical";
-    document.head!.appendChild(link);
+    document.head.appendChild(link);
     const CoralEmbedStream = Coral.createStreamEmbed({
       id: "basic-integration-test-id",
     });
     CoralEmbedStream.render();
     expect(container.innerHTML).toMatchSnapshot();
-    document.head!.removeChild(link);
+    document.head.removeChild(link);
     expect(console.warn).not.toHaveBeenCalled();
     expect(console.error).not.toHaveBeenCalled();
   });
@@ -45,7 +46,7 @@ describe("Basic integration test", () => {
     CoralEmbedStream.render();
     CoralEmbedStream.remove();
     expect(container.innerHTML).toBe("");
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.error).not.toHaveBeenCalled();
   });

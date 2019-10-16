@@ -1,5 +1,6 @@
-import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import React, { Component } from "react";
+
+import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 
 import { DecisionHistoryQuery as QueryTypes } from "coral-admin/__generated__/DecisionHistoryQuery.graphql";
 

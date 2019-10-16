@@ -4,13 +4,14 @@ import { ReactContext, withReactFinalForm } from "react-final-form";
 import { graphql } from "react-relay";
 import { InferableComponentEnhancer } from "recompose";
 
-import { OIDCConfigContainer_auth as AuthData } from "coral-admin/__generated__/OIDCConfigContainer_auth.graphql";
-import { OIDCConfigContainer_authReadOnly as AuthReadOnlyData } from "coral-admin/__generated__/OIDCConfigContainer_authReadOnly.graphql";
 import {
   FetchProp,
   withFetch,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+
+import { OIDCConfigContainer_auth as AuthData } from "coral-admin/__generated__/OIDCConfigContainer_auth.graphql";
+import { OIDCConfigContainer_authReadOnly as AuthReadOnlyData } from "coral-admin/__generated__/OIDCConfigContainer_authReadOnly.graphql";
 
 import { OnInitValuesFct } from "./AuthConfigContainer";
 import DiscoverOIDCConfigurationFetch from "./DiscoverOIDCConfigurationFetch";
@@ -54,7 +55,7 @@ class OIDCConfigContainer extends React.Component<Props, State> {
       }
     } catch (error) {
       // FIXME: (wyattjoh) handle error
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.warn(error);
     }
     this.setState({ awaitingResponse: false });

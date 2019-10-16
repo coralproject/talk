@@ -12,14 +12,14 @@ export type Callbackify<T> = T extends object
             ? Array<Callbackify<U>>
             : T[P] extends (ReadonlyArray<infer V> | undefined)
             ? ReadonlyArray<Callbackify<V>>
-            : Callbackify<T[P]>
+            : Callbackify<T[P]>;
         }
       | (() => {
           [P in keyof T]: T[P] extends (Array<infer U> | undefined)
             ? Array<Callbackify<U>>
             : T[P] extends (ReadonlyArray<infer V> | undefined)
             ? ReadonlyArray<Callbackify<V>>
-            : Callbackify<T[P]>
+            : Callbackify<T[P]>;
         })
   : T | (() => T);
 
@@ -32,7 +32,7 @@ export type WithTypename<T> = T extends object
         ? Array<WithTypename<U>>
         : T[P] extends (ReadonlyArray<infer V> | undefined)
         ? ReadonlyArray<WithTypename<V>>
-        : WithTypename<T[P]>
+        : WithTypename<T[P]>;
     } & { __typename?: string }
   : T;
 

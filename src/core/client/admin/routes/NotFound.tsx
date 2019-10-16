@@ -1,5 +1,6 @@
-import { HorizontalGutter, Typography } from "coral-ui/components";
 import React, { FunctionComponent } from "react";
+
+import { HorizontalGutter, Typography } from "coral-ui/components";
 
 const NotFound: FunctionComponent = ({ children }) => (
   <HorizontalGutter>

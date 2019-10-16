@@ -1,5 +1,4 @@
-import React from "react";
-import { FocusEvent } from "react";
+import React, { FocusEvent } from "react";
 import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 
 interface InjectedProps {
@@ -22,7 +21,7 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<
     const Workaround = BaseComponent as React.ComponentType<InjectedProps>;
 
     class WithKeyboardFocus extends React.Component<any> {
-      private lastMouseDownTime: number = 0;
+      private lastMouseDownTime = 0;
       public state = {
         keyboardFocus: false,
       };

@@ -1,8 +1,9 @@
-import "fluent-intl-polyfill/compat";
 import { FluentBundle } from "fluent/compat";
 
 import * as functions from "./functions";
 import { LocalesData } from "./locales";
+
+import "fluent-intl-polyfill/compat";
 
 // Don't warn in production.
 let decorateWarnMissing = (bundle: FluentBundle) => bundle;
@@ -16,11 +17,9 @@ if (process.env.NODE_ENV !== "production") {
       bundle.hasMessage = (id: string) => {
         const result = original.apply(bundle, [id]);
         if (!result) {
-          const warn = `${
-            bundle.locales
-          } translation for key "${id}" not found`;
+          const warn = `${bundle.locales} translation for key "${id}" not found`;
           if (!warnings.includes(warn)) {
-            // tslint:disable:next-line: no-console
+            // eslint-disable-next-line no-console
             console.warn(warn);
             warnings.push(warn);
           }

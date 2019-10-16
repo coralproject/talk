@@ -69,9 +69,11 @@ const ConfirmRoute: React.FunctionComponent<Props> = ({ token }) => {
 };
 
 const enhanced = withRouteConfig<Props>({
-  render: ({ match, Component }) => (
-    <Component token={parseHashQuery(match.location.hash).confirmToken} />
-  ),
+  render: function ConfirmRouteRender({ match, Component }) {
+    return (
+      <Component token={parseHashQuery(match.location.hash).confirmToken} />
+    );
+  },
 })(ConfirmRoute);
 
 export default enhanced;

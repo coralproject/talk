@@ -75,9 +75,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
           <Localized id="comments-replyList-showAll">
             <Button
               id={`coral-comments-replyList-showAll--${props.comment.id}`}
-              aria-controls={`coral-comments-replyList-log--${
-                props.comment.id
-              }`}
+              aria-controls={`coral-comments-replyList-log--${props.comment.id}`}
               className={CLASSES.replyList.showAllButton}
               onClick={props.onShowAll}
               disabled={props.disableShowAll}
@@ -93,9 +91,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
         <Indent level={props.indentLevel} noBorder>
           <Localized id="comments-replyList-showMoreReplies">
             <Button
-              aria-controls={`coral-comments-replyList-log--${
-                props.comment.id
-              }`}
+              aria-controls={`coral-comments-replyList-log--${props.comment.id}`}
               onClick={props.onViewNew}
               className={CLASSES.replyList.showMoreReplies}
               variant="outlined"

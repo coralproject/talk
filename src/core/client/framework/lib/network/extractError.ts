@@ -18,7 +18,7 @@ function isCoralError(err: any): err is CoralError {
 
 export default function extractError(
   err: CoralError,
-  unknownErrorMessage: string = "Unknown error"
+  unknownErrorMessage = "Unknown error"
 ): Error {
   if (!isCoralError(err)) {
     return new UnknownServerError(unknownErrorMessage, err);

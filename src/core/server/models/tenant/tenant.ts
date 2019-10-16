@@ -212,7 +212,7 @@ export async function retrieveTenant(mongo: Db, id: string) {
 }
 
 export async function retrieveManyTenants(mongo: Db, ids: string[]) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     id: {
       $in: ids,
     },
@@ -227,7 +227,7 @@ export async function retrieveManyTenantsByDomain(
   mongo: Db,
   domains: string[]
 ) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     domain: {
       $in: domains,
     },

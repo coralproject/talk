@@ -16,10 +16,16 @@ interface Props extends HTMLAttributes<HTMLLIElement> {
 const SeeAllOption: FunctionComponent<Props> = ({
   className,
   href,
+  "aria-selected": selected,
   ...rest
 }) => {
   return (
-    <li role="option" className={cn(className, styles.root)} {...rest}>
+    <li
+      role="option"
+      className={cn(className, styles.root)}
+      aria-selected={selected}
+      {...rest}
+    >
       <a className={styles.link} href={href || "#"} tabIndex={-1}>
         <Localized id="moderate-searchBar-seeAllResults">
           <span>See all results</span>

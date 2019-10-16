@@ -11,7 +11,7 @@ interface Props {
 }
 
 class AutoLoadMoresContainer extends React.Component<Props> {
-  public componentWillReceiveProps(nextProps: Props) {
+  public UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.inView && !nextProps.disableLoadMore) {
       nextProps.onLoadMore();
     }

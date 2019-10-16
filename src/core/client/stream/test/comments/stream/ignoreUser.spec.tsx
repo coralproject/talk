@@ -146,7 +146,7 @@ it("render stream with only staff comments, ignore user button should not be pre
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   const moderator = moderators[0];
-  const username = within(tabPane).getByText(moderator!.username!, {
+  const username = within(tabPane).getByText(moderator.username!, {
     selector: "button",
   });
 
@@ -179,7 +179,7 @@ it("render stream with regular comments, ignore user button should be present", 
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   const commenter = commenters[0];
-  const username = within(tabPane).getByText(commenter!.username!, {
+  const username = within(tabPane).getByText(commenter.username!, {
     selector: "button",
   });
 

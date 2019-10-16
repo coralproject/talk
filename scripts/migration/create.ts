@@ -8,7 +8,7 @@
  * To create new database migrations.
  */
 
-// tslint:disable: no-console
+/* eslint-disable no-console */
 
 import fs from "fs-extra";
 import lodash from "lodash";

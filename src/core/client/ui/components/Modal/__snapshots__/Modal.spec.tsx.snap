@@ -3,8 +3,7 @@
 exports[`renders correctly 1`] = `
 <div
   className="Modal-root"
-  onKeyDown={[Function]}
-  role="modal"
+  role="dialog"
 >
   <div
     className="Backdrop-root Backdrop-active"
@@ -13,6 +12,8 @@ exports[`renders correctly 1`] = `
   />
   <div
     className="Modal-scroll"
+    onKeyDown={[Function]}
+    role="presentation"
   >
     <div
       className="Modal-alignContainer1"

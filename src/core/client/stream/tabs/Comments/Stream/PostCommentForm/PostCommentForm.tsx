@@ -1,11 +1,11 @@
 import cn from "classnames";
-import { PropTypesOf } from "coral-framework/types";
 import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { OnSubmit } from "coral-framework/lib/form";
+import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
 import { AriaInfo, Button, Flex, HorizontalGutter } from "coral-ui/components";

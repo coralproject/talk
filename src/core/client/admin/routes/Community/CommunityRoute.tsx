@@ -2,8 +2,9 @@ import { FormApi } from "final-form";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { CommunityRouteQueryResponse } from "coral-admin/__generated__/CommunityRouteQuery.graphql";
 import { withRouteConfig } from "coral-framework/lib/router";
+
+import { CommunityRouteQueryResponse } from "coral-admin/__generated__/CommunityRouteQuery.graphql";
 
 import Community from "./Community";
 

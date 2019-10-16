@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { SitewideCommentingConfigContainer_settings as SettingsData } from "coral-admin/__generated__/SitewideCommentingConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { SitewideCommentingConfigContainer_settings as SettingsData } from "coral-admin/__generated__/SitewideCommentingConfigContainer_settings.graphql";
 
 import SitewideCommentingConfig from "./SitewideCommentingConfig";
 

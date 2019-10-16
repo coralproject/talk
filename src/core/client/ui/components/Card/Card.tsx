@@ -1,8 +1,7 @@
 import cn from "classnames";
-import { withStyles } from "coral-ui/hocs";
-import { withForwardRef } from "coral-ui/hocs";
-import React, { Ref } from "react";
-import { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, ReactNode, Ref } from "react";
+
+import { withForwardRef, withStyles } from "coral-ui/hocs";
 
 import styles from "./Card.css";
 

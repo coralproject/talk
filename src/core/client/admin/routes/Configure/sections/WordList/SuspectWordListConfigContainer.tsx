@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { SuspectWordListConfigContainer_settings as SettingsData } from "coral-admin/__generated__/SuspectWordListConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { SuspectWordListConfigContainer_settings as SettingsData } from "coral-admin/__generated__/SuspectWordListConfigContainer_settings.graphql";
 
 import SuspectWordListConfig from "./SuspectWordListConfig";
 

@@ -3,7 +3,7 @@ import { Tenant } from "coral-server/models/tenant";
 import { Request } from "coral-server/types/express";
 import { URL } from "url";
 
-export function reconstructURL(req: Request, path: string = "/"): string {
+export function reconstructURL(req: Request, path = "/"): string {
   const scheme = req.secure ? "https" : "http";
   const host = req.get("host");
   const base = `${scheme}://${host}`;
@@ -19,7 +19,7 @@ export function reconstructURL(req: Request, path: string = "/"): string {
 export function constructTenantURL(
   config: Config,
   tenant: Pick<Tenant, "domain">,
-  path: string = "/"
+  path = "/"
 ): string {
   let url: URL = new URL(path, `https://${tenant.domain}`);
   if (config.get("env") === "development") {
@@ -60,10 +60,7 @@ export function getOrigin(url: string) {
 export function prefixSchemeIfRequired(secure: boolean, url: string) {
   if (doesRequireSchemePrefixing(url)) {
     return (
-      "http" +
-      (secure ? "s" : "") +
-      (url.indexOf("//") === -1 ? "://" : ":") +
-      url
+      "http" + (secure ? "s" : "") + (!url.includes("//") ? "://" : ":") + url
     );
   }
 

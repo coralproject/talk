@@ -1,0 +1,206 @@
+const typescriptEslintRecommended = require('@typescript-eslint/eslint-plugin/dist/configs/eslint-recommended').default.overrides[0];
+const typescriptRecommended = require('@typescript-eslint/eslint-plugin/dist/configs/recommended.json');
+const typescriptRecommendedTypeChecking = require('@typescript-eslint/eslint-plugin/dist/configs/recommended-requiring-type-checking.json');
+const typescriptEslintPrettier = require('eslint-config-prettier/@typescript-eslint');
+const react = require('eslint-plugin-react').configs.recommended;
+const jsxA11y = require('eslint-plugin-jsx-a11y').configs.recommended;
+const reactPrettier = require('eslint-config-prettier/react');
+
+const typescriptOverrides = {
+  files: ["*.ts", "*.tsx"],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+  plugins: [
+    "@typescript-eslint",
+    "@typescript-eslint/tslint",
+    "react",
+    "jsx-a11y",
+  ],
+  settings: {
+    react: {
+      version: "detect",
+    }
+  },
+  rules: Object.assign(
+    typescriptEslintRecommended.rules,
+    typescriptRecommended.rules,
+    typescriptEslintPrettier.rules,
+    react.rules,
+    jsxA11y.rules,
+    reactPrettier.rules,
+    {
+      "@typescript-eslint/adjacent-overload-signatures": "error",
+      // TODO: (cvle) change `readonly` param to `array-simple` when upgraded typescript.
+      "@typescript-eslint/array-type": ["error", { "default": "array-simple", "readonly": "generic"}],
+      "@typescript-eslint/ban-types": "error",
+      "@typescript-eslint/camelcase": "off",
+      "@typescript-eslint/consistent-type-assertions": "error",
+      "@typescript-eslint/consistent-type-definitions": "error",
+      "@typescript-eslint/class-name-casing": "error",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-member-accessibility": [
+        "error",
+        {
+          "overrides": {
+            "constructors": "off",
+          },
+        },
+      ],
+      "@typescript-eslint/indent": "off",
+      "@typescript-eslint/interface-name-prefix": "error",
+      "@typescript-eslint/member-delimiter-style": "off",
+      "@typescript-eslint/no-empty-function": "error",
+      "@typescript-eslint/no-empty-interface": "error",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-misused-new": "error",
+      "@typescript-eslint/no-namespace": "error",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-parameter-properties": "off",
+      "@typescript-eslint/no-unused-vars": ["error", {"args": "none", "ignoreRestSiblings": true}],
+      "@typescript-eslint/no-use-before-define": "off", // TODO: (cvle) Should be on?
+      "@typescript-eslint/no-use-before-declare": "off",
+      "@typescript-eslint/no-var-requires": "error",
+      "@typescript-eslint/prefer-for-of": "error",
+      "@typescript-eslint/prefer-function-type": "error",
+      "@typescript-eslint/prefer-namespace-keyword": "error",
+      "@typescript-eslint/triple-slash-reference": "error",
+      "@typescript-eslint/type-annotation-spacing": "off",
+      "@typescript-eslint/unified-signatures": "error",
+      // (cvle) disabled, because the way we use labels in our code cause to many
+      // false positives.
+      "jsx-a11y/label-has-associated-control": "off",
+      "react/display-name": "error",
+      "react/prop-types": "off",
+      "react/no-unescaped-entities": "off",
+    }
+  ),
+};
+
+let typescriptTypeCheckingOverrides = {
+  files: ["*.ts", "*.tsx"],
+  parserOptions: {
+    project: ["tsconfig.json", "./src/tsconfig.json", "./src/core/client/tsconfig.json"],
+  },
+  rules: Object.assign(
+    typescriptRecommendedTypeChecking.rules,
+    {
+      "@typescript-eslint/tslint/config": ["error", {
+        "rules": {
+          "ordered-imports": {
+            "options": {
+              "import-sources-order": "case-insensitive",
+              "module-source-path": "full",
+              "named-imports-order": "case-insensitive",
+            },
+          },
+        },
+      }],
+      "@typescript-eslint/require-await": "off",
+      "@typescript-eslint/no-misused-promises": "off",
+      "@typescript-eslint/unbound-method": "off", // 10.10.19: (cvle) seems to give false positive.
+    }
+  ),
+};
+
+const jestOverrides = {
+  env: {
+    jest: true,
+  },
+  files: ["test/**/*.ts", "test/**/*.tsx"],
+  globals: {
+    "expectAndFail": "readonly",
+    "fail": "readonly",
+  },
+};
+
+// Setup the overrides.
+const overrides = [jestOverrides, typescriptOverrides];
+// Skip type information to make it faster!
+if (process.env.FAST_LINT !== "true") {
+  overrides.push(typescriptTypeCheckingOverrides);
+}
+
+module.exports = {
+  overrides,
+  env: {
+    browser: true,
+    es6: true,
+    node: true,
+  },
+  extends: [
+    "eslint:recommended",
+    "plugin:jsdoc/recommended",
+    "plugin:prettier/recommended",
+  ],
+  parserOptions: {
+    "ecmaVersion": 2018,
+  },
+  rules: {
+    "arrow-body-style": "off",
+    "arrow-parens": [
+      "off",
+      "as-needed",
+    ],
+    "camelcase": "off",
+    "complexity": "off",
+    "constructor-super": "error",
+    "spaced-comment": ["error", "always"],
+    "curly": "error",
+    "dot-notation": "error",
+    "eol-last": "off",
+    "eqeqeq": "error",
+    "guard-for-in": "error",
+    "jsdoc/require-jsdoc": "off",
+    "jsdoc/require-returns": "off",
+    "jsdoc/require-param": "off",
+    "jsdoc/require-param-type": "off",
+    "jsdoc/require-returns-type": "off",
+    "linebreak-style": "off",
+    "max-classes-per-file": [
+      "error",
+      1,
+    ],
+    "member-ordering": "off",
+    "new-parens": "off",
+    "newline-per-chained-call": "off",
+    "no-bitwise": "error",
+    "no-caller": "error",
+    "no-cond-assign": "error",
+    "no-console": "error",
+    "no-debugger": "error",
+    "no-empty": "error",
+    "no-eval": "error",
+    "no-extra-semi": "off",
+    "no-fallthrough": "error",
+    "no-invalid-this": "off",
+    "no-irregular-whitespace": "off",
+    "no-multiple-empty-lines": "off",
+    "no-new-wrappers": "error",
+    "no-prototype-builtins": "off",
+    "no-shadow": "error",
+    "no-throw-literal": "error",
+    "no-undef": "off",
+    "no-undef-init": "error",
+    "no-unsafe-finally": "error",
+    "no-unused-expressions": "error",
+    "no-unused-labels": "error",
+    "no-unused-vars": ["error", {"args": "none", "ignoreRestSiblings": true}],
+    "no-var": "error",
+    "object-shorthand": "error",
+    "one-var": "off",
+    "prefer-arrow-callback": "off",
+    "prefer-const": "error",
+    "quote-props": "off",
+    "radix": "error",
+    "require-atomic-updates": "off",
+    "space-before-function-paren": "off",
+    "sort-imports": "off",
+    "use-isnan": "error",
+    "valid-typeof": "off",
+  },
+};

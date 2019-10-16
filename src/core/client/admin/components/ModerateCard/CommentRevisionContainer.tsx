@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from "react";
 
-import { CommentRevisionContainer_comment as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
-import { CommentRevisionContainer_settings as SettingsData } from "coral-admin/__generated__/CommentRevisionContainer_settings.graphql";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter, Timestamp } from "coral-ui/components";
+
+import { CommentRevisionContainer_comment as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
+import { CommentRevisionContainer_settings as SettingsData } from "coral-admin/__generated__/CommentRevisionContainer_settings.graphql";
 
 import CommentContent from "./CommentContent";
 

@@ -154,13 +154,14 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
       }
 
       if (!(err instanceof CoralError)) {
+        // eslint-disable-next-line no-ex-assign
         err = new InternalError(err, "could not setup websocket connection");
       }
       const { message } = err.serializeExtensions(
         options.i18n.getDefaultBundle()
       );
 
-      throw { message };
+      throw new Error(message);
     }
   };
 }

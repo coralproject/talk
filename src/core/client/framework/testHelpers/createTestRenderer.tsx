@@ -5,6 +5,7 @@ import path from "path";
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
+import sinon from "sinon";
 
 import { RequireProperty } from "coral-common/types";
 import {
@@ -16,7 +17,6 @@ import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { createUUIDGenerator } from "coral-framework/testHelpers";
 
-import sinon from "sinon";
 import createFluentBundle from "./createFluentBundle";
 import createRelayEnvironment from "./createRelayEnvironment";
 import createSubscriptionHandler, {

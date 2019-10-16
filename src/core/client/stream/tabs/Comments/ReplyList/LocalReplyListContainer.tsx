@@ -3,6 +3,7 @@ import { graphql } from "react-relay";
 
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { PropTypesOf } from "coral-framework/types";
+
 import { LocalReplyListContainer_comment as CommentData } from "coral-stream/__generated__/LocalReplyListContainer_comment.graphql";
 import { LocalReplyListContainer_settings as SettingsData } from "coral-stream/__generated__/LocalReplyListContainer_settings.graphql";
 import { LocalReplyListContainer_story as StoryData } from "coral-stream/__generated__/LocalReplyListContainer_story.graphql";

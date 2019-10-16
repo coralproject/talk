@@ -7,6 +7,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+
 import { IgnoreUserMutation as MutationTypes } from "coral-stream/__generated__/IgnoreUserMutation.graphql";
 
 let clientMutationId = 0;
@@ -34,7 +35,7 @@ const IgnoreUserMutation = createMutation(
         const ignoredUserRecords = viewerProxy.getLinkedRecords("ignoredUsers");
         if (ignoredUserRecords) {
           viewerProxy.setLinkedRecords(
-            ignoredUserRecords.concat(store.get(input.userID)!),
+            ignoredUserRecords.concat(store.get(input.userID)),
             "ignoredUsers"
           );
         }

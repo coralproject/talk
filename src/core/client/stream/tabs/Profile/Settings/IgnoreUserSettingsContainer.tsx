@@ -3,7 +3,6 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { IgnoreUserSettingsContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoreUserSettingsContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import {
   Button,
@@ -13,9 +12,12 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import styles from "./IgnoreUserSettingsContainer.css";
+import { IgnoreUserSettingsContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoreUserSettingsContainer_viewer.graphql";
+
 import RemoveUserIgnoreMutation from "./RemoveUserIgnoreMutation";
 import Username from "./Username";
+
+import styles from "./IgnoreUserSettingsContainer.css";
 
 interface Props {
   viewer: ViewerData;

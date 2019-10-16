@@ -3,9 +3,10 @@ import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { RejectedTombstoneContainer_comment as CommentData } from "coral-stream/__generated__/RejectedTombstoneContainer_comment.graphql";
 import CLASSES from "coral-stream/classes";
 import { CallOut, TextLink } from "coral-ui/components";
+
+import { RejectedTombstoneContainer_comment as CommentData } from "coral-stream/__generated__/RejectedTombstoneContainer_comment.graphql";
 
 interface Props {
   comment: CommentData;

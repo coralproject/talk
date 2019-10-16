@@ -12,9 +12,9 @@ import {
   TextField,
   Typography,
 } from "coral-ui/components";
-import OnOffField from "../../OnOffField";
 
 import Header from "../../Header";
+import OnOffField from "../../OnOffField";
 
 interface Props {
   disabled: boolean;

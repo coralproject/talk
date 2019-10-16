@@ -1,8 +1,8 @@
+import RTE from "@coralproject/rte";
 import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
-import RTE from "@coralproject/rte";
 import { ERROR_CODES } from "coral-common/errors";
 import {
   InvalidRequestError,

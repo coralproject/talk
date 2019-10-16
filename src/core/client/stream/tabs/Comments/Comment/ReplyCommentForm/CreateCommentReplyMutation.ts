@@ -1,3 +1,4 @@
+import { pick } from "lodash";
 import { graphql } from "react-relay";
 import {
   ConnectionHandler,
@@ -6,8 +7,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getViewer } from "coral-framework/helpers";
-import { roleIsAtLeast } from "coral-framework/helpers";
+import { getViewer, roleIsAtLeast } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -17,9 +17,9 @@ import {
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 import { GQLComment, GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+
 import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 
-import { pick } from "lodash";
 import {
   incrementStoryCommentCounts,
   isPublished,
@@ -90,7 +90,7 @@ function addLocalCommentReplyToStory(
   const newComment = commentEdge.getLinkedRecord("node");
 
   // Get parent proxy.
-  const parentProxy = store.get(input.parentID!);
+  const parentProxy = store.get(input.parentID);
 
   if (parentProxy) {
     const localReplies = parentProxy.getLinkedRecords("localReplies");
@@ -102,7 +102,7 @@ function addLocalCommentReplyToStory(
 }
 
 /** These are needed to be included when querying for the stream. */
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment CreateCommentReplyMutation_story on Story {
     settings {
@@ -110,7 +110,7 @@ graphql`
     }
   }
 `;
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment CreateCommentReplyMutation_viewer on User {
     role
