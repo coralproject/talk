@@ -12,7 +12,7 @@ general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-notYou =
   Não é você? <button>Sair</button>
 
-general-tabBar-commentsTab = Discussão
+general-tabBar-commentsTab = Comentários
 general-tabBar-myProfileTab = Meu Perfil
 general-tabBar-configure = Configurações
 
