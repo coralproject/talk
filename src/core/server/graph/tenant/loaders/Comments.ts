@@ -1,5 +1,5 @@
 import DataLoader from "dataloader";
-import { isNil, omitBy } from "lodash";
+import { defaultTo, isNil, omitBy } from "lodash";
 import { DateTime } from "luxon";
 
 import Context from "coral-server/graph/tenant/context";
@@ -126,7 +126,7 @@ export default (ctx: Context) => ({
     }
   ),
   forFilter: ({
-    first = 10,
+    first,
     after,
     storyID,
     status,
@@ -134,7 +134,7 @@ export default (ctx: Context) => ({
     query,
   }: QueryToCommentsArgs) =>
     retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
-      first,
+      first: defaultTo(first, 10),
       after,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       filter: omitBy(
@@ -164,71 +164,45 @@ export default (ctx: Context) => ({
       );
     }
   ),
-  forUser: (
-    userID: string,
-    // Apply the graph schema defaults at the loader.
-    {
-      first = 10,
-      orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
-      after,
-    }: UserToCommentsArgs
-  ) =>
+  forUser: (userID: string, { first, orderBy, after }: UserToCommentsArgs) =>
     retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
-      first,
-      orderBy,
+      first: defaultTo(first, 10),
+      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       after,
     }).then(primeCommentsFromConnection(ctx)),
-  forUserAll: (
-    userID: string,
-    // Apply the graph schema defaults at the loader.
-    { first = 10, after }: UserToAllCommentsArgs
-  ) =>
+  forUserAll: (userID: string, { first, after }: UserToAllCommentsArgs) =>
     retrieveAllCommentsUserConnection(ctx.mongo, ctx.tenant.id, userID, {
-      first,
+      first: defaultTo(first, 10),
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
     }).then(primeCommentsFromConnection(ctx)),
   forUserRejected: (
     userID: string,
-    // Apply the graph schema defaults at the loader.
-    { first = 10, after }: UserToRejectedCommentsArgs
+    { first, after }: UserToRejectedCommentsArgs
   ) =>
     retrieveRejectedCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
-      first,
+      first: defaultTo(first, 10),
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
     }).then(primeCommentsFromConnection(ctx)),
   taggedForStory: (
     storyID: string,
     tag: GQLTAG,
-    // Apply the graph schema defaults at the loader.
-    {
-      first = 10,
-      orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
-      after,
-    }: StoryToCommentsArgs
+    { first, orderBy, after }: StoryToCommentsArgs
   ) =>
     retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
-      first,
-      orderBy,
+      first: defaultTo(first, 10),
+      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       after,
       filter: {
         // Filter optionally for comments with a specific tag.
         "tags.type": tag,
       },
     }).then(primeCommentsFromConnection(ctx)),
-  forStory: (
-    storyID: string,
-    // Apply the graph schema defaults at the loader.
-    {
-      first = 10,
-      orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
-      after,
-    }: StoryToCommentsArgs
-  ) =>
+  forStory: (storyID: string, { first, orderBy, after }: StoryToCommentsArgs) =>
     retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
-      first,
-      orderBy,
+      first: defaultTo(first, 10),
+      orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       after,
       filter: {
         // Only get Comments that are top level. If the client wants to load
@@ -239,12 +213,7 @@ export default (ctx: Context) => ({
   forParent: (
     storyID: string,
     parentID: string,
-    // Apply the graph schema defaults at the loader.
-    {
-      first = 10,
-      orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
-      after,
-    }: CommentToRepliesArgs
+    { first, orderBy, after }: CommentToRepliesArgs
   ) =>
     retrieveCommentRepliesConnection(
       ctx.mongo,
@@ -252,14 +221,14 @@ export default (ctx: Context) => ({
       storyID,
       parentID,
       {
-        first,
-        orderBy,
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
         after,
       }
     ).then(primeCommentsFromConnection(ctx)),
-  parents: (comment: Comment, { last = 1, before }: CommentToParentsArgs) =>
+  parents: (comment: Comment, { last, before }: CommentToParentsArgs) =>
     retrieveCommentParentsConnection(ctx.mongo, ctx.tenant.id, comment, {
-      last,
+      last: defaultTo(last, 1),
       // The cursor passed here is always going to be a number.
       before: before as number,
     }).then(primeCommentsFromConnection(ctx)),
