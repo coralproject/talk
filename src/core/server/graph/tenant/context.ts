@@ -60,6 +60,7 @@ export default class TenantContext extends CommonContext {
     this.clientID = options.clientID;
     this.publisher = createPublisher(
       this.pubsub,
+      this.mongo,
       notifierQueue,
       this.tenant.id,
       this.clientID

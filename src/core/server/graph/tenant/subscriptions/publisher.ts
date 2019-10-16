@@ -1,9 +1,12 @@
 import { RedisPubSub } from "graphql-redis-subscriptions";
+import { Db } from "mongodb";
 
 import { createSubscriptionChannelName } from "coral-server/graph/tenant/resolvers/Subscription/helpers";
 import { SUBSCRIPTION_INPUT } from "coral-server/graph/tenant/resolvers/Subscription/types";
 import logger from "coral-server/logger";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
+import { listener as slackListener } from "coral-server/services/slack";
+import SlackContext from "coral-server/services/slack/context";
 
 export type Publisher = (input: SUBSCRIPTION_INPUT) => Promise<void>;
 
@@ -17,6 +20,7 @@ export type Publisher = (input: SUBSCRIPTION_INPUT) => Promise<void>;
  */
 export const createPublisher = (
   pubsub: RedisPubSub,
+  mongo: Db,
   notifier: NotifierQueue,
   tenantID: string,
   clientID?: string
@@ -32,6 +36,9 @@ export const createPublisher = (
       ...payload,
       clientID,
     }),
+
+    slackListener(new SlackContext({ mongo, tenantID }), channel, payload),
+
     // Notify the notifications queue so we can offload notification processing
     // to it.
     notifier.add({ tenantID, input }),

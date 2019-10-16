@@ -25,6 +25,7 @@ const SlackConfigContainer: FunctionComponent<Props> = ({
   form,
   submitting,
 }) => {
+  const { slack } = settings;
   return (
     <HorizontalGutter size="double">
       <Field name="slack.enabled" type="checkbox" parse={parseBool}>
@@ -42,8 +43,9 @@ const SlackConfigContainer: FunctionComponent<Props> = ({
       <Field name="slack.enabled" subscription={{ value: true }}>
         {({ input: { value } }) => (
           <SectionContent>
-            {settings.slackChannels &&
-              settings.slackChannels.map((ch, i) => {
+            {slack &&
+              slack.channels &&
+              slack.channels.map((ch, i) => {
                 if (!ch) {
                   return;
                 }
@@ -65,8 +67,10 @@ const SlackConfigContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment SlackConfigContainer_settings on Settings {
-      slackChannels {
-        ...SlackChannelContainer_slackChannel
+      slack {
+        channels {
+          ...SlackChannelContainer_slackChannel
+        }
       }
     }
   `,

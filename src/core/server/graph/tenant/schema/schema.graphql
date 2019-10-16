@@ -919,6 +919,13 @@ type EmailConfiguration {
 ## Slack Configuration
 ################################################################################
 
+type SlackConfiguration {
+  """
+  channels is the set of Slack channels configured to receive comments
+  """
+  channels: [SlackChannel]
+}
+
 type SlackChannelTriggers {
   allComments: Boolean
   reportedComments: Boolean
@@ -1214,9 +1221,9 @@ type Settings {
   email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
 
   """
-  slack is the set of Slack channels configured to receive comments
+  slack is the configuration for slack communication
   """
-  slackChannels: [SlackChannel] @auth(roles: [ADMIN, MODERATOR])
+  slack: SlackConfiguration @auth(roles: [ADMIN, MODERATOR])
 
   """
   wordList will return a given list of words.
