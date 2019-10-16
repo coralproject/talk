@@ -702,6 +702,17 @@ export class InviteRequiresEmailAddresses extends CoralError {
   }
 }
 
+export class InviteIncludesExistingUser extends CoralError {
+  constructor(email: string) {
+    super({
+      code: ERROR_CODES.INVITE_INCLUDES_EXISTING_USER,
+      context: {
+        pub: { email },
+      },
+    });
+  }
+}
+
 export class LiveUpdatesDisabled extends CoralError {
   constructor() {
     super({

@@ -55,5 +55,6 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   PERSISTED_QUERY_NOT_FOUND: "error-persistedQueryNotFound",
   RAW_QUERY_NOT_AUTHORIZED: "error-rawQueryNotAuthorized",
   USER_ALREADY_PREMOD: "error-userAlreadyPremod",
+  INVITE_INCLUDES_EXISTING_USER: "error-inviteIncludesExistingUser",
   REPEAT_POST: "error-repeatPost",
 };
