@@ -1,4 +1,5 @@
 import {
+  defaultFieldResolver,
   GraphQLArgument,
   GraphQLField,
   GraphQLInterfaceType,
@@ -15,7 +16,7 @@ export default class extends SchemaDirectiveVisitor {
       objectType: GraphQLObjectType | GraphQLInterfaceType;
     }
   ) {
-    const originalResolver = details.field.resolve!;
+    const originalResolver = details.field.resolve || defaultFieldResolver;
     details.field.resolve = async (...resolveArgs) => {
       const argName = argument.name;
       const args = resolveArgs[1]; // (parent, args, context, info)
