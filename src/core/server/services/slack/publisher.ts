@@ -11,6 +11,8 @@ import logger from "coral-server/logger";
 
 import { GQLMODERATION_QUEUE } from "coral-server/graph/tenant/schema/__generated__/types";
 
+import { Tenant } from "coral-server/models/tenant";
+import { Db } from "mongodb";
 import SlackContext from "./context";
 
 type Payload =
@@ -102,47 +104,33 @@ async function postCommentToSlack(
     referrer: "no-referrer",
     body: JSON.stringify(data),
   });
+
+  // TODO: check status and log it accordingly
+  // response.status;
 }
 
-async function listener(
-  ctx: SlackContext,
+export type SlackPublisher = (
   channel: SUBSCRIPTION_CHANNELS,
   payload: Payload
-) {
-  const { tenantID } = ctx;
+) => Promise<void>;
 
-  try {
-    const tenant = await ctx.tenants.load(tenantID);
-    if (!tenant) {
-      throw new Error("Unable to find tenant");
-    }
+function createSlackPublisher(mongo: Db, tenant: Tenant): SlackPublisher {
+  if (
+    !tenant.slack ||
+    !tenant.slack.channels ||
+    tenant.slack.channels.length === 0
+  ) {
+    return async () => {
+      // noop
+    };
+  }
 
-    const { slack } = tenant;
-    if (!slack) {
-      return;
-    }
+  const { channels } = tenant.slack;
 
-    const { channels } = slack;
-    if (!channels || channels.length <= 0) {
-      return;
-    }
+  return async (channel: SUBSCRIPTION_CHANNELS, payload: Payload) => {
+    const ctx = new SlackContext({ mongo, tenantID: tenant.id });
 
-    channels.forEach(ch => {
-      if (!ch) {
-        return;
-      }
-      if (!ch.enabled) {
-        return;
-      }
-      const { hookURL } = ch;
-      if (!hookURL) {
-        return;
-      }
-      const { triggers } = ch;
-      if (!triggers) {
-        return;
-      }
-
+    try {
       const inModeration = enteredModeration(channel);
       const reported = isReported(channel, payload);
       const pending = isPending(channel, payload);
@@ -150,25 +138,42 @@ async function listener(
 
       const { commentID } = payload;
 
-      if (
-        triggers.allComments &&
-        (reported || pending || featured || inModeration)
-      ) {
-        postCommentToSlack(ctx, commentID, hookURL);
-      } else if (triggers.reportedComments && reported) {
-        postCommentToSlack(ctx, commentID, hookURL);
-      } else if (triggers.pendingComments && pending) {
-        postCommentToSlack(ctx, commentID, hookURL);
-      } else if (triggers.featuredComments && featured) {
-        postCommentToSlack(ctx, commentID, hookURL);
+      for (const ch of channels) {
+        if (!ch) {
+          return;
+        }
+        if (!ch.enabled) {
+          return;
+        }
+        const { hookURL } = ch;
+        if (!hookURL) {
+          return;
+        }
+        const { triggers } = ch;
+        if (!triggers) {
+          return;
+        }
+
+        if (
+          triggers.allComments &&
+          (reported || pending || featured || inModeration)
+        ) {
+          await postCommentToSlack(ctx, commentID, hookURL);
+        } else if (triggers.reportedComments && reported) {
+          await postCommentToSlack(ctx, commentID, hookURL);
+        } else if (triggers.pendingComments && pending) {
+          await postCommentToSlack(ctx, commentID, hookURL);
+        } else if (triggers.featuredComments && featured) {
+          await postCommentToSlack(ctx, commentID, hookURL);
+        }
       }
-    });
-  } catch (err) {
-    logger.warn(
-      { e: err, channel, payload, tenantID },
-      "could not handle comment in Slack listener"
-    );
-  }
+    } catch (err) {
+      logger.error(
+        { err, tenantID: tenant.id, channel, payload },
+        "could not handle comment in Slack listener"
+      );
+    }
+  };
 }
 
-export default listener;
+export default createSlackPublisher;

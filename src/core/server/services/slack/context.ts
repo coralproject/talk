@@ -1,9 +1,9 @@
+import Logger from "bunyan";
 import DataLoader from "dataloader";
 import { Db } from "mongodb";
 
 import { Comment, retrieveManyComments } from "coral-server/models/comment";
 import { retrieveManyStories, Story } from "coral-server/models/story";
-import { retrieveManyTenants, Tenant } from "coral-server/models/tenant";
 import { retrieveManyUsers, User } from "coral-server/models/user";
 
 interface Options {
@@ -14,11 +14,7 @@ interface Options {
 class SlackContext {
   public readonly mongo: Db;
   public readonly tenantID: string;
-
-  public readonly tenants: DataLoader<
-    string,
-    Readonly<Tenant> | null
-  > = new DataLoader(tenantIDs => retrieveManyTenants(this.mongo, tenantIDs));
+  public readonly logger: Logger;
 
   public readonly comments: DataLoader<
     string,

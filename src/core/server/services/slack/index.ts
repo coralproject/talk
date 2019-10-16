@@ -1,3 +1,3 @@
-export { default as listener } from "./listener";
-export * from "./listener";
+export { default as slackPublisher } from "./publisher";
+export * from "./publisher";
 export * from "./context";

@@ -1,18 +1,17 @@
 import { FormApi } from "final-form";
-import React, { FunctionComponent } from "react";
-import { Field } from "react-final-form";
+import { RouteProps } from "found";
+import React from "react";
+import { FieldArray } from "react-final-form-arrays";
 
-import { parseBool } from "coral-framework/lib/form";
+import { pureMerge } from "coral-common/utils";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { Flex, HorizontalGutter } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
+import { HorizontalGutter } from "coral-ui/components";
 
 import { SlackConfigContainer_settings } from "coral-admin/__generated__/SlackConfigContainer_settings.graphql";
 
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";
-import SlackChannelContainer from "./SlackChannelContainer";
-import styles from "./SlackConfigContainer.css";
+import SlackChannel from "./SlackChannel";
 
 interface Props {
   form: FormApi;
@@ -20,56 +19,100 @@ interface Props {
   settings: SlackConfigContainer_settings;
 }
 
-const SlackConfigContainer: FunctionComponent<Props> = ({
-  settings,
-  form,
-  submitting,
-}) => {
-  const { slack } = settings;
-  return (
-    <HorizontalGutter size="double">
-      <Field name="slack.enabled" type="checkbox" parse={parseBool}>
-        {({ input }) => (
-          <Header
-            className={styles.title}
-            container={<Flex justifyContent="space-between" />}
-          >
-            <Localized id="configure-slack">
-              <span>Slack settings</span>
-            </Localized>
-          </Header>
-        )}
-      </Field>
-      <Field name="slack.enabled" subscription={{ value: true }}>
-        {({ input: { value } }) => (
-          <SectionContent>
-            {slack &&
-              slack.channels &&
-              slack.channels.map((ch, i) => {
-                if (!ch) {
-                  return;
-                }
-                return (
-                  <SlackChannelContainer
-                    key={i}
-                    channel={ch}
+class SlackConfigContainer extends React.Component<Props> {
+  public static routeConfig: RouteProps;
+  private initialValues = {
+    slack: {
+      channels: [],
+    },
+  };
+
+  constructor(props: Props) {
+    super(props);
+    this.handleOnInitValues(this.props.settings);
+  }
+
+  public componentDidMount() {
+    this.props.form.initialize(this.initialValues);
+  }
+
+  private handleOnInitValues = (values: any) => {
+    this.initialValues = pureMerge(this.initialValues, values);
+  };
+
+  public render() {
+    if (!this.props.settings) {
+      return null;
+    }
+    if (!this.props.settings.slack) {
+      return null;
+    }
+    if (!this.props.settings.slack.channels) {
+      return null;
+    }
+
+    return (
+      <HorizontalGutter size="double">
+        <Header>Channels</Header>
+        <SectionContent>
+          <FieldArray name="slack.channels">
+            {({ fields }) =>
+              fields.map((channel: any, index: number) => (
+                <div key={index}>
+                  <SlackChannel
+                    channel={channel}
                     disabled={false}
+                    index={index}
                   />
-                );
-              })}
-          </SectionContent>
-        )}
-      </Field>
-    </HorizontalGutter>
-  );
-};
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.props.form.mutators.remove("slack.channels", index);
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))
+            }
+          </FieldArray>
+          <hr />
+          <button
+            type="button"
+            onClick={() =>
+              this.props.form.mutators.push("slack.channels", {
+                enabled: true,
+                hookURL: "",
+                triggers: {
+                  allComments: false,
+                  reportedComments: false,
+                  pendingComments: false,
+                  featuredComments: false,
+                },
+              })
+            }
+          >
+            Add
+          </button>
+        </SectionContent>
+      </HorizontalGutter>
+    );
+  }
+}
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment SlackConfigContainer_settings on Settings {
       slack {
         channels {
-          ...SlackChannelContainer_slackChannel
+          enabled
+          hookURL
+          triggers {
+            allComments
+            reportedComments
+            pendingComments
+            featuredComments
+          }
         }
       }
     }

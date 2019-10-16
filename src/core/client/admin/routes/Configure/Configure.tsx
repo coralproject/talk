@@ -1,4 +1,5 @@
 import { FormApi, FormState } from "final-form";
+import arrayMutators from "final-form-arrays";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Form, FormSpy } from "react-final-form";
@@ -24,7 +25,7 @@ const Configure: FunctionComponent<Props> = ({
   children,
 }) => (
   <MainLayout data-testid="configure-container">
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} mutators={{ ...arrayMutators }}>
       {({ handleSubmit, submitting, pristine, form, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
           <FormSpy onChange={onChange} />
