@@ -425,6 +425,7 @@ moderate-comment-approveButton =
   .aria-label = Approve
 moderate-comment-decision = Decision
 moderate-comment-story = Story
+moderate-comment-storyLabel = Comment On
 moderate-comment-moderateStory = Moderate Story
 moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured
@@ -466,7 +467,7 @@ moderate-searchBar-comboBoxTextField =
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
-moderateCardDetails-tab-details = Details
+moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
 ### Moderate User History Drawer
 

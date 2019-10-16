@@ -135,6 +135,8 @@
     "striptags": "^3.1.1",
     "throng": "^4.0.0",
     "tsscmp": "^1.0.6",
+    "typeface-nunito": "0.0.72",
+    "typeface-open-sans": "0.0.75",
     "url-regex": "^5.0.0",
     "uuid": "^3.3.3",
     "verror": "^1.10.0"

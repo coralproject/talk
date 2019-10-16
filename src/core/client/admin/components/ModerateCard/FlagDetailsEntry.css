@@ -1,37 +1,35 @@
 .user {
-  font-size: calc(14rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-serif);
-  line-height: calc(16em / 14);
-  letter-spacing: calc(0.2em / 14);
-  color: var(--palette-text-primary);
+  color: var(--v2-palette-username-emphasis);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-family: var(--v2-font-family-secondary);
+  line-height: var(--v2-line-height-title);
   padding-right: calc(0.5 * var(--mini-unit));
 }
+
 .details {
-  font-size: calc(14rem / var(--rem-base));
-  font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(16em / 14);
-  letter-spacing: calc(0.2em / 14);
-  color: var(--palette-text-primary);
-  font-style: italic;
+  color: var(--v2-palette-reason-text);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-title);
 }
 
 .flagger {
+  line-height: var(--v2-line-height-reset);
   margin-right: var(--mini-unit);
-  padding: var(--spacing-1);
-  margin-left: calc(-1 * var(--spacing-1));
-  line-height: calc(16rem / var(--rem-base));
+  padding: var(--v2-spacing-1);
+  margin-left: calc(-1 * var(--v2-spacing-1));
 
   &:hover {
-    background-color: var(--palette-grey-lightest);
-    border-radius: var(--round-corners);
+    background-color: var(--v2-palette-grey-lightest);
+    border-radius: var(--v2-round-corners);
     border-style: none;
   }
 
   &:active {
-    background-color: var(--palette-grey-lighter);
-    border-radius: var(--round-corners);
+    background-color: var(--v2-palette-grey-lighter);
+    border-radius: var(--v2-round-corners);
     border-style: none;
   }
 }

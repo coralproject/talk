@@ -1,3 +1,7 @@
 .category {
-  color: var(--palette-error-darkest);
+  font-size: var(--v2-font-size-4);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-body-short);
+  color: var(--v2-palette-accordion-label);
 }

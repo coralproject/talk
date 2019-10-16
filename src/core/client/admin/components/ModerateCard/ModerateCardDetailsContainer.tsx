@@ -4,8 +4,9 @@ import { graphql } from "react-relay";
 
 import { ModerateCardDetailsContainer_comment as CommentData } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
 import { ModerateCardDetailsContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
+import { Tab, TabBar } from "coral-admin/ui/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Flex, HorizontalGutter, Icon, Tab, TabBar } from "coral-ui/components";
+import { Flex, HorizontalGutter, Icon } from "coral-ui/components";
 
 import CommentRevisionContainer from "./CommentRevisionContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
@@ -21,6 +22,8 @@ interface Props {
   hasRevisions: boolean;
 }
 
+type DetailsTabs = "INFO" | "HISTORY";
+
 const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   comment,
   onUsernameClick,
@@ -28,23 +31,23 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   hasDetails,
   hasRevisions,
 }) => {
-  const [activeTab, setActiveTab] = useState<"DETAILS" | "HISTORY">(
-    hasDetails ? "DETAILS" : "HISTORY"
+  const [activeTab, setActiveTab] = useState<DetailsTabs>(
+    hasDetails ? "INFO" : "HISTORY"
   );
 
   return (
     <HorizontalGutter>
       <TabBar
-        variant="secondary"
+        variant="default"
         activeTab={activeTab}
-        onTabClick={id => setActiveTab(id as "DETAILS" | "HISTORY")}
+        onTabClick={id => setActiveTab(id as DetailsTabs)}
       >
         {hasDetails && (
-          <Tab tabID="DETAILS" classes={styles}>
+          <Tab tabID="INFO" classes={styles}>
             <Flex alignItems="center" itemGutter>
               <Icon size="md">list</Icon>
-              <Localized id="moderateCardDetails-tab-details">
-                <span>Details</span>
+              <Localized id="moderateCardDetails-tab-info">
+                <span>Info</span>
               </Localized>
             </Flex>
           </Tab>
@@ -70,6 +73,13 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
             onUsernameClick={onUsernameClick}
           />
         </>
+      )}
+      {activeTab === "INFO" && (
+        <FlagDetailsContainer
+          comment={comment}
+          settings={settings}
+          onUsernameClick={onUsernameClick}
+        />
       )}
       {activeTab === "HISTORY" && (
         <CommentRevisionContainer comment={comment} settings={settings} />
