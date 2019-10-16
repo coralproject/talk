@@ -321,4 +321,10 @@ export enum ERROR_CODES {
    * INVITE_INCLUDES_EXISTING_USER is returned when attempting to invite a user who already exists
    */
   INVITE_INCLUDES_EXISTING_USER = "INVITE_INCLUDES_EXISTING_USER",
+  
+  /**
+   * REPEAT_POST is returned if a user attempts to post the same comment more than once
+   * in a row within a given time frame
+   */
+  REPEAT_POST = "REPEAT_POST",
 }
