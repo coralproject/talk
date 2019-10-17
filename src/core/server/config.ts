@@ -45,6 +45,18 @@ convict.addFormat({
   coerce: (url: string) => (url ? ensureEndSlash(url) : url),
 });
 
+const algorithms = [
+  "HS256",
+  "HS384",
+  "HS512",
+  "RS256",
+  "RS384",
+  "RS512",
+  "ES256",
+  "ES384",
+  "ES512",
+];
+
 const config = convict({
   env: {
     doc: "The application environment.",
@@ -150,21 +162,26 @@ const config = convict({
     sensitive: true,
   },
   signing_algorithm: {
-    doc: "",
-    format: [
-      "HS256",
-      "HS384",
-      "HS512",
-      "RS256",
-      "RS384",
-      "RS512",
-      "ES256",
-      "ES384",
-      "ES512",
-    ],
+    doc: "The signing algorithm used to sign JSON Web Tokens (JWT).",
+    format: algorithms,
     default: "HS256",
     env: "SIGNING_ALGORITHM",
     arg: "signingAlgorithm",
+  },
+  management_signing_secret: {
+    doc: "The secret used to verify management API requests.",
+    format: "*",
+    default: null,
+    env: "MANAGEMENT_SIGNING_SECRET",
+    arg: "managementSigningSecret",
+    sensitive: true,
+  },
+  management_signing_algorithm: {
+    doc: "The algorithm used to sign management API requests",
+    format: algorithms,
+    default: "HS256",
+    env: "MANAGEMENT_SIGNING_ALGORITHM",
+    arg: "managementSigningAlgorithm",
   },
   logging_level: {
     doc: "The logging level to print to the console",

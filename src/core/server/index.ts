@@ -127,7 +127,10 @@ class Server {
     this.i18n = new I18n(defaultLocale);
 
     // Create the signing config.
-    this.signingConfig = createJWTSigningConfig(this.config);
+    this.signingConfig = createJWTSigningConfig(
+      this.config.get("signing_secret"),
+      this.config.get("signing_algorithm")
+    );
   }
 
   /**

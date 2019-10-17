@@ -133,9 +133,13 @@ export default class Manager {
     return records.length > 0 ? records[records.length - 1] : null;
   }
 
-  public async executePendingMigrations(mongo: Db) {
+  public async executePendingMigrations(mongo: Db, silent = false) {
     // Error out if this is ran twice.
     if (this.ran) {
+      if (silent) {
+        return;
+      }
+
       throw new Error("pending migrations have already been executed");
     }
 

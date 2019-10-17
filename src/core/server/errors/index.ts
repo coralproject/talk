@@ -530,6 +530,16 @@ export class TenantInstalledAlreadyError extends CoralError {
   }
 }
 
+export class InstallationForbiddenError extends CoralError {
+  constructor(domain: string) {
+    super({
+      code: ERROR_CODES.INSTALLATION_FORBIDDEN,
+      status: 401,
+      context: { pub: { domain } },
+    });
+  }
+}
+
 export class InvalidCredentialsError extends CoralError {
   constructor(reason: string) {
     super({
@@ -685,11 +695,11 @@ export class InviteTokenExpired extends CoralError {
 }
 
 export class RateLimitExceeded extends CoralError {
-  constructor(resource: string, max: number, tries?: number) {
+  constructor(resource: string, max: number, resetsAt: Date, tries?: number) {
     super({
       code: ERROR_CODES.RATE_LIMIT_EXCEEDED,
       status: 429,
-      context: { pvt: { resource, max, tries } },
+      context: { pvt: { resource, max, tries, resetsAt } },
     });
   }
 }

@@ -327,4 +327,10 @@ export enum ERROR_CODES {
    * in a row within a given time frame
    */
   REPEAT_POST = "REPEAT_POST",
+
+  /**
+   * INSTALLATION_FORBIDDEN is returned when an installation is attempted
+   * when it is not authorized to do so.
+   */
+  INSTALLATION_FORBIDDEN = "INSTALLATION_FORBIDDEN",
 }

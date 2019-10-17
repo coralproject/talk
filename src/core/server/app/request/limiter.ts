@@ -1,6 +1,7 @@
 /* eslint-disable max-classes-per-file */
 
 import { Redis } from "ioredis";
+import { DateTime } from "luxon";
 import ms from "ms";
 
 import { Omit } from "coral-common/types";
@@ -68,7 +69,10 @@ export class Limiter {
     }
 
     if (tries > this.max) {
-      throw new RateLimitExceeded(key, this.max, tries);
+      const resetsAt = DateTime.fromJSDate(new Date())
+        .plus({ seconds: this.ttl })
+        .toJSDate();
+      throw new RateLimitExceeded(key, this.max, resetsAt, tries);
     }
 
     return tries;
