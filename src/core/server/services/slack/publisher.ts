@@ -55,8 +55,13 @@ function isPending(channel: SUBSCRIPTION_CHANNELS, payload: Payload) {
   );
 }
 
+function createModerationLink(rootURL: string, commentID: string) {
+  return `${rootURL}/admin/moderate/comment/${commentID}`;
+}
+
 async function postCommentToSlack(
   ctx: SlackContext,
+  orgURL: string,
   commentID: string,
   webhookURL: string
 ) {
@@ -79,6 +84,7 @@ async function postCommentToSlack(
       ? comment.revisions[comment.revisions.length - 1].body
       : "";
   const body = commentBody.replace(new RegExp("<br>", "g"), "\n");
+  const moderateLink = createModerationLink(orgURL, comment.id);
 
   const data = {
     text: `${author} commented on: ${storyTitle}`,
@@ -91,7 +97,7 @@ async function postCommentToSlack(
             type: "mrkdwn",
             text: `${author.username} commented on: <${
               story.url
-            }|${storyTitle}> \n ${body}`,
+            }|${storyTitle}> - <${moderateLink}|Moderate> \n ${body}`,
           },
         ],
       },
@@ -159,17 +165,19 @@ function createSlackPublisher(mongo: Db, tenant: Tenant): SlackPublisher {
           return;
         }
 
+        const orgURL = tenant.organization.url;
+
         if (
           triggers.allComments &&
           (reported || pending || featured || inModeration)
         ) {
-          await postCommentToSlack(ctx, commentID, hookURL);
+          await postCommentToSlack(ctx, orgURL, commentID, hookURL);
         } else if (triggers.reportedComments && reported) {
-          await postCommentToSlack(ctx, commentID, hookURL);
+          await postCommentToSlack(ctx, orgURL, commentID, hookURL);
         } else if (triggers.pendingComments && pending) {
-          await postCommentToSlack(ctx, commentID, hookURL);
+          await postCommentToSlack(ctx, orgURL, commentID, hookURL);
         } else if (triggers.featuredComments && featured) {
-          await postCommentToSlack(ctx, commentID, hookURL);
+          await postCommentToSlack(ctx, orgURL, commentID, hookURL);
         }
       }
     } catch (err) {
