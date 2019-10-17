@@ -18,7 +18,7 @@ export default async function initLocalState(
 
   // Initialize the redirect path in case we don't need to redirect somewhere.
   let redirectPath: string | null = null;
-  let errors: string | null = null;
+  let error: string | null = null;
 
   // Get all the parameters from the hash.
   const params = getParamsFromHash();
@@ -27,8 +27,8 @@ export default async function initLocalState(
     clearHash();
 
     // If there was an error, add it.
-    if (params.errors) {
-      errors = params.errors;
+    if (params.error) {
+      error = params.error;
     }
 
     // If there was an access token, store it and replace the one that was in
@@ -67,6 +67,6 @@ export default async function initLocalState(
 
     localRecord.setValue(redirectPath, "redirectPath");
     localRecord.setValue("SIGN_IN", "authView");
-    localRecord.setValue(errors, "authError");
+    localRecord.setValue(error, "authError");
   });
 }
