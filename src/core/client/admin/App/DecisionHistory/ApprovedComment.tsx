@@ -10,6 +10,7 @@ import Footer from "./Footer";
 import GoToCommentLink from "./GoToCommentLink";
 import Info from "./Info";
 import Timestamp from "./Timestamp";
+import Username from "./Username";
 
 interface Props {
   href: string;
@@ -17,10 +18,6 @@ interface Props {
   date: string;
   onGotoComment?: React.EventHandler<React.MouseEvent>;
 }
-
-const Username: FunctionComponent<{ username: string }> = ({ username }) => (
-  <strong>{username}</strong>
-);
 
 const ApprovedComment: FunctionComponent<Props> = props => (
   <DecisionItem icon={<ApprovedIcon />}>

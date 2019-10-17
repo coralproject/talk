@@ -3,6 +3,7 @@
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   className="RejectedIcon-root"
+  size="md"
 >
   cancel
 </ForwardRef(forwardRef)>

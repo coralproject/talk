@@ -20,7 +20,7 @@ const colors = {
   grey100: "#F4F7F7",
   grey200: "#EAEFF0",
   grey300: "#CBD1D2",
-  grey400: "#14171A",
+  grey400: "#9FA4A6",
   grey500: "#65696B",
   grey600: "#49545C",
   grey700: "#32404D",
@@ -174,6 +174,12 @@ const variables2 = {
         text: colors.mono500,
         label: colors.mono500,
         background: colors.pure.white,
+      },
+    },
+    decisionHistory: {
+      border: colors.grey300,
+      title: {
+        background: colors.grey200,
       },
     },
   },

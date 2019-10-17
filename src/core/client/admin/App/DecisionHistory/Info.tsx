@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from "react";
 
-import { Typography } from "coral-ui/components";
-
 import styles from "./Info.css";
 
 interface Props {
@@ -9,7 +7,7 @@ interface Props {
 }
 
 const Info: FunctionComponent<Props> = props => (
-  <Typography className={styles.root}>{props.children}</Typography>
+  <span className={styles.root}>{props.children}</span>
 );
 
 export default Info;

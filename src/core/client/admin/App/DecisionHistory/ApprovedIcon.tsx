@@ -5,7 +5,9 @@ import { Icon } from "coral-ui/components";
 import styles from "./ApprovedIcon.css";
 
 const ApprovedIcon: FunctionComponent = () => (
-  <Icon className={styles.root}>check</Icon>
+  <Icon size="md" className={styles.root}>
+    check_circled
+  </Icon>
 );
 
 export default ApprovedIcon;
