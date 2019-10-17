@@ -49,7 +49,7 @@ export interface SSOToken {
 }
 
 export function isSSOToken(token: SSOToken | object): token is SSOToken {
-  const { error } = Joi.validate(token, SSOTokenSchema);
+  const { error } = Joi.validate(token, SSOTokenSchema, { allowUnknown: true });
   return isNil(error);
 }
 

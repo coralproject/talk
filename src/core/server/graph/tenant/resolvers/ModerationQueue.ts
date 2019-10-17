@@ -1,3 +1,5 @@
+import { defaultTo } from "lodash";
+
 import {
   CommentConnectionInput,
   retrieveCommentConnection,
@@ -24,11 +26,12 @@ export const ModerationQueue: GQLModerationQueueTypeResolver<
 
     return selector;
   },
-  comments: ({ connection }, { first = 10, after }, { mongo, tenant }) =>
-    retrieveCommentConnection(mongo, tenant.id, {
+  comments: ({ connection }, { first, after }, { mongo, tenant }) => {
+    return retrieveCommentConnection(mongo, tenant.id, {
       ...connection,
-      first,
+      first: defaultTo(first, 10),
       after,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-    }),
+    });
+  },
 };
