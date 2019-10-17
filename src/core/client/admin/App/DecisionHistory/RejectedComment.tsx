@@ -8,6 +8,7 @@ import GoToCommentLink from "./GoToCommentLink";
 import Info from "./Info";
 import RejectedIcon from "./RejectedIcon";
 import Timestamp from "./Timestamp";
+import Username from "./Username";
 
 import { Typography } from "coral-ui/components";
 
@@ -17,10 +18,6 @@ interface Props {
   date: string;
   onGotoComment?: React.EventHandler<React.MouseEvent>;
 }
-
-const Username: FunctionComponent<{ username: string }> = ({ username }) => (
-  <strong>{username}</strong>
-);
 
 const RejectedComment: FunctionComponent<Props> = props => (
   <DecisionItem icon={<RejectedIcon />}>
