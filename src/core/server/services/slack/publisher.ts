@@ -1,4 +1,3 @@
-import { CommentEnteredModerationQueuePayload } from "coral-server/graph/tenant/resolvers/CommentEnteredModerationQueuePayload";
 import { CommentCreatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentCreated";
 import { CommentEnteredModerationQueueInput } from "coral-server/graph/tenant/resolvers/Subscription/commentEnteredModerationQueue";
 import { CommentFeaturedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentFeatured";
@@ -24,8 +23,14 @@ type Payload =
   | CommentFeaturedInput
   | CommentReleasedInput;
 
-function enteredModeration(channel: SUBSCRIPTION_CHANNELS) {
-  return channel === SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE;
+function enteredModeration(channel: SUBSCRIPTION_CHANNELS, payload: Payload) {
+  const p: any = payload;
+  return (
+    channel === SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE &&
+    p.hasOwnProperty("queue") &&
+    (p.queue === GQLMODERATION_QUEUE.REPORTED ||
+      p.queue === GQLMODERATION_QUEUE.PENDING)
+  );
 }
 
 function isFeatured(channel: SUBSCRIPTION_CHANNELS) {
@@ -36,7 +41,7 @@ function isReported(channel: SUBSCRIPTION_CHANNELS, payload: Payload) {
   const p: any = payload;
   return (
     channel === SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE &&
-    typeof payload === CommentEnteredModerationQueuePayload &&
+    p.hasOwnProperty("queue") &&
     p.queue === GQLMODERATION_QUEUE.REPORTED
   );
 }
@@ -45,7 +50,7 @@ function isPending(channel: SUBSCRIPTION_CHANNELS, payload: Payload) {
   const p: any = payload;
   return (
     channel === SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE &&
-    typeof payload === CommentEnteredModerationQueuePayload &&
+    p.hasOwnProperty("queue") &&
     p.queue === GQLMODERATION_QUEUE.PENDING
   );
 }
@@ -131,7 +136,7 @@ function createSlackPublisher(mongo: Db, tenant: Tenant): SlackPublisher {
     const ctx = new SlackContext({ mongo, tenantID: tenant.id });
 
     try {
-      const inModeration = enteredModeration(channel);
+      const inModeration = enteredModeration(channel, payload);
       const reported = isReported(channel, payload);
       const pending = isPending(channel, payload);
       const featured = isFeatured(channel);
