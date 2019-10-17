@@ -22,6 +22,7 @@ role-plural-commenter = Comentadores
 userStatus-active = Ativo
 userStatus-banned = Banido
 userStatus-suspended = Suspenso
+userStatus-premod = Sempre pré-moderado
 
 ## Navigation
 navigation-moderate = Moderação
@@ -59,6 +60,7 @@ login-signIn-passwordTextField =
 
 login-signIn-signInWithEmail = Entrar com o e-mail
 login-signIn-orSeparator = Ou
+login-signIn-forgot-password = Esqueceu sua senha?
 
 login-signInWithFacebook = Entrar com Facebook
 login-signInWithGoogle = Entrar com Google
@@ -74,6 +76,7 @@ configure-sideBarNavigation-authentication = Autenticação
 configure-sideBarNavigation-moderation = Moderação
 configure-sideBarNavigation-organization = Organização
 configure-sideBarNavigation-advanced = Avançado
+configure-sideBarNavigation-email = E-mail
 configure-sideBarNavigation-bannedAndSuspectWords = Palavras banidas e suspeitas
 
 configure-sideBar-saveChanges = Salvar mudanças
@@ -92,15 +95,19 @@ configure-general-guidelines-explanation =
   Markdown podem ser encontradas <externalLink>aqui</externalLink>.
 configure-general-guidelines-showCommunityGuidelines = Mostrar Resumo das Diretrizes da Comunidade
 
+#### Locale
+configure-general-locale-language = Linguagem
+configure-general-locale-chooseLanguage = Selecione a linguagem para o seu Coral community.
+
 ### Sitewide Commenting
 configure-general-sitewideCommenting-title = Comentários em todo o site
 configure-general-sitewideCommenting-explanation =
-  Abra ou feche fluxos de comentários para novos comentários em todo o site. Quando novos comentários
+  Abra ou feche o fluxo de comentários para novos comentários em todo o site. Quando novos comentários
   estão desativados em todo o site, novos comentários não podem ser enviados, mas
   comentários podem continuar recebendo reações de “Respeito”, ser reportados e
   compartilhados.
 configure-general-sitewideCommenting-enableNewCommentsSitewide =
-  Habilitar comentários em todo o site
+  Habilitar novos comentários em todo o site
 configure-general-sitewideCommenting-onCommentStreamsOpened =
   Ligado - Fluxo de comentário aberto para novos comentários
 configure-general-sitewideCommenting-offCommentStreamsClosed =
@@ -112,18 +119,20 @@ configure-general-sitewideCommenting-messageExplanation =
 ### Closing Comment Streams
 configure-general-closingCommentStreams-title = Fechando fluxos de comentários
 configure-general-closingCommentStreams-explanation = Defina fluxos de comentários para fechar após um período de tempo definido após a publicação de uma história
-configure-general-closingCommentStreams-closeCommentsAutomatically = Fechar Comentários Automaticamente
-configure-general-closingCommentStreams-closeCommentsAfter = Fechar Comentários Depois de
+configure-general-closingCommentStreams-closeCommentsAutomatically = Fechar comentários automaticamente
+configure-general-closingCommentStreams-closeCommentsAfter = Fechar comentários depois de
 
 #### Comment Length
 configure-general-commentLength-title = Tamanho do comentário
 configure-general-commentLength-maxCommentLength = Tamanho máximo do comentário
-configure-general-commentLength-setLimit = Definir um limite para a duração dos comentários em todo o site
+configure-general-commentLength-setLimit =
+  Definir um limite de tamanho máximo e minimo de comentários.
+  Espaços em branco no inicío e no final dos comentários serão ignorados.
 configure-general-commentLength-limitCommentLength = Tamanho limite do comentário
 configure-general-commentLength-minCommentLength = Tamanho Mínimo do comentário
 configure-general-commentLength-characters = Caracteres
 configure-general-commentLength-textField =
-  .placeholder = Sem limites
+  .placeholder = Sem limite
 configure-general-commentLength-validateLongerThanMin =
   Por favor insira um número maior que o comprimento mínimo
 
@@ -137,7 +146,7 @@ configure-general-commentEditing-commentEditTimeFrame = Período de tempo de edi
 configure-general-commentEditing-seconds = Segundos
 
 #### Closed Stream Message
-configure-general-closedStreamMessage-title = Fechar fluxo de comentários
+configure-general-closedStreamMessage-title = Mensagem de fechamento do fluxo de comentários
 configure-general-closedStreamMessage-explanation = Escreva uma mensagem para aparecer depois que uma história for fechada para comentários.
 
 ### Organization
@@ -147,17 +156,21 @@ configure-organization-nameExplanation =
 configure-organization-email = E-mail organizacional
 configure-organization-emailExplanation =
   Este endereço de e-mail será usado nos e-mails
-  da plataforma para os membros da comunidade para entrarem em contato com
+  da plataforma para os membros da comunidade entrarem em contato com
   a organização com alguma dúvida sobre o
   status de suas contas ou questões de moderação.
+configure-organization-url = URL da organização
+configure-organization-urlExplanation =
+  A url da sua organização aparecerá nos e-mails enviados pelo Coral para sua comunidade e membros da organização.
+
 ### Email
 
 configure-email = Configuração de email
 configure-email-configBoxEnabled = Habilitado
 configure-email-fromNameLabel = Do nome
 configure-email-fromNameDescription =
-  Nome como aparecerá no email enviado
-configure-email-fromEmailLabel = Do endereço de email
+  Nome como aparecerá nos e-mails enviados
+configure-email-fromEmailLabel = Do endereço de e-mail
 configure-email-fromEmailDescription =
   Endereço de email que será usado para enviar mensagens
 configure-email-smtpHostLabel = hospedeiro de SMTP
@@ -167,8 +180,9 @@ configure-email-smtpPortDescription = (ex. 25)
 configure-email-smtpTLSLabel = TLS
 configure-email-smtpAuthenticationLabel = Autenticação SMTP
 configure-email-smtpCredentialsHeader = credencial de email
-configure-email-smtpUsernameLabel = nome de usuário
-configure-email-smtpPasswordLabel = senha
+configure-email-smtpUsernameLabel = Nome de usuário
+configure-email-smtpPasswordLabel = Senha
+
 ### Authentication
 
 configure-auth-clientID = Client ID
@@ -230,6 +244,9 @@ configure-auth-oidc-tokenURL = Token URL
 configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Usar login com OpenID Connect ligado
 
+configure-auth-settings = Configurações da sessão
+configure-auth-settings-session-duration-label = Duração da sessão
+
 ### Moderation
 
 ### Recent Comment History
@@ -237,21 +254,18 @@ configure-auth-oidc-useLoginOn = Usar login com OpenID Connect ligado
 configure-moderation-recentCommentHistory-title = Histórico recente de comentário
 configure-moderation-recentCommentHistory-timeFrame = Período recente do histórico de comentários
 configure-moderation-recentCommentHistory-timeFrame-description =
-  Período de tempo em que a taxa de rejeição de um comentarista é calculada
-  e os comentários enviados são contados.
+  Período de tempo em que a taxa de rejeição de um comentarista é calculada e os comentários enviados são contados.
 configure-moderation-recentCommentHistory-enabled = Filtro de histórico recente de comentários
 configure-moderation-recentCommentHistory-enabled-description =
   Impede os ofensores de publicar repetidos comentários sem aprovação.
   Após a taxa de rejeição de um comentarista estourar o limite definido
   abaixo, os próximos comentários enviados são <strong> enviados para Pendente para
-  aprovação do moderador. </strong> O filtro é removido quando a taxa de rejeição normaliza
-  novamente.
+  aprovação do moderador. </strong> O filtro é removido quando a taxa de rejeição normaliza novamente.
 configure-moderation-recentCommentHistory-triggerRejectionRate = Limite da taxa de rejeição
 configure-moderation-recentCommentHistory-triggerRejectionRate-description =
   Calculado pela divisão do número de comentários rejeitados pela soma
   dos comentaristas rejeitados e comentários publicados, dentro do período recente
-  do histórico de comentários(não inclui comentários pendentes para
-  toxicidade, spam ou pré-moderação.)
+  do histórico de comentários(não inclui comentários pendentes para toxicidade, spam ou pré-moderação.)
 
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pré-moderação
@@ -269,7 +283,7 @@ configure-moderation-akismet-title = Filtro de Detecção de Spam Akismet
 configure-moderation-akismet-explanation =
   Os comentários enviados são transmitidos para a API do Akismet para detecção de spam.
   Se um comentário for determinado como spam, ele mostrará ao usuário,
-  indicando que o comentário pode ser considerado spam.
+  indicando que o comentário pode ser considerado spam.
   Se o usuário continuar após esse ponto com o comentário ainda como spam,
   o comentário será marcado como contendo spam, <strong> não será publicado </strong> e
   são colocados na <strong> Fila pendente para revisão por um moderador </strong>. Se aprovado por um moderador,
@@ -316,6 +330,8 @@ configure-wordList-banned-bannedWordsAndPhrases = Palavras e Frases Banidas
 configure-wordList-banned-explanation =
   Comentários contendo uma palavra ou frase na lista de palavras banidas são <strong> rejeitados automaticamente e não são publicados </strong>.
 configure-wordList-banned-wordList = Lista de palavras banidas
+configure-wordList-banned-wordListDetailInstructions =
+  Separe palavras e frases banidas com uma nova linha. Palavras/frases não são sensíveis a caixa alta ou baixa.
 
 #### Suspect Words Configuration
 configure-wordList-suspect-bannedWordsAndPhrases = Palavras e Frases Suspeitas
@@ -324,6 +340,8 @@ configure-wordList-suspect-explanation =
   são <strong> colocados na Fila de Reportados para revisão de moderadores e são
   publicado (se os comentários não forem pré-moderados). </ strong>
 configure-wordList-suspect-wordList = Lista de Palavras Suspeitas
+configure-wordList-suspect-wordListDetailInstructions =
+  Separe palavras e frases suspeitas com uma nova linha. Palavras/frases não são sensíveis a caixa alta ou baixa.
 
 ### Advanced
 configure-advanced-customCSS = CSS Customizado
@@ -346,7 +364,8 @@ configure-advanced-embedCode-explanation =
 configure-advanced-embedCode-comment =
   Substitua essas linhas pelo ID do ID e URL da história do seu CMS para fornecer a maior integração.
   Consulte a nossa documentação em https://docs.coralproject.net para todas as opções de configuração.
-  ## Decision History
+
+## Decision History
 decisionHistory-popover =
   .description = Uma caixa de diálogo mostrando o histórico de decisões
 decisionHistory-youWillSeeAList =
@@ -363,7 +382,7 @@ moderate-navigation-pending = Pendente
 moderate-navigation-unmoderated = não moderado
 moderate-navigation-rejected = rejeitado
 
-moderate-marker-preMod = Pre-Moderado
+moderate-marker-preMod = Pré-Moderado
 moderate-marker-link = Link
 moderate-marker-bannedWord = Palavra Banida
 moderate-marker-suspectWord = Palavra Suspeita
@@ -371,6 +390,7 @@ moderate-marker-spam = Spam
 moderate-marker-spamDetected = Spam detectado
 moderate-marker-toxic = Tóxico
 moderate-marker-karma = Karma
+moderate-marker-recentHistory = Histórico recente
 moderate-marker-bodyCount = Tamanho do conteúdo
 moderate-marker-offensive = Ofensivo
 
@@ -388,6 +408,7 @@ moderate-emptyQueue-reported = Muito bem! Não há mais comentários relatados p
 moderate-emptyQueue-unmoderated = Muito bem! Todos os comentários foram moderados.
 moderate-emptyQueue-rejected = Não há comentários rejeitados.
 
+moderate-comment-edited = (editado)
 moderate-comment-inReplyTo = Responder para <username><username>
 moderate-comment-viewContext = Ver contexto
 moderate-comment-rejectButton =
@@ -416,17 +437,19 @@ moderate-queue-viewNew =
 ### Moderate Search Bar
 moderate-searchBar-allStories = Todas as histórias
   .title = Todas as histórias
+moderate-searchBar-noStories = Não conseguimos achar nenhuma história que corresponda sua pesquisa.
 moderate-searchBar-noResults = Sem resultados
 moderate-searchBar-stories = Histórias:
 moderate-searchBar-searchButton = Pesquisar
 moderate-searchBar-titleNotAvailable =
   .title = Título não disponível
 moderate-searchBar-comboBox =
-  .aria-label = Pesquise ou pular para a história
+  .aria-label = Pesquisar ou pular para a história
 moderate-searchBar-searchForm =
   .aria-label = Histórias
 moderate-searchBar-currentlyModerating =
   .title = Atualmente moderando
+moderate-searchBar-searchResults = Pesquisar resultados
 moderate-searchBar-searchResultsMostRecentFirst = Pesquisar resultados (Mais recentes primeiro)
 moderate-searchBar-moderateAllStories = Moderar todas as histórias
 moderate-searchBar-comboBoxTextField =
@@ -434,6 +457,9 @@ moderate-searchBar-comboBoxTextField =
   .placeholder = Use aspas em torno de cada termo de pesquisa (por exemplo, "equipe", "St. Louis")
 moderate-searchBar-goTo = Ir para
 moderate-searchBar-seeAllResults = Ver todos os resultados
+
+moderateCardDetails-tab-details = Detalhes
+moderateCardDetails-tab-edits = Editar história
 
 ### Moderate User History Drawer
 moderate-user-drawer-email =
@@ -444,6 +470,7 @@ moderate-user-drawer-member-id =
   .title = ID do membro
 moderate-user-drawer-tab-all-comments = Todos comentários
 moderate-user-drawer-tab-rejected-comments = Rejeitados
+moderate-user-drawer-tab-notes = Notas
 moderate-user-drawer-load-more = Carregar mais
 moderate-user-drawer-all-no-comments = {$username} não enviou comentários.
 moderate-user-drawer-rejected-no-comments = {$username} não tem comentários rejeitados.
@@ -460,6 +487,9 @@ moderate-user-drawer-account-history-no-history = Nenhuma ação foi realizada n
 moderate-user-drawer-username-change = Nome de usuário alterado
 moderate-user-drawer-username-change-new = Novo:
 moderate-user-drawer-username-change-old = Antigo:
+
+moderate-user-drawer-account-history-premod-set = Sempre pré-moderado
+moderate-user-drawer-account-history-premod-removed = Removida pré-moderação
 
 moderate-user-drawer-suspension =
   Suspensão, { $value } { $unit ->
@@ -507,6 +537,12 @@ moderate-user-drawer-recent-history-tooltip-body =
 moderate-user-drawer-recent-history-tooltip-button =
   .aria-label = Alternar dica de ferramenta do histórico de comentários recentes
 moderate-user-drawer-recent-history-tooltip-submitted = Enviado
+
+moderate-user-drawer-notes-field =
+  .placeholder = Deixar uma anotação...
+moderate-user-drawer-notes-button = Adicionar notação
+moderatorNote-left-by = Deixado por:
+moderatorNote-delete = Deletar
 
 ## Create Username
 
@@ -578,6 +614,7 @@ community-filter-allRoles = Todas as Funções
 community-filter-allStatuses = Todos os Status
 
 community-column-username = Nome do Usuário
+community-column-username-deleted = Deletado
 community-column-email = E-mail
 community-column-memberSince = Membro desde
 community-column-role = Função
@@ -589,20 +626,27 @@ community-role-popover =
 community-userStatus-popover =
   .description = Um menu suspenso para alterar o status do usuário
 
-community-userStatus-banUser = Banir Usário
+community-userStatus-banUser = Banir Usuário
 community-userStatus-removeBan = Remover Banimento
+community-userStatus-removeUserBan = Remover banimento
 community-userStatus-suspendUser = Suspender Usuário
+community-userStatus-suspend = Suspender
 community-userStatus-removeSupsension = Remover Suspensão
+community-userStatus-removeUserSuspension = Remover Suspensão
 community-userStatus-unknown = Desconhecido
 community-userStatus-changeButton =
   .aria-label = Mudar status do usuário
+community-userStatus-premodUser = Sempre pré-moderado
+community-userStatus-removePremod = Remover pré-moderação
 
 community-banModal-areYouSure = Você tem certeza que quer banir  <strong>{ $username }</strong>?
 community-banModal-consequence =
   Uma vez banido, este usuário não poderá mais comentar, usar
   reações ou relatar comentários.
 community-banModal-cancel = Cancelar
-community-banModal-banUser = Banir Usário
+community-banModal-banUser = Banir Usuário
+community-banModal-customize = Customizar mensagem de e-mail de banimento
+
 community-suspendModal-areYouSure = Banir <strong>{ $username }</strong>?
 community-suspendModal-consequence = Uma vez banido, este usuário não poderá mais comentar, reagir ou reportar comentários
 community-suspendModal-duration-3600 = 1 hora
@@ -610,7 +654,7 @@ community-suspendModal-duration-10800 = 3 horas
 community-suspendModal-duration-86400 = 24 horas
 community-suspendModal-duration-604800 = 7 dias
 community-suspendModal-cancel = Cancelar
-community-suspendModal-suspendUser = Usuário banido
+community-suspendModal-suspendUser = Suspender usuários
 community-suspendModal-emailTemplate =
   Olá { $username },
 
@@ -619,13 +663,13 @@ community-suspendModal-emailTemplate =
 community-suspendModal-customize = Customizar o email de suspensão.
 
 community-suspendModal-success =
-  <strong>{ $username }</strong> foi banido por <strong>{ $duration }</strong>
+  <strong>{ $username }</strong> foi suspendido por <strong>{ $duration }</strong>
 
 community-suspendModal-success-close = Fechado
 community-suspendModal-selectDuration = Selecione o período de suspensão.
 
 community-invite-inviteMember = Convidar membros para sua organização
-community-invite-emailAddressLabel = Endereço de email:
+community-invite-emailAddressLabel = Endereço de e-mail:
 community-invite-inviteMore = Convidar mais
 community-invite-inviteAsLabel = Convidar como:
 community-invite-sendInvitations = Enviar convites
@@ -703,7 +747,7 @@ invite-tokenNotFound =
 
 userDetails-banned-on = <strong>Banido em </strong> { $timestamp }
 userDetails-banned-by = <strong>por</strong> { $username }
-userDetails-suspended-by = <strong>Banido por</strong> { $username }
+userDetails-suspended-by = <strong>Suspendido por</strong> { $username }
 userDetails-suspension-start = <strong>Início:</strong> { $timestamp }
 userDetails-suspension-end = <strong>Fim:</strong> { $timestamp }
 
