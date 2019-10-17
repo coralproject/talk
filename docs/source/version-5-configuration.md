@@ -58,3 +58,10 @@ the variables in a `.env` file in the root of the project in a simple
   , `1 minute`) that should be used to send keep alive messages through the
   websocket to keep the socket alive (Default `30 seconds`)
 - `TRUST_PROXY` - When provided, it configures the "trust proxy" settings for Express (See https://expressjs.com/en/guide/behind-proxies.html)
+
+## `TRUST_PROXY`
+
+If you are encountering issues where urls in the administration are showing with
+a `http` instead of `https`, you may need to set the `TRUST_PROXY` setting.
+Refer to https://expressjs.com/en/guide/behind-proxies.html for possible values
+of this configuration variable as it pertains to your setup.
