@@ -927,15 +927,38 @@ type SlackConfiguration {
 }
 
 type SlackChannelTriggers {
+  """
+  allComments is whether this channel will receive all comments entering moderation
+  """
   allComments: Boolean
+  """
+  reportedComments is whether this channel will receive reported comments
+  """
   reportedComments: Boolean
+  """
+  pendingComments is whether this channel will receive pending comments
+  """
   pendingComments: Boolean
+  """
+  featuredComments is whether this channel will receive featured comments
+  """
   featuredComments: Boolean
 }
 
 type SlackChannel {
+  """
+  enabled is whether this Slack channel is enabled to send comments to its
+  correlated web hook
+  """
   enabled: Boolean
+  """
+  hookURL defines the URL that comments will be sent to
+  """
   hookURL: String
+  """
+  triggers are the filters of types of comments that will be sent to
+  the correlated channel
+  """
   triggers: SlackChannelTriggers
 }
 
@@ -3395,6 +3418,49 @@ input CommenterAccountFeaturesInput {
   deleteAccount: Boolean
 }
 
+input SlackTriggersConfigurationInput {
+  """
+  allComments is whether this channel will receive all comments entering moderation
+  """
+  allComments: Boolean
+  """
+  reportedComments is whether this channel will receive reported comments
+  """
+  reportedComments: Boolean
+  """
+  pendingComments is whether this channel will receive pending comments
+  """
+  pendingComments: Boolean
+  """
+  featuredComments is whether this channel will receive featured comments
+  """
+  featuredComments: Boolean
+}
+
+input SlackChannelConfigurationInput {
+  """
+  enabled is whether this Slack channel is enabled to send comments to its
+  correlated web hook
+  """
+  enabled: Boolean
+  """
+  hookURL defines the URL that comments will be sent to
+  """
+  hookURL: String
+  """
+  triggers are the filters of types of comments that will be sent to
+  the correlated channel
+  """
+  triggers: SlackTriggersConfigurationInput
+}
+
+input SlackConfigurationInput {
+  """
+  channels are the channels configured for Slack integration
+  """
+  channels: [SlackChannelConfigurationInput]
+}
+
 """
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
@@ -3504,6 +3570,11 @@ input SettingsInput {
   accountFeatures specifies the configuration for accounts.
   """
   accountFeatures: CommenterAccountFeaturesInput
+
+  """
+  slack specifies the configuration for Slack integration.
+  """
+  slack: SlackConfigurationInput
 
   """
   locale specifies the locale for this Tenant.
