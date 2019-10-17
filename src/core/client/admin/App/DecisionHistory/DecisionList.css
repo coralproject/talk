@@ -4,7 +4,7 @@
   list-style-type: none;
 
   & > * {
-    border-bottom: 1px solid var(--palette-divider);
+    border-bottom: 1px solid var(--v2-palette-decision-history-border);
   }
   & > *:last-child {
     border-bottom: 0;
