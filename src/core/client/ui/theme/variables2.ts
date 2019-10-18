@@ -157,7 +157,7 @@ const variables2 = {
         active: colors.coral500,
         hover: colors.coral200,
       },
-      divider: colors.grey300,
+      divider: colors.grey400,
     },
     storySearch: {
       storyTitle: colors.mono900,
@@ -175,6 +175,23 @@ const variables2 = {
         label: colors.mono500,
         background: colors.pure.white,
       },
+    },
+    popover: {
+      border: colors.grey400,
+      background: colors.pure.white,
+      dark: {
+        background: colors.grey500,
+        border: colors.grey500,
+      },
+    },
+    dropdown: {
+      background: colors.pure.white,
+      divider: {
+        border: colors.grey300,
+      },
+    },
+    userMenu: {
+      button: colors.mono100,
     },
     decisionHistory: {
       border: colors.grey300,

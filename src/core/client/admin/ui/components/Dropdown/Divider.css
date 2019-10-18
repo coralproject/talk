@@ -1,0 +1,6 @@
+.root {
+  border: 0;
+  border-bottom: 1px solid var(--v2-palette-dropdown-divider-border);
+  margin: 0;
+  padding: calc(0.5 * var(--mini-unit)) 0 0 0;
+}
