@@ -26,9 +26,22 @@ export function setAccessTokenInLocalState(
   localRecord.setValue(accessToken || "", "accessToken");
   if (accessToken) {
     const { payload } = parseJWT(accessToken);
-    localRecord.setValue(payload.exp, "accessTokenExp");
-    localRecord.setValue(payload.jti, "accessTokenJTI");
+
     // TODO: (cvle) maybe a timer to detect when accessToken has expired?
+
+    // Set the exp if it's valid.
+    if (typeof payload.exp === "number") {
+      localRecord.setValue(payload.exp, "accessTokenExp");
+    } else {
+      localRecord.setValue(null, "accessTokenExp");
+    }
+
+    // Set the jti if it's valid.
+    if (typeof payload.jti === "string" && payload.jti.length > 0) {
+      localRecord.setValue(payload.jti, "accessTokenJTI");
+    } else {
+      localRecord.setValue(null, "accessTokenJTI");
+    }
   } else {
     localRecord.setValue(null, "accessTokenExp");
     localRecord.setValue(null, "accessTokenJTI");
