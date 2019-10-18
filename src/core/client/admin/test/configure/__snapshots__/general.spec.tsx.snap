@@ -82,6 +82,15 @@ exports[`renders configure general 1`] = `
               <li>
                 <a
                   className="Link-link"
+                  href="/admin/configure/slack"
+                  onClick={[Function]}
+                >
+                  Missing translation "configure-sideBarNavigation-slack"
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
                   href="/admin/configure/advanced"
                   onClick={[Function]}
                 >
