@@ -98,7 +98,7 @@ const HotkeysModal: FunctionComponent<Props> = ({ open, onClose }) => {
                 </Localized>
                 <Flex>
                   <div className={styles.hotKeyContainer}>
-                    <div className={styles.hotKey}>d</div>
+                    <div className={styles.hotKey}>f</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-approve">
                     <Typography>Approve</Typography>
@@ -106,7 +106,7 @@ const HotkeysModal: FunctionComponent<Props> = ({ open, onClose }) => {
                 </Flex>
                 <Flex>
                   <div className={styles.hotKeyContainer}>
-                    <div className={styles.hotKey}>f</div>
+                    <div className={styles.hotKey}>d</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-reject">
                     <Typography>Reject</Typography>
