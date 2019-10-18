@@ -1,6 +1,6 @@
+import RTE from "@coralproject/rte";
 import sinon from "sinon";
 
-import RTE from "@coralproject/rte";
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";

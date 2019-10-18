@@ -14,6 +14,7 @@ const isPromise = <T extends any>(obj: any): obj is PromiseLike<T> =>
 
 /**
  * Wrap a jest matcher so if the expectation fails, it also fails the test.
+ *
  * @param func the jest matcher that will be wrapped.
  */
 const wrapMatcher = (func: any) => {

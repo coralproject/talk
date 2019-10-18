@@ -1,4 +1,4 @@
-// tslint:disable:max-classes-per-file
+/* eslint-disable max-classes-per-file */
 
 import { FluentBundle } from "fluent/compat";
 import { MongoError } from "mongodb";
@@ -580,6 +580,16 @@ export class SpamCommentError extends CoralError {
   }
 }
 
+export class RepeatPostCommentError extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.REPEAT_POST,
+      type: ERROR_TYPES.MODERATION_NUDGE_ERROR,
+      status: 400,
+    });
+  }
+}
+
 export class UserAlreadySuspendedError extends CoralError {
   constructor(until: Date) {
     super({
@@ -688,6 +698,17 @@ export class InviteRequiresEmailAddresses extends CoralError {
   constructor() {
     super({
       code: ERROR_CODES.INVITE_REQUIRES_EMAIL_ADDRESSES,
+    });
+  }
+}
+
+export class InviteIncludesExistingUser extends CoralError {
+  constructor(email: string) {
+    super({
+      code: ERROR_CODES.INVITE_INCLUDES_EXISTING_USER,
+      context: {
+        pub: { email },
+      },
     });
   }
 }

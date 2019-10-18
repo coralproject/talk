@@ -14,14 +14,16 @@ import styles from "./RTE.css";
 // This is currently required in order for the RTE
 // to detect and setup the features.
 const Localized = React.forwardRef<any, PropTypesOf<typeof LocalizedOriginal>>(
-  ({ api, ...props }, ref) => (
-    <LocalizedOriginal {...props}>
-      {React.cloneElement(
-        React.Children.only(props.children as React.ReactElement),
-        { api, ref }
-      )}
-    </LocalizedOriginal>
-  )
+  function RTELocalized({ api, ...props }, ref) {
+    return (
+      <LocalizedOriginal {...props}>
+        {React.cloneElement(
+          React.Children.only(props.children as React.ReactElement),
+          { api, ref }
+        )}
+      </LocalizedOriginal>
+    );
+  }
 );
 
 export interface RTEProps {
@@ -71,7 +73,6 @@ export interface RTEProps {
   forwardRef?: Ref<CoralRTE>;
 }
 
-// tslint:disable:jsx-wrap-multiline
 const features = [
   <Localized key="bold" id="comments-rte-bold" attrs={{ title: true }}>
     <Bold>
@@ -93,7 +94,6 @@ const features = [
     </Blockquote>
   </Localized>,
 ];
-// tslint:enable:jsx-wrap-multiline
 
 const RTE: FunctionComponent<RTEProps> = props => {
   const {

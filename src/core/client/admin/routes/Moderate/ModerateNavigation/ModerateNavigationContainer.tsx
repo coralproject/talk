@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { graphql } from "react-relay";
 
-import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
-import { ModerateNavigationContainer_story as StoryData } from "coral-admin/__generated__/ModerateNavigationContainer_story.graphql";
 import {
   combineDisposables,
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+
+import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
+import { ModerateNavigationContainer_story as StoryData } from "coral-admin/__generated__/ModerateNavigationContainer_story.graphql";
 
 import ModerateCountsCommentEnteredSubscription from "./ModerateCountsCommentEnteredSubscription";
 import ModerateCountsCommentLeftSubscription from "./ModerateCountsCommentLeftSubscription";

@@ -1,7 +1,6 @@
 import { RouteProps } from "found";
 import React, { Component } from "react";
 
-import { RestrictedContainer_viewer as ViewerData } from "coral-admin/__generated__/RestrictedContainer_viewer.graphql";
 import { SetRedirectPathMutation } from "coral-admin/mutations";
 import { timeout } from "coral-common/utils";
 import {
@@ -14,6 +13,8 @@ import {
   SignOutMutation,
   withSignOutMutation,
 } from "coral-framework/mutations";
+
+import { RestrictedContainer_viewer as ViewerData } from "coral-admin/__generated__/RestrictedContainer_viewer.graphql";
 
 import Restricted from "./Restricted";
 

@@ -60,7 +60,7 @@ exports[`renders reply list 1`] = `
                         aria-hidden={true}
                         aria-labelledby="username-popover-ariainfo"
                         id="username-popover"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -205,7 +205,7 @@ exports[`renders reply list 1`] = `
                         aria-hidden={true}
                         aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
                         id="permalink-popover-comment-with-replies"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -303,7 +303,7 @@ exports[`renders reply list 1`] = `
                             aria-hidden={true}
                             aria-labelledby="username-popover-ariainfo"
                             id="username-popover"
-                            role="popup"
+                            role="dialog"
                           >
                             <div
                               className="AriaInfo-root"
@@ -448,7 +448,7 @@ exports[`renders reply list 1`] = `
                             aria-hidden={true}
                             aria-labelledby="permalink-popover-comment-3-ariainfo"
                             id="permalink-popover-comment-3"
-                            role="popup"
+                            role="dialog"
                           >
                             <div
                               className="AriaInfo-root"
@@ -541,7 +541,7 @@ exports[`renders reply list 1`] = `
                             aria-hidden={true}
                             aria-labelledby="username-popover-ariainfo"
                             id="username-popover"
-                            role="popup"
+                            role="dialog"
                           >
                             <div
                               className="AriaInfo-root"
@@ -686,7 +686,7 @@ exports[`renders reply list 1`] = `
                             aria-hidden={true}
                             aria-labelledby="permalink-popover-comment-4-ariainfo"
                             id="permalink-popover-comment-4"
-                            role="popup"
+                            role="dialog"
                           >
                             <div
                               className="AriaInfo-root"
@@ -781,7 +781,7 @@ exports[`renders reply list 1`] = `
                         aria-hidden={true}
                         aria-labelledby="username-popover-ariainfo"
                         id="username-popover"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -926,7 +926,7 @@ exports[`renders reply list 1`] = `
                         aria-hidden={true}
                         aria-labelledby="permalink-popover-comment-5-ariainfo"
                         id="permalink-popover-comment-5"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"

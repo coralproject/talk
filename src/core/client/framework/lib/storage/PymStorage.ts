@@ -1,5 +1,6 @@
 import { Child, Parent } from "pym.js";
 import uuid from "uuid/v1";
+
 import { PromisifiedStorage } from "./PromisifiedStorage";
 
 type Pym = Child | Parent;
@@ -55,7 +56,7 @@ class PymStorage implements PromisifiedStorage {
     this.listen();
   }
 
-  get length() {
+  public get length() {
     return this.call<number>("length");
   }
   public key(n: number) {
@@ -78,8 +79,9 @@ class PymStorage implements PromisifiedStorage {
 /**
  * Creates a storage that put requests onto pym.
  * This is the counterpart of `connectStorageToPym`.
+ *
  * @param  {string} pym  pym
- * @return {Object} storage
+ * @returns {object} storage
  */
 export default function createPymStorage(
   pym: Pym,

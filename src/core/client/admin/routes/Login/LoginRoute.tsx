@@ -1,10 +1,11 @@
 import { RouteProps } from "found";
 import React, { Component } from "react";
 
-import { LoginRouteLocal as LocalData } from "coral-admin/__generated__/LoginRouteLocal.graphql";
-import { LoginRouteQueryResponse } from "coral-admin/__generated__/LoginRouteQuery.graphql";
 import { graphql, withLocalStateContainer } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
+
+import { LoginRouteLocal as LocalData } from "coral-admin/__generated__/LoginRouteLocal.graphql";
+import { LoginRouteQueryResponse } from "coral-admin/__generated__/LoginRouteQuery.graphql";
 
 import AccountCompletionContainer from "./AccountCompletionContainer";
 import Login from "./Login";

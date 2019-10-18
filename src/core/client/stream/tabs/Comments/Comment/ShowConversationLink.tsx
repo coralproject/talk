@@ -1,8 +1,7 @@
-import React, { EventHandler, MouseEvent } from "react";
-import { FunctionComponent } from "react";
+import { Localized } from "fluent-react/compat";
+import React, { EventHandler, FunctionComponent, MouseEvent } from "react";
 
 import { Button } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
 
 export interface ShowConversationLinkProps {
   id?: string;

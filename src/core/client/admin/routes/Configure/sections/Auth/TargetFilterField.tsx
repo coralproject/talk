@@ -1,8 +1,8 @@
-import { parseBool } from "coral-framework/lib/form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { parseBool } from "coral-framework/lib/form";
 import { CheckBox, Flex, FormField, InputLabel } from "coral-ui/components";
 
 interface Props {

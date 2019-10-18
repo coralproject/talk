@@ -16,11 +16,6 @@ import TenantCache from "coral-server/services/tenant/cache";
 
 import { createJobProcessor, JOB_NAME, NotifierData } from "./processor";
 
-export const createNotifierTask = (
-  queue: Queue.QueueOptions,
-  options: Options
-) => new NotifierQueue(queue, options);
-
 interface Options {
   mongo: Db;
   mailerQueue: MailerQueue;
@@ -69,3 +64,8 @@ export class NotifierQueue {
     return this.task.process();
   }
 }
+
+export const createNotifierTask = (
+  queue: Queue.QueueOptions,
+  options: Options
+) => new NotifierQueue(queue, options);

@@ -19,29 +19,29 @@ program
   .parse(process.argv);
 
 if (!program.schema) {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error("Schema identifier not provided");
   process.exit(1);
 }
 
 if (!program.src) {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error("Src not provided");
   process.exit(1);
 }
 
 if (!config.projects) {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error("Missing projects key in .graphqconfig");
   process.exit(1);
 }
 if (!config.projects[program.schema]) {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error(`Project ${program.schema} not found in .graphqconfig`);
   process.exit(1);
 }
 if (!config.projects[program.schema].schemaPath) {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error(
     `SchemaPath for project ${program.schema} not found in .graphqconfig`
   );

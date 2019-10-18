@@ -9,9 +9,9 @@ import {
   InputLabel,
   Typography,
 } from "coral-ui/components";
-import OnOffField from "../../OnOffField";
 
 import Header from "../../Header";
+import OnOffField from "../../OnOffField";
 import SectionContent from "../../SectionContent";
 
 import styles from "./AccountFeaturesConfig.css";

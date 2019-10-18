@@ -31,7 +31,13 @@ function withRouteConfig<
     (component as any).routeConfig = {
       ...config,
       Component: component,
-      render: ({ error, props: data, retry, match, Component }: any) => {
+      render: function WitRouteConfig({
+        error,
+        props: data,
+        retry,
+        match,
+        Component,
+      }: any) {
         if (config.render) {
           return config.render({ error, data, retry, match, Component });
         }

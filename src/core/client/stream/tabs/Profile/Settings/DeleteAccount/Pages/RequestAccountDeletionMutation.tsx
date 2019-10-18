@@ -9,6 +9,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+
 import { RequestAccountDeletionMutation as MutationTypes } from "coral-stream/__generated__/RequestAccountDeletionMutation.graphql";
 
 let clientMutationId = 0;

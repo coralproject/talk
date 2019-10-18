@@ -42,7 +42,7 @@ it("should relay events methods to event emitter", () => {
     id: "container-id",
     rootURL: "http://localhost/",
   };
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line:no-empty
   const callback = () => {};
   const fakeFactory: any = () => ({});
   const emitterMock = sinon.mock(config.eventEmitter);
@@ -73,7 +73,7 @@ describe("should send login message to PymControl", () => {
       rootURL: "http://localhost/",
     };
     const pymControl = {
-      // tslint:disable-next-line:no-empty
+      // eslint-disable-next-line:no-empty
       sendMessage: () => {},
     };
     const fakeFactory: any = () => pymControl;
@@ -121,7 +121,7 @@ describe("should send logout message to PymControl", () => {
       rootURL: "http://localhost/",
     };
     const pymControl = {
-      // tslint:disable-next-line:no-empty
+      // eslint-disable-next-line:no-empty
       sendMessage: () => {},
     };
     const fakeFactory: any = () => pymControl;
@@ -201,14 +201,14 @@ it("should emit showPermalink", () => {
     rootURL: "http://localhost/",
     commentID: "comment-id",
   };
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line:no-empty
   const fakeFactory: any = () => ({});
   const emitterMock = sinon.mock(config.eventEmitter);
   emitterMock
     .expects("emit")
     .withArgs("showPermalink")
     .once();
-  // tslint:disable-next-line:no-unused-expression
+  // eslint-disable-next-line:no-unused-expression
   new StreamEmbed(config, fakeFactory);
   jest.runOnlyPendingTimers();
   jest.useRealTimers();

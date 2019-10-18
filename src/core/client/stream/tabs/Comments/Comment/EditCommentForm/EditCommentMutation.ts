@@ -2,6 +2,7 @@ import { pick } from "lodash";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
@@ -9,9 +10,8 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-
-import { CoralContext } from "coral-framework/lib/bootstrap";
 import { GQLComment } from "coral-framework/schema";
+
 import { EditCommentMutation as MutationTypes } from "coral-stream/__generated__/EditCommentMutation.graphql";
 
 export type EditCommentInput = MutationInput<MutationTypes>;

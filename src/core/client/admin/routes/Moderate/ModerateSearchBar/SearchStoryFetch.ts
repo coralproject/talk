@@ -1,12 +1,13 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { SearchStoryFetchQuery as QueryTypes } from "coral-admin/__generated__/SearchStoryFetchQuery.graphql";
 import {
   createFetch,
   fetchQuery,
   FetchVariables,
 } from "coral-framework/lib/relay";
+
+import { SearchStoryFetchQuery as QueryTypes } from "coral-admin/__generated__/SearchStoryFetchQuery.graphql";
 
 const SearchStoryFetch = createFetch(
   "searchStory",

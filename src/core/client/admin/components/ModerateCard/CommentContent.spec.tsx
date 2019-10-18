@@ -1,9 +1,9 @@
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
-import CommentContent from "./CommentContent";
-
 import { PropTypesOf } from "coral-framework/types";
+
+import CommentContent from "./CommentContent";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof CommentContent> = {

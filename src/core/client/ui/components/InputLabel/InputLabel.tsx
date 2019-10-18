@@ -1,10 +1,11 @@
 import cn from "classnames";
+import React, { FunctionComponent, ReactNode } from "react";
+
 import { withStyles } from "coral-ui/hocs";
 import { Omit, PropTypesOf } from "coral-ui/types";
-import React, { ReactNode } from "react";
-import { FunctionComponent } from "react";
 
 import Typography from "../Typography";
+
 import styles from "./InputLabel.css";
 
 export interface InputLabelProps

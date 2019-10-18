@@ -21,7 +21,7 @@ function withStyles<T>(
         } else if (process.env.NODE_ENV === "test") {
           throw new Error(`Extending non existent className ${k}`);
         } else if (process.env.NODE_ENV !== "production") {
-          // tslint:disable:next-line: no-console
+          // eslint-disable-next-line no-console
           console.warn("Extending non existent className", k);
         }
       });

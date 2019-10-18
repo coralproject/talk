@@ -2,10 +2,10 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
+import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components";
 
 import { UserHistoryDrawerAllCommentsQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsQuery.graphql";
-import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 
 import UserHistoryDrawerAllComments from "./UserHistoryDrawerAllComments";
 
@@ -60,7 +60,7 @@ const UserHistoryDrawerAllCommentsQuery: FunctionComponent<Props> = ({
           <UserHistoryDrawerAllComments
             // We can never get to this part of the UI without being logged in.
             viewer={props.viewer!}
-            settings={props.settings!}
+            settings={props.settings}
             user={props.user}
           />
         );

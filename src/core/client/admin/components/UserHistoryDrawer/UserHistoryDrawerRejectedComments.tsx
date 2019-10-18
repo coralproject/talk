@@ -1,18 +1,18 @@
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent, useCallback } from "react";
+import { graphql, RelayPaginationProp } from "react-relay";
+
+import { ModerateCardContainer } from "coral-admin/components/ModerateCard";
 import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
-import { graphql, RelayPaginationProp } from "react-relay";
+import { Button, CallOut, Typography } from "coral-ui/components";
 
 import { UserHistoryDrawerRejectedComments_settings } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_settings.graphql";
 import { UserHistoryDrawerRejectedComments_user } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_user.graphql";
 import { UserHistoryDrawerRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_viewer.graphql";
 import { UserHistoryDrawerRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsPaginationQuery.graphql";
-
-import { ModerateCardContainer } from "coral-admin/components/ModerateCard";
-import { Button, CallOut, Typography } from "coral-ui/components";
 
 import styles from "./UserHistoryDrawerRejectedComments.css";
 

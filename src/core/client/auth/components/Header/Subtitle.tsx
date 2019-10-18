@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { Typography } from "coral-ui/components";
+
 import styles from "./Subtitle.css";
 
 interface Props {

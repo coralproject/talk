@@ -1,5 +1,7 @@
-import { withRouteConfig } from "coral-framework/lib/router";
 import React from "react";
+
+import { withRouteConfig } from "coral-framework/lib/router";
+
 import ForgotPasswordContainer from "./ForgotPasswordContainer";
 
 const ForgotPasswordRoute: React.FunctionComponent = () => {

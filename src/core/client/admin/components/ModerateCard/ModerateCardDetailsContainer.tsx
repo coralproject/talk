@@ -2,13 +2,15 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useState } from "react";
 import { graphql } from "react-relay";
 
-import { ModerateCardDetailsContainer_comment as CommentData } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
-import { ModerateCardDetailsContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Flex, HorizontalGutter, Icon, Tab, TabBar } from "coral-ui/components";
 
+import { ModerateCardDetailsContainer_comment as CommentData } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
+import { ModerateCardDetailsContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
+
 import CommentRevisionContainer from "./CommentRevisionContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
+
 import styles from "./ModerateCardDetailsContainer.css";
 
 interface Props {
