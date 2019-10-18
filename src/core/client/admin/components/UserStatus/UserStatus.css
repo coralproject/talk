@@ -4,8 +4,10 @@
 
 .warning {
   color: var(--v2-palette-error-main);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
 }
 
 .error {
   color: var(--v2-palette-error-darkest);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
 }
