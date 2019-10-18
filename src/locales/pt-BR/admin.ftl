@@ -431,7 +431,7 @@ moderate-queue-viewNew =
     [1] Ver {$count} novo comentário
     *[other] Ver {$count} novos comentários
   }
-  moderate-comment-deleted-body =
+moderate-comment-deleted-body =
   Este comentário não está mais disponível. O comentarista deletou a conta.
 
 ### Moderate Search Bar
