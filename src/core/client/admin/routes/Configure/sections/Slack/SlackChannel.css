@@ -1,0 +1,17 @@
+.header {
+  display: inline-block;
+}
+
+.headerControls {
+  display: inline-block;
+  float: right;
+}
+
+.enabledCheckbox {
+  margin-right: var(--spacing-2);
+}
+
+.removeButton {
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+}

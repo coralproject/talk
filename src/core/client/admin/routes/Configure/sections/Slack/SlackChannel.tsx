@@ -1,35 +1,64 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { Field } from "react-final-form";
 
 import { parseBool } from "coral-framework/lib/form";
-import { CheckBox, InputLabel, TextField } from "coral-ui/components";
+import {
+  Button,
+  CheckBox,
+  Flex,
+  InputLabel,
+  TextField,
+} from "coral-ui/components";
+
+import styles from "./SlackChannel.css";
 
 interface Props {
   channel: any;
   disabled: boolean;
   index: number;
+  onRemoveClicked: (index: number) => void;
 }
 
 const SlackChannel: FunctionComponent<Props> = ({
   channel,
   disabled,
   index,
+  onRemoveClicked,
 }) => {
+  const onRemove = useCallback(() => {
+    onRemoveClicked(index);
+  }, [index, onRemoveClicked]);
+
   return (
     <>
       <hr />
-      <InputLabel container="legend">{`Channel ${index}`}</InputLabel>
-      <Field name={`${channel}.enabled`} type="checkbox" parse={parseBool}>
-        {({ input }) => (
-          <CheckBox
-            id={`configure-slack-channel-enabled-${input.name}`}
-            disabled={disabled}
-            {...input}
+      <InputLabel className={styles.header} container="legend">
+        {`Channel ${index}`}
+      </InputLabel>
+      <div className={styles.headerControls}>
+        <Flex justifyContent="center" alignItems="center">
+          <Field name={`${channel}.enabled`} type="checkbox" parse={parseBool}>
+            {({ input }) => (
+              <CheckBox
+                className={styles.enabledCheckbox}
+                id={`configure-slack-channel-enabled-${input.name}`}
+                disabled={disabled}
+                {...input}
+              >
+                Enabled
+              </CheckBox>
+            )}
+          </Field>
+          <Button
+            className={styles.removeButton}
+            variant="filled"
+            color="error"
+            onClick={onRemove}
           >
-            Enabled
-          </CheckBox>
-        )}
-      </Field>
+            Remove
+          </Button>
+        </Flex>
+      </div>
       <Field name={`${channel}.hookURL`}>
         {({ input, meta }) => (
           <>

@@ -5,7 +5,7 @@ import { FieldArray } from "react-final-form-arrays";
 
 import { pureMerge } from "coral-common/utils";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { HorizontalGutter } from "coral-ui/components";
+import { Button, HorizontalGutter } from "coral-ui/components";
 
 import { SlackConfigContainer_settings } from "coral-admin/__generated__/SlackConfigContainer_settings.graphql";
 
@@ -26,10 +26,29 @@ class SlackConfigContainer extends React.Component<Props> {
       channels: [],
     },
   };
+  private onAddChannel: () => void;
+  private onRemoveChannel: (index: number) => void;
 
   constructor(props: Props) {
     super(props);
     this.handleOnInitValues(this.props.settings);
+
+    const mutators = this.props.form.mutators;
+    this.onAddChannel = () => {
+      mutators.push("slack.channels", {
+        enabled: true,
+        hookURL: "",
+        triggers: {
+          allComments: false,
+          reportedComments: false,
+          pendingComments: false,
+          featuredComments: false,
+        },
+      });
+    };
+    this.onRemoveChannel = (index: number) => {
+      mutators.remove("slack.channels", index);
+    };
   }
 
   public componentDidMount() {
@@ -63,37 +82,16 @@ class SlackConfigContainer extends React.Component<Props> {
                     channel={channel}
                     disabled={false}
                     index={index}
+                    onRemoveClicked={this.onRemoveChannel}
                   />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.props.form.mutators.remove("slack.channels", index);
-                    }}
-                  >
-                    Remove
-                  </button>
                 </div>
               ))
             }
           </FieldArray>
           <hr />
-          <button
-            type="button"
-            onClick={() =>
-              this.props.form.mutators.push("slack.channels", {
-                enabled: true,
-                hookURL: "",
-                triggers: {
-                  allComments: false,
-                  reportedComments: false,
-                  pendingComments: false,
-                  featuredComments: false,
-                },
-              })
-            }
-          >
+          <Button variant="filled" color="success" onClick={this.onAddChannel}>
             Add
-          </button>
+          </Button>
         </SectionContent>
       </HorizontalGutter>
     );
