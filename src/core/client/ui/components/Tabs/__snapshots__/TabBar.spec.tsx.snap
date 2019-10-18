@@ -6,7 +6,7 @@ exports[`renders correctly 1`] = `
   role="tablist"
 >
   <li
-    className="Tab-root Tab-root"
+    className="Tab-root"
     id="tab-one"
     role="presentation"
   >
@@ -27,7 +27,7 @@ exports[`renders correctly 1`] = `
     </button>
   </li>
   <li
-    className="Tab-root Tab-root"
+    className="Tab-root"
     id="tab-two"
     role="presentation"
   >
@@ -48,7 +48,7 @@ exports[`renders correctly 1`] = `
     </button>
   </li>
   <li
-    className="Tab-root Tab-root"
+    className="Tab-root"
     id="tab-three"
     role="presentation"
   >
