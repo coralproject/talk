@@ -78,6 +78,7 @@ configure-sideBarNavigation-organization = Organization
 configure-sideBarNavigation-advanced = Advanced
 configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
+configure-sideBarNavigation-slack = Slack
 
 configure-sideBar-saveChanges = Save Changes
 configure-configurationSubHeader = Configuration
