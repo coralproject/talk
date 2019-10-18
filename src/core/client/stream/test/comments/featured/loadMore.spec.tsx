@@ -18,38 +18,39 @@ const story = storyWithFeaturedComments;
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
+  const storyResolver = () => ({
+    ...story,
+    featuredComments: createQueryResolverStub<StoryToCommentsResolver>(
+      ({ variables }) => {
+        if (!variables.after) {
+          return {
+            edges: [story.comments.edges[0]],
+            pageInfo: {
+              endCursor: story.comments.edges[0].cursor,
+              hasNextPage: true,
+            },
+          };
+        }
+        expectAndFail(variables.after).toBe(story.comments.edges[0].cursor);
+        return {
+          edges: [story.comments.edges[1]],
+          pageInfo: {
+            endCursor: story.comments.edges[1].cursor,
+            hasNextPage: false,
+          },
+        };
+      }
+    ) as any,
+  });
+
   const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
-          story: () => ({
-            ...story,
-            featuredComments: createQueryResolverStub<StoryToCommentsResolver>(
-              ({ variables }) => {
-                if (!variables.after) {
-                  return {
-                    edges: [story.comments.edges[0]],
-                    pageInfo: {
-                      endCursor: story.comments.edges[0].cursor,
-                      hasNextPage: true,
-                    },
-                  };
-                }
-                expectAndFail(variables.after).toBe(
-                  story.comments.edges[0].cursor
-                );
-                return {
-                  edges: [story.comments.edges[1]],
-                  pageInfo: {
-                    endCursor: story.comments.edges[1].cursor,
-                    hasNextPage: false,
-                  },
-                };
-              }
-            ) as any,
-          }),
+          story: storyResolver,
+          stream: storyResolver,
         },
       }),
       params.resolvers

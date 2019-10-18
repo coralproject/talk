@@ -8,7 +8,7 @@ import create from "./create";
 function createTestRenderer() {
   const resolvers = {
     Query: {
-      story: sinon.stub().returns(stories[0]),
+      stream: sinon.stub().returns(stories[0]),
       settings: sinon.stub().returns({
         ...settings,
         communityGuidelines: {

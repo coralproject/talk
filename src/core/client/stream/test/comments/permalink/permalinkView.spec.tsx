@@ -66,6 +66,13 @@ beforeEach(() => {
             .withArgs(undefined, { id: storyStub.id, url: null })
             .returns(storyStub)
       ),
+      stream: createSinonStub(
+        s => s.throws(),
+        s =>
+          s
+            .withArgs(undefined, { id: storyStub.id, url: null })
+            .returns(storyStub)
+      ),
       settings: sinon.stub().returns(settings),
     },
   };
