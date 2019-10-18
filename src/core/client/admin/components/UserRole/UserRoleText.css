@@ -1,9 +1,11 @@
 .root {
-  font-weight: var(--font-weight-regular);
-  color: var(--palette-grey-darkest);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  color: var(--v2-palette-table-body-text);
 }
 
 .commenter {
+  color: var(--v2-palette-table-body-text);
   font-weight: var(--font-weight-regular);
-  color: var(--palette-grey-light);
+  font-weight: var(--v2-font-weight-primary-regular);
 }

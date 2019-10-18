@@ -3,8 +3,8 @@ import React, { FunctionComponent } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { getModerationLink } from "coral-admin/helpers";
+import { TableCell, TableRow, TextLink } from "coral-admin/ui/components";
 import { PropTypesOf } from "coral-framework/types";
-import { TableCell, TableRow, TextLink } from "coral-ui/components";
 
 import styles from "./StoryRow.css";
 import StoryStatus from "./StoryStatus";

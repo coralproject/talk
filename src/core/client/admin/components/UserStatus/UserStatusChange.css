@@ -1,4 +1,6 @@
 .button {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary);
   justify-content: space-between;
   padding: 0;
 }

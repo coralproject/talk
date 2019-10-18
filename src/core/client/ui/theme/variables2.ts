@@ -53,7 +53,7 @@ const colors = {
   yellow700: "#B78F31",
   yellow800: "#936D1F",
   yellow900: "#7A5513",
-  teal100: "#E0FCF2",
+  teal100: "#E2FAF7",
   teal200: "#C2F9EA",
   teal300: "#9FECDF",
   teal400: "#81DBD3",
@@ -146,6 +146,19 @@ const variables2 = {
       default: colors.mono100,
       active: colors.teal600,
       divider: colors.grey100,
+    },
+    table: {
+      header: {
+        background: colors.grey200,
+        text: colors.mono500,
+        altText: colors.mono100,
+      },
+      body: {
+        text: colors.mono500,
+        disabled: colors.mono100,
+      },
+      highlight: colors.grey100,
+      hover: colors.teal100,
     },
     mainNav: {
       text: {

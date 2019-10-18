@@ -8,6 +8,7 @@ export {
   Button as DropdownButton,
   Divider as DropdownDivider,
 } from "./Dropdown";
+export { default as TextLink } from "./TextLink";
 export {
   AppBar,
   Begin as AppBarBegin,
@@ -16,3 +17,4 @@ export {
   Navigation as AppBarNavigation,
   NavigationItem as AppBarNavigationItem,
 } from "./AppBar";
+export { Table, TableHead, TableBody, TableRow, TableCell } from "./Table";

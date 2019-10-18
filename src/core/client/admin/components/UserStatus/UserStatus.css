@@ -1,0 +1,11 @@
+.success {
+  color: var(--v2-palette-success-main);
+}
+
+.warning {
+  color: var(--v2-palette-error-main);
+}
+
+.error {
+  color: var(--v2-palette-error-darkest);
+}
