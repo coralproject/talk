@@ -56,7 +56,7 @@ class Tab extends React.Component<TabProps> {
 
     return (
       <li
-        className={cn(styles.root, classes.root)}
+        className={styles.root}
         key={tabID}
         id={`tab-${tabID}`}
         role="presentation"
