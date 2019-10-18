@@ -6,6 +6,7 @@ import {
   Button,
   CheckBox,
   Flex,
+  FormField,
   InputLabel,
   TextField,
 } from "coral-ui/components";
@@ -32,111 +33,121 @@ const SlackChannel: FunctionComponent<Props> = ({
   return (
     <>
       <hr />
-      <InputLabel className={styles.header} container="legend">
-        {`Channel ${index}`}
-      </InputLabel>
-      <div className={styles.headerControls}>
-        <Flex justifyContent="center" alignItems="center">
-          <Field name={`${channel}.enabled`} type="checkbox" parse={parseBool}>
-            {({ input }) => (
-              <CheckBox
-                className={styles.enabledCheckbox}
-                id={`configure-slack-channel-enabled-${input.name}`}
+      <FormField className={styles.header}>
+        <InputLabel className={styles.headerTitle} container="legend">
+          {`Channel ${index}`}
+        </InputLabel>
+        <div className={styles.headerControls}>
+          <Flex justifyContent="center" alignItems="center">
+            <Field
+              name={`${channel}.enabled`}
+              type="checkbox"
+              parse={parseBool}
+            >
+              {({ input }) => (
+                <CheckBox
+                  className={styles.enabledCheckbox}
+                  id={`configure-slack-channel-enabled-${input.name}`}
+                  disabled={disabled}
+                  {...input}
+                >
+                  Enabled
+                </CheckBox>
+              )}
+            </Field>
+            <Button
+              className={styles.removeButton}
+              variant="filled"
+              color="error"
+              onClick={onRemove}
+            >
+              Remove
+            </Button>
+          </Flex>
+        </div>
+      </FormField>
+      <FormField className={styles.hookURLContainer}>
+        <Field name={`${channel}.hookURL`}>
+          {({ input, meta }) => (
+            <>
+              <InputLabel container="legend">Webhook URL</InputLabel>
+              <TextField
+                id={`configure-slack-channel-hookURL-${input.name}`}
                 disabled={disabled}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                fullWidth
                 {...input}
-              >
-                Enabled
-              </CheckBox>
-            )}
-          </Field>
-          <Button
-            className={styles.removeButton}
-            variant="filled"
-            color="error"
-            onClick={onRemove}
-          >
-            Remove
-          </Button>
-        </Flex>
-      </div>
-      <Field name={`${channel}.hookURL`}>
-        {({ input, meta }) => (
-          <>
-            <InputLabel container="legend">URL</InputLabel>
-            <TextField
-              id={`configure-slack-channel-hookURL-${input.name}`}
+              />
+            </>
+          )}
+        </Field>
+      </FormField>
+      <FormField>
+        <InputLabel container="legend">Triggers</InputLabel>
+        <Field
+          name={`${channel}.triggers.allComments`}
+          type="checkbox"
+          parse={parseBool}
+        >
+          {({ input }) => (
+            <CheckBox
+              id={`configure-slack-channel-triggers-allComments-${input.name}`}
               disabled={disabled}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              fullWidth
               {...input}
-            />
-          </>
-        )}
-      </Field>
-      <InputLabel container="legend">Triggers</InputLabel>
-      <Field
-        name={`${channel}.triggers.allComments`}
-        type="checkbox"
-        parse={parseBool}
-      >
-        {({ input }) => (
-          <CheckBox
-            id={`configure-slack-channel-triggers-allComments-${input.name}`}
-            disabled={disabled}
-            {...input}
-          >
-            All Comments
-          </CheckBox>
-        )}
-      </Field>
-      <Field
-        name={`${channel}.triggers.reportedComments`}
-        type="checkbox"
-        parse={parseBool}
-      >
-        {({ input }) => (
-          <CheckBox
-            id={`configure-slack-channel-triggers-allComments-${input.name}`}
-            disabled={disabled}
-            {...input}
-          >
-            Reported Comments
-          </CheckBox>
-        )}
-      </Field>
-      <Field
-        name={`${channel}.triggers.pendingComments`}
-        type="checkbox"
-        parse={parseBool}
-      >
-        {({ input }) => (
-          <CheckBox
-            id={`configure-slack-channel-triggers-allComments-${input.name}`}
-            disabled={disabled}
-            {...input}
-          >
-            Pending Comments
-          </CheckBox>
-        )}
-      </Field>
-      <Field
-        name={`${channel}.triggers.featuredComments`}
-        type="checkbox"
-        parse={parseBool}
-      >
-        {({ input }) => (
-          <CheckBox
-            id={`configure-slack-channel-triggers-allComments-${input.name}`}
-            disabled={disabled}
-            {...input}
-          >
-            Featured Comments
-          </CheckBox>
-        )}
-      </Field>
+            >
+              All Comments
+            </CheckBox>
+          )}
+        </Field>
+        <Field
+          name={`${channel}.triggers.reportedComments`}
+          type="checkbox"
+          parse={parseBool}
+        >
+          {({ input }) => (
+            <CheckBox
+              id={`configure-slack-channel-triggers-allComments-${input.name}`}
+              disabled={disabled}
+              {...input}
+            >
+              Reported Comments
+            </CheckBox>
+          )}
+        </Field>
+        <Field
+          name={`${channel}.triggers.pendingComments`}
+          type="checkbox"
+          parse={parseBool}
+        >
+          {({ input }) => (
+            <CheckBox
+              id={`configure-slack-channel-triggers-allComments-${input.name}`}
+              disabled={disabled}
+              {...input}
+            >
+              Pending Comments
+            </CheckBox>
+          )}
+        </Field>
+        <Field
+          name={`${channel}.triggers.featuredComments`}
+          type="checkbox"
+          parse={parseBool}
+        >
+          {({ input }) => (
+            <CheckBox
+              id={`configure-slack-channel-triggers-allComments-${input.name}`}
+              disabled={disabled}
+              {...input}
+            >
+              Featured Comments
+            </CheckBox>
+          )}
+        </Field>
+      </FormField>
     </>
   );
 };

@@ -1,4 +1,8 @@
 .header {
+  padding-bottom: var(--spacing-2);
+}
+
+.headerTitle {
   display: inline-block;
 }
 
@@ -14,4 +18,8 @@
 .removeButton {
   padding-top: var(--spacing-1);
   padding-bottom: var(--spacing-1);
+}
+
+.hookURLContainer {
+  padding-bottom: var(--spacing-3);
 }
