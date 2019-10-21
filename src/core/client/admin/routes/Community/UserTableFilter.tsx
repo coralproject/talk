@@ -3,24 +3,20 @@ import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import {
+  Label,
+  OptGroup,
+  Option,
+  SelectField,
+  TextField,
+} from "coral-admin/ui/components";
+import {
   GQLUSER_ROLE,
   GQLUSER_ROLE_RL,
   GQLUSER_STATUS,
   GQLUSER_STATUS_RL,
 } from "coral-framework/schema";
-import {
-  Button,
-  FieldSet,
-  Flex,
-  Icon,
-  OptGroup,
-  Option,
-  SelectField,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { Button, FieldSet, Flex, Icon } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
-
 import { InviteUsersContainer } from "./InviteUsers";
 
 import styles from "./UserTableFilter.css";
@@ -37,21 +33,11 @@ interface Props {
 }
 
 const UserTableFilter: FunctionComponent<Props> = props => (
-  <Flex
-    justifyContent="space-between"
-    alignItems="flex-end"
-    itemGutter="double"
-  >
-    <Flex>
+  <Flex justifyContent="space-between" alignItems="flex-end">
+    <Flex itemGutter="double">
       <FieldSet>
         <Localized id="community-filter-search">
-          <Typography
-            container="legend"
-            className={styles.legend}
-            variant="bodyCopyBold"
-          >
-            Search
-          </Typography>
+          <Label>Search</Label>
         </Localized>
         <Form
           onSubmit={({ search }: { search: string }) =>
@@ -102,13 +88,7 @@ const UserTableFilter: FunctionComponent<Props> = props => (
       </FieldSet>
       <FieldSet>
         <Localized id="community-filter-showMe">
-          <Typography
-            className={styles.legend}
-            container="legend"
-            variant="bodyCopyBold"
-          >
-            Show Me
-          </Typography>
+          <Label>Show Me</Label>
         </Localized>
         <Flex itemGutter>
           <Localized
