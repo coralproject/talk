@@ -1,8 +1,9 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Typography } from "coral-ui/components";
-import { PropTypesOf } from "coral-ui/types";
+import { Flex } from "coral-ui/components";
+
+import styles from "./UserStatus.css";
 
 interface Props {
   banned: boolean;
@@ -10,21 +11,18 @@ interface Props {
   premod: boolean;
 }
 
-const render = (
-  color: PropTypesOf<typeof Typography>["color"],
-  content: React.ReactNode
-) => (
-  <Typography color={color} variant="detail" container="div">
+const render = (className: string, content: React.ReactNode) => (
+  <div className={className}>
     <Flex alignItems="center" itemGutter="half">
       {content}
     </Flex>
-  </Typography>
+  </div>
 );
 
 const UserStatus: FunctionComponent<Props> = props => {
   if (props.banned) {
     return render(
-      "error",
+      styles.error,
       // tslint:disable-next-line:jsx-wrap-multiline
       <Localized id="userStatus-banned">
         <div>Banned</div>
@@ -33,7 +31,7 @@ const UserStatus: FunctionComponent<Props> = props => {
   }
   if (props.suspended) {
     return render(
-      "warning",
+      styles.warning,
       // tslint:disable-next-line:jsx-wrap-multiline
       <Localized id="userStatus-suspended">
         <div>Suspended</div>
@@ -42,7 +40,7 @@ const UserStatus: FunctionComponent<Props> = props => {
   }
   if (props.premod) {
     return render(
-      "warning",
+      styles.warning,
       // tslint:disable-next-line:jsx-wrap-multiline
       <Localized id="userStatus-premod">
         <div>Always Premoderated</div>
@@ -50,7 +48,7 @@ const UserStatus: FunctionComponent<Props> = props => {
     );
   }
   return render(
-    "success",
+    styles.success,
     // tslint:disable-next-line:jsx-wrap-multiline
     <Localized id="userStatus-active">
       <div>Active</div>

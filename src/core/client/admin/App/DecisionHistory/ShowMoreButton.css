@@ -2,7 +2,7 @@
   font-size: var(--v2-font-size-2);
   font-weight: var(--v2-font-weight-primary-bold);
   font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-lh-reset);
+  line-height: var(--v2-line-height-reset);
   text-transform: uppercase;
   color: var(--v2-palette-link-text);
   width: 100%;

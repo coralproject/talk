@@ -1,0 +1,4 @@
+.root {
+  background: var(--v2-palette-table-header-background);
+  box-sizing: border-box;
+}

@@ -4,14 +4,14 @@ import React, { FunctionComponent } from "react";
 import { PropTypesOf } from "coral-framework/types";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
-import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from "coral-ui/components/Table";
+} from "coral-admin/ui/components/Table";
+import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 
 import StoryRowContainer from "./StoryRowContainer";
 

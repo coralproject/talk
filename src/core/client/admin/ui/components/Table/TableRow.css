@@ -1,0 +1,11 @@
+.root {
+  box-sizing: border-box;
+}
+
+.body:nth-child(even) {
+  background-color: var(--v2-palette-table-highlight);
+}
+
+.body:hover {
+  background-color: var(--v2-palette-table-hover);
+}
