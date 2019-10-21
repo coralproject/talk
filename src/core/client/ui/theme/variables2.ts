@@ -212,6 +212,28 @@ const variables2 = {
         background: colors.grey200,
       },
     },
+    input: {
+      value: colors.mono500,
+      placeholder: colors.mono100,
+      icon: colors.mono500,
+      label: colors.mono500,
+      helper: colors.mono100,
+      border: colors.grey500,
+      background: colors.pure.white,
+      disabled: {
+        background: colors.white500,
+      },
+      focused: {
+        border: colors.teal500,
+      },
+      error: {
+        border: colors.red500,
+      },
+    },
+    searchButton: {
+      icon: colors.white500,
+      background: colors.blue500,
+    },
   },
   fontFamily: {
     primary: "Open Sans",
