@@ -769,6 +769,15 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Pré-visualização
 configure-general-reaction-sortMenu-sortBy = Ordenar por
 
+configure-general-staff-title = Crachá de membros Staff
+configure-general-staff-explanation =
+  Mostra um crachá customizado para membros staff da sua organização. Este crachá
+  aparecerá no fluxo de comentários e na interface de administração.
+configure-general-staff-label = Texto do crachá
+configure-general-staff-input =
+  .placeholder = Ex: Staff
+configure-general-staff-preview = Pré-visualização
+
 configure-account-features-title = Gerenciamento de recursos da conta de comentaristas
 configure-account-features-explanation =
   Você pode habilitar ou desabilitar certos recursos para seus comentaristas para
@@ -783,3 +792,51 @@ configure-account-features-download-comments = Fazer o download de seus comentá
 configure-account-features-download-comments-details = Comentaristas podem fazer download de um csv do histórico de comentarista
 configure-account-features-delete-account = Excluir suas contas.
 configure-account-features-delete-account-details = Remover todos os dados de comentários, nome de usuário e endereço de email do site e do banco de dados
+
+
+configure-account-features-delete-account-fieldDescriptions =
+  Remove todos os seus dados dos comentários, nome de usuário e endereço de email
+  do site e do banco de dados.
+
+configure-advanced-stories = Criação de histórias
+configure-advanced-stories-explanation = Configurações avançadas de como as histórias são criadas no Coral.
+configure-advanced-stories-lazy = Criação Lazy
+configure-advanced-stories-lazy-detail = Permita que as histórias sejam criadas automaticamente quando publicadas no seu CMS.
+configure-advanced-stories-scraping = Scraper de histórias
+configure-advanced-stories-scraping-detail = Permita que os metadados da história sejam resgatados automaticamente quando publicados a partir do seu CMS.
+configure-advanced-stories-proxy = Url do proxy do Scraper
+configure-advanced-stories-proxy-detail =
+   Quando especificado, permite que requisições do scraper utilizem o
+   proxy. Todos os pedidos serão passados através do proxy conforme analisado 
+  pelo pacote <externalLink>npm proxy-agent</externalLink>.
+
+forgotPassword-forgotPasswordHeader = Esqueceu a senha?
+forgotPassword-checkEmailHeader = Verifique seu email
+forgotPassword-gotBackToSignIn = Volte para a página de login
+forgotPassword-checkEmail-receiveEmail =
+  Se houver uma conta associada a <strong>{ $email }</strong>,
+  você receberá um email com um link para criar uma nova senha.
+forgotPassword-enterEmailAndGetALink =
+  Digite seu endereço de email abaixo e nós lhe enviaremos um link
+  para que você possa redefinir sua senha.
+forgotPassword-emailAddressLabel = Endereço de email
+forgotPassword-emailAddressTextField =
+  .placeholder = Endereço de Email
+forgotPassword-sendEmailButton = Enviar email
+
+commentAuthor-status-banned = Banido
+
+hotkeysModal-title = Atalhos do teclado
+hotkeysModal-navigation-shortcuts = Atalhos de navegação
+hotkeysModal-shortcuts-next = Próximo comentário
+hotkeysModal-shortcuts-prev = Comentário anterior
+hotkeysModal-shortcuts-search = Abrir pesquisa
+hotkeysModal-shortcuts-jump = Ir para a fila específica
+hotkeysModal-shortcuts-switch = Alternar filas
+hotkeysModal-shortcuts-toggle = Ativar/desativar ajuda dos atalhos
+hotkeysModal-shortcuts-single-view = Visualização de comentário único
+hotkeysModal-moderation-decisions = Decisões de moderação
+hotkeysModal-shortcuts-approve = Aprovar
+hotkeysModal-shortcuts-reject = Rejeitar
+hotkeysModal-shortcuts-ban = Banir autor do comentário
+hotkeysModal-shortcuts-zen = Alternar visualização de comentário único
