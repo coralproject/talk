@@ -55,7 +55,7 @@ exports[`renders all markers 1`] = `
     <withPropsOnChange(Marker)
       color="pending"
     >
-      Pre-mod
+      Pre-Mod
     </withPropsOnChange(Marker)>
   </Localized>
   <Localized
@@ -73,7 +73,7 @@ exports[`renders all markers 1`] = `
     <withPropsOnChange(Marker)
       color="reported"
     >
-      Banned word
+      Banned Word
     </withPropsOnChange(Marker)>
   </Localized>
   <Localized
@@ -83,7 +83,7 @@ exports[`renders all markers 1`] = `
       color="reported"
       variant="filled"
     >
-      Suspect word
+      Suspect Word
     </withPropsOnChange(Marker)>
   </Localized>
   <Localized
@@ -92,7 +92,7 @@ exports[`renders all markers 1`] = `
     <withPropsOnChange(Marker)
       color="reported"
     >
-      Spam detected
+      Spam Detected
     </withPropsOnChange(Marker)>
   </Localized>
   <Localized
@@ -108,7 +108,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-repeatPost"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Repeat comment
     </withPropsOnChange(Marker)>
@@ -119,7 +119,7 @@ exports[`renders all markers 1`] = `
     <withPropsOnChange(Marker)
       color="reported"
     >
-      Recent history
+      Recent History
     </withPropsOnChange(Marker)>
   </Localized>
   <withPropsOnChange(Marker)
@@ -210,7 +210,7 @@ exports[`renders some markers 1`] = `
     <withPropsOnChange(Marker)
       color="pending"
     >
-      Pre-mod
+      Pre-Mod
     </withPropsOnChange(Marker)>
   </Localized>
   <Localized
@@ -219,7 +219,7 @@ exports[`renders some markers 1`] = `
     <withPropsOnChange(Marker)
       color="reported"
     >
-      Banned word
+      Banned Word
     </withPropsOnChange(Marker)>
   </Localized>
   <Localized
@@ -237,7 +237,7 @@ exports[`renders some markers 1`] = `
     <withPropsOnChange(Marker)
       color="reported"
     >
-      Recent history
+      Recent History
     </withPropsOnChange(Marker)>
   </Localized>
   <withPropsOnChange(Marker)
