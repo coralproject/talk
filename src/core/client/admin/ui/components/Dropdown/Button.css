@@ -10,10 +10,10 @@
 }
 
 .anchor {
-  color: var(--palette-primary-main);
+  color: var(--v2-palette-primary-main);
   text-decoration: underline;
   &:visited {
-    color: var(--palette-primary-main);
+    color: var(--v2-palette-primary-main);
   }
 }
 
@@ -22,30 +22,30 @@
 }
 
 .root:not(:disabled):active {
-  background-color: var(--palette-primary-lightest);
+  background-color: var(--v2-palette-primary-lightest);
 }
 
 .mouseHover {
-  background-color: var(--palette-primary-lightest);
+  background-color: var(--v2-palette-primary-lightest);
 }
 
 .iconBefore {
   display: flex;
   justify-content: baseline;
   align-items: center;
-  color: var(--palette-grey-main);
-  margin-right: var(--v2-spacing-2);
+  color: var(--v2-palette-grey-main);
+  margin-right: var(--spacing-2);
 }
 .iconAfter {
   display: flex;
   align-items: center;
   justify-content: baseline;
-  margin-left: var(--v2-spacing-2);
+  margin-left: var(--spacing-2);
   text-decoration: unset;
 }
 .iconOpenInNew {
   padding-top: 1px;
-  color: var(--palette-primary-main);
+  color: var(--v2-palette-primary-main);
 }
 
 .blankAdornment {
