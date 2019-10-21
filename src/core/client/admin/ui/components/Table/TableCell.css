@@ -1,0 +1,32 @@
+.root {
+  /* acts like min-width in a cell */
+  height: calc(4.5 * var(--mini-unit));
+  text-align: left;
+  padding: var(--mini-unit) calc(1.5 * var(--mini-unit));
+  box-sizing: border-box;
+}
+
+.header {
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-reset);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-size: var(--v2-font-size-2);
+  color: var(--v2-palette-table-header-text);
+  padding: var(--v2-spacing-3);
+}
+
+.body {
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-title);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-2);
+  color: var(--v2-palette-table-body-text);
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignEnd {
+  text-align: right;
+}

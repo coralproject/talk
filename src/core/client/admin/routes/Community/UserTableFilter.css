@@ -4,7 +4,6 @@
 }
 
 .textField {
-  height: 31px;
   width: calc(45 * var(--mini-unit));
 }
 

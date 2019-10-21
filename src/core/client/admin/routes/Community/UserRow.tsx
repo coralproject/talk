@@ -5,7 +5,9 @@ import NotAvailable from "coral-admin/components/NotAvailable";
 import UserRole from "coral-admin/components/UserRole";
 import UserStatus from "coral-admin/components/UserStatus";
 import { PropTypesOf } from "coral-framework/types";
-import { Button, TableCell, TableRow, TextLink } from "coral-ui/components";
+import { Button } from "coral-ui/components";
+
+import { TableCell, TableRow, TextLink } from "coral-admin/ui/components";
 
 import styles from "./UserRow.css";
 
@@ -57,7 +59,11 @@ const UserRow: FunctionComponent<Props> = ({
           </>
         )}
         {!deletedAt && (
-          <Button onClick={usernameClicked} className={styles.usernameButton}>
+          <Button
+            color="primary"
+            onClick={usernameClicked}
+            className={styles.usernameButton}
+          >
             {username || <NotAvailable />}
           </Button>
         )}

@@ -11,5 +11,7 @@
   width: 15%;
 }
 .clickToModerate {
-  font-size: calc(12rem / var(--rem-base));
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  color: var(--v2-palette-table-header-alt-text);
 }
