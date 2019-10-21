@@ -1,9 +1,6 @@
+import striptags from "striptags";
+
 import { RepeatPostCommentError } from "coral-server/errors";
-import {
-  GQLCOMMENT_FLAG_REASON,
-  GQLCOMMENT_STATUS,
-} from "coral-server/graph/tenant/schema/__generated__/types";
-import logger from "coral-server/logger";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
 import {
@@ -12,46 +9,50 @@ import {
 } from "coral-server/services/comments/pipeline";
 import { retrieveUserLastComment } from "coral-server/services/users";
 
+import {
+  GQLCOMMENT_FLAG_REASON,
+  GQLCOMMENT_STATUS,
+} from "coral-server/graph/tenant/schema/__generated__/types";
+
 export const repeatPost: IntermediateModerationPhase = async ({
-  story,
   mongo,
+  htmlStripped,
   tenant,
-  comment,
   author,
-  req,
   nudge,
   redis,
+  log,
 }): Promise<IntermediatePhaseResult | void> => {
-  const log = logger.child(
-    {
-      tenantID: tenant.id,
-    },
-    true
-  );
-
-  if (!comment.body) {
+  if (!htmlStripped) {
     return;
   }
 
   try {
     log.trace("checking comment for repeat content");
 
+    // Get the last comment (if it exists).
     const lastComment = await retrieveUserLastComment(
       mongo,
       redis,
       tenant,
       author
     );
-
     if (!lastComment) {
+      // The last comment can't been found or none was written within the
+      // time frame.
       return;
     }
 
-    const revision = getLatestRevision(lastComment);
-    const isRepeatComment = revision.body === comment.body;
+    const revision = striptags(getLatestRevision(lastComment).body);
 
-    if (isRepeatComment) {
-      log.trace({ isRepeatComment }, "comment contains repeat content");
+    // Calculate the comment similarity. At the moment, we only do a string
+    // comparison, so it's either completely equal (they match) or the
+    // similarity can't be determined (null). This gives us room in the future
+    // to include a percentage matching.
+    const similarity = revision.trim() === htmlStripped.trim() ? 1 : null;
+
+    if (similarity) {
+      log.trace({ similarity }, "comment contains repeat content");
 
       // Throw an error if we're nudging instead of recording.
       if (nudge) {
@@ -71,7 +72,7 @@ export const repeatPost: IntermediateModerationPhase = async ({
       };
     }
 
-    log.trace({ isRepeatComment }, "comment is not repeated");
+    log.trace({ similarity }, "comment is not repeated");
   } catch (err) {
     // Rethrow any RepeatPostError.
     if (err instanceof RepeatPostCommentError) {

@@ -11,11 +11,6 @@ import {
 } from "coral-common/constants";
 import { Omit } from "coral-common/types";
 import { ToxicCommentError } from "coral-server/errors";
-import {
-  GQLCOMMENT_FLAG_REASON,
-  GQLCOMMENT_STATUS,
-  GQLPerspectiveExternalIntegration,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
@@ -23,16 +18,21 @@ import {
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
 
+import {
+  GQLCOMMENT_FLAG_REASON,
+  GQLCOMMENT_STATUS,
+  GQLPerspectiveExternalIntegration,
+} from "coral-server/graph/tenant/schema/__generated__/types";
+
 export const toxic: IntermediateModerationPhase = async ({
   tenant,
   comment,
   nudge,
+  log,
 }): Promise<IntermediatePhaseResult | void> => {
   if (!comment.body) {
     return;
   }
-
-  const log = logger.child({ tenantID: tenant.id }, true);
 
   const integration = tenant.integrations.perspective;
 

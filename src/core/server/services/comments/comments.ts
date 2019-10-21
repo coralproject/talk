@@ -124,6 +124,7 @@ export async function create(
     // Run the comment through the moderation phases.
     result = await processForModeration({
       action: "NEW",
+      log,
       mongo,
       redis,
       config,
@@ -323,6 +324,7 @@ export async function edit(
   // Run the comment through the moderation phases.
   const { body, status, metadata, actions } = await processForModeration({
     action: "EDIT",
+    log,
     mongo,
     redis,
     config,
