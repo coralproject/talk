@@ -9,19 +9,19 @@ exports[`renders community 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-justifySpaceBetween Flex-alignFlexEnd gutter"
+      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd"
     >
       <div
-        className="Box-root Flex-root Flex-flex"
+        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
       >
         <fieldset
           className="FieldSet-root"
         >
-          <legend
-            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
+          <p
+            className="Label-root"
           >
             Search
-          </legend>
+          </p>
           <form
             autoComplete="off"
             id="configure-form"
@@ -70,11 +70,11 @@ exports[`renders community 1`] = `
         <fieldset
           className="FieldSet-root"
         >
-          <legend
-            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
+          <p
+            className="Label-root"
           >
             Show Me
-          </legend>
+          </p>
           <div
             className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
           >
@@ -256,8 +256,8 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
-                data-color="regular"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular UserRow-usernameButton"
+                data-color="primary"
                 data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -305,7 +305,7 @@ exports[`renders community 1`] = `
                 className="ButtonPadding-root"
               >
                 <div
-                  className="Box-root Typography-root Typography-detail Typography-colorSuccess"
+                  className="UserStatus-success"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
@@ -325,8 +325,8 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
-                data-color="regular"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular UserRow-usernameButton"
+                data-color="primary"
                 data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -407,7 +407,7 @@ exports[`renders community 1`] = `
                 className="ButtonPadding-root"
               >
                 <div
-                  className="Box-root Typography-root Typography-detail Typography-colorSuccess"
+                  className="UserStatus-success"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
@@ -427,8 +427,8 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
-                data-color="regular"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular UserRow-usernameButton"
+                data-color="primary"
                 data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -509,7 +509,7 @@ exports[`renders community 1`] = `
                 className="ButtonPadding-root"
               >
                 <div
-                  className="Box-root Typography-root Typography-detail Typography-colorSuccess"
+                  className="UserStatus-success"
                 >
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
@@ -529,8 +529,8 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
-                data-color="regular"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular UserRow-usernameButton"
+                data-color="primary"
                 data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -624,7 +624,7 @@ exports[`renders community 1`] = `
                   type="button"
                 >
                   <div
-                    className="Box-root Typography-root Typography-detail Typography-colorSuccess"
+                    className="UserStatus-success"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
@@ -673,19 +673,19 @@ exports[`renders empty community 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-justifySpaceBetween Flex-alignFlexEnd gutter"
+      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd"
     >
       <div
-        className="Box-root Flex-root Flex-flex"
+        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
       >
         <fieldset
           className="FieldSet-root"
         >
-          <legend
-            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
+          <p
+            className="Label-root"
           >
             Search
-          </legend>
+          </p>
           <form
             autoComplete="off"
             id="configure-form"
@@ -734,11 +734,11 @@ exports[`renders empty community 1`] = `
         <fieldset
           className="FieldSet-root"
         >
-          <legend
-            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
+          <p
+            className="Label-root"
           >
             Show Me
-          </legend>
+          </p>
           <div
             className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
           >

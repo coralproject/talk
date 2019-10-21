@@ -3,16 +3,14 @@ import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
+import { Button, FieldSet, Flex, Icon } from "coral-ui/components";
+
 import {
-  Button,
-  FieldSet,
-  Flex,
-  Icon,
+  Label,
   Option,
   SelectField,
   TextField,
-  Typography,
-} from "coral-ui/components";
+} from "coral-admin/ui/components";
 
 import styles from "./StoryTableFilter.css";
 
@@ -27,13 +25,7 @@ const StoryTableFilter: FunctionComponent<Props> = props => (
   <Flex itemGutter="double">
     <FieldSet>
       <Localized id="stories-filter-search">
-        <Typography
-          container="legend"
-          className={styles.legend}
-          variant="bodyCopyBold"
-        >
-          Search
-        </Typography>
+        <Label>Search</Label>
       </Localized>
       <Form
         initialValues={{ search: props.searchFilter }}
@@ -81,13 +73,7 @@ const StoryTableFilter: FunctionComponent<Props> = props => (
     </FieldSet>
     <FieldSet>
       <Localized id="stories-filter-showMe">
-        <Typography
-          className={styles.legend}
-          container="legend"
-          variant="bodyCopyBold"
-        >
-          Show Me
-        </Typography>
+        <Label>Show Me</Label>
       </Localized>
       <Localized
         id="stories-filter-statusSelectField"

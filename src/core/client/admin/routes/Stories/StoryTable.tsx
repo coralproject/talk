@@ -10,7 +10,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from "coral-ui/components/Table";
+} from "coral-admin/ui/components/Table";
 
 import EmptyMessage from "./EmptyMessage";
 import NoMatchMessage from "./NoMatchMessage";
