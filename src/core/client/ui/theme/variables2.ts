@@ -234,6 +234,12 @@ const variables2 = {
       icon: colors.white500,
       background: colors.blue500,
     },
+    sideNav: {
+      item: colors.mono100,
+      border: colors.grey300,
+      indicator: colors.coral500,
+      active: colors.mono500,
+    },
   },
   fontFamily: {
     primary: "Open Sans",
