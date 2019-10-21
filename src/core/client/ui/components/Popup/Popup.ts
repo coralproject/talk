@@ -93,7 +93,7 @@ export default class Popup extends Component<PopupProps> {
     try {
       this.setCallbacks();
     } catch (err) {
-      // tslint:disable-next-line: no-console
+      // eslint-disable-next-line no-console
       console.error(err);
     }
   }
@@ -208,7 +208,7 @@ export default class Popup extends Component<PopupProps> {
     }
   };
 
-  public componentWillReceiveProps(nextProps: PopupProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: PopupProps) {
     if (nextProps.open && !this.ref) {
       this.openWindow(nextProps);
     }

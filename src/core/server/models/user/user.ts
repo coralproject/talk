@@ -104,6 +104,28 @@ export interface Token {
 }
 
 /**
+ * ModeratorNote ModeratorNote is a note left by a moderator on the subject of a user.
+ */
+export interface ModeratorNote {
+  /**
+   * id is the identifier of the Note.
+   */
+  id: string;
+  /**
+   * body is the content of the Note
+   */
+  body: string;
+  /**
+   * createdAt is the date in which the Note was created.
+   */
+  createdAt: Date;
+  /**
+   * createdBy is the Moderator that authored the Note
+   */
+  createdBy: string;
+}
+
+/**
  * SuspensionStatusHistory SuspensionStatusHistory is the list of all suspension
  * events against a specific User.
  */
@@ -408,6 +430,11 @@ export interface User extends TenantResource {
   ignoredUsers: IgnoredUser[];
 
   /**
+   * moderatorNotes are notes left by moderators about the User.
+   */
+  moderatorNotes: ModeratorNote[];
+
+  /**
    * lastDownloadedAt is the last time the user requested to download their
    * user data.
    */
@@ -478,6 +505,7 @@ async function findOrCreateUserInput(
       onStaffReplies: false,
       digestFrequency: GQLDIGEST_FREQUENCY.NONE,
     },
+    moderatorNotes: [],
     profiles: [],
     digests: [],
     createdAt: now,
@@ -495,11 +523,12 @@ async function findOrCreateUserInput(
 
   // Mutate the profiles to ensure we mask handle any secrets.
   switch (profile.type) {
-    case "local":
+    case "local": {
       // Hash the user's password with bcrypt.
       const password = await hashPassword(profile.password);
       defaults.profiles.push({ ...profile, password });
       break;
+    }
     default:
       // Push the profile onto the User.
       defaults.profiles.push(profile);
@@ -598,7 +627,7 @@ export async function retrieveManyUsers(
   tenantID: string,
   ids: string[]
 ) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     tenantID,
     id: {
       $in: ids,
@@ -1070,7 +1099,7 @@ export async function updateUserEmail(
     return result.value;
   } catch (err) {
     if (err instanceof MongoError && err.code === 11000) {
-      throw new DuplicateEmailError(email!);
+      throw new DuplicateEmailError(email);
     }
     throw err;
   }
@@ -1392,6 +1421,7 @@ export async function premodUser(
 
 /**
  * removeUserPremod will lift a user premod  requirement
+ *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their ban lifted
@@ -2322,4 +2352,84 @@ export async function retrieveUserScheduledForDeletion(
     }
   );
   return result.value || null;
+}
+
+/**
+ * createModeratorNote will add a note to a users account
+ *
+ * @param mongo the database to put the notification digests into
+ * @param tenantID the ID of the Tenant that this User exists on
+ * @param id the ID of the User who is the subject of the note
+ * @param createdBy the ID of Moderator that is creating the note
+ * @param note the contents of the note
+ * @param now the current time that the note was created
+ */
+export async function createModeratorNote(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  note: string,
+  now = new Date()
+) {
+  const moderatorNote: ModeratorNote = {
+    id: uuid(),
+    createdAt: now,
+    body: note,
+    createdBy,
+  };
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    {
+      $push: {
+        moderatorNotes: moderatorNote,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    throw new UserNotFoundError(id);
+  }
+
+  return result.value;
+}
+
+/**
+ * deleteModeratorNote will remove a note from a user profile
+ *
+ * @param mongo the database to put the notification digests into
+ * @param tenantID the ID of the Tenant that this User exists on
+ * @param userID the ID of the user
+ * @param id the ID of the note to delete
+ * @param createdBy the ID of the note author
+ */
+export async function deleteModeratorNote(
+  mongo: Db,
+  tenantID: string,
+  userID: string,
+  id: string,
+  createdBy: string
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $pull: {
+        moderatorNotes: { id, createdBy },
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    throw new UserNotFoundError(id);
+  }
+  return result.value;
 }

@@ -7,8 +7,9 @@ import { Button, ButtonIcon, ClickOutside } from "coral-ui/components";
 
 import { Dropdown, DropdownButton, Popover } from "coral-admin/ui/components";
 
-import styles from "./StoryStatusChange.css";
 import StoryStatusText from "./StoryStatusText";
+
+import styles from "./StoryStatusChange.css";
 
 interface Props {
   onChangeStatus: (status: GQLSTORY_STATUS_RL) => void;

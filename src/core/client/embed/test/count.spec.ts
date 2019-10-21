@@ -1,9 +1,10 @@
 import mockConsole from "jest-mock-console";
-import * as Coral from "../";
 
 import { COUNT_SELECTOR } from "coral-framework/constants";
 
-// tslint:disable:no-console
+import * as Coral from "../";
+
+/* eslint-disable no-console */
 
 describe("Basic integration test", () => {
   const container: HTMLElement = document.createElement("div");

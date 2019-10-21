@@ -1,10 +1,9 @@
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 
+import { getViewURL } from "coral-auth/helpers";
 import { SetViewMutation } from "coral-auth/mutations";
 import { useMutation } from "coral-framework/lib/relay";
-
-import { getViewURL } from "coral-auth/helpers";
 
 import SignInMutation from "./SignInMutation";
 import SignInWithEmail, { SignInWithEmailForm } from "./SignInWithEmail";

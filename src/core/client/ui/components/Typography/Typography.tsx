@@ -1,15 +1,14 @@
 import cn from "classnames";
-import React from "react";
-import { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
-/* In this case the Box styles have higher priority! */
-import styles from "./Typography.css";
-
 /** Needs to be loaded after styles, because Box styles have priority */
 import Box from "../Box";
+
+/* In this case the Box styles have higher priority! */
+import styles from "./Typography.css";
 
 type Variant =
   | "heading1"

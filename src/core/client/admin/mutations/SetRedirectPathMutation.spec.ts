@@ -2,12 +2,12 @@ import { Environment, RecordSource } from "relay-runtime";
 
 import { REDIRECT_PATH_KEY } from "coral-admin/constants";
 import { LOCAL_ID } from "coral-framework/lib/relay";
-import { createRelayEnvironment } from "coral-framework/testHelpers";
-
 import {
   createInMemoryStorage,
   createPromisifiedStorage,
 } from "coral-framework/lib/storage";
+import { createRelayEnvironment } from "coral-framework/testHelpers";
+
 import SetRedirectPathMutation from "./SetRedirectPathMutation";
 
 let environment: Environment;

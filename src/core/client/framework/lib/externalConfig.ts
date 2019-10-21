@@ -1,5 +1,6 @@
-import { areWeInIframe } from "coral-framework/utils";
 import { Child as PymChild } from "pym.js";
+
+import { areWeInIframe } from "coral-framework/utils";
 
 export interface ExternalConfig {
   accessToken?: string;

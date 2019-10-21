@@ -6,6 +6,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+
 import { UpdateNotificationSettingsMutation as MutationTypes } from "coral-stream/__generated__/UpdateNotificationSettingsMutation.graphql";
 
 let clientMutationId = 0;

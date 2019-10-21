@@ -89,10 +89,10 @@ class Server {
   private tenantCache: TenantCache;
 
   // connected when true, indicates that `connect()` was already called.
-  private connected: boolean = false;
+  private connected = false;
 
   // processing when true, indicates that `process()` was already called.
-  private processing: boolean = false;
+  private processing = false;
 
   // i18n is the server reference to the i18n framework.
   private i18n: I18n;
@@ -158,7 +158,10 @@ class Server {
     );
 
     // Create the migration manager.
-    this.migrationManager = new MigrationManager(this.tenantCache);
+    this.migrationManager = new MigrationManager({
+      tenantCache: this.tenantCache,
+      i18n: this.i18n,
+    });
 
     // Load and upsert the persisted queries.
     this.persistedQueryCache = new PersistedQueryCache({ mongo: this.mongo });
@@ -198,6 +201,7 @@ class Server {
     // Run migrations if there is already a Tenant installed.
     if (await isInstalled(this.tenantCache)) {
       await this.migrationManager.executePendingMigrations(this.mongo);
+      await this.tenantCache.primeAll();
     } else {
       logger.info("no tenants are installed, skipping running migrations");
     }

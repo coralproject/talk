@@ -3,9 +3,10 @@ import { RouteProps } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { GeneralConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
 import { pureMerge } from "coral-common/utils";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { GeneralConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
 
 import GeneralConfig from "./GeneralConfig";
 
@@ -53,6 +54,7 @@ const enhanced = withFragmentContainer<Props>({
       ...ClosingCommentStreamsConfigContainer_settings
       ...SitewideCommentingConfigContainer_settings
       ...ReactionConfigContainer_settings
+      ...StaffConfigContainer_settings
     }
   `,
 })(GeneralConfigContainer);

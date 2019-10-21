@@ -2,10 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
-import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
 import { Marker, MarkerCount } from "coral-admin/ui/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
+import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
+
 import Markers from "./Markers";
 import ModerateCardDetailsContainer from "./ModerateCardDetailsContainer";
 
@@ -73,6 +75,14 @@ const markers: Array<
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_TOXIC && (
         <Localized id="moderate-marker-toxic" key={keyCounter++}>
           <Marker color="reported">Toxic</Marker>
+        </Localized>
+      )) ||
+    null,
+  c =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_REPEAT_POST && (
+        <Localized id="moderate-marker-repeatPost" key={keyCounter++}>
+          <Marker color="reported">Repeat comment</Marker>
         </Localized>
       )) ||
     null,
@@ -160,6 +170,7 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
               COMMENT_DETECTED_SUSPECT_WORD
               COMMENT_REPORTED_OFFENSIVE
               COMMENT_REPORTED_SPAM
+              COMMENT_DETECTED_REPEAT_POST
             }
           }
         }

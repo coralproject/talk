@@ -18,7 +18,7 @@ export default class PostCommentSubmitStatusContainer extends React.Component<
     dismissed: false,
   };
 
-  public componentWillReceiveProps(nextProps: Props) {
+  public UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.status !== nextProps.status) {
       this.setState({ dismissed: false });
     }
@@ -34,6 +34,7 @@ export default class PostCommentSubmitStatusContainer extends React.Component<
         throw new Error("Not implemented");
       case "REJECTED":
       // TODO: Show a different message when rejected?
+      // falls through
       case "IN_REVIEW":
         return this.state.dismissed ? null : (
           <PostCommentInReviewMessage onDismiss={this.handleOnDismiss} />

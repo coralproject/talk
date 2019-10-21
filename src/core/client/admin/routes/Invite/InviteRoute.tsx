@@ -2,12 +2,13 @@ import React, { useCallback, useState } from "react";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { InviteRouteQueryResponse } from "coral-admin/__generated__/InviteRouteQuery.graphql";
 import { useToken } from "coral-framework/hooks";
 import { createFetch } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { parseHashQuery } from "coral-framework/utils";
 import { Delay, Flex, Spinner } from "coral-ui/components";
+
+import { InviteRouteQueryResponse } from "coral-admin/__generated__/InviteRouteQuery.graphql";
 
 import InviteCompleteFormContainer from "./InviteCompleteFormContainer";
 import InviteLayout from "./InviteLayout";
@@ -82,12 +83,14 @@ const enhanced = withRouteConfig<Props>({
       }
     }
   `,
-  render: ({ match, Component, ...rest }) => (
-    <Component
-      token={parseHashQuery(match.location.hash).inviteToken}
-      {...rest}
-    />
-  ),
+  render: function InviteRouteRender({ match, Component, ...rest }) {
+    return (
+      <Component
+        token={parseHashQuery(match.location.hash).inviteToken}
+        {...rest}
+      />
+    );
+  },
 })(InviteRoute);
 
 export default enhanced;

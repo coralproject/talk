@@ -13,7 +13,11 @@ import { Settings } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
-import { generateSSOKey, getDefaultReactionConfiguration } from "./helpers";
+import {
+  generateSSOKey,
+  getDefaultReactionConfiguration,
+  getDefaultStaffConfiguration,
+} from "./helpers";
 
 /**
  * TenantResource references a given resource that should be owned by a specific
@@ -64,6 +68,9 @@ export async function createTenant(
   input: CreateTenantInput,
   now = new Date()
 ) {
+  // Get the tenant's bundle.
+  const bundle = i18n.getBundle(input.locale);
+
   const defaults: Sub<Tenant, CreateTenantInput> = {
     // Create a new ID.
     id: uuid.v4(),
@@ -168,7 +175,8 @@ export async function createTenant(
         doNotStore: true,
       },
     },
-    reaction: getDefaultReactionConfiguration(i18n.getBundle(input.locale)),
+    reaction: getDefaultReactionConfiguration(bundle),
+    staff: getDefaultStaffConfiguration(bundle),
     stories: {
       scraping: {
         enabled: true,
@@ -204,7 +212,7 @@ export async function retrieveTenant(mongo: Db, id: string) {
 }
 
 export async function retrieveManyTenants(mongo: Db, ids: string[]) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     id: {
       $in: ids,
     },
@@ -219,7 +227,7 @@ export async function retrieveManyTenantsByDomain(
   mongo: Db,
   domains: string[]
 ) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     domain: {
       $in: domains,
     },

@@ -21,7 +21,7 @@ async function beginWatch(
     await executor.onInit();
   }
   for await (const filePath of watcher.watch(rootDir, paths, { ignore })) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.log(chalk.cyanBright(`Execute "${key}"`));
     executor.execute(filePath);
   }
@@ -72,7 +72,7 @@ function filterOnly(
   }
   return pickBy(watchers, (value, key) => {
     if (resolved.indexOf(key) === -1) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.log(chalk.grey(`Disabled watcher "${key}"`));
       return false;
     }
@@ -98,11 +98,11 @@ export default async function watch(config: Config, options: Options = {}) {
   }
 
   for (const key of Object.keys(watchersConfigs)) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.log(chalk.cyanBright(`Start watcher "${key}"`));
     const watcherConfig = watchersConfigs[key];
     beginWatch(watcher, key, watcherConfig, rootDir).catch(err => {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(err);
       process.exit(1);
     });

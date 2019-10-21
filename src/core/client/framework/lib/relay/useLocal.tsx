@@ -8,7 +8,6 @@ import {
 
 import { OmitFragments } from "coral-framework/testHelpers/removeFragmentRefs";
 import { DeepPartial } from "coral-framework/types";
-import { _RefType } from "react-relay";
 
 import { useCoralContext } from "../bootstrap";
 import { LOCAL_ID, LOCAL_TYPE } from "./localState";
@@ -31,6 +30,7 @@ function isAdvancedUpdater(t: LocalUpdater<any>): t is AdvancedUpdater {
 /**
  * applySimplified takes selections defined in a fragment, an object
  * containing data changes and smartly applies it to the record proxy.
+ *
  * @param record Record Proxy poing to Local Record
  * @param selections Selections of the fragment
  * @param data Data you want to set

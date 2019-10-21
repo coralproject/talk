@@ -50,6 +50,9 @@ export const settings = createFixture<GQLSettings>({
     timeout: 604800,
     message: "Comments are closed on this story.",
   },
+  staff: {
+    label: "Staff",
+  },
   reaction: {
     label: "Reaction",
     labelActive: "reacted",
@@ -523,6 +526,7 @@ export const baseComment = createFixture<GQLComment>({
           COMMENT_DETECTED_SUSPECT_WORD: 0,
           COMMENT_REPORTED_OFFENSIVE: 0,
           COMMENT_REPORTED_SPAM: 0,
+          COMMENT_DETECTED_REPEAT_POST: 0,
         },
       },
     },

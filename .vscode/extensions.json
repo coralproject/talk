@@ -1,8 +1,9 @@
 {
   "recommendations": [
-    "ms-vscode.vscode-typescript-tslint-plugin",
+    "dbaeumer.vscode-eslint",
     "kumar-harsh.graphql-for-vscode",
     "editorconfig.editorconfig",
-    "ms-azuretools.vscode-cosmosdb"
+    "ms-azuretools.vscode-cosmosdb",
+    "mike-co.import-sorter"
   ]
 }

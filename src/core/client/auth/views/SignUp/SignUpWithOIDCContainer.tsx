@@ -1,10 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
-import { SignUpWithOIDCContainer_auth as AuthData } from "coral-auth/__generated__/SignUpWithOIDCContainer_auth.graphql";
 import OIDCButton from "coral-framework/components/OIDCButton";
 import { redirectOAuth2 } from "coral-framework/helpers";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+
+import { SignUpWithOIDCContainer_auth as AuthData } from "coral-auth/__generated__/SignUpWithOIDCContainer_auth.graphql";
 
 interface Props {
   auth: AuthData;

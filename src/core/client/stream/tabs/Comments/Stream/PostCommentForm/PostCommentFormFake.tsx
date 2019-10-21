@@ -3,12 +3,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
 import RTE from "../../RTE";
 import MessageBoxContainer from "../MessageBoxContainer";
 
-import CLASSES from "coral-stream/classes";
 import styles from "./PostCommentFormFake.css";
 
 interface Props {

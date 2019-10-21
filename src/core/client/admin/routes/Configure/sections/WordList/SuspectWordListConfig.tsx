@@ -1,7 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   FormField,
   HorizontalGutter,
@@ -43,15 +42,10 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
             Suspect word list
           </InputLabel>
         </Localized>
-        <Localized
-          id="configure-wordList-suspect-wordListDetail"
-          strong={<strong />}
-          externalLink={<ExternalLink href="#" />}
-        >
+        <Localized id="configure-wordList-suspect-wordListDetailInstructions">
           <InputDescription>
-            Separate suspect words or phrases with a new line. Attempting to
-            copy and paste a comma separated list? Learn how to convert your
-            list to a new line separated list.
+            Separate suspect words or phrases with a new line. Words/phrases are
+            not case sensitive.
           </InputDescription>
         </Localized>
         <div>

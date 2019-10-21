@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 
-import { AppContainer_auth as AuthData } from "coral-auth/__generated__/AppContainer_auth.graphql";
-import { AppContainer_viewer as UserData } from "coral-auth/__generated__/AppContainer_viewer.graphql";
-import { AppContainerLocal as Local } from "coral-auth/__generated__/AppContainerLocal.graphql";
 import {
   graphql,
   withFragmentContainer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
+
+import { AppContainer_auth as AuthData } from "coral-auth/__generated__/AppContainer_auth.graphql";
+import { AppContainer_viewer as UserData } from "coral-auth/__generated__/AppContainer_viewer.graphql";
+import { AppContainerLocal as Local } from "coral-auth/__generated__/AppContainerLocal.graphql";
 
 import AccountCompletionContainer from "./AccountCompletion";
 import App from "./App";

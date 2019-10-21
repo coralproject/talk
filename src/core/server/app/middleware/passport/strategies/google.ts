@@ -81,6 +81,7 @@ export default class GoogleStrategy extends OAuth2Strategy<
           avatar,
           profile,
         },
+        {},
         now
       );
     }

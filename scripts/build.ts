@@ -17,7 +17,7 @@ import paths from "../config/paths";
 import config from "../src/core/build/config";
 import createWebpackConfig from "../src/core/build/createWebpackConfig";
 
-// tslint:disable: no-console
+/* eslint-disable no-console */
 
 process.env.WEBPACK = "true";
 process.env.NODE_ENV = process.env.NODE_ENV || "production";

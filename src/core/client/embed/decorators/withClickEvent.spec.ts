@@ -1,7 +1,7 @@
 import simulant from "simulant";
 import sinon from "sinon";
 
-import { CleanupCallback } from ".";
+import { CleanupCallback } from "./";
 import withClickEvent from "./withClickEvent";
 
 it("should send click events", () => {

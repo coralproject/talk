@@ -1,3 +1,5 @@
+import { defaultTo } from "lodash";
+
 import TenantContext from "coral-server/graph/tenant/context";
 import {
   CommentToStatusHistoryArgs,
@@ -7,22 +9,22 @@ import { retrieveCommentModerationActionConnection } from "coral-server/models/a
 
 export default (ctx: TenantContext) => ({
   forModerator: (
-    { first = 10, after }: UserToCommentModerationActionHistoryArgs,
+    { first, after }: UserToCommentModerationActionHistoryArgs,
     moderatorID: string
   ) =>
     retrieveCommentModerationActionConnection(ctx.mongo, ctx.tenant.id, {
-      first,
+      first: defaultTo(first, 10),
       after,
       filter: {
         moderatorID,
       },
     }),
   forComment: (
-    { first = 10, after }: CommentToStatusHistoryArgs,
+    { first, after }: CommentToStatusHistoryArgs,
     commentID: string
   ) =>
     retrieveCommentModerationActionConnection(ctx.mongo, ctx.tenant.id, {
-      first,
+      first: defaultTo(first, 10),
       after,
       filter: {
         commentID,

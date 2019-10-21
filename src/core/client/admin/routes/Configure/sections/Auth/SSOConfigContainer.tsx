@@ -1,9 +1,10 @@
 import React from "react";
 import { graphql } from "react-relay";
 
+import { withFragmentContainer } from "coral-framework/lib/relay";
+
 import { SSOConfigContainer_auth as AuthData } from "coral-admin/__generated__/SSOConfigContainer_auth.graphql";
 import { SSOConfigContainer_authReadOnly as AuthReadOnlyData } from "coral-admin/__generated__/SSOConfigContainer_authReadOnly.graphql";
-import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { OnInitValuesFct } from "./AuthConfigContainer";
 import SSOConfig from "./SSOConfig";

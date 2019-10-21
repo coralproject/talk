@@ -9,7 +9,7 @@ export default function useResizePopup() {
   const [pollTimeout, setPollTimeout] = useState<NodeJS.Timer | null>(null);
 
   const pollPopupHeight = useCallback(
-    (interval: number = 200) => {
+    (interval = 200) => {
       if (!polling) {
         return;
       }

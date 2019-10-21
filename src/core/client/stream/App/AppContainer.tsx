@@ -1,8 +1,10 @@
 import React from "react";
 
 import { graphql, withLocalStateContainer } from "coral-framework/lib/relay";
+
 import { AppContainerLocal as Local } from "coral-stream/__generated__/AppContainerLocal.graphql";
 
+import App from "./App";
 import {
   OnEvents,
   OnPostMessageSetAccessToken,
@@ -20,8 +22,6 @@ const listeners = (
     <OnEvents />
   </>
 );
-
-import App from "./App";
 
 interface Props {
   disableListeners?: boolean;

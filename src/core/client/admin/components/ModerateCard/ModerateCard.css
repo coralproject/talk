@@ -9,6 +9,10 @@
 
 .usernameButton {
   margin-right: var(--mini-unit);
+}
+
+.username {
+  margin-right: var(--spacing-1);
   padding: var(--spacing-1);
   margin-left: calc(-1 * var(--v2-spacing-1));
 
@@ -102,6 +106,10 @@
   transition: background 100ms, box-shadow 100ms;
 }
 
+.root:focus {
+  outline: none;
+}
+
 .dangling {
   background-color: var(--v2-palette-grey-lightest);
   box-shadow: none;
@@ -168,4 +176,12 @@
   font-size: var(--v2-font-size-1);
   line-height: var(--v2-line-height-reset);
   padding-left: var(--v2-spacing-2)
+}
+
+.selected {
+  box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.authorStatus {
+  padding-right: var(--spacing-2);
 }

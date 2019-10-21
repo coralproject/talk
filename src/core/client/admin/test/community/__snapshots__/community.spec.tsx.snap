@@ -389,7 +389,7 @@ exports[`renders community 1`] = `
                   aria-hidden={true}
                   aria-labelledby="community-roleChange-ariainfo"
                   id="community-roleChange"
-                  role="popup"
+                  role="dialog"
                 >
                   <div
                     className="AriaInfo-root"
@@ -491,7 +491,7 @@ exports[`renders community 1`] = `
                   aria-hidden={true}
                   aria-labelledby="community-roleChange-ariainfo"
                   id="community-roleChange"
-                  role="popup"
+                  role="dialog"
                 >
                   <div
                     className="AriaInfo-root"
@@ -593,7 +593,7 @@ exports[`renders community 1`] = `
                   aria-hidden={true}
                   aria-labelledby="community-roleChange-ariainfo"
                   id="community-roleChange"
-                  role="popup"
+                  role="dialog"
                 >
                   <div
                     className="AriaInfo-root"
@@ -645,7 +645,7 @@ exports[`renders community 1`] = `
                   aria-hidden={true}
                   aria-labelledby="community-statusChange-ariainfo"
                   id="community-statusChange"
-                  role="popup"
+                  role="dialog"
                 >
                   <div
                     className="AriaInfo-root"

@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { StoryCreationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/StoryCreationConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { StoryCreationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/StoryCreationConfigContainer_settings.graphql";
 
 import StoryCreationConfig from "./StoryCreationConfig";
 

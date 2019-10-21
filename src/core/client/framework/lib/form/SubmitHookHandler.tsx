@@ -54,7 +54,7 @@ class SubmitHookContainer extends React.Component<Props> {
       if (error instanceof InvalidRequestError) {
         return error.invalidArgs;
       }
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     }
     return;

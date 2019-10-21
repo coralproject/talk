@@ -1,6 +1,22 @@
 import { Match, Router, withRouter } from "found";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
+
+import NotAvailable from "coral-admin/components/NotAvailable";
+import BanModal from "coral-admin/components/UserStatus/BanModal";
+import { getModerationLink } from "coral-admin/helpers";
+import {
+  ApproveCommentMutation,
+  RejectCommentMutation,
+} from "coral-admin/mutations";
+import FadeInTransition from "coral-framework/components/FadeInTransition";
+import {
+  MutationProp,
+  withFragmentContainer,
+  withMutation,
+} from "coral-framework/lib/relay";
+import { GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLTAG } from "coral-framework/schema";
 
 import {
   COMMENT_STATUS,
@@ -8,18 +24,8 @@ import {
 } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
 import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
 import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
-import NotAvailable from "coral-admin/components/NotAvailable";
-import { getModerationLink } from "coral-admin/helpers";
-import { ApproveCommentMutation } from "coral-admin/mutations";
-import { RejectCommentMutation } from "coral-admin/mutations";
-import FadeInTransition from "coral-framework/components/FadeInTransition";
-import {
-  MutationProp,
-  withFragmentContainer,
-  withMutation,
-} from "coral-framework/lib/relay";
-import { GQLTAG } from "coral-framework/schema";
 
+import BanCommentUserMutation from "./BanCommentUserMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -33,6 +39,7 @@ interface Props {
   rejectComment: MutationProp<typeof RejectCommentMutation>;
   featureComment: MutationProp<typeof FeatureCommentMutation>;
   unfeatureComment: MutationProp<typeof UnfeatureCommentMutation>;
+  banUser: MutationProp<typeof BanCommentUserMutation>;
   danglingLogic: (status: COMMENT_STATUS) => boolean;
   match: Match;
   router: Router;
@@ -40,6 +47,11 @@ interface Props {
   mini?: boolean;
   hideUsername?: boolean;
   onUsernameClicked?: (userID: string) => void;
+  onSetSelected?: () => void;
+  selected?: boolean;
+  selectPrev?: () => void;
+  selectNext?: () => void;
+  loadNext?: (() => void) | null;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
@@ -71,30 +83,43 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   unfeatureComment,
   mini,
   hideUsername,
+  selected,
+  selectPrev,
+  selectNext,
   onUsernameClicked: usernameClicked,
+  onSetSelected: setSelected,
+  banUser,
+  loadNext,
 }) => {
-  const handleApprove = useCallback(() => {
+  const [showBanModal, setShowBanModal] = useState(false);
+  const handleApprove = useCallback(async () => {
     if (!comment.revision) {
       return;
     }
 
-    approveComment({
+    await approveComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
       storyID: match.params.storyID,
     });
+    if (loadNext) {
+      loadNext();
+    }
   }, [approveComment, comment, match]);
 
-  const handleReject = useCallback(() => {
+  const handleReject = useCallback(async () => {
     if (!comment.revision) {
       return;
     }
 
-    rejectComment({
+    await rejectComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
       storyID: match.params.storyID,
     });
+    if (loadNext) {
+      loadNext();
+    }
   }, [rejectComment, comment, match]);
 
   const handleFeature = useCallback(() => {
@@ -146,6 +171,35 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     [router, comment]
   );
 
+  const onFocusOrClick = useCallback(() => {
+    if (setSelected) {
+      setSelected();
+    }
+  }, [selected, comment]);
+
+  const handleBanModalClose = useCallback(() => {
+    setShowBanModal(false);
+  }, []);
+
+  const openBanModal = useCallback(() => {
+    if (
+      !comment.author ||
+      comment.author.status.current.includes(GQLUSER_STATUS.BANNED)
+    ) {
+      return;
+    }
+    setShowBanModal(true);
+  }, [comment]);
+
+  const handleBanConfirm = useCallback(
+    async (message: string) => {
+      if (comment.author) {
+        await banUser({ userID: comment.author.id, message });
+      }
+      setShowBanModal(false);
+    },
+    [comment]
+  );
   return (
     <>
       <FadeInTransition active={Boolean(comment.enteredLive)}>
@@ -171,6 +225,10 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onReject={handleReject}
           onFeature={onFeature}
           onUsernameClick={onUsernameClicked}
+          selected={selected}
+          selectPrev={selectPrev}
+          selectNext={selectNext}
+          onBan={openBanModal}
           moderatedBy={
             <ModeratedByContainer
               onUsernameClicked={onUsernameClicked}
@@ -178,6 +236,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
               comment={comment}
             />
           }
+          onFocusOrClick={onFocusOrClick}
           showStory={showStoryInfo}
           storyTitle={
             (comment.story.metadata && comment.story.metadata.title) || (
@@ -192,6 +251,16 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           edited={comment.editing.edited}
         />
       </FadeInTransition>
+      <BanModal
+        username={
+          comment.author && comment.author.username
+            ? comment.author.username
+            : ""
+        }
+        open={showBanModal}
+        onClose={handleBanModalClose}
+        onConfirm={handleBanConfirm}
+      />
     </>
   );
 };
@@ -203,6 +272,9 @@ const enhanced = withFragmentContainer<Props>({
       author {
         id
         username
+        status {
+          current
+        }
       }
       statusLiveUpdated
       createdAt
@@ -234,6 +306,7 @@ const enhanced = withFragmentContainer<Props>({
       deleted
       ...MarkersContainer_comment
       ...ModeratedByContainer_comment
+      ...CommentAuthorContainer_comment
     }
   `,
   settings: graphql`
@@ -252,10 +325,12 @@ const enhanced = withFragmentContainer<Props>({
   `,
 })(
   withRouter(
-    withMutation(ApproveCommentMutation)(
-      withMutation(RejectCommentMutation)(
-        withMutation(FeatureCommentMutation)(
-          withMutation(UnfeatureCommentMutation)(ModerateCardContainer)
+    withMutation(BanCommentUserMutation)(
+      withMutation(ApproveCommentMutation)(
+        withMutation(RejectCommentMutation)(
+          withMutation(FeatureCommentMutation)(
+            withMutation(UnfeatureCommentMutation)(ModerateCardContainer)
+          )
         )
       )
     )

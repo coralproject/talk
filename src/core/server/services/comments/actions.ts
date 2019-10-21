@@ -161,7 +161,7 @@ export async function removeCommentAction(
   if (wasRemoved) {
     // Compute the action counts, and invert them (because we're deleting an
     // action).
-    const actionCounts = invertEncodedActionCounts(encodeActionCounts(action!));
+    const actionCounts = invertEncodedActionCounts(encodeActionCounts(action));
 
     // Update the comment action counts here.
     const updatedComment = await updateCommentActionCounts(

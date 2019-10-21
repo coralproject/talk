@@ -1,6 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import { Typography } from "coral-ui/components";
+
 import ApprovedIcon from "./ApprovedIcon";
 import DecisionItem from "./DecisionItem";
 import DotDivider from "./DotDivider";
@@ -9,8 +11,6 @@ import GoToCommentLink from "./GoToCommentLink";
 import Info from "./Info";
 import Timestamp from "./Timestamp";
 import Username from "./Username";
-
-import { Typography } from "coral-ui/components";
 
 interface Props {
   href: string;

@@ -4,7 +4,6 @@ import simulant from "simulant";
 import sinon from "sinon";
 
 import UIContext from "../UIContext";
-
 import {
   ClickFarAwayCallback,
   ClickFarAwayRegister,

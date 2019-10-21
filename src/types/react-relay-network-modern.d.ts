@@ -1,4 +1,4 @@
-/* tslint:disable */
+/* eslint-disable */
 
 // TODO: send a PR to DefinitelyTyped.
 

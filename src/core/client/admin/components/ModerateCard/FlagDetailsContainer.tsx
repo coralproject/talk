@@ -2,13 +2,14 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { FlagDetailsContainer_comment } from "coral-admin/__generated__/FlagDetailsContainer_comment.graphql";
-import { FlagDetailsContainer_settings } from "coral-admin/__generated__/FlagDetailsContainer_settings.graphql";
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/constants";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_FLAG_REASON } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components";
+
+import { FlagDetailsContainer_comment } from "coral-admin/__generated__/FlagDetailsContainer_comment.graphql";
+import { FlagDetailsContainer_settings } from "coral-admin/__generated__/FlagDetailsContainer_settings.graphql";
 
 import FlagDetailsCategory from "./FlagDetailsCategory";
 import FlagDetailsEntry from "./FlagDetailsEntry";

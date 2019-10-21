@@ -1,3 +1,4 @@
+import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   QueryToModerationQueuesResolver,
@@ -11,7 +12,6 @@ import {
   wait,
 } from "coral-framework/testHelpers";
 
-import { pureMerge } from "coral-common/utils";
 import create from "../create";
 import {
   emptyModerationQueues,

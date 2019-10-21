@@ -94,6 +94,7 @@ export type Settings = GlobalModerationSettings &
     | "wordList"
     | "integrations"
     | "reaction"
+    | "staff"
     | "editCommentWindowLength"
     | "customCSSURL"
     | "communityGuidelines"

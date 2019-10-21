@@ -7,6 +7,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+
 import { RemoveUserIgnoreMutation as MutationTypes } from "coral-stream/__generated__/RemoveUserIgnoreMutation.graphql";
 
 let clientMutationId = 0;

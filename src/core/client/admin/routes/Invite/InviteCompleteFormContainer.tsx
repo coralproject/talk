@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import { InviteCompleteFormContainer_settings } from "coral-admin/__generated__/InviteCompleteFormContainer_settings.graphql";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+
+import { InviteCompleteFormContainer_settings } from "coral-admin/__generated__/InviteCompleteFormContainer_settings.graphql";
 
 import InviteCompleteForm from "./InviteCompleteForm";
 

@@ -7,9 +7,10 @@ import { DOWNLOAD_LIMIT_TIMEFRAME } from "coral-common/constants";
 import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import { Button, CallOut, Flex, Icon, Typography } from "coral-ui/components";
+
+import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 
 import RequestCommentsDownloadMutation from "./RequestCommentsDownloadMutation";
 

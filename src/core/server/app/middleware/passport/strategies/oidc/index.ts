@@ -39,7 +39,7 @@ export interface OIDCIDToken {
   iss: string;
   sub: string;
   exp: number; // TODO: use this as the source for how long an OIDC user can be logged in for
-  email: string;
+  email?: string;
   email_verified?: boolean;
   picture?: string;
   name?: string;
@@ -52,7 +52,7 @@ export const OIDCIDTokenSchema = Joi.object()
     sub: Joi.string().required(),
     iss: Joi.string().required(),
     aud: Joi.string().required(),
-    email: Joi.string().required(),
+    email: Joi.string().default(undefined),
     email_verified: Joi.boolean().default(false),
     picture: Joi.string().default(undefined),
     name: Joi.string().default(undefined),
@@ -61,6 +61,7 @@ export const OIDCIDTokenSchema = Joi.object()
   })
   .optionalKeys([
     "picture",
+    "email",
     "email_verified",
     "name",
     "nickname",
@@ -192,6 +193,7 @@ export async function findOrCreateOIDCUser(
         avatar: picture,
         profile,
       },
+      {},
       now
     );
   }
@@ -252,8 +254,8 @@ export function findOrCreateOIDCUserWithToken(
             now
           );
           return resolve(user);
-        } catch (err) {
-          return reject(err);
+        } catch (e) {
+          return reject(e);
         }
       }
     );

@@ -1,9 +1,10 @@
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
+import { PropTypesOf } from "coral-framework/types";
+
 import Navigation from "./Navigation";
 
-import { PropTypesOf } from "coral-framework/types";
 it("renders correctly", () => {
   const renderer = createRenderer();
   renderer.render(<Navigation />);

@@ -87,22 +87,19 @@ Enviado por <a data-l10n-name="organizationLink">{ $organizationName }</a> - <a 
 
 email-subject-notificationOnReply = Alguém respondeu o seu comenteário na { $organizationName }
 email-template-notificationOnReply =
-  { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br />
-  { $authorUsername } respondeu o seu comentário: <a data-l10n-name="commentPermalink">Ver comentário</a>
+  { $authorUsername } respondeu o seu <a data-l10n-name="commentPermalink">comenteário</a> em <a data-l10n-name="storyLink">{ $storyTitle }</a>
 
 ## On Featured
 
 email-subject-notificationOnFeatured = Um dos seus comentários foi destacado em { $organizationName }
 email-template-notificationOnFeatured =
-  { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br />
-  Um membro do seu time destacou este comentário para os outros leitores:  <a data-l10n-name="commentPermalink">Ver comentário</a>
-
+  Um membro da sua equipe destacou <a data-l10n-name="commentPermalink">o comentário</a> que você publicou em <a data-l10n-name="storyLink">{ $storyTitle }</a>
+ 
 ## On Staff Reply
 
 email-subject-notificationOnStaffReply = Alguém da { $organizationName } respondeu o seu comentário
 email-template-notificationOnStaffReply =
-  { $organizationName } - <a data-l10n-name="storyLink">{ $storyTitle }</a><br /><br/>
-  { $authorUsername } trabalha para { $organizationName } e respondeu ao seu comentário: <a data-l10n-name="commentPermalink">Ver comentário</a>
+  { $authorUsername } da { $organizationName } respondeu o seu <a data-l10n-name="commentPermalink">comentário</a> publicado em <a data-l10n-name="storyLink">{ $storyTitle }</a>
 
 ## On Comment Approved
 

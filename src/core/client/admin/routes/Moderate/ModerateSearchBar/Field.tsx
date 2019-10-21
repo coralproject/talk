@@ -1,6 +1,7 @@
 import cn from "classnames";
+import { withForwardRef } from "coral-ui/hocs";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, HTMLAttributes } from "react";
+import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 import { Field as FormField } from "react-final-form";
 
 import { BaseButton, Flex, Icon } from "coral-ui/components";
@@ -12,6 +13,7 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   title: string;
   className?: string;
   focused?: boolean;
+  forwardRef?: Ref<HTMLInputElement>;
 }
 
 /**
@@ -23,6 +25,7 @@ const Field: FunctionComponent<Props> = ({
   className,
   onBlur,
   onChange,
+  forwardRef,
   ...rest
 }) => {
   return (
@@ -63,6 +66,7 @@ const Field: FunctionComponent<Props> = ({
               aria-label="Search or jump to story..."
               autoComplete="off"
               spellCheck={false}
+              ref={forwardRef}
               onBlur={evt => {
                 // Reset value when blurring.
                 input.onChange("");
@@ -79,7 +83,7 @@ const Field: FunctionComponent<Props> = ({
                 <BaseButton
                   className={styles.searchButton}
                   type="submit"
-                  disabled={!Boolean(input.value)}
+                  disabled={!input.value}
                 >
                   Search
                 </BaseButton>
@@ -92,4 +96,4 @@ const Field: FunctionComponent<Props> = ({
   );
 };
 
-export default Field;
+export default withForwardRef(Field);

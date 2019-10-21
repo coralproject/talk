@@ -1,13 +1,14 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
-import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
 import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { Button, Flex, Icon, Typography } from "coral-ui/components";
+
+import { UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
+import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
 
 import RecentHistoryContainer from "./RecentHistoryContainer";
 import Tabs from "./Tabs";
@@ -127,7 +128,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
       </div>
       <hr className={styles.divider} />
       <div className={styles.comments}>
-        <Tabs userID={user.id} />
+        <Tabs userID={user.id} notesCount={user.moderatorNotes.length} />
       </div>
     </>
   );
@@ -140,6 +141,9 @@ const enhanced = withFragmentContainer<Props>({
       ...UserStatusChangeContainer_user
       ...UserStatusDetailsContainer_user
       ...RecentHistoryContainer_user
+      moderatorNotes {
+        id
+      }
       id
       username
       email

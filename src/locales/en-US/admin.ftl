@@ -328,8 +328,8 @@ configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
 configure-wordList-banned-explanation =
   Comments containing a word or phrase in the banned words list are <strong>automatically rejected and are not published</strong>.
 configure-wordList-banned-wordList = Banned word list
-configure-wordList-banned-wordListDetail =
-  Separate banned words or phrases with a new line.
+configure-wordList-banned-wordListDetailInstructions =
+  Separate banned words or phrases with a new line. Words/phrases are not case sensitive.
 
 #### Suspect Words Configuration
 configure-wordList-suspect-bannedWordsAndPhrases = Suspect words and phrases
@@ -338,8 +338,8 @@ configure-wordList-suspect-explanation =
   are <strong>placed into the Reported Queue for moderator review and are
   published (if comments are not pre-moderated).</strong>
 configure-wordList-suspect-wordList = Suspect word list
-configure-wordList-suspect-wordListDetail =
-  Separate suspect words or phrases with a new line.
+configure-wordList-suspect-wordListDetailInstructions =
+  Separate suspect words or phrases with a new line. Words/phrases are not case sensitive.
 
 ### Advanced
 configure-advanced-customCSS = Custom CSS
@@ -387,16 +387,17 @@ moderate-navigation-pending = Pending
 moderate-navigation-unmoderated = unmoderated
 moderate-navigation-rejected = rejected
 
-moderate-marker-preMod = Pre-Mod
+moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
-moderate-marker-bannedWord = Banned Word
-moderate-marker-suspectWord = Suspect Word
+moderate-marker-bannedWord = Banned word
+moderate-marker-suspectWord = Suspect word
 moderate-marker-spam = Spam
-moderate-marker-spamDetected = Spam Detected
+moderate-marker-spamDetected = Spam detected
 moderate-marker-toxic = Toxic
-moderate-marker-recentHistory = Recent History
-moderate-marker-bodyCount = Body Count
+moderate-marker-recentHistory = Recent history
+moderate-marker-bodyCount = Body count
 moderate-marker-offensive = Offensive
+moderate-marker-repeatPost = Repeat comment
 
 moderate-markers-details = Details
 moderate-flagDetails-offensive = Offensive
@@ -476,6 +477,7 @@ moderate-user-drawer-member-id =
 moderate-user-drawer-tab-all-comments = All Comments
 moderate-user-drawer-tab-rejected-comments = Rejected
 moderate-user-drawer-tab-account-history = Account History
+moderate-user-drawer-tab-notes = Notes
 moderate-user-drawer-load-more = Load More
 moderate-user-drawer-all-no-comments = {$username} has not submitted any comments.
 moderate-user-drawer-rejected-no-comments = {$username} does not have any rejected comments.
@@ -540,6 +542,12 @@ moderate-user-drawer-recent-history-tooltip-body =
 moderate-user-drawer-recent-history-tooltip-button =
   .aria-label = Toggle recent comment history tooltip
 moderate-user-drawer-recent-history-tooltip-submitted = Submitted
+
+moderate-user-drawer-notes-field =
+  .placeholder = Leave a note...
+moderate-user-drawer-notes-button = Add note
+moderatorNote-left-by = Left by:
+moderatorNote-delete = Delete
 
 ## Create Username
 
@@ -774,6 +782,15 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
 
+configure-general-staff-title = Staff member badge
+configure-general-staff-explanation =
+  Show a custom badge for staff members of your organization. This badge
+  appears on the comment stream and in the admin interface.
+configure-general-staff-label = Badge text
+configure-general-staff-input =
+  .placeholder = E.g. Staff
+configure-general-staff-preview = Preview
+
 configure-account-features-title = Commenter account management features
 configure-account-features-explanation =
   You can enable and disable certain features for your commenters to use
@@ -819,3 +836,23 @@ forgotPassword-emailAddressLabel = Email address
 forgotPassword-emailAddressTextField =
   .placeholder = Email Address
 forgotPassword-sendEmailButton = Send email
+
+commentAuthor-status-banned = Banned
+
+hotkeysModal-title = Keyboard shortcuts
+hotkeysModal-navigation-shortcuts = Navigation shortcuts
+hotkeysModal-shortcuts-next = Next comment
+hotkeysModal-shortcuts-prev = Previous comment
+hotkeysModal-shortcuts-search = Open search
+hotkeysModal-shortcuts-jump = Jump to specific queue
+hotkeysModal-shortcuts-switch = Switch queues
+hotkeysModal-shortcuts-toggle = Toggle shortcuts help
+hotkeysModal-shortcuts-single-view = Single comment view
+hotkeysModal-moderation-decisions = Moderation decisions
+hotkeysModal-shortcuts-approve = Approve
+hotkeysModal-shortcuts-reject = Reject
+hotkeysModal-shortcuts-ban = Ban comment author
+hotkeysModal-shortcuts-zen = Toggle single-comment view
+
+
+

@@ -717,6 +717,7 @@ improve the API over time.
                     <div
                       className="PasswordField-icon"
                       onClick={[Function]}
+                      onKeyUp={[Function]}
                       role="button"
                       tabIndex={0}
                       title="Hide API Key"
@@ -902,6 +903,7 @@ in your Akismet account:
                     <div
                       className="PasswordField-icon"
                       onClick={[Function]}
+                      onKeyUp={[Function]}
                       role="button"
                       tabIndex={0}
                       title="Hide API Key"

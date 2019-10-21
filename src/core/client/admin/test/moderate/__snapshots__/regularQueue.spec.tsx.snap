@@ -15,8 +15,11 @@ exports[`approves comment in reported queue: count should be 1 1`] = `
 
 exports[`approves comment in reported queue: dangling 1`] = `
 <div
-  className="Card-root ModerateCard-root ModerateCard-dangling"
+  className="Card-root ModerateCard-root ModerateCard-dangling ModerateCard-selected"
   data-testid="moderate-comment-comment-0"
+  id="moderate-comment-comment-0"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <div
     className="Box-root Flex-root Flex-flex"
@@ -57,7 +60,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
             type="button"
           >
             <time
-              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              className="RelativeTime-root Timestamp-text"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -265,8 +268,11 @@ exports[`rejects comment in reported queue: count should be 1 1`] = `
 
 exports[`rejects comment in reported queue: dangling 1`] = `
 <div
-  className="Card-root ModerateCard-root ModerateCard-dangling"
+  className="Card-root ModerateCard-root ModerateCard-dangling ModerateCard-selected"
   data-testid="moderate-comment-comment-0"
+  id="moderate-comment-comment-0"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <div
     className="Box-root Flex-root Flex-flex"
@@ -307,7 +313,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
             type="button"
           >
             <time
-              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              className="RelativeTime-root Timestamp-text"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -512,8 +518,11 @@ exports[`renders reported queue with comments 1`] = `
       className="Box-root HorizontalGutter-root Queue-root HorizontalGutter-double"
     >
       <div
-        className="Card-root ModerateCard-root"
+        className="Card-root ModerateCard-root ModerateCard-selected"
         data-testid="moderate-comment-comment-0"
+        id="moderate-comment-comment-0"
+        onClick={[Function]}
+        tabIndex={0}
       >
         <div
           className="Box-root Flex-root Flex-flex"
@@ -554,7 +563,7 @@ exports[`renders reported queue with comments 1`] = `
                   type="button"
                 >
                   <time
-                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    className="RelativeTime-root Timestamp-text"
                     dateTime="2018-07-06T18:24:00.000Z"
                     title="2018-07-06T18:24:00.000Z"
                   >
@@ -748,6 +757,9 @@ exports[`renders reported queue with comments 1`] = `
       <div
         className="Card-root ModerateCard-root"
         data-testid="moderate-comment-comment-1"
+        id="moderate-comment-comment-1"
+        onClick={[Function]}
+        tabIndex={0}
       >
         <div
           className="Box-root Flex-root Flex-flex"
@@ -788,7 +800,7 @@ exports[`renders reported queue with comments 1`] = `
                   type="button"
                 >
                   <time
-                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    className="RelativeTime-root Timestamp-text"
                     dateTime="2018-07-06T18:24:00.000Z"
                     title="2018-07-06T18:24:00.000Z"
                   >
@@ -996,8 +1008,11 @@ exports[`renders reported queue with comments 2`] = `
       className="Box-root HorizontalGutter-root Queue-root HorizontalGutter-double"
     >
       <div
-        className="Card-root ModerateCard-root"
+        className="Card-root ModerateCard-root ModerateCard-selected"
         data-testid="moderate-comment-comment-0"
+        id="moderate-comment-comment-0"
+        onClick={[Function]}
+        tabIndex={0}
       >
         <div
           className="Box-root Flex-root Flex-flex"
@@ -1038,7 +1053,7 @@ exports[`renders reported queue with comments 2`] = `
                   type="button"
                 >
                   <time
-                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    className="RelativeTime-root Timestamp-text"
                     dateTime="2018-07-06T18:24:00.000Z"
                     title="2018-07-06T18:24:00.000Z"
                   >
@@ -1232,6 +1247,9 @@ exports[`renders reported queue with comments 2`] = `
       <div
         className="Card-root ModerateCard-root"
         data-testid="moderate-comment-comment-1"
+        id="moderate-comment-comment-1"
+        onClick={[Function]}
+        tabIndex={0}
       >
         <div
           className="Box-root Flex-root Flex-flex"
@@ -1272,7 +1290,7 @@ exports[`renders reported queue with comments 2`] = `
                   type="button"
                 >
                   <time
-                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    className="RelativeTime-root Timestamp-text"
                     dateTime="2018-07-06T18:24:00.000Z"
                     title="2018-07-06T18:24:00.000Z"
                   >
@@ -1472,6 +1490,9 @@ exports[`renders reported queue with comments and load more 1`] = `
 <div
   className="Card-root ModerateCard-root"
   data-testid="moderate-comment-comment-2"
+  id="moderate-comment-comment-2"
+  onClick={[Function]}
+  tabIndex={0}
 >
   <div
     className="Box-root Flex-root Flex-flex"
@@ -1512,7 +1533,7 @@ exports[`renders reported queue with comments and load more 1`] = `
             type="button"
           >
             <time
-              className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+              className="RelativeTime-root Timestamp-text"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -1609,7 +1630,7 @@ exports[`renders reported queue with comments and load more 1`] = `
               <span
                 className="Marker-root Marker-colorPending Marker-variantRegular"
               >
-                Pre-Mod
+                Pre-mod
               </span>
               <span
                 className="Marker-root Marker-colorReported Marker-variantRegular"

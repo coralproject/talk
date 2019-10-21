@@ -54,6 +54,18 @@ export const ALLOWED_USERNAME_CHANGE_FREQUENCY = 14 * 86400;
 export const SCHEDULED_DELETION_TIMESPAN_DAYS = 14;
 
 /**
+ * COMMENT_LIMIT_WINDOW_SECONDS is the number of seconds that a user has to
+ * wait in-between writing comments.
+ */
+export const COMMENT_LIMIT_WINDOW_SECONDS = 3;
+
+/**
  * DEFAULT_SESSION_LENTTH is the length of time in seconds a session is valid for unless configured in tenant.
  */
 export const DEFAULT_SESSION_LENGTH = 7776000;
+
+/**
+ * COMMENT_REPEAT_POST_TIMESPAN is the length of time in seconds that a previous comment ID is stored for a
+ * user to prevent them from posting the same comment repeatedly.
+ */
+export const COMMENT_REPEAT_POST_TIMESPAN = 21600;

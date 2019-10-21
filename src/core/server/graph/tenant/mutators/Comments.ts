@@ -44,6 +44,7 @@ export const Comments = (ctx: TenantContext) => ({
       create(
         ctx.mongo,
         ctx.redis,
+        ctx.config,
         ctx.publisher,
         ctx.tenant,
         ctx.user!,
@@ -66,6 +67,7 @@ export const Comments = (ctx: TenantContext) => ({
       edit(
         ctx.mongo,
         ctx.redis,
+        ctx.config,
         ctx.publisher,
         ctx.tenant,
         ctx.user!,

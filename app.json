@@ -21,6 +21,10 @@
     "ENABLE_GRAPHIQL": {
       "description": "When true, this will enable the GraphiQL routes",
       "value": "false"
+    },
+    "TRUST_PROXY": {
+      "description": "When set to 1, it instructs Coral to trust up to one proxy, this is needed for authentication support",
+      "value": "1"
     }
   },
   "addons": [

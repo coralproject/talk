@@ -12,7 +12,7 @@ general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-notYou =
   Não é você? <button>Sair</button>
 
-general-tabBar-commentsTab = Discussão
+general-tabBar-commentsTab = Comentários
 general-tabBar-myProfileTab = Meu Perfil
 general-tabBar-configure = Configurações
 
@@ -149,7 +149,6 @@ comments-rejectedTombstone =
   Você rejeitou este comentário. <TextLink> Vá para Moderados para rever esta decisão. </TextLink>
 
 comments-featuredTag = Destaques
-comments-staffTag = Staff
 
 ### Account Deletion Stream
 

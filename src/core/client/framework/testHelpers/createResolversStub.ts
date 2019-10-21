@@ -13,12 +13,12 @@ export interface ResolversTemplate<T extends Resolvers = any> {
   Query?: {
     [P in keyof Required<T>["Query"]]: QueryResolverCallback<
       Required<T>["Query"][P]
-    >
+    >;
   };
   Mutation?: {
     [P in keyof Required<T>["Mutation"]]: MutationResolverCallback<
       Required<T>["Mutation"][P]
-    >
+    >;
   };
 }
 

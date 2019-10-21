@@ -52,6 +52,7 @@ export interface ManagedSubscriptionClient {
 
 /**
  * Creates a ManagedSubscriptionClient
+ *
  * @param url url of the graphql live server
  * @param clientID a clientID that is provided to the graphql live server
  */
