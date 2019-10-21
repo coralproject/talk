@@ -50,9 +50,9 @@ export interface ModerationPhaseContextInput {
 
 export interface ModerationPhaseContext extends ModerationPhaseContextInput {
   /**
-   * stripped is the HTML stripped version of the comment body.
+   * htmlStripped is the HTML stripped version of the comment body.
    */
-  strippedTags: string;
+  htmlStripped: string;
 }
 
 export type RootModerationPhase = (
@@ -87,7 +87,7 @@ export const compose = (
 
   // Strip the tags from the comment body so that filters that can't process
   // HTML can reuse it.
-  const strippedTags = striptags(final.body);
+  const htmlStripped = striptags(final.body);
 
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of phases) {
@@ -97,7 +97,7 @@ export const compose = (
         ...context.comment,
         body: final.body,
       },
-      strippedTags,
+      htmlStripped,
       metadata: final.metadata,
     });
     if (result) {

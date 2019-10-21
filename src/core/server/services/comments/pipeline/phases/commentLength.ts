@@ -11,9 +11,9 @@ import {
 
 export const commentLength: IntermediateModerationPhase = ({
   tenant,
-  strippedTags,
+  htmlStripped,
 }): IntermediatePhaseResult | void => {
-  const length = strippedTags.trim().length;
+  const length = htmlStripped.trim().length;
   if (tenant.charCount && tenant.charCount.enabled) {
     if (!isNil(tenant.charCount.min)) {
       if (length < tenant.charCount.min) {

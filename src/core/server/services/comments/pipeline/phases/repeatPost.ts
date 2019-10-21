@@ -16,14 +16,14 @@ import {
 
 export const repeatPost: IntermediateModerationPhase = async ({
   mongo,
-  strippedTags,
+  htmlStripped,
   tenant,
   author,
   nudge,
   redis,
   log,
 }): Promise<IntermediatePhaseResult | void> => {
-  if (!strippedTags) {
+  if (!htmlStripped) {
     return;
   }
 
@@ -49,7 +49,7 @@ export const repeatPost: IntermediateModerationPhase = async ({
     // comparison, so it's either completely equal (they match) or the
     // similarity can't be determined (null). This gives us room in the future
     // to include a percentage matching.
-    const similarity = revision.trim() === strippedTags.trim() ? 1 : null;
+    const similarity = revision.trim() === htmlStripped.trim() ? 1 : null;
 
     if (similarity) {
       log.trace({ similarity }, "comment contains repeat content");
