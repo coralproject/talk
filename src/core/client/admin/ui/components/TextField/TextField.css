@@ -27,8 +27,9 @@
     background-color: var(--v2-palette-input-disabled-background);
   }
   &:focus {
-    outline: 1px solid var(--v2-palette-input-focused-border);
+    outline: none;
     border: 1px solid var(--v2-palette-input-focused-border);
+    box-shadow: inset 0px 0px 0px 1px var(--v2-palette-input-focused-border);
   }
   &::placeholder {
     color: var(--v2-palette-input-placeholder);
