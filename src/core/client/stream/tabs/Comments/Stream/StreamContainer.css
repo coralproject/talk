@@ -8,6 +8,9 @@
 }
 
 .sortMenu {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .featuredCommentsInfo {
@@ -19,41 +22,7 @@
 
 .featuredCommentsTabContainer {
   position: relative;
-  overflow: hidden;
 }
-
-.featuredCommentsTabContainer > li {
-  display: block;
-}
-
 .featuredCommentsTab {
   padding-right: 30px !important;
-  width: 100%;
-}
-
-.tabBar {
-  flex: 2;
-  overflow: hidden;
-}
-
-.featuredTabText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.tabListItem {
-  display: block;
-}
-
-.allCommentsTabContainer {
-  overflow: hidden;
-}
-
-.allCommentsTab {
-  width: 100%;
-}
-
-.allCommentsTabText {
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
