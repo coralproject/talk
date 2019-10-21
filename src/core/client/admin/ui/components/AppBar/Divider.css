@@ -1,4 +1,4 @@
 .root {
-  height: 75%;
-  border-right: 1px solid var(--v2-palette-main-nav-divider);
+  height: 32px;
+  border-right: 2px solid var(--v2-palette-main-nav-divider);
 }

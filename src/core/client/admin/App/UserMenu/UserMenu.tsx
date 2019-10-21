@@ -1,15 +1,14 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import { Button, ButtonIcon, ClickOutside } from "coral-ui/components";
+
 import {
-  Button,
-  ButtonIcon,
-  ClickOutside,
   Dropdown,
   DropdownButton,
   DropdownDivider,
   Popover,
-} from "coral-ui/components";
+} from "coral-admin/ui/components";
 
 import styles from "./UserMenu.css";
 
@@ -63,10 +62,12 @@ const UserMenu: FunctionComponent<Props> = props => (
           variant="regular"
           size="small"
         >
-          <ButtonIcon size="lg">account_circle</ButtonIcon>
+          <ButtonIcon className={styles.icon} size="lg">
+            account_circle
+          </ButtonIcon>
           <span className={styles.buttonText}>{props.username}</span>
           {
-            <ButtonIcon size="lg">
+            <ButtonIcon className={styles.icon} size="lg">
               {visible ? "arrow_drop_up" : "arrow_drop_down"}
             </ButtonIcon>
           }

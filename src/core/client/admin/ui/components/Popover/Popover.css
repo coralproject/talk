@@ -1,0 +1,30 @@
+.root {
+}
+
+.popover {
+  background: var(--v2-palette-popover-background);
+  border: 1px solid var(--v2-palette-popover-border);
+  box-sizing: border-box;
+  box-shadow: var(--elevation-main);
+  border-radius: var(--round-corners);
+  z-index: var(--zindex-popover);
+  margin: 2px;
+}
+
+.colorDark {
+  background: var(--v2-palette-popover-dark-background);
+  border-color: var(--v2-palette-popover-dark-border);
+}
+
+.top {
+  margin: calc(0.5 * var(--mini-unit)) 0;
+}
+.left {
+  margin: 0 calc(0.5 * var(--mini-unit));
+}
+.right {
+  margin: 0 calc(0.5 * var(--mini-unit));
+}
+.bottom {
+  margin: calc(0.5 * var(--mini-unit)) 0;
+}
