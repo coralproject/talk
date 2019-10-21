@@ -51,8 +51,9 @@ const SignInContainer: FunctionComponent<Props> = ({
   // If there's only one enabled auth integration, we should just perform
   // the redirect now.
   if (
-    !auth.integrations.local.enabled ||
-    !auth.integrations.local.targetFilter.stream
+    !local.error &&
+    (!auth.integrations.local.enabled ||
+      !auth.integrations.local.targetFilter.stream)
   ) {
     // Local isn't enabled, so we can look into the rest of the integrations
     // now.
