@@ -1,4 +1,4 @@
-const linkify = require('linkify-it')().tlds(require('tlds'));
+const linkify = require('linkifyjs');
 
 // This phase checks the comment if it has any links in it if the check is
 // enabled.
@@ -11,7 +11,12 @@ module.exports = (
     },
   }
 ) => {
-  if (premodLinksEnable && linkify.test(comment.body.replace(/\xAD/g, ''))) {
+  if (premodLinksEnable) {
+    const links = linkify.find(comment.body.replace(/\xAD/g, ''));
+    if (!links || links.length === 0) {
+      return;
+    }
+
     // Add the flag related to Trust to the comment.
     return {
       status: 'SYSTEM_WITHHELD',
