@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormField, Label, TextField } from "coral-admin/ui/components";
 import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
@@ -9,19 +10,14 @@ import {
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
-import {
-  FieldSet,
-  FormField,
-  HorizontalGutter,
-  InputLabel,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { FieldSet, HorizontalGutter } from "coral-ui/components";
 
-import ConfigurationSubHeader from "../../ConfigurationSubHeader";
+import Description from "../../Description";
 import Header from "../../Header";
+import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import SectionContent from "../../SectionContent";
+import SubHeader from "../../SubHeader";
 import ValidationMessage from "../../ValidationMessage";
 import APIKeyField from "./APIKeyField";
 
@@ -40,14 +36,14 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
       data-testid="akismet-config"
     >
       <Localized id="configure-moderation-akismet-title">
-        <Header container="legend">Spam detection filter</Header>
+        <Header component="legend">Spam detection filter</Header>
       </Localized>
       <SectionContent>
         <Localized
           id="configure-moderation-akismet-explanation"
           strong={<strong />}
         >
-          <Typography variant="bodyShort">
+          <Description>
             Submitted comments are passed to the Akismet API for spam detection.
             If a comment is determined to be spam, it will prompt the user,
             indicating that the comment might be considered spam. If the user
@@ -55,27 +51,29 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
             comment will be marked as containing spam, will not be published and
             are placed in the Pending Queue for review by a moderator. If
             approved by a moderator, the comment will be published.
-          </Typography>
+          </Description>
         </Localized>
 
         <FormField container={<FieldSet />}>
           <Localized id="configure-moderation-akismet-filter">
-            <InputLabel container="legend">Spam detection filter</InputLabel>
+            <Label component="legend">Spam detection filter</Label>
           </Localized>
           <OnOffField name="integrations.akismet.enabled" disabled={disabled} />
         </FormField>
-        <div>
-          <ConfigurationSubHeader />
+        <HorizontalGutter spacing={3}>
+          <Localized id="configure-configurationSubHeader" strong={<strong />}>
+            <SubHeader>Configuration</SubHeader>
+          </Localized>
           <Localized
             id="configure-moderation-akismet-accountNote"
             externalLink={<ExternalLink />}
           >
-            <Typography variant="fieldDescription">
+            <HelperText>
               Note: You must add your active domain(s) in your Akismet account:
               https://akismet.com/account/
-            </Typography>
+            </HelperText>
           </Localized>
-        </div>
+        </HorizontalGutter>
         <APIKeyField
           name="integrations.akismet.key"
           disabled={disabled}
@@ -84,9 +82,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
 
         <FormField>
           <Localized id="configure-moderation-akismet-siteURL">
-            <InputLabel htmlFor="configure-moderation-akismet-site">
-              Site URL
-            </InputLabel>
+            <Label htmlFor="configure-moderation-akismet-site">Site URL</Label>
           </Localized>
           <Field
             name="integrations.akismet.site"

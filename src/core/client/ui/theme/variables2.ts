@@ -249,7 +249,7 @@ const variables2 = {
       description: colors.mono500,
       subHeading: {
         foreground: colors.mono500,
-        border: colors.grey500,
+        border: colors.grey300,
       },
       subDescription: colors.mono500,
     },

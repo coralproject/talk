@@ -3,6 +3,12 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
+  FormField,
+  Label,
+  TextField,
+  TextFieldAdornment,
+} from "coral-admin/ui/components";
+import {
   TOXICITY_ENDPOINT_DEFAULT,
   TOXICITY_MODEL_DEFAULT,
   TOXICITY_THRESHOLD_DEFAULT,
@@ -20,21 +26,15 @@ import {
   validateURL,
   validateWhen,
 } from "coral-framework/lib/validation";
-import {
-  FieldSet,
-  FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { FieldSet, HorizontalGutter } from "coral-ui/components";
 
-import ConfigurationSubHeader from "../../ConfigurationSubHeader";
+import Description from "../../Description";
 import Header from "../../Header";
+import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import PermissionField from "../../PermissionField";
 import SectionContent from "../../SectionContent";
+import SubHeader from "../../SubHeader";
 import ValidationMessage from "../../ValidationMessage";
 import APIKeyField from "./APIKeyField";
 
@@ -55,25 +55,25 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
       data-testid="perspective-container"
     >
       <Localized id="configure-moderation-perspective-title">
-        <Header container="legend">Toxic comment filter</Header>
+        <Header component="legend">Toxic comment filter</Header>
       </Localized>
       <SectionContent>
         <Localized
           id="configure-moderation-perspective-explanation"
           strong={<strong />}
         >
-          <Typography variant="bodyShort">
+          <Description>
             Using the Perspective API, the Toxic Comment filter warns users when
             comments exceed the predefined toxicity threshold. Comments with a
             toxicity score above the threshold will not be published and are
             placed in the Pending Queue for review by a moderator. If approved
             by a moderator, the comment will be published.
-          </Typography>
+          </Description>
         </Localized>
 
         <FormField container={<FieldSet />}>
           <Localized id="configure-moderation-perspective-filter">
-            <InputLabel container="legend">Toxic comment filter</InputLabel>
+            <Label component="legend">Toxic comment filter</Label>
           </Localized>
           <OnOffField
             name="integrations.perspective.enabled"
@@ -82,21 +82,24 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         </FormField>
 
         <FormField>
-          <Localized id="configure-moderation-perspective-toxicityThreshold">
-            <InputLabel htmlFor="configure-moderation-perspective-threshold">
-              Toxicity threshold
-            </InputLabel>
-          </Localized>
-          <Localized
-            id="configure-moderation-perspective-toxicityThresholdDescription"
-            $default={TOXICITY_THRESHOLD_DEFAULT + "%"}
-          >
-            <InputDescription>
-              This value can be set a percentage between 0 and 100. This number
-              represents the likelihood that a comment is toxic, according to
-              Perspective API. By default the threshold is set to $default.
-            </InputDescription>
-          </Localized>
+          <HorizontalGutter spacing={1}>
+            <Localized id="configure-moderation-perspective-toxicityThreshold">
+              <Label htmlFor="configure-moderation-perspective-threshold">
+                Toxicity threshold
+              </Label>
+            </Localized>
+            <Localized
+              id="configure-moderation-perspective-toxicityThresholdDescription"
+              $default={TOXICITY_THRESHOLD_DEFAULT + "%"}
+            >
+              <HelperText>
+                This value can be set a percentage between 0 and 100. This
+                number represents the likelihood that a comment is toxic,
+                according to Perspective API. By default the threshold is set to
+                $default.
+              </HelperText>
+            </Localized>
+          </HorizontalGutter>
           <Field
             name="integrations.perspective.threshold"
             parse={parsePercentage}
@@ -115,7 +118,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
                   autoCorrect="off"
                   autoCapitalize="off"
                   spellCheck={false}
-                  adornment={<Typography variant="bodyShort">%</Typography>}
+                  adornment={<TextFieldAdornment>%</TextFieldAdornment>}
                   placeholder={TOXICITY_THRESHOLD_DEFAULT.toString()}
                   textAlignCenter
                   {...input}
@@ -127,27 +130,29 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         </FormField>
 
         <FormField>
-          <Localized id="configure-moderation-perspective-toxicityModel">
-            <InputLabel htmlFor="configure-moderation-perspective-model">
-              Toxicity model
-            </InputLabel>
-          </Localized>
-          <Localized
-            id="configure-moderation-perspective-toxicityModelDescription"
-            externalLink={
-              <ExternalLink
-                href={
-                  "https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#models"
-                }
-              />
-            }
-            $default={TOXICITY_MODEL_DEFAULT}
-          >
-            <InputDescription>
-              Choose your Perspective Model. The default is $default. You can
-              find out more about model choices here.
-            </InputDescription>
-          </Localized>
+          <HorizontalGutter spacing={1}>
+            <Localized id="configure-moderation-perspective-toxicityModel">
+              <Label htmlFor="configure-moderation-perspective-model">
+                Toxicity model
+              </Label>
+            </Localized>
+            <Localized
+              id="configure-moderation-perspective-toxicityModelDescription"
+              externalLink={
+                <ExternalLink
+                  href={
+                    "https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#models"
+                  }
+                />
+              }
+              $default={TOXICITY_MODEL_DEFAULT}
+            >
+              <HelperText>
+                Choose your Perspective Model. The default is $default. You can
+                find out more about model choices here.
+              </HelperText>
+            </Localized>
+          </HorizontalGutter>
           <Field name="integrations.perspective.model" parse={parseEmptyAsNull}>
             {({ input, meta }) => (
               <>
@@ -169,17 +174,19 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         </FormField>
 
         <FormField container={<FieldSet />}>
-          <Localized id="configure-moderation-perspective-allowStoreCommentData">
-            <InputLabel container="legend">
-              Allow Google to store comment data
-            </InputLabel>
-          </Localized>
-          <Localized id="configure-moderation-perspective-allowStoreCommentDataDescription">
-            <InputDescription>
-              Stored comments will be used for future research and community
-              model building purposes to improve the API over time.
-            </InputDescription>
-          </Localized>
+          <HorizontalGutter spacing={1}>
+            <Localized id="configure-moderation-perspective-allowStoreCommentData">
+              <Label component="legend">
+                Allow Google to store comment data
+              </Label>
+            </Localized>
+            <Localized id="configure-moderation-perspective-allowStoreCommentDataDescription">
+              <HelperText>
+                Stored comments will be used for future research and community
+                model building purposes to improve the API over time.
+              </HelperText>
+            </Localized>
+          </HorizontalGutter>
           <div>
             <PermissionField
               name="integrations.perspective.doNotStore"
@@ -188,19 +195,21 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
             />
           </div>
         </FormField>
-        <div>
-          <ConfigurationSubHeader />
+        <HorizontalGutter spacing={3}>
+          <Localized id="configure-configurationSubHeader" strong={<strong />}>
+            <SubHeader>Configuration</SubHeader>
+          </Localized>
           <Localized
             id="configure-moderation-perspective-accountNote"
             externalLink={<ExternalLink />}
           >
-            <Typography variant="fieldDescription">
+            <HelperText>
               For additional information on how to set up the Perspective Toxic
               Comment Filter please visit:
               https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md
-            </Typography>
+            </HelperText>
           </Localized>
-        </div>
+        </HorizontalGutter>
         <APIKeyField
           name="integrations.perspective.key"
           disabled={disabled}
@@ -208,18 +217,18 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         />
         <FormField>
           <Localized id="configure-moderation-perspective-customEndpoint">
-            <InputLabel htmlFor="configure-moderation-perspective-customEndpoint">
+            <Label htmlFor="configure-moderation-perspective-customEndpoint">
               Custom endpoint
-            </InputLabel>
+            </Label>
           </Localized>
           <Localized
             id="configure-moderation-perspective-defaultEndpoint"
             $default={TOXICITY_ENDPOINT_DEFAULT}
           >
-            <InputDescription>
+            <HelperText>
               By default the endpoint is set to $default. You may override this
               here
-            </InputDescription>
+            </HelperText>
           </Localized>
           <Field
             name="integrations.perspective.endpoint"

@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormField, Label, TextField } from "coral-admin/ui/components";
 import { DURATION_UNIT, DurationField } from "coral-framework/components";
 import {
   formatPercentage,
@@ -14,17 +15,10 @@ import {
   validatePercentage,
   validateWholeNumberGreaterThan,
 } from "coral-framework/lib/validation";
-import {
-  FieldSet,
-  FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { FieldSet, HorizontalGutter, Typography } from "coral-ui/components";
 
 import Header from "../../Header";
+import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import SectionContent from "../../SectionContent";
 
@@ -36,23 +30,25 @@ interface Props {
 
 const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
-    <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
+    <HorizontalGutter spacing={3} container={<FieldSet />}>
       <Localized id="configure-moderation-recentCommentHistory-title">
-        <Header container="legend">Recent history</Header>
+        <Header component="legend">Recent history</Header>
       </Localized>
       <SectionContent>
         <FormField container={<FieldSet />}>
-          <Localized id="configure-moderation-recentCommentHistory-timeFrame">
-            <InputLabel container="legend">
-              Recent comment history time period
-            </InputLabel>
-          </Localized>
-          <Localized id="configure-moderation-recentCommentHistory-timeFrame-description">
-            <InputDescription>
-              The period of time over which a user’s rejection rate is
-              calculated.
-            </InputDescription>
-          </Localized>
+          <HorizontalGutter spacing={1}>
+            <Localized id="configure-moderation-recentCommentHistory-timeFrame">
+              <Label component="legend">
+                Recent comment history time period
+              </Label>
+            </Localized>
+            <Localized id="configure-moderation-recentCommentHistory-timeFrame-description">
+              <HelperText>
+                The period of time over which a user’s rejection rate is
+                calculated.
+              </HelperText>
+            </Localized>
+          </HorizontalGutter>
           <Field
             name="recentCommentHistory.timeFrame"
             validate={composeValidators(
@@ -73,35 +69,39 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
           </Field>
         </FormField>
         <FormField container={<FieldSet />}>
-          <Localized id="configure-moderation-recentCommentHistory-enabled">
-            <InputLabel container="legend">Recent history filter</InputLabel>
-          </Localized>
-          <Localized
-            id="configure-moderation-recentCommentHistory-enabled-description"
-            strong={<strong />}
-          >
-            <InputDescription>
-              Prevents repeat offenders from publishing comments without
-              approval. After a commenter's rejection rate rises above the
-              defined threshold below, their next submitted comments are{" "}
-              <strong>sent to Pending for moderator approval.</strong> The
-              filter is removed when their rejection rate falls below the
-              threshold.
-            </InputDescription>
-          </Localized>
+          <HorizontalGutter spacing={1}>
+            <Localized id="configure-moderation-recentCommentHistory-enabled">
+              <Label component="legend">Recent history filter</Label>
+            </Localized>
+            <Localized
+              id="configure-moderation-recentCommentHistory-enabled-description"
+              strong={<strong />}
+            >
+              <HelperText>
+                Prevents repeat offenders from publishing comments without
+                approval. After a commenter's rejection rate rises above the
+                defined threshold below, their next submitted comments are{" "}
+                <strong>sent to Pending for moderator approval.</strong> The
+                filter is removed when their rejection rate falls below the
+                threshold.
+              </HelperText>
+            </Localized>
+          </HorizontalGutter>
           <OnOffField name="recentCommentHistory.enabled" disabled={disabled} />
         </FormField>
         <FormField>
-          <Localized id="configure-moderation-recentCommentHistory-triggerRejectionRate">
-            <InputLabel>Rejection rate threshold</InputLabel>
-          </Localized>
-          <Localized id="configure-moderation-recentCommentHistory-triggerRejectionRate-description">
-            <InputDescription>
-              A user’s rejected comments divided by their published comments,
-              over the time period set below (does not include comments pending
-              for toxicity, spam or pre-moderation.)
-            </InputDescription>
-          </Localized>
+          <HorizontalGutter spacing={1}>
+            <Localized id="configure-moderation-recentCommentHistory-triggerRejectionRate">
+              <Label>Rejection rate threshold</Label>
+            </Localized>
+            <Localized id="configure-moderation-recentCommentHistory-triggerRejectionRate-description">
+              <HelperText>
+                A user’s rejected comments divided by their published comments,
+                over the time period set below (does not include comments
+                pending for toxicity, spam or pre-moderation.)
+              </HelperText>
+            </Localized>
+          </HorizontalGutter>
           <Field
             name="recentCommentHistory.triggerRejectionRate"
             parse={parsePercentage}

@@ -1,15 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import { FormField, Label } from "coral-admin/ui/components";
 import { parseStringBool } from "coral-framework/lib/form";
-import {
-  FieldSet,
-  FormField,
-  HorizontalGutter,
-  InputLabel,
-  Typography,
-} from "coral-ui/components";
+import { FieldSet, HorizontalGutter } from "coral-ui/components";
 
+import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import SectionContent from "../../SectionContent";
@@ -28,22 +24,20 @@ const format = (v: "PRE" | "POST") => {
 
 const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
-    <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
+    <HorizontalGutter spacing={3} container={<FieldSet />}>
       <Localized id="configure-moderation-preModeration-title">
-        <Header container="legend">Pre-moderation</Header>
+        <Header component="legend">Pre-moderation</Header>
       </Localized>
       <SectionContent>
         <Localized id="configure-moderation-preModeration-explanation">
-          <Typography variant="bodyShort">
+          <Description>
             When pre-moderation is turned on, comments will not be published
             unless approved by a moderator.
-          </Typography>
+          </Description>
         </Localized>
         <FormField container={<FieldSet />}>
           <Localized id="configure-moderation-preModeration-moderation">
-            <InputLabel container="legend">
-              Pre-moderate all comments sitewide
-            </InputLabel>
+            <Label component="legend">Pre-moderate all comments sitewide</Label>
           </Localized>
           <OnOffField
             name="moderation"
@@ -54,9 +48,9 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
         </FormField>
         <FormField container={<FieldSet />}>
           <Localized id="configure-moderation-preModeration-premodLinksEnable">
-            <InputLabel container="legend">
+            <Label component="legend">
               Pre-moderate comments containing links sitewide
-            </InputLabel>
+            </Label>
           </Localized>
           <OnOffField name="premodLinksEnable" disabled={disabled} />
         </FormField>
