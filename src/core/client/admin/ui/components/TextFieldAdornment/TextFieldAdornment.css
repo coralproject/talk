@@ -1,8 +1,4 @@
-.commentLengthTextInput {
-  width: 150px;
-}
-
-.annotation {
+.root {
   color: var(--v2-palette-input-label);
   font-size: var(--v2-font-size-3);
   font-weight: var(--v2-font-weight-primary-regular);

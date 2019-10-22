@@ -4,6 +4,10 @@ export { Tab, TabBar, TabContent, TabPane } from "./Tabs";
 export { SelectField, Option, OptGroup } from "./SelectField";
 export { default as Timestamp } from "./Timestamp";
 export { default as Popover } from "./Popover";
+export { default as FormField } from "./FormField";
+export { default as TextFieldAdornment } from "./TextFieldAdornment";
+export { default as RadioButton } from "./RadioButton";
+export { default as DurationField, DURATION_UNIT } from "./DurationField";
 export {
   Dropdown,
   Button as DropdownButton,

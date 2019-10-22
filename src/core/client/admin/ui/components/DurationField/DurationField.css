@@ -1,0 +1,12 @@
+.value {
+  width: calc(6 * var(--mini-unit));
+}
+
+.select {
+  height: 100%;
+  min-width: calc(17 * var(--mini-unit));
+}
+
+.unit {
+  line-height: 36px;
+}

@@ -2,22 +2,20 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { required } from "coral-framework/lib/validation";
-import ReactionButton from "coral-stream/tabs/Comments/Comment/ReactionButton/ReactionButton";
 import {
-  FieldSet,
-  Flex,
   FormField,
-  HorizontalGutter,
-  InputLabel,
+  Label,
   Option,
   SelectField,
   TextField,
-  Typography,
-} from "coral-ui/components";
+} from "coral-admin/ui/components";
+import { required } from "coral-framework/lib/validation";
+import ReactionButton from "coral-stream/tabs/Comments/Comment/ReactionButton/ReactionButton";
+import { FieldSet, Flex, HorizontalGutter } from "coral-ui/components";
 
 import { ReactionConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ReactionConfigContainer_settings.graphql";
 
+import Description from "../../Description";
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
@@ -30,30 +28,30 @@ interface Props {
 }
 
 const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
-  <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
+  <HorizontalGutter spacing={3} container={<FieldSet />}>
     <Localized id="configure-general-reactions-title">
-      <Header container="legend">Reactions</Header>
+      <Header component="legend">Reactions</Header>
     </Localized>
     <SectionContent>
       <Localized
         id="configure-general-reactions-explanation"
         strong={<strong />}
       >
-        <Typography variant="bodyShort">
+        <Description>
           Allow your community to engage with one another and express themselves
           with one-click reactions. By default, Coral allows commenters to
           "Respect" each other's comments, but you may customize reaction text
           based on the needs of your community.
-        </Typography>
+        </Description>
       </Localized>
-      <HorizontalGutter size="double">
+      <HorizontalGutter spacing={4}>
         <FormField>
           <Field name="reaction.label" validate={required}>
             {({ input, meta }) => (
               <Flex itemGutter="double">
                 <HorizontalGutter>
                   <Localized id="configure-general-reactions-label">
-                    <InputLabel>Reaction label</InputLabel>
+                    <Label>Reaction label</Label>
                   </Localized>
                   <Localized id="configure-general-reactions-input">
                     <TextField
@@ -70,7 +68,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 </HorizontalGutter>
                 <HorizontalGutter>
                   <Localized id="configure-general-reactions-preview">
-                    <Typography variant="heading3">Preview</Typography>
+                    <Label component="p">Preview</Label>
                   </Localized>
                   <ReactionButton
                     readOnly
@@ -94,7 +92,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
               <Flex itemGutter="double">
                 <HorizontalGutter>
                   <Localized id="configure-general-reactions-active-label">
-                    <InputLabel>Active reaction label</InputLabel>
+                    <Label>Active reaction label</Label>
                   </Localized>
                   <Localized id="configure-general-reactions-active-input">
                     <TextField
@@ -111,7 +109,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 </HorizontalGutter>
                 <HorizontalGutter>
                   <Localized id="configure-general-reactions-preview">
-                    <Typography variant="heading3">Preview</Typography>
+                    <Label component="p">Preview</Label>
                   </Localized>
                   <ReactionButton
                     className={styles.reactionButton}
@@ -135,7 +133,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
               <Flex itemGutter="double">
                 <HorizontalGutter>
                   <Localized id="configure-general-reactions-sort-label">
-                    <InputLabel>Sort label</InputLabel>
+                    <Label>Sort label</Label>
                   </Localized>
                   <Localized id="configure-general-reactions-sort-input">
                     <TextField
@@ -152,11 +150,11 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 </HorizontalGutter>
                 <HorizontalGutter>
                   <Localized id="configure-general-reactions-preview">
-                    <Typography variant="heading3">Preview</Typography>
+                    <Label component="p">Preview</Label>
                   </Localized>
                   <Flex justifyContent="center" alignItems="center" itemGutter>
                     <Localized id="configure-general-reaction-sortMenu-sortBy">
-                      <Typography variant="bodyCopyBold">Sort By</Typography>
+                      <Label component="p">Sort By</Label>
                     </Localized>
                     <SelectField>
                       <Option value={input.value}>{input.value}</Option>{" "}

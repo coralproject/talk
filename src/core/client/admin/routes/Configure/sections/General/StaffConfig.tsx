@@ -2,19 +2,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { StaffConfigContainer_settings as SettingsData } from "coral-admin/__generated__/StaffConfigContainer_settings.graphql";
+import { FormField, Label, TextField } from "coral-admin/ui/components";
 import { required } from "coral-framework/lib/validation";
-import {
-  FieldSet,
-  Flex,
-  FormField,
-  HorizontalGutter,
-  InputLabel,
-  Tag,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { FieldSet, Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
+import { StaffConfigContainer_settings as SettingsData } from "coral-admin/__generated__/StaffConfigContainer_settings.graphql";
+
+import Description from "../../Description";
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
@@ -29,14 +23,14 @@ interface Props {
 const StaffConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
   <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-staff-title">
-      <Header container="legend">Staff member badge</Header>
+      <Header component="legend">Staff member badge</Header>
     </Localized>
     <SectionContent>
       <Localized id="configure-general-staff-explanation">
-        <Typography variant="bodyShort">
+        <Description>
           Show a custom badge for staff members of your organization. This badge
           appears on the comment stream and in the admin interface.
-        </Typography>
+        </Description>
       </Localized>
       <HorizontalGutter size="double">
         <FormField>
@@ -45,7 +39,7 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
               <Flex itemGutter="double">
                 <HorizontalGutter>
                   <Localized id="configure-general-staff-label">
-                    <InputLabel>Badge text</InputLabel>
+                    <Label>Badge text</Label>
                   </Localized>
                   <Localized id="configure-general-staff-input">
                     <TextField
@@ -62,7 +56,7 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 </HorizontalGutter>
                 <HorizontalGutter>
                   <Localized id="configure-general-staff-preview">
-                    <Typography variant="heading3">Preview</Typography>
+                    <Label component="p">Preview</Label>
                   </Localized>
                   {input.value && <Tag>{input.value}</Tag>}
                 </HorizontalGutter>

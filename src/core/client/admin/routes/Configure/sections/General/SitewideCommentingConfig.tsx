@@ -2,18 +2,14 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
+import { FormField, Label } from "coral-admin/ui/components";
 import { MarkdownEditor } from "coral-framework/components/loadables";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
-import {
-  FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
-  Spinner,
-  Typography,
-} from "coral-ui/components";
+import { HorizontalGutter, Spinner } from "coral-ui/components";
 
+import Description from "../../Description";
 import Header from "../../Header";
+import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
@@ -23,25 +19,23 @@ interface Props {
 }
 
 const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf" container="fieldset">
+  <HorizontalGutter spacing={3} container="fieldset">
     <Localized id="configure-general-sitewideCommenting-title">
-      <Header container="legend">Sitewide commenting</Header>
+      <Header component="legend">Sitewide commenting</Header>
     </Localized>
     <SectionContent>
       <Localized id="configure-general-sitewideCommenting-explanation">
-        <Typography variant="bodyShort">
+        <Description>
           Open or close comment streams for new comments sitewide. When new
           comments are turned off sitewide, new comments cannot be submitted,
           but existing comments can continue to receive “Respect” reactions, be
           reported, and be shared.
-        </Typography>
+        </Description>
       </Localized>
 
       <FormField container="fieldset">
         <Localized id="configure-general-sitewideCommenting-enableNewCommentsSitewide">
-          <InputLabel container="legend">
-            Enable new comments sitewide
-          </InputLabel>
+          <Label component="legend">Enable new comments sitewide</Label>
         </Localized>
         <OnOffField
           name="disableCommenting.enabled"
@@ -60,33 +54,37 @@ const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
         />
       </FormField>
 
-      <FormField>
-        <Localized id="configure-general-sitewideCommenting-message">
-          <InputLabel htmlFor="configure-general-sitewideCommenting-message">
-            Sitewide closed comments message
-          </InputLabel>
-        </Localized>
-        <Localized id="configure-general-sitewideCommenting-messageExplanation">
-          <InputDescription>
-            Write a message that will be displayed when comment streams are
-            closed sitewide
-          </InputDescription>
-        </Localized>
-      </FormField>
+      <HorizontalGutter spacing={2}>
+        <FormField>
+          <HorizontalGutter spacing={1}>
+            <Localized id="configure-general-sitewideCommenting-message">
+              <Label htmlFor="configure-general-sitewideCommenting-message">
+                Sitewide closed comments message
+              </Label>
+            </Localized>
+            <Localized id="configure-general-sitewideCommenting-messageExplanation">
+              <HelperText>
+                Write a message that will be displayed when comment streams are
+                closed sitewide
+              </HelperText>
+            </Localized>
+          </HorizontalGutter>
+        </FormField>
 
-      <Field name="disableCommenting.message" parse={parseEmptyAsNull}>
-        {({ input, meta }) => (
-          <>
-            <Suspense fallback={<Spinner />}>
-              <MarkdownEditor
-                id="configure-general-sitewideCommenting-message"
-                {...input}
-              />
-            </Suspense>
-            <ValidationMessage meta={meta} fullWidth />
-          </>
-        )}
-      </Field>
+        <Field name="disableCommenting.message" parse={parseEmptyAsNull}>
+          {({ input, meta }) => (
+            <>
+              <Suspense fallback={<Spinner />}>
+                <MarkdownEditor
+                  id="configure-general-sitewideCommenting-message"
+                  {...input}
+                />
+              </Suspense>
+              <ValidationMessage meta={meta} fullWidth />
+            </>
+          )}
+        </Field>
+      </HorizontalGutter>
     </SectionContent>
   </HorizontalGutter>
 );

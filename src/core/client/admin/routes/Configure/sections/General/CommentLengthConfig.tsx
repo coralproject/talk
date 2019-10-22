@@ -2,21 +2,21 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import {
+  FormField,
+  Label,
+  TextField,
+  TextFieldAdornment,
+} from "coral-admin/ui/components";
 import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
 import {
   composeValidators,
   createValidator,
   validateWholeNumberGreaterThan,
 } from "coral-framework/lib/validation";
-import {
-  FieldSet,
-  FormField,
-  HorizontalGutter,
-  InputLabel,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { FieldSet, HorizontalGutter } from "coral-ui/components";
 
+import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import SectionContent from "../../SectionContent";
@@ -40,33 +40,33 @@ interface Props {
 }
 
 const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
+  <HorizontalGutter spacing={3} container={<FieldSet />}>
     <Localized id="configure-general-commentLength-title">
-      <Header container="legend">Comment length</Header>
+      <Header component="legend">Comment length</Header>
     </Localized>
     <SectionContent>
       <Localized
         id="configure-general-commentLength-setLimit"
         strong={<strong />}
       >
-        <Typography variant="bodyShort">
+        <Description>
           Set minimum and maximum comment length requirements. Blank spaces at
           the beginning and the end of a comment will be trimmed.
-        </Typography>
+        </Description>
       </Localized>
 
       <FormField>
         <Localized id="configure-general-commentLength-limitCommentLength">
-          <InputLabel>Limit comment length</InputLabel>
+          <Label>Limit comment length</Label>
         </Localized>
         <OnOffField name="charCount.enabled" disabled={disabled} />
       </FormField>
 
       <FormField>
         <Localized id="configure-general-commentLength-minCommentLength">
-          <InputLabel htmlFor="configure-general-commentLength-min">
+          <Label htmlFor="configure-general-commentLength-min">
             Minimum comment length
-          </InputLabel>
+          </Label>
         </Localized>
         <Field
           name="charCount.min"
@@ -93,7 +93,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
                   spellCheck={false}
                   adornment={
                     <Localized id="configure-general-commentLength-characters">
-                      <Typography variant="bodyCopy">Characters</Typography>
+                      <TextFieldAdornment>Characters</TextFieldAdornment>
                     </Localized>
                   }
                   placeholder={"No limit"}
@@ -107,9 +107,9 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
       </FormField>
       <FormField>
         <Localized id="configure-general-commentLength-maxCommentLength">
-          <InputLabel htmlFor="configure-general-commentLength-max">
+          <Label htmlFor="configure-general-commentLength-max">
             Maximum comment length
-          </InputLabel>
+          </Label>
         </Localized>
         <Field
           name="charCount.max"
@@ -138,7 +138,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
                   spellCheck={false}
                   adornment={
                     <Localized id="configure-general-commentLength-characters">
-                      <Typography variant="bodyCopy">Characters</Typography>
+                      <TextFieldAdornment>Characters</TextFieldAdornment>
                     </Localized>
                   }
                   placeholder={"No limit"}

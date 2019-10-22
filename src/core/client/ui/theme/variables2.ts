@@ -221,6 +221,7 @@ const variables2 = {
       border: colors.grey500,
       background: colors.pure.white,
       disabled: {
+        foreground: colors.grey400,
         background: colors.white500,
       },
       focused: {
@@ -239,6 +240,22 @@ const variables2 = {
       border: colors.grey300,
       indicator: colors.coral500,
       active: colors.mono500,
+    },
+    configure: {
+      heading: {
+        background: colors.blue500,
+        foreground: colors.pure.white,
+      },
+      description: colors.mono500,
+      subHeading: {
+        foreground: colors.mono500,
+        border: colors.grey500,
+      },
+      subDescription: colors.mono500,
+    },
+    configHeading: {
+      background: colors.blue500,
+      foreground: colors.pure.white,
     },
   },
   fontFamily: {
