@@ -1,15 +1,12 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import {
-  FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
-  Typography,
-} from "coral-ui/components";
+import { FormField, Label } from "coral-admin/ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
+import Description from "../../Description";
 import Header from "../../Header";
+import HelperText from "../../HelperText";
 import SectionContent from "../../SectionContent";
 import WordListTextArea from "./WordListTextArea";
 
@@ -29,25 +26,27 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
         id="configure-wordList-suspect-explanation"
         strong={<strong />}
       >
-        <Typography variant="bodyShort">
+        <Description>
           Comments containing a word or phrase in the Suspect Words List are
           placed into the Reported Queue for moderator review and are published
           (if comments are not pre-moderated).
-        </Typography>
+        </Description>
       </Localized>
 
       <FormField>
-        <Localized id="configure-wordList-suspect-wordList">
-          <InputLabel htmlFor="configure-wordlist-suspect">
-            Suspect word list
-          </InputLabel>
-        </Localized>
-        <Localized id="configure-wordList-suspect-wordListDetailInstructions">
-          <InputDescription>
-            Separate suspect words or phrases with a new line. Words/phrases are
-            not case sensitive.
-          </InputDescription>
-        </Localized>
+        <HorizontalGutter spacing={1}>
+          <Localized id="configure-wordList-suspect-wordList">
+            <Label htmlFor="configure-wordlist-suspect">
+              Suspect word list
+            </Label>
+          </Localized>
+          <Localized id="configure-wordList-suspect-wordListDetailInstructions">
+            <HelperText>
+              Separate suspect words or phrases with a new line. Words/phrases
+              are not case sensitive.
+            </HelperText>
+          </Localized>
+        </HorizontalGutter>
         <div>
           <WordListTextArea
             id="configure-wordlist-suspect"

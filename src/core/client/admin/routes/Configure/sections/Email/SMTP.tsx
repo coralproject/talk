@@ -23,7 +23,7 @@ import {
 } from "coral-ui/components";
 
 import OnOffField from "../../OnOffField";
-import Subheader from "../../Subheader";
+import SubHeader from "../../SubHeader";
 import { FormProps } from "./EmailConfigContainer";
 
 interface Props {
@@ -113,7 +113,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
       {({ input: { value: enabled } }) => (
         <>
           <Localized id="configure-email-smtpCredentialsHeader">
-            <Subheader>Email credentials</Subheader>
+            <SubHeader>Email credentials</SubHeader>
           </Localized>
           <FormField>
             <Localized id="configure-email-smtpUsernameLabel">
