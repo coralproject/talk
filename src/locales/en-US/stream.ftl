@@ -34,6 +34,13 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
 
+comments-bannedInfo-bannedFromCommenting = Your account has been banned from commenting.
+comments-bannedInfo-violatedCommunityGuidelines =
+  Someone with access to your account has violated our community
+  guidelines. As a result, your account has been banned. You will no
+  longer be able to comment, respect or report comments. If you think
+  this has been done in error, please contact our community team.
+
 comments-noCommentsYet = There are no comments yet. Why don't you write one?
 
 comments-streamQuery-storyNotFound = Story not found
@@ -41,7 +48,6 @@ comments-streamQuery-storyNotFound = Story not found
 comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
-
 
 comments-viewNew =
   { $count ->
