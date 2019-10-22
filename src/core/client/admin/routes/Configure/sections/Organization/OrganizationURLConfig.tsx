@@ -2,18 +2,15 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormField, TextField } from "coral-admin/ui/components";
 import {
   composeValidators,
   required,
   validateURL,
 } from "coral-framework/lib/validation";
-import {
-  FormField,
-  HorizontalGutter,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
+import Description from "../../Description";
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
@@ -24,13 +21,9 @@ interface Props {
 
 const OrganizationURLConfig: FunctionComponent<Props> = ({ disabled }) => (
   <FormField>
-    <HorizontalGutter size="full">
+    <HorizontalGutter spacing={3}>
       <Localized id="configure-organization-url">
-        <Header
-          container={
-            <label htmlFor="configure-organization-organization.url" />
-          }
-        >
+        <Header htmlFor="configure-organization-organization.url">
           Organization URL
         </Header>
       </Localized>
@@ -39,7 +32,7 @@ const OrganizationURLConfig: FunctionComponent<Props> = ({ disabled }) => (
           id="configure-organization-urlExplanation"
           strong={<strong />}
         >
-          <Typography variant="bodyShort">This URL will be used</Typography>
+          <Description>This URL will be used</Description>
         </Localized>
         <Field
           name="organization.url"

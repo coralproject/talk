@@ -2,18 +2,15 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormField, TextField } from "coral-admin/ui/components";
 import {
   composeValidators,
   required,
   validateEmail,
 } from "coral-framework/lib/validation";
-import {
-  FormField,
-  HorizontalGutter,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
+import Description from "../../Description";
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
@@ -26,11 +23,7 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
   <FormField>
     <HorizontalGutter size="full">
       <Localized id="configure-organization-email">
-        <Header
-          container={
-            <label htmlFor="configure-organization-organization.contactEmail" />
-          }
-        >
+        <Header htmlFor="configure-organization-organization.contactEmail">
           Organization email
         </Header>
       </Localized>
@@ -39,12 +32,12 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
           id="configure-organization-emailExplanation"
           strong={<strong />}
         >
-          <Typography variant="bodyShort">
+          <Description>
             This email address will be used as in emails and across the platform
             for community members to get in touch with the organization should
             they have any questions about the status of their accounts or
             moderation questions.
-          </Typography>
+          </Description>
         </Localized>
         <Field
           name="organization.contactEmail"

@@ -2,14 +2,11 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormField, TextField } from "coral-admin/ui/components";
 import { required } from "coral-framework/lib/validation";
-import {
-  FormField,
-  HorizontalGutter,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
+import Description from "../../Description";
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
@@ -20,13 +17,9 @@ interface Props {
 
 const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
   <FormField>
-    <HorizontalGutter size="full">
+    <HorizontalGutter spacing={3}>
       <Localized id="configure-organization-name">
-        <Header
-          container={
-            <label htmlFor="configure-organization-organization.name" />
-          }
-        >
+        <Header htmlFor="configure-organization-organization.name">
           Organization name
         </Header>
       </Localized>
@@ -35,10 +28,10 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
           id="configure-organization-nameExplanation"
           strong={<strong />}
         >
-          <Typography variant="bodyShort">
+          <Description>
             Your organization name will appear on emails sent by Coral to your
             community and organization members
-          </Typography>
+          </Description>
         </Localized>
         <Field name="organization.name" validate={required}>
           {({ input, meta }) => (
