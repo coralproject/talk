@@ -6,7 +6,7 @@ permalink: /v5/integrating/counts/
 Add the `count.js` script to your `html` tree. On a page that includes the _Stream Embed_ this is done for you automatically, however for best performance we recommend to include it into the `<head>` tag.
 
 ```html
-<script href="//{{ CORAL_DOMAIN_NAME }}/assets/js/count.js" defer></script>
+<script src="//{{ CORAL_DOMAIN_NAME }}/assets/js/count.js" defer></script>
 ```
 
 > **NOTE:** Replace the value of `{% raw %}{{ CORAL_DOMAIN_NAME }}{% endraw %}` with the location of your running instance of Coral.
