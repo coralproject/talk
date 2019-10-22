@@ -1,0 +1,257 @@
+/* Design tokens */
+
+$buttonDefaultOutlineBackground: var(--v2-colors-pure-white);
+$buttonDefaultOutlineForeground: var(--v2-colors-teal-600);
+$buttonDefaultOutlineActive: var(--v2-colors-teal-500);
+
+$buttonDefaultFilledBackground: var(--v2-colors-teal-600);
+$buttonDefaultFilledForeground: var(--v2-colors-pure-white);
+$buttonDefaultFilledHover: var(--v2-colors-teal-500);
+$buttonDefaultFilledActive: var(--v2-colors-teal-400);
+
+$buttonAlertOutlineBackground: var(--v2-colors-pure-white);
+$buttonAlertOutlineForeground: var(--v2-colors-red-500);
+$buttonAlertOutlineActive: var(--v2-colors-red-400);
+
+$buttonAlertFilledBackground: var(--v2-colors-red-600);
+$buttonAlertFilledForeground: var(--v2-colors-pure-white);
+$buttonAlertFilledHover: var(--v2-colors-red-400);
+$buttonAlertFilledActive: var(--v2-colors-red-300);
+
+$buttonEmphasisOutlineBackground: var(--v2-colors-pure-white);
+$buttonEmphasisOutlineForeground: var(--v2-colors-blue-500);
+$buttonEmphasisOutlineActive: var(--v2-colors-blue-400);
+
+$buttonEmphasisFilledBackground: var(--v2-colors-blue-500);
+$buttonEmphasisFilledForeground: var(--v2-colors-pure-white);
+$buttonEmphasisFilledHover: var(--v2-colors-blue-400);
+$buttonEmphasisFilledActive: var(--v2-colors-blue-300);
+
+$buttonMonoOutlineBackground: var(--v2-colors-pure-white);
+$buttonMonoOutlineForeground: var(--v2-colors-grey-700);
+$buttonMonoOutlineActive: var(--v2-colors-grey-600);
+
+$buttonMonoFilledBackground: var(--v2-colors-grey-600);
+$buttonMonoFilledForeground: var(--v2-colors-pure-white);
+$buttonMonoFilledHover: var(--v2-colors-grey-500);
+$buttonMonoFilledActive: var(--v2-colors-grey-400);
+
+/* Class Definitions */
+
+.root {
+  border-radius: var(--v2-round-corners);
+  background-color: transparent;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  text-transform: uppercase;
+
+  & > * {
+    margin: 0 var(--v2-spacing-1) 0 0;
+    /* convince safari */
+    align-self: center;
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+}
+
+.root.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.fullWidth {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sizeSmall {
+  color: $buttonDefaultOutlineForeground;
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: 1.28;
+
+  padding: var(--v2-spacing-2) var(--v2-spacing-4);
+}
+
+.sizeMedium {
+  color: $buttonDefaultOutlineForeground;
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: 1.28;
+
+  padding: var(--v2-spacing-3) var(--v2-spacing-5);
+}
+
+.sizeLarge {
+  color: $buttonDefaultOutlineForeground;
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-line-height-reset);
+  line-height: 1.25;
+
+  padding: var(--v2-spacing-4) var(--v2-spacing-6);
+}
+
+.variantDefault {
+  border-width: 1px;
+
+  &.colorDefault {
+    border-color: $buttonDefaultOutlineForeground;
+    color: $buttonDefaultOutlineForeground;
+    background-color: $buttonDefaultOutlineBackground;
+  }
+  &.colorAlert {
+    border-color: $buttonAlertOutlineForeground;
+    color: $buttonAlertOutlineForeground;
+    background-color: $buttonAlertOutlineBackground;
+  }
+  &.colorEmphasis {
+    border-color: $buttonEmphasisOutlineForeground;
+    color: $buttonEmphasisOutlineForeground;
+    background-color: $buttonEmphasisOutlineBackground;
+  }
+  &.colorMono {
+    border-color: $buttonMonoOutlineForeground;
+    color: $buttonMonoOutlineForeground;
+    background-color: $buttonMonoOutlineBackground;
+  }
+
+  &:not(.disabled) {
+    &.colorDefault {
+      &.mouseHover {
+        background-color: $buttonDefaultOutlineForeground;
+        color: $buttonDefaultOutlineBackground;
+      }
+      &:active,
+      &.active {
+        border-color: $buttonDefaultOutlineActive;
+        background-color: $buttonDefaultOutlineActive;
+        color: $buttonDefaultOutlineBackground;
+      }
+    }
+    &.colorAlert {
+      &.mouseHover {
+        background-color: $buttonAlertOutlineForeground;
+        color: $buttonAlertOutlineBackground;
+      }
+      &:active,
+      &.active {
+        border-color: $buttonAlertOutlineActive;
+        background-color: $buttonAlertOutlineActive;
+        color: $buttonAlertOutlineBackground;
+      }
+    }
+    &.colorEmphasis {
+      &.mouseHover {
+        background-color: $buttonEmphasisOutlineForeground;
+        color: $buttonEmphasisOutlineBackground;
+      }
+      &:active,
+      &.active {
+        border-color: $buttonEmphasisOutlineActive;
+        background-color: $buttonEmphasisOutlineActive;
+        color: $buttonEmphasisOutlineBackground;
+      }
+    }
+    &.colorMono {
+      &.mouseHover {
+        background-color: $buttonMonoOutlineForeground;
+        color: $buttonMonoOutlineBackground;
+      }
+      &:active,
+      &.active {
+        border-color: $buttonMonoOutlineActive;
+        background-color: $buttonMonoOutlineActive;
+        color: $buttonMonoOutlineBackground;
+      }
+    }
+  }
+}
+
+.variantFilled {
+  border-width: 1px;
+
+  &.colorDefault {
+    border-color: $buttonDefaultFilledBackground;
+    color: $buttonDefaultFilledForeground;
+    background-color: $buttonDefaultFilledBackground;
+  }
+  &.colorAlert {
+    border-color: $buttonAlertFilledBackground;
+    color: $buttonAlertFilledForeground;
+    background-color: $buttonAlertFilledBackground;
+  }
+  &.colorEmphasis {
+    border-color: $buttonEmphasisFilledBackground;
+    color: $buttonEmphasisFilledForeground;
+    background-color: $buttonEmphasisFilledBackground;
+  }
+  &.colorMono {
+    border-color: $buttonMonoFilledBackground;
+    color: $buttonMonoFilledForeground;
+    background-color: $buttonMonoFilledBackground;
+  }
+
+  &:not(.disabled) {
+    &.colorDefault {
+      &.mouseHover {
+        border-color: $buttonDefaultFilledHover;
+        color: $buttonDefaultFilledForeground;
+        background-color: $buttonDefaultFilledHover;
+      }
+      &:active,
+      &.active {
+        border-color: $buttonDefaultFilledActive;
+        color: $buttonDefaultFilledForeground;
+        background-color: $buttonDefaultFilledActive;
+      }
+    }
+    &.colorAlert {
+      &.mouseHover {
+        border-color: $buttonAlertFilledHover;
+        color: $buttonAlertFilledForeground;
+        background-color: $buttonAlertFilledHover;
+      }
+      &:active,
+      &.active {
+        border-color: $buttonAlertFilledActive;
+        color: $buttonAlertFilledForeground;
+        background-color: $buttonAlertFilledActive;
+      }
+    }
+    &.colorEmphasis {
+      &.mouseHover {
+        border-color: $buttonEmphasisFilledHover;
+        color: $buttonEmphasisFilledForeground;
+        background-color: $buttonEmphasisFilledHover;
+      }
+      &:active,
+      &.active {
+        border-color: $buttonEmphasisFilledActive;
+        color: $buttonEmphasisFilledForeground;
+        background-color: $buttonEmphasisFilledActive;
+      }
+    }
+    &.colorMono {
+      &.mouseHover {
+        border-color: $buttonMonoFilledHover;
+        color: $buttonMonoFilledForeground;
+        background-color: $buttonMonoFilledHover;
+      }
+      &:active,
+      &.active {
+        border-color: $buttonMonoFilledActive;
+        color: $buttonMonoFilledForeground;
+        background-color: $buttonMonoFilledActive;
+      }
+    }
+  }
+}
