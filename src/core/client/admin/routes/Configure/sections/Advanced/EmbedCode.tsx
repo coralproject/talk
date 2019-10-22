@@ -5,8 +5,9 @@ import React, { FunctionComponent, useMemo } from "react";
 import { CopyButton } from "coral-framework/components";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { getLocationOrigin } from "coral-framework/utils";
-import { HorizontalGutter, Typography } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
+import Description from "../../Description";
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";
 
@@ -79,16 +80,16 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
   }, [staticURI]);
 
   return (
-    <HorizontalGutter size="oneAndAHalf" container="fieldset">
+    <HorizontalGutter spacing={3} container="fieldset">
       <Localized id="configure-advanced-embedCode-title">
-        <Header container="legend">Embed code</Header>
+        <Header component="legend">Embed code</Header>
       </Localized>
       <SectionContent>
         <Localized id="configure-advanced-embedCode-explanation">
-          <Typography variant="bodyShort">
+          <Description>
             Copy and paste the code below into your CMS to embed Coral comment
             streams in each of your site’s stories.
-          </Typography>
+          </Description>
         </Localized>
         <textarea
           rows={embed.rows}

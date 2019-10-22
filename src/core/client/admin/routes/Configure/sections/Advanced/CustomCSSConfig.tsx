@@ -7,13 +7,11 @@ import {
   parseEmptyAsNull,
   ValidationMessage,
 } from "coral-framework/lib/form";
-import {
-  FormField,
-  HorizontalGutter,
-  TextField,
-  Typography,
-} from "coral-ui/components";
 
+import { FormField, TextField } from "coral-admin/ui/components";
+import { HorizontalGutter } from "coral-ui/components";
+
+import Description from "../../Description";
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";
 
@@ -23,21 +21,19 @@ interface Props {
 
 const CustomCSSConfig: FunctionComponent<Props> = ({ disabled }) => (
   <FormField>
-    <HorizontalGutter size="full">
+    <HorizontalGutter spacing={3}>
       <Localized id="configure-advanced-customCSS">
-        <Header container={<label htmlFor="configure-advanced-customCSSURL" />}>
-          Custom CSS
-        </Header>
+        <Header htmlFor="configure-advanced-customCSSURL">Custom CSS</Header>
       </Localized>
       <SectionContent>
         <Localized
           id="configure-advanced-customCSS-explanation"
           strong={<strong />}
         >
-          <Typography variant="bodyShort">
+          <Description>
             URL of a CSS stylesheet that will override default Embed Stream
             styles. Can be internal or external.
-          </Typography>
+          </Description>
         </Localized>
         <Field
           name="customCSSURL"
