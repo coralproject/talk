@@ -149,68 +149,57 @@ export const StreamContainer: FunctionComponent<Props> = props => {
           />
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
-          <Flex>
-            <TabBar
-              variant="secondary"
-              activeTab={local.commentsTab}
-              onTabClick={onChangeTab}
-              className={cn(styles.tabBar, CLASSES.tabBarComments.$root)}
-            >
-              {featuredCommentsCount > 0 && (
-                <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS">
-                  <Flex spacing={1} alignItems="center">
-                    <Localized id="comments-featuredTab">
-                      <span className={styles.featuredTabText}>Featured</span>
-                    </Localized>
-                    <Counter
-                      data-testid="comments-featuredCount"
-                      size="sm"
-                      color={
-                        local.commentsTab === "FEATURED_COMMENTS"
-                          ? "primary"
-                          : "grey"
-                      }
-                    >
-                      {featuredCommentsCount}
-                    </Counter>
-                  </Flex>
-                </TabWithFeaturedTooltip>
-              )}
-              <Tab
-                tabID="ALL_COMMENTS"
-                classes={{
-                  root: styles.allCommentsTabContainer,
-                }}
-                className={cn(
-                  styles.allCommentsTab,
-                  CLASSES.tabBarComments.allComments
-                )}
-              >
-                <Flex alignItems="center" spacing={1}>
-                  <Localized id="comments-allCommentsTab">
-                    <span className={styles.allCommentsTabText}>
-                      All Comments
-                    </span>
+          <SortMenu
+            className={styles.sortMenu}
+            orderBy={local.commentsOrderBy}
+            onChange={onChangeOrder}
+            reactionSortLabel={props.settings.reaction.sortLabel}
+          />
+          <TabBar
+            variant="secondary"
+            activeTab={local.commentsTab}
+            onTabClick={onChangeTab}
+            className={CLASSES.tabBarComments.$root}
+          >
+            {featuredCommentsCount > 0 && (
+              <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS">
+                <Flex spacing={1} alignItems="center">
+                  <Localized id="comments-featuredTab">
+                    <span>Featured</span>
                   </Localized>
                   <Counter
+                    data-testid="comments-featuredCount"
                     size="sm"
                     color={
-                      local.commentsTab === "ALL_COMMENTS" ? "primary" : "grey"
+                      local.commentsTab === "FEATURED_COMMENTS"
+                        ? "primary"
+                        : "grey"
                     }
                   >
-                    {allCommentsCount}
+                    {featuredCommentsCount}
                   </Counter>
                 </Flex>
-              </Tab>
-            </TabBar>
-
-            <SortMenu
-              className={styles.sortMenu}
-              orderBy={local.commentsOrderBy}
-              onChange={onChangeOrder}
-              reactionSortLabel={props.settings.reaction.sortLabel}
-            />
-          </Flex>
+              </TabWithFeaturedTooltip>
+            )}
+            <Tab
+              tabID="ALL_COMMENTS"
+              className={CLASSES.tabBarComments.allComments}
+            >
+              <Flex alignItems="center" spacing={1}>
+                <Localized id="comments-allCommentsTab">
+                  <span>All Comments</span>
+                </Localized>
+                <Counter
+                  size="sm"
+                  color={
+                    local.commentsTab === "ALL_COMMENTS" ? "primary" : "grey"
+                  }
+                >
+                  {allCommentsCount}
+                </Counter>
+              </Flex>
+            </Tab>
+          </TabBar>
           <TabContent activeTab={local.commentsTab}>
             <TabPane
               className={CLASSES.featuredCommentsTabPane.$root}

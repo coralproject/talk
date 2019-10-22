@@ -19,7 +19,7 @@ general-tabBar-configure = Configure
 ## Comment Count
 
 comment-count-text =
-  { $number  ->
+  { $count  ->
     [one] Comment
     *[other] Comments
   }
