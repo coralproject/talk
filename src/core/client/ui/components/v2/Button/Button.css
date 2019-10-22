@@ -13,7 +13,7 @@ $buttonAlertOutlineBackground: var(--v2-colors-pure-white);
 $buttonAlertOutlineForeground: var(--v2-colors-red-500);
 $buttonAlertOutlineActive: var(--v2-colors-red-400);
 
-$buttonAlertFilledBackground: var(--v2-colors-red-600);
+$buttonAlertFilledBackground: var(--v2-colors-red-500);
 $buttonAlertFilledForeground: var(--v2-colors-pure-white);
 $buttonAlertFilledHover: var(--v2-colors-red-400);
 $buttonAlertFilledActive: var(--v2-colors-red-300);
@@ -35,6 +35,23 @@ $buttonMonoFilledBackground: var(--v2-colors-grey-600);
 $buttonMonoFilledForeground: var(--v2-colors-pure-white);
 $buttonMonoFilledHover: var(--v2-colors-grey-500);
 $buttonMonoFilledActive: var(--v2-colors-grey-400);
+
+$buttonAdornmentForeground: var(--v2-colors-pure-white);
+
+$buttonAdornmentDefaultBackground: var(--v2-colors-teal-600);
+$buttonAdornmentAlertBackground: var(--v2-colors-red-500);
+$buttonAdornmentEmphasisBackground: var(--v2-colors-blue-500);
+$buttonAdornmentMonoBackground: var(--v2-colors-grey-600);
+
+$buttonAdornmentDefaultHover: var(--v2-colors-teal-500);
+$buttonAdornmentAlertHover: var(--v2-colors-red-400);
+$buttonAdornmentEmphasisHover: var(--v2-colors-blue-400);
+$buttonAdornmentMonoHover: var(--v2-colors-grey-400);
+
+$buttonAdornmentDefaultActive: var(--v2-colors-teal-400);
+$buttonAdornmentAlertActive: var(--v2-colors-red-300);
+$buttonAdornmentEmphasisActive: var(--v2-colors-blue-300);
+$buttonAdornmentMonoActive: var(--v2-colors-grey-300);
 
 /* Class Definitions */
 
@@ -251,6 +268,76 @@ $buttonMonoFilledActive: var(--v2-colors-grey-400);
         border-color: $buttonMonoFilledActive;
         color: $buttonMonoFilledForeground;
         background-color: $buttonMonoFilledActive;
+      }
+    }
+  }
+}
+
+.variantAdornment {
+  color: $buttonAdornmentForeground;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+  &.colorDefault {
+    background-color: $buttonAdornmentDefaultBackground;
+    border-color: $buttonAdornmentDefaultBackground;
+  }
+  &.colorAlert {
+    background-color: $buttonAdornmentAlertBackground;
+    border-color: $buttonAdornmentAlertBackground;
+  }
+  &.colorEmphasis {
+    background-color: $buttonAdornmentEmphasisBackground;
+    border-color: $buttonAdornmentEmphasisBackground;
+  }
+  &.colorMono {
+    background-color: $buttonAdornmentMonoBackground;
+    border-color: $buttonAdornmentMonoBackground;
+  }
+
+  &:not(.disabled) {
+    &.colorDefault {
+      &.mouseHover {
+        background-color: $buttonAdornmentDefaultHover;
+        border-color: $buttonAdornmentDefaultHover;
+      }
+      &:active,
+      &.active {
+        background-color: $buttonAdornmentDefaultActive;
+        border-color: $buttonAdornmentDefaultActive;
+      }
+    }
+    &.colorAlert {
+      &.mouseHover {
+        background-color: $buttonAdornmentAlertHover;
+        border-color: $buttonAdornmentAlertHover;
+      }
+      &:active,
+      &.active {
+        background-color: $buttonAdornmentAlertActive;
+        border-color: $buttonAdornmentAlertActive;
+      }
+    }
+    &.colorEmphasis {
+      &.mouseHover {
+        background-color: $buttonAdornmentEmphasisHover;
+        border-color: $buttonAdornmentEmphasisHover;
+      }
+      &:active,
+      &.active {
+        background-color: $buttonAdornmentEmphasisActive;
+        border-color: $buttonAdornmentEmphasisActive;
+      }
+    }
+    &.colorMono {
+      &.mouseHover {
+        background-color: $buttonAdornmentMonoHover;
+        border-color: $buttonAdornmentMonoHover;
+      }
+      &:active,
+      &.active {
+        background-color: $buttonAdornmentMonoActive;
+        border-color: $buttonAdornmentMonoActive;
       }
     }
   }
