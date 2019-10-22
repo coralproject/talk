@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormField, Label, TextField } from "coral-admin/ui/components";
 import {
   colorFromMeta,
   parseEmptyAsNull,
@@ -12,16 +13,9 @@ import {
   Condition,
   required,
 } from "coral-framework/lib/validation";
-import {
-  FieldSet,
-  FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
-  PasswordField,
-  TextField,
-} from "coral-ui/components";
+import { FieldSet, HorizontalGutter, PasswordField } from "coral-ui/components";
 
+import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import SubHeader from "../../SubHeader";
 import { FormProps } from "./EmailConfigContainer";
@@ -37,14 +31,16 @@ const isAuthenticating: Condition<any, FormProps> = (value, values) =>
   Boolean(values.email.enabled && values.email.smtp.authentication);
 
 const SMTP: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
+  <HorizontalGutter spacing={4} container={<FieldSet />}>
     <FormField>
-      <Localized id="configure-email-smtpHostLabel">
-        <InputLabel>SMTP host</InputLabel>
-      </Localized>
-      <Localized id="configure-email-smtpHostDescription">
-        <InputDescription>(ex. smtp.sendgrid.com)</InputDescription>
-      </Localized>
+      <HorizontalGutter spacing={1}>
+        <Localized id="configure-email-smtpHostLabel">
+          <Label>SMTP host</Label>
+        </Localized>
+        <Localized id="configure-email-smtpHostDescription">
+          <HelperText>(ex. smtp.sendgrid.com)</HelperText>
+        </Localized>
+      </HorizontalGutter>
       <Field
         name="email.smtp.host"
         validate={composeValidatorsWhen(isEnabled, required)}
@@ -64,12 +60,14 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
       </Field>
     </FormField>
     <FormField>
-      <Localized id="configure-email-smtpPortLabel">
-        <InputLabel>SMTP port</InputLabel>
-      </Localized>
-      <Localized id="configure-email-smtpPortDescription">
-        <InputDescription>(ex. 25)</InputDescription>
-      </Localized>
+      <HorizontalGutter spacing={1}>
+        <Localized id="configure-email-smtpPortLabel">
+          <Label>SMTP port</Label>
+        </Localized>
+        <Localized id="configure-email-smtpPortDescription">
+          <HelperText>(ex. 25)</HelperText>
+        </Localized>
+      </HorizontalGutter>
       <Field
         name="email.smtp.port"
         validate={composeValidatorsWhen(isEnabled, required)}
@@ -91,7 +89,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
     </FormField>
     <FormField>
       <Localized id="configure-email-smtpTLSLabel">
-        <InputLabel>TLS</InputLabel>
+        <Label>TLS</Label>
       </Localized>
       <OnOffField
         name="email.smtp.secure"
@@ -101,7 +99,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
     </FormField>
     <FormField>
       <Localized id="configure-email-smtpAuthenticationLabel">
-        <InputLabel>SMTP authentication</InputLabel>
+        <Label>SMTP authentication</Label>
       </Localized>
       <OnOffField
         name="email.smtp.authentication"
@@ -117,7 +115,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
           </Localized>
           <FormField>
             <Localized id="configure-email-smtpUsernameLabel">
-              <InputLabel>Username</InputLabel>
+              <Label>Username</Label>
             </Localized>
             <Field
               name="email.smtp.username"
@@ -140,7 +138,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
           </FormField>
           <FormField>
             <Localized id="configure-email-smtpPasswordLabel">
-              <InputLabel>Password</InputLabel>
+              <Label>Password</Label>
             </Localized>
             <Field
               name="email.smtp.password"
