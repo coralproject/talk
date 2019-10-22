@@ -38,16 +38,6 @@ deploy_tag() {
   done
 }
 
-deploy_branch() {
-  echo "==> tagging branch $CIRCLE_BRANCH"
-  docker tag coralproject/talk:latest coralproject/talk:$CIRCLE_BRANCH
-  docker tag coralproject/talk:latest-onbuild coralproject/talk:$CIRCLE_BRANCH-onbuild
-
-  echo "==> pushing branch $CIRCLE_BRANCH"
-  docker push coralproject/talk:$CIRCLE_BRANCH
-  docker push coralproject/talk:$CIRCLE_BRANCH-onbuild
-}
-
 ARGS=""
 
 if [[ -n "$CIRCLE_SHA1" ]]
@@ -73,9 +63,5 @@ then
   if [ -n "$CIRCLE_TAG" ]
   then
     deploy_tag
-  else
-    if [ "$CIRCLE_BRANCH" != "master" ]
-      deploy_branch
-    fi
   fi
 fi
