@@ -10,44 +10,42 @@ import {
   required,
   validateWholeNumberGreaterThanOrEqual,
 } from "coral-framework/lib/validation";
-import { HorizontalGutter } from "coral-ui/components";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
-import SectionContent from "../../SectionContent";
 
 interface Props {
   disabled?: boolean;
 }
 
 const SessionConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter>
-    <HorizontalGutter spacing={3}>
+  <ConfigBox
+    title={
       <Localized id="configure-auth-settings">
         <Header>Session settings</Header>
       </Localized>
-    </HorizontalGutter>
-    <SectionContent>
-      <FormField container={<FieldSet />}>
-        <Localized id="configure-auth-settings-session-duration-label">
-          <Label component="legend">Session Duration</Label>
-        </Localized>
-        <Field
-          name="auth.sessionDuration"
-          validate={composeValidators(
-            required,
-            validateWholeNumberGreaterThanOrEqual(0)
-          )}
-        >
-          {({ input, meta }) => (
-            <>
-              <DurationField disabled={!!disabled} {...input} />
-              <ValidationMessage meta={meta} />
-            </>
-          )}
-        </Field>
-      </FormField>
-    </SectionContent>
-  </HorizontalGutter>
+    }
+  >
+    <FormField container={<FieldSet />}>
+      <Localized id="configure-auth-settings-session-duration-label">
+        <Label component="legend">Session Duration</Label>
+      </Localized>
+      <Field
+        name="auth.sessionDuration"
+        validate={composeValidators(
+          required,
+          validateWholeNumberGreaterThanOrEqual(0)
+        )}
+      >
+        {({ input, meta }) => (
+          <>
+            <DurationField disabled={!!disabled} {...input} />
+            <ValidationMessage meta={meta} />
+          </>
+        )}
+      </Field>
+    </FormField>
+  </ConfigBox>
 );
 
 export default SessionConfig;

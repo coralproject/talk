@@ -14,12 +14,11 @@ import {
   required,
   validateWholeNumberGreaterThan,
 } from "coral-framework/lib/validation";
-import { HorizontalGutter } from "coral-ui/components";
 
+import ConfigBox from "../../ConfigBox";
 import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
-import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
@@ -29,56 +28,58 @@ interface Props {
 const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
   disabled,
 }) => (
-  <HorizontalGutter spacing={3} container={<FieldSet />}>
-    <Localized id="configure-general-closingCommentStreams-title">
-      <Header component="legend">Closing comment streams</Header>
-    </Localized>
-    <SectionContent>
-      <Localized
-        id="configure-general-closingCommentStreams-explanation"
-        strong={<strong />}
-      >
-        <Description>
-          Set comment streams to close after a defined period of time after a
-          story’s publication
-        </Description>
+  <ConfigBox
+    title={
+      <Localized id="configure-general-closingCommentStreams-title">
+        <Header component="legend">Closing comment streams</Header>
       </Localized>
-      <FormField container={<FieldSet />}>
-        <Localized id="configure-general-closingCommentStreams-closeCommentsAutomatically">
-          <Label component="legend">Close comments automatically</Label>
-        </Localized>
-        <OnOffField name="closeCommenting.auto" disabled={disabled} />
-      </FormField>
-      <FormField container={<FieldSet />}>
-        <Localized id="configure-general-closingCommentStreams-closeCommentsAfter">
-          <Label component="legend">Close comments after</Label>
-        </Localized>
+    }
+    container={<FieldSet />}
+  >
+    <Localized
+      id="configure-general-closingCommentStreams-explanation"
+      strong={<strong />}
+    >
+      <Description>
+        Set comment streams to close after a defined period of time after a
+        story’s publication
+      </Description>
+    </Localized>
+    <FormField container={<FieldSet />}>
+      <Localized id="configure-general-closingCommentStreams-closeCommentsAutomatically">
+        <Label component="legend">Close comments automatically</Label>
+      </Localized>
+      <OnOffField name="closeCommenting.auto" disabled={disabled} />
+    </FormField>
+    <FormField container={<FieldSet />}>
+      <Localized id="configure-general-closingCommentStreams-closeCommentsAfter">
+        <Label component="legend">Close comments after</Label>
+      </Localized>
 
-        <Field
-          name="closeCommenting.timeout"
-          validate={composeValidators(
-            required,
-            validateWholeNumberGreaterThan(0)
-          )}
-        >
-          {({ input, meta }) => (
-            <>
-              <DurationField
-                units={[
-                  DURATION_UNIT.HOURS,
-                  DURATION_UNIT.DAYS,
-                  DURATION_UNIT.WEEKS,
-                ]}
-                disabled={disabled}
-                {...input}
-              />
-              <ValidationMessage meta={meta} />
-            </>
-          )}
-        </Field>
-      </FormField>
-    </SectionContent>
-  </HorizontalGutter>
+      <Field
+        name="closeCommenting.timeout"
+        validate={composeValidators(
+          required,
+          validateWholeNumberGreaterThan(0)
+        )}
+      >
+        {({ input, meta }) => (
+          <>
+            <DurationField
+              units={[
+                DURATION_UNIT.HOURS,
+                DURATION_UNIT.DAYS,
+                DURATION_UNIT.WEEKS,
+              ]}
+              disabled={disabled}
+              {...input}
+            />
+            <ValidationMessage meta={meta} />
+          </>
+        )}
+      </Field>
+    </FormField>
+  </ConfigBox>
 );
 
 export default ClosingCommentStreamsConfig;

@@ -15,12 +15,11 @@ import {
   createValidator,
   validateWholeNumberGreaterThan,
 } from "coral-framework/lib/validation";
-import { HorizontalGutter } from "coral-ui/components";
 
+import ConfigBox from "../../ConfigBox";
 import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
-import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
 
 import styles from "./CommentLengthConfig.css";
@@ -41,119 +40,121 @@ interface Props {
 }
 
 const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter spacing={3} container={<FieldSet />}>
-    <Localized id="configure-general-commentLength-title">
-      <Header component="legend">Comment length</Header>
-    </Localized>
-    <SectionContent>
-      <Localized
-        id="configure-general-commentLength-setLimit"
-        strong={<strong />}
-      >
-        <Description>
-          Set minimum and maximum comment length requirements. Blank spaces at
-          the beginning and the end of a comment will be trimmed.
-        </Description>
+  <ConfigBox
+    title={
+      <Localized id="configure-general-commentLength-title">
+        <Header component="legend">Comment length</Header>
       </Localized>
+    }
+    container={<FieldSet />}
+  >
+    <Localized
+      id="configure-general-commentLength-setLimit"
+      strong={<strong />}
+    >
+      <Description>
+        Set minimum and maximum comment length requirements. Blank spaces at the
+        beginning and the end of a comment will be trimmed.
+      </Description>
+    </Localized>
 
-      <FormField>
-        <Localized id="configure-general-commentLength-limitCommentLength">
-          <Label>Limit comment length</Label>
-        </Localized>
-        <OnOffField name="charCount.enabled" disabled={disabled} />
-      </FormField>
+    <FormField>
+      <Localized id="configure-general-commentLength-limitCommentLength">
+        <Label>Limit comment length</Label>
+      </Localized>
+      <OnOffField name="charCount.enabled" disabled={disabled} />
+    </FormField>
 
-      <FormField>
-        <Localized id="configure-general-commentLength-minCommentLength">
-          <Label htmlFor="configure-general-commentLength-min">
-            Minimum comment length
-          </Label>
-        </Localized>
-        <Field
-          name="charCount.min"
-          validate={validateWholeNumberGreaterThan(0)}
-          parse={parseEmptyAsNull}
-          format={formatEmpty}
-        >
-          {({ input, meta }) => (
-            <>
-              <Localized
-                id="configure-general-commentLength-textField"
-                attrs={{ placeholder: true }}
-              >
-                <TextField
-                  id="configure-general-commentLength-min"
-                  classes={{
-                    input: styles.commentLengthTextInput,
-                  }}
-                  {...input}
-                  disabled={disabled}
-                  autoComplete="off"
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  spellCheck={false}
-                  adornment={
-                    <Localized id="configure-general-commentLength-characters">
-                      <TextFieldAdornment>Characters</TextFieldAdornment>
-                    </Localized>
-                  }
-                  placeholder={"No limit"}
-                  textAlignCenter
-                />
-              </Localized>
-              <ValidationMessage meta={meta} />
-            </>
-          )}
-        </Field>
-      </FormField>
-      <FormField>
-        <Localized id="configure-general-commentLength-maxCommentLength">
-          <Label htmlFor="configure-general-commentLength-max">
-            Maximum comment length
-          </Label>
-        </Localized>
-        <Field
-          name="charCount.max"
-          validate={composeValidators(
-            validateWholeNumberGreaterThan(0),
-            validateMaxLongerThanMin
-          )}
-          parse={parseEmptyAsNull}
-          format={formatEmpty}
-        >
-          {({ input, meta }) => (
-            <>
-              <Localized
-                id="configure-general-commentLength-textField"
-                attrs={{ placeholder: true }}
-              >
-                <TextField
-                  id="configure-general-commentLength-max"
-                  classes={{
-                    input: styles.commentLengthTextInput,
-                  }}
-                  disabled={disabled}
-                  autoComplete="off"
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  spellCheck={false}
-                  adornment={
-                    <Localized id="configure-general-commentLength-characters">
-                      <TextFieldAdornment>Characters</TextFieldAdornment>
-                    </Localized>
-                  }
-                  placeholder={"No limit"}
-                  textAlignCenter
-                  {...input}
-                />
-              </Localized>
-              <ValidationMessage meta={meta} />
-            </>
-          )}
-        </Field>
-      </FormField>
-    </SectionContent>
-  </HorizontalGutter>
+    <FormField>
+      <Localized id="configure-general-commentLength-minCommentLength">
+        <Label htmlFor="configure-general-commentLength-min">
+          Minimum comment length
+        </Label>
+      </Localized>
+      <Field
+        name="charCount.min"
+        validate={validateWholeNumberGreaterThan(0)}
+        parse={parseEmptyAsNull}
+        format={formatEmpty}
+      >
+        {({ input, meta }) => (
+          <>
+            <Localized
+              id="configure-general-commentLength-textField"
+              attrs={{ placeholder: true }}
+            >
+              <TextField
+                id="configure-general-commentLength-min"
+                classes={{
+                  input: styles.commentLengthTextInput,
+                }}
+                {...input}
+                disabled={disabled}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                adornment={
+                  <Localized id="configure-general-commentLength-characters">
+                    <TextFieldAdornment>Characters</TextFieldAdornment>
+                  </Localized>
+                }
+                placeholder={"No limit"}
+                textAlignCenter
+              />
+            </Localized>
+            <ValidationMessage meta={meta} />
+          </>
+        )}
+      </Field>
+    </FormField>
+    <FormField>
+      <Localized id="configure-general-commentLength-maxCommentLength">
+        <Label htmlFor="configure-general-commentLength-max">
+          Maximum comment length
+        </Label>
+      </Localized>
+      <Field
+        name="charCount.max"
+        validate={composeValidators(
+          validateWholeNumberGreaterThan(0),
+          validateMaxLongerThanMin
+        )}
+        parse={parseEmptyAsNull}
+        format={formatEmpty}
+      >
+        {({ input, meta }) => (
+          <>
+            <Localized
+              id="configure-general-commentLength-textField"
+              attrs={{ placeholder: true }}
+            >
+              <TextField
+                id="configure-general-commentLength-max"
+                classes={{
+                  input: styles.commentLengthTextInput,
+                }}
+                disabled={disabled}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                adornment={
+                  <Localized id="configure-general-commentLength-characters">
+                    <TextFieldAdornment>Characters</TextFieldAdornment>
+                  </Localized>
+                }
+                placeholder={"No limit"}
+                textAlignCenter
+                {...input}
+              />
+            </Localized>
+            <ValidationMessage meta={meta} />
+          </>
+        )}
+      </Field>
+    </FormField>
+  </ConfigBox>
 );
 
 export default CommentLengthConfig;

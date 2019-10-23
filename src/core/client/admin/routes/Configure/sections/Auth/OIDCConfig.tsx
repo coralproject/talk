@@ -4,6 +4,7 @@ import { Field } from "react-final-form";
 
 import {
   FormField,
+  FormFieldHeader,
   HelperText,
   Label,
   TextField,
@@ -19,9 +20,10 @@ import {
   required,
   validateURL,
 } from "coral-framework/lib/validation";
-import { Button, Flex, HorizontalGutter, TextLink } from "coral-ui/components";
+import { Button, Flex, TextLink } from "coral-ui/components";
 
 import Description from "../../Description";
+import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";
 import { FormProps } from "./AuthConfigContainer";
 import ClientIDField from "./ClientIDField";
@@ -56,14 +58,14 @@ const OIDCConfig: FunctionComponent<Props> = ({
       data-testid="configure-auth-oidc-container"
       title={
         <Localized id="configure-auth-oidc-loginWith">
-          <span>Login with OIDC</span>
+          <Header>Login with OIDC</Header>
         </Localized>
       }
       name="auth.integrations.oidc.enabled"
       disabled={disabled}
     >
       {disabledInside => (
-        <HorizontalGutter size="double">
+        <>
           <Localized id="configure-auth-oidc-toLearnMore" Link={<OIDCLink />}>
             <Description>
               {"To learn more: https://openid.net/connect/"}
@@ -72,7 +74,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
           <RedirectField url={callbackURL} />
           <HorizontalRule />
           <FormField>
-            <HorizontalGutter spacing={1}>
+            <FormFieldHeader>
               <Localized id="configure-auth-oidc-providerName">
                 <Label>Provider name</Label>
               </Localized>
@@ -84,7 +86,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
                   {" <Facebook>"}”
                 </HelperText>
               </Localized>
-            </HorizontalGutter>
+            </FormFieldHeader>
             <Field
               name="auth.integrations.oidc.name"
               validate={composeValidatorsWhen(isEnabled, required)}
@@ -118,16 +120,18 @@ const OIDCConfig: FunctionComponent<Props> = ({
             disabled={disabledInside}
           />
           <FormField>
-            <Localized id="configure-auth-oidc-issuer">
-              <Label>Issuer</Label>
-            </Localized>
-            <Localized id="configure-auth-oidc-issuerDescription">
-              <HelperText>
-                After entering your Issuer information, click the Discover
-                button to have Coral complete the remaining fields. You may also
-                enter the information manually
-              </HelperText>
-            </Localized>
+            <FormFieldHeader>
+              <Localized id="configure-auth-oidc-issuer">
+                <Label>Issuer</Label>
+              </Localized>
+              <Localized id="configure-auth-oidc-issuerDescription">
+                <HelperText>
+                  After entering your Issuer information, click the Discover
+                  button to have Coral complete the remaining fields. You may
+                  also enter the information manually
+                </HelperText>
+              </Localized>
+            </FormFieldHeader>
             <Field
               name="auth.integrations.oidc.issuer"
               validate={composeValidatorsWhen(isEnabled, required, validateURL)}
@@ -252,7 +256,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
             name="auth.integrations.oidc.allowRegistration"
             disabled={disabledInside}
           />
-        </HorizontalGutter>
+        </>
       )}
     </ConfigBoxWithToggleField>
   );

@@ -6,7 +6,7 @@ import { Omit, PropTypesOf } from "coral-ui/types";
 
 import HorizontalGutter from "coral-ui/components/HorizontalGutter";
 
-import styles from "./FormField.css";
+import styles from "./FormFieldHeader.css";
 
 interface Props extends Omit<PropTypesOf<typeof HorizontalGutter>, "ref"> {
   children: ReactNode;
@@ -20,7 +20,7 @@ const FormField: FunctionComponent<Props> = props => {
   return (
     <HorizontalGutter
       className={cn(classes.root, className)}
-      spacing={2}
+      spacing={1}
       {...rest}
     >
       {children}
