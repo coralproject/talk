@@ -2,7 +2,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, Label, TextField } from "coral-admin/ui/components";
+import {
+  FieldSet,
+  FormField,
+  Label,
+  TextField,
+  TextFieldAdornment,
+} from "coral-admin/ui/components";
 import { DURATION_UNIT, DurationField } from "coral-framework/components";
 import {
   formatPercentage,
@@ -15,7 +21,7 @@ import {
   validatePercentage,
   validateWholeNumberGreaterThan,
 } from "coral-framework/lib/validation";
-import { FieldSet, HorizontalGutter, Typography } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
 import Header from "../../Header";
 import HelperText from "../../HelperText";
@@ -119,7 +125,7 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
                   autoCorrect="off"
                   autoCapitalize="off"
                   spellCheck={false}
-                  adornment={<Typography variant="bodyShort">%</Typography>}
+                  adornment={<TextFieldAdornment>%</TextFieldAdornment>}
                   textAlignCenter
                   {...input}
                 />

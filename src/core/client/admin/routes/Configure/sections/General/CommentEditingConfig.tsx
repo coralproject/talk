@@ -5,6 +5,7 @@ import { Field } from "react-final-form";
 import {
   DURATION_UNIT,
   DurationField,
+  FieldSet,
   FormField,
   Label,
 } from "coral-admin/ui/components";
@@ -13,7 +14,7 @@ import {
   required,
   validateWholeNumberGreaterThanOrEqual,
 } from "coral-framework/lib/validation";
-import { FieldSet, HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
 import Description from "../../Description";
 import Header from "../../Header";

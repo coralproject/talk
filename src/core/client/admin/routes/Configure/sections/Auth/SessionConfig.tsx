@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, Label } from "coral-admin/ui/components";
+import { FieldSet, FormField, Label } from "coral-admin/ui/components";
 import { DurationField } from "coral-framework/components";
 import { ValidationMessage } from "coral-framework/lib/form";
 import {
@@ -10,7 +10,7 @@ import {
   required,
   validateWholeNumberGreaterThanOrEqual,
 } from "coral-framework/lib/validation";
-import { FieldSet, HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";

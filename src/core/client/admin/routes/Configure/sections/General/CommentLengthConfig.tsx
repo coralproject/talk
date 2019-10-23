@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
+  FieldSet,
   FormField,
   Label,
   TextField,
@@ -14,7 +15,7 @@ import {
   createValidator,
   validateWholeNumberGreaterThan,
 } from "coral-framework/lib/validation";
-import { FieldSet, HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
 import Description from "../../Description";
 import Header from "../../Header";

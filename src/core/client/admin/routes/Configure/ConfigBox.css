@@ -12,7 +12,5 @@
 }
 
 .content {
-  border: 1px solid var(--v2-palette-config-box-border);
-  border-top: 0;
-  padding: var(--v2-spacing-3);
+  padding: var(--v2-spacing-2);
 }

@@ -1,12 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { FormField, Label } from "coral-admin/ui/components";
+import { FormField, HelperText, Label } from "coral-admin/ui/components";
 import { HorizontalGutter } from "coral-ui/components";
 
 import Description from "../../Description";
 import Header from "../../Header";
-import HelperText from "../../HelperText";
 import SectionContent from "../../SectionContent";
 import WordListTextArea from "./WordListTextArea";
 

@@ -2,14 +2,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, Label } from "coral-admin/ui/components";
+import { FormField, HelperText, Label } from "coral-admin/ui/components";
 import { MarkdownEditor } from "coral-framework/components/loadables";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { HorizontalGutter, Spinner } from "coral-ui/components";
 
 import Description from "../../Description";
 import Header from "../../Header";
-import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";

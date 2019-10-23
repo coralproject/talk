@@ -2,7 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, Label, TextField } from "coral-admin/ui/components";
+import {
+  FormField,
+  HelperText,
+  Label,
+  TextField,
+} from "coral-admin/ui/components";
 import {
   colorFromMeta,
   parseEmptyAsNull,
@@ -17,7 +22,6 @@ import {
 import { Button, Flex, HorizontalGutter, TextLink } from "coral-ui/components";
 
 import Description from "../../Description";
-import HelperText from "../../HelperText";
 import HorizontalRule from "../../HorizontalRule";
 import { FormProps } from "./AuthConfigContainer";
 import ClientIDField from "./ClientIDField";

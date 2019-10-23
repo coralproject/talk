@@ -1,7 +1,7 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
-import { InputDescription, InputLabel, TextField } from "../../components";
+import { HelperText, Label, TextField } from "../../components";
 import FormField from "../FormField";
 
 it("renders correctly", () => {
@@ -14,10 +14,10 @@ it("renders correctly", () => {
 it("works with multiple form components", () => {
   const renderer = TestRenderer.create(
     <FormField>
-      <InputLabel>Username</InputLabel>
-      <InputDescription>
+      <Label>Username</Label>
+      <HelperText>
         An identifier displayed on your comments. You may use “_” and “.”
-      </InputDescription>
+      </HelperText>
       <TextField />
     </FormField>
   );

@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { FormField, Label } from "coral-admin/ui/components";
-import { FieldSet, Flex, HorizontalGutter } from "coral-ui/components";
+import { FieldSet, FormField, Label } from "coral-admin/ui/components";
+import { Flex, HorizontalGutter } from "coral-ui/components";
 
 import Description from "../../Description";
 import Header from "../../Header";

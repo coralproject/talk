@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import { HelperText } from "coral-admin/ui/components";
 import {
   Condition,
   required,
@@ -8,7 +9,6 @@ import {
 } from "coral-framework/lib/validation";
 import { HorizontalGutter, TextLink } from "coral-ui/components";
 
-import HelperText from "../../HelperText";
 import HorizontalRule from "../../HorizontalRule";
 import ClientIDField from "./ClientIDField";
 import ClientSecretField from "./ClientSecretField";

@@ -3,7 +3,9 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
+  FieldSet,
   FormField,
+  HelperText,
   Label,
   TextField,
   TextFieldAdornment,
@@ -26,11 +28,10 @@ import {
   validateURL,
   validateWhen,
 } from "coral-framework/lib/validation";
-import { FieldSet, HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
 import Description from "../../Description";
 import Header from "../../Header";
-import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import PermissionField from "../../PermissionField";
 import SectionContent from "../../SectionContent";

@@ -1,9 +1,10 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 
 import styles from "./Header.css";
 
 interface Props {
+  children: ReactNode;
   className?: string;
   htmlFor?: string;
   component?: "legend" | "label";

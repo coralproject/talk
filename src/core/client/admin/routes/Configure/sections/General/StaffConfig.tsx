@@ -2,9 +2,14 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, Label, TextField } from "coral-admin/ui/components";
+import {
+  FieldSet,
+  FormField,
+  Label,
+  TextField,
+} from "coral-admin/ui/components";
 import { required } from "coral-framework/lib/validation";
-import { FieldSet, Flex, HorizontalGutter, Tag } from "coral-ui/components";
+import { Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
 import { StaffConfigContainer_settings as SettingsData } from "coral-admin/__generated__/StaffConfigContainer_settings.graphql";
 

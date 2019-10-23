@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
+  FieldSet,
   FormField,
   Label,
   Option,
@@ -11,7 +12,7 @@ import {
 } from "coral-admin/ui/components";
 import { required } from "coral-framework/lib/validation";
 import ReactionButton from "coral-stream/tabs/Comments/Comment/ReactionButton/ReactionButton";
-import { FieldSet, Flex, HorizontalGutter } from "coral-ui/components";
+import { Flex, HorizontalGutter } from "coral-ui/components";
 
 import { ReactionConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ReactionConfigContainer_settings.graphql";
 

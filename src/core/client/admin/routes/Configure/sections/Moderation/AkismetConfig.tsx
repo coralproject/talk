@@ -2,7 +2,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, Label, TextField } from "coral-admin/ui/components";
+import {
+  FieldSet,
+  FormField,
+  HelperText,
+  Label,
+  TextField,
+} from "coral-admin/ui/components";
 import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
@@ -10,11 +16,10 @@ import {
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
-import { FieldSet, HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
 import Description from "../../Description";
 import Header from "../../Header";
-import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import SectionContent from "../../SectionContent";
 import SubHeader from "../../SubHeader";
