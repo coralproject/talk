@@ -119,19 +119,26 @@ exports[`renders configure organization 1`] = `
           data-testid="configure-organizationContainer"
         >
           <div
-            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+            className="Box-root ConfigBox-root"
           >
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
             >
-              <label
-                className="Header-root"
-                htmlFor="configure-organization-organization.name"
-              >
-                Organization name
-              </label>
+              <div>
+                <label
+                  className="Header-root"
+                  htmlFor="configure-organization-organization.name"
+                >
+                  Organization name
+                </label>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
               <div
-                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
                   className="Description-root"
@@ -162,19 +169,26 @@ exports[`renders configure organization 1`] = `
             </div>
           </div>
           <div
-            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+            className="Box-root ConfigBox-root"
           >
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
             >
-              <label
-                className="Header-root"
-                htmlFor="configure-organization-organization.contactEmail"
-              >
-                Organization email
-              </label>
+              <div>
+                <label
+                  className="Header-root"
+                  htmlFor="configure-organization-organization.contactEmail"
+                >
+                  Organization email
+                </label>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
               <div
-                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
                   className="Description-root"
@@ -208,19 +222,26 @@ moderation questions.
             </div>
           </div>
           <div
-            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+            className="Box-root ConfigBox-root"
           >
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
             >
-              <label
-                className="Header-root"
-                htmlFor="configure-organization-organization.url"
-              >
-                Organization URL
-              </label>
+              <div>
+                <label
+                  className="Header-root"
+                  htmlFor="configure-organization-organization.url"
+                >
+                  Organization URL
+                </label>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
               <div
-                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
                   className="Description-root"

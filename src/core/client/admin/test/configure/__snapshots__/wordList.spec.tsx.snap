@@ -119,44 +119,53 @@ exports[`renders configure wordList 1`] = `
           data-testid="configure-wordListContainer"
         >
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+            className="Box-root ConfigBox-root"
           >
-            <h2
-              className="Header-root"
-            >
-              Banned words and phrases
-            </h2>
             <div
-              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
             >
-              <p
-                className="Description-root"
-              >
-                Comments containing a word or phrase in the banned words list are 
-                <strong>
-                  automatically rejected and are not published
-                </strong>
-                .
-              </p>
-              <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
-              >
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+              <div>
+                <h2
+                  className="Header-root"
                 >
-                  <label
-                    className="Label-root"
-                    htmlFor="configure-wordlist-banned"
+                  Banned words and phrases
+                </h2>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <p
+                  className="Description-root"
+                >
+                  Comments containing a word or phrase in the banned words list are 
+                  <strong>
+                    automatically rejected and are not published
+                  </strong>
+                  .
+                </p>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                   >
-                    Banned word list
-                  </label>
-                  <p
-                    className="HelperText-root"
-                  >
-                    Separate banned words or phrases with a new line. Words/phrases are not case sensitive.
-                  </p>
-                </div>
-                <div>
+                    <label
+                      className="Label-root"
+                      htmlFor="configure-wordlist-banned"
+                    >
+                      Banned word list
+                    </label>
+                    <p
+                      className="HelperText-root"
+                    >
+                      Separate banned words or phrases with a new line. Words/phrases are not case sensitive.
+                    </p>
+                  </div>
                   <textarea
                     autoCapitalize="off"
                     autoComplete="off"
@@ -176,45 +185,54 @@ exports[`renders configure wordList 1`] = `
             </div>
           </div>
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="Box-root ConfigBox-root"
           >
-            <h2
-              className="Header-root"
-            >
-              Suspect words and phrases
-            </h2>
             <div
-              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
             >
-              <p
-                className="Description-root"
-              >
-                Comments containing a word or phrase in the Suspect Words List
-are 
-                <strong>
-                  placed into the Reported Queue for moderator review and are
-published (if comments are not pre-moderated).
-                </strong>
-              </p>
-              <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
-              >
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+              <div>
+                <h2
+                  className="Header-root"
                 >
-                  <label
-                    className="Label-root"
-                    htmlFor="configure-wordlist-suspect"
+                  Suspect words and phrases
+                </h2>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <p
+                  className="Description-root"
+                >
+                  Comments containing a word or phrase in the Suspect Words List
+are 
+                  <strong>
+                    placed into the Reported Queue for moderator review and are
+published (if comments are not pre-moderated).
+                  </strong>
+                </p>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                   >
-                    Suspect word list
-                  </label>
-                  <p
-                    className="HelperText-root"
-                  >
-                    Separate suspect words or phrases with a new line. Words/phrases are not case sensitive.
-                  </p>
-                </div>
-                <div>
+                    <label
+                      className="Label-root"
+                      htmlFor="configure-wordlist-suspect"
+                    >
+                      Suspect word list
+                    </label>
+                    <p
+                      className="HelperText-root"
+                    >
+                      Separate suspect words or phrases with a new line. Words/phrases are not case sensitive.
+                    </p>
+                  </div>
                   <textarea
                     autoCapitalize="off"
                     autoComplete="off"

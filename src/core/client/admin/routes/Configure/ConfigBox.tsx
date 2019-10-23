@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Flex, HorizontalGutter } from "coral-ui/components";
+import { Box, Flex, HorizontalGutter } from "coral-ui/components";
 
 import styles from "./ConfigBox.css";
 
@@ -21,7 +21,12 @@ const ConfigBox: FunctionComponent<Props> = ({
   ...rest
 }) => {
   return (
-    <div {...rest} className={styles.root} id={id}>
+    <Box
+      container={container || "div"}
+      {...rest}
+      className={styles.root}
+      id={id}
+    >
       <Flex className={styles.title} justifyContent="space-between">
         <div>{title}</div>
         <div>{topRight}</div>
@@ -31,7 +36,7 @@ const ConfigBox: FunctionComponent<Props> = ({
           {children}
         </HorizontalGutter>
       </div>
-    </div>
+    </Box>
   );
 };
 

@@ -2,16 +2,18 @@
 
 exports[`change settings: during submit: oidc without errors 1`] = `
 <div
-  className="ConfigBox-root"
+  className="Box-root ConfigBox-root"
   data-testid="configure-auth-oidc-container"
 >
   <div
     className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
-      <span>
+      <h2
+        className="Header-root"
+      >
         Login with OpenID Connect
-      </span>
+      </h2>
     </div>
     <div>
       <div
@@ -50,7 +52,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
         className="Description-root"
@@ -118,7 +120,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
           <label
             className="Label-root"
@@ -230,17 +232,21 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Label-root"
+        <div
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
-          Issuer
-        </label>
-        <p
-          className="HelperText-root"
-        >
-          After entering your Issuer information, click the Discover button to have Coral complete
+          <label
+            className="Label-root"
+          >
+            Issuer
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
-        </p>
+          </p>
+        </div>
         <div
           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
@@ -436,7 +442,7 @@ the remaining fields. You may also enter the information manually.
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
           <label
             className="Label-root"
@@ -488,16 +494,18 @@ integration to register for a new account.
 
 exports[`change settings: enable facebook configure box 1`] = `
 <div
-  className="ConfigBox-root"
+  className="Box-root ConfigBox-root"
   data-testid="configure-auth-facebook-container"
 >
   <div
     className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
-      <span>
+      <h2
+        className="Header-root"
+      >
         Login with Facebook
-      </span>
+      </h2>
     </div>
     <div>
       <div
@@ -536,10 +544,10 @@ exports[`change settings: enable facebook configure box 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
-        className="HelperText-root"
+        className="Description-root"
       >
         To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
@@ -560,9 +568,6 @@ For more information visit:
         </a>
         .
       </p>
-      <hr
-        className="HorizontalRule-root"
-      />
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
@@ -753,7 +758,7 @@ For more information visit:
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
           <label
             className="Label-root"
@@ -805,16 +810,18 @@ integration to register for a new account.
 
 exports[`change settings: enable oidc configure box 1`] = `
 <div
-  className="ConfigBox-root"
+  className="Box-root ConfigBox-root"
   data-testid="configure-auth-oidc-container"
 >
   <div
     className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
-      <span>
+      <h2
+        className="Header-root"
+      >
         Login with OpenID Connect
-      </span>
+      </h2>
     </div>
     <div>
       <div
@@ -853,7 +860,7 @@ exports[`change settings: enable oidc configure box 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
         className="Description-root"
@@ -921,7 +928,7 @@ exports[`change settings: enable oidc configure box 1`] = `
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
           <label
             className="Label-root"
@@ -1033,17 +1040,21 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Label-root"
+        <div
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
-          Issuer
-        </label>
-        <p
-          className="HelperText-root"
-        >
-          After entering your Issuer information, click the Discover button to have Coral complete
+          <label
+            className="Label-root"
+          >
+            Issuer
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
-        </p>
+          </p>
+        </div>
         <div
           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
@@ -1239,7 +1250,7 @@ the remaining fields. You may also enter the information manually.
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
           <label
             className="Label-root"
@@ -1291,16 +1302,18 @@ integration to register for a new account.
 
 exports[`change settings: oidc validation errors 1`] = `
 <div
-  className="ConfigBox-root"
+  className="Box-root ConfigBox-root"
   data-testid="configure-auth-oidc-container"
 >
   <div
     className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
-      <span>
+      <h2
+        className="Header-root"
+      >
         Login with OpenID Connect
-      </span>
+      </h2>
     </div>
     <div>
       <div
@@ -1339,7 +1352,7 @@ exports[`change settings: oidc validation errors 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
         className="Description-root"
@@ -1407,7 +1420,7 @@ exports[`change settings: oidc validation errors 1`] = `
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
           <label
             className="Label-root"
@@ -1558,17 +1571,21 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
       <div
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Label-root"
+        <div
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
-          Issuer
-        </label>
-        <p
-          className="HelperText-root"
-        >
-          After entering your Issuer information, click the Discover button to have Coral complete
+          <label
+            className="Label-root"
+          >
+            Issuer
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
-        </p>
+          </p>
+        </div>
         <div
           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
@@ -1816,7 +1833,7 @@ the remaining fields. You may also enter the information manually.
         className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
           <label
             className="Label-root"
@@ -2088,39 +2105,46 @@ exports[`renders configure auth 1`] = `
         >
           <div>
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+              className="Box-root ConfigBox-root"
             >
-              <legend
-                className="Header-root"
-              >
-                Commenter account management features
-              </legend>
               <div
-                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
+                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
               >
-                <p
-                  className="Description-root"
-                >
-                  You can enable and disable certain features for your commenters to use
-within their Profile. These features also assist towards GDPR
-compliance.
-                </p>
-                <fieldset
-                  className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-full"
+                <div>
+                  <legend
+                    className="Header-root"
+                  >
+                    Commenter account management features
+                  </legend>
+                </div>
+                <div />
+              </div>
+              <div
+                className="ConfigBox-content"
+              >
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                 >
                   <p
                     className="Description-root"
                   >
-                    Allow users to:
+                    You can enable and disable certain features for your commenters to use
+within their Profile. These features also assist towards GDPR
+compliance.
                   </p>
                   <fieldset
                     className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
+                    <p
+                      className="Description-root"
+                    >
+                      Allow users to:
+                    </p>
                     <div
                       className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <legend
                           className="Label-root"
@@ -2187,10 +2211,6 @@ compliance.
                       </div>
                     </div>
                   </fieldset>
-                </fieldset>
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
-                >
                   <fieldset
                     className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
@@ -2198,7 +2218,7 @@ compliance.
                       className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <legend
                           className="Label-root"
@@ -2265,10 +2285,6 @@ compliance.
                       </div>
                     </div>
                   </fieldset>
-                </div>
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
-                >
                   <fieldset
                     className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
@@ -2276,7 +2292,7 @@ compliance.
                       className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <legend
                           className="Label-root"
@@ -2353,107 +2369,116 @@ address from the site and the database.
             data-testid="configure-authContainer"
           >
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              className="Box-root ConfigBox-root"
             >
               <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
               >
-                <h2
-                  className="Header-root"
-                >
-                  Session settings
-                </h2>
+                <div>
+                  <h2
+                    className="Header-root"
+                  >
+                    Session settings
+                  </h2>
+                </div>
+                <div />
               </div>
               <div
-                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
+                className="ConfigBox-content"
               >
-                <fieldset
-                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                 >
-                  <legend
-                    className="Label-root"
+                  <fieldset
+                    className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
-                    Session duration
-                  </legend>
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
-                  >
+                    <legend
+                      className="Label-root"
+                    >
+                      Session duration
+                    </legend>
                     <div
-                      className="TextField-root DurationField-value"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                     >
-                      <input
-                        aria-label="value"
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular TextField-textAlignCenter"
-                        disabled={false}
-                        name="auth.sessionDuration-value"
-                        onChange={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value="90"
-                      />
-                    </div>
-                    <span
-                      className="SelectField-root"
-                    >
-                      <select
-                        aria-label="unit"
-                        className="SelectField-select DurationField-select"
-                        disabled={false}
-                        name="auth.sessionDuration-unit"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="86400"
+                      <div
+                        className="TextField-root DurationField-value"
                       >
-                        <option
-                          value="3600"
-                        >
-                          Hours
-                        </option>
-                        <option
+                        <input
+                          aria-label="value"
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                          disabled={false}
+                          name="auth.sessionDuration-value"
+                          onChange={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="text"
+                          value="90"
+                        />
+                      </div>
+                      <span
+                        className="SelectField-root"
+                      >
+                        <select
+                          aria-label="unit"
+                          className="SelectField-select DurationField-select"
+                          disabled={false}
+                          name="auth.sessionDuration-unit"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
                           value="86400"
                         >
-                          Days
-                        </option>
-                        <option
-                          value="604800"
+                          <option
+                            value="3600"
+                          >
+                            Hours
+                          </option>
+                          <option
+                            value="86400"
+                          >
+                            Days
+                          </option>
+                          <option
+                            value="604800"
+                          >
+                            Weeks
+                          </option>
+                        </select>
+                        <span
+                          aria-hidden={true}
+                          className="SelectField-afterWrapper"
                         >
-                          Weeks
-                        </option>
-                      </select>
-                      <span
-                        aria-hidden={true}
-                        className="SelectField-afterWrapper"
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="Icon-root Icon-sm"
-                        >
-                          expand_more
-                        </i>
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            expand_more
+                          </i>
+                        </span>
                       </span>
-                    </span>
-                  </div>
-                </fieldset>
+                    </div>
+                  </fieldset>
+                </div>
               </div>
             </div>
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-double"
             >
               <div
-                className="ConfigBox-root"
+                className="Box-root ConfigBox-root"
               >
                 <div
                   className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
                   <div>
-                    <span>
+                    <h2
+                      className="Header-root"
+                    >
                       Login with email authentication
-                    </span>
+                    </h2>
                   </div>
                   <div>
                     <div
@@ -2492,7 +2517,7 @@ address from the site and the database.
                   className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <div
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
@@ -2565,7 +2590,7 @@ address from the site and the database.
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <label
                           className="Label-root"
@@ -2614,16 +2639,18 @@ integration to register for a new account.
                 </div>
               </div>
               <div
-                className="ConfigBox-root"
+                className="Box-root ConfigBox-root"
                 data-testid="configure-auth-oidc-container"
               >
                 <div
                   className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
                   <div>
-                    <span>
+                    <h2
+                      className="Header-root"
+                    >
                       Login with OpenID Connect
-                    </span>
+                    </h2>
                   </div>
                   <div>
                     <div
@@ -2662,7 +2689,7 @@ integration to register for a new account.
                   className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <p
                       className="Description-root"
@@ -2730,7 +2757,7 @@ integration to register for a new account.
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <label
                           className="Label-root"
@@ -2842,17 +2869,21 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                     <div
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
-                      <label
-                        className="Label-root"
+                      <div
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
-                        Issuer
-                      </label>
-                      <p
-                        className="HelperText-root"
-                      >
-                        After entering your Issuer information, click the Discover button to have Coral complete
+                        <label
+                          className="Label-root"
+                        >
+                          Issuer
+                        </label>
+                        <p
+                          className="HelperText-root"
+                        >
+                          After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
-                      </p>
+                        </p>
+                      </div>
                       <div
                         className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                       >
@@ -3048,7 +3079,7 @@ the remaining fields. You may also enter the information manually.
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <label
                           className="Label-root"
@@ -3097,15 +3128,17 @@ integration to register for a new account.
                 </div>
               </div>
               <div
-                className="ConfigBox-root"
+                className="Box-root ConfigBox-root"
               >
                 <div
                   className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
                   <div>
-                    <span>
+                    <h2
+                      className="Header-root"
+                    >
                       Login with Single Sign On
-                    </span>
+                    </h2>
                   </div>
                   <div>
                     <div
@@ -3144,7 +3177,7 @@ integration to register for a new account.
                   className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <div
                       className="Box-root HorizontalGutter-root FormField-root SSOKeyField-root HorizontalGutter-spacing-2"
@@ -3303,7 +3336,7 @@ and all signed-in users will be signed out.
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <label
                           className="Label-root"
@@ -3352,15 +3385,17 @@ integration to register for a new account.
                 </div>
               </div>
               <div
-                className="ConfigBox-root"
+                className="Box-root ConfigBox-root"
               >
                 <div
                   className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
                   <div>
-                    <span>
+                    <h2
+                      className="Header-root"
+                    >
                       Login with Google
-                    </span>
+                    </h2>
                   </div>
                   <div>
                     <div
@@ -3399,10 +3434,10 @@ integration to register for a new account.
                   className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <p
-                      className="HelperText-root"
+                      className="Description-root"
                     >
                       To enable the integration with Google Authentication you need
 to create and set up a web application. For more information visit:
@@ -3422,9 +3457,6 @@ to create and set up a web application. For more information visit:
                       </a>
                       .
                     </p>
-                    <hr
-                      className="HorizontalRule-root"
-                    />
                     <div
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
@@ -3615,7 +3647,7 @@ to create and set up a web application. For more information visit:
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <label
                           className="Label-root"
@@ -3664,16 +3696,18 @@ integration to register for a new account.
                 </div>
               </div>
               <div
-                className="ConfigBox-root"
+                className="Box-root ConfigBox-root"
                 data-testid="configure-auth-facebook-container"
               >
                 <div
                   className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
                   <div>
-                    <span>
+                    <h2
+                      className="Header-root"
+                    >
                       Login with Facebook
-                    </span>
+                    </h2>
                   </div>
                   <div>
                     <div
@@ -3712,10 +3746,10 @@ integration to register for a new account.
                   className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <p
-                      className="HelperText-root"
+                      className="Description-root"
                     >
                       To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
@@ -3736,9 +3770,6 @@ For more information visit:
                       </a>
                       .
                     </p>
-                    <hr
-                      className="HorizontalRule-root"
-                    />
                     <div
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
@@ -3929,7 +3960,7 @@ For more information visit:
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <label
                           className="Label-root"

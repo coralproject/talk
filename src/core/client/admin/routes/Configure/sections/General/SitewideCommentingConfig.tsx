@@ -3,6 +3,7 @@ import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
 import {
+  FieldSet,
   FormField,
   FormFieldHeader,
   HelperText,
@@ -29,7 +30,7 @@ const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
         <Header component="legend">Sitewide commenting</Header>
       </Localized>
     }
-    container="fieldset"
+    container={<FieldSet />}
   >
     <Localized id="configure-general-sitewideCommenting-explanation">
       <Description>
