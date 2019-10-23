@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { Form } from "react-final-form";
 
-import { Backdrop, Icon, Popover, SubBar } from "coral-ui/components";
+import { Backdrop, Icon, Popover, SubBar } from "coral-ui/components/v2";
 import { combineEventHandlers } from "coral-ui/helpers";
 import {
   useBlurOnEsc,
@@ -128,7 +128,9 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
                         <Group
                           title={
                             <>
-                              <Icon>search</Icon>{" "}
+                              <Icon size="md" className={styles.groupIcon}>
+                                search
+                              </Icon>{" "}
                               <Localized id="moderate-searchBar-searchResults">
                                 <span>Search results</span>
                               </Localized>
@@ -144,7 +146,9 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
                         <Group
                           title={
                             <>
-                              <Icon>search</Icon>{" "}
+                              <Icon size="md" className={styles.groupIcon}>
+                                search
+                              </Icon>{" "}
                               <Localized id="moderate-searchBar-searchResultsMostRecentFirst">
                                 <span>Search results (Most recent first)</span>
                               </Localized>

@@ -460,7 +460,7 @@ moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent fi
 moderate-searchBar-moderateAllStories = Moderate all stories
 moderate-searchBar-comboBoxTextField =
   .aria-label = Search or jump to story...
-  .placeholder = Use quotation marks around each search term (e.g. “team”, “St. Louis”)
+  .placeholder = search by story title, author, url, id, etc.
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 

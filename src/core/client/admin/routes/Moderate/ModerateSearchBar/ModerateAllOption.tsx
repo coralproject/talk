@@ -2,7 +2,7 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
-import { Button, Icon } from "coral-ui/components";
+import { Button, Icon } from "coral-ui/components/v2";
 
 import styles from "./ModerateAllOption.css";
 
@@ -28,8 +28,8 @@ const ModerateAllOption: FunctionComponent<Props> = ({
     >
       <Button
         href={href}
-        color="primary"
-        className={styles.link}
+        color="emphasis"
+        variant="filled"
         anchor
         fullWidth
         tabIndex={-1}
