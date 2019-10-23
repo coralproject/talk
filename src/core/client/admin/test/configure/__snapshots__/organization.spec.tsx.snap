@@ -119,22 +119,22 @@ exports[`renders configure organization 1`] = `
           data-testid="configure-organizationContainer"
         >
           <div
-            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
           >
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
             >
-              <label
-                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+              <h2
+                className="Header-root"
                 htmlFor="configure-organization-organization.name"
               >
                 Organization name
-              </label>
+              </h2>
               <div
-                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                  className="Description-root"
                 >
                   Your organization name will appear on emails sent by Coral to your community and organization members.
                 </p>
@@ -162,22 +162,22 @@ exports[`renders configure organization 1`] = `
             </div>
           </div>
           <div
-            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
           >
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
-              <label
-                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+              <h2
+                className="Header-root"
                 htmlFor="configure-organization-organization.contactEmail"
               >
                 Organization email
-              </label>
+              </h2>
               <div
-                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                  className="Description-root"
                 >
                   This email address will be used as in emails and across the platform
 for community members to get in touch with the organization should
@@ -208,22 +208,22 @@ moderation questions.
             </div>
           </div>
           <div
-            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
           >
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
             >
-              <label
-                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+              <h2
+                className="Header-root"
                 htmlFor="configure-organization-organization.url"
               >
                 Organization URL
-              </label>
+              </h2>
               <div
-                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                  className="Description-root"
                 >
                   Your organization url will appear on emails sent by Coral to your community and organization members.
                 </p>

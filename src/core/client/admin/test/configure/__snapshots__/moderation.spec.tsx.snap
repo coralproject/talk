@@ -119,27 +119,27 @@ exports[`renders configure moderation 1`] = `
           data-testid="configure-moderationContainer"
         >
           <fieldset
-            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
           >
             <legend
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+              className="Header-root"
             >
               Pre-moderation
             </legend>
             <div
-              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
             >
               <p
-                className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                className="Description-root"
               >
                 When pre-moderation is turned on, comments will not be published unless
 approved by a moderator.
               </p>
               <fieldset
-                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
                 <legend
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Label-root"
                 >
                   Pre-moderate all comments sitewide
                 </legend>
@@ -195,10 +195,10 @@ approved by a moderator.
                 </div>
               </fieldset>
               <fieldset
-                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
                 <legend
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Label-root"
                 >
                   Pre-moderate comments containing links sitewide
                 </legend>
@@ -256,29 +256,33 @@ approved by a moderator.
             </div>
           </fieldset>
           <fieldset
-            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
           >
             <legend
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+              className="Header-root"
             >
               Recent history
             </legend>
             <div
-              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
             >
               <fieldset
-                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
-                <legend
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
-                  Recent comment history time period
-                </legend>
-                <p
-                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                >
-                  Amount of time to calculate a commenter's rejection rate.
-                </p>
+                  <legend
+                    className="Label-root"
+                  >
+                    Recent comment history time period
+                  </legend>
+                  <p
+                    className="HelperText-root"
+                  >
+                    Amount of time to calculate a commenter's rejection rate.
+                  </p>
+                </div>
                 <div
                   className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                 >
@@ -308,21 +312,25 @@ approved by a moderator.
                 </div>
               </fieldset>
               <fieldset
-                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
-                <legend
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
-                  Recent history filter
-                </legend>
-                <p
-                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                >
-                  Prevents repeat offenders from publishing comments without approval.
+                  <legend
+                    className="Label-root"
+                  >
+                    Recent history filter
+                  </legend>
+                  <p
+                    className="HelperText-root"
+                  >
+                    Prevents repeat offenders from publishing comments without approval.
 When a commenter's rejection rate is above the threshold, their
 comments are sent to Pending for moderator approval. This does not
 apply to Staff comments.
-                </p>
+                  </p>
+                </div>
                 <div>
                   <div
                     className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
@@ -375,20 +383,24 @@ apply to Staff comments.
                 </div>
               </fieldset>
               <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
-                <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
-                  Rejection rate threshold
-                </label>
-                <p
-                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                >
-                  Rejected comments ÷ (rejected comments + published comments)
+                  <label
+                    className="Label-root"
+                  >
+                    Rejection rate threshold
+                  </label>
+                  <p
+                    className="HelperText-root"
+                  >
+                    Rejected comments ÷ (rejected comments + published comments)
 over the timeframe above, as a percentage. It does not include
 comments pending for toxicity, spam or pre-moderation.
-                </p>
+                  </p>
+                </div>
                 <div
                   className="TextField-root"
                 >
@@ -410,11 +422,11 @@ comments pending for toxicity, spam or pre-moderation.
                   <div
                     className="TextField-adornment"
                   >
-                    <p
-                      className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                    <span
+                      className="TextFieldAdornment-root"
                     >
                       %
-                    </p>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -425,15 +437,15 @@ comments pending for toxicity, spam or pre-moderation.
             data-testid="perspective-container"
           >
             <legend
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+              className="Header-root"
             >
               Toxic comment filter
             </legend>
             <div
-              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
             >
               <p
-                className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                className="Description-root"
               >
                 Using the Perspective API, the Toxic Comment filter warns users
 when comments exceed the predefined toxicity threshold.
@@ -451,10 +463,10 @@ the
 If approved by a moderator, the comment will be published.
               </p>
               <fieldset
-                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
                 <legend
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Label-root"
                 >
                   Toxic comment filter
                 </legend>
@@ -510,20 +522,24 @@ If approved by a moderator, the comment will be published.
                 </div>
               </fieldset>
               <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
-                <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                  htmlFor="configure-moderation-perspective-threshold"
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
-                  Toxicity threshold
-                </label>
-                <p
-                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                >
-                  This value can be set a percentage between 0 and 100. This number represents the likelihood that a
+                  <label
+                    className="Label-root"
+                    htmlFor="configure-moderation-perspective-threshold"
+                  >
+                    Toxicity threshold
+                  </label>
+                  <p
+                    className="HelperText-root"
+                  >
+                    This value can be set a percentage between 0 and 100. This number represents the likelihood that a
 comment is toxic, according to Perspective API. By default the threshold is set to 80%.
-                </p>
+                  </p>
+                </div>
                 <div
                   className="TextField-root"
                 >
@@ -546,38 +562,42 @@ comment is toxic, according to Perspective API. By default the threshold is set 
                   <div
                     className="TextField-adornment"
                   >
-                    <p
-                      className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                    <span
+                      className="TextFieldAdornment-root"
                     >
                       %
-                    </p>
+                    </span>
                   </div>
                 </div>
               </div>
               <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
-                <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                  htmlFor="configure-moderation-perspective-model"
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
-                  Toxicity model
-                </label>
-                <p
-                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                >
-                  Choose your Perspective Model. The default is TOXICITY.
-You can find out more about model choices 
-                  <a
-                    className="ExternalLink-root"
-                    href="https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#models"
-                    rel="noopener noreferrer"
-                    target="_blank"
+                  <label
+                    className="Label-root"
+                    htmlFor="configure-moderation-perspective-model"
                   >
-                    here
-                  </a>
-                  .
-                </p>
+                    Toxicity model
+                  </label>
+                  <p
+                    className="HelperText-root"
+                  >
+                    Choose your Perspective Model. The default is TOXICITY.
+You can find out more about model choices 
+                    <a
+                      className="ExternalLink-root"
+                      href="https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#models"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      here
+                    </a>
+                    .
+                  </p>
+                </div>
                 <div
                   className="TextField-root TextField-fullWidth"
                 >
@@ -600,19 +620,23 @@ You can find out more about model choices
                 </div>
               </div>
               <fieldset
-                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
-                <legend
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
-                  Allow Google to store comment data
-                </legend>
-                <p
-                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                >
-                  Stored comments will be used for future research and community model building purposes to
+                  <legend
+                    className="Label-root"
+                  >
+                    Allow Google to store comment data
+                  </legend>
+                  <p
+                    className="HelperText-root"
+                  >
+                    Stored comments will be used for future research and community model building purposes to
 improve the API over time.
-                </p>
+                  </p>
+                </div>
                 <div>
                   <div>
                     <div
@@ -662,14 +686,16 @@ improve the API over time.
                   </div>
                 </div>
               </fieldset>
-              <div>
-                <h1
-                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Subheader-root"
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+              >
+                <h3
+                  className="Subheader-root"
                 >
                   Configuration
-                </h1>
+                </h3>
                 <p
-                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextPrimary"
+                  className="HelperText-root"
                 >
                   For additional information on how to set up the Perspective Toxic Comment Filter please visit:
 
@@ -684,10 +710,10 @@ improve the API over time.
                 </p>
               </div>
               <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
                 <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Label-root"
                   htmlFor="configure-moderation-integrations.perspective.key"
                 >
                   API key
@@ -733,16 +759,16 @@ improve the API over time.
                 </div>
               </div>
               <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
                 <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Label-root"
                   htmlFor="configure-moderation-perspective-customEndpoint"
                 >
                   Custom endpoint
                 </label>
                 <p
-                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
+                  className="HelperText-root"
                 >
                   By default the endpoint is set to https://commentanalyzer.googleapis.com/v1alpha1. You may override this here.
                 </p>
@@ -774,15 +800,15 @@ improve the API over time.
             data-testid="akismet-config"
           >
             <legend
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+              className="Header-root"
             >
               Spam detection filter
             </legend>
             <div
-              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+              className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
             >
               <p
-                className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                className="Description-root"
               >
                 The Akismet API filter warns users when a comment is determined likely
 to be spam. Comments that Akismet thinks are spam will not be published
@@ -790,10 +816,10 @@ and are placed in the Pending Queue for review by a moderator.
 If approved by a moderator, the comment will be published.
               </p>
               <fieldset
-                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
                 <legend
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Label-root"
                 >
                   Spam detection filter
                 </legend>
@@ -848,14 +874,16 @@ If approved by a moderator, the comment will be published.
                   </div>
                 </div>
               </fieldset>
-              <div>
-                <h1
-                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Subheader-root"
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+              >
+                <h3
+                  className="Subheader-root"
                 >
                   Configuration
-                </h1>
+                </h3>
                 <p
-                  className="Box-root Typography-root Typography-fieldDescription Typography-colorTextPrimary"
+                  className="HelperText-root"
                 >
                   Note: You must add your active domain(s)
 in your Akismet account: 
@@ -870,10 +898,10 @@ in your Akismet account:
                 </p>
               </div>
               <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
                 <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Label-root"
                   htmlFor="configure-moderation-integrations.akismet.key"
                 >
                   API key
@@ -919,10 +947,10 @@ in your Akismet account:
                 </div>
               </div>
               <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
               >
                 <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Label-root"
                   htmlFor="configure-moderation-akismet-site"
                 >
                   Site URL
