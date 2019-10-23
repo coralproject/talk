@@ -11,7 +11,7 @@ export type SignOutMutation = () => Promise<void>;
 export async function commit(
   environment: Environment,
   input: undefined,
-  ctx: CoralContext
+  ctx: Pick<CoralContext, "rest" | "clearSession">
 ) {
   await signOut(ctx.rest);
   await SetAccessTokenMutation.commit(environment, { accessToken: "" }, ctx);

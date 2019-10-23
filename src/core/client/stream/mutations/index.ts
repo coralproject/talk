@@ -7,3 +7,4 @@ export {
   withShowAuthPopupMutation,
   ShowAuthPopupMutation,
 } from "./ShowAuthPopupMutation";
+export { default as SignOutMutation } from "./SignOutMutation";

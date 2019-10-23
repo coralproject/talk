@@ -1,4 +1,6 @@
+import { EventEmitter2 } from "eventemitter2";
 import { Environment, RecordSource } from "relay-runtime";
+import sinon from "sinon";
 
 import { createRelayEnvironment } from "coral-framework/testHelpers";
 
@@ -6,9 +8,10 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "../local";
 import { commit } from "./ShowAuthPopupMutation";
 
 let environment: Environment;
-const source: RecordSource = new RecordSource();
+let source: RecordSource;
 
-beforeAll(() => {
+beforeEach(() => {
+  source = new RecordSource();
   environment = createRelayEnvironment({
     source,
     initLocalState: (localRecord, sourceProxy) => {
@@ -20,23 +23,36 @@ beforeAll(() => {
   });
 });
 
-it("opens popup", () => {
-  commit(environment, { view: "SIGN_IN" });
+it("emits ShowAuthPopupEvent and LoginPromptEvent on SIGN_IN", () => {
+  const view = "SIGN_IN";
+  const eventEmitter = new EventEmitter2();
+  const mock = sinon.mock(eventEmitter);
+  mock.expects("emit").withArgs("loginPrompt");
+  mock.expects("emit").withArgs("showAuthPopup", { view });
+  commit(environment, { view }, { eventEmitter });
+  mock.verify();
+});
+
+it("emits only ShowAuthPopupEvent on other views", () => {
+  const view = "FORGOT_PASSWORD";
+  const eventEmitter = new EventEmitter2();
+  const mock = sinon.mock(eventEmitter);
+  mock.expects("emit").withArgs("showAuthPopup", { view });
+  commit(environment, { view }, { eventEmitter });
+  mock.verify();
+});
+
+it("opens popup or focus if already open", () => {
+  const view = "SIGN_IN";
+  const context = {
+    eventEmitter: new EventEmitter2(),
+  };
+  commit(environment, { view }, context);
   expect(source.get(AUTH_POPUP_ID)!.open).toEqual(true);
   expect(source.get(AUTH_POPUP_ID)!.focus).toEqual(false);
   expect(source.get(AUTH_POPUP_ID)!.view).toEqual("SIGN_IN");
-});
 
-it("focuses popup", () => {
-  commit(environment, { view: "SIGN_IN" });
+  commit(environment, { view }, context);
   expect(source.get(AUTH_POPUP_ID)!.open).toEqual(true);
   expect(source.get(AUTH_POPUP_ID)!.focus).toEqual(true);
-  expect(source.get(AUTH_POPUP_ID)!.view).toEqual("SIGN_IN");
-});
-
-it("only change view when opened and focused", () => {
-  commit(environment, { view: "FORGOT_PASSWORD" });
-  expect(source.get(AUTH_POPUP_ID)!.open).toEqual(true);
-  expect(source.get(AUTH_POPUP_ID)!.focus).toEqual(true);
-  expect(source.get(AUTH_POPUP_ID)!.view).toEqual("FORGOT_PASSWORD");
 });

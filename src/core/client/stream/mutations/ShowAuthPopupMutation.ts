@@ -1,9 +1,11 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
+import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   createMutation,
   createMutationContainer,
 } from "coral-framework/lib/relay";
+import { LoginPromptEvent, ShowAuthPopupEvent } from "coral-stream/events";
 
 import { AUTH_POPUP_ID } from "../local";
 
@@ -17,8 +19,13 @@ export type ShowAuthPopupMutation = (
 
 export async function commit(
   environment: Environment,
-  input: ShowAuthPopupInput
+  input: ShowAuthPopupInput,
+  { eventEmitter }: Pick<CoralContext, "eventEmitter">
 ) {
+  if (input.view === "SIGN_IN") {
+    LoginPromptEvent.emit(eventEmitter);
+  }
+  ShowAuthPopupEvent.emit(eventEmitter, { view: input.view });
   return commitLocalUpdate(environment, store => {
     const record = store.get(AUTH_POPUP_ID)!;
     record.setValue(input.view, "view");

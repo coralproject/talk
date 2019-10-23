@@ -8,6 +8,7 @@ import {
 } from "coral-framework/lib/relay";
 import { Omit, PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import { FeaturedCommentsLoadMoreEvent } from "coral-stream/events";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
 import { FeaturedCommentsContainer_settings as SettingsData } from "coral-stream/__generated__/FeaturedCommentsContainer_settings.graphql";
@@ -26,7 +27,11 @@ interface Props {
 }
 
 export const FeaturedCommentsContainer: FunctionComponent<Props> = props => {
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+  const [loadMore, isLoadingMore] = useLoadMore(
+    props.relay,
+    10,
+    FeaturedCommentsLoadMoreEvent
+  );
   const comments = props.story.featuredComments.edges.map(edge => edge.node);
   return (
     <>

@@ -12,7 +12,7 @@ const SetAccessTokenMutation = createMutation(
   async (
     environment: Environment,
     input: SetAccessTokenInput,
-    { clearSession }: CoralContext
+    { clearSession }: Pick<CoralContext, "clearSession">
   ) => {
     // Clear current session, as we are starting a new one.
     await clearSession(input.accessToken);

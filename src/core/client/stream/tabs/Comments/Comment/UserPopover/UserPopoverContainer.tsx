@@ -1,7 +1,14 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { ShowUserPopoverEvent } from "coral-stream/events";
 
 import { UserPopoverContainer_user as UserData } from "coral-stream/__generated__/UserPopoverContainer_user.graphql";
 import { UserPopoverContainer_viewer as ViewerData } from "coral-stream/__generated__/UserPopoverContainer_viewer.graphql";
@@ -22,6 +29,10 @@ export const UserPopoverContainer: FunctionComponent<Props> = ({
   viewer,
   onDismiss,
 }) => {
+  const emitShowUserPopover = useViewerEvent(ShowUserPopoverEvent);
+  useEffect(() => {
+    emitShowUserPopover({ userID: user.id });
+  }, []);
   const [view, setView] = useState<View>("OVERVIEW");
   const onIgnore = useCallback(() => setView("IGNORE"), [setView]);
   return (
@@ -47,6 +58,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   user: graphql`
     fragment UserPopoverContainer_user on User {
+      id
       ...UserPopoverOverviewContainer_user
       ...UserIgnorePopoverContainer_user
     }
