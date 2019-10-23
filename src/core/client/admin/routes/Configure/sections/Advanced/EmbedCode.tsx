@@ -2,15 +2,15 @@ import { stripIndent } from "common-tags";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
-import { Textarea } from "coral-admin/ui/components";
+import { FieldSet, Textarea } from "coral-admin/ui/components";
 import { CopyButton } from "coral-framework/components";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { getLocationOrigin } from "coral-framework/utils";
 import { HorizontalGutter } from "coral-ui/components";
 
+import ConfigBox from "../../ConfigBox";
 import Description from "../../Description";
 import Header from "../../Header";
-import SectionContent from "../../SectionContent";
 
 import styles from "./EmbedCode.css";
 
@@ -81,28 +81,30 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
   }, [staticURI]);
 
   return (
-    <HorizontalGutter spacing={3} container="fieldset">
-      <Localized id="configure-advanced-embedCode-title">
-        <Header component="legend">Embed code</Header>
-      </Localized>
-      <SectionContent>
-        <Localized id="configure-advanced-embedCode-explanation">
-          <Description>
-            Copy and paste the code below into your CMS to embed Coral comment
-            streams in each of your site’s stories.
-          </Description>
+    <ConfigBox
+      title={
+        <Localized id="configure-advanced-embedCode-title">
+          <Header component="legend">Embed code</Header>
         </Localized>
-        <Textarea
-          rows={embed.rows}
-          className={styles.textArea}
-          readOnly
-          value={embed.text}
-        />
-        <HorizontalGutter className={styles.copyArea}>
-          <CopyButton size="regular" text={embed.text} />
-        </HorizontalGutter>
-      </SectionContent>
-    </HorizontalGutter>
+      }
+      container={<FieldSet />}
+    >
+      <Localized id="configure-advanced-embedCode-explanation">
+        <Description>
+          Copy and paste the code below into your CMS to embed Coral comment
+          streams in each of your site’s stories.
+        </Description>
+      </Localized>
+      <Textarea
+        rows={embed.rows}
+        className={styles.textArea}
+        readOnly
+        value={embed.text}
+      />
+      <HorizontalGutter className={styles.copyArea}>
+        <CopyButton size="regular" text={embed.text} />
+      </HorizontalGutter>
+    </ConfigBox>
   );
 };
 

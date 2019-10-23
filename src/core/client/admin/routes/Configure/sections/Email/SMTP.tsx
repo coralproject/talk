@@ -3,8 +3,8 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
-  FieldSet,
   FormField,
+  FormFieldHeader,
   Label,
   PasswordField,
   TextField,
@@ -19,7 +19,6 @@ import {
   Condition,
   required,
 } from "coral-framework/lib/validation";
-import { HorizontalGutter } from "coral-ui/components";
 
 import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
@@ -37,16 +36,16 @@ const isAuthenticating: Condition<any, FormProps> = (value, values) =>
   Boolean(values.email.enabled && values.email.smtp.authentication);
 
 const SMTP: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter spacing={4} container={<FieldSet />}>
+  <>
     <FormField>
-      <HorizontalGutter spacing={1}>
+      <FormFieldHeader>
         <Localized id="configure-email-smtpHostLabel">
           <Label>SMTP host</Label>
         </Localized>
         <Localized id="configure-email-smtpHostDescription">
           <HelperText>(ex. smtp.sendgrid.com)</HelperText>
         </Localized>
-      </HorizontalGutter>
+      </FormFieldHeader>
       <Field
         name="email.smtp.host"
         validate={composeValidatorsWhen(isEnabled, required)}
@@ -66,14 +65,14 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
       </Field>
     </FormField>
     <FormField>
-      <HorizontalGutter spacing={1}>
+      <FormFieldHeader>
         <Localized id="configure-email-smtpPortLabel">
           <Label>SMTP port</Label>
         </Localized>
         <Localized id="configure-email-smtpPortDescription">
           <HelperText>(ex. 25)</HelperText>
         </Localized>
-      </HorizontalGutter>
+      </FormFieldHeader>
       <Field
         name="email.smtp.port"
         validate={composeValidatorsWhen(isEnabled, required)}
@@ -168,7 +167,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
         </>
       )}
     </Field>
-  </HorizontalGutter>
+  </>
 );
 
 export default SMTP;
