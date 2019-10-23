@@ -257,6 +257,9 @@ const variables2 = {
       background: colors.blue500,
       foreground: colors.pure.white,
     },
+    configBox: {
+      border: colors.grey300,
+    },
   },
   fontFamily: {
     primary: "Open Sans",

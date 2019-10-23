@@ -2,12 +2,9 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  CheckBox,
-  FormField,
-  InputDescription,
-  InputLabel,
-} from "coral-ui/components";
+import { CheckBox, FormField, Label } from "coral-admin/ui/components";
+import { HorizontalGutter } from "coral-ui/components";
+import HelperText from "../../HelperText";
 
 interface Props {
   name: string;
@@ -16,14 +13,16 @@ interface Props {
 
 const RegistrationField: FunctionComponent<Props> = ({ name, disabled }) => (
   <FormField>
-    <Localized id="configure-auth-registration">
-      <InputLabel>Registration</InputLabel>
-    </Localized>
-    <Localized id="configure-auth-registrationDescription">
-      <InputDescription>
-        Allow users to create a new account with this provider.
-      </InputDescription>
-    </Localized>
+    <HorizontalGutter spacing={1}>
+      <Localized id="configure-auth-registration">
+        <Label>Registration</Label>
+      </Localized>
+      <Localized id="configure-auth-registrationDescription">
+        <HelperText>
+          Allow users to create a new account with this provider.
+        </HelperText>
+      </Localized>
+    </HorizontalGutter>
     <FormField>
       <Field name={name} type="checkbox">
         {({ input }) => (

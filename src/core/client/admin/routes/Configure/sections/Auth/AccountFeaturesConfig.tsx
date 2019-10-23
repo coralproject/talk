@@ -1,16 +1,12 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import {
-  FieldSet,
-  Flex,
-  FormField,
-  HorizontalGutter,
-  InputLabel,
-  Typography,
-} from "coral-ui/components";
+import { FormField, Label } from "coral-admin/ui/components";
+import { FieldSet, Flex, HorizontalGutter } from "coral-ui/components";
 
+import Description from "../../Description";
 import Header from "../../Header";
+import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import SectionContent from "../../SectionContent";
 
@@ -22,34 +18,32 @@ interface Props {
 
 const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
   <div>
-    <HorizontalGutter size="oneAndAHalf">
+    <HorizontalGutter spacing={3}>
       <Localized id="configure-account-features-title">
-        <Header container="legend">Commenter account mangement features</Header>
+        <Header component="legend">Commenter account mangement features</Header>
       </Localized>
       <SectionContent>
         <Localized id="configure-account-features-explanation">
-          <Typography variant="bodyShort">
+          <Description>
             You can enable and disable certain features for your commenters to
             use within their Profile. These features also assist towards GDPR
             compliance.
-          </Typography>
+          </Description>
         </Localized>
         <HorizontalGutter container={<FieldSet />}>
           <Localized id="configure-account-features-allow">
-            <Typography variant="heading4">Allow users to:</Typography>
+            <Description>Allow users to:</Description>
           </Localized>
           <FormField container="fieldset">
             <Flex justifyContent="space-between">
-              <HorizontalGutter size="half">
+              <HorizontalGutter spacing={1}>
                 <Localized id="configure-account-features-change-usernames">
-                  <InputLabel container="legend">
-                    Change their usernames
-                  </InputLabel>
+                  <Label component="legend">Change their usernames</Label>
                 </Localized>
                 <Localized id="configure-account-features-change-usernames-details">
-                  <Typography>
+                  <HelperText>
                     Usernames can be changed once every 14 days.
-                  </Typography>
+                  </HelperText>
                 </Localized>
               </HorizontalGutter>
               <OnOffField
@@ -73,16 +67,14 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
         <HorizontalGutter size="double">
           <FormField container="fieldset">
             <Flex justifyContent="space-between">
-              <HorizontalGutter size="half">
+              <HorizontalGutter spacing={1}>
                 <Localized id="configure-account-features-download-comments">
-                  <InputLabel container="legend">
-                    Download their comments
-                  </InputLabel>
+                  <Label component="legend">Download their comments</Label>
                 </Localized>
                 <Localized id="configure-account-features-download-comments-details">
-                  <Typography>
+                  <HelperText>
                     Commenters can download a csv of their comment history.
-                  </Typography>
+                  </HelperText>
                 </Localized>
               </HorizontalGutter>
               <OnOffField
@@ -106,17 +98,15 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
         <HorizontalGutter size="double">
           <FormField container="fieldset">
             <Flex justifyContent="space-between">
-              <HorizontalGutter size="half">
+              <HorizontalGutter spacing={1}>
                 <Localized id="configure-account-features-delete-account">
-                  <InputLabel container="legend">
-                    Delete their account
-                  </InputLabel>
+                  <Label component="legend">Delete their account</Label>
                 </Localized>
                 <Localized id="configure-account-features-delete-account-fieldDescriptions">
-                  <Typography>
+                  <HelperText>
                     Removes all of their comment data, username, and email
                     address from the site and the database.
-                  </Typography>
+                  </HelperText>
                 </Localized>
               </HorizontalGutter>
               <OnOffField

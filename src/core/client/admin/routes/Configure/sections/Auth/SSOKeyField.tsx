@@ -1,16 +1,10 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import {
-  Button,
-  Flex,
-  FormField,
-  Icon,
-  InputLabel,
-  PasswordField,
-  Typography,
-} from "coral-ui/components";
+import { FormField, Label, PasswordField } from "coral-admin/ui/components";
+import { Button, Flex, Icon } from "coral-ui/components";
 
+import HelperText from "../../HelperText";
 import styles from "./SSOKeyField.css";
 
 interface Props {
@@ -28,7 +22,7 @@ const SSOKeyField: FunctionComponent<Props> = ({
 }) => (
   <FormField className={styles.root} data-testid="configure-auth-sso-key">
     <Localized id="configure-auth-sso-key">
-      <InputLabel>Key</InputLabel>
+      <Label>Key</Label>
     </Localized>
     <PasswordField
       name="key"
@@ -40,18 +34,18 @@ const SSOKeyField: FunctionComponent<Props> = ({
       fullWidth
     />
     <Localized id="configure-auth-sso-regenerateAt" $date={keyGeneratedAt}>
-      <Typography className={styles.keyGenerated}>
+      <HelperText className={styles.keyGenerated}>
         KEY GENERATED AT: {keyGeneratedAt}
-      </Typography>
+      </HelperText>
     </Localized>
     <div className={styles.warningSection}>
       <Flex direction="row" itemGutter="half">
         <Icon className={styles.warnIcon}>warning</Icon>
         <Localized id="configure-auth-sso-regenerateWarning">
-          <Typography className={styles.warn} variant="bodyShort">
+          <HelperText>
             Regenerating a key will invalidate any existing user sessions, and
             all signed-in users will be signed out
-          </Typography>
+          </HelperText>
         </Localized>
       </Flex>
     </div>

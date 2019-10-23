@@ -44,6 +44,9 @@
   color: var(--v2-palette-input-value);
   background-color: var(--v2-palette-input-background);
   border: 1px solid var(--v2-palette-input-border);
+  &:disabled {
+    border-color: var(--v2-palette-input-disabled-foreground);
+  }
 }
 
 .colorError {

@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormField, Label, TextField } from "coral-admin/ui/components";
 import {
   colorFromMeta,
   parseEmptyAsNull,
@@ -13,18 +14,10 @@ import {
   required,
   validateURL,
 } from "coral-framework/lib/validation";
-import {
-  Button,
-  Flex,
-  FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
-  TextField,
-  TextLink,
-  Typography,
-} from "coral-ui/components";
+import { Button, Flex, HorizontalGutter, TextLink } from "coral-ui/components";
 
+import Description from "../../Description";
+import HelperText from "../../HelperText";
 import HorizontalRule from "../../HorizontalRule";
 import { FormProps } from "./AuthConfigContainer";
 import ClientIDField from "./ClientIDField";
@@ -68,24 +61,26 @@ const OIDCConfig: FunctionComponent<Props> = ({
       {disabledInside => (
         <HorizontalGutter size="double">
           <Localized id="configure-auth-oidc-toLearnMore" Link={<OIDCLink />}>
-            <Typography>
+            <Description>
               {"To learn more: https://openid.net/connect/"}
-            </Typography>
+            </Description>
           </Localized>
-          <HorizontalRule />
           <RedirectField url={callbackURL} />
           <HorizontalRule />
           <FormField>
-            <Localized id="configure-auth-oidc-providerName">
-              <InputLabel>Provider name</InputLabel>
-            </Localized>
-            <Localized id="configure-auth-oidc-providerNameDescription">
-              <InputDescription>
-                The provider of the OIDC integration. This will be used when the
-                name of the provider needs to be displayed, e.g. “Log in with
-                {" <Facebook>"}”
-              </InputDescription>
-            </Localized>
+            <HorizontalGutter spacing={1}>
+              <Localized id="configure-auth-oidc-providerName">
+                <Label>Provider name</Label>
+              </Localized>
+              <Localized id="configure-auth-oidc-providerNameDescription">
+                <HelperText>
+                  The provider of the OIDC integration. This will be used when
+                  the name of the provider needs to be displayed, e.g. “Log in
+                  with
+                  {" <Facebook>"}”
+                </HelperText>
+              </Localized>
+            </HorizontalGutter>
             <Field
               name="auth.integrations.oidc.name"
               validate={composeValidatorsWhen(isEnabled, required)}
@@ -120,14 +115,14 @@ const OIDCConfig: FunctionComponent<Props> = ({
           />
           <FormField>
             <Localized id="configure-auth-oidc-issuer">
-              <InputLabel>Issuer</InputLabel>
+              <Label>Issuer</Label>
             </Localized>
             <Localized id="configure-auth-oidc-issuerDescription">
-              <InputDescription>
+              <HelperText>
                 After entering your Issuer information, click the Discover
                 button to have Coral complete the remaining fields. You may also
                 enter the information manually
-              </InputDescription>
+              </HelperText>
             </Localized>
             <Field
               name="auth.integrations.oidc.issuer"
@@ -151,7 +146,6 @@ const OIDCConfig: FunctionComponent<Props> = ({
                       id="configure-auth-oidc-discover"
                       variant="filled"
                       color="primary"
-                      size="small"
                       disabled={disabledInside || disableForDiscover}
                       onClick={onDiscover}
                     >
@@ -165,7 +159,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
           </FormField>
           <FormField>
             <Localized id="configure-auth-oidc-authorizationURL">
-              <InputLabel>authorizationURL</InputLabel>
+              <Label>authorizationURL</Label>
             </Localized>
             <Field
               name="auth.integrations.oidc.authorizationURL"
@@ -191,7 +185,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
           </FormField>
           <FormField>
             <Localized id="configure-auth-oidc-tokenURL">
-              <InputLabel>tokenURL</InputLabel>
+              <Label>tokenURL</Label>
             </Localized>
             <Field
               name="auth.integrations.oidc.tokenURL"
@@ -217,7 +211,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
           </FormField>
           <FormField>
             <Localized id="configure-auth-oidc-jwksURI">
-              <InputLabel>jwksURI</InputLabel>
+              <Label>jwksURI</Label>
             </Localized>
             <Field
               name="auth.integrations.oidc.jwksURI"

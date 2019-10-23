@@ -25,7 +25,7 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled, sso }) => (
     disabled={disabled}
   >
     {disabledInside => (
-      <HorizontalGutter size="double">
+      <HorizontalGutter spacing={3}>
         <SSOKeyFieldContainer sso={sso} disabled={disabledInside} />
         <TargetFilterField
           label={

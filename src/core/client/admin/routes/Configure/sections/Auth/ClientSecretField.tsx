@@ -2,9 +2,9 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormField, Label, PasswordField } from "coral-admin/ui/components";
 import { parseEmptyAsNull, ValidationMessage } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
-import { FormField, InputLabel, PasswordField } from "coral-ui/components";
 
 interface Props {
   validate?: Validator;
@@ -19,7 +19,7 @@ const ClientSecretField: FunctionComponent<Props> = ({
 }) => (
   <FormField>
     <Localized id="configure-auth-clientSecret">
-      <InputLabel>Client secret</InputLabel>
+      <Label>Client secret</Label>
     </Localized>
     <Field
       name={name}

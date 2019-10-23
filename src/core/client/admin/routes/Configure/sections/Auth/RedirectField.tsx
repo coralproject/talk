@@ -1,8 +1,9 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import { FormField, Label, TextField } from "coral-admin/ui/components";
 import { CopyButton } from "coral-framework/components";
-import { Flex, FormField, InputLabel, TextField } from "coral-ui/components";
+import { Flex } from "coral-ui/components";
 
 interface Props {
   description?: React.ReactNode;
@@ -12,12 +13,12 @@ interface Props {
 const RedirectField: FunctionComponent<Props> = ({ url, description }) => (
   <FormField>
     <Localized id="configure-auth-redirectURI">
-      <InputLabel>Redirect URI</InputLabel>
+      <Label>Redirect URI</Label>
     </Localized>
     {description}
     <Flex direction="row" itemGutter="half" alignItems="center">
       <TextField name="redirectURI" value={url} fullWidth readOnly />
-      <CopyButton text={url} />
+      <CopyButton size="regular" text={url} />
     </Flex>
   </FormField>
 );

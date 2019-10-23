@@ -6,8 +6,9 @@ import {
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
-import { HorizontalGutter, TextLink, Typography } from "coral-ui/components";
+import { HorizontalGutter, TextLink } from "coral-ui/components";
 
+import HelperText from "../../HelperText";
 import HorizontalRule from "../../HorizontalRule";
 import ClientIDField from "./ClientIDField";
 import ClientSecretField from "./ClientSecretField";
@@ -48,14 +49,14 @@ const GoogleConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
           id="configure-auth-google-toEnableIntegration"
           Link={<GoogleLink />}
         >
-          <Typography>
+          <HelperText>
             To enable the integration with Google Authentication you need to
             create and set up a web application. For more information visit:
             <br />
             {
               "https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred"
             }
-          </Typography>
+          </HelperText>
         </Localized>
         <HorizontalRule />
         <RedirectField url={callbackURL} />

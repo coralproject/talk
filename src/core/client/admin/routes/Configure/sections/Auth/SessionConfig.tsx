@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormField, Label } from "coral-admin/ui/components";
 import { DurationField } from "coral-framework/components";
 import { ValidationMessage } from "coral-framework/lib/form";
 import {
@@ -9,14 +10,10 @@ import {
   required,
   validateWholeNumberGreaterThanOrEqual,
 } from "coral-framework/lib/validation";
-import {
-  FieldSet,
-  FormField,
-  HorizontalGutter,
-  InputLabel,
-} from "coral-ui/components";
+import { FieldSet, HorizontalGutter } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 
 interface Props {
   disabled?: boolean;
@@ -24,30 +21,32 @@ interface Props {
 
 const SessionConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter>
-    <HorizontalGutter size="full">
+    <HorizontalGutter spacing={3}>
       <Localized id="configure-auth-settings">
         <Header>Session settings</Header>
       </Localized>
     </HorizontalGutter>
-    <FormField container={<FieldSet />}>
-      <Localized id="configure-auth-settings-session-duration-label">
-        <InputLabel container="legend">Session Duration</InputLabel>
-      </Localized>
-      <Field
-        name="auth.sessionDuration"
-        validate={composeValidators(
-          required,
-          validateWholeNumberGreaterThanOrEqual(0)
-        )}
-      >
-        {({ input, meta }) => (
-          <>
-            <DurationField disabled={!!disabled} {...input} />
-            <ValidationMessage meta={meta} />
-          </>
-        )}
-      </Field>
-    </FormField>
+    <SectionContent>
+      <FormField container={<FieldSet />}>
+        <Localized id="configure-auth-settings-session-duration-label">
+          <Label component="legend">Session Duration</Label>
+        </Localized>
+        <Field
+          name="auth.sessionDuration"
+          validate={composeValidators(
+            required,
+            validateWholeNumberGreaterThanOrEqual(0)
+          )}
+        >
+          {({ input, meta }) => (
+            <>
+              <DurationField disabled={!!disabled} {...input} />
+              <ValidationMessage meta={meta} />
+            </>
+          )}
+        </Field>
+      </FormField>
+    </SectionContent>
   </HorizontalGutter>
 );
 

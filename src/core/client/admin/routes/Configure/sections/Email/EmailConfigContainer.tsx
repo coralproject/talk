@@ -5,17 +5,13 @@ import React from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
+import { CheckBox, FormField } from "coral-admin/ui/components";
 import { DeepNullable, DeepPartial } from "coral-common/types";
 import { pureMerge } from "coral-common/utils";
 import { parseBool } from "coral-framework/lib/form";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSettings } from "coral-framework/schema";
-import {
-  CheckBox,
-  Flex,
-  FormField,
-  HorizontalGutter,
-} from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
 import { EmailConfigContainer_email } from "coral-admin/__generated__/EmailConfigContainer_email.graphql";
 
@@ -82,10 +78,7 @@ class EmailConfigContainer extends React.Component<Props> {
       <HorizontalGutter size="double">
         <Field name="email.enabled" type="checkbox" parse={parseBool}>
           {({ input }) => (
-            <Header
-              className={styles.title}
-              container={<Flex justifyContent="space-between" />}
-            >
+            <Header className={styles.title}>
               <div>
                 <Localized id="configure-email">
                   <span>Email settings</span>

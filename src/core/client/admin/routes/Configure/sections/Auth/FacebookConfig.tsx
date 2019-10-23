@@ -6,8 +6,9 @@ import {
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
-import { HorizontalGutter, TextLink, Typography } from "coral-ui/components";
+import { HorizontalGutter, TextLink } from "coral-ui/components";
 
+import HelperText from "../../HelperText";
 import HorizontalRule from "../../HorizontalRule";
 import ClientIDField from "./ClientIDField";
 import ClientSecretField from "./ClientSecretField";
@@ -49,13 +50,14 @@ const FacebookConfig: FunctionComponent<Props> = ({
         <Localized
           id="configure-auth-facebook-toEnableIntegration"
           Link={<FacebookLink />}
+          br={<br />}
         >
-          <Typography>
+          <HelperText>
             To enable the integration with Facebook Authentication, you need to
             create and set up a web application. For more information visit:
             <br />
             {"https://developers.facebook.com/docs/facebook-login/web"}
-          </Typography>
+          </HelperText>
         </Localized>
         <HorizontalRule />
         <RedirectField url={callbackURL} />
