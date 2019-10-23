@@ -60,6 +60,21 @@ $buttonGhostMonoForeground: var(--v2-colors-grey-600);
 
 $buttonGhostActiveForeground: var(--v2-colors-pure-white);
 
+$buttonUnderlinedDefaultForeground: var(--v2-colors-teal-600);
+$buttonUnderlinedAlertForeground: var(--v2-colors-red-500);
+$buttonUnderlinedEmphasisForeground: var(--v2-colors-blue-500);
+$buttonUnderlinedMonoForeground: var(--v2-colors-grey-600);
+
+$buttonUnderlinedDefaultHover: var(--v2-colors-teal-500);
+$buttonUnderlinedAlertHover: var(--v2-colors-red-400);
+$buttonUnderlinedEmphasisHover: var(--v2-colors-blue-400);
+$buttonUnderlinedMonoHover: var(--v2-colors-grey-500);
+
+$buttonUnderlinedDefaultActive: var(--v2-colors-teal-400);
+$buttonUnderlinedAlertActive: var(--v2-colors-red-300);
+$buttonUnderlinedEmphasisActive: var(--v2-colors-blue-300);
+$buttonUnderlinedMonoActive: var(--v2-colors-grey-400);
+
 /* Class Definitions */
 
 .root {
@@ -409,6 +424,66 @@ $buttonGhostActiveForeground: var(--v2-colors-pure-white);
         border: 1px solid currentColor;
         color: $buttonGhostActiveForeground;
         background-color: $buttonGhostMonoForeground;
+      }
+    }
+  }
+}
+
+.variantUnderlined {
+  padding-right: 0px;
+  padding-left: 0px;
+  border-radius: 0;
+  border-bottom: 1px solid currentColor;
+  padding: 0;
+
+  &.colorDefault {
+    color: $buttonUnderlinedDefaultForeground;
+  }
+  &.colorAlert {
+    color: $buttonUnderlinedAlertForeground;
+  }
+  &.colorEmphasis {
+    color: $buttonUnderlinedEmphasisForeground;
+  }
+  &.colorMono {
+    color: $buttonUnderlinedMonoForeground;
+  }
+
+  &:not(.disabled) {
+    &.colorDefault {
+      &.mouseHover {
+        color: $buttonUnderlinedDefaultHover;
+      }
+      &:active,
+      &.active {
+        color: $buttonUnderlinedDefaultActive;
+      }
+    }
+    &.colorAlert {
+      &.mouseHover {
+        color: $buttonUnderlinedAlertHover;
+      }
+      &:active,
+      &.active {
+        color: $buttonUnderlinedAlertActive;
+      }
+    }
+    &.colorEmphasis {
+      &.mouseHover {
+        color: $buttonUnderlinedEmphasisHover;
+      }
+      &:active,
+      &.active {
+        color: $buttonUnderlinedEmphasisActive;
+      }
+    }
+    &.colorMono {
+      &.mouseHover {
+        color: $buttonUnderlinedMonoHover;
+      }
+      &:active,
+      &.active {
+        color: $buttonUnderlinedMonoActive;
       }
     }
   }
