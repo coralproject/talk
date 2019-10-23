@@ -124,12 +124,12 @@ exports[`renders configure general 1`] = `
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
             >
-              <h2
+              <label
                 className="Header-root"
                 htmlFor="configure-locale-locale"
               >
                 Language
-              </h2>
+              </label>
               <div
                 className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
               >
@@ -835,12 +835,12 @@ moderation panel.
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
-            <h2
+            <label
               className="Header-root"
               htmlFor="configure-general-closedStreamMessage-content"
             >
               Closed comment stream message
-            </h2>
+            </label>
             <div
               className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
             >

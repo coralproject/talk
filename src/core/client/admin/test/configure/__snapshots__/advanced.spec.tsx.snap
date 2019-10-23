@@ -192,12 +192,12 @@ each of your site’s stories.
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
             >
-              <h2
+              <label
                 className="Header-root"
                 htmlFor="configure-advanced-customCSSURL"
               >
                 Custom CSS
-              </h2>
+              </label>
               <div
                 className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
               >
@@ -235,12 +235,12 @@ each of your site’s stories.
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
             >
-              <h2
+              <label
                 className="Header-root"
                 htmlFor="configure-advanced-liveUpdates"
               >
                 Comment stream live updates
-              </h2>
+              </label>
               <div
                 className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
               >
@@ -313,12 +313,12 @@ When disabled, users will have to refresh the page to see new comments.
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
             >
-              <h2
+              <label
                 className="Header-root"
                 htmlFor="configure-advanced-allowedDomains"
               >
                 Permitted domains
-              </h2>
+              </label>
               <div
                 className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
               >

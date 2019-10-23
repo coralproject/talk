@@ -124,12 +124,12 @@ exports[`renders configure organization 1`] = `
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
             >
-              <h2
+              <label
                 className="Header-root"
                 htmlFor="configure-organization-organization.name"
               >
                 Organization name
-              </h2>
+              </label>
               <div
                 className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
               >
@@ -167,12 +167,12 @@ exports[`renders configure organization 1`] = `
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
-              <h2
+              <label
                 className="Header-root"
                 htmlFor="configure-organization-organization.contactEmail"
               >
                 Organization email
-              </h2>
+              </label>
               <div
                 className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
               >
@@ -213,12 +213,12 @@ moderation questions.
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
             >
-              <h2
+              <label
                 className="Header-root"
                 htmlFor="configure-organization-organization.url"
               >
                 Organization URL
-              </h2>
+              </label>
               <div
                 className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-spacing-4"
               >

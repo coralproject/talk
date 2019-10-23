@@ -16,7 +16,7 @@ const Header: FunctionComponent<Props> = ({
   component,
   ...rest
 }) => {
-  const Container = component || "h2";
+  const Container = component || (rest.htmlFor ? "label" : "h2");
   return (
     <Container {...rest} className={cn(className, styles.root)}>
       {children}
