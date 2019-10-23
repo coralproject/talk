@@ -1,0 +1,574 @@
+.root {
+}
+
+.flex {
+  display: flex;
+}
+
+.spacing-1 {
+  & > * {
+    margin: 0 var(--spacing-1) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-1) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-1) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: var(--spacing-1) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.spacing-2 {
+  & > * {
+    margin: 0 var(--spacing-2) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-2) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-2) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: var(--spacing-2) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.spacing-3 {
+  & > * {
+    margin: 0 var(--spacing-3) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-3) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-3) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: var(--spacing-3) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.spacing-4 {
+  & > * {
+    margin: 0 var(--spacing-4) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-4) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-4) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: var(--spacing-4) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.spacing-5 {
+  & > * {
+    margin: 0 var(--spacing-5) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-5) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-5) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: var(--spacing-5) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.spacing-6 {
+  & > * {
+    margin: 0 var(--spacing-6) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-6) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-6) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: var(--spacing-6) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.spacing-7 {
+  & > * {
+    margin: 0 var(--spacing-7) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-7) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-7) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: var(--spacing-7) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.spacing-8 {
+  & > * {
+    margin: 0 var(--spacing-8) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-8) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-8) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: var(--spacing-8) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.spacing-9 {
+  & > * {
+    margin: 0 var(--spacing-9) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-9) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-9) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: var(--spacing-9) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.halfItemGutter {
+  & > * {
+    margin: 0 calc(0.5 * var(--mini-unit)) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 calc(0.5 * var(--mini-unit)) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 calc(0.5 * var(--mini-unit)) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: calc(0.5 * var(--mini-unit)) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.doubleItemGutter {
+  & > * {
+    margin: 0 calc(2 * var(--mini-unit)) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 calc(2 * var(--mini-unit)) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 calc(2 * var(--mini-unit)) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: calc(2 * var(--mini-unit)) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.itemGutter {
+  & > * {
+    margin: 0 var(--mini-unit) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--mini-unit) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--mini-unit) 0 !important;
+    }
+  }
+  &.directionColumnReverse {
+    & > * {
+      margin: var(--mini-unit) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.wrapReverse {
+  flex-wrap: wrap-reverse;
+}
+
+.wrap,
+.wrapReverse {
+  &:not(.directionColumn).itemGutter {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--mini-unit)) !important;
+    }
+    & > * {
+      margin-top: var(--mini-unit) !important;
+    }
+  }
+  &.directionColumn.itemGutter {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--mini-unit)) !important;
+    }
+    &.itemGutter > * {
+      margin-left: var(--mini-unit) !important;
+    }
+  }
+
+  &:not(.directionColumn).halfItemGutter {
+    &:not(:empty) {
+      margin-top: calc(-0.5 * var(--mini-unit)) !important;
+    }
+    & > * {
+      margin-top: calc(0.5 * var(--mini-unit)) !important;
+    }
+  }
+  &.directionColumn.halfItemGutter {
+    &:not(:empty) {
+      margin-left: calc(-0.5 * var(--mini-unit)) !important;
+    }
+    &.halfItemGutter > * {
+      margin-left: calc(0.5 * var(--mini-unit)) !important;
+    }
+  }
+
+  &:not(.directionColumn).doubleItemGutter {
+    &:not(:empty) {
+      margin-top: calc(-2 * var(--mini-unit)) !important;
+    }
+    & > * {
+      margin-top: calc(2 * var(--mini-unit)) !important;
+    }
+  }
+  &.directionColumn.doubleItemGutter {
+    &:not(:empty) {
+      margin-left: calc(-2 * var(--mini-unit)) !important;
+    }
+    &.doubleItemGutter > * {
+      margin-left: calc(2 * var(--mini-unit)) !important;
+    }
+  }
+
+  &:not(.directionColumn).tripleItemGutter {
+    &:not(:empty) {
+      margin-top: calc(-3 * var(--mini-unit)) !important;
+    }
+    & > * {
+      margin-top: calc(3 * var(--mini-unit)) !important;
+    }
+  }
+  &.directionColumn.tripleItemGutter {
+    &:not(:empty) {
+      margin-left: calc(-3 * var(--mini-unit)) !important;
+    }
+    &.tripleItemGutter > * {
+      margin-left: calc(3 * var(--mini-unit)) !important;
+    }
+  }
+
+  &:not(.directionColumn).spacing-1 {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--spacing-1)) !important;
+    }
+    & > * {
+      margin-top: var(--spacing-1) !important;
+    }
+  }
+  &.directionColumn.spacing-1 {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--spacing-1)) !important;
+    }
+    &.itemGutter > * {
+      margin-left: var(--spacing-1) !important;
+    }
+  }
+
+  &:not(.directionColumn).spacing-2 {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--spacing-2)) !important;
+    }
+    & > * {
+      margin-top: var(--spacing-2) !important;
+    }
+  }
+  &.directionColumn.spacing-2 {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--spacing-2)) !important;
+    }
+    &.itemGutter > * {
+      margin-left: var(--spacing-2) !important;
+    }
+  }
+
+  &:not(.directionColumn).spacing-3 {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--spacing-3)) !important;
+    }
+    & > * {
+      margin-top: var(--spacing-3) !important;
+    }
+  }
+  &.directionColumn.spacing-3 {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--spacing-3)) !important;
+    }
+    &.itemGutter > * {
+      margin-left: var(--spacing-3) !important;
+    }
+  }
+
+  &:not(.directionColumn).spacing-4 {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--spacing-4)) !important;
+    }
+    & > * {
+      margin-top: var(--spacing-4) !important;
+    }
+  }
+  &.directionColumn.spacing-4 {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--spacing-4)) !important;
+    }
+    &.itemGutter > * {
+      margin-left: var(--spacing-4) !important;
+    }
+  }
+
+  &:not(.directionColumn).spacing-5 {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--spacing-5)) !important;
+    }
+    & > * {
+      margin-top: var(--spacing-5) !important;
+    }
+  }
+  &.directionColumn.spacing-5 {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--spacing-5)) !important;
+    }
+    &.itemGutter > * {
+      margin-left: var(--spacing-5) !important;
+    }
+  }
+
+  &:not(.directionColumn).spacing-6 {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--spacing-6)) !important;
+    }
+    & > * {
+      margin-top: var(--spacing-6) !important;
+    }
+  }
+  &.directionColumn.spacing-6 {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--spacing-6)) !important;
+    }
+    &.itemGutter > * {
+      margin-left: var(--spacing-6) !important;
+    }
+  }
+
+  &:not(.directionColumn).spacing-7 {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--spacing-7)) !important;
+    }
+    & > * {
+      margin-top: var(--spacing-7) !important;
+    }
+  }
+  &.directionColumn.spacing-7 {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--spacing-7)) !important;
+    }
+    &.itemGutter > * {
+      margin-left: var(--spacing-7) !important;
+    }
+  }
+
+  &:not(.directionColumn).spacing-8 {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--spacing-8)) !important;
+    }
+    & > * {
+      margin-top: var(--spacing-8) !important;
+    }
+  }
+  &.directionColumn.spacing-8 {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--spacing-8)) !important;
+    }
+    &.itemGutter > * {
+      margin-left: var(--spacing-8) !important;
+    }
+  }
+
+  &:not(.directionColumn).spacing-9 {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--spacing-9)) !important;
+    }
+    & > * {
+      margin-top: var(--spacing-9) !important;
+    }
+  }
+  &.directionColumn.spacing-9 {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--spacing-9)) !important;
+    }
+    &.itemGutter > * {
+      margin-left: var(--spacing-9) !important;
+    }
+  }
+}
+
+.justifyFlexStart {
+  justify-content: flex-start;
+}
+.justifyFlexEnd {
+  justify-content: flex-end;
+}
+.justifyCenter {
+  justify-content: center;
+}
+.justifySpaceBetween {
+  justify-content: space-between;
+}
+.justifySpaceAround {
+  justify-content: space-around;
+}
+.justifySpaceEvenly {
+  justify-content: space-evenly;
+}
+
+.alignFlexStart {
+  align-items: flex-start;
+}
+.alignFlexEnd {
+  align-items: flex-end;
+}
+.alignCenter {
+  align-items: center;
+}
+.alignBaseline {
+  align-items: baseline;
+}
+.alignStretch {
+  align-items: stretch;
+}
+
+.directionRow {
+  flex-direction: row;
+}
+.directionColumn {
+  flex-direction: column;
+}
+.directionRowReverse {
+  flex-direction: row-reverse;
+}
+.directionColumnReverse {
+  flex-direction: column-reverse;
+}
