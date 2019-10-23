@@ -27,7 +27,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   color?: "default" | "alert" | "emphasis" | "mono";
 
   /** Variant of the button */
-  variant?: "default" | "filled" | "adornment";
+  variant?: "default" | "filled" | "adornment" | "ghost";
 
   /** If set renders a full width button */
   fullWidth?: boolean;
@@ -75,6 +75,7 @@ export class Button extends React.Component<Props> {
         [classes.variantDefault]: variant === "default",
         [classes.variantFilled]: variant === "filled",
         [classes.variantAdornment]: variant === "adornment",
+        [classes.variantGhost]: variant === "ghost",
         [classes.fullWidth]: fullWidth,
         [classes.active]: active,
         [classes.disabled]: disabled,

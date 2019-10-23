@@ -53,6 +53,13 @@ $buttonAdornmentAlertActive: var(--v2-colors-red-300);
 $buttonAdornmentEmphasisActive: var(--v2-colors-blue-300);
 $buttonAdornmentMonoActive: var(--v2-colors-grey-300);
 
+$buttonGhostDefaultForeground: var(--v2-colors-teal-600);
+$buttonGhostAlertForeground: var(--v2-colors-red-500);
+$buttonGhostEmphasisForeground: var(--v2-colors-blue-500);
+$buttonGhostMonoForeground: var(--v2-colors-grey-600);
+
+$buttonGhostActiveForeground: var(--v2-colors-pure-white);
+
 /* Class Definitions */
 
 .root {
@@ -338,6 +345,70 @@ $buttonAdornmentMonoActive: var(--v2-colors-grey-300);
       &.active {
         background-color: $buttonAdornmentMonoActive;
         border-color: $buttonAdornmentMonoActive;
+      }
+    }
+  }
+}
+
+.variantGhost {
+  border: 1px solid transparent;
+
+  &.colorDefault {
+    color: $buttonGhostDefaultForeground;
+  }
+  &.colorAlert {
+    color: $buttonGhostAlertForeground;
+  }
+  &.colorEmphasis {
+    color: $buttonGhostEmphasisForeground;
+  }
+  &.colorMono {
+    color: $buttonGhostMonoForeground;
+  }
+
+  &:not(.disabled) {
+    &.colorDefault {
+      &.mouseHover {
+        border: 1px solid currentColor;
+      }
+      &:active,
+      &.active {
+        border: 1px solid currentColor;
+        color: $buttonGhostActiveForeground;
+        background-color: $buttonGhostDefaultForeground;
+      }
+    }
+    &.colorAlert {
+      &.mouseHover {
+        border: 1px solid currentColor;
+      }
+      &:active,
+      &.active {
+        border: 1px solid currentColor;
+        color: $buttonGhostActiveForeground;
+        background-color: $buttonGhostAlertForeground;
+      }
+    }
+    &.colorEmphasis {
+      &.mouseHover {
+        border: 1px solid currentColor;
+      }
+      &:active,
+      &.active {
+        border: 1px solid currentColor;
+        color: $buttonGhostActiveForeground;
+        background-color: $buttonGhostEmphasisForeground;
+      }
+    }
+    &.colorMono {
+      &.mouseHover {
+        border: 1px solid currentColor;
+      }
+      &:active,
+      &.active {
+        border: 1px solid currentColor;
+        color: $buttonGhostActiveForeground;
+        background-color: $buttonGhostMonoForeground;
       }
     }
   }
