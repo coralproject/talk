@@ -2,6 +2,7 @@ import { stripIndent } from "common-tags";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
+import { Textarea } from "coral-admin/ui/components";
 import { CopyButton } from "coral-framework/components";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { getLocationOrigin } from "coral-framework/utils";
@@ -91,7 +92,7 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
             streams in each of your site’s stories.
           </Description>
         </Localized>
-        <textarea
+        <Textarea
           rows={embed.rows}
           className={styles.textArea}
           readOnly

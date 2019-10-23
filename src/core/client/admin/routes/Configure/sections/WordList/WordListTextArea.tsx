@@ -2,6 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { Textarea } from "coral-admin/ui/components";
 import {
   formatNewLineDelimitedString,
   parseNewLineDelimitedString,
@@ -35,7 +36,7 @@ const WordListTextArea: FunctionComponent<Props> = ({
   >
     {({ input, meta }) => (
       <>
-        <textarea
+        <Textarea
           id={id}
           className={cn(className, styles.textArea)}
           disabled={disabled}

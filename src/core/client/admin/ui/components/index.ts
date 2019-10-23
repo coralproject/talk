@@ -10,6 +10,7 @@ export { default as RadioButton } from "./RadioButton";
 export { default as HelperText } from "./HelperText";
 export { default as CheckBox } from "./CheckBox";
 export { default as FieldSet } from "./FieldSet";
+export { default as Textarea } from "./Textarea";
 export { default as PasswordField } from "./PasswordField";
 export { default as DurationField, DURATION_UNIT } from "./DurationField";
 export {
