@@ -16,7 +16,7 @@
   font-size: var(--v2-font-size-3);
   font-weight: var(--v2-font-weight-primary-regular);
   font-family: var(--v2-font-family-primary);
-  line-height: var(--v2-line-height-title);
+  line-height: var(--v2-line-height-body-short);
   align-items: center;
 }
 
@@ -69,7 +69,7 @@
   border-radius: 50%;
   position: absolute;
   left: 3px;
-  top: 5px;
+  top: 6px;
   width: 8px;
   height: 8px;
   box-sizing: border-box;
