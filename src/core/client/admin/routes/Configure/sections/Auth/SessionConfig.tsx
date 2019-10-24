@@ -2,9 +2,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FieldSet, FormField, Label } from "coral-admin/ui/components";
-import { DurationField } from "coral-framework/components";
-import { ValidationMessage } from "coral-framework/lib/form";
+import {
+  DurationField,
+  FieldSet,
+  FormField,
+  Label,
+} from "coral-admin/ui/components";
+import { colorFromMeta } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -13,6 +17,7 @@ import {
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
+import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
   disabled?: boolean;
@@ -39,8 +44,12 @@ const SessionConfig: FunctionComponent<Props> = ({ disabled }) => (
       >
         {({ input, meta }) => (
           <>
-            <DurationField disabled={!!disabled} {...input} />
-            <ValidationMessage meta={meta} />
+            <DurationField
+              color={colorFromMeta(meta)}
+              disabled={!!disabled}
+              {...input}
+            />
+            <ValidationMessage meta={meta} fullWidth />
           </>
         )}
       </Field>

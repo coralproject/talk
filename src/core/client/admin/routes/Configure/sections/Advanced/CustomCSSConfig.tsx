@@ -2,17 +2,14 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  formatEmpty,
-  parseEmptyAsNull,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
 
-import { FormField, TextField } from "coral-admin/ui/components";
+import { FormField } from "coral-admin/ui/components";
 
 import ConfigBox from "../../ConfigBox";
 import Description from "../../Description";
 import Header from "../../Header";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 interface Props {
   disabled: boolean;
@@ -38,19 +35,17 @@ const CustomCSSConfig: FunctionComponent<Props> = ({ disabled }) => (
       </Localized>
       <Field name="customCSSURL" parse={parseEmptyAsNull} format={formatEmpty}>
         {({ input, meta }) => (
-          <>
-            <TextField
-              id={`configure-advanced-${input.name}`}
-              disabled={disabled}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              fullWidth
-              {...input}
-            />
-            <ValidationMessage meta={meta} fullWidth />
-          </>
+          <TextFieldWithValidation
+            id={`configure-advanced-${input.name}`}
+            disabled={disabled}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            fullWidth
+            meta={meta}
+            {...input}
+          />
         )}
       </Field>
     </FormField>

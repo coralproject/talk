@@ -6,7 +6,6 @@ import {
   FieldSet,
   FormField,
   Label,
-  TextField,
   TextFieldAdornment,
 } from "coral-admin/ui/components";
 import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
@@ -20,7 +19,7 @@ import ConfigBox from "../../ConfigBox";
 import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
-import ValidationMessage from "../../ValidationMessage";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 import styles from "./CommentLengthConfig.css";
 
@@ -78,33 +77,31 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
         format={formatEmpty}
       >
         {({ input, meta }) => (
-          <>
-            <Localized
-              id="configure-general-commentLength-textField"
-              attrs={{ placeholder: true }}
-            >
-              <TextField
-                id="configure-general-commentLength-min"
-                classes={{
-                  input: styles.commentLengthTextInput,
-                }}
-                {...input}
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                adornment={
-                  <Localized id="configure-general-commentLength-characters">
-                    <TextFieldAdornment>Characters</TextFieldAdornment>
-                  </Localized>
-                }
-                placeholder={"No limit"}
-                textAlignCenter
-              />
-            </Localized>
-            <ValidationMessage meta={meta} />
-          </>
+          <Localized
+            id="configure-general-commentLength-textField"
+            attrs={{ placeholder: true }}
+          >
+            <TextFieldWithValidation
+              id="configure-general-commentLength-min"
+              classes={{
+                input: styles.commentLengthTextInput,
+              }}
+              {...input}
+              disabled={disabled}
+              autoComplete="off"
+              meta={meta}
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              adornment={
+                <Localized id="configure-general-commentLength-characters">
+                  <TextFieldAdornment>Characters</TextFieldAdornment>
+                </Localized>
+              }
+              placeholder={"No limit"}
+              textAlignCenter
+            />
+          </Localized>
         )}
       </Field>
     </FormField>
@@ -124,33 +121,31 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
         format={formatEmpty}
       >
         {({ input, meta }) => (
-          <>
-            <Localized
-              id="configure-general-commentLength-textField"
-              attrs={{ placeholder: true }}
-            >
-              <TextField
-                id="configure-general-commentLength-max"
-                classes={{
-                  input: styles.commentLengthTextInput,
-                }}
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                adornment={
-                  <Localized id="configure-general-commentLength-characters">
-                    <TextFieldAdornment>Characters</TextFieldAdornment>
-                  </Localized>
-                }
-                placeholder={"No limit"}
-                textAlignCenter
-                {...input}
-              />
-            </Localized>
-            <ValidationMessage meta={meta} />
-          </>
+          <Localized
+            id="configure-general-commentLength-textField"
+            attrs={{ placeholder: true }}
+          >
+            <TextFieldWithValidation
+              id="configure-general-commentLength-max"
+              classes={{
+                input: styles.commentLengthTextInput,
+              }}
+              disabled={disabled}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              adornment={
+                <Localized id="configure-general-commentLength-characters">
+                  <TextFieldAdornment>Characters</TextFieldAdornment>
+                </Localized>
+              }
+              placeholder={"No limit"}
+              textAlignCenter
+              meta={meta}
+              {...input}
+            />
+          </Localized>
         )}
       </Field>
     </FormField>

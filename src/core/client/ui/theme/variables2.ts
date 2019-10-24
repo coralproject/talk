@@ -260,6 +260,12 @@ const variables2 = {
     configBox: {
       border: colors.grey300,
     },
+    message: {
+      error: {
+        background: colors.red500,
+        foreground: colors.pure.white,
+      },
+    },
   },
   fontFamily: {
     primary: "Open Sans",

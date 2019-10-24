@@ -8,7 +8,6 @@ import {
   Label,
   Option,
   SelectField,
-  TextField,
 } from "coral-admin/ui/components";
 import { required } from "coral-framework/lib/validation";
 import ReactionButton from "coral-stream/tabs/Comments/Comment/ReactionButton/ReactionButton";
@@ -19,7 +18,7 @@ import { ReactionConfigContainer_settings as SettingsData } from "coral-admin/__
 import ConfigBox from "../../ConfigBox";
 import Description from "../../Description";
 import Header from "../../Header";
-import ValidationMessage from "../../ValidationMessage";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 import styles from "./ReactionConfig.css";
 
@@ -53,17 +52,17 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
               <Label>Reaction label</Label>
             </Localized>
             <Localized id="configure-general-reactions-input">
-              <TextField
+              <TextFieldWithValidation
                 className={styles.textInput}
                 id={input.name}
                 type="text"
                 fullWidth
                 placeholder="E.g. Respect"
                 disabled={disabled}
+                meta={meta}
                 {...input}
               />
             </Localized>
-            <ValidationMessage fullWidth meta={meta} />
           </FormField>
           <HorizontalGutter>
             <Localized id="configure-general-reactions-preview">
@@ -92,17 +91,17 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
               <Label>Active reaction label</Label>
             </Localized>
             <Localized id="configure-general-reactions-active-input">
-              <TextField
+              <TextFieldWithValidation
                 className={styles.textInput}
                 id={input.name}
                 type="text"
                 placeholder="E.g. Respected"
                 fullWidth
                 disabled={disabled}
+                meta={meta}
                 {...input}
               />
             </Localized>
-            <ValidationMessage fullWidth meta={meta} />
           </FormField>
           <HorizontalGutter>
             <Localized id="configure-general-reactions-preview">
@@ -131,17 +130,17 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
               <Label>Sort label</Label>
             </Localized>
             <Localized id="configure-general-reactions-sort-input">
-              <TextField
+              <TextFieldWithValidation
                 id={input.name}
                 className={styles.textInput}
                 type="text"
                 placeholder="E.g. Most respected"
                 fullWidth
                 disabled={disabled}
+                meta={meta}
                 {...input}
               />
             </Localized>
-            <ValidationMessage fullWidth meta={meta} />
           </FormField>
           <HorizontalGutter>
             <Localized id="configure-general-reactions-preview">

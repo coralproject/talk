@@ -14,7 +14,7 @@ interface Props extends Omit<PropTypesOf<typeof HorizontalGutter>, "ref"> {
   className?: string;
 }
 
-const FormField: FunctionComponent<Props> = props => {
+const FormFieldHeader: FunctionComponent<Props> = props => {
   const { classes, className, children, ...rest } = props;
 
   return (
@@ -28,5 +28,5 @@ const FormField: FunctionComponent<Props> = props => {
   );
 };
 
-const enhanced = withStyles(styles)(FormField);
+const enhanced = withStyles(styles)(FormFieldHeader);
 export default enhanced;

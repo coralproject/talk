@@ -2,13 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { TextField } from "coral-admin/ui/components";
 import { required } from "coral-framework/lib/validation";
 
 import ConfigBox from "../../ConfigBox";
 import Description from "../../Description";
 import Header from "../../Header";
-import ValidationMessage from "../../ValidationMessage";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 interface Props {
   disabled: boolean;
@@ -32,19 +31,17 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
     </Localized>
     <Field name="organization.name" validate={required}>
       {({ input, meta }) => (
-        <>
-          <TextField
-            id={`configure-organization-${input.name}`}
-            disabled={disabled}
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="off"
-            spellCheck={false}
-            fullWidth
-            {...input}
-          />
-          <ValidationMessage meta={meta} fullWidth />
-        </>
+        <TextFieldWithValidation
+          id={`configure-organization-${input.name}`}
+          disabled={disabled}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          meta={meta}
+          fullWidth
+          {...input}
+        />
       )}
     </Field>
   </ConfigBox>

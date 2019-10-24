@@ -2,12 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  FieldSet,
-  FormField,
-  Label,
-  TextField,
-} from "coral-admin/ui/components";
+import { FieldSet, FormField, Label } from "coral-admin/ui/components";
 import { required } from "coral-framework/lib/validation";
 import { Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
@@ -16,7 +11,7 @@ import { StaffConfigContainer_settings as SettingsData } from "coral-admin/__gen
 import ConfigBox from "../../ConfigBox";
 import Description from "../../Description";
 import Header from "../../Header";
-import ValidationMessage from "../../ValidationMessage";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 import styles from "./StaffConfig.css";
 
@@ -48,17 +43,17 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
               <Label>Badge text</Label>
             </Localized>
             <Localized id="configure-general-staff-input">
-              <TextField
+              <TextFieldWithValidation
                 className={styles.textInput}
                 id={input.name}
                 type="text"
                 fullWidth
                 placeholder="E.g. Staff"
                 disabled={disabled}
+                meta={meta}
                 {...input}
               />
             </Localized>
-            <ValidationMessage fullWidth meta={meta} />
           </FormField>
           <HorizontalGutter>
             <Localized id="configure-general-staff-preview">

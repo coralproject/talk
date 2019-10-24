@@ -9,6 +9,7 @@ import {
   FormField,
   Label,
 } from "coral-admin/ui/components";
+import { colorFromMeta } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -72,9 +73,10 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
                 DURATION_UNIT.WEEKS,
               ]}
               disabled={disabled}
+              color={colorFromMeta(meta)}
               {...input}
             />
-            <ValidationMessage meta={meta} />
+            <ValidationMessage meta={meta} fullWidth />
           </>
         )}
       </Field>

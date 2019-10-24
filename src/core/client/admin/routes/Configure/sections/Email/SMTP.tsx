@@ -7,7 +7,6 @@ import {
   FormFieldHeader,
   Label,
   PasswordField,
-  TextField,
 } from "coral-admin/ui/components";
 import {
   colorFromMeta,
@@ -23,6 +22,7 @@ import {
 import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import SubHeader from "../../SubHeader";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 import { FormProps } from "./EmailConfigContainer";
 
 interface Props {
@@ -51,16 +51,13 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
         validate={composeValidatorsWhen(isEnabled, required)}
       >
         {({ input, meta }) => (
-          <>
-            <TextField
-              id={input.name}
-              fullWidth
-              disabled={disabled}
-              color={colorFromMeta(meta)}
-              {...input}
-            />
-            <ValidationMessage fullWidth meta={meta} />
-          </>
+          <TextFieldWithValidation
+            id={input.name}
+            fullWidth
+            disabled={disabled}
+            meta={meta}
+            {...input}
+          />
         )}
       </Field>
     </FormField>
@@ -78,17 +75,14 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
         validate={composeValidatorsWhen(isEnabled, required)}
       >
         {({ input, meta }) => (
-          <>
-            <TextField
-              id={input.name}
-              type="number"
-              fullWidth
-              disabled={disabled}
-              color={colorFromMeta(meta)}
-              {...input}
-            />
-            <ValidationMessage fullWidth meta={meta} />
-          </>
+          <TextFieldWithValidation
+            id={input.name}
+            type="number"
+            fullWidth
+            disabled={disabled}
+            meta={meta}
+            {...input}
+          />
         )}
       </Field>
     </FormField>
@@ -128,16 +122,13 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
               validate={composeValidatorsWhen(isAuthenticating, required)}
             >
               {({ input, meta }) => (
-                <>
-                  <TextField
-                    id={input.name}
-                    disabled={disabled || !enabled}
-                    fullWidth
-                    color={colorFromMeta(meta)}
-                    {...input}
-                  />
-                  <ValidationMessage fullWidth meta={meta} />
-                </>
+                <TextFieldWithValidation
+                  id={input.name}
+                  disabled={disabled || !enabled}
+                  fullWidth
+                  meta={meta}
+                  {...input}
+                />
               )}
             </Field>
           </FormField>

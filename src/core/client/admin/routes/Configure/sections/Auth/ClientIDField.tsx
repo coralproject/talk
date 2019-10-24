@@ -2,11 +2,11 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, Label, TextField } from "coral-admin/ui/components";
-import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
+import { FormField, Label } from "coral-admin/ui/components";
+import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
 
-import ValidationMessage from "../../ValidationMessage";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 interface Props {
   validate?: Validator;
@@ -25,19 +25,16 @@ const ClientSecretField: FunctionComponent<Props> = ({
     </Localized>
     <Field name={name} parse={parseEmptyAsNull} validate={validate}>
       {({ input, meta }) => (
-        <>
-          <TextField
-            disabled={disabled}
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="off"
-            color={colorFromMeta(meta)}
-            {...input}
-            spellCheck={false}
-            fullWidth
-          />
-          <ValidationMessage meta={meta} />
-        </>
+        <TextFieldWithValidation
+          disabled={disabled}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          meta={meta}
+          {...input}
+          spellCheck={false}
+          fullWidth
+        />
       )}
     </Field>
   </FormField>

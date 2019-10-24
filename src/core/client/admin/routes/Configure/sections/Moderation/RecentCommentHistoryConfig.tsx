@@ -3,19 +3,16 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
+  DURATION_UNIT,
+  DurationField,
   FieldSet,
   FormField,
   FormFieldHeader,
   Label,
-  TextField,
   TextFieldAdornment,
 } from "coral-admin/ui/components";
-import { DURATION_UNIT, DurationField } from "coral-framework/components";
-import {
-  formatPercentage,
-  parsePercentage,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
+import { hasError } from "coral-framework/lib/form/helpers";
 import {
   composeValidators,
   required,
@@ -27,6 +24,8 @@ import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
+import ValidationMessage from "../../ValidationMessage";
 
 import styles from "./RecentCommentHistoryConfig.css";
 
@@ -68,9 +67,10 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
               <DurationField
                 units={[DURATION_UNIT.DAYS]}
                 disabled={disabled}
+                color={hasError(meta) ? "error" : "regular"}
                 {...input}
               />
-              <ValidationMessage meta={meta} />
+              <ValidationMessage meta={meta} fullWidth />
             </>
           )}
         </Field>
@@ -116,22 +116,20 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
           validate={composeValidators(required, validatePercentage(0, 1))}
         >
           {({ input, meta }) => (
-            <>
-              <TextField
-                classes={{
-                  input: styles.thresholdTextField,
-                }}
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                adornment={<TextFieldAdornment>%</TextFieldAdornment>}
-                textAlignCenter
-                {...input}
-              />
-              <ValidationMessage meta={meta} />
-            </>
+            <TextFieldWithValidation
+              classes={{
+                input: styles.thresholdTextField,
+              }}
+              disabled={disabled}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              adornment={<TextFieldAdornment>%</TextFieldAdornment>}
+              meta={meta}
+              textAlignCenter
+              {...input}
+            />
           )}
         </Field>
       </FormField>

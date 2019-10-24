@@ -12,7 +12,7 @@ import { UNIT } from "coral-common/helpers/i18n";
 import { Flex } from "coral-ui/components";
 
 import { Option, SelectField } from "../SelectField";
-import TextField from "../TextField";
+import TextField, { TextFieldProps } from "../TextField";
 
 import styles from "./DurationField.css";
 
@@ -30,10 +30,8 @@ const DURATION_UNIT_MAP = {
   [DURATION_UNIT.WEEKS]: "week",
 };
 
-interface Props {
-  name: string;
+interface Props extends Pick<TextFieldProps, "color" | "name" | "disabled"> {
   value: string;
-  disabled: boolean;
   onChange: (v: string) => void;
   /** Specifiy units to include */
   units?: ReadonlyArray<UNIT>;
@@ -83,6 +81,7 @@ const DurationField: FunctionComponent<Props> = ({
   onChange,
   disabled,
   name,
+  color,
 }) => {
   const [selectedUnit, setSelectedUnit] = useState(
     convertFromSeconds(value, units).unit
@@ -134,6 +133,7 @@ const DurationField: FunctionComponent<Props> = ({
         spellCheck={false}
         textAlignCenter
         aria-label="value"
+        color={color || "regular"}
       />
       {elementCallbacks.length === 1 ? (
         <Localized

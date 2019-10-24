@@ -7,14 +7,10 @@ import {
   FormFieldHeader,
   HelperText,
   Label,
-  TextField,
 } from "coral-admin/ui/components";
-import {
-  colorFromMeta,
-  parseEmptyAsNull,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { validateEmail } from "coral-framework/lib/validation";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 interface Props {
   disabled: boolean;
@@ -33,15 +29,12 @@ const From: FunctionComponent<Props> = ({ disabled }) => (
       </FormFieldHeader>
       <Field name="email.fromName" parse={parseEmptyAsNull}>
         {({ input, meta }) => (
-          <>
-            <TextField
-              fullWidth
-              disabled={disabled}
-              color={colorFromMeta(meta)}
-              {...input}
-            />
-            <ValidationMessage fullWidth meta={meta} />
-          </>
+          <TextFieldWithValidation
+            fullWidth
+            disabled={disabled}
+            meta={meta}
+            {...input}
+          />
         )}
       </Field>
     </FormField>
@@ -62,16 +55,13 @@ const From: FunctionComponent<Props> = ({ disabled }) => (
         validate={validateEmail}
       >
         {({ input, meta }) => (
-          <>
-            <TextField
-              type="email"
-              fullWidth
-              color={colorFromMeta(meta)}
-              disabled={disabled}
-              {...input}
-            />
-            <ValidationMessage fullWidth meta={meta} />
-          </>
+          <TextFieldWithValidation
+            type="email"
+            fullWidth
+            meta={meta}
+            disabled={disabled}
+            {...input}
+          />
         )}
       </Field>
     </FormField>

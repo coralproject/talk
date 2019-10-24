@@ -2,13 +2,8 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  FormField,
-  FormFieldHeader,
-  Label,
-  TextField,
-} from "coral-admin/ui/components";
-import { parseEmptyAsNull, ValidationMessage } from "coral-framework/lib/form";
+import { FormField, FormFieldHeader, Label } from "coral-admin/ui/components";
+import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { validateURL } from "coral-framework/lib/validation";
 
@@ -17,6 +12,7 @@ import Description from "../../Description";
 import Header from "../../Header";
 import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 interface Props {
   disabled: boolean;
@@ -89,19 +85,17 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
         validate={validateURL}
       >
         {({ input, meta }) => (
-          <>
-            <TextField
-              id="configure-advanced-stories-proxy-url"
-              disabled={disabled}
-              fullWidth
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              {...input}
-            />
-            <ValidationMessage meta={meta} />
-          </>
+          <TextFieldWithValidation
+            id="configure-advanced-stories-proxy-url"
+            disabled={disabled}
+            fullWidth
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            meta={meta}
+            {...input}
+          />
         )}
       </Field>
     </FormField>

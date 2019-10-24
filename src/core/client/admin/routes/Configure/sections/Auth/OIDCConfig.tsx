@@ -9,11 +9,7 @@ import {
   Label,
   TextField,
 } from "coral-admin/ui/components";
-import {
-  colorFromMeta,
-  parseEmptyAsNull,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
 import {
   composeValidatorsWhen,
   Condition,
@@ -25,6 +21,8 @@ import { Button, Flex, TextLink } from "coral-ui/components";
 import Description from "../../Description";
 import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
+import ValidationMessage from "../../ValidationMessage";
 import { FormProps } from "./AuthConfigContainer";
 import ClientIDField from "./ClientIDField";
 import ClientSecretField from "./ClientSecretField";
@@ -93,19 +91,17 @@ const OIDCConfig: FunctionComponent<Props> = ({
               parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
-                <>
-                  <TextField
-                    disabled={disabledInside}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck={false}
-                    color={colorFromMeta(meta)}
-                    fullWidth
-                    {...input}
-                  />
-                  <ValidationMessage meta={meta} />
-                </>
+                <TextFieldWithValidation
+                  disabled={disabledInside}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  color={colorFromMeta(meta)}
+                  fullWidth
+                  meta={meta}
+                  {...input}
+                />
               )}
             </Field>
           </FormField>
@@ -160,7 +156,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
                       Discover
                     </Button>
                   </Flex>
-                  <ValidationMessage meta={meta} />
+                  <ValidationMessage meta={meta} fullWidth />
                 </>
               )}
             </Field>
@@ -175,19 +171,16 @@ const OIDCConfig: FunctionComponent<Props> = ({
               parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
-                <>
-                  <TextField
-                    disabled={disabledInside || disableForDiscover}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck={false}
-                    color={colorFromMeta(meta)}
-                    fullWidth
-                    {...input}
-                  />
-                  <ValidationMessage meta={meta} />
-                </>
+                <TextFieldWithValidation
+                  disabled={disabledInside || disableForDiscover}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  fullWidth
+                  meta={meta}
+                  {...input}
+                />
               )}
             </Field>
           </FormField>
@@ -201,19 +194,16 @@ const OIDCConfig: FunctionComponent<Props> = ({
               parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
-                <>
-                  <TextField
-                    disabled={disabledInside || disableForDiscover}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck={false}
-                    color={colorFromMeta(meta)}
-                    fullWidth
-                    {...input}
-                  />
-                  <ValidationMessage meta={meta} />
-                </>
+                <TextFieldWithValidation
+                  disabled={disabledInside || disableForDiscover}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  meta={meta}
+                  fullWidth
+                  {...input}
+                />
               )}
             </Field>
           </FormField>
@@ -227,19 +217,16 @@ const OIDCConfig: FunctionComponent<Props> = ({
               parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
-                <>
-                  <TextField
-                    disabled={disabledInside || disableForDiscover}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck={false}
-                    color={colorFromMeta(meta)}
-                    fullWidth
-                    {...input}
-                  />
-                  <ValidationMessage meta={meta} />
-                </>
+                <TextFieldWithValidation
+                  disabled={disabledInside || disableForDiscover}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  meta={meta}
+                  fullWidth
+                  {...input}
+                />
               )}
             </Field>
           </FormField>

@@ -8,7 +8,6 @@ import {
   FormFieldHeader,
   HelperText,
   Label,
-  TextField,
   TextFieldAdornment,
 } from "coral-admin/ui/components";
 import {
@@ -37,7 +36,7 @@ import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import PermissionField from "../../PermissionField";
 import SubHeader from "../../SubHeader";
-import ValidationMessage from "../../ValidationMessage";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 import APIKeyField from "./APIKeyField";
 
 import styles from "./PerspectiveConfig.css";
@@ -108,24 +107,22 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
           validate={validatePercentage(0, 1)}
         >
           {({ input, meta }) => (
-            <>
-              <TextField
-                id="configure-moderation-perspective-threshold"
-                classes={{
-                  input: styles.thresholdTextField,
-                }}
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                adornment={<TextFieldAdornment>%</TextFieldAdornment>}
-                placeholder={TOXICITY_THRESHOLD_DEFAULT.toString()}
-                textAlignCenter
-                {...input}
-              />
-              <ValidationMessage meta={meta} />
-            </>
+            <TextFieldWithValidation
+              id="configure-moderation-perspective-threshold"
+              classes={{
+                input: styles.thresholdTextField,
+              }}
+              disabled={disabled}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              adornment={<TextFieldAdornment>%</TextFieldAdornment>}
+              placeholder={TOXICITY_THRESHOLD_DEFAULT.toString()}
+              textAlignCenter
+              meta={meta}
+              {...input}
+            />
           )}
         </Field>
       </FormField>
@@ -156,20 +153,18 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         </FormFieldHeader>
         <Field name="integrations.perspective.model" parse={parseEmptyAsNull}>
           {({ input, meta }) => (
-            <>
-              <TextField
-                id="configure-moderation-perspective-model"
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                placeholder={TOXICITY_MODEL_DEFAULT}
-                spellCheck={false}
-                fullWidth
-                {...input}
-              />
-              <ValidationMessage meta={meta} />
-            </>
+            <TextFieldWithValidation
+              id="configure-moderation-perspective-model"
+              disabled={disabled}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              placeholder={TOXICITY_MODEL_DEFAULT}
+              spellCheck={false}
+              meta={meta}
+              fullWidth
+              {...input}
+            />
           )}
         </Field>
       </FormField>
@@ -233,20 +228,18 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
           validate={validateURL}
         >
           {({ input, meta }) => (
-            <>
-              <TextField
-                id="configure-moderation-perspective-customEndpoint"
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                placeholder={TOXICITY_ENDPOINT_DEFAULT}
-                spellCheck={false}
-                fullWidth
-                {...input}
-              />
-              <ValidationMessage meta={meta} />
-            </>
+            <TextFieldWithValidation
+              id="configure-moderation-perspective-customEndpoint"
+              disabled={disabled}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              placeholder={TOXICITY_ENDPOINT_DEFAULT}
+              spellCheck={false}
+              fullWidth
+              meta={meta}
+              {...input}
+            />
           )}
         </Field>
       </FormField>

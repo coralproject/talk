@@ -37,7 +37,7 @@ const ClientSecretField: FunctionComponent<Props> = ({
             fullWidth
             {...input}
           />
-          <ValidationMessage meta={meta} />
+          <ValidationMessage meta={meta} fullWidth />
         </>
       )}
     </Field>

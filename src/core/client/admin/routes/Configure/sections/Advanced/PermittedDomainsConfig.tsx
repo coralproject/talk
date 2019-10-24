@@ -2,18 +2,14 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, TextField } from "coral-admin/ui/components";
-import {
-  colorFromMeta,
-  formatStringList,
-  parseStringList,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { FormField } from "coral-admin/ui/components";
+import { formatStringList, parseStringList } from "coral-framework/lib/form";
 import { validateStrictURLList } from "coral-framework/lib/validation";
 
 import ConfigBox from "../../ConfigBox";
 import Description from "../../Description";
 import Header from "../../Header";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 interface Props {
   disabled: boolean;
@@ -48,20 +44,17 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
         validate={validateStrictURLList}
       >
         {({ input, meta }) => (
-          <>
-            <TextField
-              id={`configure-advanced-${input.name}`}
-              disabled={disabled}
-              color={colorFromMeta(meta)}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              {...input}
-              fullWidth
-            />
-            <ValidationMessage meta={meta} fullWidth />
-          </>
+          <TextFieldWithValidation
+            id={`configure-advanced-${input.name}`}
+            disabled={disabled}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            meta={meta}
+            {...input}
+            fullWidth
+          />
         )}
       </Field>
     </FormField>

@@ -7,9 +7,8 @@ import {
   FormField,
   HelperText,
   Label,
-  TextField,
 } from "coral-admin/ui/components";
-import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
+import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   Condition,
@@ -23,7 +22,7 @@ import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import SubHeader from "../../SubHeader";
-import ValidationMessage from "../../ValidationMessage";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 import APIKeyField from "./APIKeyField";
 
 interface Props {
@@ -95,20 +94,17 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
           validate={validateWhen(isEnabled, required)}
         >
           {({ input, meta }) => (
-            <>
-              <TextField
-                id="configure-moderation-akismet-site"
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                color={colorFromMeta(meta)}
-                fullWidth
-                {...input}
-              />
-              <ValidationMessage meta={meta} />
-            </>
+            <TextFieldWithValidation
+              id="configure-moderation-akismet-site"
+              disabled={disabled}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              fullWidth
+              meta={meta}
+              {...input}
+            />
           )}
         </Field>
       </FormField>
