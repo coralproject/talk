@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from "react";
 
-import styles from "./SubHeader.css";
+import styles from "./Subheader.css";
 
-const SubHeader: FunctionComponent = ({ children }) => (
+const Subheader: FunctionComponent = ({ children }) => (
   <h3 className={styles.root}>{children}</h3>
 );
 
-export default SubHeader;
+export default Subheader;

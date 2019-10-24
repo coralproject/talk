@@ -21,7 +21,7 @@ import ConfigBox from "../../ConfigBox";
 import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
-import SubHeader from "../../SubHeader";
+import Subheader from "../../Subheader";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 import APIKeyField from "./APIKeyField";
 
@@ -66,7 +66,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
       </FormField>
       <HorizontalGutter spacing={3}>
         <Localized id="configure-configurationSubHeader" strong={<strong />}>
-          <SubHeader>Configuration</SubHeader>
+          <Subheader>Configuration</Subheader>
         </Localized>
         <Localized
           id="configure-moderation-akismet-accountNote"

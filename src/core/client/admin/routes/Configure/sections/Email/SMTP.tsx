@@ -21,7 +21,7 @@ import {
 
 import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
-import SubHeader from "../../SubHeader";
+import Subheader from "../../Subheader";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 import { FormProps } from "./EmailConfigContainer";
 
@@ -110,7 +110,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
       {({ input: { value: enabled } }) => (
         <>
           <Localized id="configure-email-smtpCredentialsHeader">
-            <SubHeader>Email credentials</SubHeader>
+            <Subheader>Email credentials</Subheader>
           </Localized>
           <FormField>
             <Localized id="configure-email-smtpUsernameLabel">
