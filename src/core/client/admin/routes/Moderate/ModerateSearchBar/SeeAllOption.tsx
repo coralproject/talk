@@ -27,10 +27,10 @@ const SeeAllOption: FunctionComponent<Props> = ({
       {...rest}
     >
       <a className={styles.link} href={href || "#"} tabIndex={-1}>
-        <Localized id="moderate-searchBar-seeAllResults">
+        <Localized id="moderate-searchBar-seeAllResults" size="md">
           <span>See all results</span>
         </Localized>
-        <Icon className={styles.icon}>arrow_forward</Icon>
+        <Icon className={styles.icon}>keyboard_arrow_right</Icon>
       </a>
     </li>
   );

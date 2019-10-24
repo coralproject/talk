@@ -38,7 +38,9 @@ const ModerateAllOption: FunctionComponent<Props> = ({
           <span>Moderate all stories</span>
         </Localized>
         <span>
-          <Icon className={styles.icon}>arrow_forward</Icon>
+          <Icon className={styles.icon} size="md">
+            keyboard_arrow_right
+          </Icon>
         </span>
       </Button>
     </li>
