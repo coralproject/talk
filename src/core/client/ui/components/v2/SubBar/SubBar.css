@@ -1,5 +1,5 @@
 .root {
-  background-color: var(--palette-common-white);
+  background-color: var(--v2-colors-pure-white);
   height: calc(6 * var(--mini-unit));
 }
 

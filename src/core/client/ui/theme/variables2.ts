@@ -83,6 +83,7 @@ const variables2 = {
     },
     primary: {
       lightest: colors.teal100,
+      light: colors.teal300,
       main: colors.teal700,
       darkest: colors.teal900,
     },

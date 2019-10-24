@@ -42,22 +42,22 @@
     filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.1));
     &::before {
       border-width: 6px 10px 0 10px;
-      border-color: var(--palette-grey-lighter) transparent transparent
+      border-color: var(--v2-palette-grey-lighter) transparent transparent
         transparent;
     }
     &::after {
       margin-top: -7px;
       border-width: 6px 10px 0 10px;
-      border-color: var(--palette-common-white) transparent transparent
+      border-color: var(--v2-colors-pure-white) transparent transparent
         transparent;
     }
     &.colorDark {
       &::before {
-        border-color: var(--palette-grey-dark) transparent transparent
+        border-color: var(--v2-palette-grey-main) transparent transparent
           transparent;
       }
       &::after {
-        border-color: var(--palette-grey-dark) transparent transparent
+        border-color: var(--v2-palette-grey-main) transparent transparent
           transparent;
       }
     }
@@ -71,23 +71,23 @@
     filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.1));
     &::before {
       border-width: 10px 6px 10px 0;
-      border-color: transparent var(--palette-grey-lighter) transparent
+      border-color: transparent var(--v2-palette-grey-lighter) transparent
         transparent;
     }
     &::after {
       margin-top: -20px;
       margin-right: -1px;
       border-width: 10px 6px 10px 0;
-      border-color: transparent var(--palette-common-white) transparent
+      border-color: transparent var(--v2-colors-pure-white) transparent
         transparent;
     }
     &.colorDark {
       &::before {
-        border-color: transparent var(--palette-grey-dark) transparent
+        border-color: transparent var(--v2-palette-grey-main) transparent
           transparent;
       }
       &::after {
-        border-color: transparent var(--palette-grey-dark) transparent
+        border-color: transparent var(--v2-palette-grey-main) transparent
           transparent;
       }
     }
@@ -102,23 +102,23 @@
     &::before {
       border-width: 10px 0 10px 6px;
       border-color: transparent transparent transparent
-        var(--palette-grey-lighter);
+        var(--v2-palette-grey-lighter);
     }
     &::after {
       margin-top: -20px;
       margin-left: -1px;
       border-width: 10px 0 10px 6px;
       border-color: transparent transparent transparent
-        var(--palette-common-white);
+        var(--v2-colors-pure-white);
     }
     &.colorDark {
       &::before {
         border-color: transparent transparent transparent
-          var(--palette-grey-dark);
+          var(--v2-palette-grey-main);
       }
       &::after {
         border-color: transparent transparent transparent
-          var(--palette-grey-dark);
+          var(--v2-palette-grey-main);
       }
     }
   }

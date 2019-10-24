@@ -3,8 +3,12 @@
 }
 
 .anchor {
-  composes: adminTabItem from "coral-ui/shared/typography.css";
-  color: var(--palette-grey-dark);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  text-transform: uppercase;
+
+  color: var(--v2-palette-grey-main);
   height: 100%;
   display: inline-flex;
   align-items: center;
@@ -24,7 +28,11 @@
 }
 
 .active {
-  composes: adminTabItemActive from "coral-ui/shared/typography.css";
-  border-bottom: 3px solid var(--palette-primary-main);
-  color: var(--palette-primary-main);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-size: var(--font-size-2);
+  text-transform: uppercase;
+
+  border-bottom: 3px solid var(--v2-palette-primary-main);
+  color: var(--v2-palette-primary-main);
 }
