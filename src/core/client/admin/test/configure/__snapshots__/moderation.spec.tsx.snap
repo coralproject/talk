@@ -325,11 +325,11 @@ approved by a moderator.
                         value="7"
                       />
                     </div>
-                    <p
-                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DurationField-unit"
+                    <span
+                      className="DurationField-unit"
                     >
                       Days
-                    </p>
+                    </span>
                   </div>
                 </fieldset>
                 <fieldset
@@ -423,31 +423,35 @@ comments pending for toxicity, spam or pre-moderation.
                     </p>
                   </div>
                   <div
-                    className="TextField-root"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input RecentCommentHistoryConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
-                      disabled={false}
-                      name="recentCommentHistory.triggerRejectionRate"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value="30"
-                    />
                     <div
-                      className="TextField-adornment"
+                      className="TextField-root"
                     >
-                      <span
-                        className="TextFieldAdornment-root"
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input RecentCommentHistoryConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
+                        disabled={false}
+                        name="recentCommentHistory.triggerRejectionRate"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value="30"
+                      />
+                      <div
+                        className="TextField-adornment"
                       >
-                        %
-                      </span>
+                        <span
+                          className="TextFieldAdornment-root"
+                        >
+                          %
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -573,32 +577,36 @@ comment is toxic, according to Perspective API. By default the threshold is set 
                     </p>
                   </div>
                   <div
-                    className="TextField-root"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input PerspectiveConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
-                      disabled={false}
-                      id="configure-moderation-perspective-threshold"
-                      name="integrations.perspective.threshold"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder="80"
-                      spellCheck={false}
-                      type="text"
-                      value="80"
-                    />
                     <div
-                      className="TextField-adornment"
+                      className="TextField-root"
                     >
-                      <span
-                        className="TextFieldAdornment-root"
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input PerspectiveConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
+                        disabled={false}
+                        id="configure-moderation-perspective-threshold"
+                        name="integrations.perspective.threshold"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="80"
+                        spellCheck={false}
+                        type="text"
+                        value="80"
+                      />
+                      <div
+                        className="TextField-adornment"
                       >
-                        %
-                      </span>
+                        <span
+                          className="TextFieldAdornment-root"
+                        >
+                          %
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -631,24 +639,28 @@ You can find out more about model choices
                     </p>
                   </div>
                   <div
-                    className="TextField-root TextField-fullWidth"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input TextField-colorRegular"
-                      disabled={false}
-                      id="configure-moderation-perspective-model"
-                      name="integrations.perspective.model"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder="TOXICITY"
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root TextField-fullWidth"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={false}
+                        id="configure-moderation-perspective-model"
+                        name="integrations.perspective.model"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="TOXICITY"
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                 </div>
                 <fieldset
@@ -803,24 +815,28 @@ improve the API over time.
                     By default the endpoint is set to https://commentanalyzer.googleapis.com/v1alpha1. You may override this here.
                   </p>
                   <div
-                    className="TextField-root TextField-fullWidth"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input TextField-colorRegular"
-                      disabled={false}
-                      id="configure-moderation-perspective-customEndpoint"
-                      name="integrations.perspective.endpoint"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder="https://commentanalyzer.googleapis.com/v1alpha1"
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root TextField-fullWidth"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={false}
+                        id="configure-moderation-perspective-customEndpoint"
+                        name="integrations.perspective.endpoint"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="https://commentanalyzer.googleapis.com/v1alpha1"
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                 </div>
               </fieldset>
@@ -997,24 +1013,28 @@ in your Akismet account:
                     Site URL
                   </label>
                   <div
-                    className="TextField-root TextField-fullWidth"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input TextField-colorRegular"
-                      disabled={false}
-                      id="configure-moderation-akismet-site"
-                      name="integrations.akismet.site"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root TextField-fullWidth"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={false}
+                        id="configure-moderation-akismet-site"
+                        name="integrations.akismet.site"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                 </div>
               </fieldset>

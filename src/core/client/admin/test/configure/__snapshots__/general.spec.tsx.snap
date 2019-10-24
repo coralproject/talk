@@ -552,32 +552,36 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
                     Minimum comment length
                   </label>
                   <div
-                    className="TextField-root"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input CommentLengthConfig-commentLengthTextInput TextField-colorRegular TextField-textAlignCenter"
-                      disabled={false}
-                      id="configure-general-commentLength-min"
-                      name="charCount.min"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder="No limit"
-                      spellCheck={false}
-                      type="text"
-                      value={3}
-                    />
                     <div
-                      className="TextField-adornment"
+                      className="TextField-root"
                     >
-                      <span
-                        className="TextFieldAdornment-root"
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input CommentLengthConfig-commentLengthTextInput TextField-colorRegular TextField-textAlignCenter"
+                        disabled={false}
+                        id="configure-general-commentLength-min"
+                        name="charCount.min"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="No limit"
+                        spellCheck={false}
+                        type="text"
+                        value={3}
+                      />
+                      <div
+                        className="TextField-adornment"
                       >
-                        Characters
-                      </span>
+                        <span
+                          className="TextFieldAdornment-root"
+                        >
+                          Characters
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -591,32 +595,36 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
                     Maximum comment length
                   </label>
                   <div
-                    className="TextField-root"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input CommentLengthConfig-commentLengthTextInput TextField-colorRegular TextField-textAlignCenter"
-                      disabled={false}
-                      id="configure-general-commentLength-max"
-                      name="charCount.max"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder="No limit"
-                      spellCheck={false}
-                      type="text"
-                      value={1000}
-                    />
                     <div
-                      className="TextField-adornment"
+                      className="TextField-root"
                     >
-                      <span
-                        className="TextFieldAdornment-root"
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input CommentLengthConfig-commentLengthTextInput TextField-colorRegular TextField-textAlignCenter"
+                        disabled={false}
+                        id="configure-general-commentLength-max"
+                        name="charCount.max"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="No limit"
+                        spellCheck={false}
+                        type="text"
+                        value={1000}
+                      />
+                      <div
+                        className="TextField-adornment"
                       >
-                        Characters
-                      </span>
+                        <span
+                          className="TextFieldAdornment-root"
+                        >
+                          Characters
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -968,20 +976,24 @@ each other's comments.
                       Reaction label
                     </label>
                     <div
-                      className="TextField-root TextField-fullWidth ReactionConfig-textInput"
+                      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                     >
-                      <input
-                        className="TextField-input TextField-colorRegular"
-                        disabled={false}
-                        id="reaction.label"
-                        name="reaction.label"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder="E.g. Respect"
-                        type="text"
-                        value="Reaction"
-                      />
+                      <div
+                        className="TextField-root TextField-fullWidth ReactionConfig-textInput"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          disabled={false}
+                          id="reaction.label"
+                          name="reaction.label"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder="E.g. Respect"
+                          type="text"
+                          value="Reaction"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div
@@ -1023,20 +1035,24 @@ each other's comments.
                       Active reaction label
                     </label>
                     <div
-                      className="TextField-root TextField-fullWidth ReactionConfig-textInput"
+                      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                     >
-                      <input
-                        className="TextField-input TextField-colorRegular"
-                        disabled={false}
-                        id="reaction.labelActive"
-                        name="reaction.labelActive"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder="E.g. Respected"
-                        type="text"
-                        value="reacted"
-                      />
+                      <div
+                        className="TextField-root TextField-fullWidth ReactionConfig-textInput"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          disabled={false}
+                          id="reaction.labelActive"
+                          name="reaction.labelActive"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder="E.g. Respected"
+                          type="text"
+                          value="reacted"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div
@@ -1078,20 +1094,24 @@ each other's comments.
                       Sort label
                     </label>
                     <div
-                      className="TextField-root TextField-fullWidth ReactionConfig-textInput"
+                      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                     >
-                      <input
-                        className="TextField-input TextField-colorRegular"
-                        disabled={false}
-                        id="reaction.sortLabel"
-                        name="reaction.sortLabel"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder="E.g. Most respected"
-                        type="text"
-                        value="Reactions"
-                      />
+                      <div
+                        className="TextField-root TextField-fullWidth ReactionConfig-textInput"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          disabled={false}
+                          id="reaction.sortLabel"
+                          name="reaction.sortLabel"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder="E.g. Most respected"
+                          type="text"
+                          value="Reactions"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div
@@ -1182,20 +1202,24 @@ appears on the comment stream and in the admin interface.
                       Badge text
                     </label>
                     <div
-                      className="TextField-root TextField-fullWidth StaffConfig-textInput"
+                      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                     >
-                      <input
-                        className="TextField-input TextField-colorRegular"
-                        disabled={false}
-                        id="staff.label"
-                        name="staff.label"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder="E.g. Staff"
-                        type="text"
-                        value="Staff"
-                      />
+                      <div
+                        className="TextField-root TextField-fullWidth StaffConfig-textInput"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          disabled={false}
+                          id="staff.label"
+                          name="staff.label"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          placeholder="E.g. Staff"
+                          type="text"
+                          value="Staff"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div

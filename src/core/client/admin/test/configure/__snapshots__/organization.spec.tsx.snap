@@ -146,24 +146,28 @@ exports[`renders configure organization 1`] = `
                   Your organization name will appear on emails sent by Coral to your community and organization members.
                 </p>
                 <div
-                  className="TextField-root TextField-fullWidth"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                 >
-                  <input
-                    autoCapitalize="off"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    className="TextField-input TextField-colorRegular"
-                    disabled={false}
-                    id="configure-organization-organization.name"
-                    name="organization.name"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    placeholder=""
-                    spellCheck={false}
-                    type="text"
-                    value="Coral"
-                  />
+                  <div
+                    className="TextField-root TextField-fullWidth"
+                  >
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="TextField-input TextField-colorRegular"
+                      disabled={false}
+                      id="configure-organization-organization.name"
+                      name="organization.name"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder=""
+                      spellCheck={false}
+                      type="text"
+                      value="Coral"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -199,24 +203,28 @@ they have any questions about the status of their accounts or
 moderation questions.
                 </p>
                 <div
-                  className="TextField-root TextField-fullWidth"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                 >
-                  <input
-                    autoCapitalize="off"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    className="TextField-input TextField-colorRegular"
-                    disabled={false}
-                    id="configure-organization-organization.contactEmail"
-                    name="organization.contactEmail"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    placeholder=""
-                    spellCheck={false}
-                    type="text"
-                    value="coral@test.com"
-                  />
+                  <div
+                    className="TextField-root TextField-fullWidth"
+                  >
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="TextField-input TextField-colorRegular"
+                      disabled={false}
+                      id="configure-organization-organization.contactEmail"
+                      name="organization.contactEmail"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder=""
+                      spellCheck={false}
+                      type="text"
+                      value="coral@test.com"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -249,24 +257,28 @@ moderation questions.
                   Your organization url will appear on emails sent by Coral to your community and organization members.
                 </p>
                 <div
-                  className="TextField-root TextField-fullWidth"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                 >
-                  <input
-                    autoCapitalize="off"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    className="TextField-input TextField-colorRegular"
-                    disabled={false}
-                    id="configure-organization-organization.url"
-                    name="organization.url"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    placeholder=""
-                    spellCheck={false}
-                    type="text"
-                    value="https://test.com/"
-                  />
+                  <div
+                    className="TextField-root TextField-fullWidth"
+                  >
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="TextField-input TextField-colorRegular"
+                      disabled={false}
+                      id="configure-organization-organization.url"
+                      name="organization.url"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder=""
+                      spellCheck={false}
+                      type="text"
+                      value="https://test.com/"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
