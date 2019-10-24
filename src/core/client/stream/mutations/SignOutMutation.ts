@@ -8,11 +8,7 @@ import { SignOutEvent } from "coral-stream/events";
 
 const SignOutMutation = createMutation(
   "signOut",
-  async (
-    environment: Environment,
-    input: undefined,
-    ctx: Pick<CoralContext, "rest" | "eventEmitter" | "clearSession">
-  ) => {
+  async (environment: Environment, input: undefined, ctx: CoralContext) => {
     const signOutEvent = SignOutEvent.begin(ctx.eventEmitter);
     try {
       await signOut(environment, input, ctx);

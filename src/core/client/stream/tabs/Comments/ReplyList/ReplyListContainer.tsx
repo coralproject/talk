@@ -2,6 +2,7 @@ import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 import { withProps } from "recompose";
 
+import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
   useMutation,
@@ -10,6 +11,7 @@ import {
 } from "coral-framework/lib/relay";
 import { FragmentKeys } from "coral-framework/lib/relay/types";
 import { Omit, PropTypesOf } from "coral-framework/types";
+import { ShowAllRepliesEvent } from "coral-stream/events";
 
 import { ReplyListContainer1_comment as CommentData } from "coral-stream/__generated__/ReplyListContainer1_comment.graphql";
 import { ReplyListContainer1_settings as SettingsData } from "coral-stream/__generated__/ReplyListContainer1_settings.graphql";
@@ -58,6 +60,19 @@ type FragmentVariables = Omit<
 
 export const ReplyListContainer: React.FunctionComponent<Props> = props => {
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);
+  const beginShowAllEvent = useViewerNetworkEvent(ShowAllRepliesEvent);
+  const showAllAndEmit = useCallback(async () => {
+    const showAllEvent = beginShowAllEvent({ commentID: props.comment.id });
+    try {
+      await showAll();
+      showAllEvent.success();
+    } catch (error) {
+      showAllEvent.error({ message: error.message, code: error.code });
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  }, [showAll, beginShowAllEvent, props.comment.id]);
+
   const subcribeToCommentReplyCreated = useSubscription(
     CommentReplyCreatedSubscription
   );
@@ -129,7 +144,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = props => {
       comments={comments}
       story={props.story}
       settings={props.settings}
-      onShowAll={showAll}
+      onShowAll={showAllAndEmit}
       hasMore={props.relay.hasMore()}
       disableShowAll={isLoadingShowAll}
       indentLevel={props.indentLevel}

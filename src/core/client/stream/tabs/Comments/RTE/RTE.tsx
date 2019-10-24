@@ -1,7 +1,7 @@
 import { Blockquote, Bold, CoralRTE, Italic } from "@coralproject/rte";
 import cn from "classnames";
 import { Localized as LocalizedOriginal } from "fluent-react/compat";
-import React, { FunctionComponent, Ref } from "react";
+import React, { EventHandler, FocusEvent, FunctionComponent, Ref } from "react";
 
 import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components";
@@ -67,6 +67,8 @@ export interface RTEProps {
    * onChange
    */
   onChange?: (data: { html: string; text: string }) => void;
+  onFocus?: EventHandler<FocusEvent>;
+  onBlur?: EventHandler<FocusEvent>;
 
   disabled?: boolean;
 
@@ -109,10 +111,12 @@ const RTE: FunctionComponent<RTEProps> = props => {
     contentClassName,
     placeholderClassName,
     toolbarClassName,
+    onFocus,
+    onBlur,
     ...rest
   } = props;
   return (
-    <div>
+    <div onFocus={onFocus} onBlur={onBlur}>
       <CoralRTE
         inputId={inputId}
         className={cn(CLASSES.rte, className)}

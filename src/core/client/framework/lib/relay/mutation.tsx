@@ -11,9 +11,9 @@ import { Omit } from "coral-framework/types";
 
 import { CoralContext, useCoralContext, withContext } from "../bootstrap";
 
-export interface Mutation<N, I, R, C extends Partial<CoralContext>> {
+export interface Mutation<N, I, R> {
   name: N;
-  commit: (environment: Environment, input: I, context: C) => R;
+  commit: (environment: Environment, input: I, context: CoralContext) => R;
 }
 
 export type MutationInput<
@@ -31,8 +31,8 @@ export type MutationResponsePromise<
 > = Promise<MutationResponse<T, U>>;
 
 export type MutationProp<
-  T extends Mutation<any, any, any, any>
-> = T extends Mutation<any, infer I, infer R, any>
+  T extends Mutation<any, any, any>
+> = T extends Mutation<any, infer I, infer R>
   ? Parameters<T["commit"]>[1] extends undefined
     ? () => R
     : keyof Parameters<T["commit"]>[1] extends never
@@ -48,18 +48,13 @@ type RemoveClientMutationID<T> = T extends Promise<infer U>
   ? Omit<T, "clientMutationId">
   : T;
 
-export function createMutation<
-  N extends string,
-  I,
-  R,
-  C extends Partial<CoralContext>
->(
+export function createMutation<N extends string, I, R>(
   name: N,
-  commit: (environment: Environment, input: I, context: C) => R
+  commit: (environment: Environment, input: I, context: CoralContext) => R
   // (cvle) We remove `clientMutationId` from the response, so we don't use it inside our app.
   // It is a Relay implementation detail that is pending for removal.
   // https://github.com/facebook/relay/pull/2349
-): Mutation<N, I, RemoveClientMutationID<R>, C> {
+): Mutation<N, I, RemoveClientMutationID<R>> {
   return {
     name,
     commit,
@@ -70,13 +65,13 @@ export function createMutation<
  * useMutation is a React Hook that
  * returns a callback to call the mutation.
  */
-export function useMutation<I, R, C extends Partial<CoralContext>>(
-  mutation: Mutation<any, I, R, C>
+export function useMutation<I, R>(
+  mutation: Mutation<any, I, R>
 ): MutationProp<typeof mutation> {
   const context = useCoralContext();
   return useCallback<MutationProp<typeof mutation>>(
     ((input: I) => {
-      return mutation.commit(context.relayEnvironment, input, context as C);
+      return mutation.commit(context.relayEnvironment, input, context);
     }) as any,
     [context]
   );
@@ -88,13 +83,8 @@ export function useMutation<I, R, C extends Partial<CoralContext>>(
  *
  * @deprecated use `useMutation` instead
  */
-export function withMutation<
-  N extends string,
-  I,
-  R,
-  C extends Partial<CoralContext>
->(
-  mutation: Mutation<N, I, R, C>
+export function withMutation<N extends string, I, R>(
+  mutation: Mutation<N, I, R>
 ): InferableComponentEnhancer<{ [P in N]: MutationProp<typeof mutation> }> {
   return compose(
     withContext(context => ({ context })),
@@ -111,7 +101,7 @@ export function withMutation<
           return mutation.commit(
             this.props.context.relayEnvironment,
             input,
-            this.props.context as C
+            this.props.context
           );
         };
 

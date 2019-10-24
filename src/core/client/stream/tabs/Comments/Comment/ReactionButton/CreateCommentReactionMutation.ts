@@ -44,7 +44,6 @@ async function commit(
     eventEmitter,
     {
       commentID: input.commentID,
-      commentRevisionID: input.commentRevisionID,
     }
   );
   try {

@@ -4,13 +4,13 @@ import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
+import Timestamp from "coral-stream/common/Timestamp";
 import InReplyTo from "coral-stream/tabs/Comments/Comment/InReplyTo";
 import {
   Flex,
   HorizontalGutter,
   Icon,
   TextLink,
-  Timestamp,
   Typography,
 } from "coral-ui/components";
 

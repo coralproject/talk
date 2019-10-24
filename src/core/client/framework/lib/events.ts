@@ -51,16 +51,6 @@ export interface ViewerNetworkEvent<
 }
 
 /**
- * A ViewerLoadMoreEvent is a ViewerNetworkEvent with a
- * standard shape for load more events.
- */
-export type ViewerLoadMoreEvent = ViewerNetworkEvent<{
-  count: number;
-  success: {};
-  error: { message: string; code: string };
-}>;
-
-/**
  * createViewerEvent creates a ViewerNetworkEvent object.
  *
  * @param name name of the event
@@ -98,15 +88,6 @@ export function createViewerNetworkEvent<
 }
 
 /**
- * createViewerLoadMoreEvent creates a ViewerLoadMoreEvent object.
- *
- * @param name name of the event
- */
-export function createViewerLoadMoreEvent(name: string): ViewerLoadMoreEvent {
-  return createViewerNetworkEvent(name);
-}
-
-/**
  * createViewerEvent creates a ViewerEvent object.
  *
  * @param name name of the event
@@ -129,5 +110,24 @@ export function useViewerEvent<T>(
   const { eventEmitter } = useCoralContext();
   return ((data?: T) => {
     viewerEvent.emit(eventEmitter, data as any);
+  }) as any;
+}
+
+/**
+ * useViewerNetworkEvent injects the eventEmitter into a ViewNetworkEvent
+ * and returns a simple callback to begin the event.
+ */
+export function useViewerNetworkEvent<
+  T extends { success: object; error: object }
+>(
+  viewerNetworkEvent: ViewerNetworkEvent<T>
+): keyof T extends "success" | "error"
+  ? () => ViewerNetworkEventStarted<T>
+  : (
+      data: Pick<T, Exclude<keyof T, "success" | "error">>
+    ) => ViewerNetworkEventStarted<T> {
+  const { eventEmitter } = useCoralContext();
+  return ((data?: T) => {
+    return viewerNetworkEvent.begin(eventEmitter, data as any);
   }) as any;
 }

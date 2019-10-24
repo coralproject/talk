@@ -4,6 +4,7 @@ import React, {
   EventHandler,
   FocusEvent,
   FunctionComponent,
+  MouseEvent,
 } from "react";
 
 import { withKeyboardFocus, withStyles } from "coral-ui/hocs";
@@ -37,6 +38,7 @@ export interface SelectFieldProps {
   autofocus?: boolean;
   name?: string;
   onChange?: EventHandler<ChangeEvent<HTMLSelectElement>>;
+  onClick?: EventHandler<MouseEvent>;
   disabled?: boolean;
 
   // These handlers are passed down by the `withKeyboardFocus` HOC.

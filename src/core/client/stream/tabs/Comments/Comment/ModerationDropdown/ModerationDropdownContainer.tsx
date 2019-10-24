@@ -1,8 +1,15 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { ShowModerationPopoverEvent } from "coral-stream/events";
 import { Dropdown } from "coral-ui/components";
 
 import { ModerationDropdownContainer_comment } from "coral-stream/__generated__/ModerationDropdownContainer_comment.graphql";
@@ -29,11 +36,17 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
   onDismiss,
   scheduleUpdate,
 }) => {
+  const emitShowEvent = useViewerEvent(ShowModerationPopoverEvent);
   const [view, setView] = useState<View>("MODERATE");
   const onBan = useCallback(() => {
     setView("BAN");
     scheduleUpdate();
   }, [setView, scheduleUpdate]);
+
+  // run once.
+  useEffect(() => {
+    emitShowEvent({ commentID: comment.id });
+  }, []);
 
   return (
     <div>
