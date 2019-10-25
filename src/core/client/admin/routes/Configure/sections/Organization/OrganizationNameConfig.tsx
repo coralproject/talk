@@ -3,63 +3,48 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { required } from "coral-framework/lib/validation";
-import {
-  FormField,
-  HorizontalGutter,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { FormFieldDescription } from "coral-ui/components/v2";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
-import SectionContent from "../../SectionContent";
-import ValidationMessage from "../../ValidationMessage";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 interface Props {
   disabled: boolean;
 }
 
 const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <FormField>
-    <HorizontalGutter size="full">
+  <ConfigBox
+    title={
       <Localized id="configure-organization-name">
-        <Header
-          container={
-            <label htmlFor="configure-organization-organization.name" />
-          }
-        >
+        <Header htmlFor="configure-organization-organization.name">
           Organization name
         </Header>
       </Localized>
-      <SectionContent>
-        <Localized
-          id="configure-organization-nameExplanation"
-          strong={<strong />}
-        >
-          <Typography variant="bodyShort">
-            Your organization name will appear on emails sent by Coral to your
-            community and organization members
-          </Typography>
-        </Localized>
-        <Field name="organization.name" validate={required}>
-          {({ input, meta }) => (
-            <>
-              <TextField
-                id={`configure-organization-${input.name}`}
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                fullWidth
-                {...input}
-              />
-              <ValidationMessage meta={meta} fullWidth />
-            </>
-          )}
-        </Field>
-      </SectionContent>
-    </HorizontalGutter>
-  </FormField>
+    }
+  >
+    <Localized id="configure-organization-nameExplanation" strong={<strong />}>
+      <FormFieldDescription>
+        Your organization name will appear on emails sent by Coral to your
+        community and organization members
+      </FormFieldDescription>
+    </Localized>
+    <Field name="organization.name" validate={required}>
+      {({ input, meta }) => (
+        <TextFieldWithValidation
+          id={`configure-organization-${input.name}`}
+          disabled={disabled}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          meta={meta}
+          fullWidth
+          {...input}
+        />
+      )}
+    </Field>
+  </ConfigBox>
 );
 
 export default OrganizationNameConfig;

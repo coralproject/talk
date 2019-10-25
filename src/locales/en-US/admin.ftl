@@ -206,7 +206,7 @@ configure-auth-facebook-loginWith = Login with Facebook
 configure-auth-facebook-toEnableIntegration =
   To enable the integration with Facebook Authentication,
   you need to create and set up a web application.
-  For more information visit: <Link></Link>.
+  For more information visit: <br /><Link></Link>.
 configure-auth-facebook-useLoginOn = Use Facebook login on
 
 configure-auth-google-loginWith = Login with Google

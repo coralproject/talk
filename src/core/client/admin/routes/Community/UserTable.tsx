@@ -11,7 +11,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from "coral-admin/ui/components";
+} from "coral-ui/components/v2";
 
 import EmptyMessage from "./EmptyMessage";
 import UserRowContainer from "./UserRowContainer";

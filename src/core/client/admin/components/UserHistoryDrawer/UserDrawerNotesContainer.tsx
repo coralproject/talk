@@ -1,8 +1,8 @@
+import { FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
+import { Field, Form } from "react-final-form";
 
-import { UserDrawerNotesContainer_user as UserData } from "coral-admin/__generated__/UserDrawerNotesContainer_user.graphql";
-import { UserDrawerNotesContainer_viewer as ViewerData } from "coral-admin/__generated__/UserDrawerNotesContainer_viewer.graphql";
 import {
   graphql,
   useMutation,
@@ -10,8 +10,10 @@ import {
 } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components";
-import { FormApi } from "final-form";
-import { Field, Form } from "react-final-form";
+
+import { UserDrawerNotesContainer_user as UserData } from "coral-admin/__generated__/UserDrawerNotesContainer_user.graphql";
+import { UserDrawerNotesContainer_viewer as ViewerData } from "coral-admin/__generated__/UserDrawerNotesContainer_viewer.graphql";
+
 import CreateModeratorNoteMutation from "./CreateModeratorNoteMutation";
 import DeleteModeratorNoteMutation from "./DeleteModeratorNoteMutation";
 import ModeratorNote from "./ModeratorNote";

@@ -10,7 +10,6 @@ import React, {
 } from "react";
 
 import { HOTKEYS } from "coral-admin/constants";
-import { Timestamp } from "coral-admin/ui/components";
 import { PropTypesOf } from "coral-framework/types";
 import {
   BaseButton,
@@ -20,6 +19,7 @@ import {
   TextLink,
   Typography,
 } from "coral-ui/components";
+import { Timestamp } from "coral-ui/components/v2";
 
 import ApproveButton from "./ApproveButton";
 import CommentAuthorContainer from "./CommentAuthorContainer";

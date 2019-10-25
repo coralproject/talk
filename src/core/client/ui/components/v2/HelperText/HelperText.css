@@ -1,0 +1,7 @@
+.root {
+  color: var(--v2-palette-input-helper);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-body-short);
+}
