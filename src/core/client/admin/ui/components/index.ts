@@ -12,6 +12,7 @@ export { default as HelperText } from "./HelperText";
 export { default as CheckBox } from "./CheckBox";
 export { default as FieldSet } from "./FieldSet";
 export { default as Textarea } from "./Textarea";
+export { default as FormFieldDescription } from "./FormFieldDescription";
 export { default as PasswordField } from "./PasswordField";
 export { default as Message, MessageIcon } from "./Message";
 export {
