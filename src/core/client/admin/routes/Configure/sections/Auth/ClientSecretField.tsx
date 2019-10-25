@@ -4,7 +4,7 @@ import { Field } from "react-final-form";
 
 import { parseEmptyAsNull, ValidationMessage } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
-import { FormField, InputLabel, PasswordField } from "coral-ui/components";
+import { FormField, Label, PasswordField } from "coral-ui/components/v2";
 
 interface Props {
   validate?: Validator;
@@ -19,7 +19,7 @@ const ClientSecretField: FunctionComponent<Props> = ({
 }) => (
   <FormField>
     <Localized id="configure-auth-clientSecret">
-      <InputLabel>Client secret</InputLabel>
+      <Label>Client secret</Label>
     </Localized>
     <Field
       name={name}
@@ -37,7 +37,7 @@ const ClientSecretField: FunctionComponent<Props> = ({
             fullWidth
             {...input}
           />
-          <ValidationMessage meta={meta} />
+          <ValidationMessage meta={meta} fullWidth />
         </>
       )}
     </Field>

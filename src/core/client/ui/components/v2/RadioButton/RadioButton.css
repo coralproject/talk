@@ -1,0 +1,80 @@
+.root {
+}
+
+.input {
+  cursor: pointer;
+  position: absolute; /* take it out of document flow */
+  opacity: 0; /* hide it */
+}
+
+.label {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  color: var(--v2-palette-input-label);
+  font-size: var(--v2-font-size-3);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-body-short);
+  align-items: center;
+}
+
+.labelLight {
+  color: var(--palette-text-light);
+}
+
+/* Box. */
+.input + .label:before {
+  content: "";
+  margin-right: 10px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: var(--v2-palette-input-background);
+  border: 1px solid var(--v2-palette-input-label);
+  border-radius: 50%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* Box focus */
+.label.focus:before {
+  @mixin outline;
+}
+
+/* Box checked */
+.input:checked + .label:before {
+  border: 1px solid var(--v2-palette-input-label);
+  background: var(--v2-palette-input-background);
+}
+
+/* Disabled state label. */
+.input:disabled + .label {
+  cursor: auto;
+  opacity: 0.6;
+}
+
+/* Disabled box. */
+.input:disabled + .label:before {
+  box-shadow: none;
+  border: 1px solid var(--v2-palette-input-disabled-foreground);
+  background: var(--v2-palette-input-disabled-background);
+}
+
+/* Checkmark. Could be replaced with an image */
+.input:checked + .label:after {
+  content: "";
+  background: var(--v2-palette-input-label);
+  border-radius: 50%;
+  position: absolute;
+  left: 3px;
+  top: 6px;
+  width: 8px;
+  height: 8px;
+  box-sizing: border-box;
+}
+
+.input:checked:disabled + .label:after {
+  background: var(--v2-palette-input-disabled-background);
+}

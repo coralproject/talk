@@ -10,7 +10,7 @@ interface Props {
 
 const SectionContent: FunctionComponent<Props> = ({ children }) => {
   return (
-    <HorizontalGutter size="double" className={styles.sectionContent}>
+    <HorizontalGutter spacing={4} className={styles.sectionContent}>
       {children}
     </HorizontalGutter>
   );
