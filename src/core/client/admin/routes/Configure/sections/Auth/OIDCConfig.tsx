@@ -2,14 +2,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  FormField,
-  FormFieldDescription,
-  FormFieldHeader,
-  HelperText,
-  Label,
-  TextField,
-} from "coral-admin/ui/components";
 import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
 import {
   composeValidatorsWhen,
@@ -18,6 +10,14 @@ import {
   validateURL,
 } from "coral-framework/lib/validation";
 import { Button, Flex, TextLink } from "coral-ui/components";
+import {
+  FormField,
+  FormFieldDescription,
+  FormFieldHeader,
+  HelperText,
+  Label,
+  TextField,
+} from "coral-ui/components/v2";
 
 import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";

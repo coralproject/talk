@@ -2,6 +2,9 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { required } from "coral-framework/lib/validation";
+import ReactionButton from "coral-stream/tabs/Comments/Comment/ReactionButton/ReactionButton";
+import { Flex, HorizontalGutter } from "coral-ui/components";
 import {
   FieldSet,
   FormField,
@@ -9,10 +12,7 @@ import {
   Label,
   Option,
   SelectField,
-} from "coral-admin/ui/components";
-import { required } from "coral-framework/lib/validation";
-import ReactionButton from "coral-stream/tabs/Comments/Comment/ReactionButton/ReactionButton";
-import { Flex, HorizontalGutter } from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import { ReactionConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ReactionConfigContainer_settings.graphql";
 

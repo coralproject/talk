@@ -3,15 +3,6 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
-  FieldSet,
-  FormField,
-  FormFieldDescription,
-  FormFieldHeader,
-  HelperText,
-  Label,
-  TextFieldAdornment,
-} from "coral-admin/ui/components";
-import {
   TOXICITY_ENDPOINT_DEFAULT,
   TOXICITY_MODEL_DEFAULT,
   TOXICITY_THRESHOLD_DEFAULT,
@@ -30,6 +21,15 @@ import {
   validateWhen,
 } from "coral-framework/lib/validation";
 import { HorizontalGutter } from "coral-ui/components";
+import {
+  FieldSet,
+  FormField,
+  FormFieldDescription,
+  FormFieldHeader,
+  HelperText,
+  Label,
+  TextFieldAdornment,
+} from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

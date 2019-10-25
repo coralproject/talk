@@ -7,7 +7,8 @@ import {
   FormField,
   FormFieldHeader,
   Label,
-} from "coral-admin/ui/components";
+} from "coral-ui/components/v2";
+
 import HelperText from "../../HelperText";
 
 interface Props {

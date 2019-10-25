@@ -1,10 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { FormField, Label, PasswordField } from "coral-admin/ui/components";
 import { Button, Flex, Icon } from "coral-ui/components";
+import { FormField, Label, PasswordField } from "coral-ui/components/v2";
 
 import HelperText from "../../HelperText";
+
 import styles from "./SSOKeyField.css";
 
 interface Props {

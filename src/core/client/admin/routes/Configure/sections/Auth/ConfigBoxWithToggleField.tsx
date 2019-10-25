@@ -2,8 +2,8 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { CheckBox, FormField } from "coral-admin/ui/components";
 import { parseBool } from "coral-framework/lib/form";
+import { CheckBox, FormField } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 

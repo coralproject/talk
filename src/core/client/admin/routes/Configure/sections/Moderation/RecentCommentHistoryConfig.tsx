@@ -2,15 +2,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  DURATION_UNIT,
-  DurationField,
-  FieldSet,
-  FormField,
-  FormFieldHeader,
-  Label,
-  TextFieldAdornment,
-} from "coral-admin/ui/components";
 import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
 import { hasError } from "coral-framework/lib/form/helpers";
 import {
@@ -19,6 +10,15 @@ import {
   validatePercentage,
   validateWholeNumberGreaterThan,
 } from "coral-framework/lib/validation";
+import {
+  DURATION_UNIT,
+  DurationField,
+  FieldSet,
+  FormField,
+  FormFieldHeader,
+  Label,
+  TextFieldAdornment,
+} from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

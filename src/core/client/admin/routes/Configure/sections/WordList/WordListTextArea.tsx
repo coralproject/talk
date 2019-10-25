@@ -2,12 +2,12 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { Textarea } from "coral-admin/ui/components";
 import {
   formatNewLineDelimitedString,
   parseNewLineDelimitedString,
 } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
+import { Textarea } from "coral-ui/components/v2";
 
 import ValidationMessage from "../../ValidationMessage";
 

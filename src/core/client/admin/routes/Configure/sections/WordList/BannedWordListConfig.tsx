@@ -3,12 +3,12 @@ import React, { FunctionComponent } from "react";
 
 import {
   FormField,
+  FormFieldDescription,
   FormFieldHeader,
   HelperText,
   Label,
-} from "coral-admin/ui/components";
+} from "coral-ui/components/v2";
 
-import { FormFieldDescription } from "coral-admin/ui/components";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import WordListTextArea from "./WordListTextArea";

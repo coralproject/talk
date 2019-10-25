@@ -4,14 +4,13 @@ import { Field, Form } from "react-final-form";
 
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components";
-
 import {
   FieldSet,
   Label,
   Option,
   SelectField,
   TextField,
-} from "coral-admin/ui/components";
+} from "coral-ui/components/v2";
 
 import styles from "./StoryTableFilter.css";
 

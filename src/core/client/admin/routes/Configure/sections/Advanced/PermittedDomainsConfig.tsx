@@ -2,9 +2,9 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, FormFieldDescription } from "coral-admin/ui/components";
 import { formatStringList, parseStringList } from "coral-framework/lib/form";
 import { validateStrictURLList } from "coral-framework/lib/validation";
+import { FormField, FormFieldDescription } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

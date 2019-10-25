@@ -2,9 +2,9 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, Label } from "coral-admin/ui/components";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
+import { FormField, Label } from "coral-ui/components/v2";
 
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 

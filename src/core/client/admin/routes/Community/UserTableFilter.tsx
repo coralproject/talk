@@ -3,21 +3,22 @@ import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import {
-  FieldSet,
-  Label,
-  OptGroup,
-  Option,
-  SelectField,
-  TextField,
-} from "coral-admin/ui/components";
-import {
   GQLUSER_ROLE,
   GQLUSER_ROLE_RL,
   GQLUSER_STATUS,
   GQLUSER_STATUS_RL,
 } from "coral-framework/schema";
 import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components";
+import {
+  FieldSet,
+  Label,
+  OptGroup,
+  Option,
+  SelectField,
+  TextField,
+} from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
+
 import { InviteUsersContainer } from "./InviteUsers";
 
 import styles from "./UserTableFilter.css";

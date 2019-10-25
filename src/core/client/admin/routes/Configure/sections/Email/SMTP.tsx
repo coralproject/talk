@@ -3,12 +3,6 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
-  FormField,
-  FormFieldHeader,
-  Label,
-  PasswordField,
-} from "coral-admin/ui/components";
-import {
   colorFromMeta,
   parseEmptyAsNull,
   ValidationMessage,
@@ -18,6 +12,12 @@ import {
   Condition,
   required,
 } from "coral-framework/lib/validation";
+import {
+  FormField,
+  FormFieldHeader,
+  Label,
+  PasswordField,
+} from "coral-ui/components/v2";
 
 import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";

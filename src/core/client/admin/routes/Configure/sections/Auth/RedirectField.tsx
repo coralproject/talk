@@ -1,9 +1,9 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { FormField, Label, TextField } from "coral-admin/ui/components";
 import { CopyButton } from "coral-framework/components";
 import { Flex } from "coral-ui/components";
+import { FormField, Label, TextField } from "coral-ui/components/v2";
 
 interface Props {
   description?: React.ReactNode;

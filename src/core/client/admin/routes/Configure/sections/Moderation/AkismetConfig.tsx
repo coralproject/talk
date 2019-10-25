@@ -2,13 +2,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  FieldSet,
-  FormField,
-  FormFieldDescription,
-  HelperText,
-  Label,
-} from "coral-admin/ui/components";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
@@ -17,6 +10,13 @@ import {
   validateWhen,
 } from "coral-framework/lib/validation";
 import { HorizontalGutter } from "coral-ui/components";
+import {
+  FieldSet,
+  FormField,
+  FormFieldDescription,
+  HelperText,
+  Label,
+} from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

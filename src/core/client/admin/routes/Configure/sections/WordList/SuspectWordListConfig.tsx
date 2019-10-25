@@ -7,7 +7,7 @@ import {
   FormFieldHeader,
   HelperText,
   Label,
-} from "coral-admin/ui/components";
+} from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

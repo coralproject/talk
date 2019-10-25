@@ -1,13 +1,13 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { FormFieldDescription } from "coral-admin/ui/components";
 import {
   Condition,
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
 import { TextLink } from "coral-ui/components";
+import { FormFieldDescription } from "coral-ui/components/v2";
 
 import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";

@@ -2,18 +2,18 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  DurationField,
-  FieldSet,
-  FormField,
-  Label,
-} from "coral-admin/ui/components";
 import { colorFromMeta } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
   validateWholeNumberGreaterThanOrEqual,
 } from "coral-framework/lib/validation";
+import {
+  DurationField,
+  FieldSet,
+  FormField,
+  Label,
+} from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

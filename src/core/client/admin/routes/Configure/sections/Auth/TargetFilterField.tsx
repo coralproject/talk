@@ -2,9 +2,9 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { CheckBox, FormField, Label } from "coral-admin/ui/components";
 import { parseBool } from "coral-framework/lib/form";
 import { Flex } from "coral-ui/components";
+import { CheckBox, FormField, Label } from "coral-ui/components/v2";
 
 interface Props {
   label: React.ReactNode;

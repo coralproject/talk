@@ -1,8 +1,10 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
-import { HelperText, Label, TextField } from "../../components";
 import FormField from "../FormField";
+import HelperText from "../HelperText";
+import Label from "../Label";
+import TextField from "../TextField";
 
 it("renders correctly", () => {
   const renderer = TestRenderer.create(

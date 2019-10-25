@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import { Option, SelectField } from "coral-admin/ui/components";
 import { LanguageCode, LOCALES_MAP } from "coral-common/helpers/i18n";
 import { PropTypesOf } from "coral-framework/types";
+import { Option, SelectField } from "coral-ui/components/v2";
 
 interface Props extends PropTypesOf<typeof SelectField> {
   value: LanguageCode;
