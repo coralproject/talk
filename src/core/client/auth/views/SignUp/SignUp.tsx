@@ -50,21 +50,25 @@ const SignUp: FunctionComponent<Props> = ({
         subtitle={<Subtitle />}
       >
         <Bar>
-          {
-            "<title>Sign Up</title><subtitle>to join the conversation</subtitle>"
-          }
+          <Title>Sign Up</Title>
+          <Subtitle>to join the conversation</Subtitle>
         </Bar>
       </Localized>
-      <SubBar>
-        <Localized
-          id="signUp-accountAvailableSignIn"
-          textlink={<TextLink onClick={onGotoSignIn} href={signInHref} />}
-        >
-          <Typography variant="bodyCopy" container={Flex}>
-            {"Already have an account? <textlink>Sign In</textlink>"}
-          </Typography>
-        </Localized>
-      </SubBar>
+      {emailEnabled && (
+        <SubBar>
+          <Localized
+            id="signUp-accountAvailableSignIn"
+            textlink={<TextLink onClick={onGotoSignIn} href={signInHref} />}
+          >
+            <Typography variant="bodyCopy" container={Flex}>
+              Already have an account?{" "}
+              <TextLink onClick={onGotoSignIn} href={signInHref}>
+                Sign In
+              </TextLink>
+            </Typography>
+          </Localized>
+        </SubBar>
+      )}
       <Main data-testid="signUp-main">
         <HorizontalGutter size="oneAndAHalf">
           {emailEnabled && <SignUpWithEmailContainer />}
