@@ -8,8 +8,8 @@ import {
   Label,
 } from "coral-admin/ui/components";
 
+import { FormFieldDescription } from "coral-admin/ui/components";
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import WordListTextArea from "./WordListTextArea";
 
@@ -28,10 +28,10 @@ const BannedWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
     }
   >
     <Localized id="configure-wordList-banned-explanation" strong={<strong />}>
-      <Description>
+      <FormFieldDescription>
         Comments containing a word or phrase in the banned words list are
         automatically rejected and are not published.
-      </Description>
+      </FormFieldDescription>
     </Localized>
 
     <FormField>

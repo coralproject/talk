@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormFieldDescription } from "coral-admin/ui/components";
 import {
   composeValidators,
   required,
@@ -9,7 +10,6 @@ import {
 } from "coral-framework/lib/validation";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
@@ -28,12 +28,12 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
     }
   >
     <Localized id="configure-organization-emailExplanation" strong={<strong />}>
-      <Description>
+      <FormFieldDescription>
         This email address will be used as in emails and across the platform for
         community members to get in touch with the organization should they have
         any questions about the status of their accounts or moderation
         questions.
-      </Description>
+      </FormFieldDescription>
     </Localized>
     <Field
       name="organization.contactEmail"

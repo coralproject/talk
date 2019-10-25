@@ -7,6 +7,7 @@ import {
   DurationField,
   FieldSet,
   FormField,
+  FormFieldDescription,
   Label,
 } from "coral-admin/ui/components";
 import { colorFromMeta } from "coral-framework/lib/form";
@@ -17,7 +18,6 @@ import {
 } from "coral-framework/lib/validation";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import ValidationMessage from "../../ValidationMessage";
@@ -41,10 +41,10 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
       id="configure-general-closingCommentStreams-explanation"
       strong={<strong />}
     >
-      <Description>
+      <FormFieldDescription>
         Set comment streams to close after a defined period of time after a
         story’s publication
-      </Description>
+      </FormFieldDescription>
     </Localized>
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-closingCommentStreams-closeCommentsAutomatically">

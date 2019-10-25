@@ -5,6 +5,7 @@ import { Field } from "react-final-form";
 import {
   FieldSet,
   FormField,
+  FormFieldDescription,
   Label,
   Option,
   SelectField,
@@ -16,7 +17,6 @@ import { Flex, HorizontalGutter } from "coral-ui/components";
 import { ReactionConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ReactionConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
@@ -37,12 +37,12 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
     container={<FieldSet />}
   >
     <Localized id="configure-general-reactions-explanation" strong={<strong />}>
-      <Description>
+      <FormFieldDescription>
         Allow your community to engage with one another and express themselves
         with one-click reactions. By default, Coral allows commenters to
         "Respect" each other's comments, but you may customize reaction text
         based on the needs of your community.
-      </Description>
+      </FormFieldDescription>
     </Localized>
     <Field name="reaction.label" validate={required}>
       {({ input, meta }) => (

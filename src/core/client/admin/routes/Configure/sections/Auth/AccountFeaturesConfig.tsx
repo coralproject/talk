@@ -1,11 +1,15 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { FormField, FormFieldHeader, Label } from "coral-admin/ui/components";
+import {
+  FormField,
+  FormFieldDescription,
+  FormFieldHeader,
+  Label,
+} from "coral-admin/ui/components";
 import { Flex } from "coral-ui/components";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
@@ -28,15 +32,15 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
       }
     >
       <Localized id="configure-account-features-explanation">
-        <Description>
+        <FormFieldDescription>
           You can enable and disable certain features for your commenters to use
           within their Profile. These features also assist towards GDPR
           compliance.
-        </Description>
+        </FormFieldDescription>
       </Localized>
       <FormField container="fieldset">
         <Localized id="configure-account-features-allow">
-          <Description>Allow users to:</Description>
+          <FormFieldDescription>Allow users to:</FormFieldDescription>
         </Localized>
         <Flex justifyContent="space-between">
           <FormFieldHeader>

@@ -7,6 +7,7 @@ import {
   DurationField,
   FieldSet,
   FormField,
+  FormFieldDescription,
   Label,
 } from "coral-admin/ui/components";
 import { colorFromMeta } from "coral-framework/lib/form";
@@ -17,7 +18,6 @@ import {
 } from "coral-framework/lib/validation";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import ValidationMessage from "../../ValidationMessage";
 
@@ -37,11 +37,11 @@ const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
       id="configure-general-commentEditing-explanation"
       strong={<strong />}
     >
-      <Description>
+      <FormFieldDescription>
         Set a limit on how long commenters have to edit their comments sitewide.
         Edited comments are marked as (Edited) on the comment stream and the
         moderation panel.
-      </Description>
+      </FormFieldDescription>
     </Localized>
 
     <FormField container={<FieldSet />}>

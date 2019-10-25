@@ -2,10 +2,10 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { FormFieldDescription } from "coral-admin/ui/components";
 import { required } from "coral-framework/lib/validation";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
@@ -24,10 +24,10 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
     }
   >
     <Localized id="configure-organization-nameExplanation" strong={<strong />}>
-      <Description>
+      <FormFieldDescription>
         Your organization name will appear on emails sent by Coral to your
         community and organization members
-      </Description>
+      </FormFieldDescription>
     </Localized>
     <Field name="organization.name" validate={required}>
       {({ input, meta }) => (

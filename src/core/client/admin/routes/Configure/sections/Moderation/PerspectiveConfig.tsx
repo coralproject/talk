@@ -5,6 +5,7 @@ import { Field } from "react-final-form";
 import {
   FieldSet,
   FormField,
+  FormFieldDescription,
   FormFieldHeader,
   HelperText,
   Label,
@@ -31,7 +32,6 @@ import {
 import { HorizontalGutter } from "coral-ui/components";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import PermissionField from "../../PermissionField";
@@ -63,13 +63,13 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         id="configure-moderation-perspective-explanation"
         strong={<strong />}
       >
-        <Description>
+        <FormFieldDescription>
           Using the Perspective API, the Toxic Comment filter warns users when
           comments exceed the predefined toxicity threshold. Comments with a
           toxicity score above the threshold will not be published and are
           placed in the Pending Queue for review by a moderator. If approved by
           a moderator, the comment will be published.
-        </Description>
+        </FormFieldDescription>
       </Localized>
 
       <FormField container={<FieldSet />}>

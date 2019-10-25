@@ -1,11 +1,15 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { FieldSet, FormField, Label } from "coral-admin/ui/components";
+import {
+  FieldSet,
+  FormField,
+  FormFieldDescription,
+  Label,
+} from "coral-admin/ui/components";
 import { parseStringBool } from "coral-framework/lib/form";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 
@@ -32,10 +36,10 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
       container={<FieldSet />}
     >
       <Localized id="configure-moderation-preModeration-explanation">
-        <Description>
+        <FormFieldDescription>
           When pre-moderation is turned on, comments will not be published
           unless approved by a moderator.
-        </Description>
+        </FormFieldDescription>
       </Localized>
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-preModeration-moderation">

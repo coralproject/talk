@@ -4,10 +4,9 @@ import { Field } from "react-final-form";
 
 import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
 
-import { FormField } from "coral-admin/ui/components";
+import { FormField, FormFieldDescription } from "coral-admin/ui/components";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
@@ -28,10 +27,10 @@ const CustomCSSConfig: FunctionComponent<Props> = ({ disabled }) => (
         id="configure-advanced-customCSS-explanation"
         strong={<strong />}
       >
-        <Description>
+        <FormFieldDescription>
           URL of a CSS stylesheet that will override default Embed Stream
           styles. Can be internal or external.
-        </Description>
+        </FormFieldDescription>
       </Localized>
       <Field name="customCSSURL" parse={parseEmptyAsNull} format={formatEmpty}>
         {({ input, meta }) => (

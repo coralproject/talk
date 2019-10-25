@@ -2,12 +2,11 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField } from "coral-admin/ui/components";
+import { FormField, FormFieldDescription } from "coral-admin/ui/components";
 import { formatStringList, parseStringList } from "coral-framework/lib/form";
 import { validateStrictURLList } from "coral-framework/lib/validation";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
@@ -30,12 +29,12 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
         id="configure-advanced-permittedDomains-description"
         strong={<strong />}
       >
-        <Description>
+        <FormFieldDescription>
           The domains you would like to permit for Coral, e.g. your local,
           staging and production environments including the scheme (ex.
           http://localhost:3000, https://staging.domain.com,
           https://domain.com).
-        </Description>
+        </FormFieldDescription>
       </Localized>
       <Field
         name="allowedDomains"

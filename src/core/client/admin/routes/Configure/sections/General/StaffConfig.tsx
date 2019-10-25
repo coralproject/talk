@@ -2,14 +2,18 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FieldSet, FormField, Label } from "coral-admin/ui/components";
+import {
+  FieldSet,
+  FormField,
+  FormFieldDescription,
+  Label,
+} from "coral-admin/ui/components";
 import { required } from "coral-framework/lib/validation";
 import { Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
 import { StaffConfigContainer_settings as SettingsData } from "coral-admin/__generated__/StaffConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
@@ -30,10 +34,10 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
     container={<FieldSet />}
   >
     <Localized id="configure-general-staff-explanation">
-      <Description>
+      <FormFieldDescription>
         Show a custom badge for staff members of your organization. This badge
         appears on the comment stream and in the admin interface.
-      </Description>
+      </FormFieldDescription>
     </Localized>
     <Field name="staff.label" validate={required}>
       {({ input, meta }) => (

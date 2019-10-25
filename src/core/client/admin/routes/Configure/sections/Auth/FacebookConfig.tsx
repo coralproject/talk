@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import { FormFieldDescription } from "coral-admin/ui/components";
 import {
   Condition,
   required,
@@ -8,7 +9,6 @@ import {
 } from "coral-framework/lib/validation";
 import { TextLink } from "coral-ui/components";
 
-import Description from "../../Description";
 import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";
 import ClientIDField from "./ClientIDField";
@@ -53,12 +53,12 @@ const FacebookConfig: FunctionComponent<Props> = ({
           Link={<FacebookLink />}
           br={<br />}
         >
-          <Description>
+          <FormFieldDescription>
             To enable the integration with Facebook Authentication, you need to
             create and set up a web application. For more information visit:
             <br />
             {"https://developers.facebook.com/docs/facebook-login/web"}
-          </Description>
+          </FormFieldDescription>
         </Localized>
         <RedirectField url={callbackURL} />
         <HorizontalRule />

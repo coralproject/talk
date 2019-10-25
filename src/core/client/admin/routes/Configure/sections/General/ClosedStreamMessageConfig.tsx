@@ -2,12 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
+import { FormFieldDescription } from "coral-admin/ui/components";
 import { MarkdownEditor } from "coral-framework/components/loadables";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { Spinner } from "coral-ui/components";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import ValidationMessage from "../../ValidationMessage";
 
@@ -29,9 +29,9 @@ const ClosedStreamMessageConfig: FunctionComponent<Props> = ({ disabled }) => (
       id="configure-general-closedStreamMessage-explanation"
       strong={<strong />}
     >
-      <Description>
+      <FormFieldDescription>
         Write a message to appear after a story is closed for commenting.
-      </Description>
+      </FormFieldDescription>
     </Localized>
     <Field name="closeCommenting.message" parse={parseEmptyAsNull}>
       {({ input, meta }) => (

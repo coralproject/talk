@@ -5,6 +5,7 @@ import { Field } from "react-final-form";
 import {
   FieldSet,
   FormField,
+  FormFieldDescription,
   FormFieldHeader,
   HelperText,
   Label,
@@ -14,7 +15,6 @@ import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { Spinner } from "coral-ui/components";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import ValidationMessage from "../../ValidationMessage";
@@ -33,12 +33,12 @@ const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
     container={<FieldSet />}
   >
     <Localized id="configure-general-sitewideCommenting-explanation">
-      <Description>
+      <FormFieldDescription>
         Open or close comment streams for new comments sitewide. When new
         comments are turned off sitewide, new comments cannot be submitted, but
         existing comments can continue to receive “Respect” reactions, be
         reported, and be shared.
-      </Description>
+      </FormFieldDescription>
     </Localized>
 
     <FormField>

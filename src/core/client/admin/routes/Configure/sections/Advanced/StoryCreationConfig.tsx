@@ -2,13 +2,17 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { FormField, FormFieldHeader, Label } from "coral-admin/ui/components";
+import {
+  FormField,
+  FormFieldDescription,
+  FormFieldHeader,
+  Label,
+} from "coral-admin/ui/components";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { validateURL } from "coral-framework/lib/validation";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
@@ -27,9 +31,9 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
     }
   >
     <Localized id="configure-advanced-stories-explanation">
-      <Description>
+      <FormFieldDescription>
         Advanced settings for how stories are created within Coral
-      </Description>
+      </FormFieldDescription>
     </Localized>
     <FormField>
       <FormFieldHeader>

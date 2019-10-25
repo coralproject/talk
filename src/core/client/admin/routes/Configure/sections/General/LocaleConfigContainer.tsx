@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
+import { FormFieldDescription } from "coral-admin/ui/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import { HorizontalGutter } from "coral-ui/components";
@@ -10,7 +11,6 @@ import { HorizontalGutter } from "coral-ui/components";
 import { LocaleConfigContainer_settings } from "coral-admin/__generated__/LocaleConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import LocaleField from "../../Fields/LocaleField";
 import Header from "../../Header";
 import ValidationMessage from "../../ValidationMessage";
@@ -33,9 +33,9 @@ const LocaleConfigContainer: React.FunctionComponent<Props> = props => {
     >
       <HorizontalGutter spacing={2}>
         <Localized id="configure-general-locale-chooseLanguage">
-          <Description>
+          <FormFieldDescription>
             Choose the language for your Coral community.
-          </Description>
+          </FormFieldDescription>
         </Localized>
         <Field name="locale" validate={required}>
           {({ input, meta }) => (

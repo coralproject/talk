@@ -2,14 +2,17 @@ import { stripIndent } from "common-tags";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
-import { FieldSet, Textarea } from "coral-admin/ui/components";
+import {
+  FieldSet,
+  FormFieldDescription,
+  Textarea,
+} from "coral-admin/ui/components";
 import { CopyButton } from "coral-framework/components";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { getLocationOrigin } from "coral-framework/utils";
 import { HorizontalGutter } from "coral-ui/components";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 
 import styles from "./EmbedCode.css";
@@ -90,10 +93,10 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
       container={<FieldSet />}
     >
       <Localized id="configure-advanced-embedCode-explanation">
-        <Description>
+        <FormFieldDescription>
           Copy and paste the code below into your CMS to embed Coral comment
           streams in each of your site’s stories.
-        </Description>
+        </FormFieldDescription>
       </Localized>
       <Textarea
         rows={embed.rows}

@@ -5,6 +5,7 @@ import { Field } from "react-final-form";
 import {
   FieldSet,
   FormField,
+  FormFieldDescription,
   Label,
   TextFieldAdornment,
 } from "coral-admin/ui/components";
@@ -16,7 +17,6 @@ import {
 } from "coral-framework/lib/validation";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
@@ -51,10 +51,10 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
       id="configure-general-commentLength-setLimit"
       strong={<strong />}
     >
-      <Description>
+      <FormFieldDescription>
         Set minimum and maximum comment length requirements. Blank spaces at the
         beginning and the end of a comment will be trimmed.
-      </Description>
+      </FormFieldDescription>
     </Localized>
 
     <FormField>

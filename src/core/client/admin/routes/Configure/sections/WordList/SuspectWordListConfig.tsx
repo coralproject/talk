@@ -3,13 +3,13 @@ import React, { FunctionComponent } from "react";
 
 import {
   FormField,
+  FormFieldDescription,
   FormFieldHeader,
   HelperText,
   Label,
 } from "coral-admin/ui/components";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import WordListTextArea from "./WordListTextArea";
 
@@ -28,11 +28,11 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
     }
   >
     <Localized id="configure-wordList-suspect-explanation" strong={<strong />}>
-      <Description>
+      <FormFieldDescription>
         Comments containing a word or phrase in the Suspect Words List are
         placed into the Reported Queue for moderator review and are published
         (if comments are not pre-moderated).
-      </Description>
+      </FormFieldDescription>
     </Localized>
 
     <FormField>

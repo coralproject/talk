@@ -1,10 +1,9 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { FormField } from "coral-admin/ui/components";
+import { FormField, FormFieldDescription } from "coral-admin/ui/components";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 
@@ -27,10 +26,10 @@ const CommentStreamLiveUpdates: FunctionComponent<Props> = ({ disabled }) => (
         id="configure-advanced-liveUpdates-explanation"
         strong={<strong />}
       >
-        <Description>
+        <FormFieldDescription>
           When enabled, there will be real-time loading and updating of comments
           as new comments and replies are published
-        </Description>
+        </FormFieldDescription>
       </Localized>
       <OnOffField name="live.enabled" disabled={disabled} />
     </FormField>

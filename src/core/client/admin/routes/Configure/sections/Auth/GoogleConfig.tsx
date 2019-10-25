@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
+import { FormFieldDescription } from "coral-admin/ui/components";
 import {
   Condition,
   required,
@@ -8,7 +9,6 @@ import {
 } from "coral-framework/lib/validation";
 import { TextLink } from "coral-ui/components";
 
-import Description from "../../Description";
 import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";
 import ClientIDField from "./ClientIDField";
@@ -50,14 +50,14 @@ const GoogleConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
           id="configure-auth-google-toEnableIntegration"
           Link={<GoogleLink />}
         >
-          <Description>
+          <FormFieldDescription>
             To enable the integration with Google Authentication you need to
             create and set up a web application. For more information visit:
             <br />
             {
               "https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred"
             }
-          </Description>
+          </FormFieldDescription>
         </Localized>
         <RedirectField url={callbackURL} />
         <HorizontalRule />

@@ -5,6 +5,7 @@ import { Field } from "react-final-form";
 import {
   FieldSet,
   FormField,
+  FormFieldDescription,
   HelperText,
   Label,
 } from "coral-admin/ui/components";
@@ -18,7 +19,6 @@ import {
 import { HorizontalGutter } from "coral-ui/components";
 
 import ConfigBox from "../../ConfigBox";
-import Description from "../../Description";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import Subheader from "../../Subheader";
@@ -47,7 +47,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
         id="configure-moderation-akismet-explanation"
         strong={<strong />}
       >
-        <Description>
+        <FormFieldDescription>
           Submitted comments are passed to the Akismet API for spam detection.
           If a comment is determined to be spam, it will prompt the user,
           indicating that the comment might be considered spam. If the user
@@ -55,7 +55,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
           comment will be marked as containing spam, will not be published and
           are placed in the Pending Queue for review by a moderator. If approved
           by a moderator, the comment will be published.
-        </Description>
+        </FormFieldDescription>
       </Localized>
 
       <FormField container={<FieldSet />}>

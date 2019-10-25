@@ -4,6 +4,7 @@ import { Field } from "react-final-form";
 
 import {
   FormField,
+  FormFieldDescription,
   FormFieldHeader,
   HelperText,
   Label,
@@ -18,7 +19,6 @@ import {
 } from "coral-framework/lib/validation";
 import { Button, Flex, TextLink } from "coral-ui/components";
 
-import Description from "../../Description";
 import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
@@ -65,9 +65,9 @@ const OIDCConfig: FunctionComponent<Props> = ({
       {disabledInside => (
         <>
           <Localized id="configure-auth-oidc-toLearnMore" Link={<OIDCLink />}>
-            <Description>
+            <FormFieldDescription>
               {"To learn more: https://openid.net/connect/"}
-            </Description>
+            </FormFieldDescription>
           </Localized>
           <RedirectField url={callbackURL} />
           <HorizontalRule />
