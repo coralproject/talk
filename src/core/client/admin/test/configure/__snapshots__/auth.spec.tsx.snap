@@ -55,7 +55,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
-        className="Description-root"
+        className="FormFieldDescription-root"
       >
         To learn more: 
         <a
@@ -567,7 +567,7 @@ exports[`change settings: enable facebook configure box 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
-        className="Description-root"
+        className="FormFieldDescription-root"
       >
         To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
@@ -887,7 +887,7 @@ exports[`change settings: enable oidc configure box 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
-        className="Description-root"
+        className="FormFieldDescription-root"
       >
         To learn more: 
         <a
@@ -1399,7 +1399,7 @@ exports[`change settings: oidc validation errors 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
-        className="Description-root"
+        className="FormFieldDescription-root"
       >
         To learn more: 
         <a
@@ -2190,7 +2190,7 @@ exports[`renders configure auth 1`] = `
                   className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                 >
                   <p
-                    className="Description-root"
+                    className="FormFieldDescription-root"
                   >
                     You can enable and disable certain features for your commenters to use
 within their Profile. These features also assist towards GDPR
@@ -2200,7 +2200,7 @@ compliance.
                     className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
                     <p
-                      className="Description-root"
+                      className="FormFieldDescription-root"
                     >
                       Allow users to:
                     </p>
@@ -2756,7 +2756,7 @@ integration to register for a new account.
                     className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <p
-                      className="Description-root"
+                      className="FormFieldDescription-root"
                     >
                       To learn more: 
                       <a
@@ -3521,7 +3521,7 @@ integration to register for a new account.
                     className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <p
-                      className="Description-root"
+                      className="FormFieldDescription-root"
                     >
                       To enable the integration with Google Authentication you need
 to create and set up a web application. For more information visit:
@@ -3837,7 +3837,7 @@ integration to register for a new account.
                     className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <p
-                      className="Description-root"
+                      className="FormFieldDescription-root"
                     >
                       To enable the integration with Facebook Authentication,
 you need to create and set up a web application.

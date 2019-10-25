@@ -140,7 +140,7 @@ exports[`renders configure moderation 1`] = `
                 className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Description-root"
+                  className="FormFieldDescription-root"
                 >
                   When pre-moderation is turned on, comments will not be published unless
 approved by a moderator.
@@ -481,7 +481,7 @@ comments pending for toxicity, spam or pre-moderation.
                 className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Description-root"
+                  className="FormFieldDescription-root"
                 >
                   Using the Perspective API, the Toxic Comment filter warns users
 when comments exceed the predefined toxicity threshold.
@@ -865,7 +865,7 @@ improve the API over time.
                 className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Description-root"
+                  className="FormFieldDescription-root"
                 >
                   The Akismet API filter warns users when a comment is determined likely
 to be spam. Comments that Akismet thinks are spam will not be published

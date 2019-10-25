@@ -144,7 +144,7 @@ exports[`renders configure general 1`] = `
                   className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                 >
                   <p
-                    className="Description-root"
+                    className="FormFieldDescription-root"
                   >
                     Choose the language for your Coral community.
                   </p>
@@ -230,7 +230,7 @@ exports[`renders configure general 1`] = `
                 className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Description-root"
+                  className="FormFieldDescription-root"
                 >
                   Open or close comment streams for new comments sitewide.
 When new comments are turned off, new comments cannot be
@@ -478,7 +478,7 @@ More information on how to use Markdown
                 className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Description-root"
+                  className="FormFieldDescription-root"
                 >
                   Set minimum and maximum comment length requirements.
 Blank spaces at the beginning and the end of a comment will be trimmed.
@@ -653,7 +653,7 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
                 className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Description-root"
+                  className="FormFieldDescription-root"
                 >
                   Set a limit on how long commenters have to edit their comments sitewide.
 Edited comments are marked as (Edited) on the comment stream and the
@@ -756,7 +756,7 @@ moderation panel.
                 className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Description-root"
+                  className="FormFieldDescription-root"
                 >
                   Set comment streams to close after a defined period of time after a story’s publication
                 </p>
@@ -917,7 +917,7 @@ moderation panel.
                 className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Description-root"
+                  className="FormFieldDescription-root"
                 >
                   Write a message to appear when a story is closed for commenting.
                 </p>
@@ -958,7 +958,7 @@ moderation panel.
                 className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Description-root"
+                  className="FormFieldDescription-root"
                 >
                   Allow your community to engage with one another and express themselves
 with one-click reactions. By default, Coral allows commenters to "Respect"
@@ -1185,7 +1185,7 @@ each other's comments.
                 className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
                 <p
-                  className="Description-root"
+                  className="FormFieldDescription-root"
                 >
                   Show a custom badge for staff members of your organization. This badge
 appears on the comment stream and in the admin interface.
