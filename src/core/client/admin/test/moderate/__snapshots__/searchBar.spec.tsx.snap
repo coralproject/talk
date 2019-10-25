@@ -174,7 +174,7 @@ exports[`all stories active search with too many results 1`] = `
     </span>
     <i
       aria-hidden="true"
-      className="Icon-root Icon-sm SeeAllOption-icon"
+      className="Icon-root Icon-md SeeAllOption-icon"
     >
       keyboard_arrow_right
     </i>
