@@ -4,7 +4,7 @@ import { Field } from "react-final-form";
 
 import { parseStringBool } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
-import { RadioButton } from "coral-ui/components";
+import { RadioButton } from "coral-ui/components/v2";
 
 interface Props {
   validate?: Validator;

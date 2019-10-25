@@ -1,21 +1,27 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
-
-import { Typography } from "coral-ui/components";
-import { PropTypesOf } from "coral-ui/types";
+import React, { FunctionComponent, ReactNode } from "react";
 
 import styles from "./Header.css";
 
-type Props = PropTypesOf<typeof Typography>;
+interface Props {
+  children: ReactNode;
+  className?: string;
+  htmlFor?: string;
+  component?: "legend" | "label";
+}
 
-const Header: FunctionComponent<Props> = ({ children, className, ...rest }) => (
-  <Typography
-    variant="heading3"
-    className={cn(className, styles.root)}
-    {...rest}
-  >
-    {children}
-  </Typography>
-);
+const Header: FunctionComponent<Props> = ({
+  children,
+  className,
+  component,
+  ...rest
+}) => {
+  const Container = component || (rest.htmlFor ? "label" : "h2");
+  return (
+    <Container {...rest} className={cn(className, styles.root)}>
+      {children}
+    </Container>
+  );
+};
 
 export default Header;
