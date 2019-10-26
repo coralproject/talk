@@ -2,18 +2,18 @@
 }
 
 .popover {
-  background: var(--v2-colors-pure-white);
-  border: 1px solid var(--v2-palette-grey-lighter);
+  background: var(--v2-palette-popover-background);
+  border: 1px solid var(--v2-palette-popover-border);
   box-sizing: border-box;
   box-shadow: var(--elevation-main);
-  border-radius: var(--v2-round-corners);
+  border-radius: var(--round-corners);
   z-index: var(--zindex-popover);
   margin: 2px;
 }
 
 .colorDark {
-  background: var(--v2-palette-grey-main);
-  border-color: var(--v2-palette-grey-main);
+  background: var(--v2-palette-popover-dark-background);
+  border-color: var(--v2-palette-popover-dark-border);
 }
 
 .top {

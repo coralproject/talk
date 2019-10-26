@@ -2,67 +2,52 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  formatEmpty,
-  parseEmptyAsNull,
-  ValidationMessage,
-} from "coral-framework/lib/form";
-import {
-  FormField,
-  HorizontalGutter,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
+import { FormField, FormFieldDescription } from "coral-ui/components/v2";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
-import SectionContent from "../../SectionContent";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 interface Props {
   disabled: boolean;
 }
 
 const CustomCSSConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <FormField>
-    <HorizontalGutter size="full">
+  <ConfigBox
+    title={
       <Localized id="configure-advanced-customCSS">
-        <Header container={<label htmlFor="configure-advanced-customCSSURL" />}>
-          Custom CSS
-        </Header>
+        <Header htmlFor="configure-advanced-customCSSURL">Custom CSS</Header>
       </Localized>
-      <SectionContent>
-        <Localized
-          id="configure-advanced-customCSS-explanation"
-          strong={<strong />}
-        >
-          <Typography variant="bodyShort">
-            URL of a CSS stylesheet that will override default Embed Stream
-            styles. Can be internal or external.
-          </Typography>
-        </Localized>
-        <Field
-          name="customCSSURL"
-          parse={parseEmptyAsNull}
-          format={formatEmpty}
-        >
-          {({ input, meta }) => (
-            <>
-              <TextField
-                id={`configure-advanced-${input.name}`}
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                fullWidth
-                {...input}
-              />
-              <ValidationMessage meta={meta} fullWidth />
-            </>
-          )}
-        </Field>
-      </SectionContent>
-    </HorizontalGutter>
-  </FormField>
+    }
+  >
+    <FormField>
+      <Localized
+        id="configure-advanced-customCSS-explanation"
+        strong={<strong />}
+      >
+        <FormFieldDescription>
+          URL of a CSS stylesheet that will override default Embed Stream
+          styles. Can be internal or external.
+        </FormFieldDescription>
+      </Localized>
+      <Field name="customCSSURL" parse={parseEmptyAsNull} format={formatEmpty}>
+        {({ input, meta }) => (
+          <TextFieldWithValidation
+            id={`configure-advanced-${input.name}`}
+            disabled={disabled}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            fullWidth
+            meta={meta}
+            {...input}
+          />
+        )}
+      </Field>
+    </FormField>
+  </ConfigBox>
 );
 
 export default CustomCSSConfig;

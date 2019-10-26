@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { parseBool } from "coral-framework/lib/form";
-import { CheckBox, FormField } from "coral-ui/components";
+import { CheckBox, FormField } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 

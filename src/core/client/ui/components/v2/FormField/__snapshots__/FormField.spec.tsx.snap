@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+>
+  Form Components should go here
+</div>
+`;
+
+exports[`works with multiple form components 1`] = `
+<div
+  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+>
+  <label
+    className="Label-root"
+  >
+    Username
+  </label>
+  <p
+    className="HelperText-root"
+  >
+    An identifier displayed on your comments. You may use “_” and “.”
+  </p>
+  <div
+    className="TextField-root"
+  >
+    <input
+      className="TextField-input TextField-colorRegular"
+      placeholder=""
+      type="text"
+    />
+  </div>
+</div>
+`;

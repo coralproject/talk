@@ -6,8 +6,7 @@ import UserRole from "coral-admin/components/UserRole";
 import UserStatus from "coral-admin/components/UserStatus";
 import { PropTypesOf } from "coral-framework/types";
 import { Button } from "coral-ui/components";
-
-import { TableCell, TableRow, TextLink } from "coral-admin/ui/components";
+import { TableCell, TableRow, TextLink } from "coral-ui/components/v2";
 
 import styles from "./UserRow.css";
 

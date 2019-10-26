@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Box-root Flex-root RadioButton-root custom Flex-flex Flex-alignCenter"
+>
+  <input
+    className="RadioButton-input"
+    id="radioID"
+    name="key"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    type="radio"
+    value="true"
+  />
+  <label
+    className="RadioButton-label"
+    htmlFor="radioID"
+  >
+    Yes I agree
+  </label>
+</div>
+`;

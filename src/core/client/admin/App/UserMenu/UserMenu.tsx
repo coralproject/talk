@@ -2,13 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { Button, ButtonIcon, ClickOutside } from "coral-ui/components";
-
 import {
   Dropdown,
   DropdownButton,
   DropdownDivider,
   Popover,
-} from "coral-admin/ui/components";
+} from "coral-ui/components/v2";
 
 import styles from "./UserMenu.css";
 

@@ -3,15 +3,15 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
+import { PropTypesOf } from "coral-framework/types";
+import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from "coral-admin/ui/components";
-import { PropTypesOf } from "coral-framework/types";
-import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import EmptyMessage from "./EmptyMessage";
 import UserRowContainer from "./UserRowContainer";

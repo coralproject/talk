@@ -15,8 +15,7 @@ import {
   withFragmentContainer,
   withMutation,
 } from "coral-framework/lib/relay";
-import { GQLUSER_STATUS } from "coral-framework/schema";
-import { GQLTAG } from "coral-framework/schema";
+import { GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 
 import {
   COMMENT_STATUS,

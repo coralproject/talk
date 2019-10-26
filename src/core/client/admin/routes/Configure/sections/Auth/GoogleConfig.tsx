@@ -6,8 +6,10 @@ import {
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
-import { HorizontalGutter, TextLink, Typography } from "coral-ui/components";
+import { TextLink } from "coral-ui/components";
+import { FormFieldDescription } from "coral-ui/components/v2";
 
+import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";
 import ClientIDField from "./ClientIDField";
 import ClientSecretField from "./ClientSecretField";
@@ -36,28 +38,27 @@ const GoogleConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
   <ConfigBoxWithToggleField
     title={
       <Localized id="configure-auth-google-loginWith">
-        <span>Login with Google</span>
+        <Header>Login with Google</Header>
       </Localized>
     }
     name="auth.integrations.google.enabled"
     disabled={disabled}
   >
     {disabledInside => (
-      <HorizontalGutter size="double">
+      <>
         <Localized
           id="configure-auth-google-toEnableIntegration"
           Link={<GoogleLink />}
         >
-          <Typography>
+          <FormFieldDescription>
             To enable the integration with Google Authentication you need to
             create and set up a web application. For more information visit:
             <br />
             {
               "https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred"
             }
-          </Typography>
+          </FormFieldDescription>
         </Localized>
-        <HorizontalRule />
         <RedirectField url={callbackURL} />
         <HorizontalRule />
         <ClientIDField
@@ -83,7 +84,7 @@ const GoogleConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
           name="auth.integrations.google.allowRegistration"
           disabled={disabledInside}
         />
-      </HorizontalGutter>
+      </>
     )}
   </ConfigBoxWithToggleField>
 );
