@@ -1,11 +1,10 @@
-import newDOMPurify, { DOMPurify } from "dompurify";
+import createDOMPurify from "dompurify";
 
-export function createPurify<T extends boolean = true>(
-  window: Window,
-  returnDOM: T = true as T
-) {
+type DOMPurify = ReturnType<typeof createDOMPurify>;
+
+export function createPurify(window: Window, returnDOM = true) {
   // Initializing JSDOM and DOMPurify
-  const purify = newDOMPurify<T>(window);
+  const purify = createDOMPurify(window);
 
   // Setting our DOMPurify config.
   purify.setConfig({
@@ -42,7 +41,7 @@ export function createPurify<T extends boolean = true>(
 
 export function sanitizeCommentBody(purify: DOMPurify, source: string) {
   // Sanitize and return the HTMLBodyElement for the parsed source.
-  const sanitized = purify.sanitize(source);
+  const sanitized = purify.sanitize(source, { RETURN_DOM: true });
 
   // Count the total number of anchor links in the sanitized output, this is the
   // number of links.

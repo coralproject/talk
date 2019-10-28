@@ -130,7 +130,7 @@ function createMessageTranslator(i18n: I18n) {
     }
 
     // Configure the purification.
-    const purify = createDOMPurify<false>(dom.window);
+    const purify = createDOMPurify(dom.window);
 
     // Strip the l10n attributes from the email HTML.
     purify.sanitize(dom.window.document.documentElement, {
