@@ -13,7 +13,7 @@ import { getModerationLink } from "coral-admin/helpers";
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
-import { Flex, Spinner } from "coral-ui/components";
+import { Flex, Spinner } from "coral-ui/components/v2";
 import { blur } from "coral-ui/helpers";
 import {
   ListBoxOptionClickOrEnterHandler,
