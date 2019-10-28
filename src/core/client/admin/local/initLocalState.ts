@@ -22,7 +22,7 @@ export default async function initLocalState(
 
   // Get all the parameters from the hash.
   const params = getParamsFromHash();
-  if (params) {
+  if (params && (params.accessToken || params.error)) {
     // If there were params in the hash, then clear them!
     clearHash();
 

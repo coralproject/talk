@@ -1,37 +1,29 @@
-import striptags from "striptags";
+import { isNil } from "lodash";
 
 import {
   CommentBodyExceedsMaxLengthError,
   CommentBodyTooShortError,
 } from "coral-server/errors";
-import { Settings } from "coral-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
-import { isNil } from "lodash";
-
-const testCharCount = (settings: Partial<Settings>, length: number) => {
-  if (settings.charCount && settings.charCount.enabled) {
-    if (!isNil(settings.charCount.min)) {
-      if (length < settings.charCount.min) {
-        throw new CommentBodyTooShortError(settings.charCount.min);
-      }
-    }
-    if (!isNil(settings.charCount.max)) {
-      if (length > settings.charCount.max) {
-        throw new CommentBodyExceedsMaxLengthError(settings.charCount.max);
-      }
-    }
-  }
-};
 
 export const commentLength: IntermediateModerationPhase = ({
   tenant,
-  comment,
+  htmlStripped,
 }): IntermediatePhaseResult | void => {
-  const length = striptags(comment.body).length;
-
-  // Reject if the comment is too long or too short.
-  testCharCount(tenant, length);
+  const length = htmlStripped.trim().length;
+  if (tenant.charCount && tenant.charCount.enabled) {
+    if (!isNil(tenant.charCount.min)) {
+      if (length < tenant.charCount.min) {
+        throw new CommentBodyTooShortError(tenant.charCount.min);
+      }
+    }
+    if (!isNil(tenant.charCount.max)) {
+      if (length > tenant.charCount.max) {
+        throw new CommentBodyExceedsMaxLengthError(tenant.charCount.max);
+      }
+    }
+  }
 };

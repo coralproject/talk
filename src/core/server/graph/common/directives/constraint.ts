@@ -17,7 +17,7 @@ export default class extends SchemaDirectiveVisitor {
     }
   ) {
     const originalResolver = details.field.resolve || defaultFieldResolver;
-    details.field.resolve = async (...resolveArgs) => {
+    details.field.resolve = (...resolveArgs) => {
       const argName = argument.name;
       const args = resolveArgs[1]; // (parent, args, context, info)
       const valueToValidate = args[argName];

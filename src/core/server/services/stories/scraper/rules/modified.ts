@@ -1,8 +1,12 @@
+import { $jsonld } from "@metascraper/helpers";
 import { Rules } from "metascraper";
+
+import { wrap } from "./helpers";
 
 export const modifiedScraper = (): Rules => ({
   modified: [
     // From: http://ogp.me/#type_article
-    ({ htmlDom: $ }) => $('meta[property="article:modified"]').attr("content"),
+    wrap($jsonld("dateModified")),
+    wrap($ => $('meta[property="article:modified"]').attr("content")),
   ],
 });
