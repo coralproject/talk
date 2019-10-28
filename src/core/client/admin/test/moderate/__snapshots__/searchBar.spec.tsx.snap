@@ -56,7 +56,7 @@ exports[`all stories active search with no results 1`] = `
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
-              placeholder="Use quotation marks around each search term (e.g. “team”, “St. Louis”)"
+              placeholder="search by story title, author, url, id, etc."
               spellCheck={false}
               value=""
             />
@@ -174,9 +174,9 @@ exports[`all stories active search with too many results 1`] = `
     </span>
     <i
       aria-hidden="true"
-      className="Icon-root Icon-sm SeeAllOption-icon"
+      className="Icon-root Icon-md SeeAllOption-icon"
     >
-      arrow_forward
+      keyboard_arrow_right
     </i>
   </a>
 </li>
