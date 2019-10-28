@@ -4,7 +4,7 @@ import { Field } from "react-final-form";
 
 import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
-import { FormField, InputLabel, PasswordField } from "coral-ui/components";
+import { FormField, Label, PasswordField } from "coral-ui/components/v2";
 
 import ValidationMessage from "../../ValidationMessage";
 
@@ -24,9 +24,9 @@ const APIKeyField: FunctionComponent<Props> = ({
       {({ input, meta }) => (
         <>
           <Localized id="configure-moderation-apiKey">
-            <InputLabel htmlFor={`configure-moderation-${input.name}`}>
+            <Label htmlFor={`configure-moderation-${input.name}`}>
               API key
-            </InputLabel>
+            </Label>
           </Localized>
           <PasswordField
             id={`configure-moderation-${input.name}`}
@@ -38,6 +38,7 @@ const APIKeyField: FunctionComponent<Props> = ({
             fullWidth
             {...input}
           />
+
           <ValidationMessage meta={meta} />
         </>
       )}

@@ -2,7 +2,7 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Counter } from "coral-admin/ui/components";
+import { Counter } from "coral-ui/components/v2";
 
 import styles from "./ToxicityLabel.css";
 

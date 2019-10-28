@@ -1,20 +1,12 @@
 .root {
-  border: 1px solid var(--palette-grey-lighter);
 }
 
 .title {
-  padding: calc(0.5 * var(--mini-unit)) calc(1.5 * var(--mini-unit));
-
-  background-color: var(--palette-text-primary);
-
-  color: var(--palette-text-light);
-  font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-medium);
-  font-size: calc(18rem / var(--rem-base));
-  line-height: calc(20em / 18);
-  letter-spacing: calc(-0.1em / 18);
+  background: var(--v2-palette-configure-heading-background);
+  width: calc(100% - 2 * var(--v2-spacing-2));
+  padding: var(--v2-spacing-2);
 }
 
 .content {
-  padding: calc(2 * var(--mini-unit)) calc(3 * var(--mini-unit));
+  padding: var(--v2-spacing-3) var(--v2-spacing-2) 0 var(--v2-spacing-2);
 }

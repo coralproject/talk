@@ -6,8 +6,10 @@ import {
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
-import { HorizontalGutter, TextLink, Typography } from "coral-ui/components";
+import { TextLink } from "coral-ui/components";
+import { FormFieldDescription } from "coral-ui/components/v2";
 
+import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";
 import ClientIDField from "./ClientIDField";
 import ClientSecretField from "./ClientSecretField";
@@ -38,26 +40,26 @@ const FacebookConfig: FunctionComponent<Props> = ({
     data-testid="configure-auth-facebook-container"
     title={
       <Localized id="configure-auth-facebook-loginWith">
-        <span>Login with Facebook</span>
+        <Header>Login with Facebook</Header>
       </Localized>
     }
     name="auth.integrations.facebook.enabled"
     disabled={disabled}
   >
     {disabledInside => (
-      <HorizontalGutter size="double">
+      <>
         <Localized
           id="configure-auth-facebook-toEnableIntegration"
           Link={<FacebookLink />}
+          br={<br />}
         >
-          <Typography>
+          <FormFieldDescription>
             To enable the integration with Facebook Authentication, you need to
             create and set up a web application. For more information visit:
             <br />
             {"https://developers.facebook.com/docs/facebook-login/web"}
-          </Typography>
+          </FormFieldDescription>
         </Localized>
-        <HorizontalRule />
         <RedirectField url={callbackURL} />
         <HorizontalRule />
         <ClientIDField
@@ -83,7 +85,7 @@ const FacebookConfig: FunctionComponent<Props> = ({
           name="auth.integrations.facebook.allowRegistration"
           disabled={disabledInside}
         />
-      </HorizontalGutter>
+      </>
     )}
   </ConfigBoxWithToggleField>
 );

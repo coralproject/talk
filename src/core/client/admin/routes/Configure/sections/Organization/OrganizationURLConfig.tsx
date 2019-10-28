@@ -7,63 +7,48 @@ import {
   required,
   validateURL,
 } from "coral-framework/lib/validation";
-import {
-  FormField,
-  HorizontalGutter,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { FormFieldDescription } from "coral-ui/components/v2";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
-import SectionContent from "../../SectionContent";
-import ValidationMessage from "../../ValidationMessage";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 interface Props {
   disabled: boolean;
 }
 
 const OrganizationURLConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <FormField>
-    <HorizontalGutter size="full">
+  <ConfigBox
+    title={
       <Localized id="configure-organization-url">
-        <Header
-          container={
-            <label htmlFor="configure-organization-organization.url" />
-          }
-        >
+        <Header htmlFor="configure-organization-organization.url">
           Organization URL
         </Header>
       </Localized>
-      <SectionContent>
-        <Localized
-          id="configure-organization-urlExplanation"
-          strong={<strong />}
-        >
-          <Typography variant="bodyShort">This URL will be used</Typography>
-        </Localized>
-        <Field
-          name="organization.url"
-          validate={composeValidators(required, validateURL)}
-        >
-          {({ input, meta }) => (
-            <>
-              <TextField
-                id={`configure-organization-${input.name}`}
-                disabled={disabled}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                fullWidth
-                {...input}
-              />
-              <ValidationMessage fullWidth meta={meta} />
-            </>
-          )}
-        </Field>
-      </SectionContent>
-    </HorizontalGutter>
-  </FormField>
+    }
+  >
+    <Localized id="configure-organization-urlExplanation" strong={<strong />}>
+      <FormFieldDescription>This URL will be used</FormFieldDescription>
+    </Localized>
+    <Field
+      name="organization.url"
+      validate={composeValidators(required, validateURL)}
+    >
+      {({ input, meta }) => (
+        <TextFieldWithValidation
+          id={`configure-organization-${input.name}`}
+          disabled={disabled}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          fullWidth
+          meta={meta}
+          {...input}
+        />
+      )}
+    </Field>
+  </ConfigBox>
 );
 
 export default OrganizationURLConfig;

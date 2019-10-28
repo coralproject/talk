@@ -1,0 +1,58 @@
+.root {
+  font-family: "Material Icons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  overflow: hidden;
+  vertical-align: middle;
+  display: inline-block;
+  letter-spacing: 0;
+  word-break: initial;
+
+  /* Enable Ligatures */
+  font-feature-settings: "liga";
+  font-variant-ligatures: "discretionary-ligatures";
+
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Better Font Rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.xs {
+  font-size: 10px;
+  width: 10px;
+}
+
+.sm {
+  font-size: 14px;
+  width: 14px;
+}
+.md {
+  font-size: 18px;
+  width: 18px;
+}
+.lg {
+  font-size: 24px;
+  width: 24px;
+}
+.xl {
+  font-size: 36px;
+  width: 36px;
+}
+
+.colorPrimary {
+  color: var(--v2-colors-teal-700);
+}
+.colorError {
+  color: var(--v2-colors-red-500);
+}
+
+.colorSuccess {
+  color: var(--v2-colors-green-500);
+}
