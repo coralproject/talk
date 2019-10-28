@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { AriaInfo } from "coral-ui/components";
+import { AriaInfo } from "coral-ui/components/v2";
 
 const GoToAriaInfo: FunctionComponent = () => (
   <Localized id="moderate-searchBar-goTo">

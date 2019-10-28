@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Backdrop
+  classes={
+    Object {
+      "active": "Backdrop-active",
+      "root": "Backdrop-root",
+    }
+  }
+/>
+`;
+
+exports[`renders correctly when active 1`] = `
+<Backdrop
+  active={true}
+  classes={
+    Object {
+      "active": "Backdrop-active",
+      "root": "Backdrop-root",
+    }
+  }
+/>
+`;
