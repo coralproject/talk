@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { useViewerEvent } from "coral-framework/lib/events";
@@ -39,6 +39,9 @@ interface Props {
 
 const PostCommentForm: FunctionComponent<Props> = props => {
   const emitFocusEvent = useViewerEvent(CreateCommentFocusEvent);
+  const onFocus = useCallback(() => {
+    emitFocusEvent();
+  }, [emitFocusEvent]);
   return (
     <div className={CLASSES.createComment.$root}>
       {props.showMessageBox && (
@@ -79,9 +82,7 @@ const PostCommentForm: FunctionComponent<Props> = props => {
                       >
                         <RTE
                           inputId="comments-postCommentForm-field"
-                          onFocus={evt => {
-                            emitFocusEvent();
-                          }}
+                          onFocus={onFocus}
                           onChange={({ html }) =>
                             input.onChange(cleanupRTEEmptyHTML(html))
                           }

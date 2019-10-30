@@ -367,6 +367,12 @@ export const OpenSortMenuEvent = createViewerEvent("openSortMenu");
 export const CreateCommentFocusEvent = createViewerEvent("createCommentFocus");
 
 /**
+ * ReplyCommentFocusEvent is emitted when the viewer focus on the RTE to
+ * reply to a comment.
+ */
+export const ReplyCommentFocusEvent = createViewerEvent("replyCommentFocus");
+
+/**
  * ViewFullDiscussionEvent is emitted when the viewer exits the single conversation.
  */
 export const ViewFullDiscussionEvent = createViewerEvent<{
