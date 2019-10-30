@@ -59,7 +59,6 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     await reject({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
-      storyID: story.id,
     });
   }, [approve, comment, story]);
   const onFeature = useCallback(() => {

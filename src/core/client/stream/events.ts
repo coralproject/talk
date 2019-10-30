@@ -4,6 +4,8 @@ import {
 } from "coral-framework/lib/events";
 
 import { COMMENT_STATUS } from "./__generated__/CreateCommentMutation.graphql";
+import { DIGEST_FREQUENCY } from "./__generated__/NotificationSettingsContainer_viewer.graphql";
+import { MODERATION_MODE } from "./__generated__/UpdateStorySettingsMutation.graphql";
 
 /**
  * CreateCommentEvent is emitted when a top level comment is created.
@@ -38,7 +40,7 @@ export const CreateCommentReplyEvent = createViewerNetworkEvent<{
 }>("createCommentReply");
 
 /**
- * EditCommentEvent is emitted when a comment is edited.
+ * EditCommentEvent is emitted when the viewer posts a comment.
  */
 export const EditCommentEvent = createViewerNetworkEvent<{
   body: string;
@@ -77,6 +79,67 @@ export const RemoveCommentReactionEvent = createViewerNetworkEvent<{
 }>("removeCommentReaction");
 
 /**
+ * FeatureCommentEvent is emitted when the viewer features a comment.
+ */
+export const FeatureCommentEvent = createViewerNetworkEvent<{
+  commentID: string;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("featureComment");
+
+/**
+ * UnfeatureCommentEvent is emitted when the viewer unfeatures a comment.
+ */
+export const UnfeatureCommentEvent = createViewerNetworkEvent<{
+  commentID: string;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("unfeatureComment");
+
+/**
+ * ApproveCommentEvent is emitted when the viewer approves a comment.
+ */
+export const ApproveCommentEvent = createViewerNetworkEvent<{
+  commentID: string;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("approveComment");
+
+/**
+ * RejectCommentEvent is emitted when the viewer rejects a comment.
+ */
+export const RejectCommentEvent = createViewerNetworkEvent<{
+  commentID: string;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("rejectComment");
+
+/**
+ * RejectCommentEvent is emitted when the viewer rejects a comment.
+ */
+export const BanUserEvent = createViewerNetworkEvent<{
+  userID: string;
+  commentID: string;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("banUser");
+
+/**
  * IgnoreUserEvent is emitted when the viewer ignores a user.
  */
 export const IgnoreUserEvent = createViewerNetworkEvent<{
@@ -113,6 +176,69 @@ export const SignOutEvent = createViewerNetworkEvent<{
 }>("signOut");
 
 /**
+ * UpdateNotificationSettingsEvent is emitted when the viewer updates its
+ * notification settings.
+ */
+export const UpdateNotificationSettingsEvent = createViewerNetworkEvent<{
+  onReply?: boolean | null;
+  onFeatured?: boolean | null;
+  onStaffReplies?: boolean | null;
+  onModeration?: boolean | null;
+  digestFrequency?: DIGEST_FREQUENCY | null;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("updateNotificationSettings");
+
+/**
+ * UpdateStorySettingsEvent is emitted when the viewer updates the story settings.
+ */
+export const UpdateStorySettingsEvent = createViewerNetworkEvent<{
+  storyID: string;
+  live?: {
+    enabled?: boolean | null;
+  } | null;
+  moderation?: MODERATION_MODE | null;
+  premodLinksEnable?: boolean | null;
+  messageBox?: {
+    enabled?: boolean | null;
+    icon?: string | null;
+    content?: string | null;
+  } | null;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("updateStorySettings");
+
+/**
+ * CloseStoryEvent is emitted when the viewer closes the story.
+ */
+export const CloseStoryEvent = createViewerNetworkEvent<{
+  storyID: string;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("closeStoryEvent");
+
+/**
+ * OpenStoryEvent is emitted when the viewer opens the story.
+ */
+export const OpenStoryEvent = createViewerNetworkEvent<{
+  storyID: string;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("openStoryEvent");
+
+/**
  * LoadMoreFeaturedCommentsEvent is emitted when the viewer loads more
  * featured comments.
  */
@@ -131,6 +257,15 @@ export const LoadMoreAllCommentsEvent = createViewerNetworkEvent<{
   success: {};
   error: { message: string; code?: string };
 }>("loadMoreAllComments");
+
+/**
+ * LoadMoreHistoryCommentsEvent is emitted when the viewer loads more
+ * top level comments into the history comment stream.
+ */
+export const LoadMoreHistoryCommentsEvent = createViewerNetworkEvent<{
+  success: {};
+  error: { message: string; code?: string };
+}>("loadMoreHistoryComments");
 
 /**
  * ShowAllRepliesEvent is emitted when the viewer reveals
@@ -192,7 +327,7 @@ export const SetCommentsOrderByEvent = createViewerEvent<{
  * a single conversation view.
  */
 export const ViewConversationEvent = createViewerEvent<{
-  from: "FEATURED_COMMENTS" | "COMMENT_STREAM" | "MY_PROFILE";
+  from: "FEATURED_COMMENTS" | "COMMENT_STREAM" | "COMMENT_HISTORY";
   commentID: string;
 }>("viewConversation");
 
@@ -330,3 +465,120 @@ export const ShowModerationPopoverEvent = createViewerEvent<{
 export const GotoModerationEvent = createViewerEvent<{
   commentID: string;
 }>("gotoModeration");
+
+/**
+ * ShowEditUsernameDialogEvent is emitted when the viewer opens the
+ * edit username dialog.
+ */
+export const ShowEditUsernameDialogEvent = createViewerEvent(
+  "showEditUsernameDialog"
+);
+
+/**
+ * ShowEditEmailDialogEvent is emitted when the viewer opens the
+ * edit email dialog.
+ */
+export const ShowEditEmailDialogEvent = createViewerEvent(
+  "showEditEmailDialog"
+);
+
+/**
+ * ShowEditPasswordDialogEvent is emitted when the viewer opens the
+ * edit password dialog.
+ */
+export const ShowEditPasswordDialogEvent = createViewerEvent(
+  "showEditPasswordDialog"
+);
+
+/**
+ * ShowIgnoreUserdDialogEvent is emitted when the viewer opens the
+ * ignore user dialog.
+ */
+export const ShowIgnoreUserdDialogEvent = createViewerEvent(
+  "showIgnoreUserdDialog"
+);
+
+/**
+ * ResendEmailVerificationEvent is emitted when the viewer request another
+ * email verification email.
+ */
+export const ResendEmailVerificationEvent = createViewerNetworkEvent<{
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("resendEmailVerification");
+
+/**
+ * ChangeUsernameEvent is emitted when the viewer changes its username.
+ */
+export const ChangeUsernameEvent = createViewerNetworkEvent<{
+  oldUsername: string;
+  newUsername: string;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("changeUsername");
+
+/**
+ * ChangeEmailEvent is emitted when the viewer changes its email.
+ */
+export const ChangeEmailEvent = createViewerNetworkEvent<{
+  oldEmail: string;
+  newEmail: string;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("changeEmail");
+
+/**
+ * ChangePasswordEvent is emitted when the viewer changes its password.
+ */
+export const ChangePasswordEvent = createViewerNetworkEvent<{
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("changePassword");
+
+/**
+ * RequestDownloadCommentHistoryEvent is emitted when the viewer requests to download
+ * its comment history.
+ */
+export const RequestDownloadCommentHistoryEvent = createViewerNetworkEvent<{
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("requestDownloadCommentHistory");
+
+/**
+ * RequestAccountDeletionEvent is emitted when the viewer requests to delete
+ * its account.
+ */
+export const RequestAccountDeletionEvent = createViewerNetworkEvent<{
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("requestAccountDeletionEvent");
+
+/**
+ * CancelAccountDeletionEvent is emitted when the viewer cancels the
+ * account deletion.
+ */
+export const CancelAccountDeletionEvent = createViewerNetworkEvent<{
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("cancelAccountDeletionEvent");

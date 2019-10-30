@@ -13,6 +13,7 @@ import { Environment } from "relay-runtime";
 import { PasswordField } from "coral-framework/components";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
+import { useViewerEvent } from "coral-framework/lib/events";
 import { colorFromMeta } from "coral-framework/lib/form";
 import {
   createFetch,
@@ -28,6 +29,10 @@ import {
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
+import {
+  ResendEmailVerificationEvent,
+  ShowEditEmailDialogEvent,
+} from "coral-stream/events";
 import {
   Button,
   ButtonIcon,
@@ -50,10 +55,23 @@ import styles from "./ChangeEmailContainer.css";
 
 const fetcher = createFetch(
   "resendConfirmation",
-  (environment: Environment, variables, context) => {
-    return context.rest.fetch<void>("/account/confirm", {
-      method: "POST",
-    });
+  async (environment: Environment, variables, { eventEmitter, rest }) => {
+    const resendEmailVerificationEvent = ResendEmailVerificationEvent.begin(
+      eventEmitter
+    );
+    try {
+      const result = await rest.fetch<void>("/account/confirm", {
+        method: "POST",
+      });
+      resendEmailVerificationEvent.success();
+      return result;
+    } catch (error) {
+      resendEmailVerificationEvent.error({
+        message: error.message,
+        code: error.code,
+      });
+      throw error;
+    }
   }
 );
 
@@ -71,6 +89,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const emitShowEvent = useViewerEvent(ShowEditEmailDialogEvent);
   const updateEmail = useMutation(UpdateEmailMutation);
 
   const [showEditForm, setShowEditForm] = useState(false);
@@ -82,6 +101,9 @@ const changeEmailContainer: FunctionComponent<Props> = ({
   }, [fetcher]);
 
   const toggleEditForm = useCallback(() => {
+    if (!showEditForm) {
+      emitShowEvent();
+    }
     setShowEditForm(!showEditForm);
   }, [setShowEditForm, showEditForm]);
   const onSubmit = useCallback(

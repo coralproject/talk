@@ -37,6 +37,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const onBan = useCallback(() => {
     banUser({
       userID: user.id,
+      commentID: comment.id,
       message: getMessage(
         localeBundles,
         "common-banEmailTemplate",
@@ -48,7 +49,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       reject({
         commentID: comment.id,
         commentRevisionID: comment.revision.id,
-        storyID: story.id,
+        noEmit: true,
       });
     }
     onDismiss();
