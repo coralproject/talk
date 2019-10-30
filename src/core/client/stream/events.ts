@@ -40,7 +40,7 @@ export const CreateCommentReplyEvent = createViewerNetworkEvent<{
 }>("createCommentReply");
 
 /**
- * EditCommentEvent is emitted when the viewer posts a comment.
+ * EditCommentEvent is emitted when the viewer edits a comment.
  */
 export const EditCommentEvent = createViewerNetworkEvent<{
   body: string;
@@ -67,7 +67,7 @@ export const CreateCommentReactionEvent = createViewerNetworkEvent<{
 }>("createCommentReaction");
 
 /**
- * RemoveCommentReactionEvent is emitted when the viewer deletes its reaction from a comment.
+ * RemoveCommentReactionEvent is emitted when the viewer removes its reaction from a comment.
  */
 export const RemoveCommentReactionEvent = createViewerNetworkEvent<{
   commentID: string;
@@ -127,7 +127,7 @@ export const RejectCommentEvent = createViewerNetworkEvent<{
 }>("rejectComment");
 
 /**
- * RejectCommentEvent is emitted when the viewer rejects a comment.
+ * RejectCommentEvent is emitted when the viewer bans a user.
  */
 export const BanUserEvent = createViewerNetworkEvent<{
   userID: string;
@@ -324,7 +324,7 @@ export const SetCommentsOrderByEvent = createViewerEvent<{
 
 /**
  * ViewConversationEvent is emitted when the viewer changes to
- * a single conversation view.
+ * the single conversation view.
  */
 export const ViewConversationEvent = createViewerEvent<{
   from: "FEATURED_COMMENTS" | "COMMENT_STREAM" | "COMMENT_HISTORY";

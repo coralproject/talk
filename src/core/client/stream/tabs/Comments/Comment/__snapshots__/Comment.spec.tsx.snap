@@ -24,12 +24,11 @@ exports[`renders username and body 1`] = `
         direction="row"
         itemGutter={true}
       >
-        <Timestamp
+        <TimeStamp
           className="coral coral-timestamp coral-comment-timestamp"
-          toggleAbsolute={true}
         >
           1995-12-17T03:24:00.000Z
-        </Timestamp>
+        </TimeStamp>
         <EditedMarker
           className="coral coral-comment-edited"
         />

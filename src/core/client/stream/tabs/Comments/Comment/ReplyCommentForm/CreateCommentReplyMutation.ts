@@ -17,6 +17,7 @@ import {
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 import { GQLComment, GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import { CreateCommentReplyEvent } from "coral-stream/events";
 
 import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 
@@ -25,7 +26,6 @@ import {
   isPublished,
   prependCommentEdgeToProfile,
 } from "../../helpers";
-import { CreateCommentReplyEvent } from "coral-stream/events";
 
 export type CreateCommentReplyInput = MutationInput<MutationTypes> & {
   local?: boolean;

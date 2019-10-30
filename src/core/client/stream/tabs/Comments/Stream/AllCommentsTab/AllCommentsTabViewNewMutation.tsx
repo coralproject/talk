@@ -1,11 +1,11 @@
 import { ConnectionHandler, Environment, RecordProxy } from "relay-runtime";
 
+import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitLocalUpdatePromisified,
   createMutation,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
-import { CoralContext } from "coral-framework/lib/bootstrap";
 import { ViewNewCommentsEvent } from "coral-stream/events";
 
 interface Input {

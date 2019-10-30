@@ -21,7 +21,7 @@ exports[`renders correctly 1`] = `
       <ForwardRef(forwardRef)
         key="comment-1"
       >
-        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
           comment={
             Object {
               "id": "comment-1",
@@ -66,7 +66,7 @@ exports[`renders correctly 1`] = `
       <ForwardRef(forwardRef)
         key="comment-2"
       >
-        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
           comment={
             Object {
               "id": "comment-2",
@@ -120,7 +120,7 @@ exports[`when there is more disables load more button 1`] = `
       <ForwardRef(forwardRef)
         key="comment-1"
       >
-        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
           comment={
             Object {
               "id": "comment-1",
@@ -162,7 +162,7 @@ exports[`when there is more disables load more button 1`] = `
       <ForwardRef(forwardRef)
         key="comment-2"
       >
-        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
           comment={
             Object {
               "id": "comment-2",
@@ -233,7 +233,7 @@ exports[`when there is more renders a load more button 1`] = `
       <ForwardRef(forwardRef)
         key="comment-1"
       >
-        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
           comment={
             Object {
               "id": "comment-1",
@@ -275,7 +275,7 @@ exports[`when there is more renders a load more button 1`] = `
       <ForwardRef(forwardRef)
         key="comment-2"
       >
-        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+        <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer))))))
           comment={
             Object {
               "id": "comment-2",

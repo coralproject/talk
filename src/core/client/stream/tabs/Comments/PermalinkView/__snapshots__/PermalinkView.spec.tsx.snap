@@ -5,7 +5,7 @@ exports[`renders comment not found 1`] = `
   className="PermalinkView-root coral coral-permalink coral-authenticated"
   size="double"
 >
-  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
+  <withContext(withMutation(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
     settings={Object {}}
     viewer={Object {}}
   />
@@ -67,7 +67,7 @@ exports[`renders correctly 1`] = `
   className="PermalinkView-root coral coral-permalink coral-authenticated"
   size="double"
 >
-  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
+  <withContext(withMutation(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
     settings={Object {}}
     viewer={Object {}}
   />

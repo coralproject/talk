@@ -52,7 +52,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
   settings,
   relay,
 }) => {
-  const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
   const beginLoadMoreEvent = useViewerNetworkEvent(ShowMoreOfConversationEvent);
   const loadMoreAndEmit = useCallback(async () => {
     const loadMoreEvent = beginLoadMoreEvent({ commentID: comment.id });
