@@ -7,8 +7,7 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { CallOut, Typography } from "coral-ui/components";
-import { Button, Divider } from "coral-ui/components/v2";
+import { Button, Divider, CallOut } from "coral-ui/components/v2";
 
 import { UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
 import { UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
@@ -50,9 +49,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
           id="moderate-user-drawer-rejected-no-comments"
           $username={user.username}
         >
-          <Typography variant="bodyCopy">
-            {user.username} has not submitted any comments.
-          </Typography>
+          <div>{user.username} has not submitted any comments.</div>
         </Localized>
       </CallOut>
     );
