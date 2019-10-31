@@ -24,6 +24,7 @@ exports[`renders correctly 1`] = `
       >
         <RTE
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Post a comment"
           value=""
         />

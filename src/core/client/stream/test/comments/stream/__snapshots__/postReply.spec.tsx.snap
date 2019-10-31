@@ -270,6 +270,8 @@ exports[`post a reply: open reply form 1`] = `
             <div>
               <div
                 className="$root content placeholder toolbar"
+                onBlur={[Function]}
+                onFocus={[Function]}
               >
                 <div
                   className="RTE-contentEditableContainer"

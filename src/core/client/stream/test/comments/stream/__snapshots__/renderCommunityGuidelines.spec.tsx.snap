@@ -70,6 +70,8 @@ exports[`renders comment stream with community guidelines 1`] = `
           <div>
             <div
               className="$root content placeholder toolbar"
+              onBlur={[Function]}
+              onFocus={[Function]}
             >
               <div
                 className="RTE-contentEditableContainer"
