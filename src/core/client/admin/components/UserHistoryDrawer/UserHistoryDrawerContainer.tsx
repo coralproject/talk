@@ -44,15 +44,15 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
       <HorizontalGutter spacing={4}>
         <HorizontalGutter spacing={3}>
           <HorizontalGutter spacing={2}>
-            <Flex className={styles.username} itemGutter>
+            <Flex className={styles.username} spacing={2}>
               <span>{user.username}</span>
               <div>
                 <UserBadgesContainer user={user} />
               </div>
             </Flex>
-            <Flex alignItems="center" itemGutter="half">
+            <Flex alignItems="center" spacing={1}>
               <div className={styles.userStatusLabel}>
-                <Flex alignItems="center" itemGutter="half">
+                <Flex alignItems="center" spacing={1}>
                   <Localized id="moderate-user-drawer-status-label">
                     Status:
                   </Localized>
@@ -69,7 +69,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
             </Flex>
           </HorizontalGutter>
           <HorizontalGutter spacing={1}>
-            <Flex alignItems="center" itemGutter>
+            <Flex alignItems="center" spacing={2}>
               <Localized
                 id="moderate-user-drawer-email"
                 attrs={{ title: true }}
@@ -81,7 +81,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
               <span className={styles.userDetailValue}>{user.email}</span>
               <CopyButton text={user.email!} size="small" />
             </Flex>
-            <Flex alignItems="center" itemGutter>
+            <Flex alignItems="center" spacing={2}>
               <Localized
                 id="moderate-user-drawer-created-at"
                 attrs={{ title: true }}
@@ -98,7 +98,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 {formatter.format(new Date(user.createdAt))}
               </span>
             </Flex>
-            <Flex alignItems="center" itemGutter>
+            <Flex alignItems="center" spacing={2}>
               <Localized
                 id="moderate-user-drawer-member-id"
                 attrs={{ title: true }}

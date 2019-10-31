@@ -39,7 +39,7 @@ const RecentHistory: FunctionComponent<Props> = ({
           </p>
         </Localized>
       </div>
-      <Flex itemGutter="double">
+      <Flex spacing={3}>
         <div>
           <p
             className={cn(styles.amount, {
@@ -92,7 +92,6 @@ const RecentHistory: FunctionComponent<Props> = ({
         </div>
         <div>
           <p className={styles.amount}>{submitted}</p>
-
           <Localized id="moderate-user-drawer-recent-history-tooltip-submitted">
             <p className={styles.amountLabel}>Submitted</p>
           </Localized>
