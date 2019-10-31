@@ -1,15 +1,7 @@
 import { Blockquote, Bold, CoralRTE, Italic } from "@coralproject/rte";
 import cn from "classnames";
 import { Localized as LocalizedOriginal } from "fluent-react/compat";
-import React, {
-  EventHandler,
-  FocusEvent,
-  FunctionComponent,
-  Ref,
-  useCallback,
-  useRef,
-  useState,
-} from "react";
+import React, { EventHandler, FocusEvent, FunctionComponent, Ref } from "react";
 
 import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components";
@@ -106,53 +98,6 @@ const features = [
 ];
 
 const RTE: FunctionComponent<RTEProps> = props => {
-  // As the RTE contains multiple focusable elements,
-  // we'll abstract the focus events and support `onFocus` and `onBlur`
-  // where the events are called whenever focus enters anywhere
-  // inside the RTE or leaves the RTE entirely.
-  // TODO: (cvle) Move into @coralproject/rte?
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [focusInside, setFocusInside] = useState<boolean>(false);
-
-  const handleFocus = useCallback(
-    (e: React.FocusEvent) => {
-      if (!containerRef.current) {
-        return;
-      }
-      if (focusInside) {
-        // Focus already inside.
-        return;
-      }
-      setFocusInside(true);
-      if (props.onFocus) {
-        props.onFocus(e);
-      }
-    },
-    [containerRef.current, focusInside, setFocusInside, props.onFocus]
-  );
-
-  const handleBlur = useCallback(
-    (e: React.FocusEvent) => {
-      if (!containerRef.current) {
-        return;
-      }
-      if (!focusInside) {
-        return;
-      }
-      if (
-        containerRef.current.contains(e.nativeEvent.relatedTarget as Element)
-      ) {
-        // Focus didn't leave the RTE.
-        return;
-      }
-      setFocusInside(false);
-      if (props.onBlur) {
-        props.onBlur(e);
-      }
-    },
-    [containerRef.current, focusInside, setFocusInside, props.onBlur]
-  );
-
   const {
     className,
     fullWidth,
@@ -171,7 +116,7 @@ const RTE: FunctionComponent<RTEProps> = props => {
     ...rest
   } = props;
   return (
-    <div onFocus={handleFocus} onBlur={handleBlur} ref={containerRef}>
+    <div>
       <CoralRTE
         inputId={inputId}
         className={cn(CLASSES.rte, className)}
@@ -197,6 +142,8 @@ const RTE: FunctionComponent<RTEProps> = props => {
         features={features}
         ref={forwardRef}
         toolbarPosition="bottom"
+        onBlur={onBlur}
+        onFocus={onFocus}
         {...rest}
       />
     </div>
