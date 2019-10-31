@@ -9,6 +9,7 @@ export { default as Flex } from "./Flex";
 export { default as Popover } from "./Popover";
 export { default as Tag } from "./Tag";
 export { default as Divider } from "./Divider";
+export { default as Card } from "./Card";
 export { default as Tooltip, TooltipButton } from "./Tooltip";
 export {
   SubBar,

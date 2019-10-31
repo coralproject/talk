@@ -11,15 +11,14 @@ import React, {
 
 import { HOTKEYS } from "coral-admin/constants";
 import { PropTypesOf } from "coral-framework/types";
+import { HorizontalGutter, Typography } from "coral-ui/components";
 import {
   BaseButton,
   Card,
   Flex,
-  HorizontalGutter,
   TextLink,
-  Typography,
-} from "coral-ui/components";
-import { Timestamp } from "coral-ui/components/v2";
+  Timestamp,
+} from "coral-ui/components/v2";
 
 import ApproveButton from "./ApproveButton";
 import CommentAuthorContainer from "./CommentAuthorContainer";
@@ -185,7 +184,7 @@ const ModerateCard: FunctionComponent<Props> = ({
             })}
           >
             <Flex alignItems="center">
-              {!hideUsername && (
+              {!hideUsername && username && (
                 <BaseButton
                   onClick={commentAuthorClick}
                   className={styles.usernameButton}
@@ -222,6 +221,17 @@ const ModerateCard: FunctionComponent<Props> = ({
             >
               {commentBody}
             </CommentContent>
+            <div className={styles.viewContext}>
+              <Localized id="moderate-comment-viewContext">
+                <TextLink
+                  className={styles.link}
+                  href={viewContextHref}
+                  target="_blank"
+                >
+                  View Context
+                </TextLink>
+              </Localized>
+            </div>
             <div
               className={cn(styles.separator, {
                 [styles.ruledSeparator]: !mini,
@@ -230,17 +240,6 @@ const ModerateCard: FunctionComponent<Props> = ({
           </div>
           <div className={styles.footer}>
             <HorizontalGutter>
-              <div className={styles.viewContext}>
-                <Localized id="moderate-comment-viewContext">
-                  <TextLink
-                    className={styles.link}
-                    href={viewContextHref}
-                    target="_blank"
-                  >
-                    View Context
-                  </TextLink>
-                </Localized>
-              </div>
               {showStory && (
                 <div>
                   <div className={styles.storyLabel}>

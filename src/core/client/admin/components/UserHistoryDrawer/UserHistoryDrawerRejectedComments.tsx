@@ -7,7 +7,8 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { Button, CallOut, Typography } from "coral-ui/components";
+import { CallOut, Typography } from "coral-ui/components";
+import { Button, Divider } from "coral-ui/components/v2";
 
 import { UserHistoryDrawerRejectedComments_settings } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_settings.graphql";
 import { UserHistoryDrawerRejectedComments_user } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_user.graphql";
@@ -73,7 +74,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
             mini
           />
           {// Don't show horizontal rule after last comment
-          index !== comments.length - 1 && <hr />}
+          index !== comments.length - 1 && <Divider />}
         </div>
       ))}
       {hasMore && (
