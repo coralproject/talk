@@ -1,5 +1,7 @@
+$user-drawer-background: var(--v2-colors-pure-white);
 $user-drawer-account-info: var(--v2-colors-mono-500);
 $user-drawer-divider: var(--v2-colors-grey-300);
+$user-drawer-status-label: var(--v2-colors-mono-500);
 
 .comments {
   flex: auto;
@@ -14,12 +16,12 @@ $user-drawer-divider: var(--v2-colors-grey-300);
 
   padding: 0px;
 
-  background-color: var(--palette-common-white);
+  background-color: $user-drawer-background;
 
-  border-width: 2px;
+  border-width: 1px;
   border-right-width: 0px;
   border-style: solid;
-  border-color: var(--palette-grey-main);
+  border-color: rgba(0, 0, 0, 0.25);
   border-radius: 4px 0px 0px 4px;
 }
 
@@ -42,6 +44,7 @@ $user-drawer-divider: var(--v2-colors-grey-300);
 }
 
 .icon {
+  padding-top: 2px;
 }
 
 .copy {
@@ -55,6 +58,12 @@ $user-drawer-divider: var(--v2-colors-grey-300);
 }
 
 .userStatusLabel {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-reset);
+  color: $user-drawer-status-label;
+  margin-right: var(--v2-spacing-1);
 }
 
 .userStatusChange {

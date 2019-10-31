@@ -3,16 +3,13 @@ import React, { FunctionComponent, useMemo } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  BaseButton,
-  Box,
-  ClickOutside,
-  Icon,
-  Popover,
-  Typography,
-} from "coral-ui/components";
+import { Box, ClickOutside } from "coral-ui/components";
+
+import { BaseButton, Icon, Popover } from "coral-ui/components/v2";
 
 import { UserStatusDetailsContainer_user as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
+
+import styles from "./UserStatusDetailsContainer.css";
 
 interface Props {
   user: UserData;
@@ -56,10 +53,10 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                     $timestamp={formatter.format(new Date(activeBan.createdAt))}
                     strong={<strong />}
                   >
-                    <Typography>
+                    <p className={styles.root}>
                       <strong>Banned on </strong>{" "}
                       {formatter.format(new Date(activeBan.createdAt))}
-                    </Typography>
+                    </p>
                   </Localized>
                   {activeBan.createdBy && (
                     <Localized
@@ -67,10 +64,10 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                       strong={<strong />}
                       $username={activeBan.createdBy.username}
                     >
-                      <Typography>
+                      <p className={styles.root}>
                         <strong>by </strong>
                         {activeBan.createdBy.username}
-                      </Typography>
+                      </p>
                     </Localized>
                   )}
                 </div>
@@ -83,10 +80,10 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                       strong={<strong />}
                       $username={activeSuspension.createdBy.username}
                     >
-                      <Typography>
+                      <p className={styles.root}>
                         <strong>Suspended by </strong>
                         {activeSuspension.createdBy.username}
-                      </Typography>
+                      </p>
                     </Localized>
                   )}
                   <Localized
@@ -96,10 +93,10 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                       new Date(activeSuspension.from.start)
                     )}
                   >
-                    <Typography>
+                    <p className={styles.root}>
                       <strong>Start: </strong>
                       {formatter.format(new Date(activeSuspension.from.start))}
-                    </Typography>
+                    </p>
                   </Localized>
                   <Localized
                     strong={<strong />}
@@ -108,10 +105,10 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                     )}
                     id="userDetails-suspension-finish"
                   >
-                    <Typography>
+                    <p className={styles.root}>
                       <strong>End: </strong>
                       {formatter.format(new Date(activeSuspension.from.finish))}
-                    </Typography>
+                    </p>
                   </Localized>
                 </div>
               )}

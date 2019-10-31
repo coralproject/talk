@@ -86,7 +86,6 @@ $button-underlined-mono-active: var(--v2-colors-grey-400);
   align-items: center;
   box-sizing: border-box;
   border: 0px solid transparent;
-  text-transform: uppercase;
 
   & > * {
     margin: 0 var(--v2-spacing-1) 0 0;
@@ -96,6 +95,10 @@ $button-underlined-mono-active: var(--v2-colors-grey-400);
   & > *:last-child {
     margin: 0;
   }
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 .root.disabled {
@@ -139,27 +142,38 @@ $button-underlined-mono-active: var(--v2-colors-grey-400);
   padding: var(--v2-spacing-4) var(--v2-spacing-6);
 }
 
+.variantDefault,
+.variantPlain {
+  &.colorDefault {
+    color: $button-default-outline-foreground;
+  }
+  &.colorAlert {
+    color: $button-alert-outline-foreground;
+  }
+  &.colorEmphasis {
+    color: $button-emphasis-outline-foreground;
+  }
+  &.colorMono {
+    color: $button-mono-outline-foreground;
+  }
+}
+
 .variantDefault {
   border-width: 1px;
-
   &.colorDefault {
     border-color: $button-default-outline-foreground;
-    color: $button-default-outline-foreground;
     background-color: $button-default-outline-background;
   }
   &.colorAlert {
     border-color: $button-alert-outline-foreground;
-    color: $button-alert-outline-foreground;
     background-color: $button-alert-outline-background;
   }
   &.colorEmphasis {
     border-color: $button-emphasis-outline-foreground;
-    color: $button-emphasis-outline-foreground;
     background-color: $button-emphasis-outline-background;
   }
   &.colorMono {
     border-color: $button-mono-outline-foreground;
-    color: $button-mono-outline-foreground;
     background-color: $button-mono-outline-background;
   }
 
@@ -171,27 +185,27 @@ $button-underlined-mono-active: var(--v2-colors-grey-400);
       }
       &:active,
       &.active {
+        color: $button-default-outline-background;
         border-color: $button-default-outline-active;
         background-color: $button-default-outline-active;
-        color: $button-default-outline-background;
       }
     }
     &.colorAlert {
       &.mouseHover {
-        background-color: $button-alert-outline-foreground;
         color: $button-alert-outline-background;
+        background-color: $button-alert-outline-foreground;
       }
       &:active,
       &.active {
+        color: $button-alert-outline-background;
         border-color: $button-alert-outline-active;
         background-color: $button-alert-outline-active;
-        color: $button-alert-outline-background;
       }
     }
     &.colorEmphasis {
       &.mouseHover {
-        background-color: $button-emphasis-outline-foreground;
         color: $button-emphasis-outline-background;
+        background-color: $button-emphasis-outline-foreground;
       }
       &:active,
       &.active {
@@ -213,6 +227,10 @@ $button-underlined-mono-active: var(--v2-colors-grey-400);
       }
     }
   }
+}
+
+.variantPlain {
+  padding: 0;
 }
 
 .variantFilled {
