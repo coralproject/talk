@@ -3,7 +3,7 @@ import React from "react";
 
 import { withStyles } from "coral-ui/hocs";
 
-import BaseButton from "coral-ui/components/BaseButton";
+import BaseButton from "coral-ui/components/v2/BaseButton";
 
 import styles from "./Tab.css";
 

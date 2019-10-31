@@ -1,3 +1,6 @@
+$tab-selected: var(--v2-colors-teal-600);
+$tab-default: var(--v2-colors-mono-100);
+
 .root {
   display: inline-block;
   list-style: none;
@@ -6,12 +9,9 @@
 }
 
 .button {
-  height: 100%;
   box-sizing: border-box;
   border-bottom: 0;
   list-style: none;
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-family: var(--v2-font-family-primary);
 
   &:hover {
     cursor: pointer;
@@ -29,13 +29,13 @@
 .default {
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-semi-bold);
-  color: var(--v2-palette-tab-default);
+  color: $tab-default;
   padding-bottom: calc(var(--v2-spacing-1) + 2px);
 
   &.active {
-    color: var(--v2-palette-tab-active);
+    color: $tab-selected;
     font-weight: var(--v2-font-weight-primary-bold);
-    border-bottom: 2px solid var(--v2-palette-tab-active);
+    border-bottom: 2px solid $tab-selected;
     padding-bottom: var(--v2-spacing-1);
   }
 }
@@ -59,14 +59,14 @@
 
 .secondary {
   font-family: var(--font-family-sans-serif);
-  color: var(--palette-grey-dark);
-  padding: calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) * 2)
-    calc(0.5 * var(--mini-unit) + 3px) calc(var(--mini-unit) * 2);
+  color: $tab-default;
+  padding-bottom: var(--v2-spacing-2);
+  text-transform: uppercase;
 
   &.active {
-    color: var(--palette-text-primary);
+    color: $tab-selected;
     font-weight: var(--font-weight-medium);
-    border-bottom: 3px solid var(--palette-primary-main);
-    padding: calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) * 2);
+    border-bottom: 3px solid $tab-selected;
+    padding-bottom: calc(var(--v2-spacing-2) - 3px);
   }
 }
