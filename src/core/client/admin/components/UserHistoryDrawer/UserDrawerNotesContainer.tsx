@@ -9,8 +9,13 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
-import { HorizontalGutter } from "coral-ui/components";
-import { Button, Divider, Flex, Textarea } from "coral-ui/components/v2";
+import {
+  Button,
+  Divider,
+  Flex,
+  HorizontalGutter,
+  Textarea,
+} from "coral-ui/components/v2";
 
 import { UserDrawerNotesContainer_user as UserData } from "coral-admin/__generated__/UserDrawerNotesContainer_user.graphql";
 import { UserDrawerNotesContainer_viewer as ViewerData } from "coral-admin/__generated__/UserDrawerNotesContainer_viewer.graphql";
