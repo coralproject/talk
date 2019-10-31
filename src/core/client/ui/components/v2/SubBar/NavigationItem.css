@@ -1,3 +1,6 @@
+$navigation-item-selected: var(--v2-colors-teal-600);
+$navigation-item-default: var(--v2-colors-mono-100);
+
 .root {
   height: 100%;
 }
@@ -8,7 +11,7 @@
   font-size: var(--font-size-2);
   text-transform: uppercase;
 
-  color: var(--v2-palette-grey-main);
+  color: $navigation-item-default;
   height: 100%;
   display: inline-flex;
   align-items: center;
@@ -33,6 +36,6 @@
   font-size: var(--font-size-2);
   text-transform: uppercase;
 
-  border-bottom: 3px solid var(--v2-palette-primary-main);
-  color: var(--v2-palette-primary-main);
+  border-bottom: 3px solid $navigation-item-selected;
+  color: $navigation-item-selected;
 }
