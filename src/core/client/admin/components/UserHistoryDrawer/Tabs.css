@@ -1,4 +1,4 @@
-$red-dot: var(--v2-palette-error-main);
+$indicator-dot: var(--v2-colors-blue-400);
 
 .root {
   height: 100%;
@@ -51,7 +51,7 @@ $red-dot: var(--v2-palette-error-main);
 }
 
 .redDot {
-  background-color: $red-dot;
+  background-color: $indicator-dot;
   width: 6px;
   height: 6px;
   border-radius: 50%;
