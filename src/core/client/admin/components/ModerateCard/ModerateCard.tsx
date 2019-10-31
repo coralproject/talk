@@ -11,11 +11,11 @@ import React, {
 
 import { HOTKEYS } from "coral-admin/constants";
 import { PropTypesOf } from "coral-framework/types";
-import { HorizontalGutter, Typography } from "coral-ui/components";
 import {
   BaseButton,
   Card,
   Flex,
+  HorizontalGutter,
   TextLink,
   Timestamp,
 } from "coral-ui/components/v2";
@@ -145,10 +145,10 @@ const ModerateCard: FunctionComponent<Props> = ({
   }, [selected]);
   const commentBody = deleted ? (
     <Localized id="moderate-comment-deleted-body">
-      <Typography>
+      <div className={styles.deleted}>
         This comment is no longer available. The commenter has deleted their
         account.
-      </Typography>
+      </div>
     </Localized>
   ) : (
     body
@@ -239,7 +239,7 @@ const ModerateCard: FunctionComponent<Props> = ({
             />
           </div>
           <div className={styles.footer}>
-            <HorizontalGutter>
+            <HorizontalGutter spacing={3}>
               {showStory && (
                 <div>
                   <div className={styles.storyLabel}>

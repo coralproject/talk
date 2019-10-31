@@ -5,8 +5,13 @@ import { graphql } from "react-relay";
 import { ModerateCardDetailsContainer_comment as CommentData } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
 import { ModerateCardDetailsContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Flex, HorizontalGutter, Icon } from "coral-ui/components";
-import { Tab, TabBar } from "coral-ui/components/v2";
+import {
+  Flex,
+  HorizontalGutter,
+  Icon,
+  Tab,
+  TabBar,
+} from "coral-ui/components/v2";
 
 import CommentRevisionContainer from "./CommentRevisionContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
