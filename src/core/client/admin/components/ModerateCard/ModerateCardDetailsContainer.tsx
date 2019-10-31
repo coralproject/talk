@@ -3,8 +3,13 @@ import React, { FunctionComponent, useState } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Flex, HorizontalGutter, Icon } from "coral-ui/components";
-import { Tab, TabBar } from "coral-ui/components/v2";
+import {
+  Flex,
+  HorizontalGutter,
+  Icon,
+  Tab,
+  TabBar,
+} from "coral-ui/components/v2";
 
 import { ModerateCardDetailsContainer_comment as CommentData } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
 import { ModerateCardDetailsContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";

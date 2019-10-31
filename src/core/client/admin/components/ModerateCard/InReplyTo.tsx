@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { BaseButton, Flex, Icon } from "coral-ui/components";
+import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
 
 import styles from "./InReplyTo.css";
 

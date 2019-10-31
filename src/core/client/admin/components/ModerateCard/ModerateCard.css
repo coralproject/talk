@@ -32,7 +32,6 @@
 }
 
 .inReplyTo {
-  margin-top: calc(-1 * var(--v2-spacing-1));
 }
 
 .footer {
@@ -184,4 +183,11 @@
 
 .authorStatus {
   padding-right: var(--spacing-2);
+}
+
+.deleted {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-body-short);
 }
