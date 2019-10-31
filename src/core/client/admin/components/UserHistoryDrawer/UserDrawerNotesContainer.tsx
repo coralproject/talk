@@ -9,7 +9,8 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
-import { Button, Flex, HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
+import { Button, Divider, Flex, Textarea } from "coral-ui/components/v2";
 
 import { UserDrawerNotesContainer_user as UserData } from "coral-admin/__generated__/UserDrawerNotesContainer_user.graphql";
 import { UserDrawerNotesContainer_viewer as ViewerData } from "coral-admin/__generated__/UserDrawerNotesContainer_viewer.graphql";
@@ -60,18 +61,19 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
             data-testid="userdrawer-notes-form"
           >
             <Localized id="moderate-user-drawer-notes-field">
-              <Field
-                className={styles.textArea}
-                id="suspendModal-message"
-                component="textarea"
-                name="body"
-                validate={required}
-                placeholder="Leave a note..."
-              />
+              <Field id="suspendModal-message" name="body" validate={required}>
+                {({ input }) => (
+                  <Textarea
+                    placeholder="Leave a note..."
+                    {...input}
+                    className={styles.textArea}
+                  />
+                )}
+              </Field>
             </Localized>
             <Flex justifyContent="flex-end">
               <Localized id="moderate-user-drawer-notes-button">
-                <Button variant="filled" color="primary" type="submit">
+                <Button size="medium" type="submit">
                   Add note
                 </Button>
               </Localized>
@@ -79,7 +81,8 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
           </form>
         )}
       </Form>
-      <HorizontalGutter size="double">
+      <Divider />
+      <HorizontalGutter spacing={4}>
         {user.moderatorNotes &&
           user.moderatorNotes
             .concat()

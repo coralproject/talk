@@ -7,7 +7,7 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { Button, Divider, CallOut } from "coral-ui/components/v2";
+import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
 import { UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
 import { UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
