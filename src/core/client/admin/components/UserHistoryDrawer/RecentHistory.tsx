@@ -3,12 +3,8 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
-import {
-  Flex,
-  Tooltip,
-  TooltipButton,
-  HorizontalGutter,
-} from "coral-ui/components";
+import { Flex, HorizontalGutter } from "coral-ui/components";
+import { Tooltip, TooltipButton } from "coral-ui/components/v2";
 
 import styles from "./RecentHistory.css";
 
