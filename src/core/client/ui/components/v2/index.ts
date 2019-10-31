@@ -23,6 +23,7 @@ export { Marker, Count as MarkerCount } from "./Marker";
 export { Tab, TabBar, TabContent, TabPane } from "./Tabs";
 export { SelectField, Option, OptGroup } from "./SelectField";
 export { default as Timestamp } from "./Timestamp";
+export { default as HorizontalGutter } from "./HorizontalGutter";
 export { default as FormField } from "./FormField";
 export { default as FormFieldHeader } from "./FormFieldHeader";
 export { default as TextFieldAdornment } from "./TextFieldAdornment";
