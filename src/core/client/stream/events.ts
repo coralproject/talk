@@ -1,3 +1,22 @@
+/**
+ * This file contains Viewer Events of the Embed Stream.
+ *
+ * Viewer Events can be subscribed to using the `events` parameter in
+ * `Coral.createStreamEmbed`.
+ *
+ * ```html
+ *  <script>
+ *    const CoralStreamEmbed = Coral.createStreamEmbed({
+ *      events: function(events) {
+ *        events.onAny(function(eventName, data) {
+ *          console.log(eventName, data);
+ *        });
+ *      },
+ *    });
+ *  </script>
+ * ```
+ */
+
 import {
   createViewerEvent,
   createViewerNetworkEvent,
