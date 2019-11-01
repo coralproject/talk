@@ -8,7 +8,7 @@ import {
   GQLUSER_STATUS,
   GQLUSER_STATUS_RL,
 } from "coral-framework/schema";
-import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components";
+import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 import {
   FieldSet,
   Label,
@@ -61,6 +61,7 @@ const UserTableFilter: FunctionComponent<Props> = props => (
                     >
                       <TextField
                         className={styles.textField}
+                        color="dark"
                         placeholder="Search by username or email address..."
                         aria-label="Search by username or email address"
                         variant="seamlessAdornment"
@@ -74,7 +75,7 @@ const UserTableFilter: FunctionComponent<Props> = props => (
                               className={styles.adornment}
                               variant="adornment"
                               type="submit"
-                              color="dark"
+                              color="emphasis"
                               aria-label="Search"
                             >
                               <Icon size="md">search</Icon>
