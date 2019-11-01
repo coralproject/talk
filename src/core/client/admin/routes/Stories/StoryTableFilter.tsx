@@ -3,9 +3,12 @@ import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
-import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components";
 import {
+  Button,
   FieldSet,
+  Flex,
+  HorizontalGutter,
+  Icon,
   Label,
   Option,
   SelectField,
@@ -48,6 +51,7 @@ const StoryTableFilter: FunctionComponent<Props> = props => (
                   >
                     <TextField
                       className={styles.textField}
+                      color="dark"
                       placeholder="Search by story title or author..."
                       aria-label="Search by story title or author"
                       variant="seamlessAdornment"
@@ -61,7 +65,7 @@ const StoryTableFilter: FunctionComponent<Props> = props => (
                             className={styles.adornment}
                             variant="adornment"
                             type="submit"
-                            color="dark"
+                            color="emphasis"
                             aria-label="Search"
                           >
                             <Icon size="md">search</Icon>

@@ -3,8 +3,14 @@ import React, { FunctionComponent } from "react";
 
 import TranslatedStoryStatus from "coral-admin/components/TranslatedStoryStatus";
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
-import { Button, ButtonIcon, ClickOutside } from "coral-ui/components";
-import { Dropdown, DropdownButton, Popover } from "coral-ui/components/v2";
+import {
+  Button,
+  ButtonIcon,
+  ClickOutside,
+  Dropdown,
+  DropdownButton,
+  Popover,
+} from "coral-ui/components/v2";
 
 import StoryStatusText from "./StoryStatusText";
 
@@ -56,7 +62,9 @@ const StoryStatusChange: FunctionComponent<Props> = props => (
             className={styles.button}
             onClick={toggleVisibility}
             ref={ref}
-            variant="regular"
+            color="mono"
+            uppercase={false}
+            variant="plain"
             size="small"
           >
             <StoryStatusText>{props.status}</StoryStatusText>

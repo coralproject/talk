@@ -3,4 +3,5 @@
   font-weight: var(--v2-font-weight-primary-regular);
   font-size: var(--v2-font-size-3);
   line-height: var(--v2-line-height-body-short);
+  text-align: center;
 }
