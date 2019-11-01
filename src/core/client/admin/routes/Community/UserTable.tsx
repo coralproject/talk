@@ -4,8 +4,10 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { PropTypesOf } from "coral-framework/types";
-import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 import {
+  Flex,
+  HorizontalGutter,
+  Spinner,
   Table,
   TableBody,
   TableCell,
