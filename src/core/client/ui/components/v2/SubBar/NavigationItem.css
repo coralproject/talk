@@ -10,14 +10,13 @@ $navigation-item-default: var(--v2-colors-mono-100);
   font-weight: var(--v2-font-weight-primary-semi-bold);
   font-size: var(--font-size-2);
   text-transform: uppercase;
-
   color: $navigation-item-default;
   height: 100%;
   display: inline-flex;
   align-items: center;
-  text-transform: uppercase;
   text-decoration: none;
   box-sizing: border-box;
+  padding: var(--v2-spacing-3) 0;
   border-bottom: 3px solid transparent;
   &:hover {
     cursor: pointer;
@@ -31,11 +30,7 @@ $navigation-item-default: var(--v2-colors-mono-100);
 }
 
 .active {
-  font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-bold);
-  font-size: var(--font-size-2);
-  text-transform: uppercase;
-
   border-bottom: 3px solid $navigation-item-selected;
   color: $navigation-item-selected;
 }
