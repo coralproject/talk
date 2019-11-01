@@ -4,6 +4,8 @@ export { default as ButtonIcon } from "./Button/ButtonIcon";
 export { default as Icon } from "./Icon";
 export { default as AriaInfo } from "./AriaInfo";
 export { default as Backdrop } from "./Backdrop";
+export { default as UIContext, UIContextProps } from "./UIContext";
+export { default as ClickOutside } from "./ClickOutside";
 export { default as Box } from "./Box";
 export { default as Flex } from "./Flex";
 export { default as Popover } from "./Popover";
