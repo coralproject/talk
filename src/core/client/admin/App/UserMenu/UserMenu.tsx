@@ -60,7 +60,8 @@ const UserMenu: FunctionComponent<Props> = props => (
           className={styles.button}
           onClick={toggleVisibility}
           ref={ref}
-          variant="regular"
+          variant="plain"
+          uppercase={false}
           size="small"
         >
           <ButtonIcon className={styles.icon} size="lg">

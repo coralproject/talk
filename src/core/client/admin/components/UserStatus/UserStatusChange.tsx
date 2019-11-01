@@ -5,10 +5,10 @@ import React, { FunctionComponent } from "react";
 import {
   Button,
   ButtonIcon,
-  Dropdown,
-  Popover,
   ClickOutside,
+  Dropdown,
   DropdownButton,
+  Popover,
 } from "coral-ui/components/v2";
 
 import styles from "./UserStatusChange.css";
