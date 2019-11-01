@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Box, Flex, HorizontalGutter } from "coral-ui/components";
+import { Box, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import styles from "./ConfigBox.css";
 

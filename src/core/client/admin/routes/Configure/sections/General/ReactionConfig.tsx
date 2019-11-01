@@ -4,11 +4,12 @@ import { Field } from "react-final-form";
 
 import { required } from "coral-framework/lib/validation";
 import ReactionButton from "coral-stream/tabs/Comments/Comment/ReactionButton/ReactionButton";
-import { Flex, HorizontalGutter } from "coral-ui/components";
 import {
   FieldSet,
+  Flex,
   FormField,
   FormFieldDescription,
+  HorizontalGutter,
   Label,
   Option,
   SelectField,

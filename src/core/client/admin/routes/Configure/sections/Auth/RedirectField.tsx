@@ -2,8 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { CopyButton } from "coral-framework/components";
-import { Flex } from "coral-ui/components";
-import { FormField, Label, TextField } from "coral-ui/components/v2";
+import { Flex, FormField, Label, TextField } from "coral-ui/components/v2";
 
 interface Props {
   description?: React.ReactNode;
@@ -18,7 +17,7 @@ const RedirectField: FunctionComponent<Props> = ({ url, description }) => (
     {description}
     <Flex direction="row" itemGutter="half" alignItems="center">
       <TextField name="redirectURI" value={url} fullWidth readOnly />
-      <CopyButton size="medium" text={url} />
+      <CopyButton size="small" text={url} />
     </Flex>
   </FormField>
 );

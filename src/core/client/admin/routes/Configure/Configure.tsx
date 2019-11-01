@@ -4,7 +4,7 @@ import React, { FunctionComponent } from "react";
 import { Form, FormSpy } from "react-final-form";
 
 import MainLayout from "coral-admin/components/MainLayout";
-import { Button, CallOut, HorizontalGutter } from "coral-ui/components";
+import { Button, CallOut, HorizontalGutter } from "coral-ui/components/v2";
 
 import Layout from "./Layout";
 import Link from "./Link";
@@ -61,7 +61,6 @@ const Configure: FunctionComponent<Props> = ({
                 <Localized id="configure-sideBar-saveChanges">
                   <Button
                     data-testid="configure-sideBar-saveChanges"
-                    color="success"
                     variant="filled"
                     type="submit"
                     disabled={submitting || pristine}

@@ -9,12 +9,12 @@ import {
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
-import { HorizontalGutter } from "coral-ui/components";
 import {
   FieldSet,
   FormField,
   FormFieldDescription,
   HelperText,
+  HorizontalGutter,
   Label,
 } from "coral-ui/components/v2";
 

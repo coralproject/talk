@@ -5,13 +5,13 @@ import { Field } from "react-final-form";
 import { MarkdownEditor } from "coral-framework/components/loadables";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { Spinner } from "coral-ui/components";
 import {
   FieldSet,
   FormField,
   FormFieldHeader,
   HelperText,
   Label,
+  Spinner,
 } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";

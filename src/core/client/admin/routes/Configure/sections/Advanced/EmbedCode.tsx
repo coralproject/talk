@@ -5,10 +5,10 @@ import React, { FunctionComponent, useMemo } from "react";
 import { CopyButton } from "coral-framework/components";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { getLocationOrigin } from "coral-framework/utils";
-import { HorizontalGutter } from "coral-ui/components";
 import {
   FieldSet,
   FormFieldDescription,
+  HorizontalGutter,
   Textarea,
 } from "coral-ui/components/v2";
 

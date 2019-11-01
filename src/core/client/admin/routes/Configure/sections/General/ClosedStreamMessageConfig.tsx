@@ -4,8 +4,7 @@ import { Field } from "react-final-form";
 
 import { MarkdownEditor } from "coral-framework/components/loadables";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
-import { Spinner } from "coral-ui/components";
-import { FormFieldDescription } from "coral-ui/components/v2";
+import { FormFieldDescription, Spinner } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";

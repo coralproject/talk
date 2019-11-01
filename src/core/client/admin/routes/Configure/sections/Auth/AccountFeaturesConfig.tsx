@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Flex } from "coral-ui/components";
 import {
+  Flex,
   FormField,
   FormFieldDescription,
   FormFieldHeader,

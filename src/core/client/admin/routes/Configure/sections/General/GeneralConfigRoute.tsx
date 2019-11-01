@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 
 import { loadMarkdownEditor } from "coral-framework/components/loadables";
 import { withRouteConfig } from "coral-framework/lib/router";
-import { Delay, Spinner } from "coral-ui/components";
+import { Delay, Spinner } from "coral-ui/components/v2";
 
 import { GeneralConfigRouteQueryResponse } from "coral-admin/__generated__/GeneralConfigRouteQuery.graphql";
 
