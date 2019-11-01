@@ -81,7 +81,9 @@ exports[`renders approved correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
+          spacing={3}
+        >
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}
@@ -207,7 +209,9 @@ exports[`renders correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
+          spacing={3}
+        >
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}
@@ -333,7 +337,9 @@ exports[`renders dangling correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
+          spacing={3}
+        >
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}
@@ -459,7 +465,9 @@ exports[`renders rejected correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
+          spacing={3}
+        >
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}
@@ -594,7 +602,9 @@ exports[`renders reply correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
+          spacing={3}
+        >
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}
@@ -720,7 +730,9 @@ exports[`renders story info 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
+          spacing={3}
+        >
           <div>
             <div
               className="ModerateCard-storyLabel"
@@ -859,9 +871,11 @@ exports[`renders tombstoned when comment is deleted 1`] = `
           <Localized
             id="moderate-comment-deleted-body"
           >
-            <ForwardRef(forwardRef)>
+            <div
+              className="ModerateCard-deleted"
+            >
               This comment is no longer available. The commenter has deleted their account.
-            </ForwardRef(forwardRef)>
+            </div>
           </Localized>
         </CommentContent>
         <div
@@ -886,7 +900,9 @@ exports[`renders tombstoned when comment is deleted 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
+          spacing={3}
+        >
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}

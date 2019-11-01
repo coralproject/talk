@@ -17,13 +17,9 @@ exports[`renders correctly 1`] = `
     </Info>
   </Localized>
   <Footer>
-    <ForwardRef(forwardRef)
-      variant="timestamp"
-    >
-      <DecisionHistory>
-        2018-07-06T18:24:00.000Z
-      </DecisionHistory>
-    </ForwardRef(forwardRef)>
+    <DecisionHistory>
+      2018-07-06T18:24:00.000Z
+    </DecisionHistory>
     <Footer />
     <GoToCommentLink
       href="#"

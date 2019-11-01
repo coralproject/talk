@@ -95,8 +95,8 @@ exports[`renders configure moderation 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
-            data-color="success"
+            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase Button-disabled"
+            data-color="default"
             data-testid="configure-sideBar-saveChanges"
             data-variant="filled"
             disabled={true}

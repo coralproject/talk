@@ -35,7 +35,7 @@ exports[`renders community 1`] = `
               >
                 <input
                   aria-label="Search by username or email address"
-                  className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
+                  className="TextField-input TextField-colorDark TextField-seamlessAdornment"
                   name="search"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -49,8 +49,8 @@ exports[`renders community 1`] = `
                 >
                   <button
                     aria-label="Search"
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment UserTableFilter-adornment"
-                    data-color="dark"
+                    className="BaseButton-root Button-root Button-sizeMedium Button-colorEmphasis Button-variantAdornment Button-uppercase UserTableFilter-adornment"
+                    data-color="emphasis"
                     data-variant="adornment"
                     onBlur={[Function]}
                     onFocus={[Function]}
@@ -366,9 +366,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain UserRoleChange-button"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -464,9 +464,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain UserRoleChange-button"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -562,9 +562,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain UserRoleChange-button"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -695,7 +695,7 @@ exports[`renders empty community 1`] = `
               >
                 <input
                   aria-label="Search by username or email address"
-                  className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
+                  className="TextField-input TextField-colorDark TextField-seamlessAdornment"
                   name="search"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -709,8 +709,8 @@ exports[`renders empty community 1`] = `
                 >
                   <button
                     aria-label="Search"
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment UserTableFilter-adornment"
-                    data-color="dark"
+                    className="BaseButton-root Button-root Button-sizeMedium Button-colorEmphasis Button-variantAdornment Button-uppercase UserTableFilter-adornment"
+                    data-color="emphasis"
                     data-variant="adornment"
                     onBlur={[Function]}
                     onFocus={[Function]}
@@ -918,11 +918,11 @@ exports[`renders empty community 1`] = `
           className="TableBody-root"
         />
       </table>
-      <p
-        className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary Typography-alignCenter EmptyMessage-root"
+      <div
+        className="EmptyMessage-root"
       >
         We could not find anyone in your community matching your criteria.
-      </p>
+      </div>
     </div>
   </div>
 </div>
