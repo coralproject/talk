@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { RelativeTime } from "coral-ui/components";
+import { RelativeTime } from "coral-ui/components/v2";
 
 import styles from "./Timestamp.css";
 
