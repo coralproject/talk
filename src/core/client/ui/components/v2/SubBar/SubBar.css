@@ -1,6 +1,9 @@
+$sub-bar-background: var(--v2-colors-pure-white);
+$sub-bar-border: var(--v2-colors-grey-300);
+
 .root {
-  background-color: var(--v2-colors-pure-white);
-  height: calc(6 * var(--mini-unit));
+  background-color: $sub-bar-background;
+  border-bottom: 1px solid $sub-bar-border;
 }
 
 .container {

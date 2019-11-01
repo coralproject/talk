@@ -1,6 +1,5 @@
 .root {
   height: 100%;
-  border-bottom: 1px solid var(--v2-palette-divider);
   padding: 0 calc(1.5 * var(--mini-unit));
 }
 

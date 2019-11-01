@@ -15,8 +15,8 @@
   color: $story-search-group-foreground;
 
   font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-semi-bold);
-  font-size: var(--v2-font-size-3);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
   line-height: 1.25;
   text-transform: uppercase;
 }
