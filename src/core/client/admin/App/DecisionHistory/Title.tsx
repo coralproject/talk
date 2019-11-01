@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Icon } from "coral-ui/components";
+import { Flex, Icon } from "coral-ui/components/v2";
 
 import styles from "./Title.css";
 

@@ -1,8 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Typography } from "coral-ui/components";
-
 import DecisionItem from "./DecisionItem";
 import DotDivider from "./DotDivider";
 import Footer from "./Footer";
@@ -28,9 +26,7 @@ const RejectedComment: FunctionComponent<Props> = props => (
       <Info>{"Rejected comment by <Username></Username>"}</Info>
     </Localized>
     <Footer>
-      <Typography variant="timestamp">
-        <Timestamp>{props.date}</Timestamp>
-      </Typography>
+      <Timestamp>{props.date}</Timestamp>
       <DotDivider />
       <GoToCommentLink href={props.href} onClick={props.onGotoComment} />
     </Footer>

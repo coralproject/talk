@@ -1,8 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Typography } from "coral-ui/components";
-
 import ApprovedIcon from "./ApprovedIcon";
 import DecisionItem from "./DecisionItem";
 import DotDivider from "./DotDivider";
@@ -28,9 +26,7 @@ const ApprovedComment: FunctionComponent<Props> = props => (
       <Info>{"Approved comment by <Username></Username>"}</Info>
     </Localized>
     <Footer>
-      <Typography variant="timestamp">
-        <Timestamp>{props.date}</Timestamp>
-      </Typography>
+      <Timestamp>{props.date}</Timestamp>
       <DotDivider />
       <GoToCommentLink href={props.href} onClick={props.onGotoComment} />
     </Footer>
