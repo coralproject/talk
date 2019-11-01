@@ -3,11 +3,10 @@ import React, { FunctionComponent, useMemo } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-
 import {
+  BaseButton,
   Box,
   ClickOutside,
-  BaseButton,
   Icon,
   Popover,
 } from "coral-ui/components/v2";
