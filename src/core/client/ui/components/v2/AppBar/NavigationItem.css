@@ -23,6 +23,7 @@ $main-nav-hover-text: var(--v2-colors-mono-500);
 
   &:hover {
     cursor: pointer;
+    color: $main-nav-hover-text;
     background-color: $main-nav-hover-background;
   }
 }
