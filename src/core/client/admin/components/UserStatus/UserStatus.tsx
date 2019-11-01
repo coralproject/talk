@@ -2,7 +2,7 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Flex } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
 
 import styles from "./UserStatus.css";
 

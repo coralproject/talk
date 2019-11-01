@@ -2,9 +2,14 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { ClickOutside, DropdownButton } from "coral-ui/components";
-
-import { Button, ButtonIcon, Dropdown, Popover } from "coral-ui/components/v2";
+import {
+  Button,
+  ButtonIcon,
+  Dropdown,
+  Popover,
+  ClickOutside,
+  DropdownButton,
+} from "coral-ui/components/v2";
 
 import styles from "./UserStatusChange.css";
 
