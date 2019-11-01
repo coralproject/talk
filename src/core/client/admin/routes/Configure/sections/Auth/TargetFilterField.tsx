@@ -3,8 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { parseBool } from "coral-framework/lib/form";
-import { Flex } from "coral-ui/components";
-import { CheckBox, FormField, Label } from "coral-ui/components/v2";
+import { CheckBox, Flex, FormField, Label } from "coral-ui/components/v2";
 
 interface Props {
   label: React.ReactNode;

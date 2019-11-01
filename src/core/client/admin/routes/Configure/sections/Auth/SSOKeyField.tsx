@@ -1,8 +1,14 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Button, Flex, Icon } from "coral-ui/components";
-import { FormField, Label, PasswordField } from "coral-ui/components/v2";
+import {
+  Button,
+  Flex,
+  FormField,
+  Icon,
+  Label,
+  PasswordField,
+} from "coral-ui/components/v2";
 
 import HelperText from "../../HelperText";
 
@@ -55,7 +61,6 @@ const SSOKeyField: FunctionComponent<Props> = ({
       <Button
         id="configure-auth-sso-regenerate"
         variant="filled"
-        color="primary"
         size="small"
         disabled={disabled}
         onClick={onRegenerate}

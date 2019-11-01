@@ -20,13 +20,13 @@ import {
   validateURL,
   validateWhen,
 } from "coral-framework/lib/validation";
-import { HorizontalGutter } from "coral-ui/components";
 import {
   FieldSet,
   FormField,
   FormFieldDescription,
   FormFieldHeader,
   HelperText,
+  HorizontalGutter,
   Label,
   TextFieldAdornment,
 } from "coral-ui/components/v2";

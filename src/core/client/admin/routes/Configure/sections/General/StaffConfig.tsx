@@ -3,12 +3,14 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { required } from "coral-framework/lib/validation";
-import { Flex, HorizontalGutter, Tag } from "coral-ui/components";
 import {
   FieldSet,
+  Flex,
   FormField,
   FormFieldDescription,
+  HorizontalGutter,
   Label,
+  Tag,
 } from "coral-ui/components/v2";
 
 import { StaffConfigContainer_settings as SettingsData } from "coral-admin/__generated__/StaffConfigContainer_settings.graphql";

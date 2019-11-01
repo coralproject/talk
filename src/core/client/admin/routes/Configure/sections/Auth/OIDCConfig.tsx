@@ -9,14 +9,16 @@ import {
   required,
   validateURL,
 } from "coral-framework/lib/validation";
-import { Button, Flex, TextLink } from "coral-ui/components";
 import {
+  Button,
+  Flex,
   FormField,
   FormFieldDescription,
   FormFieldHeader,
   HelperText,
   Label,
   TextField,
+  TextLink,
 } from "coral-ui/components/v2";
 
 import Header from "../../Header";
@@ -149,7 +151,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
                     <Button
                       id="configure-auth-oidc-discover"
                       variant="filled"
-                      color="primary"
+                      size="small"
                       disabled={disabledInside || disableForDiscover}
                       onClick={onDiscover}
                     >

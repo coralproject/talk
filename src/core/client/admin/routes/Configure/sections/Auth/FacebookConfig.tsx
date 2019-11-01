@@ -6,8 +6,7 @@ import {
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
-import { TextLink } from "coral-ui/components";
-import { FormFieldDescription } from "coral-ui/components/v2";
+import { FormFieldDescription, TextLink } from "coral-ui/components/v2";
 
 import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import UserBoxContainer from "coral-stream/common/UserBox";
-import { HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 import ConfigureStreamContainer from "./ConfigureStream";
 import HorizontalRule from "./HorizontalRule";
