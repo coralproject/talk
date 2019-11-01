@@ -1,3 +1,10 @@
+$main-nav-text: var(--v2-colors-mono-100);
+$main-nav-background: var(--v2-colors-pure-white);
+$main-nav-hover-background: var(--v2-colors-coral-200);
+$main-nav-active-background: var(--v2-colors-coral-500);
+$main-nav-active-text: var(--v2-colors-pure-white);
+$main-nav-hover-text: var(--v2-colors-mono-500);
+
 .root {
 }
 
@@ -7,7 +14,7 @@
   font-size: var(--v2-font-size-3);
   text-transform: uppercase;
 
-  color: var(--v2-palette-main-nav-text-default);
+  color: $main-nav-text;
   height: 100%;
   display: inline-flex;
   align-items: center;
@@ -16,8 +23,7 @@
 
   &:hover {
     cursor: pointer;
-
-    background-color: var(--v2-palette-main-nav-background-hover);
+    background-color: $main-nav-hover-background;
   }
 }
 
@@ -27,11 +33,12 @@
   font-size: var(--v2-font-size-3);
   text-transform: uppercase;
 
-  background-color: var(--v2-palette-main-nav-background-active);
+  background-color: $main-nav-active-background;
   text-decoration: none;
-  color: var(--v2-palette-main-nav-text-active);
+  color: $main-nav-active-text;
 
   &:hover {
-    background-color: var(--v2-palette-main-nav-background-active);
+    color: $main-nav-active-text;
+    background-color: $main-nav-active-background;
   }
 }
