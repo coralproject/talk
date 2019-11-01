@@ -3,9 +3,14 @@ import React, { FunctionComponent, useMemo } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { Box, ClickOutside } from "coral-ui/components";
 
-import { BaseButton, Icon, Popover } from "coral-ui/components/v2";
+import {
+  Box,
+  ClickOutside,
+  BaseButton,
+  Icon,
+  Popover,
+} from "coral-ui/components/v2";
 
 import { UserStatusDetailsContainer_user as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
 

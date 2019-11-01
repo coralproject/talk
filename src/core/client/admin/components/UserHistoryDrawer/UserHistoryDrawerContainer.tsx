@@ -5,8 +5,13 @@ import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { Flex, HorizontalGutter } from "coral-ui/components";
-import { Button, Divider, Icon } from "coral-ui/components/v2";
+import {
+  Button,
+  Divider,
+  Flex,
+  HorizontalGutter,
+  Icon,
+} from "coral-ui/components/v2";
 
 import { UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
 import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";

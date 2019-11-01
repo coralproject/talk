@@ -3,10 +3,10 @@ import React, { FunctionComponent } from "react";
 
 import TranslatedRole from "coral-admin/components/TranslatedRole";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
-import { ClickOutside } from "coral-ui/components";
 import {
   Button,
   ButtonIcon,
+  ClickOutside,
   Dropdown,
   DropdownButton,
   Popover,
