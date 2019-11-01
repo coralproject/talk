@@ -8,6 +8,7 @@ export { default as UIContext, UIContextProps } from "./UIContext";
 export { default as ClickOutside } from "./ClickOutside";
 export { default as Box } from "./Box";
 export { default as Flex } from "./Flex";
+export { default as Delay } from "./Delay";
 export { default as Popover } from "./Popover";
 export { default as Tag } from "./Tag";
 export { default as Divider } from "./Divider";
