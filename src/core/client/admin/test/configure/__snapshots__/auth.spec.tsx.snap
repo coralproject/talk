@@ -96,7 +96,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
             data-color="default"
             data-variant="filled"
             onBlur={[Function]}
@@ -278,8 +278,8 @@ the remaining fields. You may also enter the information manually.
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase Button-disabled"
+            data-color="default"
             data-variant="filled"
             disabled={true}
             id="configure-auth-oidc-discover"
@@ -612,7 +612,7 @@ For more information visit:
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
             data-color="default"
             data-variant="filled"
             onBlur={[Function]}
@@ -928,7 +928,7 @@ exports[`change settings: enable oidc configure box 1`] = `
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
             data-color="default"
             data-variant="filled"
             onBlur={[Function]}
@@ -1110,8 +1110,8 @@ the remaining fields. You may also enter the information manually.
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             disabled={false}
             id="configure-auth-oidc-discover"
@@ -1440,7 +1440,7 @@ exports[`change settings: oidc validation errors 1`] = `
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
             data-color="default"
             data-variant="filled"
             onBlur={[Function]}
@@ -1661,8 +1661,8 @@ the remaining fields. You may also enter the information manually.
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             disabled={false}
             id="configure-auth-oidc-discover"
@@ -2032,8 +2032,8 @@ and all signed-in users will be signed out.
     </div>
   </div>
   <button
-    className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled SSOKeyField-regenerateButton"
-    data-color="primary"
+    className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase SSOKeyField-regenerateButton"
+    data-color="default"
     data-variant="filled"
     disabled={false}
     id="configure-auth-sso-regenerate"
@@ -2145,8 +2145,8 @@ exports[`renders configure auth 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
-            data-color="success"
+            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase Button-disabled"
+            data-color="default"
             data-testid="configure-sideBar-saveChanges"
             data-variant="filled"
             disabled={true}
@@ -2797,7 +2797,7 @@ integration to register for a new account.
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
                           data-color="default"
                           data-variant="filled"
                           onBlur={[Function]}
@@ -2979,8 +2979,8 @@ the remaining fields. You may also enter the information manually.
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
-                          data-color="primary"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase Button-disabled"
+                          data-color="default"
                           data-variant="filled"
                           disabled={true}
                           id="configure-auth-oidc-discover"
@@ -3333,8 +3333,8 @@ and all signed-in users will be signed out.
                         </div>
                       </div>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled SSOKeyField-regenerateButton"
-                        data-color="primary"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase Button-disabled SSOKeyField-regenerateButton"
+                        data-color="default"
                         data-variant="filled"
                         disabled={true}
                         id="configure-auth-sso-regenerate"
@@ -3565,7 +3565,7 @@ to create and set up a web application. For more information visit:
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
                           data-color="default"
                           data-variant="filled"
                           onBlur={[Function]}
@@ -3882,7 +3882,7 @@ For more information visit:
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
                           data-color="default"
                           data-variant="filled"
                           onBlur={[Function]}

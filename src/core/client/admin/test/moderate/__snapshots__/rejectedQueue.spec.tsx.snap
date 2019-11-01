@@ -88,7 +88,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         className="ModerateCard-contentArea"
       >
         <div
-          className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+          className="ModerateCard-content CommentContent-root"
           dangerouslySetInnerHTML={
             Object {
               "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -120,7 +120,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         className="ModerateCard-footer"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
         >
           <div>
             <div
@@ -170,9 +170,9 @@ exports[`approves comment in rejected queue: dangling 1`] = `
               <button
                 aria-controls="uuid-0"
                 aria-expanded={false}
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Markers-detailsButtonColorRegular Button-variantRegular Markers-detailsButton"
-                data-color="regular"
-                data-variant="regular"
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Markers-detailsButtonColorRegular Button-variantDefault Markers-detailsButton Button-uppercase"
+                data-color="default"
+                data-variant="default"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -338,7 +338,7 @@ exports[`renders rejected queue with comments 1`] = `
               className="ModerateCard-contentArea"
             >
               <div
-                className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+                className="ModerateCard-content CommentContent-root"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
@@ -370,7 +370,7 @@ exports[`renders rejected queue with comments 1`] = `
               className="ModerateCard-footer"
             >
               <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
               >
                 <div>
                   <div
@@ -420,9 +420,9 @@ exports[`renders rejected queue with comments 1`] = `
                     <button
                       aria-controls="uuid-0"
                       aria-expanded={false}
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Markers-detailsButtonColorRegular Button-variantRegular Markers-detailsButton"
-                      data-color="regular"
-                      data-variant="regular"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Markers-detailsButtonColorRegular Button-variantDefault Markers-detailsButton Button-uppercase"
+                      data-color="default"
+                      data-variant="default"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -575,7 +575,7 @@ exports[`renders rejected queue with comments 1`] = `
               className="ModerateCard-contentArea"
             >
               <div
-                className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+                className="ModerateCard-content CommentContent-root"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "Don't fool with me",
@@ -607,7 +607,7 @@ exports[`renders rejected queue with comments 1`] = `
               className="ModerateCard-footer"
             >
               <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
               >
                 <div>
                   <div
@@ -657,9 +657,9 @@ exports[`renders rejected queue with comments 1`] = `
                     <button
                       aria-controls="uuid-1"
                       aria-expanded={false}
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Markers-detailsButtonColorRegular Button-variantRegular Markers-detailsButton"
-                      data-color="regular"
-                      data-variant="regular"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Markers-detailsButtonColorRegular Button-variantDefault Markers-detailsButton Button-uppercase"
+                      data-color="default"
+                      data-variant="default"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -818,7 +818,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
         className="ModerateCard-contentArea"
       >
         <div
-          className="Box-root Typography-root Typography-bodyCopy ModerateCard-content CommentContent-root"
+          className="ModerateCard-content CommentContent-root"
           dangerouslySetInnerHTML={
             Object {
               "__html": "I think I deserve better",
@@ -850,7 +850,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
         className="ModerateCard-footer"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
         >
           <div>
             <div
@@ -913,9 +913,9 @@ exports[`renders rejected queue with comments and load more 1`] = `
               <button
                 aria-controls="uuid-2"
                 aria-expanded={false}
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Markers-detailsButtonColorRegular Button-variantRegular Markers-detailsButton"
-                data-color="regular"
-                data-variant="regular"
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Markers-detailsButtonColorRegular Button-variantDefault Markers-detailsButton Button-uppercase"
+                data-color="default"
+                data-variant="default"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
