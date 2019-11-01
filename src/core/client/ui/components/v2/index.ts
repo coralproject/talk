@@ -9,6 +9,8 @@ export {
 } from "./AppBar";
 export { default as Backdrop } from "./Backdrop";
 export { default as BaseButton } from "./BaseButton";
+export { default as UIContext, UIContextProps } from "./UIContext";
+export { default as ClickOutside } from "./ClickOutside";
 export { default as Box } from "./Box";
 export { default as Button } from "./Button";
 export { default as ButtonIcon } from "./Button/ButtonIcon";
