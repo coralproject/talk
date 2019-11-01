@@ -34,6 +34,7 @@ export { default as RadioButton } from "./RadioButton";
 export { default as HelperText } from "./HelperText";
 export { default as CheckBox } from "./CheckBox";
 export { default as FieldSet } from "./FieldSet";
+export { default as RelativeTime, RelativeTimeProps } from "./RelativeTime";
 export { default as Textarea } from "./Textarea";
 export { default as FormFieldDescription } from "./FormFieldDescription";
 export { default as PasswordField } from "./PasswordField";
