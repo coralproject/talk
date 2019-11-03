@@ -74,7 +74,7 @@ const scraper = {
       agent,
     });
     const html = await res.text();
-    
+
     if (!res.ok) {
       let err = new Error(res.statusText);
       err.response = res;
