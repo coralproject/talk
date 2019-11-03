@@ -74,6 +74,12 @@ const scraper = {
       agent,
     });
     const html = await res.text();
+    
+    if (!res.ok) {
+      let err = new Error(res.statusText)
+      err.response = res
+      throw err
+    }
 
     // Get the metadata from the scraped html.
     const meta = await metascraper({
