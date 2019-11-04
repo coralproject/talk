@@ -50,7 +50,7 @@ const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
 
 const queryFilter = (query?: string): CommentConnectionInput["filter"] => {
   if (query) {
-    return { $text: { $search: `"${query}"` } };
+    return { $text: { $search: JSON.stringify(query) } };
   }
 
   return {};
