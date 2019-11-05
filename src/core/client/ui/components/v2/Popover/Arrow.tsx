@@ -1,14 +1,18 @@
 import cn from "classnames";
-import React from "react";
+import React, { FunctionComponent, Ref } from "react";
+
+import { withForwardRef } from "coral-ui/hocs";
 
 import styles from "./Arrow.css";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   dark?: boolean;
+  forwardRef?: Ref<HTMLDivElement>;
 }
 
-const Arrow = React.forwardRef<HTMLDivElement, Props>(
-  ({ className, dark, ...rest }, ref) => (
+const Arrow: FunctionComponent<Props> = props => {
+  const { className, dark, forwardRef: ref, ...rest } = props;
+  return (
     <div
       {...rest}
       className={cn(className, styles.root, {
@@ -16,7 +20,7 @@ const Arrow = React.forwardRef<HTMLDivElement, Props>(
       })}
       ref={ref}
     />
-  )
-);
+  );
+};
 
-export default Arrow;
+export default withForwardRef(Arrow);
