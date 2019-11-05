@@ -229,7 +229,7 @@ exports[`renders empty stories 1`] = `
                   aria-hidden={true}
                   aria-labelledby="stories-statusChange-ariainfo"
                   id="stories-statusChange"
-                  role="popup"
+                  role="dialog"
                 >
                   <div
                     className="AriaInfo-root"
@@ -300,7 +300,7 @@ exports[`renders empty stories 1`] = `
                   aria-hidden={true}
                   aria-labelledby="stories-statusChange-ariainfo"
                   id="stories-statusChange"
-                  role="popup"
+                  role="dialog"
                 >
                   <div
                     className="AriaInfo-root"
@@ -548,7 +548,7 @@ exports[`renders stories 1`] = `
                   aria-hidden={true}
                   aria-labelledby="stories-statusChange-ariainfo"
                   id="stories-statusChange"
-                  role="popup"
+                  role="dialog"
                 >
                   <div
                     className="AriaInfo-root"
@@ -619,7 +619,7 @@ exports[`renders stories 1`] = `
                   aria-hidden={true}
                   aria-labelledby="stories-statusChange-ariainfo"
                   id="stories-statusChange"
-                  role="popup"
+                  role="dialog"
                 >
                   <div
                     className="AriaInfo-root"
