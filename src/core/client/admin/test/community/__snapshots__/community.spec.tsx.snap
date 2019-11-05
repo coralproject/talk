@@ -641,7 +641,7 @@ exports[`renders community 1`] = `
                   aria-hidden={true}
                   aria-labelledby="community-statusChange-ariainfo"
                   id="community-statusChange"
-                  role="dialog"
+                  role="popup"
                 >
                   <div
                     className="AriaInfo-root"

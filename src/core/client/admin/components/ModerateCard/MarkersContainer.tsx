@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 
 import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
 import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
-import { Marker, MarkerCount } from "coral-admin/ui/components";
+import { Marker, MarkerCount } from "coral-ui/components/v2";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import Markers from "./Markers";
 import ModerateCardDetailsContainer from "./ModerateCardDetailsContainer";
