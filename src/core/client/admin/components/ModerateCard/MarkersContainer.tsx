@@ -80,7 +80,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_REPEAT_POST && (
         <Localized id="moderate-marker-repeatPost" key={keyCounter++}>
-          <Marker color="error">Repeat comment</Marker>
+          <Marker color="reported">Repeat comment</Marker>
         </Localized>
       )) ||
     null,
