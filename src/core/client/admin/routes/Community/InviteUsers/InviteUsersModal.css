@@ -1,4 +1,4 @@
-$ban-modal-text: var(--v2-colors-mono-500);
+$invite-modal-text: var(--v2-colors-mono-500);
 
 .root {
   width: 400px;
@@ -11,7 +11,7 @@ $ban-modal-text: var(--v2-colors-mono-500);
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-semi-bold);
   line-height: var(--v2-line-height-title);
-  color: $ban-modal-text;
+  color: $invite-modal-text;
   margin: 0;
 }
 
