@@ -264,9 +264,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular UserRow-usernameButton"
-                data-color="primary"
-                data-variant="regular"
+                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
+                data-color="default"
+                data-variant="plain"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -310,17 +310,13 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-statusColumn TableCell-body"
             >
               <div
-                className="ButtonPadding-root"
+                className="UserStatus-root UserStatus-success"
               >
                 <div
-                  className="UserStatus-success"
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                 >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
-                  >
-                    <div>
-                      Active
-                    </div>
+                  <div>
+                    Active
                   </div>
                 </div>
               </div>
@@ -333,9 +329,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular UserRow-usernameButton"
-                data-color="primary"
-                data-variant="regular"
+                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
+                data-color="default"
+                data-variant="plain"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -412,17 +408,13 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-statusColumn TableCell-body"
             >
               <div
-                className="ButtonPadding-root"
+                className="UserStatus-root UserStatus-success"
               >
                 <div
-                  className="UserStatus-success"
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                 >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
-                  >
-                    <div>
-                      Active
-                    </div>
+                  <div>
+                    Active
                   </div>
                 </div>
               </div>
@@ -435,9 +427,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular UserRow-usernameButton"
-                data-color="primary"
-                data-variant="regular"
+                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
+                data-color="default"
+                data-variant="plain"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -514,17 +506,13 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-statusColumn TableCell-body"
             >
               <div
-                className="ButtonPadding-root"
+                className="UserStatus-root UserStatus-success"
               >
                 <div
-                  className="UserStatus-success"
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                 >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
-                  >
-                    <div>
-                      Active
-                    </div>
+                  <div>
+                    Active
                   </div>
                 </div>
               </div>
@@ -537,9 +525,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular UserRow-usernameButton"
-                data-color="primary"
-                data-variant="regular"
+                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
+                data-color="default"
+                data-variant="plain"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -620,9 +608,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change user status"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserStatusChange-button UserStatusChange-fullWidth"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeMedium Button-colorMono Button-variantPlain UserStatusChange-button UserStatusChange-fullWidth"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -632,7 +620,7 @@ exports[`renders community 1`] = `
                   type="button"
                 >
                   <div
-                    className="UserStatus-success"
+                    className="UserStatus-root UserStatus-success"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"

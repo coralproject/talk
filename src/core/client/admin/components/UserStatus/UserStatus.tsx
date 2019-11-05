@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
@@ -12,7 +13,7 @@ interface Props {
 }
 
 const render = (className: string, content: React.ReactNode) => (
-  <div className={className}>
+  <div className={cn(styles.root, className)}>
     <Flex alignItems="center" itemGutter="half">
       {content}
     </Flex>

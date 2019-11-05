@@ -2,14 +2,9 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import {
-  Button,
-  ButtonIcon,
-  ClickOutside,
-  Dropdown,
-  DropdownButton,
-  Popover,
-} from "coral-ui/components";
+import { ClickOutside, DropdownButton } from "coral-ui/components";
+
+import { Button, ButtonIcon, Dropdown, Popover } from "coral-ui/components/v2";
 
 import styles from "./UserStatusChange.css";
 
@@ -25,6 +20,7 @@ interface Props {
   premod: boolean;
   children: React.ReactNode;
   fullWidth?: boolean;
+  bordered?: boolean;
 }
 
 const UserStatusChange: FunctionComponent<Props> = ({
@@ -39,6 +35,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
   premod,
   children,
   fullWidth = true,
+  bordered = false,
 }) => (
   <Localized id="community-userStatus-popover" attrs={{ description: true }}>
     <Popover
@@ -134,11 +131,15 @@ const UserStatusChange: FunctionComponent<Props> = ({
         >
           <Button
             aria-label="Change user status"
-            className={cn(styles.button, { [styles.fullWidth]: fullWidth })}
+            className={cn(styles.button, {
+              [styles.fullWidth]: fullWidth,
+              [styles.bordered]: bordered,
+            })}
             onClick={toggleVisibility}
             ref={ref}
-            variant="regular"
-            size="small"
+            color="mono"
+            uppercase={false}
+            variant="plain"
           >
             {children}
             {

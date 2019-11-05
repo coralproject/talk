@@ -5,7 +5,7 @@
   line-height: var(--v2-line-height-reset);
   letter-spacing: calc(0.2em / 14);
   border-radius: var(--round-corners);
-  padding: 2px 3px 3px 3px;
+  padding: 1px 3px 1px 3px;
   color: inherit;
 }
 
@@ -42,7 +42,6 @@
 .colorError {
   background-color: var(--palette-error-darkest);
 }
-
 
 .colorEmphasis {
   background-color: var(--v2-palette-counter-badge-background-emphasis);

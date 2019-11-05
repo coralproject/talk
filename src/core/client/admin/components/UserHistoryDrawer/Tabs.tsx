@@ -9,7 +9,7 @@ import {
   TabBar,
   TabContent,
   TabPane,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import UserDrawerAccountHistoryQuery from "./UserDrawerAccountHistoryQuery";
 import UserDrawerNotesQuery from "./UserDrawerNotesQuery";
@@ -48,7 +48,8 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID, notesCount }) => {
         className={styles.tabBar}
       >
         <Tab tabID="ALL_COMMENTS" onTabClick={onTabChanged}>
-          <div
+          <Flex
+            alignItems="center"
             className={cn(styles.tab, {
               [styles.activeTab]: currentTab === "ALL_COMMENTS",
             })}
@@ -59,24 +60,26 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID, notesCount }) => {
             <Localized id="moderate-user-drawer-tab-all-comments">
               <span>All Comments</span>
             </Localized>
-          </div>
+          </Flex>
         </Tab>
         <Tab tabID="REJECTED_COMMENTS" onTabClick={onTabChanged}>
-          <div
+          <Flex
+            alignItems="center"
             className={cn(styles.tab, {
               [styles.activeTab]: currentTab === "REJECTED_COMMENTS",
             })}
           >
             <Icon size="sm" className={styles.tabIcon}>
-              cancel
+              close
             </Icon>
             <Localized id="moderate-user-drawer-tab-rejected-comments">
               <span>Rejected</span>
             </Localized>
-          </div>
+          </Flex>
         </Tab>
         <Tab tabID="NOTES" onTabClick={onTabChanged}>
-          <div
+          <Flex
+            alignItems="center"
             className={cn(styles.tab, {
               [styles.activeTab]: currentTab === "NOTES",
             })}
@@ -90,13 +93,14 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID, notesCount }) => {
               </Localized>
               {notesCount > 0 && <div className={styles.redDot} />}
             </Flex>
-          </div>
+          </Flex>
         </Tab>
         <Tab tabID="ACCOUNT_HISTORY" onTabClick={onTabChanged}>
-          <div
+          <Flex
             className={cn(styles.tab, {
               [styles.activeTab]: currentTab === "ACCOUNT_HISTORY",
             })}
+            alignItems="center"
           >
             <Icon size="sm" className={styles.tabIcon}>
               history
@@ -104,7 +108,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID, notesCount }) => {
             <Localized id="moderate-user-drawer-tab-account-history">
               <span>Account History</span>
             </Localized>
-          </div>
+          </Flex>
         </Tab>
       </TabBar>
       <TabContent activeTab={currentTab} className={styles.tabContent}>

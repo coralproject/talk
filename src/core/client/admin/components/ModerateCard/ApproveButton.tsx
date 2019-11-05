@@ -3,7 +3,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { BaseButton, Icon } from "coral-ui/components";
+import { BaseButton, Icon } from "coral-ui/components/v2";
 
 import styles from "./ApproveButton.css";
 

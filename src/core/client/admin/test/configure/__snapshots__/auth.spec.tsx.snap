@@ -96,8 +96,8 @@ exports[`change settings: during submit: oidc without errors 1`] = `
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
@@ -612,8 +612,8 @@ For more information visit:
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
@@ -928,8 +928,8 @@ exports[`change settings: enable oidc configure box 1`] = `
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
@@ -1440,8 +1440,8 @@ exports[`change settings: oidc validation errors 1`] = `
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
@@ -2796,8 +2796,8 @@ integration to register for a new account.
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                          data-color="primary"
+                          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+                          data-color="default"
                           data-variant="filled"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -3563,8 +3563,8 @@ to create and set up a web application. For more information visit:
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                          data-color="primary"
+                          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+                          data-color="default"
                           data-variant="filled"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -3880,8 +3880,8 @@ For more information visit:
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                          data-color="primary"
+                          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+                          data-color="default"
                           data-variant="filled"
                           onBlur={[Function]}
                           onClick={[Function]}

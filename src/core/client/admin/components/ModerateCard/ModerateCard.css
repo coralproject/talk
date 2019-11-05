@@ -51,8 +51,7 @@
 }
 
 .content {
-  min-height: 80px;
-  min-width: 496px;
+  min-height: 3em;
 }
 
 .aside {
@@ -85,7 +84,7 @@
 .decision {
   color: var(--v2-palette-label-emphasis);
   font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-weight: var(--v2-font-weight-primary-bold);
   font-family: var(--v2-font-family-primary);
   line-height: 1.14;
   text-transform: uppercase;
@@ -100,7 +99,7 @@
 }
 
 .ruledSeparator {
-  border-right: 1px solid var(--v2-palette-divider);
+  border-right: 1px solid var(--v2-colors-grey-400);
 }
 
 .root {
@@ -151,6 +150,7 @@
 .borderless {
   border-width: 0px;
   box-shadow: none;
+  padding: var(--v2-spacing-2) 0;
 }
 
 .miniButton {
@@ -171,8 +171,12 @@
 }
 
 .edited {
-  color: var(--palette-grey-lighter);
-  padding-left: var(--spacing-2);
+  color: var(--v2-palette-timestamp);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-1);
+  line-height: var(--v2-line-height-reset);
+  padding-left: var(--v2-spacing-2);
 }
 
 .selected {

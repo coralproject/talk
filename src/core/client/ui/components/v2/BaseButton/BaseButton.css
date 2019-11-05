@@ -7,7 +7,6 @@
   touch-action: manipulation;
   padding: 0;
   margin: 0;
-  overflow: hidden;
 
   /* Unify anchor and button. */
   cursor: pointer;

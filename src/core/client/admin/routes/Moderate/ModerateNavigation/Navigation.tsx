@@ -5,7 +5,7 @@ import key from "keymaster";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 
 import { getModerationLink } from "coral-admin/helpers";
-import { Counter, Icon, SubBarNavigation } from "coral-ui/components";
+import { Counter, Icon, SubBarNavigation } from "coral-ui/components/v2";
 
 import NavigationLink from "./NavigationLink";
 

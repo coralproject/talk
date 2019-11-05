@@ -549,7 +549,7 @@ moderate-user-drawer-recent-history-tooltip-submitted = Submitted
 moderate-user-drawer-notes-field =
   .placeholder = Leave a note...
 moderate-user-drawer-notes-button = Add note
-moderatorNote-left-by = Left by:
+moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
 
 ## Create Username
