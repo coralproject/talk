@@ -17,9 +17,11 @@ type IndexCreationFunction<T> = (
   indexOptions?: IndexOptions
 ) => Promise<string>;
 
-export function createIndexFactory<T>(
-  collection: Collection<T>
-): IndexCreationFunction<T> {
+export async function createIndex<T>(
+  collection: Collection<T>,
+  indexSpec: IndexSpecification<T>,
+  indexOptions: IndexOptions = {}
+) {
   const log = logger.child(
     {
       collectionName: collection.collectionName,
@@ -27,34 +29,38 @@ export function createIndexFactory<T>(
     true
   );
 
+  try {
+    // Try to create the index.
+    const start = now();
+    log.debug({ indexSpec, indexOptions }, "creating index");
+    const indexName = await collection.createIndex(indexSpec, indexOptions);
+    log.debug(
+      { indexName, indexSpec, indexOptions, took: Math.round(now() - start) },
+      "index was created"
+    );
+
+    // Match the interface from the `createIndex` function by returning the
+    // index name.
+    return indexName;
+  } catch (err) {
+    log.error({ err, indexSpec, indexOptions }, "could not create index");
+
+    // Rethrow the error here.
+    throw err;
+  }
+}
+
+export function createIndexFactory<T>(
+  collection: Collection<T>
+): IndexCreationFunction<T> {
   return async (
     indexSpec: IndexSpecification<T>,
     indexOptions: IndexOptions = {}
-  ) => {
-    try {
-      // Try to create the index.
-      const start = now();
-      log.debug({ indexSpec, indexOptions }, "creating index");
-      const indexName = await collection.createIndex(indexSpec, indexOptions);
-      log.debug(
-        { indexName, indexSpec, indexOptions, took: Math.round(now() - start) },
-        "index was created"
-      );
-
-      // Match the interface from the `createIndex` function by returning the
-      // index name.
-      return indexName;
-    } catch (err) {
-      log.error({ err, indexSpec, indexOptions }, "could not create index");
-
-      // Rethrow the error here.
-      throw err;
-    }
-  };
+  ) => createIndex(collection, indexSpec, indexOptions);
 }
 
 export function createConnectionOrderVariants<T>(
-  createIndex: IndexCreationFunction<T>,
+  createIndexFn: IndexCreationFunction<T>,
   variants: Array<IndexSpecification<T>>,
   indexOptions: IndexOptions = { background: true }
 ) {
@@ -69,7 +75,7 @@ export function createConnectionOrderVariants<T>(
      * @param variantSpec the spec that makes this variant different
      */
     const createIndexVariant = (variantSpec: IndexSpecification<T>) =>
-      createIndex(
+      createIndexFn(
         merge({}, indexSpec, variantSpec),
         merge({}, indexOptions, variantIndexOptions)
       );
