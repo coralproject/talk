@@ -23,6 +23,7 @@ export { default as FormField } from "./FormField";
 export { default as FormFieldHeader } from "./FormFieldHeader";
 export { default as TextFieldAdornment } from "./TextFieldAdornment";
 export { default as RadioButton } from "./RadioButton";
+export { default as Card } from "./Card";
 export { default as HelperText } from "./HelperText";
 export { default as CheckBox } from "./CheckBox";
 export { default as FieldSet } from "./FieldSet";

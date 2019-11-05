@@ -160,7 +160,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -413,7 +413,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -519,6 +519,7 @@ exports[`renders reported queue with comments 1`] = `
     >
       <div
         className="Card-root ModerateCard-root ModerateCard-selected"
+        data-testid="moderate-comment-comment-0"
         id="moderate-comment-comment-0"
         onClick={[Function]}
         tabIndex={0}
@@ -662,7 +663,7 @@ exports[`renders reported queue with comments 1`] = `
                       <span>
                         Spam
                       </span>
-
+                       
                       <span
                         className="Count-root"
                       >
@@ -899,7 +900,7 @@ exports[`renders reported queue with comments 1`] = `
                       <span>
                         Offensive
                       </span>
-
+                       
                       <span
                         className="Count-root"
                       >
@@ -990,6 +991,28 @@ exports[`renders reported queue with comments 1`] = `
           </div>
         </div>
       </div>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`renders reported queue with comments 2`] = `
+<div
+  className="MainLayout-root"
+  data-testid="moderate-main-container"
+>
+  <main
+    className="Moderate-main"
+  >
+    <div
+      className="Box-root HorizontalGutter-root Queue-root HorizontalGutter-double"
+    >
+      <div
+        className="Card-root ModerateCard-root ModerateCard-selected"
+        data-testid="moderate-comment-comment-0"
+        id="moderate-comment-comment-0"
+        onClick={[Function]}
+        tabIndex={0}
       >
         <div
           className="Box-root Flex-root Flex-flex"
@@ -1130,6 +1153,7 @@ exports[`renders reported queue with comments 1`] = `
                       <span>
                         Spam
                       </span>
+                       
                       <span
                         className="Count-root"
                       >
@@ -1240,227 +1264,6 @@ exports[`renders reported queue with comments 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
               >
                 <button
-                  className="BaseButton-root ModerateCard-username"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span
-                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
-                  >
-                    Ngoc
-                  </span>
-                </button>
-                <button
-                  className="BaseButton-root Timestamp-root"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <time
-                    className="RelativeTime-root Timestamp-text"
-                    dateTime="2018-07-06T18:24:00.000Z"
-                    title="2018-07-06T18:24:00.000Z"
-                  >
-                    2018-07-06T18:24:00.000Z
-                  </time>
-                </button>
-                <button
-                  className="BaseButton-root FeatureButton-root"
-                  disabled={false}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span>
-                    Feature
-                  </span>
-                </button>
-              </div>
-            </div>
-            <div
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "Don't fool with me",
-                }
-              }
-            />
-            <div
-              className="ModerateCard-footer"
-            >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-full"
-              >
-                <div>
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="http://localhost/comment/1"
-                    target="_blank"
-                  >
-                    View Context
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-xs TextLink-icon"
-                    >
-                      open_in_new
-                    </i>
-                  </a>
-                </div>
-                <div>
-                  <span
-                    className="ModerateCard-story"
-                  >
-                    Story
-                  </span>
-                  :
-                  <span
-                    className="ModerateCard-storyTitle"
-                  >
-                    Finally a Cure for Cancer
-                  </span>
-
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="/admin/moderate/story-1"
-                    onClick={[Function]}
-                  >
-                    Moderate Story
-                  </a>
-                </div>
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
-                >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
-                  >
-                    <span
-                      className="Marker-root Marker-colorError Marker-variantRegular"
-                    >
-                      <span>
-                        Offensive
-                      </span>
-
-                      <span
-                        className="Count-root"
-                      >
-                        3
-                      </span>
-                    </span>
-                    <button
-                      aria-controls="uuid-1"
-                      aria-expanded={false}
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Markers-detailsButtonColorRegular Button-variantRegular Markers-detailsButton"
-                      data-color="regular"
-                      data-variant="regular"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      type="button"
-                    >
-                      <span
-                        className="Markers-detailsText"
-                      >
-                        Details
-                      </span>
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm"
-                      >
-                        arrow_drop_down
-                      </i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="ModerateCard-separator ModerateCard-ruledSeparator"
-          />
-          <div
-            className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
-          >
-            <div
-              className="ModerateCard-decision"
-            >
-              Decision
-            </div>
-            <div
-              className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
-            >
-              <button
-                aria-label="Reject"
-                className="BaseButton-root RejectButton-root"
-                disabled={false}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
-              >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-lg RejectButton-icon"
-                >
-                  close
-                </i>
-              </button>
-              <button
-                aria-label="Approve"
-                className="BaseButton-root ApproveButton-root"
-                disabled={false}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
-              >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-lg ApproveButton-icon"
-                >
-                  done
-                </i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-=======
-      >
-        <div
-          className="Box-root Flex-root Flex-flex"
-        >
-          <div
-            className="ModerateCard-mainContainer"
-          >
-            <div
-              className="ModerateCard-topBar"
-            >
-              <div
-                className="Box-root Flex-root Flex-flex Flex-alignCenter"
-              >
-                <button
                   className="BaseButton-root ModerateCard-usernameButton"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -1487,7 +1290,7 @@ exports[`renders reported queue with comments 1`] = `
                   type="button"
                 >
                   <time
-                    className="RelativeTime-root Timestamp-text ModerateCard-timestamp"
+                    className="RelativeTime-root Timestamp-text"
                     dateTime="2018-07-06T18:24:00.000Z"
                     title="2018-07-06T18:24:00.000Z"
                   >
@@ -1587,7 +1390,7 @@ exports[`renders reported queue with comments 1`] = `
                       <span>
                         Offensive
                       </span>
-
+                       
                       <span
                         className="Count-root"
                       >
@@ -1678,7 +1481,6 @@ exports[`renders reported queue with comments 1`] = `
           </div>
         </div>
       </div>
->>>>>>> fix fixtures
     </div>
   </main>
 </div>
@@ -1836,7 +1638,7 @@ exports[`renders reported queue with comments and load more 1`] = `
                 <span>
                   Offensive
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -1849,7 +1651,7 @@ exports[`renders reported queue with comments and load more 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >

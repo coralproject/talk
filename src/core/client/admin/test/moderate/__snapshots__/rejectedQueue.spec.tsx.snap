@@ -160,6 +160,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
                 <span>
                   Spam
                 </span>
+                 
                 <span
                   className="Count-root"
                 >
@@ -409,7 +410,7 @@ exports[`renders rejected queue with comments 1`] = `
                       <span>
                         Spam
                       </span>
-
+                       
                       <span
                         className="Count-root"
                       >
@@ -646,6 +647,7 @@ exports[`renders rejected queue with comments 1`] = `
                       <span>
                         Offensive
                       </span>
+                       
                       <span
                         className="Count-root"
                       >
@@ -888,7 +890,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 <span>
                   Offensive
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -901,7 +903,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
