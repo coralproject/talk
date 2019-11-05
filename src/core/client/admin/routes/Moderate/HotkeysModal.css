@@ -4,6 +4,8 @@ $hotkeys-modal-snippet-border: var(--v2-colors-grey-400);
 
 .root {
   min-width: 475px;
+  padding: var(--v2-spacing-2) var(--v2-spacing-3) var(--v2-spacing-6)
+    var(--v2-spacing-3);
 }
 
 .hotKeyContainer {
@@ -41,6 +43,8 @@ $hotkeys-modal-snippet-border: var(--v2-colors-grey-400);
   background-color: $hotkeys-modal-snippet-background;
   border: 1px solid $hotkeys-modal-snippet-border;
   color: $hotkeys-modal-text;
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
   border-radius: 3px;
   padding: var(--v2-spacing-1);
   display: inline-block;
