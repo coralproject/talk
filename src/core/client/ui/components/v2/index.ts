@@ -13,7 +13,7 @@ export { default as Box } from "./Box";
 export { default as Button } from "./Button";
 export { default as ButtonIcon } from "./Button/ButtonIcon";
 export { default as CallOut } from "./CallOut";
-export { default as Card } from "./Card";
+export { default as Card, CardCloseButton } from "./Card";
 export { default as CheckBox } from "./CheckBox";
 export { default as Counter } from "./Counter";
 export { default as Divider } from "./Divider";
@@ -29,10 +29,12 @@ export { default as FormField } from "./FormField";
 export { default as FormFieldDescription } from "./FormFieldDescription";
 export { default as FormFieldHeader } from "./FormFieldHeader";
 export { default as HelperText } from "./HelperText";
+export { default as HorizontalGutter } from "./HorizontalGutter";
 export { default as Icon } from "./Icon";
 export { default as Label } from "./Label";
 export { Marker, Count as MarkerCount } from "./Marker";
 export { default as Message, MessageIcon } from "./Message";
+export { default as Modal } from "./Modal";
 export { default as PasswordField } from "./PasswordField";
 export { default as Popover } from "./Popover";
 export { default as RadioButton } from "./RadioButton";
@@ -52,6 +54,7 @@ export { default as TextFieldAdornment } from "./TextFieldAdornment";
 export { default as TextLink } from "./TextLink";
 export { default as Timestamp } from "./Timestamp";
 export { default as Tooltip, TooltipButton } from "./Tooltip";
+export { default as TrapFocus } from "./TrapFocus";
 export {
   default as ValidationMessage,
   ValidationMessageProps,

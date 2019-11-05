@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Box-root HorizontalGutter-root custom HorizontalGutter-full"
+/>
+`;
+
+exports[`renders double size 1`] = `
+<div
+  className="Box-root HorizontalGutter-root HorizontalGutter-double"
+/>
+`;
