@@ -108,7 +108,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-repeatPost"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Repeat comment
     </withPropsOnChange(Marker)>
