@@ -3,16 +3,16 @@ import React, { FunctionComponent, useMemo } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { HorizontalGutter } from "coral-ui/components";
 import {
   CallOut,
-  HorizontalGutter,
   Icon,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
 

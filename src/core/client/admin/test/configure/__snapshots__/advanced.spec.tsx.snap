@@ -178,8 +178,8 @@ each of your site’s stories.
                   className="Box-root HorizontalGutter-root EmbedCode-copyArea HorizontalGutter-full"
                 >
                   <button
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                    data-color="primary"
+                    className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase"
+                    data-color="default"
                     data-variant="filled"
                     onBlur={[Function]}
                     onClick={[Function]}

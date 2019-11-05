@@ -60,6 +60,21 @@ exports[`renders approved correctly 1`] = `
           content
         </CommentContent>
         <div
+          className="ModerateCard-viewContext"
+        >
+          <Localized
+            id="moderate-comment-viewContext"
+          >
+            <withPropsOnChange(TextLinkProps)
+              className="ModerateCard-link"
+              href="http://localhost/comment"
+              target="_blank"
+            >
+              View Context
+            </withPropsOnChange(TextLinkProps)>
+          </Localized>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -67,21 +82,6 @@ exports[`renders approved correctly 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <Localized
-              id="moderate-comment-viewContext"
-            >
-              <withPropsOnChange(TextLinkProps)
-                className="ModerateCard-link"
-                href="http://localhost/comment"
-                target="_blank"
-              >
-                View Context
-              </withPropsOnChange(TextLinkProps)>
-            </Localized>
-          </div>
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}
@@ -186,6 +186,21 @@ exports[`renders correctly 1`] = `
           content
         </CommentContent>
         <div
+          className="ModerateCard-viewContext"
+        >
+          <Localized
+            id="moderate-comment-viewContext"
+          >
+            <withPropsOnChange(TextLinkProps)
+              className="ModerateCard-link"
+              href="http://localhost/comment"
+              target="_blank"
+            >
+              View Context
+            </withPropsOnChange(TextLinkProps)>
+          </Localized>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -193,21 +208,6 @@ exports[`renders correctly 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <Localized
-              id="moderate-comment-viewContext"
-            >
-              <withPropsOnChange(TextLinkProps)
-                className="ModerateCard-link"
-                href="http://localhost/comment"
-                target="_blank"
-              >
-                View Context
-              </withPropsOnChange(TextLinkProps)>
-            </Localized>
-          </div>
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}
@@ -312,6 +312,21 @@ exports[`renders dangling correctly 1`] = `
           content
         </CommentContent>
         <div
+          className="ModerateCard-viewContext"
+        >
+          <Localized
+            id="moderate-comment-viewContext"
+          >
+            <withPropsOnChange(TextLinkProps)
+              className="ModerateCard-link"
+              href="http://localhost/comment"
+              target="_blank"
+            >
+              View Context
+            </withPropsOnChange(TextLinkProps)>
+          </Localized>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -319,21 +334,6 @@ exports[`renders dangling correctly 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <Localized
-              id="moderate-comment-viewContext"
-            >
-              <withPropsOnChange(TextLinkProps)
-                className="ModerateCard-link"
-                href="http://localhost/comment"
-                target="_blank"
-              >
-                View Context
-              </withPropsOnChange(TextLinkProps)>
-            </Localized>
-          </div>
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}
@@ -438,6 +438,21 @@ exports[`renders rejected correctly 1`] = `
           content
         </CommentContent>
         <div
+          className="ModerateCard-viewContext"
+        >
+          <Localized
+            id="moderate-comment-viewContext"
+          >
+            <withPropsOnChange(TextLinkProps)
+              className="ModerateCard-link"
+              href="http://localhost/comment"
+              target="_blank"
+            >
+              View Context
+            </withPropsOnChange(TextLinkProps)>
+          </Localized>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -445,21 +460,6 @@ exports[`renders rejected correctly 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <Localized
-              id="moderate-comment-viewContext"
-            >
-              <withPropsOnChange(TextLinkProps)
-                className="ModerateCard-link"
-                href="http://localhost/comment"
-                target="_blank"
-              >
-                View Context
-              </withPropsOnChange(TextLinkProps)>
-            </Localized>
-          </div>
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}
@@ -573,6 +573,21 @@ exports[`renders reply correctly 1`] = `
           content
         </CommentContent>
         <div
+          className="ModerateCard-viewContext"
+        >
+          <Localized
+            id="moderate-comment-viewContext"
+          >
+            <withPropsOnChange(TextLinkProps)
+              className="ModerateCard-link"
+              href="http://localhost/comment"
+              target="_blank"
+            >
+              View Context
+            </withPropsOnChange(TextLinkProps)>
+          </Localized>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -580,21 +595,6 @@ exports[`renders reply correctly 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <Localized
-              id="moderate-comment-viewContext"
-            >
-              <withPropsOnChange(TextLinkProps)
-                className="ModerateCard-link"
-                href="http://localhost/comment"
-                target="_blank"
-              >
-                View Context
-              </withPropsOnChange(TextLinkProps)>
-            </Localized>
-          </div>
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}
@@ -699,6 +699,21 @@ exports[`renders story info 1`] = `
           content
         </CommentContent>
         <div
+          className="ModerateCard-viewContext"
+        >
+          <Localized
+            id="moderate-comment-viewContext"
+          >
+            <withPropsOnChange(TextLinkProps)
+              className="ModerateCard-link"
+              href="http://localhost/comment"
+              target="_blank"
+            >
+              View Context
+            </withPropsOnChange(TextLinkProps)>
+          </Localized>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -706,21 +721,6 @@ exports[`renders story info 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <Localized
-              id="moderate-comment-viewContext"
-            >
-              <withPropsOnChange(TextLinkProps)
-                className="ModerateCard-link"
-                href="http://localhost/comment"
-                target="_blank"
-              >
-                View Context
-              </withPropsOnChange(TextLinkProps)>
-            </Localized>
-          </div>
           <div>
             <div
               className="ModerateCard-storyLabel"
@@ -865,6 +865,21 @@ exports[`renders tombstoned when comment is deleted 1`] = `
           </Localized>
         </CommentContent>
         <div
+          className="ModerateCard-viewContext"
+        >
+          <Localized
+            id="moderate-comment-viewContext"
+          >
+            <withPropsOnChange(TextLinkProps)
+              className="ModerateCard-link"
+              href="http://localhost/comment"
+              target="_blank"
+            >
+              View Context
+            </withPropsOnChange(TextLinkProps)>
+          </Localized>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -872,21 +887,6 @@ exports[`renders tombstoned when comment is deleted 1`] = `
         className="ModerateCard-footer"
       >
         <ForwardRef(forwardRef)>
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <Localized
-              id="moderate-comment-viewContext"
-            >
-              <withPropsOnChange(TextLinkProps)
-                className="ModerateCard-link"
-                href="http://localhost/comment"
-                target="_blank"
-              >
-                View Context
-              </withPropsOnChange(TextLinkProps)>
-            </Localized>
-          </div>
           <Relay(MarkersContainer)
             comment={Object {}}
             onUsernameClick={[Function]}

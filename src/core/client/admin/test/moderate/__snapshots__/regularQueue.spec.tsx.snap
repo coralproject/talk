@@ -96,6 +96,23 @@ exports[`approves comment in reported queue: dangling 1`] = `
           }
         />
         <div
+          className="ModerateCard-viewContext"
+        >
+          <a
+            className="TextLink-root ModerateCard-link"
+            href="http://localhost/comment/0"
+            target="_blank"
+          >
+            View Context
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-xs TextLink-icon"
+            >
+              open_in_new
+            </i>
+          </a>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -105,23 +122,6 @@ exports[`approves comment in reported queue: dangling 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <a
-              className="TextLink-root ModerateCard-link"
-              href="http://localhost/comment/0"
-              target="_blank"
-            >
-              View Context
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-xs TextLink-icon"
-              >
-                open_in_new
-              </i>
-            </a>
-          </div>
           <div>
             <div
               className="ModerateCard-storyLabel"
@@ -349,6 +349,23 @@ exports[`rejects comment in reported queue: dangling 1`] = `
           }
         />
         <div
+          className="ModerateCard-viewContext"
+        >
+          <a
+            className="TextLink-root ModerateCard-link"
+            href="http://localhost/comment/0"
+            target="_blank"
+          >
+            View Context
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-xs TextLink-icon"
+            >
+              open_in_new
+            </i>
+          </a>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -358,23 +375,6 @@ exports[`rejects comment in reported queue: dangling 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <a
-              className="TextLink-root ModerateCard-link"
-              href="http://localhost/comment/0"
-              target="_blank"
-            >
-              View Context
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-xs TextLink-icon"
-              >
-                open_in_new
-              </i>
-            </a>
-          </div>
           <div>
             <div
               className="ModerateCard-storyLabel"
@@ -598,6 +598,23 @@ exports[`renders reported queue with comments 1`] = `
                 }
               />
               <div
+                className="ModerateCard-viewContext"
+              >
+                <a
+                  className="TextLink-root ModerateCard-link"
+                  href="http://localhost/comment/0"
+                  target="_blank"
+                >
+                  View Context
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-xs TextLink-icon"
+                  >
+                    open_in_new
+                  </i>
+                </a>
+              </div>
+              <div
                 className="ModerateCard-separator ModerateCard-ruledSeparator"
               />
             </div>
@@ -607,23 +624,6 @@ exports[`renders reported queue with comments 1`] = `
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div
-                  className="ModerateCard-viewContext"
-                >
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="http://localhost/comment/0"
-                    target="_blank"
-                  >
-                    View Context
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-xs TextLink-icon"
-                    >
-                      open_in_new
-                    </i>
-                  </a>
-                </div>
                 <div>
                   <div
                     className="ModerateCard-storyLabel"
@@ -835,6 +835,23 @@ exports[`renders reported queue with comments 1`] = `
                 }
               />
               <div
+                className="ModerateCard-viewContext"
+              >
+                <a
+                  className="TextLink-root ModerateCard-link"
+                  href="http://localhost/comment/1"
+                  target="_blank"
+                >
+                  View Context
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-xs TextLink-icon"
+                  >
+                    open_in_new
+                  </i>
+                </a>
+              </div>
+              <div
                 className="ModerateCard-separator ModerateCard-ruledSeparator"
               />
             </div>
@@ -844,23 +861,6 @@ exports[`renders reported queue with comments 1`] = `
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div
-                  className="ModerateCard-viewContext"
-                >
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="http://localhost/comment/1"
-                    target="_blank"
-                  >
-                    View Context
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-xs TextLink-icon"
-                    >
-                      open_in_new
-                    </i>
-                  </a>
-                </div>
                 <div>
                   <div
                     className="ModerateCard-storyLabel"
@@ -1066,6 +1066,23 @@ exports[`renders reported queue with comments 1`] = `
                 }
               />
               <div
+                className="ModerateCard-viewContext"
+              >
+                <a
+                  className="TextLink-root ModerateCard-link"
+                  href="http://localhost/comment/0"
+                  target="_blank"
+                >
+                  View Context
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-xs TextLink-icon"
+                  >
+                    open_in_new
+                  </i>
+                </a>
+              </div>
+              <div
                 className="ModerateCard-separator ModerateCard-ruledSeparator"
               />
             </div>
@@ -1075,23 +1092,6 @@ exports[`renders reported queue with comments 1`] = `
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div
-                  className="ModerateCard-viewContext"
-                >
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="http://localhost/comment/0"
-                    target="_blank"
-                  >
-                    View Context
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-xs TextLink-icon"
-                    >
-                      open_in_new
-                    </i>
-                  </a>
-                </div>
                 <div>
                   <div
                     className="ModerateCard-storyLabel"
@@ -1523,6 +1523,23 @@ exports[`renders reported queue with comments 1`] = `
                 }
               />
               <div
+                className="ModerateCard-viewContext"
+              >
+                <a
+                  className="TextLink-root ModerateCard-link"
+                  href="http://localhost/comment/1"
+                  target="_blank"
+                >
+                  View Context
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-xs TextLink-icon"
+                  >
+                    open_in_new
+                  </i>
+                </a>
+              </div>
+              <div
                 className="ModerateCard-separator ModerateCard-ruledSeparator"
               />
             </div>
@@ -1532,23 +1549,6 @@ exports[`renders reported queue with comments 1`] = `
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                <div
-                  className="ModerateCard-viewContext"
-                >
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="http://localhost/comment/1"
-                    target="_blank"
-                  >
-                    View Context
-                    <i
-                      aria-hidden="true"
-                      className="Icon-root Icon-xs TextLink-icon"
-                    >
-                      open_in_new
-                    </i>
-                  </a>
-                </div>
                 <div>
                   <div
                     className="ModerateCard-storyLabel"
@@ -1767,6 +1767,23 @@ exports[`renders reported queue with comments and load more 1`] = `
           }
         />
         <div
+          className="ModerateCard-viewContext"
+        >
+          <a
+            className="TextLink-root ModerateCard-link"
+            href="http://localhost/comment/2"
+            target="_blank"
+          >
+            View Context
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-xs TextLink-icon"
+            >
+              open_in_new
+            </i>
+          </a>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -1776,23 +1793,6 @@ exports[`renders reported queue with comments and load more 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <a
-              className="TextLink-root ModerateCard-link"
-              href="http://localhost/comment/2"
-              target="_blank"
-            >
-              View Context
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-xs TextLink-icon"
-              >
-                open_in_new
-              </i>
-            </a>
-          </div>
           <div>
             <div
               className="ModerateCard-storyLabel"

@@ -27,10 +27,19 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   color?: "default" | "alert" | "emphasis" | "mono";
 
   /** Variant of the button */
-  variant?: "default" | "filled" | "adornment" | "ghost" | "underlined";
+  variant?:
+    | "default"
+    | "filled"
+    | "adornment"
+    | "ghost"
+    | "underlined"
+    | "plain";
 
   /** If set renders a full width button */
   fullWidth?: boolean;
+
+  /** if set to false, button text will not be uppercase */
+  uppercase?: boolean;
 
   /** If set renders active state e.g. to implement toggle buttons */
   active?: boolean;
@@ -46,6 +55,7 @@ export class Button extends React.Component<Props> {
     size: "medium",
     variant: "default",
     color: "default",
+    uppercase: true,
   };
   public render() {
     const {
@@ -59,6 +69,7 @@ export class Button extends React.Component<Props> {
       forwardRef,
       variant,
       type,
+      uppercase,
       ...rest
     } = this.props;
 
@@ -77,6 +88,8 @@ export class Button extends React.Component<Props> {
         [classes.variantAdornment]: variant === "adornment",
         [classes.variantGhost]: variant === "ghost",
         [classes.variantUnderlined]: variant === "underlined",
+        [classes.variantPlain]: variant === "plain",
+        [classes.uppercase]: uppercase,
         [classes.fullWidth]: fullWidth,
         [classes.active]: active,
         [classes.disabled]: disabled,

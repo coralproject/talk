@@ -83,6 +83,23 @@ exports[`approves single comment 1`] = `
           }
         />
         <div
+          className="ModerateCard-viewContext"
+        >
+          <a
+            className="TextLink-root ModerateCard-link"
+            href="http://localhost/comment/0"
+            target="_blank"
+          >
+            View Context
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-xs TextLink-icon"
+            >
+              open_in_new
+            </i>
+          </a>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -92,23 +109,6 @@ exports[`approves single comment 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <a
-              className="TextLink-root ModerateCard-link"
-              href="http://localhost/comment/0"
-              target="_blank"
-            >
-              View Context
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-xs TextLink-icon"
-              >
-                open_in_new
-              </i>
-            </a>
-          </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
@@ -297,6 +297,23 @@ exports[`rejects single comment 1`] = `
           }
         />
         <div
+          className="ModerateCard-viewContext"
+        >
+          <a
+            className="TextLink-root ModerateCard-link"
+            href="http://localhost/comment/0"
+            target="_blank"
+          >
+            View Context
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-xs TextLink-icon"
+            >
+              open_in_new
+            </i>
+          </a>
+        </div>
+        <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
         />
       </div>
@@ -306,23 +323,6 @@ exports[`rejects single comment 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
-          <div
-            className="ModerateCard-viewContext"
-          >
-            <a
-              className="TextLink-root ModerateCard-link"
-              href="http://localhost/comment/0"
-              target="_blank"
-            >
-              View Context
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-xs TextLink-icon"
-              >
-                open_in_new
-              </i>
-            </a>
-          </div>
           <div
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
@@ -546,6 +546,23 @@ exports[`renders single comment view 1`] = `
                   }
                 />
                 <div
+                  className="ModerateCard-viewContext"
+                >
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="http://localhost/comment/0"
+                    target="_blank"
+                  >
+                    View Context
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-xs TextLink-icon"
+                    >
+                      open_in_new
+                    </i>
+                  </a>
+                </div>
+                <div
                   className="ModerateCard-separator ModerateCard-ruledSeparator"
                 />
               </div>
@@ -555,23 +572,6 @@ exports[`renders single comment view 1`] = `
                 <div
                   className="Box-root HorizontalGutter-root HorizontalGutter-full"
                 >
-                  <div
-                    className="ModerateCard-viewContext"
-                  >
-                    <a
-                      className="TextLink-root ModerateCard-link"
-                      href="http://localhost/comment/0"
-                      target="_blank"
-                    >
-                      View Context
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-xs TextLink-icon"
-                      >
-                        open_in_new
-                      </i>
-                    </a>
-                  </div>
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-full"
                   >

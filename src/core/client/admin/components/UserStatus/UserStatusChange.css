@@ -1,8 +1,13 @@
+$status-change-button-border: var(--v2-colors-grey-400);
+
 .button {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary);
   justify-content: space-between;
-  padding: 0;
+  display: flex;
+}
+
+.bordered {
+  padding: 0 var(--v2-spacing-2);
+  border: 1px solid $status-change-button-border;
 }
 
 .fullWidth {

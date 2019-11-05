@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Button, Flex, Icon, Timestamp, Typography } from "coral-ui/components";
+import { Button, Flex, Icon, Timestamp } from "coral-ui/components/v2";
 
 import styles from "./ModeratorNote.css";
 
@@ -27,30 +27,27 @@ const ModeratorNote: FunctionComponent<Props> = ({
   }, [id]);
   return (
     <div>
-      <div className={styles.body}>
-        <Typography variant="bodyCopy" className={styles.bodyType}>
-          {body}
-        </Typography>
-      </div>
+      <div className={styles.body}>{body}</div>
       <Flex justifyContent="space-between">
-        <Flex alignItems="center">
+        <Flex alignItems="center" className={styles.footerLeft}>
           <Timestamp>{createdAt}</Timestamp>
           {moderator && (
-            <>
+            <Flex alignItems="center">
               <Localized id="moderatorNote-left-by">
-                <Typography variant="timestamp" className={styles.leftBy}>
-                  Left by:
-                </Typography>
+                <div className={styles.leftBy}>Left by</div>
               </Localized>
-              <Typography className={styles.username} variant="timestamp">
-                {moderator}
-              </Typography>
-            </>
+              <div className={styles.username}>{moderator}</div>
+            </Flex>
           )}
         </Flex>
         {onDelete && (
           <Localized id="moderatorNote-delete">
-            <Button size="small" color="primary" onClick={deleteNote}>
+            <Button
+              size="small"
+              uppercase={false}
+              variant="plain"
+              onClick={deleteNote}
+            >
               <Icon>delete</Icon>
               <span>Delete</span>
             </Button>
