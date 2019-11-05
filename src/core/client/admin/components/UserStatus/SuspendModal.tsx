@@ -11,8 +11,7 @@ import {
   Flex,
   HorizontalGutter,
   Modal,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import SuspendForm from "./SuspendForm";
 
@@ -58,24 +57,22 @@ const SuspendModal: FunctionComponent<Props> = ({
           <Card className={styles.card}>
             <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
             {success && (
-              <HorizontalGutter spacing={2}>
-                <HorizontalGutter>
-                  <Localized
-                    id="community-suspendModal-success"
-                    $username={username}
-                    strong={<strong />}
-                    $duration={successDuration}
-                  >
-                    <Typography>
-                      <strong>{username}</strong> has been suspended for{" "}
-                      <strong>{successDuration}</strong>
-                    </Typography>
-                  </Localized>
-                </HorizontalGutter>
+              <HorizontalGutter spacing={3}>
+                <Localized
+                  id="community-suspendModal-success"
+                  $username={username}
+                  strong={<strong />}
+                  $duration={successDuration}
+                >
+                  <h2 className={styles.title}>
+                    <strong>{username}</strong> has been suspended for{" "}
+                    <strong>{successDuration}</strong>
+                  </h2>
+                </Localized>
 
                 <Flex justifyContent="flex-end" itemGutter="half">
                   <Localized id="community-suspendModal-success-close">
-                    <Button variant="filled" color="primary" onClick={onClose}>
+                    <Button variant="filled" color="default" onClick={onClose}>
                       Ok
                     </Button>
                   </Localized>
@@ -83,31 +80,21 @@ const SuspendModal: FunctionComponent<Props> = ({
               </HorizontalGutter>
             )}
             {!success && (
-              <HorizontalGutter spacing={2}>
+              <HorizontalGutter spacing={3}>
                 <Localized
                   id="community-suspendModal-areYouSure"
                   strong={<strong />}
                   $username={username || <NotAvailable />}
                 >
-                  <Typography
-                    className={styles.header}
-                    variant="header2"
-                    id="suspendModal-title"
-                  >
+                  <h2 className={styles.title} id="suspendModal-title">
                     Suspend <strong>{username || <NotAvailable />}</strong>?
-                  </Typography>
+                  </h2>
                 </Localized>
                 <Localized id="community-suspendModal-consequence">
-                  <Typography>
+                  <div className={styles.bodyText}>
                     While suspended, this user will no longer be able to
                     comment, use reactions, or report comments.
-                  </Typography>
-                </Localized>
-
-                <Localized id="community-suspendModal-selectDuration">
-                  <Typography variant="header3">
-                    Select suspension length
-                  </Typography>
+                  </div>
                 </Localized>
 
                 <SuspendForm

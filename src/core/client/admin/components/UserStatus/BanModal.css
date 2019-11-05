@@ -1,10 +1,34 @@
+$ban-modal-text: var(--v2-colors-mono-500);
+$ban-modal-snippet-background: var(--v2-colors-white-500);
+$ban-modal-snippet-border: var(--v2-colors-grey-400);
+
 .card {
   max-width: 500px;
+  padding: var(--v2-spacing-2) var(--v2-spacing-3) var(--v2-spacing-3)
+    var(--v2-spacing-3);
+}
+
+.title {
+  font-size: var(--v2-font-size-5);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  line-height: var(--v2-line-height-title);
+  color: $ban-modal-text;
+  margin: 0;
+}
+
+.title strong {
+  font-weight: var(--v2-font-weight-primary-bold);
+}
+
+.bodyText {
+  font-size: var(--v2-font-size-3);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  line-height: var(--v2-line-height-body-short);
+  color: $ban-modal-text;
 }
 
 .textArea {
-  width: 100%;
-  box-sizing: border-box;
   height: calc(12 * var(--mini-unit));
-  padding: calc(0.5 * var(--mini-unit));
 }

@@ -22,3 +22,7 @@
     box-shadow: inset 0px 0px 0px 1px var(--v2-palette-input-focused-border);
   }
 }
+
+.fullwidth {
+  width: 100%;
+}

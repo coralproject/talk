@@ -9,8 +9,7 @@ import {
   Flex,
   HorizontalGutter,
   Modal,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import styles from "./PremodModal.css";
 
@@ -32,28 +31,26 @@ const PremodModal: FunctionComponent<Props> = ({
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.card}>
           <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
-          <HorizontalGutter size="double">
-            <HorizontalGutter>
-              <Localized
-                id="community-premodModal-areYouSure"
-                strong={<strong />}
-                $username={username || <NotAvailable />}
-              >
-                <Typography variant="header2" id="PremodModal-title">
-                  Are you sure you want to always premoderate{" "}
-                  <strong>{username || <NotAvailable />}</strong>?
-                </Typography>
-              </Localized>
-              <Localized id="community-premodModal-consequence">
-                <Typography>
-                  Note: Always premoderating this user will place all of their
-                  comments in the Pre-Moderate queue.
-                </Typography>
-              </Localized>
-            </HorizontalGutter>
+          <HorizontalGutter spacing={3}>
+            <Localized
+              id="community-premodModal-areYouSure"
+              strong={<strong />}
+              $username={username || <NotAvailable />}
+            >
+              <h2 className={styles.title} id="PremodModal-title">
+                Are you sure you want to always premoderate{" "}
+                <strong>{username || <NotAvailable />}</strong>?
+              </h2>
+            </Localized>
+            <Localized id="community-premodModal-consequence">
+              <div className={styles.bodyText}>
+                Note: Always premoderating this user will place all of their
+                comments in the Pre-Moderate queue.
+              </div>
+            </Localized>
             <Flex justifyContent="flex-end" itemGutter>
               <Localized id="community-premodModal-cancel">
-                <Button variant="outlined" onClick={onClose}>
+                <Button variant="ghost" onClick={onClose}>
                   Cancel
                 </Button>
               </Localized>
@@ -61,7 +58,7 @@ const PremodModal: FunctionComponent<Props> = ({
               <Localized id="community-premodModal-premodUser">
                 <Button
                   variant="filled"
-                  color="primary"
+                  color="default"
                   onClick={onConfirm}
                   ref={lastFocusableRef}
                 >

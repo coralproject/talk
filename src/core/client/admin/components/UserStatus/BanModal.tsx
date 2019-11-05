@@ -12,8 +12,8 @@ import {
   Flex,
   HorizontalGutter,
   Modal,
-  Typography,
-} from "coral-ui/components";
+  Textarea,
+} from "coral-ui/components/v2";
 
 import styles from "./BanModal.css";
 
@@ -54,23 +54,23 @@ const BanModal: FunctionComponent<Props> = ({
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.card}>
           <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
-          <HorizontalGutter size="double">
-            <HorizontalGutter>
+          <HorizontalGutter spacing={3}>
+            <HorizontalGutter spacing={2}>
               <Localized
                 id="community-banModal-areYouSure"
                 strong={<strong />}
                 $username={username || <NotAvailable />}
               >
-                <Typography variant="header2" id="banModal-title">
+                <h2 className={styles.title} id="banModal-title">
                   Are you sure you want to ban{" "}
                   <strong>{username || <NotAvailable />}</strong>?
-                </Typography>
+                </h2>
               </Localized>
               <Localized id="community-banModal-consequence">
-                <Typography>
+                <p className={styles.bodyText}>
                   Once banned, this user will no longer be able to comment, use
                   reactions, or report comments.
-                </Typography>
+                </p>
               </Localized>
             </HorizontalGutter>
             <Form
@@ -82,45 +82,50 @@ const BanModal: FunctionComponent<Props> = ({
             >
               {({ handleSubmit }) => (
                 <form onSubmit={handleSubmit}>
-                  <Field name="showMessage">
-                    {({ input }) => (
-                      <Localized id="community-banModal-customize">
-                        <CheckBox {...input} id="banModal-showMessage">
-                          Customize ban email message
-                        </CheckBox>
-                      </Localized>
-                    )}
-                  </Field>
-                  <Field name="showMessage" subscription={{ value: true }}>
-                    {({ input: { value } }) =>
-                      value ? (
-                        <Field
-                          className={styles.textArea}
-                          id="banModal-message"
-                          component="textarea"
-                          name="emailMessage"
-                        />
-                      ) : null
-                    }
-                  </Field>
+                  <HorizontalGutter spacing={3}>
+                    <Field name="showMessage">
+                      {({ input }) => (
+                        <Localized id="community-banModal-customize">
+                          <CheckBox {...input} id="banModal-showMessage">
+                            Customize ban email message
+                          </CheckBox>
+                        </Localized>
+                      )}
+                    </Field>
+                    <Field name="showMessage" subscription={{ value: true }}>
+                      {({ input: { value } }) =>
+                        value ? (
+                          <Field id="banModal-message" name="emailMessage">
+                            {({ input }) => (
+                              <Textarea
+                                className={styles.textArea}
+                                fullwidth
+                                {...input}
+                              />
+                            )}
+                          </Field>
+                        ) : null
+                      }
+                    </Field>
 
-                  <Flex justifyContent="flex-end" itemGutter="half">
-                    <Localized id="community-banModal-cancel">
-                      <Button variant="outlined" onClick={onClose}>
-                        Cancel
-                      </Button>
-                    </Localized>
-                    <Localized id="community-banModal-banUser">
-                      <Button
-                        variant="filled"
-                        color="primary"
-                        type="submit"
-                        ref={lastFocusableRef}
-                      >
-                        Ban User
-                      </Button>
-                    </Localized>
-                  </Flex>
+                    <Flex justifyContent="flex-end" itemGutter="half">
+                      <Localized id="community-banModal-cancel">
+                        <Button variant="ghost" onClick={onClose}>
+                          Cancel
+                        </Button>
+                      </Localized>
+                      <Localized id="community-banModal-banUser">
+                        <Button
+                          variant="filled"
+                          color="default"
+                          type="submit"
+                          ref={lastFocusableRef}
+                        >
+                          Ban User
+                        </Button>
+                      </Localized>
+                    </Flex>
+                  </HorizontalGutter>
                 </form>
               )}
             </Form>
