@@ -5,7 +5,7 @@ $user-drawer-status-label: var(--v2-colors-mono-500);
 
 .comments {
   flex: auto;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .close {
