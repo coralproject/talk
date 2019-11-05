@@ -34,7 +34,7 @@ export { default as Icon } from "./Icon";
 export { default as Label } from "./Label";
 export { Marker, Count as MarkerCount } from "./Marker";
 export { default as Message, MessageIcon } from "./Message";
-export { default as Modal } from "./Modal";
+export { default as Modal, ModalProps } from "./Modal";
 export { default as PasswordField } from "./PasswordField";
 export { default as Popover } from "./Popover";
 export { default as RadioButton } from "./RadioButton";

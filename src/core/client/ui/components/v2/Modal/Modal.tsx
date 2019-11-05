@@ -45,7 +45,7 @@ function useDOMNode(open: boolean) {
   return modalDOMNode;
 }
 
-interface Props {
+export interface ModalProps {
   onClose?: (
     event: React.KeyboardEvent | React.MouseEvent,
     reason: "backdropClick" | "escapeKeyDown"
@@ -61,7 +61,7 @@ interface Props {
   children?: PropTypesOf<typeof TrapFocus>["children"];
 }
 
-const Modal: FunctionComponent<Props> = ({
+const Modal: FunctionComponent<ModalProps> = ({
   classes,
   open,
   onClose,

@@ -4,14 +4,11 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { ScaledUnit } from "coral-common/helpers/i18n";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
-import {
-  Button,
-  Card,
-  CardCloseButton,
-  Flex,
-  HorizontalGutter,
-  Modal,
-} from "coral-ui/components/v2";
+import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
+
+import ChangeStatusModal from "./ChangeStatusModal";
+import ChangeStatusModalHeader from "./ChangeStatusModalHeader";
+import ModalHeaderUsername from "./ModalHeaderUsername";
 
 import SuspendForm from "./SuspendForm";
 
@@ -51,64 +48,75 @@ const SuspendModal: FunctionComponent<Props> = ({
   );
 
   return (
-    <>
-      <Modal open={open} onClose={onClose} aria-labelledby="suspendModal-title">
-        {({ firstFocusableRef, lastFocusableRef }) => (
-          <Card className={styles.card}>
-            <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
-            {success && (
-              <HorizontalGutter spacing={3}>
-                <Localized
-                  id="community-suspendModal-success"
-                  $username={username}
-                  strong={<strong />}
-                  $duration={successDuration}
-                >
-                  <h2 className={styles.title}>
-                    <strong>{username}</strong> has been suspended for{" "}
-                    <strong>{successDuration}</strong>
-                  </h2>
-                </Localized>
+    <ChangeStatusModal
+      open={open}
+      onClose={onClose}
+      aria-labelledby="suspendModal-title"
+    >
+      {({ lastFocusableRef }) => (
+        <>
+          {success && (
+            <HorizontalGutter spacing={3}>
+              <Localized
+                id="community-suspendModal-success"
+                $username={username}
+                strong={<ModalHeaderUsername />}
+                $duration={successDuration}
+              >
+                <ChangeStatusModalHeader>
+                  <ModalHeaderUsername>{username}</ModalHeaderUsername> has been
+                  suspended for <strong>{successDuration}</strong>
+                </ChangeStatusModalHeader>
+              </Localized>
 
-                <Flex justifyContent="flex-end" itemGutter="half">
-                  <Localized id="community-suspendModal-success-close">
-                    <Button variant="filled" color="default" onClick={onClose}>
-                      Ok
-                    </Button>
-                  </Localized>
-                </Flex>
-              </HorizontalGutter>
-            )}
-            {!success && (
-              <HorizontalGutter spacing={3}>
-                <Localized
-                  id="community-suspendModal-areYouSure"
-                  strong={<strong />}
-                  $username={username || <NotAvailable />}
-                >
-                  <h2 className={styles.title} id="suspendModal-title">
-                    Suspend <strong>{username || <NotAvailable />}</strong>?
-                  </h2>
+              <Flex justifyContent="flex-end" itemGutter="half">
+                <Localized id="community-suspendModal-success-close">
+                  <Button
+                    ref={lastFocusableRef}
+                    variant="filled"
+                    color="default"
+                    onClick={onClose}
+                  >
+                    Ok
+                  </Button>
                 </Localized>
-                <Localized id="community-suspendModal-consequence">
-                  <div className={styles.bodyText}>
-                    While suspended, this user will no longer be able to
-                    comment, use reactions, or report comments.
-                  </div>
-                </Localized>
+              </Flex>
+            </HorizontalGutter>
+          )}
+          {!success && (
+            <HorizontalGutter spacing={3}>
+              <Localized
+                id="community-suspendModal-areYouSure"
+                strong={<ModalHeaderUsername />}
+                $username={username || <NotAvailable />}
+              >
+                <ChangeStatusModalHeader id="suspendModal-title">
+                  Suspend{" "}
+                  <ModalHeaderUsername>
+                    {username || <NotAvailable />}
+                  </ModalHeaderUsername>
+                  ?
+                </ChangeStatusModalHeader>
+              </Localized>
+              <Localized id="community-suspendModal-consequence">
+                <div className={styles.bodyText}>
+                  While suspended, this user will no longer be able to comment,
+                  use reactions, or report comments.
+                </div>
+              </Localized>
 
-                <SuspendForm
-                  username={username}
-                  onCancel={onClose}
-                  organizationName={organizationName}
-                  onSubmit={onFormSubmit}
-                />
-              </HorizontalGutter>
-            )}
-          </Card>
-        )}
-      </Modal>
-    </>
+              <SuspendForm
+                username={username}
+                onCancel={onClose}
+                organizationName={organizationName}
+                onSubmit={onFormSubmit}
+                lastFocusableRef={lastFocusableRef}
+              />
+            </HorizontalGutter>
+          )}
+        </>
+      )}
+    </ChangeStatusModal>
   );
 };
 

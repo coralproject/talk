@@ -1,6 +1,6 @@
 import { Mutator } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, RefObject, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
 import { ScaledUnit } from "coral-common/helpers/i18n";
@@ -22,6 +22,7 @@ interface Props {
   getMessage: GetMessage;
   organizationName: string;
   onSubmit: (duration: ScaledUnit, message: string) => void;
+  lastFocusableRef: RefObject<any>;
 }
 
 const DURATIONS: ScaledUnit[] = [
@@ -39,6 +40,7 @@ const SuspendForm: FunctionComponent<Props> = ({
   getMessage,
   onSubmit,
   organizationName,
+  lastFocusableRef,
 }) => {
   const getMessageWithDuration = useCallback(
     ({ scaled, unit }: Pick<ScaledUnit, "scaled" | "unit">): string => {
@@ -195,7 +197,12 @@ const SuspendForm: FunctionComponent<Props> = ({
                   </Button>
                 </Localized>
                 <Localized id="community-suspendModal-suspendUser">
-                  <Button variant="filled" color="default" type="submit">
+                  <Button
+                    ref={lastFocusableRef}
+                    variant="filled"
+                    color="default"
+                    type="submit"
+                  >
                     Suspend User
                   </Button>
                 </Localized>
