@@ -23,7 +23,7 @@ Example events:
 
 _Viewer Network Events_ are events that involves a network request and thus can succeed or fail. Succeeding events will have a  `.success` appended to the event name while failing events have an `.error` appended to the event name.
 
-Moreover _Viewer Network Events_ contains the `rtt` field which indicates the time it needed from initiating the request and until the _UI_ has been updated with the response data.
+Moreover _Viewer Network Events_ contains the `rtt` field which indicates the time it needed from initiating the request until the _UI_ has been updated with the response data.
 
 Example events:
 ```

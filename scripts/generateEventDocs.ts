@@ -168,8 +168,9 @@ function removeFutureAddedValue(text: string) {
 
 /**
  * Append or update previous documention in markdownFile.
+ *
  * @param markdownFile The markdown file we want to inject the docs too.
- * @param entries
+ * @param entries data as returned by gatherEntries.
  */
 function emitDocs(markdownFile: string, entries: DocEntry[], verify = false) {
   const previousContent = fs.existsSync(markdownFile)

@@ -383,7 +383,7 @@
     "src/core/server/graph/tenant/schema/schema.graphql": [
       "graphql-schema-linter"
     ],
-    "{src/core/client/stream/events.ts,events.md}": [
+    "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,events.md}": [
       "npm run docs:events -- --verify"
     ]
   },
