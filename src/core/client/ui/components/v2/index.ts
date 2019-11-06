@@ -18,6 +18,7 @@ export { default as CallOut } from "./CallOut";
 export { default as Card } from "./Card";
 export { default as CheckBox } from "./CheckBox";
 export { default as Counter } from "./Counter";
+export { default as Delay } from "./Delay";
 export { default as Divider } from "./Divider";
 export {
   Dropdown,
@@ -31,6 +32,7 @@ export { default as FormField } from "./FormField";
 export { default as FormFieldDescription } from "./FormFieldDescription";
 export { default as FormFieldHeader } from "./FormFieldHeader";
 export { default as HelperText } from "./HelperText";
+export { default as HorizontalGutter } from "./HorizontalGutter";
 export { default as Icon } from "./Icon";
 export { default as Label } from "./Label";
 export { Marker, Count as MarkerCount } from "./Marker";
@@ -38,6 +40,7 @@ export { default as Message, MessageIcon } from "./Message";
 export { default as PasswordField } from "./PasswordField";
 export { default as Popover } from "./Popover";
 export { default as RadioButton } from "./RadioButton";
+export { default as RelativeTime } from "./RelativeTime";
 export { SelectField, Option, OptGroup } from "./SelectField";
 export { default as Spinner } from "./Spinner";
 export {
