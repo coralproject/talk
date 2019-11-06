@@ -174,13 +174,10 @@ const SuspendForm: FunctionComponent<Props> = ({
               <Field name="editMessage" subscription={{ value: true }}>
                 {({ input: { value } }) =>
                   value ? (
-                    <Field
-                      id="suspendModal-message"
-                      component="textarea"
-                      name="emailMessage"
-                    >
+                    <Field component="textarea" name="emailMessage">
                       {({ input }) => (
                         <Textarea
+                          id="suspendModal-message"
                           {...input}
                           className={styles.textArea}
                           fullwidth

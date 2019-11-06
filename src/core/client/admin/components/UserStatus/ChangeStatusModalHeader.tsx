@@ -4,8 +4,12 @@ import styles from "./ChangeStatusModalHeader.css";
 
 const ChangeStatusModalHeader: FunctionComponent<
   HTMLAttributes<HTMLHeadingElement>
-> = ({ children }) => {
-  return <h2 className={styles.root}>{children}</h2>;
+> = ({ children, ...rest }) => {
+  return (
+    <h2 {...rest} className={styles.root}>
+      {children}
+    </h2>
+  );
 };
 
 export default ChangeStatusModalHeader;

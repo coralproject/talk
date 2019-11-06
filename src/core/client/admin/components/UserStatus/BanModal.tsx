@@ -101,9 +101,10 @@ const BanModal: FunctionComponent<Props> = ({
                   <Field name="showMessage" subscription={{ value: true }}>
                     {({ input: { value } }) =>
                       value ? (
-                        <Field id="banModal-message" name="emailMessage">
+                        <Field name="emailMessage">
                           {({ input }) => (
                             <Textarea
+                              id="banModal-message"
                               className={styles.textArea}
                               fullwidth
                               {...input}

@@ -199,8 +199,8 @@ exports[`renders community 1`] = `
         data-testid="invite-users"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-          data-color="primary"
+          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase InviteUsers-button"
+          data-color="default"
           data-testid="invite-users-button"
           data-variant="filled"
           onBlur={[Function]}
@@ -859,8 +859,8 @@ exports[`renders empty community 1`] = `
         data-testid="invite-users"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-          data-color="primary"
+          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase InviteUsers-button"
+          data-color="default"
           data-testid="invite-users-button"
           data-variant="filled"
           onBlur={[Function]}
