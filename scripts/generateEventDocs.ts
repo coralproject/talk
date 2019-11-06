@@ -192,8 +192,7 @@ function emitDocs(markdownFile: string, entries: DocEntry[]) {
             : `<a id="${getEventName(e.name)}">**${getEventName(
                 e.name
               )}.success**, **${getEventName(e.name)}.error**</a>`
-        }
-          ${e.docs ? e.docs.replace("\n", " ") : ""}
+        }: ${e.docs ? e.docs.replace("\n", " ") : ""}
           ${
             e.text
               ? codeBlock`

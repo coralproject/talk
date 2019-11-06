@@ -115,8 +115,7 @@ createComment.error
 - <a href="#viewNewComments">viewNewComments</a>
 
 ### Events
-- <a id="approveComment">**approveComment.success**, **approveComment.error**</a>
-  This event is emitted when the viewer approves a comment.
+- <a id="approveComment">**approveComment.success**, **approveComment.error**</a>: This event is emitted when the viewer approves a comment.
   ```ts
   {
       commentID: string;
@@ -127,8 +126,7 @@ createComment.error
       };
   }
   ```
-- <a id="banUser">**banUser.success**, **banUser.error**</a>
-  This event is emitted when the viewer bans a user.
+- <a id="banUser">**banUser.success**, **banUser.error**</a>: This event is emitted when the viewer bans a user.
   ```ts
   {
       userID: string;
@@ -140,8 +138,7 @@ createComment.error
       };
   }
   ```
-- <a id="cancelAccountDeletion">**cancelAccountDeletion.success**, **cancelAccountDeletion.error**</a>
-  This event is emitted when the viewer cancels the account deletion.
+- <a id="cancelAccountDeletion">**cancelAccountDeletion.success**, **cancelAccountDeletion.error**</a>: This event is emitted when the viewer cancels the account deletion.
   ```ts
   {
       success: {};
@@ -151,8 +148,7 @@ createComment.error
       };
   }
   ```
-- <a id="changeEmail">**changeEmail.success**, **changeEmail.error**</a>
-  This event is emitted when the viewer changes its email.
+- <a id="changeEmail">**changeEmail.success**, **changeEmail.error**</a>: This event is emitted when the viewer changes its email.
   ```ts
   {
       oldEmail: string;
@@ -164,8 +160,7 @@ createComment.error
       };
   }
   ```
-- <a id="changePassword">**changePassword.success**, **changePassword.error**</a>
-  This event is emitted when the viewer changes its password.
+- <a id="changePassword">**changePassword.success**, **changePassword.error**</a>: This event is emitted when the viewer changes its password.
   ```ts
   {
       success: {};
@@ -175,8 +170,7 @@ createComment.error
       };
   }
   ```
-- <a id="changeUsername">**changeUsername.success**, **changeUsername.error**</a>
-  This event is emitted when the viewer changes its username.
+- <a id="changeUsername">**changeUsername.success**, **changeUsername.error**</a>: This event is emitted when the viewer changes its username.
   ```ts
   {
       oldUsername: string;
@@ -188,8 +182,7 @@ createComment.error
       };
   }
   ```
-- <a id="closeStory">**closeStory.success**, **closeStory.error**</a>
-  This event is emitted when the viewer closes the story.
+- <a id="closeStory">**closeStory.success**, **closeStory.error**</a>: This event is emitted when the viewer closes the story.
   ```ts
   {
       storyID: string;
@@ -200,15 +193,13 @@ createComment.error
       };
   }
   ```
-- <a id="copyPermalink">**copyPermalink**</a>
-  This event is emitted when the viewer copies the permalink with the button.
+- <a id="copyPermalink">**copyPermalink**</a>: This event is emitted when the viewer copies the permalink with the button.
   ```ts
   {
       commentID: string;
   }
   ```
-- <a id="createComment">**createComment.success**, **createComment.error**</a>
-  This event is emitted when a top level comment is created.
+- <a id="createComment">**createComment.success**, **createComment.error**</a>: This event is emitted when a top level comment is created.
   ```ts
   {
       storyID: string;
@@ -223,10 +214,8 @@ createComment.error
       };
   }
   ```
-- <a id="createCommentFocus">**createCommentFocus**</a>
-  This event is emitted when the viewer focus on the RTE to create a comment.
-- <a id="createCommentReaction">**createCommentReaction.success**, **createCommentReaction.error**</a>
-  This event is emitted when the viewer reacts to a comment.
+- <a id="createCommentFocus">**createCommentFocus**</a>: This event is emitted when the viewer focus on the RTE to create a comment.
+- <a id="createCommentReaction">**createCommentReaction.success**, **createCommentReaction.error**</a>: This event is emitted when the viewer reacts to a comment.
   ```ts
   {
       commentID: string;
@@ -237,8 +226,7 @@ createComment.error
       };
   }
   ```
-- <a id="createCommentReply">**createCommentReply.success**, **createCommentReply.error**</a>
-  This event is emitted when a comment reply is created.
+- <a id="createCommentReply">**createCommentReply.success**, **createCommentReply.error**</a>: This event is emitted when a comment reply is created.
   ```ts
   {
       body: string;
@@ -253,8 +241,7 @@ createComment.error
       };
   }
   ```
-- <a id="editComment">**editComment.success**, **editComment.error**</a>
-  This event is emitted when the viewer edits a comment.
+- <a id="editComment">**editComment.success**, **editComment.error**</a>: This event is emitted when the viewer edits a comment.
   ```ts
   {
       body: string;
@@ -268,8 +255,7 @@ createComment.error
       };
   }
   ```
-- <a id="featureComment">**featureComment.success**, **featureComment.error**</a>
-  This event is emitted when the viewer features a comment.
+- <a id="featureComment">**featureComment.success**, **featureComment.error**</a>: This event is emitted when the viewer features a comment.
   ```ts
   {
       commentID: string;
@@ -280,15 +266,13 @@ createComment.error
       };
   }
   ```
-- <a id="gotoModeration">**gotoModeration**</a>
-  This event is emitted when the viewer goes to moderation.
+- <a id="gotoModeration">**gotoModeration**</a>: This event is emitted when the viewer goes to moderation.
   ```ts
   {
       commentID: string;
   }
   ```
-- <a id="ignoreUser">**ignoreUser.success**, **ignoreUser.error**</a>
-  This event is emitted when the viewer ignores a user.
+- <a id="ignoreUser">**ignoreUser.success**, **ignoreUser.error**</a>: This event is emitted when the viewer ignores a user.
   ```ts
   {
       userID: string;
@@ -299,8 +283,7 @@ createComment.error
       };
   }
   ```
-- <a id="loadMoreAllComments">**loadMoreAllComments.success**, **loadMoreAllComments.error**</a>
-  This event is emitted when the viewer loads more top level comments into the comment stream.
+- <a id="loadMoreAllComments">**loadMoreAllComments.success**, **loadMoreAllComments.error**</a>: This event is emitted when the viewer loads more top level comments into the comment stream.
   ```ts
   {
       storyID: string;
@@ -311,8 +294,7 @@ createComment.error
       };
   }
   ```
-- <a id="loadMoreFeaturedComments">**loadMoreFeaturedComments.success**, **loadMoreFeaturedComments.error**</a>
-  This event is emitted when the viewer loads more featured comments.
+- <a id="loadMoreFeaturedComments">**loadMoreFeaturedComments.success**, **loadMoreFeaturedComments.error**</a>: This event is emitted when the viewer loads more featured comments.
   ```ts
   {
       storyID: string;
@@ -323,8 +305,7 @@ createComment.error
       };
   }
   ```
-- <a id="loadMoreHistoryComments">**loadMoreHistoryComments.success**, **loadMoreHistoryComments.error**</a>
-  This event is emitted when the viewer loads more top level comments into the history comment stream.
+- <a id="loadMoreHistoryComments">**loadMoreHistoryComments.success**, **loadMoreHistoryComments.error**</a>: This event is emitted when the viewer loads more top level comments into the history comment stream.
   ```ts
   {
       success: {};
@@ -334,12 +315,9 @@ createComment.error
       };
   }
   ```
-- <a id="loginPrompt">**loginPrompt**</a>
-  This event is emitted when the viewer does an action that will prompt a login dialog.
-- <a id="openSortMenu">**openSortMenu**</a>
-  This event is emitted when the viewer clicks on the sort menu.
-- <a id="openStory">**openStory.success**, **openStory.error**</a>
-  This event is emitted when the viewer opens the story.
+- <a id="loginPrompt">**loginPrompt**</a>: This event is emitted when the viewer does an action that will prompt a login dialog.
+- <a id="openSortMenu">**openSortMenu**</a>: This event is emitted when the viewer clicks on the sort menu.
+- <a id="openStory">**openStory.success**, **openStory.error**</a>: This event is emitted when the viewer opens the story.
   ```ts
   {
       storyID: string;
@@ -350,8 +328,7 @@ createComment.error
       };
   }
   ```
-- <a id="rejectComment">**rejectComment.success**, **rejectComment.error**</a>
-  This event is emitted when the viewer rejects a comment.
+- <a id="rejectComment">**rejectComment.success**, **rejectComment.error**</a>: This event is emitted when the viewer rejects a comment.
   ```ts
   {
       commentID: string;
@@ -362,8 +339,7 @@ createComment.error
       };
   }
   ```
-- <a id="removeCommentReaction">**removeCommentReaction.success**, **removeCommentReaction.error**</a>
-  This event is emitted when the viewer removes its reaction from a comment.
+- <a id="removeCommentReaction">**removeCommentReaction.success**, **removeCommentReaction.error**</a>: This event is emitted when the viewer removes its reaction from a comment.
   ```ts
   {
       commentID: string;
@@ -374,8 +350,7 @@ createComment.error
       };
   }
   ```
-- <a id="removeUserIgnore">**removeUserIgnore.success**, **removeUserIgnore.error**</a>
-  This event is emitted when the viewer remove a user from its ignored users list.
+- <a id="removeUserIgnore">**removeUserIgnore.success**, **removeUserIgnore.error**</a>: This event is emitted when the viewer remove a user from its ignored users list.
   ```ts
   {
       userID: string;
@@ -386,10 +361,8 @@ createComment.error
       };
   }
   ```
-- <a id="replyCommentFocus">**replyCommentFocus**</a>
-  This event is emitted when the viewer focus on the RTE to reply to a comment.
-- <a id="reportComment">**reportComment.success**, **reportComment.error**</a>
-  This event is emitted when the viewer reports a comment.
+- <a id="replyCommentFocus">**replyCommentFocus**</a>: This event is emitted when the viewer focus on the RTE to reply to a comment.
+- <a id="reportComment">**reportComment.success**, **reportComment.error**</a>: This event is emitted when the viewer reports a comment.
   ```ts
   {
       reason: string;
@@ -402,8 +375,7 @@ createComment.error
       };
   }
   ```
-- <a id="requestAccountDeletion">**requestAccountDeletion.success**, **requestAccountDeletion.error**</a>
-  This event is emitted when the viewer requests to delete its account.
+- <a id="requestAccountDeletion">**requestAccountDeletion.success**, **requestAccountDeletion.error**</a>: This event is emitted when the viewer requests to delete its account.
   ```ts
   {
       success: {};
@@ -413,8 +385,7 @@ createComment.error
       };
   }
   ```
-- <a id="requestDownloadCommentHistory">**requestDownloadCommentHistory.success**, **requestDownloadCommentHistory.error**</a>
-  This event is emitted when the viewer requests to download its comment history.
+- <a id="requestDownloadCommentHistory">**requestDownloadCommentHistory.success**, **requestDownloadCommentHistory.error**</a>: This event is emitted when the viewer requests to download its comment history.
   ```ts
   {
       success: {};
@@ -424,8 +395,7 @@ createComment.error
       };
   }
   ```
-- <a id="resendEmailVerification">**resendEmailVerification.success**, **resendEmailVerification.error**</a>
-  This event is emitted when the viewer request another email verification email.
+- <a id="resendEmailVerification">**resendEmailVerification.success**, **resendEmailVerification.error**</a>: This event is emitted when the viewer request another email verification email.
   ```ts
   {
       success: {};
@@ -435,38 +405,32 @@ createComment.error
       };
   }
   ```
-- <a id="setCommentsOrderBy">**setCommentsOrderBy**</a>
-  This event is emitted when the viewer changes the sort order of the comments.
+- <a id="setCommentsOrderBy">**setCommentsOrderBy**</a>: This event is emitted when the viewer changes the sort order of the comments.
   ```ts
   {
       orderBy: string;
   }
   ```
-- <a id="setCommentsTab">**setCommentsTab**</a>
-  This event is emitted when the viewer changes the tab of the comments tab bar.
+- <a id="setCommentsTab">**setCommentsTab**</a>: This event is emitted when the viewer changes the tab of the comments tab bar.
   ```ts
   {
       tab: string;
   }
   ```
-- <a id="setMainTab">**setMainTab**</a>
-  This event is emitted when the viewer changes the tab of the main tab bar.
+- <a id="setMainTab">**setMainTab**</a>: This event is emitted when the viewer changes the tab of the main tab bar.
   ```ts
   {
       tab: string;
   }
   ```
-- <a id="setProfileTab">**setProfileTab**</a>
-  This event is emitted when the viewer changes the tab of the profile tab bar.
+- <a id="setProfileTab">**setProfileTab**</a>: This event is emitted when the viewer changes the tab of the profile tab bar.
   ```ts
   {
       tab: string;
   }
   ```
-- <a id="showAbsoluteTimestamp">**showAbsoluteTimestamp**</a>
-  This event is emitted when the viewer clicks on the relative timestamp to show the absolute time.
-- <a id="showAllReplies">**showAllReplies.success**, **showAllReplies.error**</a>
-  This event is emitted when the viewer reveals all replies of a comment.
+- <a id="showAbsoluteTimestamp">**showAbsoluteTimestamp**</a>: This event is emitted when the viewer clicks on the relative timestamp to show the absolute time.
+- <a id="showAllReplies">**showAllReplies.success**, **showAllReplies.error**</a>: This event is emitted when the viewer reveals all replies of a comment.
   ```ts
   {
       commentID: string;
@@ -477,39 +441,30 @@ createComment.error
       };
   }
   ```
-- <a id="showAuthPopup">**showAuthPopup**</a>
-  This event is emitted when the viewer requests the auth popup.
+- <a id="showAuthPopup">**showAuthPopup**</a>: This event is emitted when the viewer requests the auth popup.
   ```ts
   {
       view: string;
   }
   ```
-- <a id="showEditEmailDialog">**showEditEmailDialog**</a>
-  This event is emitted when the viewer opens the edit email dialog.
-- <a id="showEditForm">**showEditForm**</a>
-  This event is emitted when the viewer opens the edit form.
+- <a id="showEditEmailDialog">**showEditEmailDialog**</a>: This event is emitted when the viewer opens the edit email dialog.
+- <a id="showEditForm">**showEditForm**</a>: This event is emitted when the viewer opens the edit form.
   ```ts
   {
       commentID: string;
   }
   ```
-- <a id="showEditPasswordDialog">**showEditPasswordDialog**</a>
-  This event is emitted when the viewer opens the edit password dialog.
-- <a id="showEditUsernameDialog">**showEditUsernameDialog**</a>
-  This event is emitted when the viewer opens the edit username dialog.
-- <a id="showFeaturedCommentTooltip">**showFeaturedCommentTooltip**</a>
-  This event is emitted when the viewer clicks to show the featured comment tooltip.
-- <a id="showIgnoreUserdDialog">**showIgnoreUserdDialog**</a>
-  This event is emitted when the viewer opens the ignore user dialog.
-- <a id="showModerationPopover">**showModerationPopover**</a>
-  This event is emitted when the viewer opens the moderation popover.
+- <a id="showEditPasswordDialog">**showEditPasswordDialog**</a>: This event is emitted when the viewer opens the edit password dialog.
+- <a id="showEditUsernameDialog">**showEditUsernameDialog**</a>: This event is emitted when the viewer opens the edit username dialog.
+- <a id="showFeaturedCommentTooltip">**showFeaturedCommentTooltip**</a>: This event is emitted when the viewer clicks to show the featured comment tooltip.
+- <a id="showIgnoreUserdDialog">**showIgnoreUserdDialog**</a>: This event is emitted when the viewer opens the ignore user dialog.
+- <a id="showModerationPopover">**showModerationPopover**</a>: This event is emitted when the viewer opens the moderation popover.
   ```ts
   {
       commentID: string;
   }
   ```
-- <a id="showMoreOfConversation">**showMoreOfConversation.success**, **showMoreOfConversation.error**</a>
-  This event is emitted when the viewer reveals more of the parent conversation thread.
+- <a id="showMoreOfConversation">**showMoreOfConversation.success**, **showMoreOfConversation.error**</a>: This event is emitted when the viewer reveals more of the parent conversation thread.
   ```ts
   {
       commentID: string | null;
@@ -520,44 +475,38 @@ createComment.error
       };
   }
   ```
-- <a id="showMoreReplies">**showMoreReplies**</a>
-  This event is emitted when the viewer reveals new live replies.
+- <a id="showMoreReplies">**showMoreReplies**</a>: This event is emitted when the viewer reveals new live replies.
   ```ts
   {
       commentID: string;
       count: number;
   }
   ```
-- <a id="showReplyForm">**showReplyForm**</a>
-  This event is emitted when the viewer opens the reply form.
+- <a id="showReplyForm">**showReplyForm**</a>: This event is emitted when the viewer opens the reply form.
   ```ts
   {
       commentID: string;
   }
   ```
-- <a id="showReportPopover">**showReportPopover**</a>
-  This event is emitted when the viewer opens the report popover.
+- <a id="showReportPopover">**showReportPopover**</a>: This event is emitted when the viewer opens the report popover.
   ```ts
   {
       commentID: string;
   }
   ```
-- <a id="showSharePopover">**showSharePopover**</a>
-  This event is emitted when the viewer opens the share popover.
+- <a id="showSharePopover">**showSharePopover**</a>: This event is emitted when the viewer opens the share popover.
   ```ts
   {
       commentID: string;
   }
   ```
-- <a id="showUserPopover">**showUserPopover**</a>
-  This event is emitted when the viewer clicks on a username which shows the user popover.
+- <a id="showUserPopover">**showUserPopover**</a>: This event is emitted when the viewer clicks on a username which shows the user popover.
   ```ts
   {
       userID: string;
   }
   ```
-- <a id="signOut">**signOut.success**, **signOut.error**</a>
-  This event is emitted when the viewer signs out.
+- <a id="signOut">**signOut.success**, **signOut.error**</a>: This event is emitted when the viewer signs out.
   ```ts
   {
       success: {};
@@ -567,8 +516,7 @@ createComment.error
       };
   }
   ```
-- <a id="unfeatureComment">**unfeatureComment.success**, **unfeatureComment.error**</a>
-  This event is emitted when the viewer unfeatures a comment.
+- <a id="unfeatureComment">**unfeatureComment.success**, **unfeatureComment.error**</a>: This event is emitted when the viewer unfeatures a comment.
   ```ts
   {
       commentID: string;
@@ -579,8 +527,7 @@ createComment.error
       };
   }
   ```
-- <a id="updateNotificationSettings">**updateNotificationSettings.success**, **updateNotificationSettings.error**</a>
-  This event is emitted when the viewer updates its notification settings.
+- <a id="updateNotificationSettings">**updateNotificationSettings.success**, **updateNotificationSettings.error**</a>: This event is emitted when the viewer updates its notification settings.
   ```ts
   {
       onReply?: boolean | null | undefined;
@@ -595,8 +542,7 @@ createComment.error
       };
   }
   ```
-- <a id="updateStorySettings">**updateStorySettings.success**, **updateStorySettings.error**</a>
-  This event is emitted when the viewer updates the story settings.
+- <a id="updateStorySettings">**updateStorySettings.success**, **updateStorySettings.error**</a>: This event is emitted when the viewer updates the story settings.
   ```ts
   {
       storyID: string;
@@ -617,23 +563,20 @@ createComment.error
       };
   }
   ```
-- <a id="viewConversation">**viewConversation**</a>
-  This event is emitted when the viewer changes to the single conversation view.
+- <a id="viewConversation">**viewConversation**</a>: This event is emitted when the viewer changes to the single conversation view.
   ```ts
   {
       from: "FEATURED_COMMENTS" | "COMMENT_STREAM" | "COMMENT_HISTORY";
       commentID: string;
   }
   ```
-- <a id="viewFullDiscussion">**viewFullDiscussion**</a>
-  This event is emitted when the viewer exits the single conversation.
+- <a id="viewFullDiscussion">**viewFullDiscussion**</a>: This event is emitted when the viewer exits the single conversation.
   ```ts
   {
       commentID: string | null;
   }
   ```
-- <a id="viewNewComments">**viewNewComments**</a>
-  This event is emitted when the viewer reveals new live comments.
+- <a id="viewNewComments">**viewNewComments**</a>: This event is emitted when the viewer reveals new live comments.
   ```ts
   {
       storyID: string;
