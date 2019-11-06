@@ -254,7 +254,7 @@ export default (ctx: Context) => ({
       ctx.mongo,
       ctx.tenant.id,
       DateTime.fromJSDate(ctx.now)
-        .plus({ seconds: -ctx.tenant.recentCommentHistory.timeFrame })
+        .plus({ seconds: -ctx.tenant.settings.recentCommentHistory.timeFrame })
         .toJSDate(),
       authorIDs
     )

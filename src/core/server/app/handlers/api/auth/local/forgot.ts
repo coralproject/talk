@@ -62,7 +62,7 @@ export const forgotHandler = ({
       const tenant = coral.tenant!;
 
       // Check to ensure that the local integration has been enabled.
-      if (!tenant.auth.integrations.local.enabled) {
+      if (!tenant.settings.auth.integrations.local.enabled) {
         throw new IntegrationDisabled("local");
       }
 
@@ -115,8 +115,8 @@ export const forgotHandler = ({
             resetURL,
             // TODO: (wyattjoh) possibly reevaluate the use of a required username.
             username: user.username!,
-            organizationName: tenant.organization.name,
-            organizationURL: tenant.organization.url,
+            organizationName: tenant.name,
+            organizationURL: tenant.url,
           },
         },
         tenantID: tenant.id,
@@ -178,7 +178,7 @@ export const forgotResetHandler = ({
       const tenant = coral.tenant!;
 
       // Check to ensure that the local integration has been enabled.
-      if (!tenant.auth.integrations.local.enabled) {
+      if (!tenant.settings.auth.integrations.local.enabled) {
         throw new IntegrationDisabled("local");
       }
 
@@ -254,7 +254,7 @@ export const forgotCheckHandler = ({
       const tenant = coral.tenant!;
 
       // Check to ensure that the local integration has been enabled.
-      if (!tenant.auth.integrations.local.enabled) {
+      if (!tenant.settings.auth.integrations.local.enabled) {
         throw new IntegrationDisabled("local");
       }
 

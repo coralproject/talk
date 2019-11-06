@@ -347,7 +347,9 @@ export default class OIDCStrategy extends Strategy {
     // a new strategy.
     let integration: Required<OIDCAuthIntegration>;
     try {
-      integration = getEnabledIntegration(tenant.auth.integrations.oidc);
+      integration = getEnabledIntegration(
+        tenant.settings.auth.integrations.oidc
+      );
     } catch (err) {
       // TODO: wrap error?
       return done(err);
@@ -405,7 +407,9 @@ export default class OIDCStrategy extends Strategy {
 
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
-    const integration = getEnabledIntegration(tenant.auth.integrations.oidc);
+    const integration = getEnabledIntegration(
+      tenant.settings.auth.integrations.oidc
+    );
 
     // Try to get the Tenant's cached integrations.
     let tenantIntegration = this.cache.get(tenant.id);

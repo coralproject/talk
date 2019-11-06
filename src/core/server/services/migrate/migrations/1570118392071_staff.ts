@@ -18,7 +18,7 @@ export default class extends Migration {
 
   public async test(mongo: Db, id: string) {
     const tenant = await this.getTenant(mongo, id);
-    if (!tenant.staff) {
+    if (!tenant.settings.staff) {
       throw new MigrationError(id, "staff not set", "tenants", [id]);
     }
   }

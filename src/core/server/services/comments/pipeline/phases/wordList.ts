@@ -23,7 +23,12 @@ export const wordList: IntermediateModerationPhase = ({
   // has pre-mod enabled or not. If the comment was rejected based on the
   // wordList, then reject it, otherwise if the moderation setting is
   // premod, set it to `premod`.
-  if (containsMatchingPhraseMemoized(tenant.wordList.banned, comment.body)) {
+  if (
+    containsMatchingPhraseMemoized(
+      tenant.settings.wordList.banned,
+      comment.body
+    )
+  ) {
     // Add the flag related to Trust to the comment.
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
@@ -43,7 +48,12 @@ export const wordList: IntermediateModerationPhase = ({
 
   // If the wordList has matched the suspect word filter and we haven't disabled
   // auto-flagging suspect words, then we should flag the comment!
-  if (containsMatchingPhraseMemoized(tenant.wordList.suspect, comment.body)) {
+  if (
+    containsMatchingPhraseMemoized(
+      tenant.settings.wordList.suspect,
+      comment.body
+    )
+  ) {
     return {
       actions: [
         {

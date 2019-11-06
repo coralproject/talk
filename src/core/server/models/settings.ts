@@ -4,6 +4,7 @@ import {
   GQLAuth,
   GQLAuthenticationTargetFilter,
   GQLEmailConfiguration,
+  GQLEntitySettings,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
   GQLLiveConfiguration,
@@ -124,7 +125,7 @@ export type DisableCommenting = Omit<
 
 export type Settings = GlobalModerationSettings &
   Pick<
-    GQLSettings,
+    GQLEntitySettings,
     | "charCount"
     | "email"
     | "recentCommentHistory"

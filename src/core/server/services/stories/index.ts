@@ -82,7 +82,11 @@ export async function findOrCreate(
     return null;
   }
 
-  if (tenant.stories.scraping.enabled && !story.metadata && !story.scrapedAt) {
+  if (
+    tenant.settings.stories.scraping.enabled &&
+    !story.metadata &&
+    !story.scrapedAt
+  ) {
     // If the scraper has not scraped this story, and we have no metadata, we
     // need to scrape it now!
     await scraper.add({
@@ -193,7 +197,7 @@ export async function create(
     input,
     now
   );
-  if (!metadata && tenant.stories.scraping.enabled) {
+  if (!metadata && tenant.settings.stories.scraping.enabled) {
     // If the scraper has not scraped this story and story metadata was not
     // provided, we need to scrape it now!
     newStory = await scrape(mongo, config, tenant.id, newStory.id, storyURL);

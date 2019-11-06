@@ -6,9 +6,9 @@ export const StorySettings: GQLStorySettingsTypeResolver<
   story.StorySettings
 > = {
   live: s => s.live || {},
-  moderation: (s, input, ctx) => s.moderation || ctx.tenant.moderation,
+  moderation: (s, input, ctx) => s.moderation || ctx.tenant.settings.moderation,
   premodLinksEnable: (s, input, ctx) =>
-    s.premodLinksEnable || ctx.tenant.premodLinksEnable,
+    s.premodLinksEnable || ctx.tenant.settings.premodLinksEnable,
   messageBox: s => {
     if (s.messageBox) {
       return s.messageBox;

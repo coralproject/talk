@@ -161,9 +161,9 @@ export async function invite(
   now = new Date()
 ) {
   if (
-    !tenant.auth.integrations.local.enabled ||
-    !tenant.auth.integrations.local.allowRegistration ||
-    !tenant.auth.integrations.local.targetFilter.admin
+    !tenant.settings.auth.integrations.local.enabled ||
+    !tenant.settings.auth.integrations.local.allowRegistration ||
+    !tenant.settings.auth.integrations.local.targetFilter.admin
   ) {
     // TODO: (wyattjoh) investigate throwing a different error for when the target filter is turned off for admin
     throw new IntegrationDisabled("local");
@@ -242,8 +242,8 @@ export async function invite(
       template: {
         name: "account-notification/invite",
         context: {
-          organizationName: tenant.organization.name,
-          organizationURL: tenant.organization.url,
+          organizationName: tenant.name,
+          organizationURL: tenant.url,
           inviteURL,
         },
       },
@@ -278,9 +278,9 @@ export async function redeem(
   now: Date
 ) {
   if (
-    !tenant.auth.integrations.local.enabled ||
-    !tenant.auth.integrations.local.allowRegistration ||
-    !tenant.auth.integrations.local.targetFilter.admin
+    !tenant.settings.auth.integrations.local.enabled ||
+    !tenant.settings.auth.integrations.local.allowRegistration ||
+    !tenant.settings.auth.integrations.local.targetFilter.admin
   ) {
     // TODO: (wyattjoh) investigate throwing a different error for when the target filter is turned off for admin
     throw new IntegrationDisabled("local");

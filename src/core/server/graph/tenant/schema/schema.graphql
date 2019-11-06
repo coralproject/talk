@@ -1102,26 +1102,26 @@ type CloseCommenting {
   message: String!
 }
 
-"""
-Organization stores information about the organization behind this specific
-instance of Coral.
-"""
-type Organization {
-  """
-  name is the name of the organization.
-  """
-  name: String!
+# """
+# Organization stores information about the organization behind this specific
+# instance of Coral.
+# """
+# type Organization {
+#   """
+#   name is the name of the organization.
+#   """
+#   name: String!
 
-  """
-  contactEmail is the email of the organization.
-  """
-  contactEmail: String!
+#   """
+#   contactEmail is the email of the organization.
+#   """
+#   contactEmail: String!
 
-  """
-  url is the URL to the organizations home page.
-  """
-  url: String!
-}
+#   """
+#   url is the URL to the organizations home page.
+#   """
+#   url: String!
+# }
 
 """
 StoryScrapingConfiguration stores the configuration around story scraping.
@@ -5788,4 +5788,143 @@ type Subscription {
   """
   commentFeatured(storyID: ID!): CommentFeaturedPayload!
     @auth(roles: [MODERATOR, ADMIN])
+}
+
+"""
+Settings stores the global settings for a given Entity.
+"""
+type EntitySettings {
+  """
+  domain is the domain that is associated with this Entity.
+  """
+  domain: String! @auth(roles: [ADMIN])
+
+  """
+  staticURI if configured, is the static URI used to serve static files from.
+  """
+  staticURI: String @auth(roles: [ADMIN])
+
+  """
+  live provides configuration options related to live updates for stories on
+  this site.
+  """
+  live: LiveConfiguration!
+
+  """
+  moderation is the moderation mode for all Stories on the site.
+  """
+  moderation: MODERATION_MODE @auth(roles: [ADMIN])
+
+  """
+  communityGuidelines will be shown in the comments stream.
+  """
+  communityGuidelines: CommunityGuidelines!
+
+  """
+  premodLinksEnable will put all comments that contain links into premod.
+  """
+  premodLinksEnable: Boolean @auth(roles: [ADMIN])
+
+  """
+  closeCommenting contains settings related to the automatic closing of commenting on
+  Stories.
+  """
+  closeCommenting: CloseCommenting!
+
+  """
+  customCSSURL is the URL of the custom CSS used to display on the frontend.
+  """
+  customCSSURL: String
+
+  """
+  disableCommenting will disable commenting site-wide.
+  """
+  disableCommenting: DisableCommenting!
+
+  """
+  editCommentWindowLength is the length of time (in seconds) after a comment is
+  posted that it can still be edited by the author.
+  """
+  editCommentWindowLength: Int!
+
+  """
+  charCount stores the character count moderation settings.
+  """
+  charCount: CharCount!
+
+  """
+  email is the set of credentials and settings associated with the organization.
+  """
+  email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  wordList will return a given list of words.
+  """
+  wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  auth contains all the settings related to authentication and authorization.
+  """
+  auth: Auth!
+
+  """
+  integrations contains all the external integrations that can be enabled.
+  """
+  integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  recentCommentHistory is the set of settings related to how automatic
+  pre-moderation is controlled.
+  """
+  recentCommentHistory: RecentCommentHistoryConfiguration!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  reaction specifies the configuration for reactions.
+  """
+  reaction: ReactionConfiguration!
+
+  """
+  staff specifies the configuration for the staff badges assigned to users with
+  any role above COMMENTER.
+  """
+  staff: StaffConfiguration!
+
+  """
+  accountFeatures stores the configuration for commenter account features.
+  """
+  accountFeatures: CommenterAccountFeatures!
+
+  """
+  stories stores the configuration around stories.
+  """
+  stories: StoryConfiguration! @auth(roles: [ADMIN])
+}
+
+type Organization {
+  id: ID!
+  name: String!
+  contactEmail: String!
+  url: String!
+  createdAt: Time!
+  domain: String!
+  allowedDomains: [String!]! @auth(roles: [ADMIN])
+}
+
+type Community {
+  id: ID!
+  name: String!
+  contactEmail: String!
+  url: String!
+  createdAt: Time!
+}
+
+type Site {
+  id: ID!
+  name: String!
+  contactEmail: String!
+  url: String!
+  createdAt: Time!
+  domain: String!
+  allowedDomains: [String!]! @auth(roles: [ADMIN])
 }

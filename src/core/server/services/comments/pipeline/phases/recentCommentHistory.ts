@@ -24,13 +24,13 @@ export const recentCommentHistory = async ({
   "author" | "tenant" | "now" | "mongo"
 >): Promise<IntermediatePhaseResult | void> => {
   // Ensure this mode is enabled.
-  if (!tenant.recentCommentHistory.enabled) {
+  if (!tenant.settings.recentCommentHistory.enabled) {
     return;
   }
 
   // Get the time frame.
   const since = DateTime.fromJSDate(now)
-    .plus({ seconds: -tenant.recentCommentHistory.timeFrame })
+    .plus({ seconds: -tenant.settings.recentCommentHistory.timeFrame })
     .toJSDate();
 
   // Get the comment rates for this User.
@@ -43,7 +43,7 @@ export const recentCommentHistory = async ({
 
   // Get the rejection rate.
   const rate = calculateRejectionRate(counts);
-  if (rate >= tenant.recentCommentHistory.triggerRejectionRate) {
+  if (rate >= tenant.settings.recentCommentHistory.triggerRejectionRate) {
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [

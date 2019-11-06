@@ -453,14 +453,14 @@ export async function edit(
  * @param now the date that is the base, defaulting to the current time
  */
 export function getLastCommentEditableUntilDate(
-  tenant: Pick<Tenant, "editCommentWindowLength">,
+  tenant: Pick<Tenant, "settings">,
   now = new Date()
 ): Date {
   return (
     DateTime.fromJSDate(now)
       // editCommentWindowLength is in seconds, so multiply by 1000 to get
       // milliseconds.
-      .minus(tenant.editCommentWindowLength * 1000)
+      .minus(tenant.settings.editCommentWindowLength * 1000)
       .toJSDate()
   );
 }
@@ -473,14 +473,14 @@ export function getLastCommentEditableUntilDate(
  * @param createdAt the date that is the base, defaulting to the current time
  */
 export function getCommentEditableUntilDate(
-  tenant: Pick<Tenant, "editCommentWindowLength">,
+  tenant: Pick<Tenant, "settings">,
   createdAt: Date
 ): Date {
   return (
     DateTime.fromJSDate(createdAt)
       // editCommentWindowLength is in seconds, so multiply by 1000 to get
       // milliseconds.
-      .plus(tenant.editCommentWindowLength * 1000)
+      .plus(tenant.settings.editCommentWindowLength * 1000)
       .toJSDate()
   );
 }

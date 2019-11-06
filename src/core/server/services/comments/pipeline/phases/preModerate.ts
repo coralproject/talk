@@ -22,7 +22,7 @@ export const preModerate: IntermediateModerationPhase = ({
   // premod status.
 
   if (
-    testModerationMode(tenant) ||
+    testModerationMode(tenant.settings) ||
     (story.settings && testModerationMode(story.settings))
   ) {
     return {

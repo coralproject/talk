@@ -11,7 +11,7 @@ const testDisabledCommenting = (settings: Settings) =>
 export const commentingDisabled: IntermediateModerationPhase = ({
   tenant,
 }): IntermediatePhaseResult | void => {
-  if (testDisabledCommenting(tenant)) {
+  if (testDisabledCommenting(tenant.settings)) {
     throw new CommentingDisabledError();
   }
 };

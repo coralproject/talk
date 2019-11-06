@@ -55,7 +55,7 @@ export class MailerQueue {
       return;
     }
 
-    if (!tenant.email.enabled) {
+    if (!tenant.settings.email.enabled) {
       log.error("not adding email, it was disabled");
       // TODO: (wyattjoh) maybe throw an error here?
       return;

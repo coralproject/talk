@@ -21,7 +21,7 @@ export const spam: IntermediateModerationPhase = async ({
   nudge,
   log,
 }): Promise<IntermediatePhaseResult | void> => {
-  const integration = tenant.integrations.akismet;
+  const integration = tenant.settings.integrations.akismet;
 
   // We can only check for spam if this comment originated from a graphql
   // request via an HTTP call.

@@ -16,7 +16,9 @@ describe("storyClosed", () => {
     storyClosed({
       story: {} as ModerationPhaseContext["story"],
       tenant: {
-        closeCommenting: { auto: true },
+        settings: {
+          closeCommenting: { auto: true },
+        },
       } as ModerationPhaseContext["tenant"],
       now: new Date(),
     });
@@ -25,9 +27,11 @@ describe("storyClosed", () => {
       storyClosed({
         story: { createdAt: new Date() } as ModerationPhaseContext["story"],
         tenant: {
-          closeCommenting: {
-            auto: true,
-            timeout: -6000,
+          settings: {
+            closeCommenting: {
+              auto: true,
+              timeout: -6000,
+            },
           },
         } as ModerationPhaseContext["tenant"],
         now: new Date(),
@@ -46,7 +50,9 @@ describe("storyClosed", () => {
             .toJSDate(),
         } as ModerationPhaseContext["story"],
         tenant: {
-          closeCommenting: { auto: true },
+          settings: {
+            closeCommenting: { auto: true },
+          },
         } as ModerationPhaseContext["tenant"],
         now,
       })
@@ -56,7 +62,9 @@ describe("storyClosed", () => {
       storyClosed({
         story: {} as ModerationPhaseContext["story"],
         tenant: {
-          closeCommenting: { auto: true },
+          settings: {
+            closeCommenting: { auto: true },
+          },
         } as ModerationPhaseContext["tenant"],
         now,
       })

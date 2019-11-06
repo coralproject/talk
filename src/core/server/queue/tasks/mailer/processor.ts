@@ -152,7 +152,7 @@ function createMessageTranslator(i18n: I18n) {
       bundle,
       templateName,
       `email-subject-${camelCase(templateName)}`,
-      { organizationName: tenant.organization.name }
+      { organizationName: tenant.name }
     );
 
     // Generate the text content of the message from the HTML.
@@ -222,7 +222,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
       return;
     }
 
-    const { enabled, smtp, fromEmail, fromName } = tenant.email;
+    const { enabled, smtp, fromEmail, fromName } = tenant.settings.email;
     if (!enabled) {
       log.error("not sending email, it was disabled");
       return;

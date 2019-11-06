@@ -335,9 +335,9 @@ export async function updatePassword(
         context: {
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: updatedUser.username!,
-          organizationName: tenant.organization.name,
-          organizationURL: tenant.organization.url,
-          organizationContactEmail: tenant.organization.contactEmail,
+          organizationName: tenant.name,
+          organizationURL: tenant.url,
+          organizationContactEmail: tenant.contactEmail,
         },
       },
     });
@@ -396,8 +396,8 @@ export async function requestAccountDeletion(
       name: "account-notification/delete-request-confirmation",
       context: {
         requestDate: formattedDate,
-        organizationName: tenant.organization.name,
-        organizationURL: tenant.organization.url,
+        organizationName: tenant.name,
+        organizationURL: tenant.url,
       },
     },
   });
@@ -425,8 +425,8 @@ export async function cancelAccountDeletion(
     template: {
       name: "account-notification/delete-request-cancel",
       context: {
-        organizationName: tenant.organization.name,
-        organizationURL: tenant.organization.url,
+        organizationName: tenant.name,
+        organizationURL: tenant.url,
       },
     },
   });
@@ -558,9 +558,9 @@ export async function updateUsername(
         name: "account-notification/update-username",
         context: {
           username: user.username!,
-          organizationName: tenant.organization.name,
-          organizationURL: tenant.organization.url,
-          organizationContactEmail: tenant.organization.contactEmail,
+          organizationName: tenant.name,
+          organizationURL: tenant.url,
+          organizationContactEmail: tenant.contactEmail,
         },
       },
     });
@@ -627,15 +627,17 @@ function enabledAuthenticationIntegrations(
   tenant: Tenant,
   target?: "stream" | "admin"
 ): string[] {
-  return Object.keys(tenant.auth.integrations).filter((key: string) => {
-    const { enabled, targetFilter } = tenant.auth.integrations[
-      key as keyof GQLAuthIntegrations
-    ];
-    if (target) {
-      return enabled && targetFilter[target];
+  return Object.keys(tenant.settings.auth.integrations).filter(
+    (key: string) => {
+      const { enabled, targetFilter } = tenant.settings.auth.integrations[
+        key as keyof GQLAuthIntegrations
+      ];
+      if (target) {
+        return enabled && targetFilter[target];
+      }
+      return enabled && targetFilter.admin && targetFilter.stream;
     }
-    return enabled && targetFilter.admin && targetFilter.stream;
-  });
+  );
 }
 
 /**
@@ -645,7 +647,7 @@ function enabledAuthenticationIntegrations(
  * @param user the User that we are updating
  */
 function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
-  if (!tenant.accountFeatures.changeUsername) {
+  if (!tenant.settings.accountFeatures.changeUsername) {
     return false;
   }
 
@@ -845,9 +847,9 @@ export async function ban(
         context: {
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: user.username!,
-          organizationName: tenant.organization.name,
-          organizationURL: tenant.organization.url,
-          organizationContactEmail: tenant.organization.contactEmail,
+          organizationName: tenant.name,
+          organizationURL: tenant.url,
+          organizationContactEmail: tenant.contactEmail,
           customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
@@ -980,9 +982,9 @@ export async function suspend(
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: updatedUser.username!,
           until: finishDateTime.toRFC2822(),
-          organizationName: tenant.organization.name,
-          organizationURL: tenant.organization.url,
-          organizationContactEmail: tenant.organization.contactEmail,
+          organizationName: tenant.name,
+          organizationURL: tenant.url,
+          organizationContactEmail: tenant.contactEmail,
           customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
@@ -1105,7 +1107,7 @@ export async function requestCommentsDownload(
   user: User,
   now: Date
 ) {
-  if (!tenant.accountFeatures.downloadComments) {
+  if (!tenant.settings.accountFeatures.downloadComments) {
     throw new Error("Downloading comments is not enabled");
   }
   // Check to see if the user is allowed to download this now.
@@ -1140,8 +1142,8 @@ export async function requestCommentsDownload(
           username: user.username!,
           date: Intl.DateTimeFormat(tenant.locale).format(now),
           downloadUrl,
-          organizationName: tenant.organization.name,
-          organizationURL: tenant.organization.url,
+          organizationName: tenant.name,
+          organizationURL: tenant.url,
         },
       },
     });

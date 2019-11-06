@@ -237,9 +237,9 @@ export async function sendConfirmationEmail(
         // TODO: (wyattjoh) possibly reevaluate the use of a required username.
         username: user.username,
         confirmURL,
-        organizationName: tenant.organization.name,
-        organizationURL: tenant.organization.url,
-        organizationContactEmail: tenant.organization.contactEmail,
+        organizationName: tenant.name,
+        organizationURL: tenant.url,
+        organizationContactEmail: tenant.contactEmail,
       },
     },
   });

@@ -27,7 +27,7 @@ export function getStoryTitle(story: Pick<Story, "metadata" | "url">) {
 }
 
 export function getStoryClosedAt(
-  tenant: Pick<Tenant, "closeCommenting">,
+  tenant: Pick<Tenant, "settings">,
   story: Pick<Story, "closedAt" | "createdAt">
 ): Story["closedAt"] {
   // Try to get the closedAt time from the story.
@@ -42,14 +42,14 @@ export function getStoryClosedAt(
 
   // If the story hasn't already been closed, then check to see if the Tenant
   // has the auto close stream enabled.
-  if (tenant.closeCommenting.auto) {
+  if (tenant.settings.closeCommenting.auto) {
     // Auto-close stream has been enabled, convert the createdAt time into the
     // closedAt time by adding the closedTimeout.
     return (
       DateTime.fromJSDate(story.createdAt)
         // closedTimeout is in seconds, so multiply by 1000 to get
         // milliseconds.
-        .plus(tenant.closeCommenting.timeout * 1000)
+        .plus(tenant.settings.closeCommenting.timeout * 1000)
         .toJSDate()
     );
   }

@@ -37,7 +37,9 @@ export class OIDCVerifier implements Verifier<OIDCIDToken> {
     now: Date
   ) {
     // Ensure that the integration is enabled.
-    const integration = getEnabledIntegration(tenant.auth.integrations.oidc);
+    const integration = getEnabledIntegration(
+      tenant.settings.auth.integrations.oidc
+    );
 
     // Grab the JWKS client to verify the SSO ID token.
     let client = this.cache.get(tenant.id);
@@ -67,8 +69,8 @@ export class OIDCVerifier implements Verifier<OIDCIDToken> {
     tenant: Tenant
   ): token is OIDCIDToken {
     return (
-      tenant.auth.integrations.oidc.enabled &&
-      Boolean(tenant.auth.integrations.oidc.jwksURI) &&
+      tenant.settings.auth.integrations.oidc.enabled &&
+      Boolean(tenant.settings.auth.integrations.oidc.jwksURI) &&
       isOIDCToken(token)
     );
   }
