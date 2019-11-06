@@ -1,6 +1,8 @@
-import { Omit } from "coral-common/types";
+import { Omit, RequireProperty } from "coral-common/types";
+
 import {
   GQLAuth,
+  GQLAuthenticationTargetFilter,
   GQLEmailConfiguration,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
@@ -9,7 +11,6 @@ import {
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
   GQLSettings,
-  GQLSSOAuthIntegration,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
 export type LiveConfiguration = Omit<GQLLiveConfiguration, "configurable">;
@@ -37,13 +38,52 @@ export type FacebookAuthIntegration = Omit<
   "callbackURL" | "redirectURL"
 >;
 
+export interface SSOKey {
+  /**
+   * kid is the identifier for the key used when verifying tokens issued by the
+   * provider.
+   */
+  kid: string;
+
+  /**
+   * secret is the actual underlying secret used to verify the tokens with. When
+   * this is not available, it indicates that the token secret was deleted.
+   */
+  secret?: string;
+
+  /**
+   * createdAt is the time that this key was created at.
+   */
+  createdAt: Date;
+
+  /**
+   * deprecateAt when provided is the time that the token should no longer be
+   * valid at.
+   */
+  deprecateAt?: Date;
+
+  /**
+   * deletedAt is the timestamp that the token was revoked.
+   */
+  deletedAt?: Date;
+}
+
+export type RequiredSSOKey = RequireProperty<SSOKey, "secret">;
+
+export interface SSOAuthIntegration {
+  enabled: boolean;
+  allowRegistration: boolean;
+  targetFilter: GQLAuthenticationTargetFilter;
+  keys: SSOKey[];
+}
+
 /**
  * AuthIntegrations are the set of configurations for the variations of
  * authentication solutions.
  */
 export interface AuthIntegrations {
   local: GQLLocalAuthIntegration;
-  sso: GQLSSOAuthIntegration;
+  sso: SSOAuthIntegration;
   oidc: OIDCAuthIntegration;
   google: GoogleAuthIntegration;
   facebook: FacebookAuthIntegration;

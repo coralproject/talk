@@ -9,7 +9,10 @@ import {
 } from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { extractTokenFromRequest } from "coral-server/services/jwt";
+import {
+  extractTokenFromRequest,
+  StandardHeader,
+} from "coral-server/services/jwt";
 import { Request } from "coral-server/types/express";
 
 import { JWTToken, JWTVerifier } from "./verifiers/jwt";
@@ -38,14 +41,15 @@ export interface Verifier<T = Token> {
     tokenString: string,
     token: T,
     tenant: Tenant,
-    now: Date
+    now: Date,
+    kid?: string
   ) => Promise<Readonly<User> | null>;
 
   /**
    * supports will perform type checking and ensure that the given Tenant
    * supports the requested verification type.
    */
-  supports: (token: T | object, tenant: Tenant) => token is T;
+  supports: (token: T | object, tenant: Tenant, kid?: string) => token is T;
 }
 
 export function createVerifiers(
@@ -64,16 +68,29 @@ export async function verifyAndRetrieveUser(
   tokenString: string,
   now = new Date()
 ) {
-  const token: Token = jwt.decode(tokenString);
-  if (!token || typeof token === "string") {
+  // Decode the token into header and payload parts.
+  const decoded = jwt.decode(tokenString, {
+    complete: true,
+  });
+  if (!decoded || typeof decoded === "string") {
     throw new TokenInvalidError(tokenString, "token could not be decoded");
   }
+
+  // Pull the parts of the token apart.
+  const header: StandardHeader = decoded.header;
+  const token: Token = decoded.payload;
 
   try {
     // Try to verify the token.
     for (const verifier of verifiers) {
       if (verifier.supports(token, tenant)) {
-        return await verifier.verify(tokenString, token, tenant, now);
+        return await verifier.verify(
+          tokenString,
+          token,
+          tenant,
+          now,
+          header.kid
+        );
       }
     }
   } catch (err) {

@@ -5,10 +5,9 @@ import OAuth2Strategy, {
 } from "coral-server/app/middleware/passport/strategies/oauth2";
 import { constructTenantURL } from "coral-server/app/url";
 import {
-  GQLAuthIntegrations,
-  GQLGoogleAuthIntegration,
-  GQLUSER_ROLE,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+  AuthIntegrations,
+  GoogleAuthIntegration,
+} from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import {
   GoogleProfile,
@@ -16,10 +15,12 @@ import {
 } from "coral-server/models/user";
 import { findOrCreate } from "coral-server/services/users";
 
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+
 export type GoogleStrategyOptions = OAuth2StrategyOptions;
 
 export default class GoogleStrategy extends OAuth2Strategy<
-  GQLGoogleAuthIntegration,
+  GoogleAuthIntegration,
   Strategy
 > {
   public name = "google";
@@ -33,12 +34,12 @@ export default class GoogleStrategy extends OAuth2Strategy<
     });
   }
 
-  protected getIntegration = (integrations: GQLAuthIntegrations) =>
+  protected getIntegration = (integrations: AuthIntegrations) =>
     integrations.google;
 
   protected async findOrCreateUser(
     tenant: Tenant,
-    integration: Required<GQLGoogleAuthIntegration>,
+    integration: Required<GoogleAuthIntegration>,
     { id, photos, emails }: Profile,
     now = new Date()
   ) {
@@ -93,7 +94,7 @@ export default class GoogleStrategy extends OAuth2Strategy<
 
   protected createStrategy(
     tenant: Tenant,
-    integration: Required<GQLGoogleAuthIntegration>
+    integration: Required<GoogleAuthIntegration>
   ) {
     return new Strategy(
       {

@@ -1,24 +1,27 @@
 import { Redis } from "ioredis";
 import { isUndefined } from "lodash";
+import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import { URL } from "url";
 
 import { discover } from "coral-server/app/middleware/passport/strategies/oidc/discover";
 import { Config } from "coral-server/config";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
-import {
-  GQLSettingsInput,
-  GQLSettingsWordListInput,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   createTenant,
   CreateTenantInput,
-  regenerateTenantSSOKey,
+  createTenantSSOKey,
+  deprecateTenantSSOKey,
   Tenant,
   updateTenant,
 } from "coral-server/models/tenant";
 import { I18n } from "coral-server/services/i18n";
+
+import {
+  GQLSettingsInput,
+  GQLSettingsWordListInput,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 import TenantCache from "./cache";
 
@@ -124,9 +127,34 @@ export async function regenerateSSOKey(
   mongo: Db,
   redis: Redis,
   cache: TenantCache,
-  tenant: Tenant
+  tenant: Tenant,
+  now: Date
 ) {
-  const updatedTenant = await regenerateTenantSSOKey(mongo, tenant.id);
+  // Deprecate the old Tenant SSO key if it exists.
+  if (tenant.auth.integrations.sso.keys.length > 0) {
+    // Get the old keys that are not deprecated.
+    const keysToDeprecate = tenant.auth.integrations.sso.keys.filter(key => {
+      return !key.deletedAt && !key.deprecateAt && key.secret;
+    });
+
+    // Check to see if there are keys to deprecate.
+    if (keysToDeprecate.length > 0) {
+      // All the keys will be deprecated a month from now.
+      // TODO: [CORL-754] (wyattjoh) take input for the deprecation duration later.
+      const deprecateAt = DateTime.fromJSDate(now)
+        .plus({ month: 1 })
+        .toJSDate();
+
+      // Deprecate all the keys that are associated on the tenant that haven't
+      // been done.
+      for (const key of keysToDeprecate) {
+        await deprecateTenantSSOKey(mongo, tenant.id, key.kid, deprecateAt);
+      }
+    }
+  }
+
+  // Create the new Tenant.
+  const updatedTenant = await createTenantSSOKey(mongo, tenant.id, now);
   if (!updatedTenant) {
     return null;
   }
