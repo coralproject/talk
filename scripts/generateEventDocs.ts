@@ -171,7 +171,7 @@ function removeFutureAddedValue(text: string) {
  * @param markdownFile The markdown file we want to inject the docs too.
  * @param entries
  */
-function emitDocs(markdownFile: string, entries: DocEntry[]) {
+function emitDocs(markdownFile: string, entries: DocEntry[], verify = false) {
   const previousContent = fs.existsSync(markdownFile)
     ? fs.readFileSync(markdownFile).toString()
     : "";
@@ -217,19 +217,30 @@ function emitDocs(markdownFile: string, entries: DocEntry[]) {
     <!-- END docs:events -->
   `;
 
+  let newContent;
   // Find previous block.
   if (BLOCK_REGEXP.test(previousContent)) {
-    fs.writeFileSync(
-      markdownFile,
-      previousContent.replace(BLOCK_REGEXP, output)
-    );
-    // eslint-disable-next-line no-console
-    console.log("Successfully updated previous documentation");
+    newContent = previousContent.replace(BLOCK_REGEXP, output);
   } else {
-    fs.writeFileSync(markdownFile, previousContent + "\n" + output);
-    // eslint-disable-next-line no-console
-    console.log("Successfully Appended documentation");
+    newContent = previousContent + "\n" + output;
   }
+  if (previousContent === newContent) {
+    // eslint-disable-next-line no-console
+    console.log(`${markdownFile} is up to date`);
+    return;
+  }
+  if (verify) {
+    // eslint-disable-next-line no-console
+    console.error(
+      `${markdownFile} is outdated, please run \`npm run docs:events\``
+    );
+    process.exit(1);
+    return;
+  }
+
+  fs.writeFileSync(markdownFile, newContent);
+  // eslint-disable-next-line no-console
+  console.log(`Successfully injected documentation into ${markdownFile}`);
 }
 
 function main() {
@@ -259,7 +270,7 @@ function main() {
   );
 
   const entries = gatherEntries([eventFile], config.options);
-  emitDocs(markdownFile, entries);
+  emitDocs(markdownFile, entries, process.argv[4] === "--verify");
 }
 
 main();
