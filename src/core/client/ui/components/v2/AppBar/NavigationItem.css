@@ -16,7 +16,7 @@
 
   &:hover {
     cursor: pointer;
-
+    color: var(--v2-colors-mono-500);
     background-color: var(--v2-palette-main-nav-background-hover);
   }
 }
@@ -33,5 +33,6 @@
 
   &:hover {
     background-color: var(--v2-palette-main-nav-background-active);
+    color: var(--v2-palette-main-nav-text-active);
   }
 }
