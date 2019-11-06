@@ -19,8 +19,6 @@ Example events:
 - `showFeaturedCommentTooltip`
 - `viewConversation {from: "FEATURED_COMMENTS", commentID: "c45fb5f5-03f9-49a3-a755-488c698ca0df"}`
 
-For a full list of events, consult the file `./src/core/client/stream/events.ts`.
-
 ### Viewer Network Events
 
 _Viewer Network Events_ are events that involves a network request and thus can succeed or fail. Succeeding events will have a  `.success` appended to the event name while failing events have an `.error` appended to the event name.
