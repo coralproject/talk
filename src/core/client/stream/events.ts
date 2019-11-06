@@ -27,7 +27,7 @@ import { DIGEST_FREQUENCY } from "./__generated__/NotificationSettingsContainer_
 import { MODERATION_MODE } from "./__generated__/UpdateStorySettingsMutation.graphql";
 
 /**
- * CreateCommentEvent is emitted when a top level comment is created.
+ * This event is emitted when a top level comment is created.
  */
 export const CreateCommentEvent = createViewerNetworkEvent<{
   storyID: string;
@@ -43,7 +43,7 @@ export const CreateCommentEvent = createViewerNetworkEvent<{
 }>("createComment");
 
 /**
- * CreateCommentReplyEvent is emitted when a comment reply is created.
+ * This event is emitted when a comment reply is created.
  */
 export const CreateCommentReplyEvent = createViewerNetworkEvent<{
   body: string;
@@ -59,7 +59,7 @@ export const CreateCommentReplyEvent = createViewerNetworkEvent<{
 }>("createCommentReply");
 
 /**
- * EditCommentEvent is emitted when the viewer edits a comment.
+ * This event is emitted when the viewer edits a comment.
  */
 export const EditCommentEvent = createViewerNetworkEvent<{
   body: string;
@@ -74,7 +74,7 @@ export const EditCommentEvent = createViewerNetworkEvent<{
 }>("editComment");
 
 /**
- * CreateCommentReactionEvent is emitted when the viewer reacts to a comment.
+ * This event is emitted when the viewer reacts to a comment.
  */
 export const CreateCommentReactionEvent = createViewerNetworkEvent<{
   commentID: string;
@@ -86,7 +86,7 @@ export const CreateCommentReactionEvent = createViewerNetworkEvent<{
 }>("createCommentReaction");
 
 /**
- * RemoveCommentReactionEvent is emitted when the viewer removes its reaction from a comment.
+ * This event is emitted when the viewer removes its reaction from a comment.
  */
 export const RemoveCommentReactionEvent = createViewerNetworkEvent<{
   commentID: string;
@@ -98,7 +98,7 @@ export const RemoveCommentReactionEvent = createViewerNetworkEvent<{
 }>("removeCommentReaction");
 
 /**
- * FeatureCommentEvent is emitted when the viewer features a comment.
+ * This event is emitted when the viewer features a comment.
  */
 export const FeatureCommentEvent = createViewerNetworkEvent<{
   commentID: string;
@@ -110,7 +110,7 @@ export const FeatureCommentEvent = createViewerNetworkEvent<{
 }>("featureComment");
 
 /**
- * UnfeatureCommentEvent is emitted when the viewer unfeatures a comment.
+ * This event is emitted when the viewer unfeatures a comment.
  */
 export const UnfeatureCommentEvent = createViewerNetworkEvent<{
   commentID: string;
@@ -122,7 +122,7 @@ export const UnfeatureCommentEvent = createViewerNetworkEvent<{
 }>("unfeatureComment");
 
 /**
- * ApproveCommentEvent is emitted when the viewer approves a comment.
+ * This event is emitted when the viewer approves a comment.
  */
 export const ApproveCommentEvent = createViewerNetworkEvent<{
   commentID: string;
@@ -134,7 +134,7 @@ export const ApproveCommentEvent = createViewerNetworkEvent<{
 }>("approveComment");
 
 /**
- * RejectCommentEvent is emitted when the viewer rejects a comment.
+ * This event is emitted when the viewer rejects a comment.
  */
 export const RejectCommentEvent = createViewerNetworkEvent<{
   commentID: string;
@@ -146,7 +146,7 @@ export const RejectCommentEvent = createViewerNetworkEvent<{
 }>("rejectComment");
 
 /**
- * RejectCommentEvent is emitted when the viewer bans a user.
+ * This event is emitted when the viewer bans a user.
  */
 export const BanUserEvent = createViewerNetworkEvent<{
   userID: string;
@@ -159,7 +159,7 @@ export const BanUserEvent = createViewerNetworkEvent<{
 }>("banUser");
 
 /**
- * IgnoreUserEvent is emitted when the viewer ignores a user.
+ * This event is emitted when the viewer ignores a user.
  */
 export const IgnoreUserEvent = createViewerNetworkEvent<{
   userID: string;
@@ -171,7 +171,7 @@ export const IgnoreUserEvent = createViewerNetworkEvent<{
 }>("ignoreUser");
 
 /**
- * RemoveUserIgnoreEvent is emitted when the viewer remove a user from
+ * This event is emitted when the viewer remove a user from
  * its ignored users list.
  */
 export const RemoveUserIgnoreEvent = createViewerNetworkEvent<{
@@ -184,7 +184,7 @@ export const RemoveUserIgnoreEvent = createViewerNetworkEvent<{
 }>("removeUserIgnore");
 
 /**
- * SignOutEvent is emitted when the viewer signs out.
+ * This event is emitted when the viewer signs out.
  */
 export const SignOutEvent = createViewerNetworkEvent<{
   success: {};
@@ -195,7 +195,7 @@ export const SignOutEvent = createViewerNetworkEvent<{
 }>("signOut");
 
 /**
- * UpdateNotificationSettingsEvent is emitted when the viewer updates its
+ * This event is emitted when the viewer updates its
  * notification settings.
  */
 export const UpdateNotificationSettingsEvent = createViewerNetworkEvent<{
@@ -212,7 +212,7 @@ export const UpdateNotificationSettingsEvent = createViewerNetworkEvent<{
 }>("updateNotificationSettings");
 
 /**
- * UpdateStorySettingsEvent is emitted when the viewer updates the story settings.
+ * This event is emitted when the viewer updates the story settings.
  */
 export const UpdateStorySettingsEvent = createViewerNetworkEvent<{
   storyID: string;
@@ -234,7 +234,7 @@ export const UpdateStorySettingsEvent = createViewerNetworkEvent<{
 }>("updateStorySettings");
 
 /**
- * CloseStoryEvent is emitted when the viewer closes the story.
+ * This event is emitted when the viewer closes the story.
  */
 export const CloseStoryEvent = createViewerNetworkEvent<{
   storyID: string;
@@ -246,7 +246,7 @@ export const CloseStoryEvent = createViewerNetworkEvent<{
 }>("closeStoryEvent");
 
 /**
- * OpenStoryEvent is emitted when the viewer opens the story.
+ * This event is emitted when the viewer opens the story.
  */
 export const OpenStoryEvent = createViewerNetworkEvent<{
   storyID: string;
@@ -258,7 +258,7 @@ export const OpenStoryEvent = createViewerNetworkEvent<{
 }>("openStoryEvent");
 
 /**
- * LoadMoreFeaturedCommentsEvent is emitted when the viewer loads more
+ * This event is emitted when the viewer loads more
  * featured comments.
  */
 export const LoadMoreFeaturedCommentsEvent = createViewerNetworkEvent<{
@@ -268,7 +268,7 @@ export const LoadMoreFeaturedCommentsEvent = createViewerNetworkEvent<{
 }>("loadMoreFeaturedComments");
 
 /**
- * LoadMoreAllCommentsEvent is emitted when the viewer loads more
+ * This event is emitted when the viewer loads more
  * top level comments into the comment stream.
  */
 export const LoadMoreAllCommentsEvent = createViewerNetworkEvent<{
@@ -278,7 +278,7 @@ export const LoadMoreAllCommentsEvent = createViewerNetworkEvent<{
 }>("loadMoreAllComments");
 
 /**
- * LoadMoreHistoryCommentsEvent is emitted when the viewer loads more
+ * This event is emitted when the viewer loads more
  * top level comments into the history comment stream.
  */
 export const LoadMoreHistoryCommentsEvent = createViewerNetworkEvent<{
@@ -287,7 +287,7 @@ export const LoadMoreHistoryCommentsEvent = createViewerNetworkEvent<{
 }>("loadMoreHistoryComments");
 
 /**
- * ShowAllRepliesEvent is emitted when the viewer reveals
+ * This event is emitted when the viewer reveals
  * all replies of a comment.
  */
 export const ShowAllRepliesEvent = createViewerNetworkEvent<{
@@ -297,20 +297,20 @@ export const ShowAllRepliesEvent = createViewerNetworkEvent<{
 }>("showAllReplies");
 
 /**
- * LoginPromptEvent is emitted when the viewer does an
+ * This event is emitted when the viewer does an
  * action that will prompt a login dialog.
  */
 export const LoginPromptEvent = createViewerEvent("loginPrompt");
 
 /**
- * ShowAuthPopupEvent is emitted when the viewer requests the auth popup.
+ * This event is emitted when the viewer requests the auth popup.
  */
 export const ShowAuthPopupEvent = createViewerEvent<{
   view: string;
 }>("showAuthPopup");
 
 /**
- * SetMainTabEvent is emitted when the viewer changes the
+ * This event is emitted when the viewer changes the
  * tab of the main tab bar.
  */
 export const SetMainTabEvent = createViewerEvent<{
@@ -318,7 +318,7 @@ export const SetMainTabEvent = createViewerEvent<{
 }>("setMainTab");
 
 /**
- * SetProfileTabEvent is emitted when the viewer changes the
+ * This event is emitted when the viewer changes the
  * tab of the profile tab bar.
  */
 export const SetProfileTabEvent = createViewerEvent<{
@@ -326,7 +326,7 @@ export const SetProfileTabEvent = createViewerEvent<{
 }>("setProfileTab");
 
 /**
- * SetCommentsTabEvent is emitted when the viewer changes the
+ * This event is emitted when the viewer changes the
  * tab of the comments tab bar.
  */
 export const SetCommentsTabEvent = createViewerEvent<{
@@ -334,7 +334,7 @@ export const SetCommentsTabEvent = createViewerEvent<{
 }>("setCommentsTab");
 
 /**
- * SetCommentsOrderByEvent is emitted when the viewer changes the
+ * This event is emitted when the viewer changes the
  * sort order of the comments.
  */
 export const SetCommentsOrderByEvent = createViewerEvent<{
@@ -342,7 +342,7 @@ export const SetCommentsOrderByEvent = createViewerEvent<{
 }>("setCommentsOrderBy");
 
 /**
- * ViewConversationEvent is emitted when the viewer changes to
+ * This event is emitted when the viewer changes to
  * the single conversation view.
  */
 export const ViewConversationEvent = createViewerEvent<{
@@ -351,7 +351,7 @@ export const ViewConversationEvent = createViewerEvent<{
 }>("viewConversation");
 
 /**
- * ShowUserPopover is emitted when the viewer clicks
+ * This event is emitted when the viewer clicks
  * on a username which shows the user popover.
  */
 export const ShowUserPopoverEvent = createViewerEvent<{
@@ -359,7 +359,7 @@ export const ShowUserPopoverEvent = createViewerEvent<{
 }>("showUserPopover");
 
 /**
- * ShowAbsoluteTimestamp is emitted when the viewer clicks
+ * This event is emitted when the viewer clicks
  * on the relative timestamp to show the absolute time.
  */
 export const ShowAbsoluteTimestampEvent = createViewerEvent(
@@ -367,7 +367,7 @@ export const ShowAbsoluteTimestampEvent = createViewerEvent(
 );
 
 /**
- * ShowFeaturedCommentTooltipEvent is emitted when the viewer clicks to show the
+ * This event is emitted when the viewer clicks to show the
  * featured comment tooltip.
  */
 export const ShowFeaturedCommentTooltipEvent = createViewerEvent(
@@ -375,31 +375,31 @@ export const ShowFeaturedCommentTooltipEvent = createViewerEvent(
 );
 
 /**
- * OpenSortMenuEvent is emitted when the viewer clicks on the sort menu.
+ * This event is emitted when the viewer clicks on the sort menu.
  */
 export const OpenSortMenuEvent = createViewerEvent("openSortMenu");
 
 /**
- * CreateCommentFocusEvent is emitted when the viewer focus on the RTE to
+ * This event is emitted when the viewer focus on the RTE to
  * create a comment.
  */
 export const CreateCommentFocusEvent = createViewerEvent("createCommentFocus");
 
 /**
- * ReplyCommentFocusEvent is emitted when the viewer focus on the RTE to
+ * This event is emitted when the viewer focus on the RTE to
  * reply to a comment.
  */
 export const ReplyCommentFocusEvent = createViewerEvent("replyCommentFocus");
 
 /**
- * ViewFullDiscussionEvent is emitted when the viewer exits the single conversation.
+ * This event is emitted when the viewer exits the single conversation.
  */
 export const ViewFullDiscussionEvent = createViewerEvent<{
   commentID: string | null;
 }>("viewFullDiscussion");
 
 /**
- * ShowMoreOfConversationEvent is emitted when the viewer reveals more of
+ * This event is emitted when the viewer reveals more of
  * the parent conversation thread.
  */
 export const ShowMoreOfConversationEvent = createViewerNetworkEvent<{
@@ -409,28 +409,28 @@ export const ShowMoreOfConversationEvent = createViewerNetworkEvent<{
 }>("showMoreOfConversation");
 
 /**
- * ShowSharePopoverEvent is emitted when the viewer opens the share popover.
+ * This event is emitted when the viewer opens the share popover.
  */
 export const ShowSharePopoverEvent = createViewerEvent<{
   commentID: string;
 }>("showSharePopover");
 
 /**
- * CopyPermalinkEvent is emitted when the viewer copies the permalink with the button.
+ * This event is emitted when the viewer copies the permalink with the button.
  */
 export const CopyPermalinkEvent = createViewerEvent<{
   commentID: string;
 }>("copyPermalink");
 
 /**
- * ShowReportPopoverEvent is emitted when the viewer opens the report popover.
+ * This event is emitted when the viewer opens the report popover.
  */
 export const ShowReportPopoverEvent = createViewerEvent<{
   commentID: string;
 }>("showReportPopover");
 
 /**
- * ReportCommentEvent is emitted when the viewer reports a comment.
+ * This event is emitted when the viewer reports a comment.
  */
 export const ReportCommentEvent = createViewerNetworkEvent<{
   reason: string;
@@ -444,21 +444,21 @@ export const ReportCommentEvent = createViewerNetworkEvent<{
 }>("reportComment");
 
 /**
- * ShowReplyFormEvent is emitted when the viewer opens the reply form.
+ * This event is emitted when the viewer opens the reply form.
  */
 export const ShowReplyFormEvent = createViewerEvent<{
   commentID: string;
 }>("showReplyForm");
 
 /**
- * ShowEditFormEvent is emitted when the viewer opens the edit form.
+ * This event is emitted when the viewer opens the edit form.
  */
 export const ShowEditFormEvent = createViewerEvent<{
   commentID: string;
 }>("showEditForm");
 
 /**
- * ViewNewCommentsEvent is emitted when the viewer reveals
+ * This event is emitted when the viewer reveals
  * new live comments.
  */
 export const ViewNewCommentsEvent = createViewerEvent<{
@@ -467,7 +467,7 @@ export const ViewNewCommentsEvent = createViewerEvent<{
 }>("viewNewComments");
 
 /**
- * ShowMoreRepliesEvent is emitted when the viewer reveals
+ * This event is emitted when the viewer reveals
  * new live replies.
  */
 export const ShowMoreRepliesEvent = createViewerEvent<{
@@ -476,7 +476,7 @@ export const ShowMoreRepliesEvent = createViewerEvent<{
 }>("showMoreReplies");
 
 /**
- * ShowModerationPopoverEvent is emitted when the viewer opens
+ * This event is emitted when the viewer opens
  * the moderation popover.
  */
 export const ShowModerationPopoverEvent = createViewerEvent<{
@@ -484,7 +484,7 @@ export const ShowModerationPopoverEvent = createViewerEvent<{
 }>("showModerationPopover");
 
 /**
- * GotoModerationEvent is emitted when the viewer goes to
+ * This event is emitted when the viewer goes to
  * moderation.
  */
 export const GotoModerationEvent = createViewerEvent<{
@@ -492,7 +492,7 @@ export const GotoModerationEvent = createViewerEvent<{
 }>("gotoModeration");
 
 /**
- * ShowEditUsernameDialogEvent is emitted when the viewer opens the
+ * This event is emitted when the viewer opens the
  * edit username dialog.
  */
 export const ShowEditUsernameDialogEvent = createViewerEvent(
@@ -500,7 +500,7 @@ export const ShowEditUsernameDialogEvent = createViewerEvent(
 );
 
 /**
- * ShowEditEmailDialogEvent is emitted when the viewer opens the
+ * This event is emitted when the viewer opens the
  * edit email dialog.
  */
 export const ShowEditEmailDialogEvent = createViewerEvent(
@@ -508,7 +508,7 @@ export const ShowEditEmailDialogEvent = createViewerEvent(
 );
 
 /**
- * ShowEditPasswordDialogEvent is emitted when the viewer opens the
+ * This event is emitted when the viewer opens the
  * edit password dialog.
  */
 export const ShowEditPasswordDialogEvent = createViewerEvent(
@@ -516,7 +516,7 @@ export const ShowEditPasswordDialogEvent = createViewerEvent(
 );
 
 /**
- * ShowIgnoreUserdDialogEvent is emitted when the viewer opens the
+ * This event is emitted when the viewer opens the
  * ignore user dialog.
  */
 export const ShowIgnoreUserdDialogEvent = createViewerEvent(
@@ -524,7 +524,7 @@ export const ShowIgnoreUserdDialogEvent = createViewerEvent(
 );
 
 /**
- * ResendEmailVerificationEvent is emitted when the viewer request another
+ * This event is emitted when the viewer request another
  * email verification email.
  */
 export const ResendEmailVerificationEvent = createViewerNetworkEvent<{
@@ -536,7 +536,7 @@ export const ResendEmailVerificationEvent = createViewerNetworkEvent<{
 }>("resendEmailVerification");
 
 /**
- * ChangeUsernameEvent is emitted when the viewer changes its username.
+ * This event is emitted when the viewer changes its username.
  */
 export const ChangeUsernameEvent = createViewerNetworkEvent<{
   oldUsername: string;
@@ -549,7 +549,7 @@ export const ChangeUsernameEvent = createViewerNetworkEvent<{
 }>("changeUsername");
 
 /**
- * ChangeEmailEvent is emitted when the viewer changes its email.
+ * This event is emitted when the viewer changes its email.
  */
 export const ChangeEmailEvent = createViewerNetworkEvent<{
   oldEmail: string;
@@ -562,7 +562,7 @@ export const ChangeEmailEvent = createViewerNetworkEvent<{
 }>("changeEmail");
 
 /**
- * ChangePasswordEvent is emitted when the viewer changes its password.
+ * This event is emitted when the viewer changes its password.
  */
 export const ChangePasswordEvent = createViewerNetworkEvent<{
   success: {};
@@ -573,7 +573,7 @@ export const ChangePasswordEvent = createViewerNetworkEvent<{
 }>("changePassword");
 
 /**
- * RequestDownloadCommentHistoryEvent is emitted when the viewer requests to download
+ * This event is emitted when the viewer requests to download
  * its comment history.
  */
 export const RequestDownloadCommentHistoryEvent = createViewerNetworkEvent<{
@@ -585,7 +585,7 @@ export const RequestDownloadCommentHistoryEvent = createViewerNetworkEvent<{
 }>("requestDownloadCommentHistory");
 
 /**
- * RequestAccountDeletionEvent is emitted when the viewer requests to delete
+ * This event is emitted when the viewer requests to delete
  * its account.
  */
 export const RequestAccountDeletionEvent = createViewerNetworkEvent<{
@@ -597,7 +597,7 @@ export const RequestAccountDeletionEvent = createViewerNetworkEvent<{
 }>("requestAccountDeletionEvent");
 
 /**
- * CancelAccountDeletionEvent is emitted when the viewer cancels the
+ * This event is emitted when the viewer cancels the
  * account deletion.
  */
 export const CancelAccountDeletionEvent = createViewerNetworkEvent<{

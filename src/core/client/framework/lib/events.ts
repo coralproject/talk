@@ -2,7 +2,9 @@ import { EventEmitter2 } from "eventemitter2";
 import { useCoralContext } from "./bootstrap";
 
 /**
- * A ViewerEvent represents an action triggered by the viewer.
+ * _Viewer Events_ are emitted when the viewer performs certain actions.
+ * They can be subscribed to using the `events` parameter in
+ * `Coral.createStreamEmbed`.
  */
 export interface ViewerEvent<T> {
   emit: keyof T extends never
@@ -33,8 +35,13 @@ export interface ViewerNetworkEventStarted<
 }
 
 /**
- * A ViewerNetworkEvent represents an action triggered by the viewer that
- * involves a network request.
+ * _Viewer Network Events_ are _Viewer Events_ that involves a network request and
+ * thus can succeed or fail. Succeeding events have the suffix `.success`
+ * while failing events an `.error` suffix.
+ *
+ * Moreover _Viewer Network Events_ contain the `rtt` field which indicates
+ * the time it needed from initiating the request until the _UI_ has been
+ * updated with the response data.
  */
 export interface ViewerNetworkEvent<
   T extends { success: object; error: object }
