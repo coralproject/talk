@@ -10,12 +10,13 @@ import {
   CallOut,
   Flex,
   HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import EmailField from "./EmailField";
 import InviteUsersMutation from "./InviteUsersMutation";
 import RoleField from "./RoleField";
+
+import styles from "./InviteUsersForm.css";
 
 interface Props {
   onFinish: () => void;
@@ -64,7 +65,7 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
               <Localized id="community-invite-inviteMore">
                 <Button
                   variant="underlined"
-                  color="primary"
+                  color="default"
                   disabled={submitting}
                   onClick={() => {
                     setEmailFieldCount(emailFieldCount + 1);
@@ -84,11 +85,11 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
                         id="community-invite-role-staff"
                         strong={<strong />}
                       >
-                        <Typography>
+                        <div className={styles.bodyText}>
                           Staff role: Receives a “Staff” badge, and comments are
                           automatically approved. Cannot moderate or change any
                           Coral configuration.
-                        </Typography>
+                        </div>
                       </Localized>
                     );
                   case GQLUSER_ROLE.MODERATOR:
@@ -97,13 +98,13 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
                         id="community-invite-role-moderator"
                         strong={<strong />}
                       >
-                        <Typography>
+                        <div className={styles.bodyText}>
                           Moderator role: Receives a “Staff” badge, and comments
                           are automatically approved. Has full moderation
                           privileges (approve, reject and feature comments). Can
                           configure individual articles but no site-wide
                           configuration privileges.
-                        </Typography>
+                        </div>
                       </Localized>
                     );
                   case GQLUSER_ROLE.ADMIN:
@@ -112,13 +113,13 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
                         id="community-invite-role-admin"
                         strong={<strong />}
                       >
-                        <Typography>
+                        <div className={styles.bodyText}>
                           Admin role: Receives a “Staff” badge, and comments are
                           automatically approved. Has full moderation privileges
                           (approve, reject and feature comments). Can configure
                           individual articles and has site-wide configuration
                           privileges.
-                        </Typography>
+                        </div>
                       </Localized>
                     );
                   default:
@@ -129,7 +130,7 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
             <Flex direction="row" justifyContent="flex-end">
               <Localized id="community-invite-sendInvitations">
                 <Button
-                  color="primary"
+                  color="default"
                   variant="filled"
                   type="submit"
                   disabled={submitting}

@@ -1,5 +1,20 @@
-.card {
-  max-width: 500px;
+$suspend-modal-text: var(--v2-colors-mono-500);
+
+.bodyText {
+  font-size: var(--v2-font-size-3);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  line-height: var(--v2-line-height-body-short);
+  color: $suspend-modal-text;
+}
+
+.subTitle {
+  font-size: var(--v2-font-size-4);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  line-height: var(--v2-line-height-title);
+  color: $suspend-modal-text;
+  margin: 0;
 }
 
 .radioButton {
@@ -14,7 +29,7 @@
 }
 
 .header {
-  margin: 0 0 var(--spacing-3) 0  !important;
+  margin: 0 0 var(--spacing-3) 0 !important;
 }
 
 .footer {

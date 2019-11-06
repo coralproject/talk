@@ -1,9 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { Button, Modal } from "coral-ui/components";
+import { Button, Modal } from "coral-ui/components/v2";
 
 import InviteUsersModal from "./InviteUsersModal";
+
+import styles from "./InviteUsers.css";
 
 const InviteUsers: FunctionComponent = () => {
   const [open, setOpen] = useState(false);
@@ -16,7 +18,8 @@ const InviteUsers: FunctionComponent = () => {
       <Localized id="community-invite-invite">
         <Button
           variant="filled"
-          color="primary"
+          color="default"
+          className={styles.button}
           type="button"
           data-testid="invite-users-button"
           onClick={show}
