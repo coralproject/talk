@@ -55,6 +55,7 @@ createComment.error
 ## Event List
 <!-- START docs:events -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN npm run docs:events -->
+### Index
 - <a href="#approveComment">approveComment</a>
 - <a href="#banUser">banUser</a>
 - <a href="#cancelAccountDeletion">cancelAccountDeletion</a>
@@ -113,6 +114,7 @@ createComment.error
 - <a href="#viewFullDiscussion">viewFullDiscussion</a>
 - <a href="#viewNewComments">viewNewComments</a>
 
+### Events
 - <a id="approveComment">**approveComment.success**, **approveComment.error**</a>
   This event is emitted when the viewer approves a comment.
   ```ts

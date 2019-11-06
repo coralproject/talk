@@ -210,8 +210,10 @@ function emitDocs(markdownFile: string, entries: DocEntry[]) {
   const output = stripIndent`
     <!-- START docs:events -->
     <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN npm run docs:events -->
+    ### Index
     ${prefixLines(summary, "    ")}
 
+    ### Events
     ${prefixLines(list, "    ")}
     <!-- END docs:events -->
   `;
