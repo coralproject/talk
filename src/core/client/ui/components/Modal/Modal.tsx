@@ -107,20 +107,21 @@ const Modal: FunctionComponent<Props> = ({
           active={open}
           data-testid="backdrop"
           onClick={handleBackdropClick}
-        />
-        <div
-          role="presentation"
-          className={styles.scroll}
-          onKeyDown={handleEscapeKeyDown}
         >
-          <div className={styles.alignContainer1}>
-            <div className={styles.alignContainer2}>
-              <div className={styles.wrapper}>
-                <TrapFocus>{children}</TrapFocus>
+          <div
+            role="presentation"
+            className={styles.scroll}
+            onKeyDown={handleEscapeKeyDown}
+          >
+            <div className={styles.alignContainer1}>
+              <div className={styles.alignContainer2}>
+                <div className={styles.wrapper}>
+                  <TrapFocus>{children}</TrapFocus>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </Backdrop>
       </div>,
       modalDOMNode
     );

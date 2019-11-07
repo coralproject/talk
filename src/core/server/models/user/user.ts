@@ -394,9 +394,10 @@ export interface User extends TenantResource {
   emailVerified?: boolean;
 
   /**
-   * profiles is the array of profiles assigned to the user.
+   * profiles is the array of profiles assigned to the user. When a user deletes
+   * their account, this is unset.
    */
-  profiles: Profile[];
+  profiles?: Profile[];
 
   /**
    * tokens lists the access tokens associated with the account.
@@ -506,7 +507,6 @@ async function findOrCreateUserInput(
       digestFrequency: GQLDIGEST_FREQUENCY.NONE,
     },
     moderatorNotes: [],
-    profiles: [],
     digests: [],
     createdAt: now,
   };
@@ -521,17 +521,20 @@ async function findOrCreateUserInput(
     });
   }
 
+  // Store the user's profiles in a new array.
+  const profiles: Profile[] = [];
+
   // Mutate the profiles to ensure we mask handle any secrets.
   switch (profile.type) {
     case "local": {
       // Hash the user's password with bcrypt.
       const password = await hashPassword(profile.password);
-      defaults.profiles.push({ ...profile, password });
+      profiles.push({ ...profile, password });
       break;
     }
     default:
       // Push the profile onto the User.
-      defaults.profiles.push(profile);
+      profiles.push(profile);
       break;
   }
 
@@ -539,6 +542,7 @@ async function findOrCreateUserInput(
   return {
     ...defaults,
     ...input,
+    profiles,
     id,
   };
 }
