@@ -49,4 +49,5 @@ export const User: GQLUserTypeResolver<user.User> = {
     maybeLoadOnlyIgnoredUserID(ctx, info, ignoredUsers),
   ignoreable: ({ role }) => !roleIsStaff(role),
   recentCommentHistory: ({ id }): RecentCommentHistoryInput => ({ userID: id }),
+  profiles: ({ profiles }) => (profiles ? profiles : []),
 };

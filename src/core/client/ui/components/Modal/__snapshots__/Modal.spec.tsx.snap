@@ -9,35 +9,36 @@ exports[`renders correctly 1`] = `
     className="Backdrop-root Backdrop-active"
     data-testid="backdrop"
     onClick={[Function]}
-  />
-  <div
-    className="Modal-scroll"
-    onKeyDown={[Function]}
-    role="presentation"
   >
     <div
-      className="Modal-alignContainer1"
+      className="Modal-scroll"
+      onKeyDown={[Function]}
+      role="presentation"
     >
       <div
-        className="Modal-alignContainer2"
+        className="Modal-alignContainer1"
       >
         <div
-          className="Modal-wrapper"
+          className="Modal-alignContainer2"
         >
           <div
-            onFocus={[Function]}
-            tabIndex={0}
-          />
-          <div
-            tabIndex={-1}
-          />
-          <div>
-            Test
+            className="Modal-wrapper"
+          >
+            <div
+              onFocus={[Function]}
+              tabIndex={0}
+            />
+            <div
+              tabIndex={-1}
+            />
+            <div>
+              Test
+            </div>
+            <div
+              onFocus={[Function]}
+              tabIndex={0}
+            />
           </div>
-          <div
-            onFocus={[Function]}
-            tabIndex={0}
-          />
         </div>
       </div>
     </div>

@@ -9,7 +9,6 @@
 }
 
 .scroll {
-  pointer-events: none;
   position: relative;
   overflow-y: auto;
   width: 100%;
