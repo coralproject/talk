@@ -8,18 +8,22 @@ import {
   DuplicateStoryURLError,
 } from "coral-server/errors";
 import {
-  GQLStoryMetadata,
-  GQLStorySettings,
-} from "coral-server/graph/tenant/schema/__generated__/types";
-import {
   Connection,
   ConnectionInput,
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
-import { GlobalModerationSettings } from "coral-server/models/settings";
+import {
+  GlobalModerationSettings,
+  Settings,
+} from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
 import { stories as collection } from "coral-server/services/mongodb/collections";
+
+import {
+  GQLStoryMessageBox,
+  GQLStoryMetadata,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { createEmptyCommentStatusCounts } from "../comment/helpers";
 import {
@@ -30,8 +34,15 @@ import {
 export * from "./counts";
 export * from "./helpers";
 
+// export type StorySettings = DeepPartial<
+//   Pick<GQLStorySettings, "messageBox"> & GlobalModerationSettings
+// >;
+
 export type StorySettings = DeepPartial<
-  Pick<GQLStorySettings, "messageBox"> & GlobalModerationSettings
+  Omit<Settings, "live" | "moderation" | "premodLinksEnable"> &
+    GlobalModerationSettings & {
+      messageBox: GQLStoryMessageBox;
+    }
 >;
 
 export type StoryMetadata = GQLStoryMetadata;
@@ -43,6 +54,11 @@ export interface Story extends TenantResource {
    * url is the URL to the Story page.
    */
   url: string;
+
+  /**
+   * siteID is the id of the site this story appears on
+   */
+  siteID: string | null;
 
   /**
    * metadata stores the scraped metadata from the Story page.
@@ -85,6 +101,7 @@ export interface UpsertStoryInput {
 export async function upsertStory(
   mongo: Db,
   tenantID: string,
+  siteID: string | null,
   { id = uuid.v4(), url }: UpsertStoryInput,
   now = new Date()
 ) {
@@ -95,6 +112,7 @@ export async function upsertStory(
       id,
       url,
       tenantID,
+      siteID,
       createdAt: now,
       commentCounts: {
         action: {},
@@ -162,12 +180,13 @@ export async function findStory(
 export interface FindOrCreateStoryInput {
   id?: string;
   url?: string;
+  siteID?: string;
 }
 
 export async function findOrCreateStory(
   mongo: Db,
   tenantID: string,
-  { id, url }: FindOrCreateStoryInput,
+  { id, url, siteID }: FindOrCreateStoryInput,
   now = new Date()
 ) {
   if (id) {
@@ -176,6 +195,7 @@ export async function findOrCreateStory(
       return upsertStory(
         mongo,
         tenantID,
+        siteID || null,
         {
           id,
           url,
@@ -194,7 +214,7 @@ export async function findOrCreateStory(
     throw new Error("cannot upsert an story without the url");
   }
 
-  return upsertStory(mongo, tenantID, { url }, now);
+  return upsertStory(mongo, tenantID, siteID || null, { url }, now);
 }
 
 export type CreateStoryInput = Partial<
@@ -204,6 +224,7 @@ export type CreateStoryInput = Partial<
 export async function createStory(
   mongo: Db,
   tenantID: string,
+  siteID: string | null,
   id: string,
   url: string,
   input: CreateStoryInput,
@@ -215,6 +236,7 @@ export async function createStory(
     id,
     url,
     tenantID,
+    siteID,
     createdAt: now,
     commentCounts: {
       action: {},

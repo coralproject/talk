@@ -3935,6 +3935,8 @@ input CreateStory {
   automatic close date.
   """
   closedAt: Time
+
+  siteID: ID
 }
 
 input CreateStoryInput {

@@ -31,7 +31,7 @@ export const Stories = (ctx: TenantContext) => ({
       create(
         ctx.mongo,
         ctx.tenant,
-        ctx.config,
+        input.story.siteID || null,
         input.story.id,
         input.story.url,
         omitBy(input.story, isNull),
