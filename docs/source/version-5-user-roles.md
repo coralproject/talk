@@ -1,13 +1,13 @@
 ---
-title: User Roles in Talk
-permalink: /roles/
+title: User roles in Coral
+permalink: v5/roles/
 ---
 
-We have four preset roles in Talk:
+We have four preset roles in Coral:
 
 **Commenter**
 * A standard community member
-* Could receive a badge (eg. 'Subscriber') via [a custom newsroom Plugin Recipe](https://docs.coralproject.net/talk/plugin-recipes/#recipe-subscriber)
+* Could receive a badge (eg. 'Subscriber')
 * No moderation abilities
 * No configuration abilities
 
