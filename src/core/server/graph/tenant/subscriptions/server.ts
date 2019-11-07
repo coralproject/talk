@@ -15,7 +15,7 @@ import {
 } from "subscriptions-transport-ws";
 
 import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
-import { Omit } from "coral-common/types";
+import { Omit, RequireProperty } from "coral-common/types";
 import { AppOptions } from "coral-server/app";
 import { getHostname } from "coral-server/app/helpers/hostname";
 import {
@@ -36,11 +36,12 @@ import {
 } from "coral-server/graph/common/extensions";
 import { getOperationMetadata } from "coral-server/graph/common/extensions/helpers";
 import { getPersistedQuery } from "coral-server/graph/common/persisted";
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 import { hasStaffRole } from "coral-server/models/user/helpers";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
+
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import TenantContext, { TenantContextOptions } from "../context";
 
@@ -77,11 +78,10 @@ export function extractClientID(connectionParams: OperationMessagePayload) {
   return null;
 }
 
-export type OnConnectOptions = Omit<
-  TenantContextOptions,
-  "tenant" | "signingConfig" | "disableCaching"
-> &
-  Required<Pick<TenantContextOptions, "signingConfig">>;
+export type OnConnectOptions = RequireProperty<
+  Omit<TenantContextOptions, "tenant" | "disableCaching">,
+  "signingConfig"
+>;
 
 export function onConnect(options: OnConnectOptions): OnConnectFn {
   // Create the JWT verifiers that will be used to verify all the requests

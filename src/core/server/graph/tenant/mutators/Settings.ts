@@ -9,9 +9,10 @@ export const Settings = ({
   tenantCache,
   tenant,
   config,
+  now,
 }: TenantContext) => ({
   update: (input: GQLUpdateSettingsInput): Promise<Tenant | null> =>
     update(mongo, redis, tenantCache, config, tenant, input.settings),
   regenerateSSOKey: (): Promise<Tenant | null> =>
-    regenerateSSOKey(mongo, redis, tenantCache, tenant),
+    regenerateSSOKey(mongo, redis, tenantCache, tenant, now),
 });

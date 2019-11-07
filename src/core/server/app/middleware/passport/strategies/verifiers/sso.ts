@@ -1,21 +1,20 @@
 import Joi from "joi";
 import { isNil } from "lodash";
+import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import { validate } from "coral-server/app/request/body";
-import { IntegrationDisabled } from "coral-server/errors";
+import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
 import {
-  GQLSSOAuthIntegration,
-  GQLUSER_ROLE,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+  RequiredSSOKey,
+  SSOAuthIntegration,
+} from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import {
   retrieveUserWithProfile,
   SSOProfile,
   updateUserFromSSO,
 } from "coral-server/models/user";
-import { findOrCreate } from "coral-server/services/users";
-
 import {
   getSSOProfile,
   needsSSOUpdate,
@@ -26,7 +25,13 @@ import {
   verifyJWT,
 } from "coral-server/services/jwt";
 import { AugmentedRedis } from "coral-server/services/redis";
-import { DateTime } from "luxon";
+import { findOrCreate } from "coral-server/services/users";
+
+import {
+  GQLSSOAuthIntegration,
+  GQLUSER_ROLE,
+} from "coral-server/graph/tenant/schema/__generated__/types";
+
 import { Verifier } from "../jwt";
 
 export interface SSOStrategyOptions {
@@ -167,6 +172,57 @@ export interface SSOVerifierOptions {
   redis: AugmentedRedis;
 }
 
+export function getRelevantSSOKeys(
+  integration: SSOAuthIntegration,
+  tokenString: string,
+  now: Date,
+  kid?: string
+): RequiredSSOKey[] {
+  // Collect all the current valid keys.
+  const keys = integration.keys.filter(k => {
+    if (!k.secret) {
+      return false;
+    }
+
+    if (k.deletedAt) {
+      return false;
+    }
+
+    if (k.deprecateAt && now >= k.deprecateAt) {
+      return false;
+    }
+
+    return k;
+  }) as RequiredSSOKey[];
+
+  // If there is only one key, that's all we can use!
+  if (keys.length === 1) {
+    return keys;
+  }
+
+  // There is more than one key that could work, lets see if the token has a
+  // kid.
+  if (kid) {
+    // The token has a kid, so if we have a matching token, we should use it. If
+    // we don't have a matching kid, we can't possibly verify it, so throw an
+    // error.
+    const key = keys.find(k => k.kid === kid);
+    if (!key) {
+      throw new TokenInvalidError(
+        tokenString,
+        "kid was specified but no matching keys were found"
+      );
+    }
+
+    return [key];
+  }
+
+  // Because no matching kid's were found, we should now use all valid secrets
+  // instead.
+  // TODO: [CORL-755] (wyattjoh) remove when we are able to make a breaking change to require signing with a kid
+  return keys;
+}
+
 export class SSOVerifier implements Verifier<SSOToken> {
   private mongo: Db;
   private redis: AugmentedRedis;
@@ -176,7 +232,13 @@ export class SSOVerifier implements Verifier<SSOToken> {
     this.redis = redis;
   }
 
-  public supports(token: SSOToken | object, tenant: Tenant): token is SSOToken {
+  public supports(
+    token: SSOToken | object,
+    tenant: Tenant,
+    kid?: string
+  ): token is SSOToken {
+    // TODO: [CORL-755] (wyattjoh) check that the `kid` it provided and matches a given kid in a future release
+
     return tenant.auth.integrations.sso.enabled && isSSOToken(token);
   }
 
@@ -184,28 +246,68 @@ export class SSOVerifier implements Verifier<SSOToken> {
     tokenString: string,
     token: SSOToken,
     tenant: Tenant,
-    now: Date
+    now: Date,
+    kid?: string
   ) {
     const integration = tenant.auth.integrations.sso;
     if (!integration.enabled) {
       throw new IntegrationDisabled("sso");
     }
 
-    if (!integration.key) {
+    // check to see if there is at least one key associated with this
+    // integration.
+    if (integration.keys.length === 0) {
       throw new Error("integration key does not exist");
     }
 
-    verifyJWT(
-      tokenString,
-      {
-        // Force the use of the HS256 algorithm. We can explore switching this
-        // out in the future..
-        // TODO: (wyattjoh) investigate replacing algorithm.
-        algorithm: SymmetricSigningAlgorithm.HS256,
-        secret: integration.key,
-      },
-      now
-    );
+    // Get the valid configurations for the given token and integration pair.
+    const keys = getRelevantSSOKeys(integration, tokenString, now, kid);
+    if (keys.length === 0) {
+      throw new TokenInvalidError(
+        tokenString,
+        "no verification configuration can be matched"
+      );
+    }
+
+    // TODO: [CORL-755] (wyattjoh) remove once we've added the requirement for `kid`.
+    // While there are configs left to test...
+    while (keys.length > 0) {
+      // Grab the next config to test. We know that the shift operation will
+      // return a config because we validated it's length in the loop predicate.
+      const key = keys.shift()!;
+
+      try {
+        verifyJWT(
+          tokenString,
+          {
+            // TODO: (wyattjoh) investigate replacing algorithm.
+            algorithm: SymmetricSigningAlgorithm.HS256,
+            secret: key.secret,
+          },
+          now
+        );
+      } catch (err) {
+        // If this is the last config to test, we need to rethrow the error
+        // here.
+        if (keys.length === 0) {
+          throw err;
+        }
+
+        // There are still configs to test, continue.
+        continue;
+      }
+
+      // TODO: [CORL-754] (wyattjoh) reintroduce when we amend the front-end to display the kid
+      // // The verification did not throw an error, which means the verification
+      // // succeeded! Break out now.
+      // if (!kid) {
+      //   logger.warn(
+      //     { tenantID: tenant.id, kid: config.kid },
+      //     "token without a `kid` matched key with known `kid`"
+      //   );
+      // }
+      break;
+    }
 
     return findOrCreateSSOUser(
       this.mongo,

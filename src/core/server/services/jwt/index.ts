@@ -1,13 +1,13 @@
 import cookie from "cookie";
-import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
 import { IncomingMessage } from "http";
 import { Redis } from "ioredis";
 import Joi from "joi";
-import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
+import jwt, { KeyFunction, SignOptions, VerifyOptions } from "jsonwebtoken";
 import { DateTime } from "luxon";
 import { Bearer, BearerOptions } from "permit";
 import uuid from "uuid/v4";
 
+import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
 import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
 import {
@@ -20,7 +20,36 @@ import { User } from "coral-server/models/user";
 import { Request } from "coral-server/types/express";
 
 /**
- *  The following Claim Names are registered in the IANA "JSON Web Token
+ * The following Header Parameter names for use in JWSs are registered
+ * in the IANA "JSON Web Signature and Encryption Header Parameters"
+ * registry established by Section 9.1, with meanings as defined in the
+ * subsections below.
+ *
+ * As indicated by the common registry, JWSs and JWEs share a common
+ * Header Parameter space; when a parameter is used by both
+ * specifications, its usage must be compatible between the
+ * specifications.
+ *
+ * https://tools.ietf.org/html/rfc7515#section-4.1
+ */
+export interface StandardHeader {
+  /**
+   * The "kid" (key ID) Header Parameter is a hint indicating which key
+   * was used to secure the JWS.  This parameter allows originators to
+   * explicitly signal a change of key to recipients.  The structure of
+   * the "kid" value is unspecified.  Its value MUST be a case-sensitive
+   * string.  Use of this Header Parameter is OPTIONAL.
+   *
+   * When used with a JWK, the "kid" value is used to match a JWK "kid"
+   * parameter value.
+   *
+   * https://tools.ietf.org/html/rfc7515#section-4.1.4
+   */
+  kid?: string;
+}
+
+/**
+ * The following Claim Names are registered in the IANA "JSON Web Token
  * Claims" registry established by Section 10.1.  None of the claims
  * defined below are intended to be mandatory to use or implement in all
  * cases, but rather they provide a starting point for a set of useful,
@@ -154,6 +183,11 @@ export type JWTSigningAlgorithm =
 
 export interface JWTSigningConfig {
   secret: Buffer | string;
+  algorithm: JWTSigningAlgorithm;
+}
+
+export interface JWTVerifyingConfig {
+  secret: Buffer | string | KeyFunction;
   algorithm: JWTSigningAlgorithm;
 }
 
@@ -408,7 +442,7 @@ export async function checkJWTRevoked(redis: Redis, jti: string) {
 
 export function verifyJWT(
   tokenString: string,
-  { algorithm, secret }: JWTSigningConfig,
+  { algorithm, secret }: JWTVerifyingConfig,
   now: Date,
   options: Omit<VerifyOptions, "algorithms" | "clockTimestamp"> = {}
 ) {

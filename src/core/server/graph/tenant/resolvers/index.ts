@@ -1,6 +1,7 @@
 import Cursor from "coral-server/graph/common/scalars/cursor";
 import Locale from "coral-server/graph/common/scalars/locale";
 import Time from "coral-server/graph/common/scalars/time";
+
 import { GQLResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { ApproveCommentPayload } from "./ApproveCommentPayload";
@@ -36,6 +37,7 @@ import { Profile } from "./Profile";
 import { Query } from "./Query";
 import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
+import { SSOAuthIntegration } from "./SSOAuthIntegration";
 import { Story } from "./Story";
 import { StorySettings } from "./StorySettings";
 import { Subscription } from "./Subscription";
@@ -56,10 +58,10 @@ const Resolvers: GQLResolver = {
   Comment,
   CommentCounts,
   CommentCreatedPayload,
-  CommentReleasedPayload,
   CommentEnteredModerationQueuePayload,
   CommentLeftModerationQueuePayload,
   CommentModerationAction,
+  CommentReleasedPayload,
   CommentReplyCreatedPayload,
   CommentRevision,
   CommentStatusUpdatedPayload,
@@ -71,8 +73,10 @@ const Resolvers: GQLResolver = {
   GoogleAuthIntegration,
   Invite,
   LiveConfiguration,
+  Locale,
   ModerationQueue,
   ModerationQueues,
+  ModeratorNote,
   Mutation,
   OIDCAuthIntegration,
   PremodStatus,
@@ -81,19 +85,18 @@ const Resolvers: GQLResolver = {
   Query,
   RecentCommentHistory,
   RejectCommentPayload,
+  SSOAuthIntegration,
   Story,
   StorySettings,
   Subscription,
   SuspensionStatus,
   SuspensionStatusHistory,
-  UsernameHistory,
   Tag,
   Time,
-  Locale,
   User,
-  UserStatus,
+  UsernameHistory,
   UsernameStatus,
-  ModeratorNote,
+  UserStatus,
 };
 
 export default Resolvers;
