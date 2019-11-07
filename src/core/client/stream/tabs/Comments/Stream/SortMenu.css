@@ -1,8 +1,16 @@
 .mobileSelect {
-  padding: 11px;
-  width: 0px;
-  font-size: 0;
+  padding: 3px;
+  font-size: 16px;
+  line-height: 0;
+  height: 24px;
+  width: 24px;
+  opacity: 0;
 }
 .mobileAfterWrapper {
-  right: 5px;
+  height: 24px;
+  width: 24px;
+  right: 0px;
+  border: 1px solid var(--palette-text-primary);
+  box-sizing: border-box;
+  border-radius: var(--round-corners);
 }
