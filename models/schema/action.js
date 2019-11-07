@@ -41,4 +41,7 @@ const Action = new Schema(
   }
 );
 
+// Indexes for listing users actions.
+Action.index({ user_id: 1, item_type: 1 }, { background: true });
+
 module.exports = Action;
