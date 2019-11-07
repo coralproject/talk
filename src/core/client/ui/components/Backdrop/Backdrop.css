@@ -1,6 +1,6 @@
 .root {
   display: none;
-  background: black;
+  background: rgba(0, 0, 0, 1.0);
   position: fixed;
   /* fix to bottom solves some mobile scrolling issues. */
   bottom: 0;
@@ -11,5 +11,5 @@
 
 .active {
   display: block;
-  opacity: 0.5;
+  background: rgba(0, 0, 0, 0.5);
 }
