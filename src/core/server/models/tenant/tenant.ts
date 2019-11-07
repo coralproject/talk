@@ -59,12 +59,6 @@ export type CreateTenantInput = Pick<
   "name" | "contactEmail" | "url" | "allowedDomains" | "locale" | "domain"
 >;
 
-/**
- * create will create a new Tenant.
- *
- * @param mongo the MongoDB connection used to create the tenant.
- * @param input the customizable parts of the Tenant available during creation
- */
 export async function createTenant(
   mongo: Db,
   i18n: I18n,
@@ -260,7 +254,10 @@ export async function countTenants(mongo: Db) {
     .count();
 }
 
-export type UpdateTenantInput = Omit<DeepPartial<Tenant>, "id" | "domain">;
+export type UpdateTenantInput = Omit<
+  DeepPartial<Tenant>,
+  "id" | "domain" | "createdAt"
+>;
 
 export async function updateTenant(
   mongo: Db,
