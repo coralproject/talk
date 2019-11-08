@@ -229,4 +229,12 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.deleteModeratorNote(input),
     clientMutationId: input.clientMutationId,
   }),
+  createCommunity: async (source, { input }, ctx) => ({
+    community: await ctx.mutators.Communities.create(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  createSite: async (source, { input }, ctx) => ({
+    community: await ctx.mutators.Sites.create(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

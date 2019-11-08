@@ -5607,6 +5607,11 @@ type Mutation {
   deleteModeratorNote(
     input: DeleteModeratorNoteInput!
   ): DeleteModeratorNotePayload! @auth(roles: [ADMIN, MODERATOR])
+
+  createCommunity(input: CreateCommunityInput!): CreateCommunityPayload!
+    @auth(roles: [ADMIN])
+
+  createSite(input: CreateSiteInput!): CreateSitePayload! @auth(roles: [ADMIN])
 }
 
 ##################
@@ -5867,12 +5872,43 @@ type Organization {
   multiSite: Boolean!
 }
 
+input CreateOrganizationInput {
+  name: String!
+  contactEmail: String!
+  url: String!
+  allowedDomains: [String!]!
+  domain: String!
+  multiSite: Boolean!
+  clientMutationId: String!
+  locale: Locale!
+}
+
+type CreateOrganizationPayload {
+  id: ID!
+  organization: Organization!
+  clientMutationId: String!
+}
+
 type Community {
   id: ID!
   name: String!
   contactEmail: String!
   url: String!
   createdAt: Time!
+}
+
+input CreateCommunityInput {
+  name: String!
+  contactEmail: String!
+  url: String!
+  clientMutationId: String!
+  locale: Locale!
+}
+
+type CreateCommunityPayload {
+  id: ID!
+  community: Community!
+  clientMutationId: String!
 }
 
 type Site {
@@ -5883,4 +5919,21 @@ type Site {
   createdAt: Time!
   domain: String! @auth(roles: [ADMIN])
   allowedDomains: [String!]! @auth(roles: [ADMIN])
+}
+
+input CreateSiteInput {
+  name: String!
+  contactEmail: String!
+  url: String!
+  allowedDomains: [String!]!
+  domain: String!
+  clientMutationId: String!
+  locale: Locale!
+  communityID: ID!
+}
+
+type CreateSitePayload {
+  id: ID!
+  site: Site!
+  clientMutationId: String!
 }
