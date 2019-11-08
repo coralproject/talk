@@ -22,6 +22,7 @@
     "lunr": "^2.1.6"
   },
   "devDependencies": {
+    "husky": "^3.0.9",
     "nodemon": "^1.14.12"
   }
 }
