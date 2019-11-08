@@ -41,9 +41,7 @@ export const FeaturedCommentTooltip: FunctionComponent<Props> = props => {
           <TooltipButton
             active={props.active}
             aria-label="Toggle featured comments tooltip"
-            toggleVisibility={() => {
-              toggleVisibility();
-            }}
+            toggleVisibility={toggleVisibility}
             ref={ref}
           />
         </Localized>
