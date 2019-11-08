@@ -3,11 +3,16 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql } from "react-relay";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import Counter from "coral-stream/common/Counter";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
+import {
+  SetCommentsOrderByEvent,
+  SetCommentsTabEvent,
+} from "coral-stream/events";
 import {
   Flex,
   HorizontalGutter,
@@ -71,6 +76,8 @@ const TabWithFeaturedTooltip: FunctionComponent<PropTypesOf<typeof Tab>> = ({
 );
 
 export const StreamContainer: FunctionComponent<Props> = props => {
+  const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
+  const emitSetCommentsOrderByEvent = useViewerEvent(SetCommentsOrderByEvent);
   const [local, setLocal] = useLocal<StreamContainerLocal>(
     graphql`
       fragment StreamContainerLocal on Local {
@@ -80,13 +87,26 @@ export const StreamContainer: FunctionComponent<Props> = props => {
     `
   );
   const onChangeOrder = useCallback(
-    (order: React.ChangeEvent<HTMLSelectElement>) =>
-      setLocal({ commentsOrderBy: order.target.value as any }),
-    [setLocal]
+    (order: React.ChangeEvent<HTMLSelectElement>) => {
+      if (local.commentsOrderBy === order.target.value) {
+        return;
+      }
+      setLocal({ commentsOrderBy: order.target.value as any });
+      emitSetCommentsOrderByEvent({ orderBy: order.target.value });
+    },
+    [setLocal, local.commentsOrderBy]
   );
   const onChangeTab = useCallback(
-    (tab: COMMENTS_TAB) => setLocal({ commentsTab: tab }),
-    [setLocal]
+    (tab: COMMENTS_TAB, emit = true) => {
+      if (local.commentsTab === tab) {
+        return;
+      }
+      setLocal({ commentsTab: tab });
+      if (emit) {
+        emitSetCommentsTabEvent({ tab });
+      }
+    },
+    [setLocal, local.commentsTab]
   );
   const banned = Boolean(
     props.viewer && props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
@@ -110,9 +130,9 @@ export const StreamContainer: FunctionComponent<Props> = props => {
       // If the selected tab is FEATURED_COMMENTS, but there aren't any featured
       // comments, then switch it to the all comments tab.
       if (featuredCommentsCount === 0) {
-        onChangeTab("ALL_COMMENTS");
+        onChangeTab("ALL_COMMENTS", false);
       } else {
-        onChangeTab("FEATURED_COMMENTS");
+        onChangeTab("FEATURED_COMMENTS", false);
       }
     }
   }, [featuredCommentsCount, local.commentsTab, onChangeTab]);

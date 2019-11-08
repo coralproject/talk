@@ -4,15 +4,18 @@ import React, { FunctionComponent, MouseEvent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
+import { useViewerEvent } from "coral-framework/lib/events";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
+import Timestamp from "coral-stream/common/Timestamp";
+import { ViewConversationEvent } from "coral-stream/events";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
-import { Box, Flex, Icon, TextLink, Timestamp } from "coral-ui/components";
+import { Box, Flex, Icon, TextLink } from "coral-ui/components";
 
 import { FeaturedCommentContainer_comment as CommentData } from "coral-stream/__generated__/FeaturedCommentContainer_comment.graphql";
 import { FeaturedCommentContainer_settings as SettingsData } from "coral-stream/__generated__/FeaturedCommentContainer_settings.graphql";
@@ -38,9 +41,14 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
   const banned = Boolean(
     viewer && viewer.status.current.includes(GQLUSER_STATUS.BANNED)
   );
+  const emitViewConversationEvent = useViewerEvent(ViewConversationEvent);
   const onGotoConversation = useCallback(
     (e: MouseEvent) => {
       e.preventDefault();
+      emitViewConversationEvent({
+        from: "FEATURED_COMMENTS",
+        commentID: comment.id,
+      });
       setCommentID({ id: comment.id });
       return false;
     },

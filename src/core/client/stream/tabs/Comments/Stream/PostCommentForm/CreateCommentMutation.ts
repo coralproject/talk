@@ -16,6 +16,7 @@ import {
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import { CreateCommentEvent } from "coral-stream/events";
 
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
 
@@ -114,10 +115,10 @@ const mutation = graphql`
 
 let clientMutationId = 0;
 
-function commit(
+async function commit(
   environment: Environment,
   input: CreateCommentInput,
-  { uuidGenerator, relayEnvironment }: CoralContext
+  { uuidGenerator, relayEnvironment, eventEmitter }: CoralContext
 ) {
   const viewer = getViewer(environment)!;
   const currentDate = new Date().toISOString();
@@ -134,75 +135,93 @@ function commit(
     !roleIsAtLeast(viewer.role, GQLUSER_ROLE.STAFF) &&
     storySettings.moderation === "PRE";
 
-  return commitMutationPromiseNormalized<MutationTypes>(environment, {
-    mutation,
-    variables: {
-      input: {
-        storyID: input.storyID,
-        body: input.body,
-        nudge: input.nudge,
-        clientMutationId: clientMutationId.toString(),
-      },
-    },
-    optimisticResponse: {
-      createComment: {
-        edge: {
-          cursor: currentDate,
-          node: {
-            id,
-            createdAt: currentDate,
-            status: "NONE",
-            author: {
-              id: viewer.id,
-              username: viewer.username,
-              createdAt: viewer.createdAt,
-              badges: viewer.badges,
-              ignoreable: false,
-            },
-            revision: {
-              id: uuidGenerator(),
-            },
-            parent: null,
+  const createCommentEvent = CreateCommentEvent.begin(eventEmitter, {
+    body: input.body,
+    storyID: input.storyID,
+  });
+
+  try {
+    const result = await commitMutationPromiseNormalized<MutationTypes>(
+      environment,
+      {
+        mutation,
+        variables: {
+          input: {
+            storyID: input.storyID,
             body: input.body,
-            editing: {
-              editableUntil: new Date(Date.now() + 10000).toISOString(),
-              edited: false,
-            },
-            actionCounts: {
-              reaction: {
-                total: 0,
-              },
-            },
-            tags: roleIsAtLeast(viewer.role, GQLUSER_ROLE.STAFF)
-              ? [{ code: "STAFF" }]
-              : [],
-            viewerActionPresence: {
-              reaction: false,
-              dontAgree: false,
-              flag: false,
-            },
-            replies: {
-              edges: [],
-              pageInfo: { endCursor: null, hasNextPage: false },
-            },
-            deleted: false,
+            nudge: input.nudge,
+            clientMutationId: clientMutationId.toString(),
           },
         },
-        clientMutationId: (clientMutationId++).toString(),
-      },
-    },
-    optimisticUpdater: store => {
-      // Skip optimistic update if comment is probably premoderated.
-      if (expectPremoderation) {
-        return;
+        optimisticResponse: {
+          createComment: {
+            edge: {
+              cursor: currentDate,
+              node: {
+                id,
+                createdAt: currentDate,
+                status: "NONE",
+                author: {
+                  id: viewer.id,
+                  username: viewer.username,
+                  createdAt: viewer.createdAt,
+                  badges: viewer.badges,
+                  ignoreable: false,
+                },
+                revision: {
+                  id: uuidGenerator(),
+                },
+                parent: null,
+                body: input.body,
+                editing: {
+                  editableUntil: new Date(Date.now() + 10000).toISOString(),
+                  edited: false,
+                },
+                actionCounts: {
+                  reaction: {
+                    total: 0,
+                  },
+                },
+                tags: roleIsAtLeast(viewer.role, GQLUSER_ROLE.STAFF)
+                  ? [{ code: "STAFF" }]
+                  : [],
+                viewerActionPresence: {
+                  reaction: false,
+                  dontAgree: false,
+                  flag: false,
+                },
+                replies: {
+                  edges: [],
+                  pageInfo: { endCursor: null, hasNextPage: false },
+                },
+                deleted: false,
+              },
+            },
+            clientMutationId: (clientMutationId++).toString(),
+          },
+        },
+        optimisticUpdater: store => {
+          // Skip optimistic update if comment is probably premoderated.
+          if (expectPremoderation) {
+            return;
+          }
+          sharedUpdater(environment, store, input);
+          store.get(id)!.setValue(true, "pending");
+        },
+        updater: store => {
+          sharedUpdater(environment, store, input);
+        },
       }
-      sharedUpdater(environment, store, input);
-      store.get(id)!.setValue(true, "pending");
-    },
-    updater: store => {
-      sharedUpdater(environment, store, input);
-    },
-  });
+    );
+    createCommentEvent.success({
+      id: result.edge.node.id,
+      status: result.edge.node.status,
+    });
+    return result;
+  } catch (error) {
+    createCommentEvent.error({ message: error.message, code: error.code });
+    throw error;
+  }
 }
 
 export const withCreateCommentMutation = createMutationContainer(

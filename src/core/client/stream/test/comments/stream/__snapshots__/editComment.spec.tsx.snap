@@ -299,6 +299,8 @@ exports[`edit a comment and handle server error: edit form 1`] = `
         <div>
           <div
             className="$root content placeholder toolbar"
+            onBlur={[Function]}
+            onFocus={[Function]}
           >
             <div
               className="RTE-contentEditableContainer"
@@ -487,6 +489,8 @@ exports[`edit a comment: edit form 1`] = `
         <div>
           <div
             className="$root content placeholder toolbar"
+            onBlur={[Function]}
+            onFocus={[Function]}
           >
             <div
               className="RTE-contentEditableContainer"
@@ -675,6 +679,8 @@ exports[`edit a comment: optimistic response 1`] = `
         <div>
           <div
             className="$root content placeholder toolbar "
+            onBlur={[Function]}
+            onFocus={[Function]}
           >
             <div
               className="RTE-contentEditableContainer"
@@ -1604,6 +1610,8 @@ exports[`shows expiry message: edit time expired 1`] = `
         <div>
           <div
             className="$root content placeholder toolbar "
+            onBlur={[Function]}
+            onFocus={[Function]}
           >
             <div
               className="RTE-contentEditableContainer"

@@ -26,6 +26,7 @@
     "build:server": "gulp server",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "doctoc": "doctoc --title='## Table of Contents' --github README.md",
+    "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./events.md",
     "generate": "npm-run-all generate:css-types generate:schema generate:relay",
     "generate-persist": "npm-run-all generate:css-types generate:schema generate:relay-persist",
     "generate:css-types": "tcm src/core/client/",
@@ -147,7 +148,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@coralproject/npm-run-all": "^4.1.5",
-    "@coralproject/rte": "^0.10.15",
+    "@coralproject/rte": "^0.11.0",
     "@intervolga/optimize-cssnano-plugin": "^1.0.6",
     "@types/agent-base": "^4.2.0",
     "@types/archiver": "^3.0.0",
@@ -381,6 +382,9 @@
     ],
     "src/core/server/graph/tenant/schema/schema.graphql": [
       "graphql-schema-linter"
+    ],
+    "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,events.md}": [
+      "npm run docs:events -- --verify"
     ]
   },
   "bundlesize": [

@@ -50,7 +50,6 @@ export function useSubscription<V>(
   const context = useCoralContext();
   return useCallback<SubscriptionProp<typeof subscription>>(
     ((variables: V) => {
-      context.eventEmitter.emit(`subscription.${subscription.name}`, variables);
       return subscription.subscribe(
         context.relayEnvironment,
         variables,

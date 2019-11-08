@@ -1,3 +1,4 @@
+import { EventEmitter2 } from "eventemitter2";
 import { Child as PymChild } from "pym.js";
 import React, { MouseEvent } from "react";
 import { graphql } from "react-relay";
@@ -5,6 +6,7 @@ import { graphql } from "react-relay";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { withContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { ViewFullDiscussionEvent } from "coral-stream/events";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
@@ -24,12 +26,16 @@ interface PermalinkViewContainerProps {
   viewer: ViewerData | null;
   setCommentID: SetCommentIDMutation;
   pym: PymChild | undefined;
+  eventEmitter: EventEmitter2;
 }
 
 class PermalinkViewContainer extends React.Component<
   PermalinkViewContainerProps
 > {
   private showAllComments = (e: MouseEvent<any>) => {
+    ViewFullDiscussionEvent.emit(this.props.eventEmitter, {
+      commentID: this.props.comment && this.props.comment.id,
+    });
     this.props.setCommentID({ id: null });
     e.preventDefault();
   };
@@ -62,6 +68,7 @@ class PermalinkViewContainer extends React.Component<
 
 const enhanced = withContext(ctx => ({
   pym: ctx.pym,
+  eventEmitter: ctx.eventEmitter,
 }))(
   withSetCommentIDMutation(
     withFragmentContainer<PermalinkViewContainerProps>({

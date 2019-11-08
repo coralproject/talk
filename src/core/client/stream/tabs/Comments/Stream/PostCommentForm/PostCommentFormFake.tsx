@@ -2,8 +2,10 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
+import { CreateCommentFocusEvent } from "coral-stream/events";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
 import RTE from "../../RTE";
@@ -20,6 +22,10 @@ interface Props {
 }
 
 const PostCommentFormFake: FunctionComponent<Props> = props => {
+  const emitFocusEvent = useViewerEvent(CreateCommentFocusEvent);
+  const onFocus = useCallback(() => {
+    emitFocusEvent();
+  }, [emitFocusEvent]);
   const onChange = useCallback(
     (data: { html: string; text: string }) => props.onDraftChange(data.html),
     [props.onDraftChange]
@@ -42,6 +48,7 @@ const PostCommentFormFake: FunctionComponent<Props> = props => {
               placeholder="Post a comment"
               value={props.draft}
               onChange={onChange}
+              onFocus={onFocus}
             />
           </Localized>
         </div>

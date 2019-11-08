@@ -5,6 +5,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
+import { useViewerEvent } from "coral-framework/lib/events";
 import { colorFromMeta } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
@@ -14,6 +15,7 @@ import {
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
+import { ShowEditPasswordDialogEvent } from "coral-stream/events";
 import {
   Button,
   CallOut,
@@ -40,6 +42,7 @@ interface FormProps {
 }
 
 const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
+  const emitShowEvent = useViewerEvent(ShowEditPasswordDialogEvent);
   const updatePassword = useMutation(UpdatePasswordMutation);
   const onSubmit = useCallback(
     async (input: FormProps, form: FormApi) => {
@@ -64,10 +67,12 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
   );
 
   const [showForm, setShowForm] = useState(false);
-  const toggleForm = useCallback(() => setShowForm(!showForm), [
-    showForm,
-    setShowForm,
-  ]);
+  const toggleForm = useCallback(() => {
+    if (!showForm) {
+      emitShowEvent();
+    }
+    setShowForm(!showForm);
+  }, [showForm, setShowForm]);
 
   return (
     <div

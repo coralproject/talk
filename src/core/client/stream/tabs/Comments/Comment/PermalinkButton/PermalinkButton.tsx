@@ -34,7 +34,7 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
         classes={{ popover: styles.popover }}
         body={({ toggleVisibility }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
-            <PermalinkPopover permalinkURL={url} />
+            <PermalinkPopover permalinkURL={url} commentID={commentID} />
           </ClickOutside>
         )}
       >

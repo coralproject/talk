@@ -2,8 +2,10 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { ShowIgnoreUserdDialogEvent } from "coral-stream/events";
 import {
   Button,
   Flex,
@@ -24,12 +26,15 @@ interface Props {
 }
 
 const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
+  const emitShow = useViewerEvent(ShowIgnoreUserdDialogEvent);
   const removeUserIgnore = useMutation(RemoveUserIgnoreMutation);
   const [showManage, setShowManage] = useState(false);
-  const toggleManage = useCallback(() => setShowManage(!showManage), [
-    showManage,
-    setShowManage,
-  ]);
+  const toggleManage = useCallback(() => {
+    if (!showManage) {
+      emitShow();
+    }
+    setShowManage(!showManage);
+  }, [showManage, setShowManage]);
   return (
     <div
       data-testid="profile-account-ignoredCommenters"

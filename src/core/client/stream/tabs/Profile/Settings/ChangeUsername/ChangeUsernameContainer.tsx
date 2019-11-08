@@ -14,6 +14,7 @@ import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
+import { useViewerEvent } from "coral-framework/lib/events";
 import {
   graphql,
   useMutation,
@@ -27,6 +28,7 @@ import {
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
+import { ShowEditUsernameDialogEvent } from "coral-stream/events";
 import {
   Box,
   Button,
@@ -66,9 +68,15 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const emitShowEditUsernameDialog = useViewerEvent(
+    ShowEditUsernameDialogEvent
+  );
   const [showEditForm, setShowEditForm] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const toggleEditForm = useCallback(() => {
+    if (!showEditForm) {
+      emitShowEditUsernameDialog();
+    }
     setShowEditForm(!showEditForm);
   }, [setShowEditForm, showEditForm]);
   const updateUsername = useMutation(UpdateUsernameMutation);

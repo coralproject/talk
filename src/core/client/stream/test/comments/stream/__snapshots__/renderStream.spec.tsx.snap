@@ -86,6 +86,8 @@ exports[`renders comment stream 1`] = `
             <div>
               <div
                 className="$root content placeholder toolbar"
+                onBlur={[Function]}
+                onFocus={[Function]}
               >
                 <div
                   className="RTE-contentEditableContainer"
@@ -200,6 +202,7 @@ exports[`renders comment stream 1`] = `
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
+              onClick={[Function]}
               onFocus={[Function]}
               value="CREATED_AT_DESC"
             >
