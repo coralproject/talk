@@ -3,26 +3,36 @@ import { Omit } from "coral-common/types";
 import {
   GQLAuth,
   GQLAuthenticationTargetFilter,
+  GQLCommenterAccountFeatures,
   GQLEmailConfiguration,
   GQLEntitySettings,
+  GQLExternalIntegrations,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
   GQLLiveConfiguration,
   GQLLocalAuthIntegration,
-  GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
+  GQLRecentCommentHistoryConfiguration,
   GQLSettings,
+  GQLSSOAuthIntegration,
+  GQLStoryConfiguration,
+  GQLStoryScrapingConfiguration,
+  GQLWordList,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
 export type LiveConfiguration = Omit<GQLLiveConfiguration, "configurable">;
 
-export type EmailConfiguration = GQLEmailConfiguration;
+export type CloseCommenting = Omit<
+  GQLEntitySettings["closeCommenting"],
+  "message"
+> &
+  Partial<Pick<GQLEntitySettings["closeCommenting"], "message">>;
 
-export interface GlobalModerationSettings {
-  live: LiveConfiguration;
-  moderation: GQLMODERATION_MODE;
-  premodLinksEnable: boolean;
-}
+export type DisableCommenting = Omit<
+  GQLEntitySettings["disableCommenting"],
+  "message"
+> &
+  Partial<Pick<GQLEntitySettings["disableCommenting"], "message">>;
 
 export type OIDCAuthIntegration = Omit<
   GQLOIDCAuthIntegration,
@@ -87,83 +97,63 @@ export interface AuthIntegrations {
   facebook: FacebookAuthIntegration;
 }
 
-/**
- * AccountFeatures are features enabled for commenter accounts
- */
-export interface AccountFeatures {
-  changeUsername: boolean;
-  deleteAccount: boolean;
-  downloadComments: boolean;
-}
-
-/**
- * Auth is the set of configured authentication integrations.
- */
 export type Auth = Omit<GQLAuth, "integrations"> & {
-  /**
-   * integrations are the set of configurations for the variations of
-   * authentication solutions.
-   */
   integrations: AuthIntegrations;
 };
 
-/**
- * CloseCommenting contains settings related to the automatic closing of commenting on
- * Stories.
- */
-export type CloseCommenting = Omit<GQLSettings["closeCommenting"], "message"> &
-  Partial<Pick<GQLSettings["closeCommenting"], "message">>;
+export type PartialAuth = Omit<GQLAuth, "integrations"> & {
+  integrations: Partial<AuthIntegrations>;
+};
 
-/**
- * DisableCommenting will disable commenting site-wide.
- */
-export type DisableCommenting = Omit<
-  GQLSettings["disableCommenting"],
-  "message"
-> &
-  Partial<Pick<GQLSettings["disableCommenting"], "message">>;
+export type PartialStoryConfiguration = Partial<
+  Omit<GQLStoryConfiguration, "scraping">
+> & {
+  scraping: Partial<GQLStoryScrapingConfiguration>;
+};
 
-export type Settings = GlobalModerationSettings &
+export type Settings = Pick<
+  GQLEntitySettings,
+  | "accountFeatures"
+  | "charCount"
+  | "communityGuidelines"
+  | "customCSSURL"
+  | "editCommentWindowLength"
+  | "email"
+  | "integrations"
+  | "moderation"
+  | "premodLinksEnable"
+  | "reaction"
+  | "recentCommentHistory"
+  | "staff"
+  | "staticURI"
+  | "stories"
+  | "wordList"
+> & {
+  auth: Auth;
+  closeCommenting: CloseCommenting;
+  disableCommenting: DisableCommenting;
+  live: LiveConfiguration;
+};
+
+export type PartialSettings = Partial<
   Pick<
     GQLEntitySettings,
-    | "charCount"
+    | "communityGuidelines"
+    | "customCSSURL"
+    | "editCommentWindowLength"
     | "email"
-    | "recentCommentHistory"
-    | "wordList"
-    | "integrations"
+    | "moderation"
+    | "premodLinksEnable"
     | "reaction"
     | "staff"
-    | "editCommentWindowLength"
-    | "customCSSURL"
-    | "communityGuidelines"
-    | "stories"
-    | "createdAt"
-    | "slack"
-  > & {
-    /**
-     * auth is the set of configured authentication integrations.
-     */
-    auth: Auth;
-
-    /**
-     * email is the set of credentials and settings associated with the
-     * organization.
-     */
-    email: EmailConfiguration;
-
-    /**
-     * closeCommenting contains settings related to the automatic closing of commenting on
-     * Stories.
-     */
-    closeCommenting: CloseCommenting;
-
-    /**
-     * disableCommenting will disable commenting site-wide.
-     */
-    disableCommenting: DisableCommenting;
-
-    /**
-     * AccountFeatures are features enabled for commenter accounts
-     */
-    accountFeatures: AccountFeatures;
-  };
+    | "staticURI"
+  >
+> & {
+  accountFeatures?: Partial<GQLCommenterAccountFeatures>;
+  auth?: PartialAuth;
+  integrations?: Partial<GQLExternalIntegrations>;
+  live?: Partial<LiveConfiguration>;
+  recentCommentHistory?: Partial<GQLRecentCommentHistoryConfiguration>;
+  stories?: PartialStoryConfiguration;
+  wordList?: Partial<GQLWordList>;
+};

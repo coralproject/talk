@@ -15,7 +15,9 @@ import { UpdateStorySettingsEvent } from "coral-stream/events";
 export type UpdateStorySettingsInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
-  mutation UpdateStorySettingsMutation($input: UpdateStorySettingsInput!) {
+  mutation UpdateStorySettingsMutation(
+    $input: UpdateStoryEntitySettingsInput!
+  ) {
     updateStorySettings(input: $input) {
       story {
         ...ConfigureContainer_story

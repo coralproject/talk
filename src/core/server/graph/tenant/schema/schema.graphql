@@ -5356,7 +5356,7 @@ type Mutation {
   updateStory will update the given Story's settings.
   """
   updateStorySettings(
-    input: UpdateStorySettingsInput!
+    input: UpdateStoryEntitySettingsInput!
   ): UpdateStorySettingsPayload! @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -5796,111 +5796,64 @@ type Subscription {
 Settings stores the global settings for a given Entity.
 """
 type EntitySettings {
-  """
-  domain is the domain that is associated with this Entity.
-  """
-  domain: String! @auth(roles: [ADMIN])
-
-  """
-  staticURI if configured, is the static URI used to serve static files from.
-  """
+  customCSSURL: String
+  editCommentWindowLength: Int!
+  moderation: MODERATION_MODE @auth(roles: [ADMIN])
+  premodLinksEnable: Boolean @auth(roles: [ADMIN])
   staticURI: String @auth(roles: [ADMIN])
 
-  """
-  live provides configuration options related to live updates for stories on
-  this site.
-  """
-  live: LiveConfiguration!
-
-  """
-  moderation is the moderation mode for all Stories on the site.
-  """
-  moderation: MODERATION_MODE @auth(roles: [ADMIN])
-
-  """
-  communityGuidelines will be shown in the comments stream.
-  """
-  communityGuidelines: CommunityGuidelines!
-
-  """
-  premodLinksEnable will put all comments that contain links into premod.
-  """
-  premodLinksEnable: Boolean @auth(roles: [ADMIN])
-
-  """
-  closeCommenting contains settings related to the automatic closing of commenting on
-  Stories.
-  """
-  closeCommenting: CloseCommenting!
-
-  """
-  customCSSURL is the URL of the custom CSS used to display on the frontend.
-  """
-  customCSSURL: String
-
-  """
-  disableCommenting will disable commenting site-wide.
-  """
-  disableCommenting: DisableCommenting!
-
-  """
-  editCommentWindowLength is the length of time (in seconds) after a comment is
-  posted that it can still be edited by the author.
-  """
-  editCommentWindowLength: Int!
-
-  """
-  charCount stores the character count moderation settings.
-  """
-  charCount: CharCount!
-
-  """
-  email is the set of credentials and settings associated with the organization.
-  """
-  email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  wordList will return a given list of words.
-  """
-  wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  auth contains all the settings related to authentication and authorization.
-  """
+  accountFeatures: CommenterAccountFeatures!
   auth: Auth!
-
-  """
-  integrations contains all the external integrations that can be enabled.
-  """
+  charCount: CharCount!
+  closeCommenting: CloseCommenting!
+  communityGuidelines: CommunityGuidelines!
+  disableCommenting: DisableCommenting!
+  email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
   integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  recentCommentHistory is the set of settings related to how automatic
-  pre-moderation is controlled.
-  """
+  live: LiveConfiguration!
+  reaction: ReactionConfiguration!
   recentCommentHistory: RecentCommentHistoryConfiguration!
     @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  reaction specifies the configuration for reactions.
-  """
-  reaction: ReactionConfiguration!
-
-  """
-  staff specifies the configuration for the staff badges assigned to users with
-  any role above COMMENTER.
-  """
   staff: StaffConfiguration!
-
-  """
-  accountFeatures stores the configuration for commenter account features.
-  """
-  accountFeatures: CommenterAccountFeatures!
-
-  """
-  stories stores the configuration around stories.
-  """
   stories: StoryConfiguration! @auth(roles: [ADMIN])
+  wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
+}
+
+input UpdateEntitySettingsInput {
+  live: LiveConfigurationInput
+  allowedDomains: [String!]
+  moderation: MODERATION_MODE
+  communityGuidelines: SettingsCommunityGuidelinesInput
+  premodLinksEnable: Boolean
+  customCSSURL: String
+  disableCommenting: SettingsDisableCommentingInput
+  editCommentWindowLength: Int
+  organization: SettingsOrganizationInput
+  closeCommenting: SettingsCloseCommentingInput
+  wordList: SettingsWordListInput
+  email: SettingsEmailConfigurationInput
+  auth: SettingsAuthInput
+  integrations: SettingsExternalIntegrationsInput
+  recentCommentHistory: RecentCommentHistoryConfigurationInput
+  charCount: SettingsCharCountInput
+  stories: StoryConfigurationInput
+  reaction: ReactionConfigurationInput
+  staff: StaffConfigurationInput
+  accountFeatures: CommenterAccountFeaturesInput
+  locale: Locale
+}
+
+input UpdateStoryEntitySettings {
+  live: LiveConfigurationInput
+  moderation: MODERATION_MODE
+  premodLinksEnable: Boolean
+  messageBox: StoryMessageBoxInput
+}
+
+input UpdateStoryEntitySettingsInput {
+  id: ID!
+  settings: UpdateStoryEntitySettings!
+  clientMutationId: String!
 }
 
 type Organization {
@@ -5909,8 +5862,9 @@ type Organization {
   contactEmail: String!
   url: String!
   createdAt: Time!
-  domain: String!
+  domain: String! @auth(roles: [ADMIN])
   allowedDomains: [String!]! @auth(roles: [ADMIN])
+  multiSite: Boolean!
 }
 
 type Community {
@@ -5927,6 +5881,6 @@ type Site {
   contactEmail: String!
   url: String!
   createdAt: Time!
-  domain: String!
+  domain: String! @auth(roles: [ADMIN])
   allowedDomains: [String!]! @auth(roles: [ADMIN])
 }

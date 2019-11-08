@@ -1,18 +1,17 @@
-import { DeepPartial } from "coral-common/types";
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { RevisionMetadata } from "coral-server/models/comment";
-import { GlobalModerationSettings } from "coral-server/models/settings";
+import { PartialSettings } from "coral-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
 
 const testPremodLinksEnable = (
-  settings: DeepPartial<GlobalModerationSettings>,
+  settings: PartialSettings,
   metadata: RevisionMetadata
 ) => settings.premodLinksEnable && metadata && metadata.linkCount;
 

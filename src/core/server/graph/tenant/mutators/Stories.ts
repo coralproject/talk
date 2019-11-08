@@ -3,16 +3,6 @@ import { isNull, omitBy } from "lodash";
 import { ERROR_CODES } from "coral-common/errors";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/common/errors";
 import TenantContext from "coral-server/graph/tenant/context";
-import {
-  GQLCloseStoryInput,
-  GQLCreateStoryInput,
-  GQLMergeStoriesInput,
-  GQLOpenStoryInput,
-  GQLRemoveStoryInput,
-  GQLScrapeStoryInput,
-  GQLUpdateStoryInput,
-  GQLUpdateStorySettingsInput,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import { Story } from "coral-server/models/story";
 import {
   close,
@@ -24,6 +14,17 @@ import {
   updateSettings,
 } from "coral-server/services/stories";
 import { scrape } from "coral-server/services/stories/scraper";
+
+import {
+  GQLCloseStoryInput,
+  GQLCreateStoryInput,
+  GQLMergeStoriesInput,
+  GQLOpenStoryInput,
+  GQLRemoveStoryInput,
+  GQLScrapeStoryInput,
+  GQLUpdateStoryEntitySettingsInput,
+  GQLUpdateStoryInput,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 export const Stories = (ctx: TenantContext) => ({
   create: async (input: GQLCreateStoryInput): Promise<Readonly<Story> | null> =>
@@ -55,7 +56,7 @@ export const Stories = (ctx: TenantContext) => ({
       }
     ),
   updateSettings: async (
-    input: GQLUpdateStorySettingsInput
+    input: GQLUpdateStoryEntitySettingsInput
   ): Promise<Readonly<Story> | null> =>
     updateSettings(ctx.mongo, ctx.tenant, input.id, input.settings, ctx.now),
   close: (input: GQLCloseStoryInput): Promise<Readonly<Story> | null> =>

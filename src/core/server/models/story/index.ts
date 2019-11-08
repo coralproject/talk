@@ -1,7 +1,7 @@
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
-import { DeepPartial, Omit } from "coral-common/types";
+import { Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import {
   DuplicateStoryIDError,
@@ -13,10 +13,7 @@ import {
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
-import {
-  GlobalModerationSettings,
-  Settings,
-} from "coral-server/models/settings";
+import { PartialSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
 import { stories as collection } from "coral-server/services/mongodb/collections";
 
@@ -34,16 +31,12 @@ import {
 export * from "./counts";
 export * from "./helpers";
 
-// export type StorySettings = DeepPartial<
-//   Pick<GQLStorySettings, "messageBox"> & GlobalModerationSettings
-// >;
-
-export type StorySettings = DeepPartial<
-  Omit<Settings, "live" | "moderation" | "premodLinksEnable"> &
-    GlobalModerationSettings & {
-      messageBox: GQLStoryMessageBox;
-    }
->;
+export type StorySettings = Pick<
+  PartialSettings,
+  "live" | "moderation" | "premodLinksEnable"
+> & {
+  messageBox?: GQLStoryMessageBox;
+};
 
 export type StoryMetadata = GQLStoryMetadata;
 
@@ -346,7 +339,9 @@ export async function updateStory(
     throw err;
   }
 }
-export type UpdateStorySettingsInput = StorySettings;
+export type UpdateStorySettingsInput = Omit<StorySettings, "messageBox"> & {
+  messageBox?: Partial<GQLStoryMessageBox>;
+};
 
 export async function updateStorySettings(
   mongo: Db,

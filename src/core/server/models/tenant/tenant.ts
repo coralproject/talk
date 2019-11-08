@@ -56,7 +56,13 @@ export interface Tenant extends GQLOrganization {
  */
 export type CreateTenantInput = Pick<
   Tenant,
-  "name" | "contactEmail" | "url" | "allowedDomains" | "locale" | "domain"
+  | "name"
+  | "contactEmail"
+  | "url"
+  | "allowedDomains"
+  | "locale"
+  | "domain"
+  | "multiSite"
 >;
 
 export async function createTenant(

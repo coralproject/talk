@@ -4,13 +4,13 @@ import uuid from "uuid";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { DeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
-import { Settings } from "coral-server/models/settings";
+import { PartialSettings } from "coral-server/models/settings";
 import { communities as collection } from "coral-server/services/mongodb/collections";
 
 import { GQLCommunity } from "coral-server/graph/tenant/schema/__generated__/types";
 
 export interface Community extends GQLCommunity {
-  settings: DeepPartial<Settings>;
+  settings: PartialSettings;
   tenantID: string;
   locale: LanguageCode;
 }
