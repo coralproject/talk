@@ -148,6 +148,7 @@ export async function updateStoryCounts(
   const update: DeepPartial<Story> = { commentCounts };
   const $inc = pickBy(dotize(update), identity);
   if (isEmpty($inc)) {
+    // Nothing needs to be incremented, just return the story.
     return retrieveStory(mongo, tenantID, id);
   }
 

@@ -80,8 +80,22 @@ export async function update(
  * isInstalled will return a promise that if true, indicates that a Tenant has
  * been installed.
  */
-export async function isInstalled(cache: TenantCache) {
-  return (await cache.count()) > 0;
+export async function isInstalled(cache: TenantCache, domain?: string) {
+  const count = await cache.count();
+  if (count === 0) {
+    return false;
+  }
+
+  if (domain) {
+    const tenant = await cache.retrieveByDomain(domain);
+    if (tenant) {
+      return true;
+    }
+
+    return false;
+  }
+
+  return true;
 }
 
 export type InstallTenant = CreateTenantInput;
@@ -94,7 +108,9 @@ export async function install(
   input: InstallTenant,
   now = new Date()
 ) {
-  if (await isInstalled(cache)) {
+  // Ensure that this Tenant isn't being installed onto a domain that already
+  // exists.
+  if (await isInstalled(cache, input.domain)) {
     throw new TenantInstalledAlreadyError();
   }
 

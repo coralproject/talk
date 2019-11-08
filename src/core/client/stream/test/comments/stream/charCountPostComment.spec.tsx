@@ -32,7 +32,7 @@ async function createTestRenderer(
     Query: {
       settings: sinon.stub().returns(settingsWithCharCount),
       viewer: sinon.stub().returns(commenters[0]),
-      story: sinon.stub().returns(stories[0]),
+      stream: sinon.stub().returns(stories[0]),
       ...resolver.Query,
     },
   };

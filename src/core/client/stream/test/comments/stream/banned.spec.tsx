@@ -35,7 +35,7 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => bannedUser,
-          story: () =>
+          stream: () =>
             pureMerge<typeof story>(story, {
               comments: {
                 edges: [

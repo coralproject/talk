@@ -81,6 +81,18 @@ beforeEach(() => {
             )
             .returns(storyStub)
       ),
+      stream: createSinonStub(
+        s => s.throws(),
+        s =>
+          s
+            .withArgs(
+              undefined,
+              sinon
+                .match({ id: storyStub.id, url: null })
+                .or(sinon.match({ id: storyStub.id }))
+            )
+            .returns(storyStub)
+      ),
       settings: sinon.stub().returns(settings),
     },
   };

@@ -1251,7 +1251,10 @@ export async function updateUserLastWroteCommentTimestamp(
     .expire(key, COMMENT_LIMIT_WINDOW_SECONDS)
     .exec();
   if (!set) {
-    throw new RateLimitExceeded("createComment", 1);
+    const resetsAt = DateTime.fromJSDate(when)
+      .plus({ seconds: COMMENT_LIMIT_WINDOW_SECONDS })
+      .toJSDate();
+    throw new RateLimitExceeded("createComment", 1, resetsAt);
   }
 }
 

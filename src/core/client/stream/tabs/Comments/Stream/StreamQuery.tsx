@@ -75,7 +75,7 @@ const StreamQuery: FunctionComponent<Props> = props => {
             viewer {
               ...StreamContainer_viewer
             }
-            story(id: $storyID, url: $storyURL) {
+            story: stream(id: $storyID, url: $storyURL) {
               ...StreamContainer_story
             }
             settings {

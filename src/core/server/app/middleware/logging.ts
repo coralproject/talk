@@ -26,6 +26,7 @@ export const accessLogger: RequestHandler = (req, res, next) => {
         url: req.originalUrl || req.url,
         method: req.method,
         statusCode: res.statusCode,
+        host: req.hostname,
         userAgent,
         responseTime,
       },

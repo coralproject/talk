@@ -15,7 +15,7 @@ async function createTestRenderer(
     ...resolver,
     Query: {
       settings: sinon.stub().returns(settings),
-      story: sinon.stub().callsFake((_: any, variables: any) => {
+      stream: sinon.stub().callsFake((_: any, variables: any) => {
         expectAndFail(variables.id).toBe(stories[0].id);
         return stories[0];
       }),
@@ -59,7 +59,7 @@ it("renders disabled comment stream", async () => {
 it("renders closed comment stream", async () => {
   const { testRenderer } = await createTestRenderer({
     Query: {
-      story: sinon.stub().callsFake(() => ({
+      stream: sinon.stub().callsFake(() => ({
         ...stories[0],
         isClosed: true,
       })),
@@ -78,7 +78,7 @@ it("auto close comment stream when story closed at has been reached", async () =
 
   const { testRenderer } = await createTestRenderer({
     Query: {
-      story: sinon.stub().callsFake(() => ({
+      stream: sinon.stub().callsFake(() => ({
         ...stories[0],
         closedAt: later.toISOString(),
         isClosed: false,

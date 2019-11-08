@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -259,11 +260,19 @@ export async function updateTenant(
   id: string,
   update: UpdateTenantInput
 ) {
+  const $set = dotize(update, { embedArrays: true });
+
+  // Check to see if there is any updates that will be made.
+  if (isEmpty($set)) {
+    // No updates need to be made, abort here and just return the tenant.
+    return retrieveTenant(mongo, id);
+  }
+
   // Get the tenant from the database.
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     // Only update fields that have been updated.
-    { $set: dotize(update, { embedArrays: true }) },
+    { $set },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }

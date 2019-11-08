@@ -59,7 +59,7 @@ beforeEach(() => {
   const resolvers = {
     Query: {
       settings: sinon.stub().returns(settings),
-      story: createSinonStub(
+      stream: createSinonStub(
         s => s.throws(),
         s =>
           s

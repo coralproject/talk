@@ -62,7 +62,7 @@ it("renders app with comment stream", async () => {
 
   const { testRenderer } = await createTestRenderer({
     Query: {
-      story: storyQueryStub,
+      stream: storyQueryStub,
     },
   });
 
