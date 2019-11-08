@@ -2,7 +2,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
-import { Omit } from "coral-common/types";
+import { DeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { PartialSettings } from "coral-server/models/settings";
 import { communities as collection } from "coral-server/services/mongodb/collections";
@@ -52,6 +52,25 @@ export async function updateCommunity(
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     { $set: dotize(update, { embedArrays: true }) },
+    { returnOriginal: false }
+  );
+
+  return result.value || null;
+}
+
+export type UpdateCommunitySettingsInput = DeepPartial<PartialSettings>;
+
+export async function updateCommunitySettings(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  update: UpdateCommunitySettingsInput
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    {
+      $set: dotize({ settings: update }, { embedArrays: true }),
+    },
     { returnOriginal: false }
   );
 

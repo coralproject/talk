@@ -234,7 +234,15 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     clientMutationId: input.clientMutationId,
   }),
   createSite: async (source, { input }, ctx) => ({
-    community: await ctx.mutators.Sites.create(input),
+    site: await ctx.mutators.Sites.create(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  updateCommunitySettings: async (source, { input }, ctx) => ({
+    community: await ctx.mutators.Communities.updateSettings(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  updateSiteSettings: async (source, { input }, ctx) => ({
+    site: await ctx.mutators.Sites.updateSettings(input),
     clientMutationId: input.clientMutationId,
   }),
 };
