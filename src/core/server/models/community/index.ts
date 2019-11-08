@@ -5,11 +5,14 @@ import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { DeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { PartialSettings } from "coral-server/models/settings";
+import { Tenant } from "coral-server/models/tenant";
 import { communities as collection } from "coral-server/services/mongodb/collections";
 
 import { GQLCommunity } from "coral-server/graph/tenant/schema/__generated__/types";
 
-export interface Community extends GQLCommunity {
+import { consolidate } from "../helpers/settings";
+
+export interface Community extends Omit<GQLCommunity, "consolidatedSettings"> {
   settings: PartialSettings;
   tenantID: string;
   locale: LanguageCode;
@@ -77,12 +80,28 @@ export async function updateCommunitySettings(
   return result.value || null;
 }
 
-export async function retrieveCommunity(mongo: Db, id: string) {
-  return collection(mongo).findOne({ id });
+export async function retrieveCommunity(
+  mongo: Db,
+  tenantID: string,
+  id: string
+) {
+  return collection(mongo).findOne({ id, tenantID });
 }
 
 export async function retrieveTenantCommunities(mongo: Db, tenantID: string) {
   return collection(mongo)
     .find({ tenantID })
     .toArray();
+}
+
+export async function retrieveConsolidatedSettings(
+  mongo: Db,
+  tenant: Tenant,
+  communityID: string
+) {
+  const community = await retrieveCommunity(mongo, tenant.id, communityID);
+  if (!community) {
+    throw new Error("community not found");
+  }
+  return consolidate(tenant, community);
 }

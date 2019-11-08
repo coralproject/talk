@@ -2599,6 +2599,8 @@ type Story {
   settings.
   """
   settings: StorySettings!
+
+  consolidatedSettings: EntitySettings!
 }
 
 """
@@ -5908,6 +5910,7 @@ type Community {
   contactEmail: String!
   url: String!
   createdAt: Time!
+  consolidatedSettings: EntitySettings!
 }
 
 input CreateCommunityInput {
@@ -5944,6 +5947,7 @@ type Site {
   createdAt: Time!
   domain: String! @auth(roles: [ADMIN])
   allowedDomains: [String!]! @auth(roles: [ADMIN])
+  consolidatedSettings: EntitySettings!
 }
 
 input CreateSiteInput {
