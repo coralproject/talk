@@ -1,10 +1,4 @@
 declare module "metascraper" {
-  export interface Scraper {
-    (options: { url: string; html: string }): Promise<
-      Record<string, string | undefined>
-    >;
-  }
-
   export type Ruler = (options: {
     htmlDom: CheerioSelector;
     url: string;
@@ -16,16 +10,9 @@ declare module "metascraper" {
   ) => string | undefined;
 
   export type Rules = Record<string, Array<Ruler>>;
-
-  export function load(rules: Rules[]): Scraper;
 }
 
 declare module "metascraper-author" {
-  import { Rules } from "metascraper";
-  export default function def(): Rules;
-}
-
-declare module "metascraper-date" {
   import { Rules } from "metascraper";
   export default function def(): Rules;
 }
@@ -46,5 +33,9 @@ declare module "metascraper-title" {
 }
 
 declare module "@metascraper/helpers" {
-  export const $jsonld: any;
+  import { Rule } from "metascraper";
+  export const $jsonld: (key: string) => Rule;
+  export const jsonld: (url: string, htmlDom: CheerioSelector) => Rule;
+  export const toRule: (fn: any, opts?: any) => (rule: Rule) => any;
+  export const date: Rule;
 }
