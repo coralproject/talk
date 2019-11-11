@@ -44,7 +44,7 @@ export interface TenantSettings
   locale: LanguageCode;
 }
 
-export interface Tenant extends GQLOrganization {
+export interface Tenant extends Omit<GQLOrganization, "communities"> {
   locale: LanguageCode;
   settings: Settings;
 }

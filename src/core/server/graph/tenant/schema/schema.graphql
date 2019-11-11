@@ -1895,6 +1895,8 @@ type Query {
   """
   settings: Settings!
 
+  organization: Organization!
+
   """
   discoverOIDCConfiguration will discover the OpenID Connect configuration based
   on the provided issuer. Discovery is not supported on all providers, and is
@@ -5960,6 +5962,7 @@ type Organization {
   domain: String! @auth(roles: [ADMIN])
   allowedDomains: [String!]! @auth(roles: [ADMIN])
   multiSite: Boolean!
+  communities: [Community!]!
 }
 
 input CreateOrganizationInput {
