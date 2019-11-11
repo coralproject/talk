@@ -8,8 +8,8 @@ interface SettingsEntity {
 
 export function consolidate(
   tenant: SettingsEntity,
-  community?: SettingsEntity,
-  site?: SettingsEntity,
+  community?: SettingsEntity | null,
+  site?: SettingsEntity | null,
   story?: SettingsEntity
 ): PartialSettings {
   if (community) {
@@ -26,6 +26,9 @@ export function consolidate(
       return merge({}, tenant.settings, community.settings, site.settings);
     }
     return merge({}, tenant.settings, community.settings);
+  }
+  if (story) {
+    return merge({}, tenant.settings, story.settings);
   }
   return tenant.settings;
 }

@@ -486,7 +486,7 @@ export async function retrieveConsolidatedSettings(
     throw new Error("story not found");
   }
   if (!story.siteID) {
-    return consolidate(tenant, story);
+    return consolidate(tenant, null, null, story);
   }
   const site = await retrieveSite(mongo, tenant.id, story.siteID);
   if (!site) {

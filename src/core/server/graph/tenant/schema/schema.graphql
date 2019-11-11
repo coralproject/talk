@@ -415,915 +415,6 @@ type ModerationQueues {
 }
 
 ################################################################################
-## Auth
-################################################################################
-
-##########################
-## AuthenticationTargetFilter
-##########################
-
-"""
-AuthenticationTargetFilter when non-null, will specify the targets that a
-specific authentication integration will be enabled on.
-"""
-type AuthenticationTargetFilter {
-  admin: Boolean!
-  stream: Boolean!
-}
-
-##########################
-## LocalAuthIntegration
-##########################
-
-type LocalAuthIntegration {
-  enabled: Boolean!
-
-  """
-  allowRegistration when true will allow users that have not signed up
-  before with this authentication integration to sign up.
-  """
-  allowRegistration: Boolean!
-
-  """
-  targetFilter will restrict where the authentication integration should be
-  displayed. If the value of targetFilter is null, then the authentication
-  integration should be displayed in all targets.
-  """
-  targetFilter: AuthenticationTargetFilter!
-}
-
-##########################
-## SSOAuthIntegration
-##########################
-
-"""
-SSOAuthIntegration is an AuthIntegration that provides a secret to the admins
-of a tenant, where they can sign a SSO payload with it to provide to the
-embed to allow single sign on.
-"""
-type SSOAuthIntegration {
-  enabled: Boolean!
-
-  """
-  allowRegistration when true will allow users that have not signed up
-  before with this authentication integration to sign up.
-  """
-  allowRegistration: Boolean!
-
-  """
-  targetFilter will restrict where the authentication integration should be
-  displayed. If the value of targetFilter is null, then the authentication
-  integration should be displayed in all targets.
-  """
-  targetFilter: AuthenticationTargetFilter!
-
-  """
-  key is the secret that is used to sign tokens.
-  """
-  key: String @auth(roles: [ADMIN])
-
-  """
-  keyGeneratedAt is the Time that the key was effective from.
-  """
-  keyGeneratedAt: Time @auth(roles: [ADMIN])
-}
-
-##########################
-## OIDCAuthIntegration
-##########################
-
-"""
-DiscoveredOIDCConfiguration contains the discovered Provider Metadata as defined
-in:
-
-https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-
-Discovery is not supported on all providers, and is described in the OpenID
-Connect Discovery 1.0 incorporating errata set 1:
-
-https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
-"""
-type DiscoveredOIDCConfiguration {
-  """
-  issuer is defined as the `issuer` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  issuer: String!
-
-  """
-  authorizationURL is defined as the `authorization_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  authorizationURL: String!
-
-  """
-  tokenURL is defined as the `token_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  tokenURL: String
-
-  """
-  jwksURI is defined as the `jwks_uri` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  jwksURI: String!
-}
-
-"""
-OIDCAuthIntegration provides a way to store Open ID Connect credentials. This
-will be used in the admin to provide staff logins for users.
-"""
-type OIDCAuthIntegration {
-  """
-  enabled, when true, allows the integration to be enabled.
-  """
-  enabled: Boolean!
-
-  """
-  allowRegistration when true will allow users that have not signed up
-  before with this authentication integration to sign up.
-  """
-  allowRegistration: Boolean!
-
-  """
-  targetFilter will restrict where the authentication integration should be
-  displayed. If the value of targetFilter is null, then the authentication
-  integration should be displayed in all targets.
-  """
-  targetFilter: AuthenticationTargetFilter!
-
-  """
-  name is the label assigned to reference the provider of the OIDC integration,
-  and will be used in situations where the name of the provider needs to be
-  displayed, like the login button.
-  """
-  name: String
-
-  """
-  callbackURL is the URL that the user should be redirected to in order to continue
-  the authentication flow with the given integration. This field is not stored,
-  and is instead computed from the Tenant.
-  """
-  callbackURL: String!
-
-  """
-  redirectURL is the URL that the user should be redirected to in order to start
-  an authentication flow with the given integration. This field is not stored,
-  and is instead computed from the Tenant.
-  """
-  redirectURL: String
-
-  """
-  clientID is the Client Identifier as defined in:
-
-  https://tools.ietf.org/html/rfc6749#section-2.2
-  """
-  clientID: String @auth(roles: [ADMIN])
-
-  """
-  clientSecret is the Client Secret as defined in:
-
-  https://tools.ietf.org/html/rfc6749#section-2.3.1
-  """
-  clientSecret: String @auth(roles: [ADMIN])
-
-  """
-  authorizationURL is defined as the `authorization_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  authorizationURL: String @auth(roles: [ADMIN])
-
-  """
-  tokenURL is defined as the `token_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  tokenURL: String @auth(roles: [ADMIN])
-
-  """
-  jwksURI is defined as the `jwks_uri` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  jwksURI: String @auth(roles: [ADMIN])
-
-  """
-  issuer is defined as the `issuer` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  issuer: String @auth(roles: [ADMIN])
-}
-
-##########################
-## GoogleAuthIntegration
-##########################
-
-type GoogleAuthIntegration {
-  """
-  enabled, when true, will enable Google as an authentication integration.
-  """
-  enabled: Boolean!
-
-  """
-  allowRegistration when true will allow users that have not signed up
-  before with this authentication integration to sign up.
-  """
-  allowRegistration: Boolean!
-
-  """
-  targetFilter will restrict where the authentication integration should be
-  displayed. If the value of targetFilter is null, then the authentication
-  integration should be displayed in all targets.
-  """
-  targetFilter: AuthenticationTargetFilter!
-
-  """
-  clientID is the Client Identifier as provided by the Google API Console.
-  """
-  clientID: String @auth(roles: [ADMIN])
-
-  """
-  clientSecret is the Client Secret as provided by the Google API Console.
-  """
-  clientSecret: String @auth(roles: [ADMIN])
-
-  """
-  callbackURL is the URL that the user should be redirected to in order to continue
-  the authentication flow. This field is not stored, and is instead computed from
-  the Tenant.
-  """
-  callbackURL: String!
-
-  """
-  redirectURL is the URL that the user should be redirected to in order to start
-  an authentication flow with the given integration. This field is not stored,
-  and is instead computed from the Tenant.
-  """
-  redirectURL: String!
-}
-
-##########################
-## FacebookAuthIntegration
-##########################
-
-type FacebookAuthIntegration {
-  """
-  enabled, when true, will enable Facebook as an authentication integration.
-  """
-  enabled: Boolean!
-
-  """
-  allowRegistration when true will allow users that have not signed up
-  before with this authentication integration to sign up.
-  """
-  allowRegistration: Boolean!
-
-  """
-  targetFilter will restrict where the authentication integration should be
-  displayed. If the value of targetFilter is null, then the authentication
-  integration should be displayed in all targets.
-  """
-  targetFilter: AuthenticationTargetFilter!
-
-  """
-  clientID is the Client Identifier as provided by the Facebook Developer
-  Console.
-  """
-  clientID: String @auth(roles: [ADMIN])
-
-  """
-  clientSecret is the Client Secret as provided by the Facebook Developer
-  Console.
-  """
-  clientSecret: String @auth(roles: [ADMIN])
-
-  """
-  callbackURL is the URL that the user should be redirected to in order to continue
-  the authentication flow. This field is not stored, and is instead computed from
-  the Tenant.
-  """
-  callbackURL: String!
-
-  """
-  redirectURL is the URL that the user should be redirected to in order to start
-  an authentication flow with the given integration. This field is not stored,
-  and is instead computed from the Tenant.
-  """
-  redirectURL: String!
-}
-
-##########################
-## Auth
-##########################
-
-type AuthIntegrations {
-  """
-  local stores configuration related to email/password based logins.
-  """
-  local: LocalAuthIntegration!
-
-  """
-  sso stores configuration related to Single Sign On based logins.
-  """
-  sso: SSOAuthIntegration!
-
-  """
-  oidc stores configuration related to OpenID Connect based logins.
-  """
-  oidc: OIDCAuthIntegration!
-
-  """
-  google stores configuration related to Google based logins.
-  """
-  google: GoogleAuthIntegration!
-
-  """
-  facebook stores configuration related to Facebook based logins.
-  """
-  facebook: FacebookAuthIntegration!
-}
-
-"""
-Auth contains all the settings related to authentication and
-authorization.
-"""
-type Auth {
-  """
-  integrations are the set of configurations for the variations of
-  authentication solutions.
-  """
-  integrations: AuthIntegrations!
-  """
-  sessionDuration determines the duration in seconds for which an access token is valid
-  """
-  sessionDuration: Int!
-}
-
-################################################################################
-## ExternalIntegrations
-################################################################################
-
-type AkismetExternalIntegration {
-  """
-  enabled when True will enable the integration.
-  """
-  enabled: Boolean!
-
-  """
-  The key for the Akismet integration.
-  """
-  key: String
-
-  """
-  The site (blog) for the Akismet integration.
-  """
-  site: String
-}
-
-type PerspectiveExternalIntegration {
-  """
-  enabled when True will enable the integration.
-  """
-  enabled: Boolean!
-
-  """
-  The endpoint that Coral should use to communicate with the perspective API.
-  """
-  endpoint: String @auth(roles: [ADMIN])
-
-  """
-  The key for the Perspective API integration.
-  """
-  key: String @auth(roles: [ADMIN])
-
-  """
-  The threshold that given a specific toxic comment score, the comment will
-  be marked by Coral as toxic.
-  """
-  threshold: Float
-
-  """
-  model is the Perspective model to use.
-  """
-  model: String @auth(roles: [ADMIN])
-
-  """
-  When True, comments sent will not be stored by the Google Perspective API.
-  """
-  doNotStore: Boolean @auth(roles: [ADMIN])
-}
-
-type ExternalIntegrations {
-  """
-  akismet provides integration with the Akismet Spam detection service.
-  """
-  akismet: AkismetExternalIntegration!
-
-  """
-  perspective provides integration with the Perspective API comment analysis
-  platform.
-  """
-  perspective: PerspectiveExternalIntegration!
-}
-
-################################################################################
-## RecentCommentHistory
-################################################################################
-
-"""
-RecentCommentHistoryConfiguration controls the beheviour around when comments
-from Users should be marked for pre-moderation automatically once they have
-reached the trigger rate for rejected comments.
-"""
-type RecentCommentHistoryConfiguration {
-  """
-  enabled when true will pre-moderate users new comments once they have reached
-  the trigger rejection rate.
-  """
-  enabled: Boolean!
-
-  """
-  timeFrame specifies the number of seconds that comments from a given User will
-  be taken into account when computing their rejection rate.
-  """
-  timeFrame: Int!
-
-  """
-  triggerRejectionRate specifies the percentage of comments that a given User
-  may have before their comments will then be placed into pre-moderation until
-  the rejection rate decreases.
-  """
-  triggerRejectionRate: Float!
-}
-
-"""
-RecentCommentHistory returns data associated with a User's recent commenting
-history within the specified timeFrame configured.
-"""
-type RecentCommentHistory {
-  """
-  statuses stores the counts of all the statuses against Comments by a User
-  within the timeFrame configured.
-  """
-  statuses: CommentStatusCounts!
-}
-
-################################################################################
-## CharCount
-################################################################################
-
-type CharCount {
-  """
-  enabled when true, enables the character count moderation phase.
-  """
-  enabled: Boolean!
-
-  """
-  min is the smallest length of a Comment that may be posted.
-  """
-  min: Int
-
-  """
-  max is the largest length of a Comment that may be posted.
-  """
-  max: Int
-}
-
-################################################################################
-## DisableCommenting
-################################################################################
-
-type DisableCommenting {
-  """
-  enabled when true will disable commenting site-wide.
-  """
-  enabled: Boolean!
-
-  """
-  message will be shown above the comment stream while
-  commenting is disabled site-wide.
-  """
-  message: String!
-}
-
-################################################################################
-## EmailConfiguration
-################################################################################
-
-type SMTP {
-  secure: Boolean
-  host: String
-  port: Int
-  authentication: Boolean
-  username: String
-  password: String
-}
-
-type EmailConfiguration {
-  """
-  enabled when true, will enable the emailing functionality in Coral.
-  """
-  enabled: Boolean!
-
-  fromName: String
-  fromEmail: String
-  smtp: SMTP! @auth(roles: [ADMIN])
-}
-
-################################################################################
-## Slack Configuration
-################################################################################
-
-type SlackConfiguration {
-  """
-  channels is the set of Slack channels configured to receive comments
-  """
-  channels: [SlackChannel!]!
-}
-
-type SlackChannelTriggers {
-  """
-  allComments is whether this channel will receive all comments entering moderation
-  """
-  allComments: Boolean!
-
-  """
-  reportedComments is whether this channel will receive reported comments
-  """
-  reportedComments: Boolean!
-
-  """
-  pendingComments is whether this channel will receive pending comments
-  """
-  pendingComments: Boolean!
-
-  """
-  featuredComments is whether this channel will receive featured comments
-  """
-  featuredComments: Boolean!
-
-}
-
-type SlackChannel {
-  """
-  enabled is whether this Slack channel is enabled to send comments to its
-  correlated web hook
-  """
-  enabled: Boolean!
-
-  """
-  name is the name assigned to the Slack channel
-  """
-  name: String
-
-  """
-  hookURL defines the URL that comments will be sent to
-  """
-  hookURL: String
-
-  """
-  triggers are the filters of types of comments that will be sent to
-  the correlated channel
-  """
-  triggers: SlackChannelTriggers
-}
-
-################################################################################
-## ReactionConfiguration
-################################################################################
-
-"""
-ReactionConfiguration stores the configuration for reactions used across this
-Tenant.
-"""
-type ReactionConfiguration {
-  """
-  icon is the string representing the icon to be used for the reactions.
-  """
-  icon: String!
-
-  """
-  iconActive is the string representing the icon that should be used when the
-  icon should be considered active.
-  """
-  iconActive: String
-
-  """
-  label is the string placed beside the reaction icon to provide better context.
-  """
-  label: String!
-
-  """
-  labelActive is the string placed beside the reaction icon to provide better
-  context when it has been selected.
-  """
-  labelActive: String!
-
-  """
-  sortLabel is the string placed inside of the sort menu to sort for comment
-  with most reactions.
-  """
-  sortLabel: String!
-
-  """
-  color is the hex color code that can be used to change the color of the button.
-  """
-  color: String
-}
-
-################################################################################
-## CommunityGuidelines
-################################################################################
-
-type CommunityGuidelines {
-  """
-  enable set to true will show the guidelines above the message box.
-  """
-  enabled: Boolean!
-
-  """
-  content of the guidelines.
-  """
-  content: String
-}
-
-"""
-StoryMessageBox stores settings related to the Story Message Box.
-"""
-type StoryMessageBox {
-  """
-  enable when true will enable the Message Box on the comment stream.
-  """
-  enabled: Boolean!
-
-  """
-  icon when set will reference the string for the Message box used by the
-  Message Box.
-  """
-  icon: String
-
-  """
-  content when set contains the actual markup for the Message Box.
-  """
-  content: String
-}
-
-################################################################################
-## Settings
-################################################################################
-
-"""
-CloseCommenting contains settings related to the automatic closing of commenting
-on Stories.
-"""
-type CloseCommenting {
-  """
-  auto when true will configure the automatic close on each story as they are
-  created based on the current configured timeout option.
-  """
-  auto: Boolean!
-
-  """
-  timeout is the amount of seconds from the `createdAt` timestamp that a given
-  story will be considered closed.
-  """
-  timeout: Int!
-
-  """
-  message when provided will be the message that shows when the comment stream
-  is closed for commenting.
-  """
-  message: String!
-}
-
-# """
-# Organization stores information about the organization behind this specific
-# instance of Coral.
-# """
-# type Organization {
-#   """
-#   name is the name of the organization.
-#   """
-#   name: String!
-
-#   """
-#   contactEmail is the email of the organization.
-#   """
-#   contactEmail: String!
-
-#   """
-#   url is the URL to the organizations home page.
-#   """
-#   url: String!
-# }
-
-"""
-StoryScrapingConfiguration stores the configuration around story scraping.
-"""
-type StoryScrapingConfiguration {
-  """
-  enabled, when true, enables stories to be scraped. When disabled, stories will
-  only be looked up instead, and must be created via the API directly.
-  """
-  enabled: Boolean!
-
-  """
-  proxyURL when specified, allows scraping requests to use the provided proxy.
-  All requests will then be passed through the appropriote proxy as parsed by
-  the [proxy-agent](https://www.npmjs.com/package/proxy-agent) package.
-  """
-  proxyURL: String
-}
-
-"""
-StoryConfiguration stores the configuration for working with stories.
-"""
-type StoryConfiguration {
-  """
-  scraping stores configuration around story scraping.
-  """
-  scraping: StoryScrapingConfiguration!
-
-  """
-  disableLazy when true, will only allow lookups of stories created via the API.
-  """
-  disableLazy: Boolean!
-}
-
-"""
-CommenterAccountFeatures stores the configuration for commenter account features.
-"""
-type CommenterAccountFeatures {
-  """
-  changeUsername when true, non-sso user may change username every 14 days
-  """
-  changeUsername: Boolean!
-
-  """
-  downloadComments when true, user may download their comment history
-  """
-  downloadComments: Boolean!
-
-  """
-  deleteAccount when true, non-sso user may permanently delete their account
-  """
-  deleteAccount: Boolean!
-}
-
-"""
-StaffConfiguration specifies the configuration for the staff badges assigned to
-users with any role above COMMENTER.
-"""
-type StaffConfiguration {
-  """
-  label is the string used when displaying the STAFF badge to users.
-  """
-  label: String!
-}
-
-"""
-Settings stores the global settings for a given Tenant.
-"""
-type Settings {
-  """
-  id is a canonical identifier for this Tenant.
-  """
-  id: ID!
-
-  """
-  domain is the domain that is associated with this Tenant.
-  """
-  domain: String! @auth(roles: [ADMIN])
-
-  """
-  staticURI if configured, is the static URI used to serve static files from.
-  """
-  staticURI: String @auth(roles: [ADMIN])
-
-  """
-  allowedDomains is the list of domains that stories can come from.
-  """
-  allowedDomains: [String!]! @auth(roles: [ADMIN])
-
-  """
-  locale is the specified locale for this Tenant.
-  """
-  locale: Locale!
-
-  """
-  live provides configuration options related to live updates for stories on
-  this site.
-  """
-  live: LiveConfiguration!
-
-  """
-  moderation is the moderation mode for all Stories on the site.
-  """
-  moderation: MODERATION_MODE @auth(roles: [ADMIN])
-
-  """
-  communityGuidelines will be shown in the comments stream.
-  """
-  communityGuidelines: CommunityGuidelines!
-
-  """
-  premodLinksEnable will put all comments that contain links into premod.
-  """
-  premodLinksEnable: Boolean @auth(roles: [ADMIN])
-
-  """
-  closeCommenting contains settings related to the automatic closing of commenting on
-  Stories.
-  """
-  closeCommenting: CloseCommenting!
-
-  """
-  customCSSURL is the URL of the custom CSS used to display on the frontend.
-  """
-  customCSSURL: String
-
-  """
-  disableCommenting will disable commenting site-wide.
-  """
-  disableCommenting: DisableCommenting!
-
-  """
-  editCommentWindowLength is the length of time (in seconds) after a comment is
-  posted that it can still be edited by the author.
-  """
-  editCommentWindowLength: Int!
-
-  """
-  charCount stores the character count moderation settings.
-  """
-  charCount: CharCount!
-
-  """
-  email is the set of credentials and settings associated with the organization.
-  """
-  email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  slack is the configuration for slack communication
-  """
-  slack: SlackConfiguration! @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  wordList will return a given list of words.
-  """
-  wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  auth contains all the settings related to authentication and authorization.
-  """
-  auth: Auth!
-
-  """
-  integrations contains all the external integrations that can be enabled.
-  """
-  integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  recentCommentHistory is the set of settings related to how automatic
-  pre-moderation is controlled.
-  """
-  recentCommentHistory: RecentCommentHistoryConfiguration!
-    @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  reaction specifies the configuration for reactions.
-  """
-  reaction: ReactionConfiguration!
-
-  """
-  staff specifies the configuration for the staff badges assigned to users with
-  any role above COMMENTER.
-  """
-  staff: StaffConfiguration!
-
-  """
-  accountFeatures stores the configuration for commenter account features.
-  """
-  accountFeatures: CommenterAccountFeatures!
-
-  """
-  stories stores the configuration around stories.
-  """
-  stories: StoryConfiguration! @auth(roles: [ADMIN])
-
-  """
-  createdAt is the time that the Settings was created at.
-  """
-  createdAt: Time! @auth(roles: [ADMIN])
-}
-
-################################################################################
 ## User
 ################################################################################
 
@@ -1869,15 +960,67 @@ type User {
   """
   status: UserStatus!
 
+################################################################################
+## Slack Configuration
+################################################################################
+
+type SlackConfiguration {
   """
-  tokens lists the access tokens associated with the account.
+  channels is the set of Slack channels configured to receive comments
   """
-  tokens: [Token!]!
-    @auth(
-      roles: [ADMIN]
-      userIDField: "id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
-    )
+  channels: [SlackChannel!]!
+}
+
+type SlackChannelTriggers {
+  """
+  allComments is whether this channel will receive all comments entering moderation
+  """
+  allComments: Boolean!
+
+  """
+  reportedComments is whether this channel will receive reported comments
+  """
+  reportedComments: Boolean!
+
+  """
+  pendingComments is whether this channel will receive pending comments
+  """
+  pendingComments: Boolean!
+
+  """
+  featuredComments is whether this channel will receive featured comments
+  """
+  featuredComments: Boolean!
+
+}
+
+type SlackChannel {
+  """
+  enabled is whether this Slack channel is enabled to send comments to its
+  correlated web hook
+  """
+  enabled: Boolean!
+
+  """
+  name is the name assigned to the Slack channel
+  """
+  name: String
+
+  """
+  hookURL defines the URL that comments will be sent to
+  """
+  hookURL: String
+
+  """
+  triggers are the filters of types of comments that will be sent to
+  the correlated channel
+  """
+  triggers: SlackChannelTriggers
+}
+
+################################################################################
+## ReactionConfiguration
+################################################################################
 
   """
   ignoredUsers will return the list of ignored users.
@@ -2135,7 +1278,12 @@ type Tag {
   createdBy: User @auth(roles: [MODERATOR, ADMIN])
 
   """
-  createdAt is the time that the Tag was assigned on.
+  slack is the configuration for slack communication
+  """
+  slack: SlackConfiguration! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  wordList will return a given list of words.
   """
   createdAt: Time! @auth(roles: [MODERATOR, ADMIN])
 }
@@ -2329,6 +1477,18 @@ type CommentEdge {
   cursor: Cursor!
 }
 
+type SiteEdge {
+  """
+  node is the Comment for this edge.
+  """
+  node: Comment!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
 """
 CommentsConnection represents a subset of a comment list.
 """
@@ -2342,6 +1502,26 @@ type CommentsConnection {
   nodes is a list of Comment's.
   """
   nodes: [Comment!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
+"""
+SitesConnection represents a subset of a comment list.
+"""
+type SitesConnection {
+  """
+  edges are a subset of CommentEdge's.
+  """
+  edges: [SiteEdge!]!
+
+  """
+  nodes is a list of Comment's.
+  """
+  nodes: [Site!]!
 
   """
   pageInfo is information to aid in pagination.
@@ -2643,6 +1823,10 @@ type Query {
   comment returns a specific comment.
   """
   comment(id: ID!): Comment
+
+  site(id: ID!): Site
+
+  community(id: ID!): Community
 
   """
   comments returns a filtered comments connection that can be paginated. This is
@@ -3458,60 +2642,6 @@ input CommenterAccountFeaturesInput {
   deleteAccount: Boolean
 }
 
-input SlackTriggersConfigurationInput {
-  """
-  allComments is whether this channel will receive all comments entering moderation
-  """
-  allComments: Boolean
-
-  """
-  reportedComments is whether this channel will receive reported comments
-  """
-  reportedComments: Boolean
-
-  """
-  pendingComments is whether this channel will receive pending comments
-  """
-  pendingComments: Boolean
-
-  """
-  featuredComments is whether this channel will receive featured comments
-  """
-  featuredComments: Boolean
-
-}
-
-input SlackChannelConfigurationInput {
-  """
-  enabled is whether this Slack channel is enabled to send comments to its
-  correlated web hook
-  """
-  enabled: Boolean
-
-  """
-  name is the name assigned to the Slack channel
-  """
-  name: String
-
-  """
-  hookURL defines the URL that comments will be sent to
-  """
-  hookURL: String
-
-  """
-  triggers are the filters of types of comments that will be sent to
-  the correlated channel
-  """
-  triggers: SlackTriggersConfigurationInput
-}
-
-input SlackConfigurationInput {
-  """
-  channels are the channels configured for Slack integration
-  """
-  channels: [SlackChannelConfigurationInput!]
-}
-
 """
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
@@ -3621,11 +2751,6 @@ input SettingsInput {
   accountFeatures specifies the configuration for accounts.
   """
   accountFeatures: CommenterAccountFeaturesInput
-
-  """
-  slack specifies the configuration for Slack integration.
-  """
-  slack: SlackConfigurationInput
 
   """
   locale specifies the locale for this Tenant.
@@ -4262,9 +3387,69 @@ type ScrapeStoryPayload {
   clientMutationId: String!
 }
 
-##################
-# approveComment
-##################
+input SlackTriggersConfigurationInput {
+  """
+  allComments is whether this channel will receive all comments entering moderation
+  """
+  allComments: Boolean
+
+  """
+  reportedComments is whether this channel will receive reported comments
+  """
+  reportedComments: Boolean
+
+  """
+  pendingComments is whether this channel will receive pending comments
+  """
+  pendingComments: Boolean
+
+  """
+  featuredComments is whether this channel will receive featured comments
+  """
+  featuredComments: Boolean
+
+}
+
+input SlackChannelConfigurationInput {
+  """
+  enabled is whether this Slack channel is enabled to send comments to its
+  correlated web hook
+  """
+  enabled: Boolean
+
+  """
+  name is the name assigned to the Slack channel
+  """
+  name: String
+
+  """
+  hookURL defines the URL that comments will be sent to
+  """
+  hookURL: String
+
+  """
+  triggers are the filters of types of comments that will be sent to
+  the correlated channel
+  """
+  triggers: SlackTriggersConfigurationInput
+}
+
+input SlackConfigurationInput {
+  """
+  channels are the channels configured for Slack integration
+  """
+  channels: [SlackChannelConfigurationInput!]
+}
+
+"""
+SettingsInput is the partial type of the Settings type for performing mutations.
+"""
+input SettingsInput {
+  """
+  live provides configuration options related to live updates for stories on
+  this site.
+  """
+  live: LiveConfigurationInput
 
 input ApproveCommentInput {
   """
@@ -4375,9 +3560,23 @@ type FeatureCommentPayload {
   clientMutationId: String!
 
   """
-  moderationQueues will return the selected moderation queues. If the `storyID`
-  is provided, it will filter the moderation queues for only comments in that
-  Story.
+  staff specifies the configuration for the staff badges assigned to users with
+  any role above COMMENTER.
+  """
+  staff: StaffConfigurationInput
+
+  """
+  accountFeatures specifies the configuration for accounts.
+  """
+  accountFeatures: CommenterAccountFeaturesInput
+
+  """
+  slack specifies the configuration for Slack integration.
+  """
+  slack: SlackConfigurationInput
+
+  """
+  locale specifies the locale for this Tenant.
   """
   moderationQueues(storyID: ID): ModerationQueues
 }
@@ -5227,7 +4426,7 @@ input RequestUserCommentsDownloadInput {
   """
   userID specifies user to download comments for
   """
-  userID: ID!
+  userID: String!
 
   """
   clientMutationId is required for Relay support.
@@ -5246,7 +4445,6 @@ type RequestUserCommentsDownloadPayload {
   """
   archiveURL: String!
 }
-
 ##################
 ## Mutation
 ##################
@@ -5255,9 +4453,7 @@ type Mutation {
   """
   createComment will create a Comment as the current logged in User.
   """
-  createComment(input: CreateCommentInput!): CreateCommentPayload!
-    @auth
-    @rate(seconds: 3, key: "createComment")
+  createComment(input: CreateCommentInput!): CreateCommentPayload! @auth
 
   """
   createCommentReply will create a Comment as the current logged in User that is
@@ -5265,7 +4461,7 @@ type Mutation {
   """
   createCommentReply(
     input: CreateCommentReplyInput!
-  ): CreateCommentReplyPayload! @auth @rate(seconds: 3, key: "createComment")
+  ): CreateCommentReplyPayload! @auth
 
   """
   editComment will allow the author of a comment to change the body within the
@@ -5292,7 +4488,7 @@ type Mutation {
   """
   createCommentReaction(
     input: CreateCommentReactionInput!
-  ): CreateCommentReactionPayload @auth @rate(max: 2, seconds: 1)
+  ): CreateCommentReactionPayload @auth
 
   """
   removeCommentReaction will remove a Reaction authored by the current logged in
@@ -5300,7 +4496,7 @@ type Mutation {
   """
   removeCommentReaction(
     input: RemoveCommentReactionInput!
-  ): RemoveCommentReactionPayload @auth @rate(max: 2, seconds: 1)
+  ): RemoveCommentReactionPayload @auth
 
   """
   createCommentDontAgree will create a DontAgree authored by the current logged in
@@ -5308,7 +4504,7 @@ type Mutation {
   """
   createCommentDontAgree(
     input: CreateCommentDontAgreeInput!
-  ): CreateCommentDontAgreePayload @auth @rate(seconds: 3)
+  ): CreateCommentDontAgreePayload @auth
 
   """
   removeCommentDontAgree will remove a DontAgree authored by the current logged in
@@ -5316,7 +4512,7 @@ type Mutation {
   """
   removeCommentDontAgree(
     input: RemoveCommentDontAgreeInput!
-  ): RemoveCommentDontAgreePayload @auth @rate(seconds: 3)
+  ): RemoveCommentDontAgreePayload @auth
 
   """
   createCommentFlag will create a Flag authored by the current logged in User on
@@ -5324,7 +4520,6 @@ type Mutation {
   """
   createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload!
     @auth
-    @rate(seconds: 3)
 
   """
   featureComment will mark a given Comment as featured.
@@ -5417,11 +4612,11 @@ type Mutation {
     )
 
   """
-  updateUsername will update the users username.
+  updateUsername will set the username on the current User if they have not set one
+  before. This mutation will fail if the username is already set.
   """
   updateUsername(input: UpdateUsernameInput!): UpdateUsernamePayload!
     @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
-    @rate(seconds: 10)
 
   """
   setEmail will set the email address on the current User if they have not set
@@ -5442,9 +4637,7 @@ type Mutation {
   updatePassword allows the current logged in User to change their password if
   they already have one associated with them.
   """
-  updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload!
-    @auth
-    @rate(seconds: 10)
+  updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload! @auth
 
   """
   requestAccountDeletion allows the current logged in User to request to
@@ -5452,7 +4645,7 @@ type Mutation {
   """
   requestAccountDeletion(
     input: RequestAccountDeletionInput!
-  ): RequestAccountDeletionPayload! @auth @rate(seconds: 10)
+  ): RequestAccountDeletionPayload! @auth
 
   """
   deleteUserAccount will delete the target user now.
@@ -5492,11 +4685,10 @@ type Mutation {
   ): UpdateUserUsernamePayload! @auth(roles: [ADMIN])
 
   """
-  updateEmail will update the current users email address.
+  updateEmail allows administrators to update a given User's email address
+  to the one provided.
   """
-  updateEmail(input: UpdateEmailInput!): UpdateEmailPayload!
-    @auth
-    @rate(seconds: 10)
+  updateEmail(input: UpdateEmailInput!): UpdateEmailPayload! @auth
 
   """
   updateNotificationSettings can be used to update the notification settings for
@@ -5617,6 +4809,28 @@ type Mutation {
 
   updateSiteSettings(input: UpdateSiteSettingsInput!): UpdateSitePayload!
     @auth(roles: [ADMIN])
+
+  """
+  updateUsername will update the users username.
+  """
+  updateUsername(input: UpdateUsernameInput!): UpdateUsernamePayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @rate(seconds: 10)
+
+  updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload!
+    @auth
+    @rate(seconds: 10)
+
+  requestAccountDeletion(
+    input: RequestAccountDeletionInput!
+  ): RequestAccountDeletionPayload! @auth @rate(seconds: 10)
+
+  """
+  updateEmail will update the current users email address.
+  """
+  updateEmail(input: UpdateEmailInput!): UpdateEmailPayload!
+    @auth
+    @rate(seconds: 10)
 }
 
 ##################
@@ -5802,6 +5016,724 @@ type Subscription {
     @auth(roles: [MODERATOR, ADMIN])
 }
 
+################################################################################
+## Auth
+################################################################################
+
+##########################
+## AuthenticationTargetFilter
+##########################
+
+"""
+AuthenticationTargetFilter when non-null, will specify the targets that a
+specific authentication integration will be enabled on.
+"""
+type AuthenticationTargetFilter {
+  admin: Boolean!
+  stream: Boolean!
+}
+
+##########################
+## LocalAuthIntegration
+##########################
+
+type LocalAuthIntegration {
+  enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter!
+}
+
+##########################
+## SSOAuthIntegration
+##########################
+
+"""
+SSOAuthIntegration is an AuthIntegration that provides a secret to the admins
+of a tenant, where they can sign a SSO payload with it to provide to the
+embed to allow single sign on.
+"""
+type SSOAuthIntegration {
+  enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter!
+
+  """
+  key is the secret that is used to sign tokens.
+  """
+  key: String @auth(roles: [ADMIN])
+
+  """
+  keyGeneratedAt is the Time that the key was effective from.
+  """
+  keyGeneratedAt: Time @auth(roles: [ADMIN])
+}
+
+##########################
+## OIDCAuthIntegration
+##########################
+
+"""
+DiscoveredOIDCConfiguration contains the discovered Provider Metadata as defined
+in:
+
+https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+
+Discovery is not supported on all providers, and is described in the OpenID
+Connect Discovery 1.0 incorporating errata set 1:
+
+https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
+"""
+type DiscoveredOIDCConfiguration {
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  issuer: String!
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  authorizationURL: String!
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  tokenURL: String
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  jwksURI: String!
+}
+
+"""
+OIDCAuthIntegration provides a way to store Open ID Connect credentials. This
+will be used in the admin to provide staff logins for users.
+"""
+type OIDCAuthIntegration {
+  """
+  enabled, when true, allows the integration to be enabled.
+  """
+  enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  archiveURL: String!
+}
+
+##################
+## Mutation
+##################
+type Mutation {
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  createComment(input: CreateCommentInput!): CreateCommentPayload!
+    @auth
+    @rate(seconds: 3, key: "createComment")
+
+  """
+  name is the label assigned to reference the provider of the OIDC integration,
+  and will be used in situations where the name of the provider needs to be
+  displayed, like the login button.
+  """
+  createCommentReply(
+    input: CreateCommentReplyInput!
+  ): CreateCommentReplyPayload! @auth @rate(seconds: 3, key: "createComment")
+
+  createCommentReaction(
+    input: CreateCommentReactionInput!
+  ): CreateCommentReactionPayload @auth @rate(max: 2, seconds: 1)
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  removeCommentReaction(
+    input: RemoveCommentReactionInput!
+  ): RemoveCommentReactionPayload @auth @rate(max: 2, seconds: 1)
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  createCommentDontAgree(
+    input: CreateCommentDontAgreeInput!
+  ): CreateCommentDontAgreePayload @auth @rate(seconds: 3)
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  removeCommentDontAgree(
+    input: RemoveCommentDontAgreeInput!
+  ): RemoveCommentDontAgreePayload @auth @rate(seconds: 3)
+
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload!
+    @auth
+    @rate(seconds: 3)
+}
+
+type GoogleAuthIntegration {
+  """
+  enabled, when true, will enable Google as an authentication integration.
+  """
+  enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter!
+
+  """
+  clientID is the Client Identifier as provided by the Google API Console.
+  """
+  clientID: String @auth(roles: [ADMIN])
+
+  """
+  clientSecret is the Client Secret as provided by the Google API Console.
+  """
+  clientSecret: String @auth(roles: [ADMIN])
+
+  """
+  callbackURL is the URL that the user should be redirected to in order to continue
+  the authentication flow. This field is not stored, and is instead computed from
+  the Tenant.
+  """
+  callbackURL: String!
+
+  """
+  redirectURL is the URL that the user should be redirected to in order to start
+  an authentication flow with the given integration. This field is not stored,
+  and is instead computed from the Tenant.
+  """
+  redirectURL: String!
+}
+
+##########################
+## FacebookAuthIntegration
+##########################
+
+type FacebookAuthIntegration {
+  """
+  enabled, when true, will enable Facebook as an authentication integration.
+  """
+  enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter!
+
+  """
+  clientID is the Client Identifier as provided by the Facebook Developer
+  Console.
+  """
+  clientID: String @auth(roles: [ADMIN])
+
+  """
+  clientSecret is the Client Secret as provided by the Facebook Developer
+  Console.
+  """
+  clientSecret: String @auth(roles: [ADMIN])
+
+  """
+  callbackURL is the URL that the user should be redirected to in order to continue
+  the authentication flow. This field is not stored, and is instead computed from
+  the Tenant.
+  """
+  callbackURL: String!
+
+  """
+  redirectURL is the URL that the user should be redirected to in order to start
+  an authentication flow with the given integration. This field is not stored,
+  and is instead computed from the Tenant.
+  """
+  redirectURL: String!
+}
+
+##########################
+## Auth
+##########################
+
+type AuthIntegrations {
+  """
+  local stores configuration related to email/password based logins.
+  """
+  local: LocalAuthIntegration!
+
+  """
+  sso stores configuration related to Single Sign On based logins.
+  """
+  sso: SSOAuthIntegration!
+
+  """
+  oidc stores configuration related to OpenID Connect based logins.
+  """
+  oidc: OIDCAuthIntegration!
+
+  """
+  google stores configuration related to Google based logins.
+  """
+  google: GoogleAuthIntegration!
+
+  """
+  facebook stores configuration related to Facebook based logins.
+  """
+  facebook: FacebookAuthIntegration!
+}
+
+"""
+Auth contains all the settings related to authentication and
+authorization.
+"""
+type Auth {
+  """
+  integrations are the set of configurations for the variations of
+  authentication solutions.
+  """
+  integrations: AuthIntegrations!
+  """
+  sessionDuration determines the duration in seconds for which an access token is valid
+  """
+  sessionDuration: Int!
+}
+
+################################################################################
+## ExternalIntegrations
+################################################################################
+
+type AkismetExternalIntegration {
+  """
+  enabled when True will enable the integration.
+  """
+  enabled: Boolean!
+
+  """
+  The key for the Akismet integration.
+  """
+  key: String
+
+  """
+  The site (blog) for the Akismet integration.
+  """
+  site: String
+}
+
+type PerspectiveExternalIntegration {
+  """
+  enabled when True will enable the integration.
+  """
+  enabled: Boolean!
+
+  """
+  The endpoint that Coral should use to communicate with the perspective API.
+  """
+  endpoint: String @auth(roles: [ADMIN])
+
+  """
+  The key for the Perspective API integration.
+  """
+  key: String @auth(roles: [ADMIN])
+
+  """
+  The threshold that given a specific toxic comment score, the comment will
+  be marked by Coral as toxic.
+  """
+  threshold: Float
+
+  """
+  model is the Perspective model to use.
+  """
+  model: String @auth(roles: [ADMIN])
+
+  """
+  When True, comments sent will not be stored by the Google Perspective API.
+  """
+  doNotStore: Boolean @auth(roles: [ADMIN])
+}
+
+type ExternalIntegrations {
+  """
+  akismet provides integration with the Akismet Spam detection service.
+  """
+  akismet: AkismetExternalIntegration!
+
+  """
+  perspective provides integration with the Perspective API comment analysis
+  platform.
+  """
+  perspective: PerspectiveExternalIntegration!
+}
+
+################################################################################
+## RecentCommentHistory
+################################################################################
+
+"""
+RecentCommentHistoryConfiguration controls the beheviour around when comments
+from Users should be marked for pre-moderation automatically once they have
+reached the trigger rate for rejected comments.
+"""
+type RecentCommentHistoryConfiguration {
+  """
+  enabled when true will pre-moderate users new comments once they have reached
+  the trigger rejection rate.
+  """
+  enabled: Boolean!
+
+  """
+  timeFrame specifies the number of seconds that comments from a given User will
+  be taken into account when computing their rejection rate.
+  """
+  timeFrame: Int!
+
+  """
+  triggerRejectionRate specifies the percentage of comments that a given User
+  may have before their comments will then be placed into pre-moderation until
+  the rejection rate decreases.
+  """
+  triggerRejectionRate: Float!
+}
+
+"""
+RecentCommentHistory returns data associated with a User's recent commenting
+history within the specified timeFrame configured.
+"""
+type RecentCommentHistory {
+  """
+  statuses stores the counts of all the statuses against Comments by a User
+  within the timeFrame configured.
+  """
+  statuses: CommentStatusCounts!
+}
+
+################################################################################
+## CharCount
+################################################################################
+
+type CharCount {
+  """
+  enabled when true, enables the character count moderation phase.
+  """
+  enabled: Boolean!
+
+  """
+  min is the smallest length of a Comment that may be posted.
+  """
+  min: Int
+
+  """
+  max is the largest length of a Comment that may be posted.
+  """
+  max: Int
+}
+
+################################################################################
+## DisableCommenting
+################################################################################
+
+type DisableCommenting {
+  """
+  enabled when true will disable commenting site-wide.
+  """
+  enabled: Boolean!
+
+  """
+  message will be shown above the comment stream while
+  commenting is disabled site-wide.
+  """
+  message: String!
+}
+
+################################################################################
+## EmailConfiguration
+################################################################################
+
+type SMTP {
+  secure: Boolean
+  host: String
+  port: Int
+  authentication: Boolean
+  username: String
+  password: String
+}
+
+type EmailConfiguration {
+  enabled: Boolean!
+
+  fromName: String
+  fromEmail: String
+  smtp: SMTP! @auth(roles: [ADMIN])
+}
+
+################################################################################
+## ReactionConfiguration
+################################################################################
+type ReactionConfiguration {
+  icon: String!
+  iconActive: String
+  label: String!
+  labelActive: String!
+  sortLabel: String!
+  color: String
+}
+
+################################################################################
+## CommunityGuidelines
+################################################################################
+
+type CommunityGuidelines {
+  enabled: Boolean!
+  content: String
+}
+
+type StoryMessageBox {
+  enabled: Boolean!
+  icon: String
+  content: String
+}
+
+################################################################################
+## Settings
+################################################################################
+
+"""
+CloseCommenting contains settings related to the automatic closing of commenting
+on Stories.
+"""
+type CloseCommenting {
+  auto: Boolean!
+  timeout: Int!
+  message: String!
+}
+
+"""
+StoryScrapingConfiguration stores the configuration around story scraping.
+"""
+type StoryScrapingConfiguration {
+  enabled: Boolean!
+  proxyURL: String
+}
+
+"""
+StoryConfiguration stores the configuration for working with stories.
+"""
+type StoryConfiguration {
+  scraping: StoryScrapingConfiguration!
+  disableLazy: Boolean!
+}
+
+type PartialStoryConfiguration {
+  scraping: StoryScrapingConfiguration
+  disableLazy: Boolean
+}
+
+"""
+CommenterAccountFeatures stores the configuration for commenter account features.
+"""
+type CommenterAccountFeatures {
+  changeUsername: Boolean!
+  downloadComments: Boolean!
+  deleteAccount: Boolean!
+}
+
+"""
+StaffConfiguration specifies the configuration for the staff badges assigned to
+users with any role above COMMENTER.
+"""
+type StaffConfiguration {
+  label: String!
+}
+
+"""
+Settings stores the global settings for a given Tenant.
+"""
+type Settings {
+  """
+  id is a canonical identifier for this Tenant.
+  """
+  id: ID!
+
+  """
+  domain is the domain that is associated with this Tenant.
+  """
+  domain: String! @auth(roles: [ADMIN])
+
+  """
+  staticURI if configured, is the static URI used to serve static files from.
+  """
+  staticURI: String @auth(roles: [ADMIN])
+
+  """
+  allowedDomains is the list of domains that stories can come from.
+  """
+  allowedDomains: [String!]! @auth(roles: [ADMIN])
+
+  """
+  locale is the specified locale for this Tenant.
+  """
+  locale: Locale!
+
+  """
+  live provides configuration options related to live updates for stories on
+  this site.
+  """
+  live: LiveConfiguration!
+
+  """
+  moderation is the moderation mode for all Stories on the site.
+  """
+  moderation: MODERATION_MODE @auth(roles: [ADMIN])
+
+  """
+  communityGuidelines will be shown in the comments stream.
+  """
+  communityGuidelines: CommunityGuidelines!
+
+  """
+  premodLinksEnable will put all comments that contain links into premod.
+  """
+  premodLinksEnable: Boolean @auth(roles: [ADMIN])
+
+  """
+  closeCommenting contains settings related to the automatic closing of commenting on
+  Stories.
+  """
+  closeCommenting: CloseCommenting!
+
+  """
+  customCSSURL is the URL of the custom CSS used to display on the frontend.
+  """
+  customCSSURL: String
+
+  """
+  disableCommenting will disable commenting site-wide.
+  """
+  disableCommenting: DisableCommenting!
+
+  """
+  editCommentWindowLength is the length of time (in seconds) after a comment is
+  posted that it can still be edited by the author.
+  """
+  editCommentWindowLength: Int!
+
+  """
+  charCount stores the character count moderation settings.
+  """
+  charCount: CharCount!
+
+  """
+  email is the set of credentials and settings associated with the organization.
+  """
+  email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  wordList will return a given list of words.
+  """
+  wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  auth contains all the settings related to authentication and authorization.
+  """
+  auth: Auth!
+
+  """
+  integrations contains all the external integrations that can be enabled.
+  """
+  integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  recentCommentHistory is the set of settings related to how automatic
+  pre-moderation is controlled.
+  """
+  recentCommentHistory: RecentCommentHistoryConfiguration!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  reaction specifies the configuration for reactions.
+  """
+  reaction: ReactionConfiguration!
+
+  """
+  staff specifies the configuration for the staff badges assigned to users with
+  any role above COMMENTER.
+  """
+  staff: StaffConfiguration!
+
+  """
+  accountFeatures stores the configuration for commenter account features.
+  """
+  accountFeatures: CommenterAccountFeatures!
+
+  """
+  stories stores the configuration around stories.
+  """
+  stories: StoryConfiguration! @auth(roles: [ADMIN])
+
+  """
+  createdAt is the time that the Settings was created at.
+  """
+  createdAt: Time! @auth(roles: [ADMIN])
+}
+
 """
 Settings stores the global settings for a given Entity.
 """
@@ -5827,6 +5759,159 @@ type EntitySettings {
   staff: StaffConfiguration!
   stories: StoryConfiguration! @auth(roles: [ADMIN])
   wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
+}
+
+type PartialExternalIntegrations {
+  """
+  akismet provides integration with the Akismet Spam detection service.
+  """
+  akismet: AkismetExternalIntegration
+
+  """
+  perspective provides integration with the Perspective API comment analysis
+  platform.
+  """
+  perspective: PerspectiveExternalIntegration
+}
+
+type PartialAuthIntegrations {
+  """
+  local stores configuration related to email/password based logins.
+  """
+  local: LocalAuthIntegration
+
+  """
+  sso stores configuration related to Single Sign On based logins.
+  """
+  sso: SSOAuthIntegration
+
+  """
+  oidc stores configuration related to OpenID Connect based logins.
+  """
+  oidc: OIDCAuthIntegration
+
+  """
+  google stores configuration related to Google based logins.
+  """
+  google: GoogleAuthIntegration
+
+  """
+  facebook stores configuration related to Facebook based logins.
+  """
+  facebook: FacebookAuthIntegration
+}
+
+type PartialCommenterAccountFeatures {
+  changeUsername: Boolean
+  downloadComments: Boolean
+  deleteAccount: Boolean
+}
+
+type PartialRecentCommentHistoryConfiguration {
+  """
+  enabled when true will pre-moderate users new comments once they have reached
+  the trigger rejection rate.
+  """
+  enabled: Boolean
+
+  """
+  timeFrame specifies the number of seconds that comments from a given User will
+  be taken into account when computing their rejection rate.
+  """
+  timeFrame: Int
+
+  """
+  triggerRejectionRate specifies the percentage of comments that a given User
+  may have before their comments will then be placed into pre-moderation until
+  the rejection rate decreases.
+  """
+  triggerRejectionRate: Float
+}
+
+type PartialAuth {
+  integrations: PartialAuthIntegrations
+  sessionDuration: Int
+}
+
+type PartialCharCount {
+  enabled: Boolean
+  min: Int
+  max: Int
+}
+
+type PartialWordList {
+  """
+  banned words will by default reject the comment if it is found.
+  """
+  banned: [String!]
+
+  """
+  suspect words will simply flag the comment.
+  """
+  suspect: [String!]
+}
+
+type PartialCloseCommenting {
+  auto: Boolean!
+  timeout: Int!
+  message: String!
+}
+
+type PartialCommunityGuidelines {
+  enabled: Boolean!
+  content: String
+}
+
+type PartialDisableCommenting {
+  enabled: Boolean
+  message: String
+}
+
+type PartialLiveConfiguration {
+  """
+  configurable when false indicates that live updates cannot be modified.
+  """
+  configurable: Boolean
+
+  """
+  enabled when true will allow live updates.
+  """
+  enabled: Boolean
+}
+
+type PartialEmailConfiguration {
+  """
+  enabled when true, will enable the emailing functionality in Coral.
+  """
+  enabled: Boolean
+
+  fromName: String
+  fromEmail: String
+  smtp: SMTP @auth(roles: [ADMIN])
+}
+
+type PartialEntitySettings {
+  customCSSURL: String
+  editCommentWindowLength: Int
+  moderation: MODERATION_MODE @auth(roles: [ADMIN])
+  premodLinksEnable: Boolean @auth(roles: [ADMIN])
+  staticURI: String @auth(roles: [ADMIN])
+
+  accountFeatures: PartialCommenterAccountFeatures
+  auth: PartialAuth
+  charCount: PartialCharCount
+  closeCommenting: PartialCloseCommenting
+  communityGuidelines: PartialCommunityGuidelines
+  disableCommenting: PartialDisableCommenting
+  email: PartialEmailConfiguration @auth(roles: [ADMIN, MODERATOR])
+  integrations: PartialExternalIntegrations @auth(roles: [ADMIN, MODERATOR])
+  live: PartialLiveConfiguration
+  reaction: ReactionConfiguration
+  recentCommentHistory: PartialRecentCommentHistoryConfiguration
+    @auth(roles: [ADMIN, MODERATOR])
+  staff: StaffConfiguration
+  stories: PartialStoryConfiguration @auth(roles: [ADMIN])
+  wordList: PartialWordList @auth(roles: [ADMIN, MODERATOR])
 }
 
 input UpdateEntitySettingsInput {
@@ -5906,7 +5991,9 @@ type Community {
   contactEmail: String!
   url: String!
   createdAt: Time!
+  settings: PartialEntitySettings!
   consolidatedSettings: EntitySettings!
+  sites: [Site!]!
 }
 
 input CreateCommunityInput {
@@ -5944,6 +6031,8 @@ type Site {
   domain: String! @auth(roles: [ADMIN])
   allowedDomains: [String!]! @auth(roles: [ADMIN])
   consolidatedSettings: EntitySettings!
+  settings: PartialEntitySettings!
+  community: Community!
 }
 
 input CreateSiteInput {

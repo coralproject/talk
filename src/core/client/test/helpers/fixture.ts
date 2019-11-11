@@ -273,9 +273,6 @@ export function createSettings() {
       enabled: false,
       content: "",
     },
-    name: "Coral",
-    url: "https://test.com/",
-    contactEmail: "coral@test.com",
     integrations: {
       akismet: {
         enabled: false,

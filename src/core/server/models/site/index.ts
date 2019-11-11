@@ -13,7 +13,8 @@ import { GQLSite } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { consolidate } from "../helpers/settings";
 
-export interface Site extends Omit<GQLSite, "consolidatedSettings"> {
+export interface Site
+  extends Omit<GQLSite, "consolidatedSettings" | "community"> {
   settings: PartialSettings;
   communityID: string;
   tenantID: string;
@@ -88,9 +89,13 @@ export async function retrieveSite(mongo: Db, tenantID: string, id: string) {
   return collection(mongo).findOne({ id, tenantID });
 }
 
-export async function retrieveCommunitySites(mongo: Db, communityID: string) {
+export async function retrieveCommunitySites(
+  mongo: Db,
+  tenantID: string,
+  communityID: string
+) {
   return collection(mongo)
-    .find({ communityID })
+    .find({ communityID, tenantID })
     .toArray();
 }
 

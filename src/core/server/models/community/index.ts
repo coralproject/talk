@@ -12,7 +12,8 @@ import { GQLCommunity } from "coral-server/graph/tenant/schema/__generated__/typ
 
 import { consolidate } from "../helpers/settings";
 
-export interface Community extends Omit<GQLCommunity, "consolidatedSettings"> {
+export interface Community
+  extends Omit<GQLCommunity, "consolidatedSettings" | "sites"> {
   settings: PartialSettings;
   tenantID: string;
   locale: LanguageCode;

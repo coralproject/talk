@@ -21,4 +21,6 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   debugScrapeStoryMetadata: (source, { url }, ctx) =>
     ctx.loaders.Stories.debugScrapeMetadata.load(url),
   moderationQueues: moderationQueuesResolver,
+  site: (source, args, ctx) => ctx.loaders.Sites.find.load(args.id),
+  community: (source, args, ctx) => ctx.loaders.Communities.find.load(args.id),
 };
