@@ -1265,12 +1265,6 @@ type Settings {
   charCount: CharCount!
 
   """
-  organization stores information about the organization behind this specific
-  instance of Coral.
-  """
-  organization: Organization!
-
-  """
   email is the set of credentials and settings associated with the organization.
   """
   email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
@@ -2601,6 +2595,8 @@ type Story {
   settings: StorySettings!
 
   consolidatedSettings: EntitySettings!
+
+  siteID: ID
 }
 
 """

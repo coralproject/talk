@@ -30,5 +30,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   // Merge tenant settings into the story settings so we can easily inherit the
   // options if they exist.
   settings: (s, input, ctx) => defaultsDeep({}, s.settings, ctx.tenant),
+  consolidatedSettings: (s, input, ctx) =>
+    story.retrieveConsolidatedSettings(ctx.mongo, ctx.tenant, s.id),
   moderationQueues: storyModerationInputResolver,
 };

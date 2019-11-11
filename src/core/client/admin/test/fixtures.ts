@@ -70,11 +70,9 @@ export const settings = createFixture<GQLSettings>({
     enabled: false,
     content: "",
   },
-  organization: {
-    name: "Coral",
-    url: "https://test.com/",
-    contactEmail: "coral@test.com",
-  },
+  name: "Coral",
+  url: "https://test.com/",
+  contactEmail: "coral@test.com",
   recentCommentHistory: {
     enabled: false,
     // 7 days in seconds.
