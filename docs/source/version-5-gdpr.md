@@ -30,7 +30,7 @@ we also provide API support to manage GDPR features directly from your own Accou
 We provide the following GraphQL mutations designed to allow you to integrate it into your existing user
 interfaces or exports.
 
-- `downloadUser(id: ID!)` - lets you grab the direct link to download a users
+- `requestUserCommentsDownload` - lets you grab the direct link to download a users
   account in a zip format. From there, you can integrate it into your existing
   data export or simply proxy it to the user to allow them to download it
   elsewhere in your UI.
