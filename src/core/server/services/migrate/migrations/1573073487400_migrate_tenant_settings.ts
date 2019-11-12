@@ -44,6 +44,7 @@ export default class extends Migration {
       "closeCommenting",
       "disableCommenting",
       "accountFeatures",
+      "locale",
     ]);
 
     await collections.tenants(mongo).updateOne(
