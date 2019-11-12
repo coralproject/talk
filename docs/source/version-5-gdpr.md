@@ -34,6 +34,6 @@ interfaces or exports.
   account in a zip format. From there, you can integrate it into your existing
   data export or simply proxy it to the user to allow them to download it
   elsewhere in your UI.
-- `delUser(id: ID!)` - lets you delete the specified user
+- `deleteUserAccount` - lets you delete the specified user
 
 **Note: These mutations require an administrative token**
