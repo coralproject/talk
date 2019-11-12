@@ -25,6 +25,8 @@ class OrganizationConfigRoute extends React.Component<Props> {
     return (
       <OrganizationConfigContainer
         settings={this.props.data.settings}
+        organization={this.props.data.organization}
+        form={this.props.form}
         submitting={this.props.submitting}
       />
     );
@@ -34,8 +36,8 @@ class OrganizationConfigRoute extends React.Component<Props> {
 const enhanced = withRouteConfig<Props>({
   query: graphql`
     query OrganizationConfigRouteQuery {
-      settings {
-        ...OrganizationConfigContainer_settings
+      organization {
+        ...OrganizationConfigContainer_organization
       }
     }
   `,

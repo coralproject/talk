@@ -25,6 +25,8 @@ class AdvancedConfigRoute extends React.Component<Props> {
     return (
       <AdvancedConfigContainer
         settings={this.props.data.settings}
+        organization={this.props.data.organization}
+        form={this.props.form}
         submitting={this.props.submitting}
       />
     );
@@ -34,6 +36,9 @@ class AdvancedConfigRoute extends React.Component<Props> {
 const enhanced = withRouteConfig<Props>({
   query: graphql`
     query AdvancedConfigRouteQuery {
+      organization {
+        ...AdvancedConfigContainer_organization
+      }
       settings {
         ...AdvancedConfigContainer_settings
       }

@@ -8,7 +8,7 @@ import {
 } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components";
 
-import { OrganizationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/OrganizationConfigContainer_settings.graphql";
+import { OrganizationConfigContainer_organization as OrganizationData } from "coral-admin/__generated__/OrganizationConfigContainer_organization.graphql";
 
 import OrganizationContactEmailConfig from "./OrganizationContactEmailConfig";
 import OrganizationNameConfig from "./OrganizationNameConfig";
@@ -16,7 +16,7 @@ import OrganizationURLConfig from "./OrganizationURLConfig";
 
 interface Props {
   submitting: boolean;
-  settings: SettingsData;
+  organization: OrganizationData;
 }
 const OrganizationConfigContainer: React.FunctionComponent<Props> = ({
   settings,
