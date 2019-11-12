@@ -23,6 +23,8 @@ exports[`renders correctly 1`] = `
         >
           <div
             className="Modal-wrapper"
+            onClick={[Function]}
+            role="presentation"
           >
             <div
               onFocus={[Function]}
