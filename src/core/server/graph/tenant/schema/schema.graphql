@@ -5100,7 +5100,7 @@ input RequestUserCommentsDownloadInput {
   """
   userID specifies user to download comments for
   """
-  userID: String!
+  userID: ID!
 
   """
   clientMutationId is required for Relay support.

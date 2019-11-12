@@ -1,4 +1,4 @@
-# Coral ![CircleCI](https://img.shields.io/circleci/project/github/coralproject/talk/next.svg)
+# Coral ![CircleCI](https://img.shields.io/circleci/project/github/coralproject/talk.svg)
 
 Online comments are broken. Our open-source commenting platform, Coral, rethinks
 how moderation, comment display, and conversation function, creating the
