@@ -1,6 +1,6 @@
 ---
 title: GDPR Compliance
-permalink: v5/integrating/gdpr/
+permalink: /v5/integrating/gdpr/
 ---
 
 In order to facilitate compliance with the
