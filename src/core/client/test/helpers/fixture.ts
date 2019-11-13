@@ -238,7 +238,6 @@ export function createStory() {
 
 export function createSettings() {
   return createFixture<GQLSettings>({
-    id: "settings",
     moderation: GQLMODERATION_MODE.POST,
     premodLinksEnable: false,
     live: {

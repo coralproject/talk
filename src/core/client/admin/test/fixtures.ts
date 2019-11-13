@@ -24,7 +24,6 @@ import {
 import { createFixture, createFixtures } from "coral-framework/testHelpers";
 
 export const settings = createFixture<GQLSettings>({
-  id: "settings",
   moderation: GQLMODERATION_MODE.POST,
   premodLinksEnable: false,
   locale: "en-US",
@@ -70,9 +69,6 @@ export const settings = createFixture<GQLSettings>({
     enabled: false,
     content: "",
   },
-  name: "Coral",
-  url: "https://test.com/",
-  contactEmail: "coral@test.com",
   recentCommentHistory: {
     enabled: false,
     // 7 days in seconds.
@@ -166,7 +162,6 @@ export const settings = createFixture<GQLSettings>({
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   {
-    id: "settings",
     auth: {
       sessionDuration: DEFAULT_SESSION_LENGTH,
       integrations: {
