@@ -13,14 +13,12 @@ import { spam } from "./spam";
 import { staff } from "./staff";
 import { storyClosed } from "./storyClosed";
 import { toxic } from "./toxic";
-import { userRateLimit } from "./userRateLimit";
 import { wordList } from "./wordList";
 
 /**
  * The moderation phases to apply for each comment being processed.
  */
 export const moderationPhases: IntermediateModerationPhase[] = [
-  userRateLimit,
   commentLength,
   storyClosed,
   commentingDisabled,
