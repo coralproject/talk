@@ -38,6 +38,7 @@ export const render = ({
       <PermalinkViewContainer
         viewer={props.viewer}
         settings={props.settings}
+        organization={props.organization}
         comment={props.comment}
         story={props.story}
       />
@@ -72,6 +73,9 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
           }
           settings {
             ...PermalinkViewContainer_settings
+          }
+          organization {
+            ...PermalinkViewContainer_organization
           }
         }
       `}

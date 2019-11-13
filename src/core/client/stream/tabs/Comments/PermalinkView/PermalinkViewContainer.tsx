@@ -13,6 +13,7 @@ import {
 } from "coral-stream/mutations";
 
 import { PermalinkViewContainer_comment as CommentData } from "coral-stream/__generated__/PermalinkViewContainer_comment.graphql";
+import { PermalinkViewContainer_organization as OrgData } from "coral-stream/__generated__/PermalinkViewContainer_organization.graphql";
 import { PermalinkViewContainer_settings as SettingsData } from "coral-stream/__generated__/PermalinkViewContainer_settings.graphql";
 import { PermalinkViewContainer_story as StoryData } from "coral-stream/__generated__/PermalinkViewContainer_story.graphql";
 import { PermalinkViewContainer_viewer as ViewerData } from "coral-stream/__generated__/PermalinkViewContainer_viewer.graphql";
@@ -23,6 +24,7 @@ interface PermalinkViewContainerProps {
   comment: CommentData | null;
   story: StoryData;
   settings: SettingsData;
+  organization: OrgData;
   viewer: ViewerData | null;
   setCommentID: SetCommentIDMutation;
   pym: PymChild | undefined;
@@ -52,12 +54,13 @@ class PermalinkViewContainer extends React.Component<
   }
 
   public render() {
-    const { comment, story, viewer, settings } = this.props;
+    const { comment, story, viewer, settings, organization } = this.props;
     return (
       <PermalinkView
         viewer={viewer}
         story={story}
         comment={comment}
+        organization={organization}
         settings={settings}
         showAllCommentsHref={this.getShowAllCommentsHref()}
         onShowAllComments={this.showAllComments}
@@ -96,11 +99,15 @@ const enhanced = withContext(ctx => ({
           ...CreateCommentReplyMutation_viewer
         }
       `,
+      organization: graphql`
+        fragment PermalinkViewContainer_organization on Organization {
+          ...UserBoxContainer_organization
+        }
+      `,
       settings: graphql`
         fragment PermalinkViewContainer_settings on Settings {
           ...ConversationThreadContainer_settings
           ...ReplyListContainer1_settings
-          ...UserBoxContainer_settings
         }
       `,
     })(PermalinkViewContainer)

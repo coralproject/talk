@@ -13,6 +13,7 @@ export interface Props {
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
     PropTypesOf<typeof ModerateStreamContainer>["settings"];
+  organization: PropTypesOf<typeof UserBoxContainer>["organization"];
   story: PropTypesOf<typeof ConfigureStreamContainer>["story"] &
     PropTypesOf<typeof OpenOrCloseStreamContainer>["story"] &
     PropTypesOf<typeof ModerateStreamContainer>["story"];
@@ -28,6 +29,10 @@ const Configure: FunctionComponent<Props> = props => {
           story={props.story}
         />
         <HorizontalRule />
+        <UserBoxContainer
+          viewer={props.viewer}
+          organization={props.organization}
+        />
         <ConfigureStreamContainer story={props.story} />
         <HorizontalRule />
         <OpenOrCloseStreamContainer story={props.story} />

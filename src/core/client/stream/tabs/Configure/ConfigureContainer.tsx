@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { ConfigureContainer_settings as SettingsData } from "coral-stream/__generated__/ConfigureContainer_settings.graphql";
+import { ConfigureContainer_organization as OrgData } from "coral-stream/__generated__/ConfigureContainer_organization.graphql";
 import { ConfigureContainer_story as StoryData } from "coral-stream/__generated__/ConfigureContainer_story.graphql";
 import { ConfigureContainer_viewer as ViewerData } from "coral-stream/__generated__/ConfigureContainer_viewer.graphql";
 
@@ -11,8 +11,8 @@ import Configure from "./Configure";
 
 interface ConfigureContainerProps {
   viewer: ViewerData;
-  settings: SettingsData;
   story: StoryData;
+  organization: OrgData;
 }
 
 export class StreamContainer extends React.Component<ConfigureContainerProps> {
@@ -20,7 +20,7 @@ export class StreamContainer extends React.Component<ConfigureContainerProps> {
     return (
       <Configure
         story={this.props.story}
-        settings={this.props.settings}
+        organization={this.props.organization}
         viewer={this.props.viewer}
       />
     );
@@ -41,8 +41,12 @@ const enhanced = withFragmentContainer<ConfigureContainerProps>({
   `,
   settings: graphql`
     fragment ConfigureContainer_settings on Settings {
-      ...UserBoxContainer_settings
       ...ModerateStreamContainer_settings
+    }
+  `,
+  organization: graphql`
+    fragment ConfigureContainer_organization on Organization {
+      ...UserBoxContainer_organization
     }
   `,
 })(StreamContainer);

@@ -5,6 +5,7 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter, Typography } from "coral-ui/components";
 
+import { AccountSettingsContainer_organization } from "coral-stream/__generated__/AccountSettingsContainer_organization.graphql";
 import { AccountSettingsContainer_settings } from "coral-stream/__generated__/AccountSettingsContainer_settings.graphql";
 import { AccountSettingsContainer_viewer } from "coral-stream/__generated__/AccountSettingsContainer_viewer.graphql";
 
@@ -20,11 +21,13 @@ import styles from "./AccountSettingsContainer.css";
 interface Props {
   viewer: AccountSettingsContainer_viewer;
   settings: AccountSettingsContainer_settings;
+  organization: AccountSettingsContainer_organization;
 }
 
 const AccountSettingsContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
+  organization,
 }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="accountSettings-manage-account">
@@ -35,10 +38,10 @@ const AccountSettingsContainer: FunctionComponent<Props> = ({
       <ChangeEmailContainer settings={settings} viewer={viewer} />
       <ChangePasswordContainer settings={settings} />
       <IgnoreUserSettingsContainer viewer={viewer} />
-      {settings.accountFeatures.downloadComments && (
+      {organization.settings.accountFeatures.downloadComments && (
         <DownloadCommentsContainer viewer={viewer} />
       )}
-      {settings.accountFeatures.deleteAccount && (
+      {organization.settings.accountFeatures.deleteAccount && (
         <DeleteAccountContainer viewer={viewer} settings={settings} />
       )}
     </HorizontalGutter>
@@ -56,17 +59,22 @@ const enhanced = withFragmentContainer<Props>({
       ...UserBoxContainer_viewer
     }
   `,
+  organization: graphql`
+    fragment AccountSettingsContainer_organization on Organization {
+      settings {
+        accountFeatures {
+          downloadComments
+          deleteAccount
+        }
+      }
+    }
+  `,
   settings: graphql`
     fragment AccountSettingsContainer_settings on Settings {
-      accountFeatures {
-        downloadComments
-        deleteAccount
-      }
       ...ChangePasswordContainer_settings
       ...DeleteAccountContainer_settings
       ...ChangeEmailContainer_settings
       ...ChangeUsernameContainer_settings
-      ...UserBoxContainer_settings
     }
   `,
 })(AccountSettingsContainer);

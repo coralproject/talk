@@ -22,35 +22,37 @@ it("renders fully", () => {
       accessTokenExp: 1562172094,
     },
     viewer: null,
-    settings: {
-      auth: {
-        integrations: {
-          facebook: {
-            enabled: true,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+    organization: {
+      settings: {
+        auth: {
+          integrations: {
+            facebook: {
+              enabled: true,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          google: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            google: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          oidc: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            oidc: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          local: {
-            enabled: true,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            local: {
+              enabled: true,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
           },
         },
@@ -81,35 +83,37 @@ it("renders without logout button", () => {
       accessTokenExp: null,
     },
     viewer: null,
-    settings: {
-      auth: {
-        integrations: {
-          facebook: {
-            enabled: true,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+    organization: {
+      settings: {
+        auth: {
+          integrations: {
+            facebook: {
+              enabled: true,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          google: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            google: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          oidc: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            oidc: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          local: {
-            enabled: true,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            local: {
+              enabled: true,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
           },
         },
@@ -140,35 +144,37 @@ it("renders sso only", () => {
       accessTokenExp: 1562172094,
     },
     viewer: null,
-    settings: {
-      auth: {
-        integrations: {
-          facebook: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+    organization: {
+      settings: {
+        auth: {
+          integrations: {
+            facebook: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          google: {
-            enabled: true,
-            allowRegistration: true,
-            targetFilter: {
-              stream: false,
+            google: {
+              enabled: true,
+              allowRegistration: true,
+              targetFilter: {
+                stream: false,
+              },
             },
-          },
-          oidc: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            oidc: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          local: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            local: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
           },
         },
@@ -199,35 +205,37 @@ it("renders sso only without logout button", () => {
       accessTokenExp: 1562172094,
     },
     viewer: null,
-    settings: {
-      auth: {
-        integrations: {
-          facebook: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+    organization: {
+      settings: {
+        auth: {
+          integrations: {
+            facebook: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          google: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            google: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          oidc: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            oidc: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          local: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            local: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
           },
         },
@@ -258,35 +266,37 @@ it("renders without register button", () => {
       accessTokenExp: 1562172094,
     },
     viewer: null,
-    settings: {
-      auth: {
-        integrations: {
-          facebook: {
-            enabled: true,
-            allowRegistration: false,
-            targetFilter: {
-              stream: true,
+    organization: {
+      settings: {
+        auth: {
+          integrations: {
+            facebook: {
+              enabled: true,
+              allowRegistration: false,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          google: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: false,
+            google: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: false,
+              },
             },
-          },
-          oidc: {
-            enabled: false,
-            allowRegistration: true,
-            targetFilter: {
-              stream: true,
+            oidc: {
+              enabled: false,
+              allowRegistration: true,
+              targetFilter: {
+                stream: true,
+              },
             },
-          },
-          local: {
-            enabled: true,
-            allowRegistration: false,
-            targetFilter: {
-              stream: true,
+            local: {
+              enabled: true,
+              allowRegistration: false,
+              targetFilter: {
+                stream: true,
+              },
             },
           },
         },

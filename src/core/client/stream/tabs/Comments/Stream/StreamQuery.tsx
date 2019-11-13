@@ -40,6 +40,7 @@ export const render = (
     return (
       <StreamContainer
         settings={data.props.settings}
+        organization={data.props.organization}
         viewer={data.props.viewer}
         story={data.props.story}
       />
@@ -77,6 +78,9 @@ const StreamQuery: FunctionComponent<Props> = props => {
             }
             story: stream(id: $storyID, url: $storyURL) {
               ...StreamContainer_story
+            }
+            organization {
+              ...StreamContainer_organization
             }
             settings {
               ...StreamContainer_settings

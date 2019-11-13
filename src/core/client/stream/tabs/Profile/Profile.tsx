@@ -27,13 +27,12 @@ export interface ProfileProps {
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
     PropTypesOf<typeof CommentHistoryContainer>["viewer"] &
     PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
-    PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
     PropTypesOf<typeof DeletionRequestCalloutContainer>["viewer"] &
-    PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
     PropTypesOf<typeof NotificationSettingsContainer>["viewer"];
-  settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
-    PropTypesOf<typeof AccountSettingsContainer>["settings"] &
+  settings: PropTypesOf<typeof AccountSettingsContainer>["settings"] &
     PropTypesOf<typeof CommentHistoryContainer>["settings"];
+  organization: PropTypesOf<typeof AccountSettingsContainer>["organization"] &
+    PropTypesOf<typeof UserBoxContainer>["organization"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
@@ -54,7 +53,10 @@ const Profile: FunctionComponent<ProfileProps> = props => {
   );
   return (
     <HorizontalGutter size="double">
-      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+      <UserBoxContainer
+        organization={props.organization}
+        viewer={props.viewer}
+      />
       <TabBar
         variant="secondary"
         activeTab={local.profileTab}
@@ -100,6 +102,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         <TabPane className={CLASSES.accountTabPane.$root} tabID="ACCOUNT">
           <AccountSettingsContainer
             viewer={props.viewer}
+            organization={props.organization}
             settings={props.settings}
           />
           <DeletionRequestCalloutContainer viewer={props.viewer} />

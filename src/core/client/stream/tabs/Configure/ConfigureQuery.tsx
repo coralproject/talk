@@ -57,8 +57,8 @@ export const render = ({
       <Suspense fallback={<Spinner />}>
         <LazyConfigureContainer
           viewer={props.viewer}
+          organization={props.organization}
           story={props.story}
-          settings={props.settings}
         />
       </Suspense>
     );
@@ -83,8 +83,8 @@ const ConfigureQuery: FunctionComponent<Props> = ({
         viewer {
           ...ConfigureContainer_viewer
         }
-        settings {
-          ...ConfigureContainer_settings
+        organization {
+          ...ConfigureContainer_organization
         }
       }
     `}

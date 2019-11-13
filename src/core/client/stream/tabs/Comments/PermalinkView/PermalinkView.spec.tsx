@@ -15,6 +15,7 @@ it("renders correctly", () => {
     story: {},
     settings: {},
     comment: {},
+    organization: {},
     showAllCommentsHref: "http://localhost/link",
     onShowAllComments: noop,
   };
@@ -28,6 +29,7 @@ it("renders comment not found", () => {
     viewer: {},
     story: {},
     settings: {},
+    organization: {},
     comment: null,
     showAllCommentsHref: "http://localhost/link",
     onShowAllComments: noop,

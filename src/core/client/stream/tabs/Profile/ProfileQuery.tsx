@@ -62,6 +62,7 @@ export const render = ({
         <LazyProfileContainer
           viewer={props.viewer}
           story={props.story}
+          organization={props.organization}
           settings={props.settings}
         />
       </Suspense>
@@ -86,6 +87,9 @@ const ProfileQuery: FunctionComponent<Props> = ({
         }
         viewer {
           ...ProfileContainer_viewer
+        }
+        organization {
+          ...ProfileContainer_organization
         }
         settings {
           ...ProfileContainer_settings

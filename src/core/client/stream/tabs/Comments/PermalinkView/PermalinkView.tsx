@@ -29,8 +29,8 @@ export interface PermalinkViewProps {
         PropTypesOf<typeof ReplyListContainer>["comment"]
     | null;
   settings: PropTypesOf<typeof ConversationThreadContainer>["settings"] &
-    PropTypesOf<typeof ReplyListContainer>["settings"] &
-    PropTypesOf<typeof UserBoxContainer>["settings"];
+    PropTypesOf<typeof ReplyListContainer>["settings"];
+  organization: PropTypesOf<typeof UserBoxContainer>["organization"];
   showAllCommentsHref: string | null;
   onShowAllComments: (e: MouseEvent<any>) => void;
 }
@@ -39,6 +39,7 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
   showAllCommentsHref,
   comment,
   settings,
+  organization,
   story,
   onShowAllComments,
   viewer,
@@ -51,7 +52,7 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
       })}
       size="double"
     >
-      <UserBoxContainer viewer={viewer} settings={settings} />
+      <UserBoxContainer viewer={viewer} organization={organization} />
       <Flex alignItems="center" justifyContent="center" direction="column">
         <Localized id="comments-permalinkView-currentViewing">
           <Typography className={styles.title1}>

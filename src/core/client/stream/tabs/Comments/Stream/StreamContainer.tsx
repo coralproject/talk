@@ -23,6 +23,7 @@ import {
 } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
+import { StreamContainer_organization as OrgData } from "coral-stream/__generated__/StreamContainer_organization.graphql";
 import { StreamContainer_settings as SettingsData } from "coral-stream/__generated__/StreamContainer_settings.graphql";
 import { StreamContainer_story as StoryData } from "coral-stream/__generated__/StreamContainer_story.graphql";
 import { StreamContainer_viewer as ViewerData } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
@@ -48,6 +49,7 @@ import styles from "./StreamContainer.css";
 interface Props {
   story: StoryData;
   settings: SettingsData;
+  organization: OrgData;
   viewer: ViewerData | null;
 }
 
@@ -151,7 +153,10 @@ export const StreamContainer: FunctionComponent<Props> = props => {
         })}
         size="double"
       >
-        <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+        <UserBoxContainer
+          viewer={props.viewer}
+          organization={props.organization}
+        />
         {props.viewer && (
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
         )}
@@ -170,7 +175,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
         {suspended && (
           <SuspendedInfoContainer
             viewer={props.viewer}
-            settings={props.settings}
+            organization={props.organization}
           />
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
@@ -287,15 +292,19 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
+  organization: graphql`
+    fragment StreamContainer_organization on Organization {
+      ...UserBoxContainer_organization
+      ...SuspendedInfoContainer_organization
+    }
+  `,
   settings: graphql`
     fragment StreamContainer_settings on Settings {
       reaction {
         sortLabel
       }
       ...PostCommentFormContainer_settings
-      ...UserBoxContainer_settings
       ...CommunityGuidelinesContainer_settings
-      ...SuspendedInfoContainer_settings
     }
   `,
 })(StreamContainer);
