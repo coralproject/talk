@@ -123,7 +123,8 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
             $unit={unit}
           >
             <span>
-              You can submit another request in {scaled} {unit}
+              Request submitted. You can submit another request in {scaled}{" "}
+              {unit}
             </span>
           </Localized>
         </CallOut>
