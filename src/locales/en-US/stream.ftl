@@ -240,7 +240,7 @@ profile-account-download-comments-request-icon =
 profile-account-download-comments-recentRequest =
   Your most recent request: { $timeStamp }
 profile-account-download-comments-timeOut =
-  You can submit another request in { framework-timeago-time }
+  Request submitted. You can submit another request in { framework-timeago-time }
 profile-account-download-comments-request-button = Request
 
 ## Delete Account

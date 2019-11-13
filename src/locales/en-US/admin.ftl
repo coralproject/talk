@@ -223,8 +223,7 @@ configure-auth-sso-regenerate = Regenerate
 configure-auth-sso-regenerateAt = KEY GENERATED AT:
   { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
 configure-auth-sso-regenerateWarning =
-  Regenerating a key will invalidate any existing user sessions,
-  and all signed-in users will be signed out.
+  When regenerating a key, tokens signed with the previous key will be honored for 30 days.
 
 configure-auth-local-loginWith = Login with email authentication
 configure-auth-local-useLoginOn = Use email authentication login on
