@@ -224,8 +224,6 @@ profile-account-download-comments-request-icon =
   .title = Solicitar histórico de comentários
 profile-account-download-comments-recentRequest =
   Sua solicitação mais recente: { $timeStamp }
-profile-account-download-comments-timeOut =
-  Você pode enviar outra solicitação em { framework-timeago-time }
 profile-account-download-comments-request-button = Solicitar
 
 ## Delete Account
