@@ -11,8 +11,9 @@ interface Props {
 
 const DownloadForm: FunctionComponent<Props> = ({ token }) => {
   const [submitted, setSubmitted] = useState(false);
-  const onClick = useCallback(() => {
+  const onSubmit = useCallback(() => {
     setSubmitted(true);
+    return true;
   }, [setSubmitted]);
 
   return (
@@ -21,15 +22,15 @@ const DownloadForm: FunctionComponent<Props> = ({ token }) => {
         className={styles.form}
         method="post"
         action="/api/account/download"
+        onSubmit={onSubmit}
       >
         <input name="token" type="hidden" value={token} />
-        <Localized id="download-landingPage-downloadComments ">
+        <Localized id="download-landingPage-downloadComments">
           <Button
             type="submit"
             variant="filled"
             color="primary"
             disabled={submitted}
-            onClick={onClick}
             className={styles.downloadButton}
           >
             Download My Comment History
