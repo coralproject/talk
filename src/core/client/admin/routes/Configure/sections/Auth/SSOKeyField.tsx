@@ -49,8 +49,8 @@ const SSOKeyField: FunctionComponent<Props> = ({
         <Icon className={styles.warnIcon}>warning</Icon>
         <Localized id="configure-auth-sso-regenerateWarning">
           <Typography className={styles.warn} variant="bodyShort">
-            Regenerating a key will invalidate any existing user sessions, and
-            all signed-in users will be signed out
+            When regenerating a key, tokens signed with the previous key will be
+            honored for 30 days.
           </Typography>
         </Localized>
       </Flex>

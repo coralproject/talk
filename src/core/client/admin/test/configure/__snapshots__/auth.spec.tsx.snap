@@ -1925,8 +1925,7 @@ exports[`regenerate sso key 1`] = `
       <p
         className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary SSOKeyField-warn"
       >
-        Regenerating a key will invalidate any existing user sessions,
-and all signed-in users will be signed out.
+        When regenerating a key, tokens signed with the previous key will be honored for 30 days.
       </p>
     </div>
   </div>
@@ -3177,8 +3176,7 @@ Invalid Date
                           <p
                             className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary SSOKeyField-warn"
                           >
-                            Regenerating a key will invalidate any existing user sessions,
-and all signed-in users will be signed out.
+                            When regenerating a key, tokens signed with the previous key will be honored for 30 days.
                           </p>
                         </div>
                       </div>
