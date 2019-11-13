@@ -118,7 +118,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
             query_builder
           </Icon>
           <Localized
-            id="profile-account-download-comments-timeOut"
+            id="profile-account-download-comments-requested"
             $value={scaled}
             $unit={unit}
           >

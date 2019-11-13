@@ -212,8 +212,6 @@ configure-auth-sso-key = Nøgle
 configure-auth-sso-regenerate = Regenerer
 configure-auth-sso-regenerateAt = Nøgle genereret på:
   { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
-configure-auth-sso-regenerateWarning =
-  Regenerering af en nøgle annullerer alle eksisterende brugersessioner, og alle tilmeldte brugere vil blive logget ud.
 
 configure-auth-local-loginWith = Log ind med e-mail-godkendelse
 configure-auth-local-useLoginOn = Brug e-mail-godkendelse til at logge på

@@ -222,9 +222,6 @@ configure-auth-sso-key = Chave
 configure-auth-sso-regenerate = Regerar
 configure-auth-sso-regenerateAt = CHAVE GERADA EM:
   { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
-configure-auth-sso-regenerateWarning =
-  Regenerar uma chave invalida todas as sessões de usuários existentes,
-  e todos os usuários conectados serão desconectados.
 
 configure-auth-local-loginWith = Entrar com autenticação via E-mail
 configure-auth-local-useLoginOn = Usar login com autenticação via e-mail ligado
@@ -807,7 +804,7 @@ configure-advanced-stories-scraping-detail = Permita que os metadados da histór
 configure-advanced-stories-proxy = Url do proxy do Scraper
 configure-advanced-stories-proxy-detail =
    Quando especificado, permite que requisições do scraper utilizem o
-   proxy. Todos os pedidos serão passados através do proxy conforme analisado 
+   proxy. Todos os pedidos serão passados através do proxy conforme analisado
   pelo pacote <externalLink>npm proxy-agent</externalLink>.
 
 forgotPassword-forgotPasswordHeader = Esqueceu a senha?
