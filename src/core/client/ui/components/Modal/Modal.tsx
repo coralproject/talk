@@ -98,6 +98,9 @@ const Modal: FunctionComponent<Props> = ({
     },
     [onBackdropClick, onClose]
   );
+  const handleWrapperClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+  }, []);
 
   if (open && modalDOMNode) {
     return ReactDOM.createPortal(
@@ -115,7 +118,11 @@ const Modal: FunctionComponent<Props> = ({
           >
             <div className={styles.alignContainer1}>
               <div className={styles.alignContainer2}>
-                <div className={styles.wrapper}>
+                <div
+                  className={styles.wrapper}
+                  role="presentation"
+                  onClick={handleWrapperClick}
+                >
                   <TrapFocus>{children}</TrapFocus>
                 </div>
               </div>
