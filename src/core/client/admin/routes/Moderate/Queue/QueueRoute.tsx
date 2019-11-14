@@ -2,10 +2,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
-import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
-import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
-import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
-import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   combineDisposables,
@@ -14,9 +10,14 @@ import {
   useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { withRouteConfig } from "coral-framework/lib/router";
 import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 
-import { withRouteConfig } from "coral-framework/lib/router";
+import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
+import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
+import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
+import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
+
 import EmptyMessage from "./EmptyMessage";
 import LoadingQueue from "./LoadingQueue";
 import Queue from "./Queue";
@@ -38,7 +39,7 @@ interface Props {
 
 // TODO: use generated types
 const danglingLogic = (status: string) =>
-  ["APPROVED", "REJECTED"].indexOf(status) >= 0;
+  ["APPROVED", "REJECTED"].includes(status);
 
 export const QueueRoute: FunctionComponent<Props> = props => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
@@ -89,7 +90,7 @@ export const QueueRoute: FunctionComponent<Props> = props => {
         disableLoadMore={isLoadingMore}
         danglingLogic={danglingLogic}
         emptyElement={props.emptyElement}
-        allStories={!Boolean(props.storyID)}
+        allStories={!props.storyID}
         viewNewCount={viewNewCount}
         onViewNew={onViewNew}
       />
@@ -109,7 +110,7 @@ const createQueueRoute = (
   const enhanced = withRouteConfig<Props, any>({
     query: queueQuery,
     cacheConfig: { force: true },
-    render: ({ Component, data, match }) => {
+    render: function QueueRouteRender({ Component, data, match }) {
       if (!Component) {
         throw new Error("Missing component");
       }
@@ -238,7 +239,7 @@ export const PendingQueueRoute = createQueueRoute(
       }
     }
   `,
-  // tslint:disable-next-line:jsx-wrap-multiline
+  // eslint-disable-next-line:jsx-wrap-multiline
   <Localized id="moderate-emptyQueue-pending">
     <EmptyMessage>
       Nicely done! There are no more pending comments to moderate.
@@ -278,7 +279,7 @@ export const ReportedQueueRoute = createQueueRoute(
       }
     }
   `,
-  // tslint:disable-next-line:jsx-wrap-multiline
+  // eslint-disable-next-line:jsx-wrap-multiline
   <Localized id="moderate-emptyQueue-reported">
     <EmptyMessage>
       Nicely done! There are no more reported comments to moderate.
@@ -318,7 +319,7 @@ export const UnmoderatedQueueRoute = createQueueRoute(
       }
     }
   `,
-  // tslint:disable-next-line:jsx-wrap-multiline
+  // eslint-disable-next-line:jsx-wrap-multiline
   <Localized id="moderate-emptyQueue-unmoderated">
     <EmptyMessage>Nicely done! All comments have been moderated.</EmptyMessage>
   </Localized>

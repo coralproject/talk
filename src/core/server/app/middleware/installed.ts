@@ -29,7 +29,7 @@ export const installedMiddleware = ({
     return next(new Error("cache was not set"));
   }
 
-  const installed = await isInstalled(req.coral.cache.tenant);
+  const installed = await isInstalled(req.coral.cache.tenant, req.hostname);
 
   // If Coral is installed, and redirectIfInstall is true, then it will redirect.
   // If Coral is not installed, and redirectIfInstall is false, then it will also

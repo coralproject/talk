@@ -26,6 +26,7 @@ function appendDivNode() {
 /**
  * useDOMNode is a React hook that returns a DOM node
  * to be used as a portal for the modal.
+ *
  * @param open whether the modal is open or not.
  */
 function useDOMNode(open: boolean) {
@@ -35,7 +36,7 @@ function useDOMNode(open: boolean) {
       const node = appendDivNode();
       setModalDOMNode(node);
       return () => {
-        node!.parentElement!.removeChild(node!);
+        node.parentElement!.removeChild(node);
         setModalDOMNode(null);
       };
     }
@@ -97,30 +98,37 @@ const Modal: FunctionComponent<Props> = ({
     },
     [onBackdropClick, onClose]
   );
+  const handleWrapperClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+  }, []);
 
   if (open && modalDOMNode) {
     return ReactDOM.createPortal(
-      <div
-        className={rootClassName}
-        onKeyDown={handleEscapeKeyDown}
-        {...rest}
-        role="modal"
-      >
+      <div role="dialog" className={rootClassName} {...rest}>
         <NoScroll active={open} />
         <Backdrop
           active={open}
           data-testid="backdrop"
           onClick={handleBackdropClick}
-        />
-        <div className={styles.scroll}>
-          <div className={styles.alignContainer1}>
-            <div className={styles.alignContainer2}>
-              <div className={styles.wrapper}>
-                <TrapFocus>{children}</TrapFocus>
+        >
+          <div
+            role="presentation"
+            className={styles.scroll}
+            onKeyDown={handleEscapeKeyDown}
+          >
+            <div className={styles.alignContainer1}>
+              <div className={styles.alignContainer2}>
+                <div
+                  className={styles.wrapper}
+                  role="presentation"
+                  onClick={handleWrapperClick}
+                >
+                  <TrapFocus>{children}</TrapFocus>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </Backdrop>
       </div>,
       modalDOMNode
     );

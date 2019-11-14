@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Flex, Timestamp } from "coral-ui/components";
+import Timestamp from "coral-stream/common/Timestamp";
+import { Flex } from "coral-ui/components";
 
 import TopBarLeft from "./TopBarLeft";
 import Username from "./Username";

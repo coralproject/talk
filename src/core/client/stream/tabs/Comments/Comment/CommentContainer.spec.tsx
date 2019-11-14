@@ -1,3 +1,4 @@
+import { EventEmitter2 } from "eventemitter2";
 import { noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
@@ -16,6 +17,7 @@ type Props = PropTypesOf<typeof CommentContainerN>;
 function createDefaultProps(add: DeepPartial<Props> = {}): Props {
   return pureMerge(
     {
+      eventEmitter: new EventEmitter2(),
       viewer: null,
       story: {
         url: "http://localhost/story",

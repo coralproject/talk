@@ -5,7 +5,6 @@ import { AppOptions } from "coral-server/app";
 import {
   graphQLHandler,
   healthHandler,
-  installHandler,
   versionHandler,
 } from "coral-server/app/handlers";
 import { JSONErrorHandler } from "coral-server/app/middleware/error";
@@ -18,6 +17,7 @@ import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 
 import { createNewAccountRouter } from "./account";
 import { createNewAuthRouter } from "./auth";
+import { createNewInstallRouter } from "./install";
 import { createStoryRouter } from "./story";
 import { createNewUserRouter } from "./user";
 
@@ -39,13 +39,8 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Configure the Health route.
   router.get("/health", healthHandler);
 
-  // Installation middleware.
-  router.use(
-    "/install",
-    jsonMiddleware,
-    tenantMiddleware({ cache: app.tenantCache, passNoTenant: true }),
-    installHandler(app)
-  );
+  // Installation router.
+  router.use("/install", createNewInstallRouter(app));
 
   // Tenant identification middleware. All requests going past this point can
   // only proceed if there is a valid Tenant for the hostname.

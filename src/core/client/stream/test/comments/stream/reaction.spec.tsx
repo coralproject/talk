@@ -8,7 +8,7 @@ import create from "./create";
 function createTestRenderer() {
   const resolvers = {
     Query: {
-      story: sinon.stub().callsFake((_: any, data: any) => {
+      stream: sinon.stub().callsFake((_: any, data: any) => {
         expectAndFail(data).toEqual({
           id: stories[0].id,
           url: null,

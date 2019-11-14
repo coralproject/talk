@@ -12,7 +12,7 @@
  */
 "use strict";
 
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 const address = require("address");
 const url = require("url");
@@ -21,7 +21,6 @@ const clearConsole = require("react-dev-utils/clearConsole");
 const formatWebpackMessages = require("react-dev-utils/formatWebpackMessages");
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
 const forkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
-const Stats = require("webpack/lib/Stats");
 
 // (cvle): Changed to false as we are sharing the tty with other processes.
 // const isInteractive = process.stdout.isTTY && false;
@@ -142,7 +141,7 @@ function createCompiler({
   });
 
   let isFirstCompile = true;
-  let tsMessagesPromises = [];
+  const tsMessagesPromises = [];
 
   if (useTypeScript) {
     compiler.compilers.forEach(singleCompiler => {

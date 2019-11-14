@@ -15,14 +15,15 @@ import {
 } from "coral-framework/lib/relay";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import { PropTypesOf } from "coral-framework/types";
-import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
-import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
-import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
-import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
+
+import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
+import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
+import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
+import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import {
   getSubmitStatus,
@@ -117,7 +118,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
   >["onSubmit"] = async (input, form) => {
     try {
       if (this.props.tab === "FEATURED_COMMENTS") {
-        await this.props.onChangeTab("ALL_COMMENTS");
+        this.props.onChangeTab("ALL_COMMENTS");
       }
 
       const submitStatus = getSubmitStatus(
@@ -147,7 +148,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
         this.disableNudge();
         return { [FORM_ERROR]: error.message };
       }
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     }
     return;
@@ -213,7 +214,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
       );
     }
 
-    const scheduledForDeletion: boolean = Boolean(
+    const scheduledForDeletion = Boolean(
       this.props.viewer.scheduledDeletionDate !== undefined &&
         this.props.viewer.scheduledDeletionDate !== null
     );

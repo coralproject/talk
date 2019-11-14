@@ -19,6 +19,10 @@ export function hasStaffRole(user: Pick<User, "role">) {
 }
 
 export function getSSOProfile(user: Pick<User, "profiles">) {
+  if (!user.profiles) {
+    return;
+  }
+
   return user.profiles.find(profile => profile.type === "sso") as
     | SSOProfile
     | undefined;
@@ -45,6 +49,10 @@ export function getLocalProfile(
   user: Pick<User, "profiles">,
   withEmail?: string
 ): LocalProfile | undefined {
+  if (!user.profiles) {
+    return;
+  }
+
   const profile = user.profiles.find(({ type }) => type === "local") as
     | LocalProfile
     | undefined;

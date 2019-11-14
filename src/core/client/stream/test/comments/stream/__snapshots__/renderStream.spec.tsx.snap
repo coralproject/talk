@@ -86,6 +86,8 @@ exports[`renders comment stream 1`] = `
             <div>
               <div
                 className="$root content placeholder toolbar"
+                onBlur={[Function]}
+                onFocus={[Function]}
               >
                 <div
                   className="RTE-contentEditableContainer"
@@ -200,6 +202,7 @@ exports[`renders comment stream 1`] = `
               id="coral-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
+              onClick={[Function]}
               onFocus={[Function]}
               value="CREATED_AT_DESC"
             >
@@ -344,7 +347,7 @@ exports[`renders comment stream 1`] = `
                                   aria-hidden={true}
                                   aria-labelledby="username-popover-ariainfo"
                                   id="username-popover"
-                                  role="popup"
+                                  role="dialog"
                                 >
                                   <div
                                     className="AriaInfo-root"
@@ -462,7 +465,7 @@ exports[`renders comment stream 1`] = `
                                   aria-hidden={true}
                                   aria-labelledby="permalink-popover-comment-0-ariainfo"
                                   id="permalink-popover-comment-0"
-                                  role="popup"
+                                  role="dialog"
                                 >
                                   <div
                                     className="AriaInfo-root"
@@ -555,7 +558,7 @@ exports[`renders comment stream 1`] = `
                                   aria-hidden={true}
                                   aria-labelledby="username-popover-ariainfo"
                                   id="username-popover"
-                                  role="popup"
+                                  role="dialog"
                                 >
                                   <div
                                     className="AriaInfo-root"
@@ -678,7 +681,7 @@ exports[`renders comment stream 1`] = `
                                   aria-hidden={true}
                                   aria-labelledby="permalink-popover-comment-from-staff-0-ariainfo"
                                   id="permalink-popover-comment-from-staff-0"
-                                  role="popup"
+                                  role="dialog"
                                 >
                                   <div
                                     className="AriaInfo-root"

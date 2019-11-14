@@ -316,4 +316,21 @@ export enum ERROR_CODES {
   RAW_QUERY_NOT_AUTHORIZED = "RAW_QUERY_NOT_AUTHORIZED",
 
   USER_ALREADY_PREMOD = "USER_ALREADY_PREMOD",
+
+  /**
+   * INVITE_INCLUDES_EXISTING_USER is returned when attempting to invite a user who already exists
+   */
+  INVITE_INCLUDES_EXISTING_USER = "INVITE_INCLUDES_EXISTING_USER",
+
+  /**
+   * REPEAT_POST is returned if a user attempts to post the same comment more than once
+   * in a row within a given time frame
+   */
+  REPEAT_POST = "REPEAT_POST",
+
+  /**
+   * INSTALLATION_FORBIDDEN is returned when an installation is attempted
+   * when it is not authorized to do so.
+   */
+  INSTALLATION_FORBIDDEN = "INSTALLATION_FORBIDDEN",
 }

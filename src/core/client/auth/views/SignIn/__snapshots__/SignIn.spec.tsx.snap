@@ -10,7 +10,12 @@ exports[`renders correctly 1`] = `
     title={<Title />}
   >
     <Bar>
-      &lt;title&gt;Sign In&lt;/title&gt;&lt;subtitle&gt;to join the conversation&lt;/subtitle&gt;
+      <Title>
+        Sign In
+      </Title>
+      <Subtitle>
+        to join the conversation
+      </Subtitle>
     </Bar>
   </Localized>
   <SubBar>
@@ -32,7 +37,14 @@ exports[`renders correctly 1`] = `
         }
         variant="bodyCopy"
       >
-        Don't have an account? &lt;textlink&gt;Sign Up&lt;/textlink&gt;
+        Don't have an account?
+         
+        <withPropsOnChange(TextLinkProps)
+          href="/signUp"
+          onClick={[Function]}
+        >
+          Sign Up
+        </withPropsOnChange(TextLinkProps)>
       </ForwardRef(forwardRef)>
     </Localized>
   </SubBar>
@@ -70,7 +82,12 @@ exports[`renders error 1`] = `
     title={<Title />}
   >
     <Bar>
-      &lt;title&gt;Sign In&lt;/title&gt;&lt;subtitle&gt;to join the conversation&lt;/subtitle&gt;
+      <Title>
+        Sign In
+      </Title>
+      <Subtitle>
+        to join the conversation
+      </Subtitle>
     </Bar>
   </Localized>
   <SubBar>
@@ -92,7 +109,14 @@ exports[`renders error 1`] = `
         }
         variant="bodyCopy"
       >
-        Don't have an account? &lt;textlink&gt;Sign Up&lt;/textlink&gt;
+        Don't have an account?
+         
+        <withPropsOnChange(TextLinkProps)
+          href="/signUp"
+          onClick={[Function]}
+        >
+          Sign Up
+        </withPropsOnChange(TextLinkProps)>
       </ForwardRef(forwardRef)>
     </Localized>
   </SubBar>
@@ -136,32 +160,14 @@ exports[`renders without email login 1`] = `
     title={<Title />}
   >
     <Bar>
-      &lt;title&gt;Sign In&lt;/title&gt;&lt;subtitle&gt;to join the conversation&lt;/subtitle&gt;
+      <Title>
+        Sign In
+      </Title>
+      <Subtitle>
+        to join the conversation
+      </Subtitle>
     </Bar>
   </Localized>
-  <SubBar>
-    <Localized
-      id="signIn-noAccountSignUp"
-      textlink={
-        <withPropsOnChange(TextLinkProps)
-          href="/signUp"
-          onClick={[Function]}
-        />
-      }
-    >
-      <ForwardRef(forwardRef)
-        container={
-          Object {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          }
-        }
-        variant="bodyCopy"
-      >
-        Don't have an account? &lt;textlink&gt;Sign Up&lt;/textlink&gt;
-      </ForwardRef(forwardRef)>
-    </Localized>
-  </SubBar>
   <Main
     data-testid="signIn-main"
   >

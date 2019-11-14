@@ -1,3 +1,4 @@
+import RTE from "@coralproject/rte";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
@@ -13,7 +14,6 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
-import RTE from "@coralproject/rte";
 import { baseComment, commenters, settings, stories } from "../../fixtures";
 import create from "./create";
 
@@ -26,7 +26,7 @@ async function createTestRenderer(
     Query: {
       settings: sinon.stub().returns(settings),
       viewer: sinon.stub().returns(commenters[0]),
-      story: sinon.stub().callsFake((_: any, variables: any) => {
+      stream: sinon.stub().callsFake((_: any, variables: any) => {
         expectAndFail(variables.id).toBe(stories[0].id);
         return stories[0];
       }),

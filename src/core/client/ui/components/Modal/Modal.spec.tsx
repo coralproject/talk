@@ -78,9 +78,9 @@ it("relays esc events", () => {
       { createNodeMock }
     );
   });
-  const modal = testRenderer!.root.findByProps({ role: "modal" });
-  modal.props.onKeyDown(escEvent);
-  modal.props.onKeyDown(otherEvent);
+  const el = testRenderer!.root.find(i => i.props.onKeyDown);
+  el.props.onKeyDown(escEvent);
+  el.props.onKeyDown(otherEvent);
   TestRenderer.act(() => {
     testRenderer.unmount();
   });

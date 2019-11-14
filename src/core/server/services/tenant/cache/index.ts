@@ -48,7 +48,7 @@ export default class TenantCache {
   /**
    * primed is true when the cache has already been fully primed.
    */
-  private primed: boolean = false;
+  private primed = false;
 
   /**
    * Create a new client application ID. This prevents duplicated messages
@@ -300,7 +300,10 @@ export default class TenantCache {
       JSON.stringify(message)
     );
 
-    logger.debug({ tenantID: tenant.id, subscribers }, "updated tenant");
+    logger.debug(
+      { tenantID: tenant.id, subscribers },
+      "updated tenant in cache"
+    );
 
     // Publish the event for the connected listeners.
     this.emitter.emit(EMITTER_EVENT_NAME, tenant);

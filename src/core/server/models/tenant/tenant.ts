@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -125,8 +126,8 @@ export async function createTenant(
             admin: true,
             stream: true,
           },
-          key: generateSSOKey(),
-          keyGeneratedAt: now,
+          // TODO: [CORL-754] (wyattjoh) remove this in favor of generating this when needed
+          keys: [generateSSOKey(now)],
         },
         oidc: {
           enabled: false,
@@ -212,7 +213,7 @@ export async function retrieveTenant(mongo: Db, id: string) {
 }
 
 export async function retrieveManyTenants(mongo: Db, ids: string[]) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     id: {
       $in: ids,
     },
@@ -227,7 +228,7 @@ export async function retrieveManyTenantsByDomain(
   mongo: Db,
   domains: string[]
 ) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     domain: {
       $in: domains,
     },
@@ -259,11 +260,19 @@ export async function updateTenant(
   id: string,
   update: UpdateTenantInput
 ) {
+  const $set = dotize(update, { embedArrays: true });
+
+  // Check to see if there is any updates that will be made.
+  if (isEmpty($set)) {
+    // No updates need to be made, abort here and just return the tenant.
+    return retrieveTenant(mongo, id);
+  }
+
   // Get the tenant from the database.
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     // Only update fields that have been updated.
-    { $set: dotize(update, { embedArrays: true }) },
+    { $set },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
@@ -277,29 +286,47 @@ export async function updateTenant(
  * for the specified Tenant. All existing user sessions signed with the old
  * secret will be invalidated.
  */
-export async function regenerateTenantSSOKey(mongo: Db, id: string) {
-  // Construct the update.
-  const update: DeepPartial<Tenant> = {
-    auth: {
-      integrations: {
-        sso: {
-          key: generateSSOKey(),
-          keyGeneratedAt: new Date(),
-        },
-      },
-    },
-  };
+export async function createTenantSSOKey(mongo: Db, id: string, now: Date) {
+  // Construct the new key.
+  const key = generateSSOKey(now);
 
   // Update the Tenant with this new key.
   const result = await collection(mongo).findOneAndUpdate(
     { id },
-    // Serialize the deep update into the Tenant.
     {
-      $set: dotize(update),
+      $push: {
+        "auth.integrations.sso.keys": key,
+      },
     },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
+  );
+
+  return result.value || null;
+}
+
+export async function deprecateTenantSSOKey(
+  mongo: Db,
+  id: string,
+  kid: string,
+  deprecateAt: Date
+) {
+  // Update the tenant.
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $set: {
+        "auth.integrations.sso.keys.$[keys].deprecateAt": deprecateAt,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+      // Add an ArrayFilter to only update one of the keys.
+      arrayFilters: [{ "keys.kid": kid }],
+    }
   );
 
   return result.value || null;

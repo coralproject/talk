@@ -52,7 +52,7 @@ export const userRateLimit: IntermediateModerationPhase = async ({
     .plus({ seconds: COMMENT_LIMIT_WINDOW_SECONDS })
     .toJSDate();
   if (nextEditTime > now) {
-    throw new RateLimitExceeded("createComment", 1);
+    throw new RateLimitExceeded("createComment", 1, nextEditTime);
   }
 
   return;

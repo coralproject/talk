@@ -1,8 +1,8 @@
+import RTE from "@coralproject/rte";
 import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
-import RTE from "@coralproject/rte";
 import { ERROR_CODES } from "coral-common/errors";
 import {
   InvalidRequestError,
@@ -30,7 +30,7 @@ async function createTestRenderer(
     Query: {
       settings: sinon.stub().returns(settings),
       viewer: sinon.stub().returns(commenters[0]),
-      story: sinon.stub().callsFake((_: any, variables: any) => {
+      stream: sinon.stub().callsFake((_: any, variables: any) => {
         expectAndFail(variables.id).toBe(stories[0].id);
         return stories[0];
       }),

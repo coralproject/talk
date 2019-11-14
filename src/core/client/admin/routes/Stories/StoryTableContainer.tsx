@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { StoryTableContainer_query as QueryData } from "coral-admin/__generated__/StoryTableContainer_query.graphql";
-import { StoryTableContainerPaginationQueryVariables } from "coral-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
@@ -11,6 +9,9 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS_RL } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components";
+
+import { StoryTableContainer_query as QueryData } from "coral-admin/__generated__/StoryTableContainer_query.graphql";
+import { StoryTableContainerPaginationQueryVariables } from "coral-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
 
 import StoryTable from "./StoryTable";
 import StoryTableFilter from "./StoryTableFilter";

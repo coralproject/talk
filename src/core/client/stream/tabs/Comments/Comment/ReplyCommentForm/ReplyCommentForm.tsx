@@ -2,12 +2,20 @@ import { CoralRTE } from "@coralproject/rte";
 import cn from "classnames";
 import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { EventHandler, FunctionComponent, MouseEvent, Ref } from "react";
+import React, {
+  EventHandler,
+  FunctionComponent,
+  MouseEvent,
+  Ref,
+  useCallback,
+} from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import { OnSubmit } from "coral-framework/lib/form";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
+import { ReplyCommentFocusEvent } from "coral-stream/events";
 import {
   AriaInfo,
   Button,
@@ -42,6 +50,10 @@ export interface ReplyCommentFormProps {
 
 const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
   const inputID = `comments-replyCommentForm-rte-${props.id}`;
+  const emitFocusEvent = useViewerEvent(ReplyCommentFocusEvent);
+  const onFocus = useCallback(() => {
+    emitFocusEvent();
+  }, [emitFocusEvent]);
   return (
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
       {({ handleSubmit, submitting, form, submitError }) => (
@@ -78,6 +90,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
                       >
                         <RTE
                           inputId={inputID}
+                          onFocus={onFocus}
                           onChange={({ html }) =>
                             input.onChange(cleanupRTEEmptyHTML(html))
                           }

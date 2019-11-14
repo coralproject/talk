@@ -23,12 +23,6 @@ const flatKebabVariables = mapKeys(
   (_, k) => kebabCase(k)
 );
 
-// These are the default css standard variables.
-const cssVariables = pickBy(
-  flatKebabVariables,
-  (v, k) => !k.startsWith("breakpoints-")
-);
-
 // These are sass style variables used in media queries.
 const mediaQueryVariables = mapValues(
   pickBy(flatKebabVariables, (v, k) => k.startsWith("breakpoints-")),

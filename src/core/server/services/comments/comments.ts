@@ -49,7 +49,10 @@ import {
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
-import { updateUserLastWroteCommentTimestamp } from "../users";
+import {
+  updateUserLastCommentID,
+  updateUserLastWroteCommentTimestamp,
+} from "../users";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
 import { PhaseResult, processForModeration } from "./pipeline";
@@ -121,6 +124,7 @@ export async function create(
     // Run the comment through the moderation phases.
     result = await processForModeration({
       action: "NEW",
+      log,
       mongo,
       redis,
       config,
@@ -185,6 +189,8 @@ export async function create(
     },
     now
   );
+
+  await updateUserLastCommentID(redis, tenant, author, comment.id);
 
   // Pull the revision out.
   const revision = getLatestRevision(comment);
@@ -318,6 +324,7 @@ export async function edit(
   // Run the comment through the moderation phases.
   const { body, status, metadata, actions } = await processForModeration({
     action: "EDIT",
+    log,
     mongo,
     redis,
     config,

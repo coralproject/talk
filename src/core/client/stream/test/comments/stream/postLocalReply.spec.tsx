@@ -22,7 +22,7 @@ beforeEach(() => {
     Query: {
       settings: sinon.stub().returns(settings),
       viewer: sinon.stub().returns(commenters[0]),
-      story: createSinonStub(
+      stream: createSinonStub(
         s => s.throws(),
         s =>
           s

@@ -1,16 +1,16 @@
 import { Client } from "akismet-api";
 
 import { SpamCommentError } from "coral-server/errors";
-import {
-  GQLCOMMENT_FLAG_REASON,
-  GQLCOMMENT_STATUS,
-} from "coral-server/graph/tenant/schema/__generated__/types";
-import logger from "coral-server/logger";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
+
+import {
+  GQLCOMMENT_FLAG_REASON,
+  GQLCOMMENT_STATUS,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 export const spam: IntermediateModerationPhase = async ({
   story,
@@ -19,15 +19,9 @@ export const spam: IntermediateModerationPhase = async ({
   author,
   req,
   nudge,
+  log,
 }): Promise<IntermediatePhaseResult | void> => {
   const integration = tenant.integrations.akismet;
-
-  const log = logger.child(
-    {
-      tenantID: tenant.id,
-    },
-    true
-  );
 
   // We can only check for spam if this comment originated from a graphql
   // request via an HTTP call.

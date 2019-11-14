@@ -2,7 +2,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-
 import { CallOut, HorizontalGutter, Typography } from "coral-ui/components";
 
 interface Props {

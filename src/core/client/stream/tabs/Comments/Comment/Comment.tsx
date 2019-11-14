@@ -3,7 +3,8 @@ import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
-import { Flex, HorizontalGutter, Timestamp } from "coral-ui/components";
+import Timestamp from "coral-stream/common/Timestamp";
+import { Flex, HorizontalGutter } from "coral-ui/components";
 
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";

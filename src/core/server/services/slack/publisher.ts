@@ -95,9 +95,7 @@ async function postCommentToSlack(
         fields: [
           {
             type: "mrkdwn",
-            text: `${author.username} commented on: <${
-              story.url
-            }|${storyTitle}> - <${moderateLink}|Moderate> \n ${body}`,
+            text: `${author.username} commented on: <${story.url}|${storyTitle}> - <${moderateLink}|Moderate> \n ${body}`,
           },
         ],
       },

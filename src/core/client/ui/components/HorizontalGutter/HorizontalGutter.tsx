@@ -5,10 +5,10 @@ import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { Spacing } from "coral-ui/theme/variables";
 import { PropTypesOf } from "coral-ui/types";
 
-import styles from "./HorizontalGutter.css";
-
 /** Needs to be loaded after styles, because Box styles have priority */
 import Box from "../Box";
+
+import styles from "./HorizontalGutter.css";
 
 interface Props extends PropTypesOf<typeof Box> {
   /**
@@ -50,7 +50,7 @@ const HorizontalGutter: FunctionComponent<Props> = props => {
   const rootClassName = cn(
     classes.root,
     className,
-    spacing ? (classes as any)[`spacing-${spacing!}`] : classes[size!]
+    spacing ? (classes as any)[`spacing-${spacing}`] : classes[size!]
   );
 
   const innerProps = {

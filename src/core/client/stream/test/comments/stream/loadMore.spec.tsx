@@ -1,3 +1,4 @@
+import { isMatch } from "lodash";
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
@@ -8,7 +9,6 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
-import { isMatch } from "lodash";
 
 import { comments, settings, stories } from "../../fixtures";
 import create from "./create";
@@ -70,6 +70,18 @@ beforeEach(() => {
   const resolvers = {
     Query: {
       story: createSinonStub(
+        s => s.throws(),
+        s =>
+          s
+            .withArgs(
+              undefined,
+              sinon
+                .match({ id: storyStub.id, url: null })
+                .or(sinon.match({ id: storyStub.id }))
+            )
+            .returns(storyStub)
+      ),
+      stream: createSinonStub(
         s => s.throws(),
         s =>
           s

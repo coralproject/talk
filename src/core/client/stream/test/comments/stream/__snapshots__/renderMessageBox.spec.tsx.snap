@@ -105,6 +105,7 @@ exports[`renders message box when commenting disabled 1`] = `
             id="coral-comments-sortMenu"
             onBlur={[Function]}
             onChange={[Function]}
+            onClick={[Function]}
             onFocus={[Function]}
             value="CREATED_AT_DESC"
           >
@@ -303,6 +304,8 @@ exports[`renders message box when logged in 1`] = `
             <div>
               <div
                 className="$root content placeholder toolbar"
+                onBlur={[Function]}
+                onFocus={[Function]}
               >
                 <div
                   className="RTE-contentEditableContainer"
@@ -424,6 +427,7 @@ exports[`renders message box when logged in 1`] = `
             id="coral-comments-sortMenu"
             onBlur={[Function]}
             onChange={[Function]}
+            onClick={[Function]}
             onFocus={[Function]}
             value="CREATED_AT_DESC"
           >
@@ -603,6 +607,8 @@ exports[`renders message box when not logged in 1`] = `
           <div>
             <div
               className="$root content placeholder toolbar"
+              onBlur={[Function]}
+              onFocus={[Function]}
             >
               <div
                 className="RTE-contentEditableContainer"
@@ -717,6 +723,7 @@ exports[`renders message box when not logged in 1`] = `
             id="coral-comments-sortMenu"
             onBlur={[Function]}
             onChange={[Function]}
+            onClick={[Function]}
             onFocus={[Function]}
             value="CREATED_AT_DESC"
           >
@@ -917,6 +924,7 @@ exports[`renders message box when story isClosed 1`] = `
             id="coral-comments-sortMenu"
             onBlur={[Function]}
             onChange={[Function]}
+            onClick={[Function]}
             onFocus={[Function]}
             value="CREATED_AT_DESC"
           >

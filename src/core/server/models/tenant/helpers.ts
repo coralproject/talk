@@ -7,6 +7,8 @@ import {
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { translate } from "coral-server/services/i18n";
 
+import { SSOKey } from "../settings";
+
 export const getDefaultReactionConfiguration = (
   bundle: FluentBundle
 ): GQLReactionConfiguration => ({
@@ -28,10 +30,19 @@ export const getDefaultStaffConfiguration = (
   label: translate(bundle, "Staff", "staff-label"),
 });
 
-export function generateSSOKey() {
+export function generateRandomString(size: number, drift = 5) {
+  return crypto
+    .randomBytes(size + Math.floor(Math.random() * drift))
+    .toString("hex");
+}
+
+export function generateSSOKey(createdAt: Date): SSOKey {
   // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
   // as 16 was the minimum length recommended.
   //
   // Reference: https://security.stackexchange.com/a/96176
-  return crypto.randomBytes(32 + Math.floor(Math.random() * 5)).toString("hex");
+  const secret = generateRandomString(32, 5);
+  const kid = generateRandomString(8, 3);
+
+  return { kid, secret, createdAt };
 }

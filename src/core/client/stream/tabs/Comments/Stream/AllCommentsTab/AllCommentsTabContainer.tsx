@@ -3,6 +3,7 @@ import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import FadeInTransition from "coral-framework/components/FadeInTransition";
+import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
   useLocal,
@@ -12,13 +13,15 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import { Omit, PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
+import { LoadMoreAllCommentsEvent } from "coral-stream/events";
+import { Box, Button, CallOut, HorizontalGutter } from "coral-ui/components";
+
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
 import { AllCommentsTabContainer_viewer } from "coral-stream/__generated__/AllCommentsTabContainer_viewer.graphql";
 import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllCommentsTabContainerLocal.graphql";
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
-import CLASSES from "coral-stream/classes";
-import { Box, Button, CallOut, HorizontalGutter } from "coral-ui/components";
 
 import { CommentContainer } from "../../Comment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
@@ -36,7 +39,7 @@ interface Props {
   relay: RelayPaginationProp;
 }
 
-// tslint:disable-next-line:no-unused-expression
+// eslint-disable-next-line no-unused-expressions
 graphql`
   fragment AllCommentsTabContainer_comment on Comment {
     id
@@ -103,6 +106,18 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
     props.story.settings.live.enabled,
   ]);
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+  const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
+  const loadMoreAndEmit = useCallback(async () => {
+    const loadMoreEvent = beginLoadMoreEvent({ storyID: props.story.id });
+    try {
+      await loadMore();
+      loadMoreEvent.success();
+    } catch (error) {
+      loadMoreEvent.error({ message: error.message, code: error.code });
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  }, [loadMore, beginLoadMoreEvent, props.story.id]);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
   const onViewMore = useCallback(() => viewMore({ storyID: props.story.id }), [
     props.story.id,
@@ -173,7 +188,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
         {props.relay.hasMore() && (
           <Localized id="comments-loadMore">
             <Button
-              onClick={loadMore}
+              onClick={loadMoreAndEmit}
               variant="outlineFilled"
               fullWidth
               disabled={isLoadingMore}

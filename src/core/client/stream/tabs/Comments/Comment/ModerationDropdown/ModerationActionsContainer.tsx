@@ -3,12 +3,15 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
+import { GotoModerationEvent } from "coral-stream/events";
+import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components";
+
 import { ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
 import { ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
 import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
-import CLASSES from "coral-stream/classes";
-import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
@@ -33,10 +36,15 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   onDismiss,
   onBan,
 }) => {
+  const emitGotoModerationEvent = useViewerEvent(GotoModerationEvent);
   const approve = useMutation(ApproveCommentMutation);
   const feature = useMutation(FeatureCommentMutation);
   const unfeature = useMutation(UnfeatureCommentMutation);
   const reject = useMutation(RejectCommentMutation);
+
+  const onGotoModerate = useCallback(() => {
+    emitGotoModerationEvent({ commentID: comment.id });
+  }, [emitGotoModerationEvent, comment.id]);
 
   const onApprove = useCallback(() => {
     if (!comment.revision) {
@@ -51,7 +59,6 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     await reject({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
-      storyID: story.id,
     });
   }, [approve, comment, story]);
   const onFeature = useCallback(() => {
@@ -78,7 +85,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const showBanOption =
     !comment.author || !comment.author.id || viewer === null
       ? false
-      : comment.author!.id !== viewer.id;
+      : comment.author.id !== viewer.id;
 
   return (
     <>
@@ -192,6 +199,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
           className={CLASSES.moderationDropdown.goToModerateButton}
           href={`/admin/moderate/comment/${comment.id}`}
           target="_blank"
+          onClick={onGotoModerate}
           anchor
         >
           Go to Moderate

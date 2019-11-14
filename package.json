@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "5.1.0",
+  "version": "5.3.0",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -20,12 +20,13 @@
   ],
   "description": "A better commenting experience from Mozilla, The Washington Post, and The New York Times.",
   "scripts": {
-    "build": "NODE_ENV=production npm-run-all generate-persist --parallel lint:client build:client build:server",
-    "build:development": "NODE_ENV=development npm-run-all generate --parallel lint:client build:client build:server",
+    "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:client build:server",
+    "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client build:server",
     "build:client": "ts-node --transpile-only ./scripts/build.ts",
     "build:server": "gulp server",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "doctoc": "doctoc --title='## Table of Contents' --github README.md",
+    "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./events.md",
     "generate": "npm-run-all generate:css-types generate:schema generate:relay",
     "generate-persist": "npm-run-all generate:css-types generate:schema generate:relay-persist",
     "generate:css-types": "tcm src/core/client/",
@@ -42,9 +43,9 @@
     "start:development": "NODE_ENV=development CONCURRENCY=${CONCURRENCY:-1} TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register ./src/index.ts",
     "start:webpackDevServer": "ts-node --transpile-only ./scripts/start.ts",
     "lint": "npm-run-all --parallel lint:* tscheck:*",
-    "lint:server": "tslint --project ./src/tsconfig.json",
-    "lint:client": "tslint --project ./src/core/client/tsconfig.json",
-    "lint:scripts": "tslint --project ./tsconfig.json",
+    "lint:server": "eslint 'src/**/*.{js,ts,tsx}' --ignore-pattern 'src/core/client/**'",
+    "lint:client": "eslint 'src/core/client/**/*.{js,ts,tsx}'",
+    "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
     "lint:graphql": "graphql-schema-linter src/core/server/graph/tenant/schema/schema.graphql",
     "lint-fix": "npm run lint:server -- --fix && npm run lint:client -- --fix && npm run lint:scripts -- --fix",
     "test": "node scripts/test.js --env=jsdom",
@@ -57,6 +58,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@coralproject/bunyan-prettystream": "^0.1.4",
+    "@metascraper/helpers": "^5.7.21",
     "akismet-api": "^4.2.0",
     "apollo-server-express": "^2.8.1",
     "archiver": "^3.0.3",
@@ -74,7 +76,7 @@
     "cron": "^1.7.1",
     "csv-stringify": "^5.3.0",
     "dataloader": "^1.4.0",
-    "dompurify": "^1.0.8",
+    "dompurify": "^2.0.7",
     "dotenv": "^6.0.0",
     "dotenv-expand": "^4.2.0",
     "env-rewrite": "^1.0.2",
@@ -104,11 +106,10 @@
     "lodash": "^4.17.15",
     "lru-cache": "^5.1.1",
     "luxon": "^1.12.0",
-    "metascraper-author": "^3.11.8",
-    "metascraper-date": "^3.11.4",
-    "metascraper-description": "^3.11.8",
-    "metascraper-image": "^3.11.8",
-    "metascraper-title": "^3.11.8",
+    "metascraper-author": "^5.8.0",
+    "metascraper-description": "^5.8.0",
+    "metascraper-image": "^5.8.0",
+    "metascraper-title": "^5.8.0",
     "mongodb": "^3.2.7",
     "mongodb-core": "^3.2.7",
     "ms": "^2.1.1",
@@ -125,7 +126,7 @@
     "performance-now": "^2.1.0",
     "permit": "^0.2.4",
     "prom-client": "^11.3.0",
-    "proxy-agent": "^3.1.0",
+    "proxy-agent": "^3.1.1",
     "querystringify": "^2.1.0",
     "react-helmet": "^5.2.1",
     "source-map-support": "^0.5.12",
@@ -146,7 +147,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@coralproject/npm-run-all": "^4.1.5",
-    "@coralproject/rte": "^0.10.15",
+    "@coralproject/rte": "^0.11.0",
     "@intervolga/optimize-cssnano-plugin": "^1.0.6",
     "@types/agent-base": "^4.2.0",
     "@types/archiver": "^3.0.0",
@@ -167,6 +168,7 @@
     "@types/cors": "^2.8.4",
     "@types/cron": "^1.7.1",
     "@types/cross-spawn": "^6.0.0",
+    "@types/dompurify": "0.0.33",
     "@types/dotenv": "^4.0.3",
     "@types/enzyme": "^3.1.15",
     "@types/enzyme-adapter-react-16": "^1.0.3",
@@ -229,6 +231,9 @@
     "@types/webpack-bundle-analyzer": "^2.13.1",
     "@types/webpack-dev-server": "^3.1.5",
     "@types/ws": "^5.1.2",
+    "@typescript-eslint/eslint-plugin": "2.3.3",
+    "@typescript-eslint/eslint-plugin-tslint": "2.3.3",
+    "@typescript-eslint/parser": "2.3.3",
     "acorn": "^6.1.1",
     "ansi-styles": "^3.2.0",
     "autoprefixer": "^9.5.1",
@@ -260,6 +265,12 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "enzyme-to-json": "^3.3.5",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-jsdoc": "^15.9.7",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.15.1",
     "eventemitter2": "^5.0.1",
     "farce": "^0.2.6",
     "final-form": "4.11.0",
@@ -268,7 +279,7 @@
     "fluent-intl-polyfill": "^0.1.0",
     "fluent-langneg": "^0.1.1",
     "fluent-react": "^0.8.4",
-    "fork-ts-checker-webpack-plugin": "^1.3.0",
+    "fork-ts-checker-webpack-plugin": "^1.5.0",
     "found": "^0.4.0-alpha.17",
     "found-relay": "^0.4.0-alpha.8",
     "graphql-schema-linter": "^0.2.0",
@@ -303,7 +314,7 @@
     "postcss-nested": "^4.1.1",
     "postcss-prepend-imports": "^1.0.1",
     "postcss-preset-env": "^6.5.0",
-    "prettier": "^1.17.0",
+    "prettier": "^1.18.2",
     "prop-types": "^15.6.2",
     "pstree.remy": "^1.1.6",
     "pym.js": "^1.3.2",
@@ -347,10 +358,7 @@
     "ts-node-dev": "^1.0.0-pre.37",
     "tsconfig-paths": "^3.8.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "tslint": "^5.16.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.0.1",
-    "tslint-react": "^4.0.0",
+    "tslint": "^5.20.0",
     "typed-css-modules": "^0.4.2",
     "typeface-manuale": "^0.0.71",
     "typeface-source-sans-pro": "^0.0.54",
@@ -366,15 +374,18 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "FAST_LINT=true lint-staged"
     }
   },
   "lint-staged": {
     "*.{j,t}s{,x}": [
-      "tslint"
+      "eslint"
     ],
     "src/core/server/graph/tenant/schema/schema.graphql": [
       "graphql-schema-linter"
+    ],
+    "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,events.md}": [
+      "npm run docs:events -- --verify"
     ]
   },
   "bundlesize": [

@@ -81,6 +81,7 @@ exports[`accepts correct password 1`] = `
           <div
             className="PasswordField-icon"
             onClick={[Function]}
+            onKeyUp={[Function]}
             role="button"
             tabIndex={0}
             title="Show password"
@@ -204,6 +205,7 @@ exports[`accepts valid email 1`] = `
           <div
             className="PasswordField-icon"
             onClick={[Function]}
+            onKeyUp={[Function]}
             role="button"
             tabIndex={0}
             title="Show password"
@@ -347,6 +349,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
               <div
                 className="PasswordField-icon"
                 onClick={[Function]}
+                onKeyUp={[Function]}
                 role="button"
                 tabIndex={0}
                 title="Show password"
@@ -645,6 +648,7 @@ exports[`checks for invalid email 1`] = `
           <div
             className="PasswordField-icon"
             onClick={[Function]}
+            onKeyUp={[Function]}
             role="button"
             tabIndex={0}
             title="Show password"
@@ -829,6 +833,7 @@ exports[`renders sign in view 1`] = `
                     <div
                       className="PasswordField-icon"
                       onClick={[Function]}
+                      onKeyUp={[Function]}
                       role="button"
                       tabIndex={0}
                       title="Show password"
@@ -1013,6 +1018,7 @@ exports[`renders sign in view with error 1`] = `
                 <div
                   className="PasswordField-icon"
                   onClick={[Function]}
+                  onKeyUp={[Function]}
                   role="button"
                   tabIndex={0}
                   title="Show password"
@@ -1155,6 +1161,7 @@ exports[`shows error when submitting empty form 1`] = `
           <div
             className="PasswordField-icon"
             onClick={[Function]}
+            onKeyUp={[Function]}
             role="button"
             tabIndex={0}
             title="Show password"
@@ -1298,6 +1305,7 @@ exports[`shows server error 1`] = `
           <div
             className="PasswordField-icon"
             onClick={[Function]}
+            onKeyUp={[Function]}
             role="button"
             tabIndex={0}
             title="Show password"
@@ -1421,6 +1429,7 @@ exports[`submits form successfully 1`] = `
           <div
             className="PasswordField-icon"
             onClick={[Function]}
+            onKeyUp={[Function]}
             role="button"
             tabIndex={0}
             title="Show password"

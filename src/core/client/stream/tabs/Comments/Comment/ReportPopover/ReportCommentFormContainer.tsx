@@ -1,9 +1,13 @@
+import { EventEmitter2 } from "eventemitter2";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
+import { withContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
+import { ShowReportPopoverEvent } from "coral-stream/events";
+
 import { ReportCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
 
 import {
@@ -18,6 +22,7 @@ import ReportCommentForm from "./ReportCommentForm";
 import ThankYou from "./ThankYou";
 
 interface Props {
+  eventEmitter: EventEmitter2;
   comment: CommentData;
   createCommentFlag: CreateCommentFlagMutation;
   createCommentDontAgree: CreateCommentDontAgreeMutation;
@@ -59,11 +64,17 @@ export class ReportCommentFormContainer extends Component<Props, State> {
       if (error instanceof InvalidRequestError) {
         return error.invalidArgs;
       }
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     }
     return undefined;
   };
+
+  public componentDidMount() {
+    ShowReportPopoverEvent.emit(this.props.eventEmitter, {
+      commentID: this.props.comment.id,
+    });
+  }
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
     // Reposition popper after switching view.
@@ -87,18 +98,22 @@ export class ReportCommentFormContainer extends Component<Props, State> {
   }
 }
 
-const enhanced = withCreateCommentDontAgreeMutation(
-  withCreateCommentFlagMutation(
-    withFragmentContainer<Props>({
-      comment: graphql`
-        fragment ReportCommentFormContainer_comment on Comment {
-          id
-          revision {
+const enhanced = withContext(({ eventEmitter }) => ({
+  eventEmitter,
+}))(
+  withCreateCommentDontAgreeMutation(
+    withCreateCommentFlagMutation(
+      withFragmentContainer<Props>({
+        comment: graphql`
+          fragment ReportCommentFormContainer_comment on Comment {
             id
+            revision {
+              id
+            }
           }
-        }
-      `,
-    })(ReportCommentFormContainer)
+        `,
+      })(ReportCommentFormContainer)
+    )
   )
 );
 export type ReportCommentFormContainerProps = PropTypesOf<typeof enhanced>;

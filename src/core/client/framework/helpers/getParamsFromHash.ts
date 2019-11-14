@@ -2,13 +2,11 @@ import { parseQuery } from "coral-common/utils";
 
 export default function getParamsFromHash() {
   try {
-    const params = window.location.hash
+    return window.location.hash
       ? parseQuery(window.location.hash.substr(1))
-      : {};
-
-    return params;
+      : null;
   } catch (err) {
     window.console.error(err);
-    return {};
+    return null;
   }
 }

@@ -19,6 +19,10 @@ beforeEach(() => {
         s => s.throws(),
         s => s.returns(storyWithDeepestReplies)
       ),
+      stream: createSinonStub(
+        s => s.throws(),
+        s => s.returns(storyWithDeepestReplies)
+      ),
       comment: createSinonStub(
         s => s.throws(),
         s =>

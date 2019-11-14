@@ -55,7 +55,7 @@ export const countHandler = ({ mongo, i18n }: CountOptions): RequestHandler => {
           }
         );
         // Strip dangerous html from translation.
-        html = DOMPurify.sanitize(html) as string;
+        html = DOMPurify.sanitize(html);
       }
 
       // Respond using jsonp.

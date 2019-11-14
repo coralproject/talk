@@ -1,18 +1,21 @@
 import cn from "classnames";
+import { EventEmitter2 } from "eventemitter2";
 import { Localized } from "fluent-react/compat";
 import React, { Component, MouseEvent } from "react";
 import { graphql } from "react-relay";
 
 import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
+import { withContext } from "coral-framework/lib/bootstrap";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
-import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
-import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
-import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
-import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
+import {
+  ShowEditFormEvent,
+  ShowReplyFormEvent,
+  ViewConversationEvent,
+} from "coral-stream/events";
 import {
   SetCommentIDMutation,
   ShowAuthPopupMutation,
@@ -21,6 +24,11 @@ import {
 } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
 import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
+
+import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
+import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
+import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
+import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 
 import { isPublished } from "../helpers";
 import UserBadgesContainer from "./AuthorBadgesContainer";
@@ -44,6 +52,7 @@ interface Props {
   comment: CommentData;
   story: StoryData;
   settings: SettingsData;
+  eventEmitter: EventEmitter2;
   indentLevel?: number;
   showAuthPopup: ShowAuthPopupMutation;
   setCommentID: SetCommentIDMutation;
@@ -110,9 +119,16 @@ export class CommentContainer extends Component<Props, State> {
 
   private toggleReplyDialog = () => {
     if (this.props.viewer) {
-      this.setState(state => ({
-        showReplyDialog: !state.showReplyDialog,
-      }));
+      this.setState(state => {
+        if (!state.showReplyDialog) {
+          ShowReplyFormEvent.emit(this.props.eventEmitter, {
+            commentID: this.props.comment.id,
+          });
+        }
+        return {
+          showReplyDialog: !state.showReplyDialog,
+        };
+      });
     } else {
       this.props.showAuthPopup({ view: "SIGN_IN" });
     }
@@ -120,6 +136,9 @@ export class CommentContainer extends Component<Props, State> {
 
   private openEditDialog = () => {
     if (this.props.viewer) {
+      ShowEditFormEvent.emit(this.props.eventEmitter, {
+        commentID: this.props.comment.id,
+      });
       this.setState(state => ({
         showEditDialog: true,
       }));
@@ -150,6 +169,10 @@ export class CommentContainer extends Component<Props, State> {
   }
 
   private handleShowConversation = (e: MouseEvent) => {
+    ViewConversationEvent.emit(this.props.eventEmitter, {
+      commentID: this.props.comment.id,
+      from: "COMMENT_STREAM",
+    });
     e.preventDefault();
     this.props.setCommentID({ id: this.props.comment.id });
     return false;
@@ -308,9 +331,7 @@ export class CommentContainer extends Component<Props, State> {
                         !suspended &&
                         !scheduledForDeletion && (
                           <ReplyButton
-                            id={`comments-commentContainer-replyButton-${
-                              comment.id
-                            }`}
+                            id={`comments-commentContainer-replyButton-${comment.id}`}
                             onClick={this.toggleReplyDialog}
                             active={showReplyDialog}
                             disabled={
@@ -342,9 +363,7 @@ export class CommentContainer extends Component<Props, State> {
                   {showConversationLink && (
                     <ShowConversationLink
                       className={CLASSES.comment.readMoreOfConversation}
-                      id={`comments-commentContainer-showConversation-${
-                        comment.id
-                      }`}
+                      id={`comments-commentContainer-showConversation-${comment.id}`}
                       onClick={this.handleShowConversation}
                       href={getURLWithCommentID(
                         this.props.story.url,
@@ -371,85 +390,87 @@ export class CommentContainer extends Component<Props, State> {
   }
 }
 
-const enhanced = withSetCommentIDMutation(
-  withShowAuthPopupMutation(
-    withFragmentContainer<Props>({
-      viewer: graphql`
-        fragment CommentContainer_viewer on User {
-          id
-          status {
-            current
-          }
-          ignoredUsers {
+const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
+  withSetCommentIDMutation(
+    withShowAuthPopupMutation(
+      withFragmentContainer<Props>({
+        viewer: graphql`
+          fragment CommentContainer_viewer on User {
             id
+            status {
+              current
+            }
+            ignoredUsers {
+              id
+            }
+            badges
+            role
+            scheduledDeletionDate
+            ...UsernameWithPopoverContainer_viewer
+            ...ReactionButtonContainer_viewer
+            ...ReportButtonContainer_viewer
+            ...CaretContainer_viewer
           }
-          badges
-          role
-          scheduledDeletionDate
-          ...UsernameWithPopoverContainer_viewer
-          ...ReactionButtonContainer_viewer
-          ...ReportButtonContainer_viewer
-          ...CaretContainer_viewer
-        }
-      `,
-      story: graphql`
-        fragment CommentContainer_story on Story {
-          url
-          isClosed
-          ...CaretContainer_story
-          ...ReplyCommentFormContainer_story
-          ...PermalinkButtonContainer_story
-          ...EditCommentFormContainer_story
-        }
-      `,
-      comment: graphql`
-        fragment CommentContainer_comment on Comment {
-          id
-          author {
-            ...UsernameWithPopoverContainer_user
+        `,
+        story: graphql`
+          fragment CommentContainer_story on Story {
+            url
+            isClosed
+            ...CaretContainer_story
+            ...ReplyCommentFormContainer_story
+            ...PermalinkButtonContainer_story
+            ...EditCommentFormContainer_story
+          }
+        `,
+        comment: graphql`
+          fragment CommentContainer_comment on Comment {
             id
-            username
-          }
-          parent {
             author {
+              ...UsernameWithPopoverContainer_user
+              id
               username
             }
+            parent {
+              author {
+                username
+              }
+            }
+            body
+            createdAt
+            status
+            editing {
+              edited
+              editableUntil
+            }
+            tags {
+              code
+            }
+            pending
+            lastViewerAction
+            deleted
+            ...ReplyCommentFormContainer_comment
+            ...EditCommentFormContainer_comment
+            ...ReactionButtonContainer_comment
+            ...ReportButtonContainer_comment
+            ...CaretContainer_comment
+            ...RejectedTombstoneContainer_comment
+            ...AuthorBadgesContainer_comment
+            ...UserTagsContainer_comment
           }
-          body
-          createdAt
-          status
-          editing {
-            edited
-            editableUntil
+        `,
+        settings: graphql`
+          fragment CommentContainer_settings on Settings {
+            disableCommenting {
+              enabled
+            }
+            ...ReactionButtonContainer_settings
+            ...ReplyCommentFormContainer_settings
+            ...EditCommentFormContainer_settings
+            ...UserTagsContainer_settings
           }
-          tags {
-            code
-          }
-          pending
-          lastViewerAction
-          deleted
-          ...ReplyCommentFormContainer_comment
-          ...EditCommentFormContainer_comment
-          ...ReactionButtonContainer_comment
-          ...ReportButtonContainer_comment
-          ...CaretContainer_comment
-          ...RejectedTombstoneContainer_comment
-          ...AuthorBadgesContainer_comment
-          ...UserTagsContainer_comment
-        }
-      `,
-      settings: graphql`
-        fragment CommentContainer_settings on Settings {
-          disableCommenting {
-            enabled
-          }
-          ...ReactionButtonContainer_settings
-          ...ReplyCommentFormContainer_settings
-          ...EditCommentFormContainer_settings
-          ...UserTagsContainer_settings
-        }
-      `,
-    })(CommentContainer)
+        `,
+      })(CommentContainer)
+    )
   )
 );
 

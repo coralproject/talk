@@ -1,6 +1,8 @@
+import { Environment } from "relay-runtime";
+
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { createMutationContainer } from "coral-framework/lib/relay";
-import { Environment } from "relay-runtime";
+
 import signOut from "../rest/signOut";
 import SetAccessTokenMutation from "./SetAccessTokenMutation";
 

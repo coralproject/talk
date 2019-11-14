@@ -1,4 +1,4 @@
-// tslint:disable:max-classes-per-file
+/* eslint-disable max-classes-per-file */
 
 import { FluentBundle } from "fluent/compat";
 import { MongoError } from "mongodb";
@@ -530,6 +530,16 @@ export class TenantInstalledAlreadyError extends CoralError {
   }
 }
 
+export class InstallationForbiddenError extends CoralError {
+  constructor(domain: string) {
+    super({
+      code: ERROR_CODES.INSTALLATION_FORBIDDEN,
+      status: 401,
+      context: { pub: { domain } },
+    });
+  }
+}
+
 export class InvalidCredentialsError extends CoralError {
   constructor(reason: string) {
     super({
@@ -574,6 +584,16 @@ export class SpamCommentError extends CoralError {
   constructor() {
     super({
       code: ERROR_CODES.SPAM_COMMENT,
+      type: ERROR_TYPES.MODERATION_NUDGE_ERROR,
+      status: 400,
+    });
+  }
+}
+
+export class RepeatPostCommentError extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.REPEAT_POST,
       type: ERROR_TYPES.MODERATION_NUDGE_ERROR,
       status: 400,
     });
@@ -675,11 +695,11 @@ export class InviteTokenExpired extends CoralError {
 }
 
 export class RateLimitExceeded extends CoralError {
-  constructor(resource: string, max: number, tries?: number) {
+  constructor(resource: string, max: number, resetsAt: Date, tries?: number) {
     super({
       code: ERROR_CODES.RATE_LIMIT_EXCEEDED,
       status: 429,
-      context: { pvt: { resource, max, tries } },
+      context: { pvt: { resource, max, tries, resetsAt } },
     });
   }
 }
@@ -688,6 +708,17 @@ export class InviteRequiresEmailAddresses extends CoralError {
   constructor() {
     super({
       code: ERROR_CODES.INVITE_REQUIRES_EMAIL_ADDRESSES,
+    });
+  }
+}
+
+export class InviteIncludesExistingUser extends CoralError {
+  constructor(email: string) {
+    super({
+      code: ERROR_CODES.INVITE_INCLUDES_EXISTING_USER,
+      context: {
+        pub: { email },
+      },
     });
   }
 }

@@ -103,7 +103,8 @@ async function deleteUserActionCounts(
 async function deleteUserComments(
   mongo: Db,
   authorID: string,
-  tenantID: string
+  tenantID: string,
+  now: Date
 ) {
   await collections.comments(mongo).updateMany(
     { tenantID, authorID },
@@ -112,7 +113,7 @@ async function deleteUserComments(
         authorID: null,
         revisions: [],
         tags: [],
-        deleted: true,
+        deletedAt: now,
       },
     }
   );
@@ -143,17 +144,17 @@ export async function deleteUser(
   await deleteUserActionCounts(mongo, userID, tenantID);
 
   // Delete the user's comments.
-  await deleteUserComments(mongo, userID, tenantID);
+  await deleteUserComments(mongo, userID, tenantID, now);
 
   // Mark the user as deleted.
   const result = await collections.users(mongo).findOneAndUpdate(
     { tenantID, id: userID },
     {
       $set: {
-        profiles: [],
         deletedAt: now,
       },
       $unset: {
+        profiles: "",
         email: "",
       },
     },

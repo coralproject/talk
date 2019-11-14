@@ -8,10 +8,11 @@ import React, {
 
 import { usePrevious } from "coral-framework/hooks";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { IgnoredTombstoneOrHideContainer_comment as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
-import { IgnoredTombstoneOrHideContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import { CallOut } from "coral-ui/components";
+
+import { IgnoredTombstoneOrHideContainer_comment as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
+import { IgnoredTombstoneOrHideContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_viewer.graphql";
 
 interface Props {
   viewer: ViewerData | null;
@@ -22,6 +23,7 @@ interface Props {
 /**
  * useTombstone is a React hook that determines whether or not
  * to show a tombstone instead of hiding the comment.
+ *
  * @param hide boolean if comment should be hidden
  */
 const useTombstone = (hide: boolean) => {

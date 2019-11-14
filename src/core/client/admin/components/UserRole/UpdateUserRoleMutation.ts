@@ -1,12 +1,13 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { UpdateUserRoleMutation as MutationTypes } from "coral-admin/__generated__/UpdateUserRoleMutation.graphql";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+
+import { UpdateUserRoleMutation as MutationTypes } from "coral-admin/__generated__/UpdateUserRoleMutation.graphql";
 
 let clientMutationId = 0;
 

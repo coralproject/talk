@@ -7,7 +7,6 @@ import { graphql } from "react-relay";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLDIGEST_FREQUENCY } from "coral-framework/schema";
-import { NotificationSettingsContainer_viewer } from "coral-stream/__generated__/NotificationSettingsContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import {
   Button,
@@ -21,6 +20,8 @@ import {
   SelectField,
   Typography,
 } from "coral-ui/components";
+
+import { NotificationSettingsContainer_viewer } from "coral-stream/__generated__/NotificationSettingsContainer_viewer.graphql";
 
 import UpdateNotificationSettingsMutation from "./UpdateNotificationSettingsMutation";
 

@@ -119,7 +119,7 @@ export class StreamEmbed {
     this.pymControl = undefined;
   }
 
-  get rendered() {
+  public get rendered() {
     return !!this.pymControl;
   }
 

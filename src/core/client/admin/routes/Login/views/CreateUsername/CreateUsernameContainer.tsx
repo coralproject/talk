@@ -25,7 +25,7 @@ class CreateUsernameContainer extends Component<Props> {
   };
 
   public render() {
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line:no-empty
     return <CreateUsername onSubmit={this.handleSubmit} />;
   }
 }

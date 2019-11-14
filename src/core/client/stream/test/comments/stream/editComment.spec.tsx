@@ -23,7 +23,7 @@ function createTestRenderer(
 ) {
   const resolvers = {
     Query: {
-      story: createSinonStub(
+      stream: createSinonStub(
         s => s.throws(),
         s =>
           s

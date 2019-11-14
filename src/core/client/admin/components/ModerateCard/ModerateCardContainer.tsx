@@ -2,16 +2,13 @@ import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import {
-  COMMENT_STATUS,
-  ModerateCardContainer_comment,
-} from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
-import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
-import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import NotAvailable from "coral-admin/components/NotAvailable";
+import BanModal from "coral-admin/components/UserStatus/BanModal";
 import { getModerationLink } from "coral-admin/helpers";
-import { ApproveCommentMutation } from "coral-admin/mutations";
-import { RejectCommentMutation } from "coral-admin/mutations";
+import {
+  ApproveCommentMutation,
+  RejectCommentMutation,
+} from "coral-admin/mutations";
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import {
   MutationProp,
@@ -21,7 +18,13 @@ import {
 import { GQLUSER_STATUS } from "coral-framework/schema";
 import { GQLTAG } from "coral-framework/schema";
 
-import BanModal from "coral-admin/components/UserStatus/BanModal";
+import {
+  COMMENT_STATUS,
+  ModerateCardContainer_comment,
+} from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
+import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
+import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
+
 import BanCommentUserMutation from "./BanCommentUserMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";

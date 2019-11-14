@@ -15,7 +15,7 @@ const withPymStorage = (
     let result;
 
     const sendError = (error: string) => {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(error);
       pym.sendMessage(
         `pymStorage.${type}.error`,

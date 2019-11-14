@@ -1,8 +1,9 @@
 import { Db } from "mongodb";
+import striptags from "striptags";
 
 import { Omit, Promiseable, RequireProperty } from "coral-common/types";
 import { Config } from "coral-server/config";
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { Logger } from "coral-server/logger";
 import { CreateActionInput } from "coral-server/models/action/comment";
 import {
   EditCommentInput,
@@ -14,6 +15,8 @@ import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
+
+import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { moderationPhases } from "./phases";
 
@@ -30,10 +33,11 @@ export interface PhaseResult {
   tags: CommentTag[];
 }
 
-export interface ModerationPhaseContext {
+export interface ModerationPhaseContextInput {
   mongo: Db;
   redis: AugmentedRedis;
   config: Config;
+  log: Logger;
   story: Story;
   tenant: Tenant;
   comment: RequireProperty<Partial<EditCommentInput>, "body">;
@@ -44,8 +48,15 @@ export interface ModerationPhaseContext {
   req?: Request;
 }
 
+export interface ModerationPhaseContext extends ModerationPhaseContextInput {
+  /**
+   * htmlStripped is the HTML stripped version of the comment body.
+   */
+  htmlStripped: string;
+}
+
 export type RootModerationPhase = (
-  context: ModerationPhaseContext
+  context: ModerationPhaseContextInput
 ) => Promiseable<PhaseResult>;
 
 export type IntermediatePhaseResult = Partial<PhaseResult> | void;
@@ -74,6 +85,10 @@ export const compose = (
     tags: [],
   };
 
+  // Strip the tags from the comment body so that filters that can't process
+  // HTML can reuse it.
+  const htmlStripped = striptags(final.body);
+
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of phases) {
     const result = await phase({
@@ -82,6 +97,7 @@ export const compose = (
         ...context.comment,
         body: final.body,
       },
+      htmlStripped,
       metadata: final.metadata,
     });
     if (result) {

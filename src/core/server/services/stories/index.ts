@@ -1,4 +1,4 @@
-import { zip } from "lodash";
+import { uniq, zip } from "lodash";
 import { Db } from "mongodb";
 
 import { StoryURLInvalidError } from "coral-server/errors";
@@ -98,7 +98,7 @@ export async function remove(
   mongo: Db,
   tenant: Tenant,
   storyID: string,
-  includeComments: boolean = false
+  includeComments = false
 ) {
   // Create a logger for this function.
   const log = logger.child(
@@ -270,8 +270,13 @@ export async function merge(
     return null;
   }
 
-  // Get the stories referenced.
+  // Collect the story id's and check for duplicates.
   const storyIDs = [destinationID, ...sourceIDs];
+  if (uniq(storyIDs).length !== storyIDs.length) {
+    throw new Error("cannot merge from/to the same story ID");
+  }
+
+  // Get the stories referenced.
   const stories = await retrieveManyStories(mongo, tenant.id, storyIDs);
 
   // Ensure that these are all defined.

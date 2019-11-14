@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
@@ -6,10 +7,11 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import { FeaturedCommentsQuery as QueryTypes } from "coral-stream/__generated__/FeaturedCommentsQuery.graphql";
-import { FeaturedCommentsQueryLocal as Local } from "coral-stream/__generated__/FeaturedCommentsQueryLocal.graphql";
 import Spinner from "coral-stream/common/Spinner";
 import { Delay, Flex } from "coral-ui/components";
+
+import { FeaturedCommentsQuery as QueryTypes } from "coral-stream/__generated__/FeaturedCommentsQuery.graphql";
+import { FeaturedCommentsQueryLocal as Local } from "coral-stream/__generated__/FeaturedCommentsQueryLocal.graphql";
 
 import FeaturedCommentsContainer from "./FeaturedCommentsContainer";
 
@@ -22,6 +24,7 @@ export const render = (data: ReadyState<QueryTypes["response"]>) => {
   if (data.error) {
     return <div>{data.error.message}</div>;
   }
+
   if (!data.props) {
     return (
       <Flex justifyContent="center">
@@ -29,12 +32,21 @@ export const render = (data: ReadyState<QueryTypes["response"]>) => {
       </Flex>
     );
   }
+
   if (data.props) {
+    if (!data.props.story) {
+      return (
+        <Localized id="comments-streamQuery-storyNotFound">
+          <div>Story not found</div>
+        </Localized>
+      );
+    }
+
     return (
       <FeaturedCommentsContainer
         settings={data.props.settings}
         viewer={data.props.viewer}
-        story={data.props.story!}
+        story={data.props.story}
       />
     );
   }
@@ -63,7 +75,7 @@ const FeaturedCommentsQuery: FunctionComponent<Props> = props => {
           viewer {
             ...FeaturedCommentsContainer_viewer
           }
-          story(id: $storyID, url: $storyURL) {
+          story: stream(id: $storyID, url: $storyURL) {
             ...FeaturedCommentsContainer_story
               @arguments(orderBy: $commentsOrderBy)
           }

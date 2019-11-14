@@ -18,7 +18,6 @@ const Backdrop: FunctionComponent<Props> = ({
   classes,
   active,
   className,
-  children,
   ...rest
 }) => {
   const rootClassName = cn(

@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { CommentLengthConfigContainer_settings as SettingsData } from "coral-admin/__generated__/CommentLengthConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { CommentLengthConfigContainer_settings as SettingsData } from "coral-admin/__generated__/CommentLengthConfigContainer_settings.graphql";
 
 import CommentLengthConfig from "./CommentLengthConfig";
 

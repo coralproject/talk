@@ -51,7 +51,7 @@ exports[`post a reply: open reply form 1`] = `
                     aria-hidden={true}
                     aria-labelledby="username-popover-ariainfo"
                     id="username-popover"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -169,7 +169,7 @@ exports[`post a reply: open reply form 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-0-ariainfo"
                     id="permalink-popover-comment-0"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -209,7 +209,7 @@ exports[`post a reply: open reply form 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-0-ariainfo"
                     id="report-popover-comment-0"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -270,6 +270,8 @@ exports[`post a reply: open reply form 1`] = `
             <div>
               <div
                 className="$root content placeholder toolbar"
+                onBlur={[Function]}
+                onFocus={[Function]}
               >
                 <div
                   className="RTE-contentEditableContainer"
@@ -450,7 +452,7 @@ exports[`post a reply: optimistic response 1`] = `
                         aria-hidden={true}
                         aria-labelledby="username-popover-ariainfo"
                         id="username-popover"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -610,7 +612,7 @@ exports[`post a reply: optimistic response 1`] = `
                         aria-hidden={true}
                         aria-labelledby="permalink-popover-uuid-0-ariainfo"
                         id="permalink-popover-uuid-0"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -650,7 +652,7 @@ exports[`post a reply: optimistic response 1`] = `
                         aria-hidden={true}
                         aria-labelledby="report-popover-uuid-0-ariainfo"
                         id="report-popover-uuid-0"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"

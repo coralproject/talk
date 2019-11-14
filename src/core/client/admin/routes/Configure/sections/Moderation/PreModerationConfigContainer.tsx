@@ -1,8 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { PreModerationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/PreModerationConfigContainer_settings.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+
+import { PreModerationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/PreModerationConfigContainer_settings.graphql";
 
 import PreModerationConfig from "./PreModerationConfig";
 

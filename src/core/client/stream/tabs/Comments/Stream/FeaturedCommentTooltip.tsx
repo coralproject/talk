@@ -1,12 +1,26 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 
+import { useViewerEvent } from "coral-framework/lib/events";
+import { ShowFeaturedCommentTooltipEvent } from "coral-stream/events";
 import { Tooltip, TooltipButton } from "coral-ui/components";
 
 interface Props {
   className?: string;
   active?: boolean;
 }
+
+const FeaturedCommentTooltipContent: FunctionComponent = props => {
+  const emitShowTooltipEvent = useViewerEvent(ShowFeaturedCommentTooltipEvent);
+  useEffect(() => {
+    emitShowTooltipEvent();
+  }, []);
+  return (
+    <Localized id="comments-featuredCommentTooltip-handSelectedComments">
+      <span>Comments are hand selected by our team as worth reading.</span>
+    </Localized>
+  );
+};
 
 export const FeaturedCommentTooltip: FunctionComponent<Props> = props => {
   return (
@@ -18,12 +32,8 @@ export const FeaturedCommentTooltip: FunctionComponent<Props> = props => {
           <span>How is a comment featured?</span>
         </Localized>
       }
-      body={
-        <Localized id="comments-featuredCommentTooltip-handSelectedComments">
-          <span>Comments are hand selected by our team as worth reading.</span>
-        </Localized>
-      }
-      button={({ toggleVisibility, ref }) => (
+      body={<FeaturedCommentTooltipContent />}
+      button={({ toggleVisibility, ref, visible }) => (
         <Localized
           id="comments-featuredCommentTooltip-toggleButton"
           attrs={{ "aria-label": true }}

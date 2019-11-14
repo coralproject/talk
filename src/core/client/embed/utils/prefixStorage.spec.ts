@@ -1,5 +1,7 @@
-import { createInMemoryStorage } from "coral-framework/lib/storage";
 import sinon from "sinon";
+
+import { createInMemoryStorage } from "coral-framework/lib/storage";
+
 import prefixStorage from "./prefixStorage";
 
 it("should get nth key", () => {

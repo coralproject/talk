@@ -34,7 +34,7 @@ async function createTestRenderer(
                 },
               },
             }),
-          story: () =>
+          stream: () =>
             pureMerge<typeof story>(story, {
               comments: {
                 edges: [

@@ -3,21 +3,21 @@ import React, { Component } from "react";
 import { urls } from "coral-framework/helpers";
 import {
   graphql,
+  MutationProp,
   withFragmentContainer,
   withLocalStateContainer,
+  withMutation,
 } from "coral-framework/lib/relay";
 import {
-  SignOutMutation,
-  withSignOutMutation,
-} from "coral-framework/mutations";
-import { UserBoxContainer_settings as SettingsData } from "coral-stream/__generated__/UserBoxContainer_settings.graphql";
-import { UserBoxContainer_viewer as ViewerData } from "coral-stream/__generated__/UserBoxContainer_viewer.graphql";
-import { UserBoxContainerLocal as Local } from "coral-stream/__generated__/UserBoxContainerLocal.graphql";
-import {
   ShowAuthPopupMutation,
+  SignOutMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
 import { Popup } from "coral-ui/components";
+
+import { UserBoxContainer_settings as SettingsData } from "coral-stream/__generated__/UserBoxContainer_settings.graphql";
+import { UserBoxContainer_viewer as ViewerData } from "coral-stream/__generated__/UserBoxContainer_viewer.graphql";
+import { UserBoxContainerLocal as Local } from "coral-stream/__generated__/UserBoxContainerLocal.graphql";
 
 import {
   SetAuthPopupStateMutation,
@@ -32,7 +32,7 @@ interface Props {
   settings: SettingsData;
   showAuthPopup: ShowAuthPopupMutation;
   setAuthPopupState: SetAuthPopupStateMutation;
-  signOut: SignOutMutation;
+  signOut: MutationProp<typeof SignOutMutation>;
 }
 
 export class UserBoxContainer extends Component<Props> {
@@ -117,7 +117,7 @@ export class UserBoxContainer extends Component<Props> {
   }
 }
 
-const enhanced = withSignOutMutation(
+const enhanced = withMutation(SignOutMutation)(
   withSetAuthPopupStateMutation(
     withShowAuthPopupMutation(
       withLocalStateContainer(

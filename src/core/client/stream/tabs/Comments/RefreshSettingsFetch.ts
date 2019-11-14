@@ -6,6 +6,7 @@ import {
   fetchQuery,
   FetchVariables,
 } from "coral-framework/lib/relay";
+
 import { RefreshSettingsFetchQuery as QueryTypes } from "coral-stream/__generated__/RefreshSettingsFetchQuery.graphql";
 
 const RefreshSettingsFetch = createFetch(

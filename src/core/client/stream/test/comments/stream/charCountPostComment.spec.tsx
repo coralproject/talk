@@ -1,6 +1,6 @@
+import RTE from "@coralproject/rte";
 import sinon from "sinon";
 
-import RTE from "@coralproject/rte";
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
@@ -32,7 +32,7 @@ async function createTestRenderer(
     Query: {
       settings: sinon.stub().returns(settingsWithCharCount),
       viewer: sinon.stub().returns(commenters[0]),
-      story: sinon.stub().returns(stories[0]),
+      stream: sinon.stub().returns(stories[0]),
       ...resolver.Query,
     },
   };

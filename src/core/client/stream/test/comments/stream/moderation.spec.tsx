@@ -37,7 +37,7 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
-          story: () => story,
+          stream: () => story,
         },
       }),
       params.resolvers
@@ -231,7 +231,7 @@ it("ban user", async () => {
             userID: firstComment.author!.id,
           });
           return {
-            user: pureMerge<typeof firstComment.author>(firstComment.author!, {
+            user: pureMerge<typeof firstComment.author>(firstComment.author, {
               status: {
                 ban: {
                   active: true,

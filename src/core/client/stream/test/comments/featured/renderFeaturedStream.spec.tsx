@@ -22,7 +22,7 @@ async function createTestRenderer(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
-          story: () => ({
+          stream: () => ({
             ...story,
             featuredComments: createQueryResolverStub<StoryToCommentsResolver>(
               () => {

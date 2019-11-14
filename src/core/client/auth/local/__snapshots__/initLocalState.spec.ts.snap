@@ -5,6 +5,7 @@ exports[`get access token from url 1`] = `
   \\"__id\\": \\"client:root.local\\",
   \\"__typename\\": \\"Local\\",
   \\"accessToken\\": \\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMWIyNjU5MS00ZTlhLTQzODgtYTdmZi1lMWJkYzVkOTdjY2UifQ==\\",
+  \\"accessTokenExp\\": null,
   \\"accessTokenJTI\\": \\"31b26591-4e9a-4388-a7ff-e1bdc5d97cce\\",
   \\"view\\": \\"SIGN_IN\\",
   \\"error\\": null

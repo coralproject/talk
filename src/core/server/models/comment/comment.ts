@@ -376,7 +376,7 @@ export async function retrieveManyComments(
   tenantID: string,
   ids: string[]
 ) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     id: {
       $in: ids,
     },
@@ -941,7 +941,7 @@ export async function retrieveStoryCommentTagCounts(
   const startTime = performanceNow();
 
   // Load the counts from the database for this particular tag query.
-  const cursor = await collection<{
+  const cursor = collection<{
     _id: { tag: GQLTAG; storyID: string };
     total: number;
   }>(mongo).aggregate([
@@ -994,7 +994,7 @@ export async function retrieveManyRecentStatusCounts(
   authorIDs: string[]
 ) {
   // Get all the statuses for the given date stamp.
-  const cursor = await collection<{
+  const cursor = collection<{
     _id: {
       status: GQLCOMMENT_STATUS;
       authorID: string;
