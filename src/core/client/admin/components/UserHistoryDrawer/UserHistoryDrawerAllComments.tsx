@@ -46,7 +46,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
     return (
       <CallOut fullWidth>
         <Localized
-          id="moderate-user-drawer-rejected-no-comments"
+          id="moderate-user-drawer-all-no-comments"
           $username={user.username}
         >
           <div>{user.username} has not submitted any comments.</div>
