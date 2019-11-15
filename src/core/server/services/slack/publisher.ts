@@ -121,20 +121,25 @@ async function postCommentToSlack(
     ],
   };
 
-  await fetch(webhookURL, {
-    method: "POST",
-    mode: "cors",
-    cache: "no-cache",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    redirect: "follow",
-    referrer: "no-referrer",
-    body: JSON.stringify(data),
-  });
+  try {
+    const response = await fetch(webhookURL, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrer: "no-referrer",
+      body: JSON.stringify(data),
+    });
 
-  // TODO: check status and log it accordingly
-  // response.status;
+    if (response.status !== 200) {
+      logger.error({ response }, "error sending Slack comment");
+    }
+  } catch (err) {
+    logger.error({ err }, "error sending Slack comment");
+  }
 }
 
 export type SlackPublisher = (
@@ -200,7 +205,7 @@ function createSlackPublisher(mongo: Db, tenant: Tenant): SlackPublisher {
     } catch (err) {
       logger.error(
         { err, tenantID: tenant.id, channel, payload },
-        "could not handle comment in Slack listener"
+        "could not handle comment in Slack publisher"
       );
     }
   };
