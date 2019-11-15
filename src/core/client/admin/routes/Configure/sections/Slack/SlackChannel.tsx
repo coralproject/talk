@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { Field } from "react-final-form";
 
 import { parseBool } from "coral-framework/lib/form";
@@ -13,9 +13,9 @@ import {
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import SectionContent from "../../SectionContent";
 
 import styles from "./SlackChannel.css";
-import SectionContent from "../../SectionContent";
 
 interface Props {
   channel: any;
@@ -28,6 +28,8 @@ const SlackChannel: FunctionComponent<Props> = ({
   disabled,
   index,
 }) => {
+  const [allComments, setAllComments] = useState(false);
+
   return (
     <>
       <FormField className={styles.header}>
@@ -95,18 +97,21 @@ const SlackChannel: FunctionComponent<Props> = ({
             type="checkbox"
             parse={parseBool}
           >
-            {({ input }) => (
-              <CheckBox
-                id={`configure-slack-channel-triggers-allComments-${input.name}`}
-                disabled={disabled}
-                className={styles.trigger}
-                {...input}
-              >
-                <Localized id="configure-slack-channel-triggers-allComments">
-                  All Comments
-                </Localized>
-              </CheckBox>
-            )}
+            {({ input }) => {
+              setAllComments(input.value);
+              return (
+                <CheckBox
+                  id={`configure-slack-channel-triggers-allComments-${input.name}`}
+                  disabled={disabled}
+                  className={styles.trigger}
+                  {...input}
+                >
+                  <Localized id="configure-slack-channel-triggers-allComments">
+                    All Comments
+                  </Localized>
+                </CheckBox>
+              );
+            }}
           </Field>
           <Field
             name={`${channel}.triggers.reportedComments`}
@@ -116,7 +121,7 @@ const SlackChannel: FunctionComponent<Props> = ({
             {({ input }) => (
               <CheckBox
                 id={`configure-slack-channel-triggers-reportedComments-${input.name}`}
-                disabled={disabled}
+                disabled={disabled || allComments}
                 className={styles.trigger}
                 {...input}
               >
@@ -134,7 +139,7 @@ const SlackChannel: FunctionComponent<Props> = ({
             {({ input }) => (
               <CheckBox
                 id={`configure-slack-channel-triggers-pendingComments-${input.name}`}
-                disabled={disabled}
+                disabled={disabled || allComments}
                 className={styles.trigger}
                 {...input}
               >
@@ -152,7 +157,7 @@ const SlackChannel: FunctionComponent<Props> = ({
             {({ input }) => (
               <CheckBox
                 id={`configure-slack-channel-triggers-featuredComments-${input.name}`}
-                disabled={disabled}
+                disabled={disabled || allComments}
                 className={styles.trigger}
                 {...input}
               >
