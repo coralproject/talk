@@ -3,6 +3,7 @@ import React, { FunctionComponent, useState } from "react";
 import { Field } from "react-final-form";
 
 import { parseBool } from "coral-framework/lib/form";
+import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   CheckBox,
   Flex,
@@ -65,11 +66,16 @@ const SlackChannel: FunctionComponent<Props> = ({
                 <Localized id="configure-slack-channel-hookURL-label">
                   <InputLabel container="legend">Webhook URL</InputLabel>
                 </Localized>
-                <Localized id="configure-slack-channel-hookURL-description">
+                <Localized
+                  id="configure-slack-channel-hookURL-description"
+                  externalLink={
+                    <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/slack/#i-need-to-find-the-webhook-url-again-where-is-it" />
+                  }
+                >
                   <InputDescription className={styles.hookURLDescription}>
                     Slack provides a channel-specific URL to activate webhook
                     connections. To find the URL for one of your Slack channels,
-                    follow these instructions: url
+                    follow the instructions here.
                   </InputDescription>
                 </Localized>
                 <TextField

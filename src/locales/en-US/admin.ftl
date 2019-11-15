@@ -386,7 +386,8 @@ decisionHistory-goToComment = Go to comment
 configure-slack-header-title = Slack Integrations
 configure-slack-description =
   Automatically send comments from Coral moderation queues to Slack
-  channels. You will need Slack admin access to set this up.
+  channels. You will need Slack admin access to set this up. For
+  steps on how to create a Slack App see our <externalLink>documentation</externalLink>.
 
 configure-slack-channel-name = Channel
 configure-slack-channel-enabled = Enabled
@@ -394,7 +395,7 @@ configure-slack-channel-hookURL-label = Webhook URL
 configure-slack-channel-hookURL-description =
   Slack provides a channel-specific URL to activate webhook
   connections. To find the URL for one of your Slack channels,
-  follow these instructions: url
+  follow the instructions <externalLink>here</externalLink>.
 configure-slack-channel-triggers-label =
   Receive notifications in this Slack channel for
 configure-slack-channel-triggers-allComments = All Comments

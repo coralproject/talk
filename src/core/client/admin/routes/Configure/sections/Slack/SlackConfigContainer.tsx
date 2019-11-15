@@ -5,6 +5,7 @@ import React from "react";
 import { FieldArray } from "react-final-form-arrays";
 
 import { pureMerge } from "coral-common/utils";
+import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter, Typography } from "coral-ui/components";
 
@@ -83,10 +84,16 @@ class SlackConfigContainer extends React.Component<Props> {
           <Header>Slack Integrations</Header>
         </Localized>
         <SectionContent>
-          <Localized id="configure-slack-description">
+          <Localized
+            id="configure-slack-description"
+            externalLink={
+              <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/slack/" />
+            }
+          >
             <Typography variant="bodyShort">
               Automatically send comments from Coral moderation queues to Slack
-              channels. You will need Slack admin access to set this up.
+              channels. You will need Slack admin access to set this up. For
+              steps on how to create a Slack App see our documentation.
             </Typography>
           </Localized>
         </SectionContent>
