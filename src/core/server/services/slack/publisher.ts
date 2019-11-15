@@ -59,6 +59,10 @@ function createModerationLink(rootURL: string, commentID: string) {
   return `${rootURL}/admin/moderate/comment/${commentID}`;
 }
 
+function createCommentLink(storyURL: string, commentID: string) {
+  return `${storyURL}?commentID=${commentID}`;
+}
+
 async function postCommentToSlack(
   ctx: SlackContext,
   orgURL: string,
@@ -85,19 +89,34 @@ async function postCommentToSlack(
       : "";
   const body = commentBody.replace(new RegExp("<br>", "g"), "\n");
   const moderateLink = createModerationLink(orgURL, comment.id);
+  const commentLink = createCommentLink(story.url, comment.id);
 
   const data = {
-    text: `${author} commented on: ${storyTitle}`,
+    text: `${author.username} commented on: ${storyTitle}`,
     blocks: [
       {
         type: "section",
-        block_id: "section000",
-        fields: [
-          {
-            type: "mrkdwn",
-            text: `${author.username} commented on: <${story.url}|${storyTitle}> - <${moderateLink}|Moderate> \n ${body}`,
-          },
-        ],
+        text: {
+          type: "mrkdwn",
+          text: `${author.username} commented on:\n<${story.url}|${storyTitle}>`,
+        },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `<${moderateLink}|Go to Moderation> | <${commentLink}|See Comment>`,
+        },
+      },
+      {
+        type: "divider",
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: body,
+        },
       },
     ],
   };
