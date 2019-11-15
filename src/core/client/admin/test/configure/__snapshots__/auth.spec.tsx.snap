@@ -2033,7 +2033,7 @@ exports[`renders configure auth 1`] = `
                   href="/admin/configure/slack"
                   onClick={[Function]}
                 >
-                  Missing translation "configure-sideBarNavigation-slack"
+                  Slack
                 </a>
               </li>
               <li>

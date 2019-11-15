@@ -381,6 +381,27 @@ decisionHistory-rejectedCommentBy = Rejected comment by <Username></Username>
 decisionHistory-approvedCommentBy = Approved comment by <Username></Username>
 decisionHistory-goToComment = Go to comment
 
+### Slack
+
+configure-slack-header-title = Slack Integrations
+configure-slack-description =
+  Automatically send comments from Coral moderation queues to Slack
+  channels. You will need Slack admin access to set this up.
+
+configure-slack-channel-name = Channel
+configure-slack-channel-enabled = Enabled
+configure-slack-channel-hookURL-label = Webhook URL
+configure-slack-channel-hookURL-description =
+  Slack provides a channel-specific URL to activate webhook
+  connections. To find the URL for one of your Slack channels,
+  follow these instructions: url
+configure-slack-channel-triggers-label =
+  Receive notifications in this Slack channel for
+configure-slack-channel-triggers-allComments = All Comments
+configure-slack-channel-triggers-reportedComments = Reported Comments
+configure-slack-channel-triggers-pendingComments = Pending Comments
+configure-slack-channel-triggers-featuredComments = Featured Comments
+
 ## moderate
 moderate-navigation-reported = reported
 moderate-navigation-pending = Pending

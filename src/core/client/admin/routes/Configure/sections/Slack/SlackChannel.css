@@ -2,24 +2,14 @@
   padding-bottom: var(--spacing-2);
 }
 
-.headerTitle {
-  display: inline-block;
-}
-
-.headerControls {
-  display: inline-block;
-  float: right;
-}
-
-.enabledCheckbox {
-  margin-right: var(--spacing-2);
-}
-
-.removeButton {
-  padding-top: var(--spacing-1);
+.hookURLDescription {
   padding-bottom: var(--spacing-1);
 }
 
-.hookURLContainer {
-  padding-bottom: var(--spacing-3);
+.channelName {
+  color: white;
+}
+
+.trigger {
+  padding-left: var(--spacing-1);
 }
