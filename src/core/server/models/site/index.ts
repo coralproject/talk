@@ -23,7 +23,7 @@ export interface Site
 
 export type CreateSiteInput = Pick<
   Site,
-  "name" | "contactEmail" | "url" | "locale" | "allowedDomains" | "domain"
+  "name" | "contactEmail" | "url" | "locale" | "domains"
 >;
 
 export async function createSite(
@@ -59,7 +59,7 @@ export async function updateSite(
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
-    { $set: dotize(update, { embedArrays: true }) },
+    { $set: dotize(update) },
     { returnOriginal: false }
   );
 
@@ -77,7 +77,7 @@ export async function updateSiteSettings(
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     {
-      $set: dotize({ settings: update }, { embedArrays: true }),
+      $set: dotize({ settings: update }),
     },
     { returnOriginal: false }
   );

@@ -55,7 +55,7 @@ export async function updateCommunity(
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
-    { $set: dotize(update, { embedArrays: true }) },
+    { $set: dotize(update) },
     { returnOriginal: false }
   );
 
@@ -73,7 +73,7 @@ export async function updateCommunitySettings(
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     {
-      $set: dotize({ settings: update }, { embedArrays: true }),
+      $set: dotize({ settings: update }),
     },
     { returnOriginal: false }
   );

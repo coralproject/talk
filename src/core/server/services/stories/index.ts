@@ -52,7 +52,7 @@ export async function find(mongo: Db, tenant: Tenant, input: FindStory) {
   if (input.url && !isURLPermitted(tenant, input.url)) {
     throw new StoryURLInvalidError({
       storyURL: input.url,
-      allowedDomains: tenant.allowedDomains,
+      domains: tenant.domains,
     });
   }
 
@@ -73,7 +73,7 @@ export async function findOrCreate(
   if (input.url && !isURLPermitted(tenant, input.url)) {
     throw new StoryURLInvalidError({
       storyURL: input.url,
-      allowedDomains: tenant.allowedDomains,
+      domains: tenant.domains,
     });
   }
 
@@ -168,7 +168,7 @@ export type CreateStory = CreateStoryInput;
 export async function create(
   mongo: Db,
   tenant: Tenant,
-  siteID: string | null,
+  siteID: string,
   storyID: string,
   storyURL: string,
   { metadata, closedAt }: CreateStory,
@@ -178,7 +178,7 @@ export async function create(
   if (!isURLPermitted(tenant, storyURL)) {
     throw new StoryURLInvalidError({
       storyURL,
-      allowedDomains: tenant.allowedDomains,
+      domains: tenant.domains,
     });
   }
 
@@ -220,7 +220,7 @@ export async function update(
   if (input.url && !isURLPermitted(tenant, input.url)) {
     throw new StoryURLInvalidError({
       storyURL: input.url,
-      allowedDomains: tenant.allowedDomains,
+      domains: tenant.domains,
     });
   }
 

@@ -233,7 +233,7 @@ export class SSOVerifier implements Verifier<SSOToken> {
     now: Date,
     kid?: string
   ) {
-    const integration = tenant.settings.auth.integrations.sso;
+    const integration = tenant.auth.integrations.sso;
     if (!integration.enabled) {
       throw new IntegrationDisabled("sso");
     }

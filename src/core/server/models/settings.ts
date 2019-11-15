@@ -130,7 +130,6 @@ export type Settings = Pick<
   | "stories"
   | "wordList"
 > & {
-  auth: Auth;
   closeCommenting: CloseCommenting;
   disableCommenting: DisableCommenting;
   live: LiveConfiguration;
@@ -150,7 +149,6 @@ export type PartialSettings = Partial<
   >
 > & {
   accountFeatures?: Partial<GQLCommenterAccountFeatures>;
-  auth?: PartialAuth;
   communityGuidelines?: Partial<GQLCommunityGuidelines>;
   integrations?: Partial<GQLExternalIntegrations>;
   live?: Partial<LiveConfiguration>;

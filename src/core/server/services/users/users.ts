@@ -627,17 +627,15 @@ function enabledAuthenticationIntegrations(
   tenant: Tenant,
   target?: "stream" | "admin"
 ): string[] {
-  return Object.keys(tenant.settings.auth.integrations).filter(
-    (key: string) => {
-      const { enabled, targetFilter } = tenant.settings.auth.integrations[
-        key as keyof GQLAuthIntegrations
-      ];
-      if (target) {
-        return enabled && targetFilter[target];
-      }
-      return enabled && targetFilter.admin && targetFilter.stream;
+  return Object.keys(tenant.auth.integrations).filter((key: string) => {
+    const { enabled, targetFilter } = tenant.auth.integrations[
+      key as keyof GQLAuthIntegrations
+    ];
+    if (target) {
+      return enabled && targetFilter[target];
     }
-  );
+    return enabled && targetFilter.admin && targetFilter.stream;
+  });
 }
 
 /**

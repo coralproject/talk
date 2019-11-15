@@ -26,13 +26,10 @@ class LoginRoute extends Component<Props> {
 
     return (
       <AccountCompletionContainer
-        auth={this.props.data.settings.auth}
+        auth={this.props.data.auth}
         viewer={this.props.data.viewer}
       >
-        <Login
-          auth={this.props.data.settings.auth}
-          view={this.props.local.authView!}
-        />
+        <Login auth={this.props.data.auth} view={this.props.local.authView!} />
       </AccountCompletionContainer>
     );
   }

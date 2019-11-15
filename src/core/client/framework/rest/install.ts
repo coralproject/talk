@@ -9,7 +9,7 @@ export interface InstallInput {
       contactEmail: string;
       url: string;
     };
-    allowedDomains: string[];
+    domains: string[];
     locale: LanguageCode;
   };
   user: {

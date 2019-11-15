@@ -7,29 +7,29 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 
 export function isURLPermitted(
-  tenant: Pick<Tenant, "allowedDomains">,
+  tenant: Pick<Tenant, "domains">,
   targetURL: string,
   includeTenantDomain?: false
 ): boolean;
 
 export function isURLPermitted(
-  tenant: Pick<Tenant, "allowedDomains" | "domain">,
+  tenant: Pick<Tenant, "domains">,
   targetURL: string,
   includeTenantDomain: true
 ): boolean;
 
 /**
- * isURLInsideAllowedDomains will validate if the given origin is allowed given
+ * isURLInsidedomains will validate if the given origin is allowed given
  * the Tenant's domain configuration.
  */
 export function isURLPermitted(
-  tenant: Pick<Tenant, "allowedDomains" | "domain">,
+  tenant: Pick<Tenant, "domains">,
   targetURL: string,
   includeTenantDomain = false
 ) {
   // If there aren't any domains, then we reject it, because no url we have can
   // satisfy those requirements.
-  if (tenant.allowedDomains.length === 0 && !includeTenantDomain) {
+  if (tenant.domains.length === 0 && !includeTenantDomain) {
     return false;
   }
 
@@ -47,9 +47,7 @@ export function isURLPermitted(
   const targetOrigin = getOrigin(targetURL);
 
   // Create the list of domains to check against.
-  const domains = includeTenantDomain
-    ? [tenant.domain, ...tenant.allowedDomains]
-    : tenant.allowedDomains;
+  const domains = tenant.domains;
 
   // Loop over all the Tenant domains provided. Prefix the domain of each if it
   // is required with the target url scheme. Return if at least one match is

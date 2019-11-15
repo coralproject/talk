@@ -25,7 +25,8 @@ class AuthConfigRoute extends React.Component<Props> {
     return (
       <AuthConfigContainer
         settings={this.props.data.settings}
-        auth={this.props.data.settings.auth}
+        auth={this.props.data.auth}
+        form={this.props.form}
         submitting={this.props.submitting}
       />
     );

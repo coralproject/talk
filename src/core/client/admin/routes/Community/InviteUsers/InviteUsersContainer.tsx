@@ -23,9 +23,9 @@ const InviteUsersContainer: FunctionComponent<Props> = ({
 
   if (
     !settings ||
-    !settings.auth.integrations.local.enabled ||
-    !settings.auth.integrations.local.allowRegistration ||
-    !settings.auth.integrations.local.targetFilter.admin ||
+    !auth.integrations.local.enabled ||
+    !auth.integrations.local.allowRegistration ||
+    !auth.integrations.local.targetFilter.admin ||
     !settings.email.enabled
   ) {
     return null;

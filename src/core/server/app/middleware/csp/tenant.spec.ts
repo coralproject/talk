@@ -2,14 +2,14 @@ import { generateFrameOptions } from "coral-server/app/middleware/csp/tenant";
 import { Request } from "coral-server/types/express";
 
 it("denies when the tenant has no specified domains", () => {
-  const tenant = { allowedDomains: [] };
+  const tenant = { domains: [] };
   const req = {} as Request;
 
   expect(generateFrameOptions(req, tenant)).toEqual("deny");
 });
 
 it("allow-from single domain when there is one domain", () => {
-  const tenant = { allowedDomains: ["https://coralproject.net"] };
+  const tenant = { domains: ["https://coralproject.net"] };
   const req = {} as Request;
 
   expect(generateFrameOptions(req, tenant)).toEqual(
@@ -19,10 +19,7 @@ it("allow-from single domain when there is one domain", () => {
 
 it("deny from the domain when it does not provide and there are multiple tenants domains", () => {
   const tenant = {
-    allowedDomains: [
-      "https://coralproject.net",
-      "https://news.coralproject.net",
-    ],
+    domains: ["https://coralproject.net", "https://news.coralproject.net"],
   };
   const req = { headers: {}, query: { parentUrl: "" } } as Request;
 
@@ -31,10 +28,7 @@ it("deny from the domain when it does not provide and there are multiple tenants
 
 it("allows from the domain when it does not provide a match and there are multiple tenants domains", () => {
   const tenant = {
-    allowedDomains: [
-      "https://coralproject.net",
-      "https://news.coralproject.net",
-    ],
+    domains: ["https://coralproject.net", "https://news.coralproject.net"],
   };
   const req = {
     headers: {},
@@ -46,10 +40,7 @@ it("allows from the domain when it does not provide a match and there are multip
 
 it("allows from the domain when it does provide a match and there are multiple tenants domains", () => {
   const tenant = {
-    allowedDomains: [
-      "https://coralproject.net",
-      "https://news.coralproject.net",
-    ],
+    domains: ["https://coralproject.net", "https://news.coralproject.net"],
   };
   const req = {
     headers: {},

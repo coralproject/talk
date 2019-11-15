@@ -118,7 +118,7 @@ export async function handleSuccessfulLogin(
 
     // Compute the expiry date.
     const expiresIn = DateTime.fromJSDate(coral.now).plus({
-      seconds: tenant.settings.auth.sessionDuration,
+      seconds: tenant.auth.sessionDuration,
     });
 
     // Grab the token.
@@ -127,7 +127,7 @@ export async function handleSuccessfulLogin(
       user,
       tenant,
       {
-        expiresIn: tenant.settings.auth.sessionDuration,
+        expiresIn: tenant.auth.sessionDuration,
       },
       coral.now
     );
@@ -182,7 +182,7 @@ export async function handleOAuth2Callback(
 
     // Compute the expiry date.
     const expiresIn = DateTime.fromJSDate(req.coral!.now).plus({
-      seconds: tenant.settings.auth.sessionDuration,
+      seconds: tenant.auth.sessionDuration,
     });
 
     // Grab the token.
@@ -190,7 +190,7 @@ export async function handleOAuth2Callback(
       signingConfig,
       user,
       tenant,
-      { expiresIn: tenant.settings.auth.sessionDuration },
+      { expiresIn: tenant.auth.sessionDuration },
       req.coral!.now
     );
     res.cookie(

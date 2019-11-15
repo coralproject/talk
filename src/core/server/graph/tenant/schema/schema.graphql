@@ -1204,9 +1204,9 @@ type StaffConfiguration {
 #   staticURI: String @auth(roles: [ADMIN])
 
 #   """
-#   allowedDomains is the list of domains that stories can come from.
+#   domains is the list of domains that stories can come from.
 #   """
-#   allowedDomains: [String!]! @auth(roles: [ADMIN])
+#   domains: [String!]! @auth(roles: [ADMIN])
 
 #   """
 #   locale is the specified locale for this Tenant.
@@ -2700,7 +2700,7 @@ type Query {
   """
   story is a specific article that can be identified by either an ID or a URL.
   """
-  story(id: ID, url: String): Story
+  story(id: ID, url: String, siteID: String): Story
 
   """
   stream will load a specific story that can be identified by either an ID or a
@@ -3575,9 +3575,9 @@ input SettingsInput {
   live: LiveConfigurationInput
 
   """
-  allowedDomains is the list of domains that stories can come from.
+  domains is the list of domains that stories can come from.
   """
-  allowedDomains: [String!]
+  domains: [String!]
 
   """
   moderation is the moderation mode for all Stories on the site.
@@ -3997,7 +3997,7 @@ input CreateStory {
   """
   closedAt: Time
 
-  siteID: ID
+  siteID: ID!
 }
 
 input CreateStoryInput {
@@ -5903,9 +5903,9 @@ type Settings {
   staticURI: String @auth(roles: [ADMIN])
 
   """
-  allowedDomains is the list of domains that stories can come from.
+  domains is the list of domains that stories can come from.
   """
-  allowedDomains: [String!]! @auth(roles: [ADMIN])
+  domains: [String!]! @auth(roles: [ADMIN])
 
   """
   locale is the specified locale for this Tenant.
@@ -6031,9 +6031,7 @@ type EntitySettings {
   moderation: MODERATION_MODE @auth(roles: [ADMIN])
   premodLinksEnable: Boolean @auth(roles: [ADMIN])
   staticURI: String @auth(roles: [ADMIN])
-
   accountFeatures: CommenterAccountFeatures!
-  auth: Auth!
   charCount: CharCount!
   closeCommenting: CloseCommenting!
   communityGuidelines: CommunityGuidelines!
@@ -6063,14 +6061,6 @@ type PartialExternalIntegrations {
   perspective: PerspectiveExternalIntegration
 }
 
-type PartialAuthIntegrations {
-  local: LocalAuthIntegration
-  sso: SSOAuthIntegration
-  oidc: OIDCAuthIntegration
-  google: GoogleAuthIntegration
-  facebook: FacebookAuthIntegration
-}
-
 type PartialCommenterAccountFeatures {
   changeUsername: Boolean
   downloadComments: Boolean
@@ -6081,11 +6071,6 @@ type PartialRecentCommentHistoryConfiguration {
   enabled: Boolean
   timeFrame: Int
   triggerRejectionRate: Float
-}
-
-type PartialAuth {
-  integrations: PartialAuthIntegrations
-  sessionDuration: Int
 }
 
 type PartialCharCount {
@@ -6138,7 +6123,6 @@ type PartialEntitySettings {
   premodLinksEnable: Boolean @auth(roles: [ADMIN])
   staticURI: String @auth(roles: [ADMIN])
   accountFeatures: PartialCommenterAccountFeatures
-  auth: PartialAuth
   charCount: PartialCharCount
   closeCommenting: PartialCloseCommenting
   communityGuidelines: PartialCommunityGuidelines
@@ -6168,9 +6152,10 @@ type Organization {
   name: String!
   contactEmail: String!
   url: String!
+  auth: Auth!
   createdAt: Time!
   domain: String! @auth(roles: [ADMIN])
-  allowedDomains: [String!]! @auth(roles: [ADMIN])
+  domains: [String!]! @auth(roles: [ADMIN])
   multiSite: Boolean!
   settings: EntitySettings!
   communities: [Community!]!
@@ -6201,8 +6186,7 @@ type Site {
   contactEmail: String!
   url: String!
   createdAt: Time!
-  domain: String! @auth(roles: [ADMIN])
-  allowedDomains: [String!]! @auth(roles: [ADMIN])
+  domains: [String!]! @auth(roles: [ADMIN])
   consolidatedSettings: EntitySettings!
   settings: PartialEntitySettings!
   community: Community!
@@ -6227,7 +6211,7 @@ input UpdateStoryEntitySettingsInput {
 
 input UpdateEntitySettingsInput {
   live: LiveConfigurationInput
-  allowedDomains: [String!]
+  domains: [String!]
   moderation: MODERATION_MODE
   communityGuidelines: SettingsCommunityGuidelinesInput
   premodLinksEnable: Boolean
@@ -6253,7 +6237,7 @@ input CreateOrganizationInput {
   name: String!
   contactEmail: String!
   url: String!
-  allowedDomains: [String!]!
+  domains: [String!]!
   domain: String!
   multiSite: Boolean!
   clientMutationId: String!
@@ -6302,7 +6286,7 @@ input CreateSiteInput {
   name: String!
   contactEmail: String!
   url: String!
-  allowedDomains: [String!]!
+  domains: [String!]!
   domain: String!
   clientMutationId: String!
   locale: Locale!

@@ -52,7 +52,7 @@ export class UserBoxContainer extends Component<Props> {
   }
 
   private get supportsRegister() {
-    const integrations = this.props.organization.settings.auth.integrations;
+    const integrations = this.props.organization.auth.integrations;
     return [
       integrations.facebook,
       integrations.google,
@@ -62,7 +62,7 @@ export class UserBoxContainer extends Component<Props> {
   }
 
   private get weControlAuth() {
-    const integrations = this.props.organization.settings.auth.integrations;
+    const integrations = this.props.organization.auth.integrations;
     return [
       integrations.facebook,
       integrations.google,
@@ -142,36 +142,34 @@ const enhanced = withMutation(SignOutMutation)(
           `,
           organization: graphql`
             fragment UserBoxContainer_organization on Organization {
-              settings {
-                auth {
-                  integrations {
-                    local {
-                      enabled
-                      allowRegistration
-                      targetFilter {
-                        stream
-                      }
+              auth {
+                integrations {
+                  local {
+                    enabled
+                    allowRegistration
+                    targetFilter {
+                      stream
                     }
-                    oidc {
-                      enabled
-                      allowRegistration
-                      targetFilter {
-                        stream
-                      }
+                  }
+                  oidc {
+                    enabled
+                    allowRegistration
+                    targetFilter {
+                      stream
                     }
-                    google {
-                      enabled
-                      allowRegistration
-                      targetFilter {
-                        stream
-                      }
+                  }
+                  google {
+                    enabled
+                    allowRegistration
+                    targetFilter {
+                      stream
                     }
-                    facebook {
-                      enabled
-                      allowRegistration
-                      targetFilter {
-                        stream
-                      }
+                  }
+                  facebook {
+                    enabled
+                    allowRegistration
+                    targetFilter {
+                      stream
                     }
                   }
                 }

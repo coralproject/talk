@@ -27,12 +27,12 @@ export const cspTenantMiddleware: RequestHandler = (req, res, next) => {
   next();
 };
 
-function generateContentSecurityPolicy(tenant: Pick<Tenant, "allowedDomains">) {
+function generateContentSecurityPolicy(tenant: Pick<Tenant, "domains">) {
   const directives: Record<string, any> = {};
 
   // Only the domains that are allowed by the tenant may embed Coral.
   directives.frameAncestors =
-    tenant.allowedDomains.length > 0 ? tenant.allowedDomains : ["'none'"];
+    tenant.domains.length > 0 ? tenant.domains : ["'none'"];
 
   // Build the directive.
   const directive = builder({ directives });
@@ -42,16 +42,16 @@ function generateContentSecurityPolicy(tenant: Pick<Tenant, "allowedDomains">) {
 
 export function generateFrameOptions(
   req: Request,
-  tenant: Pick<Tenant, "allowedDomains">
+  tenant: Pick<Tenant, "domains">
 ) {
   // If there aren't any domains, then we reject it.
-  if (tenant.allowedDomains.length === 0) {
+  if (tenant.domains.length === 0) {
     return "deny";
   }
 
   // If there is only one domain on the tenant then return it!
-  if (tenant.allowedDomains.length === 1) {
-    return `allow-from ${getOrigin(tenant.allowedDomains[0])}`;
+  if (tenant.domains.length === 1) {
+    return `allow-from ${getOrigin(tenant.domains[0])}`;
   }
 
   const parentsURL = extractParentsURL(req);
@@ -74,7 +74,7 @@ export function generateFrameOptions(
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   // We need to find the domain that is asking so we can respond with the right
   // result, sort of like CORS!
-  const allowFrom = tenant.allowedDomains
+  const allowFrom = tenant.domains
     .map(domain => getOrigin(domain))
     .find(origin => origin === parentsOrigin);
   if (!allowFrom) {

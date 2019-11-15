@@ -30,9 +30,7 @@ export default class AppQuery extends Component {
           if (!props) {
             return null;
           }
-          return (
-            <AppContainer auth={props.settings.auth} viewer={props.viewer} />
-          );
+          return <AppContainer auth={props.auth} viewer={props.viewer} />;
         }}
       />
     );

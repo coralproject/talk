@@ -6,14 +6,13 @@ import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { DeepPartial, Omit, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
-import { Settings } from "coral-server/models/settings";
+import { Auth, Settings } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
 import {
   GQLMODERATION_MODE,
   GQLOrganization,
-  GQLSettings,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import {
@@ -34,19 +33,10 @@ export interface TenantResource {
   readonly tenantID: string;
 }
 
-export interface TenantSettings
-  extends Pick<GQLSettings, "domain" | "allowedDomains"> {
-  readonly id: string;
-
-  /**
-   * locale is the specified locale for this Tenant.
-   */
-  locale: LanguageCode;
-}
-
 export interface Tenant
-  extends Omit<GQLOrganization, "communities" | "settings"> {
+  extends Omit<GQLOrganization, "communities" | "settings" | "auth"> {
   locale: LanguageCode;
+  auth: Auth;
   settings: Settings;
 }
 
@@ -60,10 +50,10 @@ export type CreateTenantInput = Pick<
   | "name"
   | "contactEmail"
   | "url"
-  | "allowedDomains"
   | "locale"
-  | "domain"
   | "multiSite"
+  | "domains"
+  | "domain"
 >;
 
 export async function createTenant(
@@ -80,6 +70,53 @@ export async function createTenant(
     id: uuid.v4(),
     createdAt: now,
 
+    auth: {
+      sessionDuration: DEFAULT_SESSION_LENGTH,
+      integrations: {
+        local: {
+          enabled: true,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+        },
+        sso: {
+          enabled: false,
+          allowRegistration: false,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          key: generateSSOKey(),
+          keyGeneratedAt: now,
+        },
+        oidc: {
+          enabled: false,
+          allowRegistration: false,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+        },
+        google: {
+          enabled: false,
+          allowRegistration: false,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+        },
+        facebook: {
+          enabled: false,
+          allowRegistration: false,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+        },
+      },
+    },
     settings: {
       // Default to post moderation.
       moderation: GQLMODERATION_MODE.POST,
@@ -112,52 +149,6 @@ export async function createTenant(
       wordList: {
         suspect: [],
         banned: [],
-      },
-      auth: {
-        sessionDuration: DEFAULT_SESSION_LENGTH,
-        integrations: {
-          local: {
-            enabled: true,
-            allowRegistration: true,
-            targetFilter: {
-              admin: true,
-              stream: true,
-            },
-          },
-          sso: {
-            enabled: false,
-            allowRegistration: false,
-            targetFilter: {
-              admin: true,
-              stream: true,
-            },
-            keys: [generateSSOKey(now)],
-          },
-          oidc: {
-            enabled: false,
-            allowRegistration: false,
-            targetFilter: {
-              admin: true,
-              stream: true,
-            },
-          },
-          google: {
-            enabled: false,
-            allowRegistration: false,
-            targetFilter: {
-              admin: true,
-              stream: true,
-            },
-          },
-          facebook: {
-            enabled: false,
-            allowRegistration: false,
-            targetFilter: {
-              admin: true,
-              stream: true,
-            },
-          },
-        },
       },
       email: {
         enabled: false,
@@ -232,23 +223,6 @@ export async function retrieveManyTenants(mongo: Db, ids: string[]) {
   return ids.map(id => tenants.find(tenant => tenant.id === id) || null);
 }
 
-export async function retrieveManyTenantsByDomain(
-  mongo: Db,
-  domains: string[]
-) {
-  const cursor = collection(mongo).find({
-    domain: {
-      $in: domains,
-    },
-  });
-
-  const tenants = await cursor.toArray();
-
-  return domains.map(
-    domain => tenants.find(tenant => tenant.domain === domain) || null
-  );
-}
-
 export async function retrieveAllTenants(mongo: Db) {
   return collection(mongo)
     .find({})
@@ -261,10 +235,7 @@ export async function countTenants(mongo: Db) {
     .count();
 }
 
-export type UpdateTenantInput = Omit<
-  DeepPartial<Tenant>,
-  "id" | "domain" | "createdAt"
->;
+export type UpdateTenantInput = Omit<DeepPartial<Tenant>, "id" | "createdAt">;
 
 export async function updateTenant(
   mongo: Db,
@@ -290,6 +261,23 @@ export async function updateTenant(
   );
 
   return result.value || null;
+}
+
+export async function retrieveManyTenantsByDomain(
+  mongo: Db,
+  domains: string[]
+) {
+  const cursor = collection(mongo).find({
+    domain: {
+      $in: domains,
+    },
+  });
+
+  const tenants = await cursor.toArray();
+
+  return domains.map(
+    domain => tenants.find(tenant => tenant.domain === domain) || null
+  );
 }
 
 /**

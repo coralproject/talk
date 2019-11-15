@@ -136,7 +136,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
     ) {
       return false;
     }
-    const enabled = getAuthenticationIntegrations(settings.auth, "stream");
+    const enabled = getAuthenticationIntegrations(auth, "stream");
 
     return (
       enabled.includes("local") ||

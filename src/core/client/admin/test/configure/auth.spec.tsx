@@ -133,7 +133,7 @@ it("prevents stream lock out", async () => {
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
         updateSettings: ({ variables }) => {
-          expectAndFail(variables.settings.auth!.integrations!.local).toEqual({
+          expectAndFail(variables.auth!.integrations!.local).toEqual({
             enabled: true,
             allowRegistration: true,
             targetFilter: {
@@ -207,9 +207,7 @@ it("change settings", async () => {
         updateSettings: ({ variables, callCount }) => {
           switch (callCount) {
             case 0:
-              expectAndFail(
-                variables.settings.auth!.integrations!.facebook
-              ).toEqual({
+              expectAndFail(variables.auth!.integrations!.facebook).toEqual({
                 enabled: true,
                 allowRegistration: true,
                 targetFilter: {
@@ -223,9 +221,7 @@ it("change settings", async () => {
                 settings: pureMerge(settingsWithEmptyAuth, variables.settings),
               };
             default:
-              expectAndFail(
-                variables.settings.auth!.integrations!.oidc
-              ).toEqual({
+              expectAndFail(variables.auth!.integrations!.oidc).toEqual({
                 enabled: true,
                 allowRegistration: false,
                 targetFilter: {

@@ -57,11 +57,11 @@ export const signupHandler = ({
       const now = req.coral!.now;
 
       // Check to ensure that the local integration has been enabled.
-      if (!tenant.settings.auth.integrations.local.enabled) {
+      if (!tenant.auth.integrations.local.enabled) {
         throw new IntegrationDisabled("local");
       }
 
-      if (!tenant.settings.auth.integrations.local.allowRegistration) {
+      if (!tenant.auth.integrations.local.allowRegistration) {
         // TODO: replace with better error.
         return next(new Error("registration is disabled"));
       }

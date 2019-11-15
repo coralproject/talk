@@ -368,6 +368,15 @@ When disabled, users will have to refresh the page to see new comments.
             <div
               className="ConfigBox-content"
             >
+<<<<<<< HEAD
+=======
+              <label
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
+                htmlFor="configure-advanced-domains"
+              >
+                Permitted domains
+              </label>
+>>>>>>> move around stuff in schema
               <div
                 className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
               >
@@ -588,7 +597,8 @@ https://domain.com).
                     >
                       When specified, allows scraping requests to use the provided
 proxy. All requests will then be passed through the appropriote
-proxy as parsed by the 
+<<<<<<< HEAD
+proxy as parsed by the
                       <a
                         className="ExternalLink-root"
                         href="https://www.npmjs.com/package/proxy-agent"
@@ -600,6 +610,19 @@ proxy as parsed by the
                        package.
                     </p>
                   </div>
+=======
+proxy as parsed by the
+                    <a
+                      className="ExternalLink-root"
+                      href="https://www.npmjs.com/package/proxy-agent"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      npm proxy-agent
+                    </a>
+                     package.
+                  </p>
+>>>>>>> move around stuff in schema
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                   >

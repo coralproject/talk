@@ -54,7 +54,7 @@ export interface Story extends TenantResource {
   /**
    * siteID is the id of the site this story appears on
    */
-  siteID: string | null;
+  siteID: string;
 
   /**
    * metadata stores the scraped metadata from the Story page.
@@ -97,7 +97,7 @@ export interface UpsertStoryInput {
 export async function upsertStory(
   mongo: Db,
   tenantID: string,
-  siteID: string | null,
+  siteID: string,
   { id = uuid.v4(), url }: UpsertStoryInput,
   now = new Date()
 ) {
@@ -186,12 +186,12 @@ export async function findOrCreateStory(
   now = new Date()
 ) {
   if (id) {
-    if (url) {
+    if (url && siteID) {
       // The URL was specified, this is an upsert operation.
       return upsertStory(
         mongo,
         tenantID,
-        siteID || null,
+        siteID,
         {
           id,
           url,
@@ -210,7 +210,11 @@ export async function findOrCreateStory(
     throw new Error("cannot upsert an story without the url");
   }
 
-  return upsertStory(mongo, tenantID, siteID || null, { url }, now);
+  if (!siteID) {
+    throw new Error("cannot upsert an story without the site id");
+  }
+
+  return upsertStory(mongo, tenantID, siteID, { url }, now);
 }
 
 export type CreateStoryInput = Partial<
@@ -220,7 +224,7 @@ export type CreateStoryInput = Partial<
 export async function createStory(
   mongo: Db,
   tenantID: string,
-  siteID: string | null,
+  siteID: string,
   id: string,
   url: string,
   input: CreateStoryInput,

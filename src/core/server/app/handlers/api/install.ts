@@ -89,7 +89,7 @@ export const installCheckHandler = ({
 };
 
 export interface TenantInstallBody {
-  tenant: Omit<InstallTenant, "domain" | "locale"> & {
+  tenant: Omit<InstallTenant, "domains" | "locale"> & {
     locale: LanguageCode | null;
   };
   user: Required<Pick<CreateUser, "username" | "email"> & { password: string }>;
@@ -108,7 +108,7 @@ const TenantInstallBodySchema = Joi.object().keys({
           .lowercase()
           .email(),
       }),
-      allowedDomains: Joi.array().items(
+      domains: Joi.array().items(
         Joi.string()
           .trim()
           .uri({ scheme: ["http", "https"] })

@@ -20,7 +20,7 @@ interface FormData {
   username: string;
   password: string;
   confirmPassword: string;
-  allowedDomains: string[];
+  domains: string[];
   locale: LanguageCode;
 }
 
@@ -34,7 +34,7 @@ function shapeFinalData(data: FormData): InstallInput {
     organizationName,
     organizationContactEmail,
     organizationURL,
-    allowedDomains,
+    domains,
     username,
     password,
     email,
@@ -48,7 +48,7 @@ function shapeFinalData(data: FormData): InstallInput {
         contactEmail: organizationContactEmail,
         url: organizationURL,
       },
-      allowedDomains,
+      domains,
       locale,
     },
     user: {
@@ -74,7 +74,7 @@ class InstallWizard extends Component<Props, InstallWizardState> {
       username: "",
       password: "",
       confirmPassword: "",
-      allowedDomains: [],
+      domains: [],
       locale: "en-US" as LanguageCode,
     },
   };

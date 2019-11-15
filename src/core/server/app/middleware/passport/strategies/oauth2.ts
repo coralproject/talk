@@ -76,9 +76,7 @@ export default abstract class OAuth2Strategy<
       const now = req.coral!.now;
 
       // Get the integration.
-      const integration = this.getIntegration(
-        tenant.settings.auth.integrations
-      );
+      const integration = this.getIntegration(tenant.auth.integrations);
 
       // Get the user.
       const user = await this.findOrCreateUser(
@@ -103,9 +101,7 @@ export default abstract class OAuth2Strategy<
       const tenant = req.coral!.tenant!;
 
       // Get the integration.
-      const integration = this.getIntegration(
-        tenant.settings.auth.integrations
-      );
+      const integration = this.getIntegration(tenant.auth.integrations);
 
       // Check to see if the integration is enabled.
       if (!integration.enabled) {

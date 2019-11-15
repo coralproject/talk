@@ -43,8 +43,8 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({
   }, [setAuthPopupState]);
 
   if (
-    !settings.auth.integrations.local.enabled ||
-    !settings.auth.integrations.local.targetFilter.stream
+    !auth.integrations.local.enabled ||
+    !auth.integrations.local.targetFilter.stream
   ) {
     return null;
   }

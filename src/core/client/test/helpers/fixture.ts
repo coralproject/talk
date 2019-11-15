@@ -266,7 +266,7 @@ export function createSettings() {
       enabled: true,
     },
     customCSSURL: "",
-    allowedDomains: ["localhost:8080"],
+    domains: ["localhost:8080"],
     editCommentWindowLength: 30000,
     communityGuidelines: {
       enabled: false,
