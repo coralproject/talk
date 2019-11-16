@@ -96,7 +96,7 @@ class Scraper {
 
     const options: RequestInit = {
       headers: {
-        "User-Agent": customUserAgent || `Talk Scraper/${version}`,
+        "User-Agent": customUserAgent || `Coral Scraper/${version}`,
       },
       signal: controller.signal,
     };

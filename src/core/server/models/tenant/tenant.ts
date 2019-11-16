@@ -51,6 +51,49 @@ export interface TenantSettings
    * featureFlags is the set of flags enabled on this Tenant.
    */
   featureFlags?: GQLFEATURE_FLAG[];
+
+  /**
+   * webhooks stores the configurations for this Tenant's webhook rules.
+   */
+  webhooks: {
+    /**
+     * endpoints is all the configured endpoints that should receive events.
+     */
+    endpoints: Array<{
+      /**
+       * id is the unique identifier for this specific endpoint.
+       */
+      id: string;
+
+      /**
+       * enabled when true will enable events to be sent to this endpoint.
+       */
+      enabled: boolean;
+
+      /**
+       * url is the URL that we will POST event data to.
+       */
+      url: string;
+
+      /**
+       * signingSecret is the secret used to sign the events sent out.
+       */
+      signingSecrets: Array<{
+        secret: string;
+      }>;
+
+      /**
+       * all when true indicates that all events should trigger.
+       */
+      all?: boolean;
+
+      /**
+       * events is the array of events that will trigger the delivery of an
+       * event.
+       */
+      events: string[];
+    }>;
+  };
 }
 
 /**
@@ -112,6 +155,9 @@ export async function createTenant(
       enabled: false,
     },
     editCommentWindowLength: 30 * TIME.SECOND,
+    webhooks: {
+      endpoints: [],
+    },
     charCount: {
       enabled: false,
     },
@@ -465,4 +511,33 @@ export function retrieveAnnouncementIfEnabled(
     };
   }
   return null;
+}
+
+export async function disableTenantEndpoint(
+  mongo: Db,
+  id: string,
+  endpointID: string
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    { $set: { "webhooks.endpoints.$[endpoint].enabled": false } },
+    { returnOriginal: false, arrayFilters: [{ "endpoint.id": endpointID }] }
+  );
+  if (!result.value) {
+    const tenant = await retrieveTenant(mongo, id);
+    if (!tenant) {
+      return null;
+    }
+
+    const endpoint = tenant.webhooks.endpoints.find(e => e.id === endpointID);
+    if (!endpoint) {
+      throw new Error(
+        `endpoint not found with id: ${endpointID} on tenant: ${id}`
+      );
+    }
+
+    throw new Error("update failed for an unexpected reason");
+  }
+
+  return result.value;
 }

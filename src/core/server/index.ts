@@ -190,6 +190,7 @@ class Server {
     this.tasks = await createQueue({
       config: this.config,
       mongo: this.mongo,
+      redis: this.redis,
       tenantCache: this.tenantCache,
       i18n: this.i18n,
       signingConfig: this.signingConfig,
@@ -233,6 +234,7 @@ class Server {
     this.tasks.mailer.process();
     this.tasks.scraper.process();
     this.tasks.notifier.process();
+    this.tasks.webhook.process();
 
     // Start up the cron job processors.
     this.scheduledTasks = startScheduledTasks({

@@ -1204,6 +1204,50 @@ type StaffConfiguration {
   label: String!
 }
 
+type WebhookDelivery {
+  success: Boolean!
+  status: Int!
+  statusText: String!
+  request: String!
+  response: String!
+  createdAt: Time!
+}
+
+type WebhookEndpoint {
+  """
+  id is the unique identifier for this specific endpoint.
+  """
+  id: ID!
+
+  """
+  url is the URL that we will POST event data to.
+  """
+  url: String!
+
+  """
+  signingSecret is the secret used to sign the events sent out.
+  """
+  signingSecret: String!
+
+  """
+  deliveries store the deliveries for each event sent for the last 50 events.
+  """
+  deliveries: [WebhookDelivery!]!
+
+  """
+  events are the specific event names that this endpoint is configured to send
+  for.
+  """
+  events: [String!]!
+}
+
+type WebhookConfiguration {
+  """
+  endpoints is all the configured endpoints that should receive events.
+  """
+  endpoints: [WebhookEndpoint!]!
+}
+
 """
 NewCommenterConfiguration specifies the features that apply to new commenters
 """
@@ -1265,6 +1309,11 @@ type Settings {
   domain is the domain that is associated with this Tenant.
   """
   domain: String! @auth(roles: [ADMIN])
+
+  """
+  webhooks store the webhook configuration.
+  """
+  webhooks: WebhookConfiguration! @auth(roles: [ADMIN])
 
   """
   staticURI if configured, is the static URI used to serve static files from.

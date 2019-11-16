@@ -1,4 +1,5 @@
 import Queue from "bull";
+import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
@@ -10,6 +11,7 @@ import TenantCache from "coral-server/services/tenant/cache";
 import { createMailerTask, MailerQueue } from "./tasks/mailer";
 import { createNotifierTask, NotifierQueue } from "./tasks/notifier";
 import { createScraperTask, ScraperQueue } from "./tasks/scraper";
+import { createWebhookTask, WebhookQueue } from "./tasks/webhook";
 
 const createQueueOptions = async (
   config: Config
@@ -47,12 +49,14 @@ export interface QueueOptions {
   tenantCache: TenantCache;
   i18n: I18n;
   signingConfig: JWTSigningConfig;
+  redis: Redis;
 }
 
 export interface TaskQueue {
   mailer: MailerQueue;
   scraper: ScraperQueue;
   notifier: NotifierQueue;
+  webhook: WebhookQueue;
 }
 
 export async function createQueue(options: QueueOptions): Promise<TaskQueue> {
@@ -67,11 +71,25 @@ export async function createQueue(options: QueueOptions): Promise<TaskQueue> {
     mailerQueue: mailer,
     ...options,
   });
+  const webhook = createWebhookTask(queueOptions, options);
+
+  // FIXME: (wyattjoh) remove before committing
+  // for (let i = 0; i < 5; i++) {
+  //   await webhook.add({
+  //     tenantID: "1afc0816-f8bc-4618-be88-737336d51a3a",
+  //     eventName: "comments.create",
+  //     eventData: {
+  //       id: "123",
+  //       body: "This is a comment!",
+  //     },
+  //   });
+  // }
 
   // Return the tasks + client.
   return {
     mailer,
     scraper,
     notifier,
+    webhook,
   };
 }

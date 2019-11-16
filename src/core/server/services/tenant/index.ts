@@ -20,6 +20,7 @@ import {
   rotateTenantSSOKey,
   Tenant,
   updateTenant,
+  disableTenantEndpoint,
 } from "coral-server/models/tenant";
 import { I18n } from "coral-server/services/i18n";
 
@@ -201,6 +202,39 @@ export async function discoverOIDCConfiguration(issuerString: string) {
 
   // Discover the configuration.
   return discover(issuer);
+}
+
+export async function disableEndpoint(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  endpointID: string
+) {
+  // Find the endpoint.
+  const endpoint = tenant.webhooks.endpoints.find(e => e.id === endpointID);
+  if (!endpoint) {
+    throw new Error("referenced endpoint was not found on tenant");
+  }
+
+  // Endpoint is already disabled.
+  if (endpoint.enabled === false) {
+    return tenant;
+  }
+
+  const updatedTenant = await disableTenantEndpoint(
+    mongo,
+    tenant.id,
+    endpointID
+  );
+  if (!updatedTenant) {
+    return null;
+  }
+
+  // Update the tenant cache.
+  await cache.update(redis, updatedTenant);
+
+  return updatedTenant;
 }
 
 export async function enableFeatureFlag(
