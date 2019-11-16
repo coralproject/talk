@@ -1,4 +1,5 @@
 import fs from "fs-extra";
+import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import path from "path";
 import now from "performance-now";
@@ -133,7 +134,11 @@ export default class Manager {
     return records.length > 0 ? records[records.length - 1] : null;
   }
 
-  public async executePendingMigrations(mongo: Db, silent = false) {
+  public async executePendingMigrations(
+    mongo: Db,
+    redis: Redis,
+    silent = false
+  ) {
     // Error out if this is ran twice.
     if (this.ran) {
       if (silent) {
@@ -191,6 +196,7 @@ export default class Manager {
 
       if (migration.up) {
         // The migration provides an up method, we should run this per Tenant.
+        // If no tenants are installed, this will essentially be a no-op.
         for await (const tenant of this.tenantCache) {
           log = log.child({ tenantID: tenant.id }, true);
 
@@ -246,5 +252,10 @@ export default class Manager {
       },
       "finished running pending migrations"
     );
+
+    for await (const tenant of this.tenantCache) {
+      // Flush the tenant cache now for each tenant.
+      await this.tenantCache.delete(redis, tenant.id, tenant.domain);
+    }
   }
 }

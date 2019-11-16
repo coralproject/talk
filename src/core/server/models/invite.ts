@@ -47,7 +47,7 @@ export async function createInvite(
   };
 
   // Insert it into the database. This may throw an error.
-  await collection(mongo).insert(invite);
+  await collection(mongo).insertOne(invite);
 
   return invite;
 }

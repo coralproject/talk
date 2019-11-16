@@ -199,7 +199,7 @@ export async function createTenant(
   };
 
   // Insert the Tenant into the database.
-  await collection(mongo).insert(tenant);
+  await collection(mongo).insertOne(tenant);
 
   return tenant;
 }
