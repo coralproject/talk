@@ -449,6 +449,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
+    url: "",
     metadata: {
       author: "Vin Hoa",
       title: "Finally a Cure for Cancer",
@@ -461,6 +462,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
+    url: "",
     metadata: {
       author: "Linh Nguyen",
       title: "First Colony on Mars",
@@ -473,6 +475,7 @@ export const stories = createFixtures<GQLStory>([
     createdAt: "2018-11-29T16:01:51.897Z",
     isClosed: true,
     status: GQLSTORY_STATUS.CLOSED,
+    url: "",
     metadata: {
       author: undefined,
       title: "World hunger has been defeated",
