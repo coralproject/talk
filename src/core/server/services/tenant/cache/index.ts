@@ -261,7 +261,7 @@ export default class TenantCache {
   /**
    *  onMessage is fired every time the client gets a subscription event.
    */
-  private async onMessage(channel: string, data: string): Promise<void> {
+  private onMessage = async (channel: string, data: string): Promise<void> => {
     // Only do things when the message is for tenant.
     if (channel !== TENANT_CACHE_CHANNEL) {
       return;
@@ -299,7 +299,7 @@ export default class TenantCache {
         "an error occurred while trying to handle a message"
       );
     }
-  }
+  };
 
   public async retrieveByID(id: string): Promise<Readonly<Tenant> | null> {
     return this.tenantsByID.load(id);
