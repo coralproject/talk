@@ -5,7 +5,7 @@ import { GQLSiteTypeResolver } from "coral-server/graph/tenant/schema/__generate
 
 export const Site: GQLSiteTypeResolver<site.Site> = {
   consolidatedSettings: (s, input, ctx) =>
-    site.retrieveConsolidatedSettings(ctx.mongo, ctx.tenant, s.id),
+    ctx.loaders.Sites.settings.load(s.id),
   community: (s, input, ctx) =>
     community.retrieveCommunity(ctx.mongo, ctx.tenant.id, s.communityID),
 };

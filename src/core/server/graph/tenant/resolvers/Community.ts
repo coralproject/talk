@@ -3,6 +3,6 @@ import * as community from "coral-server/models/community";
 
 export const Community: GQLCommunityTypeResolver<community.Community> = {
   consolidatedSettings: (s, input, ctx) =>
-    community.retrieveConsolidatedSettings(ctx.mongo, ctx.tenant, s.id),
-  sites: (s, input, ctx) => ctx.loaders.Sites.forCommunity(s.id),
+    ctx.loaders.Communities.settings.load(s.id),
+  // sites: (s, input, ctx) => ctx.loaders.Sites.forCommunity(s.id),
 };

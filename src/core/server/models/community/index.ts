@@ -89,18 +89,33 @@ export async function retrieveCommunity(
   return collection(mongo).findOne({ id, tenantID });
 }
 
+export async function retrieveManyCommunities(
+  mongo: Db,
+  tenantID: string,
+  ids: string[]
+) {
+  const cursor = collection(mongo).find({
+    id: { $in: ids },
+    tenantID,
+  });
+
+  const communities = await cursor.toArray();
+
+  return ids.map(
+    id => communities.find(community => community.id === id) || null
+  );
+}
+
 export async function retrieveTenantCommunities(mongo: Db, tenantID: string) {
   return collection(mongo)
     .find({ tenantID })
     .toArray();
 }
 
-export async function retrieveConsolidatedSettings(
-  mongo: Db,
+export function retrieveConsolidatedSettings(
   tenant: Tenant,
-  communityID: string
+  community: Community | null
 ) {
-  const community = await retrieveCommunity(mongo, tenant.id, communityID);
   if (!community) {
     throw new Error("community not found");
   }

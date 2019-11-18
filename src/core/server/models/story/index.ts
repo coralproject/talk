@@ -7,7 +7,7 @@ import {
   DuplicateStoryIDError,
   DuplicateStoryURLError,
 } from "coral-server/errors";
-import { retrieveCommunity } from "coral-server/models/community";
+import { Community } from "coral-server/models/community";
 import {
   Connection,
   ConnectionInput,
@@ -15,7 +15,7 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { PartialSettings } from "coral-server/models/settings";
-import { retrieveSite } from "coral-server/models/site";
+import { Site } from "coral-server/models/site";
 import { Tenant, TenantResource } from "coral-server/models/tenant";
 import { stories as collection } from "coral-server/services/mongodb/collections";
 
@@ -480,25 +480,11 @@ async function retrieveConnection(
   return resolveConnection(query, input, story => story.createdAt);
 }
 
-export async function retrieveConsolidatedSettings(
-  mongo: Db,
+export function retrieveConsolidatedSettings(
   tenant: Tenant,
-  storyID: string
+  community: Community,
+  site: Site,
+  story: Story
 ) {
-  const story = await retrieveStory(mongo, tenant.id, storyID);
-  if (!story) {
-    throw new Error("story not found");
-  }
-  if (!story.siteID) {
-    return consolidate(tenant, null, null, story);
-  }
-  const site = await retrieveSite(mongo, tenant.id, story.siteID);
-  if (!site) {
-    throw new Error("site not found");
-  }
-  const community = await retrieveCommunity(mongo, tenant.id, site.communityID);
-  if (!community) {
-    throw new Error("community not found");
-  }
   return consolidate(tenant, community, site, story);
 }

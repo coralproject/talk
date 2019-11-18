@@ -6,12 +6,16 @@ interface SettingsEntity {
   settings: Settings | PartialSettings;
 }
 
+interface Tenant {
+  settings: Settings;
+}
+
 export function consolidate(
-  tenant: SettingsEntity,
+  tenant: Tenant,
   community?: SettingsEntity | null,
   site?: SettingsEntity | null,
   story?: SettingsEntity
-): PartialSettings {
+): Settings {
   if (community) {
     if (site) {
       if (story) {

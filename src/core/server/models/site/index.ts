@@ -4,7 +4,7 @@ import uuid from "uuid";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { DeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
-import { retrieveCommunity } from "coral-server/models/community";
+import { Community } from "coral-server/models/community";
 import { PartialSettings } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { sites as collection } from "coral-server/services/mongodb/collections";
@@ -89,6 +89,21 @@ export async function retrieveSite(mongo: Db, tenantID: string, id: string) {
   return collection(mongo).findOne({ id, tenantID });
 }
 
+export async function retrieveManySites(
+  mongo: Db,
+  tenantID: string,
+  ids: string[]
+) {
+  const cursor = collection(mongo).find({
+    id: { $in: ids },
+    tenantID,
+  });
+
+  const sites = await cursor.toArray();
+
+  return ids.map(id => sites.find(site => site.id === id) || null);
+}
+
 export async function retrieveCommunitySites(
   mongo: Db,
   tenantID: string,
@@ -100,17 +115,15 @@ export async function retrieveCommunitySites(
 }
 
 export async function retrieveConsolidatedSettings(
-  mongo: Db,
   tenant: Tenant,
-  siteID: string
+  community: Community | null,
+  site: Site | null
 ) {
-  const site = await retrieveSite(mongo, tenant.id, siteID);
   if (!site) {
     throw new Error("site not found");
   }
-  const community = await retrieveCommunity(mongo, tenant.id, site.communityID);
   if (!community) {
     throw new Error("community not found");
   }
-  return consolidate(tenant, community);
+  return consolidate(tenant, community, site);
 }

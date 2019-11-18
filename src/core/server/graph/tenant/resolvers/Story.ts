@@ -31,6 +31,6 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   // options if they exist.
   settings: (s, input, ctx) => defaultsDeep({}, s.settings, ctx.tenant),
   consolidatedSettings: (s, input, ctx) =>
-    story.retrieveConsolidatedSettings(ctx.mongo, ctx.tenant, s.id),
+    ctx.loaders.Stories.settings.load(s.id),
   moderationQueues: storyModerationInputResolver,
 };
