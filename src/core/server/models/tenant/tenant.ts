@@ -199,7 +199,7 @@ export async function createTenant(
   };
 
   // Insert the Tenant into the database.
-  await collection(mongo).insert(tenant);
+  await collection(mongo).insertOne(tenant);
 
   return tenant;
 }
@@ -306,18 +306,20 @@ export async function createTenantSSOKey(mongo: Db, id: string, now: Date) {
   return result.value || null;
 }
 
-export async function deprecateTenantSSOKey(
+export async function rotateTenantSSOKey(
   mongo: Db,
   id: string,
   kid: string,
-  deprecateAt: Date
+  inactiveAt: Date,
+  now: Date
 ) {
   // Update the tenant.
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     {
       $set: {
-        "auth.integrations.sso.keys.$[keys].deprecateAt": deprecateAt,
+        "auth.integrations.sso.keys.$[keys].inactiveAt": inactiveAt,
+        "auth.integrations.sso.keys.$[keys].rotatedAt": now,
       },
     },
     {
