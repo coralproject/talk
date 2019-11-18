@@ -30,7 +30,8 @@ const moderate = (
   redis: AugmentedRedis,
   publish: Publisher,
   tenant: Tenant,
-  input: Moderate
+  input: Moderate,
+  now: Date
 ) => {
   // TODO: wrap these operations in a transaction?
 
@@ -44,25 +45,16 @@ const moderate = (
     true
   );
 
-  // Update the Comment's status.
-  const result = await updateCommentStatus(
+  // Create the moderation action in the audit log.
+  const action = await createCommentModerationAction(
     mongo,
     tenant.id,
-    input.commentID,
-    input.commentRevisionID,
-    status
+    {
+      ...input,
+      status,
+    },
+    now
   );
-  if (!result) {
-    throw new CommentNotFoundError(input.commentID, input.commentRevisionID);
-  }
-
-  log.trace("updated comment status");
-
-  // Create the moderation action in the audit log.
-  const action = await createCommentModerationAction(mongo, tenant.id, {
-    ...input,
-    status,
-  });
   if (!action) {
     // TODO: wrap in better error?
     throw new Error("could not create moderation action");
@@ -72,6 +64,23 @@ const moderate = (
     { commentModerationActionID: action.id },
     "created the moderation action"
   );
+
+  // Update the Comment's status.
+  const result = await updateCommentStatus(
+    mongo,
+    tenant.id,
+    input.commentID,
+    input.commentRevisionID,
+    action.id,
+    input.moderatorID,
+    status,
+    now
+  );
+  if (!result) {
+    throw new CommentNotFoundError(input.commentID, input.commentRevisionID);
+  }
+
+  log.trace("updated comment status");
 
   // Compute the queue difference as a result of the old status and the new
   // status.

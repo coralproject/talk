@@ -153,6 +153,14 @@ export async function createComment(
     id: uuid.v4(),
     body,
     actionCounts,
+    statusHistory: [
+      {
+        id: null,
+        status: rest.status,
+        moderatorID: null,
+        createdAt: now,
+      },
+    ],
     metadata,
     createdAt: now,
   };
@@ -296,6 +304,14 @@ export async function editComment(
     id: uuid.v4(),
     body,
     actionCounts,
+    statusHistory: [
+      {
+        id: null,
+        status,
+        moderatorID: null,
+        createdAt: now,
+      },
+    ],
     metadata,
     createdAt: now,
   };
@@ -724,8 +740,18 @@ export async function updateCommentStatus(
   tenantID: string,
   id: string,
   revisionID: string,
-  status: GQLCOMMENT_STATUS
+  commentModerationActionID: string,
+  moderatorID: string | null,
+  status: GQLCOMMENT_STATUS,
+  now: Date
 ): Promise<UpdateCommentStatus | null> {
+  const statusHistory = {
+    id: commentModerationActionID,
+    status,
+    moderatorID,
+    createdAt: now,
+  };
+
   const result = await collection(mongo).findOneAndUpdate(
     {
       id,
@@ -737,6 +763,9 @@ export async function updateCommentStatus(
     },
     {
       $set: { status },
+      $push: {
+        "revisions.$.statusHistory": statusHistory,
+      },
     },
     {
       // True to return the original document instead of the updated
@@ -754,6 +783,14 @@ export async function updateCommentStatus(
   return {
     comment: {
       ...result.value,
+      revisions: result.value.revisions.map(revision => {
+        if (revision.id === revisionID) {
+          // This is the revision that was modified by Mongo here, so push in
+          // the new status history item.
+          revision.statusHistory.push(statusHistory);
+        }
+        return revision;
+      }),
       status,
     },
     oldStatus,

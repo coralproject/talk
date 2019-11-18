@@ -170,11 +170,18 @@ export const Comments = (ctx: TenantContext) => ({
     )
       .then(comment =>
         comment.status !== GQLCOMMENT_STATUS.APPROVED
-          ? approve(ctx.mongo, ctx.redis, ctx.publisher, ctx.tenant, {
-              commentID,
-              commentRevisionID,
-              moderatorID: ctx.user!.id,
-            })
+          ? approve(
+              ctx.mongo,
+              ctx.redis,
+              ctx.publisher,
+              ctx.tenant,
+              {
+                commentID,
+                commentRevisionID,
+                moderatorID: ctx.user!.id,
+              },
+              ctx.now
+            )
           : comment
       )
       .then(comment => {

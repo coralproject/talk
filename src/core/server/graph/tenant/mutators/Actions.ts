@@ -10,17 +10,31 @@ import {
 
 export const Actions = (ctx: TenantContext) => ({
   approveComment: (input: GQLApproveCommentInput) =>
-    approve(ctx.mongo, ctx.redis, ctx.publisher, ctx.tenant, {
-      commentID: input.commentID,
-      commentRevisionID: input.commentRevisionID,
-      moderatorID: ctx.user!.id,
-    }),
+    approve(
+      ctx.mongo,
+      ctx.redis,
+      ctx.publisher,
+      ctx.tenant,
+      {
+        commentID: input.commentID,
+        commentRevisionID: input.commentRevisionID,
+        moderatorID: ctx.user!.id,
+      },
+      ctx.now
+    ),
   rejectComment: (input: GQLRejectCommentInput) =>
-    reject(ctx.mongo, ctx.redis, ctx.publisher, ctx.tenant, {
-      commentID: input.commentID,
-      commentRevisionID: input.commentRevisionID,
-      moderatorID: ctx.user!.id,
-    }).then(comment =>
+    reject(
+      ctx.mongo,
+      ctx.redis,
+      ctx.publisher,
+      ctx.tenant,
+      {
+        commentID: input.commentID,
+        commentRevisionID: input.commentRevisionID,
+        moderatorID: ctx.user!.id,
+      },
+      ctx.now
+    ).then(comment =>
       // if a comment was previously featured
       // and is now rejected, we need to remove the
       // featured tag

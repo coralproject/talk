@@ -417,12 +417,17 @@ export async function edit(
 
     // The comment status changed as a result of a pipeline operation, create a
     // moderation action as a result.
-    await createCommentModerationAction(mongo, tenant.id, {
-      commentID: editedComment.id,
-      commentRevisionID: newRevision.id,
-      status: editedComment.status,
-      moderatorID: null,
-    });
+    await createCommentModerationAction(
+      mongo,
+      tenant.id,
+      {
+        commentID: editedComment.id,
+        commentRevisionID: newRevision.id,
+        status: editedComment.status,
+        moderatorID: null,
+      },
+      now
+    );
   }
 
   log.trace({ storyCounts }, "updating story status counts");
