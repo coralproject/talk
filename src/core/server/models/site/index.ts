@@ -5,6 +5,12 @@ import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { DeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { Community } from "coral-server/models/community";
+import {
+  Connection,
+  ConnectionInput,
+  Query,
+  resolveConnection,
+} from "coral-server/models/helpers";
 import { PartialSettings } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { sites as collection } from "coral-server/services/mongodb/collections";
@@ -26,6 +32,7 @@ export type CreateSiteInput = Pick<
   "name" | "contactEmail" | "url" | "locale" | "domains"
 >;
 
+export type SiteConnectionInput = ConnectionInput<Site>;
 export async function createSite(
   mongo: Db,
   tenantID: string,
@@ -126,4 +133,34 @@ export async function retrieveConsolidatedSettings(
     throw new Error("community not found");
   }
   return consolidate(tenant, community, site);
+}
+
+async function retrieveConnection(
+  input: SiteConnectionInput,
+  query: Query<Site>
+): Promise<Readonly<Connection<Readonly<Site>>>> {
+  // Apply the pagination arguments to the query.
+  query.orderBy({ createdAt: -1 });
+  if (input.after) {
+    query.where({ createdAt: { $lt: input.after as Date } });
+  }
+
+  // Return a connection.
+  return resolveConnection(query, input, action => action.createdAt);
+}
+
+export async function retrieveSiteConnection(
+  mongo: Db,
+  tenantID: string,
+  input: SiteConnectionInput
+): Promise<Readonly<Connection<Readonly<Site>>>> {
+  // Create the query.
+  const query = new Query(collection(mongo)).where({ tenantID });
+
+  // If a filter is being applied, filter it as well.
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
+  return retrieveConnection(input, query);
 }

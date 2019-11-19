@@ -1,4 +1,5 @@
 import DataLoader from "dataloader";
+import { defaultTo } from "lodash";
 import { isNull } from "lodash";
 
 import TenantContext from "coral-server/graph/tenant/context";
@@ -7,7 +8,9 @@ import {
   retrieveConsolidatedSettings,
   retrieveManySites,
   retrieveSite,
+  retrieveSiteConnection,
   Site,
+  SiteConnectionInput,
 } from "coral-server/models/site";
 
 import { createManyBatchLoadFn } from "./util";
@@ -24,6 +27,12 @@ export default (ctx: TenantContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
+  connection: ({ first, after, filter }: SiteConnectionInput) =>
+    retrieveSiteConnection(ctx.mongo, ctx.tenant.id, {
+      first: defaultTo(first, 10),
+      after,
+      filter,
+    }),
   settings: new DataLoader(async (ids: string[]) => {
     const sites = await retrieveManySites(ctx.mongo, ctx.tenant.id, ids);
     const filteredSites = sites.filter(

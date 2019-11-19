@@ -4,6 +4,12 @@ import uuid from "uuid";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { DeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
+import {
+  Connection,
+  ConnectionInput,
+  Query,
+  resolveConnection,
+} from "coral-server/models/helpers";
 import { PartialSettings } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { communities as collection } from "coral-server/services/mongodb/collections";
@@ -23,6 +29,8 @@ export type CreateCommunityInput = Pick<
   Community,
   "name" | "contactEmail" | "url" | "locale"
 >;
+
+export type CommunityConnectionInput = ConnectionInput<Community>;
 
 export async function createCommunity(
   mongo: Db,
@@ -120,4 +128,34 @@ export function retrieveConsolidatedSettings(
     throw new Error("community not found");
   }
   return consolidate(tenant, community);
+}
+
+async function retrieveConnection(
+  input: CommunityConnectionInput,
+  query: Query<Community>
+): Promise<Readonly<Connection<Readonly<Community>>>> {
+  // Apply the pagination arguments to the query.
+  query.orderBy({ createdAt: -1 });
+  if (input.after) {
+    query.where({ createdAt: { $lt: input.after as Date } });
+  }
+
+  // Return a connection.
+  return resolveConnection(query, input, action => action.createdAt);
+}
+
+export async function retrieveCommunityConnection(
+  mongo: Db,
+  tenantID: string,
+  input: CommunityConnectionInput
+): Promise<Readonly<Connection<Readonly<Community>>>> {
+  // Create the query.
+  const query = new Query(collection(mongo)).where({ tenantID });
+
+  // If a filter is being applied, filter it as well.
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
+  return retrieveConnection(input, query);
 }
