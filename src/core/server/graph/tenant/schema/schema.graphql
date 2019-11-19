@@ -60,6 +60,11 @@ arguments to parameters passed in to operations.
 """
 directive @constraint(min: Int, max: Int) on ARGUMENT_DEFINITION
 
+"""
+rate enforces a rate limit on requests made by the user.
+"""
+directive @rate(max: Int = 1, seconds: Int!, key: String) on FIELD_DEFINITION
+
 ################################################################################
 ## Custom Scalar Types
 ################################################################################
@@ -5119,6 +5124,7 @@ type RequestUserCommentsDownloadPayload {
   """
   archiveURL: String!
 }
+
 ##################
 ## Mutation
 ##################
@@ -5127,7 +5133,9 @@ type Mutation {
   """
   createComment will create a Comment as the current logged in User.
   """
-  createComment(input: CreateCommentInput!): CreateCommentPayload! @auth
+  createComment(input: CreateCommentInput!): CreateCommentPayload!
+    @auth
+    @rate(seconds: 3, key: "createComment")
 
   """
   createCommentReply will create a Comment as the current logged in User that is
@@ -5135,7 +5143,7 @@ type Mutation {
   """
   createCommentReply(
     input: CreateCommentReplyInput!
-  ): CreateCommentReplyPayload! @auth
+  ): CreateCommentReplyPayload! @auth @rate(seconds: 3, key: "createComment")
 
   """
   editComment will allow the author of a comment to change the body within the
@@ -5162,7 +5170,7 @@ type Mutation {
   """
   createCommentReaction(
     input: CreateCommentReactionInput!
-  ): CreateCommentReactionPayload @auth
+  ): CreateCommentReactionPayload @auth @rate(max: 2, seconds: 1)
 
   """
   removeCommentReaction will remove a Reaction authored by the current logged in
@@ -5170,7 +5178,7 @@ type Mutation {
   """
   removeCommentReaction(
     input: RemoveCommentReactionInput!
-  ): RemoveCommentReactionPayload @auth
+  ): RemoveCommentReactionPayload @auth @rate(max: 2, seconds: 1)
 
   """
   createCommentDontAgree will create a DontAgree authored by the current logged in
@@ -5178,7 +5186,7 @@ type Mutation {
   """
   createCommentDontAgree(
     input: CreateCommentDontAgreeInput!
-  ): CreateCommentDontAgreePayload @auth
+  ): CreateCommentDontAgreePayload @auth @rate(seconds: 3)
 
   """
   removeCommentDontAgree will remove a DontAgree authored by the current logged in
@@ -5186,7 +5194,7 @@ type Mutation {
   """
   removeCommentDontAgree(
     input: RemoveCommentDontAgreeInput!
-  ): RemoveCommentDontAgreePayload @auth
+  ): RemoveCommentDontAgreePayload @auth @rate(seconds: 3)
 
   """
   createCommentFlag will create a Flag authored by the current logged in User on
@@ -5194,6 +5202,7 @@ type Mutation {
   """
   createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload!
     @auth
+    @rate(seconds: 3)
 
   """
   featureComment will mark a given Comment as featured.
@@ -5286,11 +5295,11 @@ type Mutation {
     )
 
   """
-  updateUsername will set the username on the current User if they have not set one
-  before. This mutation will fail if the username is already set.
+  updateUsername will update the users username.
   """
   updateUsername(input: UpdateUsernameInput!): UpdateUsernamePayload!
     @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION])
+    @rate(seconds: 10)
 
   """
   setEmail will set the email address on the current User if they have not set
@@ -5311,7 +5320,9 @@ type Mutation {
   updatePassword allows the current logged in User to change their password if
   they already have one associated with them.
   """
-  updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload! @auth
+  updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload!
+    @auth
+    @rate(seconds: 10)
 
   """
   requestAccountDeletion allows the current logged in User to request to
@@ -5319,7 +5330,7 @@ type Mutation {
   """
   requestAccountDeletion(
     input: RequestAccountDeletionInput!
-  ): RequestAccountDeletionPayload! @auth
+  ): RequestAccountDeletionPayload! @auth @rate(seconds: 10)
 
   """
   deleteUserAccount will delete the target user now.
@@ -5359,10 +5370,11 @@ type Mutation {
   ): UpdateUserUsernamePayload! @auth(roles: [ADMIN])
 
   """
-  updateEmail allows administrators to update a given User's email address
-  to the one provided.
+  updateEmail will update the current users email address.
   """
-  updateEmail(input: UpdateEmailInput!): UpdateEmailPayload! @auth
+  updateEmail(input: UpdateEmailInput!): UpdateEmailPayload!
+    @auth
+    @rate(seconds: 10)
 
   """
   updateNotificationSettings can be used to update the notification settings for
