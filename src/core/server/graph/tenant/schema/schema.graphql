@@ -2332,18 +2332,6 @@ type CommentEdge {
   cursor: Cursor!
 }
 
-type SiteEdge {
-  """
-  node is the Comment for this edge.
-  """
-  node: Comment!
-
-  """
-  cursor is used in pagination.
-  """
-  cursor: Cursor!
-}
-
 """
 CommentsConnection represents a subset of a comment list.
 """
@@ -2363,27 +2351,6 @@ type CommentsConnection {
   """
   pageInfo: PageInfo!
 }
-
-"""
-SitesConnection represents a subset of a comment list.
-"""
-type SitesConnection {
-  """
-  edges are a subset of CommentEdge's.
-  """
-  edges: [SiteEdge!]!
-
-  """
-  nodes is a list of Comment's.
-  """
-  nodes: [Site!]!
-
-  """
-  pageInfo is information to aid in pagination.
-  """
-  pageInfo: PageInfo!
-}
-
 ################################################################################
 ## CommentCounts
 ################################################################################
@@ -6158,7 +6125,10 @@ type Organization {
   domains: [String!]! @auth(roles: [ADMIN])
   multiSite: Boolean!
   settings: EntitySettings!
-  communities: [Community!]!
+  communities(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): CommunitiesConnection!
 }
 
 """
@@ -6173,7 +6143,7 @@ type Community {
   createdAt: Time!
   settings: PartialEntitySettings!
   consolidatedSettings: EntitySettings!
-  sites: [Site!]!
+  sites(first: Int = 10 @constraint(max: 50), after: Cursor): SitesConnection!
 }
 
 """
@@ -6309,4 +6279,26 @@ type UpdateSitePayload {
   id: ID!
   site: Site!
   clientMutationId: String!
+}
+
+type SiteEdge {
+  node: Site!
+  cursor: Cursor!
+}
+
+type SitesConnection {
+  edges: [SiteEdge!]!
+  nodes: [Site!]!
+  pageInfo: PageInfo!
+}
+
+type CommunityEdge {
+  node: Community!
+  cursor: Cursor!
+}
+
+type CommunitiesConnection {
+  edges: [CommunityEdge!]!
+  nodes: [Community!]!
+  pageInfo: PageInfo!
 }

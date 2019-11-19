@@ -1,4 +1,5 @@
 import DataLoader from "dataloader";
+// import { defaultTo } from "lodash";
 
 import TenantContext from "coral-server/graph/tenant/context";
 import {
@@ -10,6 +11,7 @@ import {
 import { Settings } from "coral-server/models/settings";
 
 import { createManyBatchLoadFn } from "./util";
+// import { CommunityToSitesArgs } from "../schema/__generated__/types";
 
 // import {
 // } from "coral-server/graph/tenant/schema/__generated__/types";
@@ -26,6 +28,11 @@ export default (ctx: TenantContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
+  // forOrganization: (tenantID: string, { first, after }: CommunityToSitesArgs) =>
+  //   retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, tenantID, {
+  //     first: defaultTo(first, 10),
+  //     after,
+  //   }),
   settings: new DataLoader<string, Settings | null>(async ids => {
     const communities = await retrieveManyCommunities(
       ctx.mongo,
