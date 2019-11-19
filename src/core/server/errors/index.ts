@@ -749,10 +749,11 @@ export class PersistedQueryNotFound extends CoralError {
 }
 
 export class RawQueryNotAuthorized extends CoralError {
-  constructor(tenantID: string, userID: string | null) {
+  constructor(tenantID: string, query: string | null, userID: string | null) {
     super({
       code: ERROR_CODES.RAW_QUERY_NOT_AUTHORIZED,
-      context: { tenantID, pvt: { userID } },
+      status: 400,
+      context: { tenantID, pvt: { userID, query } },
     });
   }
 }

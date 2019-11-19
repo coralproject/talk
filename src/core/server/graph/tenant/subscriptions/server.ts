@@ -237,6 +237,9 @@ export function onOperation(options: OnOperationOptions) {
       ) {
         throw new RawQueryNotAuthorized(
           params.context.tenant.id,
+          message.payload && message.payload.query
+            ? message.payload.query
+            : null,
           params.context.user ? params.context.user.id : null
         );
       }
