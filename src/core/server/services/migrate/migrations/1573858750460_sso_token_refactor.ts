@@ -32,7 +32,15 @@ function isOldSSOKey(key: SSOKey | OldSSOKey): key is OldSSOKey {
     return false;
   }
 
-  return true;
+  if ((key as OldSSOKey).deprecateAt) {
+    return true;
+  }
+
+  if ((key as OldSSOKey).deletedAt) {
+    return true;
+  }
+
+  return false;
 }
 
 interface OldTenant {
