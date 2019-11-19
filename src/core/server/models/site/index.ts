@@ -1,3 +1,4 @@
+import { isNull } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -121,20 +122,6 @@ export async function retrieveCommunitySites(
     .toArray();
 }
 
-export async function retrieveConsolidatedSettings(
-  tenant: Tenant,
-  community: Community | null,
-  site: Site | null
-) {
-  if (!site) {
-    throw new Error("site not found");
-  }
-  if (!community) {
-    throw new Error("community not found");
-  }
-  return consolidate(tenant, community, site);
-}
-
 async function retrieveConnection(
   input: SiteConnectionInput,
   query: Query<Site>
@@ -163,4 +150,25 @@ export async function retrieveSiteConnection(
   }
 
   return retrieveConnection(input, query);
+}
+
+export function retrieveManyConsolidatedSettings(
+  tenant: Tenant,
+  ids: string[],
+  communities: (Community | null)[],
+  sites: (Site | null)[]
+) {
+  return ids.map(id => {
+    const site = sites.find(s => !isNull(s) && s.id === id);
+    if (!site) {
+      return null;
+    }
+    const community = site
+      ? communities.find(c => !isNull(c) && c.id === site.communityID)
+      : null;
+    if (!community) {
+      return null;
+    }
+    return consolidate(tenant, community, site);
+  });
 }

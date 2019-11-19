@@ -1,3 +1,4 @@
+import { isNull } from "lodash";
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
@@ -480,11 +481,28 @@ async function retrieveConnection(
   return resolveConnection(query, input, story => story.createdAt);
 }
 
-export function retrieveConsolidatedSettings(
+export function retrieveManyConsolidatedSettings(
   tenant: Tenant,
-  community: Community,
-  site: Site,
-  story: Story
+  ids: string[],
+  communities: (Community | null)[],
+  sites: (Site | null)[],
+  stories: (Story | null)[]
 ) {
-  return consolidate(tenant, community, site, story);
+  return ids.map(id => {
+    const story = stories.find(s => !isNull(s) && s.id === id);
+    if (!story) {
+      return null;
+    }
+    const site = sites.find(s => !isNull(s) && s.id === story.siteID);
+    if (!site) {
+      return null;
+    }
+    const community = site
+      ? communities.find(c => !isNull(c) && c.id === site.communityID)
+      : null;
+    if (!community) {
+      return null;
+    }
+    return consolidate(tenant, community, site, story);
+  });
 }

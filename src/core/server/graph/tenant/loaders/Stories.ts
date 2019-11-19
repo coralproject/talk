@@ -7,7 +7,7 @@ import { Connection } from "coral-server/models/helpers";
 import { Settings } from "coral-server/models/settings";
 import { Site } from "coral-server/models/site";
 import {
-  retrieveConsolidatedSettings,
+  retrieveManyConsolidatedSettings,
   retrieveManyStories,
   retrieveStoryConnection,
   Story,
@@ -72,6 +72,17 @@ const primeStoriesFromConnection = (ctx: TenantContext) => (
   return connection;
 };
 
+function getStorySiteIDs(stories: (Story | null)[]): string[] {
+  return stories
+    .filter((s: Story | null) => !isNull(s))
+    .map((s: Story) => s.siteID);
+}
+
+function getSiteCommunityIDs(sites: (Site | null)[]): string[] {
+  return sites
+    .filter((s: Site | null) => !isNull(s))
+    .map((s: Site) => s.communityID);
+}
 export default (ctx: TenantContext) => ({
   findOrCreate: new DataLoader(
     createManyBatchLoadFn((input: FindOrCreateStory) =>
@@ -105,43 +116,29 @@ export default (ctx: TenantContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  settings: new DataLoader<string, Settings | null>(async ids => {
-    const stories = await ctx.loaders.Stories.story.loadMany(ids);
-    const filteredStories = stories.filter(
-      (s: Story | null) => !isNull(s)
-    ) as Story[];
-    const sites = await ctx.loaders.Sites.site.loadMany(
-      filteredStories.map(s => s.siteID)
-    );
-    const filteredSites = sites.filter(
-      (s: Site | null) => !isNull(s)
-    ) as Site[];
-    const communities = await ctx.loaders.Communities.community.loadMany(
-      filteredSites.map(s => s.communityID)
-    );
-    const filteredCommunities = communities.filter(
-      (c: Community | null) => !isNull(c)
-    ) as Community[];
-    return Promise.resolve(
-      ids.map(id => {
-        const story = filteredStories.find(s => s.id === id);
-        if (!story) {
-          return null;
-        }
-        const site = filteredSites.find(s => s.id === story.siteID);
-        if (!site) {
-          return null;
-        }
-        const community = filteredCommunities.find(
-          c => c.id === site.communityID
-        );
-        if (!community) {
-          return null;
-        }
-        return retrieveConsolidatedSettings(ctx.tenant, community, site, story);
-      })
-    );
-  }),
+  settings: new DataLoader<string, Settings | null>(
+    async ids => {
+      const stories: (Story | null)[] = await ctx.loaders.Stories.story.loadMany(
+        ids
+      );
+      const sites: (Site | null)[] = await ctx.loaders.Sites.site.loadMany(
+        getStorySiteIDs(stories)
+      );
+      const communities: (Community | null)[] = await ctx.loaders.Communities.community.loadMany(
+        getSiteCommunityIDs(sites)
+      );
+      return retrieveManyConsolidatedSettings(
+        ctx.tenant,
+        ids,
+        communities,
+        sites,
+        stories
+      );
+    },
+    {
+      cache: !ctx.disableCaching,
+    }
+  ),
   connection: ({ first, after, status, query }: QueryToStoriesArgs) =>
     retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 10),
