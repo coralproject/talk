@@ -9,7 +9,7 @@ job_defaults: &job_defaults
   working_directory: ~/coralproject/talk
   resource_class: large
   docker:
-    - image: circleci/node:10
+    - image: circleci/node:12
   environment:
     <<: *job_environment
 
