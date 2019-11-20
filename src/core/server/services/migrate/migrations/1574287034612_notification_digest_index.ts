@@ -25,7 +25,7 @@ export default class extends Migration {
         matchedCount: result.matchedCount,
         modifiedCount: result.modifiedCount,
       },
-      "added empty moderatorNotes array"
+      "added hasDigests flag"
     );
   }
 
