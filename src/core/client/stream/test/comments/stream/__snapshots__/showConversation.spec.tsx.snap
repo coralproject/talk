@@ -31,7 +31,7 @@ exports[`renders deepest comment with link 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-comment-with-deepest-replies-5"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -49,13 +49,13 @@ exports[`renders deepest comment with link 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
+                    aria-labelledby="username-popover-comment-with-deepest-replies-5-ariainfo"
+                    id="username-popover-comment-with-deepest-replies-5"
                     role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-comment-with-deepest-replies-5-ariainfo"
                     >
                       A popover with more user information
                     </div>
