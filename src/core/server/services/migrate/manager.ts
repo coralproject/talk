@@ -133,8 +133,6 @@ export default class Manager {
         return false;
       }
 
-      // if (migration)
-
       // A record of the migration does not exist, so mark it as pending.
       return true;
     });
