@@ -61,6 +61,7 @@ const TabWithFeaturedTooltip: FunctionComponent<PropTypesOf<typeof Tab>> = ({
     <Tab
       {...props}
       className={cn(
+        styles.streamTab,
         CLASSES.tabBarComments.featured,
         styles.featuredCommentsTab
       )}
@@ -203,7 +204,10 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             )}
             <Tab
               tabID="ALL_COMMENTS"
-              className={CLASSES.tabBarComments.allComments}
+              className={cn(
+                styles.streamTab,
+                CLASSES.tabBarComments.allComments
+              )}
             >
               <Flex alignItems="center" spacing={1}>
                 <Localized id="comments-allCommentsTab">

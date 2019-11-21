@@ -23,6 +23,13 @@
 .featuredCommentsTabContainer {
   position: relative;
 }
+
+.streamTab {
+  max-width: 200px;
+  white-space: normal;
+  text-align: left;
+}
+
 .featuredCommentsTab {
   padding-right: 30px !important;
 }
