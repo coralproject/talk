@@ -11,6 +11,7 @@ import {
   GQLCommentsConnection,
   GQLMODERATION_MODE,
   GQLModerationQueues,
+  GQLOrganization,
   GQLSettings,
   GQLStoriesConnection,
   GQLStory,
@@ -86,6 +87,21 @@ export const settings = createFixture<GQLSettings>({
       threshold: TOXICITY_THRESHOLD_DEFAULT / 100,
     },
   },
+
+  stories: {
+    scraping: {
+      enabled: true,
+    },
+    disableLazy: false,
+  },
+  accountFeatures: {
+    downloadComments: true,
+    changeUsername: true,
+    deleteAccount: true,
+  },
+});
+
+export const orgAuthSettings = createFixture<GQLOrganization>({
   auth: {
     sessionDuration: DEFAULT_SESSION_LENGTH,
     integrations: {
@@ -144,16 +160,68 @@ export const settings = createFixture<GQLSettings>({
       },
     },
   },
-  stories: {
-    scraping: {
-      enabled: true,
+});
+
+export const orgWithEmptyAuth = createFixture<GQLOrganization>(
+  {
+    auth: {
+      sessionDuration: DEFAULT_SESSION_LENGTH,
+      integrations: {
+        local: {
+          enabled: true,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+        },
+        sso: {
+          enabled: false,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          key: "",
+          keyGeneratedAt: null,
+        },
+        google: {
+          enabled: false,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          clientID: "",
+          clientSecret: "",
+          callbackURL: "http://localhost/google/callback",
+          redirectURL: "http://localhost/google",
+        },
+        facebook: {
+          enabled: false,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          clientID: "",
+          clientSecret: "",
+          callbackURL: "http://localhost/facebook/callback",
+          redirectURL: "http://localhost/facebook",
+        },
+        oidc: {
+          enabled: false,
+          allowRegistration: false,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          name: "",
+          callbackURL: "http://localhost/oidc/callback",
+          redirectURL: "http://localhost/oidc",
+        },
+      },
     },
-    disableLazy: false,
-  },
-  accountFeatures: {
-    downloadComments: true,
-    changeUsername: true,
-    deleteAccount: true,
   },
   slack: {
     channels: [],

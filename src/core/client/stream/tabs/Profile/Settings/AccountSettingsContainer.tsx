@@ -6,7 +6,6 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter, Typography } from "coral-ui/components";
 
 import { AccountSettingsContainer_organization } from "coral-stream/__generated__/AccountSettingsContainer_organization.graphql";
-import { AccountSettingsContainer_settings } from "coral-stream/__generated__/AccountSettingsContainer_settings.graphql";
 import { AccountSettingsContainer_viewer } from "coral-stream/__generated__/AccountSettingsContainer_viewer.graphql";
 
 import ChangeEmailContainer from "./ChangeEmail";
@@ -20,13 +19,11 @@ import styles from "./AccountSettingsContainer.css";
 
 interface Props {
   viewer: AccountSettingsContainer_viewer;
-  settings: AccountSettingsContainer_settings;
   organization: AccountSettingsContainer_organization;
 }
 
 const AccountSettingsContainer: FunctionComponent<Props> = ({
   viewer,
-  settings,
   organization,
 }) => (
   <HorizontalGutter size="oneAndAHalf">
@@ -34,15 +31,15 @@ const AccountSettingsContainer: FunctionComponent<Props> = ({
       <Typography variant="heading1">Manage your account</Typography>
     </Localized>
     <HorizontalGutter className={styles.root}>
-      <ChangeUsernameContainer settings={settings} viewer={viewer} />
-      <ChangeEmailContainer settings={settings} viewer={viewer} />
-      <ChangePasswordContainer settings={settings} />
+      <ChangeUsernameContainer organization={organization} viewer={viewer} />
+      <ChangeEmailContainer organization={organization} viewer={viewer} />
+      <ChangePasswordContainer organization={organization} />
       <IgnoreUserSettingsContainer viewer={viewer} />
       {organization.settings.accountFeatures.downloadComments && (
         <DownloadCommentsContainer viewer={viewer} />
       )}
       {organization.settings.accountFeatures.deleteAccount && (
-        <DeleteAccountContainer viewer={viewer} settings={settings} />
+        <DeleteAccountContainer viewer={viewer} organization={organization} />
       )}
     </HorizontalGutter>
   </HorizontalGutter>
@@ -61,20 +58,16 @@ const enhanced = withFragmentContainer<Props>({
   `,
   organization: graphql`
     fragment AccountSettingsContainer_organization on Organization {
+      ...ChangePasswordContainer_organization
+      ...DeleteAccountContainer_organization
+      ...ChangeEmailContainer_organization
+      ...ChangeUsernameContainer_organization
       settings {
         accountFeatures {
           downloadComments
           deleteAccount
         }
       }
-    }
-  `,
-  settings: graphql`
-    fragment AccountSettingsContainer_settings on Settings {
-      ...ChangePasswordContainer_settings
-      ...DeleteAccountContainer_settings
-      ...ChangeEmailContainer_settings
-      ...ChangeUsernameContainer_settings
     }
   `,
 })(AccountSettingsContainer);

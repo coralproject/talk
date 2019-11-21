@@ -66,17 +66,17 @@ export const render = (
 
 const StreamQuery: FunctionComponent<Props> = props => {
   const {
-    local: { storyID, storyURL, commentsTab },
+    local: { storyID, storyURL, commentsTab, siteID },
   } = props;
   return (
     <>
       <QueryRenderer<QueryTypes>
         query={graphql`
-          query StreamQuery($storyID: ID, $storyURL: String) {
+          query StreamQuery($storyID: ID, $storyURL: String, $siteID: String) {
             viewer {
               ...StreamContainer_viewer
             }
-            story: stream(id: $storyID, url: $storyURL) {
+            story(id: $storyID, url: $storyURL, siteID: $siteID) {
               ...StreamContainer_story
             }
             organization {
@@ -90,6 +90,7 @@ const StreamQuery: FunctionComponent<Props> = props => {
         variables={{
           storyID,
           storyURL,
+          siteID,
         }}
         render={data => {
           return render(data, commentsTab);
@@ -104,6 +105,7 @@ const enhanced = withLocalStateContainer(
     fragment StreamQueryLocal on Local {
       storyID
       storyURL
+      siteID
       commentsOrderBy
       commentsTab
     }

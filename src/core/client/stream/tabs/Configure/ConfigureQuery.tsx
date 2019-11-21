@@ -72,12 +72,12 @@ export const render = ({
 };
 
 const ConfigureQuery: FunctionComponent<Props> = ({
-  local: { storyID, storyURL },
+  local: { storyID, storyURL, siteID },
 }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query ConfigureQuery($storyID: ID, $storyURL: String) {
-        story(id: $storyID, url: $storyURL) {
+      query ConfigureQuery($storyID: ID, $storyURL: String, $siteID: String) {
+        story(id: $storyID, url: $storyURL, siteID: $siteID) {
           ...ConfigureContainer_story
         }
         viewer {
@@ -91,6 +91,7 @@ const ConfigureQuery: FunctionComponent<Props> = ({
     variables={{
       storyID,
       storyURL,
+      siteID,
     }}
     render={render}
   />
@@ -101,6 +102,7 @@ const enhanced = withLocalStateContainer(
     fragment ConfigureQueryLocal on Local {
       storyID
       storyURL
+      siteID
     }
   `
 )(ConfigureQuery);

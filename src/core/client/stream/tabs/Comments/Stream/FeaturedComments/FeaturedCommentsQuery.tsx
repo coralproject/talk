@@ -62,7 +62,7 @@ export const render = (data: ReadyState<QueryTypes["response"]>) => {
 
 const FeaturedCommentsQuery: FunctionComponent<Props> = props => {
   const {
-    local: { storyID, storyURL, commentsOrderBy },
+    local: { storyID, storyURL, commentsOrderBy, siteID },
   } = props;
   return (
     <QueryRenderer<QueryTypes>
@@ -70,12 +70,13 @@ const FeaturedCommentsQuery: FunctionComponent<Props> = props => {
         query FeaturedCommentsQuery(
           $storyID: ID
           $storyURL: String
+          $siteID: String
           $commentsOrderBy: COMMENT_SORT
         ) {
           viewer {
             ...FeaturedCommentsContainer_viewer
           }
-          story: stream(id: $storyID, url: $storyURL) {
+          story(id: $storyID, url: $storyURL, siteID: $siteID) {
             ...FeaturedCommentsContainer_story
               @arguments(orderBy: $commentsOrderBy)
           }
@@ -87,6 +88,7 @@ const FeaturedCommentsQuery: FunctionComponent<Props> = props => {
       variables={{
         storyID,
         storyURL,
+        siteID,
         commentsOrderBy,
       }}
       render={data => (props.preload ? null : render(data))}
@@ -98,6 +100,7 @@ const enhanced = withLocalStateContainer(
   graphql`
     fragment FeaturedCommentsQueryLocal on Local {
       storyID
+      siteID
       storyURL
       commentsOrderBy
     }

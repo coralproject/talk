@@ -77,14 +77,19 @@ export const render = ({
 };
 
 const ProfileQuery: FunctionComponent<Props> = ({
-  local: { storyID, storyURL },
+  local: { storyID, storyURL, siteID },
 }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query ProfileQuery($storyID: ID, $storyURL: String) {
-        story: stream(id: $storyID, url: $storyURL) {
+      query ProfileQuery($storyID: ID, $storyURL: String, $siteID: String) {
+        story(id: $storyID, url: $storyURL, siteID: $siteID) {
           ...ProfileContainer_story
         }
+        # site(id: $siteID) {
+        #   consolidatedSettings {
+
+        #   }
+        # }
         viewer {
           ...ProfileContainer_viewer
         }
@@ -99,6 +104,7 @@ const ProfileQuery: FunctionComponent<Props> = ({
     variables={{
       storyID,
       storyURL,
+      siteID,
     }}
     render={render}
   />
@@ -109,6 +115,7 @@ const enhanced = withLocalStateContainer(
     fragment ProfileQueryLocal on Local {
       storyID
       storyURL
+      siteID
     }
   `
 )(ProfileQuery);

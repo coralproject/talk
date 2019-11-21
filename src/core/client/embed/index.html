@@ -23,17 +23,18 @@
     <script>
       const CoralStreamEmbed = Coral.createStreamEmbed({
         id: "coralStreamEmbed",
+        siteID: "5fcab2f9-892d-4e41-8e5d-51c403766124",
         /**
-        *  You can listen to events using the example below.
-        *  The argument passed is the event emitter from
-        *  https://github.com/asyncly/EventEmitter2
-        *
-        *  events: function(events) {
-        *    events.onAny(function(eventName, data) {
-        *      console.log(eventName, data);
-        *    });
-        *  },
-        */
+         *  You can listen to events using the example below.
+         *  The argument passed is the event emitter from
+         *  https://github.com/asyncly/EventEmitter2
+         *
+         *  events: function(events) {
+         *    events.onAny(function(eventName, data) {
+         *      console.log(eventName, data);
+         *    });
+         *  },
+         */
       });
       window.CoralStreamEmbed = CoralStreamEmbed;
       CoralStreamEmbed.render();

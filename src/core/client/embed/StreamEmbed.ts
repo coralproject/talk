@@ -26,6 +26,7 @@ import PymControl, {
 export interface StreamEmbedConfig {
   storyID?: string;
   storyURL?: string;
+  siteID?: string;
   commentID?: string;
   autoRender?: boolean;
   title: string;
@@ -150,6 +151,7 @@ export class StreamEmbed {
 
     const query = stringifyQuery({
       storyID: this.config.storyID,
+      siteID: this.config.siteID,
       storyURL: this.config.storyURL,
       commentID: this.config.commentID,
     });

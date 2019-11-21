@@ -46,7 +46,7 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import { ChangeEmailContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
+// import { ChangeEmailContainer_organization as OrganizationData } from "coral-stream/__generated__/ChangeEmailContainer_organization.graphql";
 import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
 
 import UpdateEmailMutation from "./UpdateEmailMutation";
@@ -77,7 +77,7 @@ const fetcher = createFetch(
 
 interface Props {
   viewer: ViewerData;
-  settings: SettingsData;
+  organization: any;
 }
 
 interface FormProps {
@@ -87,7 +87,7 @@ interface FormProps {
 
 const changeEmailContainer: FunctionComponent<Props> = ({
   viewer,
-  settings,
+  organization,
 }) => {
   const emitShowEvent = useViewerEvent(ShowEditEmailDialogEvent);
   const updateEmail = useMutation(UpdateEmailMutation);
@@ -136,13 +136,13 @@ const changeEmailContainer: FunctionComponent<Props> = ({
     ) {
       return false;
     }
-    const enabled = getAuthenticationIntegrations(auth, "stream");
+    const enabled = getAuthenticationIntegrations(organization.auth, "stream");
 
     return (
       enabled.includes("local") ||
       !(enabled.length === 1 && enabled[0] === "sso")
     );
-  }, [viewer, settings]);
+  }, [viewer, organization]);
 
   const preventSubmit = (
     formState: Pick<
@@ -416,8 +416,8 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-  settings: graphql`
-    fragment ChangeEmailContainer_settings on Settings {
+  organization: graphql`
+    fragment ChangeEmailContainer_organization on Organization {
       auth {
         integrations {
           local {

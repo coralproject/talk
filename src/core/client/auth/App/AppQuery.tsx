@@ -15,6 +15,11 @@ export default class AppQuery extends Component {
             viewer {
               ...AppContainer_viewer
             }
+            organization {
+              auth {
+                ...AppContainer_auth
+              }
+            }
             settings {
               auth {
                 ...AppContainer_auth
@@ -30,7 +35,12 @@ export default class AppQuery extends Component {
           if (!props) {
             return null;
           }
-          return <AppContainer auth={props.auth} viewer={props.viewer} />;
+          return (
+            <AppContainer
+              auth={props.organization.auth}
+              viewer={props.viewer}
+            />
+          );
         }}
       />
     );

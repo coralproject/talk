@@ -13,7 +13,8 @@ import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountD
 import { Flex, Icon, Typography } from "coral-ui/components";
 import { Button } from "coral-ui/components/Button";
 
-import { DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
+// import { DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
+import { DeleteAccountContainer_organization } from "coral-stream/__generated__/DeleteAccountContainer_organization.graphql";
 import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
 
 import DeleteAccountModal from "./DeleteAccountModal";
@@ -22,12 +23,12 @@ import styles from "./DeleteAccountContainer.css";
 
 interface Props {
   viewer: DeleteAccountContainer_viewer;
-  settings: DeleteAccountContainer_settings;
+  organization: DeleteAccountContainer_organization;
 }
 
 const DeleteAccountContainer: FunctionComponent<Props> = ({
   viewer,
-  settings,
+  organization,
 }) => {
   const cancelAccountDeletion = useMutation(CancelAccountDeletionMutation);
 
@@ -64,7 +65,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
         onClose={hidePopover}
         userID={viewer.id}
         scheduledDeletionDate={viewer.scheduledDeletionDate}
-        organizationEmail={settings.organization.contactEmail}
+        organizationEmail={organization.contactEmail}
       />
       <Flex
         justifyContent="space-between"
@@ -141,11 +142,9 @@ const enhanced = withFragmentContainer<Props>({
       scheduledDeletionDate
     }
   `,
-  settings: graphql`
-    fragment DeleteAccountContainer_settings on Settings {
-      organization {
-        contactEmail
-      }
+  organization: graphql`
+    fragment DeleteAccountContainer_organization on Organization {
+      contactEmail
     }
   `,
 })(DeleteAccountContainer);

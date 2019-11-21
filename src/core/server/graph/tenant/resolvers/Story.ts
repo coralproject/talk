@@ -30,10 +30,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   // Merge tenant settings into the story settings so we can easily inherit the
   // options if they exist.
   settings: (s, input, ctx) => defaultsDeep({}, s.settings, ctx.tenant),
-  consolidatedSettings: (s, input, ctx) => {
-    // eslint-disable-next-line no-console
-    console.log(s);
-    return ctx.loaders.Stories.settings.load(s.id);
-  },
+  consolidatedSettings: (s, input, ctx) =>
+    ctx.loaders.Stories.settings.load(s.id),
   moderationQueues: storyModerationInputResolver,
 };

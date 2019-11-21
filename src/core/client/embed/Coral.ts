@@ -8,6 +8,7 @@ import { default as create, StreamEmbed } from "./StreamEmbed";
 
 export interface Config {
   storyID?: string;
+  siteID?: string;
   storyURL?: string;
   commentID?: string;
   rootURL?: string;
@@ -30,6 +31,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
   return create({
     title: "Coral Embed Stream",
     storyID: config.storyID || query.storyID,
+    siteID: config.siteID || query.siteID,
     storyURL: config.storyURL || resolveStoryURL(),
     commentID: config.commentID || query.commentID,
     id: config.id || "coral-embed-stream",

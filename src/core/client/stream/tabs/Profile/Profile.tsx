@@ -29,8 +29,7 @@ export interface ProfileProps {
     PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
     PropTypesOf<typeof DeletionRequestCalloutContainer>["viewer"] &
     PropTypesOf<typeof NotificationSettingsContainer>["viewer"];
-  settings: PropTypesOf<typeof AccountSettingsContainer>["settings"] &
-    PropTypesOf<typeof CommentHistoryContainer>["settings"];
+  settings: PropTypesOf<typeof CommentHistoryContainer>["settings"];
   organization: PropTypesOf<typeof AccountSettingsContainer>["organization"] &
     PropTypesOf<typeof UserBoxContainer>["organization"];
 }
@@ -103,7 +102,6 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           <AccountSettingsContainer
             viewer={props.viewer}
             organization={props.organization}
-            settings={props.settings}
           />
           <DeletionRequestCalloutContainer viewer={props.viewer} />
         </TabPane>

@@ -63,6 +63,7 @@ type Local {
   activeTab: TAB!
   authPopup: AuthPopup!
   storyID: String
+  siteID: String
   storyURL: String
   commentID: String
   commentsOrderBy: COMMENT_SORT!

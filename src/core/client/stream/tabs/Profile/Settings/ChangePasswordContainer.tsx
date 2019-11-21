@@ -11,18 +11,18 @@ import SetAuthPopupStateMutation from "coral-stream/common/UserBox/SetAuthPopupS
 import ShowAuthPopupMutation from "coral-stream/mutations/ShowAuthPopupMutation";
 import { Popup } from "coral-ui/components";
 
-import { ChangePasswordContainer_settings } from "coral-stream/__generated__/ChangePasswordContainer_settings.graphql";
+import { ChangePasswordContainer_organization as OrganizationData } from "coral-stream/__generated__/ChangePasswordContainer_organization.graphql";
 import { ChangePasswordContainerLocal } from "coral-stream/__generated__/ChangePasswordContainerLocal.graphql";
 
 import ChangePassword from "./ChangePassword";
 
 interface Props {
   local: ChangePasswordContainerLocal;
-  settings: ChangePasswordContainer_settings;
+  organization: OrganizationData;
 }
 
 const ChangePasswordContainer: FunctionComponent<Props> = ({
-  settings,
+  organization,
   local: {
     authPopup: { open, focus, view },
   },
@@ -43,8 +43,8 @@ const ChangePasswordContainer: FunctionComponent<Props> = ({
   }, [setAuthPopupState]);
 
   if (
-    !auth.integrations.local.enabled ||
-    !auth.integrations.local.targetFilter.stream
+    !organization.auth.integrations.local.enabled ||
+    !organization.auth.integrations.local.targetFilter.stream
   ) {
     return null;
   }
@@ -77,8 +77,8 @@ const enhanced = withLocalStateContainer(
   `
 )(
   withFragmentContainer<Props>({
-    settings: graphql`
-      fragment ChangePasswordContainer_settings on Settings {
+    organization: graphql`
+      fragment ChangePasswordContainer_organization on Organization {
         auth {
           integrations {
             local {

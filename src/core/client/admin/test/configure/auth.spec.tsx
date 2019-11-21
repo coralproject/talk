@@ -15,7 +15,7 @@ import {
 } from "coral-framework/testHelpers";
 
 import create from "../create";
-import { settingsWithEmptyAuth, users } from "../fixtures";
+import { settingsWithEmptyAuth, users, orgWithEmptyAuth } from "../fixtures";
 
 beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/configure/auth");
@@ -33,6 +33,7 @@ async function createTestRenderer(
         Query: {
           settings: () => settingsWithEmptyAuth,
           viewer: () => viewer,
+          organization: () => orgWithEmptyAuth,
         },
       }),
       params.resolvers
@@ -128,7 +129,7 @@ it("prevents admin lock out", async () => {
 });
 
 it("prevents stream lock out", async () => {
-  let settingsRecord = cloneDeep(settingsWithEmptyAuth);
+  let settingsRecord = cloneDeep(orgWithEmptyAuth);
   const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {

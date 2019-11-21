@@ -224,6 +224,7 @@ const enhanced = withPaginationContainer<
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         ) {
         id
+        siteID
         isClosed
         settings {
           live {
@@ -290,6 +291,7 @@ const enhanced = withPaginationContainer<
       return {
         count,
         cursor,
+        siteID: props.story.siteID,
         orderBy: fragmentVariables.orderBy,
         // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
@@ -304,8 +306,9 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
         $storyID: ID
+        $siteID: String
       ) {
-        story(id: $storyID) {
+        story(id: $storyID, siteID: $siteID) {
           ...AllCommentsTabContainer_story
             @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }

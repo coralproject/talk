@@ -26,10 +26,13 @@ class LoginRoute extends Component<Props> {
 
     return (
       <AccountCompletionContainer
-        auth={this.props.data.auth}
+        auth={this.props.data.organization.auth}
         viewer={this.props.data.viewer}
       >
-        <Login auth={this.props.data.auth} view={this.props.local.authView!} />
+        <Login
+          auth={this.props.data.organization.auth}
+          view={this.props.local.authView!}
+        />
       </AccountCompletionContainer>
     );
   }
@@ -41,7 +44,7 @@ const enhanced = withRouteConfig<LoginRouteQueryResponse>({
       viewer {
         ...AccountCompletionContainer_viewer
       }
-      settings {
+      organization {
         auth {
           ...AccountCompletionContainer_auth
           ...SignInContainer_auth

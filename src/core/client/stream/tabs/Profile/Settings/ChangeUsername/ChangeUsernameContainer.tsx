@@ -43,7 +43,7 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import { ChangeUsernameContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
+import { ChangeUsernameContainer_organization as OrganizationData } from "coral-stream/__generated__/ChangeUsernameContainer_organization.graphql";
 import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 
 import UpdateUsernameMutation from "./UpdateUsernameMutation";
@@ -56,7 +56,7 @@ const FREQUENCYSCALED = reduceSeconds(ALLOWED_USERNAME_CHANGE_FREQUENCY, [
 
 interface Props {
   viewer: ViewerData;
-  settings: SettingsData;
+  organization: OrganizationData;
 }
 
 interface FormProps {
@@ -66,7 +66,7 @@ interface FormProps {
 
 const ChangeUsernameContainer: FunctionComponent<Props> = ({
   viewer,
-  settings,
+  organization,
 }) => {
   const emitShowEditUsernameDialog = useViewerEvent(
     ShowEditUsernameDialogEvent
@@ -86,7 +86,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   ]);
 
   const canChangeLocalAuth = useMemo(() => {
-    if (!settings.accountFeatures.changeUsername) {
+    if (!organization.settings.accountFeatures.changeUsername) {
       return false;
     }
     if (
@@ -94,13 +94,13 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
     ) {
       return false;
     }
-    const enabled = getAuthenticationIntegrations(auth, "stream");
+    const enabled = getAuthenticationIntegrations(organization.auth, "stream");
 
     return (
       enabled.includes("local") ||
       !(enabled.length === 1 && enabled[0] === "sso")
     );
-  }, [viewer, settings]);
+  }, [viewer, organization]);
 
   const canChangeUsername = useMemo(() => {
     const { username } = viewer.status;
@@ -411,10 +411,12 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-  settings: graphql`
-    fragment ChangeUsernameContainer_settings on Settings {
-      accountFeatures {
-        changeUsername
+  organization: graphql`
+    fragment ChangeUsernameContainer_organization on Organization {
+      settings {
+        accountFeatures {
+          changeUsername
+        }
       }
       auth {
         integrations {
