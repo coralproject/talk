@@ -70,6 +70,15 @@ export default class Manager {
       const id = parseInt(matches[1], 10);
       const name = matches[2];
 
+      // Skip this migration if it was disabled.
+      if (m.default.disabled) {
+        logger.warn(
+          { migrationID: id, migrationName: name },
+          "skipping disabled migration"
+        );
+        continue;
+      }
+
       // Create the migration instance.
       const migration = new m.default({ id, name, i18n });
 
