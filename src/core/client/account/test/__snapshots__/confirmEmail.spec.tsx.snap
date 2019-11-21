@@ -10,7 +10,7 @@ exports[`renders form 1`] = `
   <div
     className="MainLayout-centered"
   >
-    <div
+    <main
       className="ConfirmRoute-container"
     >
       <div
@@ -58,7 +58,7 @@ exports[`renders form 1`] = `
           </div>
         </form>
       </div>
-    </div>
+    </main>
   </div>
 </div>
 `;
@@ -73,7 +73,7 @@ exports[`renders missing confirm token 1`] = `
   <div
     className="MainLayout-centered"
   >
-    <div
+    <main
       className="ConfirmRoute-container"
     >
       <div
@@ -100,7 +100,7 @@ exports[`renders missing confirm token 1`] = `
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 </div>
 `;

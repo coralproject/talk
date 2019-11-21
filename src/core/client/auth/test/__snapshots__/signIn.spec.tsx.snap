@@ -275,7 +275,7 @@ exports[`accepts valid email 1`] = `
 `;
 
 exports[`auth configuration renders all auth enabled 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signIn-main"
 >
@@ -492,11 +492,11 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </button>
     </div>
   </div>
-</div>
+</main>
 `;
 
 exports[`auth configuration renders only some social login enabled 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signIn-main"
 >
@@ -564,7 +564,7 @@ exports[`auth configuration renders only some social login enabled 1`] = `
       </button>
     </div>
   </div>
-</div>
+</main>
 `;
 
 exports[`checks for invalid email 1`] = `
@@ -726,7 +726,7 @@ exports[`renders sign in view 1`] = `
       <div
         className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
       >
-        <div>
+        <header>
           <h1
             className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
           >
@@ -737,12 +737,12 @@ exports[`renders sign in view 1`] = `
           >
             to join the conversation
           </h1>
-        </div>
+        </header>
       </div>
       <div
         className="Box-root Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
       >
-        <div>
+        <nav>
           <div
             className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
           >
@@ -757,9 +757,9 @@ exports[`renders sign in view 1`] = `
               Sign Up
             </a>
           </div>
-        </div>
+        </nav>
       </div>
-      <div
+      <main
         className="Main-root"
         data-testid="signIn-main"
       >
@@ -891,7 +891,7 @@ exports[`renders sign in view 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           />
         </div>
-      </div>
+      </main>
     </div>
   </div>
 </div>
@@ -904,7 +904,7 @@ exports[`renders sign in view with error 1`] = `
   <div
     className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
   >
-    <div>
+    <header>
       <h1
         className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
       >
@@ -915,12 +915,12 @@ exports[`renders sign in view with error 1`] = `
       >
         to join the conversation
       </h1>
-    </div>
+    </header>
   </div>
   <div
     className="Box-root Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
   >
-    <div>
+    <nav>
       <div
         className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
       >
@@ -935,9 +935,9 @@ exports[`renders sign in view with error 1`] = `
           Sign Up
         </a>
       </div>
-    </div>
+    </nav>
   </div>
-  <div
+  <main
     className="Main-root"
     data-testid="signIn-main"
   >
@@ -1076,7 +1076,7 @@ exports[`renders sign in view with error 1`] = `
         className="Box-root HorizontalGutter-root HorizontalGutter-full"
       />
     </div>
-  </div>
+  </main>
 </div>
 `;
 

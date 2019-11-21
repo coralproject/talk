@@ -3,6 +3,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { parseQuery } from "coral-common/utils";
+import { areWeInIframe } from "coral-framework/utils";
+
+function extractQuery(href: string) {
+  const query = href.split("?")[1];
+  if (!query) {
+    return null;
+  }
+  // Remove hash and return.
+  return query.split("#")[0];
+}
 
 export default async function potentiallyInjectAxe(
   href = window.location.href
@@ -11,7 +21,7 @@ export default async function potentiallyInjectAxe(
     // Only in development and skip mobile as it doesn't work there.
     return;
   }
-  const query = href.split("?")[1];
+  const query = extractQuery(href);
   if (!query || !("axe" in parseQuery(query))) {
     // Because axe slows down React rendering considerably it is
     // only included when "axe" is set in the url query.
@@ -25,6 +35,11 @@ export default async function potentiallyInjectAxe(
     rules: [
       {
         id: "page-has-heading-one",
+        enabled: !areWeInIframe(),
+      },
+      {
+        id: "html-has-lang",
+        // This is injected by the server and irrelevant during development.
         enabled: false,
       },
       {

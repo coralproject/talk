@@ -84,15 +84,15 @@ exports[`renders createUsername view 1`] = `
       <div
         className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
       >
-        <div>
+        <header>
           <h1
             className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
           >
             Create Username
           </h1>
-        </div>
+        </header>
       </div>
-      <div
+      <main
         className="Main-root"
         data-testid="createUsername-main"
       >
@@ -155,7 +155,7 @@ exports[`renders createUsername view 1`] = `
             </button>
           </div>
         </form>
-      </div>
+      </main>
     </div>
   </div>
 </div>
