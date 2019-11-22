@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { parseBool } from "coral-framework/lib/form";
@@ -29,8 +29,6 @@ const SlackChannel: FunctionComponent<Props> = ({
   disabled,
   index,
 }) => {
-  const [allComments, setAllComments] = useState(false);
-
   return (
     <>
       <FormField className={styles.header}>
@@ -100,77 +98,83 @@ const SlackChannel: FunctionComponent<Props> = ({
           </Localized>
           <Field
             name={`${channel}.triggers.allComments`}
-            type="checkbox"
-            parse={parseBool}
+            subscription={{ value: true }}
           >
-            {({ input }) => {
-              setAllComments(input.value);
-              return (
-                <CheckBox
-                  id={`configure-slack-channel-triggers-allComments-${input.name}`}
-                  disabled={disabled}
-                  className={styles.trigger}
-                  {...input}
+            {({ input: { value } }) => (
+              <>
+                <Field
+                  name={`${channel}.triggers.allComments`}
+                  type="checkbox"
+                  parse={parseBool}
                 >
-                  <Localized id="configure-slack-channel-triggers-allComments">
-                    All Comments
-                  </Localized>
-                </CheckBox>
-              );
-            }}
-          </Field>
-          <Field
-            name={`${channel}.triggers.reportedComments`}
-            type="checkbox"
-            parse={parseBool}
-          >
-            {({ input }) => (
-              <CheckBox
-                id={`configure-slack-channel-triggers-reportedComments-${input.name}`}
-                disabled={disabled || allComments}
-                className={styles.trigger}
-                {...input}
-              >
-                <Localized id="configure-slack-channel-triggers-reportedComments">
-                  Reported Comments
-                </Localized>
-              </CheckBox>
-            )}
-          </Field>
-          <Field
-            name={`${channel}.triggers.pendingComments`}
-            type="checkbox"
-            parse={parseBool}
-          >
-            {({ input }) => (
-              <CheckBox
-                id={`configure-slack-channel-triggers-pendingComments-${input.name}`}
-                disabled={disabled || allComments}
-                className={styles.trigger}
-                {...input}
-              >
-                <Localized id="configure-slack-channel-triggers-pendingComments">
-                  Pending Comments
-                </Localized>
-              </CheckBox>
-            )}
-          </Field>
-          <Field
-            name={`${channel}.triggers.featuredComments`}
-            type="checkbox"
-            parse={parseBool}
-          >
-            {({ input }) => (
-              <CheckBox
-                id={`configure-slack-channel-triggers-featuredComments-${input.name}`}
-                disabled={disabled || allComments}
-                className={styles.trigger}
-                {...input}
-              >
-                <Localized id="configure-slack-channel-triggers-featuredComments">
-                  Featured Comments
-                </Localized>
-              </CheckBox>
+                  {({ input }) => (
+                    <CheckBox
+                      id={`configure-slack-channel-triggers-allComments-${input.name}`}
+                      disabled={disabled}
+                      className={styles.trigger}
+                      {...input}
+                    >
+                      <Localized id="configure-slack-channel-triggers-allComments">
+                        All Comments
+                      </Localized>
+                    </CheckBox>
+                  )}
+                </Field>
+                <Field
+                  name={`${channel}.triggers.reportedComments`}
+                  type="checkbox"
+                  parse={parseBool}
+                >
+                  {({ input }) => (
+                    <CheckBox
+                      id={`configure-slack-channel-triggers-reportedComments-${input.name}`}
+                      disabled={disabled || value}
+                      className={styles.trigger}
+                      {...input}
+                    >
+                      <Localized id="configure-slack-channel-triggers-reportedComments">
+                        Reported Comments
+                      </Localized>
+                    </CheckBox>
+                  )}
+                </Field>
+                <Field
+                  name={`${channel}.triggers.pendingComments`}
+                  type="checkbox"
+                  parse={parseBool}
+                >
+                  {({ input }) => (
+                    <CheckBox
+                      id={`configure-slack-channel-triggers-pendingComments-${input.name}`}
+                      disabled={disabled || value}
+                      className={styles.trigger}
+                      {...input}
+                    >
+                      <Localized id="configure-slack-channel-triggers-pendingComments">
+                        Pending Comments
+                      </Localized>
+                    </CheckBox>
+                  )}
+                </Field>
+                <Field
+                  name={`${channel}.triggers.featuredComments`}
+                  type="checkbox"
+                  parse={parseBool}
+                >
+                  {({ input }) => (
+                    <CheckBox
+                      id={`configure-slack-channel-triggers-featuredComments-${input.name}`}
+                      disabled={disabled || value}
+                      className={styles.trigger}
+                      {...input}
+                    >
+                      <Localized id="configure-slack-channel-triggers-featuredComments">
+                        Featured Comments
+                      </Localized>
+                    </CheckBox>
+                  )}
+                </Field>
+              </>
             )}
           </Field>
         </FormField>
