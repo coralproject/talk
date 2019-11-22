@@ -1,3 +1,4 @@
+import { Redis } from "ioredis";
 import { isEmpty } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
@@ -10,7 +11,6 @@ import { DeepPartial, Omit, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
 import logger from "coral-server/logger";
-import { Secret, Settings } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
@@ -22,6 +22,7 @@ import {
   GQLWEBHOOK_EVENT_NAME,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { Secret, Settings } from "../settings";
 import {
   generateSecret,
   getDefaultReactionConfiguration,
@@ -388,7 +389,7 @@ export async function createTenantSSOKey(mongo: Db, id: string, now: Date) {
   return result.value || null;
 }
 
-export async function rotateTenantSSOKey(
+export async function deactivateTenantSSOKey(
   mongo: Db,
   id: string,
   kid: string,
@@ -452,6 +453,24 @@ export async function disableTenantFeatureFlag(
       // Pull the flag from the set of enabled flags.
       $pull: {
         featureFlags: flag,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  return result.value || null;
+}
+export async function deleteTenantSSOKey(mongo: Db, id: string, kid: string) {
+  // Update the tenant.
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $pull: {
+        "auth.integrations.sso.keys": { kid },
       },
     },
     {
@@ -766,4 +785,53 @@ export async function deleteTenantWebhookEndpoint(
   }
 
   return result.value;
+}
+
+function lastUsedAtTenantSSOKey(id: string): string {
+  return `${id}:lastUsedSSOKey`;
+}
+
+/**
+ * updateLastUsedAtTenantSSOKey will update the time stamp that the SSO key was
+ * last used at.
+ *
+ * @param redis the Redis connection to use to update the timestamp on
+ * @param id the ID of the Tenant
+ * @param kid the kid of the token that was used
+ * @param when the date that the token was last used at
+ */
+export async function updateLastUsedAtTenantSSOKey(
+  redis: Redis,
+  id: string,
+  kid: string,
+  when: Date
+) {
+  await redis.hset(lastUsedAtTenantSSOKey(id), kid, when.toISOString());
+}
+
+/**
+ * retrieveLastUsedAtTenantSSOKeys will get the dates that the requested sso
+ * keys were last used on.
+ *
+ * @param redis the Redis connection to use to update the timestamp on
+ * @param id the ID of the Tenant
+ * @param kids the kids of the tokens that we want to know when they were last used
+ */
+export async function retrieveLastUsedAtTenantSSOKeys(
+  redis: Redis,
+  id: string,
+  kids: string[]
+) {
+  const results: Array<string | null> = await redis.hmget(
+    lastUsedAtTenantSSOKey(id),
+    ...kids
+  );
+
+  return results.map(lastUsedAt => {
+    if (!lastUsedAt) {
+      return null;
+    }
+
+    return new Date(lastUsedAt);
+  });
 }

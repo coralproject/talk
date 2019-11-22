@@ -1,12 +1,17 @@
+import { Redis } from "ioredis";
 import Joi from "joi";
-import { isNil } from "lodash";
+import { isNil, throttle } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import { validate } from "coral-server/app/request/body";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
+import logger from "coral-server/logger";
 import { Secret, SSOAuthIntegration } from "coral-server/models/settings";
-import { Tenant } from "coral-server/models/tenant";
+import {
+  Tenant,
+  updateLastUsedAtTenantSSOKey,
+} from "coral-server/models/tenant";
 import {
   retrieveUserWithProfile,
   SSOProfile,
@@ -163,6 +168,23 @@ export async function findOrCreateSSOUser(
   return user;
 }
 
+const updateLastUsedAtKID = throttle(
+  async (redis: Redis, tenantID: string, kid: string, now: Date) => {
+    try {
+      await updateLastUsedAtTenantSSOKey(redis, tenantID, kid, now);
+      logger.trace({ tenantID, kid }, "updated last used tenant sso key");
+    } catch (err) {
+      logger.error(
+        { err, tenantID, kid },
+        "could not update the last used tenant sso key"
+      );
+    }
+  },
+  // Only let this update the last used time stamp every minute.
+  // 60 * 1000
+  1 * 1000
+);
+
 export interface SSOVerifierOptions {
   mongo: Db;
   redis: AugmentedRedis;
@@ -285,9 +307,13 @@ export class SSOVerifier implements Verifier<SSOToken> {
         continue;
       }
 
+      // The verification did not throw an error, which means the verification
+      // succeeded! Mark the key as used last now and break out. We should do
+      // this in the nextTick because it's not important to have it recorded at
+      // the same time.
+      updateLastUsedAtKID(this.redis, tenant.id, key.kid, now);
+
       // TODO: [CORL-754] (wyattjoh) reintroduce when we amend the front-end to display the kid
-      // // The verification did not throw an error, which means the verification
-      // // succeeded! Break out now.
       // if (!kid) {
       //   logger.warn(
       //     { tenantID: tenant.id, kid: config.kid },
