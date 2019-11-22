@@ -5885,6 +5885,92 @@ type RequestUserCommentsDownloadPayload {
 }
 
 #########################
+## rotateSSOKey
+#########################
+
+input RotateSSOKeyInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  inactiveIn is the number of seconds that the current active SSOKey should be
+  kept active (allow signed tokens signed with this secret) before rejecting
+  them.
+  """
+  inactiveIn: Int!
+}
+
+type RotateSSOKeyPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the SSO key was regenerated on.
+  """
+  settings: Settings
+}
+
+#########################
+## deactivateSSOKey
+#########################
+
+input DeactivateSSOKeyInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  kid is the ID of the SSOKey being deactivated.
+  """
+  kid: ID!
+}
+
+type DeactivateSSOKeyPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the SSO key was regenerated on.
+  """
+  settings: Settings
+}
+
+#########################
+## deleteSSOKey
+#########################
+
+input DeleteSSOKeyInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  kid is the ID of the SSOKey being deleted.
+  """
+  kid: ID!
+}
+
+type DeleteSSOKeyPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the SSO key was regenerated on.
+  """
+  settings: Settings
+}
+
+#########################
 # enableFeatureFlag
 #########################
 
