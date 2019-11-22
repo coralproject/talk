@@ -37,7 +37,7 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
-    hour: "2-digit",
+    hour: "numeric",
     minute: "2-digit",
   });
 
