@@ -41,7 +41,7 @@ exports[`renders app with comment stream 1`] = `
                       className="Popover-root"
                     >
                       <button
-                        aria-controls="username-popover"
+                        aria-controls="username-popover-comment-2"
                         className="BaseButton-root coral coral-username coral-comment-username"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -59,13 +59,13 @@ exports[`renders app with comment stream 1`] = `
                       </button>
                       <div
                         aria-hidden={true}
-                        aria-labelledby="username-popover-ariainfo"
-                        id="username-popover"
+                        aria-labelledby="username-popover-comment-2-ariainfo"
+                        id="username-popover-comment-2"
                         role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
-                          id="username-popover-ariainfo"
+                          id="username-popover-comment-2-ariainfo"
                         >
                           A popover with more user information
                         </div>
@@ -252,7 +252,7 @@ exports[`renders app with comment stream 1`] = `
                       className="Popover-root"
                     >
                       <button
-                        aria-controls="username-popover"
+                        aria-controls="username-popover-comment-3"
                         className="BaseButton-root coral coral-username coral-comment-username"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -270,13 +270,13 @@ exports[`renders app with comment stream 1`] = `
                       </button>
                       <div
                         aria-hidden={true}
-                        aria-labelledby="username-popover-ariainfo"
-                        id="username-popover"
+                        aria-labelledby="username-popover-comment-3-ariainfo"
+                        id="username-popover-comment-3"
                         role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
-                          id="username-popover-ariainfo"
+                          id="username-popover-comment-3-ariainfo"
                         >
                           A popover with more user information
                         </div>

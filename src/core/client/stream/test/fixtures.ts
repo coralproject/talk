@@ -77,6 +77,7 @@ export const settings = createFixture<GQLSettings>({
         allowRegistration: true,
         targetFilter: {
           stream: true,
+          admin: true,
         },
       },
       local: {

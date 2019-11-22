@@ -49,10 +49,7 @@ import {
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
-import {
-  updateUserLastCommentID,
-  updateUserLastWroteCommentTimestamp,
-} from "../users";
+import { updateUserLastCommentID } from "../users";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
 import { PhaseResult, processForModeration } from "./pipeline";
@@ -169,10 +166,6 @@ export async function create(
     // Encode the action counts.
     actionCounts = encodeActionCounts(...deDuplicatedActions);
   }
-
-  // Create the comment action in our rate limiter. This will throw an error if
-  // there is a rate limit error.
-  await updateUserLastWroteCommentTimestamp(redis, tenant, author, now);
 
   // Create the comment!
   const comment = await createComment(

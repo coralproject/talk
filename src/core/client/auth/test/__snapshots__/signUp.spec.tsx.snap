@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`accepts correct password 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -180,11 +180,11 @@ exports[`accepts correct password 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;
 
 exports[`accepts valid email 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -363,11 +363,11 @@ exports[`accepts valid email 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;
 
 exports[`accepts valid username 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -546,11 +546,11 @@ exports[`accepts valid username 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;
 
 exports[`auth configuration renders all auth enabled 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -788,11 +788,11 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </button>
     </div>
   </div>
-</div>
+</main>
 `;
 
 exports[`auth configuration renders only some social login enabled 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -860,11 +860,11 @@ exports[`auth configuration renders only some social login enabled 1`] = `
       </button>
     </div>
   </div>
-</div>
+</main>
 `;
 
 exports[`checks for invalid characters in username 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -1056,11 +1056,11 @@ exports[`checks for invalid characters in username 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;
 
 exports[`checks for invalid email 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -1252,11 +1252,11 @@ exports[`checks for invalid email 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;
 
 exports[`checks for too long username 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -1448,11 +1448,11 @@ exports[`checks for too long username 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;
 
 exports[`checks for too short password 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -1644,11 +1644,11 @@ exports[`checks for too short password 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;
 
 exports[`checks for too short username 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -1840,7 +1840,7 @@ exports[`checks for too short username 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;
 
 exports[`renders sign up form 1`] = `
@@ -1852,7 +1852,7 @@ exports[`renders sign up form 1`] = `
       <div
         className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
       >
-        <div>
+        <header>
           <h1
             className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
           >
@@ -1863,12 +1863,12 @@ exports[`renders sign up form 1`] = `
           >
             to join the conversation
           </h1>
-        </div>
+        </header>
       </div>
       <div
         className="Box-root Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
       >
-        <div>
+        <nav>
           <div
             className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
           >
@@ -1883,9 +1883,9 @@ exports[`renders sign up form 1`] = `
               Sign In
             </a>
           </div>
-        </div>
+        </nav>
       </div>
-      <div
+      <main
         className="Main-root"
         data-testid="signUp-main"
       >
@@ -2038,14 +2038,14 @@ exports[`renders sign up form 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           />
         </div>
-      </div>
+      </main>
     </div>
   </div>
 </div>
 `;
 
 exports[`shows error when submitting empty form 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -2237,11 +2237,11 @@ exports[`shows error when submitting empty form 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;
 
 exports[`shows server error 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -2401,11 +2401,11 @@ exports[`shows server error 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;
 
 exports[`submits form successfully 1`] = `
-<div
+<main
   className="Main-root"
   data-testid="signUp-main"
 >
@@ -2558,5 +2558,5 @@ exports[`submits form successfully 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
-</div>
+</main>
 `;

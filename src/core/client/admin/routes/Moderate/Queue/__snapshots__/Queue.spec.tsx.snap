@@ -8,6 +8,7 @@ exports[`renders correctly with load more 1`] = `
   <QueueWrapper
     card={[Function]}
     comments={Array []}
+    selected={0}
     singleView={false}
   />
   <ForwardRef(forwardRef)
@@ -34,6 +35,7 @@ exports[`renders correctly without load more 1`] = `
   <QueueWrapper
     card={[Function]}
     comments={Array []}
+    selected={0}
     singleView={false}
   />
   <UserHistoryDrawer

@@ -1,5 +1,7 @@
 export default {
-  admin: "/admin",
+  admin: {
+    moderateReported: "/admin/moderate/reported",
+  },
   embed: {
     stream: "/embed/stream",
     auth: "/embed/auth",

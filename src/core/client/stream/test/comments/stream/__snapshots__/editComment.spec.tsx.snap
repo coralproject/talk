@@ -31,7 +31,7 @@ exports[`cancel edit 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-comment-with-replies"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -49,13 +49,13 @@ exports[`cancel edit 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
+                    aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                    id="username-popover-comment-with-replies"
                     role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-comment-with-replies-ariainfo"
                     >
                       A popover with more user information
                     </div>
@@ -845,7 +845,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-comment-with-replies"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -863,13 +863,13 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
+                    aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                    id="username-popover-comment-with-replies"
                     role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-comment-with-replies-ariainfo"
                     >
                       A popover with more user information
                     </div>
@@ -1089,7 +1089,7 @@ exports[`edit a comment: server response 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-comment-with-replies"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1107,13 +1107,13 @@ exports[`edit a comment: server response 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
+                    aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                    id="username-popover-comment-with-replies"
                     role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-comment-with-replies-ariainfo"
                     >
                       A popover with more user information
                     </div>
@@ -1342,7 +1342,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-comment-with-replies"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1360,13 +1360,13 @@ exports[`shows expiry message: edit form closed 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
+                    aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                    id="username-popover-comment-with-replies"
                     role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-comment-with-replies-ariainfo"
                     >
                       A popover with more user information
                     </div>

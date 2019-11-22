@@ -72,7 +72,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
         {comment.author && (
           <UsernameWithPopoverContainer
             className={CLASSES.featuredComment.authorBar.username}
-            user={comment.author}
+            comment={comment}
             viewer={viewer}
           />
         )}
@@ -164,7 +164,6 @@ const enhanced = withSetCommentIDMutation(
       fragment FeaturedCommentContainer_comment on Comment {
         id
         author {
-          ...UsernameWithPopoverContainer_user
           id
           username
         }
@@ -177,6 +176,7 @@ const enhanced = withSetCommentIDMutation(
         createdAt
         lastViewerAction
         replyCount
+        ...UsernameWithPopoverContainer_comment
         ...ReactionButtonContainer_comment
         ...UserTagsContainer_comment
       }
