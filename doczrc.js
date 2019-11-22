@@ -1,13 +1,11 @@
 // Apply all the configuration provided in the .env file.
 require("dotenv").config();
 
-const path = require("path");
 const fs = require("fs");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const extensions = [".ts", ".tsx", ".js"];
 // TODO: There is some weird issue with including paths.ts here
 const postCSSConfigPath = "./src/core/build/postcss.config";
-const isProduction = process.NODE_ENV === "production";
 const appDirectory = fs.realpathSync(process.cwd());
 
 const styleLoader = {
@@ -18,7 +16,7 @@ const styleLoader = {
   },
 };
 
-export default {
+module.exports = {
   title: "Coral 5.0",
   source: "./src",
   typescript: true,
@@ -60,7 +58,7 @@ export default {
               "@babel/typescript",
               [
                 "@babel/env",
-                { targets: { node: "10.0.0" }, modules: "commonjs" },
+                { targets: { node: "12.0.0" }, modules: "commonjs" },
               ],
             ],
             // This is a feature of `babel-loader` for webpack (not Babel itself).
