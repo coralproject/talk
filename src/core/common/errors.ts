@@ -286,6 +286,11 @@ export enum ERROR_CODES {
   RATE_LIMIT_EXCEEDED = "RATE_LIMIT_EXCEEDED",
 
   /**
+   * SCRAPE_FAILED is returned when a scrape operation has failed.
+   */
+  SCRAPE_FAILED = "SCRAPE_FAILED",
+
+  /**
    * JWT_REVOKED is returned when the token referenced has been revoked.
    */
   JWT_REVOKED = "JWT_REVOKED",

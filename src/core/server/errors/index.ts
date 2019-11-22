@@ -757,3 +757,20 @@ export class RawQueryNotAuthorized extends CoralError {
     });
   }
 }
+
+export class ScrapeFailed extends CoralError {
+  constructor(url: string, cause?: Error | string) {
+    if (cause instanceof Error) {
+      super({
+        code: ERROR_CODES.SCRAPE_FAILED,
+        cause,
+        context: { pub: { url } },
+      });
+    } else {
+      super({
+        code: ERROR_CODES.SCRAPE_FAILED,
+        context: { pub: { url }, pvt: { cause } },
+      });
+    }
+  }
+}

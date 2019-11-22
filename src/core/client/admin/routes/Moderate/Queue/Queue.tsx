@@ -113,6 +113,7 @@ const Queue: FunctionComponent<Props> = ({
       <QueueWrapper
         comments={comments}
         singleView={singleView}
+        selected={selectedComment}
         card={(comment, i) => (
           <ModerateCardContainer
             key={comment.id}

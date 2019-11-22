@@ -33,6 +33,7 @@ export interface StreamEmbedConfig {
   id: string;
   rootURL: string;
   accessToken?: string;
+  enableDeprecatedEvents?: boolean;
 }
 
 export class StreamEmbed {
@@ -137,7 +138,10 @@ export class StreamEmbed {
       withAutoHeight,
       withClickEvent,
       withSetCommentID,
-      withEventEmitter(this.config.eventEmitter),
+      withEventEmitter(
+        this.config.eventEmitter,
+        this.config.enableDeprecatedEvents
+      ),
       withLiveCommentCount(this.config.eventEmitter),
       withPymStorage(localStorage, "localStorage"),
       withPymStorage(sessionStorage, "sessionStorage"),
