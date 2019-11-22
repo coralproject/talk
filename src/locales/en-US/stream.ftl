@@ -58,6 +58,8 @@ comments-loadMore = Load More
 
 comments-permalinkPopover =
   .description = A dialog showing a permalink to the comment
+comments-permalinkPopover-permalinkToComment =
+  .aria-label = Permalink to comment
 comments-permalinkButton-share = Share
 comments-permalinkView-viewFullDiscussion = View Full Discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
@@ -263,6 +265,8 @@ profile-account-deleteAccount-pages-deleteButton = Delete my account
 profile-account-deleteAccount-pages-cancel = Cancel
 profile-account-deleteAccount-pages-proceed = Proceed
 profile-account-deleteAccount-pages-done = Done
+profile-account-deleteAccount-pages-phrase =
+  .aria-label = Phrase
 
 profile-account-deleteAccount-pages-descriptionHeader = Delete my account?
 profile-account-deleteAccount-pages-descriptionText =
@@ -412,6 +416,11 @@ configure-messageBox-description =
   announcements relating to the comments on this story.
 configure-messageBox-preview = Preview
 configure-messageBox-selectAnIcon = Select an Icon
+configure-messageBox-iconConversation = Conversation
+configure-messageBox-iconDate = Date
+configure-messageBox-iconHelp = Help
+configure-messageBox-iconWarning = Warning
+configure-messageBox-iconChatBubble = Chat Bubble
 configure-messageBox-noIcon = No Icon
 configure-messageBox-writeAMessage = Write a Message
 

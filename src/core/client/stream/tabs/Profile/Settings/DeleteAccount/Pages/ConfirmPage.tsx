@@ -139,7 +139,18 @@ const ConfirmPage: FunctionComponent<Props> = ({
               data-testid="confirm-page-form"
             >
               <HorizontalGutter>
-                <TextField fullWidth disabled readOnly value="delete" />
+                <Localized
+                  id="profile-account-deleteAccount-pages-phrase"
+                  attrs={{ "aria-label": true }}
+                >
+                  <TextField
+                    fullWidth
+                    disabled
+                    readOnly
+                    value="delete"
+                    aria-label=""
+                  />
+                </Localized>
                 <FormField>
                   <Field
                     name="confirmation"
@@ -151,7 +162,9 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     {({ input, meta }) => (
                       <FormField>
                         <Localized id="profile-account-deleteAccount-pages-confirmPhraseLabel">
-                          <InputLabel>
+                          <InputLabel
+                            container={<label htmlFor={input.name} />}
+                          >
                             To confirm, type phrase below:
                           </InputLabel>
                         </Localized>
@@ -161,7 +174,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           data-testid="confirm-page-confirmation"
                           disabled={submitting}
                           color={colorFromMeta(meta)}
-                          autoComplete="confirmation"
+                          autoComplete="off"
                           {...input}
                         />
                         <FieldValidationMessage fullWidth meta={meta} />
@@ -174,7 +187,11 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     {({ input, meta }) => (
                       <FormField>
                         <Localized id="profile-account-deleteAccount-pages-confirmPasswordLabel">
-                          <InputLabel>Enter your password:</InputLabel>
+                          <InputLabel
+                            container={<label htmlFor={input.name} />}
+                          >
+                            Enter your password:
+                          </InputLabel>
                         </Localized>
                         <PasswordField
                           fullWidth
@@ -182,7 +199,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           data-testid="confirm-page-password"
                           disabled={submitting}
                           color={colorFromMeta(meta)}
-                          autoComplete="password"
+                          autoComplete="off"
                           {...input}
                         />
                         <FieldValidationMessage fullWidth meta={meta} />

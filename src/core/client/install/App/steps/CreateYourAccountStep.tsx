@@ -79,7 +79,9 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-email">
-                      <InputLabel>Email</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Email
+                      </InputLabel>
                     </Localized>
                     <Localized
                       id="install-createYourAccount-emailTextField"
@@ -93,6 +95,7 @@ class CreateYourAccountStep extends Component<Props> {
                         autoCapitalize="off"
                         autoCorrect="off"
                         fullWidth
+                        id={input.name}
                         {...input}
                       />
                     </Localized>
@@ -108,7 +111,9 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-username">
-                      <InputLabel>Username</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Username
+                      </InputLabel>
                     </Localized>
                     <Localized id="install-createYourAccount-usernameDescription">
                       <InputDescription>
@@ -127,6 +132,7 @@ class CreateYourAccountStep extends Component<Props> {
                         autoCapitalize="off"
                         autoCorrect="off"
                         fullWidth
+                        id={input.name}
                         {...input}
                       />
                     </Localized>
@@ -142,7 +148,9 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-password">
-                      <InputLabel>Password</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Password
+                      </InputLabel>
                     </Localized>
                     <Localized id="install-createYourAccount-passwordDescription">
                       <InputDescription>
@@ -159,6 +167,7 @@ class CreateYourAccountStep extends Component<Props> {
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
+                        id={input.name}
                         {...input}
                       />
                     </Localized>
@@ -174,7 +183,9 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-confirmPassword">
-                      <InputLabel>Confirm Password</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Confirm Password
+                      </InputLabel>
                     </Localized>
                     <Localized
                       id="install-createYourAccount-confirmPasswordTextField"
@@ -186,6 +197,7 @@ class CreateYourAccountStep extends Component<Props> {
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
+                        id={input.name}
                         {...input}
                       />
                     </Localized>
