@@ -2,7 +2,9 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
+import { getURLWithCommentID } from "coral-framework/helpers";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { getLocationOrigin } from "coral-framework/utils";
 import { Button, Icon } from "coral-ui/components";
 
 import { LinkDetailsContainer_comment } from "coral-admin/__generated__/LinkDetailsContainer_comment.graphql";
@@ -27,7 +29,9 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
         </Localized>
       </div>
       <div className={styles.buttonContainer}>
-        <CopyToClipboard text={`${comment.story.url}?commentID=${comment.id}`}>
+        <CopyToClipboard
+          text={getURLWithCommentID(comment.story.url, comment.id)}
+        >
           <Button
             color="primary"
             variant="filled"
@@ -43,7 +47,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
       </div>
       <div className={styles.buttonContainer}>
         <CopyToClipboard
-          text={`${settings.organization.url}/admin/moderate/comment/${comment.id}`}
+          text={`${getLocationOrigin()}/admin/moderate/comment/${comment.id}`}
         >
           <Button
             color="primary"
