@@ -58,4 +58,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   INVITE_INCLUDES_EXISTING_USER: "error-inviteIncludesExistingUser",
   REPEAT_POST: "error-repeatPost",
   INSTALLATION_FORBIDDEN: "error-installationForbidden",
+  SCRAPE_FAILED: "error-scrapeFailed",
 };

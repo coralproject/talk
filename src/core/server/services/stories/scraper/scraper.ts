@@ -9,12 +9,15 @@ import fetch, { RequestInit } from "node-fetch";
 import ProxyAgent from "proxy-agent";
 
 import { version } from "coral-common/version";
+import { Config } from "coral-server/config";
+import { ScrapeFailed } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { retrieveStory, updateStory } from "coral-server/models/story";
 import { retrieveTenant } from "coral-server/models/tenant";
 
 import { GQLStoryMetadata } from "coral-server/graph/tenant/schema/__generated__/types";
 
+import abortAfter from "./abortAfter";
 import { modifiedScraper } from "./rules/modified";
 import { publishedScraper } from "./rules/published";
 import { sectionScraper } from "./rules/section";
@@ -27,8 +30,8 @@ export type Rule = Record<
 >;
 
 class Scraper {
-  private rules: Rule[];
-  private log: Logger;
+  private readonly rules: Rule[];
+  private readonly log: Logger;
 
   constructor(rules: Rule[]) {
     this.rules = rules;
@@ -80,14 +83,23 @@ class Scraper {
     };
   }
 
-  public async download(url: string, proxyURL?: string) {
+  public async download(
+    url: string,
+    abortAfterMilliseconds: number,
+    proxyURL?: string
+  ) {
     const log = this.log.child({ storyURL: url }, true);
+
+    // Abort the scrape request after the timeout is reached.
+    const { controller, timeout } = abortAfter(abortAfterMilliseconds);
 
     const options: RequestInit = {
       headers: {
         "User-Agent": `Talk Scraper/${version}`,
       },
+      signal: controller.signal,
     };
+
     if (proxyURL) {
       // Force the type here because there's a slight mismatch.
       options.agent = (new ProxyAgent(
@@ -99,27 +111,34 @@ class Scraper {
     const start = Date.now();
     log.debug("starting scrape of Story");
 
-    const res = await fetch(url, options);
-    if (!res.ok || res.status !== 200) {
-      log.warn(
-        { statusCode: res.status, statusText: res.statusText },
-        "scrape failed with non-200 status code"
-      );
-      return null;
+    try {
+      const res = await fetch(url, options);
+      if (!res.ok || res.status !== 200) {
+        log.warn(
+          { statusCode: res.status, statusText: res.statusText },
+          "scrape failed with non-200 status code"
+        );
+        return null;
+      }
+
+      const html = await res.text();
+
+      log.debug({ timeElapsed: Date.now() - start }, "scrape complete");
+
+      return html;
+    } catch (err) {
+      throw new ScrapeFailed(url, err);
+    } finally {
+      clearTimeout(timeout);
     }
-
-    const html = await res.text();
-
-    log.debug({ timeElapsed: Date.now() - start }, "scrape complete");
-
-    return html;
   }
 
   public async scrape(
     url: string,
+    abortAfterMilliseconds: number,
     proxyURL?: string
   ): Promise<GQLStoryMetadata | null> {
-    const html = await this.download(url, proxyURL);
+    const html = await this.download(url, abortAfterMilliseconds, proxyURL);
     if (!html) {
       return null;
     }
@@ -148,6 +167,7 @@ export const scraper = createScraper();
 
 export async function scrape(
   mongo: Db,
+  config: Config,
   tenantID: string,
   storyID: string,
   storyURL?: string
@@ -169,9 +189,16 @@ export async function scrape(
     storyURL = retrievedStory.url;
   }
 
+  // This typecast is needed because the custom `ms` format does not return the
+  // desired `number` type even though that's the only type it can output.
+  const abortAfterMilliseconds = (config.get(
+    "scrape_timeout"
+  ) as unknown) as number;
+
   // Get the metadata from the scraped html.
   const metadata = await scraper.scrape(
     storyURL,
+    abortAfterMilliseconds,
     tenant.stories.scraping.proxyURL
   );
   if (!metadata) {
