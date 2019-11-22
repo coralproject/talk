@@ -10,6 +10,7 @@ import { ModerateCardDetailsContainer_settings as SettingsData } from "coral-adm
 
 import CommentRevisionContainer from "./CommentRevisionContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
+import LinkDetailsContainer from "./LinkDetailsContainer";
 
 import styles from "./ModerateCardDetailsContainer.css";
 
@@ -61,11 +62,15 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         )}
       </TabBar>
       {activeTab === "DETAILS" && (
-        <FlagDetailsContainer
-          comment={comment}
-          settings={settings}
-          onUsernameClick={onUsernameClick}
-        />
+        <>
+          <LinkDetailsContainer comment={comment} settings={settings} />
+          <hr />
+          <FlagDetailsContainer
+            comment={comment}
+            settings={settings}
+            onUsernameClick={onUsernameClick}
+          />
+        </>
       )}
       {activeTab === "HISTORY" && (
         <CommentRevisionContainer comment={comment} settings={settings} />
@@ -79,12 +84,14 @@ const enhanced = withFragmentContainer<Props>({
     fragment ModerateCardDetailsContainer_comment on Comment {
       ...FlagDetailsContainer_comment
       ...CommentRevisionContainer_comment
+      ...LinkDetailsContainer_comment
     }
   `,
   settings: graphql`
     fragment ModerateCardDetailsContainer_settings on Settings {
       ...FlagDetailsContainer_settings
       ...CommentRevisionContainer_settings
+      ...LinkDetailsContainer_settings
     }
   `,
 })(ModerateCardDetailsContainer);
