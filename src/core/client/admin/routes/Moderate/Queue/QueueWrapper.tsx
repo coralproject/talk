@@ -14,27 +14,33 @@ interface Props {
     c: { id: string } & PropTypesOf<typeof ModerateCardContainer>["comment"],
     i: number
   ) => ReactNode;
+  selected: number | null;
 }
 
 const QueueWrapper: FunctionComponent<Props> = ({
   singleView,
   card,
   comments,
+  selected,
 }) => {
-  const commentsQueue = singleView ? [comments[0]] : comments;
   if (singleView) {
     return (
       <>
-        {commentsQueue
+        {comments
           // FIXME (Nick/Wyatt): Investigate why comments are coming back null
           .filter(c => Boolean(c))
-          .map((c, i) => card(c, i))}
+          .map((c, i) => {
+            if (i === selected) {
+              return card(c, i);
+            }
+            return null;
+          })}
       </>
     );
   }
   return (
     <TransitionGroup component={null} appear={false} enter={false} exit>
-      {commentsQueue
+      {comments
         // FIXME (Nick/Wyatt): Investigate why comments are coming back null
         .filter(c => Boolean(c))
         .map((c, i) => (

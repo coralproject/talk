@@ -31,6 +31,7 @@ export const Stories = (ctx: TenantContext) => ({
       create(
         ctx.mongo,
         ctx.tenant,
+        ctx.config,
         input.story.id,
         input.story.url,
         omitBy(input.story, isNull),
@@ -72,5 +73,5 @@ export const Stories = (ctx: TenantContext) => ({
   remove: async (input: GQLRemoveStoryInput): Promise<Readonly<Story> | null> =>
     remove(ctx.mongo, ctx.tenant, input.id, input.includeComments),
   scrape: async (input: GQLScrapeStoryInput): Promise<Readonly<Story> | null> =>
-    scrape(ctx.mongo, ctx.tenant.id, input.id),
+    scrape(ctx.mongo, ctx.config, ctx.tenant.id, input.id),
 });
