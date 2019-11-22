@@ -52,6 +52,23 @@ exports[`renders configure 1`] = `
           </div>
         </div>
       </div>
+      <div>
+        <h1
+          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary"
+        >
+          <a
+            className="ExternalLink-root"
+            href="/admin/moderate/reported/story-1"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Moderate this stream
+          </a>
+        </h1>
+      </div>
+      <hr
+        className="HorizontalRule-root"
+      />
       <form
         autoComplete="off"
         className="coral coral-configureCommentStream"
@@ -304,23 +321,6 @@ will still be displayed.
             Close Stream
           </button>
         </div>
-      </div>
-      <hr
-        className="HorizontalRule-root"
-      />
-      <div>
-        <h1
-          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary"
-        >
-          <a
-            className="ExternalLink-root"
-            href="/admin/moderate/reported/story-1"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Moderate this stream
-          </a>
-        </h1>
       </div>
     </div>
   </div>

@@ -23,14 +23,14 @@ const Configure: FunctionComponent<Props> = props => {
     <div>
       <HorizontalGutter size="double">
         <UserBoxContainer viewer={props.viewer} settings={props.settings} />
-        <ConfigureStreamContainer story={props.story} />
-        <HorizontalRule />
-        <OpenOrCloseStreamContainer story={props.story} />
-        <HorizontalRule />
         <ModerateStreamContainer
           settings={props.settings}
           story={props.story}
         />
+        <HorizontalRule />
+        <ConfigureStreamContainer story={props.story} />
+        <HorizontalRule />
+        <OpenOrCloseStreamContainer story={props.story} />
       </HorizontalGutter>
     </div>
   );
