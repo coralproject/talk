@@ -22,7 +22,7 @@ Try out a test version of Coral by running it via a Heroku App:
 
 - MongoDB >=4.2
 - Redis >=3.2
-- NodeJS >=10
+- NodeJS >=12
 - NPM >=6.7
 
 ## Running
@@ -79,7 +79,7 @@ Then head on over to http://localhost:3000 to install Coral!
 
 ### Source
 
-Coral requires NodeJS >=10, we recommend using `nvm` to help manage node
+Coral requires NodeJS >=12, we recommend using `nvm` to help manage node
 versions: https://github.com/creationix/nvm.
 
 ```bash

@@ -6,7 +6,7 @@ permalink: /v5/developing/
 Running Coral for development is very similar to installing Coral via Source as
 described above.
 
-Coral requires NodeJS >=10, we recommend using `nvm` to help manage node
+Coral requires NodeJS >=12, we recommend using `nvm` to help manage node
 versions: https://github.com/creationix/nvm.
 
 ```bash
