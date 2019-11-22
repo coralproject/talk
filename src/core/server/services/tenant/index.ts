@@ -12,7 +12,7 @@ import {
   createTenant,
   CreateTenantInput,
   createTenantSSOKey,
-  deprecateTenantSSOKey,
+  rotateTenantSSOKey,
   Tenant,
   updateTenant,
 } from "coral-server/models/tenant";
@@ -150,7 +150,7 @@ export async function regenerateSSOKey(
   if (tenant.auth.integrations.sso.keys.length > 0) {
     // Get the old keys that are not deprecated.
     const keysToDeprecate = tenant.auth.integrations.sso.keys.filter(key => {
-      return !key.deletedAt && !key.deprecateAt && key.secret;
+      return !key.rotatedAt;
     });
 
     // Check to see if there are keys to deprecate.
@@ -164,7 +164,7 @@ export async function regenerateSSOKey(
       // Deprecate all the keys that are associated on the tenant that haven't
       // been done.
       for (const key of keysToDeprecate) {
-        await deprecateTenantSSOKey(mongo, tenant.id, key.kid, deprecateAt);
+        await rotateTenantSSOKey(mongo, tenant.id, key.kid, deprecateAt, now);
       }
     }
   }

@@ -428,6 +428,8 @@ configure-openStream-description =
   stream new comments may be submitted and displayed.
 configure-openStream-openStream = Open Stream
 
+configure-moderateThisStream = Moderate this stream
+
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
 comments-tombstone-deleted =
   This comment is no longer available. The commenter has deleted their account.

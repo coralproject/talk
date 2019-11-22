@@ -50,6 +50,8 @@ export function useSubscription<V>(
   const context = useCoralContext();
   return useCallback<SubscriptionProp<typeof subscription>>(
     ((variables: V) => {
+      // TODO: (cvle) These events are deprecated.
+      context.eventEmitter.emit(`subscription.${subscription.name}`, variables);
       return subscription.subscribe(
         context.relayEnvironment,
         variables,

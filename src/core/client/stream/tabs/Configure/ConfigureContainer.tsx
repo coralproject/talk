@@ -31,6 +31,7 @@ const enhanced = withFragmentContainer<ConfigureContainerProps>({
     fragment ConfigureContainer_story on Story {
       ...ConfigureStreamContainer_story
       ...OpenOrCloseStreamContainer_story
+      ...ModerateStreamContainer_story
     }
   `,
   viewer: graphql`
@@ -41,6 +42,7 @@ const enhanced = withFragmentContainer<ConfigureContainerProps>({
   settings: graphql`
     fragment ConfigureContainer_settings on Settings {
       ...UserBoxContainer_settings
+      ...ModerateStreamContainer_settings
     }
   `,
 })(StreamContainer);

@@ -205,6 +205,11 @@ export const installHandler = ({
         locale = config.get("default_locale") as LanguageCode;
       }
 
+      // Execute the pending migrations now, as the schema and types are already
+      // current for the new tenant being installed now. No point in creating
+      // a tenant when migrations have not been ran yet.
+      await migrationManager.executePendingMigrations(mongo, redis, true);
+
       // Install will throw if it can not create a Tenant, or it has already been
       // installed.
       const tenant = await install(
@@ -247,9 +252,6 @@ export const installHandler = ({
         {},
         req.coral.now
       );
-
-      // Execute pending migrations to get everything installed.
-      await migrationManager.executePendingMigrations(mongo, true);
 
       // Send back the Tenant.
       return res.sendStatus(204);

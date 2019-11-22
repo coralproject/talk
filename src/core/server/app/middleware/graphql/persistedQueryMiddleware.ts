@@ -40,6 +40,7 @@ const persistedQueryMiddleware = ({
       ) {
         throw new RawQueryNotAuthorized(
           tenant.id,
+          body && body.query ? body.query : null,
           req.user ? req.user.id : null
         );
       }
