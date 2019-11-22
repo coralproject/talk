@@ -421,6 +421,11 @@ export interface User extends TenantResource {
   digests: Digest[];
 
   /**
+   * hasDigests is true when there is digests to send.
+   */
+  hasDigests?: boolean;
+
+  /**
    * status stores the user status information regarding moderation state.
    */
   status: UserStatus;
@@ -2270,6 +2275,9 @@ export async function insertUserNotificationDigests(
       $push: {
         digests: { $each: digests },
       },
+      $set: {
+        hasDigests: true,
+      },
     },
     {
       // False to return the updated document instead of the original
@@ -2308,9 +2316,9 @@ export async function pullUserNotificationDigests(
     {
       tenantID,
       "notifications.digestFrequency": frequency,
-      digests: { $ne: [] },
+      hasDigests: true,
     },
-    { $set: { digests: [] } },
+    { $set: { digests: [], hasDigests: false } },
     {
       // True to return the original document instead of the updated document.
       returnOriginal: true,
