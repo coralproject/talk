@@ -155,7 +155,7 @@ exports[`renders message box when commenting disabled 1`] = `
           <button
             aria-controls="tabPane-ALL_COMMENTS"
             aria-selected={true}
-            className="BaseButton-root Tab-button Tab-secondary Tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
+            className="BaseButton-root Tab-button Tab-secondary Tab-active StreamContainer-streamTab coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -304,8 +304,6 @@ exports[`renders message box when logged in 1`] = `
             <div>
               <div
                 className="$root content placeholder toolbar"
-                onBlur={[Function]}
-                onFocus={[Function]}
               >
                 <div
                   className="RTE-contentEditableContainer"
@@ -477,7 +475,7 @@ exports[`renders message box when logged in 1`] = `
           <button
             aria-controls="tabPane-ALL_COMMENTS"
             aria-selected={true}
-            className="BaseButton-root Tab-button Tab-secondary Tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
+            className="BaseButton-root Tab-button Tab-secondary Tab-active StreamContainer-streamTab coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -605,8 +603,6 @@ exports[`renders message box when not logged in 1`] = `
           <div>
             <div
               className="$root content placeholder toolbar"
-              onBlur={[Function]}
-              onFocus={[Function]}
             >
               <div
                 className="RTE-contentEditableContainer"
@@ -771,7 +767,7 @@ exports[`renders message box when not logged in 1`] = `
           <button
             aria-controls="tabPane-ALL_COMMENTS"
             aria-selected={true}
-            className="BaseButton-root Tab-button Tab-secondary Tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
+            className="BaseButton-root Tab-button Tab-secondary Tab-active StreamContainer-streamTab coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -972,7 +968,7 @@ exports[`renders message box when story isClosed 1`] = `
           <button
             aria-controls="tabPane-ALL_COMMENTS"
             aria-selected={true}
-            className="BaseButton-root Tab-button Tab-secondary Tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
+            className="BaseButton-root Tab-button Tab-secondary Tab-active StreamContainer-streamTab coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
