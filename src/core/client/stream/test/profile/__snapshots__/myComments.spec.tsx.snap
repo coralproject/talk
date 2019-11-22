@@ -4,6 +4,7 @@ exports[`renders profile 1`] = `
 <div
   className="Box-root HorizontalGutter-root HorizontalGutter-double"
   data-testid="profile-commentHistory"
+  id="coral-profile-commentHistory-log"
 >
   <div
     className="Box-root HorizontalGutter-root HistoryComment-root coral coral-myComment HorizontalGutter-full"

@@ -39,9 +39,9 @@ const App: FunctionComponent = () => {
   return (
     <div className={styles.root}>
       <MainBar />
-      <div className={styles.container}>
+      <main className={styles.container}>
         <AppState state={state} error={error} />
-      </div>
+      </main>
     </div>
   );
 };

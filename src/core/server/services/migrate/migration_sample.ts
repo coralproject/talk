@@ -7,6 +7,10 @@ import { Db } from "mongodb";
 import Migration from "coral-server/services/migrate/migration";
 
 export default class extends Migration {
+  // Remove the following line once the migration is ready, otherwise the
+  // migration will not be ran!
+  public static disabled = true;
+
   public async up(mongo: Db, tenantID: string) {
     throw new Error("migration not implemented");
   }

@@ -23,6 +23,11 @@ abstract class Migration {
   public readonly logger: Logger;
   public readonly i18n: I18n;
 
+  /**
+   * disabled when true will not run the migration.
+   */
+  public static disabled?: boolean;
+
   constructor({ id, name, i18n }: MigrationOptions) {
     this.id = id;
     this.name = name;

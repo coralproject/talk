@@ -20,7 +20,7 @@ export default class extends Migration {
     this.log(tenantID).warn(
       {
         matchedCount: result.matchedCount,
-        modifiedCount: result.matchedCount,
+        modifiedCount: result.modifiedCount,
       },
       "added empty moderatorNotes array"
     );
