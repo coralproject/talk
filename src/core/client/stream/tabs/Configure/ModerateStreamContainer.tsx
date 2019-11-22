@@ -8,7 +8,6 @@ import {
   withFragmentContainer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import { getLocationOrigin } from "coral-framework/utils";
 import { Typography } from "coral-ui/components";
 
 import { ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
@@ -27,7 +26,7 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
   story: { id },
 }) => {
   const href = useMemo(() => {
-    let link = getLocationOrigin() + urls.admin.moderateReported + "/" + id;
+    let link = urls.admin.moderateReported + "/" + id;
     if (
       accessToken &&
       settings.auth.integrations.sso.enabled &&

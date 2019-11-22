@@ -314,7 +314,7 @@ will still be displayed.
         >
           <a
             className="ExternalLink-root"
-            href="http://localhost/admin/moderate/reported/story-1"
+            href="/admin/moderate/reported/story-1"
             rel="noopener noreferrer"
             target="_blank"
           >
