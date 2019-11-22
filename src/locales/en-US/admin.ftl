@@ -856,5 +856,4 @@ hotkeysModal-shortcuts-reject = Reject
 hotkeysModal-shortcuts-ban = Ban comment author
 hotkeysModal-shortcuts-zen = Toggle single-comment view
 
-
-
+authcheck-network-error = A network error ocurred. Please refresh the page.

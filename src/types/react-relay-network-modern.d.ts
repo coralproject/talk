@@ -282,6 +282,17 @@ declare module "react-relay-network-modern/es" {
     res: RelayResponse
   ) => boolean;
 
+  export type AbortFn = (msg?: string) => any;
+
+  export type BeforeRetryCb = (meta: {
+    forceRetry: Function;
+    abort: AbortFn;
+    delay: number;
+    attempt: number;
+    lastError: Error | null;
+    req: RelayRequestAny;
+  }) => any;
+
   export interface RetryMiddlewareOpts {
     fetchTimeout?: number;
     retryDelays?: number[] | RetryAfterFn;
@@ -290,6 +301,7 @@ declare module "react-relay-network-modern/es" {
     allowMutations?: boolean;
     allowFormData?: boolean;
     forceRetry?: ForceRetryFn | false;
+    beforeRetry?: BeforeRetryCb | false;
   }
   export const retryMiddleware: (opts?: RetryMiddlewareOpts) => Middleware;
 
