@@ -304,6 +304,8 @@ exports[`renders message box when logged in 1`] = `
             <div>
               <div
                 className="$root content placeholder toolbar"
+                onBlur={[Function]}
+                onFocus={[Function]}
               >
                 <div
                   className="RTE-contentEditableContainer"
@@ -603,6 +605,8 @@ exports[`renders message box when not logged in 1`] = `
           <div>
             <div
               className="$root content placeholder toolbar"
+              onBlur={[Function]}
+              onFocus={[Function]}
             >
               <div
                 className="RTE-contentEditableContainer"
