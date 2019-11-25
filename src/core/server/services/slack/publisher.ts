@@ -87,7 +87,7 @@ async function postCommentToSlack(
     comment.revisions.length > 0
       ? comment.revisions[comment.revisions.length - 1].body
       : "";
-  const body = commentBody.replace(new RegExp("<br>", "g"), "\n");
+  const body = commentBody.replace(/<br\/?>/g, "\n");
   const moderateLink = createModerationLink(orgURL, comment.id);
   const commentLink = createCommentLink(story.url, comment.id);
 
