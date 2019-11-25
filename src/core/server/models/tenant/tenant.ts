@@ -88,8 +88,7 @@ export async function createTenant(
             admin: true,
             stream: true,
           },
-          key: generateSSOKey(),
-          keyGeneratedAt: now,
+          keys: [generateSSOKey(now)],
         },
         oidc: {
           enabled: false,

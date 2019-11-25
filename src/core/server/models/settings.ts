@@ -4,7 +4,6 @@ import {
   GQLAuth,
   GQLAuthenticationTargetFilter,
   GQLCommenterAccountFeatures,
-  GQLEmailConfiguration,
   GQLCommunityGuidelines,
   GQLEntitySettings,
   GQLExternalIntegrations,
@@ -14,8 +13,6 @@ import {
   GQLLocalAuthIntegration,
   GQLOIDCAuthIntegration,
   GQLRecentCommentHistoryConfiguration,
-  GQLSettings,
-  GQLSSOAuthIntegration,
   GQLStoryConfiguration,
   GQLStoryScrapingConfiguration,
   GQLWordList,
@@ -130,6 +127,8 @@ export type Settings = Pick<
   | "stories"
   | "wordList"
 > & {
+  /* remove once migrated */
+  auth: Auth;
   closeCommenting: CloseCommenting;
   disableCommenting: DisableCommenting;
   live: LiveConfiguration;

@@ -220,7 +220,7 @@ export const installHandler = ({
         {
           ...tenantInput,
           // Infer the Tenant domain via the hostname parameter.
-          domain: req.hostname,
+          domains: [req.hostname],
           // Add the locale that we had to default to the default locale from the
           // config.
           locale,

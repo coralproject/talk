@@ -49,7 +49,7 @@ const UserTableContainer: FunctionComponent<Props> = props => {
           onSetSearchFilter={setSearchFilter}
           searchFilter={searchFilter}
           viewer={props.query && props.query.viewer}
-          settings={props.query && props.query.settings}
+          organization={props.query && props.query.organization}
         />
         <UserTable
           viewer={props.query && props.query.viewer}
@@ -83,12 +83,14 @@ const enhanced = withPaginationContainer<
           statusFilter: { type: "USER_STATUS" }
           searchFilter: { type: "String" }
         ) {
+        organization {
+          ...InviteUsersContainer_organization
+        }
         viewer {
           ...UserRowContainer_viewer
           ...InviteUsersContainer_viewer
         }
         settings {
-          ...InviteUsersContainer_settings
           ...UserRowContainer_settings
         }
         users(

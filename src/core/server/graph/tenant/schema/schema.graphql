@@ -5249,6 +5249,12 @@ input RemoveUserIgnoreInput {
   """
   userID: ID!
 
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 type RemoveUserIgnorePayload {
   """
   user is the User that we removed the ignore from.

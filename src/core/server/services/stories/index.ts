@@ -168,6 +168,7 @@ export type CreateStory = CreateStoryInput;
 export async function create(
   mongo: Db,
   tenant: Tenant,
+  config: Config,
   siteID: string,
   storyID: string,
   storyURL: string,

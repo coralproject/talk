@@ -199,7 +199,7 @@ export async function scrape(
   const metadata = await scraper.scrape(
     storyURL,
     abortAfterMilliseconds,
-    tenant.stories.scraping.proxyURL
+    tenant.settings.stories.scraping.proxyURL
   );
   if (!metadata) {
     throw new Error("story at specified url not found");

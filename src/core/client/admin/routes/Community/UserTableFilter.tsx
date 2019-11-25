@@ -31,7 +31,7 @@ interface Props {
   searchFilter: string;
   onSetSearchFilter: (search: string) => void;
   viewer: PropTypesOf<typeof InviteUsersContainer>["viewer"];
-  settings: PropTypesOf<typeof InviteUsersContainer>["settings"];
+  organization: PropTypesOf<typeof InviteUsersContainer>["organization"];
 }
 
 const UserTableFilter: FunctionComponent<Props> = props => (
@@ -175,7 +175,10 @@ const UserTableFilter: FunctionComponent<Props> = props => (
         </HorizontalGutter>
       </FieldSet>
     </Flex>
-    <InviteUsersContainer viewer={props.viewer} settings={props.settings} />
+    <InviteUsersContainer
+      viewer={props.viewer}
+      organization={props.organization}
+    />
   </Flex>
 );
 
