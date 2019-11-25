@@ -5,6 +5,7 @@ import { Db } from "mongodb";
 import {
   createTenantSSOKey,
   deactivateTenantSSOKey,
+  deleteLastUsedAtTenantSSOKey,
   deleteTenantSSOKey,
   Tenant,
 } from "coral-server/models/tenant";
@@ -121,6 +122,9 @@ export async function deleteSSOKey(
   if (!updatedTenant) {
     return null;
   }
+
+  // Remove the last used date entry from the Redis hash.
+  await deleteLastUsedAtTenantSSOKey(redis, tenant.id, kid);
 
   // Update the tenant cache.
   await cache.update(redis, updatedTenant);

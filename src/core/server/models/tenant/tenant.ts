@@ -810,6 +810,20 @@ export async function updateLastUsedAtTenantSSOKey(
 }
 
 /**
+ *
+ * @param redis the Redis connection to use to remove the last used on.
+ * @param id the ID of the Tenant
+ * @param kid the kid of the token that is being deleted
+ */
+export async function deleteLastUsedAtTenantSSOKey(
+  redis: Redis,
+  id: string,
+  kid: string
+) {
+  await redis.hdel(lastUsedAtTenantSSOKey(id), kid);
+}
+
+/**
  * retrieveLastUsedAtTenantSSOKeys will get the dates that the requested sso
  * keys were last used on.
  *
