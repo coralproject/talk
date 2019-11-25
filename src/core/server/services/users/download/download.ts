@@ -104,7 +104,9 @@ export async function sendUserDownload(
       const commentID = comment.id;
       const createdAt = formatter.format(new Date(comment.createdAt));
       const storyURL = story.url;
-      const commentURL = `${storyURL}?commentID=${commentID}`;
+      const urlBuilder = new URL(storyURL);
+      urlBuilder.searchParams.set("commentID", commentID);
+      const commentURL = urlBuilder.href;
       const body = revision.body;
 
       csv.write([commentID, createdAt, storyURL, commentURL, body]);

@@ -60,7 +60,9 @@ function createModerationLink(rootURL: string, commentID: string) {
 }
 
 function createCommentLink(storyURL: string, commentID: string) {
-  return `${storyURL}?commentID=${commentID}`;
+  const urlBuilder = new URL(storyURL);
+  urlBuilder.searchParams.set("commentID", commentID);
+  return urlBuilder.href;
 }
 
 async function postCommentToSlack(
