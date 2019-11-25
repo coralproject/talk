@@ -51,7 +51,6 @@ export default function createNetwork(
       urlMiddleware({
         url: () => Promise.resolve(graphqlURL),
       }),
-      // errorMiddleware,
       retryMiddleware({
         fetchTimeout: 15000,
         retryDelays: (attempt: number) => Math.pow(2, attempt + 4) * 100,
