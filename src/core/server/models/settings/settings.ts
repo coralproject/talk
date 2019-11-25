@@ -13,6 +13,8 @@ import {
   GQLSettings,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { Secret } from "./secret";
+
 export type LiveConfiguration = Omit<GQLLiveConfiguration, "configurable">;
 
 export type EmailConfiguration = GQLEmailConfiguration;
@@ -38,40 +40,11 @@ export type FacebookAuthIntegration = Omit<
   "callbackURL" | "redirectURL"
 >;
 
-export interface SSOKey {
-  /**
-   * kid is the identifier for the key used when verifying tokens issued by the
-   * provider.
-   */
-  kid: string;
-
-  /**
-   * secret is the actual underlying secret used to verify the tokens with.
-   */
-  secret: string;
-
-  /**
-   * createdAt is the date that the key was created at.
-   */
-  createdAt: Date;
-
-  /**
-   * rotatedAt is the time that the token was rotated out.
-   */
-  rotatedAt?: Date;
-
-  /**
-   * inactiveAt is the date that the token can no longer be used to validate
-   * tokens.
-   */
-  inactiveAt?: Date;
-}
-
 export interface SSOAuthIntegration {
   enabled: boolean;
   allowRegistration: boolean;
   targetFilter: GQLAuthenticationTargetFilter;
-  keys: SSOKey[];
+  keys: Secret[];
 }
 
 /**

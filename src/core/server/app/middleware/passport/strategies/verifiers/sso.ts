@@ -5,7 +5,7 @@ import { Db } from "mongodb";
 
 import { validate } from "coral-server/app/request/body";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
-import { SSOAuthIntegration, SSOKey } from "coral-server/models/settings";
+import { Secret, SSOAuthIntegration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import {
   retrieveUserWithProfile,
@@ -169,7 +169,7 @@ export function getRelevantSSOKeys(
   tokenString: string,
   now: Date,
   kid?: string
-): SSOKey[] {
+): Secret[] {
   // Collect all the current valid keys.
   const keys = integration.keys.filter(k => {
     if (k.inactiveAt && now >= k.inactiveAt) {

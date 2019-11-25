@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 
-import { SSOKey } from "coral-server/models/settings";
-import { generateSSOKey, Tenant } from "coral-server/models/tenant";
+import { Secret } from "coral-server/models/settings";
+import { generateSecret, Tenant } from "coral-server/models/tenant";
 import Migration from "coral-server/services/migrate/migration";
 import collections from "coral-server/services/mongodb/collections";
 
@@ -48,14 +48,14 @@ export default class extends Migration {
     }
 
     // Store the keys in an array.
-    const keys: SSOKey[] = [];
+    const keys: Secret[] = [];
 
     // Check to see if a key is set.
     const sso = tenant.auth.integrations.sso;
 
     if (sso.key && sso.keyGeneratedAt) {
       // Create the new SSOKey based on this data.
-      const key = generateSSOKey(sso.keyGeneratedAt);
+      const key = generateSecret(sso.keyGeneratedAt);
 
       // Set the secret of the sso key to the secret of the current set key.
       key.secret = sso.key;

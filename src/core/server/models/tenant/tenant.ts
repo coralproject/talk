@@ -9,7 +9,7 @@ import TIME from "coral-common/time";
 import { DeepPartial, Omit, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
-import { Settings } from "coral-server/models/settings";
+import { Secret, Settings } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
@@ -21,7 +21,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
-  generateSSOKey,
+  generateSecret,
   getDefaultReactionConfiguration,
   getDefaultStaffConfiguration,
 } from "./helpers";
@@ -36,6 +36,39 @@ export interface TenantResource {
    * resource.
    */
   readonly tenantID: string;
+}
+
+export interface Endpoint {
+  /**
+   * id is the unique identifier for this specific endpoint.
+   */
+  id: string;
+
+  /**
+   * enabled when true will enable events to be sent to this endpoint.
+   */
+  enabled: boolean;
+
+  /**
+   * url is the URL that we will POST event data to.
+   */
+  url: string;
+
+  /**
+   * signingSecret is the secret used to sign the events sent out.
+   */
+  signingSecrets: Secret[];
+
+  /**
+   * all when true indicates that all events should trigger.
+   */
+  all?: boolean;
+
+  /**
+   * events is the array of events that will trigger the delivery of an
+   * event.
+   */
+  events: string[];
 }
 
 export interface TenantSettings
@@ -59,40 +92,7 @@ export interface TenantSettings
     /**
      * endpoints is all the configured endpoints that should receive events.
      */
-    endpoints: Array<{
-      /**
-       * id is the unique identifier for this specific endpoint.
-       */
-      id: string;
-
-      /**
-       * enabled when true will enable events to be sent to this endpoint.
-       */
-      enabled: boolean;
-
-      /**
-       * url is the URL that we will POST event data to.
-       */
-      url: string;
-
-      /**
-       * signingSecret is the secret used to sign the events sent out.
-       */
-      signingSecrets: Array<{
-        secret: string;
-      }>;
-
-      /**
-       * all when true indicates that all events should trigger.
-       */
-      all?: boolean;
-
-      /**
-       * events is the array of events that will trigger the delivery of an
-       * event.
-       */
-      events: string[];
-    }>;
+    endpoints: Endpoint[];
   };
 }
 
@@ -184,7 +184,7 @@ export async function createTenant(
             stream: true,
           },
           // TODO: [CORL-754] (wyattjoh) remove this in favor of generating this when needed
-          keys: [generateSSOKey(now)],
+          keys: [generateSecret(now)],
         },
         oidc: {
           enabled: false,
@@ -355,7 +355,7 @@ export async function updateTenant(
  */
 export async function createTenantSSOKey(mongo: Db, id: string, now: Date) {
   // Construct the new key.
-  const key = generateSSOKey(now);
+  const key = generateSecret(now);
 
   // Update the Tenant with this new key.
   const result = await collection(mongo).findOneAndUpdate(

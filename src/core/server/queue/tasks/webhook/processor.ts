@@ -4,20 +4,26 @@ import https from "https";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import fetch, { RequestInit } from "node-fetch";
-import now from "performance-now";
+import getNow from "performance-now";
 import uuid from "uuid/v4";
 
 import { version } from "coral-common/version";
 import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
+import { filterActiveSecrets } from "coral-server/models/settings";
+import { Endpoint } from "coral-server/models/tenant";
 import { JobProcessor } from "coral-server/queue/Task";
 import { disableEndpoint } from "coral-server/services/tenant";
 import TenantCache from "coral-server/services/tenant/cache";
 
 export const JOB_NAME = "webhook";
 
+// The count of failures on a webhook delivery before we disable the endpoint.
 // FIXME: (wyattjoh) validate that this failure count is correct
 const MAXIMUM_FAILURE_COUNT = 10;
+
+// The number of webhook attempts that should be retained for debugging.
+const MAXIMUM_EVENT_ATTEMPTS_LOG_SIZE = 50;
 
 export interface WebhookProcessorOptions {
   config: Config;
@@ -34,6 +40,7 @@ interface EventData {
 export interface WebhookData<T extends EventData = any> {
   eventName: string;
   eventData: T;
+  eventContextID: string;
   endpointID: string;
   tenantID: string;
 }
@@ -67,26 +74,39 @@ export function generateSignature(secret: string, body: string) {
   return crypto
     .createHmac("sha256", secret)
     .update(body)
-    .digest();
+    .digest()
+    .toString("hex");
+}
+
+export function generateSignatures(
+  endpoint: Pick<Endpoint, "signingSecrets">,
+  body: string,
+  now: Date
+) {
+  // For each of the signatures, we only want to sign the body with secrets that
+  // are still active.
+  return endpoint.signingSecrets
+    .filter(filterActiveSecrets(now))
+    .map(({ secret }) => generateSignature(secret, body))
+    .map(signature => `sha256=${signature}`)
+    .join(",");
 }
 
 export function generateFetchOptions<T extends EventData>(
-  secret: string,
+  endpoint: Pick<Endpoint, "signingSecrets">,
   agents: Agents,
-  data: WebhookPayload<T>
+  data: WebhookPayload<T>,
+  now: Date
 ): RequestInit {
   // Serialize the body and signature to include in the request.
   const body = JSON.stringify(data, null, 2);
-  const signature = generateSignature(secret, body);
-  const signatureString = `sha256=${signature.toString(
-    "hex"
-  )},sha256=${signature.toString("hex")}`;
+  const signature = generateSignatures(endpoint, body, now);
 
   const headers: Record<string, any> = {
     "User-Agent": `Coral Webhook/${version}`,
     "Content-Type": "application/json",
     "X-Coral-Event": data.name,
-    "X-Coral-Signature": signatureString,
+    "X-Coral-Signature": signature,
   };
 
   return {
@@ -118,10 +138,17 @@ export function createJobProcessor({
   };
 
   return async job => {
-    const { tenantID, endpointID, eventName, eventData } = job.data;
+    const {
+      tenantID,
+      endpointID,
+      eventContextID,
+      eventName,
+      eventData,
+    } = job.data;
 
     let log = logger.child(
       {
+        eventContextID,
         jobID: job.id,
         jobName: JOB_NAME,
         tenantID,
@@ -160,18 +187,28 @@ export function createJobProcessor({
       createdAt: new Date(),
     };
 
-    // Send the request.
-    const options = generateFetchOptions(
-      endpoint.signingSecret,
-      agents,
-      payload
-    );
-
-    const startedSendingAt = now();
-    const res = await fetch(endpoint.url, options);
-    const took = now() - startedSendingAt;
-
     log = log.child({ deliveryID: payload.id }, true);
+
+    // Get the current date.
+    const now = new Date();
+
+    // Get the fetch options.
+    const options = generateFetchOptions(endpoint, agents, payload, now);
+
+    // // Queue up removing unused secrets.
+    // const expiredSigningSecrets = endpoint.signingSecrets.filter(
+    //   filterExpiredSecrets(now)
+    // );
+    // if (expiredSigningSecrets.length > 0) {
+    //   for (const { kid } of expiredSigningSecrets) {
+    //     // FIXME: remove expired secrets.
+    //   }
+    // }
+
+    // Send the request.
+    const startedSendingAt = getNow();
+    const res = await fetch(endpoint.url, options);
+    const took = getNow() - startedSendingAt;
 
     if (res.ok) {
       log.info(
@@ -210,7 +247,7 @@ export function createJobProcessor({
       // Push the attempt into the list.
       .rpush(endpointDeliveriesKey, JSON.stringify(delivery))
       // Trim the list to the 50 most recent attempts.
-      .ltrim(endpointDeliveriesKey, 0, 49)
+      .ltrim(endpointDeliveriesKey, 0, MAXIMUM_EVENT_ATTEMPTS_LOG_SIZE - 1)
       // Get the current failure count.
       .get(endpointFailuresKey)
       // Execute the queued operations.
@@ -236,7 +273,7 @@ export function createJobProcessor({
 
         await disableEndpoint(mongo, redis, tenantCache, tenant, endpointID);
       } else {
-        // TODO: (wyattjoh) maybe schedule a retry
+        // TODO: (wyattjoh) maybe schedule a retry?
       }
     }
   };

@@ -12,6 +12,7 @@ import {
 } from "./processor";
 
 export interface WebhookInput<T extends {} = any> {
+  eventContextID: string;
   eventName: string;
   eventData: T;
   tenantID: string;
@@ -30,12 +31,18 @@ export class WebhookQueue {
     this.tenantCache = options.tenantCache;
   }
 
-  public async add({ tenantID, eventName, eventData }: WebhookInput) {
+  public async add({
+    eventContextID,
+    tenantID,
+    eventName,
+    eventData,
+  }: WebhookInput) {
     const log = logger.child(
       {
         jobName: JOB_NAME,
         tenantID,
         eventName,
+        eventContextID,
       },
       true
     );
@@ -84,6 +91,7 @@ export class WebhookQueue {
       endpoints.map(endpoint =>
         this.task.add({
           tenantID,
+          eventContextID,
           endpointID: endpoint.id,
           eventName,
           eventData,

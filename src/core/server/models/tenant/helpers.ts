@@ -9,7 +9,7 @@ import {
   GQLStaffConfiguration,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { SSOKey } from "../settings";
+import { Secret } from "../settings";
 import { Tenant } from "./tenant";
 
 export const getDefaultReactionConfiguration = (
@@ -39,7 +39,7 @@ export function generateRandomString(size: number, drift = 5) {
     .toString("hex");
 }
 
-export function generateSSOKey(createdAt: Date): SSOKey {
+export function generateSecret(createdAt: Date): Secret {
   // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
   // as 16 was the minimum length recommended.
   //
