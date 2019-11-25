@@ -27,7 +27,7 @@ interface Props {
   hasRevisions: boolean;
 }
 
-type DetailsTabs = "INFO" | "HISTORY";
+type DetailsTabs = "DETAILS" | "HISTORY";
 
 const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   comment,
@@ -37,7 +37,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   hasRevisions,
 }) => {
   const [activeTab, setActiveTab] = useState<DetailsTabs>(
-    hasDetails ? "INFO" : "HISTORY"
+    hasDetails ? "DETAILS" : "HISTORY"
   );
 
   return (
@@ -78,13 +78,6 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
             onUsernameClick={onUsernameClick}
           />
         </>
-      )}
-      {activeTab === "INFO" && (
-        <FlagDetailsContainer
-          comment={comment}
-          settings={settings}
-          onUsernameClick={onUsernameClick}
-        />
       )}
       {activeTab === "HISTORY" && (
         <CommentRevisionContainer comment={comment} settings={settings} />
