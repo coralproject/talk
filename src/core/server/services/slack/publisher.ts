@@ -124,17 +124,14 @@ async function postCommentToSlack(
   try {
     const response = await fetch(webhookURL, {
       method: "POST",
-      mode: "cors",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/json",
       },
-      redirect: "follow",
-      referrer: "no-referrer",
       body: JSON.stringify(data),
     });
 
-    if (response.status !== 200) {
+    if (response.ok) {
       logger.error({ response }, "error sending Slack comment");
     }
   } catch (err) {
