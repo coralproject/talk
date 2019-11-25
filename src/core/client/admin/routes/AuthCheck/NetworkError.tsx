@@ -10,7 +10,7 @@ const NetworkError: FunctionComponent<{}> = () => {
     <div className={styles.root}>
       <Message color="error">
         <Localized id="authcheck-network-error">
-          <span>A network error ocurred. Please refresh the page</span>
+          <span>A network error occurred. Please refresh the page</span>
         </Localized>
       </Message>
     </div>
