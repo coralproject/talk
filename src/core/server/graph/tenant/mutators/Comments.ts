@@ -29,8 +29,8 @@ import {
   removeDontAgree,
   removeReaction,
 } from "coral-server/services/comments/actions";
+import slices from "coral-server/services/comments/moderation/slices";
 
-import { approve } from "coral-server/services/comments/moderation";
 import { publishCommentFeatured } from "coral-server/services/events";
 import { validateMaximumLength, WithoutMutationID } from "./util";
 
@@ -170,16 +170,14 @@ export const Comments = (ctx: TenantContext) => ({
     )
       .then(comment =>
         comment.status !== GQLCOMMENT_STATUS.APPROVED
-          ? approve(
+          ? slices.approve(
               ctx.mongo,
               ctx.redis,
               ctx.publisher,
               ctx.tenant,
-              {
-                commentID,
-                commentRevisionID,
-                moderatorID: ctx.user!.id,
-              },
+              commentID,
+              commentRevisionID,
+              ctx.user!.id,
               ctx.now
             )
           : comment
