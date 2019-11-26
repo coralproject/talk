@@ -7,7 +7,7 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { Button, CallOut, Typography } from "coral-ui/components";
+import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
 import { UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
 import { UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
@@ -46,12 +46,10 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
     return (
       <CallOut fullWidth>
         <Localized
-          id="moderate-user-drawer-rejected-no-comments"
+          id="moderate-user-drawer-all-no-comments"
           $username={user.username}
         >
-          <Typography variant="bodyCopy">
-            {user.username} has not submitted any comments.
-          </Typography>
+          <div>{user.username} has not submitted any comments.</div>
         </Localized>
       </CallOut>
     );
@@ -71,7 +69,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
             mini
           />
           {// Don't show horizontal rule after last comment
-          index !== comments.length - 1 && <hr />}
+          index !== comments.length - 1 && <Divider />}
         </div>
       ))}
       {hasMore && (

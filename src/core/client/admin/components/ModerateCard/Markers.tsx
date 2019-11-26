@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { useUUID } from "coral-framework/hooks";
-import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components";
+import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 
 import styles from "./Markers.css";
 
@@ -25,8 +25,8 @@ const Markers: FunctionComponent<Props> = ({ children, details }) => {
           <Button
             size="small"
             classes={{
-              variantRegular: styles.detailsButton,
-              colorRegular: styles.detailsButtonColorRegular,
+              variantDefault: styles.detailsButton,
+              colorDefault: styles.detailsButtonColorRegular,
             }}
             onClick={toggleDetails}
             aria-controls={uuid}

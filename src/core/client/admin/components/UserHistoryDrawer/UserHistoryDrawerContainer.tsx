@@ -5,7 +5,13 @@ import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { Button, Flex, Icon, Typography } from "coral-ui/components";
+import {
+  Button,
+  Divider,
+  Flex,
+  HorizontalGutter,
+  Icon,
+} from "coral-ui/components/v2";
 
 import { UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
 import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
@@ -37,96 +43,83 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Button className={styles.close} onClick={onClose}>
+      <Button variant="plain" className={styles.close} onClick={onClose}>
         <Icon size="md">close</Icon>
       </Button>
-      <div>
-        <Flex className={styles.username} itemGutter>
-          <span>{user.username}</span>
-          <div>
-            <UserBadgesContainer user={user} />
-          </div>
-        </Flex>
-        <div className={styles.userStatus}>
-          <Flex alignItems="center" itemGutter="half">
-            <div className={styles.userStatusLabel}>
-              <Typography variant="bodyCopyBold" container="div">
-                <Flex alignItems="center" itemGutter="half">
+      <HorizontalGutter spacing={4}>
+        <HorizontalGutter spacing={3}>
+          <HorizontalGutter spacing={2}>
+            <Flex className={styles.username} spacing={2}>
+              <span>{user.username}</span>
+              <div>
+                <UserBadgesContainer user={user} />
+              </div>
+            </Flex>
+            <Flex alignItems="center" spacing={1}>
+              <div className={styles.userStatusLabel}>
+                <Flex alignItems="center" spacing={1}>
                   <Localized id="moderate-user-drawer-status-label">
                     Status:
                   </Localized>
                 </Flex>
-              </Typography>
-            </div>
-            <div className={styles.userStatusChange}>
-              <UserStatusChangeContainer settings={settings} user={user} />
-            </div>
-            <UserStatusDetailsContainer user={user} />
-          </Flex>
-        </div>
-      </div>
-      <div>
-        <Flex alignItems="center" className={styles.userDetail}>
-          <Localized id="moderate-user-drawer-email" attrs={{ title: true }}>
-            <Icon size="sm" className={styles.icon} title="Email address">
-              mail_outline
-            </Icon>
-          </Localized>
-          <Typography
-            variant="bodyCopy"
-            container="span"
-            className={styles.userDetailValue}
-          >
-            {user.email}
-          </Typography>
-          <CopyButton
-            text={user.email!}
-            variant="regular"
-            className={styles.copy}
-          />
-        </Flex>
-        <Flex alignItems="center" className={styles.userDetail}>
-          <Localized
-            id="moderate-user-drawer-created-at"
-            attrs={{ title: true }}
-          >
-            <Icon
-              size="sm"
-              className={styles.icon}
-              title="Account creation date"
-            >
-              date_range
-            </Icon>
-          </Localized>
-          <Typography variant="bodyCopy" container="span">
-            {formatter.format(new Date(user.createdAt))}
-          </Typography>
-        </Flex>
-        <Flex alignItems="center" className={styles.userDetail}>
-          <Localized
-            id="moderate-user-drawer-member-id"
-            attrs={{ title: true }}
-          >
-            <Icon size="sm" className={styles.icon} title="Member ID">
-              people_outline
-            </Icon>
-          </Localized>
-          <Typography
-            variant="bodyCopy"
-            container="span"
-            className={styles.userDetailValue}
-          >
-            {user.id}
-          </Typography>
-          <CopyButton
-            text={user.id}
-            variant="regular"
-            className={styles.copy}
-          />
-        </Flex>
+              </div>
+              <div className={styles.userStatusChange}>
+                <UserStatusChangeContainer
+                  bordered={true}
+                  settings={settings}
+                  user={user}
+                />
+              </div>
+              <UserStatusDetailsContainer user={user} />
+            </Flex>
+          </HorizontalGutter>
+          <HorizontalGutter spacing={1}>
+            <Flex alignItems="center" spacing={2}>
+              <Localized
+                id="moderate-user-drawer-email"
+                attrs={{ title: true }}
+              >
+                <Icon size="sm" className={styles.icon} title="Email address">
+                  mail_outline
+                </Icon>
+              </Localized>
+              <span className={styles.userDetailValue}>{user.email}</span>
+              <CopyButton text={user.email!} size="small" />
+            </Flex>
+            <Flex alignItems="center" spacing={2}>
+              <Localized
+                id="moderate-user-drawer-created-at"
+                attrs={{ title: true }}
+              >
+                <Icon
+                  size="sm"
+                  className={styles.icon}
+                  title="Account creation date"
+                >
+                  date_range
+                </Icon>
+              </Localized>
+              <span className={styles.userDetailValue}>
+                {formatter.format(new Date(user.createdAt))}
+              </span>
+            </Flex>
+            <Flex alignItems="center" spacing={2}>
+              <Localized
+                id="moderate-user-drawer-member-id"
+                attrs={{ title: true }}
+              >
+                <Icon size="sm" className={styles.icon} title="Member ID">
+                  people_outline
+                </Icon>
+              </Localized>
+              <span className={styles.userDetailValue}>{user.id}</span>
+              <CopyButton text={user.id} size="small" />
+            </Flex>
+          </HorizontalGutter>
+        </HorizontalGutter>
         <RecentHistoryContainer user={user} settings={settings} />
-      </div>
-      <hr className={styles.divider} />
+      </HorizontalGutter>
+      <Divider />
       <div className={styles.comments}>
         <Tabs userID={user.id} notesCount={user.moderatorNotes.length} />
       </div>

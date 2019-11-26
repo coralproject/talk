@@ -4,8 +4,7 @@ import {
   Flex,
   HorizontalGutter,
   Modal,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
@@ -22,102 +21,106 @@ const HotkeysModal: FunctionComponent<Props> = ({ open, onClose }) => {
       {({ firstFocusableRef }) => (
         <Card className={styles.root}>
           <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
-          <HorizontalGutter size="double">
+          <HorizontalGutter spacing={3}>
             <Localized id="hotkeysModal-title">
-              <Typography variant="header1">Keyboard shortcuts</Typography>
+              <h1 className={styles.title}>Keyboard shortcuts</h1>
             </Localized>
             <Flex itemGutter>
-              <HorizontalGutter>
+              <HorizontalGutter spacing={2}>
                 <Localized id="hotkeysModal-navigation-shortcuts">
-                  <Typography variant="header3">
-                    Navigation shortcuts
-                  </Typography>
+                  <div className={styles.subTitle}>Navigation shortcuts</div>
                 </Localized>
-                <Flex>
+                <Flex alignItems="center">
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>j</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-next">
-                    <Typography>Next comment</Typography>
+                    <div className={styles.hotKeyAction}>Next comment</div>
                   </Localized>
                 </Flex>
-                <Flex>
+                <Flex alignItems="center">
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>k</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-prev">
-                    <Typography>Previous comment</Typography>
+                    <div className={styles.hotKeyAction}>Previous comment</div>
                   </Localized>
                 </Flex>
-                <Flex>
+                <Flex alignItems="center">
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>ctrl+f</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-search">
-                    <Typography>Open search</Typography>
+                    <div className={styles.hotKeyAction}>Open search</div>
                   </Localized>
                 </Flex>
-                <Flex>
+                <Flex alignItems="center">
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>1..4</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-jump">
-                    <Typography>Jump to specific queue</Typography>
+                    <div className={styles.hotKeyAction}>
+                      Jump to specific queue
+                    </div>
                   </Localized>
                 </Flex>
-                <Flex>
+                <Flex alignItems="center">
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>t</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-switch">
-                    <Typography>Switch queues</Typography>
+                    <div className={styles.hotKeyAction}>Switch queues</div>
                   </Localized>
                 </Flex>
-                <Flex>
+                <Flex alignItems="center">
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>z</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-zen">
-                    <Typography>Toggle single-comment view</Typography>
+                    <div className={styles.hotKeyAction}>
+                      Toggle single-comment view
+                    </div>
                   </Localized>
                 </Flex>
-                <Flex>
+                <Flex alignItems="center">
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>?</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-toggle">
-                    <Typography>Toggle shortcuts help</Typography>
+                    <div className={styles.hotKeyAction}>
+                      Toggle shortcuts help
+                    </div>
                   </Localized>
                 </Flex>
               </HorizontalGutter>
-              <HorizontalGutter>
+              <HorizontalGutter spacing={2}>
                 <Localized id="hotkeysModal-moderation-decisions">
-                  <Typography variant="header3">
-                    Moderation decisions
-                  </Typography>
+                  <div className={styles.subTitle}>Moderation decisions</div>
                 </Localized>
-                <Flex>
+                <Flex alignItems="center">
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>f</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-approve">
-                    <Typography>Approve</Typography>
+                    <div className={styles.hotKeyAction}>Approve</div>
                   </Localized>
                 </Flex>
-                <Flex>
+                <Flex alignItems="center">
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>d</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-reject">
-                    <Typography>Reject</Typography>
+                    <div className={styles.hotKeyAction}>Reject</div>
                   </Localized>
                 </Flex>
-                <Flex>
+                <Flex alignItems="center">
                   <div className={styles.hotKeyContainer}>
                     <div className={styles.hotKey}>b</div>
                   </div>
                   <Localized id="hotkeysModal-shortcuts-ban">
-                    <Typography>Ban comment author</Typography>
+                    <div className={styles.hotKeyAction}>
+                      Ban comment author
+                    </div>
                   </Localized>
                 </Flex>
               </HorizontalGutter>

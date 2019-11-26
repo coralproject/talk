@@ -9,15 +9,12 @@ exports[`loads more 1`] = `
   >
     <i
       aria-hidden="true"
-      className="Icon-root Icon-sm"
+      className="Icon-root Icon-md Title-icon"
     >
       history
     </i>
-    <span>
-       
-    </span>
     <span
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Title-text"
+      className="Title-text"
     >
       Your Decision History
     </span>
@@ -39,34 +36,32 @@ exports[`loads more 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ApprovedIcon-root"
+              className="Icon-root Icon-md ApprovedIcon-root"
             >
-              check
+              check_circled
             </i>
           </div>
           <div>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
+            <span
+              className="Info-root"
             >
               Approved comment by 
-              <strong>
+              <strong
+                className="Username-root"
+              >
                 dany
               </strong>
-            </p>
+            </span>
             <div
               className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
-              <span
-                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
+              <time
+                className="RelativeTime-root Timestamp-root"
+                dateTime="2018-11-29T16:01:51.897Z"
+                title="2018-11-29T16:01:51.897Z"
               >
-                <time
-                  className="RelativeTime-root Timestamp-root"
-                  dateTime="2018-11-29T16:01:51.897Z"
-                  title="2018-11-29T16:01:51.897Z"
-                >
-                  2018-11-29T16:01:51.897Z
-                </time>
-              </span>
+                2018-11-29T16:01:51.897Z
+              </time>
               <div
                 className="DotDivider-root"
               >
@@ -103,34 +98,32 @@ exports[`loads more 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm RejectedIcon-root"
+              className="Icon-root Icon-md RejectedIcon-root"
             >
               cancel
             </i>
           </div>
           <div>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
+            <span
+              className="Info-root"
             >
               Rejected comment by 
-              <strong>
+              <strong
+                className="Username-root"
+              >
                 dany
               </strong>
-            </p>
+            </span>
             <div
               className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
-              <span
-                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
+              <time
+                className="RelativeTime-root Timestamp-root"
+                dateTime="2018-11-29T16:01:45.644Z"
+                title="2018-11-29T16:01:45.644Z"
               >
-                <time
-                  className="RelativeTime-root Timestamp-root"
-                  dateTime="2018-11-29T16:01:45.644Z"
-                  title="2018-11-29T16:01:45.644Z"
-                >
-                  2018-11-29T16:01:45.644Z
-                </time>
-              </span>
+                2018-11-29T16:01:45.644Z
+              </time>
               <div
                 className="DotDivider-root"
               >
@@ -167,34 +160,32 @@ exports[`loads more 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ApprovedIcon-root"
+              className="Icon-root Icon-md ApprovedIcon-root"
             >
-              check
+              check_circled
             </i>
           </div>
           <div>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
+            <span
+              className="Info-root"
             >
               Approved comment by 
-              <strong>
+              <strong
+                className="Username-root"
+              >
                 dany
               </strong>
-            </p>
+            </span>
             <div
               className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
-              <span
-                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
+              <time
+                className="RelativeTime-root Timestamp-root"
+                dateTime="2018-11-29T16:01:42.060Z"
+                title="2018-11-29T16:01:42.060Z"
               >
-                <time
-                  className="RelativeTime-root Timestamp-root"
-                  dateTime="2018-11-29T16:01:42.060Z"
-                  title="2018-11-29T16:01:42.060Z"
-                >
-                  2018-11-29T16:01:42.060Z
-                </time>
-              </span>
+                2018-11-29T16:01:42.060Z
+              </time>
               <div
                 className="DotDivider-root"
               >
@@ -234,15 +225,12 @@ exports[`opens popover when clicked on button showing loading state 1`] = `
   >
     <i
       aria-hidden="true"
-      className="Icon-root Icon-sm"
+      className="Icon-root Icon-md Title-icon"
     >
       history
     </i>
-    <span>
-       
-    </span>
     <span
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Title-text"
+      className="Title-text"
     >
       Your Decision History
     </span>
@@ -266,15 +254,12 @@ exports[`render popover content 1`] = `
   >
     <i
       aria-hidden="true"
-      className="Icon-root Icon-sm"
+      className="Icon-root Icon-md Title-icon"
     >
       history
     </i>
-    <span>
-       
-    </span>
     <span
-      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Title-text"
+      className="Title-text"
     >
       Your Decision History
     </span>
@@ -296,34 +281,32 @@ exports[`render popover content 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ApprovedIcon-root"
+              className="Icon-root Icon-md ApprovedIcon-root"
             >
-              check
+              check_circled
             </i>
           </div>
           <div>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
+            <span
+              className="Info-root"
             >
               Approved comment by 
-              <strong>
+              <strong
+                className="Username-root"
+              >
                 addy
               </strong>
-            </p>
+            </span>
             <div
               className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
-              <span
-                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
+              <time
+                className="RelativeTime-root Timestamp-root"
+                dateTime="2018-11-29T16:01:51.897Z"
+                title="2018-11-29T16:01:51.897Z"
               >
-                <time
-                  className="RelativeTime-root Timestamp-root"
-                  dateTime="2018-11-29T16:01:51.897Z"
-                  title="2018-11-29T16:01:51.897Z"
-                >
-                  2018-11-29T16:01:51.897Z
-                </time>
-              </span>
+                2018-11-29T16:01:51.897Z
+              </time>
               <div
                 className="DotDivider-root"
               >
@@ -360,34 +343,32 @@ exports[`render popover content 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm RejectedIcon-root"
+              className="Icon-root Icon-md RejectedIcon-root"
             >
               cancel
             </i>
           </div>
           <div>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
+            <span
+              className="Info-root"
             >
               Rejected comment by 
-              <strong>
+              <strong
+                className="Username-root"
+              >
                 addy
               </strong>
-            </p>
+            </span>
             <div
               className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
-              <span
-                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
+              <time
+                className="RelativeTime-root Timestamp-root"
+                dateTime="2018-11-29T16:01:45.644Z"
+                title="2018-11-29T16:01:45.644Z"
               >
-                <time
-                  className="RelativeTime-root Timestamp-root"
-                  dateTime="2018-11-29T16:01:45.644Z"
-                  title="2018-11-29T16:01:45.644Z"
-                >
-                  2018-11-29T16:01:45.644Z
-                </time>
-              </span>
+                2018-11-29T16:01:45.644Z
+              </time>
               <div
                 className="DotDivider-root"
               >

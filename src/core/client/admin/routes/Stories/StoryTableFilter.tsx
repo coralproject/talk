@@ -7,12 +7,13 @@ import {
   Button,
   FieldSet,
   Flex,
+  HorizontalGutter,
   Icon,
+  Label,
   Option,
   SelectField,
   TextField,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import styles from "./StoryTableFilter.css";
 
@@ -26,91 +27,88 @@ interface Props {
 const StoryTableFilter: FunctionComponent<Props> = props => (
   <Flex itemGutter="double">
     <FieldSet>
-      <Localized id="stories-filter-search">
-        <Typography
-          container="legend"
-          className={styles.legend}
-          variant="bodyCopyBold"
-        >
-          Search
-        </Typography>
-      </Localized>
-      <Form
-        initialValues={{ search: props.searchFilter }}
-        onSubmit={({ search }: { search: string }) =>
-          props.onSetSearchFilter(search)
-        }
-      >
-        {({ handleSubmit }) => (
-          <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
-            <Field name="search">
-              {({ input }) => (
-                <Localized
-                  id="stories-filter-searchField"
-                  attrs={{ placeholder: true, "aria-label": true }}
-                >
-                  <TextField
-                    className={styles.textField}
-                    placeholder="Search by story title or author..."
-                    aria-label="Search by story title or author"
-                    variant="seamlessAdornment"
-                    {...input}
-                    adornment={
-                      <Localized
-                        id="stories-filter-searchButton"
-                        attrs={{ "aria-label": true }}
-                      >
-                        <Button
-                          className={styles.adornment}
-                          variant="adornment"
-                          type="submit"
-                          color="dark"
-                          aria-label="Search"
-                        >
-                          <Icon size="md">search</Icon>
-                        </Button>
-                      </Localized>
-                    }
-                  />
-                </Localized>
-              )}
-            </Field>
-          </form>
-        )}
-      </Form>
-    </FieldSet>
-    <FieldSet>
-      <Localized id="stories-filter-showMe">
-        <Typography
-          className={styles.legend}
-          container="legend"
-          variant="bodyCopyBold"
-        >
-          Show Me
-        </Typography>
-      </Localized>
-      <Localized
-        id="stories-filter-statusSelectField"
-        attrs={{ "aria-label": true }}
-      >
-        <SelectField
-          aria-label="Search by status"
-          value={props.statusFilter || ""}
-          onChange={e =>
-            props.onSetStatusFilter((e.target.value as any) || null)
+      <HorizontalGutter spacing={2}>
+        <Localized id="stories-filter-search">
+          <Label>Search</Label>
+        </Localized>
+        <Form
+          initialValues={{ search: props.searchFilter }}
+          onSubmit={({ search }: { search: string }) =>
+            props.onSetSearchFilter(search)
           }
         >
-          <Localized id="stories-filter-allStories">
-            <Option value="">All Stories</Option>
-          </Localized>
-          <Localized id="stories-filter-openStories">
-            <Option value={GQLSTORY_STATUS.OPEN}>Open Stories</Option>
-          </Localized>
-          <Localized id="stories-filter-closedStories">
-            <Option value={GQLSTORY_STATUS.CLOSED}>Closed Stories</Option>
-          </Localized>
-        </SelectField>
-      </Localized>
+          {({ handleSubmit }) => (
+            <form
+              autoComplete="off"
+              onSubmit={handleSubmit}
+              id="configure-form"
+            >
+              <Field name="search">
+                {({ input }) => (
+                  <Localized
+                    id="stories-filter-searchField"
+                    attrs={{ placeholder: true, "aria-label": true }}
+                  >
+                    <TextField
+                      className={styles.textField}
+                      color="dark"
+                      placeholder="Search by story title or author..."
+                      aria-label="Search by story title or author"
+                      variant="seamlessAdornment"
+                      {...input}
+                      adornment={
+                        <Localized
+                          id="stories-filter-searchButton"
+                          attrs={{ "aria-label": true }}
+                        >
+                          <Button
+                            className={styles.adornment}
+                            variant="adornment"
+                            type="submit"
+                            color="emphasis"
+                            aria-label="Search"
+                          >
+                            <Icon size="md">search</Icon>
+                          </Button>
+                        </Localized>
+                      }
+                    />
+                  </Localized>
+                )}
+              </Field>
+            </form>
+          )}
+        </Form>
+      </HorizontalGutter>
+    </FieldSet>
+    <FieldSet>
+      <HorizontalGutter spacing={2}>
+        <Localized id="stories-filter-showMe">
+          <Label>Show Me</Label>
+        </Localized>
+        <Localized
+          id="stories-filter-statusSelectField"
+          attrs={{ "aria-label": true }}
+        >
+          <SelectField
+            aria-label="Search by status"
+            value={props.statusFilter || ""}
+            onChange={e =>
+              props.onSetStatusFilter((e.target.value as any) || null)
+            }
+          >
+            <Localized id="stories-filter-allStories">
+              <Option value="">All Stories</Option>
+            </Localized>
+            <Localized id="stories-filter-openStories">
+              <Option value={GQLSTORY_STATUS.OPEN}>Open Stories</Option>
+            </Localized>
+            <Localized id="stories-filter-closedStories">
+              <Option value={GQLSTORY_STATUS.CLOSED}>Closed Stories</Option>
+            </Localized>
+          </SelectField>
+        </Localized>
+      </HorizontalGutter>
     </FieldSet>
   </Flex>
 );

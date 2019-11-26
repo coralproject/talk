@@ -1,7 +1,7 @@
 import { Link, LocationDescriptor } from "found";
 import React, { FunctionComponent } from "react";
 
-import { SubBarNavigationItem } from "coral-ui/components";
+import { SubBarNavigationItem } from "coral-ui/components/v2";
 
 interface Props {
   children: React.ReactNode;

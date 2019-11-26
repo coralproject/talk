@@ -10,7 +10,7 @@ import {
   Dropdown,
   DropdownButton,
   Popover,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import StoryStatusText from "./StoryStatusText";
 
@@ -62,7 +62,9 @@ const StoryStatusChange: FunctionComponent<Props> = props => (
             className={styles.button}
             onClick={toggleVisibility}
             ref={ref}
-            variant="regular"
+            color="mono"
+            uppercase={false}
+            variant="plain"
             size="small"
           >
             <StoryStatusText>{props.status}</StoryStatusText>

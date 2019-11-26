@@ -1,17 +1,17 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Icon, Typography } from "coral-ui/components";
+import { Flex, Icon } from "coral-ui/components/v2";
 
 import styles from "./Title.css";
 
 const Title: FunctionComponent = () => (
   <Flex className={styles.root} alignItems="center">
-    <Icon>history</Icon>{" "}
+    <Icon className={styles.icon} size="md">
+      history
+    </Icon>
     <Localized id="decisionHistory-yourDecisionHistory">
-      <Typography container="span" className={styles.text}>
-        Your Decision History
-      </Typography>
+      <span className={styles.text}>Your Decision History</span>
     </Localized>
   </Flex>
 );

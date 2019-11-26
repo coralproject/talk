@@ -2,8 +2,8 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { HorizontalGutter } from "coral-ui/components";
 
+import Header from "../../Header";
 import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
 import RegistrationField from "./RegistrationField";
 import SSOKeyFieldContainer from "./SSOKeyFieldContainer";
@@ -18,14 +18,14 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled, sso }) => (
   <ConfigBoxWithToggleField
     title={
       <Localized id="configure-auth-sso-loginWith">
-        <span>Login with SSO</span>
+        <Header container="h2">Login with SSO</Header>
       </Localized>
     }
     name="auth.integrations.sso.enabled"
     disabled={disabled}
   >
     {disabledInside => (
-      <HorizontalGutter size="double">
+      <>
         <SSOKeyFieldContainer sso={sso} disabled={disabledInside} />
         <TargetFilterField
           label={
@@ -40,7 +40,7 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled, sso }) => (
           name="auth.integrations.sso.allowRegistration"
           disabled={disabledInside}
         />
-      </HorizontalGutter>
+      </>
     )}
   </ConfigBoxWithToggleField>
 );

@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div
+<ForwardRef(forwardRef)
   className="ConfigBox-root"
+  container="div"
 >
   <ForwardRef(forwardRef)
     className="ConfigBox-title"
@@ -22,7 +23,12 @@ exports[`renders correctly 1`] = `
   <div
     className="ConfigBox-content"
   >
-    child
+    <ForwardRef(forwardRef)
+      container="div"
+      spacing={4}
+    >
+      child
+    </ForwardRef(forwardRef)>
   </div>
-</div>
+</ForwardRef(forwardRef)>
 `;

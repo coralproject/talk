@@ -6,10 +6,11 @@ import {
   Flex,
   FormField,
   Icon,
-  InputLabel,
+  Label,
   PasswordField,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
+
+import HelperText from "../../HelperText";
 
 import styles from "./SSOKeyField.css";
 
@@ -28,7 +29,7 @@ const SSOKeyField: FunctionComponent<Props> = ({
 }) => (
   <FormField className={styles.root} data-testid="configure-auth-sso-key">
     <Localized id="configure-auth-sso-key">
-      <InputLabel>Key</InputLabel>
+      <Label>Key</Label>
     </Localized>
     <PasswordField
       name="key"
@@ -40,18 +41,18 @@ const SSOKeyField: FunctionComponent<Props> = ({
       fullWidth
     />
     <Localized id="configure-auth-sso-regenerateAt" $date={keyGeneratedAt}>
-      <Typography className={styles.keyGenerated}>
+      <HelperText className={styles.keyGenerated}>
         KEY GENERATED AT: {keyGeneratedAt}
-      </Typography>
+      </HelperText>
     </Localized>
     <div className={styles.warningSection}>
       <Flex direction="row" itemGutter="half">
         <Icon className={styles.warnIcon}>warning</Icon>
         <Localized id="configure-auth-sso-regenerateHonoredWarning">
-          <Typography className={styles.warn} variant="bodyShort">
+          <HelperText>
             When regenerating a key, tokens signed with the previous key will be
             honored for 30 days.
-          </Typography>
+          </HelperText>
         </Localized>
       </Flex>
     </div>
@@ -60,7 +61,6 @@ const SSOKeyField: FunctionComponent<Props> = ({
       <Button
         id="configure-auth-sso-regenerate"
         variant="filled"
-        color="primary"
         size="small"
         disabled={disabled}
         onClick={onRegenerate}

@@ -4,12 +4,7 @@ import { Field } from "react-final-form";
 
 import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import { validateEmail } from "coral-framework/lib/validation";
-import {
-  FieldSet,
-  FormField,
-  InputLabel,
-  TextField,
-} from "coral-ui/components";
+import { FieldSet, FormField, Label, TextField } from "coral-ui/components/v2";
 
 interface Props {
   index: number;
@@ -22,13 +17,7 @@ const EmailField: FunctionComponent<Props> = ({ index, disabled }) => (
       {({ input, meta }) => (
         <FormField>
           <Localized id="community-invite-emailAddressLabel">
-            <InputLabel
-              container="legend"
-              variant="bodyCopyBold"
-              htmlFor={input.name}
-            >
-              Email Address:
-            </InputLabel>
+            <Label htmlFor={input.name}>Email Address:</Label>
           </Localized>
           <TextField
             data-testid={`invite-users-email.${index}`}

@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`forwards ref 1`] = `
+<ForwardRef(forwardRef)
+  className=""
+  classes={Object {}}
+  data-color="default"
+  data-variant="default"
+>
+  Push me
+</ForwardRef(forwardRef)>
+`;
+
+exports[`renders a medium sized, alert colored filled button with fullWidth 1`] = `
+<ForwardRef(forwardRef)
+  className="sizeMedium colorAlert variantFilled fullWidth"
+  classes={Object {}}
+  data-color="alert"
+  data-variant="filled"
+>
+  Push me
+</ForwardRef(forwardRef)>
+`;
+
+exports[`renders active state 1`] = `
+<ForwardRef(forwardRef)
+  className="active"
+  classes={Object {}}
+  data-active={true}
+  data-color="default"
+  data-variant="default"
+>
+  Push me
+</ForwardRef(forwardRef)>
+`;
+
+exports[`renders correctly 1`] = `
+<ForwardRef(forwardRef)
+  className=""
+  classes={
+    Object {
+      "keyboardFocus": "keyboardFocus",
+      "mouseHover": "mouseHover",
+    }
+  }
+  data-color="default"
+  data-variant="default"
+>
+  Push me
+</ForwardRef(forwardRef)>
+`;

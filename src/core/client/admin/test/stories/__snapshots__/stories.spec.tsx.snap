@@ -14,103 +14,111 @@ exports[`renders empty stories 1`] = `
       <fieldset
         className="FieldSet-root"
       >
-        <legend
-          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          Search
-        </legend>
-        <form
-          autoComplete="off"
-          id="configure-form"
-          onSubmit={[Function]}
-        >
-          <div
-            className="TextField-root StoryTableFilter-textField"
+          <label
+            className="Label-root"
           >
-            <input
-              aria-label="Search by story title or author"
-              className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
-              name="search"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              placeholder="Search by story title or author..."
-              type="text"
-              value=""
-            />
+            Search
+          </label>
+          <form
+            autoComplete="off"
+            id="configure-form"
+            onSubmit={[Function]}
+          >
             <div
-              className="TextField-adornment"
+              className="TextField-root StoryTableFilter-textField"
             >
-              <button
-                aria-label="Search"
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment StoryTableFilter-adornment"
-                data-color="dark"
-                data-variant="adornment"
+              <input
+                aria-label="Search by story title or author"
+                className="TextField-input TextField-colorDark TextField-seamlessAdornment"
+                name="search"
                 onBlur={[Function]}
+                onChange={[Function]}
                 onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="submit"
+                placeholder="Search by story title or author..."
+                type="text"
+                value=""
+              />
+              <div
+                className="TextField-adornment"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-md"
+                <button
+                  aria-label="Search"
+                  className="BaseButton-root Button-root Button-sizeMedium Button-colorEmphasis Button-variantAdornment Button-uppercase StoryTableFilter-adornment"
+                  data-color="emphasis"
+                  data-variant="adornment"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="submit"
                 >
-                  search
-                </i>
-              </button>
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    search
+                  </i>
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </fieldset>
       <fieldset
         className="FieldSet-root"
       >
-        <legend
-          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          Show Me
-        </legend>
-        <span
-          className="SelectField-root"
-        >
-          <select
-            aria-label="Search by status"
-            className="SelectField-select"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            value=""
+          <label
+            className="Label-root"
           >
-            <option
+            Show Me
+          </label>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              aria-label="Search by status"
+              className="SelectField-select"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
               value=""
             >
-              All Stories
-            </option>
-            <option
-              value="OPEN"
+              <option
+                value=""
+              >
+                All Stories
+              </option>
+              <option
+                value="OPEN"
+              >
+                Open Stories
+              </option>
+              <option
+                value="CLOSED"
+              >
+                Closed Stories
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper"
             >
-              Open Stories
-            </option>
-            <option
-              value="CLOSED"
-            >
-              Closed Stories
-            </option>
-          </select>
-          <span
-            aria-hidden={true}
-            className="SelectField-afterWrapper"
-          >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              expand_more
-            </i>
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </i>
+            </span>
           </span>
-        </span>
+        </div>
       </fieldset>
     </div>
     <div
@@ -194,9 +202,9 @@ exports[`renders empty stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular StoryStatusChange-button"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain StoryStatusChange-button"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -265,9 +273,9 @@ exports[`renders empty stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular StoryStatusChange-button"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain StoryStatusChange-button"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -325,103 +333,111 @@ exports[`renders stories 1`] = `
       <fieldset
         className="FieldSet-root"
       >
-        <legend
-          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          Search
-        </legend>
-        <form
-          autoComplete="off"
-          id="configure-form"
-          onSubmit={[Function]}
-        >
-          <div
-            className="TextField-root StoryTableFilter-textField"
+          <label
+            className="Label-root"
           >
-            <input
-              aria-label="Search by story title or author"
-              className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
-              name="search"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              placeholder="Search by story title or author..."
-              type="text"
-              value=""
-            />
+            Search
+          </label>
+          <form
+            autoComplete="off"
+            id="configure-form"
+            onSubmit={[Function]}
+          >
             <div
-              className="TextField-adornment"
+              className="TextField-root StoryTableFilter-textField"
             >
-              <button
-                aria-label="Search"
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment StoryTableFilter-adornment"
-                data-color="dark"
-                data-variant="adornment"
+              <input
+                aria-label="Search by story title or author"
+                className="TextField-input TextField-colorDark TextField-seamlessAdornment"
+                name="search"
                 onBlur={[Function]}
+                onChange={[Function]}
                 onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="submit"
+                placeholder="Search by story title or author..."
+                type="text"
+                value=""
+              />
+              <div
+                className="TextField-adornment"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-md"
+                <button
+                  aria-label="Search"
+                  className="BaseButton-root Button-root Button-sizeMedium Button-colorEmphasis Button-variantAdornment Button-uppercase StoryTableFilter-adornment"
+                  data-color="emphasis"
+                  data-variant="adornment"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="submit"
                 >
-                  search
-                </i>
-              </button>
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    search
+                  </i>
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </fieldset>
       <fieldset
         className="FieldSet-root"
       >
-        <legend
-          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          Show Me
-        </legend>
-        <span
-          className="SelectField-root"
-        >
-          <select
-            aria-label="Search by status"
-            className="SelectField-select"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            value=""
+          <label
+            className="Label-root"
           >
-            <option
+            Show Me
+          </label>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              aria-label="Search by status"
+              className="SelectField-select"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
               value=""
             >
-              All Stories
-            </option>
-            <option
-              value="OPEN"
+              <option
+                value=""
+              >
+                All Stories
+              </option>
+              <option
+                value="OPEN"
+              >
+                Open Stories
+              </option>
+              <option
+                value="CLOSED"
+              >
+                Closed Stories
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper"
             >
-              Open Stories
-            </option>
-            <option
-              value="CLOSED"
-            >
-              Closed Stories
-            </option>
-          </select>
-          <span
-            aria-hidden={true}
-            className="SelectField-afterWrapper"
-          >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              expand_more
-            </i>
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </i>
+            </span>
           </span>
-        </span>
+        </div>
       </fieldset>
     </div>
     <div
@@ -505,9 +521,9 @@ exports[`renders stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular StoryStatusChange-button"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain StoryStatusChange-button"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -576,9 +592,9 @@ exports[`renders stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular StoryStatusChange-button"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain StoryStatusChange-button"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}

@@ -1,0 +1,56 @@
+.root {
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-reset);
+  letter-spacing: calc(0.2em / 14);
+  border-radius: var(--round-corners);
+  padding: 1px 3px 1px 3px;
+  color: inherit;
+}
+
+.sizeSmall {
+  font-size: var(--v2-font-size-1);
+  padding: 2px 3px;
+  line-height: var(--v2-line-height-reset);
+}
+
+.text {
+  color: var(--v2-palette-counter-badge-foreground);
+}
+
+.colorInherit {
+  background-color: currentColor;
+}
+
+.colorPrimary {
+  background-color: var(--palette-primary-main);
+}
+
+.colorGrey {
+  background-color: var(--palette-grey-lightest);
+  box-shadow: inset 0px 0px 0px 1px var(--palette-grey-dark);
+  & .text {
+    color: var(--palette-grey-dark);
+  }
+}
+
+.colorDark {
+  background-color: var(--palette-grey-dark);
+}
+
+.colorError {
+  background-color: var(--palette-error-darkest);
+}
+
+.colorEmphasis {
+  background-color: var(--v2-palette-counter-badge-background-emphasis);
+}
+
+.colorDefault {
+  background-color: var(--v2-palette-counter-badge-background-default);
+}
+
+.colorAlert {
+  background-color: var(--v2-palette-counter-badge-background-alert);
+}

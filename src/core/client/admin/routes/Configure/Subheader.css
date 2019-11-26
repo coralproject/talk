@@ -1,5 +1,10 @@
 .root {
-  padding-bottom: calc(0.25 * var(--mini-unit));
-  border-bottom: 1px solid var(--palette-divider);
-  margin-bottom: calc(0.75 * var(--mini-unit));
+  border-bottom: 1px solid var(--v2-palette-configure-sub-heading-border);
+  color: var(--v2-palette-configure-sub-heading-foreground);
+  font-family: var(--v2-font-family-primary);
+  font-size: var(--v2-font-size-3);
+  font-weight: var(--v2-font-weight-primary-bold);
+  padding-bottom: var(--v2-spacing-2);
+  margin: 0;
+  line-height: var(--v2-lh-reset);
 }

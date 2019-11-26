@@ -2,12 +2,8 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { DURATION_UNIT, DurationField } from "coral-framework/components";
-import {
-  formatPercentage,
-  parsePercentage,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
+import { hasError } from "coral-framework/lib/form/helpers";
 import {
   composeValidators,
   required,
@@ -15,18 +11,21 @@ import {
   validateWholeNumberGreaterThan,
 } from "coral-framework/lib/validation";
 import {
+  DURATION_UNIT,
+  DurationField,
   FieldSet,
   FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+  FormFieldHeader,
+  Label,
+  TextFieldAdornment,
+} from "coral-ui/components/v2";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
+import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
-import SectionContent from "../../SectionContent";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
+import ValidationMessage from "../../ValidationMessage";
 
 import styles from "./RecentCommentHistoryConfig.css";
 
@@ -36,100 +35,105 @@ interface Props {
 
 const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
-    <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
-      <Localized id="configure-moderation-recentCommentHistory-title">
-        <Header container="legend">Recent history</Header>
-      </Localized>
-      <SectionContent>
-        <FormField container={<FieldSet />}>
+    <ConfigBox
+      title={
+        <Localized id="configure-moderation-recentCommentHistory-title">
+          <Header container={<legend />}>Recent history</Header>
+        </Localized>
+      }
+      container={<FieldSet />}
+    >
+      <FormField container={<FieldSet />}>
+        <FormFieldHeader>
           <Localized id="configure-moderation-recentCommentHistory-timeFrame">
-            <InputLabel container="legend">
-              Recent comment history time period
-            </InputLabel>
+            <Label component="legend">Recent comment history time period</Label>
           </Localized>
           <Localized id="configure-moderation-recentCommentHistory-timeFrame-description">
-            <InputDescription>
+            <HelperText>
               The period of time over which a user’s rejection rate is
               calculated.
-            </InputDescription>
+            </HelperText>
           </Localized>
-          <Field
-            name="recentCommentHistory.timeFrame"
-            validate={composeValidators(
-              required,
-              validateWholeNumberGreaterThan(0)
-            )}
-          >
-            {({ input, meta }) => (
-              <>
-                <DurationField
-                  units={[DURATION_UNIT.DAYS]}
-                  disabled={disabled}
-                  {...input}
-                />
-                <ValidationMessage meta={meta} />
-              </>
-            )}
-          </Field>
-        </FormField>
-        <FormField container={<FieldSet />}>
+        </FormFieldHeader>
+        <Field
+          name="recentCommentHistory.timeFrame"
+          validate={composeValidators(
+            required,
+            validateWholeNumberGreaterThan(0)
+          )}
+        >
+          {({ input, meta }) => (
+            <>
+              <DurationField
+                units={[DURATION_UNIT.DAYS]}
+                disabled={disabled}
+                color={hasError(meta) ? "error" : "regular"}
+                {...input}
+              />
+              <ValidationMessage meta={meta} fullWidth />
+            </>
+          )}
+        </Field>
+      </FormField>
+      <FormField container={<FieldSet />}>
+        <FormFieldHeader>
           <Localized id="configure-moderation-recentCommentHistory-enabled">
-            <InputLabel container="legend">Recent history filter</InputLabel>
+            <Label component="legend">Recent history filter</Label>
           </Localized>
           <Localized
             id="configure-moderation-recentCommentHistory-enabled-description"
             strong={<strong />}
           >
-            <InputDescription>
+            <HelperText>
               Prevents repeat offenders from publishing comments without
               approval. After a commenter's rejection rate rises above the
               defined threshold below, their next submitted comments are{" "}
               <strong>sent to Pending for moderator approval.</strong> The
               filter is removed when their rejection rate falls below the
               threshold.
-            </InputDescription>
+            </HelperText>
           </Localized>
-          <OnOffField name="recentCommentHistory.enabled" disabled={disabled} />
-        </FormField>
-        <FormField>
+        </FormFieldHeader>
+        <OnOffField name="recentCommentHistory.enabled" disabled={disabled} />
+      </FormField>
+      <FormField>
+        <FormFieldHeader>
           <Localized id="configure-moderation-recentCommentHistory-triggerRejectionRate">
-            <InputLabel>Rejection rate threshold</InputLabel>
+            <Label>Rejection rate threshold</Label>
           </Localized>
           <Localized id="configure-moderation-recentCommentHistory-triggerRejectionRate-description">
-            <InputDescription>
+            <HelperText>
               A user’s rejected comments divided by their published comments,
               over the time period set below (does not include comments pending
               for toxicity, spam or pre-moderation.)
-            </InputDescription>
+            </HelperText>
           </Localized>
-          <Field
-            name="recentCommentHistory.triggerRejectionRate"
-            parse={parsePercentage}
-            format={formatPercentage}
-            validate={composeValidators(required, validatePercentage(0, 1))}
-          >
-            {({ input, meta }) => (
-              <>
-                <TextField
-                  classes={{
-                    input: styles.thresholdTextField,
-                  }}
-                  disabled={disabled}
-                  autoComplete="off"
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  spellCheck={false}
-                  adornment={<Typography variant="bodyShort">%</Typography>}
-                  textAlignCenter
-                  {...input}
-                />
-                <ValidationMessage meta={meta} />
-              </>
-            )}
-          </Field>
-        </FormField>
-      </SectionContent>
-    </HorizontalGutter>
+        </FormFieldHeader>
+        <Field
+          name="recentCommentHistory.triggerRejectionRate"
+          parse={parsePercentage}
+          format={formatPercentage}
+          validate={composeValidators(required, validatePercentage(0, 1))}
+        >
+          {({ input, meta }) => (
+            <TextFieldWithValidation
+              classes={{
+                input: styles.thresholdTextField,
+              }}
+              disabled={disabled}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              adornment={<TextFieldAdornment>%</TextFieldAdornment>}
+              meta={meta}
+              textAlignCenter
+              {...input}
+            />
+          )}
+        </Field>
+      </FormField>
+    </ConfigBox>
   );
 };
 

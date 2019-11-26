@@ -365,6 +365,8 @@
     "typeface-source-sans-pro": "^0.0.54",
     "typescript": "3.3.4000",
     "typescript-snapshots-plugin": "^1.6.0",
+    "typeface-nunito": "0.0.72",
+    "typeface-open-sans": "0.0.75",
     "wait-for-expect": "^1.1.1",
     "webpack": "^4.30.0",
     "webpack-assets-manifest": "^3.1.1",

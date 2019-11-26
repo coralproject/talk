@@ -1,16 +1,20 @@
 .root {
-  padding: 0 calc(0.5 * var(--mini-unit));
-  background-color: #f2f2f2;
-  color: var(--palette-text-primary);
-  border-bottom: 1px solid var(--palette-grey-lighter);
+  background: var(--v2-palette-decision-history-title-background);
+  padding: var(--v2-spacing-1);
+  color: var(--v2-palette-text-primary);
+  border-bottom: 1px solid var(--v2-palette-decision-history-border);
+  font-size: var(--v2-font-size-icon-medium);
+}
+
+.icon {
+  margin-right: var(--v2-spacing-2);
 }
 
 .text {
   text-transform: uppercase;
-  font-size: calc(12rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(12em / 12);
-  letter-spacing: calc(0.2em / 12);
-  color: var(--palette-text-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  color: var(--v2-palette-text-primary);
+  font-size: var(--v2-font-size-2);
+  line-height: 1;
+  font-family: var(--v2-font-family-primary);
 }

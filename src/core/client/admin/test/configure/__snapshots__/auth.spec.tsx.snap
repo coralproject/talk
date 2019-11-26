@@ -2,20 +2,22 @@
 
 exports[`change settings: during submit: oidc without errors 1`] = `
 <div
-  className="ConfigBox-root"
+  className="Box-root ConfigBox-root"
   data-testid="configure-auth-oidc-container"
 >
   <div
     className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
-      <span>
+      <h2
+        className="Header-root"
+      >
         Login with OpenID Connect
-      </span>
+      </h2>
     </div>
     <div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
           className="CheckBox-root"
@@ -50,10 +52,10 @@ exports[`change settings: during submit: oidc without errors 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        className="FormFieldDescription-root"
       >
         To learn more: 
         <a
@@ -70,14 +72,11 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           </i>
         </a>
       </p>
-      <hr
-        className="HorizontalRule-root"
-      />
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Redirect URI
         </label>
@@ -97,8 +96,8 @@ exports[`change settings: during submit: oidc without errors 1`] = `
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
@@ -118,72 +117,84 @@ exports[`change settings: during submit: oidc without errors 1`] = `
         className="HorizontalRule-root"
       />
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Provider name
-        </label>
-        <p
-          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-        >
-          The provider of the OpenID Connect integration. This will be used when the name of the provider
-needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
-        </p>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={true}
-            name="auth.integrations.oidc.name"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="name"
-          />
+          <label
+            className="Label-root"
+          >
+            Provider name
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            The provider of the OpenID Connect integration. This will be used when the name of the provider
+needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
+          </p>
+        </div>
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+        >
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={true}
+              name="auth.integrations.oidc.name"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value="name"
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Client ID
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={true}
-            name="auth.integrations.oidc.clientID"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="clientID"
-          />
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={true}
+              name="auth.integrations.oidc.clientID"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value="clientID"
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Client secret
         </label>
@@ -227,19 +238,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        <div
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
-          Issuer
-        </label>
-        <p
-          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-        >
-          After entering your Issuer information, click the Discover button to have Coral complete
+          <label
+            className="Label-root"
+          >
+            Issuer
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
-        </p>
+          </p>
+        </div>
         <div
           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
@@ -263,8 +278,8 @@ the remaining fields. You may also enter the information manually.
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase Button-disabled"
+            data-color="default"
             data-variant="filled"
             disabled={true}
             id="configure-auth-oidc-discover"
@@ -281,94 +296,106 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Authorization URL
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={true}
-            name="auth.integrations.oidc.authorizationURL"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="http://issuer.com/authorizationURL"
-          />
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={true}
+              name="auth.integrations.oidc.authorizationURL"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value="http://issuer.com/authorizationURL"
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Token URL
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={true}
-            name="auth.integrations.oidc.tokenURL"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="http://issuer.com/tokenURL"
-          />
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={true}
+              name="auth.integrations.oidc.tokenURL"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value="http://issuer.com/tokenURL"
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           JWKS URI
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={true}
-            name="auth.integrations.oidc.jwksURI"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="http://issuer.com/jwksURI"
-          />
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={true}
+              name="auth.integrations.oidc.jwksURI"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value="http://issuer.com/jwksURI"
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           <span>
             Use OpenID Connect login on
@@ -432,21 +459,25 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Registration
-        </label>
-        <p
-          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-        >
-          Allow users that have not signed up before with this authentication
-integration to register for a new account.
-        </p>
         <div
-          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+        >
+          <label
+            className="Label-root"
+          >
+            Registration
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            Allow users that have not signed up before with this authentication
+integration to register for a new account.
+          </p>
+        </div>
+        <div
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
         >
           <div
             className="CheckBox-root"
@@ -483,20 +514,22 @@ integration to register for a new account.
 
 exports[`change settings: enable facebook configure box 1`] = `
 <div
-  className="ConfigBox-root"
+  className="Box-root ConfigBox-root"
   data-testid="configure-auth-facebook-container"
 >
   <div
     className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
-      <span>
+      <h2
+        className="Header-root"
+      >
         Login with Facebook
-      </span>
+      </h2>
     </div>
     <div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
           className="CheckBox-root"
@@ -531,10 +564,10 @@ exports[`change settings: enable facebook configure box 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        className="FormFieldDescription-root"
       >
         To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
@@ -554,14 +587,11 @@ For more information visit:
         </a>
         .
       </p>
-      <hr
-        className="HorizontalRule-root"
-      />
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Redirect URI
         </label>
@@ -581,8 +611,8 @@ For more information visit:
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
@@ -602,38 +632,42 @@ For more information visit:
         className="HorizontalRule-root"
       />
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Client ID
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.facebook.clientID"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="myClientID"
-          />
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={false}
+              name="auth.integrations.facebook.clientID"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value="myClientID"
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Client secret
         </label>
@@ -677,10 +711,10 @@ For more information visit:
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           <span>
             Use Facebook login on
@@ -744,21 +778,25 @@ For more information visit:
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Registration
-        </label>
-        <p
-          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-        >
-          Allow users that have not signed up before with this authentication
-integration to register for a new account.
-        </p>
         <div
-          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+        >
+          <label
+            className="Label-root"
+          >
+            Registration
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            Allow users that have not signed up before with this authentication
+integration to register for a new account.
+          </p>
+        </div>
+        <div
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
         >
           <div
             className="CheckBox-root"
@@ -795,20 +833,22 @@ integration to register for a new account.
 
 exports[`change settings: enable oidc configure box 1`] = `
 <div
-  className="ConfigBox-root"
+  className="Box-root ConfigBox-root"
   data-testid="configure-auth-oidc-container"
 >
   <div
     className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
-      <span>
+      <h2
+        className="Header-root"
+      >
         Login with OpenID Connect
-      </span>
+      </h2>
     </div>
     <div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
           className="CheckBox-root"
@@ -843,10 +883,10 @@ exports[`change settings: enable oidc configure box 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        className="FormFieldDescription-root"
       >
         To learn more: 
         <a
@@ -863,14 +903,11 @@ exports[`change settings: enable oidc configure box 1`] = `
           </i>
         </a>
       </p>
-      <hr
-        className="HorizontalRule-root"
-      />
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Redirect URI
         </label>
@@ -890,8 +927,8 @@ exports[`change settings: enable oidc configure box 1`] = `
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
@@ -911,72 +948,84 @@ exports[`change settings: enable oidc configure box 1`] = `
         className="HorizontalRule-root"
       />
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Provider name
-        </label>
-        <p
-          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-        >
-          The provider of the OpenID Connect integration. This will be used when the name of the provider
-needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
-        </p>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.name"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <label
+            className="Label-root"
+          >
+            Provider name
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            The provider of the OpenID Connect integration. This will be used when the name of the provider
+needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
+          </p>
+        </div>
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+        >
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={false}
+              name="auth.integrations.oidc.name"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Client ID
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.clientID"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={false}
+              name="auth.integrations.oidc.clientID"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Client secret
         </label>
@@ -1020,19 +1069,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        <div
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
-          Issuer
-        </label>
-        <p
-          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-        >
-          After entering your Issuer information, click the Discover button to have Coral complete
+          <label
+            className="Label-root"
+          >
+            Issuer
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
-        </p>
+          </p>
+        </div>
         <div
           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
@@ -1056,8 +1109,8 @@ the remaining fields. You may also enter the information manually.
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             disabled={false}
             id="configure-auth-oidc-discover"
@@ -1074,94 +1127,106 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Authorization URL
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.authorizationURL"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={false}
+              name="auth.integrations.oidc.authorizationURL"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Token URL
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.tokenURL"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={false}
+              name="auth.integrations.oidc.tokenURL"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           JWKS URI
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.jwksURI"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <div
+            className="TextField-root TextField-fullWidth"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={false}
+              name="auth.integrations.oidc.jwksURI"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           <span>
             Use OpenID Connect login on
@@ -1225,21 +1290,25 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Registration
-        </label>
-        <p
-          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-        >
-          Allow users that have not signed up before with this authentication
-integration to register for a new account.
-        </p>
         <div
-          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+        >
+          <label
+            className="Label-root"
+          >
+            Registration
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            Allow users that have not signed up before with this authentication
+integration to register for a new account.
+          </p>
+        </div>
+        <div
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
         >
           <div
             className="CheckBox-root"
@@ -1276,20 +1345,22 @@ integration to register for a new account.
 
 exports[`change settings: oidc validation errors 1`] = `
 <div
-  className="ConfigBox-root"
+  className="Box-root ConfigBox-root"
   data-testid="configure-auth-oidc-container"
 >
   <div
     className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
-      <span>
+      <h2
+        className="Header-root"
+      >
         Login with OpenID Connect
-      </span>
+      </h2>
     </div>
     <div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
           className="CheckBox-root"
@@ -1324,10 +1395,10 @@ exports[`change settings: oidc validation errors 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
     >
       <p
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        className="FormFieldDescription-root"
       >
         To learn more: 
         <a
@@ -1344,14 +1415,11 @@ exports[`change settings: oidc validation errors 1`] = `
           </i>
         </a>
       </p>
-      <hr
-        className="HorizontalRule-root"
-      />
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Redirect URI
         </label>
@@ -1371,8 +1439,8 @@ exports[`change settings: oidc validation errors 1`] = `
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             onBlur={[Function]}
             onClick={[Function]}
@@ -1392,98 +1460,110 @@ exports[`change settings: oidc validation errors 1`] = `
         className="HorizontalRule-root"
       />
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Provider name
-        </label>
-        <p
-          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-        >
-          The provider of the OpenID Connect integration. This will be used when the name of the provider
-needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
-        </p>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorError"
-            disabled={false}
-            name="auth.integrations.oidc.name"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <label
+            className="Label-root"
+          >
+            Provider name
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            The provider of the OpenID Connect integration. This will be used when the name of the provider
+needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
+          </p>
         </div>
         <div
-          className="Message-root Message-colorError"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm MessageIcon-root"
+          <div
+            className="TextField-root TextField-fullWidth"
           >
-            warning
-          </i>
-          <span>
-            This field is required.
-          </span>
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorError"
+              disabled={false}
+              name="auth.integrations.oidc.name"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            className="Message-root Message-colorError Message-fullWidth"
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm MessageIcon-root"
+            >
+              warning
+            </i>
+            <span>
+              This field is required.
+            </span>
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Client ID
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorError"
-            disabled={false}
-            name="auth.integrations.oidc.clientID"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="Message-root Message-colorError ValidationMessage-root"
-        >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm MessageIcon-root"
+          <div
+            className="TextField-root TextField-fullWidth"
           >
-            warning
-          </i>
-          <span>
-            This field is required.
-          </span>
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorError"
+              disabled={false}
+              name="auth.integrations.oidc.clientID"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            className="Message-root Message-colorError Message-fullWidth"
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm MessageIcon-root"
+            >
+              warning
+            </i>
+            <span>
+              This field is required.
+            </span>
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Client secret
         </label>
@@ -1526,7 +1606,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           </div>
         </div>
         <div
-          className="Message-root Message-colorError"
+          className="Message-root Message-colorError Message-fullWidth"
         >
           <i
             aria-hidden="true"
@@ -1540,19 +1620,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        <div
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
         >
-          Issuer
-        </label>
-        <p
-          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-        >
-          After entering your Issuer information, click the Discover button to have Coral complete
+          <label
+            className="Label-root"
+          >
+            Issuer
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
-        </p>
+          </p>
+        </div>
         <div
           className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
@@ -1576,8 +1660,8 @@ the remaining fields. You may also enter the information manually.
             />
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-            data-color="primary"
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+            data-color="default"
             data-variant="filled"
             disabled={false}
             id="configure-auth-oidc-discover"
@@ -1593,7 +1677,7 @@ the remaining fields. You may also enter the information manually.
           </button>
         </div>
         <div
-          className="Message-root Message-colorError"
+          className="Message-root Message-colorError Message-fullWidth"
         >
           <i
             aria-hidden="true"
@@ -1607,133 +1691,145 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Authorization URL
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorError"
-            disabled={false}
-            name="auth.integrations.oidc.authorizationURL"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="Message-root Message-colorError"
-        >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm MessageIcon-root"
+          <div
+            className="TextField-root TextField-fullWidth"
           >
-            warning
-          </i>
-          <span>
-            This field is required.
-          </span>
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorError"
+              disabled={false}
+              name="auth.integrations.oidc.authorizationURL"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            className="Message-root Message-colorError Message-fullWidth"
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm MessageIcon-root"
+            >
+              warning
+            </i>
+            <span>
+              This field is required.
+            </span>
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           Token URL
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorError"
-            disabled={false}
-            name="auth.integrations.oidc.tokenURL"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="Message-root Message-colorError"
-        >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm MessageIcon-root"
+          <div
+            className="TextField-root TextField-fullWidth"
           >
-            warning
-          </i>
-          <span>
-            This field is required.
-          </span>
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorError"
+              disabled={false}
+              name="auth.integrations.oidc.tokenURL"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            className="Message-root Message-colorError Message-fullWidth"
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm MessageIcon-root"
+            >
+              warning
+            </i>
+            <span>
+              This field is required.
+            </span>
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           JWKS URI
         </label>
         <div
-          className="TextField-root TextField-fullWidth"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorError"
-            disabled={false}
-            name="auth.integrations.oidc.jwksURI"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="Message-root Message-colorError"
-        >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm MessageIcon-root"
+          <div
+            className="TextField-root TextField-fullWidth"
           >
-            warning
-          </i>
-          <span>
-            This field is required.
-          </span>
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorError"
+              disabled={false}
+              name="auth.integrations.oidc.jwksURI"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            className="Message-root Message-colorError Message-fullWidth"
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm MessageIcon-root"
+            >
+              warning
+            </i>
+            <span>
+              This field is required.
+            </span>
+          </div>
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Label-root"
         >
           <span>
             Use OpenID Connect login on
@@ -1797,21 +1893,25 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <label
-          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Registration
-        </label>
-        <p
-          className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-        >
-          Allow users that have not signed up before with this authentication
-integration to register for a new account.
-        </p>
         <div
-          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+        >
+          <label
+            className="Label-root"
+          >
+            Registration
+          </label>
+          <p
+            className="HelperText-root"
+          >
+            Allow users that have not signed up before with this authentication
+integration to register for a new account.
+          </p>
+        </div>
+        <div
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
         >
           <div
             className="CheckBox-root"
@@ -1861,11 +1961,11 @@ exports[`prevents admin lock out 1`] = `
 
 exports[`regenerate sso key 1`] = `
 <div
-  className="Box-root HorizontalGutter-root FormField-root SSOKeyField-root HorizontalGutter-half"
+  className="Box-root HorizontalGutter-root FormField-root SSOKeyField-root HorizontalGutter-spacing-2"
   data-testid="configure-auth-sso-key"
 >
   <label
-    className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+    className="Label-root"
   >
     Key
   </label>
@@ -1905,7 +2005,7 @@ exports[`regenerate sso key 1`] = `
     </div>
   </div>
   <p
-    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-keyGenerated"
+    className="SSOKeyField-keyGenerated HelperText-root"
   >
     KEY GENERATED AT:
 11/12/2018, 11:26 PM
@@ -1923,15 +2023,15 @@ exports[`regenerate sso key 1`] = `
         warning
       </i>
       <p
-        className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary SSOKeyField-warn"
+        className="HelperText-root"
       >
         When regenerating a key, tokens signed with the previous key will be honored for 30 days.
       </p>
     </div>
   </div>
   <button
-    className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled SSOKeyField-regenerateButton"
-    data-color="primary"
+    className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase SSOKeyField-regenerateButton"
+    data-color="default"
     data-variant="filled"
     disabled={false}
     id="configure-auth-sso-regenerate"
@@ -2043,8 +2143,8 @@ exports[`renders configure auth 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
-            data-color="success"
+            className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase Button-disabled"
+            data-color="default"
             data-testid="configure-sideBar-saveChanges"
             data-variant="filled"
             disabled={true}
@@ -2067,47 +2167,54 @@ exports[`renders configure auth 1`] = `
         >
           <div>
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+              className="Box-root ConfigBox-root"
             >
-              <legend
-                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
-              >
-                Commenter account management features
-              </legend>
               <div
-                className="Box-root HorizontalGutter-root SectionContent-sectionContent HorizontalGutter-double"
+                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
               >
-                <p
-                  className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary"
+                <div>
+                  <legend
+                    className="Header-root"
+                  >
+                    Commenter account management features
+                  </legend>
+                </div>
+                <div />
+              </div>
+              <div
+                className="ConfigBox-content"
+              >
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                 >
-                  You can enable and disable certain features for your commenters to use
+                  <p
+                    className="FormFieldDescription-root"
+                  >
+                    You can enable and disable certain features for your commenters to use
 within their Profile. These features also assist towards GDPR
 compliance.
-                </p>
-                <fieldset
-                  className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-full"
-                >
-                  <h1
-                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
-                  >
-                    Allow users to:
-                  </h1>
+                  </p>
                   <fieldset
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
+                    <p
+                      className="FormFieldDescription-root"
+                    >
+                      Allow users to:
+                    </p>
                     <div
                       className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-half"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <legend
-                          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                          className="Label-root"
                         >
                           Change their usernames
                         </legend>
                         <p
-                          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                          className="HelperText-root"
                         >
                           Usernames can be changed once every 14 days.
                         </p>
@@ -2166,26 +2273,22 @@ compliance.
                       </div>
                     </div>
                   </fieldset>
-                </fieldset>
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
-                >
                   <fieldset
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-half"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <legend
-                          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                          className="Label-root"
                         >
                           Download their comments
                         </legend>
                         <p
-                          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                          className="HelperText-root"
                         >
                           Commenters can download a csv of their comment history.
                         </p>
@@ -2244,26 +2347,22 @@ compliance.
                       </div>
                     </div>
                   </fieldset>
-                </div>
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
-                >
                   <fieldset
-                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Box-root HorizontalGutter-root HorizontalGutter-half"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
                         <legend
-                          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                          className="Label-root"
                         >
                           Delete their account
                         </legend>
                         <p
-                          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                          className="HelperText-root"
                         >
                           Removes all of their comment data, username, and email
 address from the site and the database.
@@ -2332,107 +2431,120 @@ address from the site and the database.
             data-testid="configure-authContainer"
           >
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              className="Box-root ConfigBox-root"
             >
               <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
               >
-                <h1
-                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Header-root"
-                >
-                  Session settings
-                </h1>
-              </div>
-              <fieldset
-                className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-              >
-                <legend
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                >
-                  Session duration
-                </legend>
-                <div
-                  className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
-                >
-                  <div
-                    className="TextField-root DurationField-value"
+                <div>
+                  <h2
+                    className="Header-root"
                   >
-                    <input
-                      aria-label="value"
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input TextField-colorRegular TextField-textAlignCenter"
-                      disabled={false}
-                      name="auth.sessionDuration-value"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value="90"
-                    />
-                  </div>
-                  <span
-                    className="SelectField-root"
-                  >
-                    <select
-                      aria-label="unit"
-                      className="SelectField-select DurationField-select"
-                      disabled={false}
-                      name="auth.sessionDuration-unit"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      value="86400"
-                    >
-                      <option
-                        value="3600"
-                      >
-                        Hours
-                      </option>
-                      <option
-                        value="86400"
-                      >
-                        Days
-                      </option>
-                      <option
-                        value="604800"
-                      >
-                        Weeks
-                      </option>
-                    </select>
-                    <span
-                      aria-hidden={true}
-                      className="SelectField-afterWrapper"
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm"
-                      >
-                        expand_more
-                      </i>
-                    </span>
-                  </span>
+                    Session settings
+                  </h2>
                 </div>
-              </fieldset>
+                <div />
+              </div>
+              <div
+                className="ConfigBox-content"
+              >
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+                >
+                  <fieldset
+                    className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                  >
+                    <legend
+                      className="Label-root"
+                    >
+                      Session duration
+                    </legend>
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+                    >
+                      <div
+                        className="TextField-root DurationField-value"
+                      >
+                        <input
+                          aria-label="value"
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                          disabled={false}
+                          name="auth.sessionDuration-value"
+                          onChange={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="text"
+                          value="90"
+                        />
+                      </div>
+                      <span
+                        className="SelectField-root"
+                      >
+                        <select
+                          aria-label="unit"
+                          className="SelectField-select DurationField-select"
+                          disabled={false}
+                          name="auth.sessionDuration-unit"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          value="86400"
+                        >
+                          <option
+                            value="3600"
+                          >
+                            Hours
+                          </option>
+                          <option
+                            value="86400"
+                          >
+                            Days
+                          </option>
+                          <option
+                            value="604800"
+                          >
+                            Weeks
+                          </option>
+                        </select>
+                        <span
+                          aria-hidden={true}
+                          className="SelectField-afterWrapper"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            expand_more
+                          </i>
+                        </span>
+                      </span>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
             </div>
             <div
               className="Box-root HorizontalGutter-root HorizontalGutter-double"
             >
               <div
-                className="ConfigBox-root"
+                className="Box-root ConfigBox-root"
               >
                 <div
                   className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
                   <div>
-                    <span>
+                    <h2
+                      className="Header-root"
+                    >
                       Login with email authentication
-                    </span>
+                    </h2>
                   </div>
                   <div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
                         className="CheckBox-root"
@@ -2467,13 +2579,13 @@ address from the site and the database.
                   className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         <span>
                           Use email authentication login on
@@ -2537,21 +2649,25 @@ address from the site and the database.
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
-                      <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                      >
-                        Registration
-                      </label>
-                      <p
-                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                      >
-                        Allow users that have not signed up before with this authentication
-integration to register for a new account.
-                      </p>
                       <div
-                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                      >
+                        <label
+                          className="Label-root"
+                        >
+                          Registration
+                        </label>
+                        <p
+                          className="HelperText-root"
+                        >
+                          Allow users that have not signed up before with this authentication
+integration to register for a new account.
+                        </p>
+                      </div>
+                      <div
+                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                       >
                         <div
                           className="CheckBox-root"
@@ -2585,20 +2701,22 @@ integration to register for a new account.
                 </div>
               </div>
               <div
-                className="ConfigBox-root"
+                className="Box-root ConfigBox-root"
                 data-testid="configure-auth-oidc-container"
               >
                 <div
                   className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
                   <div>
-                    <span>
+                    <h2
+                      className="Header-root"
+                    >
                       Login with OpenID Connect
-                    </span>
+                    </h2>
                   </div>
                   <div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
                         className="CheckBox-root"
@@ -2633,10 +2751,10 @@ integration to register for a new account.
                   className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <p
-                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                      className="FormFieldDescription-root"
                     >
                       To learn more: 
                       <a
@@ -2653,14 +2771,11 @@ integration to register for a new account.
                         </i>
                       </a>
                     </p>
-                    <hr
-                      className="HorizontalRule-root"
-                    />
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Redirect URI
                       </label>
@@ -2680,8 +2795,8 @@ integration to register for a new account.
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-                          data-color="primary"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+                          data-color="default"
                           data-variant="filled"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -2701,72 +2816,84 @@ integration to register for a new account.
                       className="HorizontalRule-root"
                     />
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
-                      <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                      >
-                        Provider name
-                      </label>
-                      <p
-                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                      >
-                        The provider of the OpenID Connect integration. This will be used when the name of the provider
-needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
-                      </p>
                       <div
-                        className="TextField-root TextField-fullWidth"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
-                        <input
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                          className="TextField-input TextField-colorRegular"
-                          disabled={true}
-                          name="auth.integrations.oidc.name"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          placeholder=""
-                          spellCheck={false}
-                          type="text"
-                          value=""
-                        />
+                        <label
+                          className="Label-root"
+                        >
+                          Provider name
+                        </label>
+                        <p
+                          className="HelperText-root"
+                        >
+                          The provider of the OpenID Connect integration. This will be used when the name of the provider
+needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
+                        </p>
+                      </div>
+                      <div
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                      >
+                        <div
+                          className="TextField-root TextField-fullWidth"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="TextField-input TextField-colorRegular"
+                            disabled={true}
+                            name="auth.integrations.oidc.name"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder=""
+                            spellCheck={false}
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Client ID
                       </label>
                       <div
-                        className="TextField-root TextField-fullWidth"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                       >
-                        <input
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                          className="TextField-input TextField-colorRegular"
-                          disabled={true}
-                          name="auth.integrations.oidc.clientID"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          placeholder=""
-                          spellCheck={false}
-                          type="text"
-                          value=""
-                        />
+                        <div
+                          className="TextField-root TextField-fullWidth"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="TextField-input TextField-colorRegular"
+                            disabled={true}
+                            name="auth.integrations.oidc.clientID"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder=""
+                            spellCheck={false}
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Client secret
                       </label>
@@ -2810,19 +2937,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
-                      <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      <div
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
                       >
-                        Issuer
-                      </label>
-                      <p
-                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                      >
-                        After entering your Issuer information, click the Discover button to have Coral complete
+                        <label
+                          className="Label-root"
+                        >
+                          Issuer
+                        </label>
+                        <p
+                          className="HelperText-root"
+                        >
+                          After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
-                      </p>
+                        </p>
+                      </div>
                       <div
                         className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                       >
@@ -2846,8 +2977,8 @@ the remaining fields. You may also enter the information manually.
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
-                          data-color="primary"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase Button-disabled"
+                          data-color="default"
                           data-variant="filled"
                           disabled={true}
                           id="configure-auth-oidc-discover"
@@ -2864,94 +2995,106 @@ the remaining fields. You may also enter the information manually.
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Authorization URL
                       </label>
                       <div
-                        className="TextField-root TextField-fullWidth"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                       >
-                        <input
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                          className="TextField-input TextField-colorRegular"
-                          disabled={true}
-                          name="auth.integrations.oidc.authorizationURL"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          placeholder=""
-                          spellCheck={false}
-                          type="text"
-                          value=""
-                        />
+                        <div
+                          className="TextField-root TextField-fullWidth"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="TextField-input TextField-colorRegular"
+                            disabled={true}
+                            name="auth.integrations.oidc.authorizationURL"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder=""
+                            spellCheck={false}
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Token URL
                       </label>
                       <div
-                        className="TextField-root TextField-fullWidth"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                       >
-                        <input
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                          className="TextField-input TextField-colorRegular"
-                          disabled={true}
-                          name="auth.integrations.oidc.tokenURL"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          placeholder=""
-                          spellCheck={false}
-                          type="text"
-                          value=""
-                        />
+                        <div
+                          className="TextField-root TextField-fullWidth"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="TextField-input TextField-colorRegular"
+                            disabled={true}
+                            name="auth.integrations.oidc.tokenURL"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder=""
+                            spellCheck={false}
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         JWKS URI
                       </label>
                       <div
-                        className="TextField-root TextField-fullWidth"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                       >
-                        <input
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                          className="TextField-input TextField-colorRegular"
-                          disabled={true}
-                          name="auth.integrations.oidc.jwksURI"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          placeholder=""
-                          spellCheck={false}
-                          type="text"
-                          value=""
-                        />
+                        <div
+                          className="TextField-root TextField-fullWidth"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="TextField-input TextField-colorRegular"
+                            disabled={true}
+                            name="auth.integrations.oidc.jwksURI"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder=""
+                            spellCheck={false}
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         <span>
                           Use OpenID Connect login on
@@ -3015,21 +3158,25 @@ the remaining fields. You may also enter the information manually.
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
-                      <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                      >
-                        Registration
-                      </label>
-                      <p
-                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                      >
-                        Allow users that have not signed up before with this authentication
-integration to register for a new account.
-                      </p>
                       <div
-                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                      >
+                        <label
+                          className="Label-root"
+                        >
+                          Registration
+                        </label>
+                        <p
+                          className="HelperText-root"
+                        >
+                          Allow users that have not signed up before with this authentication
+integration to register for a new account.
+                        </p>
+                      </div>
+                      <div
+                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                       >
                         <div
                           className="CheckBox-root"
@@ -3063,19 +3210,21 @@ integration to register for a new account.
                 </div>
               </div>
               <div
-                className="ConfigBox-root"
+                className="Box-root ConfigBox-root"
               >
                 <div
                   className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
                   <div>
-                    <span>
+                    <h2
+                      className="Header-root"
+                    >
                       Login with Single Sign On
-                    </span>
+                    </h2>
                   </div>
                   <div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
                         className="CheckBox-root"
@@ -3110,14 +3259,14 @@ integration to register for a new account.
                   className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root SSOKeyField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root SSOKeyField-root HorizontalGutter-spacing-2"
                       data-testid="configure-auth-sso-key"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Key
                       </label>
@@ -3156,7 +3305,7 @@ integration to register for a new account.
                         </div>
                       </div>
                       <p
-                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-keyGenerated"
+                        className="SSOKeyField-keyGenerated HelperText-root"
                       >
                         KEY GENERATED AT:
 Invalid Date
@@ -3174,15 +3323,15 @@ Invalid Date
                             warning
                           </i>
                           <p
-                            className="Box-root Typography-root Typography-bodyShort Typography-colorTextPrimary SSOKeyField-warn"
+                            className="HelperText-root"
                           >
                             When regenerating a key, tokens signed with the previous key will be honored for 30 days.
                           </p>
                         </div>
                       </div>
                       <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled SSOKeyField-regenerateButton"
-                        data-color="primary"
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase Button-disabled SSOKeyField-regenerateButton"
+                        data-color="default"
                         data-variant="filled"
                         disabled={true}
                         id="configure-auth-sso-regenerate"
@@ -3198,10 +3347,10 @@ Invalid Date
                       </button>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         <span>
                           Use Single Sign On login on
@@ -3265,21 +3414,25 @@ Invalid Date
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
-                      <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                      >
-                        Registration
-                      </label>
-                      <p
-                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                      >
-                        Allow users that have not signed up before with this authentication
-integration to register for a new account.
-                      </p>
                       <div
-                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                      >
+                        <label
+                          className="Label-root"
+                        >
+                          Registration
+                        </label>
+                        <p
+                          className="HelperText-root"
+                        >
+                          Allow users that have not signed up before with this authentication
+integration to register for a new account.
+                        </p>
+                      </div>
+                      <div
+                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                       >
                         <div
                           className="CheckBox-root"
@@ -3313,19 +3466,21 @@ integration to register for a new account.
                 </div>
               </div>
               <div
-                className="ConfigBox-root"
+                className="Box-root ConfigBox-root"
               >
                 <div
                   className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
                   <div>
-                    <span>
+                    <h2
+                      className="Header-root"
+                    >
                       Login with Google
-                    </span>
+                    </h2>
                   </div>
                   <div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
                         className="CheckBox-root"
@@ -3360,10 +3515,10 @@ integration to register for a new account.
                   className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <p
-                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                      className="FormFieldDescription-root"
                     >
                       To enable the integration with Google Authentication you need
 to create and set up a web application. For more information visit:
@@ -3383,14 +3538,11 @@ to create and set up a web application. For more information visit:
                       </a>
                       .
                     </p>
-                    <hr
-                      className="HorizontalRule-root"
-                    />
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Redirect URI
                       </label>
@@ -3410,8 +3562,8 @@ to create and set up a web application. For more information visit:
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-                          data-color="primary"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+                          data-color="default"
                           data-variant="filled"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -3431,38 +3583,42 @@ to create and set up a web application. For more information visit:
                       className="HorizontalRule-root"
                     />
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Client ID
                       </label>
                       <div
-                        className="TextField-root TextField-fullWidth"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                       >
-                        <input
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                          className="TextField-input TextField-colorRegular"
-                          disabled={true}
-                          name="auth.integrations.google.clientID"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          placeholder=""
-                          spellCheck={false}
-                          type="text"
-                          value=""
-                        />
+                        <div
+                          className="TextField-root TextField-fullWidth"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="TextField-input TextField-colorRegular"
+                            disabled={true}
+                            name="auth.integrations.google.clientID"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder=""
+                            spellCheck={false}
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Client secret
                       </label>
@@ -3506,10 +3662,10 @@ to create and set up a web application. For more information visit:
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         <span>
                           Use Google login on
@@ -3573,21 +3729,25 @@ to create and set up a web application. For more information visit:
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
-                      <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                      >
-                        Registration
-                      </label>
-                      <p
-                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                      >
-                        Allow users that have not signed up before with this authentication
-integration to register for a new account.
-                      </p>
                       <div
-                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                      >
+                        <label
+                          className="Label-root"
+                        >
+                          Registration
+                        </label>
+                        <p
+                          className="HelperText-root"
+                        >
+                          Allow users that have not signed up before with this authentication
+integration to register for a new account.
+                        </p>
+                      </div>
+                      <div
+                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                       >
                         <div
                           className="CheckBox-root"
@@ -3621,20 +3781,22 @@ integration to register for a new account.
                 </div>
               </div>
               <div
-                className="ConfigBox-root"
+                className="Box-root ConfigBox-root"
                 data-testid="configure-auth-facebook-container"
               >
                 <div
                   className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
                 >
                   <div>
-                    <span>
+                    <h2
+                      className="Header-root"
+                    >
                       Login with Facebook
-                    </span>
+                    </h2>
                   </div>
                   <div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
                         className="CheckBox-root"
@@ -3669,10 +3831,10 @@ integration to register for a new account.
                   className="ConfigBox-content"
                 >
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
                   >
                     <p
-                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                      className="FormFieldDescription-root"
                     >
                       To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
@@ -3692,14 +3854,11 @@ For more information visit:
                       </a>
                       .
                     </p>
-                    <hr
-                      className="HorizontalRule-root"
-                    />
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Redirect URI
                       </label>
@@ -3719,8 +3878,8 @@ For more information visit:
                           />
                         </div>
                         <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
-                          data-color="primary"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Button-variantFilled Button-uppercase"
+                          data-color="default"
                           data-variant="filled"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -3740,38 +3899,42 @@ For more information visit:
                       className="HorizontalRule-root"
                     />
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Client ID
                       </label>
                       <div
-                        className="TextField-root TextField-fullWidth"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                       >
-                        <input
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                          className="TextField-input TextField-colorRegular"
-                          disabled={true}
-                          name="auth.integrations.facebook.clientID"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          placeholder=""
-                          spellCheck={false}
-                          type="text"
-                          value=""
-                        />
+                        <div
+                          className="TextField-root TextField-fullWidth"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="TextField-input TextField-colorRegular"
+                            disabled={true}
+                            name="auth.integrations.facebook.clientID"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder=""
+                            spellCheck={false}
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         Client secret
                       </label>
@@ -3815,10 +3978,10 @@ For more information visit:
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                        className="Label-root"
                       >
                         <span>
                           Use Facebook login on
@@ -3882,21 +4045,25 @@ For more information visit:
                       </div>
                     </div>
                     <div
-                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
-                      <label
-                        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                      >
-                        Registration
-                      </label>
-                      <p
-                        className="Box-root Typography-root Typography-fieldDescription Typography-colorTextSecondary"
-                      >
-                        Allow users that have not signed up before with this authentication
-integration to register for a new account.
-                      </p>
                       <div
-                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                        className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                      >
+                        <label
+                          className="Label-root"
+                        >
+                          Registration
+                        </label>
+                        <p
+                          className="HelperText-root"
+                        >
+                          Allow users that have not signed up before with this authentication
+integration to register for a new account.
+                        </p>
+                      </div>
+                      <div
+                        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                       >
                         <div
                           className="CheckBox-root"

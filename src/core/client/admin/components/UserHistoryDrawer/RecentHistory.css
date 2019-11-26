@@ -1,29 +1,53 @@
+$recent-history-title: var(--v2-colors-mono-500);
+$recent-history-subtitle: var(--v2-colors-mono-100);
+$recent-history-info: var(--v2-colors-mono-500);
+$recent-history-triggered: var(--v2-palette-error-main);
+
 .title {
   text-transform: uppercase;
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-size: var(--v2-font-size-3);
+  margin: 0;
+  line-height: var(--v2-line-height-body-short);
+  color: $recent-history-title;
 }
 
 .subTitle {
-  color: var(--palette-grey-main);
-  font-size: calc(14rem / var(--rem-base));
+  color: $recent-history-subtitle;
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-2);
+  margin: 0;
+  line-height: var(--v2-line-height-body-short);
 }
 
 .info {
-  display: inline-block;
 }
 
 .amount {
-  font-size: calc(24rem / var(--rem-base));
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-6);
+  line-height: var(--v2-line-height-reset);
+  line-height: var(--v2-line-height-reset);
+  color: $recent-history-info;
+  margin: 0;
 }
 
 .amountLabel {
-  font-size: calc(14rem / var(--rem-base));
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  color: $recent-history-info;
+  margin: 0;
 }
 
 .triggered {
-  color: var(--palette-error-main);
+  color: $recent-history-triggered;
 }
 
 .tooltip {
-  color: var(--palette-text-primary);
+  color: $recent-history-info;
   padding: 3px;
 }

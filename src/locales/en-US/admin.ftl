@@ -425,6 +425,7 @@ moderate-comment-approveButton =
   .aria-label = Approve
 moderate-comment-decision = Decision
 moderate-comment-story = Story
+moderate-comment-storyLabel = Comment On
 moderate-comment-moderateStory = Moderate Story
 moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured
@@ -462,11 +463,11 @@ moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent fi
 moderate-searchBar-moderateAllStories = Moderate all stories
 moderate-searchBar-comboBoxTextField =
   .aria-label = Search or jump to story...
-  .placeholder = Use quotation marks around each search term (e.g. “team”, “St. Louis”)
+  .placeholder = search by story title, author, url, id, etc.
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
-moderateCardDetails-tab-details = Details
+moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
 ### Moderate User History Drawer
 
@@ -548,7 +549,7 @@ moderate-user-drawer-recent-history-tooltip-submitted = Submitted
 moderate-user-drawer-notes-field =
   .placeholder = Leave a note...
 moderate-user-drawer-notes-button = Add note
-moderatorNote-left-by = Left by:
+moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
 
 ## Create Username
