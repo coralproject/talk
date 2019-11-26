@@ -370,6 +370,8 @@ comments-reportPopover-dismiss = Dismiss
 comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =
   Your comment has been submitted and will be reviewed by a moderator
+comments-submitStatus-submittedAndRejected =
+  This comment has been rejected for violating our guidelines
 
 # Configure
 configure-configureQuery-errorLoadingProfile = Error loading configure
