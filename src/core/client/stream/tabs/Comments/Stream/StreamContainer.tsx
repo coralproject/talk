@@ -60,7 +60,11 @@ const TabWithFeaturedTooltip: FunctionComponent<PropTypesOf<typeof Tab>> = ({
   <div className={styles.featuredCommentsTabContainer}>
     <Tab
       {...props}
+      classes={{
+        secondary: styles.featuredCommentsTabButton,
+      }}
       className={cn(
+        styles.fixedTab,
         CLASSES.tabBarComments.featured,
         styles.featuredCommentsTab
       )}
@@ -169,57 +173,69 @@ export const StreamContainer: FunctionComponent<Props> = props => {
           />
         )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
-          <SortMenu
-            className={styles.sortMenu}
-            orderBy={local.commentsOrderBy}
-            onChange={onChangeOrder}
-            reactionSortLabel={props.settings.reaction.sortLabel}
-          />
-          <TabBar
-            variant="secondary"
-            activeTab={local.commentsTab}
-            onTabClick={onChangeTab}
-            className={CLASSES.tabBarComments.$root}
+          <Flex
+            direction="row-reverse"
+            alignItems="flex-end"
+            justifyContent="space-between"
+            className={styles.tabBarRow}
           >
-            {featuredCommentsCount > 0 && (
-              <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS">
-                <Flex spacing={1} alignItems="center">
-                  <Localized id="comments-featuredTab">
-                    <span>Featured</span>
+            <SortMenu
+              className={styles.sortMenu}
+              orderBy={local.commentsOrderBy}
+              onChange={onChangeOrder}
+              reactionSortLabel={props.settings.reaction.sortLabel}
+            />
+            <TabBar
+              variant="secondary"
+              activeTab={local.commentsTab}
+              onTabClick={onChangeTab}
+              className={cn(CLASSES.tabBarComments.$root, styles.tabBarRoot)}
+            >
+              {featuredCommentsCount > 0 && (
+                <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS">
+                  <Flex spacing={1} alignItems="center">
+                    <Localized id="comments-featuredTab">
+                      <span>Featured</span>
+                    </Localized>
+                    <Counter
+                      data-testid="comments-featuredCount"
+                      size="sm"
+                      color={
+                        local.commentsTab === "FEATURED_COMMENTS"
+                          ? "primary"
+                          : "grey"
+                      }
+                    >
+                      {featuredCommentsCount}
+                    </Counter>
+                  </Flex>
+                </TabWithFeaturedTooltip>
+              )}
+              <Tab
+                tabID="ALL_COMMENTS"
+                className={cn(
+                  {
+                    [styles.fixedTab]: featuredCommentsCount > 0,
+                  },
+                  CLASSES.tabBarComments.allComments
+                )}
+              >
+                <Flex alignItems="center" spacing={1}>
+                  <Localized id="comments-allCommentsTab">
+                    <span>All Comments</span>
                   </Localized>
                   <Counter
-                    data-testid="comments-featuredCount"
                     size="sm"
                     color={
-                      local.commentsTab === "FEATURED_COMMENTS"
-                        ? "primary"
-                        : "grey"
+                      local.commentsTab === "ALL_COMMENTS" ? "primary" : "grey"
                     }
                   >
-                    {featuredCommentsCount}
+                    {allCommentsCount}
                   </Counter>
                 </Flex>
-              </TabWithFeaturedTooltip>
-            )}
-            <Tab
-              tabID="ALL_COMMENTS"
-              className={CLASSES.tabBarComments.allComments}
-            >
-              <Flex alignItems="center" spacing={1}>
-                <Localized id="comments-allCommentsTab">
-                  <span>All Comments</span>
-                </Localized>
-                <Counter
-                  size="sm"
-                  color={
-                    local.commentsTab === "ALL_COMMENTS" ? "primary" : "grey"
-                  }
-                >
-                  {allCommentsCount}
-                </Counter>
-              </Flex>
-            </Tab>
-          </TabBar>
+              </Tab>
+            </TabBar>
+          </Flex>
           <TabContent activeTab={local.commentsTab}>
             <TabPane
               className={CLASSES.featuredCommentsTabPane.$root}
