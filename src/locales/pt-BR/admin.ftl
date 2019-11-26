@@ -538,7 +538,7 @@ moderate-user-drawer-recent-history-tooltip-submitted = Enviado
 moderate-user-drawer-notes-field =
   .placeholder = Deixar uma anotação...
 moderate-user-drawer-notes-button = Adicionar notação
-moderatorNote-left-by = Deixado por:
+moderatorNote-left-by = Deixado por
 moderatorNote-delete = Deletar
 
 ## Create Username
