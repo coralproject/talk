@@ -19,26 +19,20 @@ const ToxicityLabel: FunctionComponent<{
   if (score > threshold) {
     return (
       <Localized id="moderate-toxicityLabel-likely" score={counter}>
-        <p className={cn(styles.root, styles.likely)}>
-          <span>Likely</span>
-        </p>
+        <p className={cn(styles.root, styles.likely)}>Likely</p>
       </Localized>
     );
   } else if (score <= 0.5) {
     return (
       <Localized id="moderate-toxicityLabel-unlikely" score={counter}>
-        <p className={styles.root}>
-          <span>Unlikely</span>
-        </p>
+        <p className={styles.root}>Unlikely</p>
       </Localized>
     );
   }
 
   return (
     <Localized id="moderate-toxicityLabel-maybe" score={counter}>
-      <p className={styles.root}>
-        <span>Maybe</span>
-      </p>
+      <p className={styles.root}>Maybe</p>
     </Localized>
   );
 };

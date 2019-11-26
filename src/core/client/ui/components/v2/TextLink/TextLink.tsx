@@ -14,7 +14,7 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 const TextLinkProps: StatelessComponent<Props> = props => {
-  const { className, children, classes, target, ...rest } = props;
+  const { className, children, classes, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);
 
@@ -22,11 +22,10 @@ const TextLinkProps: StatelessComponent<Props> = props => {
     <a
       className={rootClassName}
       href={props.href || (children as string)}
-      target={target}
       {...rest}
     >
       {children}
-      {target === "_blank" && (
+      {props.target === "_blank" && (
         <Icon className={classes.icon} size="xs">
           open_in_new
         </Icon>

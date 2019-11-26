@@ -15,9 +15,7 @@ const FlagDetailsCategory: FunctionComponent<Props> = ({
 }) => {
   return (
     <HorizontalGutter size="half">
-      <p>
-        <span className={styles.category}>{category}</span>
-      </p>
+      <p className={styles.category}>{category}</p>
       <HorizontalGutter size="half">{children}</HorizontalGutter>
     </HorizontalGutter>
   );
