@@ -24,7 +24,6 @@ const UserStatus: FunctionComponent<Props> = props => {
   if (props.banned) {
     return render(
       styles.error,
-      // tslint:disable-next-line:jsx-wrap-multiline
       <Localized id="userStatus-banned">
         <div>Banned</div>
       </Localized>
@@ -33,7 +32,6 @@ const UserStatus: FunctionComponent<Props> = props => {
   if (props.suspended) {
     return render(
       styles.warning,
-      // tslint:disable-next-line:jsx-wrap-multiline
       <Localized id="userStatus-suspended">
         <div>Suspended</div>
       </Localized>
@@ -42,7 +40,6 @@ const UserStatus: FunctionComponent<Props> = props => {
   if (props.premod) {
     return render(
       styles.warning,
-      // tslint:disable-next-line:jsx-wrap-multiline
       <Localized id="userStatus-premod">
         <div>Always Premoderated</div>
       </Localized>
@@ -50,7 +47,6 @@ const UserStatus: FunctionComponent<Props> = props => {
   }
   return render(
     styles.success,
-    // tslint:disable-next-line:jsx-wrap-multiline
     <Localized id="userStatus-active">
       <div>Active</div>
     </Localized>
