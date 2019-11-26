@@ -1,3 +1,5 @@
+@import "variables.css";
+
 .root {
   margin: 0;
   padding: 0;
@@ -7,18 +9,18 @@
 .title {
   display: flex;
   align-items: center;
-  height: calc(3 * var(--mini-unit));
+  height: calc(5 * var(--mini-unit));
   padding-left: calc(1.5 * var(--mini-unit));
-  background: var(--palette-text-primary);
+  background: $story-search-group-background;
+  color: $story-search-group-foreground;
 
-  font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-medium);
-  font-size: calc(13rem / var(--rem-base));
-  line-height: calc(16em / 14);
-  color: var(--palette-text-light);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: 1.25;
   text-transform: uppercase;
 }
 
 .light {
-  background: var(--palette-grey-light);
+  background: $story-search-results-heading-background;
 }

@@ -5,19 +5,20 @@ exports[`renders correctly 1`] = `
   alignItems="center"
   className="Title-root"
 >
-  <ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
+    className="Title-icon"
+    size="md"
+  >
     history
   </ForwardRef(forwardRef)>
-   
   <Localized
     id="decisionHistory-yourDecisionHistory"
   >
-    <ForwardRef(forwardRef)
+    <span
       className="Title-text"
-      container="span"
     >
       Your Decision History
-    </ForwardRef(forwardRef)>
+    </span>
   </Localized>
 </ForwardRef(forwardRef)>
 `;

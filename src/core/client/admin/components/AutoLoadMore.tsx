@@ -1,7 +1,7 @@
 import React from "react";
 
 import { withInView } from "coral-framework/lib/intersection";
-import { BaseButton, Spinner } from "coral-ui/components";
+import { BaseButton, Spinner } from "coral-ui/components/v2";
 
 interface Props {
   inView: boolean | undefined;

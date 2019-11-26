@@ -1,3 +1,5 @@
+@import "variables.css";
+
 .root {
   &[aria-selected="true"] {
     @mixin outline;
@@ -9,19 +11,20 @@
   justify-content: center;
   align-items: center;
 
-  background: var(--palette-primary-dark);
+  background: $story-search-results-see-all-background;
   min-height: calc(3 * var(--mini-unit));
 
-  font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-medium);
-  font-size: calc(13rem / var(--rem-base));
-  line-height: calc(16em / 13);
-  color: var(--palette-text-light);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-reset);
+  color: $story-search-results-see-all-label;
 
   text-decoration: none;
   text-transform: uppercase;
+
   &:hover {
-    background: var(--palette-primary-darkest);
+    background: $story-search-results-see-all-hover;
   }
 }
 
@@ -30,4 +33,6 @@
   padding-left: calc(0.5 * var(--mini-unit));
   line-height: calc(16em / 13);
   margin-top: -2px;
+
+  color: $story-search-results-see-all-label;
 }

@@ -1,7 +1,10 @@
+@import "variables.css";
+
 .root {
   height: calc(6 * var(--mini-unit));
-  background-color: #013f68;
+  background-color: $story-search-background;
   margin-top: -1px;
+  border-bottom: 0;
 }
 
 .bumpZIndex {
@@ -17,4 +20,8 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.groupIcon {
+  margin-right: var(--v2-spacing-2);
 }

@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<ForwardRef(forwardRef)
+<span
   className="Info-root"
 >
   children
-</ForwardRef(forwardRef)>
+</span>
 `;

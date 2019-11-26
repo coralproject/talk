@@ -15,6 +15,7 @@ export interface Config {
   autoRender?: boolean;
   events?: (eventEmitter: EventEmitter2) => void;
   accessToken?: string;
+  enableDeprecatedEvents?: boolean;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
@@ -36,5 +37,6 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     autoRender: config.autoRender,
     eventEmitter,
     accessToken: config.accessToken,
+    enableDeprecatedEvents: config.enableDeprecatedEvents,
   });
 }

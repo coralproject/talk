@@ -1,15 +1,13 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Typography } from "coral-ui/components";
-
 import styles from "./NoMatchMessage.css";
 
 const NoMatchMessage: FunctionComponent = props => (
   <Localized id="stories-noMatchMessage">
-    <Typography className={styles.root} variant="bodyCopyBold" align="center">
+    <div className={styles.root}>
       We could not find any stories matching your criteria.
-    </Typography>
+    </div>
   </Localized>
 );
 

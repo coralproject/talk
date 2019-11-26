@@ -131,7 +131,10 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                     <FormField>
                       <Flex alignItems="center" itemGutter>
                         <Localized id="profile-account-notifications-sendNotifications">
-                          <Typography variant="bodyCopyBold">
+                          <Typography
+                            variant="bodyCopyBold"
+                            container={<label htmlFor="digestFrequency" />}
+                          >
                             Send Notifications:
                           </Typography>
                         </Localized>
@@ -141,6 +144,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                               {({ input }) => (
                                 <SelectField
                                   id={input.name}
+                                  aria-label=""
                                   {...input}
                                   disabled={
                                     !values.onReply &&

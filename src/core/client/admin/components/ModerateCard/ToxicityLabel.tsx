@@ -1,12 +1,13 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Counter, Typography } from "coral-ui/components";
+import { Counter } from "coral-ui/components/v2";
 
 import styles from "./ToxicityLabel.css";
 
 const ToxicityCounter: FunctionComponent<{ score: number }> = ({ score }) => (
-  <Counter>{Math.round(score * 100)}%</Counter>
+  <Counter color="inherit">{Math.round(score * 100)}%</Counter>
 );
 
 const ToxicityLabel: FunctionComponent<{
@@ -18,26 +19,20 @@ const ToxicityLabel: FunctionComponent<{
   if (score > threshold) {
     return (
       <Localized id="moderate-toxicityLabel-likely" score={counter}>
-        <Typography
-          className={styles.root}
-          variant="bodyCopy"
-          color="errorDark"
-        >
-          Likely
-        </Typography>
+        <p className={cn(styles.root, styles.likely)}>Likely</p>
       </Localized>
     );
   } else if (score <= 0.5) {
     return (
       <Localized id="moderate-toxicityLabel-unlikely" score={counter}>
-        <Typography className={styles.root}>Unlikely</Typography>
+        <p className={styles.root}>Unlikely</p>
       </Localized>
     );
   }
 
   return (
     <Localized id="moderate-toxicityLabel-maybe" score={counter}>
-      <Typography className={styles.root}>Maybe</Typography>
+      <p className={styles.root}>Maybe</p>
     </Localized>
   );
 };

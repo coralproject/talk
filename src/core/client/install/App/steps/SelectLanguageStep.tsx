@@ -73,9 +73,16 @@ const SelectLanguageStep: FunctionComponent<Props> = props => {
               {({ input, meta }) => (
                 <FormField>
                   <Localized id="install-selectLanguage-language">
-                    <InputLabel>Language</InputLabel>
+                    <InputLabel container={<label htmlFor={input.name} />}>
+                      Language
+                    </InputLabel>
                   </Localized>
-                  <LocaleField disabled={submitting} fullWidth {...input} />
+                  <LocaleField
+                    disabled={submitting}
+                    fullWidth
+                    id={input.name}
+                    {...input}
+                  />
                   <ValidationMessage meta={meta} fullWidth />
                 </FormField>
               )}

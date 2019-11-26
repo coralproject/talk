@@ -110,11 +110,26 @@ exports[`hide reply button 1`] = `
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
             className="coral coral-username coral-comment-username"
-            user={
+            comment={
               Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
+                "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
               }
             }
             viewer={null}
@@ -300,11 +315,26 @@ exports[`renders body only 1`] = `
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
             className="coral coral-username coral-comment-username"
-            user={
+            comment={
               Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": null,
+                "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": null,
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
               }
             }
             viewer={null}
@@ -490,11 +520,26 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
             className="coral coral-username coral-comment-username"
-            user={
+            comment={
               Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
+                "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
               }
             }
             viewer={null}
@@ -680,11 +725,26 @@ exports[`renders disabled reply when story is closed 1`] = `
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
             className="coral coral-username coral-comment-username"
-            user={
+            comment={
               Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
+                "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
               }
             }
             viewer={null}
@@ -878,11 +938,30 @@ exports[`renders in reply to 1`] = `
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
             className="coral coral-username coral-comment-username"
-            user={
+            comment={
               Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
+                "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": Object {
+                  "author": Object {
+                    "username": "ParentAuthor",
+                  },
+                },
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
               }
             }
             viewer={null}
@@ -1076,11 +1155,26 @@ exports[`renders username and body 1`] = `
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
             className="coral coral-username coral-comment-username"
-            user={
+            comment={
               Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
+                "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
               }
             }
             viewer={null}
@@ -1281,11 +1375,26 @@ exports[`shows conversation link 1`] = `
         <React.Fragment>
           <Relay(UsernameWithPopoverContainer)
             className="coral coral-username coral-comment-username"
-            user={
+            comment={
               Object {
-                "badges": Array [],
-                "id": "author-id",
-                "username": "Marvin",
+                "author": Object {
+                  "badges": Array [],
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "deleted": false,
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
               }
             }
             viewer={null}

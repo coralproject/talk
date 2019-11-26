@@ -23,7 +23,9 @@ export function logQuery(
   ctx.logger.info(
     {
       responseTime,
+      // deprecated: use of the `authenticated` log field is deprecated in favour of the `userID` field
       authenticated: ctx.user ? true : false,
+      userID: ctx.user ? ctx.user.id : null,
       ...(persisted
         ? // A persisted query was provided, we can pull the operation metadata
           // out from the persisted object.

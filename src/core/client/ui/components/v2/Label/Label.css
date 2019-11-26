@@ -1,0 +1,9 @@
+.root {
+  color: var(--v2-palette-input-label);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-reset);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-family: var(--v2-font-family-primary);
+  padding-left: 0;
+  display: block;
+}

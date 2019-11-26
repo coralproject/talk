@@ -1,6 +1,6 @@
 import { Mutator } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, RefObject, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
 import { ScaledUnit } from "coral-common/helpers/i18n";
@@ -11,7 +11,8 @@ import {
   Flex,
   HorizontalGutter,
   RadioButton,
-} from "coral-ui/components";
+  Textarea,
+} from "coral-ui/components/v2";
 
 import styles from "./SuspendModal.css";
 
@@ -21,6 +22,7 @@ interface Props {
   getMessage: GetMessage;
   organizationName: string;
   onSubmit: (duration: ScaledUnit, message: string) => void;
+  lastFocusableRef: RefObject<any>;
 }
 
 const DURATIONS: ScaledUnit[] = [
@@ -38,6 +40,7 @@ const SuspendForm: FunctionComponent<Props> = ({
   getMessage,
   onSubmit,
   organizationName,
+  lastFocusableRef,
 }) => {
   const getMessageWithDuration = useCallback(
     ({ scaled, unit }: Pick<ScaledUnit, "scaled" | "unit">): string => {
@@ -107,42 +110,48 @@ const SuspendForm: FunctionComponent<Props> = ({
       >
         {({ handleSubmit, form }) => (
           <form onSubmit={handleSubmit}>
-            <HorizontalGutter spacing={2}>
-              <div>
-                {DURATIONS.map(({ original, value, scaled, unit }) => (
-                  <Field
-                    key={value}
-                    name="duration"
-                    type="radio"
-                    component="input"
-                    value={value}
-                  >
-                    {({ input }) => (
-                      <Localized
-                        id="framework-timeago-time"
-                        $value={scaled}
-                        $unit={unit}
-                      >
-                        <RadioButton
-                          id={`duration-${value}`}
-                          {...input}
-                          onChange={event => {
-                            form.mutators.setMessageValue(
-                              "emailMessage",
-                              getMessageWithDuration({ scaled, unit })
-                            );
-                            input.onChange(event);
-                          }}
+            <HorizontalGutter spacing={3}>
+              <HorizontalGutter spacing={1}>
+                <Localized id="community-suspendModal-selectDuration">
+                  <p className={styles.subTitle}>Select suspension length</p>
+                </Localized>
+
+                <div>
+                  {DURATIONS.map(({ original, value, scaled, unit }) => (
+                    <Field
+                      key={value}
+                      name="duration"
+                      type="radio"
+                      component="input"
+                      value={value}
+                    >
+                      {({ input }) => (
+                        <Localized
+                          id="framework-timeago-time"
+                          $value={scaled}
+                          $unit={unit}
                         >
-                          <span>
-                            {scaled} {unit}
-                          </span>
-                        </RadioButton>
-                      </Localized>
-                    )}
-                  </Field>
-                ))}
-              </div>
+                          <RadioButton
+                            id={`duration-${value}`}
+                            {...input}
+                            onChange={event => {
+                              form.mutators.setMessageValue(
+                                "emailMessage",
+                                getMessageWithDuration({ scaled, unit })
+                              );
+                              input.onChange(event);
+                            }}
+                          >
+                            <span>
+                              {scaled} {unit}
+                            </span>
+                          </RadioButton>
+                        </Localized>
+                      )}
+                    </Field>
+                  ))}
+                </div>
+              </HorizontalGutter>
               <Field type="checkbox" name="editMessage">
                 {({ input }) => (
                   <Localized id="community-suspendModal-customize">
@@ -165,32 +174,37 @@ const SuspendForm: FunctionComponent<Props> = ({
               <Field name="editMessage" subscription={{ value: true }}>
                 {({ input: { value } }) =>
                   value ? (
-                    <Field
-                      className={styles.textArea}
-                      id="suspendModal-message"
-                      component="textarea"
-                      name="emailMessage"
-                    />
+                    <Field component="textarea" name="emailMessage">
+                      {({ input }) => (
+                        <Textarea
+                          id="suspendModal-message"
+                          {...input}
+                          className={styles.textArea}
+                          fullwidth
+                        />
+                      )}
+                    </Field>
                   ) : null
                 }
               </Field>
+              <Flex justifyContent="flex-end" itemGutter="half">
+                <Localized id="community-suspendModal-cancel">
+                  <Button variant="ghost" onClick={onCancel}>
+                    Cancel
+                  </Button>
+                </Localized>
+                <Localized id="community-suspendModal-suspendUser">
+                  <Button
+                    ref={lastFocusableRef}
+                    variant="filled"
+                    color="default"
+                    type="submit"
+                  >
+                    Suspend User
+                  </Button>
+                </Localized>
+              </Flex>
             </HorizontalGutter>
-            <Flex
-              className={styles.footer}
-              justifyContent="flex-end"
-              itemGutter="half"
-            >
-              <Localized id="community-suspendModal-cancel">
-                <Button variant="outlined" onClick={onCancel}>
-                  Cancel
-                </Button>
-              </Localized>
-              <Localized id="community-suspendModal-suspendUser">
-                <Button variant="filled" color="primary" type="submit">
-                  Suspend User
-                </Button>
-              </Localized>
-            </Flex>
           </form>
         )}
       </Form>

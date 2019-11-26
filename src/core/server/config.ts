@@ -1,6 +1,7 @@
 import convict from "convict";
 import Joi from "joi";
 import { parseConnectionString } from "mongodb-core";
+import ms from "ms";
 import os from "os";
 
 import { LOCALES } from "coral-common/helpers/i18n/locales";
@@ -43,6 +44,16 @@ convict.addFormat({
   },
   // Ensure that there is an ending slash.
   coerce: (url: string) => (url ? ensureEndSlash(url) : url),
+});
+
+// Add a custom format that is a duration parsed with `ms` to used instead of
+// the default format which will use `moment`.
+convict.addFormat({
+  name: "ms",
+  validate: (val: number) => {
+    Joi.assert(val, Joi.number().min(0));
+  },
+  coerce: (val: string) => ms(val),
 });
 
 const algorithms = [
@@ -200,7 +211,7 @@ const config = convict({
   websocket_keep_alive_timeout: {
     doc:
       "The keepalive timeout (in ms) that should be used to send keep alive messages through the websocket to keep the socket alive",
-    format: "duration",
+    format: "ms",
     default: "30 seconds",
     env: "WEBSOCKET_KEEP_ALIVE_TIMEOUT",
     arg: "websocketKeepAliveTimeout",
@@ -236,6 +247,13 @@ const config = convict({
     default: false,
     env: "DISABLE_RATE_LIMITERS",
     arg: "disableRateLimiters",
+  },
+  scrape_timeout: {
+    doc: "The request timeout (in ms) for scraping operations.",
+    format: "ms",
+    default: "10 seconds",
+    env: "SCRAPE_TIMEOUT",
+    arg: "scrapeTimeout",
   },
 });
 

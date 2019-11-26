@@ -1,14 +1,19 @@
 import React, { FunctionComponent } from "react";
 
-import { ValidationMessage as FrameworkValidationMessage } from "coral-framework/lib/form";
-import { PropTypesOf } from "coral-ui/types";
+import { FieldMeta, hasError } from "coral-framework/lib/form/helpers";
+import { Omit } from "coral-framework/types";
+import { ValidationMessage as UIValidationMessage } from "coral-ui/components/v2";
+import { ValidationMessageProps } from "coral-ui/components/v2/ValidationMessage";
 
-import styles from "./ValidationMessage.css";
+interface Props extends Omit<ValidationMessageProps, "children"> {
+  meta: FieldMeta;
+}
 
-type Props = PropTypesOf<typeof FrameworkValidationMessage>;
-
-const ValidationMessage: FunctionComponent<Props> = props => (
-  <FrameworkValidationMessage className={styles.root} {...props} />
-);
+const ValidationMessage: FunctionComponent<Props> = ({ meta, ...rest }) =>
+  hasError(meta) ? (
+    <UIValidationMessage {...rest}>
+      {meta.error || meta.submitError}
+    </UIValidationMessage>
+  ) : null;
 
 export default ValidationMessage;

@@ -2,7 +2,6 @@ import { pick } from "lodash";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { DeleteModeratorNoteMutation as MutationTypes } from "coral-admin/__generated__/DeleteModeratorNoteMutation.graphql";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -11,6 +10,8 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 import { GQLUser } from "coral-framework/schema";
+
+import { DeleteModeratorNoteMutation as MutationTypes } from "coral-admin/__generated__/DeleteModeratorNoteMutation.graphql";
 
 let clientMutationId = 0;
 

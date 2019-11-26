@@ -2,11 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
-import { Button } from "coral-ui/components";
+import { Button } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
 interface Props extends PropTypesOf<typeof Button> {
   text: string;
+  size?: "small" | "medium" | "large";
 }
 
 interface State {
@@ -39,11 +40,11 @@ class CopyButton extends React.Component<Props> {
   };
 
   public render() {
-    const { text, ...rest } = this.props;
+    const { text, size, ...rest } = this.props;
     const { copied } = this.state;
     return (
       <CopyToClipboard text={text} onCopy={this.handleCopy}>
-        <Button color="primary" variant="filled" size="small" {...rest}>
+        <Button variant="filled" size={size || "small"} {...rest}>
           {copied ? (
             <Localized id="framework-copyButton-copied">
               <span>Copied!</span>

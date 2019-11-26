@@ -8,21 +8,40 @@
 }
 
 .sortMenu {
-  position: absolute;
-  right: 0;
-  top: 0;
+  /* same as tab bottom padding */
+  padding-bottom: calc(0.5 * var(--mini-unit) + 3px);
 }
 
-.featuredCommentsInfo {
-  position: absolute;
-  top: 0;
-  right: 4px;
-  height: 100%;
+.fixedTab {
+  max-width: 200px;
+  white-space: normal;
+  text-align: left;
 }
 
 .featuredCommentsTabContainer {
   position: relative;
 }
+
+.featuredCommentsInfo {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .featuredCommentsTab {
+  display: flex;
+  align-items: center;
+}
+
+.tabBarRoot {
+  border: 0;
+}
+
+.tabBarRow {
+  border-bottom: 1px solid var(--palette-divider);
+}
+
+.featuredCommentsTabButton {
   padding-right: 30px !important;
 }

@@ -2,7 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Card } from "coral-ui/components";
+import { Card } from "coral-ui/components/v2";
 
 import styles from "./EmptyMessage.css";
 

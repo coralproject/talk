@@ -1,13 +1,37 @@
 .icon {
-  color: var(--palette-grey-main);
+  color: var(--v2-palette-label-regular);
 }
 .inReplyTo {
-  color: var(--palette-grey-main);
+  color: var(--v2-palette-label-regular);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-reset);
 }
 .username {
-  color: var(--palette-grey-main);
+  color: var(--v2-palette-username-regular);
+  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-reset);
+
+  padding: var(--spacing-1);
+
+  &:hover {
+    background-color: var(--v2-palette-username-background-hover);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+
+  &:active {
+    background-color: var(--v2-palette-username-background-hover);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
 }
 
 .usernameButton {
-  display: inline-flex;
+  vertical-align: baseline;
+
+  margin-left: calc(-1 * var(--v2-spacing-1));
 }

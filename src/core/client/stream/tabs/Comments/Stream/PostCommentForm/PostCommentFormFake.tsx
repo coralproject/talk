@@ -39,7 +39,7 @@ const PostCommentFormFake: FunctionComponent<Props> = props => {
         />
       )}
       <HorizontalGutter className={styles.root}>
-        <div aria-hidden="true">
+        <div>
           <Localized
             id="comments-postCommentFormFake-rte"
             attrs={{ placeholder: true }}

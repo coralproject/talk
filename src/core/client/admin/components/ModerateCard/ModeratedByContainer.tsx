@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { BaseButton } from "coral-ui/components";
+import { BaseButton } from "coral-ui/components/v2";
 
 import { ModeratedByContainer_comment } from "coral-admin/__generated__/ModeratedByContainer_comment.graphql";
 import { ModeratedByContainer_viewer } from "coral-admin/__generated__/ModeratedByContainer_viewer.graphql";

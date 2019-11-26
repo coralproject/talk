@@ -2,11 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  colorFromMeta,
-  parseEmptyAsNull,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
 import {
   composeValidatorsWhen,
   Condition,
@@ -17,15 +13,18 @@ import {
   Button,
   Flex,
   FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
+  FormFieldDescription,
+  FormFieldHeader,
+  HelperText,
+  Label,
   TextField,
   TextLink,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
+import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
+import ValidationMessage from "../../ValidationMessage";
 import { FormProps } from "./AuthConfigContainer";
 import ClientIDField from "./ClientIDField";
 import ClientSecretField from "./ClientSecretField";
@@ -59,52 +58,52 @@ const OIDCConfig: FunctionComponent<Props> = ({
       data-testid="configure-auth-oidc-container"
       title={
         <Localized id="configure-auth-oidc-loginWith">
-          <span>Login with OIDC</span>
+          <Header container="h2">Login with OIDC</Header>
         </Localized>
       }
       name="auth.integrations.oidc.enabled"
       disabled={disabled}
     >
       {disabledInside => (
-        <HorizontalGutter size="double">
+        <>
           <Localized id="configure-auth-oidc-toLearnMore" Link={<OIDCLink />}>
-            <Typography>
+            <FormFieldDescription>
               {"To learn more: https://openid.net/connect/"}
-            </Typography>
+            </FormFieldDescription>
           </Localized>
-          <HorizontalRule />
           <RedirectField url={callbackURL} />
           <HorizontalRule />
           <FormField>
-            <Localized id="configure-auth-oidc-providerName">
-              <InputLabel>Provider name</InputLabel>
-            </Localized>
-            <Localized id="configure-auth-oidc-providerNameDescription">
-              <InputDescription>
-                The provider of the OIDC integration. This will be used when the
-                name of the provider needs to be displayed, e.g. “Log in with
-                {" <Facebook>"}”
-              </InputDescription>
-            </Localized>
+            <FormFieldHeader>
+              <Localized id="configure-auth-oidc-providerName">
+                <Label>Provider name</Label>
+              </Localized>
+              <Localized id="configure-auth-oidc-providerNameDescription">
+                <HelperText>
+                  The provider of the OIDC integration. This will be used when
+                  the name of the provider needs to be displayed, e.g. “Log in
+                  with
+                  {" <Facebook>"}”
+                </HelperText>
+              </Localized>
+            </FormFieldHeader>
             <Field
               name="auth.integrations.oidc.name"
               validate={composeValidatorsWhen(isEnabled, required)}
               parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
-                <>
-                  <TextField
-                    disabled={disabledInside}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck={false}
-                    color={colorFromMeta(meta)}
-                    fullWidth
-                    {...input}
-                  />
-                  <ValidationMessage meta={meta} />
-                </>
+                <TextFieldWithValidation
+                  disabled={disabledInside}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  color={colorFromMeta(meta)}
+                  fullWidth
+                  meta={meta}
+                  {...input}
+                />
               )}
             </Field>
           </FormField>
@@ -119,16 +118,18 @@ const OIDCConfig: FunctionComponent<Props> = ({
             disabled={disabledInside}
           />
           <FormField>
-            <Localized id="configure-auth-oidc-issuer">
-              <InputLabel>Issuer</InputLabel>
-            </Localized>
-            <Localized id="configure-auth-oidc-issuerDescription">
-              <InputDescription>
-                After entering your Issuer information, click the Discover
-                button to have Coral complete the remaining fields. You may also
-                enter the information manually
-              </InputDescription>
-            </Localized>
+            <FormFieldHeader>
+              <Localized id="configure-auth-oidc-issuer">
+                <Label>Issuer</Label>
+              </Localized>
+              <Localized id="configure-auth-oidc-issuerDescription">
+                <HelperText>
+                  After entering your Issuer information, click the Discover
+                  button to have Coral complete the remaining fields. You may
+                  also enter the information manually
+                </HelperText>
+              </Localized>
+            </FormFieldHeader>
             <Field
               name="auth.integrations.oidc.issuer"
               validate={composeValidatorsWhen(isEnabled, required, validateURL)}
@@ -150,7 +151,6 @@ const OIDCConfig: FunctionComponent<Props> = ({
                     <Button
                       id="configure-auth-oidc-discover"
                       variant="filled"
-                      color="primary"
                       size="small"
                       disabled={disabledInside || disableForDiscover}
                       onClick={onDiscover}
@@ -158,14 +158,14 @@ const OIDCConfig: FunctionComponent<Props> = ({
                       Discover
                     </Button>
                   </Flex>
-                  <ValidationMessage meta={meta} />
+                  <ValidationMessage meta={meta} fullWidth />
                 </>
               )}
             </Field>
           </FormField>
           <FormField>
             <Localized id="configure-auth-oidc-authorizationURL">
-              <InputLabel>authorizationURL</InputLabel>
+              <Label>authorizationURL</Label>
             </Localized>
             <Field
               name="auth.integrations.oidc.authorizationURL"
@@ -173,25 +173,22 @@ const OIDCConfig: FunctionComponent<Props> = ({
               parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
-                <>
-                  <TextField
-                    disabled={disabledInside || disableForDiscover}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck={false}
-                    color={colorFromMeta(meta)}
-                    fullWidth
-                    {...input}
-                  />
-                  <ValidationMessage meta={meta} />
-                </>
+                <TextFieldWithValidation
+                  disabled={disabledInside || disableForDiscover}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  fullWidth
+                  meta={meta}
+                  {...input}
+                />
               )}
             </Field>
           </FormField>
           <FormField>
             <Localized id="configure-auth-oidc-tokenURL">
-              <InputLabel>tokenURL</InputLabel>
+              <Label>tokenURL</Label>
             </Localized>
             <Field
               name="auth.integrations.oidc.tokenURL"
@@ -199,25 +196,22 @@ const OIDCConfig: FunctionComponent<Props> = ({
               parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
-                <>
-                  <TextField
-                    disabled={disabledInside || disableForDiscover}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck={false}
-                    color={colorFromMeta(meta)}
-                    fullWidth
-                    {...input}
-                  />
-                  <ValidationMessage meta={meta} />
-                </>
+                <TextFieldWithValidation
+                  disabled={disabledInside || disableForDiscover}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  meta={meta}
+                  fullWidth
+                  {...input}
+                />
               )}
             </Field>
           </FormField>
           <FormField>
             <Localized id="configure-auth-oidc-jwksURI">
-              <InputLabel>jwksURI</InputLabel>
+              <Label>jwksURI</Label>
             </Localized>
             <Field
               name="auth.integrations.oidc.jwksURI"
@@ -225,19 +219,16 @@ const OIDCConfig: FunctionComponent<Props> = ({
               parse={parseEmptyAsNull}
             >
               {({ input, meta }) => (
-                <>
-                  <TextField
-                    disabled={disabledInside || disableForDiscover}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck={false}
-                    color={colorFromMeta(meta)}
-                    fullWidth
-                    {...input}
-                  />
-                  <ValidationMessage meta={meta} />
-                </>
+                <TextFieldWithValidation
+                  disabled={disabledInside || disableForDiscover}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  meta={meta}
+                  fullWidth
+                  {...input}
+                />
               )}
             </Field>
           </FormField>
@@ -254,7 +245,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
             name="auth.integrations.oidc.allowRegistration"
             disabled={disabledInside}
           />
-        </HorizontalGutter>
+        </>
       )}
     </ConfigBoxWithToggleField>
   );

@@ -1,10 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<ForwardRef(forwardRef)
+<label
   className="Header-root"
-  variant="heading3"
 >
   child
-</ForwardRef(forwardRef)>
+</label>
 `;

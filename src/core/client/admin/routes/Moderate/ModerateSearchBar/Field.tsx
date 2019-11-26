@@ -4,7 +4,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 import { Field as FormField } from "react-final-form";
 
-import { BaseButton, Flex, Icon } from "coral-ui/components";
+import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
 
 import styles from "./Field.css";
 
@@ -59,9 +59,7 @@ const Field: FunctionComponent<Props> = ({
                 [styles.inputWithTitle]: !focused,
               })}
               placeholder={
-                focused
-                  ? "Use quotation marks around each search term (e.g. “team”, “St. Louis”)"
-                  : title
+                focused ? "search by story title, author, url, id, etc." : title
               }
               aria-label="Search or jump to story..."
               autoComplete="off"

@@ -1,25 +1,25 @@
 .root {
-  border: 1px solid var(--palette-success-main);
+  border: 1px solid var(--v2-palette-button-outline-approve);
   box-sizing: border-box;
-  border-radius: var(--round-corners);
+  border-radius: var(--v2-round-corners);
   width: 65px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--palette-success-main);
+  color: var(--v2-palette-button-outline-approve);
   &:not(:disabled):active {
-    background-color: var(--palette-success-main);
-    color: var(--palette-common-white);
+    background-color: var(--v2-palette-button-outline-approve);
+    color: var(--v2-colors-pure-white);
   }
 }
 
 .invert {
-  background-color: var(--palette-success-main);
-  color: var(--palette-common-white);
+  background-color: var(--v2-palette-button-outline-approve);
+  color: var(--v2-colors-pure-white);
 }
 
 .icon {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
   color: inherit;
 }

@@ -1,0 +1,45 @@
+$main-nav-text: var(--v2-colors-mono-100);
+$main-nav-background: var(--v2-colors-pure-white);
+$main-nav-hover-background: var(--v2-colors-coral-200);
+$main-nav-active-background: var(--v2-colors-coral-500);
+$main-nav-active-text: var(--v2-colors-pure-white);
+$main-nav-hover-text: var(--v2-colors-mono-500);
+
+.root {
+}
+
+.anchor {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-3);
+  text-transform: uppercase;
+
+  color: $main-nav-text;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--mini-unit);
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    color: $main-nav-hover-text;
+    background-color: $main-nav-hover-background;
+  }
+}
+
+.active {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-size: var(--v2-font-size-3);
+  text-transform: uppercase;
+
+  background-color: $main-nav-active-background;
+  text-decoration: none;
+  color: $main-nav-active-text;
+
+  &:hover {
+    color: $main-nav-active-text;
+    background-color: $main-nav-active-background;
+  }
+}

@@ -1,7 +1,12 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { Box, Card, CardCloseButton, Typography } from "coral-ui/components";
+import {
+  Card,
+  CardCloseButton,
+  Flex,
+  HorizontalGutter,
+} from "coral-ui/components/v2";
 
 import InviteForm from "./InviteUsersForm";
 import Success from "./Success";
@@ -26,15 +31,17 @@ const InviteUsersModal: FunctionComponent<Props> = ({
     <Card className={styles.root} data-testid="invite-users-modal">
       {!finished ? (
         <div>
-          <Box className={styles.clearfix} marginBottom={3}>
+          <Flex justifyContent="flex-end">
             <CardCloseButton onClick={onHide} ref={firstFocusableRef} />
+          </Flex>
+          <HorizontalGutter spacing={3}>
             <Localized id="community-invite-inviteMember">
-              <Typography variant="header2">
+              <h2 className={styles.title}>
                 Invite members to your organization
-              </Typography>
+              </h2>
             </Localized>
-          </Box>
-          <InviteForm onFinish={finish} lastRef={lastFocusableRef} />
+            <InviteForm onFinish={finish} lastRef={lastFocusableRef} />
+          </HorizontalGutter>
         </div>
       ) : (
         <Success onClose={onHide} lastFocusableRef={lastFocusableRef} />

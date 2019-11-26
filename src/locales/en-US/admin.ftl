@@ -407,6 +407,10 @@ moderate-toxicityLabel-likely = Likely <score></score>
 moderate-toxicityLabel-unlikely = Unlikely <score></score>
 moderate-toxicityLabel-maybe = Maybe <score></score>
 
+moderate-linkDetails-label = Copy link to this comment
+moderate-in-stream-link-copy = In Stream
+moderate-in-moderation-link-copy = In Moderation
+
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
 moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.
@@ -421,6 +425,7 @@ moderate-comment-approveButton =
   .aria-label = Approve
 moderate-comment-decision = Decision
 moderate-comment-story = Story
+moderate-comment-storyLabel = Comment On
 moderate-comment-moderateStory = Moderate Story
 moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured
@@ -458,11 +463,11 @@ moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent fi
 moderate-searchBar-moderateAllStories = Moderate all stories
 moderate-searchBar-comboBoxTextField =
   .aria-label = Search or jump to story...
-  .placeholder = Use quotation marks around each search term (e.g. “team”, “St. Louis”)
+  .placeholder = search by story title, author, url, id, etc.
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
-moderateCardDetails-tab-details = Details
+moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
 ### Moderate User History Drawer
 
@@ -544,7 +549,7 @@ moderate-user-drawer-recent-history-tooltip-submitted = Submitted
 moderate-user-drawer-notes-field =
   .placeholder = Leave a note...
 moderate-user-drawer-notes-button = Add note
-moderatorNote-left-by = Left by:
+moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
 
 ## Create Username
@@ -852,5 +857,4 @@ hotkeysModal-shortcuts-reject = Reject
 hotkeysModal-shortcuts-ban = Ban comment author
 hotkeysModal-shortcuts-zen = Toggle single-comment view
 
-
-
+authcheck-network-error = A network error occurred. Please refresh the page.

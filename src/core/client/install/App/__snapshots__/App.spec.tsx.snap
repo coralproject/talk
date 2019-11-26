@@ -5,13 +5,13 @@ exports[`renders correctly 1`] = `
   className="App-root"
 >
   <MainBar />
-  <div
+  <main
     className="App-container"
   >
     <AppState
       error={null}
       state="loading"
     />
-  </div>
+  </main>
 </div>
 `;

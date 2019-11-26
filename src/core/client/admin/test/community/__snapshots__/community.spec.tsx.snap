@@ -9,181 +9,189 @@ exports[`renders community 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-justifySpaceBetween Flex-alignFlexEnd gutter"
+      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd"
     >
       <div
-        className="Box-root Flex-root Flex-flex"
+        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
       >
         <fieldset
           className="FieldSet-root"
         >
-          <legend
-            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
           >
-            Search
-          </legend>
-          <form
-            autoComplete="off"
-            id="configure-form"
-            onSubmit={[Function]}
-          >
-            <div
-              className="TextField-root UserTableFilter-textField"
+            <label
+              className="Label-root"
             >
-              <input
-                aria-label="Search by username or email address"
-                className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
-                name="search"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                placeholder="Search by username or email address..."
-                type="text"
-                value=""
-              />
+              Search
+            </label>
+            <form
+              autoComplete="off"
+              id="configure-form"
+              onSubmit={[Function]}
+            >
               <div
-                className="TextField-adornment"
+                className="TextField-root UserTableFilter-textField"
               >
-                <button
-                  aria-label="Search"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment UserTableFilter-adornment"
-                  data-color="dark"
-                  data-variant="adornment"
+                <input
+                  aria-label="Search by username or email address"
+                  className="TextField-input TextField-colorDark TextField-seamlessAdornment"
+                  name="search"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="submit"
+                  placeholder="Search by username or email address..."
+                  type="text"
+                  value=""
+                />
+                <div
+                  className="TextField-adornment"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                  <button
+                    aria-label="Search"
+                    className="BaseButton-root Button-root Button-sizeMedium Button-colorEmphasis Button-variantAdornment Button-uppercase UserTableFilter-adornment"
+                    data-color="emphasis"
+                    data-variant="adornment"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="submit"
                   >
-                    search
-                  </i>
-                </button>
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      search
+                    </i>
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </fieldset>
         <fieldset
           className="FieldSet-root"
         >
-          <legend
-            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
-          >
-            Show Me
-          </legend>
           <div
-            className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
           >
-            <span
-              className="SelectField-root UserTableFilter-selectField"
+            <label
+              className="Label-root"
             >
-              <select
-                aria-label="Search by role"
-                className="SelectField-select"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                value=""
+              Show Me
+            </label>
+            <div
+              className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+            >
+              <span
+                className="SelectField-root UserTableFilter-selectField"
               >
-                <option
+                <select
+                  aria-label="Search by role"
+                  className="SelectField-select"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
                   value=""
                 >
-                  All Roles
-                </option>
-                <optgroup
-                  label="Audience"
+                  <option
+                    value=""
+                  >
+                    All Roles
+                  </option>
+                  <optgroup
+                    label="Audience"
+                  >
+                    <option
+                      value="COMMENTER"
+                    >
+                      Commenters
+                    </option>
+                  </optgroup>
+                  <optgroup
+                    label="Organization"
+                  >
+                    <option
+                      value="ADMIN"
+                    >
+                      Admins
+                    </option>
+                    <option
+                      value="MODERATOR"
+                    >
+                      Moderators
+                    </option>
+                    <option
+                      value="STAFF"
+                    >
+                      Staff
+                    </option>
+                  </optgroup>
+                </select>
+                <span
+                  aria-hidden={true}
+                  className="SelectField-afterWrapper"
                 >
-                  <option
-                    value="COMMENTER"
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
                   >
-                    Commenters
-                  </option>
-                </optgroup>
-                <optgroup
-                  label="Organization"
-                >
-                  <option
-                    value="ADMIN"
-                  >
-                    Admins
-                  </option>
-                  <option
-                    value="MODERATOR"
-                  >
-                    Moderators
-                  </option>
-                  <option
-                    value="STAFF"
-                  >
-                    Staff
-                  </option>
-                </optgroup>
-              </select>
-              <span
-                aria-hidden={true}
-                className="SelectField-afterWrapper"
-              >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm"
-                >
-                  expand_more
-                </i>
+                    expand_more
+                  </i>
+                </span>
               </span>
-            </span>
-            <span
-              className="SelectField-root UserTableFilter-selectField"
-            >
-              <select
-                aria-label="Search by user status"
-                className="SelectField-select"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                value=""
+              <span
+                className="SelectField-root UserTableFilter-selectField"
               >
-                <option
+                <select
+                  aria-label="Search by user status"
+                  className="SelectField-select"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
                   value=""
                 >
-                  All Statuses
-                </option>
-                <option
-                  value="ACTIVE"
+                  <option
+                    value=""
+                  >
+                    All Statuses
+                  </option>
+                  <option
+                    value="ACTIVE"
+                  >
+                    Active
+                  </option>
+                  <option
+                    value="SUSPENDED"
+                  >
+                    Suspended
+                  </option>
+                  <option
+                    value="BANNED"
+                  >
+                    Banned
+                  </option>
+                  <option
+                    value="PREMOD"
+                  >
+                    Always pre-moderate
+                  </option>
+                </select>
+                <span
+                  aria-hidden={true}
+                  className="SelectField-afterWrapper"
                 >
-                  Active
-                </option>
-                <option
-                  value="SUSPENDED"
-                >
-                  Suspended
-                </option>
-                <option
-                  value="BANNED"
-                >
-                  Banned
-                </option>
-                <option
-                  value="PREMOD"
-                >
-                  Always pre-moderate
-                </option>
-              </select>
-              <span
-                aria-hidden={true}
-                className="SelectField-afterWrapper"
-              >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm"
-                >
-                  expand_more
-                </i>
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    expand_more
+                  </i>
+                </span>
               </span>
-            </span>
+            </div>
           </div>
         </fieldset>
       </div>
@@ -191,8 +199,8 @@ exports[`renders community 1`] = `
         data-testid="invite-users"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-          data-color="primary"
+          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase InviteUsers-button"
+          data-color="default"
           data-testid="invite-users-button"
           data-variant="filled"
           onBlur={[Function]}
@@ -256,9 +264,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
-                data-color="regular"
-                data-variant="regular"
+                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
+                data-color="default"
+                data-variant="plain"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -302,17 +310,13 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-statusColumn TableCell-body"
             >
               <div
-                className="ButtonPadding-root"
+                className="UserStatus-root UserStatus-success"
               >
                 <div
-                  className="Box-root Typography-root Typography-detail Typography-colorSuccess"
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                 >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
-                  >
-                    <div>
-                      Active
-                    </div>
+                  <div>
+                    Active
                   </div>
                 </div>
               </div>
@@ -325,9 +329,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
-                data-color="regular"
-                data-variant="regular"
+                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
+                data-color="default"
+                data-variant="plain"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -362,9 +366,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain UserRoleChange-button"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -404,17 +408,13 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-statusColumn TableCell-body"
             >
               <div
-                className="ButtonPadding-root"
+                className="UserStatus-root UserStatus-success"
               >
                 <div
-                  className="Box-root Typography-root Typography-detail Typography-colorSuccess"
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                 >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
-                  >
-                    <div>
-                      Active
-                    </div>
+                  <div>
+                    Active
                   </div>
                 </div>
               </div>
@@ -427,9 +427,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
-                data-color="regular"
-                data-variant="regular"
+                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
+                data-color="default"
+                data-variant="plain"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -464,9 +464,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain UserRoleChange-button"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -506,17 +506,13 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-statusColumn TableCell-body"
             >
               <div
-                className="ButtonPadding-root"
+                className="UserStatus-root UserStatus-success"
               >
                 <div
-                  className="Box-root Typography-root Typography-detail Typography-colorSuccess"
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                 >
-                  <div
-                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
-                  >
-                    <div>
-                      Active
-                    </div>
+                  <div>
+                    Active
                   </div>
                 </div>
               </div>
@@ -529,9 +525,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
-                data-color="regular"
-                data-variant="regular"
+                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
+                data-color="default"
+                data-variant="plain"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -566,9 +562,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain UserRoleChange-button"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -612,9 +608,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change user status"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserStatusChange-button UserStatusChange-fullWidth"
-                  data-color="regular"
-                  data-variant="regular"
+                  className="BaseButton-root Button-root Button-sizeMedium Button-colorMono Button-variantPlain UserStatusChange-button UserStatusChange-fullWidth"
+                  data-color="mono"
+                  data-variant="plain"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -624,7 +620,7 @@ exports[`renders community 1`] = `
                   type="button"
                 >
                   <div
-                    className="Box-root Typography-root Typography-detail Typography-colorSuccess"
+                    className="UserStatus-root UserStatus-success"
                   >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
@@ -673,181 +669,189 @@ exports[`renders empty community 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-double"
   >
     <div
-      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-justifySpaceBetween Flex-alignFlexEnd gutter"
+      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd"
     >
       <div
-        className="Box-root Flex-root Flex-flex"
+        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
       >
         <fieldset
           className="FieldSet-root"
         >
-          <legend
-            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
           >
-            Search
-          </legend>
-          <form
-            autoComplete="off"
-            id="configure-form"
-            onSubmit={[Function]}
-          >
-            <div
-              className="TextField-root UserTableFilter-textField"
+            <label
+              className="Label-root"
             >
-              <input
-                aria-label="Search by username or email address"
-                className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
-                name="search"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                placeholder="Search by username or email address..."
-                type="text"
-                value=""
-              />
+              Search
+            </label>
+            <form
+              autoComplete="off"
+              id="configure-form"
+              onSubmit={[Function]}
+            >
               <div
-                className="TextField-adornment"
+                className="TextField-root UserTableFilter-textField"
               >
-                <button
-                  aria-label="Search"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment UserTableFilter-adornment"
-                  data-color="dark"
-                  data-variant="adornment"
+                <input
+                  aria-label="Search by username or email address"
+                  className="TextField-input TextField-colorDark TextField-seamlessAdornment"
+                  name="search"
                   onBlur={[Function]}
+                  onChange={[Function]}
                   onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="submit"
+                  placeholder="Search by username or email address..."
+                  type="text"
+                  value=""
+                />
+                <div
+                  className="TextField-adornment"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                  <button
+                    aria-label="Search"
+                    className="BaseButton-root Button-root Button-sizeMedium Button-colorEmphasis Button-variantAdornment Button-uppercase UserTableFilter-adornment"
+                    data-color="emphasis"
+                    data-variant="adornment"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="submit"
                   >
-                    search
-                  </i>
-                </button>
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      search
+                    </i>
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </fieldset>
         <fieldset
           className="FieldSet-root"
         >
-          <legend
-            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
-          >
-            Show Me
-          </legend>
           <div
-            className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
           >
-            <span
-              className="SelectField-root UserTableFilter-selectField"
+            <label
+              className="Label-root"
             >
-              <select
-                aria-label="Search by role"
-                className="SelectField-select"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                value=""
+              Show Me
+            </label>
+            <div
+              className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+            >
+              <span
+                className="SelectField-root UserTableFilter-selectField"
               >
-                <option
+                <select
+                  aria-label="Search by role"
+                  className="SelectField-select"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
                   value=""
                 >
-                  All Roles
-                </option>
-                <optgroup
-                  label="Audience"
+                  <option
+                    value=""
+                  >
+                    All Roles
+                  </option>
+                  <optgroup
+                    label="Audience"
+                  >
+                    <option
+                      value="COMMENTER"
+                    >
+                      Commenters
+                    </option>
+                  </optgroup>
+                  <optgroup
+                    label="Organization"
+                  >
+                    <option
+                      value="ADMIN"
+                    >
+                      Admins
+                    </option>
+                    <option
+                      value="MODERATOR"
+                    >
+                      Moderators
+                    </option>
+                    <option
+                      value="STAFF"
+                    >
+                      Staff
+                    </option>
+                  </optgroup>
+                </select>
+                <span
+                  aria-hidden={true}
+                  className="SelectField-afterWrapper"
                 >
-                  <option
-                    value="COMMENTER"
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
                   >
-                    Commenters
-                  </option>
-                </optgroup>
-                <optgroup
-                  label="Organization"
-                >
-                  <option
-                    value="ADMIN"
-                  >
-                    Admins
-                  </option>
-                  <option
-                    value="MODERATOR"
-                  >
-                    Moderators
-                  </option>
-                  <option
-                    value="STAFF"
-                  >
-                    Staff
-                  </option>
-                </optgroup>
-              </select>
-              <span
-                aria-hidden={true}
-                className="SelectField-afterWrapper"
-              >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm"
-                >
-                  expand_more
-                </i>
+                    expand_more
+                  </i>
+                </span>
               </span>
-            </span>
-            <span
-              className="SelectField-root UserTableFilter-selectField"
-            >
-              <select
-                aria-label="Search by user status"
-                className="SelectField-select"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                value=""
+              <span
+                className="SelectField-root UserTableFilter-selectField"
               >
-                <option
+                <select
+                  aria-label="Search by user status"
+                  className="SelectField-select"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
                   value=""
                 >
-                  All Statuses
-                </option>
-                <option
-                  value="ACTIVE"
+                  <option
+                    value=""
+                  >
+                    All Statuses
+                  </option>
+                  <option
+                    value="ACTIVE"
+                  >
+                    Active
+                  </option>
+                  <option
+                    value="SUSPENDED"
+                  >
+                    Suspended
+                  </option>
+                  <option
+                    value="BANNED"
+                  >
+                    Banned
+                  </option>
+                  <option
+                    value="PREMOD"
+                  >
+                    Always pre-moderate
+                  </option>
+                </select>
+                <span
+                  aria-hidden={true}
+                  className="SelectField-afterWrapper"
                 >
-                  Active
-                </option>
-                <option
-                  value="SUSPENDED"
-                >
-                  Suspended
-                </option>
-                <option
-                  value="BANNED"
-                >
-                  Banned
-                </option>
-                <option
-                  value="PREMOD"
-                >
-                  Always pre-moderate
-                </option>
-              </select>
-              <span
-                aria-hidden={true}
-                className="SelectField-afterWrapper"
-              >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm"
-                >
-                  expand_more
-                </i>
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    expand_more
+                  </i>
+                </span>
               </span>
-            </span>
+            </div>
           </div>
         </fieldset>
       </div>
@@ -855,8 +859,8 @@ exports[`renders empty community 1`] = `
         data-testid="invite-users"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-          data-color="primary"
+          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase InviteUsers-button"
+          data-color="default"
           data-testid="invite-users-button"
           data-variant="filled"
           onBlur={[Function]}
@@ -914,11 +918,11 @@ exports[`renders empty community 1`] = `
           className="TableBody-root"
         />
       </table>
-      <p
-        className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary Typography-alignCenter EmptyMessage-root"
+      <div
+        className="EmptyMessage-root"
       >
         We could not find anyone in your community matching your criteria.
-      </p>
+      </div>
     </div>
   </div>
 </div>

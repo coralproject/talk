@@ -84,11 +84,6 @@ export async function findOrCreateSSOUser(
   token: SSOToken,
   now = new Date()
 ) {
-  if (!token.user) {
-    // TODO: (wyattjoh) replace with better error.
-    throw new Error("token is malformed, missing user claim");
-  }
-
   // Validate the token content.
   const decodedToken: SSOToken = validate(SSOTokenSchema, token);
 

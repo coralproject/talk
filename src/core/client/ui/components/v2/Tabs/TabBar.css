@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.default {
+  border-bottom: 1px solid var(--v2-palette-tab-divider);
+}
+
+.primary {
+  border-bottom: 1px solid var(--palette-grey-lighter);
+}
+
+.secondary {
+  border-bottom: 1px solid var(--palette-divider);
+}
