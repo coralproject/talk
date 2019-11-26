@@ -42,7 +42,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-general-commentLength-title">
-        <Header component="legend">Comment length</Header>
+        <Header container={<legend />}>Comment length</Header>
       </Localized>
     }
     container={<FieldSet />}

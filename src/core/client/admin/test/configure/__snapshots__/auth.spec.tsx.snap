@@ -572,7 +572,6 @@ exports[`change settings: enable facebook configure box 1`] = `
         To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
 For more information visit: 
-        <br />
         <a
           className="TextLink-root"
           href="https://developers.facebook.com/docs/facebook-login/web"
@@ -3840,7 +3839,6 @@ integration to register for a new account.
                       To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
 For more information visit: 
-                      <br />
                       <a
                         className="TextLink-root"
                         href="https://developers.facebook.com/docs/facebook-login/web"

@@ -18,7 +18,7 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled, sso }) => (
   <ConfigBoxWithToggleField
     title={
       <Localized id="configure-auth-sso-loginWith">
-        <Header>Login with SSO</Header>
+        <Header container="h2">Login with SSO</Header>
       </Localized>
     }
     name="auth.integrations.sso.enabled"

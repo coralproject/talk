@@ -26,7 +26,7 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-advanced-stories">
-        <Header>Story Creation</Header>
+        <Header container="h2">Story Creation</Header>
       </Localized>
     }
   >

@@ -27,7 +27,7 @@ const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-general-sitewideCommenting-title">
-        <Header component="legend">Sitewide commenting</Header>
+        <Header container={<legend />}>Sitewide commenting</Header>
       </Localized>
     }
     container={<FieldSet />}

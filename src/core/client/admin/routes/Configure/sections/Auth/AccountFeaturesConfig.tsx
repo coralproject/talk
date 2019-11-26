@@ -25,7 +25,7 @@ const AccountFeaturesConfig: FunctionComponent<Props> = ({ disabled }) => (
     <ConfigBox
       title={
         <Localized id="configure-account-features-title">
-          <Header component="legend">
+          <Header container={<legend />}>
             Commenter account mangement features
           </Header>
         </Localized>

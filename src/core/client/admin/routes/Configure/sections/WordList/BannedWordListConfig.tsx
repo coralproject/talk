@@ -23,7 +23,7 @@ const BannedWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-wordList-banned-bannedWordsAndPhrases">
-        <Header>Banned words and phrases</Header>
+        <Header container="h2">Banned words and phrases</Header>
       </Localized>
     }
   >

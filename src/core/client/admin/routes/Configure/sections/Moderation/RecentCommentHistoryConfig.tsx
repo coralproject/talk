@@ -38,7 +38,7 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
     <ConfigBox
       title={
         <Localized id="configure-moderation-recentCommentHistory-title">
-          <Header component="legend">Recent history</Header>
+          <Header container={<legend />}>Recent history</Header>
         </Localized>
       }
       container={<FieldSet />}

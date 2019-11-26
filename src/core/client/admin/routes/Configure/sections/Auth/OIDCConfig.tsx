@@ -58,7 +58,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
       data-testid="configure-auth-oidc-container"
       title={
         <Localized id="configure-auth-oidc-loginWith">
-          <Header>Login with OIDC</Header>
+          <Header container="h2">Login with OIDC</Header>
         </Localized>
       }
       name="auth.integrations.oidc.enabled"

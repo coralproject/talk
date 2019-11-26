@@ -30,7 +30,7 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
     <ConfigBox
       title={
         <Localized id="configure-moderation-preModeration-title">
-          <Header component="legend">Pre-moderation</Header>
+          <Header container={<legend />}>Pre-moderation</Header>
         </Localized>
       }
       container={<FieldSet />}

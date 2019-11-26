@@ -32,7 +32,7 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
   <ConfigBox
     title={
       <Localized id="configure-general-closingCommentStreams-title">
-        <Header component="legend">Closing comment streams</Header>
+        <Header container={<legend />}>Closing comment streams</Header>
       </Localized>
     }
     container={<FieldSet />}

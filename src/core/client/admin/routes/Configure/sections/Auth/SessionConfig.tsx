@@ -27,7 +27,7 @@ const SessionConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-auth-settings">
-        <Header>Session settings</Header>
+        <Header container="h2">Session settings</Header>
       </Localized>
     }
   >

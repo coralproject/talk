@@ -37,7 +37,7 @@ const GoogleConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
   <ConfigBoxWithToggleField
     title={
       <Localized id="configure-auth-google-loginWith">
-        <Header>Login with Google</Header>
+        <Header container="h2">Login with Google</Header>
       </Localized>
     }
     name="auth.integrations.google.enabled"

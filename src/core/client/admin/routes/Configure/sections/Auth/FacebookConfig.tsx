@@ -39,7 +39,7 @@ const FacebookConfig: FunctionComponent<Props> = ({
     data-testid="configure-auth-facebook-container"
     title={
       <Localized id="configure-auth-facebook-loginWith">
-        <Header>Login with Facebook</Header>
+        <Header container="h2">Login with Facebook</Header>
       </Localized>
     }
     name="auth.integrations.facebook.enabled"

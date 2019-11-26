@@ -87,7 +87,7 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
     <ConfigBox
       title={
         <Localized id="configure-advanced-embedCode-title">
-          <Header component="legend">Embed code</Header>
+          <Header container={<legend />}>Embed code</Header>
         </Localized>
       }
       container={<FieldSet />}

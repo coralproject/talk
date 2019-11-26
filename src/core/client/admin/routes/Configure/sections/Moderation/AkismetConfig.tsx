@@ -39,7 +39,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
       data-testid="akismet-config"
       title={
         <Localized id="configure-moderation-akismet-title">
-          <Header component="legend">Spam detection filter</Header>
+          <Header container={<legend />}>Spam detection filter</Header>
         </Localized>
       }
     >

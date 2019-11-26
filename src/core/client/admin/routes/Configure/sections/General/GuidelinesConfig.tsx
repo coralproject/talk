@@ -27,7 +27,7 @@ const GuidelinesConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-general-guidelines-title">
-        <Header component="legend">Community guidelines summary</Header>
+        <Header container={<legend />}>Community guidelines summary</Header>
       </Localized>
     }
     container={<FieldSet />}

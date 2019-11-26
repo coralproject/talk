@@ -55,7 +55,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
       data-testid="perspective-container"
       title={
         <Localized id="configure-moderation-perspective-title">
-          <Header component="legend">Toxic comment filter</Header>
+          <Header container={<legend />}>Toxic comment filter</Header>
         </Localized>
       }
     >

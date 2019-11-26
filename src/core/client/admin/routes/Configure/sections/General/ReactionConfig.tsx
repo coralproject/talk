@@ -32,7 +32,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
   <ConfigBox
     title={
       <Localized id="configure-general-reactions-title">
-        <Header component="legend">Reactions</Header>
+        <Header container={<legend />}>Reactions</Header>
       </Localized>
     }
     container={<FieldSet />}

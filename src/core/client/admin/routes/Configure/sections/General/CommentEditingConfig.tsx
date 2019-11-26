@@ -29,7 +29,7 @@ const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-general-commentEditing-title">
-        <Header>Comment editing</Header>
+        <Header container="h2">Comment editing</Header>
       </Localized>
     }
   >

@@ -14,7 +14,7 @@ const LocalAuthConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBoxWithToggleField
     title={
       <Localized id="configure-auth-local-loginWith">
-        <Header>Login with email authentication</Header>
+        <Header container="h2">Login with email authentication</Header>
       </Localized>
     }
     name="auth.integrations.local.enabled"

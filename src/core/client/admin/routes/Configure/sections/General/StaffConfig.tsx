@@ -30,7 +30,7 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
   <ConfigBox
     title={
       <Localized id="configure-general-staff-title">
-        <Header component="legend">Staff member badge</Header>
+        <Header container={<legend />}>Staff member badge</Header>
       </Localized>
     }
     container={<FieldSet />}

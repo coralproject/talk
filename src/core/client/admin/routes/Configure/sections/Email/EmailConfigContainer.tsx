@@ -73,7 +73,7 @@ class EmailConfigContainer extends React.Component<Props> {
         disabled={submitting}
         title={
           <Localized id="configure-email">
-            <Header>Email settings</Header>
+            <Header container="h2">Email settings</Header>
           </Localized>
         }
         name="email.enabled"

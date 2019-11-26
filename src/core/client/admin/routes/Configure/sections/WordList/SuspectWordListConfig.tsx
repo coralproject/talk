@@ -23,7 +23,7 @@ const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-wordList-suspect-bannedWordsAndPhrases">
-        <Header>Suspect words and phrases</Header>
+        <Header container="h2">Suspect words and phrases</Header>
       </Localized>
     }
   >
