@@ -1,37 +1,28 @@
-import React, { Component } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 
 interface Props {
   ms?: number;
   children: React.ReactNode;
 }
 
-interface State {
-  render: boolean;
-}
+const Delay: FunctionComponent<Props> = ({ ms, children }) => {
+  const [render, setRender] = useState<boolean>(false);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setRender(true);
+    }, ms);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [ms]);
+  if (!render) {
+    return null;
+  }
+  return <>{children}</>;
+};
 
-export class Delay extends Component<Props, State> {
-  public static defaultProps: Partial<Props> = {
-    ms: 500,
-  };
-  private timeout: any;
-  public state = {
-    render: false,
-  };
-  constructor(props: Props) {
-    super(props);
-    this.timeout = setTimeout(() => {
-      this.setState({ render: true });
-    }, props.ms);
-  }
-  public componentWillUnmount() {
-    clearTimeout(this.timeout);
-  }
-  public render() {
-    if (!this.state.render) {
-      return null;
-    }
-    return <>{this.props.children}</>;
-  }
-}
+Delay.defaultProps = {
+  ms: 500,
+};
 
 export default Delay;
