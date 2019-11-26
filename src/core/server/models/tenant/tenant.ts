@@ -190,6 +190,9 @@ export async function createTenant(
       downloadComments: false,
     },
     createdAt: now,
+    slack: {
+      channels: [],
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.

@@ -939,26 +939,26 @@ type SlackConfiguration {
   """
   channels is the set of Slack channels configured to receive comments
   """
-  channels: [SlackChannel]
+  channels: [SlackChannel!]!
 }
 
 type SlackChannelTriggers {
   """
   allComments is whether this channel will receive all comments entering moderation
   """
-  allComments: Boolean
+  allComments: Boolean!
   """
   reportedComments is whether this channel will receive reported comments
   """
-  reportedComments: Boolean
+  reportedComments: Boolean!
   """
   pendingComments is whether this channel will receive pending comments
   """
-  pendingComments: Boolean
+  pendingComments: Boolean!
   """
   featuredComments is whether this channel will receive featured comments
   """
-  featuredComments: Boolean
+  featuredComments: Boolean!
 }
 
 type SlackChannel {
@@ -966,7 +966,7 @@ type SlackChannel {
   enabled is whether this Slack channel is enabled to send comments to its
   correlated web hook
   """
-  enabled: Boolean
+  enabled: Boolean!
   """
   hookURL defines the URL that comments will be sent to
   """
@@ -1262,7 +1262,7 @@ type Settings {
   """
   slack is the configuration for slack communication
   """
-  slack: SlackConfiguration @auth(roles: [ADMIN, MODERATOR])
+  slack: SlackConfiguration! @auth(roles: [ADMIN, MODERATOR])
 
   """
   wordList will return a given list of words.
@@ -3484,7 +3484,7 @@ input SlackConfigurationInput {
   """
   channels are the channels configured for Slack integration
   """
-  channels: [SlackChannelConfigurationInput]
+  channels: [SlackChannelConfigurationInput!]
 }
 
 """
