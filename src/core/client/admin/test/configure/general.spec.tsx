@@ -5,6 +5,7 @@ import { pureMerge } from "coral-common/utils";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -86,15 +87,21 @@ it("change language", async () => {
   const languageField = within(generalContainer).getByLabelText("Language");
 
   // Let's change the language.
-  languageField.props.onChange("es");
+  act(() => {
+    languageField.props.onChange("es");
+  });
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  await act(async () => {
+    await within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
+  await wait(() => {
+    expect(saveChangesButton.props.disabled).toBe(true);
+  });
 
   // Wait for submission to be finished
   await wait(() => {
