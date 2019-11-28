@@ -71,7 +71,6 @@ async function createTestRenderer(
 
 it("renders stories", async () => {
   const { container } = await createTestRenderer();
-
   await act(async () => {
     await wait(() => {
       expect(within(container).toJSON()).toMatchSnapshot();

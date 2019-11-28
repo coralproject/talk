@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import stackTrace from "stack-trace";
 
 type PatternMap = Record<string, RegExp | string>;
 
@@ -53,20 +54,21 @@ function createMockImplementation(originalFunction: (...args: any[]) => void) {
       return;
     }
     matchedFail.push(...getMatchingPatterns(failPatterns, args));
-    originalFunction(...args);
+
+    // Get filename and line from stack trace.
+    const stackFrame = stackTrace.parse(new Error())[1];
+    const origin = `${stackFrame
+      .getFileName()
+      .replace(`${process.cwd()}/`, "")}:${stackFrame.getLineNumber()}\n`;
+
+    originalFunction(origin, ...args);
     return;
   };
 }
 
-jest
-  .spyOn(global.console, "error")
-  .mockImplementation(createMockImplementation(originalError));
-jest
-  .spyOn(global.console, "warn")
-  .mockImplementation(createMockImplementation(originalWarn));
-jest
-  .spyOn(global.console, "log")
-  .mockImplementation(createMockImplementation(originalLog));
+global.console.error = createMockImplementation(originalError);
+global.console.warn = createMockImplementation(originalWarn);
+global.console.log = createMockImplementation(originalLog);
 
 beforeEach(() => {
   matchedFail = [];
