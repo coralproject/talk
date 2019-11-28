@@ -352,7 +352,7 @@ exports[`successfully sets username 1`] = `
           onFocus={[Function]}
           placeholder="Username"
           type="text"
-          value=""
+          value="hans"
         />
       </div>
     </div>

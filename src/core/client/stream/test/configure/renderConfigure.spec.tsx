@@ -1,6 +1,12 @@
 import sinon from "sinon";
 
-import { waitForElement, within } from "coral-framework/testHelpers";
+import {
+  act,
+  actAndReturn,
+  wait,
+  waitForElement,
+  within,
+} from "coral-framework/testHelpers";
 
 import { moderators, settings, stories } from "../fixtures";
 import create from "./create";
@@ -32,14 +38,21 @@ async function createTestRenderer(
     },
   });
 
-  const tabPane = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("current-tab-pane")
-  );
+  return await actAndReturn(async () => {
+    const tabPane = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("current-tab-pane")
+    );
 
-  return { testRenderer, tabPane };
+    return { testRenderer, tabPane };
+  });
 }
 
 it("renders configure", async () => {
   const { tabPane } = await createTestRenderer();
-  expect(within(tabPane).toJSON()).toMatchSnapshot();
+
+  await act(async () => {
+    await wait(() => {
+      expect(within(tabPane).toJSON()).toMatchSnapshot();
+    });
+  });
 });

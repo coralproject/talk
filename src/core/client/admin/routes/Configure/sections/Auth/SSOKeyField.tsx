@@ -27,11 +27,12 @@ const SSOKeyField: FunctionComponent<Props> = ({
   disabled,
   onRegenerate,
 }) => (
-  <FormField className={styles.root} data-testid="configure-auth-sso-key">
+  <FormField className={styles.root}>
     <Localized id="configure-auth-sso-key">
-      <Label>Key</Label>
+      <Label htmlFor="configure-auth-sso-key">Key</Label>
     </Localized>
     <PasswordField
+      id="configure-auth-sso-key"
       name="key"
       value={generatedKey}
       readOnly

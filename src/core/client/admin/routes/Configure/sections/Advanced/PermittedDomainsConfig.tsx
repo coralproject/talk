@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { formatStringList, parseStringList } from "coral-framework/lib/form";
 import { validateStrictURLList } from "coral-framework/lib/validation";
@@ -9,6 +10,13 @@ import { FormField, FormFieldDescription } from "coral-ui/components/v2";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment PermittedDomainsConfig_formValues on Settings {
+    allowedDomains
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -44,6 +52,7 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
       >
         {({ input, meta }) => (
           <TextFieldWithValidation
+            {...input}
             id={`configure-advanced-${input.name}`}
             disabled={disabled}
             autoComplete="off"
@@ -51,7 +60,6 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
             autoCapitalize="off"
             spellCheck={false}
             meta={meta}
-            {...input}
             fullWidth
           />
         )}

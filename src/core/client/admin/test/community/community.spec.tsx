@@ -14,7 +14,6 @@ import {
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
-  findParentWithType,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -344,7 +343,7 @@ it("filter by search", async () => {
   const searchField = within(container).getByLabelText("Search by username", {
     exact: false,
   });
-  const form = findParentWithType(searchField, "form")!;
+  const form = within(searchField).getParentByType("form");
 
   await act(async () => {
     searchField.props.onChange({

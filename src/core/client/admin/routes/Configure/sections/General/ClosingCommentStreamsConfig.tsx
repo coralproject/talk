@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { colorFromMeta } from "coral-framework/lib/form";
 import {
@@ -21,6 +22,16 @@ import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import ValidationMessage from "../../ValidationMessage";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment ClosingCommentStreamsConfig_formValues on Settings {
+    closeCommenting {
+      auto
+      timeout
+    }
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -67,6 +78,7 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
         {({ input, meta }) => (
           <>
             <DurationField
+              {...input}
               units={[
                 DURATION_UNIT.HOURS,
                 DURATION_UNIT.DAYS,
@@ -74,7 +86,6 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
               ]}
               disabled={disabled}
               color={colorFromMeta(meta)}
-              {...input}
             />
             <ValidationMessage meta={meta} fullWidth />
           </>

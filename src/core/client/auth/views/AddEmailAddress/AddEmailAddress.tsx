@@ -8,7 +8,7 @@ import ConfirmEmailField from "coral-auth/components/ConfirmEmailField";
 import EmailField from "coral-auth/components/EmailField";
 import Main from "coral-auth/components/Main";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
-import { OnSubmit } from "coral-framework/lib/form";
+import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
@@ -25,13 +25,15 @@ interface FormProps {
   email: string;
 }
 
+interface FormErrorProps extends FormProps, FormError {}
+
 const AddEmailAddressContainer: FunctionComponent = () => {
   const setEmail = useMutation(SetEmailMutation);
-  const onSubmit: OnSubmit<FormProps> = useCallback(
+  const onSubmit: OnSubmit<FormErrorProps> = useCallback(
     async (input, form) => {
       try {
         await setEmail({ email: input.email });
-        return form.reset();
+        return;
       } catch (error) {
         return { [FORM_ERROR]: error.message };
       }

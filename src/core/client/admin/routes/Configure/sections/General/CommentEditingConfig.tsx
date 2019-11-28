@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { colorFromMeta } from "coral-framework/lib/form";
 import {
@@ -21,6 +22,12 @@ import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import ValidationMessage from "../../ValidationMessage";
 
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment CommentEditingConfig_formValues on Settings {
+    editCommentWindowLength
+  }
+`;
 interface Props {
   disabled: boolean;
 }
@@ -58,6 +65,7 @@ const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
         {({ input, meta }) => (
           <>
             <DurationField
+              {...input}
               units={[
                 DURATION_UNIT.SECONDS,
                 DURATION_UNIT.MINUTES,
@@ -65,7 +73,6 @@ const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
               ]}
               color={colorFromMeta(meta)}
               disabled={disabled}
-              {...input}
             />
             <ValidationMessage meta={meta} fullWidth />
           </>

@@ -88,7 +88,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                       <Field name="onReply" type="checkbox">
                         {({ input }) => (
                           <Localized id="profile-account-notifications-onReply">
-                            <CheckBox id={input.name} {...input}>
+                            <CheckBox {...input} id={input.name}>
                               My comment receives a reply
                             </CheckBox>
                           </Localized>
@@ -99,7 +99,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                       <Field name="onFeatured" type="checkbox">
                         {({ input }) => (
                           <Localized id="profile-account-notifications-onFeatured">
-                            <CheckBox id={input.name} {...input}>
+                            <CheckBox {...input} id={input.name}>
                               My comment is featured
                             </CheckBox>
                           </Localized>
@@ -110,7 +110,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                       <Field name="onStaffReplies" type="checkbox">
                         {({ input }) => (
                           <Localized id="profile-account-notifications-onStaffReplies">
-                            <CheckBox id={input.name} {...input}>
+                            <CheckBox {...input} id={input.name}>
                               A staff member replies to my comment
                             </CheckBox>
                           </Localized>
@@ -121,7 +121,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                       <Field name="onModeration" type="checkbox">
                         {({ input }) => (
                           <Localized id="profile-account-notifications-onModeration">
-                            <CheckBox id={input.name} {...input}>
+                            <CheckBox {...input} id={input.name}>
                               My pending comment has been reviewed
                             </CheckBox>
                           </Localized>
@@ -143,9 +143,8 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                             <Field name="digestFrequency">
                               {({ input }) => (
                                 <SelectField
-                                  id={input.name}
-                                  aria-label=""
                                   {...input}
+                                  id={input.name}
                                   disabled={
                                     !values.onReply &&
                                     !values.onStaffReplies &&

@@ -10,7 +10,7 @@ export {
 } from "./removeFragmentRefs";
 export { default as createUUIDGenerator } from "./createUUIDGenerator";
 export * from "./denormalize";
-export { default as act } from "./act";
+export { act, actAndReturn } from "./act";
 export { default as limitSnapshotTo } from "./limitSnapshotTo";
 export { default as within } from "./within";
 export { default as wait } from "./wait";
@@ -20,8 +20,9 @@ export { default as matchText } from "./matchText";
 export { default as toJSON } from "./toJSON";
 export { default as replaceHistoryLocation } from "./replaceHistoryLocation";
 export { default as createAccessToken } from "./createAccessToken";
-export { default as findParentsWithType } from "./findParentsWithType";
+export { default as findParent } from "./findParent";
 export { default as findParentWithType } from "./findParentWithType";
+export { default as findParentsWithType } from "./findParentsWithType";
 export {
   default as createFixture,
   Fixture,

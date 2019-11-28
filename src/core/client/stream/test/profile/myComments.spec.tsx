@@ -2,6 +2,8 @@ import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
 import {
+  act,
+  actAndReturn,
   createSinonStub,
   wait,
   waitForElement,
@@ -98,13 +100,17 @@ it("loads more comments", async () => {
     /^historyComment-/
   ).length;
 
-  within(commentHistory)
-    .getByText("Load More")
-    .props.onClick();
+  act(() => {
+    within(commentHistory)
+      .getByText("Load More")
+      .props.onClick();
+  });
 
   // Wait for loading.
-  await wait(() =>
-    expect(within(commentHistory).queryByText("Load More")).toBeNull()
+  await actAndReturn(() =>
+    wait(() =>
+      expect(within(commentHistory).queryByText("Load More")).toBeNull()
+    )
   );
 
   expect(within(commentHistory).getAllByTestID(/^historyComment-/).length).toBe(

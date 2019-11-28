@@ -7,15 +7,6 @@ const { window } = jsdom;
 
 // tiny shim for getSelection for the RTE.
 
-/* eslint-disable @typescript-eslint/no-empty-function */
-window.getSelection = () =>
-  ({
-    addRange() {},
-    removeAllRanges() {},
-  } as any);
-window.resizeTo = () => {};
-/* eslint-enable @typescript-eslint/no-empty-function */
-
 function copyProps(src: any, target: any) {
   const props = Object.getOwnPropertyNames(src)
     .filter(prop => typeof target[prop] === "undefined")
@@ -36,3 +27,12 @@ global.navigator = {
 };
 
 copyProps(window, global);
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+global.window.getSelection = () =>
+  ({
+    addRange() {},
+    removeAllRanges() {},
+  } as any);
+global.window.resizeTo = () => {};
+/* eslint-enable @typescript-eslint/no-empty-function */

@@ -36,7 +36,7 @@ class ConfigureRoute extends React.Component<Props, State> {
     form.initialize(data);
   };
 
-  private handleChange = ({ dirty }: FormState) => {
+  private handleChange = ({ dirty }: FormState<any>) => {
     if (dirty !== this.state.dirty) {
       this.setState({ dirty });
     }

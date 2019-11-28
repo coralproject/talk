@@ -1,34 +1,21 @@
 import { cloneDeep } from "lodash";
-import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 
-import { pureMerge, timeout } from "coral-common/utils";
+import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
-  limitSnapshotTo,
+  findParentWithType,
   replaceHistoryLocation,
+  wait,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
 
 import create from "../create";
 import { settingsWithEmptyAuth, users } from "../fixtures";
-
-/**
- * This is depreacted, do not use it anymore.
- *
- * @deprecated
- */
-const deprecatedInputPredicate = (nameOrID: string) => (
-  n: ReactTestInstance
-) => {
-  return (
-    [n.props.name, n.props.id].includes(nameOrID) &&
-    ["input", "button"].includes(n.type as string)
-  );
-};
 
 beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/configure/auth");
@@ -94,35 +81,50 @@ it("regenerate sso key", async () => {
       },
     }),
   });
-  testRenderer.root
-    .find(deprecatedInputPredicate("auth.integrations.sso.enabled"))
-    .props.onChange({});
+  const container = within(testRenderer.root).getByTestID("configure-auth-sso");
+  act(() => {
+    within(container)
+      .getByLabelText("Enabled")
+      .props.onChange({});
+  });
 
-  testRenderer.root
-    .find(deprecatedInputPredicate("configure-auth-sso-regenerate"))
-    .props.onClick();
+  act(() => {
+    within(container)
+      .getByText("Regenerate", { selector: "button" })
+      .props.onClick();
+  });
 
-  await timeout();
-
-  expect(
-    limitSnapshotTo("configure-auth-sso-key", testRenderer.toJSON())
-  ).toMatchSnapshot();
+  await wait(() =>
+    expect(within(container).getByLabelText("Key").props.value).toBe(
+      "==GENERATED_KEY=="
+    )
+  );
 });
 
 it("prevents admin lock out", async () => {
   const { testRenderer } = await createTestRenderer();
 
+  const container = within(testRenderer.root).getByTestID(
+    "configure-auth-local"
+  );
+
   // Let's disable local auth.
-  testRenderer.root
-    .find(deprecatedInputPredicate("auth.integrations.local.enabled"))
-    .props.onChange();
+  act(() => {
+    within(container)
+      .getByLabelText("Enabled")
+      .props.onChange();
+  });
 
   // Send form
-  testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
-  await timeout();
-  expect(
-    limitSnapshotTo("configure-auth-submitError", testRenderer.toJSON())
-  ).toMatchSnapshot();
+  await act(async () =>
+    findParentWithType(container, "form")!.props.onSubmit()
+  );
+  await waitForElement(() =>
+    within(testRenderer.root).getByText(
+      "Please enable at least one authentication integration",
+      { exact: false }
+    )
+  );
 });
 
 it("prevents stream lock out", async () => {
@@ -151,36 +153,35 @@ it("prevents stream lock out", async () => {
   const stubContinue = sinon.stub().returns(true);
   const stubCancel = sinon.stub().returns(false);
 
+  const container = within(testRenderer.root).getByTestID(
+    "configure-auth-local"
+  );
+  const streamTarget = within(container).getByLabelText("Comment Stream");
+  const form = findParentWithType(container, "form")!;
+  const saveChanges = within(testRenderer.root).getByText("Save Changes", {
+    selector: "button",
+  });
+
   try {
     window.confirm = stubCancel;
     // Let's disable stream target in local auth.
-    testRenderer.root
-      .find(
-        deprecatedInputPredicate("auth.integrations.local.targetFilter.stream")
-      )
-      .props.onChange();
+    act(() => streamTarget.props.onChange());
 
     // Send form
-    testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
+    await act(async () => await form.props.onSubmit());
 
     // Submit button should not be disabled because we canceled the submit.
-    expect(
-      testRenderer.root.findByProps({
-        "data-testid": "configure-sideBar-saveChanges",
-      }).props.disabled
-    ).toBe(true);
-    expect(stubCancel.calledOnce).toBe(true);
+    wait(() => expect(saveChanges.props.disabled).toBe(true));
+    wait(() => {
+      expect(stubCancel.calledOnce).toBe(true);
+    });
 
     window.confirm = stubContinue;
     // Let's enable stream target in local auth.
-    testRenderer.root
-      .find(
-        deprecatedInputPredicate("auth.integrations.local.targetFilter.stream")
-      )
-      .props.onChange();
+    act(() => streamTarget.props.onChange());
 
     // Send form
-    testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
+    await act(async () => await form.props.onSubmit());
 
     expect(stubContinue.calledOnce).toBe(true);
   } finally {
@@ -248,96 +249,108 @@ it("change settings", async () => {
     }),
   });
 
+  const facebookContainer = within(testRenderer.root).getByTestID(
+    "configure-auth-facebook-container"
+  );
+  const facebookEnabled = within(facebookContainer).getByLabelText("Enabled");
+
+  const oidcContainer = within(testRenderer.root).getByTestID(
+    "configure-auth-oidc-container"
+  );
+  const oidcEnabled = within(oidcContainer).getByLabelText("Enabled");
+
+  const form = findParentWithType(facebookContainer, "form")!;
+  const saveChanges = within(testRenderer.root).getByText("Save Changes", {
+    selector: "button",
+  });
+
   // Let's change some facebook settings.
-  testRenderer.root
-    .find(deprecatedInputPredicate("auth.integrations.facebook.enabled"))
-    .props.onChange({});
-  testRenderer.root
-    .find(deprecatedInputPredicate("auth.integrations.facebook.clientID"))
-    .props.onChange("myClientID");
-  testRenderer.root
-    .find(deprecatedInputPredicate("auth.integrations.facebook.clientSecret"))
-    .props.onChange("myClientSecret");
-  expect(
-    limitSnapshotTo("configure-auth-facebook-container", testRenderer.toJSON())
-  ).toMatchSnapshot("enable facebook configure box");
+  act(() => facebookEnabled.props.onChange({}));
+  act(() =>
+    within(facebookContainer)
+      .getByLabelText("Client ID", { exact: false })
+      .props.onChange("myClientID")
+  );
+  act(() =>
+    within(facebookContainer)
+      .getByLabelText("Client secret", { exact: false })
+      .props.onChange("myClientSecret")
+  );
 
   // Send form
-  testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
-
+  act(() => {
+    form.props.onSubmit();
+  });
   // Submit button should be disabled.
-  expect(
-    testRenderer.root.findByProps({
-      "data-testid": "configure-sideBar-saveChanges",
-    }).props.disabled
-  ).toBe(true);
-
+  expect(saveChanges.props.disabled).toBe(true);
   // Disable other fields while submitting
   // We are only testing for one here right now..
-  expect(
-    testRenderer.root.find(
-      deprecatedInputPredicate("auth.integrations.facebook.enabled")
-    ).props.disabled
-  ).toBe(true);
-  await timeout();
-  expect(
-    testRenderer.root.find(
-      deprecatedInputPredicate("auth.integrations.facebook.enabled")
-    ).props.disabled
-  ).toBe(false);
+  expect(facebookEnabled.props.disabled).toBe(true);
+
+  await act(async () => {
+    // When submitting finished, the fields become enabled again.
+    await wait(() => expect(facebookEnabled.props.disabled).toBe(false));
+  });
 
   // Now let's enable oidc
-  testRenderer.root
-    .find(deprecatedInputPredicate("auth.integrations.oidc.enabled"))
-    .props.onChange({});
-
-  expect(
-    limitSnapshotTo("configure-auth-oidc-container", testRenderer.toJSON())
-  ).toMatchSnapshot("enable oidc configure box");
+  act(() => oidcEnabled.props.onChange({}));
+  expect(() =>
+    within(oidcContainer).getAllByText("This field is required", {
+      exact: false,
+    })
+  ).toThrow();
 
   // Try to submit form, this will give validation error messages.
-  testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
-  expect(
-    limitSnapshotTo("configure-auth-oidc-container", testRenderer.toJSON())
-  ).toMatchSnapshot("oidc validation errors");
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  within(oidcContainer).getAllByText("This field is required", {
+    exact: false,
+  });
 
   // Fill form
-  testRenderer.root
-    .find(deprecatedInputPredicate("auth.integrations.oidc.name"))
-    .props.onChange("name");
-  testRenderer.root
-    .find(deprecatedInputPredicate("auth.integrations.oidc.clientID"))
-    .props.onChange("clientID");
-  testRenderer.root
-    .find(deprecatedInputPredicate("auth.integrations.oidc.clientSecret"))
-    .props.onChange("clientSecret");
-  testRenderer.root
-    .find(deprecatedInputPredicate("auth.integrations.oidc.issuer"))
-    .props.onChange("http://issuer.com");
+  act(() =>
+    within(oidcContainer)
+      .getByLabelText("Provider name", { exact: false })
+      .props.onChange("name")
+  );
+  act(() =>
+    within(oidcContainer)
+      .getByLabelText("Client ID", { exact: false })
+      .props.onChange("clientID")
+  );
+  act(() =>
+    within(oidcContainer)
+      .getByLabelText("Client secret", { exact: false })
+      .props.onChange("clientSecret")
+  );
+  act(() =>
+    within(oidcContainer)
+      .getByLabelText("Issuer", { exact: false })
+      .props.onChange("http://issuer.com")
+  );
 
   // Discover the rest.
-  testRenderer.root
-    .find(deprecatedInputPredicate("configure-auth-oidc-discover"))
-    .props.onClick();
-  await timeout();
+  await act(
+    async () =>
+      await within(oidcContainer)
+        .getByText("Discover", { selector: "button" })
+        .props.onClick()
+  );
 
   // Try to submit again, this should work now.
-  testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
-  expect(
-    limitSnapshotTo("configure-auth-oidc-container", testRenderer.toJSON())
-  ).toMatchSnapshot("during submit: oidc without errors");
-
+  act(() => {
+    form.props.onSubmit();
+  });
+  // Submit button should be disabled.
+  expect(saveChanges.props.disabled).toBe(true);
   // Disable other fields while submitting
   // We are only testing for one here right now..
-  expect(
-    testRenderer.root.find(
-      deprecatedInputPredicate("auth.integrations.oidc.enabled")
-    ).props.disabled
-  ).toBe(true);
-  await timeout();
-  expect(
-    testRenderer.root.find(
-      deprecatedInputPredicate("auth.integrations.oidc.enabled")
-    ).props.disabled
-  ).toBe(false);
+  expect(oidcEnabled.props.disabled).toBe(true);
+
+  await act(async () => {
+    // When submitting finished, the fields become enabled again.
+    await wait(() => expect(oidcEnabled.props.disabled).toBe(false));
+  });
 });

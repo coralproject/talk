@@ -2,6 +2,8 @@ import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
 import {
+  act,
+  actAndReturn,
   createSinonStub,
   wait,
   waitForElement,
@@ -107,15 +109,19 @@ it("shows more of this conversation", async () => {
   );
 
   // Show hidden comments.
-  within(conversationThread)
-    .getByText("Show More of This Conversation")
-    .props.onClick();
+  act(() => {
+    within(conversationThread)
+      .getByText("Show More of This Conversation")
+      .props.onClick();
+  });
 
   // Wait until button disappears.
-  await wait(() =>
-    expect(
-      within(conversationThread).queryByText("Show More of This Conversation")
-    ).toBeNull()
+  await actAndReturn(() =>
+    wait(() =>
+      expect(
+        within(conversationThread).queryByText("Show More of This Conversation")
+      ).toBeNull()
+    )
   );
 
   expect(within(conversationThread).toJSON()).toMatchSnapshot();

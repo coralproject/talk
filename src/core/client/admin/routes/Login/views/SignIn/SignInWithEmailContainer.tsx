@@ -14,7 +14,7 @@ class SignInContainer extends Component<SignInContainerProps> {
   private onSubmit: SignInWithEmailForm["onSubmit"] = async (input, form) => {
     try {
       await this.props.signIn({ email: input.email, password: input.password });
-      return form.reset();
+      return;
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
