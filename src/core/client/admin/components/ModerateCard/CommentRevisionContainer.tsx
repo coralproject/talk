@@ -4,18 +4,18 @@ import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter, Timestamp } from "coral-ui/components/v2";
 
 import { CommentRevisionContainer_comment as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
-import { CommentRevisionContainer_settings as SettingsData } from "coral-admin/__generated__/CommentRevisionContainer_settings.graphql";
+import { CommentRevisionContainer_organization as OrganizationData } from "coral-admin/__generated__/CommentRevisionContainer_organization.graphql";
 
 import CommentContent from "./CommentContent";
 
 interface Props {
   comment: CommentData;
-  settings: SettingsData;
+  organization: OrganizationData;
 }
 
 const CommentRevisionContainer: FunctionComponent<Props> = ({
-  settings,
   comment,
+  organization,
 }) => {
   return (
     <HorizontalGutter>
@@ -31,8 +31,8 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({
           <div key={c.id}>
             <Timestamp>{c.createdAt}</Timestamp>
             <CommentContent
-              suspectWords={settings.wordList.suspect}
-              bannedWords={settings.wordList.banned}
+              suspectWords={organization.settings.wordList.suspect}
+              bannedWords={organization.settings.wordList.banned}
             >
               {c.body ? c.body : ""}
             </CommentContent>
@@ -55,11 +55,13 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-  settings: graphql`
-    fragment CommentRevisionContainer_settings on Settings {
-      wordList {
-        banned
-        suspect
+  organization: graphql`
+    fragment CommentRevisionContainer_organization on Organization {
+      settings {
+        wordList {
+          banned
+          suspect
+        }
       }
     }
   `,

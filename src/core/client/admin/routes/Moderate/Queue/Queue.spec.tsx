@@ -12,7 +12,7 @@ const QueueN = removeFragmentRefs(Queue);
 it("renders correctly with load more", () => {
   const props: PropTypesOf<typeof QueueN> = {
     comments: [],
-    settings: {},
+    organization: {},
     onLoadMore: noop,
     hasLoadMore: true,
     disableLoadMore: false,
@@ -28,7 +28,7 @@ it("renders correctly with load more", () => {
 it("renders correctly without load more", () => {
   const props: PropTypesOf<typeof QueueN> = {
     comments: [],
-    settings: {},
+    organization: {},
     onLoadMore: noop,
     hasLoadMore: false,
     disableLoadMore: false,

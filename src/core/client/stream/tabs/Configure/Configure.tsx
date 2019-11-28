@@ -11,9 +11,8 @@ import OpenOrCloseStreamContainer from "./OpenOrCloseStream";
 
 export interface Props {
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"];
-  settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
-    PropTypesOf<typeof ModerateStreamContainer>["settings"];
-  organization: PropTypesOf<typeof UserBoxContainer>["organization"];
+  organization: PropTypesOf<typeof UserBoxContainer>["organization"] &
+    PropTypesOf<typeof ModerateStreamContainer>["organization"];
   story: PropTypesOf<typeof ConfigureStreamContainer>["story"] &
     PropTypesOf<typeof OpenOrCloseStreamContainer>["story"] &
     PropTypesOf<typeof ModerateStreamContainer>["story"];
@@ -23,9 +22,12 @@ const Configure: FunctionComponent<Props> = props => {
   return (
     <div>
       <HorizontalGutter size="double">
-        <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+        <UserBoxContainer
+          viewer={props.viewer}
+          organization={props.organization}
+        />
         <ModerateStreamContainer
-          settings={props.settings}
+          organization={props.organization}
           story={props.story}
         />
         <HorizontalRule />

@@ -17,7 +17,7 @@ const RegenerateSSOKeyMutation = createMutation(
       mutation: graphql`
         mutation RegenerateSSOKeyMutation($input: RegenerateSSOKeyInput!) {
           regenerateSSOKey(input: $input) {
-            settings {
+            organization {
               auth {
                 integrations {
                   sso {

@@ -39,10 +39,12 @@ it("renders all markers", () => {
         },
       },
     },
-    settings: {
-      integrations: {
-        perspective: {
-          threshold: TOXICITY_THRESHOLD_DEFAULT / 100,
+    organization: {
+      settings: {
+        integrations: {
+          perspective: {
+            threshold: TOXICITY_THRESHOLD_DEFAULT / 100,
+          },
         },
       },
     },
@@ -83,10 +85,12 @@ it("renders some markers", () => {
         },
       },
     },
-    settings: {
-      integrations: {
-        perspective: {
-          threshold: TOXICITY_THRESHOLD_DEFAULT / 100,
+    organization: {
+      settings: {
+        integrations: {
+          perspective: {
+            threshold: TOXICITY_THRESHOLD_DEFAULT / 100,
+          },
         },
       },
     },

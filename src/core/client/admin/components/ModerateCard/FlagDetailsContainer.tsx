@@ -9,7 +9,7 @@ import { GQLCOMMENT_FLAG_REASON } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { FlagDetailsContainer_comment } from "coral-admin/__generated__/FlagDetailsContainer_comment.graphql";
-import { FlagDetailsContainer_settings } from "coral-admin/__generated__/FlagDetailsContainer_settings.graphql";
+import { FlagDetailsContainer_organization } from "coral-admin/__generated__/FlagDetailsContainer_organization.graphql";
 
 import FlagDetailsCategory from "./FlagDetailsCategory";
 import FlagDetailsEntry from "./FlagDetailsEntry";
@@ -17,14 +17,14 @@ import ToxicityLabel from "./ToxicityLabel";
 
 interface Props {
   comment: FlagDetailsContainer_comment;
-  settings: FlagDetailsContainer_settings;
+  organization: FlagDetailsContainer_organization;
   onUsernameClick: (id?: string) => void;
 }
 
 const FlagDetailsContainer: FunctionComponent<Props> = ({
   comment,
   onUsernameClick,
-  settings,
+  organization,
 }) => {
   const metadata = comment.revision ? comment.revision.metadata : null;
   const nodes = comment.flags.nodes;
@@ -49,7 +49,7 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
           <ToxicityLabel
             score={metadata.perspective.score}
             threshold={
-              settings.integrations.perspective.threshold ||
+              organization.settings.integrations.perspective.threshold ||
               TOXICITY_THRESHOLD_DEFAULT / 100
             }
           />
@@ -121,11 +121,13 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-  settings: graphql`
-    fragment FlagDetailsContainer_settings on Settings {
-      integrations {
-        perspective {
-          threshold
+  organization: graphql`
+    fragment FlagDetailsContainer_organization on Organization {
+      settings {
+        integrations {
+          perspective {
+            threshold
+          }
         }
       }
     }

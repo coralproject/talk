@@ -16,7 +16,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   body: "content",
   edited: false,
   inReplyTo: null,
-  settings: {},
+  organization: {},
   comment: {},
   status: "undecided",
   featured: false,

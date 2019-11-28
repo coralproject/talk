@@ -8,19 +8,14 @@ import { getLocationOrigin } from "coral-framework/utils";
 import { Button, Icon } from "coral-ui/components";
 
 import { LinkDetailsContainer_comment } from "coral-admin/__generated__/LinkDetailsContainer_comment.graphql";
-import { LinkDetailsContainer_settings } from "coral-admin/__generated__/LinkDetailsContainer_settings.graphql";
 
 import styles from "./LinkDetailsContainer.css";
 
 interface Props {
   comment: LinkDetailsContainer_comment;
-  settings: LinkDetailsContainer_settings;
 }
 
-const LinkDetailsContainer: FunctionComponent<Props> = ({
-  comment,
-  settings,
-}) => {
+const LinkDetailsContainer: FunctionComponent<Props> = ({ comment }) => {
   return (
     <>
       <div className={styles.label}>
@@ -72,13 +67,6 @@ const enhanced = withFragmentContainer<Props>({
       id
       story {
         id
-        url
-      }
-    }
-  `,
-  settings: graphql`
-    fragment LinkDetailsContainer_settings on Settings {
-      organization {
         url
       }
     }

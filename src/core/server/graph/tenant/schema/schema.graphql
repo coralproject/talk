@@ -2650,6 +2650,8 @@ type Query {
 
   community(id: ID!): Community
 
+  auth: Auth
+
   """
   comments returns a filtered comments connection that can be paginated. This is
   a fairly expensive edge to filter against, moderation queues should utlilize
@@ -3885,7 +3887,7 @@ type RegenerateSSOKeyPayload {
   """
   settings is the Settings that the SSO key was regenerated on.
   """
-  settings: Settings
+  organization: Organization
 
   """
   clientMutationId is required for Relay support.

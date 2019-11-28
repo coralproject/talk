@@ -15,6 +15,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     id ? ctx.loaders.Comments.comment.load(id) : null,
   comments: (source, args, ctx) => ctx.loaders.Comments.forFilter(args),
   settings: (source, args, ctx) => ctx.tenant.ownSettings,
+  auth: (source, args, ctx) => ctx.tenant.auth,
   viewer: (source, args, ctx) => ctx.user,
   discoverOIDCConfiguration: (source, { issuer }, ctx) =>
     ctx.loaders.Auth.discoverOIDCConfiguration.load(issuer),

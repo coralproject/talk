@@ -28,8 +28,8 @@ const UserHistoryDrawerRejectedCommentsQuery: FunctionComponent<Props> = ({
           viewer {
             ...UserHistoryDrawerRejectedComments_viewer
           }
-          settings {
-            ...UserHistoryDrawerRejectedComments_settings
+          organization {
+            ...UserHistoryDrawerRejectedComments_organization
           }
         }
       `}
@@ -60,7 +60,7 @@ const UserHistoryDrawerRejectedCommentsQuery: FunctionComponent<Props> = ({
           <UserHistoryDrawerRejectedComments
             // We can never get to this part of the UI without being logged in.
             viewer={props.viewer!}
-            settings={props.settings}
+            organization={props.organization}
             user={props.user}
           />
         );

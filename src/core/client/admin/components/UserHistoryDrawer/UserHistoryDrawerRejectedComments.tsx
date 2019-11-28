@@ -9,7 +9,7 @@ import {
 } from "coral-framework/lib/relay";
 import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
-import { UserHistoryDrawerRejectedComments_settings } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_settings.graphql";
+import { UserHistoryDrawerRejectedComments_organization } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_organization.graphql";
 import { UserHistoryDrawerRejectedComments_user } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_user.graphql";
 import { UserHistoryDrawerRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_viewer.graphql";
 import { UserHistoryDrawerRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsPaginationQuery.graphql";
@@ -18,15 +18,15 @@ import styles from "./UserHistoryDrawerRejectedComments.css";
 
 interface Props {
   user: UserHistoryDrawerRejectedComments_user;
+  organization: UserHistoryDrawerRejectedComments_organization;
   viewer: UserHistoryDrawerRejectedComments_viewer;
-  settings: UserHistoryDrawerRejectedComments_settings;
   relay: RelayPaginationProp;
 }
 
 const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
   user,
   viewer,
-  settings,
+  organization,
   relay,
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
@@ -64,7 +64,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
           <ModerateCardContainer
             comment={c}
             viewer={viewer}
-            settings={settings}
+            organization={organization}
             danglingLogic={status => false}
             hideUsername
             showStoryInfo
@@ -98,9 +98,9 @@ const enhanced = withPaginationContainer<
         ...ModerateCardContainer_viewer
       }
     `,
-    settings: graphql`
-      fragment UserHistoryDrawerRejectedComments_settings on Settings {
-        ...ModerateCardContainer_settings
+    organization: graphql`
+      fragment UserHistoryDrawerRejectedComments_organization on Organization {
+        ...ModerateCardContainer_organization
       }
     `,
     user: graphql`

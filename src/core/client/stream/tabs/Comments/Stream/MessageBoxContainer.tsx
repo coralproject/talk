@@ -34,7 +34,7 @@ const MessageBoxContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment MessageBoxContainer_story on Story {
-      ownSettings {
+      settings {
         messageBox {
           content
           icon

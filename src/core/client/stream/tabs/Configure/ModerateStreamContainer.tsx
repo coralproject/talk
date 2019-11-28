@@ -10,33 +10,33 @@ import {
 } from "coral-framework/lib/relay";
 import { Typography } from "coral-ui/components";
 
-import { ModerateStreamContainer_settings } from "coral-stream/__generated__/ModerateStreamContainer_settings.graphql";
+import { ModerateStreamContainer_organization } from "coral-stream/__generated__/ModerateStreamContainer_organization.graphql";
 import { ModerateStreamContainer_story } from "coral-stream/__generated__/ModerateStreamContainer_story.graphql";
 import { ModerateStreamContainerLocal } from "coral-stream/__generated__/ModerateStreamContainerLocal.graphql";
 
 interface Props {
   local: ModerateStreamContainerLocal;
-  settings: ModerateStreamContainer_settings;
+  organization: ModerateStreamContainer_organization;
   story: ModerateStreamContainer_story;
 }
 
 const ModerateStreamContainer: FunctionComponent<Props> = ({
   local: { accessToken },
-  settings,
+  organization,
   story: { id },
 }) => {
   const href = useMemo(() => {
     let link = urls.admin.moderateReported + "/" + id;
     if (
       accessToken &&
-      settings.auth.integrations.sso.enabled &&
-      settings.auth.integrations.sso.targetFilter.admin
+      organization.auth.integrations.sso.enabled &&
+      organization.auth.integrations.sso.targetFilter.admin
     ) {
       link += `#accessToken=${accessToken}`;
     }
 
     return link;
-  }, [accessToken, settings, id]);
+  }, [accessToken, organization, id]);
 
   return (
     <div>
@@ -50,8 +50,8 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ModerateStreamContainer_settings on Settings {
+  organization: graphql`
+    fragment ModerateStreamContainer_organization on Organization {
       auth {
         integrations {
           sso {

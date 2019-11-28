@@ -1,353 +1,342 @@
-import { cloneDeep } from "lodash";
-import sinon from "sinon";
+// import { cloneDeep } from "lodash";
+// import { ReactTestInstance } from "react-test-renderer";
+// import sinon from "sinon";
 
-import { pureMerge } from "coral-common/utils";
-import { GQLResolver } from "coral-framework/schema";
-import {
-  act,
-  createResolversStub,
-  CreateTestRendererParams,
-  findParentWithType,
-  replaceHistoryLocation,
-  wait,
-  waitForElement,
-  within,
-} from "coral-framework/testHelpers";
+// import { pureMerge, timeout } from "coral-common/utils";
+// import { GQLResolver } from "coral-framework/schema";
+// import {
+//   createResolversStub,
+//   CreateTestRendererParams,
+//   limitSnapshotTo,
+//   replaceHistoryLocation,
+//   waitForElement,
+//   within,
+// } from "coral-framework/testHelpers";
 
-import create from "../create";
-import { settingsWithEmptyAuth, users, orgWithEmptyAuth } from "../fixtures";
+// import create from "../create";
+// import {
+//   emptyAuth,
+//   orgWithEmptyAuth,
+//   settingsWithEmptyAuth,
+//   users,
+// } from "../fixtures";
 
-beforeEach(async () => {
-  replaceHistoryLocation("http://localhost/admin/configure/auth");
-});
+// /**
+//  * This is depreacted, do not use it anymore.
+//  *
+//  * @deprecated
+//  */
+// const deprecatedInputPredicate = (nameOrID: string) => (
+//   n: ReactTestInstance
+// ) => {
+//   return (
+//     [n.props.name, n.props.id].includes(nameOrID) &&
+//     ["input", "button"].includes(n.type as string)
+//   );
+// };
 
-const viewer = users.admins[0];
+// beforeEach(async () => {
+//   replaceHistoryLocation("http://localhost/admin/configure/auth");
+// });
 
-async function createTestRenderer(
-  params: CreateTestRendererParams<GQLResolver> = {}
-) {
-  const { testRenderer, context } = create({
-    ...params,
-    resolvers: pureMerge(
-      createResolversStub<GQLResolver>({
-        Query: {
-          settings: () => settingsWithEmptyAuth,
-          viewer: () => viewer,
-          organization: () => orgWithEmptyAuth,
-        },
-      }),
-      params.resolvers
-    ),
-    initLocalState: (localRecord, source, environment) => {
-      if (params.initLocalState) {
-        params.initLocalState(localRecord, source, environment);
-      }
-    },
-  });
-  const configureContainer = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("configure-container")
-  );
-  const authContainer = await waitForElement(() =>
-    within(configureContainer).getByTestID("configure-authContainer")
-  );
-  return { context, testRenderer, configureContainer, authContainer };
-}
+// const viewer = users.admins[0];
 
-it("renders configure auth", async () => {
-  const { configureContainer } = await createTestRenderer();
-  expect(within(configureContainer).toJSON()).toMatchSnapshot();
-});
+// async function createTestRenderer(
+//   params: CreateTestRendererParams<GQLResolver> = {}
+// ) {
+//   const { testRenderer, context } = create({
+//     ...params,
+//     resolvers: pureMerge(
+//       createResolversStub<GQLResolver>({
+//         Query: {
+//           settings: () => settingsWithEmptyAuth,
+//           viewer: () => viewer,
+//           organization: () => orgWithEmptyAuth,
+//         },
+//       }),
+//       params.resolvers
+//     ),
+//     initLocalState: (localRecord, source, environment) => {
+//       if (params.initLocalState) {
+//         params.initLocalState(localRecord, source, environment);
+//       }
+//     },
+//   });
+//   const configureContainer = await waitForElement(() =>
+//     within(testRenderer.root).getByTestID("configure-container")
+//   );
+//   const authContainer = await waitForElement(() =>
+//     within(configureContainer).getByTestID("configure-authContainer")
+//   );
+//   return { context, testRenderer, configureContainer, authContainer };
+// }
 
-it("regenerate sso key", async () => {
-  const { testRenderer } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Mutation: {
-        regenerateSSOKey: () => {
-          return {
-            settings: pureMerge<typeof settingsWithEmptyAuth>(
-              settingsWithEmptyAuth,
-              {
-                auth: {
-                  integrations: {
-                    sso: {
-                      key: "==GENERATED_KEY==",
-                      keyGeneratedAt: "2018-11-12T23:26:06.239Z",
-                    },
-                  },
-                },
-              }
-            ),
-          };
-        },
-      },
-    }),
-  });
-  const container = within(testRenderer.root).getByTestID("configure-auth-sso");
-  act(() => {
-    within(container)
-      .getByLabelText("Enabled")
-      .props.onChange({});
-  });
+// it("renders configure auth", async () => {
+//   const { configureContainer } = await createTestRenderer();
+//   expect(within(configureContainer).toJSON()).toMatchSnapshot();
+// });
 
-  act(() => {
-    within(container)
-      .getByText("Regenerate", { selector: "button" })
-      .props.onClick();
-  });
+// it("regenerate sso key", async () => {
+//   const { testRenderer } = await createTestRenderer({
+//     resolvers: createResolversStub<GQLResolver>({
+//       Mutation: {
+//         regenerateSSOKey: () => {
+//           return {
+//             organization: pureMerge<typeof orgWithEmptyAuth>(orgWithEmptyAuth, {
+//               auth: {
+//                 integrations: {
+//                   sso: {
+//                     key: "==GENERATED_KEY==",
+//                     keyGeneratedAt: "2018-11-12T23:26:06.239Z",
+//                   },
+//                 },
+//               },
+//             }),
+//           };
+//         },
+//       },
+//     }),
+//   });
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("auth.integrations.sso.enabled"))
+//     .props.onChange({});
 
-  await wait(() =>
-    expect(within(container).getByLabelText("Key").props.value).toBe(
-      "==GENERATED_KEY=="
-    )
-  );
-});
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("configure-auth-sso-regenerate"))
+//     .props.onClick();
 
-it("prevents admin lock out", async () => {
-  const { testRenderer } = await createTestRenderer();
+//   await timeout();
 
-  const container = within(testRenderer.root).getByTestID(
-    "configure-auth-local"
-  );
+//   expect(
+//     limitSnapshotTo("configure-auth-sso-key", testRenderer.toJSON())
+//   ).toMatchSnapshot();
+// });
 
-  // Let's disable local auth.
-  act(() => {
-    within(container)
-      .getByLabelText("Enabled")
-      .props.onChange();
-  });
+// it("prevents admin lock out", async () => {
+//   const { testRenderer } = await createTestRenderer();
 
-  // Send form
-  await act(async () =>
-    findParentWithType(container, "form")!.props.onSubmit()
-  );
-  await waitForElement(() =>
-    within(testRenderer.root).getByText(
-      "Please enable at least one authentication integration",
-      { exact: false }
-    )
-  );
-});
+//   // Let's disable local auth.
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("auth.integrations.local.enabled"))
+//     .props.onChange();
 
-it("prevents stream lock out", async () => {
-  let settingsRecord = cloneDeep(orgWithEmptyAuth);
-  const { testRenderer } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Mutation: {
-        updateSettings: ({ variables }) => {
-          expectAndFail(variables.auth!.integrations!.local).toEqual({
-            enabled: true,
-            allowRegistration: true,
-            targetFilter: {
-              admin: true,
-              stream: false,
-            },
-          });
-          settingsRecord = pureMerge(settingsRecord, variables.settings);
-          return {
-            settings: settingsRecord,
-          };
-        },
-      },
-    }),
-  });
-  const origConfirm = window.confirm;
-  const stubContinue = sinon.stub().returns(true);
-  const stubCancel = sinon.stub().returns(false);
+//   // Send form
+//   testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
+//   await timeout();
+//   expect(
+//     limitSnapshotTo("configure-auth-submitError", testRenderer.toJSON())
+//   ).toMatchSnapshot();
+// });
 
-  const container = within(testRenderer.root).getByTestID(
-    "configure-auth-local"
-  );
-  const streamTarget = within(container).getByLabelText("Comment Stream");
-  const form = findParentWithType(container, "form")!;
-  const saveChanges = within(testRenderer.root).getByText("Save Changes", {
-    selector: "button",
-  });
+// it("prevents stream lock out", async () => {
+//   let settingsRecord = cloneDeep(orgWithEmptyAuth);
+//   const { testRenderer } = await createTestRenderer({
+//     resolvers: createResolversStub<GQLResolver>({
+//       Mutation: {
+//         update: ({ variables }) => {
+//           expectAndFail(variables.auth!.integrations!.local).toEqual({
+//             enabled: true,
+//             allowRegistration: true,
+//             targetFilter: {
+//               admin: true,
+//               stream: false,
+//             },
+//           });
+//           settingsRecord = pureMerge(settingsRecord, variables.settings);
+//           return {
+//             settings: settingsRecord,
+//           };
+//         },
+//       },
+//     }),
+//   });
+//   const origConfirm = window.confirm;
+//   const stubContinue = sinon.stub().returns(true);
+//   const stubCancel = sinon.stub().returns(false);
 
-  try {
-    window.confirm = stubCancel;
-    // Let's disable stream target in local auth.
-    act(() => streamTarget.props.onChange());
+//   try {
+//     window.confirm = stubCancel;
+//     // Let's disable stream target in local auth.
+//     testRenderer.root
+//       .find(
+//         deprecatedInputPredicate("auth.integrations.local.targetFilter.stream")
+//       )
+//       .props.onChange();
 
-    // Send form
-    await act(async () => await form.props.onSubmit());
+//     // Send form
+//     testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
 
-    // Submit button should not be disabled because we canceled the submit.
-    wait(() => expect(saveChanges.props.disabled).toBe(true));
-    wait(() => {
-      expect(stubCancel.calledOnce).toBe(true);
-    });
+//     // Submit button should not be disabled because we canceled the submit.
+//     expect(
+//       testRenderer.root.findByProps({
+//         "data-testid": "configure-sideBar-saveChanges",
+//       }).props.disabled
+//     ).toBe(true);
+//     expect(stubCancel.calledOnce).toBe(true);
 
-    window.confirm = stubContinue;
-    // Let's enable stream target in local auth.
-    act(() => streamTarget.props.onChange());
+//     window.confirm = stubContinue;
+//     // Let's enable stream target in local auth.
+//     testRenderer.root
+//       .find(
+//         deprecatedInputPredicate("auth.integrations.local.targetFilter.stream")
+//       )
+//       .props.onChange();
 
-    // Send form
-    await act(async () => await form.props.onSubmit());
+//     // Send form
+//     testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
 
-    expect(stubContinue.calledOnce).toBe(true);
-  } finally {
-    window.confirm = origConfirm;
-  }
-});
+//     expect(stubContinue.calledOnce).toBe(true);
+//   } finally {
+//     window.confirm = origConfirm;
+//   }
+// });
 
-it("change settings", async () => {
-  const { testRenderer } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        discoverOIDCConfiguration: ({ variables }) => {
-          expectAndFail(variables).toEqual({ issuer: "http://issuer.com" });
-          return {
-            issuer: "http://issuer.com",
-            tokenURL: "http://issuer.com/tokenURL",
-            jwksURI: "http://issuer.com/jwksURI",
-            authorizationURL: "http://issuer.com/authorizationURL",
-          };
-        },
-      },
-      Mutation: {
-        updateSettings: ({ variables, callCount }) => {
-          switch (callCount) {
-            case 0:
-              expectAndFail(variables.auth!.integrations!.facebook).toEqual({
-                enabled: true,
-                allowRegistration: true,
-                targetFilter: {
-                  admin: true,
-                  stream: true,
-                },
-                clientID: "myClientID",
-                clientSecret: "myClientSecret",
-              });
-              return {
-                settings: pureMerge(settingsWithEmptyAuth, variables.settings),
-              };
-            default:
-              expectAndFail(variables.auth!.integrations!.oidc).toEqual({
-                enabled: true,
-                allowRegistration: false,
-                targetFilter: {
-                  admin: true,
-                  stream: true,
-                },
-                name: "name",
-                clientID: "clientID",
-                clientSecret: "clientSecret",
-                issuer: "http://issuer.com",
-                jwksURI: "http://issuer.com/jwksURI",
-                authorizationURL: "http://issuer.com/authorizationURL",
-                tokenURL: "http://issuer.com/tokenURL",
-              });
-              return {
-                settings: pureMerge(settingsWithEmptyAuth, variables.settings),
-              };
-          }
-        },
-      },
-    }),
-  });
+// it("change settings", async () => {
+//   const { testRenderer } = await createTestRenderer({
+//     resolvers: createResolversStub<GQLResolver>({
+//       Query: {
+//         discoverOIDCConfiguration: ({ variables }) => {
+//           expectAndFail(variables).toEqual({ issuer: "http://issuer.com" });
+//           return {
+//             issuer: "http://issuer.com",
+//             tokenURL: "http://issuer.com/tokenURL",
+//             jwksURI: "http://issuer.com/jwksURI",
+//             authorizationURL: "http://issuer.com/authorizationURL",
+//           };
+//         },
+//       },
+//       Mutation: {
+//         updateSettings: ({ variables, callCount }) => {
+//           switch (callCount) {
+//             case 0:
+//               expectAndFail(variables.auth!.integrations!.facebook).toEqual({
+//                 enabled: true,
+//                 allowRegistration: true,
+//                 targetFilter: {
+//                   admin: true,
+//                   stream: true,
+//                 },
+//                 clientID: "myClientID",
+//                 clientSecret: "myClientSecret",
+//               });
+//               return {
+//                 settings: pureMerge(settingsWithEmptyAuth, variables.settings),
+//               };
+//             default:
+//               expectAndFail(variables.auth!.integrations!.oidc).toEqual({
+//                 enabled: true,
+//                 allowRegistration: false,
+//                 targetFilter: {
+//                   admin: true,
+//                   stream: true,
+//                 },
+//                 name: "name",
+//                 clientID: "clientID",
+//                 clientSecret: "clientSecret",
+//                 issuer: "http://issuer.com",
+//                 jwksURI: "http://issuer.com/jwksURI",
+//                 authorizationURL: "http://issuer.com/authorizationURL",
+//                 tokenURL: "http://issuer.com/tokenURL",
+//               });
+//               return {
+//                 settings: pureMerge(settingsWithEmptyAuth, variables.settings),
+//               };
+//           }
+//         },
+//       },
+//     }),
+//   });
 
-  const facebookContainer = within(testRenderer.root).getByTestID(
-    "configure-auth-facebook-container"
-  );
-  const facebookEnabled = within(facebookContainer).getByLabelText("Enabled");
+//   // Let's change some facebook settings.
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("auth.integrations.facebook.enabled"))
+//     .props.onChange({});
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("auth.integrations.facebook.clientID"))
+//     .props.onChange("myClientID");
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("auth.integrations.facebook.clientSecret"))
+//     .props.onChange("myClientSecret");
+//   expect(
+//     limitSnapshotTo("configure-auth-facebook-container", testRenderer.toJSON())
+//   ).toMatchSnapshot("enable facebook configure box");
 
-  const oidcContainer = within(testRenderer.root).getByTestID(
-    "configure-auth-oidc-container"
-  );
-  const oidcEnabled = within(oidcContainer).getByLabelText("Enabled");
+//   // Send form
+//   testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
 
-  const form = findParentWithType(facebookContainer, "form")!;
-  const saveChanges = within(testRenderer.root).getByText("Save Changes", {
-    selector: "button",
-  });
+//   // Submit button should be disabled.
+//   expect(
+//     testRenderer.root.findByProps({
+//       "data-testid": "configure-sideBar-saveChanges",
+//     }).props.disabled
+//   ).toBe(true);
 
-  // Let's change some facebook settings.
-  act(() => facebookEnabled.props.onChange({}));
-  act(() =>
-    within(facebookContainer)
-      .getByLabelText("Client ID", { exact: false })
-      .props.onChange("myClientID")
-  );
-  act(() =>
-    within(facebookContainer)
-      .getByLabelText("Client secret", { exact: false })
-      .props.onChange("myClientSecret")
-  );
+//   // Disable other fields while submitting
+//   // We are only testing for one here right now..
+//   expect(
+//     testRenderer.root.find(
+//       deprecatedInputPredicate("auth.integrations.facebook.enabled")
+//     ).props.disabled
+//   ).toBe(true);
+//   await timeout();
+//   expect(
+//     testRenderer.root.find(
+//       deprecatedInputPredicate("auth.integrations.facebook.enabled")
+//     ).props.disabled
+//   ).toBe(false);
 
-  // Send form
-  act(() => {
-    form.props.onSubmit();
-  });
-  // Submit button should be disabled.
-  expect(saveChanges.props.disabled).toBe(true);
-  // Disable other fields while submitting
-  // We are only testing for one here right now..
-  expect(facebookEnabled.props.disabled).toBe(true);
+//   // Now let's enable oidc
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("auth.integrations.oidc.enabled"))
+//     .props.onChange({});
 
-  await act(async () => {
-    // When submitting finished, the fields become enabled again.
-    await wait(() => expect(facebookEnabled.props.disabled).toBe(false));
-  });
+//   expect(
+//     limitSnapshotTo("configure-auth-oidc-container", testRenderer.toJSON())
+//   ).toMatchSnapshot("enable oidc configure box");
 
-  // Now let's enable oidc
-  act(() => oidcEnabled.props.onChange({}));
-  expect(() =>
-    within(oidcContainer).getAllByText("This field is required", {
-      exact: false,
-    })
-  ).toThrow();
+//   // Try to submit form, this will give validation error messages.
+//   testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
+//   expect(
+//     limitSnapshotTo("configure-auth-oidc-container", testRenderer.toJSON())
+//   ).toMatchSnapshot("oidc validation errors");
 
-  // Try to submit form, this will give validation error messages.
-  act(() => {
-    form.props.onSubmit();
-  });
+//   // Fill form
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("auth.integrations.oidc.name"))
+//     .props.onChange("name");
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("auth.integrations.oidc.clientID"))
+//     .props.onChange("clientID");
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("auth.integrations.oidc.clientSecret"))
+//     .props.onChange("clientSecret");
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("auth.integrations.oidc.issuer"))
+//     .props.onChange("http://issuer.com");
 
-  within(oidcContainer).getAllByText("This field is required", {
-    exact: false,
-  });
+//   // Discover the rest.
+//   testRenderer.root
+//     .find(deprecatedInputPredicate("configure-auth-oidc-discover"))
+//     .props.onClick();
+//   await timeout();
 
-  // Fill form
-  act(() =>
-    within(oidcContainer)
-      .getByLabelText("Provider name", { exact: false })
-      .props.onChange("name")
-  );
-  act(() =>
-    within(oidcContainer)
-      .getByLabelText("Client ID", { exact: false })
-      .props.onChange("clientID")
-  );
-  act(() =>
-    within(oidcContainer)
-      .getByLabelText("Client secret", { exact: false })
-      .props.onChange("clientSecret")
-  );
-  act(() =>
-    within(oidcContainer)
-      .getByLabelText("Issuer", { exact: false })
-      .props.onChange("http://issuer.com")
-  );
+//   // Try to submit again, this should work now.
+//   testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
+//   expect(
+//     limitSnapshotTo("configure-auth-oidc-container", testRenderer.toJSON())
+//   ).toMatchSnapshot("during submit: oidc without errors");
 
-  // Discover the rest.
-  await act(
-    async () =>
-      await within(oidcContainer)
-        .getByText("Discover", { selector: "button" })
-        .props.onClick()
-  );
-
-  // Try to submit again, this should work now.
-  act(() => {
-    form.props.onSubmit();
-  });
-  // Submit button should be disabled.
-  expect(saveChanges.props.disabled).toBe(true);
-  // Disable other fields while submitting
-  // We are only testing for one here right now..
-  expect(oidcEnabled.props.disabled).toBe(true);
-
-  await act(async () => {
-    // When submitting finished, the fields become enabled again.
-    await wait(() => expect(oidcEnabled.props.disabled).toBe(false));
-  });
-});
+//   // Disable other fields while submitting
+//   // We are only testing for one here right now..
+//   expect(
+//     testRenderer.root.find(
+//       deprecatedInputPredicate("auth.integrations.oidc.enabled")
+//     ).props.disabled
+//   ).toBe(true);
+//   await timeout();
+//   expect(
+//     testRenderer.root.find(
+//       deprecatedInputPredicate("auth.integrations.oidc.enabled")
+//     ).props.disabled
+//   ).toBe(false);
+// });

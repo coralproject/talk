@@ -21,7 +21,7 @@ import {
   COMMENT_STATUS,
   ModerateCardContainer_comment,
 } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
-import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
+import { ModerateCardContainer_organization } from "coral-admin/__generated__/ModerateCardContainer_organization.graphql";
 import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 
 import BanCommentUserMutation from "./BanCommentUserMutation";
@@ -33,7 +33,7 @@ import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 interface Props {
   comment: ModerateCardContainer_comment;
   viewer: ModerateCardContainer_viewer;
-  settings: ModerateCardContainer_settings;
+  organization: ModerateCardContainer_organization;
   approveComment: MutationProp<typeof ApproveCommentMutation>;
   rejectComment: MutationProp<typeof RejectCommentMutation>;
   featureComment: MutationProp<typeof FeatureCommentMutation>;
@@ -70,7 +70,6 @@ function isFeatured(comment: ModerateCardContainer_comment) {
 
 const ModerateCardContainer: FunctionComponent<Props> = ({
   comment,
-  settings,
   danglingLogic,
   showStoryInfo,
   viewer,
@@ -78,6 +77,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   router,
   approveComment,
   rejectComment,
+  organization,
   featureComment,
   unfeatureComment,
   mini,
@@ -213,13 +213,13 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           body={comment.body!}
           inReplyTo={comment.parent && comment.parent.author}
           comment={comment}
-          settings={settings}
+          organization={organization}
           dangling={danglingLogic(comment.status)}
           status={getStatus(comment)}
           featured={isFeatured(comment)}
           viewContextHref={comment.permalink}
-          suspectWords={settings.wordList.suspect}
-          bannedWords={settings.wordList.banned}
+          suspectWords={organization.settings.wordList.suspect}
+          bannedWords={organization.settings.wordList.banned}
           onApprove={handleApprove}
           onReject={handleReject}
           onFeature={onFeature}
@@ -308,13 +308,15 @@ const enhanced = withFragmentContainer<Props>({
       ...CommentAuthorContainer_comment
     }
   `,
-  settings: graphql`
-    fragment ModerateCardContainer_settings on Settings {
-      wordList {
-        banned
-        suspect
+  organization: graphql`
+    fragment ModerateCardContainer_organization on Organization {
+      settings {
+        wordList {
+          banned
+          suspect
+        }
       }
-      ...MarkersContainer_settings
+      ...MarkersContainer_organization
     }
   `,
   viewer: graphql`

@@ -3,7 +3,7 @@ import React, { FunctionComponent, useState } from "react";
 import { graphql } from "react-relay";
 
 import { ModerateCardDetailsContainer_comment as CommentData } from "coral-admin/__generated__/ModerateCardDetailsContainer_comment.graphql";
-import { ModerateCardDetailsContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardDetailsContainer_settings.graphql";
+import { ModerateCardDetailsContainer_organization as OrgData } from "coral-admin/__generated__/ModerateCardDetailsContainer_organization.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Flex,
@@ -21,7 +21,7 @@ import styles from "./ModerateCardDetailsContainer.css";
 
 interface Props {
   comment: CommentData;
-  settings: SettingsData;
+  organization: OrgData;
   onUsernameClick: (id?: string) => void;
   hasDetails: boolean;
   hasRevisions: boolean;
@@ -32,9 +32,9 @@ type DetailsTabs = "DETAILS" | "HISTORY";
 const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   comment,
   onUsernameClick,
-  settings,
   hasDetails,
   hasRevisions,
+  organization,
 }) => {
   const [activeTab, setActiveTab] = useState<DetailsTabs>(
     hasDetails ? "DETAILS" : "HISTORY"
@@ -70,17 +70,20 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       </TabBar>
       {activeTab === "DETAILS" && (
         <>
-          <LinkDetailsContainer comment={comment} settings={settings} />
+          <LinkDetailsContainer comment={comment} />
           <hr />
           <FlagDetailsContainer
             comment={comment}
-            settings={settings}
+            organization={organization}
             onUsernameClick={onUsernameClick}
           />
         </>
       )}
       {activeTab === "HISTORY" && (
-        <CommentRevisionContainer comment={comment} settings={settings} />
+        <CommentRevisionContainer
+          comment={comment}
+          organization={organization}
+        />
       )}
     </HorizontalGutter>
   );
@@ -94,11 +97,10 @@ const enhanced = withFragmentContainer<Props>({
       ...LinkDetailsContainer_comment
     }
   `,
-  settings: graphql`
-    fragment ModerateCardDetailsContainer_settings on Settings {
-      ...FlagDetailsContainer_settings
-      ...CommentRevisionContainer_settings
-      ...LinkDetailsContainer_settings
+  organization: graphql`
+    fragment ModerateCardDetailsContainer_organization on Organization {
+      ...FlagDetailsContainer_organization
+      ...CommentRevisionContainer_organization
     }
   `,
 })(ModerateCardDetailsContainer);

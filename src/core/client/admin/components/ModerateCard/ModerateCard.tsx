@@ -42,7 +42,7 @@ interface Props {
   } | null;
   comment: PropTypesOf<typeof MarkersContainer>["comment"] &
     PropTypesOf<typeof CommentAuthorContainer>["comment"];
-  settings: PropTypesOf<typeof MarkersContainer>["settings"];
+  organization: PropTypesOf<typeof MarkersContainer>["organization"];
   status: "approved" | "rejected" | "undecided";
   featured: boolean;
   moderatedBy: React.ReactNode | null;
@@ -81,7 +81,6 @@ const ModerateCard: FunctionComponent<Props> = ({
   body,
   inReplyTo,
   comment,
-  settings,
   viewContextHref,
   status,
   featured,
@@ -92,6 +91,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   onFeature,
   onUsernameClick,
   dangling,
+  organization,
   showStory,
   storyTitle,
   storyHref,
@@ -265,7 +265,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               <MarkersContainer
                 onUsernameClick={onUsernameClick}
                 comment={comment}
-                settings={settings}
+                organization={organization}
               />
             </HorizontalGutter>
           </div>

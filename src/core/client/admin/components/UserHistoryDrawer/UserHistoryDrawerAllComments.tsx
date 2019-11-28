@@ -9,7 +9,7 @@ import {
 } from "coral-framework/lib/relay";
 import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
-import { UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
+import { UserHistoryDrawerAllComments_organization } from "coral-admin/__generated__/UserHistoryDrawerAllComments_organization.graphql";
 import { UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
 import { UserHistoryDrawerAllComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerAllComments_viewer.graphql";
 import { UserHistoryDrawerAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsPaginationQuery.graphql";
@@ -19,14 +19,14 @@ import styles from "./UserHistoryDrawerAllComments.css";
 interface Props {
   user: UserHistoryDrawerAllComments_user;
   viewer: UserHistoryDrawerAllComments_viewer;
-  settings: UserHistoryDrawerAllComments_settings;
+  organization: UserHistoryDrawerAllComments_organization;
   relay: RelayPaginationProp;
 }
 
 const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
   user,
   viewer,
-  settings,
+  organization,
   relay,
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
@@ -62,7 +62,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
           <ModerateCardContainer
             comment={c}
             viewer={viewer}
-            settings={settings}
+            organization={organization}
             danglingLogic={status => false}
             hideUsername
             showStoryInfo
@@ -96,9 +96,9 @@ const enhanced = withPaginationContainer<
         ...ModerateCardContainer_viewer
       }
     `,
-    settings: graphql`
-      fragment UserHistoryDrawerAllComments_settings on Settings {
-        ...ModerateCardContainer_settings
+    organization: graphql`
+      fragment UserHistoryDrawerAllComments_organization on Organization {
+        ...ModerateCardContainer_organization
       }
     `,
     user: graphql`

@@ -39,14 +39,10 @@ const enhanced = withFragmentContainer<ConfigureContainerProps>({
       ...UserBoxContainer_viewer
     }
   `,
-  settings: graphql`
-    fragment ConfigureContainer_settings on Settings {
-      ...ModerateStreamContainer_settings
-    }
-  `,
   organization: graphql`
     fragment ConfigureContainer_organization on Organization {
       ...UserBoxContainer_organization
+      ...ModerateStreamContainer_organization
     }
   `,
 })(StreamContainer);

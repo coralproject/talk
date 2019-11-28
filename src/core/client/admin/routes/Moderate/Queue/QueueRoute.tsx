@@ -13,8 +13,8 @@ import {
 import { withRouteConfig } from "coral-framework/lib/router";
 import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 
+import { QueueRoute_organization } from "coral-admin/__generated__/QueueRoute_organization.graphql";
 import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
-import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
 import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
 import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
 
@@ -29,8 +29,8 @@ interface Props {
   isLoading: boolean;
   queueName: GQLMODERATION_QUEUE;
   queue: QueueRoute_queue | null;
-  settings: QueueRoute_settings | null;
   viewer: QueueRoute_viewer | null;
+  organization: QueueRoute_organization | null;
   relay: RelayPaginationProp;
   emptyElement: React.ReactElement;
   storyID?: string;
@@ -83,8 +83,8 @@ export const QueueRoute: FunctionComponent<Props> = props => {
     <IntersectionProvider>
       <Queue
         comments={comments}
+        organization={props.organization!}
         viewer={props.viewer!}
-        settings={props.settings!}
         onLoadMore={loadMore}
         hasLoadMore={props.relay.hasMore()}
         disableLoadMore={isLoadingMore}
@@ -120,7 +120,7 @@ const createQueueRoute = (
             isLoading
             queueName={queueName}
             queue={null}
-            settings={null}
+            organization={null}
             viewer={null}
             emptyElement={emptyElement}
             storyID={match.params.storyID}
@@ -134,7 +134,7 @@ const createQueueRoute = (
           isLoading={false}
           queueName={queueName}
           queue={queue}
-          settings={data.settings}
+          organization={data.organization}
           viewer={data.viewer}
           emptyElement={emptyElement}
           storyID={match.params.storyID}
@@ -169,9 +169,9 @@ const createQueueRoute = (
             }
           }
         `,
-        settings: graphql`
-          fragment QueueRoute_settings on Settings {
-            ...ModerateCardContainer_settings
+        organization: graphql`
+          fragment QueueRoute_organization on Organization {
+            ...ModerateCardContainer_organization
           }
         `,
         viewer: graphql`
@@ -216,8 +216,8 @@ export const PendingQueueRoute = createQueueRoute(
           ...QueueRoute_queue @arguments(count: $count)
         }
       }
-      settings {
-        ...QueueRoute_settings
+      organization {
+        ...QueueRoute_organization
       }
       viewer {
         ...QueueRoute_viewer
@@ -256,8 +256,8 @@ export const ReportedQueueRoute = createQueueRoute(
           ...QueueRoute_queue
         }
       }
-      settings {
-        ...QueueRoute_settings
+      organization {
+        ...QueueRoute_organization
       }
       viewer {
         ...QueueRoute_viewer
@@ -296,8 +296,8 @@ export const UnmoderatedQueueRoute = createQueueRoute(
           ...QueueRoute_queue
         }
       }
-      settings {
-        ...QueueRoute_settings
+      organization {
+        ...QueueRoute_organization
       }
       viewer {
         ...QueueRoute_viewer

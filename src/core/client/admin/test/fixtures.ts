@@ -4,6 +4,7 @@ import {
 } from "coral-common/constants";
 import { pureMerge } from "coral-common/utils";
 import {
+  GQLAuth,
   GQLComment,
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
@@ -225,6 +226,65 @@ export const orgWithEmptyAuth = createFixture<GQLOrganization>(
   },
   slack: {
     channels: [],
+  },
+});
+
+export const emptyAuth = createFixture<GQLAuth>({
+  sessionDuration: DEFAULT_SESSION_LENGTH,
+  integrations: {
+    local: {
+      enabled: true,
+      allowRegistration: true,
+      targetFilter: {
+        admin: true,
+        stream: true,
+      },
+    },
+    sso: {
+      enabled: false,
+      allowRegistration: true,
+      targetFilter: {
+        admin: true,
+        stream: true,
+      },
+      key: "",
+      keyGeneratedAt: null,
+    },
+    google: {
+      enabled: false,
+      allowRegistration: true,
+      targetFilter: {
+        admin: true,
+        stream: true,
+      },
+      clientID: "",
+      clientSecret: "",
+      callbackURL: "http://localhost/google/callback",
+      redirectURL: "http://localhost/google",
+    },
+    facebook: {
+      enabled: false,
+      allowRegistration: true,
+      targetFilter: {
+        admin: true,
+        stream: true,
+      },
+      clientID: "",
+      clientSecret: "",
+      callbackURL: "http://localhost/facebook/callback",
+      redirectURL: "http://localhost/facebook",
+    },
+    oidc: {
+      enabled: false,
+      allowRegistration: false,
+      targetFilter: {
+        admin: true,
+        stream: true,
+      },
+      name: "",
+      callbackURL: "http://localhost/oidc/callback",
+      redirectURL: "http://localhost/oidc",
+    },
   },
 });
 
