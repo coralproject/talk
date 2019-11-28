@@ -13,7 +13,7 @@ import {
   Icon,
 } from "coral-ui/components/v2";
 
-import { UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
+import { UserHistoryDrawerContainer_organization } from "coral-admin/__generated__/UserHistoryDrawerContainer_organization.graphql";
 import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
 
 import RecentHistoryContainer from "./RecentHistoryContainer";
@@ -25,14 +25,14 @@ import styles from "./UserHistoryDrawerContainer.css";
 
 interface Props {
   user: UserHistoryDrawerContainer_user;
-  settings: UserHistoryDrawerContainer_settings;
+  organization: UserHistoryDrawerContainer_organization;
   onClose: () => void;
 }
 
 const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
-  settings,
   user,
   onClose,
+  organization,
 }) => {
   const { locales } = useCoralContext();
   const formatter = new Intl.DateTimeFormat(locales, {
@@ -66,7 +66,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
               <div className={styles.userStatusChange}>
                 <UserStatusChangeContainer
                   bordered={true}
-                  settings={settings}
+                  organization={organization}
                   user={user}
                 />
               </div>
@@ -117,7 +117,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
             </Flex>
           </HorizontalGutter>
         </HorizontalGutter>
-        <RecentHistoryContainer user={user} settings={settings} />
+        <RecentHistoryContainer user={user} organization={organization} />
       </HorizontalGutter>
       <Divider />
       <div className={styles.comments}>
@@ -143,13 +143,11 @@ const enhanced = withFragmentContainer<Props>({
       createdAt
     }
   `,
-  settings: graphql`
-    fragment UserHistoryDrawerContainer_settings on Settings {
-      ...RecentHistoryContainer_settings
-      ...UserStatusChangeContainer_settings
-      organization {
-        name
-      }
+  organization: graphql`
+    fragment UserHistoryDrawerContainer_organization on Organization {
+      ...UserStatusChangeContainer_organization
+      ...RecentHistoryContainer_organization
+      name
     }
   `,
 })(UserHistoryDrawerContainer);

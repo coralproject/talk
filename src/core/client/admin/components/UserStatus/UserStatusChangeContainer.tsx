@@ -7,7 +7,7 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 
-import { UserStatusChangeContainer_settings as SettingsData } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
+import { UserStatusChangeContainer_organization as OrgData } from "coral-admin/__generated__/UserStatusChangeContainer_organization.graphql";
 import { UserStatusChangeContainer_user as UserData } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 
 import BanModal from "./BanModal";
@@ -24,13 +24,13 @@ import UserStatusContainer from "./UserStatusContainer";
 
 interface Props {
   user: UserData;
+  organization: OrgData;
   fullWidth?: boolean;
-  settings: SettingsData;
   bordered?: boolean;
 }
 
 const UserStatusChangeContainer: FunctionComponent<Props> = props => {
-  const { user, settings, fullWidth, bordered } = props;
+  const { user, fullWidth, bordered, organization } = props;
   const banUser = useMutation(BanUserMutation);
   const suspendUser = useMutation(SuspendUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
@@ -144,7 +144,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
         open={showSuspend || showSuspendSuccess}
         success={showSuspendSuccess}
         onClose={handleSuspendModalClose}
-        organizationName={settings.organization.name}
+        organizationName={organization.name}
         onConfirm={handleSuspendConfirm}
       />
       <PremodModal
@@ -183,11 +183,9 @@ const enhanced = withFragmentContainer<Props>({
       ...UserStatusContainer_user
     }
   `,
-  settings: graphql`
-    fragment UserStatusChangeContainer_settings on Settings {
-      organization {
-        name
-      }
+  organization: graphql`
+    fragment UserStatusChangeContainer_organization on Organization {
+      name
     }
   `,
 })(UserStatusChangeContainer);

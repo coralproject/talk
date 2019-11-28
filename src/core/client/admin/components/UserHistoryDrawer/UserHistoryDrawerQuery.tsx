@@ -29,8 +29,8 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
           user(id: $userID) {
             ...UserHistoryDrawerContainer_user
           }
-          settings {
-            ...UserHistoryDrawerContainer_settings
+          organization {
+            ...UserHistoryDrawerContainer_organization
           }
         }
       `}
@@ -61,7 +61,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
           <UserHistoryDrawerContainer
             onClose={onClose}
             user={props.user}
-            settings={props.settings}
+            organization={props.organization}
           />
         );
       }}

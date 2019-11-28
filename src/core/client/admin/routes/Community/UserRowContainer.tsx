@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { UserRowContainer_settings as SettingsData } from "coral-admin/__generated__/UserRowContainer_settings.graphql";
+import { UserRowContainer_organization as OrgData } from "coral-admin/__generated__/UserRowContainer_organization.graphql";
 import { UserRowContainer_user as UserData } from "coral-admin/__generated__/UserRowContainer_user.graphql";
 import { UserRowContainer_viewer as ViewerData } from "coral-admin/__generated__/UserRowContainer_viewer.graphql";
 
@@ -13,7 +13,7 @@ import UserRow from "./UserRow";
 interface Props {
   user: UserData;
   viewer: ViewerData;
-  settings: SettingsData;
+  organization: OrgData;
   onUsernameClicked?: (userID: string) => void;
 }
 
@@ -22,7 +22,7 @@ const UserRowContainer: FunctionComponent<Props> = props => {
   return (
     <UserRow
       user={props.user}
-      settings={props.settings}
+      organization={props.organization}
       viewer={props.viewer}
       userID={props.user.id}
       username={props.user.username}
@@ -44,9 +44,9 @@ const enhanced = withFragmentContainer<Props>({
       ...UserRoleChangeContainer_viewer
     }
   `,
-  settings: graphql`
-    fragment UserRowContainer_settings on Settings {
-      ...UserStatusChangeContainer_settings
+  organization: graphql`
+    fragment UserRowContainer_organization on Organization {
+      ...UserStatusChangeContainer_organization
     }
   `,
   user: graphql`

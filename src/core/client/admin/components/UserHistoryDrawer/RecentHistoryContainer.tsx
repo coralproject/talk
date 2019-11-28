@@ -3,7 +3,7 @@ import React, { FunctionComponent, useMemo } from "react";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 
-import { RecentHistoryContainer_settings } from "coral-admin/__generated__/RecentHistoryContainer_settings.graphql";
+import { RecentHistoryContainer_organization } from "coral-admin/__generated__/RecentHistoryContainer_organization.graphql";
 import { RecentHistoryContainer_user } from "coral-admin/__generated__/RecentHistoryContainer_user.graphql";
 
 import RecentHistory from "./RecentHistory";
@@ -12,12 +12,12 @@ const PUBLISHED_STATUSES = [GQLCOMMENT_STATUS.NONE, GQLCOMMENT_STATUS.APPROVED];
 
 interface Props {
   user: RecentHistoryContainer_user;
-  settings: RecentHistoryContainer_settings;
+  organization: RecentHistoryContainer_organization;
 }
 
 const RecentHistoryContainer: FunctionComponent<Props> = ({
   user,
-  settings,
+  organization,
 }) => {
   const submitted = useMemo(
     () =>
@@ -43,13 +43,14 @@ const RecentHistoryContainer: FunctionComponent<Props> = ({
     return rejected / total;
   }, [user]);
   const triggered =
-    settings.recentCommentHistory.enabled &&
-    rejectionRate >= settings.recentCommentHistory.triggerRejectionRate;
+    organization.settings.recentCommentHistory.enabled &&
+    rejectionRate >=
+      organization.settings.recentCommentHistory.triggerRejectionRate;
 
   return (
     <RecentHistory
       triggered={triggered}
-      timeFrame={settings.recentCommentHistory.timeFrame}
+      timeFrame={organization.settings.recentCommentHistory.timeFrame}
       rejectionRate={rejectionRate}
       submitted={submitted}
     />
@@ -70,12 +71,14 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-  settings: graphql`
-    fragment RecentHistoryContainer_settings on Settings {
-      recentCommentHistory {
-        enabled
-        timeFrame
-        triggerRejectionRate
+  organization: graphql`
+    fragment RecentHistoryContainer_organization on Organization {
+      settings {
+        recentCommentHistory {
+          enabled
+          timeFrame
+          triggerRejectionRate
+        }
       }
     }
   `,

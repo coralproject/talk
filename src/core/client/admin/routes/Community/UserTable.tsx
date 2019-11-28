@@ -22,7 +22,7 @@ import styles from "./UserTable.css";
 
 interface Props {
   viewer: PropTypesOf<typeof UserRowContainer>["viewer"] | null;
-  settings: PropTypesOf<typeof UserRowContainer>["settings"] | null;
+  organization: PropTypesOf<typeof UserRowContainer>["organization"] | null;
   users: Array<{ id: string } & PropTypesOf<typeof UserRowContainer>["user"]>;
   onLoadMore: () => void;
   hasMore: boolean;
@@ -32,7 +32,7 @@ interface Props {
 
 const UserTable: FunctionComponent<Props> = ({
   viewer,
-  settings,
+  organization,
   ...props
 }) => {
   const [userDrawerUserID, setUserDrawerUserID] = useState("");
@@ -81,13 +81,13 @@ const UserTable: FunctionComponent<Props> = ({
           </TableHead>
           <TableBody>
             {!props.loading &&
-              settings &&
+              organization &&
               viewer &&
               props.users.map(u => (
                 <UserRowContainer
                   key={u.id}
                   user={u}
-                  settings={settings}
+                  organization={organization}
                   viewer={viewer}
                   onUsernameClicked={onShowUserDrawer}
                 />
