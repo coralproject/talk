@@ -3,7 +3,6 @@ import sinon from "sinon";
 
 import {
   act,
-  actAndReturn,
   createSinonStub,
   wait,
   waitForElement,
@@ -116,7 +115,7 @@ it("shows more of this conversation", async () => {
   });
 
   // Wait until button disappears.
-  await actAndReturn(() =>
+  await act(() =>
     wait(() =>
       expect(
         within(conversationThread).queryByText("Show More of This Conversation")

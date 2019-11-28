@@ -4,7 +4,6 @@ import sinon from "sinon";
 import { pureMerge } from "coral-common/utils";
 import {
   act,
-  actAndReturn,
   toJSON,
   wait,
   waitForElement,
@@ -38,7 +37,7 @@ async function createTestRenderer(
     },
   });
 
-  return await actAndReturn(async () => {
+  return await act(async () => {
     const container = await waitForElement(() =>
       within(testRenderer.root).getByTestID("addEmailAddress-container")
     );

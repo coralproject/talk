@@ -4,7 +4,6 @@ import sinon, { SinonStub } from "sinon";
 import { pureMerge } from "coral-common/utils";
 import {
   act,
-  actAndReturn,
   createAccessToken,
   toJSON,
   wait,
@@ -39,7 +38,7 @@ async function createTestRenderer(
     },
   });
 
-  return await actAndReturn(async () => {
+  return await act(async () => {
     const container = await waitForElement(() =>
       within(testRenderer.root).getByTestID("signIn-container")
     );

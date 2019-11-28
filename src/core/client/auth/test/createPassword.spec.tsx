@@ -4,7 +4,6 @@ import sinon from "sinon";
 import { pureMerge } from "coral-common/utils";
 import {
   act,
-  actAndReturn,
   toJSON,
   wait,
   waitForElement,
@@ -37,7 +36,7 @@ async function createTestRenderer(
       localRecord.setValue("CREATE_PASSWORD", "view");
     },
   });
-  const container = await actAndReturn(
+  const container = await act(
     async () =>
       await waitForElement(() =>
         within(testRenderer.root).getByTestID("createPassword-container")

@@ -5,7 +5,6 @@ import sinon from "sinon";
 import { pureMerge } from "coral-common/utils";
 import {
   act,
-  actAndReturn,
   toJSON,
   wait,
   waitForElement,
@@ -99,7 +98,7 @@ it("shows server error", async () => {
   const setUsername = sinon.stub().callsFake((_: any, data: any) => {
     throw new Error("server error");
   });
-  const { form, usernameField, submitButton } = await actAndReturn(async () => {
+  const { form, usernameField, submitButton } = await act(async () => {
     const { form: f, usernameField: u } = await createTestRenderer(
       {
         Mutation: {
@@ -146,7 +145,7 @@ it("successfully sets username", async () => {
       clientMutationId: data.input.clientMutationId,
     };
   });
-  const { form, usernameField, submitButton } = await actAndReturn(async () => {
+  const { form, usernameField, submitButton } = await act(async () => {
     const { form: f, usernameField: u } = await createTestRenderer(
       {
         Mutation: {

@@ -3,7 +3,6 @@ import sinon, { SinonStub } from "sinon";
 
 import {
   act,
-  actAndReturn,
   createAccessToken,
   toJSON,
   wait,
@@ -34,7 +33,7 @@ async function createTestRenderer(customResolver: any = {}) {
     },
   });
 
-  return await actAndReturn(async () => {
+  return await act(async () => {
     const container = await waitForElement(() =>
       within(testRenderer.root).getByTestID("signUp-container")
     );

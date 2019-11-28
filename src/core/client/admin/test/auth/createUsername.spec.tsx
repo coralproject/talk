@@ -2,7 +2,6 @@ import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
   act,
-  actAndReturn,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -38,7 +37,7 @@ async function createTestRenderer(
     },
   });
 
-  return await actAndReturn(async () => {
+  return await act(async () => {
     const container = await waitForElement(() =>
       within(testRenderer.root).getByTestID("completeAccountBox")
     );

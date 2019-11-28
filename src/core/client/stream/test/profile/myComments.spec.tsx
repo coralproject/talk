@@ -3,7 +3,6 @@ import sinon from "sinon";
 
 import {
   act,
-  actAndReturn,
   createSinonStub,
   wait,
   waitForElement,
@@ -107,7 +106,7 @@ it("loads more comments", async () => {
   });
 
   // Wait for loading.
-  await actAndReturn(() =>
+  await act(() =>
     wait(() =>
       expect(within(commentHistory).queryByText("Load More")).toBeNull()
     )

@@ -1,12 +1,6 @@
 import sinon from "sinon";
 
-import {
-  act,
-  actAndReturn,
-  wait,
-  waitForElement,
-  within,
-} from "coral-framework/testHelpers";
+import { act, wait, waitForElement, within } from "coral-framework/testHelpers";
 
 import { moderators, settings, stories } from "../fixtures";
 import create from "./create";
@@ -38,7 +32,7 @@ async function createTestRenderer(
     },
   });
 
-  return await actAndReturn(async () => {
+  return await act(async () => {
     const tabPane = await waitForElement(() =>
       within(testRenderer.root).getByTestID("current-tab-pane")
     );

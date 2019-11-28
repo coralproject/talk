@@ -9,7 +9,6 @@ import {
 } from "coral-framework/schema";
 import {
   act,
-  actAndReturn,
   createMutationResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -61,7 +60,7 @@ async function createTestRenderer(
     },
   });
 
-  return await actAndReturn(async () => {
+  return await act(async () => {
     const container = await waitForElement(() =>
       within(testRenderer.root).getByTestID("stories-container")
     );

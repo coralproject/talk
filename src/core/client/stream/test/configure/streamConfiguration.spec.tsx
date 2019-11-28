@@ -5,7 +5,6 @@ import {
 } from "coral-framework/schema";
 import {
   act,
-  actAndReturn,
   createMutationResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -52,7 +51,7 @@ const createTestRenderer = async (
     },
   });
 
-  return await actAndReturn(async () => {
+  return await act(async () => {
     const tabPane = await waitForElement(() =>
       within(testRenderer.root).getByTestID("current-tab-pane")
     );
@@ -189,7 +188,7 @@ it("change message box", async () => {
   );
 
   // Change content.
-  const messageText = await actAndReturn(async () => {
+  const messageText = await act(async () => {
     return await waitForElement(() =>
       within(form).getByLabelText("Write a Message")
     );

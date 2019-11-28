@@ -2,7 +2,6 @@ import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
   act,
-  actAndReturn,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -44,7 +43,7 @@ async function createTestRenderer(
     },
   });
 
-  return await actAndReturn(async () => {
+  return await act(async () => {
     const container = await waitForElement(() =>
       within(testRenderer.root).getByTestID("completeAccountBox")
     );
@@ -100,7 +99,7 @@ it("checks for invalid password", async () => {
 
 it("shows server error", async () => {
   const password = "secretpassword";
-  const resolvers = await actAndReturn(async () => {
+  const resolvers = await act(async () => {
     return createResolversStub<GQLResolver>({
       Mutation: {
         setPassword: () => {
@@ -133,7 +132,7 @@ it("shows server error", async () => {
 
 it("successfully sets password", async () => {
   const password = "secretpassword";
-  const resolvers = await actAndReturn(async () => {
+  const resolvers = await act(async () => {
     return createResolversStub<GQLResolver>({
       Mutation: {
         setPassword: ({ variables }) => {

@@ -98,7 +98,7 @@ const createTestRenderer = async (
   };
 };
 
-fit("post a reply", async () => {
+it("post a reply", async () => {
   const { testRenderer, rte, form } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
