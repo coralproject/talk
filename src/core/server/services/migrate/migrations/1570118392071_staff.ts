@@ -1,14 +1,25 @@
 import { Db } from "mongodb";
 
-import { getDefaultStaffConfiguration } from "coral-server/models/tenant";
+import { Omit } from "coral-common/types";
+import { Settings } from "coral-server/models/settings";
+import {
+  getDefaultStaffConfiguration,
+  Tenant,
+} from "coral-server/models/tenant";
 import Migration from "coral-server/services/migrate/migration";
 import collections from "coral-server/services/mongodb/collections";
 
 import { MigrationError } from "../error";
 
+interface LegacyTenant extends Omit<Tenant, "ownSettings"> {
+  settings: Settings;
+}
+
 export default class extends Migration {
-  private async getTenant(mongo: Db, id: string) {
-    const tenant = await collections.tenants(mongo).findOne({ id });
+  private async getTenant(mongo: Db, id: string): Promise<LegacyTenant> {
+    const tenant: LegacyTenant | null = await collections
+      .tenants(mongo)
+      .findOne({ id });
     if (!tenant) {
       throw new MigrationError(id, "tenant not found", "tenants", [id]);
     }

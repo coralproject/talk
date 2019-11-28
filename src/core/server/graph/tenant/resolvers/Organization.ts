@@ -10,4 +10,5 @@ export const Organization: GQLOrganizationTypeResolver<tenant.Tenant> = {
       first: defaultTo(first, 10),
       after,
     }),
+  settings: (s, input, ctx) => ctx.tenant.ownSettings,
 };

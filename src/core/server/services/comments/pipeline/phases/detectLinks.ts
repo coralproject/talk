@@ -23,8 +23,8 @@ export const detectLinks: IntermediateModerationPhase = ({
   metadata,
 }): IntermediatePhaseResult | void => {
   if (
-    testPremodLinksEnable(tenant.settings, metadata) ||
-    (story.settings && testPremodLinksEnable(story.settings, metadata))
+    testPremodLinksEnable(tenant.ownSettings, metadata) ||
+    (story.ownSettings && testPremodLinksEnable(story.ownSettings, metadata))
   ) {
     // Add the flag related to Trust to the comment.
     return {

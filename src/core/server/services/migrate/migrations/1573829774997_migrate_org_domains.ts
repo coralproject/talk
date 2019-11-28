@@ -1,5 +1,6 @@
 import { Db } from "mongodb";
 
+import { Settings } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import Migration from "coral-server/services/migrate/migration";
 import collections from "coral-server/services/mongodb/collections";
@@ -10,6 +11,7 @@ import { MigrationError } from "../error";
 
 type LegacyTenant = Tenant & {
   allowedDomains: string[];
+  settings: Settings;
 };
 
 export default class extends Migration {

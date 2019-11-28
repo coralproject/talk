@@ -2594,9 +2594,9 @@ type Story {
   settings is the set of Settings on a Story that inherit from the global
   settings.
   """
-  settings: StorySettings!
+  ownSettings: PartialEntitySettings!
 
-  consolidatedSettings: EntitySettings!
+  settings: EntitySettings!
 
   siteID: ID
 }
@@ -6018,6 +6018,7 @@ type EntitySettings {
   staff: StaffConfiguration!
   stories: StoryConfiguration! @auth(roles: [ADMIN])
   wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
+  messageBox: StoryMessageBox!
 }
 
 ####################################
@@ -6109,6 +6110,7 @@ type PartialEntitySettings {
   staff: StaffConfiguration
   stories: PartialStoryConfiguration @auth(roles: [ADMIN])
   wordList: PartialWordList @auth(roles: [ADMIN, MODERATOR])
+  messageBox: StoryMessageBox
 }
 
 type LegacyOrganization {
@@ -6131,6 +6133,7 @@ type Organization {
   domains: [String!]! @auth(roles: [ADMIN])
   multiSite: Boolean!
   settings: EntitySettings!
+  ownSettings: EntitySettings!
   communities(
     first: Int = 10 @constraint(max: 50)
     after: Cursor
@@ -6147,8 +6150,8 @@ type Community {
   contactEmail: String!
   url: String!
   createdAt: Time!
-  settings: PartialEntitySettings!
-  consolidatedSettings: EntitySettings!
+  ownSettings: PartialEntitySettings!
+  settings: EntitySettings!
   sites(first: Int = 10 @constraint(max: 50), after: Cursor): SitesConnection!
 }
 
@@ -6163,8 +6166,8 @@ type Site {
   url: String!
   createdAt: Time!
   domains: [String!]! @auth(roles: [ADMIN])
-  consolidatedSettings: EntitySettings!
-  settings: PartialEntitySettings!
+  settings: EntitySettings!
+  ownSettings: PartialEntitySettings!
   community: Community!
 }
 

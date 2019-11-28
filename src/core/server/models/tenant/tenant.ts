@@ -34,10 +34,13 @@ export interface TenantResource {
 }
 
 export interface Tenant
-  extends Omit<GQLOrganization, "communities" | "settings" | "auth"> {
+  extends Omit<
+    GQLOrganization,
+    "communities" | "ownSettings" | "auth" | "settings"
+  > {
   locale: LanguageCode;
   auth: Auth;
-  settings: Settings;
+  ownSettings: Settings;
 }
 
 /**
@@ -116,7 +119,7 @@ export async function createTenant(
         },
       },
     },
-    settings: {
+    ownSettings: {
       // Default to post moderation.
       moderation: GQLMODERATION_MODE.POST,
 

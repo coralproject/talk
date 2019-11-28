@@ -5,7 +5,7 @@ import { moderationQueuesResolver } from "./ModerationQueues";
 export const Query: Required<GQLQueryTypeResolver<void>> = {
   story: (source, args, ctx) => ctx.loaders.Stories.find.load(args),
   stream: (source, args, ctx) =>
-    ctx.tenant.settings.stories.disableLazy
+    ctx.tenant.ownSettings.stories.disableLazy
       ? ctx.loaders.Stories.find.load(args)
       : ctx.loaders.Stories.findOrCreate.load(args),
   stories: (source, args, ctx) => ctx.loaders.Stories.connection(args),
@@ -14,7 +14,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   comment: (source, { id }, ctx) =>
     id ? ctx.loaders.Comments.comment.load(id) : null,
   comments: (source, args, ctx) => ctx.loaders.Comments.forFilter(args),
-  settings: (source, args, ctx) => ctx.tenant.settings,
+  settings: (source, args, ctx) => ctx.tenant.ownSettings,
   viewer: (source, args, ctx) => ctx.user,
   discoverOIDCConfiguration: (source, { issuer }, ctx) =>
     ctx.loaders.Auth.discoverOIDCConfiguration.load(issuer),

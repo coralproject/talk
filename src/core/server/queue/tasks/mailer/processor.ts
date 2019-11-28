@@ -222,7 +222,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
       return;
     }
 
-    const { enabled, smtp, fromEmail, fromName } = tenant.settings.email;
+    const { enabled, smtp, fromEmail, fromName } = tenant.ownSettings.email;
     if (!enabled) {
       log.error("not sending email, it was disabled");
       return;

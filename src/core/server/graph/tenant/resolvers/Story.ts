@@ -1,5 +1,3 @@
-import { defaultsDeep } from "lodash";
-
 import {
   GQLSTORY_STATUS,
   GQLStoryTypeResolver,
@@ -29,8 +27,6 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   commentCounts: (s): CommentCountsInput => s,
   // Merge tenant settings into the story settings so we can easily inherit the
   // options if they exist.
-  settings: (s, input, ctx) => defaultsDeep({}, s.settings, ctx.tenant),
-  consolidatedSettings: (s, input, ctx) =>
-    ctx.loaders.Stories.settings.load(s.id),
+  settings: (s, input, ctx) => ctx.loaders.Stories.settings.load(s.id),
   moderationQueues: storyModerationInputResolver,
 };

@@ -21,8 +21,8 @@ export const preModerate: IntermediateModerationPhase = ({
   // premod status.
 
   if (
-    testModerationMode(tenant.settings) ||
-    (story.settings && testModerationMode(story.settings))
+    testModerationMode(tenant.ownSettings) ||
+    (story.ownSettings && testModerationMode(story.ownSettings))
   ) {
     return {
       status: GQLCOMMENT_STATUS.PREMOD,

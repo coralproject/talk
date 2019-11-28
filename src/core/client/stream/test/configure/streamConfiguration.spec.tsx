@@ -232,7 +232,7 @@ it("remove message icon", async () => {
       Query: {
         story: () =>
           pureMerge<typeof story>(story, {
-            settings: {
+            ownSettings: {
               messageBox: {
                 enabled: true,
                 content: "*What do you think?*",

@@ -14,16 +14,16 @@ export const commentLength: IntermediateModerationPhase = ({
   htmlStripped,
 }): IntermediatePhaseResult | void => {
   const length = htmlStripped.trim().length;
-  if (tenant.settings.charCount && tenant.settings.charCount.enabled) {
-    if (!isNil(tenant.settings.charCount.min)) {
-      if (length < tenant.settings.charCount.min) {
-        throw new CommentBodyTooShortError(tenant.settings.charCount.min);
+  if (tenant.ownSettings.charCount && tenant.ownSettings.charCount.enabled) {
+    if (!isNil(tenant.ownSettings.charCount.min)) {
+      if (length < tenant.ownSettings.charCount.min) {
+        throw new CommentBodyTooShortError(tenant.ownSettings.charCount.min);
       }
     }
-    if (!isNil(tenant.settings.charCount.max)) {
-      if (length > tenant.settings.charCount.max) {
+    if (!isNil(tenant.ownSettings.charCount.max)) {
+      if (length > tenant.ownSettings.charCount.max) {
         throw new CommentBodyExceedsMaxLengthError(
-          tenant.settings.charCount.max
+          tenant.ownSettings.charCount.max
         );
       }
     }

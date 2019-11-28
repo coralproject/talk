@@ -39,7 +39,7 @@ export const toxic: IntermediateModerationPhase = async ({
     return;
   }
 
-  const integration = tenant.settings.integrations.perspective;
+  const integration = tenant.ownSettings.integrations.perspective;
 
   if (!integration.enabled) {
     // The Toxic comment plugin is not enabled.

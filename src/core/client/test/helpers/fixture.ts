@@ -221,7 +221,7 @@ export function createStory() {
           FEATURED: 0,
         },
       },
-      settings: {
+      ownSettings: {
         moderation: GQLMODERATION_MODE.POST,
         premodLinksEnable: false,
         messageBox: {

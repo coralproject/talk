@@ -1,6 +1,8 @@
 import { pick } from "lodash";
 import { Db } from "mongodb";
 
+import { Settings } from "coral-server/models/settings";
+import { Tenant } from "coral-server/models/tenant";
 import Migration from "coral-server/services/migrate/migration";
 import collections from "coral-server/services/mongodb/collections";
 
@@ -8,9 +10,15 @@ import collections from "coral-server/services/mongodb/collections";
 // collections.
 import { MigrationError } from "../error";
 
+interface LegacyTenant extends Tenant {
+  settings: Settings;
+}
+
 export default class extends Migration {
   private async getTenant(mongo: Db, id: string) {
-    const tenant = await collections.tenants(mongo).findOne({ id });
+    const tenant: LegacyTenant | null = await collections
+      .tenants(mongo)
+      .findOne({ id });
     if (!tenant) {
       throw new MigrationError(id, "tenant not found", "tenants", [id]);
     }
@@ -52,7 +60,7 @@ export default class extends Migration {
       { id },
       {
         $set: {
-          settings,
+          ownSettings: settings,
         },
       }
     );

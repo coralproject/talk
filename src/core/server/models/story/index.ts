@@ -76,7 +76,7 @@ export interface Story extends TenantResource {
    * settings provides a point where the settings can be overridden for a
    * specific Story.
    */
-  settings: StorySettings;
+  ownSettings: StorySettings;
 
   /**
    * closedAt is the date that the Story was forced closed at, or false to
@@ -116,7 +116,7 @@ export async function upsertStory(
         status: createEmptyCommentStatusCounts(),
         moderationQueue: createEmptyCommentModerationQueueCounts(),
       },
-      settings: {},
+      ownSettings: {},
     },
   };
 
@@ -244,7 +244,7 @@ export async function createStory(
       moderationQueue: createEmptyCommentModerationQueueCounts(),
       status: createEmptyCommentStatusCounts(),
     },
-    settings: {},
+    ownSettings: {},
   };
 
   try {
@@ -361,7 +361,7 @@ export async function updateStorySettings(
   // Only update fields that have been updated.
   const update = {
     $set: {
-      ...dotize({ settings: input }, { embedArrays: true }),
+      ...dotize({ ownSettings: input }, { embedArrays: true }),
       // Always update the updated at time.
       updatedAt: now,
     },

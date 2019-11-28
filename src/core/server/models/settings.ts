@@ -128,7 +128,7 @@ export type Settings = Pick<
   | "wordList"
 > & {
   /* remove once migrated */
-  auth: Auth;
+  auth?: Auth;
   closeCommenting: CloseCommenting;
   disableCommenting: DisableCommenting;
   live: LiveConfiguration;

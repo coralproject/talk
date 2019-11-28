@@ -20,9 +20,8 @@ import { GQLSite } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { consolidate } from "../helpers/settings";
 
-export interface Site
-  extends Omit<GQLSite, "consolidatedSettings" | "community"> {
-  settings: PartialSettings;
+export interface Site extends Omit<GQLSite, "settings" | "community"> {
+  ownSettings: PartialSettings;
   communityID: string;
   tenantID: string;
   locale: LanguageCode;
@@ -46,7 +45,7 @@ export async function createSite(
     createdAt: now,
     tenantID,
     communityID,
-    settings: {},
+    ownSettings: {},
     ...input,
   };
 
@@ -85,7 +84,7 @@ export async function updateSiteSettings(
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     {
-      $set: dotize({ settings: update }),
+      $set: dotize({ ownSettings: update }),
     },
     { returnOriginal: false }
   );

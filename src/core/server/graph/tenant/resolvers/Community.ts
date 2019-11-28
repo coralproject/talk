@@ -5,8 +5,7 @@ import * as community from "coral-server/models/community";
 import { GQLCommunityTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 
 export const Community: GQLCommunityTypeResolver<community.Community> = {
-  consolidatedSettings: (s, input, ctx) =>
-    ctx.loaders.Communities.settings.load(s.id),
+  settings: (s, input, ctx) => ctx.loaders.Communities.settings.load(s.id),
   sites: ({ id }, { first, after }, ctx) =>
     ctx.loaders.Sites.connection({
       first: defaultTo(first, 10),

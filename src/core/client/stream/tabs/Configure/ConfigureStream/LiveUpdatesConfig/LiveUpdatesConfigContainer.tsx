@@ -31,7 +31,14 @@ class LiveUpdatesConfigContainer extends React.Component<Props> {
 
 const enhanced = withFragmentContainer<Props>({
   storySettings: graphql`
-    fragment LiveUpdatesConfigContainer_storySettings on StorySettings {
+    fragment LiveUpdatesConfigContainer_storySettings on EntitySettings {
+      live {
+        enabled
+      }
+    }
+  `,
+  storySettingsReadOnly: graphql`
+    fragment LiveUpdatesConfigContainer_storySettingsReadOnly on EntitySettings {
       live {
         configurable
       }

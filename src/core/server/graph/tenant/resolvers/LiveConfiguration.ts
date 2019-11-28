@@ -16,7 +16,7 @@ export const LiveConfiguration: GQLLiveConfigurationTypeResolver<
     }
 
     if (isUndefined(source.enabled)) {
-      return ctx.tenant.settings.live.enabled;
+      return ctx.tenant.ownSettings.live.enabled;
     }
 
     return source.enabled;

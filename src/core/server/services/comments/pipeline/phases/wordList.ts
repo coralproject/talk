@@ -25,7 +25,7 @@ export const wordList: IntermediateModerationPhase = ({
   // premod, set it to `premod`.
   if (
     containsMatchingPhraseMemoized(
-      tenant.settings.wordList.banned,
+      tenant.ownSettings.wordList.banned,
       comment.body
     )
   ) {
@@ -50,7 +50,7 @@ export const wordList: IntermediateModerationPhase = ({
   // auto-flagging suspect words, then we should flag the comment!
   if (
     containsMatchingPhraseMemoized(
-      tenant.settings.wordList.suspect,
+      tenant.ownSettings.wordList.suspect,
       comment.body
     )
   ) {

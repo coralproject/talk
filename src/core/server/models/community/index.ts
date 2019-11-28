@@ -19,8 +19,8 @@ import { GQLCommunity } from "coral-server/graph/tenant/schema/__generated__/typ
 import { consolidate } from "../helpers/settings";
 
 export interface Community
-  extends Omit<GQLCommunity, "consolidatedSettings" | "sites"> {
-  settings: PartialSettings;
+  extends Omit<GQLCommunity, "settings" | "sites" | "ownSettings"> {
+  ownSettings: PartialSettings;
   tenantID: string;
   locale: LanguageCode;
 }
@@ -42,7 +42,7 @@ export async function createCommunity(
     id: uuid.v4(),
     createdAt: now,
     tenantID,
-    settings: {},
+    ownSettings: {},
     ...input,
   };
 
@@ -81,7 +81,7 @@ export async function updateCommunitySettings(
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     {
-      $set: dotize({ settings: update }),
+      $set: dotize({ ownSettings: update }),
     },
     { returnOriginal: false }
   );
