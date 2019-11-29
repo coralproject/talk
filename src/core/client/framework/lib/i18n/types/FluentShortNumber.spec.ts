@@ -1,6 +1,6 @@
 import { toPairs } from "lodash";
 
-import { getShortNumberCode, validateFormat } from "./FluentShortNumber";
+import { getShortNumberCode, validatePattern } from "./FluentShortNumber";
 
 describe("getShortNumberCode", () => {
   it("returns correct value", () => {
@@ -28,7 +28,7 @@ describe("validateFormat", () => {
       "000M": true,
     };
     toPairs(cases).forEach(([i, o]) => {
-      expect(validateFormat(i)).toBe(o);
+      expect(validatePattern(i)).toBe(o);
     });
   });
 });

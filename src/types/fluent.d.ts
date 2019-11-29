@@ -50,18 +50,29 @@ declare module "@fluent/bundle/compat" {
     transform?: (s: string) => string;
   }
 
+  export class FluentResource {
+    constructor(source: string);
+  }
+
+  export type Pattern = string;
+
+  export interface RawMessage {
+    value: Pattern | null;
+    attributes: Record<string, Pattern>;
+  }
+
   export class FluentBundle {
     constructor(locales: string, options?: FluentBundleOptions);
     public locales: string[];
     public readonly messages: Iterator<[string, any]>;
     public hasMessage(id: string): boolean;
-    public getMessage(id: string): any;
-    public addMessages(source: string): string[];
-    public format(
-      message: any,
+    public getMessage(id: string): RawMessage;
+    public addResource(res: FluentResource, options?: {}): void;
+    public formatPattern(
+      pattern: Pattern,
       args?: object,
-      errors?: string[]
-    ): string | null;
+      errors?: Error[]
+    ): string;
   }
 
   export class FluentType {

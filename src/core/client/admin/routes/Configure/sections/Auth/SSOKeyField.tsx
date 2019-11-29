@@ -41,11 +41,16 @@ const SSOKeyField: FunctionComponent<Props> = ({
       showPasswordTitle="Hide SSO Key"
       fullWidth
     />
-    <Localized id="configure-auth-sso-regenerateAt" $date={keyGeneratedAt}>
-      <HelperText className={styles.keyGenerated}>
-        KEY GENERATED AT: {keyGeneratedAt}
-      </HelperText>
-    </Localized>
+    {keyGeneratedAt && (
+      <Localized
+        id="configure-auth-sso-regenerateAt"
+        $date={new Date(keyGeneratedAt)}
+      >
+        <HelperText className={styles.keyGenerated}>
+          KEY GENERATED AT: {keyGeneratedAt}
+        </HelperText>
+      </Localized>
+    )}
     <div className={styles.warningSection}>
       <Flex direction="row" itemGutter="half">
         <Icon className={styles.warnIcon}>warning</Icon>

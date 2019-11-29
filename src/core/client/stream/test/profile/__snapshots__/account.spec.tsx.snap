@@ -307,7 +307,7 @@ exports[`renders the empty settings pane 1`] = `
                         <p
                           className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                         >
-                          An email has been sent to $email to verify your account.
+                          An email has been sent to {$email} to verify your account.
 You must verify your new email address before it can be used
 to sign in to your account or to receive notifications.
                         </p>
