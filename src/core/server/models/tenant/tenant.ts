@@ -541,3 +541,37 @@ export async function disableTenantEndpoint(
 
   return result.value;
 }
+
+export async function deleteEndpointSecrets(
+  mongo: Db,
+  id: string,
+  endpointID: string,
+  kids: string[]
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $pull: {
+        "webhooks.endpoints.$[endpoint].signingSecrets": { kid: { $in: kids } },
+      },
+    },
+    { returnOriginal: false, arrayFilters: [{ "endpoint.id": endpointID }] }
+  );
+  if (!result.value) {
+    const tenant = await retrieveTenant(mongo, id);
+    if (!tenant) {
+      return null;
+    }
+
+    const endpoint = tenant.webhooks.endpoints.find(e => e.id === endpointID);
+    if (!endpoint) {
+      throw new Error(
+        `endpoint not found with id: ${endpointID} on tenant: ${id}`
+      );
+    }
+
+    throw new Error("update failed for an unexpected reason");
+  }
+
+  return result.value;
+}

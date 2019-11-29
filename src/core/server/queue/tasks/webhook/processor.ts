@@ -6,8 +6,11 @@ import uuid from "uuid/v4";
 
 import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
-import { filterActiveSecrets } from "coral-server/models/settings";
-import { Endpoint } from "coral-server/models/tenant";
+import {
+  filterActiveSecrets,
+  filterExpiredSecrets,
+} from "coral-server/models/settings";
+import { deleteEndpointSecrets, Endpoint } from "coral-server/models/tenant";
 import { JobProcessor } from "coral-server/queue/Task";
 import { createFetch, FetchOptions } from "coral-server/services/fetch";
 import { disableEndpoint } from "coral-server/services/tenant";
@@ -177,16 +180,6 @@ export function createJobProcessor({
     // Get the fetch options.
     const options = generateFetchOptions(endpoint, payload, now);
 
-    // // Queue up removing unused secrets.
-    // const expiredSigningSecrets = endpoint.signingSecrets.filter(
-    //   filterExpiredSecrets(now)
-    // );
-    // if (expiredSigningSecrets.length > 0) {
-    //   for (const { kid } of expiredSigningSecrets) {
-    //     // FIXME: remove expired secrets.
-    //   }
-    // }
-
     // Send the request.
     const startedSendingAt = getNow();
     const res = await fetch(endpoint.url, options);
@@ -257,5 +250,34 @@ export function createJobProcessor({
         // TODO: (wyattjoh) maybe schedule a retry?
       }
     }
+
+    // Remove the expired secrets in the next tick so that it does not affect
+    // the sending performance of this job, and errors do not impact the
+    // sending.
+    process.nextTick(() => {
+      const expiredSigningSecrets = endpoint.signingSecrets.filter(
+        filterExpiredSecrets(now)
+      );
+      if (expiredSigningSecrets.length > 0) {
+        deleteEndpointSecrets(
+          mongo,
+          tenantID,
+          endpoint.id,
+          expiredSigningSecrets.map(s => s.kid)
+        )
+          .then(() => {
+            log.info(
+              { secrets: expiredSigningSecrets.length },
+              "removed expired secrets from endpoint"
+            );
+          })
+          .catch(err => {
+            log.error(
+              { err },
+              "an error occurred when trying to remove expired secrets"
+            );
+          });
+      }
+    });
   };
 }
