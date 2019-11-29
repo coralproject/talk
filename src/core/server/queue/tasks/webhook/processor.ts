@@ -1,18 +1,15 @@
 import crypto from "crypto";
-import http from "http";
-import https from "https";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
-import fetch, { RequestInit } from "node-fetch";
 import getNow from "performance-now";
 import uuid from "uuid/v4";
 
-import { version } from "coral-common/version";
 import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import { filterActiveSecrets } from "coral-server/models/settings";
 import { Endpoint } from "coral-server/models/tenant";
 import { JobProcessor } from "coral-server/queue/Task";
+import { createFetch, FetchOptions } from "coral-server/services/fetch";
 import { disableEndpoint } from "coral-server/services/tenant";
 import TenantCache from "coral-server/services/tenant/cache";
 
@@ -94,16 +91,14 @@ export function generateSignatures(
 
 export function generateFetchOptions<T extends EventData>(
   endpoint: Pick<Endpoint, "signingSecrets">,
-  agents: Agents,
   data: WebhookPayload<T>,
   now: Date
-): RequestInit {
+): FetchOptions {
   // Serialize the body and signature to include in the request.
   const body = JSON.stringify(data, null, 2);
   const signature = generateSignatures(endpoint, body, now);
 
   const headers: Record<string, any> = {
-    "User-Agent": `Coral Webhook/${version}`,
     "Content-Type": "application/json",
     "X-Coral-Event": data.name,
     "X-Coral-Signature": signature,
@@ -111,15 +106,9 @@ export function generateFetchOptions<T extends EventData>(
 
   return {
     method: "POST",
-    agent: url => (url.protocol === "http:" ? agents.http : agents.https),
     headers,
     body,
   };
-}
-
-interface Agents {
-  http: http.Agent;
-  https: https.Agent;
 }
 
 export function createJobProcessor({
@@ -127,15 +116,8 @@ export function createJobProcessor({
   tenantCache,
   redis,
 }: WebhookProcessorOptions): JobProcessor<WebhookData> {
-  // Create HTTP agents to improve connection performance.
-  const agents: Agents = {
-    https: new https.Agent({
-      keepAlive: true,
-    }),
-    http: new http.Agent({
-      keepAlive: true,
-    }),
-  };
+  // Create the fetcher that will orchestrate sending the actual webhooks.
+  const fetch = createFetch({ name: "Webhook" });
 
   return async job => {
     const {
@@ -193,7 +175,7 @@ export function createJobProcessor({
     const now = new Date();
 
     // Get the fetch options.
-    const options = generateFetchOptions(endpoint, agents, payload, now);
+    const options = generateFetchOptions(endpoint, payload, now);
 
     // // Queue up removing unused secrets.
     // const expiredSigningSecrets = endpoint.signingSecrets.filter(
@@ -209,7 +191,6 @@ export function createJobProcessor({
     const startedSendingAt = getNow();
     const res = await fetch(endpoint.url, options);
     const took = getNow() - startedSendingAt;
-
     if (res.ok) {
       log.info(
         { took, responseStatus: res.status },

@@ -15,12 +15,12 @@ import {
   CreateTenantInput,
   createTenantSSOKey,
   deleteTenantAnnouncement,
+  disableTenantEndpoint,
   disableTenantFeatureFlag,
   enableTenantFeatureFlag,
   rotateTenantSSOKey,
   Tenant,
   updateTenant,
-  disableTenantEndpoint,
 } from "coral-server/models/tenant";
 import { I18n } from "coral-server/services/i18n";
 
