@@ -1,5 +1,6 @@
 import TenantContext from "coral-server/graph/tenant/context";
-import slices from "coral-server/services/comments/moderation/slices";
+import stacks from "coral-server/stacks";
+
 import {
   GQLApproveCommentInput,
   GQLRejectCommentInput,
@@ -7,7 +8,7 @@ import {
 
 export const Actions = (ctx: TenantContext) => ({
   approveComment: (input: GQLApproveCommentInput) =>
-    slices.approve(
+    stacks.approveComment(
       ctx.mongo,
       ctx.redis,
       ctx.publisher,
@@ -18,7 +19,7 @@ export const Actions = (ctx: TenantContext) => ({
       ctx.now
     ),
   rejectComment: (input: GQLRejectCommentInput) =>
-    slices.reject(
+    stacks.rejectComment(
       ctx.mongo,
       ctx.redis,
       ctx.publisher,

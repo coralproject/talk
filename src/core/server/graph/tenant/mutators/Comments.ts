@@ -29,7 +29,7 @@ import {
   removeDontAgree,
   removeReaction,
 } from "coral-server/services/comments/actions";
-import slices from "coral-server/services/comments/moderation/slices";
+import stacks from "coral-server/stacks";
 
 import { publishCommentFeatured } from "coral-server/services/events";
 import { validateMaximumLength, WithoutMutationID } from "./util";
@@ -170,7 +170,7 @@ export const Comments = (ctx: TenantContext) => ({
     )
       .then(comment =>
         comment.status !== GQLCOMMENT_STATUS.APPROVED
-          ? slices.approve(
+          ? stacks.approveComment(
               ctx.mongo,
               ctx.redis,
               ctx.publisher,
