@@ -31,6 +31,7 @@ import { accessLogger, errorLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
 import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
+import logger from "coral-server/logger";
 
 export interface AppOptions {
   config: Config;
@@ -129,15 +130,21 @@ function configureApplication(options: AppOptions) {
 
   // If we're in production mode, configure some production security settings.
   if (config.get("env") === "production") {
-    // Coral in production requires SSL, so we'll send the HSTS headers here as
-    // well as force the use of HTTPS with a 301 redirect.
-    parent.use(
-      hsts({
-        // We don't want to break existing other services that run with SSL.
-        includeSubDomains: false,
-      })
-    );
-    parent.use(enforceHTTPS());
+    if (config.get("disable_force_ssl")) {
+      logger.warn(
+        "SSL enforcement has been disabled in production, this should not be used except for testing"
+      );
+    } else {
+      // Coral in production requires SSL, so we'll send the HSTS headers here as
+      // well as force the use of HTTPS with a 301 redirect.
+      parent.use(
+        hsts({
+          // We don't want to break existing other services that run with SSL.
+          includeSubDomains: false,
+        })
+      );
+      parent.use(enforceHTTPS());
+    }
   }
 
   // Setup the view config.
