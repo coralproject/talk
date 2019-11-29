@@ -15,6 +15,7 @@ import { HTMLErrorHandler } from "coral-server/app/middleware/error";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import { createPassport } from "coral-server/app/middleware/passport";
 import { Config } from "coral-server/config";
+import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
@@ -31,7 +32,6 @@ import { accessLogger, errorLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
 import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
-import logger from "coral-server/logger";
 
 export interface AppOptions {
   config: Config;
