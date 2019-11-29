@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Form, FormSpy } from "react-final-form";
 

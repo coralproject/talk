@@ -1,6 +1,6 @@
 import { CoralRTE } from "@coralproject/rte";
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { EventHandler, FunctionComponent, MouseEvent, Ref } from "react";
 import { Field, Form } from "react-final-form";
 

@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
 import { Button, Icon } from "coral-ui/components/v2";

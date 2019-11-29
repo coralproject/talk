@@ -3,8 +3,8 @@
 // Allowing loading fluent files.
 declare module "*.ftl";
 
-declare module "fluent-dom/compat" {
-  import { FluentBundle } from "fluent/compat";
+declare module "@fluent/dom/compat" {
+  import { FluentBundle } from "@fluent/bundle/compat";
 
   export class DOMLocalization {
     constructor(resourceIDs: string[], generateBundles: any);
@@ -26,8 +26,8 @@ declare module "fluent-dom/compat" {
   }
 }
 
-declare module "fluent-react/compat" {
-  import { FluentBundle } from "fluent/compat";
+declare module "@fluent/react/compat" {
+  import { FluentBundle } from "@fluent/bundle/compat";
   import { ComponentType } from "react";
 
   export interface LocalizationProviderProps {
@@ -43,22 +43,11 @@ declare module "fluent-react/compat" {
   export const Localized: ComponentType<LocalizedProps>;
 }
 
-declare module "fluent-langneg/compat" {
-  export function negotiateLanguages(
-    requestedLocales: ReadonlyArray<string>,
-    available: ReadonlyArray<string>,
-    options: {
-      strategy: "filtering" | "matching" | "lookup";
-      defaultLocale: string;
-    }
-  ): string[];
-}
-
-declare module "fluent/compat" {
+declare module "@fluent/bundle/compat" {
   export interface FluentBundleOptions {
     functions?: { [key: string]: (...args: any[]) => string | FluentType };
     useIsolating?: boolean;
-    transform?: ((s: string) => string);
+    transform?: (s: string) => string;
   }
 
   export class FluentBundle {

@@ -1,4 +1,4 @@
-import { FluentBundle } from "fluent/compat";
+import { FluentBundle } from "@fluent/bundle/compat";
 
 import * as functions from "./functions";
 import { LocalesData } from "./locales";

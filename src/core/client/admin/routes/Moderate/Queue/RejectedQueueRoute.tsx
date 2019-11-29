@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import { RouteProps } from "found";
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";

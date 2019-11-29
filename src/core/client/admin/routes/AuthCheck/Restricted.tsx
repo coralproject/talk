@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import AuthBox from "coral-admin/components/AuthBox";

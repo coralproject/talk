@@ -1,4 +1,4 @@
-import { FluentBundle } from "fluent/compat";
+import { FluentBundle } from "@fluent/bundle/compat";
 import fs from "fs";
 import path from "path";
 

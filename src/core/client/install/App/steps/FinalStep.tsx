@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { Component } from "react";
 
 import { urls } from "coral-framework/helpers";

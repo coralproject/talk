@@ -1,4 +1,4 @@
-import { FluentBundle, FluentNumber, FluentType } from "fluent/compat";
+import { FluentBundle, FluentNumber, FluentType } from "@fluent/bundle/compat";
 
 const formatRegExp = /^(0+|0+\.0+)[^\d.]+$/;
 

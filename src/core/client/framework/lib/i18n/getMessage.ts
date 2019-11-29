@@ -1,4 +1,4 @@
-import { FluentBundle } from "fluent/compat";
+import { FluentBundle } from "@fluent/bundle/compat";
 
 export default function getMessage<T extends {}>(
   bundles: FluentBundle[],

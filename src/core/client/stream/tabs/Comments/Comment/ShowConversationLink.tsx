@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { EventHandler, FunctionComponent, MouseEvent } from "react";
 
 import { Button } from "coral-ui/components";

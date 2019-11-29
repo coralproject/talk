@@ -1,3 +1,6 @@
+import { Localized } from "@fluent/react/compat";
+import React, { FunctionComponent } from "react";
+
 import {
   Card,
   CardCloseButton,
@@ -5,8 +8,6 @@ import {
   HorizontalGutter,
   Modal,
 } from "coral-ui/components/v2";
-import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
 
 import styles from "./HotkeysModal.css";
 
