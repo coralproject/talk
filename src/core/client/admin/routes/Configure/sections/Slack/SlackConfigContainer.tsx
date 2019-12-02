@@ -7,7 +7,11 @@ import { FieldArray } from "react-final-form-arrays";
 import { pureMerge } from "coral-common/utils";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { FormFieldDescription, HorizontalGutter } from "coral-ui/components/v2";
+import {
+  Button,
+  FormFieldDescription,
+  HorizontalGutter,
+} from "coral-ui/components/v2";
 
 import { SlackConfigContainer_settings } from "coral-admin/__generated__/SlackConfigContainer_settings.graphql";
 
@@ -40,9 +44,29 @@ class SlackConfigContainer extends React.Component<Props> {
     },
   };
 
+  private onAddChannel: () => void;
+  private onRemoveChannel: (index: number) => void;
+
   constructor(props: Props) {
     super(props);
     this.handleOnInitValues(this.props.settings);
+
+    const mutators = this.props.form.mutators;
+    this.onAddChannel = () => {
+      mutators.push("slack.channels", {
+        enabled: true,
+        hookURL: "",
+        triggers: {
+          allComments: false,
+          reportedComments: false,
+          pendingComments: false,
+          featuredComments: false,
+        },
+      });
+    };
+    this.onRemoveChannel = (index: number) => {
+      mutators.remove("slack.channels", index);
+    };
   }
 
   public componentDidMount() {
@@ -109,11 +133,15 @@ class SlackConfigContainer extends React.Component<Props> {
                     channel={channel}
                     disabled={false}
                     index={index}
+                    onRemoveClicked={this.onRemoveChannel}
                   />
                 </div>
               ))
             }
           </FieldArray>
+          <Button size="medium" onClick={this.onAddChannel}>
+            Add
+          </Button>
         </ConfigBox>
       </HorizontalGutter>
     );

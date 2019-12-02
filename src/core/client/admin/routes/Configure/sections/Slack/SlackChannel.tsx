@@ -1,11 +1,17 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { Field } from "react-final-form";
 
 import { parseBool } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { InputDescription, InputLabel } from "coral-ui/components";
-import { CheckBox, FormField, TextField } from "coral-ui/components/v2";
+import {
+  Button,
+  CheckBox,
+  Flex,
+  FormField,
+  TextField,
+} from "coral-ui/components/v2";
 
 import Header from "../../Header";
 import SectionContent from "../../SectionContent";
@@ -17,20 +23,36 @@ interface Props {
   channel: any;
   disabled: boolean;
   index: number;
+  onRemoveClicked: (index: number) => void;
 }
 
 const SlackChannel: FunctionComponent<Props> = ({
   channel,
   disabled,
   index,
+  onRemoveClicked,
 }) => {
+  const onRemove = useCallback(() => {
+    onRemoveClicked(index);
+  }, [index, onRemoveClicked]);
+
   return (
     <>
       <ConfigBoxWithToggleField
         title={
-          <Localized id="configure-slack-channel-name">
-            <Header>Channel</Header>
-          </Localized>
+          <Flex justifyContent="space-between">
+            <Localized id="configure-slack-channel-name">
+              <Header>Channel</Header>
+            </Localized>
+            <Button
+              size="small"
+              variant="filled"
+              color="alert"
+              onClick={onRemove}
+            >
+              Remove
+            </Button>
+          </Flex>
         }
         name={`${channel}.enabled`}
         disabled={disabled}
