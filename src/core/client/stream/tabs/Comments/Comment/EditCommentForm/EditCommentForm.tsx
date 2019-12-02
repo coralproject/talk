@@ -37,7 +37,7 @@ export interface EditCommentFormProps {
   } | null;
   createdAt: string;
   editableUntil: string;
-  onSubmit: OnSubmit<FormProps>;
+  onSubmit: OnSubmit<any>;
   onCancel?: EventHandler<MouseEvent<any>>;
   onClose?: EventHandler<MouseEvent<any>>;
   initialValues?: FormProps;

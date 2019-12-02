@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -35,38 +36,61 @@ async function createTestRenderer(
       }
     },
   });
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("completeAccountBox")
-  );
-  const form = within(container).getByType("form");
-  const usernameField = within(form).getByLabelText("Username");
 
-  return {
-    context,
-    testRenderer,
-    form,
-    root: testRenderer.root,
-    usernameField,
-    container,
-  };
+  return await act(async () => {
+    const container = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("completeAccountBox")
+    );
+    const form = within(container).getByType("form");
+    const usernameField = within(form).getByLabelText("Username");
+
+    return {
+      context,
+      testRenderer,
+      form,
+      root: testRenderer.root,
+      usernameField,
+      container,
+    };
+  });
 }
 
 it("renders createUsername view", async () => {
   const { root } = await createTestRenderer();
-  expect(toJSON(root)).toMatchSnapshot();
+
+  await act(async () => {
+    await wait(() => {
+      expect(toJSON(root)).toMatchSnapshot();
+    });
+  });
 });
 
 it("shows error when submitting empty form", async () => {
   const { form } = await createTestRenderer();
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(toJSON(form)).toMatchSnapshot();
+    });
+  });
 });
 
 it("checks for invalid username", async () => {
   const { form, usernameField } = await createTestRenderer();
-  usernameField.props.onChange({ target: { value: "x" } });
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
+
+  act(() => usernameField.props.onChange({ target: { value: "x" } }));
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(toJSON(form)).toMatchSnapshot();
+    });
+  });
 });
 
 it("shows server error", async () => {
@@ -86,14 +110,19 @@ it("shows server error", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  usernameField.props.onChange({ target: { value: username } });
+  act(() => usernameField.props.onChange({ target: { value: username } }));
 
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
   expect(usernameField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
-
+  await act(async () => {
+    await wait(() => {
+      expect(submitButton.props.disabled).toBe(false);
+    });
+  });
   expect(toJSON(form)).toMatchSnapshot();
 });
 
@@ -122,14 +151,19 @@ it("successfully sets username", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  usernameField.props.onChange({ target: { value: username } });
+  act(() => usernameField.props.onChange({ target: { value: username } }));
 
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
   expect(usernameField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
-
+  await act(async () => {
+    await wait(() => {
+      expect(submitButton.props.disabled).toBe(false);
+    });
+  });
   expect(toJSON(form)).toMatchSnapshot();
   expect(resolvers.Mutation!.setUsername!.called).toBe(true);
 });

@@ -1,5 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import {
   FormField,
@@ -14,6 +15,15 @@ import Header from "../../Header";
 import WordListTextArea from "./WordListTextArea";
 
 import styles from "./BannedWordListConfig.css";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment BannedWordListConfig_formValues on Settings {
+    wordList {
+      banned
+    }
+  }
+`;
 
 interface Props {
   disabled: boolean;

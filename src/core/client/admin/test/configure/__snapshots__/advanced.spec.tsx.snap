@@ -300,7 +300,7 @@ When disabled, users will have to refresh the page to see new comments.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -324,7 +324,7 @@ When disabled, users will have to refresh the page to see new comments.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -457,7 +457,7 @@ https://domain.com).
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -481,7 +481,7 @@ https://domain.com).
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -525,7 +525,7 @@ https://domain.com).
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -549,7 +549,7 @@ https://domain.com).
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"

@@ -81,8 +81,8 @@ configure-sideBar-saveChanges = Gem ændringer
 configure-configurationSubHeader = Konfiguration
 configure-onOffField-on = Tændt
 configure-onOffField-off = Slukket
-configure-permissionField-allow = Tilladt
-configure-permissionField-dontAllow = Ikke tilladt
+configure-radioButton-allow = Tilladt
+configure-radioButton-dontAllow = Ikke tilladt
 
 ### General
 configure-general-guidelines-title = Oversigt over fællesskabsretningslinjer
@@ -413,7 +413,7 @@ moderate-searchBar-comboBoxTextField =
   .placeholder = Brugertilbudstegn omkring hvert søgeterm (f.eks. "Team", "St. Louis")
 moderate-searchBar-goTo = Gå til
 moderate-searchBar-seeAllResults = Se alle resultater
- 
+
 ### Moderate User History Drawer
 
 moderate-user-drawer-email =
@@ -537,7 +537,7 @@ community-filter-search = Søg
 community-filter-showMe = Vis mig
 community-filter-allRoles = Alle roller
 community-filter-allStatuses = Alle statuer
- 
+
 community-column-username = Brugernavn
 community-column-email = Email
 community-column-memberSince = Medlem siden

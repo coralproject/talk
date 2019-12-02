@@ -2,7 +2,14 @@
  * LanguageCode is the type represented by the internally identifiable types for
  * the different languages that can be supported.
  */
-export type LanguageCode = "en-US" | "pt-BR" | "es" | "de" | "nl-NL" | "da";
+export type LanguageCode =
+  | "en-US"
+  | "pt-BR"
+  | "es"
+  | "de"
+  | "nl-NL"
+  | "da"
+  | "fr-FR";
 
 /**
  * LOCALES_MAP contains a map of language codes associated with their
@@ -15,6 +22,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   de: "Deutsch",
   "nl-NL": "Nederlands",
   da: "Dansk",
+  "fr-FR": "Francais",
 };
 
 /**

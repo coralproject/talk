@@ -83,8 +83,8 @@ configure-sideBar-saveChanges = Save Changes
 configure-configurationSubHeader = Configuration
 configure-onOffField-on = On
 configure-onOffField-off = Off
-configure-permissionField-allow = Allow
-configure-permissionField-dontAllow = Don't allow
+configure-radioButton-allow = Allow
+configure-radioButton-dontAllow = Don't allow
 
 ### General
 configure-general-guidelines-title = Community guidelines summary
