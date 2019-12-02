@@ -2762,6 +2762,12 @@ input CreateCommentInput {
   body: String!
 
   """
+  commentOrderBy is how the comments are ordered when the
+  comment was created.
+  """
+  commentsOrderBy: String
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!

@@ -48,6 +48,24 @@ function sharedUpdater(
   addCommentToStory(store, input, commentEdge);
 }
 
+function getConnection(
+  streamProxy: RecordProxy | null,
+  connectionKey: string,
+  filters: any
+) {
+  if (!streamProxy) {
+    return null;
+  }
+
+  const con = ConnectionHandler.getConnection(
+    streamProxy,
+    connectionKey,
+    filters
+  );
+
+  return con;
+}
+
 /**
  * update integrates new comment into the CommentConnection.
  */
@@ -59,14 +77,18 @@ function addCommentToStory(
   // Get stream proxy.
   const streamProxy = store.get(input.storyID);
   const connectionKey = "Stream_comments";
-  const filters = { orderBy: "CREATED_AT_DESC" };
 
-  if (streamProxy) {
-    const con = ConnectionHandler.getConnection(
-      streamProxy,
-      connectionKey,
-      filters
-    );
+  if (input.commentsOrderBy === "CREATED_AT_ASC") {
+    const con = getConnection(streamProxy, connectionKey, {
+      orderBy: "CREATED_AT_ASC",
+    });
+    if (con) {
+      ConnectionHandler.insertEdgeAfter(con, commentEdge);
+    }
+  } else {
+    const con = getConnection(streamProxy, connectionKey, {
+      orderBy: "CREATED_AT_DESC",
+    });
     if (con) {
       ConnectionHandler.insertEdgeBefore(con, commentEdge);
     }
