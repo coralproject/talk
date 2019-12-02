@@ -7,12 +7,12 @@ import { FieldArray } from "react-final-form-arrays";
 import { pureMerge } from "coral-common/utils";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { HorizontalGutter, Typography } from "coral-ui/components";
+import { FormFieldDescription, HorizontalGutter } from "coral-ui/components/v2";
 
 import { SlackConfigContainer_settings } from "coral-admin/__generated__/SlackConfigContainer_settings.graphql";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
-import SectionContent from "../../SectionContent";
 import SlackChannel from "./SlackChannel";
 
 interface Props {
@@ -80,24 +80,27 @@ class SlackConfigContainer extends React.Component<Props> {
   public render() {
     return (
       <HorizontalGutter size="double">
-        <Localized id="configure-slack-header-title">
-          <Header>Slack Integrations</Header>
-        </Localized>
-        <SectionContent>
+        <ConfigBox
+          title={
+            <Localized id="configure-slack-header-title">
+              <Header htmlFor="configure-slack-header.title">
+                Slack Integrations
+              </Header>
+            </Localized>
+          }
+        >
           <Localized
             id="configure-slack-description"
             externalLink={
               <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/slack/" />
             }
           >
-            <Typography variant="bodyShort">
+            <FormFieldDescription>
               Automatically send comments from Coral moderation queues to Slack
               channels. You will need Slack admin access to set this up. For
               steps on how to create a Slack App see our documentation.
-            </Typography>
+            </FormFieldDescription>
           </Localized>
-        </SectionContent>
-        <SectionContent>
           <FieldArray name="slack.channels">
             {({ fields }) =>
               fields.map((channel: any, index: number) => (
@@ -111,7 +114,7 @@ class SlackConfigContainer extends React.Component<Props> {
               ))
             }
           </FieldArray>
-        </SectionContent>
+        </ConfigBox>
       </HorizontalGutter>
     );
   }
