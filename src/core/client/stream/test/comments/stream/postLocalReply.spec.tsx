@@ -3,6 +3,7 @@ import sinon from "sinon";
 import timekeeper from "timekeeper";
 
 import {
+  act,
   createSinonStub,
   waitForElement,
   within,
@@ -82,9 +83,11 @@ it("post a reply", async () => {
   );
 
   // Open reply form.
-  within(deepestReply)
-    .getByText("Reply", { selector: "button" })
-    .props.onClick();
+  act(() =>
+    within(deepestReply)
+      .getByText("Reply", { selector: "button" })
+      .props.onClick()
+  );
 
   const form = await waitForElement(() =>
     within(deepestReply).getByType("form")
@@ -92,14 +95,18 @@ it("post a reply", async () => {
   expect(within(deepestReply).toJSON()).toMatchSnapshot("open reply form");
 
   // Write reply .
-  testRenderer.root
-    .findByProps({
-      inputId: "comments-replyCommentForm-rte-comment-with-deepest-replies-5",
-    })
-    .props.onChange({ html: "<b>Hello world!</b>" });
+  act(() =>
+    testRenderer.root
+      .findByProps({
+        inputId: "comments-replyCommentForm-rte-comment-with-deepest-replies-5",
+      })
+      .props.onChange({ html: "<b>Hello world!</b>" })
+  );
 
   timekeeper.freeze(new Date(baseComment.createdAt));
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   const deepestReplyList = within(streamLog).getByTestID(
     "commentReplyList-comment-with-deepest-replies-5"
@@ -112,7 +119,9 @@ it("post a reply", async () => {
   timekeeper.reset();
 
   // Test after server response.
-  await waitForElement(() =>
-    within(deepestReplyList).getByText("(from server)", { exact: false })
-  );
+  await act(async () => {
+    await waitForElement(() =>
+      within(deepestReplyList).getByText("(from server)", { exact: false })
+    );
+  });
 });

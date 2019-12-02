@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { required } from "coral-framework/lib/validation";
 import ReactionButton from "coral-stream/tabs/Comments/Comment/ReactionButton/ReactionButton";
@@ -15,20 +16,36 @@ import {
   SelectField,
 } from "coral-ui/components/v2";
 
-import { ReactionConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ReactionConfigContainer_settings.graphql";
-
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 import styles from "./ReactionConfig.css";
 
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment ReactionConfig_formValues on Settings {
+    reaction {
+      label
+      labelActive
+      sortLabel
+      icon
+      iconActive
+    }
+  }
+`;
+
 interface Props {
+  icon: string;
+  iconActive: string | null;
   disabled: boolean;
-  settings: SettingsData;
 }
 
-const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
+const ReactionsConfig: FunctionComponent<Props> = ({
+  disabled,
+  icon,
+  iconActive,
+}) => (
   <ConfigBox
     title={
       <Localized id="configure-general-reactions-title">
@@ -54,6 +71,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
             </Localized>
             <Localized id="configure-general-reactions-input">
               <TextFieldWithValidation
+                {...input}
                 className={styles.textInput}
                 id={input.name}
                 type="text"
@@ -61,7 +79,6 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 placeholder="E.g. Respect"
                 disabled={disabled}
                 meta={meta}
-                {...input}
               />
             </Localized>
           </FormField>
@@ -74,9 +91,9 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
               className={styles.reactionButton}
               reacted={false}
               label={input.value}
-              labelActive={settings.reaction.labelActive}
-              icon={settings.reaction.icon}
-              iconActive={settings.reaction.iconActive}
+              labelActive={input.value}
+              icon={icon}
+              iconActive={iconActive}
               totalReactions={0}
               onClick={() => null}
             />
@@ -93,6 +110,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
             </Localized>
             <Localized id="configure-general-reactions-active-input">
               <TextFieldWithValidation
+                {...input}
                 className={styles.textInput}
                 id={input.name}
                 type="text"
@@ -100,7 +118,6 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 fullWidth
                 disabled={disabled}
                 meta={meta}
-                {...input}
               />
             </Localized>
           </FormField>
@@ -112,10 +129,10 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
               className={styles.reactionButton}
               readOnly
               reacted
-              label={settings.reaction.label}
+              label={input.value}
               labelActive={input.value}
-              icon={settings.reaction.icon}
-              iconActive={settings.reaction.iconActive}
+              icon={icon}
+              iconActive={iconActive}
               totalReactions={0}
               onClick={() => null}
             />
@@ -132,6 +149,7 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
             </Localized>
             <Localized id="configure-general-reactions-sort-input">
               <TextFieldWithValidation
+                {...input}
                 id={input.name}
                 className={styles.textInput}
                 type="text"
@@ -139,7 +157,6 @@ const ReactionsConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 fullWidth
                 disabled={disabled}
                 meta={meta}
-                {...input}
               />
             </Localized>
           </FormField>

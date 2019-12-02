@@ -1,55 +1,48 @@
-import { FormApi } from "final-form";
-import { RouteProps } from "found";
-import React from "react";
+import React, { useMemo } from "react";
+import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { pureMerge } from "coral-common/utils";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  purgeMetadata,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
+import { HorizontalGutter } from "coral-ui/components";
 
 import { ModerationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ModerationConfigContainer_settings.graphql";
 
-import ModerationConfig from "./ModerationConfig";
+import AkismetConfig from "./AkismetConfig";
+import PerspectiveConfig from "./PerspectiveConfig";
+import PreModerationConfig from "./PreModerationConfig";
+import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
 
 interface Props {
-  form: FormApi;
   submitting: boolean;
   settings: SettingsData;
 }
 
-class ModerationConfigContainer extends React.Component<Props> {
-  public static routeConfig: RouteProps;
-  private initialValues = {};
-
-  constructor(props: Props) {
-    super(props);
-  }
-
-  public componentDidMount() {
-    this.props.form.initialize(this.initialValues);
-  }
-
-  private handleOnInitValues = (values: any) => {
-    this.initialValues = pureMerge(this.initialValues, values);
-  };
-
-  public render() {
-    return (
-      <ModerationConfig
-        disabled={this.props.submitting}
-        settings={this.props.settings}
-        onInitValues={this.handleOnInitValues}
-      />
-    );
-  }
-}
+export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
+  settings,
+  submitting,
+}) => {
+  const form = useForm();
+  useMemo(() => form.initialize(purgeMetadata(settings)), []);
+  return (
+    <HorizontalGutter size="double" data-testid="configure-moderationContainer">
+      <PreModerationConfig disabled={submitting} />
+      <RecentCommentHistoryConfig disabled={submitting} />
+      <PerspectiveConfig disabled={submitting} />
+      <AkismetConfig disabled={submitting} />
+    </HorizontalGutter>
+  );
+};
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ModerationConfigContainer_settings on Settings {
-      ...AkismetConfigContainer_settings
-      ...PerspectiveConfigContainer_settings
-      ...PreModerationConfigContainer_settings
-      ...RecentCommentHistoryConfigContainer_settings
+      ...AkismetConfig_formValues @relay(mask: false)
+      ...PerspectiveConfig_formValues @relay(mask: false)
+      ...PreModerationConfig_formValues @relay(mask: false)
+      ...RecentCommentHistoryConfig_formValues @relay(mask: false)
     }
   `,
 })(ModerationConfigContainer);

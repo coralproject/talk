@@ -12,6 +12,10 @@ export type OnSubmit<T> = (
   form: FormApi
 ) => ErrorsObject<T> | Promise<ErrorsObject<T> | void> | void;
 
+export interface FormError {
+  "FINAL_FORM/form-error": any;
+}
+
 export const parseEmptyAsNull = (v: any) => {
   if (v === "") {
     return null;
@@ -47,11 +51,21 @@ export const formatPercentage = (v: any) => {
 
 export const parseBool = (v: any) => Boolean(v);
 export const parseStringBool = (v: string) => v === "true";
+export const formatBool = (v: boolean) => {
+  return v ? "true" : "false";
+};
 
 export const parseNewLineDelimitedString = (v: string) => v.split("\n");
 export const formatNewLineDelimitedString = (
   v: ReadonlyArray<string> | undefined | null
 ) => (v && v.join("\n")) || "";
+
+export const parseString = (v: string | undefined) => {
+  if (!v) {
+    return "";
+  }
+  return v;
+};
 
 export const parseStringList = (v: string) => {
   if (v === "") {
@@ -68,7 +82,7 @@ export const formatStringList = (v: string[] | null) => {
 };
 
 export type FieldMeta = Pick<
-  FieldRenderProps["meta"],
+  FieldRenderProps<any, HTMLElement>["meta"],
   "touched" | "error" | "submitError"
 >;
 

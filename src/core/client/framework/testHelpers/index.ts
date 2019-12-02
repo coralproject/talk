@@ -20,8 +20,9 @@ export { default as matchText } from "./matchText";
 export { default as toJSON } from "./toJSON";
 export { default as replaceHistoryLocation } from "./replaceHistoryLocation";
 export { default as createAccessToken } from "./createAccessToken";
-export { default as findParentsWithType } from "./findParentsWithType";
+export { default as findParent } from "./findParent";
 export { default as findParentWithType } from "./findParentWithType";
+export { default as findParentsWithType } from "./findParentsWithType";
 export {
   default as createFixture,
   Fixture,

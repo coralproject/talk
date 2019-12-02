@@ -37,12 +37,12 @@ const CreateUsernameField: FunctionComponent<Props> = props => (
           attrs={{ placeholder: true }}
         >
           <TextField
+            {...input}
             id={input.name}
             placeholder="Username"
             color={colorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
-            {...input}
           />
         </Localized>
         <ValidationMessage meta={meta} fullWidth />

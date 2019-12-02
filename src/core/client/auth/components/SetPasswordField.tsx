@@ -3,7 +3,11 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { PasswordField } from "coral-framework/components";
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import {
+  colorFromMeta,
+  parseString,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -19,6 +23,7 @@ const SetPasswordField: FunctionComponent<Props> = props => (
   <Field
     name="password"
     validate={composeValidators(required, validatePassword)}
+    parse={parseString}
   >
     {({ input, meta }) => (
       <FormField>
@@ -32,12 +37,12 @@ const SetPasswordField: FunctionComponent<Props> = props => (
         </Localized>
         <Localized id="general-passwordTextField" attrs={{ placeholder: true }}>
           <PasswordField
+            {...input}
             id={input.name}
             placeholder="Password"
             color={colorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
-            {...input}
           />
         </Localized>
         <ValidationMessage meta={meta} fullWidth />

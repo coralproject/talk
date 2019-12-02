@@ -14,7 +14,14 @@ import {
   queryByTestID,
 } from "./byTestID";
 import { getAllByText, getByText, queryAllByText, queryByText } from "./byText";
-import { getAllByType, getByType, queryAllByType, queryByType } from "./byType";
+import {
+  getAllByType,
+  getByType,
+  getParentByType,
+  queryAllByType,
+  queryByType,
+  queryParentByType,
+} from "./byType";
 import toJSON from "./toJSON";
 
 type Func0<R> = () => R;
@@ -56,8 +63,10 @@ export default function within(container: ReactTestInstance) {
     queryByLabelText: applyContainer(container, queryByLabelText),
     queryAllByLabelText: applyContainer(container, queryAllByLabelText),
     getByType: applyContainer(container, getByType),
+    getParentByType: applyContainer(container, getParentByType),
     getAllByType: applyContainer(container, getAllByType),
     queryByType: applyContainer(container, queryByType),
+    queryParentByType: applyContainer(container, queryParentByType),
     queryAllByType: applyContainer(container, queryAllByType),
     toJSON: () => toJSON(container),
   };

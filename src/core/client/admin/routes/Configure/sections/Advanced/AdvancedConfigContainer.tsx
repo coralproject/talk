@@ -1,57 +1,56 @@
-import { FormApi } from "final-form";
-import { RouteProps } from "found";
-import React from "react";
+import React, { useMemo } from "react";
+import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { pureMerge } from "coral-common/utils";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  purgeMetadata,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
+import { HorizontalGutter } from "coral-ui/components";
 
 import { AdvancedConfigContainer_settings } from "coral-admin/__generated__/AdvancedConfigContainer_settings.graphql";
 
-import AdvancedConfig from "./AdvancedConfig";
+import CommentStreamLiveUpdatesContainer from "./CommentStreamLiveUpdatesContainer";
+import CustomCSSConfig from "./CustomCSSConfig";
+import EmbedCodeContainer from "./EmbedCodeContainer";
+import PermittedDomainsConfig from "./PermittedDomainsConfig";
+import StoryCreationConfig from "./StoryCreationConfig";
 
 interface Props {
-  form: FormApi;
   submitting: boolean;
   settings: AdvancedConfigContainer_settings;
 }
 
-class AdvancedConfigContainer extends React.Component<Props> {
-  public static routeConfig: RouteProps;
-  private initialValues = {};
-
-  constructor(props: Props) {
-    super(props);
-  }
-
-  public componentDidMount() {
-    this.props.form.initialize(this.initialValues);
-  }
-
-  private handleOnInitValues = (values: any) => {
-    this.initialValues = pureMerge(this.initialValues, values);
-  };
-
-  public render() {
-    return (
-      <AdvancedConfig
-        disabled={this.props.submitting}
-        settings={this.props.settings}
-        onInitValues={this.handleOnInitValues}
+const AdvancedConfigContainer: React.FunctionComponent<Props> = ({
+  settings,
+  submitting,
+}) => {
+  const form = useForm();
+  useMemo(() => form.initialize(purgeMetadata(settings)), []);
+  return (
+    <HorizontalGutter size="double" data-testid="configure-advancedContainer">
+      <EmbedCodeContainer settings={settings} />
+      <CustomCSSConfig disabled={submitting} />
+      <CommentStreamLiveUpdatesContainer
+        disabled={submitting}
+        settings={settings}
       />
-    );
-  }
-}
+      <PermittedDomainsConfig disabled={submitting} />
+      <StoryCreationConfig disabled={submitting} />
+    </HorizontalGutter>
+  );
+};
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment AdvancedConfigContainer_settings on Settings {
+      ...CustomCSSConfig_formValues @relay(mask: false)
+      ...PermittedDomainsConfig_formValues @relay(mask: false)
+      ...CommentStreamLiveUpdates_formValues @relay(mask: false)
+      ...StoryCreationConfig_formValues @relay(mask: false)
+
       ...EmbedCodeContainer_settings
-      ...CustomCSSConfigContainer_settings
-      ...PermittedDomainsConfigContainer_settings
       ...CommentStreamLiveUpdatesContainer_settings
-      ...CommentStreamLiveUpdatesContainer_settingsReadOnly
-      ...StoryCreationConfigContainer_settings
     }
   `,
 })(AdvancedConfigContainer);

@@ -36,9 +36,9 @@ interface FormProps {
 export interface ReplyCommentFormProps {
   id: string;
   className?: string;
-  onSubmit: OnSubmit<FormProps>;
+  onSubmit: OnSubmit<any>;
   onCancel?: EventHandler<MouseEvent<any>>;
-  onChange?: (state: FormState, form: FormApi) => void;
+  onChange?: (state: FormState<any>, form: FormApi) => void;
   initialValues?: FormProps;
   rteRef?: Ref<CoralRTE>;
   parentUsername: string | null;

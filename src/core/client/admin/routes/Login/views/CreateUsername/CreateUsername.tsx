@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
-import { OnSubmit } from "coral-framework/lib/form";
+import { FormError, OnSubmit } from "coral-framework/lib/form";
 import {
   Button,
   CallOut,
@@ -17,8 +17,10 @@ interface FormProps {
   username: string;
 }
 
+interface FormSubmitProps extends FormProps, FormError {}
+
 export interface CreateUsernameForm {
-  onSubmit: OnSubmit<FormProps>;
+  onSubmit: OnSubmit<FormSubmitProps>;
 }
 
 const CreateUsername: FunctionComponent<CreateUsernameForm> = props => {

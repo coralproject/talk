@@ -8,3 +8,5 @@ export { default as ensureNoEndSlash } from "./ensureNoEndSlash";
 export { default as parseQuery } from "./parseQuery";
 export { default as stringifyQuery } from "./stringifyQuery";
 export { default as pureMerge } from "./pureMerge";
+export { default as isPromiseLike } from "./isPromiseLike";
+export { default as isPromise } from "./isPromise";

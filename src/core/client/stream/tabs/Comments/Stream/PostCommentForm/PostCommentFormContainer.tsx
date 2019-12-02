@@ -129,7 +129,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
         })
       );
       if (submitStatus !== "RETRY") {
-        form.reset({});
+        form.initialize({});
       }
       this.setState({ submitStatus, nudge: true });
     } catch (error) {

@@ -5,7 +5,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { useViewerEvent } from "coral-framework/lib/events";
-import { OnSubmit } from "coral-framework/lib/form";
+import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
@@ -24,9 +24,11 @@ interface FormProps {
   body: string;
 }
 
+interface FormSubmitProps extends FormProps, FormError {}
+
 interface Props {
-  onSubmit: OnSubmit<FormProps>;
-  onChange?: (state: FormState, form: FormApi) => void;
+  onSubmit: OnSubmit<FormSubmitProps>;
+  onChange?: (state: FormState<any>, form: FormApi) => void;
   initialValues?: FormProps;
   min: number | null;
   max: number | null;

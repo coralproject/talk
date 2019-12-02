@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
@@ -24,6 +25,19 @@ import OnOffField from "../../OnOffField";
 import Subheader from "../../Subheader";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 import APIKeyField from "./APIKeyField";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment AkismetConfig_formValues on Settings {
+    integrations {
+      akismet {
+        enabled
+        key
+        site
+      }
+    }
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -95,6 +109,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
         >
           {({ input, meta }) => (
             <TextFieldWithValidation
+              {...input}
               id="configure-moderation-akismet-site"
               disabled={disabled}
               autoComplete="off"
@@ -103,7 +118,6 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
               spellCheck={false}
               fullWidth
               meta={meta}
-              {...input}
             />
           )}
         </Field>

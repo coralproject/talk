@@ -37,6 +37,7 @@ const WordListTextArea: FunctionComponent<Props> = ({
     {({ input, meta }) => (
       <>
         <Textarea
+          {...input}
           id={id}
           className={cn(className, styles.textArea)}
           disabled={disabled}
@@ -44,7 +45,6 @@ const WordListTextArea: FunctionComponent<Props> = ({
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
-          {...input}
         />
         <ValidationMessage meta={meta} />
       </>

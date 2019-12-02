@@ -1,4 +1,3 @@
-import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 
@@ -11,7 +10,6 @@ import OrganizationConfigContainer from "./OrganizationConfigContainer";
 
 interface Props {
   data: OrganizationConfigRouteQueryResponse | null;
-  form: FormApi;
   submitting: boolean;
 }
 
@@ -27,7 +25,6 @@ class OrganizationConfigRoute extends React.Component<Props> {
     return (
       <OrganizationConfigContainer
         settings={this.props.data.settings}
-        form={this.props.form}
         submitting={this.props.submitting}
       />
     );

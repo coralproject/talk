@@ -5,24 +5,28 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { DeepNullable, DeepPartial } from "coral-common/types";
-import { pureMerge } from "coral-common/utils";
 import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 import {
   AddSubmitHook,
   RemoveSubmitHook,
   SubmitHook,
+  withForm,
   withSubmitHookContext,
 } from "coral-framework/lib/form";
 import { getMessage } from "coral-framework/lib/i18n";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  purgeMetadata,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
 import { GQLSettings } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { AuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/AuthConfigContainer_auth.graphql";
 import { AuthConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AuthConfigContainer_settings.graphql";
 
-import AccountFeaturesConfigContainer from "./AccountFeaturesConfigContainer";
-import AuthConfig from "./AuthConfig";
+import AccountFeaturesConfig from "./AccountFeaturesConfig";
+import AuthIntegrationsConfig from "./AuthIntegrationsConfig";
+import SessionConfig from "./SessionConfig";
 
 export type FormProps = DeepNullable<
   Pick<GQLSettings, "auth" | "accountFeatures">
@@ -40,16 +44,17 @@ interface Props {
 
 class AuthConfigContainer extends React.Component<Props> {
   public static routeConfig: RouteProps;
-  private initialValues: DeepPartial<FormProps> = {};
   private removeSubmitHook: RemoveSubmitHook;
 
   constructor(props: Props) {
     super(props);
     this.removeSubmitHook = this.props.addSubmitHook(this.submitHook);
-  }
-
-  public componentDidMount() {
-    this.props.form.initialize(this.initialValues);
+    this.props.form.initialize(
+      purgeMetadata({
+        ...props.settings,
+        auth: props.auth,
+      })
+    );
   }
 
   public componentWillUnmount() {
@@ -97,51 +102,48 @@ class AuthConfigContainer extends React.Component<Props> {
     return;
   };
 
-  private handleOnInitValues: OnInitValuesFct = values => {
-    this.initialValues = pureMerge(this.initialValues, values);
-  };
-
   public render() {
     return (
-      <HorizontalGutter size="double">
-        <AccountFeaturesConfigContainer
-          onInitValues={this.handleOnInitValues}
-          settings={this.props.settings}
-          disabled={this.props.submitting}
-        />
-        <AuthConfig
-          disabled={this.props.submitting}
+      <HorizontalGutter size="double" data-testid="configure-authContainer">
+        <AccountFeaturesConfig disabled={this.props.submitting} />
+        <SessionConfig disabled={this.props.submitting} />
+        <AuthIntegrationsConfig
           auth={this.props.auth}
-          onInitValues={this.handleOnInitValues}
+          disabled={this.props.submitting}
         />
       </HorizontalGutter>
     );
   }
 }
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment AuthConfigContainer_settings on Settings {
-      ...AccountFeaturesConfigContainer_settings
-    }
-  `,
-  auth: graphql`
-    fragment AuthConfigContainer_auth on Auth {
-      ...FacebookConfigContainer_auth
-      ...FacebookConfigContainer_authReadOnly
-      ...GoogleConfigContainer_auth
-      ...GoogleConfigContainer_authReadOnly
-      ...SSOConfigContainer_auth
-      ...SSOConfigContainer_authReadOnly
-      ...LocalAuthConfigContainer_auth
-      ...OIDCConfigContainer_auth
-      ...OIDCConfigContainer_authReadOnly
-      ...SessionConfigContainer_auth
-    }
-  `,
-})(
-  withSubmitHookContext(addSubmitHook => ({ addSubmitHook }))(
-    withContext(({ localeBundles }) => ({ localeBundles }))(AuthConfigContainer)
+const enhanced = withForm(
+  withFragmentContainer<Props>({
+    settings: graphql`
+      fragment AuthConfigContainer_settings on Settings {
+        ...AccountFeaturesConfig_formValues @relay(mask: false)
+      }
+    `,
+    auth: graphql`
+      fragment AuthConfigContainer_auth on Auth {
+        ...FacebookConfig_formValues @relay(mask: false)
+        ...GoogleConfig_formValues @relay(mask: false)
+        ...SSOConfig_formValues @relay(mask: false)
+        ...LocalAuthConfig_formValues @relay(mask: false)
+        ...OIDCConfig_formValues @relay(mask: false)
+        ...SessionConfig_formValues @relay(mask: false)
+
+        ...FacebookConfigContainer_auth
+        ...GoogleConfigContainer_auth
+        ...SSOConfigContainer_auth
+        ...OIDCConfigContainer_auth
+      }
+    `,
+  })(
+    withSubmitHookContext(addSubmitHook => ({ addSubmitHook }))(
+      withContext(({ localeBundles }) => ({ localeBundles }))(
+        AuthConfigContainer
+      )
+    )
   )
 );
 
