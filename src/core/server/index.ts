@@ -116,6 +116,19 @@ class Server {
       .validate({ allowed: "strict" });
     logger.debug({ config: this.config.toString() }, "loaded configuration");
 
+    // Do some extra validation for production.
+    if (this.config.get("env") === "production") {
+      // Ensure that the signing secret has been specified.
+      if (
+        this.config.get("signing_secret") ===
+        this.config.default("signing_secret")
+      ) {
+        throw new Error(
+          "SIGNING_SECRET is required in production environments"
+        );
+      }
+    }
+
     // Load the graph schemas.
     this.schema = getTenantSchema();
 
@@ -203,7 +216,10 @@ class Server {
 
     // Run migrations if there is already a Tenant installed.
     if (await isInstalled(this.tenantCache)) {
-      await this.migrationManager.executePendingMigrations(this.mongo);
+      await this.migrationManager.executePendingMigrations(
+        this.mongo,
+        this.redis
+      );
       await this.tenantCache.primeAll();
     } else {
       logger.info("no tenants are installed, skipping running migrations");

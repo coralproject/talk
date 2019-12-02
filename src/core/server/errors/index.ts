@@ -749,10 +749,28 @@ export class PersistedQueryNotFound extends CoralError {
 }
 
 export class RawQueryNotAuthorized extends CoralError {
-  constructor(tenantID: string, userID: string | null) {
+  constructor(tenantID: string, query: string | null, userID: string | null) {
     super({
       code: ERROR_CODES.RAW_QUERY_NOT_AUTHORIZED,
-      context: { tenantID, pvt: { userID } },
+      status: 400,
+      context: { tenantID, pvt: { userID, query } },
     });
+  }
+}
+
+export class ScrapeFailed extends CoralError {
+  constructor(url: string, cause?: Error | string) {
+    if (cause instanceof Error) {
+      super({
+        code: ERROR_CODES.SCRAPE_FAILED,
+        cause,
+        context: { pub: { url } },
+      });
+    } else {
+      super({
+        code: ERROR_CODES.SCRAPE_FAILED,
+        context: { pub: { url }, pvt: { cause } },
+      });
+    }
   }
 }

@@ -41,7 +41,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
     month: "2-digit",
     year: "numeric",
     hour12: true,
-    hour: "2-digit",
+    hour: "numeric",
     minute: "2-digit",
     timeZoneName: "short",
   });

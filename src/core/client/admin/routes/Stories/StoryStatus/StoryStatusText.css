@@ -1,9 +1,9 @@
 .root {
-  font-weight: var(--font-weight-regular);
-  color: var(--palette-grey-light);
+  font-weight: var(--v2-font-weight-primary-regular);
+  color: var(--v2-palette-table-body-disabled);
 }
 
 .open {
-  font-weight: var(--font-weight-regular);
-  color: var(--palette-success-main);
+  font-weight: var(--v2-font-weight-primary-regular);
+  color: var(--v2-palette-success-main);
 }

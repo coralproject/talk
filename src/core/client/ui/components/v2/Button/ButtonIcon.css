@@ -1,0 +1,8 @@
+.root {
+  &:first-child {
+    margin-left: -4px;
+  }
+  &:last-child {
+    margin-right: -4px;
+  }
+}

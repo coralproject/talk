@@ -1,3 +1,5 @@
+$user-drawer-background: var(--v2-colors-pure-white);
+
 .root {
   position: fixed;
   top: 0;
@@ -10,5 +12,5 @@
   flex-flow: column nowrap;
   flex-direction: column;
 
-  background-color: var(--palette-common-white);
+  background-color: $user-drawer-background;
 }

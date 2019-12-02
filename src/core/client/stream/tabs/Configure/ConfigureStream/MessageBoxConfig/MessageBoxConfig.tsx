@@ -17,6 +17,7 @@ import {
 } from "coral-stream/common/MessageBox";
 import Spinner from "coral-stream/common/Spinner";
 import {
+  AriaInfo,
   HorizontalGutter,
   Icon,
   TileOption,
@@ -104,36 +105,53 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                             value="question_answer"
                           >
                             <Icon size="md">question_answer</Icon>
+                            <Localized id="configure-messageBox-iconConversation">
+                              <AriaInfo>Conversation</AriaInfo>
+                            </Localized>
                           </TileOption>
                           <TileOption
                             className={CLASSES.configureMessageBox.option}
                             value="today"
                           >
                             <Icon size="md">today</Icon>
+                            <Localized id="configure-messageBox-iconDate">
+                              <AriaInfo>Date</AriaInfo>
+                            </Localized>
                           </TileOption>
                           <TileOption
                             className={CLASSES.configureMessageBox.option}
                             value="help_outline"
                           >
                             <Icon size="md">help_outline</Icon>
+                            <Localized id="configure-messageBox-iconHelp">
+                              <AriaInfo>Help</AriaInfo>
+                            </Localized>
                           </TileOption>
                           <TileOption
                             className={CLASSES.configureMessageBox.option}
                             value="warning"
                           >
                             <Icon size="md">warning</Icon>
+                            <Localized id="configure-messageBox-iconWarning">
+                              <AriaInfo>Warning</AriaInfo>
+                            </Localized>
                           </TileOption>
                           <TileOption
                             className={CLASSES.configureMessageBox.option}
                             value="chat_bubble_outline"
                           >
                             <Icon size="md">chat_bubble_outline</Icon>
+                            <Localized id="configure-messageBox-iconChatBubble">
+                              <AriaInfo>Chat Bubble</AriaInfo>
+                            </Localized>
                           </TileOption>
                           <TileOption
                             className={CLASSES.configureMessageBox.option}
                             value=""
                           >
-                            No Icon
+                            <Localized id="configure-messageBox-noIcon">
+                              <span>No Icon</span>
+                            </Localized>
                           </TileOption>
                         </TileSelector>
                       </HorizontalGutter>

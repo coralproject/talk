@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 import styles from "./SectionContent.css";
 
@@ -10,7 +10,7 @@ interface Props {
 
 const SectionContent: FunctionComponent<Props> = ({ children }) => {
   return (
-    <HorizontalGutter size="double" className={styles.sectionContent}>
+    <HorizontalGutter spacing={4} className={styles.sectionContent}>
       {children}
     </HorizontalGutter>
   );

@@ -10,7 +10,7 @@ import {
   Dropdown,
   DropdownButton,
   Popover,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import UserRoleText from "./UserRoleText";
 
@@ -60,8 +60,10 @@ const UserRoleChange: FunctionComponent<Props> = props => (
             aria-label="Change role"
             className={styles.button}
             onClick={toggleVisibility}
+            uppercase={false}
+            color="mono"
             ref={ref}
-            variant="regular"
+            variant="plain"
             size="small"
           >
             <UserRoleText>{props.role}</UserRoleText>

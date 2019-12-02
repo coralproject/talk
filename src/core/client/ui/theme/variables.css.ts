@@ -9,6 +9,7 @@ import flat from "flat";
 import { kebabCase, mapKeys, mapValues, pickBy } from "lodash";
 
 import variables from "./variables";
+import variables2 from "./variables2";
 
 const flatKebabVariables = mapKeys(
   mapValues(flat(variables, { delimiter: "-" }), v => v.toString()),
@@ -21,9 +22,19 @@ const cssVariables = pickBy(
   (v, k) => !k.startsWith("breakpoints-")
 );
 
+const v2FlatKebabVariables = mapKeys(
+  mapValues(flat(variables2, { delimiter: "-" }), v => v.toString()),
+  (_, k) => `--v2-${kebabCase(k)}`
+);
+
+const cssVariablesV2 = pickBy(
+  v2FlatKebabVariables,
+  (v, k) => !k.startsWith("breakpoints-")
+);
+
 const style = {
   ":root": {
-    ...cssVariables,
+    ...Object.assign({}, cssVariables, cssVariablesV2),
     "--mini-unit": "calc(1px * var(--mini-unit-small))",
   },
   [`@media (min-width: ${variables.breakpoints.xs}px)`]: {

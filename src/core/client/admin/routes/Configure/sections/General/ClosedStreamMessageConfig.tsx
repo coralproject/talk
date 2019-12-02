@@ -4,10 +4,10 @@ import { Field } from "react-final-form";
 
 import { MarkdownEditor } from "coral-framework/components/loadables";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
-import { HorizontalGutter, Spinner, Typography } from "coral-ui/components";
+import { FormFieldDescription, Spinner } from "coral-ui/components/v2";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
-import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
@@ -15,41 +15,37 @@ interface Props {
 }
 
 const ClosedStreamMessageConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf">
-    <Localized id="configure-general-closedStreamMessage-title">
-      <Header
-        container={
-          <label htmlFor="configure-general-closedStreamMessage-content" />
-        }
-      >
-        Closed comment stream message
-      </Header>
-    </Localized>
-
-    <SectionContent>
-      <Localized
-        id="configure-general-closedStreamMessage-explanation"
-        strong={<strong />}
-      >
-        <Typography variant="bodyShort">
-          Write a message to appear after a story is closed for commenting.
-        </Typography>
+  <ConfigBox
+    title={
+      <Localized id="configure-general-closedStreamMessage-title">
+        <Header htmlFor="configure-general-closedStreamMessage-content">
+          Closed comment stream message
+        </Header>
       </Localized>
-      <Field name="closeCommenting.message" parse={parseEmptyAsNull}>
-        {({ input, meta }) => (
-          <>
-            <Suspense fallback={<Spinner />}>
-              <MarkdownEditor
-                id="configure-general-closedStreamMessage-content"
-                {...input}
-              />
-            </Suspense>
-            <ValidationMessage meta={meta} fullWidth />
-          </>
-        )}
-      </Field>
-    </SectionContent>
-  </HorizontalGutter>
+    }
+  >
+    <Localized
+      id="configure-general-closedStreamMessage-explanation"
+      strong={<strong />}
+    >
+      <FormFieldDescription>
+        Write a message to appear after a story is closed for commenting.
+      </FormFieldDescription>
+    </Localized>
+    <Field name="closeCommenting.message" parse={parseEmptyAsNull}>
+      {({ input, meta }) => (
+        <>
+          <Suspense fallback={<Spinner />}>
+            <MarkdownEditor
+              id="configure-general-closedStreamMessage-content"
+              {...input}
+            />
+          </Suspense>
+          <ValidationMessage meta={meta} fullWidth />
+        </>
+      )}
+    </Field>
+  </ConfigBox>
 );
 
 export default ClosedStreamMessageConfig;

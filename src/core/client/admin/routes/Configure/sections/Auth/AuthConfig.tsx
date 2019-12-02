@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { HorizontalGutter } from "coral-ui/components";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { OnInitValuesFct } from "./AuthConfigContainer";
 import AuthIntegrationsConfig from "./AuthIntegrationsConfig";

@@ -1,3 +1,11 @@
 .root {
-  font-size: calc(14rem / var(--rem-base));
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-body-short);
+  color: var(--v2-palette-accordion-label);
+}
+
+.likely {
+  color: var(--v2-palette-counter-badge-background-alert);
 }

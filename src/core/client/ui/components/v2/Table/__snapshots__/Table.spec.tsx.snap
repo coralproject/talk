@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Table
+  classes={
+    Object {
+      "fullWidth": "Table-fullWidth",
+      "root": "Table-root",
+    }
+  }
+  fullWidth={true}
+>
+  <withPropsOnChange(TableHead)>
+    <withPropsOnChange(TableRow)>
+      <withPropsOnChange(TableCell)>
+        Username
+      </withPropsOnChange(TableCell)>
+      <withPropsOnChange(TableCell)>
+        Email Address
+      </withPropsOnChange(TableCell)>
+      <withPropsOnChange(TableCell)>
+        Member Since
+      </withPropsOnChange(TableCell)>
+    </withPropsOnChange(TableRow)>
+  </withPropsOnChange(TableHead)>
+  <withPropsOnChange(TableBody)>
+    <withPropsOnChange(TableRow)>
+      <withPropsOnChange(TableCell)>
+        ButFirstCoffee
+      </withPropsOnChange(TableCell)>
+      <withPropsOnChange(TableCell)>
+        coffee@mail.com
+      </withPropsOnChange(TableCell)>
+      <withPropsOnChange(TableCell)>
+        01/27/2019
+      </withPropsOnChange(TableCell)>
+    </withPropsOnChange(TableRow)>
+    <withPropsOnChange(TableRow)>
+      <withPropsOnChange(TableCell)>
+        SneaksOnSneaks
+      </withPropsOnChange(TableCell)>
+      <withPropsOnChange(TableCell)>
+        hisairness@mail.com
+      </withPropsOnChange(TableCell)>
+      <withPropsOnChange(TableCell)>
+        04/27/2019
+      </withPropsOnChange(TableCell)>
+    </withPropsOnChange(TableRow)>
+  </withPropsOnChange(TableBody)>
+</Table>
+`;

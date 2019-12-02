@@ -5,10 +5,7 @@ import { Db } from "mongodb";
 
 import { validate } from "coral-server/app/request/body";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
-import {
-  RequiredSSOKey,
-  SSOAuthIntegration,
-} from "coral-server/models/settings";
+import { SSOAuthIntegration, SSOKey } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import {
   retrieveUserWithProfile,
@@ -87,11 +84,6 @@ export async function findOrCreateSSOUser(
   token: SSOToken,
   now = new Date()
 ) {
-  if (!token.user) {
-    // TODO: (wyattjoh) replace with better error.
-    throw new Error("token is malformed, missing user claim");
-  }
-
   // Validate the token content.
   const decodedToken: SSOToken = validate(SSOTokenSchema, token);
 
@@ -177,23 +169,15 @@ export function getRelevantSSOKeys(
   tokenString: string,
   now: Date,
   kid?: string
-): RequiredSSOKey[] {
+): SSOKey[] {
   // Collect all the current valid keys.
   const keys = integration.keys.filter(k => {
-    if (!k.secret) {
-      return false;
-    }
-
-    if (k.deletedAt) {
-      return false;
-    }
-
-    if (k.deprecateAt && now >= k.deprecateAt) {
+    if (k.inactiveAt && now >= k.inactiveAt) {
       return false;
     }
 
     return k;
-  }) as RequiredSSOKey[];
+  });
 
   // If there is only one key, that's all we can use!
   if (keys.length === 1) {

@@ -3,14 +3,14 @@ import React, { FunctionComponent } from "react";
 
 import {
   FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
-  Typography,
-} from "coral-ui/components";
+  FormFieldDescription,
+  FormFieldHeader,
+  HelperText,
+  Label,
+} from "coral-ui/components/v2";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
-import SectionContent from "../../SectionContent";
 import WordListTextArea from "./WordListTextArea";
 
 import styles from "./BannedWordListConfig.css";
@@ -20,41 +20,40 @@ interface Props {
 }
 
 const BannedWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf">
-    <Localized id="configure-wordList-banned-bannedWordsAndPhrases">
-      <Header>Banned words and phrases</Header>
-    </Localized>
-    <SectionContent>
-      <Localized id="configure-wordList-banned-explanation" strong={<strong />}>
-        <Typography variant="bodyShort">
-          Comments containing a word or phrase in the banned words list are
-          automatically rejected and are not published.
-        </Typography>
+  <ConfigBox
+    title={
+      <Localized id="configure-wordList-banned-bannedWordsAndPhrases">
+        <Header container="h2">Banned words and phrases</Header>
       </Localized>
+    }
+  >
+    <Localized id="configure-wordList-banned-explanation" strong={<strong />}>
+      <FormFieldDescription>
+        Comments containing a word or phrase in the banned words list are
+        automatically rejected and are not published.
+      </FormFieldDescription>
+    </Localized>
 
-      <FormField>
+    <FormField>
+      <FormFieldHeader>
         <Localized id="configure-wordList-banned-wordList">
-          <InputLabel htmlFor="configure-wordlist-banned">
-            Banned word list
-          </InputLabel>
+          <Label htmlFor="configure-wordlist-banned">Banned word list</Label>
         </Localized>
         <Localized id="configure-wordList-banned-wordListDetailInstructions">
-          <InputDescription>
+          <HelperText>
             Separate banned words or phrases with a new line. Words/phrases are
             not case sensitive.
-          </InputDescription>
+          </HelperText>
         </Localized>
-        <div>
-          <WordListTextArea
-            id="configure-wordlist-banned"
-            name={"wordList.banned"}
-            disabled={disabled}
-            className={styles.textArea}
-          />
-        </div>
-      </FormField>
-    </SectionContent>
-  </HorizontalGutter>
+      </FormFieldHeader>
+      <WordListTextArea
+        id="configure-wordlist-banned"
+        name={"wordList.banned"}
+        disabled={disabled}
+        className={styles.textArea}
+      />
+    </FormField>
+  </ConfigBox>
 );
 
 export default BannedWordListConfig;

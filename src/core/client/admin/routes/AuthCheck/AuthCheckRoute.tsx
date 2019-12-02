@@ -10,6 +10,7 @@ import { GQLUSER_ROLE } from "coral-framework/schema";
 
 import { AuthCheckRouteQueryResponse } from "coral-admin/__generated__/AuthCheckRouteQuery.graphql";
 
+import NetworkError from "./NetworkError";
 import RestrictedContainer from "./RestrictedContainer";
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
   router: Router;
   setRedirectPath: MutationProp<typeof SetRedirectPathMutation>;
   data: AuthCheckRouteQueryResponse;
+  error: Error | null;
 }
 
 type CheckParams =
@@ -86,6 +88,9 @@ function createAuthCheckRoute(check: CheckParams) {
     }
 
     public render() {
+      if (this.props.error) {
+        return <NetworkError />;
+      }
       if (!this.props.data || this.shouldRedirectTo()) {
         return null;
       }

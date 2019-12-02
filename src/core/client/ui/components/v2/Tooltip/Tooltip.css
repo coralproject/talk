@@ -1,0 +1,29 @@
+$tooltip-contents: var(--v2-colors-pure-white);
+
+.root {
+  align-items: center;
+  display: flex;
+}
+
+.tooltip {
+  width: max-content;
+  max-width: 220px;
+}
+
+.title {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  color: $tooltip-contents;
+  line-height: var(--v2-line-height-body-short);
+  margin: 0 0 var(--v2-spacing-1) 0;
+  font-size: var(--v2-font-size-2);
+}
+
+.contents {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  color: $tooltip-contents;
+  line-height: var(--v2-line-height-body-short);
+  margin: 0;
+  font-size: var(--v2-font-size-2);
+}

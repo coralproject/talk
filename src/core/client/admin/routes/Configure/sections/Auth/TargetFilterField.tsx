@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { parseBool } from "coral-framework/lib/form";
-import { CheckBox, Flex, FormField, InputLabel } from "coral-ui/components";
+import { CheckBox, Flex, FormField, Label } from "coral-ui/components/v2";
 
 interface Props {
   label: React.ReactNode;
@@ -17,7 +17,7 @@ const TargetFilterField: FunctionComponent<Props> = ({
   disabled,
 }) => (
   <FormField>
-    <InputLabel>{label}</InputLabel>
+    <Label>{label}</Label>
     <Flex direction="row" itemGutter="double">
       <Field name={`${name}.admin`} type="checkbox" parse={parseBool}>
         {({ input }) => (

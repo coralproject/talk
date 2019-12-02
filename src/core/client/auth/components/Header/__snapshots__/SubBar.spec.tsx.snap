@@ -6,8 +6,8 @@ exports[`renders correctly 1`] = `
   className="SubBar-root"
   justifyContent="center"
 >
-  <div>
+  <nav>
     Hello World
-  </div>
+  </nav>
 </ForwardRef(forwardRef)>
 `;

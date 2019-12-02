@@ -12,7 +12,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
 

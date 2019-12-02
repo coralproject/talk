@@ -2,15 +2,11 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import {
-  Button,
-  Card,
-  CardCloseButton,
-  Flex,
-  HorizontalGutter,
-  Modal,
-  Typography,
-} from "coral-ui/components";
+import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
+
+import ChangeStatusModal from "./ChangeStatusModal";
+import ChangeStatusModalHeader from "./ChangeStatusModalHeader";
+import ModalHeaderUsername from "./ModalHeaderUsername";
 
 import styles from "./PremodModal.css";
 
@@ -28,51 +24,53 @@ const PremodModal: FunctionComponent<Props> = ({
   username,
 }) => {
   return (
-    <Modal open={open} onClose={onClose} aria-labelledby="PremodModal-title">
-      {({ firstFocusableRef, lastFocusableRef }) => (
-        <Card className={styles.card}>
-          <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
-          <HorizontalGutter size="double">
-            <HorizontalGutter>
-              <Localized
-                id="community-premodModal-areYouSure"
-                strong={<strong />}
-                $username={username || <NotAvailable />}
-              >
-                <Typography variant="header2" id="PremodModal-title">
-                  Are you sure you want to always premoderate{" "}
-                  <strong>{username || <NotAvailable />}</strong>?
-                </Typography>
-              </Localized>
-              <Localized id="community-premodModal-consequence">
-                <Typography>
-                  Note: Always premoderating this user will place all of their
-                  comments in the Pre-Moderate queue.
-                </Typography>
-              </Localized>
-            </HorizontalGutter>
-            <Flex justifyContent="flex-end" itemGutter>
-              <Localized id="community-premodModal-cancel">
-                <Button variant="outlined" onClick={onClose}>
-                  Cancel
-                </Button>
-              </Localized>
+    <ChangeStatusModal
+      open={open}
+      onClose={onClose}
+      aria-labelledby="PremodModal-title"
+    >
+      {({ lastFocusableRef }) => (
+        <HorizontalGutter spacing={3}>
+          <Localized
+            id="community-premodModal-areYouSure"
+            strong={<ModalHeaderUsername />}
+            $username={username || <NotAvailable />}
+          >
+            <ChangeStatusModalHeader id="PremodModal-title">
+              Are you sure you want to always premoderate{" "}
+              <ModalHeaderUsername>
+                {username || <NotAvailable />}
+              </ModalHeaderUsername>
+              ?
+            </ChangeStatusModalHeader>
+          </Localized>
+          <Localized id="community-premodModal-consequence">
+            <div className={styles.bodyText}>
+              Note: Always premoderating this user will place all of their
+              comments in the Pre-Moderate queue.
+            </div>
+          </Localized>
+          <Flex justifyContent="flex-end" itemGutter>
+            <Localized id="community-premodModal-cancel">
+              <Button variant="ghost" onClick={onClose}>
+                Cancel
+              </Button>
+            </Localized>
 
-              <Localized id="community-premodModal-premodUser">
-                <Button
-                  variant="filled"
-                  color="primary"
-                  onClick={onConfirm}
-                  ref={lastFocusableRef}
-                >
-                  Yes, always premoderate user
-                </Button>
-              </Localized>
-            </Flex>
-          </HorizontalGutter>
-        </Card>
+            <Localized id="community-premodModal-premodUser">
+              <Button
+                variant="filled"
+                color="default"
+                onClick={onConfirm}
+                ref={lastFocusableRef}
+              >
+                Yes, always premoderate user
+              </Button>
+            </Localized>
+          </Flex>
+        </HorizontalGutter>
       )}
-    </Modal>
+    </ChangeStatusModal>
   );
 };
 

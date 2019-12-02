@@ -5,10 +5,15 @@ import React, { FunctionComponent, useMemo } from "react";
 import { CopyButton } from "coral-framework/components";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { getLocationOrigin } from "coral-framework/utils";
-import { HorizontalGutter, Typography } from "coral-ui/components";
+import {
+  FieldSet,
+  FormFieldDescription,
+  HorizontalGutter,
+  Textarea,
+} from "coral-ui/components/v2";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
-import SectionContent from "../../SectionContent";
 
 import styles from "./EmbedCode.css";
 
@@ -79,28 +84,30 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
   }, [staticURI]);
 
   return (
-    <HorizontalGutter size="oneAndAHalf" container="fieldset">
-      <Localized id="configure-advanced-embedCode-title">
-        <Header container="legend">Embed code</Header>
-      </Localized>
-      <SectionContent>
-        <Localized id="configure-advanced-embedCode-explanation">
-          <Typography variant="bodyShort">
-            Copy and paste the code below into your CMS to embed Coral comment
-            streams in each of your site’s stories.
-          </Typography>
+    <ConfigBox
+      title={
+        <Localized id="configure-advanced-embedCode-title">
+          <Header container={<legend />}>Embed code</Header>
         </Localized>
-        <textarea
-          rows={embed.rows}
-          className={styles.textArea}
-          readOnly
-          value={embed.text}
-        />
-        <HorizontalGutter className={styles.copyArea}>
-          <CopyButton size="regular" text={embed.text} />
-        </HorizontalGutter>
-      </SectionContent>
-    </HorizontalGutter>
+      }
+      container={<FieldSet />}
+    >
+      <Localized id="configure-advanced-embedCode-explanation">
+        <FormFieldDescription>
+          Copy and paste the code below into your CMS to embed Coral comment
+          streams in each of your site’s stories.
+        </FormFieldDescription>
+      </Localized>
+      <Textarea
+        rows={embed.rows}
+        className={styles.textArea}
+        readOnly
+        value={embed.text}
+      />
+      <HorizontalGutter className={styles.copyArea}>
+        <CopyButton size="medium" text={embed.text} />
+      </HorizontalGutter>
+    </ConfigBox>
   );
 };
 

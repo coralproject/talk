@@ -14,6 +14,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLButtonElement>;
+  "aria-label": string;
 }
 
 const TooltipButton: FunctionComponent<Props> = ({
@@ -21,6 +22,7 @@ const TooltipButton: FunctionComponent<Props> = ({
   className,
   toggleVisibility,
   forwardRef,
+  "aria-label": ariaLabel,
 }) => (
   <BaseButton
     className={cn(styles.button, className)}
@@ -28,6 +30,7 @@ const TooltipButton: FunctionComponent<Props> = ({
       evt.stopPropagation();
       toggleVisibility();
     }}
+    aria-label={ariaLabel}
     ref={forwardRef}
   >
     <Icon color={active ? "primary" : "inherit"}>info</Icon>

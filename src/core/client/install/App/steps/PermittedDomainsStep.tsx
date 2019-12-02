@@ -85,7 +85,9 @@ class PermittedDomainsStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-permittedDomains-permittedDomains">
-                      <InputLabel>Permitted Domains</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Permitted Domains
+                      </InputLabel>
                     </Localized>
                     <Localized id="install-permittedDomains-permittedDomainsDescription">
                       <InputDescription>
@@ -101,6 +103,7 @@ class PermittedDomainsStep extends Component<Props> {
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
+                        id={input.name}
                         {...input}
                       />
                     </Localized>

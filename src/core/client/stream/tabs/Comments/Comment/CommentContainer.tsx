@@ -270,8 +270,8 @@ export class CommentContainer extends Component<Props, State> {
                   <>
                     <UsernameWithPopoverContainer
                       className={CLASSES.comment.topBar.username}
+                      comment={comment}
                       viewer={viewer}
-                      user={comment.author}
                     />
                     <UserTagsContainer
                       className={CLASSES.comment.topBar.userTag}
@@ -426,7 +426,6 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           fragment CommentContainer_comment on Comment {
             id
             author {
-              ...UsernameWithPopoverContainer_user
               id
               username
             }
@@ -456,6 +455,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...RejectedTombstoneContainer_comment
             ...AuthorBadgesContainer_comment
             ...UserTagsContainer_comment
+            ...UsernameWithPopoverContainer_comment
           }
         `,
         settings: graphql`

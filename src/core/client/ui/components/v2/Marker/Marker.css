@@ -1,0 +1,33 @@
+.root {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: 0.8125rem;
+  letter-spacing: calc(-0.35em / 13);
+
+  color: var(--v2-palette-marker-reported);
+  border: 1px solid currentColor;
+  border-radius: 20px;
+  padding: 1px var(--mini-unit);
+  white-space: nowrap;
+}
+
+.colorReported {
+  color: var(--v2-palette-marker-reported);
+}
+
+.colorPending {
+  color: var(--v2-palette-marker-pending);
+}
+
+.variantRegular {
+}
+
+.variantFilled {
+  &.colorReported {
+    background-color: var(--v2-palette-marker-reported);
+  }
+
+  &.colorPending {
+    background-color: var(--v2-palette-marker-pending);
+  }
+}

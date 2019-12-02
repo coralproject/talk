@@ -1,9 +1,8 @@
 .root {
-  font-size: calc(12rem / var(--rem-base));
-  font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(14em / 12);
-  letter-spacing: calc(0.2em / 12);
-  color: var(--palette-primary-main);
-  text-decoration: none;
+  line-height: var(--v2-line-height-reset);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-family: var(--v2-font-family-primary);
+  font-size: var(--v2-font-size-1);
+  color: var(--v2-palette-link-text);
+  font-style: var(--v2-font-style-underline);
 }

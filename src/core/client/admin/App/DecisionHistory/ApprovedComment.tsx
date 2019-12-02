@@ -1,8 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Typography } from "coral-ui/components";
-
 import ApprovedIcon from "./ApprovedIcon";
 import DecisionItem from "./DecisionItem";
 import DotDivider from "./DotDivider";
@@ -10,6 +8,7 @@ import Footer from "./Footer";
 import GoToCommentLink from "./GoToCommentLink";
 import Info from "./Info";
 import Timestamp from "./Timestamp";
+import Username from "./Username";
 
 interface Props {
   href: string;
@@ -17,10 +16,6 @@ interface Props {
   date: string;
   onGotoComment?: React.EventHandler<React.MouseEvent>;
 }
-
-const Username: FunctionComponent<{ username: string }> = ({ username }) => (
-  <strong>{username}</strong>
-);
 
 const ApprovedComment: FunctionComponent<Props> = props => (
   <DecisionItem icon={<ApprovedIcon />}>
@@ -31,9 +26,7 @@ const ApprovedComment: FunctionComponent<Props> = props => (
       <Info>{"Approved comment by <Username></Username>"}</Info>
     </Localized>
     <Footer>
-      <Typography variant="timestamp">
-        <Timestamp>{props.date}</Timestamp>
-      </Typography>
+      <Timestamp>{props.date}</Timestamp>
       <DotDivider />
       <GoToCommentLink href={props.href} onClick={props.onGotoComment} />
     </Footer>

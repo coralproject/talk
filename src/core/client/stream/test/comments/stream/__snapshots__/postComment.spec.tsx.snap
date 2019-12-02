@@ -31,7 +31,7 @@ exports[`post a comment: optimistic response 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-uuid-0"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -49,13 +49,13 @@ exports[`post a comment: optimistic response 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
+                    aria-labelledby="username-popover-uuid-0-ariainfo"
+                    id="username-popover-uuid-0"
                     role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-uuid-0-ariainfo"
                     >
                       A popover with more user information
                     </div>

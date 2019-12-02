@@ -11,7 +11,6 @@ error-tenantNotFound = Tenant hostname ({$hostname}) not found.
 error-userNotFound = User ({$userID}) not found.
 error-notFound = Unrecognized request URL ({$method} {$path}).
 error-tokenInvalid = Invalid API Token provided.
-
 error-tokenNotFound = Specified token does not exist.
 error-emailAlreadySet = Email address has already been set.
 error-emailNotSet = Email address has not been set yet.
@@ -35,6 +34,7 @@ error-emailInvalidFormat =
   Provided email address does not appear to be a valid email.
 error-emailExceedsMaxLength =
   Email address exceeds maximum length of {$max} characters.
+error-scrapeFailed = Could not scrape the URL { $url }.
 error-internalError = Internal Error
 error-tenantInstalledAlready = Tenant has already been installed.
 error-userNotEntitled = You are not authorized to access that resource.

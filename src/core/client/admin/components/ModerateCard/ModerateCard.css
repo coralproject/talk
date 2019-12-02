@@ -1,41 +1,51 @@
 .topBar {
   position: relative;
-  margin-bottom: var(--mini-unit);
+  margin-bottom: var(--v2-spacing-1);
 }
 
 .topBarMini {
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--v2-spacing-4);
 }
 
-.username {
-  margin-right: var(--spacing-1);
+.usernameButton {
+  margin-right: var(--mini-unit);
   padding: var(--spacing-1);
-  margin-left: calc(-1 * var(--spacing-1));
-  line-height: calc(16rem / var(--rem-base));
+  margin-left: calc(-1 * var(--v2-spacing-1));
+
+  line-height: var(--v2-line-height-reset);
 
   &:hover {
-    background-color: var(--palette-grey-lightest);
-    border-radius: var(--round-corners);
+    background-color: var(--v2-palette-username-background-hover);
+    border-radius: var(--v2-round-corners);
     border-style: none;
   }
 
   &:active {
-    background-color: var(--palette-grey-lighter);
-    border-radius: var(--round-corners);
+    background-color: var(--v2-palette-username-background-hover);
+    border-radius: var(--v2-round-corners);
     border-style: none;
   }
+}
+
+.inReplyTo {
 }
 
 .footer {
   margin-top: calc(2 * var(--mini-unit));
 }
 
-.content {
-  min-height: calc(5.5 * var(--mini-unit));
-}
-
 .mainContainer {
   flex-grow: 1;
+
+  margin-right: calc(2 * var(--v2-spacing-5));
+}
+
+.contentArea {
+  position: relative;
+}
+
+.content {
+  min-height: 3em;
 }
 
 .aside {
@@ -54,7 +64,7 @@
     No reply to field, so we align below the fattest element
     which is the feature button.
   */
-  padding-top: calc((14rem / var(--rem-base)) + 7px + var(--spacing-4));
+  padding-top: calc(var(--v2-font-size-2) + 7px + var(--v2-spacing-4));
 }
 
 .asideMiniWithReplyTo {
@@ -62,27 +72,28 @@
     We have reply to field, so we align below the fattest
     element plus the reply to field.
   */
-  padding-top: calc(2 * (14rem / var(--rem-base)) + 5px + var(--spacing-4));
+  padding-top: calc(2 * var(--v2-font-size-2) + 5px + var(--v2-spacing-4));
 }
 
 .decision {
-  font-size: calc(14rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(16em / 14);
-  letter-spacing: calc(0.2em / 14);
-  color: var(--palette-text-primary);
+  color: var(--v2-palette-label-emphasis);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-family: var(--v2-font-family-primary);
+  line-height: 1.14;
   text-transform: uppercase;
 }
 
 .separator {
-  flex-shrink: 0;
-  flex-grow: 0;
-  margin: 0 calc(2 * var(--mini-unit));
+  position: absolute;
+  top: 0;
+  right: calc(-1 * var(--v2-spacing-5));
+  bottom: 0;
+  width: 2px;
 }
 
 .ruledSeparator {
-  border-right: 1px solid var(--palette-divider);
+  border-right: 1px solid var(--v2-colors-grey-400);
 }
 
 .root {
@@ -94,62 +105,46 @@
 }
 
 .dangling {
-  background-color: var(--palette-grey-lightest);
+  background-color: var(--v2-palette-grey-lightest);
   box-shadow: none;
 }
 
 .link {
-  font-size: calc(12rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(18em / 12);
-  letter-spacing: calc(0.2em / 12);
+  font-size: var(--v2-font-size-1);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-reset);
+  color: var(--v2-palette-link-text);
   text-transform: uppercase;
 }
 
-.story {
-  font-size: calc(12rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(18em / 12);
-  letter-spacing: calc(0.2em / 12);
+.viewContext {
+  padding-bottom: var(--v2-spacing-1);
+}
+
+.storyLabel {
+  color: var(--v2-palette-grey-main);
+  font-size: var(--v2-font-size-1);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-reset);
+  margin-bottom: var(--v2-spacing-1);
   text-transform: uppercase;
-  color: var(--palette-grey-main);
 }
 
 .storyTitle {
-  font-size: calc(12rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(18em / 12);
-  letter-spacing: calc(0.2em / 12);
-  color: var(--palette-text-primary);
-}
-
-.moderatedBy {
-  font-size: calc(12rem / var(--rem-base));
-  font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-sans-serif);
-  line-height: 1;
-  letter-spacing: 0;
-  color: var(--palette-text-primary);
-  text-transform: uppercase;
-}
-
-.moderatedByUsername {
-  font-size: calc(14rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: 1;
-  letter-spacing: 0;
-  color: var(--palette-text-primary);
-  text-align: center;
-  padding-top: 1px;
+  color: var(--v2-palette-story-title);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-reset);
+  margin-bottom: var(--v2-spacing-1);
 }
 
 .borderless {
   border-width: 0px;
   box-shadow: none;
+  padding: var(--v2-spacing-2) 0;
 }
 
 .miniButton {
@@ -158,16 +153,24 @@
 }
 
 .deleted {
-  background: var(--palette-grey-lightest);
+  background: var(--v2-palette-grey-lightest);
 }
 
 .timestamp {
-  color: var(--palette-grey-lighter);
+  color: var(--v2-palette-timestamp);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-1);
+  line-height: var(--v2-line-height-reset);
 }
 
 .edited {
-  color: var(--palette-grey-lighter);
-  padding-left: var(--spacing-2)
+  color: var(--v2-palette-timestamp);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-1);
+  line-height: var(--v2-line-height-reset);
+  padding-left: var(--v2-spacing-2);
 }
 
 .selected {
@@ -176,5 +179,17 @@
 
 .authorStatus {
   padding-right: var(--spacing-2);
+  color: var(--v2-palette-timestamp);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-1);
+  line-height: var(--v2-line-height-reset);
+  padding-left: var(--v2-spacing-2);
 }
 
+.deleted {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-body-short);
+}

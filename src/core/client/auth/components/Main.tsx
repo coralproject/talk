@@ -13,9 +13,9 @@ const Main: FunctionComponent<MainProps> = ({
   className,
   ...rest
 }) => (
-  <div {...rest} className={cn(styles.root, className)}>
+  <main {...rest} className={cn(styles.root, className)}>
     {children}
-  </div>
+  </main>
 );
 
 export default Main;

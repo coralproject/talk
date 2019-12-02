@@ -1,4 +1,4 @@
-import { Omit, RequireProperty } from "coral-common/types";
+import { Omit } from "coral-common/types";
 
 import {
   GQLAuth,
@@ -46,29 +46,26 @@ export interface SSOKey {
   kid: string;
 
   /**
-   * secret is the actual underlying secret used to verify the tokens with. When
-   * this is not available, it indicates that the token secret was deleted.
+   * secret is the actual underlying secret used to verify the tokens with.
    */
-  secret?: string;
+  secret: string;
 
   /**
-   * createdAt is the time that this key was created at.
+   * createdAt is the date that the key was created at.
    */
   createdAt: Date;
 
   /**
-   * deprecateAt when provided is the time that the token should no longer be
-   * valid at.
+   * rotatedAt is the time that the token was rotated out.
    */
-  deprecateAt?: Date;
+  rotatedAt?: Date;
 
   /**
-   * deletedAt is the timestamp that the token was revoked.
+   * inactiveAt is the date that the token can no longer be used to validate
+   * tokens.
    */
-  deletedAt?: Date;
+  inactiveAt?: Date;
 }
-
-export type RequiredSSOKey = RequireProperty<SSOKey, "secret">;
 
 export interface SSOAuthIntegration {
   enabled: boolean;

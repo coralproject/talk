@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Dropdown
+  className="custom"
+  classes={
+    Object {
+      "root": "Dropdown-root",
+    }
+  }
+>
+  <React.Fragment>
+    <withPropsOnChange(Button)
+      blankAdornment={true}
+    >
+      Shortcuts
+    </withPropsOnChange(Button)>
+    <withPropsOnChange(Button)
+      href="https://github.com/coralproject/talk/issues/new"
+      target="_blank"
+    >
+      Report Bug
+    </withPropsOnChange(Button)>
+    <withPropsOnChange(Divider) />
+    <withPropsOnChange(Button)
+      blankAdornment={true}
+    >
+      Sign Out
+    </withPropsOnChange(Button)>
+  </React.Fragment>
+</Dropdown>
+`;

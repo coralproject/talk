@@ -5,17 +5,18 @@ import { Field } from "react-final-form";
 import { MarkdownEditor } from "coral-framework/components/loadables";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import {
+  FieldSet,
   FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
+  FormFieldDescription,
+  FormFieldHeader,
+  HelperText,
+  Label,
   Spinner,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
-import SectionContent from "../../SectionContent";
 import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
@@ -23,56 +24,58 @@ interface Props {
 }
 
 const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf" container="fieldset">
-    <Localized id="configure-general-sitewideCommenting-title">
-      <Header container="legend">Sitewide commenting</Header>
-    </Localized>
-    <SectionContent>
-      <Localized id="configure-general-sitewideCommenting-explanation">
-        <Typography variant="bodyShort">
-          Open or close comment streams for new comments sitewide. When new
-          comments are turned off sitewide, new comments cannot be submitted,
-          but existing comments can continue to receive “Respect” reactions, be
-          reported, and be shared.
-        </Typography>
+  <ConfigBox
+    title={
+      <Localized id="configure-general-sitewideCommenting-title">
+        <Header container={<legend />}>Sitewide commenting</Header>
       </Localized>
+    }
+    container={<FieldSet />}
+  >
+    <Localized id="configure-general-sitewideCommenting-explanation">
+      <FormFieldDescription>
+        Open or close comment streams for new comments sitewide. When new
+        comments are turned off sitewide, new comments cannot be submitted, but
+        existing comments can continue to receive “Respect” reactions, be
+        reported, and be shared.
+      </FormFieldDescription>
+    </Localized>
 
-      <FormField container="fieldset">
-        <Localized id="configure-general-sitewideCommenting-enableNewCommentsSitewide">
-          <InputLabel container="legend">
-            Enable new comments sitewide
-          </InputLabel>
-        </Localized>
-        <OnOffField
-          name="disableCommenting.enabled"
-          disabled={disabled}
-          invert
-          onLabel={
-            <Localized id="configure-general-sitewideCommenting-onCommentStreamsOpened">
-              <span>On - Comment streams opened for new comments</span>
-            </Localized>
-          }
-          offLabel={
-            <Localized id="configure-general-sitewideCommenting-offCommentStreamsClosed">
-              <span>Off - Comment streams closed for new comments</span>
-            </Localized>
-          }
-        />
-      </FormField>
+    <FormField>
+      <Localized id="configure-general-sitewideCommenting-enableNewCommentsSitewide">
+        <Label component="legend">Enable new comments sitewide</Label>
+      </Localized>
+      <OnOffField
+        name="disableCommenting.enabled"
+        disabled={disabled}
+        invert
+        onLabel={
+          <Localized id="configure-general-sitewideCommenting-onCommentStreamsOpened">
+            <span>On - Comment streams opened for new comments</span>
+          </Localized>
+        }
+        offLabel={
+          <Localized id="configure-general-sitewideCommenting-offCommentStreamsClosed">
+            <span>Off - Comment streams closed for new comments</span>
+          </Localized>
+        }
+      />
+    </FormField>
 
-      <FormField>
+    <FormField>
+      <FormFieldHeader>
         <Localized id="configure-general-sitewideCommenting-message">
-          <InputLabel htmlFor="configure-general-sitewideCommenting-message">
+          <Label htmlFor="configure-general-sitewideCommenting-message">
             Sitewide closed comments message
-          </InputLabel>
+          </Label>
         </Localized>
         <Localized id="configure-general-sitewideCommenting-messageExplanation">
-          <InputDescription>
+          <HelperText>
             Write a message that will be displayed when comment streams are
             closed sitewide
-          </InputDescription>
+          </HelperText>
         </Localized>
-      </FormField>
+      </FormFieldHeader>
 
       <Field name="disableCommenting.message" parse={parseEmptyAsNull}>
         {({ input, meta }) => (
@@ -87,8 +90,8 @@ const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
           </>
         )}
       </Field>
-    </SectionContent>
-  </HorizontalGutter>
+    </FormField>
+  </ConfigBox>
 );
 
 export default SitewideCommentingConfig;
