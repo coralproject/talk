@@ -88,6 +88,8 @@ class CreateYourAccountStep extends Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Email"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
@@ -95,8 +97,6 @@ class CreateYourAccountStep extends Component<Props> {
                         autoCapitalize="off"
                         autoCorrect="off"
                         fullWidth
-                        id={input.name}
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />
@@ -126,14 +126,14 @@ class CreateYourAccountStep extends Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Username"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         autoCapitalize="off"
                         autoCorrect="off"
                         fullWidth
-                        id={input.name}
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />
@@ -162,13 +162,13 @@ class CreateYourAccountStep extends Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Password"
                         type="password"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
-                        id={input.name}
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />
@@ -192,13 +192,13 @@ class CreateYourAccountStep extends Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Confirm Password"
                         type="password"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
-                        id={input.name}
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />

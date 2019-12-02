@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { MarkdownEditor } from "coral-framework/components/loadables";
 import {
@@ -25,10 +26,21 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import ToggleConfig from "../ToggleConfig";
-import WidthLimitedDescription from "../WidthLimitedDescription";
+import ToggleConfig from "./ToggleConfig";
+import WidthLimitedDescription from "./WidthLimitedDescription";
 
 import styles from "./MessageBoxConfig.css";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment MessageBoxConfig_formValues on StorySettings {
+    messageBox {
+      enabled
+      content
+      icon
+    }
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -38,10 +50,10 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
   <Field name="messageBox.enabled" type="checkbox" parse={parseBool}>
     {({ input }) => (
       <ToggleConfig
+        {...input}
         className={CLASSES.configureMessageBox.$root}
         id={input.name}
         disabled={disabled}
-        {...input}
         title={
           <Localized id="configure-messageBox-title">
             <span>Enable Message Box for this Stream</span>

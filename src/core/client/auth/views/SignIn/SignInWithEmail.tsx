@@ -6,6 +6,7 @@ import EmailField from "coral-auth/components/EmailField";
 import { PasswordField } from "coral-framework/components";
 import {
   colorFromMeta,
+  FormError,
   OnSubmit,
   ValidationMessage,
 } from "coral-framework/lib/form";
@@ -27,8 +28,10 @@ interface FormProps {
   password: string;
 }
 
+interface FormErrorProps extends FormProps, FormError {}
+
 export interface SignInWithEmailForm {
-  onSubmit: OnSubmit<FormProps>;
+  onSubmit: OnSubmit<FormErrorProps>;
   onGotoForgotPassword: React.EventHandler<React.MouseEvent>;
   forgotPasswordHref: string;
 }
@@ -57,12 +60,12 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
                     attrs={{ placeholder: true }}
                   >
                     <PasswordField
+                      {...input}
                       id={input.name}
                       placeholder="Password"
                       color={colorFromMeta(meta)}
                       disabled={submitting}
                       fullWidth
-                      {...input}
                     />
                   </Localized>
                   <ValidationMessage meta={meta} fullWidth />

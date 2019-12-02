@@ -29,6 +29,7 @@ const APIKeyField: FunctionComponent<Props> = ({
             </Label>
           </Localized>
           <PasswordField
+            {...input}
             id={`configure-moderation-${input.name}`}
             disabled={disabled}
             // TODO: (wyattjoh) figure out how to add translations to these props
@@ -36,7 +37,6 @@ const APIKeyField: FunctionComponent<Props> = ({
             showPasswordTitle="Hide API Key"
             color={colorFromMeta(meta)}
             fullWidth
-            {...input}
           />
 
           <ValidationMessage meta={meta} />

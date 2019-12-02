@@ -68,18 +68,18 @@ it("renders forgot password view", async () => {
 
 it("shows error when submitting empty form", async () => {
   const { form } = await createTestRenderer();
-  act(() => {
-    form.props.onSubmit();
+  await act(async () => {
+    await form.props.onSubmit();
   });
+
   within(form).getByText("This field is required", { exact: false });
 });
 
 it("checks for invalid email", async () => {
   const { form, emailField } = await createTestRenderer();
-  act(() => {
-    emailField.props.onChange("invalidemail");
-    form.props.onSubmit();
-  });
+  act(() => emailField.props.onChange("invalidemail"));
+  await act(async () => await form.props.onSubmit());
+
   within(form).getByText("Please enter a valid email address", {
     exact: false,
   });
@@ -100,10 +100,8 @@ it("shows server error", async () => {
     .once()
     .throws(error);
 
-  act(() => {
-    emailField.props.onChange("hans@test.com");
-    form.props.onSubmit();
-  });
+  act(() => emailField.props.onChange("hans@test.com"));
+  await act(async () => await form.props.onSubmit());
 
   await waitForElement(() =>
     within(form).getByText("Server Error", {
@@ -132,17 +130,18 @@ it("submits form successfully", async () => {
     })
     .once();
 
-  await act(async () => {
-    emailField.props.onChange("hans@test.com");
-    form.props.onSubmit();
-    await waitForElement(() =>
-      within(testRenderer.root).getByText("Check Your Email", { exact: false })
-    );
-  });
+  act(() => emailField.props.onChange("hans@test.com"));
+  await act(async () => form.props.onSubmit());
 
-  within(testRenderer.root)
-    .getByText("Close")
-    .props.onClick();
+  await waitForElement(() =>
+    within(testRenderer.root).getByText("Check Your Email", { exact: false })
+  );
+
+  act(() => {
+    within(testRenderer.root)
+      .getByText("Close")
+      .props.onClick();
+  });
 
   restMock.verify();
 

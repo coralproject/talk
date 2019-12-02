@@ -3,6 +3,7 @@ import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import {
+  act,
   toJSON,
   wait,
   waitForElement,
@@ -35,8 +36,11 @@ async function createTestRenderer(
       localRecord.setValue("CREATE_PASSWORD", "view");
     },
   });
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("createPassword-container")
+  const container = await act(
+    async () =>
+      await waitForElement(() =>
+        within(testRenderer.root).getByTestID("createPassword-container")
+      )
   );
   const main = within(testRenderer.root).getByTestID(/.*-main/);
   const form = within(main).getByType("form");
@@ -60,14 +64,18 @@ it("renders createPassword view", async () => {
 
 it("shows error when submitting empty form", async () => {
   const { form } = await createTestRenderer();
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
   expect(toJSON(form)).toMatchSnapshot();
 });
 
 it("checks for invalid password", async () => {
   const { form, passwordField } = await createTestRenderer();
-  passwordField.props.onChange({ target: { value: "x" } });
-  form.props.onSubmit();
+  act(() => {
+    passwordField.props.onChange({ target: { value: "x" } });
+    form.props.onSubmit();
+  });
   expect(toJSON(form)).toMatchSnapshot();
 });
 
@@ -88,13 +96,16 @@ it("shows server error", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  passwordField.props.onChange({ target: { value: password } });
-
-  form.props.onSubmit();
+  act(() => {
+    passwordField.props.onChange({ target: { value: password } });
+    form.props.onSubmit();
+  });
   expect(passwordField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
 
   expect(toJSON(form)).toMatchSnapshot();
 });
@@ -123,13 +134,16 @@ it("successfully sets password", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  passwordField.props.onChange({ target: { value: password } });
-
-  form.props.onSubmit();
+  act(() => {
+    passwordField.props.onChange({ target: { value: password } });
+    form.props.onSubmit();
+  });
   expect(passwordField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
 
   expect(toJSON(form)).toMatchSnapshot();
   expect(setPassword.called).toBe(true);

@@ -4,6 +4,7 @@ import {
   MutationToUpdateStorySettingsResolver,
 } from "coral-framework/schema";
 import {
+  act,
   createMutationResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -50,13 +51,15 @@ const createTestRenderer = async (
     },
   });
 
-  const tabPane = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("current-tab-pane")
-  );
-  const applyButton = within(tabPane).getByText("Apply");
-  const form = findParentWithType(applyButton, "form")!;
+  return await act(async () => {
+    const tabPane = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("current-tab-pane")
+    );
+    const applyButton = within(tabPane).getByText("Apply");
+    const form = findParentWithType(applyButton, "form")!;
 
-  return { testRenderer, tabPane, applyButton, form };
+    return { testRenderer, tabPane, applyButton, form };
+  });
 };
 
 it("change premod", async () => {
@@ -80,18 +83,22 @@ it("change premod", async () => {
 
   expect(applyButton.props.disabled).toBe(true);
   // Let's enable premod.
-  premodField.props.onChange({});
+  act(() => premodField.props.onChange({}));
   expect(applyButton.props.disabled).toBe(false);
 
   // Send form
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   expect(applyButton.props.disabled).toBe(true);
   expect(premodField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(premodField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(premodField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -121,18 +128,22 @@ it("change premod links", async () => {
 
   expect(applyButton.props.disabled).toBe(true);
   // Let's enable premod.
-  premodLinksField.props.onChange({});
+  act(() => premodLinksField.props.onChange({}));
   expect(applyButton.props.disabled).toBe(false);
 
   // Send form
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   expect(applyButton.props.disabled).toBe(true);
   expect(premodLinksField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(premodLinksField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(premodLinksField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -166,28 +177,37 @@ it("change message box", async () => {
 
   expect(applyButton.props.disabled).toBe(true);
   // Let's enable premod.
-  enableField.props.onChange({});
+  act(() => enableField.props.onChange({}));
   expect(applyButton.props.disabled).toBe(false);
 
   // Select icon
   const iconButton = within(form).getByLabelText("question_answer");
 
-  iconButton.props.onChange({ target: { value: iconButton.props.value } });
+  act(() =>
+    iconButton.props.onChange({ target: { value: iconButton.props.value } })
+  );
 
   // Change content.
-  (await waitForElement(() =>
-    within(form).getByLabelText("Write a Message")
-  )).props.onChange("*What do you think?*");
+  const messageText = await act(async () => {
+    return await waitForElement(() =>
+      within(form).getByLabelText("Write a Message")
+    );
+  });
+  act(() => messageText.props.onChange("*What do you think?*"));
 
   // Send form
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   expect(applyButton.props.disabled).toBe(true);
   expect(enableField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(enableField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(enableField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -227,18 +247,24 @@ it("remove message icon", async () => {
     }),
   });
 
-  // Select icon
-  const noIconButton = within(form).getByLabelText("No Icon");
+  const noIconButton = await waitForElement(() =>
+    within(form).getByLabelText("No Icon", { exact: false })
+  );
 
-  noIconButton.props.onChange({ target: { value: noIconButton.props.value } });
+  act(() =>
+    noIconButton.props.onChange({ target: { value: noIconButton.props.value } })
+  );
 
   // Send form
-  form.props.onSubmit();
-
+  act(() => {
+    form.props.onSubmit();
+  });
   expect(applyButton.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(updateStorySettingsStub.called).toBe(true);
+  await act(async () => {
+    await wait(() => {
+      expect(updateStorySettingsStub.called).toBe(true);
+    });
   });
 });

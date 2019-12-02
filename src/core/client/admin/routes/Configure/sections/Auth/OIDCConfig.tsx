@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
 import {
@@ -32,6 +33,29 @@ import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
 import RedirectField from "./RedirectField";
 import RegistrationField from "./RegistrationField";
 import TargetFilterField from "./TargetFilterField";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment OIDCConfig_formValues on Auth {
+    integrations {
+      oidc {
+        enabled
+        allowRegistration
+        targetFilter {
+          admin
+          stream
+        }
+        name
+        clientID
+        clientSecret
+        authorizationURL
+        tokenURL
+        jwksURI
+        issuer
+      }
+    }
+  }
+`;
 
 interface Props {
   disabled?: boolean;
@@ -76,7 +100,9 @@ const OIDCConfig: FunctionComponent<Props> = ({
           <FormField>
             <FormFieldHeader>
               <Localized id="configure-auth-oidc-providerName">
-                <Label>Provider name</Label>
+                <Label htmlFor="auth.integrations.oidc.name">
+                  Provider name
+                </Label>
               </Localized>
               <Localized id="configure-auth-oidc-providerNameDescription">
                 <HelperText>
@@ -94,6 +120,8 @@ const OIDCConfig: FunctionComponent<Props> = ({
             >
               {({ input, meta }) => (
                 <TextFieldWithValidation
+                  {...input}
+                  id={input.name}
                   disabled={disabledInside}
                   autoComplete="off"
                   autoCorrect="off"
@@ -102,7 +130,6 @@ const OIDCConfig: FunctionComponent<Props> = ({
                   color={colorFromMeta(meta)}
                   fullWidth
                   meta={meta}
-                  {...input}
                 />
               )}
             </Field>
@@ -120,7 +147,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
           <FormField>
             <FormFieldHeader>
               <Localized id="configure-auth-oidc-issuer">
-                <Label>Issuer</Label>
+                <Label htmlFor="auth.integrations.oidc.issuer">Issuer</Label>
               </Localized>
               <Localized id="configure-auth-oidc-issuerDescription">
                 <HelperText>
@@ -139,6 +166,8 @@ const OIDCConfig: FunctionComponent<Props> = ({
                 <>
                   <Flex direction="row" itemGutter="half" alignItems="center">
                     <TextField
+                      {...input}
+                      id={input.name}
                       disabled={disabledInside || disableForDiscover}
                       autoComplete="off"
                       autoCorrect="off"
@@ -146,7 +175,6 @@ const OIDCConfig: FunctionComponent<Props> = ({
                       spellCheck={false}
                       color={colorFromMeta(meta)}
                       fullWidth
-                      {...input}
                     />
                     <Button
                       id="configure-auth-oidc-discover"
@@ -174,6 +202,8 @@ const OIDCConfig: FunctionComponent<Props> = ({
             >
               {({ input, meta }) => (
                 <TextFieldWithValidation
+                  {...input}
+                  id={input.name}
                   disabled={disabledInside || disableForDiscover}
                   autoComplete="off"
                   autoCorrect="off"
@@ -181,7 +211,6 @@ const OIDCConfig: FunctionComponent<Props> = ({
                   spellCheck={false}
                   fullWidth
                   meta={meta}
-                  {...input}
                 />
               )}
             </Field>
@@ -197,6 +226,8 @@ const OIDCConfig: FunctionComponent<Props> = ({
             >
               {({ input, meta }) => (
                 <TextFieldWithValidation
+                  {...input}
+                  id={input.name}
                   disabled={disabledInside || disableForDiscover}
                   autoComplete="off"
                   autoCorrect="off"
@@ -204,7 +235,6 @@ const OIDCConfig: FunctionComponent<Props> = ({
                   spellCheck={false}
                   meta={meta}
                   fullWidth
-                  {...input}
                 />
               )}
             </Field>
@@ -220,6 +250,8 @@ const OIDCConfig: FunctionComponent<Props> = ({
             >
               {({ input, meta }) => (
                 <TextFieldWithValidation
+                  {...input}
+                  id={input.name}
                   disabled={disabledInside || disableForDiscover}
                   autoComplete="off"
                   autoCorrect="off"
@@ -227,7 +259,6 @@ const OIDCConfig: FunctionComponent<Props> = ({
                   spellCheck={false}
                   meta={meta}
                   fullWidth
-                  {...input}
                 />
               )}
             </Field>

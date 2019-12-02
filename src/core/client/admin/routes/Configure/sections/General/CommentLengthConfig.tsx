@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
 import {
@@ -23,8 +24,19 @@ import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 import styles from "./CommentLengthConfig.css";
 
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment CommentLengthConfig_formValues on Settings {
+    charCount {
+      enabled
+      min
+      max
+    }
+  }
+`;
+
 const validateMaxLongerThanMin = createValidator(
-  (v, values) =>
+  (v: any, values: any) =>
     v === null ||
     values.charCount.min === null ||
     parseInt(v, 10) > parseInt(values.charCount.min, 10),
@@ -82,11 +94,11 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
             attrs={{ placeholder: true }}
           >
             <TextFieldWithValidation
+              {...input}
               id="configure-general-commentLength-min"
               classes={{
                 input: styles.commentLengthTextInput,
               }}
-              {...input}
               disabled={disabled}
               autoComplete="off"
               meta={meta}
@@ -126,6 +138,7 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
             attrs={{ placeholder: true }}
           >
             <TextFieldWithValidation
+              {...input}
               id="configure-general-commentLength-max"
               classes={{
                 input: styles.commentLengthTextInput,
@@ -143,7 +156,6 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
               placeholder={"No limit"}
               textAlignCenter
               meta={meta}
-              {...input}
             />
           </Localized>
         )}

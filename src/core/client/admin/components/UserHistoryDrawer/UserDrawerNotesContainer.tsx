@@ -52,7 +52,7 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
         userID: user.id,
         body,
       });
-      form.reset();
+      form.initialize({});
     },
     [user]
   );

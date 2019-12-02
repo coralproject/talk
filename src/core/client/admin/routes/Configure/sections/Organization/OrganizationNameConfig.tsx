@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { required } from "coral-framework/lib/validation";
 import { FormFieldDescription } from "coral-ui/components/v2";
@@ -8,6 +9,15 @@ import { FormFieldDescription } from "coral-ui/components/v2";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment OrganizationNameConfig_formValues on Settings {
+    organization {
+      name
+    }
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -32,6 +42,7 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
     <Field name="organization.name" validate={required}>
       {({ input, meta }) => (
         <TextFieldWithValidation
+          {...input}
           id={`configure-organization-${input.name}`}
           disabled={disabled}
           autoComplete="off"
@@ -40,7 +51,6 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
           spellCheck={false}
           meta={meta}
           fullWidth
-          {...input}
         />
       )}
     </Field>

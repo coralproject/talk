@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -42,35 +43,50 @@ async function createTestRenderer(
     },
   });
 
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("completeAccountBox")
-  );
-  const form = within(container).getByType("form");
-  const emailAddressField = within(form).getByLabelText("Email Address");
-  const confirmEmailAddressField = within(form).getByLabelText(
-    "Confirm Email Address"
-  );
+  return await act(async () => {
+    const container = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("completeAccountBox")
+    );
+    const form = within(container).getByType("form");
+    const emailAddressField = within(form).getByLabelText("Email Address");
+    const confirmEmailAddressField = within(form).getByLabelText(
+      "Confirm Email Address"
+    );
 
-  return {
-    context,
-    testRenderer,
-    form,
-    root: testRenderer.root,
-    emailAddressField,
-    confirmEmailAddressField,
-    container,
-  };
+    return {
+      context,
+      testRenderer,
+      form,
+      root: testRenderer.root,
+      emailAddressField,
+      confirmEmailAddressField,
+      container,
+    };
+  });
 }
 
 it("renders addEmailAddress view", async () => {
   const { root } = await createTestRenderer();
-  expect(toJSON(root)).toMatchSnapshot();
+
+  await act(async () => {
+    await wait(() => {
+      expect(toJSON(root)).toMatchSnapshot();
+    });
+  });
 });
 
 it("shows error when submitting empty form", async () => {
   const { form } = await createTestRenderer();
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
+
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(toJSON(form)).toMatchSnapshot();
+    });
+  });
 });
 
 it("checks for invalid email", async () => {
@@ -79,19 +95,42 @@ it("checks for invalid email", async () => {
     emailAddressField,
     confirmEmailAddressField,
   } = await createTestRenderer();
-  emailAddressField.props.onChange({ target: { value: "invalid-email" } });
-  confirmEmailAddressField.props.onChange({
-    target: { value: "invalid-confirmation-email" },
+
+  act(() =>
+    emailAddressField.props.onChange({ target: { value: "invalid-email" } })
+  );
+  act(() =>
+    confirmEmailAddressField.props.onChange({
+      target: { value: "invalid-confirmation-email" },
+    })
+  );
+
+  act(() => {
+    form.props.onSubmit();
   });
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
+
+  await act(async () => {
+    await wait(() => {
+      expect(toJSON(form)).toMatchSnapshot();
+    });
+  });
 });
 
 it("accepts valid email", async () => {
   const { form, emailAddressField } = await createTestRenderer();
-  emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
+
+  act(() =>
+    emailAddressField.props.onChange({ target: { value: "hans@test.com" } })
+  );
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(toJSON(form)).toMatchSnapshot();
+    });
+  });
 });
 
 it("shows server error", async () => {
@@ -116,18 +155,25 @@ it("shows server error", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  emailAddressField.props.onChange({ target: { value: email } });
-  confirmEmailAddressField.props.onChange({
-    target: { value: email },
-  });
+  act(() => emailAddressField.props.onChange({ target: { value: email } }));
+  act(() =>
+    confirmEmailAddressField.props.onChange({
+      target: { value: email },
+    })
+  );
 
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
   expect(emailAddressField.props.disabled).toBe(true);
   expect(confirmEmailAddressField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
-
+  await act(async () => {
+    await wait(() => {
+      expect(submitButton.props.disabled).toBe(false);
+    });
+  });
   expect(toJSON(form)).toMatchSnapshot();
 });
 
@@ -160,17 +206,25 @@ it("successfully sets email", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  emailAddressField.props.onChange({ target: { value: email } });
-  confirmEmailAddressField.props.onChange({
-    target: { value: email },
-  });
+  act(() => emailAddressField.props.onChange({ target: { value: email } }));
+  act(() =>
+    confirmEmailAddressField.props.onChange({
+      target: { value: email },
+    })
+  );
 
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
   expect(emailAddressField.props.disabled).toBe(true);
   expect(confirmEmailAddressField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
+  await act(async () => {
+    await wait(() => {
+      expect(submitButton.props.disabled).toBe(false);
+    });
+  });
 
   expect(toJSON(form)).toMatchSnapshot();
   expect(resolvers.Mutation!.setEmail!.called).toBe(true);

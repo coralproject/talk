@@ -21,9 +21,9 @@ const RoleField: FunctionComponent<Props> = ({ disabled }) => (
         {({ input }) => (
           <Localized id="role-staff">
             <RadioButton
+              {...input}
               id={`${input.name}-staff`}
               disabled={disabled}
-              {...input}
             >
               Staff
             </RadioButton>
@@ -34,9 +34,9 @@ const RoleField: FunctionComponent<Props> = ({ disabled }) => (
         {({ input }) => (
           <Localized id="role-moderator">
             <RadioButton
+              {...input}
               id={`${input.name}-moderator`}
               disabled={disabled}
-              {...input}
             >
               Moderator
             </RadioButton>
@@ -47,9 +47,9 @@ const RoleField: FunctionComponent<Props> = ({ disabled }) => (
         {({ input }) => (
           <Localized id="role-admin">
             <RadioButton
+              {...input}
               id={`${input.name}-admin`}
               disabled={disabled}
-              {...input}
             >
               Admin
             </RadioButton>

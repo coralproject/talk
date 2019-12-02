@@ -1,11 +1,10 @@
 import { Localized } from "fluent-react/compat";
 import { get } from "lodash";
 import React, { FunctionComponent } from "react";
-import { Field, Form } from "react-final-form";
+import { Field, FieldProps, Form } from "react-final-form";
 
 import { OnSubmit } from "coral-framework/lib/form";
 import { validateMaxLength } from "coral-framework/lib/validation";
-import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
 import {
@@ -22,16 +21,17 @@ import styles from "./ReportCommentForm.css";
 
 const RadioField: FunctionComponent<
   Pick<
-    PropTypesOf<typeof Field>,
+    FieldProps<string, any>,
     "validate" | "name" | "value" | "disabled" | "children"
   >
 > = ({ name, value, disabled, children }) => (
   <Field name={name} type="radio" value={value}>
     {({ input }) => (
       <RadioButton
+        {...input}
         id={`reportComment-popover--${input.name}-${value}`}
         disabled={disabled}
-        {...input}
+        value={value}
       >
         {children}
       </RadioButton>
@@ -43,7 +43,7 @@ interface Props {
   id: string;
   onCancel: () => void;
   onResize: () => void;
-  onSubmit: OnSubmit<FormProps>;
+  onSubmit: OnSubmit<any>;
 }
 
 export interface FormProps {
@@ -156,10 +156,10 @@ class ReportCommentForm extends React.Component<Props> {
                         {({ input, meta }) => (
                           <div>
                             <textarea
+                              {...input}
                               id={`comments-reportCommentForm-aditionalDetails--${id}`}
                               className={styles.textarea}
                               disabled={submitting}
-                              {...input}
                             />
                             {/* TODO: (wyattjoh) check to see if this should be replaced by the framework validation message */}
                             {(meta.error && (

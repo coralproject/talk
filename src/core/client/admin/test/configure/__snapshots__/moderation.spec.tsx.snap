@@ -167,7 +167,7 @@ approved by a moderator.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -191,7 +191,7 @@ approved by a moderator.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -226,7 +226,7 @@ approved by a moderator.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -250,7 +250,7 @@ approved by a moderator.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -366,7 +366,7 @@ apply to Staff comments.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -390,7 +390,7 @@ apply to Staff comments.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -520,7 +520,7 @@ If approved by a moderator, the comment will be published.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -544,7 +544,7 @@ If approved by a moderator, the comment will be published.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -686,22 +686,24 @@ improve the API over time.
                       className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                     >
                       <input
-                        checked={false}
+                        checked={true}
                         className="RadioButton-input"
                         disabled={false}
-                        id="integrations.perspective.doNotStore-allow"
+                        id="integrations.perspective.doNotStore-true"
                         name="integrations.perspective.doNotStore"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
-                        htmlFor="integrations.perspective.doNotStore-allow"
+                        htmlFor="integrations.perspective.doNotStore-true"
                       >
-                        Allow
+                        <span>
+                          Allow
+                        </span>
                       </label>
                     </div>
                     <div
@@ -711,19 +713,21 @@ improve the API over time.
                         checked={false}
                         className="RadioButton-input"
                         disabled={false}
-                        id="integrations.perspective.doNotStore-dontAllow"
+                        id="integrations.perspective.doNotStore-false"
                         name="integrations.perspective.doNotStore"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
-                        htmlFor="integrations.perspective.doNotStore-dontAllow"
+                        htmlFor="integrations.perspective.doNotStore-false"
                       >
-                        Don't allow
+                        <span>
+                          Don't allow
+                        </span>
                       </label>
                     </div>
                   </div>
@@ -894,7 +898,7 @@ If approved by a moderator, the comment will be published.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -918,7 +922,7 @@ If approved by a moderator, the comment will be published.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"

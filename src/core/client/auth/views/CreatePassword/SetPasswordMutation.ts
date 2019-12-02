@@ -34,7 +34,7 @@ function commit(environment: Environment, input: SetPasswordInput) {
     mutation,
     variables: {
       input: {
-        ...input,
+        password: input.password,
         clientMutationId: (clientMutationId++).toString(),
       },
     },

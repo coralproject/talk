@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { required } from "coral-framework/lib/validation";
 import {
@@ -13,20 +14,26 @@ import {
   Tag,
 } from "coral-ui/components/v2";
 
-import { StaffConfigContainer_settings as SettingsData } from "coral-admin/__generated__/StaffConfigContainer_settings.graphql";
-
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 import styles from "./StaffConfig.css";
 
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment StaffConfig_formValues on Settings {
+    staff {
+      label
+    }
+  }
+`;
+
 interface Props {
   disabled: boolean;
-  settings: SettingsData;
 }
 
-const StaffConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
+const StaffConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-general-staff-title">
@@ -50,6 +57,7 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
             </Localized>
             <Localized id="configure-general-staff-input">
               <TextFieldWithValidation
+                {...input}
                 className={styles.textInput}
                 id={input.name}
                 type="text"
@@ -57,7 +65,6 @@ const StaffConfig: FunctionComponent<Props> = ({ disabled, settings }) => (
                 placeholder="E.g. Staff"
                 disabled={disabled}
                 meta={meta}
-                {...input}
               />
             </Localized>
           </FormField>

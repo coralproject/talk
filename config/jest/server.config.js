@@ -6,6 +6,7 @@ module.exports = {
   roots: ["<rootDir>/src"],
   collectCoverageFrom: ["**/*.{js,jsx,mjs,ts,tsx}"],
   coveragePathIgnorePatterns: ["/node_modules/"],
+  setupFilesAfterEnv: ["<rootDir>/src/core/server/test/setupTestFramework.ts"],
   testMatch: ["**/*.spec.{js,jsx,mjs,ts,tsx}"],
   testPathIgnorePatterns: ["/node_modules/", "/client/"],
   testEnvironment: "node",
