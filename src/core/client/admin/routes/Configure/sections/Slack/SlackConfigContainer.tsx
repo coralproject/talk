@@ -1,8 +1,14 @@
 import { FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { FieldArray } from "react-final-form-arrays";
 
+import { pureMerge } from "coral-common/utils";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
@@ -24,6 +30,24 @@ interface Props {
 }
 
 const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
+  const [defaultValues] = useState({
+    slack: {
+      channels: [
+        {
+          enabled: false,
+          name: "",
+          hookURL: "",
+          triggers: {
+            allComments: false,
+            reportedComments: false,
+            pendingComments: false,
+            featuredComments: false,
+          },
+        },
+      ],
+    },
+  });
+
   const onAddChannel = useCallback(() => {
     const mutators = form.mutators;
     mutators.insert("slack.channels", 0, {
@@ -52,55 +76,12 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
       !settings.slack.channels ||
       settings.slack.channels.length === 0
     ) {
-      const defaultValues = {
-        slack: {
-          channels: [
-            {
-              enabled: false,
-              name: "",
-              hookURL: "",
-              triggers: {
-                allComments: false,
-                reportedComments: false,
-                pendingComments: false,
-                featuredComments: false,
-              },
-            },
-          ],
-        },
-      };
-
       form.initialize(defaultValues);
     } else {
-      const settingsValues = {
-        slack: {
-          channels: settings.slack.channels
-            .map(ch => {
-              return {
-                enabled: ch.enabled,
-                name: ch.name ? ch.name : "",
-                hookURL: ch.hookURL ? ch.hookURL : "",
-                triggers: {
-                  allComments: ch.triggers ? ch.triggers.allComments : false,
-                  reportedComments: ch.triggers
-                    ? ch.triggers.reportedComments
-                    : false,
-                  pendingComments: ch.triggers
-                    ? ch.triggers.pendingComments
-                    : false,
-                  featuredComments: ch.triggers
-                    ? ch.triggers.featuredComments
-                    : false,
-                },
-              };
-            })
-            .reverse(),
-        },
-      };
-
+      const settingsValues = pureMerge(defaultValues, settings);
       form.initialize(settingsValues);
     }
-  }, [settings]);
+  }, [settings, defaultValues]);
 
   return (
     <HorizontalGutter size="double">

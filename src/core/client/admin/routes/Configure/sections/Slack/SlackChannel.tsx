@@ -14,7 +14,6 @@ import {
 } from "coral-ui/components/v2";
 
 import Header from "../../Header";
-import SectionContent from "../../SectionContent";
 import ConfigBoxWithToggleField from "../Auth/ConfigBoxWithToggleField";
 
 import styles from "./SlackChannel.css";
@@ -63,7 +62,7 @@ const SlackChannel: FunctionComponent<Props> = ({
       disabled={disabled}
     >
       {(disabledInside: boolean) => (
-        <SectionContent>
+        <>
           <FormField>
             <Field name={`${channel}.name`}>
               {({ input, meta }) => (
@@ -213,7 +212,7 @@ const SlackChannel: FunctionComponent<Props> = ({
               )}
             </Field>
           </FormField>
-        </SectionContent>
+        </>
       )}
     </ConfigBoxWithToggleField>
   );
