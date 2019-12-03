@@ -53,6 +53,7 @@ async function createTestRenderer(customResolver: any = {}) {
 it("renders sign up form", async () => {
   const { testRenderer } = await createTestRenderer();
   expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(await within(testRenderer.root).axe()).toHaveNoViolations();
 });
 
 it("shows error when submitting empty form", async () => {

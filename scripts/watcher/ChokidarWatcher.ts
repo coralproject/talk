@@ -23,9 +23,10 @@ export default class ChokidarWatcher implements Watcher {
     let firstError: Error | null = null;
 
     // If this is set, a pending promise is waiting for the next result.
-    let pending:
-      | ({ resolve: (result: string) => void; reject: (error: Error) => void })
-      | null = null;
+    let pending: {
+      resolve: (result: string) => void;
+      reject: (error: Error) => void;
+    } | null = null;
 
     // Only start client if we have something to watch.
     if (paths.length) {

@@ -1,3 +1,5 @@
+import { toHaveNoViolations } from "jest-axe";
+
 import expectAndFail from "./expectAndFail";
 
 // Automatically unmock console.
@@ -17,3 +19,5 @@ process.on("unhandledRejection", err => {
   // eslint-disable-next-line no-console
   console.error(err);
 });
+
+expect.extend(toHaveNoViolations);

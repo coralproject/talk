@@ -58,6 +58,7 @@ async function createTestRenderer(
 it("renders sign in view", async () => {
   const { testRenderer } = await createTestRenderer();
   expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(await within(testRenderer.root).axe()).toHaveNoViolations();
 });
 
 it("renders sign in view with error", async () => {

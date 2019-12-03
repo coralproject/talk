@@ -1,3 +1,4 @@
+import { axe } from "jest-axe";
 import { ReactTestInstance } from "react-test-renderer";
 
 import { getByID, queryByID } from "./byID";
@@ -22,6 +23,7 @@ import {
   queryByType,
   queryParentByType,
 } from "./byType";
+import toHTML from "./toHTML";
 import toJSON from "./toJSON";
 
 type Func0<R> = () => R;
@@ -68,6 +70,17 @@ export default function within(container: ReactTestInstance) {
     queryByType: applyContainer(container, queryByType),
     queryParentByType: applyContainer(container, queryParentByType),
     queryAllByType: applyContainer(container, queryAllByType),
-    toJSON: () => toJSON(container),
+    toJSON: applyContainer(container, toJSON),
+    toHTML: applyContainer(container, toHTML),
+    /**
+     * Check for some accessibility violations
+     *
+     * Example use:
+     * `expect(await within(container).axe()).toHaveNoViolations();`
+     */
+    axe: () => axe(toHTML(container)),
+    /** Output the html representation of the container */
+    // eslint-disable-next-line no-console
+    debug: () => console.log(toHTML(container, { pretty: true })),
   };
 }
