@@ -81,6 +81,15 @@ exports[`renders configure advanced 1`] = `
               </li>
               <li>
                 <a
+                  className="Link-link"
+                  href="/admin/configure/slack"
+                  onClick={[Function]}
+                >
+                  Slack
+                </a>
+              </li>
+              <li>
+                <a
                   className="Link-link Link-linkActive"
                   href="/admin/configure/advanced"
                   onClick={[Function]}
