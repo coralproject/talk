@@ -1,0 +1,28 @@
+.header {
+  flex: 1;
+}
+
+.description {
+  padding-bottom: var(--spacing-1);
+}
+
+.channelName {
+  margin-right: var(--spacing-2);
+}
+
+.trigger {
+  padding-left: var(--spacing-1);
+}
+
+.removeButton {
+  padding-top: 0px;
+  padding-bottom: 0px;
+
+  margin-bottom: 2px;
+
+  float: right;
+}
+
+.buttonIcon {
+  padding-right: var(--spacing-1);
+}

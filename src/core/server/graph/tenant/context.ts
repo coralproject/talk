@@ -12,6 +12,7 @@ import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { JWTSigningConfig } from "coral-server/services/jwt";
+import createSlackPublisher from "coral-server/services/slack/publisher";
 import TenantCache from "coral-server/services/tenant/cache";
 
 import loaders from "./loaders";
@@ -58,12 +59,13 @@ export default class TenantContext extends CommonContext {
     this.mailerQueue = options.mailerQueue;
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
-    this.publisher = createPublisher(
-      this.pubsub,
+    this.publisher = createPublisher({
+      pubsub: this.pubsub,
+      slackPublisher: createSlackPublisher(this.mongo, this.tenant),
       notifierQueue,
-      this.tenant.id,
-      this.clientID
-    );
+      tenantID: this.tenant.id,
+      clientID: this.clientID,
+    });
     this.loaders = loaders(this);
     this.mutators = mutators(this);
   }

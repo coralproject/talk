@@ -937,6 +937,64 @@ type EmailConfiguration {
 }
 
 ################################################################################
+## Slack Configuration
+################################################################################
+
+type SlackConfiguration {
+  """
+  channels is the set of Slack channels configured to receive comments
+  """
+  channels: [SlackChannel!]!
+}
+
+type SlackChannelTriggers {
+  """
+  allComments is whether this channel will receive all comments entering moderation
+  """
+  allComments: Boolean!
+
+  """
+  reportedComments is whether this channel will receive reported comments
+  """
+  reportedComments: Boolean!
+
+  """
+  pendingComments is whether this channel will receive pending comments
+  """
+  pendingComments: Boolean!
+
+  """
+  featuredComments is whether this channel will receive featured comments
+  """
+  featuredComments: Boolean!
+
+}
+
+type SlackChannel {
+  """
+  enabled is whether this Slack channel is enabled to send comments to its
+  correlated web hook
+  """
+  enabled: Boolean!
+
+  """
+  name is the name assigned to the Slack channel
+  """
+  name: String
+
+  """
+  hookURL defines the URL that comments will be sent to
+  """
+  hookURL: String
+
+  """
+  triggers are the filters of types of comments that will be sent to
+  the correlated channel
+  """
+  triggers: SlackChannelTriggers
+}
+
+################################################################################
 ## ReactionConfiguration
 ################################################################################
 
@@ -1216,6 +1274,11 @@ type Settings {
   email is the set of credentials and settings associated with the organization.
   """
   email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  slack is the configuration for slack communication
+  """
+  slack: SlackConfiguration! @auth(roles: [ADMIN, MODERATOR])
 
   """
   wordList will return a given list of words.
@@ -3397,6 +3460,60 @@ input CommenterAccountFeaturesInput {
   deleteAccount: Boolean
 }
 
+input SlackTriggersConfigurationInput {
+  """
+  allComments is whether this channel will receive all comments entering moderation
+  """
+  allComments: Boolean
+
+  """
+  reportedComments is whether this channel will receive reported comments
+  """
+  reportedComments: Boolean
+
+  """
+  pendingComments is whether this channel will receive pending comments
+  """
+  pendingComments: Boolean
+
+  """
+  featuredComments is whether this channel will receive featured comments
+  """
+  featuredComments: Boolean
+
+}
+
+input SlackChannelConfigurationInput {
+  """
+  enabled is whether this Slack channel is enabled to send comments to its
+  correlated web hook
+  """
+  enabled: Boolean
+
+  """
+  name is the name assigned to the Slack channel
+  """
+  name: String
+
+  """
+  hookURL defines the URL that comments will be sent to
+  """
+  hookURL: String
+
+  """
+  triggers are the filters of types of comments that will be sent to
+  the correlated channel
+  """
+  triggers: SlackTriggersConfigurationInput
+}
+
+input SlackConfigurationInput {
+  """
+  channels are the channels configured for Slack integration
+  """
+  channels: [SlackChannelConfigurationInput!]
+}
+
 """
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
@@ -3506,6 +3623,11 @@ input SettingsInput {
   accountFeatures specifies the configuration for accounts.
   """
   accountFeatures: CommenterAccountFeaturesInput
+
+  """
+  slack specifies the configuration for Slack integration.
+  """
+  slack: SlackConfigurationInput
 
   """
   locale specifies the locale for this Tenant.

@@ -1,4 +1,5 @@
 import { FormApi, FormState } from "final-form";
+import arrayMutators from "final-form-arrays";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Form, FormSpy } from "react-final-form";
@@ -24,7 +25,7 @@ const Configure: FunctionComponent<Props> = ({
   children,
 }) => (
   <MainLayout data-testid="configure-container">
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} mutators={{ ...arrayMutators }}>
       {({ handleSubmit, submitting, form, pristine, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
           <FormSpy onChange={onChange} />
@@ -51,6 +52,9 @@ const Configure: FunctionComponent<Props> = ({
                   </Localized>
                   <Localized id="configure-sideBarNavigation-email">
                     <Link to="/admin/configure/email">Email</Link>
+                  </Localized>
+                  <Localized id="configure-sideBarNavigation-slack">
+                    <Link to="/admin/configure/slack">Slack</Link>
                   </Localized>
                   <Localized id="configure-sideBarNavigation-advanced">
                     <Link to="/admin/configure/advanced">Advanced</Link>
