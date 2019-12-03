@@ -69,7 +69,7 @@ login-signInWithOIDC = Sign in with { $name }
 ## Configure
 
 configure-unsavedInputWarning =
-  You have unsaved input. Are you sure you want to leave this page?
+  You have unsaved changes. Are you sure you want to continue?
 
 configure-sideBarNavigation-general = General
 configure-sideBarNavigation-authentication = Authentication
