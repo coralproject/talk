@@ -15,14 +15,11 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import {
-  GQLCOMMENT_SORT,
-  GQLStory,
-  GQLUSER_ROLE,
-} from "coral-framework/schema";
+import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
 import { CreateCommentEvent } from "coral-stream/events";
 
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
+import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import {
   incrementStoryCommentCounts,
@@ -30,12 +27,14 @@ import {
   prependCommentEdgeToProfile,
 } from "../../helpers";
 
-export type CreateCommentInput = MutationInput<MutationTypes>;
+export type CreateCommentInput = MutationInput<MutationTypes> & {
+  commentsOrderBy?: COMMENT_SORT;
+};
 
 function sharedUpdater(
   environment: Environment,
   store: RecordSourceSelectorProxy,
-  input: OrderedCreateCommentInput
+  input: CreateCommentInput
 ) {
   const commentEdge = store
     .getRootField("createComment")!
@@ -75,7 +74,7 @@ function getConnection(
  */
 function addCommentToStory(
   store: RecordSourceSelectorProxy,
-  input: OrderedCreateCommentInput,
+  input: CreateCommentInput,
   commentEdge: RecordProxy
 ) {
   // Get stream proxy.
@@ -141,13 +140,9 @@ const mutation = graphql`
 
 let clientMutationId = 0;
 
-interface OrderedCreateCommentInput extends CreateCommentInput {
-  commentsOrderBy: GQLCOMMENT_SORT;
-}
-
 async function commit(
   environment: Environment,
-  input: OrderedCreateCommentInput,
+  input: CreateCommentInput,
   { uuidGenerator, relayEnvironment, eventEmitter }: CoralContext
 ) {
   const viewer = getViewer(environment)!;
