@@ -1,10 +1,8 @@
 import { FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
-import { RouteProps } from "found";
-import React from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { FieldArray } from "react-final-form-arrays";
 
-import { pureMerge } from "coral-common/utils";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
@@ -25,62 +23,36 @@ interface Props {
   settings: SlackConfigContainer_settings;
 }
 
-interface Channel {
-  enabled: boolean;
-  hookURL: string;
-  triggers: {
-    allComments: boolean;
-    reportedComments: boolean;
-    pendingComments: boolean;
-    featuredComments: boolean;
-  };
-}
-
-class SlackConfigContainer extends React.Component<Props> {
-  public static routeConfig: RouteProps;
-  private initialValues = {
-    slack: {
-      channels: new Array<Channel>(),
-    },
-  };
-
-  private onAddChannel: () => void;
-  private onRemoveChannel: (index: number) => void;
-
-  constructor(props: Props) {
-    super(props);
-    this.handleOnInitValues(this.props.settings);
-
-    const mutators = this.props.form.mutators;
-    this.onAddChannel = () => {
-      mutators.push("slack.channels", {
-        enabled: true,
-        hookURL: "",
-        triggers: {
-          allComments: false,
-          reportedComments: false,
-          pendingComments: false,
-          featuredComments: false,
-        },
-      });
-    };
-    this.onRemoveChannel = (index: number) => {
+const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
+  const onAddChannel = useCallback(() => {
+    const mutators = form.mutators;
+    mutators.push("slack.channels", {
+      enabled: true,
+      hookURL: "",
+      triggers: {
+        allComments: false,
+        reportedComments: false,
+        pendingComments: false,
+        featuredComments: false,
+      },
+    });
+  }, [form]);
+  const onRemoveChannel = useCallback(
+    (index: number) => {
+      const mutators = form.mutators;
       mutators.remove("slack.channels", index);
-    };
-  }
+    },
+    [form]
+  );
 
-  public componentDidMount() {
-    this.props.form.initialize(this.initialValues);
-  }
-
-  private handleOnInitValues = (values: any) => {
+  useMemo(() => {
     if (
-      !values ||
-      !values.slack ||
-      !values.slack.channels ||
-      values.slack.channels.length === 0
+      !settings ||
+      !settings.slack ||
+      !settings.slack.channels ||
+      settings.slack.channels.length === 0
     ) {
-      this.initialValues = {
+      const defaultValues = {
         slack: {
           channels: [
             {
@@ -96,57 +68,80 @@ class SlackConfigContainer extends React.Component<Props> {
           ],
         },
       };
-    } else {
-      this.initialValues = pureMerge(this.initialValues, values);
-    }
-  };
 
-  public render() {
-    return (
-      <HorizontalGutter size="double">
-        <ConfigBox
-          title={
-            <Localized id="configure-slack-header-title">
-              <Header htmlFor="configure-slack-header.title">
-                Slack Integrations
-              </Header>
-            </Localized>
+      form.initialize(defaultValues);
+    } else {
+      const settingsValues = {
+        slack: {
+          channels: settings.slack.channels.map(ch => {
+            return {
+              enabled: ch.enabled,
+              hookURL: ch.hookURL ? ch.hookURL : "",
+              triggers: {
+                allComments: ch.triggers ? ch.triggers.allComments : false,
+                reportedComments: ch.triggers
+                  ? ch.triggers.reportedComments
+                  : false,
+                pendingComments: ch.triggers
+                  ? ch.triggers.pendingComments
+                  : false,
+                featuredComments: ch.triggers
+                  ? ch.triggers.featuredComments
+                  : false,
+              },
+            };
+          }),
+        },
+      };
+
+      form.initialize(settingsValues);
+    }
+  }, [settings]);
+
+  return (
+    <HorizontalGutter size="double">
+      <ConfigBox
+        title={
+          <Localized id="configure-slack-header-title">
+            <Header htmlFor="configure-slack-header.title">
+              Slack Integrations
+            </Header>
+          </Localized>
+        }
+      >
+        <Localized
+          id="configure-slack-description"
+          externalLink={
+            <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/slack/" />
           }
         >
-          <Localized
-            id="configure-slack-description"
-            externalLink={
-              <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/slack/" />
-            }
-          >
-            <FormFieldDescription>
-              Automatically send comments from Coral moderation queues to Slack
-              channels. You will need Slack admin access to set this up. For
-              steps on how to create a Slack App see our documentation.
-            </FormFieldDescription>
-          </Localized>
-          <FieldArray name="slack.channels">
-            {({ fields }) =>
-              fields.map((channel: any, index: number) => (
-                <div key={index}>
-                  <SlackChannel
-                    channel={channel}
-                    disabled={false}
-                    index={index}
-                    onRemoveClicked={this.onRemoveChannel}
-                  />
-                </div>
-              ))
-            }
-          </FieldArray>
-          <Button size="medium" onClick={this.onAddChannel}>
-            Add
-          </Button>
-        </ConfigBox>
-      </HorizontalGutter>
-    );
-  }
-}
+          <FormFieldDescription>
+            Automatically send comments from Coral moderation queues to Slack
+            channels. You will need Slack admin access to set this up. For steps
+            on how to create a Slack App see our documentation.
+          </FormFieldDescription>
+        </Localized>
+        <FieldArray name="slack.channels">
+          {({ fields }) =>
+            fields.map((channel: any, index: number) => (
+              <div key={index}>
+                <SlackChannel
+                  channel={channel}
+                  disabled={false}
+                  index={index}
+                  onRemoveClicked={onRemoveChannel}
+                />
+              </div>
+            ))
+          }
+        </FieldArray>
+        <Button size="medium" onClick={onAddChannel}>
+          Add
+        </Button>
+      </ConfigBox>
+    </HorizontalGutter>
+  );
+};
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
