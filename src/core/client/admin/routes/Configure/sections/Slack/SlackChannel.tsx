@@ -9,6 +9,7 @@ import {
   Button,
   ButtonIcon,
   CheckBox,
+  Flex,
   FormField,
   TextField,
 } from "coral-ui/components/v2";
@@ -38,25 +39,33 @@ const SlackChannel: FunctionComponent<Props> = ({
   return (
     <ConfigBoxWithToggleField
       title={
-        <>
-          <Field name={`${channel}.name`}>
-            {({ input }) => (
-              <Header className={styles.channelName}>{input.value}</Header>
-            )}
-          </Field>
-          <Button
-            size="small"
-            variant="filled"
-            color="alert"
-            onClick={onRemove}
-            className={styles.removeButton}
-          >
-            <ButtonIcon size="md" className={styles.buttonIcon}>
-              delete_forever
-            </ButtonIcon>
-            <Localized id="configure-slack-channel-remove">Remove</Localized>
-          </Button>
-        </>
+        <Flex
+          className={styles.header}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <div>
+            <Field name={`${channel}.name`}>
+              {({ input }) => (
+                <Header className={styles.channelName}>{input.value}</Header>
+              )}
+            </Field>
+          </div>
+          <div>
+            <Button
+              size="small"
+              variant="filled"
+              color="alert"
+              onClick={onRemove}
+              className={styles.removeButton}
+            >
+              <ButtonIcon size="md" className={styles.buttonIcon}>
+                delete_forever
+              </ButtonIcon>
+              <Localized id="configure-slack-channel-remove">Remove</Localized>
+            </Button>
+          </div>
+        </Flex>
       }
       name={`${channel}.enabled`}
       disabled={disabled}

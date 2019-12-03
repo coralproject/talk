@@ -13,6 +13,7 @@ import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
+  ButtonIcon,
   FormFieldDescription,
   HorizontalGutter,
 } from "coral-ui/components/v2";
@@ -22,6 +23,8 @@ import { SlackConfigContainer_settings } from "coral-admin/__generated__/SlackCo
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import SlackChannel from "./SlackChannel";
+
+import styles from "./SlackConfigContainer.css";
 
 interface Props {
   form: FormApi;
@@ -106,8 +109,16 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
             on how to create a Slack App see our documentation.
           </FormFieldDescription>
         </Localized>
-        <Button size="medium" onClick={onAddChannel}>
-          Add
+        <Button
+          size="medium"
+          variant="filled"
+          color="emphasis"
+          onClick={onAddChannel}
+        >
+          <ButtonIcon size="md" className={styles.icon}>
+            add
+          </ButtonIcon>
+          <Localized id="configure-slack-addChannel">Add</Localized>
         </Button>
         <FieldArray name="slack.channels">
           {({ fields }) =>

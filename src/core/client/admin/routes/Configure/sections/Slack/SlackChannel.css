@@ -1,5 +1,5 @@
 .header {
-  padding-bottom: var(--spacing-2);
+  flex: 1;
 }
 
 .description {
@@ -19,6 +19,8 @@
   padding-bottom: 0px;
 
   margin-bottom: 2px;
+
+  float: right;
 }
 
 .buttonIcon {
