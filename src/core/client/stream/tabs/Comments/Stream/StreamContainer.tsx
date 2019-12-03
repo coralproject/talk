@@ -163,6 +163,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             viewer={props.viewer}
             tab={local.commentsTab}
             onChangeTab={onChangeTab}
+            commentsOrderBy={local.commentsOrderBy}
           />
         )}
         {banned && <BannedInfo />}

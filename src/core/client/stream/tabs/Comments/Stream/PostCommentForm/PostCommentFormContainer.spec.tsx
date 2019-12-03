@@ -131,6 +131,7 @@ it("creates a comment", async () => {
       id: storyID,
       isClosed: false,
     },
+    commentsOrderBy: "CREATED_AT_ASC",
   });
 
   await act(async () => {
@@ -156,6 +157,7 @@ it("creates a comment", async () => {
         createCommentStub.calledWith({
           storyID,
           nudge: true,
+          commentsOrderBy: "CREATED_AT_ASC",
           ...input,
         })
       ).toBeTruthy()
