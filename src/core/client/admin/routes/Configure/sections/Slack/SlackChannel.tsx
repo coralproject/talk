@@ -37,155 +37,179 @@ const SlackChannel: FunctionComponent<Props> = ({
   }, [index, onRemoveClicked]);
 
   return (
-    <>
-      <ConfigBoxWithToggleField
-        title={
-          <Flex justifyContent="space-between">
-            <Localized id="configure-slack-channel-name">
-              <Header>Channel</Header>
+    <ConfigBoxWithToggleField
+      title={
+        <Flex justifyContent="space-between">
+          <Field name={`${channel}.name`}>
+            {({ input, meta }) => <Header>{input.value}</Header>}
+          </Field>
+          <Button
+            size="small"
+            variant="filled"
+            color="alert"
+            onClick={onRemove}
+          >
+            Remove
+          </Button>
+        </Flex>
+      }
+      name={`${channel}.enabled`}
+      disabled={disabled}
+    >
+      {(disabledInside: boolean) => (
+        <SectionContent>
+          <FormField>
+            <Field name={`${channel}.name`}>
+              {({ input, meta }) => (
+                <>
+                  <Localized id="configure-slack-channel-name-label">
+                    <InputLabel container="legend">Name</InputLabel>
+                  </Localized>
+                  <Localized id="configure-slack-channel-name-description">
+                    <InputDescription className={styles.description}>
+                      This is only for your information, to easily identify each
+                      Slack connection. Slack does not tell us the name of the
+                      channel/s you're connecting to Coral.
+                    </InputDescription>
+                  </Localized>
+                  <TextField
+                    id={`configure-slack-channel-name-${input.name}`}
+                    disabled={disabled}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck={false}
+                    fullWidth
+                    {...input}
+                  />
+                </>
+              )}
+            </Field>
+          </FormField>
+          <FormField>
+            <Field name={`${channel}.hookURL`}>
+              {({ input, meta }) => (
+                <>
+                  <Localized id="configure-slack-channel-hookURL-label">
+                    <InputLabel container="legend">Webhook URL</InputLabel>
+                  </Localized>
+                  <Localized
+                    id="configure-slack-channel-hookURL-description"
+                    externalLink={
+                      <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/slack/#i-need-to-find-the-webhook-url-again-where-is-it" />
+                    }
+                  >
+                    <InputDescription className={styles.description}>
+                      Slack provides a channel-specific URL to activate webhook
+                      connections. To find the URL for one of your Slack
+                      channels, follow the instructions here.
+                    </InputDescription>
+                  </Localized>
+                  <TextField
+                    id={`configure-slack-channel-hookURL-${input.name}`}
+                    disabled={disabled}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck={false}
+                    fullWidth
+                    {...input}
+                  />
+                </>
+              )}
+            </Field>
+          </FormField>
+          <FormField>
+            <Localized id="configure-slack-channel-triggers-label">
+              <InputLabel container="legend">
+                Receive notifications in this Slack channel for
+              </InputLabel>
             </Localized>
-            <Button
-              size="small"
-              variant="filled"
-              color="alert"
-              onClick={onRemove}
+            <Field
+              name={`${channel}.triggers.allComments`}
+              subscription={{ value: true }}
             >
-              Remove
-            </Button>
-          </Flex>
-        }
-        name={`${channel}.enabled`}
-        disabled={disabled}
-      >
-        {(disabledInside: boolean) => (
-          <>
-            <SectionContent>
-              <FormField>
-                <Field name={`${channel}.hookURL`}>
-                  {({ input, meta }) => (
-                    <>
-                      <Localized id="configure-slack-channel-hookURL-label">
-                        <InputLabel container="legend">Webhook URL</InputLabel>
-                      </Localized>
-                      <Localized
-                        id="configure-slack-channel-hookURL-description"
-                        externalLink={
-                          <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/slack/#i-need-to-find-the-webhook-url-again-where-is-it" />
-                        }
-                      >
-                        <InputDescription className={styles.hookURLDescription}>
-                          Slack provides a channel-specific URL to activate
-                          webhook connections. To find the URL for one of your
-                          Slack channels, follow the instructions here.
-                        </InputDescription>
-                      </Localized>
-                      <TextField
-                        id={`configure-slack-channel-hookURL-${input.name}`}
+              {({ input: { value } }) => (
+                <>
+                  <Field
+                    name={`${channel}.triggers.allComments`}
+                    type="checkbox"
+                    parse={parseBool}
+                  >
+                    {({ input }) => (
+                      <CheckBox
+                        id={`configure-slack-channel-triggers-allComments-${input.name}`}
                         disabled={disabled}
-                        autoComplete="off"
-                        autoCorrect="off"
-                        autoCapitalize="off"
-                        spellCheck={false}
-                        fullWidth
+                        className={styles.trigger}
                         {...input}
-                      />
-                    </>
-                  )}
-                </Field>
-              </FormField>
-              <FormField>
-                <Localized id="configure-slack-channel-triggers-label">
-                  <InputLabel container="legend">
-                    Receive notifications in this Slack channel for
-                  </InputLabel>
-                </Localized>
-                <Field
-                  name={`${channel}.triggers.allComments`}
-                  subscription={{ value: true }}
-                >
-                  {({ input: { value } }) => (
-                    <>
-                      <Field
-                        name={`${channel}.triggers.allComments`}
-                        type="checkbox"
-                        parse={parseBool}
                       >
-                        {({ input }) => (
-                          <CheckBox
-                            id={`configure-slack-channel-triggers-allComments-${input.name}`}
-                            disabled={disabled}
-                            className={styles.trigger}
-                            {...input}
-                          >
-                            <Localized id="configure-slack-channel-triggers-allComments">
-                              All Comments
-                            </Localized>
-                          </CheckBox>
-                        )}
-                      </Field>
-                      <Field
-                        name={`${channel}.triggers.reportedComments`}
-                        type="checkbox"
-                        parse={parseBool}
+                        <Localized id="configure-slack-channel-triggers-allComments">
+                          All Comments
+                        </Localized>
+                      </CheckBox>
+                    )}
+                  </Field>
+                  <Field
+                    name={`${channel}.triggers.reportedComments`}
+                    type="checkbox"
+                    parse={parseBool}
+                  >
+                    {({ input }) => (
+                      <CheckBox
+                        id={`configure-slack-channel-triggers-reportedComments-${input.name}`}
+                        disabled={disabled || value}
+                        className={styles.trigger}
+                        {...input}
                       >
-                        {({ input }) => (
-                          <CheckBox
-                            id={`configure-slack-channel-triggers-reportedComments-${input.name}`}
-                            disabled={disabled || value}
-                            className={styles.trigger}
-                            {...input}
-                          >
-                            <Localized id="configure-slack-channel-triggers-reportedComments">
-                              Reported Comments
-                            </Localized>
-                          </CheckBox>
-                        )}
-                      </Field>
-                      <Field
-                        name={`${channel}.triggers.pendingComments`}
-                        type="checkbox"
-                        parse={parseBool}
+                        <Localized id="configure-slack-channel-triggers-reportedComments">
+                          Reported Comments
+                        </Localized>
+                      </CheckBox>
+                    )}
+                  </Field>
+                  <Field
+                    name={`${channel}.triggers.pendingComments`}
+                    type="checkbox"
+                    parse={parseBool}
+                  >
+                    {({ input }) => (
+                      <CheckBox
+                        id={`configure-slack-channel-triggers-pendingComments-${input.name}`}
+                        disabled={disabled || value}
+                        className={styles.trigger}
+                        {...input}
                       >
-                        {({ input }) => (
-                          <CheckBox
-                            id={`configure-slack-channel-triggers-pendingComments-${input.name}`}
-                            disabled={disabled || value}
-                            className={styles.trigger}
-                            {...input}
-                          >
-                            <Localized id="configure-slack-channel-triggers-pendingComments">
-                              Pending Comments
-                            </Localized>
-                          </CheckBox>
-                        )}
-                      </Field>
-                      <Field
-                        name={`${channel}.triggers.featuredComments`}
-                        type="checkbox"
-                        parse={parseBool}
+                        <Localized id="configure-slack-channel-triggers-pendingComments">
+                          Pending Comments
+                        </Localized>
+                      </CheckBox>
+                    )}
+                  </Field>
+                  <Field
+                    name={`${channel}.triggers.featuredComments`}
+                    type="checkbox"
+                    parse={parseBool}
+                  >
+                    {({ input }) => (
+                      <CheckBox
+                        id={`configure-slack-channel-triggers-featuredComments-${input.name}`}
+                        disabled={disabled || value}
+                        className={styles.trigger}
+                        {...input}
                       >
-                        {({ input }) => (
-                          <CheckBox
-                            id={`configure-slack-channel-triggers-featuredComments-${input.name}`}
-                            disabled={disabled || value}
-                            className={styles.trigger}
-                            {...input}
-                          >
-                            <Localized id="configure-slack-channel-triggers-featuredComments">
-                              Featured Comments
-                            </Localized>
-                          </CheckBox>
-                        )}
-                      </Field>
-                    </>
-                  )}
-                </Field>
-              </FormField>
-            </SectionContent>
-          </>
-        )}
-      </ConfigBoxWithToggleField>
-    </>
+                        <Localized id="configure-slack-channel-triggers-featuredComments">
+                          Featured Comments
+                        </Localized>
+                      </CheckBox>
+                    )}
+                  </Field>
+                </>
+              )}
+            </Field>
+          </FormField>
+        </SectionContent>
+      )}
+    </ConfigBoxWithToggleField>
   );
 };
 

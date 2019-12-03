@@ -26,7 +26,7 @@ interface Props {
 const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
   const onAddChannel = useCallback(() => {
     const mutators = form.mutators;
-    mutators.push("slack.channels", {
+    mutators.insert("slack.channels", 0, {
       enabled: true,
       hookURL: "",
       triggers: {
@@ -57,6 +57,7 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
           channels: [
             {
               enabled: false,
+              name: "",
               hookURL: "",
               triggers: {
                 allComments: false,
@@ -73,24 +74,27 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
     } else {
       const settingsValues = {
         slack: {
-          channels: settings.slack.channels.map(ch => {
-            return {
-              enabled: ch.enabled,
-              hookURL: ch.hookURL ? ch.hookURL : "",
-              triggers: {
-                allComments: ch.triggers ? ch.triggers.allComments : false,
-                reportedComments: ch.triggers
-                  ? ch.triggers.reportedComments
-                  : false,
-                pendingComments: ch.triggers
-                  ? ch.triggers.pendingComments
-                  : false,
-                featuredComments: ch.triggers
-                  ? ch.triggers.featuredComments
-                  : false,
-              },
-            };
-          }),
+          channels: settings.slack.channels
+            .map(ch => {
+              return {
+                enabled: ch.enabled,
+                name: ch.name ? ch.name : "",
+                hookURL: ch.hookURL ? ch.hookURL : "",
+                triggers: {
+                  allComments: ch.triggers ? ch.triggers.allComments : false,
+                  reportedComments: ch.triggers
+                    ? ch.triggers.reportedComments
+                    : false,
+                  pendingComments: ch.triggers
+                    ? ch.triggers.pendingComments
+                    : false,
+                  featuredComments: ch.triggers
+                    ? ch.triggers.featuredComments
+                    : false,
+                },
+              };
+            })
+            .reverse(),
         },
       };
 
@@ -121,6 +125,9 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
             on how to create a Slack App see our documentation.
           </FormFieldDescription>
         </Localized>
+        <Button size="medium" onClick={onAddChannel}>
+          Add
+        </Button>
         <FieldArray name="slack.channels">
           {({ fields }) =>
             fields.map((channel: any, index: number) => (
@@ -135,9 +142,6 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
             ))
           }
         </FieldArray>
-        <Button size="medium" onClick={onAddChannel}>
-          Add
-        </Button>
       </ConfigBox>
     </HorizontalGutter>
   );
@@ -149,6 +153,7 @@ const enhanced = withFragmentContainer<Props>({
       slack {
         channels {
           enabled
+          name
           hookURL
           triggers {
             allComments
