@@ -11,6 +11,8 @@ import {
   InstallationForbiddenError,
   TenantInstalledAlreadyError,
 } from "coral-server/errors";
+import { CreateCommunityInput } from "coral-server/models/community";
+import { CreateSiteInput } from "coral-server/models/site";
 import { LocalProfile } from "coral-server/models/user";
 import {
   createJWTSigningConfig,
@@ -89,15 +91,18 @@ export const installCheckHandler = ({
 };
 
 export interface TenantInstallBody {
-  tenant: Omit<InstallTenant, "domains" | "locale"> & {
+  tenant: Omit<InstallTenant, "locale"> & {
     locale: LanguageCode | null;
   };
   user: Required<Pick<CreateUser, "username" | "email"> & { password: string }>;
+  sites: Partial<CreateSiteInput> & { domains: string[] }[];
+  communities: Partial<CreateCommunityInput>[];
 }
 
 const TenantInstallBodySchema = Joi.object().keys({
   tenant: Joi.object()
     .keys({
+      multiSite: Joi.boolean(),
       organization: Joi.object().keys({
         name: Joi.string().trim(),
         url: Joi.string()
@@ -108,11 +113,6 @@ const TenantInstallBodySchema = Joi.object().keys({
           .lowercase()
           .email(),
       }),
-      domains: Joi.array().items(
-        Joi.string()
-          .trim()
-          .uri({ scheme: ["http", "https"] })
-      ),
       locale: Joi.string()
         .default(null)
         .valid(LOCALES),
@@ -126,6 +126,16 @@ const TenantInstallBodySchema = Joi.object().keys({
       .lowercase()
       .email(),
   }),
+  communities: Joi.array().items(Joi.object()),
+  sites: Joi.array().items(
+    Joi.object().keys({
+      domains: Joi.array().items(
+        Joi.string()
+          .trim()
+          .uri({ scheme: ["http", "https"] })
+      ),
+    })
+  ),
 });
 
 export type TenantInstallHandlerOptions = Pick<
@@ -197,6 +207,8 @@ export const installHandler = ({
       const {
         tenant: { locale: tenantLocale, ...tenantInput },
         user: userInput,
+        sites,
+        communities,
       }: TenantInstallBody = validate(TenantInstallBodySchema, req.body);
 
       // Default the locale to the default locale if not provided.
@@ -219,12 +231,15 @@ export const installHandler = ({
         i18n,
         {
           ...tenantInput,
+
           // Infer the Tenant domain via the hostname parameter.
-          domains: [req.hostname],
+          domain: req.hostname,
           // Add the locale that we had to default to the default locale from the
           // config.
           locale,
         },
+        sites,
+        communities,
         req.coral.now
       );
 

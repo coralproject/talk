@@ -2669,13 +2669,13 @@ type Query {
   """
   story is a specific article that can be identified by either an ID or a URL.
   """
-  story(id: ID, url: String, siteID: String): Story
+  story(id: ID, url: String, siteID: String!): Story
 
   """
   stream will load a specific story that can be identified by either an ID or a
   URL and will create the story if that feature is enabled.
   """
-  stream(id: ID, url: String): Story
+  stream(id: ID, url: String, siteID: String!): Story
 
   """
   stories returns filtered stories that can be paginated.
@@ -6021,6 +6021,7 @@ type EntitySettings {
   stories: StoryConfiguration! @auth(roles: [ADMIN])
   wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
   messageBox: StoryMessageBox!
+  locale: Locale!
 }
 
 ####################################
@@ -6113,6 +6114,7 @@ type PartialEntitySettings {
   stories: PartialStoryConfiguration @auth(roles: [ADMIN])
   wordList: PartialWordList @auth(roles: [ADMIN, MODERATOR])
   messageBox: StoryMessageBox
+  locale: Locale
 }
 
 type LegacyOrganization {
@@ -6132,7 +6134,6 @@ type Organization {
   auth: Auth!
   createdAt: Time!
   domain: String! @auth(roles: [ADMIN])
-  domains: [String!]! @auth(roles: [ADMIN])
   multiSite: Boolean!
   settings: EntitySettings!
   ownSettings: EntitySettings!

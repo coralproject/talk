@@ -1,13 +1,20 @@
 import builder from "content-security-policy-builder";
+import { Db } from "mongodb";
+
 import { extractParentsURL, getOrigin } from "coral-server/app/url";
-import { Tenant } from "coral-server/models/tenant";
+import { retrieveSite, Site } from "coral-server/models/site";
 import { isURLPermitted } from "coral-server/services/tenant/url";
 import { Request, RequestHandler } from "coral-server/types/express";
 
+export interface MiddlewareOptions {
+  mongo: Db;
+}
 /**
  * cspMiddleware handles adding the CSP middleware to each outgoing request.
  */
-export const cspTenantMiddleware: RequestHandler = (req, res, next) => {
+export const cspTenantMiddleware = ({
+  mongo,
+}: MiddlewareOptions): RequestHandler => async (req, res, next) => {
   if (!req.coral || !req.coral.tenant) {
     // There is no tenant for the request, don't add any headers.
     return next();
@@ -15,24 +22,31 @@ export const cspTenantMiddleware: RequestHandler = (req, res, next) => {
 
   const tenant = req.coral.tenant;
 
-  res.setHeader(
-    "Content-Security-Policy",
-    generateContentSecurityPolicy(tenant)
-  );
+  const site = await retrieveSite(mongo, tenant.id, req.query.siteID);
 
-  // Add some fallbacks for IE.
-  res.setHeader("X-Frame-Options", generateFrameOptions(req, tenant));
-  res.setHeader("X-XSS-Protection", "1; mode=block");
+  if (!site) {
+    // TODO: deal with this
+    next();
+  } else {
+    res.setHeader(
+      "Content-Security-Policy",
+      generateContentSecurityPolicy(site)
+    );
 
-  next();
+    // Add some fallbacks for IE.
+    res.setHeader("X-Frame-Options", generateFrameOptions(req, site));
+    res.setHeader("X-XSS-Protection", "1; mode=block");
+
+    next();
+  }
 };
 
-function generateContentSecurityPolicy(tenant: Pick<Tenant, "domains">) {
+function generateContentSecurityPolicy(site: Pick<Site, "domains">) {
   const directives: Record<string, any> = {};
 
   // Only the domains that are allowed by the tenant may embed Coral.
   directives.frameAncestors =
-    tenant.domains.length > 0 ? tenant.domains : ["'none'"];
+    site.domains.length > 0 ? site.domains : ["'none'"];
 
   // Build the directive.
   const directive = builder({ directives });
@@ -42,16 +56,16 @@ function generateContentSecurityPolicy(tenant: Pick<Tenant, "domains">) {
 
 export function generateFrameOptions(
   req: Request,
-  tenant: Pick<Tenant, "domains">
+  site: Pick<Site, "domains">
 ) {
   // If there aren't any domains, then we reject it.
-  if (tenant.domains.length === 0) {
+  if (site.domains.length === 0) {
     return "deny";
   }
 
   // If there is only one domain on the tenant then return it!
-  if (tenant.domains.length === 1) {
-    return `allow-from ${getOrigin(tenant.domains[0])}`;
+  if (site.domains.length === 1) {
+    return `allow-from ${getOrigin(site.domains[0])}`;
   }
 
   const parentsURL = extractParentsURL(req);
@@ -66,7 +80,7 @@ export function generateFrameOptions(
   }
 
   // Determine if this origin is allowed.
-  if (!isURLPermitted(tenant, parentsURL)) {
+  if (!isURLPermitted(site, parentsURL)) {
     return "deny";
   }
 
@@ -74,7 +88,7 @@ export function generateFrameOptions(
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   // We need to find the domain that is asking so we can respond with the right
   // result, sort of like CORS!
-  const allowFrom = tenant.domains
+  const allowFrom = site.domains
     .map(domain => getOrigin(domain))
     .find(origin => origin === parentsOrigin);
   if (!allowFrom) {

@@ -14,6 +14,7 @@ import {
   mergeManyCommentStories,
   removeStoryComments,
 } from "coral-server/models/comment";
+import { retrieveSite } from "coral-server/models/site";
 import {
   calculateTotalCommentCount,
   closeStory,
@@ -44,22 +45,30 @@ import { scrape } from "coral-server/services/stories/scraper";
 import { AugmentedRedis } from "../redis";
 import { isURLPermitted } from "../tenant/url";
 
-export type FindStory = FindStoryInput;
+export type FindStory = FindStoryInput & {
+  siteID: string;
+};
 
 export async function find(mongo: Db, tenant: Tenant, input: FindStory) {
   // If the URL is provided, and the url is not on a allowed domain, then refuse
   // to create the Asset.
-  if (input.url && !isURLPermitted(tenant, input.url)) {
+  const site = await retrieveSite(mongo, tenant.id, input.siteID);
+  if (!site) {
+    throw new Error("site not found");
+  }
+  if (input.url && !isURLPermitted(site, input.url)) {
     throw new StoryURLInvalidError({
       storyURL: input.url,
-      domains: tenant.domains,
+      domains: site.domains,
     });
   }
 
   return findStory(mongo, tenant.id, input);
 }
 
-export type FindOrCreateStory = FindOrCreateStoryInput;
+export type FindOrCreateStory = FindOrCreateStoryInput & {
+  siteID: string;
+};
 
 export async function findOrCreate(
   mongo: Db,
@@ -70,10 +79,14 @@ export async function findOrCreate(
 ) {
   // If the URL is provided, and the url is not on a allowed domain, then refuse
   // to create the Asset.
-  if (input.url && !isURLPermitted(tenant, input.url)) {
+  const site = await retrieveSite(mongo, tenant.id, input.siteID);
+  if (!site) {
+    throw new Error("site not found");
+  }
+  if (input.url && !isURLPermitted(site, input.url)) {
     throw new StoryURLInvalidError({
       storyURL: input.url,
-      domains: tenant.domains,
+      domains: site.domains,
     });
   }
 
@@ -175,11 +188,15 @@ export async function create(
   { metadata, closedAt }: CreateStory,
   now = new Date()
 ) {
+  const site = await retrieveSite(mongo, tenant.id, siteID);
+  if (!site) {
+    throw new Error("site not found");
+  }
   // Ensure that the given URL is allowed.
-  if (!isURLPermitted(tenant, storyURL)) {
+  if (!isURLPermitted(site, storyURL)) {
     throw new StoryURLInvalidError({
       storyURL,
-      domains: tenant.domains,
+      domains: site.domains,
     });
   }
 
@@ -217,11 +234,19 @@ export async function update(
   input: UpdateStory,
   now = new Date()
 ) {
+  const story = await findStory(mongo, tenant.id, input);
+  if (!story) {
+    throw new Error("story not found");
+  }
+  const site = await retrieveSite(mongo, tenant.id, story.siteID);
+  if (!site) {
+    throw new Error("site not found");
+  }
   // Ensure that the given URL is allowed.
-  if (input.url && !isURLPermitted(tenant, input.url)) {
+  if (input.url && !isURLPermitted(site, input.url)) {
     throw new StoryURLInvalidError({
       storyURL: input.url,
-      domains: tenant.domains,
+      domains: site.domains,
     });
   }
 

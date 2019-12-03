@@ -1,18 +1,14 @@
-import { Tenant } from "coral-server/models/tenant";
+import { Site } from "coral-server/models/site";
 import { isURLPermitted } from "coral-server/services/tenant/url";
 
-type PartialTenant = Pick<Tenant, "domains" | "domain">;
+type PartialSite = Pick<Site, "domains">;
 
-function createTenant(input: Partial<PartialTenant> = {}): PartialTenant {
-  if (!input.domain) {
-    input.domain = "";
-  }
-
+function createSite(input: Partial<PartialSite> = {}): PartialSite {
   if (!input.domains) {
     input.domains = [];
   }
 
-  return input as PartialTenant;
+  return input as PartialSite;
 }
 
 it("denies when the tenant has no specified domains", () => {
@@ -22,13 +18,13 @@ it("denies when the tenant has no specified domains", () => {
 });
 
 it("denies when tenant has a domain but not a valid url", () => {
-  const tenant = createTenant({ domains: ["https://coralproject.net"] });
+  const tenant = createSite({ domains: ["https://coralproject.net"] });
 
   expect(isURLPermitted(tenant, "")).toEqual(false);
 });
 
 it("denies when there are multiple tenants domains and not a valid url", () => {
-  const tenant = createTenant({
+  const tenant = createSite({
     domains: ["https://coralproject.net", "https://news.coralproject.net"],
   });
 
@@ -36,7 +32,7 @@ it("denies when there are multiple tenants domains and not a valid url", () => {
 });
 
 it("denies when there are multiple tenants domains and a invalid url", () => {
-  const tenant = createTenant({
+  const tenant = createSite({
     domains: ["https://coralproject.net", "https://news.coralproject.net"],
   });
 
@@ -46,7 +42,7 @@ it("denies when there are multiple tenants domains and a invalid url", () => {
 });
 
 it("allows when there are multiple tenants domains and a valid url", () => {
-  const tenant = createTenant({
+  const tenant = createSite({
     domains: ["https://coralproject.net", "https://news.coralproject.net"],
   });
 
@@ -56,7 +52,7 @@ it("allows when there are multiple tenants domains and a valid url", () => {
 });
 
 it("allows when there are multiple prefix domains and a valid url", () => {
-  const tenant = createTenant({
+  const tenant = createSite({
     domains: ["coralproject.net", "news.coralproject.net"],
   });
 
@@ -66,31 +62,11 @@ it("allows when there are multiple prefix domains and a valid url", () => {
 });
 
 it("allows when there are some prefix domains and a valid url", () => {
-  const tenant = createTenant({
+  const tenant = createSite({
     domains: ["http://coralproject.net", "news.coralproject.net"],
   });
 
   expect(
     isURLPermitted(tenant, "https://news.coralproject.net/a/page")
   ).toEqual(true);
-});
-
-it("allows and validates with the tenant domain", () => {
-  const tenant = createTenant({
-    domain: "coralproject.net",
-  });
-
-  expect(
-    isURLPermitted(tenant, "https://coralproject.net/admin/login", true)
-  ).toEqual(true);
-});
-
-it("denies and validates with the tenant domain", () => {
-  const tenant = createTenant({
-    domain: "coral.coralproject.net",
-  });
-
-  expect(
-    isURLPermitted(tenant, "https://coralproject.net/admin/login", true)
-  ).toEqual(false);
 });

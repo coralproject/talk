@@ -50,13 +50,7 @@ export interface Tenant
  */
 export type CreateTenantInput = Pick<
   Tenant,
-  | "name"
-  | "contactEmail"
-  | "url"
-  | "locale"
-  | "multiSite"
-  | "domains"
-  | "domain"
+  "name" | "contactEmail" | "url" | "locale" | "multiSite" | "domain"
 >;
 
 export async function createTenant(
@@ -269,6 +263,8 @@ export async function retrieveManyTenantsByDomain(
   mongo: Db,
   domains: string[]
 ) {
+  // eslint-disable-next-line
+  console.log(domains);
   const cursor = collection(mongo).find({
     domain: {
       $in: domains,

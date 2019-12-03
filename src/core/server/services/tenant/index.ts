@@ -1,13 +1,19 @@
 import { Redis } from "ioredis";
-import { isUndefined } from "lodash";
+import { isUndefined, pick } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import { URL } from "url";
 
+import { Omit } from "coral-common/types";
 import { discover } from "coral-server/app/middleware/passport/strategies/oidc/discover";
 import { Config } from "coral-server/config";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
 import logger from "coral-server/logger";
+import {
+  createCommunity,
+  CreateCommunityInput,
+} from "coral-server/models/community";
+import { createSite, CreateSiteInput } from "coral-server/models/site";
 import {
   createTenant,
   CreateTenantInput,
@@ -98,6 +104,10 @@ export async function isInstalled(cache: TenantCache, domain?: string) {
   return true;
 }
 
+type SiteInput = Partial<Omit<CreateSiteInput, "domains">> & {
+  domains: string[];
+};
+
 export type InstallTenant = CreateTenantInput;
 
 export async function install(
@@ -106,6 +116,8 @@ export async function install(
   cache: TenantCache,
   i18n: I18n,
   input: InstallTenant,
+  sites: SiteInput[],
+  communities: Partial<CreateCommunityInput>[],
   now = new Date()
 ) {
   // Ensure that this Tenant isn't being installed onto a domain that already
@@ -118,6 +130,27 @@ export async function install(
 
   // Create the Tenant.
   const tenant = await createTenant(mongo, i18n, input, now);
+
+  if (tenant.multiSite) {
+    // do a lot of things
+  } else {
+    const sharedDetails = pick(tenant, [
+      "name",
+      "contactEmail",
+      "url",
+      "locale",
+    ]);
+    const communityInput = {
+      ...sharedDetails,
+      ...communities[0],
+    };
+    const community = await createCommunity(mongo, tenant.id, communityInput);
+    const siteInput = {
+      ...sharedDetails,
+      ...sites[0],
+    };
+    await createSite(mongo, tenant.id, community.id, siteInput);
+  }
 
   // Update the tenant cache.
   await cache.update(redis, tenant);

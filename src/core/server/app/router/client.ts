@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import { minify } from "html-minifier";
+import { Db } from "mongodb";
 import path from "path";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
@@ -96,6 +97,7 @@ const clientHandler = ({
 
 export function mountClientRoutes(
   router: Router,
+  mongo: Db,
   { staticURI, tenantCache, defaultLocale }: MountClientRouteOptions
 ) {
   // TODO: (wyattjoh) figure out a better way of referencing paths.
@@ -128,7 +130,11 @@ export function mountClientRoutes(
   );
 
   // Add CSP headers to the request, which only apply when serving HTML content.
-  router.use(cspTenantMiddleware);
+  router.use(
+    cspTenantMiddleware({
+      mongo,
+    })
+  );
 
   // Add the embed targets.
   router.use(

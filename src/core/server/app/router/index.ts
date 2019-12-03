@@ -31,7 +31,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
   }
 
   if (!options.disableClientRoutes) {
-    mountClientRoutes(router, {
+    mountClientRoutes(router, app.mongo, {
       defaultLocale: app.config.get("default_locale") as LanguageCode,
       // When mounting client routes, we need to provide a staticURI even when
       // not provided to the default current domain relative "/".

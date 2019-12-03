@@ -28,6 +28,7 @@ export const countHandler = ({ mongo, i18n }: CountOptions): RequestHandler => {
       const story = await find(mongo, tenant, {
         id: req.query.id,
         url: req.query.url,
+        siteID: req.query.siteID,
       });
       if (!story) {
         throw new Error("Story not found");
