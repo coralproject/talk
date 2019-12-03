@@ -1,28 +1,41 @@
-.header {
-  flex: 1;
-}
-
 .description {
-  padding-bottom: var(--spacing-1);
+  padding-bottom: var(--v2-spacing-1);
 }
 
-.channelName {
-  margin-right: var(--spacing-2);
+.enabledCheckbox {
+  margin-right: var(--v2-spacing-1);
 }
 
 .trigger {
-  padding-left: var(--spacing-1);
+  padding-left: var(--v2-spacing-1);
+  padding-bottom: var(--v2-spacing-2);
+}
+
+.button {
+  padding-top: var(--v2-spacing-1);
+  padding-bottom: var(--v2-spacing-1);
 }
 
 .removeButton {
-  padding-top: 0px;
-  padding-bottom: 0px;
-
-  margin-bottom: 2px;
-
-  float: right;
+  margin-bottom: var(--v2-spacing-1);
 }
 
 .buttonIcon {
-  padding-right: var(--spacing-1);
+  padding-right: var(--v2-spacing-1);
+}
+
+.content {
+  padding: var(--v2-spacing-3) var(--v2-spacing-2) 0 var(--v2-spacing-2);
+}
+
+.textField {
+  padding-bottom: var(--v2-spacing-4);
+}
+
+.notificationsLabel {
+  padding-bottom: var(--v2-spacing-1);
+}
+
+.notificationToggles {
+  padding-bottom: var(--v2-spacing-3);
 }
