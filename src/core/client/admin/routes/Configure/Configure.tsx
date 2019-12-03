@@ -15,7 +15,7 @@ import SideBar from "./SideBar";
 
 interface Props {
   onSubmit: (settings: any, form: FormApi) => void;
-  onChange: (formState: FormState) => void;
+  onChange: (formState: FormState<any>) => void;
   children: React.ReactElement;
 }
 
@@ -26,7 +26,7 @@ const Configure: FunctionComponent<Props> = ({
 }) => (
   <MainLayout data-testid="configure-container">
     <Form onSubmit={onSubmit} mutators={{ ...arrayMutators }}>
-      {({ handleSubmit, submitting, pristine, form, submitError }) => (
+      {({ handleSubmit, submitting, form, pristine, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
           <FormSpy onChange={onChange} />
           <Layout>

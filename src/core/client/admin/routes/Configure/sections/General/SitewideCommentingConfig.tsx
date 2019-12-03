@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { MarkdownEditor } from "coral-framework/components/loadables";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
@@ -18,6 +19,16 @@ import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import ValidationMessage from "../../ValidationMessage";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment SitewideCommentingConfig_formValues on Settings {
+    disableCommenting {
+      enabled
+      message
+    }
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -82,8 +93,8 @@ const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
           <>
             <Suspense fallback={<Spinner />}>
               <MarkdownEditor
-                id="configure-general-sitewideCommenting-message"
                 {...input}
+                id="configure-general-sitewideCommenting-message"
               />
             </Suspense>
             <ValidationMessage meta={meta} fullWidth />

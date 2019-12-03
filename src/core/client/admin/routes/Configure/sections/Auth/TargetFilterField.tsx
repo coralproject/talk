@@ -22,7 +22,7 @@ const TargetFilterField: FunctionComponent<Props> = ({
       <Field name={`${name}.admin`} type="checkbox" parse={parseBool}>
         {({ input }) => (
           <Localized id="configure-auth-targetFilterCoralAdmin">
-            <CheckBox id={input.name} disabled={disabled} {...input}>
+            <CheckBox {...input} id={input.name} disabled={disabled}>
               Coral Admin
             </CheckBox>
           </Localized>
@@ -31,7 +31,7 @@ const TargetFilterField: FunctionComponent<Props> = ({
       <Field name={`${name}.stream`} type="checkbox" parse={parseBool}>
         {({ input }) => (
           <Localized id="configure-auth-targetFilterCommentStream">
-            <CheckBox id={input.name} disabled={disabled} {...input}>
+            <CheckBox {...input} id={input.name} disabled={disabled}>
               Comment Stream
             </CheckBox>
           </Localized>

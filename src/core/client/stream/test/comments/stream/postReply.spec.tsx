@@ -8,6 +8,7 @@ import {
   ModerationNudgeError,
 } from "coral-framework/lib/errors";
 import {
+  act,
   createSinonStub,
   findParentWithType,
   waitForElement,
@@ -53,7 +54,7 @@ async function createTestRenderer(
     selector: "button",
   });
 
-  replyButton.props.onClick();
+  act(() => replyButton.props.onClick());
 
   const rte = await waitForElement(
     () =>
@@ -79,7 +80,7 @@ async function createTestRenderer(
 
 it("hides form when reclicking on the reply button", async () => {
   const { comment, replyButton } = await createTestRenderer();
-  replyButton.props.onClick();
+  act(() => replyButton.props.onClick());
   expect(within(comment).queryByLabelText("Write a reply")).toBeNull();
 });
 
@@ -114,10 +115,12 @@ it("post a reply", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("open reply form");
 
   // Write reply .
-  rte.props.onChange({ html: "<b>Hello world!</b>" });
+  act(() => rte.props.onChange({ html: "<b>Hello world!</b>" }));
 
   timekeeper.freeze(new Date(baseComment.createdAt));
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   const commentReplyList = within(testRenderer.root).getByTestID(
     "commentReplyList-comment-0"
@@ -130,9 +133,11 @@ it("post a reply", async () => {
   timekeeper.reset();
 
   // Test after server response.
-  await waitForElement(() =>
-    within(commentReplyList).getByText("(from server)", { exact: false })
-  );
+  await act(async () => {
+    await waitForElement(() =>
+      within(commentReplyList).getByText("(from server)", { exact: false })
+    );
+  });
 });
 
 it("post a reply and handle non-visible comment state", async () => {
@@ -165,15 +170,21 @@ it("post a reply and handle non-visible comment state", async () => {
   });
 
   // Write reply .
-  rte.props.onChange({ html: "<b>Hello world!</b>" });
-  form.props.onSubmit();
+  act(() => rte.props.onChange({ html: "<b>Hello world!</b>" }));
+  act(() => {
+    form.props.onSubmit();
+  });
   // Test after server response.
-  await waitForElement(() =>
-    within(comment).getByText("will be reviewed", { exact: false })
+  await act(async () => {
+    await waitForElement(() =>
+      within(comment).getByText("will be reviewed", { exact: false })
+    );
+  });
+  act(() =>
+    within(comment)
+      .getByText("Dismiss")
+      .props.onClick()
   );
-  await within(comment)
-    .getByText("Dismiss")
-    .props.onClick();
   expect(
     within(comment).queryByText("will be reviewed", { exact: false })
   ).toBeNull();
@@ -192,12 +203,16 @@ it("post a reply and handle server error", async () => {
   );
 
   // Write reply .
-  rte.props.onChange({ html: "<b>Hello world!</b>" });
+  act(() => rte.props.onChange({ html: "<b>Hello world!</b>" }));
 
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   // Look for internal error being displayed.
-  await waitForElement(() => within(comment).getByText("INTERNAL_ERROR"));
+  await act(async () => {
+    await waitForElement(() => within(comment).getByText("INTERNAL_ERROR"));
+  });
 });
 
 it("handle moderation nudge error", async () => {
@@ -250,19 +265,27 @@ it("handle moderation nudge error", async () => {
     { muteNetworkErrors: true }
   );
 
-  rte.props.onChange({ html: "<b>Hello world!</b>" });
-  form.props.onSubmit();
+  act(() => rte.props.onChange({ html: "<b>Hello world!</b>" }));
+  act(() => {
+    form.props.onSubmit();
+  });
 
   // Look for internal error being displayed.
-  await waitForElement(() => within(form).getByText("TOXIC_COMMENT"));
+  await act(async () => {
+    await waitForElement(() => within(form).getByText("TOXIC_COMMENT"));
+  });
 
   // Try again, now nudging should be disabled.
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   // Comment should now go to moderation.
-  await waitForElement(() =>
-    within(comment).getByText("will be reviewed", { exact: false })
-  );
+  await act(async () => {
+    await waitForElement(() =>
+      within(comment).getByText("will be reviewed", { exact: false })
+    );
+  });
 });
 
 it("handle disabled commenting error", async () => {
@@ -283,8 +306,10 @@ it("handle disabled commenting error", async () => {
     { muteNetworkErrors: true }
   );
 
-  rte.props.onChange({ html: "abc" });
-  form.props.onSubmit();
+  act(() => rte.props.onChange({ html: "abc" }));
+  act(() => {
+    form.props.onSubmit();
+  });
 
   // Change the settings that we return to be closed.
   returnSettings = {
@@ -295,7 +320,9 @@ it("handle disabled commenting error", async () => {
     },
   };
 
-  await waitForElement(() => within(form).getByText("commenting disabled"));
+  await act(async () => {
+    await waitForElement(() => within(form).getByText("commenting disabled"));
+  });
   expect(rte.props.disabled).toBe(true);
   expect(within(form).getByText("Submit").props.disabled).toBe(true);
 });
@@ -318,13 +345,17 @@ it("handle story closed error", async () => {
     { muteNetworkErrors: true }
   );
 
-  rte.props.onChange({ html: "abc" });
-  form.props.onSubmit();
+  act(() => rte.props.onChange({ html: "abc" }));
+  act(() => {
+    form.props.onSubmit();
+  });
 
   // Change the story that we return to be closed.
   returnStory = { ...stories[0], isClosed: true };
 
-  await waitForElement(() => within(form).getByText("Story is closed"));
+  await act(async () => {
+    await waitForElement(() => within(form).getByText("Story is closed"));
+  });
   expect(rte.props.disabled).toBe(true);
   expect(within(form).getByText("Submit").props.disabled).toBe(true);
 });

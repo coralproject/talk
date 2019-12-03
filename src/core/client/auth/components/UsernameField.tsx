@@ -34,12 +34,12 @@ const CreateUsernameField: FunctionComponent<Props> = props => (
         </Localized>
         <Localized id="general-usernameTextField" attrs={{ placeholder: true }}>
           <TextField
+            {...input}
             id={input.name}
             placeholder="Username"
             color={colorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
-            {...input}
           />
         </Localized>
         <ValidationMessage meta={meta} fullWidth />

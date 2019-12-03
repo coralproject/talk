@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { validateEmail } from "coral-framework/lib/validation";
@@ -12,6 +13,15 @@ import {
 } from "coral-ui/components/v2";
 
 import TextFieldWithValidation from "../../TextFieldWithValidation";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment From_formValues on EmailConfiguration {
+    enabled
+    fromName
+    fromEmail
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -31,10 +41,10 @@ const From: FunctionComponent<Props> = ({ disabled }) => (
       <Field name="email.fromName" parse={parseEmptyAsNull}>
         {({ input, meta }) => (
           <TextFieldWithValidation
+            {...input}
             fullWidth
             disabled={disabled}
             meta={meta}
-            {...input}
           />
         )}
       </Field>
@@ -57,11 +67,11 @@ const From: FunctionComponent<Props> = ({ disabled }) => (
       >
         {({ input, meta }) => (
           <TextFieldWithValidation
+            {...input}
             type="email"
             fullWidth
             meta={meta}
             disabled={disabled}
-            {...input}
           />
         )}
       </Field>

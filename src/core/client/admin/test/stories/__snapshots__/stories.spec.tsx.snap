@@ -192,7 +192,7 @@ exports[`renders empty stories 1`] = `
             <td
               className="TableCell-root StoryRow-publishDateColumn TableCell-body"
             >
-              11/29/2018, 04:01 PM
+              11/29/2018, 4:01 PM
             </td>
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"
@@ -263,7 +263,7 @@ exports[`renders empty stories 1`] = `
             <td
               className="TableCell-root StoryRow-publishDateColumn TableCell-body"
             >
-              11/29/2018, 04:01 PM
+              11/29/2018, 4:01 PM
             </td>
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"
@@ -511,7 +511,7 @@ exports[`renders stories 1`] = `
             <td
               className="TableCell-root StoryRow-publishDateColumn TableCell-body"
             >
-              11/29/2018, 04:01 PM
+              11/29/2018, 4:01 PM
             </td>
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"
@@ -582,7 +582,7 @@ exports[`renders stories 1`] = `
             <td
               className="TableCell-root StoryRow-publishDateColumn TableCell-body"
             >
-              11/29/2018, 04:01 PM
+              11/29/2018, 4:01 PM
             </td>
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"

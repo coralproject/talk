@@ -136,11 +136,11 @@ class PasswordField extends Component<PasswordFieldProps, State> {
       <div className={rootClassName}>
         <div className={classes.wrapper}>
           <input
+            {...rest}
             className={inputClassName}
             placeholder={placeholder}
             value={value}
             type={reveal ? "text" : "password"}
-            {...rest}
           />
           <div
             role="button"

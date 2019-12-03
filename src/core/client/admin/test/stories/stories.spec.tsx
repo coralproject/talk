@@ -14,6 +14,7 @@ import {
   CreateTestRendererParams,
   findParentWithType,
   replaceHistoryLocation,
+  wait,
   waitForElement,
   waitUntilThrow,
   within,
@@ -59,15 +60,22 @@ async function createTestRenderer(
     },
   });
 
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("stories-container")
-  );
-  return { testRenderer, container, context };
+  return await act(async () => {
+    const container = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("stories-container")
+    );
+
+    return { testRenderer, container, context };
+  });
 }
 
 it("renders stories", async () => {
   const { container } = await createTestRenderer();
-  expect(within(container).toJSON()).toMatchSnapshot();
+  await act(async () => {
+    await wait(() => {
+      expect(within(container).toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("renders empty stories", async () => {
@@ -78,7 +86,12 @@ it("renders empty stories", async () => {
       },
     }),
   });
-  expect(within(container).toJSON()).toMatchSnapshot();
+
+  await act(async () => {
+    await wait(() => {
+      expect(within(container).toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("goes to moderation when clicking on title", async () => {
@@ -96,10 +109,15 @@ it("goes to moderation when clicking on title", async () => {
       .getByText(story.metadata!.title!)
       .props.onClick({ button: 0, preventDefault: noop });
   });
+
   // Expect a routing request was made to the right url.
-  expect(transitionControl.history[0].pathname).toBe(
-    `/admin/moderate/${story.id}`
-  );
+  await act(async () => {
+    await wait(() => {
+      expect(transitionControl.history[0].pathname).toBe(
+        `/admin/moderate/${story.id}`
+      );
+    });
+  });
 });
 
 it("filter by status", async () => {
@@ -122,10 +140,13 @@ it("filter by status", async () => {
   const selectField = within(container).getByLabelText("Search by status");
   const closedOption = within(selectField).getByText("Closed Stories");
 
-  await act(async () => {
+  act(() => {
     selectField.props.onChange({
       target: { value: closedOption.props.value.toString() },
     });
+  });
+
+  await act(async () => {
     await waitForElement(() =>
       within(container).getByText("could not find any", { exact: false })
     );
@@ -185,7 +206,6 @@ it("change story status", async () => {
   act(() => {
     changeStatusButton.props.onClick();
   });
-
   act(() => {
     within(popup)
       .getByText("Closed", { selector: "button" })
@@ -241,14 +261,21 @@ it("load more", async () => {
     }),
   });
   const loadMore = within(container).getByText("Load More");
-  await act(async () => {
+  act(() => {
     loadMore.props.onClick();
+  });
+
+  await act(async () => {
     // Wait for load more to disappear.
     await waitUntilThrow(() => within(container).getByText("Load More"));
   });
 
-  // Make sure third user was added.
-  within(container).getByText(stories[2].metadata!.title!);
+  await act(async () => {
+    await wait(() => {
+      // Make sure third user was added.
+      within(container).getByText(stories[2].metadata!.title!);
+    });
+  });
 });
 
 it("filter by search", async () => {
@@ -274,11 +301,16 @@ it("filter by search", async () => {
   );
   const form = findParentWithType(searchField, "form")!;
 
-  await act(async () => {
+  act(() =>
     searchField.props.onChange({
       target: { value: "search" },
-    });
+    })
+  );
+  act(() => {
     form.props.onSubmit();
+  });
+
+  await act(async () => {
     await waitForElement(() =>
       within(container).getByText("could not find any", { exact: false })
     );
@@ -303,5 +335,10 @@ it("use searchFilter from url", async () => {
     "Search by story title",
     { exact: false }
   );
-  expect(searchField.props.value).toBe(searchFilter);
+
+  await act(async () => {
+    await wait(() => {
+      expect(searchField.props.value).toBe(searchFilter);
+    });
+  });
 });

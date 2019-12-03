@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
 import { hasError } from "coral-framework/lib/form/helpers";
@@ -28,6 +29,17 @@ import TextFieldWithValidation from "../../TextFieldWithValidation";
 import ValidationMessage from "../../ValidationMessage";
 
 import styles from "./RecentCommentHistoryConfig.css";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment RecentCommentHistoryConfig_formValues on Settings {
+    recentCommentHistory {
+      enabled
+      timeFrame
+      triggerRejectionRate
+    }
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -117,6 +129,7 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
         >
           {({ input, meta }) => (
             <TextFieldWithValidation
+              {...input}
               classes={{
                 input: styles.thresholdTextField,
               }}
@@ -128,7 +141,6 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
               adornment={<TextFieldAdornment>%</TextFieldAdornment>}
               meta={meta}
               textAlignCenter
-              {...input}
             />
           )}
         </Field>

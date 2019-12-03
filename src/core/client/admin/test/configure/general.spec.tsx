@@ -87,9 +87,7 @@ it("change language", async () => {
   const languageField = within(generalContainer).getByLabelText("Language");
 
   // Let's change the language.
-  act(() => {
-    languageField.props.onChange("es");
-  });
+  act(() => languageField.props.onChange("es"));
 
   // Send form
   await act(async () => {
@@ -104,8 +102,10 @@ it("change language", async () => {
   });
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+  await act(async () => {
+    await wait(() => {
+      expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+    });
   });
 
   // Wait for client to change language.
@@ -149,23 +149,27 @@ it("change site wide commenting", async () => {
   );
 
   // Let's enable it.
-  offField.props.onChange(offField.props.value.toString());
+  act(() => offField.props.onChange(offField.props.value.toString()));
 
   // Let's change the content.
-  contentField.props.onChange("Closing message");
+  act(() => contentField.props.onChange("Closing message"));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(offField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(offField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(offField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -208,23 +212,29 @@ it("change community guidlines", async () => {
   );
 
   // Let's enable it.
-  onField.props.onChange(onField.props.value.toString());
+  act(() => onField.props.onChange(onField.props.value.toString()));
 
   // Let's change the content.
-  contentField.props.onChange("This is the community guidlines summary");
+  act(() =>
+    contentField.props.onChange("This is the community guidlines summary")
+  );
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(onField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(onField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(onField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -255,19 +265,23 @@ it("change closed stream message", async () => {
   );
 
   // Let's change the content.
-  contentField.props.onChange("The stream has been closed");
+  act(() => contentField.props.onChange("The stream has been closed"));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+  await act(async () => {
+    await wait(() => {
+      expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+    });
   });
 });
 
@@ -299,22 +313,26 @@ it("change comment editing time", async () => {
   const hoursOption = within(unitField).getByText(/Hours?/);
 
   // Let's turn on and set some invalid values.
-  valueField.props.onChange({ target: { value: "" } });
+  act(() => valueField.props.onChange({ target: { value: "" } }));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   expect(
     within(generalContainer).queryAllByText("This field is required.").length
   ).toBe(1);
 
   // Let's change to sth valid.
-  valueField.props.onChange({ target: { value: "30" } });
-  unitField.props.onChange({
-    target: { value: hoursOption.props.value.toString() },
-  });
+  act(() => valueField.props.onChange({ target: { value: "30" } }));
+  act(() =>
+    unitField.props.onChange({
+      target: { value: hoursOption.props.value.toString() },
+    })
+  );
 
   expect(
     within(generalContainer).queryAllByText(
@@ -323,16 +341,20 @@ it("change comment editing time", async () => {
   ).toBe(0);
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+  await act(async () => {
+    await wait(() => {
+      expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+    });
   });
 });
 
@@ -372,14 +394,16 @@ it("change comment length limitations", async () => {
   );
 
   // Let's turn on and set some invalid values.
-  onField.props.onChange(onField.props.value.toString());
-  minField.props.onChange("invalid");
-  maxField.props.onChange("-1");
+  act(() => onField.props.onChange(onField.props.value.toString()));
+  act(() => minField.props.onChange("invalid"));
+  act(() => maxField.props.onChange("-1"));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   expect(
     within(generalContainer).queryAllByText(
@@ -388,8 +412,8 @@ it("change comment length limitations", async () => {
   ).toBe(2);
 
   // Make max smaller than min.
-  minField.props.onChange("1000");
-  maxField.props.onChange("500");
+  act(() => minField.props.onChange("1000"));
+  act(() => maxField.props.onChange("500"));
 
   expect(
     within(generalContainer).queryAllByText(
@@ -398,8 +422,8 @@ it("change comment length limitations", async () => {
   ).toBe(1);
 
   // Let's change to sth valid.
-  minField.props.onChange("");
-  maxField.props.onChange("3000");
+  act(() => minField.props.onChange(""));
+  act(() => maxField.props.onChange("3000"));
 
   expect(
     within(generalContainer).queryAllByText(
@@ -408,9 +432,11 @@ it("change comment length limitations", async () => {
   ).toBe(0);
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
@@ -418,9 +444,11 @@ it("change comment length limitations", async () => {
   expect(maxField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(minField.props.disabled).toBe(false);
-    expect(maxField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(minField.props.disabled).toBe(false);
+      expect(maxField.props.disabled).toBe(false);
+    });
   });
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
@@ -459,28 +487,34 @@ it("change closing comment streams", async () => {
   const daysOption = within(unitField).getByText(/Days?/);
 
   // Let's turn on and set some invalid values.
-  onField.props.onChange(onField.props.value.toString());
-  valueField.props.onChange({ target: { value: "" } });
+  act(() => onField.props.onChange(onField.props.value.toString()));
+  act(() => valueField.props.onChange({ target: { value: "" } }));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   expect(
     within(generalContainer).queryAllByText("This field is required.").length
   ).toBe(1);
 
   // Let's change to sth valid.
-  valueField.props.onChange({ target: { value: "30" } });
-  unitField.props.onChange({
-    target: { value: daysOption.props.value.toString() },
-  });
+  act(() => valueField.props.onChange({ target: { value: "30" } }));
+  act(() =>
+    unitField.props.onChange({
+      target: { value: daysOption.props.value.toString() },
+    })
+  );
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
@@ -488,9 +522,11 @@ it("change closing comment streams", async () => {
   expect(unitField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(valueField.props.disabled).toBe(false);
-    expect(unitField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(valueField.props.disabled).toBe(false);
+      expect(unitField.props.disabled).toBe(false);
+    });
   });
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
@@ -514,15 +550,19 @@ it("handle server error", async () => {
   );
 
   // Let's change the content.
-  contentField.props.onChange("The stream has been closed");
+  act(() => contentField.props.onChange("The stream has been closed"));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Look for internal error being displayed.
-  await waitForElement(() =>
-    within(configureContainer).getByText("INTERNAL_ERROR")
-  );
+  await act(async () => {
+    await waitForElement(() =>
+      within(configureContainer).getByText("INTERNAL_ERROR")
+    );
+  });
 });

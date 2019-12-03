@@ -200,6 +200,11 @@ exports[`renders configure general 1`] = `
                       >
                         Dansk
                       </option>
+                      <option
+                        value="fr-FR"
+                      >
+                        Francais
+                      </option>
                     </select>
                     <span
                       aria-hidden={true}
@@ -268,7 +273,7 @@ reactions, be reported, and be shared.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -292,7 +297,7 @@ reactions, be reported, and be shared.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -382,7 +387,7 @@ reactions, be reported, and be shared.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -406,7 +411,7 @@ reactions, be reported, and be shared.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -514,7 +519,7 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -538,7 +543,7 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -791,7 +796,7 @@ moderation panel.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -815,7 +820,7 @@ moderation panel.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"

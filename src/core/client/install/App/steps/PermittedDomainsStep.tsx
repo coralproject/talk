@@ -6,6 +6,7 @@ import { Field, Form } from "react-final-form";
 import {
   colorFromMeta,
   formatStringList,
+  FormError,
   OnSubmit,
   parseStringList,
   ValidationMessage,
@@ -29,6 +30,8 @@ interface FormProps {
   allowedDomains: string[];
 }
 
+interface FormSubmitProps extends FormProps, FormError {}
+
 interface Props {
   onGoToNextStep: () => void;
   onGoToPreviousStep: () => void;
@@ -37,7 +40,10 @@ interface Props {
 }
 
 class PermittedDomainsStep extends Component<Props> {
-  private onSubmit: OnSubmit<FormProps> = async ({ allowedDomains }, form) => {
+  private onSubmit: OnSubmit<FormSubmitProps> = async (
+    { allowedDomains },
+    form
+  ) => {
     try {
       await this.props.onInstall({ allowedDomains });
       return this.props.onGoToNextStep();
@@ -99,12 +105,12 @@ class PermittedDomainsStep extends Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Domains"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
-                        id={input.name}
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />

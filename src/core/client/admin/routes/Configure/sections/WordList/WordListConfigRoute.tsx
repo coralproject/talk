@@ -1,4 +1,3 @@
-import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 
@@ -11,7 +10,6 @@ import WordListConfigContainer from "./WordListConfigContainer";
 
 interface Props {
   data: WordListConfigRouteQueryResponse | null;
-  form: FormApi;
   submitting: boolean;
 }
 
@@ -27,7 +25,6 @@ class WordListConfigRoute extends React.Component<Props> {
     return (
       <WordListConfigContainer
         settings={this.props.data.settings}
-        form={this.props.form}
         submitting={this.props.submitting}
       />
     );

@@ -1,7 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
-import { parseStringBool } from "coral-framework/lib/form";
+import { formatBool, parseStringBool } from "coral-framework/lib/form";
 import {
   FieldSet,
   FormField,
@@ -13,6 +14,14 @@ import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment PreModerationConfig_formValues on Settings {
+    moderation
+    premodLinksEnable
+  }
+`;
+
 interface Props {
   disabled: boolean;
 }
@@ -22,7 +31,7 @@ const parse = (v: string) => {
 };
 
 const format = (v: "PRE" | "POST") => {
-  return v === "PRE";
+  return formatBool(v === "PRE");
 };
 
 const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
