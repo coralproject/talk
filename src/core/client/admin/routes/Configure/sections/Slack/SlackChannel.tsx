@@ -74,7 +74,7 @@ const SlackChannel: FunctionComponent<Props> = ({
                   </Localized>
                   <TextField
                     id={`configure-slack-channel-name-${input.name}`}
-                    disabled={disabled}
+                    disabled={disabled || disabledInside}
                     autoComplete="off"
                     autoCorrect="off"
                     autoCapitalize="off"
@@ -107,7 +107,7 @@ const SlackChannel: FunctionComponent<Props> = ({
                   </Localized>
                   <TextField
                     id={`configure-slack-channel-hookURL-${input.name}`}
-                    disabled={disabled}
+                    disabled={disabled || disabledInside}
                     autoComplete="off"
                     autoCorrect="off"
                     autoCapitalize="off"
@@ -139,7 +139,7 @@ const SlackChannel: FunctionComponent<Props> = ({
                     {({ input }) => (
                       <CheckBox
                         id={`configure-slack-channel-triggers-allComments-${input.name}`}
-                        disabled={disabled}
+                        disabled={disabled || disabledInside}
                         className={styles.trigger}
                         {...input}
                       >
@@ -157,7 +157,7 @@ const SlackChannel: FunctionComponent<Props> = ({
                     {({ input }) => (
                       <CheckBox
                         id={`configure-slack-channel-triggers-reportedComments-${input.name}`}
-                        disabled={disabled || value}
+                        disabled={disabled || value || disabledInside}
                         className={styles.trigger}
                         {...input}
                       >
@@ -175,7 +175,7 @@ const SlackChannel: FunctionComponent<Props> = ({
                     {({ input }) => (
                       <CheckBox
                         id={`configure-slack-channel-triggers-pendingComments-${input.name}`}
-                        disabled={disabled || value}
+                        disabled={disabled || value || disabledInside}
                         className={styles.trigger}
                         {...input}
                       >
@@ -193,7 +193,7 @@ const SlackChannel: FunctionComponent<Props> = ({
                     {({ input }) => (
                       <CheckBox
                         id={`configure-slack-channel-triggers-featuredComments-${input.name}`}
-                        disabled={disabled || value}
+                        disabled={disabled || value || disabledInside}
                         className={styles.trigger}
                         {...input}
                       >
