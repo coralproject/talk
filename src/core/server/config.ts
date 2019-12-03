@@ -255,6 +255,14 @@ const config = convict({
     env: "SCRAPE_TIMEOUT",
     arg: "scrapeTimeout",
   },
+  disable_force_ssl: {
+    doc:
+      "Disables forcing SSL in production environments. Should not be used except for testing.",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_FORCE_SSL",
+    arg: "disableForceSSL",
+  },
 });
 
 export type Config = typeof config;
