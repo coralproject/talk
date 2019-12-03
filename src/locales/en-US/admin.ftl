@@ -390,6 +390,7 @@ configure-slack-description =
   steps on how to create a Slack App see our <externalLink>documentation</externalLink>.
 
 configure-slack-channel-enabled = Enabled
+configure-slack-channel-remove = Remove
 configure-slack-channel-name-label = Name
 configure-slack-channel-name-description =
   This is only for your information, to easily identify

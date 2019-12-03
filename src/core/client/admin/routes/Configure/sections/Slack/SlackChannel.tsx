@@ -7,8 +7,8 @@ import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { InputDescription, InputLabel } from "coral-ui/components";
 import {
   Button,
+  ButtonIcon,
   CheckBox,
-  Flex,
   FormField,
   TextField,
 } from "coral-ui/components/v2";
@@ -39,19 +39,25 @@ const SlackChannel: FunctionComponent<Props> = ({
   return (
     <ConfigBoxWithToggleField
       title={
-        <Flex justifyContent="space-between">
+        <>
           <Field name={`${channel}.name`}>
-            {({ input, meta }) => <Header>{input.value}</Header>}
+            {({ input }) => (
+              <Header className={styles.channelName}>{input.value}</Header>
+            )}
           </Field>
           <Button
             size="small"
             variant="filled"
             color="alert"
             onClick={onRemove}
+            className={styles.removeButton}
           >
-            Remove
+            <ButtonIcon size="md" className={styles.buttonIcon}>
+              delete_forever
+            </ButtonIcon>
+            <Localized id="configure-slack-channel-remove">Remove</Localized>
           </Button>
-        </Flex>
+        </>
       }
       name={`${channel}.enabled`}
       disabled={disabled}
