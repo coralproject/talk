@@ -119,6 +119,8 @@ it("loads more comments", async () => {
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
 
+  expect(await within(streamLog).axe()).toHaveNoViolations();
+
   // Get amount of comments before.
   const commentsBefore = within(streamLog).getAllByTestID(/^comment-/).length;
 
