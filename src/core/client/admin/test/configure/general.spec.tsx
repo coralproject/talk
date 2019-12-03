@@ -90,14 +90,16 @@ it("change language", async () => {
   act(() => languageField.props.onChange("es"));
 
   // Send form
-  act(() => {
-    within(configureContainer)
+  await act(async () => {
+    await within(configureContainer)
       .getByType("form")
       .props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
+  await wait(() => {
+    expect(saveChangesButton.props.disabled).toBe(true);
+  });
 
   // Wait for submission to be finished
   await act(async () => {
