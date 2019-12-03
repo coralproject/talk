@@ -149,6 +149,12 @@ const CLASSES = {
     inReview: "coral coral-createComment-inReview",
 
     /**
+     * rejected is the message notifying the user that the posted comment is
+     * rejected.
+     */
+    rejected: "coral coral-createComment-rejected",
+
+    /**
      * dismissButton is the button to dismiss the in review message.
      */
     dismissButton: "coral coral-createComment-dismissButton",
