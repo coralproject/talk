@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -84,20 +85,24 @@ it("change custom css", async () => {
   const customCSSField = within(advancedContainer).getByLabelText("Custom CSS");
 
   // Let's change the customCSS field.
-  customCSSField.props.onChange("./custom.css");
+  act(() => customCSSField.props.onChange("./custom.css"));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(customCSSField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(customCSSField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(customCSSField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -128,16 +133,20 @@ it("remove custom css", async () => {
   const customCSSField = within(advancedContainer).getByLabelText("Custom CSS");
 
   // Let's change the customCSS field.
-  customCSSField.props.onChange("");
+  act(() => customCSSField.props.onChange(""));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+  await act(async () => {
+    await wait(() => {
+      expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+    });
   });
 });
 
@@ -191,20 +200,24 @@ it("change permitted domains to be empty", async () => {
   );
 
   // Let's change the permitted domains.
-  permittedDomainsField.props.onChange("");
+  act(() => permittedDomainsField.props.onChange(""));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(permittedDomainsField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(permittedDomainsField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(permittedDomainsField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -238,22 +251,28 @@ it("change permitted domains to include more domains", async () => {
   );
 
   // Let's change the permitted domains.
-  permittedDomainsField.props.onChange(
-    "http://localhost:8080, http://localhost:3000"
+  act(() =>
+    permittedDomainsField.props.onChange(
+      "http://localhost:8080, http://localhost:3000"
+    )
   );
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(permittedDomainsField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(permittedDomainsField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(permittedDomainsField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.

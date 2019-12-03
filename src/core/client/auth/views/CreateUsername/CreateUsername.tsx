@@ -7,7 +7,7 @@ import { Bar, Title } from "coral-auth/components//Header";
 import Main from "coral-auth/components/Main";
 import UsernameField from "coral-auth/components/UsernameField";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
-import { OnSubmit } from "coral-framework/lib/form";
+import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
@@ -22,13 +22,15 @@ interface FormProps {
   username: string;
 }
 
+interface FormErrorProps extends FormProps, FormError {}
+
 const CreateUsernameContainer: FunctionComponent = () => {
   const setUsername = useMutation(SetUsernameMutation);
-  const onSubmit: OnSubmit<FormProps> = useCallback(
+  const onSubmit: OnSubmit<FormErrorProps> = useCallback(
     async (input, form) => {
       try {
         await setUsername({ username: input.username });
-        return form.reset();
+        return;
       } catch (error) {
         return { [FORM_ERROR]: error.message };
       }

@@ -25,6 +25,11 @@ interface Props {
   lastFocusableRef: RefObject<any>;
 }
 
+interface FormStateValues {
+  duration: any;
+  emailMessage: any;
+}
+
 const DURATIONS: ScaledUnit[] = [
   { original: 3600, value: "3600", unit: "hour", scaled: 1 }, // 1 hour
   { original: 10800, value: "10800", unit: "hour", scaled: 3 }, // 3 hours
@@ -69,7 +74,8 @@ const SuspendForm: FunctionComponent<Props> = ({
   const setMessageValue: Mutator = useCallback(
     ([name, newValue], state, { changeValue }) => {
       if (state.lastFormState) {
-        const { duration, emailMessage } = state.lastFormState.values;
+        const { duration, emailMessage } = state.lastFormState
+          .values as FormStateValues;
         const unit = DURATIONS.find(d => d.value === duration);
         const expectedEmailMessage = getMessageWithDuration(unit!);
         if (expectedEmailMessage === emailMessage) {
@@ -86,7 +92,8 @@ const SuspendForm: FunctionComponent<Props> = ({
     { changeValue }
   ) => {
     if (state.lastFormState && !checked) {
-      const { duration, emailMessage } = state.lastFormState.values;
+      const { duration, emailMessage } = state.lastFormState
+        .values as FormStateValues;
       const unit = DURATIONS.find(d => d.value === duration);
       const expectedEmailMessage = getMessageWithDuration(unit!);
       if (expectedEmailMessage !== emailMessage) {
@@ -132,8 +139,8 @@ const SuspendForm: FunctionComponent<Props> = ({
                           $unit={unit}
                         >
                           <RadioButton
-                            id={`duration-${value}`}
                             {...input}
+                            id={`duration-${value}`}
                             onChange={event => {
                               form.mutators.setMessageValue(
                                 "emailMessage",
@@ -156,8 +163,8 @@ const SuspendForm: FunctionComponent<Props> = ({
                 {({ input }) => (
                   <Localized id="community-suspendModal-customize">
                     <CheckBox
-                      id="suspendModal-editMessage"
                       {...input}
+                      id="suspendModal-editMessage"
                       onChange={event => {
                         form.mutators.resetMessageValue(
                           "emailMessage",

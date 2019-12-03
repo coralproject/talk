@@ -123,7 +123,6 @@ const changeEmailContainer: FunctionComponent<Props> = ({
         };
       }
 
-      form.reset();
       setShowEditForm(false);
 
       return;
@@ -147,7 +146,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
 
   const preventSubmit = (
     formState: Pick<
-      FormState,
+      FormState<any>,
       | "pristine"
       | "hasSubmitErrors"
       | "hasValidationErrors"
@@ -348,12 +347,12 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                                 attrs={{ placeholder: true }}
                               >
                                 <PasswordField
+                                  {...input}
                                   id={input.name}
                                   placeholder="Password"
                                   color={colorFromMeta(meta)}
                                   disabled={submitting}
                                   fullWidth
-                                  {...input}
                                 />
                               </Localized>
                               <FieldValidationMessage meta={meta} fullWidth />

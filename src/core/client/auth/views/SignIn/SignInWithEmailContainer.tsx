@@ -15,7 +15,7 @@ const SignInContainer: FunctionComponent = () => {
     async (input, form) => {
       try {
         await signIn({ email: input.email, password: input.password });
-        return form.reset();
+        return;
       } catch (error) {
         return { [FORM_ERROR]: error.message };
       }

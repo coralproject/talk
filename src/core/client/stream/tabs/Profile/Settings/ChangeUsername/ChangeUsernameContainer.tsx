@@ -144,7 +144,6 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
         };
       }
 
-      form.reset();
       setShowEditForm(false);
       setShowSuccessMessage(true);
 
@@ -299,8 +298,8 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                             {({ input, meta }) => (
                               <>
                                 <TextField
-                                  fullWidth
                                   {...input}
+                                  fullWidth
                                   id="profile-changeUsername-username-confirm"
                                 />
                                 <FieldValidationMessage meta={meta} />

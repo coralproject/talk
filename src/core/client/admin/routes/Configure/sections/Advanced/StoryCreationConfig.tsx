@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
@@ -17,6 +18,19 @@ import Header from "../../Header";
 import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment StoryCreationConfig_formValues on Settings {
+    stories {
+      scraping {
+        enabled
+        proxyURL
+      }
+      disableLazy
+    }
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -90,6 +104,7 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
       >
         {({ input, meta }) => (
           <TextFieldWithValidation
+            {...input}
             id="configure-advanced-stories-proxy-url"
             disabled={disabled}
             fullWidth
@@ -98,7 +113,6 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
             autoCapitalize="off"
             spellCheck={false}
             meta={meta}
-            {...input}
           />
         )}
       </Field>

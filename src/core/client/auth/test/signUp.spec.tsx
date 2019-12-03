@@ -2,6 +2,7 @@ import { get, merge } from "lodash";
 import sinon, { SinonStub } from "sinon";
 
 import {
+  act,
   createAccessToken,
   toJSON,
   wait,
@@ -31,19 +32,22 @@ async function createTestRenderer(customResolver: any = {}) {
       localRecord.setValue("SIGN_UP", "view");
     },
   });
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("signUp-container")
-  );
-  const main = within(testRenderer.root).getByTestID(/.*-main/);
-  const form = within(main).queryByType("form");
 
-  return {
-    context,
-    testRenderer,
-    form,
-    main,
-    container,
-  };
+  return await act(async () => {
+    const container = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("signUp-container")
+    );
+    const main = within(testRenderer.root).getByTestID(/.*-main/);
+    const form = within(main).queryByType("form");
+
+    return {
+      context,
+      testRenderer,
+      form,
+      main,
+      container,
+    };
+  });
 }
 
 it("renders sign up form", async () => {
@@ -52,81 +56,140 @@ it("renders sign up form", async () => {
 });
 
 it("shows error when submitting empty form", async () => {
-  const { main, form } = await createTestRenderer();
-  form!.props.onSubmit();
-  expect(toJSON(main)).toMatchSnapshot();
+  const { container, form } = await createTestRenderer();
+  act(() => {
+    form!.props.onSubmit();
+  });
+  within(container).getAllByText("This field is required", { exact: false });
 });
 
 it("checks for invalid email", async () => {
-  const { main, form } = await createTestRenderer();
+  const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const emailAddressField = getByLabelText("Email Address");
-  emailAddressField.props.onChange({ target: { value: "invalid-email" } });
-  form!.props.onSubmit();
-  expect(toJSON(main)).toMatchSnapshot();
+  act(() => {
+    emailAddressField.props.onChange({ target: { value: "invalid-email" } });
+  });
+  act(() => {
+    form!.props.onSubmit();
+  });
+  within(container).getByText("Please enter a valid email address", {
+    exact: false,
+  });
 });
 
 it("accepts valid email", async () => {
-  const { main, form } = await createTestRenderer();
+  const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const emailAddressField = getByLabelText("Email Address");
-  emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
-  form!.props.onSubmit();
-  expect(toJSON(main)).toMatchSnapshot();
+  act(() => {
+    emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
+  });
+  act(() => {
+    form!.props.onSubmit();
+  });
+  expect(() =>
+    within(container).getAllByText("Please enter a valid email address", {
+      exact: false,
+    })
+  ).toThrow();
 });
 
 it("checks for too short username", async () => {
-  const { main, form } = await createTestRenderer();
+  const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const usernameField = getByLabelText("Username");
-  usernameField.props.onChange({ target: { value: "u" } });
-  form!.props.onSubmit();
-  expect(toJSON(main)).toMatchSnapshot();
+  act(() => {
+    usernameField.props.onChange({ target: { value: "u" } });
+  });
+  act(() => {
+    form!.props.onSubmit();
+  });
+  within(container).getByText("Username must contain at least 3 characters", {
+    exact: false,
+  });
 });
 
 it("checks for too long username", async () => {
-  const { main, form } = await createTestRenderer();
+  const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const usernameField = getByLabelText("Username");
-  usernameField.props.onChange({ target: { value: "a".repeat(100) } });
-  form!.props.onSubmit();
-  expect(toJSON(main)).toMatchSnapshot();
+  act(() => {
+    usernameField.props.onChange({ target: { value: "a".repeat(100) } });
+  });
+  act(() => {
+    form!.props.onSubmit();
+  });
+  within(container).getByText("Must be at least 8 characters", {
+    exact: false,
+  });
 });
 
 it("checks for invalid characters in username", async () => {
-  const { main, form } = await createTestRenderer();
+  const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const usernameField = getByLabelText("Username");
-  usernameField.props.onChange({ target: { value: "$%$§$%$§%" } });
-  form!.props.onSubmit();
-  expect(toJSON(main)).toMatchSnapshot();
+  act(() => {
+    usernameField.props.onChange({ target: { value: "$%$§$%$§%" } });
+  });
+  act(() => {
+    form!.props.onSubmit();
+  });
+  within(container).getByText("Invalid characters.", {
+    exact: false,
+  });
 });
 
 it("accepts valid username", async () => {
-  const { main, form } = await createTestRenderer();
+  const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const usernameField = getByLabelText("Username");
-  usernameField.props.onChange({ target: { value: "hans" } });
-  form!.props.onSubmit();
-  expect(toJSON(main)).toMatchSnapshot();
+  act(() => {
+    usernameField.props.onChange({ target: { value: "hans" } });
+  });
+  act(() => {
+    form!.props.onSubmit();
+  });
+  expect(() =>
+    within(container).getByText("Invalid characters.", {
+      exact: false,
+    })
+  ).toThrow();
 });
 
 it("checks for too short password", async () => {
-  const { main, form } = await createTestRenderer();
+  const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const passwordField = getByLabelText("Password");
-  passwordField.props.onChange({ target: { value: "pass" } });
-  form!.props.onSubmit();
-  expect(toJSON(main)).toMatchSnapshot();
+  act(() => {
+    passwordField.props.onChange({ target: { value: "pass" } });
+  });
+  act(() => {
+    form!.props.onSubmit();
+  });
+  within(container).getByText("Password must contain at least 8 characters.", {
+    exact: false,
+  });
 });
 
 it("accepts correct password", async () => {
-  const { main, form } = await createTestRenderer();
+  const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const passwordField = getByLabelText("Password");
-  passwordField.props.onChange({ target: { value: "testtest" } });
-  form!.props.onSubmit();
-  expect(toJSON(main)).toMatchSnapshot();
+  act(() => {
+    passwordField.props.onChange({ target: { value: "testtest" } });
+  });
+  act(() => {
+    form!.props.onSubmit();
+  });
+  expect(() =>
+    within(container).getByText(
+      "Password must contain at least 8 characters.",
+      {
+        exact: false,
+      }
+    )
+  ).toThrow();
 });
 
 it("shows server error", async () => {
@@ -139,9 +202,11 @@ it("shows server error", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
-  usernameField.props.onChange({ target: { value: "hans" } });
-  passwordField.props.onChange({ target: { value: "testtest" } });
+  act(() =>
+    emailAddressField.props.onChange({ target: { value: "hans@test.com" } })
+  );
+  act(() => usernameField.props.onChange({ target: { value: "hans" } }));
+  act(() => passwordField.props.onChange({ target: { value: "testtest" } }));
 
   const error = new Error("Server Error");
   const restMock = sinon.mock(context.rest);
@@ -158,22 +223,26 @@ it("shows server error", async () => {
     .once()
     .throws(error);
 
-  form!.props.onSubmit();
+  act(() => {
+    form!.props.onSubmit();
+  });
 
   expect(emailAddressField.props.disabled).toBe(true);
   expect(passwordField.props.disabled).toBe(true);
   expect(usernameField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
+  await act(async () => {
+    wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
 
-  expect(toJSON(main)).toMatchSnapshot();
+  within(main).getByText("Server Error");
 
   restMock.verify();
 });
 
 it("submits form successfully", async () => {
-  const { context, main, form } = await createTestRenderer();
+  const { context, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const accessToken = createAccessToken();
   const emailAddressField = getByLabelText("Email Address");
@@ -183,9 +252,11 @@ it("submits form successfully", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
-  usernameField.props.onChange({ target: { value: "hans" } });
-  passwordField.props.onChange({ target: { value: "testtest" } });
+  act(() =>
+    emailAddressField.props.onChange({ target: { value: "hans@test.com" } })
+  );
+  act(() => usernameField.props.onChange({ target: { value: "hans" } }));
+  act(() => passwordField.props.onChange({ target: { value: "testtest" } }));
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -201,16 +272,18 @@ it("submits form successfully", async () => {
     .once()
     .returns({ token: accessToken });
 
-  form!.props.onSubmit();
+  act(() => {
+    form!.props.onSubmit();
+  });
 
   expect(emailAddressField.props.disabled).toBe(true);
   expect(passwordField.props.disabled).toBe(true);
   expect(usernameField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
-
-  expect(toJSON(main)).toMatchSnapshot();
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
 
   // Wait for new session to start.
   await wait(() =>

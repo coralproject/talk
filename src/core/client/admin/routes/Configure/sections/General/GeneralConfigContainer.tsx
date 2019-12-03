@@ -1,60 +1,65 @@
-import { FormApi } from "final-form";
-import { RouteProps } from "found";
-import React from "react";
+import React, { useMemo } from "react";
+import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { pureMerge } from "coral-common/utils";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  purgeMetadata,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
+import { HorizontalGutter } from "coral-ui/components";
 
 import { GeneralConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
 
-import GeneralConfig from "./GeneralConfig";
+import ClosedStreamMessageConfig from "./ClosedStreamMessageConfig";
+import ClosingCommentStreamsConfig from "./ClosingCommentStreamsConfig";
+import CommentEditingConfig from "./CommentEditingConfig";
+import CommentLengthConfig from "./CommentLengthConfig";
+import GuidelinesConfig from "./GuidelinesConfig";
+import LocaleConfig from "./LocaleConfig";
+import ReactionConfigContainer from "./ReactionConfigContainer";
+import SitewideCommentingConfig from "./SitewideCommentingConfig";
+import StaffConfig from "./StaffConfig";
 
 interface Props {
-  form: FormApi;
   submitting: boolean;
   settings: SettingsData;
 }
 
-class GeneralConfigContainer extends React.Component<Props> {
-  public static routeConfig: RouteProps;
-  private initialValues = {};
-
-  constructor(props: Props) {
-    super(props);
-  }
-
-  public componentDidMount() {
-    this.props.form.initialize(this.initialValues);
-  }
-
-  private handleOnInitValues = (values: any) => {
-    this.initialValues = pureMerge(this.initialValues, values);
-  };
-
-  public render() {
-    return (
-      <GeneralConfig
-        disabled={this.props.submitting}
-        settings={this.props.settings}
-        onInitValues={this.handleOnInitValues}
-      />
-    );
-  }
-}
+const GeneralConfigContainer: React.FunctionComponent<Props> = ({
+  settings,
+  submitting,
+}) => {
+  const form = useForm();
+  useMemo(() => form.initialize(purgeMetadata(settings)), []);
+  return (
+    <HorizontalGutter size="double" data-testid="configure-generalContainer">
+      <LocaleConfig disabled={submitting} />
+      <SitewideCommentingConfig disabled={submitting} />
+      <GuidelinesConfig disabled={submitting} />
+      <CommentLengthConfig disabled={submitting} />
+      <CommentEditingConfig disabled={submitting} />
+      <ClosingCommentStreamsConfig disabled={submitting} />
+      <ClosedStreamMessageConfig disabled={submitting} />
+      <ReactionConfigContainer disabled={submitting} settings={settings} />
+      <StaffConfig disabled={submitting} />
+    </HorizontalGutter>
+  );
+};
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment GeneralConfigContainer_settings on Settings {
-      ...LocaleConfigContainer_settings
-      ...GuidelinesConfigContainer_settings
-      ...CommentLengthConfigContainer_settings
-      ...CommentEditingConfigContainer_settings
-      ...ClosedStreamMessageConfigContainer_settings
-      ...ClosingCommentStreamsConfigContainer_settings
-      ...SitewideCommentingConfigContainer_settings
+      ...LocaleConfig_formValues @relay(mask: false)
+      ...GuidelinesConfig_formValues @relay(mask: false)
+      ...CommentLengthConfig_formValues @relay(mask: false)
+      ...CommentEditingConfig_formValues @relay(mask: false)
+      ...ClosedStreamMessageConfig_formValues @relay(mask: false)
+      ...ClosingCommentStreamsConfig_formValues @relay(mask: false)
+      ...SitewideCommentingConfig_formValues @relay(mask: false)
+      ...ReactionConfig_formValues @relay(mask: false)
+      ...StaffConfig_formValues @relay(mask: false)
+
       ...ReactionConfigContainer_settings
-      ...StaffConfigContainer_settings
     }
   `,
 })(GeneralConfigContainer);

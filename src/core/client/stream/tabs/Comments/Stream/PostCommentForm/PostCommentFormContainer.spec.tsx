@@ -5,7 +5,7 @@ import sinon from "sinon";
 
 import { pureMerge, timeout } from "coral-common/utils";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
-import { removeFragmentRefs } from "coral-framework/testHelpers";
+import { act, removeFragmentRefs, wait } from "coral-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "coral-framework/types";
 
 import { PostCommentFormContainer } from "./PostCommentFormContainer";
@@ -59,20 +59,34 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
 it("renders correctly", async () => {
   const props = createDefaultProps();
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
-  wrapper.update();
-  expect(wrapper).toMatchSnapshot();
+
+  act(() => {
+    wrapper.update();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
 });
 
 it("renders with initialValues", async () => {
   const props = createDefaultProps();
-
-  await props.sessionStorage.setItem(contextKey, "Hello World!");
-
+  await act(async () => {
+    await props.sessionStorage.setItem(contextKey, "Hello World!");
+  });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
-  await timeout();
-  wrapper.update();
-  expect(wrapper).toMatchSnapshot();
+
+  act(() => {
+    wrapper.update();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
 });
 
 it("save values", async () => {
@@ -82,22 +96,32 @@ it("save values", async () => {
 
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
-  wrapper.update();
-  wrapper
-    .first()
-    .props()
-    .onChange({ values: { body: "changed" } });
-  expect(await props.sessionStorage.getItem(contextKey)).toBe("changed");
+
+  act(() => {
+    wrapper.update();
+  });
+  act(() => {
+    wrapper
+      .first()
+      .props()
+      .onChange({ values: { body: "changed" } });
+  });
+
+  await act(async () => {
+    await wait(async () =>
+      expect(await props.sessionStorage.getItem(contextKey)).toBe("changed")
+    );
+  });
 });
 
 it("creates a comment", async () => {
   const storyID = "story-id";
   const input = { body: "Hello World!" };
   const createCommentStub = sinon.stub().returns({ edge: { node: {} } });
-  const form = { reset: noop };
+  const form = { initialize: noop };
   const formMock = sinon.mock(form);
   formMock
-    .expects("reset")
+    .expects("initialize")
     .withArgs({})
     .once();
 
@@ -109,24 +133,37 @@ it("creates a comment", async () => {
     },
   });
 
-  await props.sessionStorage.setItem(contextKey, "Hello World!");
+  await act(async () => {
+    await props.sessionStorage.setItem(contextKey, "Hello World!");
+  });
 
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
-  wrapper.update();
-  wrapper
-    .first()
-    .props()
-    .onSubmit(input, form);
-  expect(
-    createCommentStub.calledWith({
-      storyID,
-      nudge: true,
-      ...input,
-    })
-  ).toBeTruthy();
-  await timeout();
-  formMock.verify();
+
+  act(() => {
+    wrapper.update();
+  });
+  act(() => {
+    wrapper
+      .first()
+      .props()
+      .onSubmit(input, form);
+  });
+
+  await act(async () => {
+    await wait(() =>
+      expect(
+        createCommentStub.calledWith({
+          storyID,
+          nudge: true,
+          ...input,
+        })
+      ).toBeTruthy()
+    );
+  });
+  await act(async () => {
+    await wait(() => formMock.verify());
+  });
 });
 
 it("renders when story has been closed (collapsing)", async () => {
@@ -142,8 +179,14 @@ it("renders when story has been closed (collapsing)", async () => {
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
-  wrapper.update();
-  expect(wrapper).toMatchSnapshot();
+
+  act(() => {
+    wrapper.update();
+  });
+
+  await act(async () => {
+    await wait(() => expect(wrapper).toMatchSnapshot());
+  });
 });
 
 it("renders when commenting has been disabled (collapsing)", async () => {
@@ -157,8 +200,14 @@ it("renders when commenting has been disabled (collapsing)", async () => {
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
-  wrapper.update();
-  expect(wrapper).toMatchSnapshot();
+
+  act(() => {
+    wrapper.update();
+  });
+
+  await act(async () => {
+    await wait(() => expect(wrapper).toMatchSnapshot());
+  });
 });
 
 it("renders when story has been closed (non-collapsing)", async () => {
@@ -184,8 +233,14 @@ it("renders when story has been closed (non-collapsing)", async () => {
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
-  wrapper.setProps(nextProps);
-  expect(wrapper).toMatchSnapshot();
+
+  act(() => {
+    wrapper.setProps(nextProps);
+  });
+
+  await act(async () => {
+    await wait(() => expect(wrapper).toMatchSnapshot());
+  });
 });
 
 it("renders when commenting has been disabled (non-collapsing)", async () => {
@@ -207,8 +262,14 @@ it("renders when commenting has been disabled (non-collapsing)", async () => {
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
-  wrapper.setProps(nextProps);
-  expect(wrapper).toMatchSnapshot();
+
+  act(() => {
+    wrapper.setProps(nextProps);
+  });
+
+  await act(async () => {
+    await wait(() => expect(wrapper).toMatchSnapshot());
+  });
 });
 
 it("renders when user is scheduled to be deleted", async () => {
@@ -219,5 +280,8 @@ it("renders when user is scheduled to be deleted", async () => {
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
-  expect(wrapper).toMatchSnapshot();
+
+  await act(async () => {
+    await wait(() => expect(wrapper).toMatchSnapshot());
+  });
 });
