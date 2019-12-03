@@ -3,6 +3,7 @@ import sinon, { SinonStub } from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import {
+  act,
   createAccessToken,
   toJSON,
   wait,
@@ -36,19 +37,22 @@ async function createTestRenderer(
       localRecord.setValue(error, "error");
     },
   });
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("signIn-container")
-  );
-  const main = within(testRenderer.root).getByTestID(/.*-main/);
-  const form = within(main).queryByType("form");
 
-  return {
-    context,
-    testRenderer,
-    form,
-    main,
-    container,
-  };
+  return await act(async () => {
+    const container = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("signIn-container")
+    );
+    const main = within(testRenderer.root).getByTestID(/.*-main/);
+    const form = within(main).queryByType("form");
+
+    return {
+      context,
+      testRenderer,
+      form,
+      main,
+      container,
+    };
+  });
 }
 
 it("renders sign in view", async () => {
@@ -57,64 +61,69 @@ it("renders sign in view", async () => {
 });
 
 it("renders sign in view with error", async () => {
-  const { testRenderer, container } = await createTestRenderer(
-    {},
-    "Social Login Error"
-  );
-  expect(within(container).toJSON()).toMatchSnapshot();
-  within(testRenderer.root)
-    .getByText("Sign Up")
-    .props.onClick({});
-  within(testRenderer.root)
-    .getByText("Sign In")
-    .props.onClick({});
+  const error = "Social Login Error";
+  const { testRenderer, container } = await createTestRenderer({}, error);
+  within(container).getByText(error);
+  act(() => {
+    within(testRenderer.root)
+      .getByText("Sign Up")
+      .props.onClick({});
+  });
+  act(() => {
+    within(testRenderer.root)
+      .getByText("Sign In")
+      .props.onClick({});
+  });
   const container2 = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );
 
   // Error shouldn't be there anymore.
-  await wait(() =>
-    expect(
-      within(container2).queryByText("Social Login Error", { exact: false })
-    ).toBeNull()
-  );
+  await wait(() => expect(within(container2).queryByText(error)).toBeNull());
 });
 
 it("shows error when submitting empty form", async () => {
-  const { form } = await createTestRenderer();
-  form!.props.onSubmit();
-  expect(toJSON(form!)).toMatchSnapshot();
+  const { form, container } = await createTestRenderer();
+  act(() => {
+    form!.props.onSubmit();
+  });
+  within(container).getAllByText("This field is required", { exact: false });
 });
 
 it("checks for invalid email", async () => {
-  const { form } = await createTestRenderer();
+  const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const emailAddressField = getByLabelText("Email Address");
-  emailAddressField.props.onChange({ target: { value: "invalid-email" } });
-  form!.props.onSubmit();
-  expect(toJSON(form!)).toMatchSnapshot();
+  act(() => {
+    emailAddressField.props.onChange({ target: { value: "invalid-email" } });
+  });
+  act(() => {
+    form!.props.onSubmit();
+  });
+  within(container).getByText("Please enter a valid email address", {
+    exact: false,
+  });
 });
 
 it("accepts valid email", async () => {
-  const { form } = await createTestRenderer();
+  const { container, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const emailAddressField = getByLabelText("Email Address");
-  emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
-  form!.props.onSubmit();
-  expect(toJSON(form!)).toMatchSnapshot();
-});
-
-it("accepts correct password", async () => {
-  const { form } = await createTestRenderer();
-  const { getByLabelText } = within(form!);
-  const passwordField = getByLabelText("Password");
-  passwordField.props.onChange({ target: { value: "testtest" } });
-  form!.props.onSubmit();
-  expect(toJSON(form!)).toMatchSnapshot();
+  act(() => {
+    emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
+  });
+  act(() => {
+    form!.props.onSubmit();
+  });
+  expect(() =>
+    within(container).getAllByText("Please enter a valid email address", {
+      exact: false,
+    })
+  ).toThrow();
 });
 
 it("shows server error", async () => {
-  const { form, context } = await createTestRenderer();
+  const { form, main, context } = await createTestRenderer();
   const { getByLabelText } = within(form!);
   const emailAddressField = getByLabelText("Email Address");
   const passwordField = getByLabelText("Password");
@@ -122,8 +131,10 @@ it("shows server error", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  passwordField.props.onChange({ target: { value: "testtest" } });
-  emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
+  act(() => passwordField.props.onChange({ target: { value: "testtest" } }));
+  act(() =>
+    emailAddressField.props.onChange({ target: { value: "hans@test.com" } })
+  );
 
   const error = new Error("Server Error");
   const restMock = sinon.mock(context.rest);
@@ -139,14 +150,18 @@ it("shows server error", async () => {
     .once()
     .throws(error);
 
-  form!.props.onSubmit();
+  act(() => {
+    form!.props.onSubmit();
+  });
   expect(emailAddressField.props.disabled).toBe(true);
   expect(passwordField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
 
-  expect(toJSON(form!)).toMatchSnapshot();
+  within(main).getByText(error.message);
 
   restMock.verify();
 });
@@ -161,8 +176,10 @@ it("submits form successfully", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
-  passwordField.props.onChange({ target: { value: "testtest" } });
+  act(() =>
+    emailAddressField.props.onChange({ target: { value: "hans@test.com" } })
+  );
+  act(() => passwordField.props.onChange({ target: { value: "testtest" } }));
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -177,15 +194,17 @@ it("submits form successfully", async () => {
     .once()
     .returns({ token: accessToken });
 
-  form!.props.onSubmit();
+  act(() => {
+    form!.props.onSubmit();
+  });
 
   expect(emailAddressField.props.disabled).toBe(true);
   expect(passwordField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
-
-  expect(toJSON(form!)).toMatchSnapshot();
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
 
   // Wait for new session to start.
   await wait(() =>

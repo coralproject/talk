@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import {
   colorFromMeta,
@@ -25,12 +26,26 @@ import Subheader from "../../Subheader";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 import { FormProps } from "./EmailConfigContainer";
 
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment SMTP_formValues on EmailConfiguration {
+    enabled
+    smtp {
+      host
+      port
+      secure
+      authentication
+      username
+      password
+    }
+  }
+`;
 interface Props {
   disabled: boolean;
 }
 
 const isEnabled: Condition<any, FormProps> = (value, values) =>
-  Boolean(values.email.enabled);
+  Boolean(values.email && values.email.enabled);
 
 const isAuthenticating: Condition<any, FormProps> = (value, values) =>
   Boolean(values.email.enabled && values.email.smtp.authentication);
@@ -52,11 +67,11 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
       >
         {({ input, meta }) => (
           <TextFieldWithValidation
+            {...input}
             id={input.name}
             fullWidth
             disabled={disabled}
             meta={meta}
-            {...input}
           />
         )}
       </Field>
@@ -76,12 +91,12 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
       >
         {({ input, meta }) => (
           <TextFieldWithValidation
+            {...input}
             id={input.name}
             type="number"
             fullWidth
             disabled={disabled}
             meta={meta}
-            {...input}
           />
         )}
       </Field>
@@ -123,11 +138,11 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
             >
               {({ input, meta }) => (
                 <TextFieldWithValidation
+                  {...input}
                   id={input.name}
                   disabled={disabled || !enabled}
                   fullWidth
                   meta={meta}
-                  {...input}
                 />
               )}
             </Field>
@@ -144,11 +159,11 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
               {({ input, meta }) => (
                 <>
                   <PasswordField
+                    {...input}
                     id={input.name}
                     disabled={disabled || !enabled}
                     fullWidth
                     color={colorFromMeta(meta)}
-                    {...input}
                   />
                   <ValidationMessage fullWidth meta={meta} />
                 </>

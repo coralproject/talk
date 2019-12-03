@@ -161,6 +161,9 @@ export const settings = createFixture<GQLSettings>({
     changeUsername: true,
     deleteAccount: true,
   },
+  slack: {
+    channels: [],
+  },
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(

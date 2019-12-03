@@ -51,3 +51,4 @@ export {
   withSubscription,
   combineDisposables,
 } from "./subscription";
+export { default as purgeMetadata } from "./purgeMetadata";

@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import {
   TOXICITY_ENDPOINT_DEFAULT,
@@ -34,12 +35,27 @@ import {
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
-import PermissionField from "../../PermissionField";
 import Subheader from "../../Subheader";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
 import APIKeyField from "./APIKeyField";
 
 import styles from "./PerspectiveConfig.css";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment PerspectiveConfig_formValues on Settings {
+    integrations {
+      perspective {
+        enabled
+        endpoint
+        key
+        model
+        threshold
+        doNotStore
+      }
+    }
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -108,6 +124,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         >
           {({ input, meta }) => (
             <TextFieldWithValidation
+              {...input}
               id="configure-moderation-perspective-threshold"
               classes={{
                 input: styles.thresholdTextField,
@@ -121,7 +138,6 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
               placeholder={TOXICITY_THRESHOLD_DEFAULT.toString()}
               textAlignCenter
               meta={meta}
-              {...input}
             />
           )}
         </Field>
@@ -154,6 +170,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         <Field name="integrations.perspective.model" parse={parseEmptyAsNull}>
           {({ input, meta }) => (
             <TextFieldWithValidation
+              {...input}
               id="configure-moderation-perspective-model"
               disabled={disabled}
               autoComplete="off"
@@ -163,7 +180,6 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
               spellCheck={false}
               meta={meta}
               fullWidth
-              {...input}
             />
           )}
         </Field>
@@ -181,9 +197,19 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
             </HelperText>
           </Localized>
         </FormFieldHeader>
-        <PermissionField
+        <OnOffField
           name="integrations.perspective.doNotStore"
           disabled={disabled}
+          onLabel={
+            <Localized id="configure-radioButton-allow">
+              <span>Allow</span>
+            </Localized>
+          }
+          offLabel={
+            <Localized id="configure-radioButton-dontAllow">
+              <span>Don't Allow</span>
+            </Localized>
+          }
           invert
         />
       </FormField>
@@ -229,6 +255,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         >
           {({ input, meta }) => (
             <TextFieldWithValidation
+              {...input}
               id="configure-moderation-perspective-customEndpoint"
               disabled={disabled}
               autoComplete="off"
@@ -238,7 +265,6 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
               spellCheck={false}
               fullWidth
               meta={meta}
-              {...input}
             />
           )}
         </Field>

@@ -102,6 +102,8 @@ let typescriptTypeCheckingOverrides = {
           },
         },
       }],
+      // 28.11.19: (cvle) Disabled because behavior of regexp.exec seems different than str.match?
+      "@typescript-eslint/prefer-regexp-exec": "off",
       "@typescript-eslint/require-await": "off",
       "@typescript-eslint/no-misused-promises": "off",
       "@typescript-eslint/unbound-method": "off", // 10.10.19: (cvle) seems to give false positive.

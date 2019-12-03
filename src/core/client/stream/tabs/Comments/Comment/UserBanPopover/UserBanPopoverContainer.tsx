@@ -49,6 +49,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       reject({
         commentID: comment.id,
         commentRevisionID: comment.revision.id,
+        storyID: story.id,
         noEmit: true,
       });
     }

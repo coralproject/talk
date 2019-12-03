@@ -92,12 +92,12 @@ class AddOrganizationStep extends React.Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Organization Name"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
-                        id={input.name}
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />
@@ -121,6 +121,8 @@ class AddOrganizationStep extends React.Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Organization Contact Email"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
@@ -128,8 +130,6 @@ class AddOrganizationStep extends React.Component<Props> {
                         autoCapitalize="off"
                         autoCorrect="off"
                         fullWidth
-                        id={input.name}
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />
@@ -163,12 +163,12 @@ class AddOrganizationStep extends React.Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Organization URL"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
-                        id={input.name}
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />

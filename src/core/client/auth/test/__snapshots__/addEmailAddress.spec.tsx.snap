@@ -967,7 +967,7 @@ Your email address will be used to:
           onFocus={[Function]}
           placeholder="Email Address"
           type="email"
-          value=""
+          value="hans@test.com"
         />
       </div>
     </div>
@@ -993,7 +993,7 @@ Your email address will be used to:
           onFocus={[Function]}
           placeholder="Confirm Email Address"
           type="text"
-          value=""
+          value="hans@test.com"
         />
       </div>
     </div>

@@ -50,12 +50,12 @@ const StoryTableFilter: FunctionComponent<Props> = props => (
                     attrs={{ placeholder: true, "aria-label": true }}
                   >
                     <TextField
+                      {...input}
                       className={styles.textField}
                       color="dark"
                       placeholder="Search by story title or author..."
                       aria-label="Search by story title or author"
                       variant="seamlessAdornment"
-                      {...input}
                       adornment={
                         <Localized
                           id="stories-filter-searchButton"

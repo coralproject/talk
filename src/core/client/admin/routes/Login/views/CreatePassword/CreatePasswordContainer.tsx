@@ -18,7 +18,7 @@ class CreatePasswordContainer extends Component<Props> {
   ) => {
     try {
       await this.props.setPassword({ password: input.password });
-      return form.reset();
+      return;
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }

@@ -20,7 +20,7 @@ class NavigationWarningContainer extends React.Component<Props> {
     const warningMessage = getMessage(
       props.localeBundles,
       "configure-unsavedInputWarning",
-      "You have unsaved input. Are you sure you want to leave this page?"
+      "You have unsaved changes. Are you sure you want to continue?"
     );
 
     this.removeTransitionHook = props.router.addTransitionHook(() =>

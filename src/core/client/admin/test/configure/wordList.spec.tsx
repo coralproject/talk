@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -90,13 +91,15 @@ it("change banned and suspect words", async () => {
   );
 
   // Let's change the wordlist contents.
-  bannedField.props.onChange("Fuck\nAsshole");
-  suspectField.props.onChange("idiot\nshame");
+  act(() => bannedField.props.onChange("Fuck\nAsshole"));
+  act(() => suspectField.props.onChange("idiot\nshame"));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
@@ -104,9 +107,11 @@ it("change banned and suspect words", async () => {
   expect(suspectField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(bannedField.props.disabled).toBe(false);
-    expect(suspectField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(bannedField.props.disabled).toBe(false);
+      expect(suspectField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.

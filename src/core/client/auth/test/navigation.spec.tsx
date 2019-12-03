@@ -1,7 +1,7 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { waitForElement, within } from "coral-framework/testHelpers";
+import { act, waitForElement, within } from "coral-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";
@@ -37,9 +37,11 @@ it("navigates to sign up form", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );
-  within(container)
-    .getByText("Sign Up")
-    .props.onClick({});
+  act(() =>
+    within(container)
+      .getByText("Sign Up")
+      .props.onClick({})
+  );
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("signUp-container")
   );
@@ -50,9 +52,11 @@ it("navigates to sign in form", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signUp-container")
   );
-  within(container)
-    .getByText("Sign In")
-    .props.onClick({});
+  act(() =>
+    within(container)
+      .getByText("Sign In")
+      .props.onClick({})
+  );
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );
@@ -63,9 +67,11 @@ it("navigates to forgot password form", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );
-  within(container)
-    .getByText("Forgot your password?")
-    .props.onClick({});
+  act(() =>
+    within(container)
+      .getByText("Forgot your password?")
+      .props.onClick({})
+  );
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("forgotPassword-container")
   );
@@ -76,9 +82,11 @@ it("navigates back from forgot password form", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("forgotPassword-container")
   );
-  within(container)
-    .getByText("back to sign in", { exact: false })
-    .props.onClick({});
+  act(() =>
+    within(container)
+      .getByText("back to sign in", { exact: false })
+      .props.onClick({})
+  );
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );

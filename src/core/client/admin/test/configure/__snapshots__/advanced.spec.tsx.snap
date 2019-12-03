@@ -81,6 +81,15 @@ exports[`renders configure advanced 1`] = `
               </li>
               <li>
                 <a
+                  className="Link-link"
+                  href="/admin/configure/slack"
+                  onClick={[Function]}
+                >
+                  Slack
+                </a>
+              </li>
+              <li>
+                <a
                   className="Link-link Link-linkActive"
                   href="/admin/configure/advanced"
                   onClick={[Function]}
@@ -300,7 +309,7 @@ When disabled, users will have to refresh the page to see new comments.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -324,7 +333,7 @@ When disabled, users will have to refresh the page to see new comments.
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -457,7 +466,7 @@ https://domain.com).
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"
@@ -481,7 +490,7 @@ https://domain.com).
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -525,7 +534,7 @@ https://domain.com).
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={true}
+                        value="true"
                       />
                       <label
                         className="RadioButton-label"
@@ -549,7 +558,7 @@ https://domain.com).
                         onChange={[Function]}
                         onFocus={[Function]}
                         type="radio"
-                        value={false}
+                        value="false"
                       />
                       <label
                         className="RadioButton-label"

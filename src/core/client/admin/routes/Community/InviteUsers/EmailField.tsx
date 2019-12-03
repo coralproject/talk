@@ -20,11 +20,11 @@ const EmailField: FunctionComponent<Props> = ({ index, disabled }) => (
             <Label htmlFor={input.name}>Email Address:</Label>
           </Localized>
           <TextField
+            {...input}
             data-testid={`invite-users-email.${index}`}
             color={colorFromMeta(meta)}
             disabled={disabled}
             fullWidth
-            {...input}
           />
           <ValidationMessage meta={meta} fullWidth />
         </FormField>
