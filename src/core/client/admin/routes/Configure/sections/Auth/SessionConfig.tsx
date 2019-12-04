@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { colorFromMeta } from "coral-framework/lib/form";
 import {
@@ -18,6 +19,13 @@ import {
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import ValidationMessage from "../../ValidationMessage";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment SessionConfig_formValues on Auth {
+    sessionDuration
+  }
+`;
 
 interface Props {
   disabled?: boolean;
@@ -45,9 +53,9 @@ const SessionConfig: FunctionComponent<Props> = ({ disabled }) => (
         {({ input, meta }) => (
           <>
             <DurationField
+              {...input}
               color={colorFromMeta(meta)}
               disabled={!!disabled}
-              {...input}
             />
             <ValidationMessage meta={meta} fullWidth />
           </>

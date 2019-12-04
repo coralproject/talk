@@ -49,11 +49,12 @@ const enhanced = withFragmentContainer<Props>({
     fragment ConfigureStreamContainer_story on Story {
       id
       settings {
-        ...PremodConfigContainer_storySettings
-        ...PremodLinksConfigContainer_storySettings
-        ...MessageBoxConfigContainer_storySettings
+        ...PremodConfig_formValues @relay(mask: false)
+        ...PremodLinksConfig_formValues @relay(mask: false)
+        ...MessageBoxConfig_formValues @relay(mask: false)
+        ...LiveUpdatesConfig_formValues @relay(mask: false)
+
         ...LiveUpdatesConfigContainer_storySettings
-        ...LiveUpdatesConfigContainer_storySettingsReadOnly
       }
     }
   `,

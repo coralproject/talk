@@ -1,8 +1,10 @@
 import { get } from "lodash";
+import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import {
+  act,
   toJSON,
   wait,
   waitForElement,
@@ -59,16 +61,36 @@ it("renders createUsername view", async () => {
 });
 
 it("shows error when submitting empty form", async () => {
-  const { form } = await createTestRenderer();
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
+  let form: ReactTestInstance;
+  await act(async () => {
+    const { form: f } = await createTestRenderer();
+    form = f;
+  });
+  act(() => form.props.onSubmit());
+  await act(async () => {
+    await wait(() => {
+      expect(toJSON(form)).toMatchSnapshot();
+    });
+  });
 });
 
 it("checks for invalid username", async () => {
-  const { form, usernameField } = await createTestRenderer();
-  usernameField.props.onChange({ target: { value: "x" } });
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
+  let form: ReactTestInstance;
+  let usernameField: ReactTestInstance;
+  await act(async () => {
+    const { form: f, usernameField: u } = await createTestRenderer();
+    form = f;
+    usernameField = u;
+  });
+
+  act(() => usernameField.props.onChange({ target: { value: "x" } }));
+  act(() => form.props.onSubmit());
+
+  await act(async () => {
+    await wait(() => {
+      expect(toJSON(form)).toMatchSnapshot();
+    });
+  });
 });
 
 it("shows server error", async () => {
@@ -76,25 +98,34 @@ it("shows server error", async () => {
   const setUsername = sinon.stub().callsFake((_: any, data: any) => {
     throw new Error("server error");
   });
-  const { form, usernameField } = await createTestRenderer(
-    {
-      Mutation: {
-        setUsername,
+  const { form, usernameField, submitButton } = await act(async () => {
+    const { form: f, usernameField: u } = await createTestRenderer(
+      {
+        Mutation: {
+          setUsername,
+        },
       },
-    },
-    { muteNetworkErrors: true }
-  );
-  const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
-  );
+      { muteNetworkErrors: true }
+    );
+    const s = f.find(i => i.type === "button" && i.props.type === "submit");
 
-  usernameField.props.onChange({ target: { value: username } });
+    return {
+      form: f,
+      usernameField: u,
+      submitButton: s,
+    };
+  });
 
-  form.props.onSubmit();
+  act(() => usernameField.props.onChange({ target: { value: username } }));
+  act(() => {
+    form.props.onSubmit();
+  });
   expect(usernameField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
 
   expect(toJSON(form)).toMatchSnapshot();
 });
@@ -114,22 +145,35 @@ it("successfully sets username", async () => {
       clientMutationId: data.input.clientMutationId,
     };
   });
-  const { form, usernameField } = await createTestRenderer({
-    Mutation: {
-      setUsername,
-    },
+  const { form, usernameField, submitButton } = await act(async () => {
+    const { form: f, usernameField: u } = await createTestRenderer(
+      {
+        Mutation: {
+          setUsername,
+        },
+      },
+      { muteNetworkErrors: true }
+    );
+    const s = f.find(i => i.type === "button" && i.props.type === "submit");
+
+    return {
+      form: f,
+      usernameField: u,
+      submitButton: s,
+    };
   });
-  const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
-  );
 
-  usernameField.props.onChange({ target: { value: username } });
+  act(() => usernameField.props.onChange({ target: { value: username } }));
 
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
   expect(usernameField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
 
   expect(toJSON(form)).toMatchSnapshot();
   expect(setUsername.called).toBe(true);

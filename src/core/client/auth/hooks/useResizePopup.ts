@@ -5,9 +5,14 @@ import { useResizeObserver } from "coral-framework/hooks";
 import resizePopup from "../dom/resizePopup";
 
 export default function useResizePopup() {
-  const pollTimeout = useRef<any>();
+  const polling = useRef(true);
+  const pollTimeout = useRef<any>(null);
 
   const pollPopupHeight = useCallback((interval = 200) => {
+    if (!polling.current) {
+      return;
+    }
+
     // Save the reference to the browser timeout we create.
     pollTimeout.current =
       // Create the timeout to fire after the interval.
@@ -26,9 +31,10 @@ export default function useResizePopup() {
     pollPopupHeight();
 
     return () => {
-      if (pollTimeout.current) {
+      if (pollTimeout) {
         clearTimeout(pollTimeout.current);
         pollTimeout.current = null;
+        polling.current = false;
       }
     };
   }, []);

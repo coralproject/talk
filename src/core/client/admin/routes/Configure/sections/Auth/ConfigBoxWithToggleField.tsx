@@ -32,7 +32,7 @@ const ConfigBoxWithToggleField: FunctionComponent<Props> = ({
         topRight={
           <FormField>
             <Localized id="configure-auth-configBoxEnabled">
-              <CheckBox id={input.name} disabled={disabled} light {...input}>
+              <CheckBox {...input} id={input.name} disabled={disabled} light>
                 Enabled
               </CheckBox>
             </Localized>

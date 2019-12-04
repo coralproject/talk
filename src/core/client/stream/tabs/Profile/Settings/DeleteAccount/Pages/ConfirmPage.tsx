@@ -45,7 +45,7 @@ interface FormProps {
 
 const preventSubmit = (
   state: Pick<
-    FormState,
+    FormState<any>,
     | "pristine"
     | "hasSubmitErrors"
     | "hasValidationErrors"
@@ -79,9 +79,8 @@ const ConfirmPage: FunctionComponent<Props> = ({
         };
       }
 
-      form.reset();
-
       onProceed();
+
       return;
     },
     [onProceed]
@@ -169,13 +168,13 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           </InputLabel>
                         </Localized>
                         <TextField
+                          {...input}
                           fullWidth
                           id={input.name}
                           data-testid="confirm-page-confirmation"
                           disabled={submitting}
                           color={colorFromMeta(meta)}
                           autoComplete="off"
-                          {...input}
                         />
                         <FieldValidationMessage fullWidth meta={meta} />
                       </FormField>
@@ -194,13 +193,13 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           </InputLabel>
                         </Localized>
                         <PasswordField
+                          {...input}
                           fullWidth
                           id={input.name}
                           data-testid="confirm-page-password"
                           disabled={submitting}
                           color={colorFromMeta(meta)}
                           autoComplete="off"
-                          {...input}
                         />
                         <FieldValidationMessage fullWidth meta={meta} />
                       </FormField>

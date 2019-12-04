@@ -1,5 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import {
   Flex,
@@ -15,6 +16,17 @@ import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 
 import styles from "./AccountFeaturesConfig.css";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment AccountFeaturesConfig_formValues on Settings {
+    accountFeatures {
+      changeUsername
+      deleteAccount
+      downloadComments
+    }
+  }
+`;
 
 interface Props {
   disabled?: boolean;

@@ -20,21 +20,24 @@ const ClientSecretField: FunctionComponent<Props> = ({
   validate,
 }) => (
   <FormField>
-    <Localized id="configure-auth-clientID">
-      <Label>Client ID</Label>
-    </Localized>
     <Field name={name} parse={parseEmptyAsNull} validate={validate}>
       {({ input, meta }) => (
-        <TextFieldWithValidation
-          disabled={disabled}
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-          meta={meta}
-          {...input}
-          spellCheck={false}
-          fullWidth
-        />
+        <>
+          <Localized id="configure-auth-clientID">
+            <Label htmlFor={input.name}>Client ID</Label>
+          </Localized>
+          <TextFieldWithValidation
+            {...input}
+            id={input.name}
+            disabled={disabled}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            meta={meta}
+            spellCheck={false}
+            fullWidth
+          />
+        </>
       )}
     </Field>
   </FormField>

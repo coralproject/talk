@@ -47,7 +47,15 @@ export interface TextFieldProps {
   /**
    * type: Here we only allow text type values
    */
-  type?: "email" | "number" | "password" | "search" | "tel" | "text" | "url";
+  type?:
+    | "email"
+    | "number"
+    | "password"
+    | "search"
+    | "tel"
+    | "text"
+    | "url"
+    | string;
   /**
    * onChange
    */

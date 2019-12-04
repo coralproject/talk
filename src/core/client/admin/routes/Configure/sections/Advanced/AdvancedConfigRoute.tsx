@@ -1,4 +1,3 @@
-import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 
@@ -11,7 +10,6 @@ import AdvancedConfigContainer from "./AdvancedConfigContainer";
 
 interface Props {
   data: AdvancedConfigRouteQueryResponse | null;
-  form: FormApi;
   submitting: boolean;
 }
 
@@ -27,7 +25,6 @@ class AdvancedConfigRoute extends React.Component<Props> {
     return (
       <AdvancedConfigContainer
         settings={this.props.data.settings}
-        form={this.props.form}
         submitting={this.props.submitting}
       />
     );

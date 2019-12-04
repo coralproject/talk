@@ -5,6 +5,19 @@ exports[`renders correctly 1`] = `
   data-testid="configure-container"
 >
   <ReactFinalForm
+    mutators={
+      Object {
+        "insert": [Function],
+        "move": [Function],
+        "pop": [Function],
+        "push": [Function],
+        "remove": [Function],
+        "shift": [Function],
+        "swap": [Function],
+        "unshift": [Function],
+        "update": [Function],
+      }
+    }
     onSubmit={[Function]}
   >
     [Function]

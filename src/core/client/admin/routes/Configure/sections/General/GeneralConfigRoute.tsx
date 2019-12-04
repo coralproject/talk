@@ -1,4 +1,3 @@
-import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 
@@ -12,7 +11,6 @@ import GeneralConfigContainer from "./GeneralConfigContainer";
 
 interface Props {
   data: GeneralConfigRouteQueryResponse | null;
-  form: FormApi;
   submitting: boolean;
 }
 
@@ -28,7 +26,6 @@ class GeneralConfigRoute extends React.Component<Props> {
     return (
       <GeneralConfigContainer
         settings={this.props.data.settings}
-        form={this.props.form}
         submitting={this.props.submitting}
       />
     );

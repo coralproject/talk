@@ -37,6 +37,8 @@ import { Profile } from "./Profile";
 import { Query } from "./Query";
 import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
+import { Settings } from "./Settings";
+import { SlackConfiguration } from "./SlackConfiguration";
 import { SSOAuthIntegration } from "./SSOAuthIntegration";
 import { Story } from "./Story";
 import { StorySettings } from "./StorySettings";
@@ -97,6 +99,8 @@ const Resolvers: GQLResolver = {
   UsernameHistory,
   UsernameStatus,
   UserStatus,
+  Settings,
+  SlackConfiguration,
 };
 
 export default Resolvers;

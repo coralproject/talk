@@ -49,7 +49,6 @@ async function createTestRenderer(
   });
 
   let form: ReactTestInstance;
-
   await act(async () => {
     form = await waitForElement(() =>
       within(testRenderer.root).getByType("form")
@@ -60,50 +59,96 @@ async function createTestRenderer(
 
 it("renders sign in form", async () => {
   const { testRenderer } = await createTestRenderer();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+
+  await act(async () => {
+    await wait(() => {
+      expect(testRenderer.toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("shows error when submitting empty form", async () => {
   const { form } = await createTestRenderer();
-  form.props.onSubmit();
-  expect(within(form).toJSON()).toMatchSnapshot();
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(within(form).toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("checks for invalid email", async () => {
   const { form } = await createTestRenderer();
-  within(form)
-    .getByLabelText("Email Address")
-    .props.onChange({ target: { value: "invalid-email" } });
-  form.props.onSubmit();
-  expect(within(form).toJSON()).toMatchSnapshot();
+
+  act(() => {
+    within(form)
+      .getByLabelText("Email Address")
+      .props.onChange({ target: { value: "invalid-email" } });
+  });
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(within(form).toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("accepts valid email", async () => {
   const { form } = await createTestRenderer();
-  within(form)
-    .getByLabelText("Email Address")
-    .props.onChange({ target: { value: "hans@test.com" } });
-  form.props.onSubmit();
-  expect(within(form).toJSON()).toMatchSnapshot();
+
+  act(() => {
+    within(form)
+      .getByLabelText("Email Address")
+      .props.onChange({ target: { value: "hans@test.com" } });
+  });
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(within(form).toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("accepts correct password", async () => {
   const { form } = await createTestRenderer();
-  within(form)
-    .getByLabelText("Password")
-    .props.onChange({ target: { value: "testtest" } });
-  form.props.onSubmit();
-  expect(within(form).toJSON()).toMatchSnapshot();
+
+  act(() => {
+    within(form)
+      .getByLabelText("Password")
+      .props.onChange({ target: { value: "testtest" } });
+  });
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(within(form).toJSON()).toMatchSnapshot();
+    });
+  });
 });
 
 it("shows server error", async () => {
   const { form, context } = await createTestRenderer();
-  within(form)
-    .getByLabelText("Email Address")
-    .props.onChange({ target: { value: "hans@test.com" } });
-  within(form)
-    .getByLabelText("Password")
-    .props.onChange({ target: { value: "testtest" } });
+  act(() => {
+    within(form)
+      .getByLabelText("Email Address")
+      .props.onChange({ target: { value: "hans@test.com" } });
+  });
+  act(() => {
+    within(form)
+      .getByLabelText("Password")
+      .props.onChange({ target: { value: "testtest" } });
+  });
 
   const error = new Error("Server Error");
   const restMock = sinon.mock(context.rest);
@@ -119,24 +164,34 @@ it("shows server error", async () => {
     .once()
     .throws(error);
 
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
+
   const submitButton = within(form).getByText("Sign in with Email", {
     selector: "button",
   });
   expect(submitButton.props.disabled).toBe(true);
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
+
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
   expect(within(form).toJSON()).toMatchSnapshot();
   restMock.verify();
 });
 
 it("submits form successfully", async () => {
   const { form, context } = await createTestRenderer();
-  within(form)
-    .getByLabelText("Email Address")
-    .props.onChange({ target: { value: "hans@test.com" } });
-  within(form)
-    .getByLabelText("Password")
-    .props.onChange({ target: { value: "testtest" } });
+  act(() => {
+    within(form)
+      .getByLabelText("Email Address")
+      .props.onChange({ target: { value: "hans@test.com" } });
+  });
+  act(() => {
+    within(form)
+      .getByLabelText("Password")
+      .props.onChange({ target: { value: "testtest" } });
+  });
 
   const accessToken = createAccessToken();
 
@@ -162,6 +217,7 @@ it("submits form successfully", async () => {
     selector: "button",
   });
   expect(submitButton.props.disabled).toBe(true);
+
   await act(async () => {
     await wait(() => expect(submitButton.props.disabled).toBe(false));
   });

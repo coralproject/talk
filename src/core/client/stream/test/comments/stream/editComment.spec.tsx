@@ -4,6 +4,7 @@ import timekeeper from "timekeeper";
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
+  act,
   createSinonStub,
   waitForElement,
   within,
@@ -74,12 +75,15 @@ function createTestRenderer(
   return testRenderer;
 }
 
-afterAll(() => {
+beforeEach(() => {
+  timekeeper.freeze(commentWithReplies.createdAt);
+});
+
+afterEach(() => {
   timekeeper.reset();
 });
 
 it("edit a comment", async () => {
-  timekeeper.freeze(commentWithReplies.createdAt);
   const testRenderer = createTestRenderer();
 
   const comment = await waitForElement(() =>
@@ -90,28 +94,36 @@ it("edit a comment", async () => {
   );
 
   // Open edit form.
-  within(comment)
-    .getByText("Edit")
-    .props.onClick();
+  act(() =>
+    within(comment)
+      .getByText("Edit")
+      .props.onClick()
+  );
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
 
-  testRenderer.root
-    .findByProps({
-      inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
-    })
-    .props.onChange({ html: "Edited!" });
+  act(() =>
+    testRenderer.root
+      .findByProps({
+        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+      })
+      .props.onChange({ html: "Edited!" })
+  );
 
-  within(comment)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(comment)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Test optimistic response.
   expect(within(comment).toJSON()).toMatchSnapshot("optimistic response");
 
   // Wait for server response.
-  await waitForElement(() =>
-    within(comment).getByText("Edited! (from server)")
-  );
+  await act(async () => {
+    await waitForElement(() =>
+      within(comment).getByText("Edited! (from server)")
+    );
+  });
 
   // Test after server response.
   expect(within(comment).toJSON()).toMatchSnapshot("server response");
@@ -125,25 +137,31 @@ it("edit a comment and handle non-published comment state", async () => {
   );
 
   // Open edit form.
-  within(comment)
-    .getByText("Edit")
-    .props.onClick();
+  act(() =>
+    within(comment)
+      .getByText("Edit")
+      .props.onClick()
+  );
 
-  testRenderer.root
-    .findByProps({
-      inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
-    })
-    .props.onChange({ html: "Edited!" });
+  act(() =>
+    testRenderer.root
+      .findByProps({
+        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+      })
+      .props.onChange({ html: "Edited!" })
+  );
 
-  within(comment)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(comment)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Test after server response.
   await waitForElement(() =>
     within(comment).getByText("will be reviewed", { exact: false })
   );
-  await within(comment)
+  within(comment)
     .getByText("Dismiss")
     .props.onClick();
   expect(
@@ -166,7 +184,6 @@ it("edit a comment and handle non-published comment state", async () => {
 });
 
 it("cancel edit", async () => {
-  timekeeper.freeze(commentWithReplies.createdAt);
   const testRenderer = createTestRenderer();
 
   const comment = await waitForElement(() =>
@@ -174,20 +191,23 @@ it("cancel edit", async () => {
   );
 
   // Open edit form.
-  within(comment)
-    .getByText("Edit")
-    .props.onClick();
+  act(() =>
+    within(comment)
+      .getByText("Edit")
+      .props.onClick()
+  );
 
   // Cancel edit form.
-  within(comment)
-    .getByText("Cancel")
-    .props.onClick();
+  act(() =>
+    within(comment)
+      .getByText("Cancel")
+      .props.onClick()
+  );
 
   expect(within(comment).toJSON()).toMatchSnapshot();
 });
 
 it("shows expiry message", async () => {
-  timekeeper.freeze(commentWithReplies.createdAt);
   const testRenderer = createTestRenderer();
 
   const comment = await waitForElement(() =>
@@ -197,9 +217,11 @@ it("shows expiry message", async () => {
   jest.useFakeTimers();
 
   // Open edit form.
-  within(comment)
-    .getByText("Edit")
-    .props.onClick();
+  act(() =>
+    within(comment)
+      .getByText("Edit")
+      .props.onClick()
+  );
 
   timekeeper.reset();
   jest.runOnlyPendingTimers();
@@ -208,14 +230,15 @@ it("shows expiry message", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("edit time expired");
 
   // Close edit form.
-  within(comment)
-    .getByText("Close")
-    .props.onClick();
+  act(() =>
+    within(comment)
+      .getByText("Close")
+      .props.onClick()
+  );
   expect(within(comment).toJSON()).toMatchSnapshot("edit form closed");
 });
 
 it("edit a comment and handle server error", async () => {
-  timekeeper.freeze(commentWithReplies.createdAt);
   const testRenderer = createTestRenderer(
     {
       Mutation: {
@@ -232,21 +255,29 @@ it("edit a comment and handle server error", async () => {
   );
 
   // Open edit form.
-  within(comment)
-    .getByText("Edit")
-    .props.onClick();
+  act(() =>
+    within(comment)
+      .getByText("Edit")
+      .props.onClick()
+  );
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
 
-  testRenderer.root
-    .findByProps({
-      inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
-    })
-    .props.onChange({ html: "Edited!" });
+  act(() =>
+    testRenderer.root
+      .findByProps({
+        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+      })
+      .props.onChange({ html: "Edited!" })
+  );
 
-  within(comment)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(comment)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Look for internal error being displayed.
-  await waitForElement(() => within(comment).getByText("INTERNAL_ERROR"));
+  await act(async () => {
+    await waitForElement(() => within(comment).getByText("INTERNAL_ERROR"));
+  });
 });

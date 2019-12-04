@@ -59,7 +59,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
       }
 
       // Reset the form now that we're done.
-      form.reset();
+      form.initialize({});
 
       return;
     },
@@ -135,12 +135,12 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                               </InputLabel>
                             </Localized>
                             <PasswordField
+                              {...input}
                               fullWidth
                               id={input.name}
                               disabled={submitting}
                               color={colorFromMeta(meta)}
                               autoComplete="current-password"
-                              {...input}
                             />
                             <FieldValidationMessage fullWidth meta={meta} />
 
@@ -173,12 +173,12 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                               </InputLabel>
                             </Localized>
                             <PasswordField
+                              {...input}
                               fullWidth
                               id={input.name}
                               disabled={submitting}
                               color={colorFromMeta(meta)}
                               autoComplete="new-password"
-                              {...input}
                             />
                             <FieldValidationMessage fullWidth meta={meta} />
                           </FormField>

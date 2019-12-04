@@ -92,7 +92,7 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
         </SubBar>
       )}
       <Main data-testid="forgotPassword-main">
-        <Form onSubmit={onSubmit} initialValues={{ email }}>
+        <Form onSubmit={onSubmit} initialValues={{ email: email ? email : "" }}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>
               <HorizontalGutter size="full">
@@ -123,12 +123,12 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
                         attrs={{ placeholder: true }}
                       >
                         <TextField
+                          {...input}
                           id={input.name}
                           placeholder="Email Address"
                           color={colorFromMeta(meta)}
                           disabled={submitting}
                           fullWidth
-                          {...input}
                         />
                       </Localized>
                       <ValidationMessage meta={meta} fullWidth />

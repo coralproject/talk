@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { MarkdownEditor } from "coral-framework/components/loadables";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
@@ -9,6 +10,15 @@ import { FormFieldDescription, Spinner } from "coral-ui/components/v2";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import ValidationMessage from "../../ValidationMessage";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment ClosedStreamMessageConfig_formValues on Settings {
+    closeCommenting {
+      message
+    }
+  }
+`;
 
 interface Props {
   disabled: boolean;
@@ -37,8 +47,8 @@ const ClosedStreamMessageConfig: FunctionComponent<Props> = ({ disabled }) => (
         <>
           <Suspense fallback={<Spinner />}>
             <MarkdownEditor
-              id="configure-general-closedStreamMessage-content"
               {...input}
+              id="configure-general-closedStreamMessage-content"
             />
           </Suspense>
           <ValidationMessage meta={meta} fullWidth />
