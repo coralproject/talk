@@ -125,6 +125,8 @@ it("post a reply", async () => {
     }),
   });
 
+  expect(await within(form).axe()).toHaveNoViolations();
+
   // Write reply .
   act(() => rte.props.onChange({ html: "<b>Hello world!</b>" }));
   act(() => {

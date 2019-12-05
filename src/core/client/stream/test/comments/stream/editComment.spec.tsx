@@ -100,6 +100,7 @@ it("edit a comment", async () => {
       .props.onClick()
   );
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
+  expect(await within(comment).axe()).toHaveNoViolations();
 
   act(() =>
     testRenderer.root

@@ -1,6 +1,6 @@
 import sinon from "sinon";
 
-import { act, wait, waitForElement, within } from "coral-framework/testHelpers";
+import { act, waitForElement, within } from "coral-framework/testHelpers";
 
 import { moderators, settings, stories } from "../fixtures";
 import create from "./create";
@@ -42,11 +42,7 @@ async function createTestRenderer(
 }
 
 it("renders configure", async () => {
-  const { tabPane } = await createTestRenderer();
-
-  await act(async () => {
-    await wait(() => {
-      expect(within(tabPane).toJSON()).toMatchSnapshot();
-    });
-  });
+  const { tabPane, testRenderer } = await createTestRenderer();
+  expect(within(tabPane).toJSON()).toMatchSnapshot();
+  expect(await within(testRenderer.root).axe()).toHaveNoViolations();
 });

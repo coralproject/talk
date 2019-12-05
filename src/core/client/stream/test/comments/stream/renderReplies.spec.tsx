@@ -42,4 +42,5 @@ it("renders reply list", async () => {
   );
   // Wait for loading.
   expect(within(commentReplyList).toJSON()).toMatchSnapshot();
+  expect(await within(commentReplyList).axe()).toHaveNoViolations();
 });

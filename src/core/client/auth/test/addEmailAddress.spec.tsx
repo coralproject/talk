@@ -68,6 +68,7 @@ it("renders addEmailAddress view", async () => {
       expect(toJSON(root)).toMatchSnapshot();
     });
   });
+  expect(await within(root).axe()).toHaveNoViolations();
 });
 
 it("shows error when submitting empty form", async () => {

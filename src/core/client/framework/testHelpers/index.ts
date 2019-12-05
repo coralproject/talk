@@ -46,3 +46,4 @@ export {
   default as overwriteQueryResolver,
   createQueryResolverOverwrite,
 } from "./overwriteQueryResolver";
+export { default as toHTML } from "./toHTML";

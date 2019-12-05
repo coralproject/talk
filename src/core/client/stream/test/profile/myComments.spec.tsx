@@ -87,6 +87,7 @@ it("renders profile", async () => {
     within(testRenderer.root).getByTestID("profile-commentHistory")
   );
   expect(within(commentHistory).toJSON()).toMatchSnapshot();
+  expect(await within(commentHistory).axe()).toHaveNoViolations();
 });
 
 it("loads more comments", async () => {

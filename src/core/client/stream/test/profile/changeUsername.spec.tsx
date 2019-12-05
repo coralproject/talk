@@ -76,7 +76,9 @@ describe("with recently changed username", () => {
     const form = within(changeUsername).queryByType("form");
     const message = within(changeUsername).queryByText(
       "Your username has been changed in the last 14 days",
-      { exact: false }
+      {
+        exact: false,
+      }
     );
     expect(form).toBeNull();
     expect(message).toBeTruthy();
@@ -106,10 +108,13 @@ describe("with new username", () => {
     act(() => {
       editButton.props.onClick();
     });
+    expect(await within(changeUsername).axe()).toHaveNoViolations();
     within(changeUsername).getByType("form");
     const message = within(changeUsername).queryByText(
       "Your username has been changed in the last 14 days",
-      { exact: false }
+      {
+        exact: false,
+      }
     );
     expect(message).toBeNull();
   });

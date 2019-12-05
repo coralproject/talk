@@ -58,6 +58,7 @@ async function createTestRenderer(
 it("renders createUsername view", async () => {
   const { root } = await createTestRenderer();
   expect(toJSON(root)).toMatchSnapshot();
+  expect(await within(root).axe()).toHaveNoViolations();
 });
 
 it("shows error when submitting empty form", async () => {

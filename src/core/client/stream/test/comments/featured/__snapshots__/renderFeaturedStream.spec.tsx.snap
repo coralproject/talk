@@ -253,6 +253,75 @@ exports[`renders comment stream 1`] = `
               className="TabBar-root TabBar-secondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
               role="tablist"
             >
+              <div
+                className="StreamContainer-featuredCommentsTabContainer"
+              >
+                <li
+                  className="Tab-root"
+                  id="tab-FEATURED_COMMENTS"
+                  role="presentation"
+                >
+                  <button
+                    aria-controls="tabPane-FEATURED_COMMENTS"
+                    aria-selected={true}
+                    className="BaseButton-root Tab-button Tab-secondary StreamContainer-featuredCommentsTabButton Tab-active StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-featured StreamContainer-featuredCommentsTab"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    role="tab"
+                    type="button"
+                  >
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
+                    >
+                      <span>
+                        Featured
+                      </span>
+                      <span
+                        className="Counter-root Counter-colorPrimary Counter-sizeSmall coral coral-counter"
+                        data-testid="comments-featuredCount"
+                      >
+                        <span
+                          className="Counter-text"
+                        >
+                          2
+                        </span>
+                      </span>
+                    </div>
+                  </button>
+                </li>
+                <div
+                  className="Popover-root Tooltip-root StreamContainer-featuredCommentsInfo coral coral-tabBarComments-featuredTooltip"
+                >
+                  <button
+                    aria-label="Toggle featured comments tooltip"
+                    className="BaseButton-root TooltipButton-button"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm Icon-colorPrimary"
+                    >
+                      info
+                    </i>
+                  </button>
+                  <div
+                    aria-hidden={true}
+                    aria-labelledby="comments-featuredCommentPopover-ariainfo"
+                    id="comments-featuredCommentPopover"
+                    role="dialog"
+                  />
+                </div>
+              </div>
               <li
                 className="Tab-root"
                 id="tab-ALL_COMMENTS"
@@ -261,7 +330,7 @@ exports[`renders comment stream 1`] = `
                 <button
                   aria-controls="tabPane-ALL_COMMENTS"
                   aria-selected={false}
-                  className="BaseButton-root Tab-button Tab-secondary coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
+                  className="BaseButton-root Tab-button Tab-secondary StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
