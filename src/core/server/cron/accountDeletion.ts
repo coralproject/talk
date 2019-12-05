@@ -72,9 +72,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
           template: {
             name: "account-notification/delete-request-completed",
             context: {
-              organizationContactEmail: tenant.contactEmail,
               organizationName: tenant.name,
-              organizationURL: tenant.url,
             },
           },
         });

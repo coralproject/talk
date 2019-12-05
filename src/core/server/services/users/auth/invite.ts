@@ -243,7 +243,6 @@ export async function invite(
         name: "account-notification/invite",
         context: {
           organizationName: tenant.name,
-          organizationURL: tenant.url,
           inviteURL,
         },
       },

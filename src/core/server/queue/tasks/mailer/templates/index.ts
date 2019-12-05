@@ -10,7 +10,6 @@ interface EmailTemplate<T extends string, U extends {}> {
 type NotificationContext<T extends string, U extends {}> = EmailTemplate<
   T,
   U & {
-    organizationURL: string;
     organizationName: string;
     unsubscribeURL: string;
   }
@@ -90,7 +89,6 @@ type DigestTemplate = NotificationContext<
 type AccountNotificationContext<T extends string, U extends {}> = EmailTemplate<
   T,
   U & {
-    organizationURL: string;
     organizationName: string;
   }
 >;
@@ -107,7 +105,6 @@ export type BanTemplate = AccountNotificationContext<
   "account-notification/ban",
   {
     username: string;
-    organizationContactEmail: string;
     customMessage?: string;
   }
 >;
@@ -117,7 +114,6 @@ export type SuspendTemplate = AccountNotificationContext<
   {
     username: string;
     until: string;
-    organizationContactEmail: string;
     customMessage?: string;
   }
 >;
@@ -126,7 +122,6 @@ export type PasswordChangeTemplate = AccountNotificationContext<
   "account-notification/password-change",
   {
     username: string;
-    organizationContactEmail: string;
   }
 >;
 
@@ -135,7 +130,6 @@ export type ConfirmEmailTemplate = AccountNotificationContext<
   {
     username: string;
     confirmURL: string;
-    organizationContactEmail: string;
   }
 >;
 
@@ -159,7 +153,6 @@ export type UpdateUsernameTemplate = AccountNotificationContext<
   "account-notification/update-username",
   {
     username: string;
-    organizationContactEmail: string;
   }
 >;
 
@@ -177,9 +170,7 @@ export type AccountDeletionCancellation = AccountNotificationContext<
 
 export type AccountDeletionCompleted = AccountNotificationContext<
   "account-notification/delete-request-completed",
-  {
-    organizationContactEmail: string;
-  }
+  {}
 >;
 
 /**

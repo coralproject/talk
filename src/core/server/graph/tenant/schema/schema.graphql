@@ -6129,8 +6129,6 @@ Organization is the top-level entity, synonymous with tenant
 type Organization {
   id: ID!
   name: String!
-  contactEmail: String!
-  url: String!
   auth: Auth!
   createdAt: Time!
   domain: String! @auth(roles: [ADMIN])

@@ -116,7 +116,6 @@ export const forgotHandler = ({
             // TODO: (wyattjoh) possibly reevaluate the use of a required username.
             username: user.username!,
             organizationName: tenant.name,
-            organizationURL: tenant.url,
           },
         },
         tenantID: tenant.id,

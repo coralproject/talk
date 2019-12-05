@@ -336,8 +336,6 @@ export async function updatePassword(
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: updatedUser.username!,
           organizationName: tenant.name,
-          organizationURL: tenant.url,
-          organizationContactEmail: tenant.contactEmail,
         },
       },
     });
@@ -397,7 +395,6 @@ export async function requestAccountDeletion(
       context: {
         requestDate: formattedDate,
         organizationName: tenant.name,
-        organizationURL: tenant.url,
       },
     },
   });
@@ -426,7 +423,6 @@ export async function cancelAccountDeletion(
       name: "account-notification/delete-request-cancel",
       context: {
         organizationName: tenant.name,
-        organizationURL: tenant.url,
       },
     },
   });
@@ -559,8 +555,6 @@ export async function updateUsername(
         context: {
           username: user.username!,
           organizationName: tenant.name,
-          organizationURL: tenant.url,
-          organizationContactEmail: tenant.contactEmail,
         },
       },
     });
@@ -846,8 +840,6 @@ export async function ban(
           // TODO: (wyattjoh) possibly reevaluate the use of a required username.
           username: user.username!,
           organizationName: tenant.name,
-          organizationURL: tenant.url,
-          organizationContactEmail: tenant.contactEmail,
           customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
@@ -981,8 +973,6 @@ export async function suspend(
           username: updatedUser.username!,
           until: finishDateTime.toRFC2822(),
           organizationName: tenant.name,
-          organizationURL: tenant.url,
-          organizationContactEmail: tenant.contactEmail,
           customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
@@ -1141,7 +1131,6 @@ export async function requestCommentsDownload(
           date: Intl.DateTimeFormat(tenant.locale).format(now),
           downloadUrl,
           organizationName: tenant.name,
-          organizationURL: tenant.url,
         },
       },
     });

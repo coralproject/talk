@@ -238,8 +238,6 @@ export async function sendConfirmationEmail(
         username: user.username,
         confirmURL,
         organizationName: tenant.name,
-        organizationURL: tenant.url,
-        organizationContactEmail: tenant.contactEmail,
       },
     },
   });

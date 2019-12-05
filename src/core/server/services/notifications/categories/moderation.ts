@@ -52,7 +52,6 @@ async function processor(
         context: {
           commentPermalink: getURLWithCommentID(story.url, comment.id),
           organizationName: ctx.tenant.name,
-          organizationURL: ctx.tenant.url,
           unsubscribeURL,
         },
       },
@@ -64,7 +63,6 @@ async function processor(
         name: "notification/on-comment-rejected",
         context: {
           organizationName: ctx.tenant.name,
-          organizationURL: ctx.tenant.url,
           unsubscribeURL,
         },
       },

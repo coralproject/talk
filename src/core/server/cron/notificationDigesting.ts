@@ -121,7 +121,6 @@ const processNotificationDigesting = (
           context: {
             digests,
             organizationName: tenant.name,
-            organizationURL: tenant.url,
             unsubscribeURL: await ctx.generateUnsubscribeURL(user),
           },
         },

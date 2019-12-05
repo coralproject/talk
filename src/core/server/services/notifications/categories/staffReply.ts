@@ -76,7 +76,6 @@ async function processor(
         storyTitle: getStoryTitle(story),
         storyURL: story.url,
         organizationName: ctx.tenant.name,
-        organizationURL: ctx.tenant.url,
         unsubscribeURL,
       },
     },

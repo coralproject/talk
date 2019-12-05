@@ -50,7 +50,7 @@ export interface Tenant
  */
 export type CreateTenantInput = Pick<
   Tenant,
-  "name" | "contactEmail" | "url" | "locale" | "multiSite" | "domain"
+  "name" | "locale" | "multiSite" | "domain"
 >;
 
 export async function createTenant(
