@@ -15,7 +15,7 @@ export async function create(
   site: CreateSiteInput,
   now = new Date()
 ) {
-  return createSite(mongo, tenant.id, communityID, site, now);
+  return createSite(mongo, tenant, communityID, site, now);
 }
 
 export async function updateSettings(

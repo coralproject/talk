@@ -95,7 +95,7 @@ export interface TenantInstallBody {
     locale: LanguageCode | null;
   };
   user: Required<Pick<CreateUser, "username" | "email"> & { password: string }>;
-  sites: Partial<CreateSiteInput> & { domains: string[] }[];
+  sites: CreateSiteInput[];
   communities: Partial<CreateCommunityInput>[];
 }
 
@@ -103,16 +103,7 @@ const TenantInstallBodySchema = Joi.object().keys({
   tenant: Joi.object()
     .keys({
       multiSite: Joi.boolean(),
-      organization: Joi.object().keys({
-        name: Joi.string().trim(),
-        url: Joi.string()
-          .trim()
-          .uri(),
-        contactEmail: Joi.string()
-          .trim()
-          .lowercase()
-          .email(),
-      }),
+      name: Joi.string().trim(),
       locale: Joi.string()
         .default(null)
         .valid(LOCALES),
@@ -126,14 +117,30 @@ const TenantInstallBodySchema = Joi.object().keys({
       .lowercase()
       .email(),
   }),
-  communities: Joi.array().items(Joi.object()),
+  communities: Joi.array().items(
+    Joi.object()
+      .keys({
+        name: Joi.string().trim(),
+        url: Joi.string()
+          .trim()
+          .uri(),
+        contactEmail: Joi.string()
+          .trim()
+          .lowercase()
+          .email(),
+      })
+      .optionalKeys(["name", "url", "contactEmail"])
+  ),
   sites: Joi.array().items(
     Joi.object().keys({
-      domains: Joi.array().items(
-        Joi.string()
-          .trim()
-          .uri({ scheme: ["http", "https"] })
-      ),
+      name: Joi.string().trim(),
+      url: Joi.string()
+        .trim()
+        .uri(),
+      contactEmail: Joi.string()
+        .trim()
+        .lowercase()
+        .email(),
     })
   ),
 });

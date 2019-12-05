@@ -4,7 +4,6 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import { URL } from "url";
 
-import { Omit } from "coral-common/types";
 import { discover } from "coral-server/app/middleware/passport/strategies/oidc/discover";
 import { Config } from "coral-server/config";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
@@ -104,10 +103,6 @@ export async function isInstalled(cache: TenantCache, domain?: string) {
   return true;
 }
 
-type SiteInput = Partial<Omit<CreateSiteInput, "domains">> & {
-  domains: string[];
-};
-
 export type InstallTenant = CreateTenantInput;
 
 export async function install(
@@ -116,7 +111,7 @@ export async function install(
   cache: TenantCache,
   i18n: I18n,
   input: InstallTenant,
-  sites: SiteInput[],
+  sites: CreateSiteInput[],
   communities: Partial<CreateCommunityInput>[],
   now = new Date()
 ) {
@@ -134,22 +129,12 @@ export async function install(
   if (tenant.multiSite) {
     // do a lot of things
   } else {
-    const sharedDetails = pick(tenant, [
-      "name",
-      "contactEmail",
-      "url",
-      "locale",
-    ]);
-    const communityInput = {
-      ...sharedDetails,
-      ...communities[0],
-    };
-    const community = await createCommunity(mongo, tenant.id, communityInput);
-    const siteInput = {
-      ...sharedDetails,
-      ...sites[0],
-    };
-    await createSite(mongo, tenant.id, community.id, siteInput);
+    const [site] = sites;
+    const community = await createCommunity(mongo, tenant.id, {
+      ...pick(tenant, ["locale", "name"]),
+      ...(communities[0] || {}),
+    });
+    await createSite(mongo, tenant, community.id, site);
   }
 
   // Update the tenant cache.

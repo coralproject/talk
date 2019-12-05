@@ -6148,8 +6148,8 @@ referenced by one or more sites.
 type Community {
   id: ID!
   name: String!
-  contactEmail: String!
-  url: String!
+  contactEmail: String
+  url: String
   createdAt: Time!
   ownSettings: PartialEntitySettings!
   settings: EntitySettings!

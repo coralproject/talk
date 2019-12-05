@@ -259,7 +259,7 @@ export class URLInvalidError extends CoralError {
 export class StoryURLInvalidError extends CoralError {
   constructor(properties: {
     storyURL: string;
-    domains: string[];
+    domains?: string[];
     tenantDomain?: string;
   }) {
     super({

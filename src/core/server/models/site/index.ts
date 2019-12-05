@@ -27,15 +27,15 @@ export interface Site extends Omit<GQLSite, "settings" | "community"> {
   locale: LanguageCode;
 }
 
-export type CreateSiteInput = Pick<
-  Site,
-  "name" | "contactEmail" | "url" | "locale" | "domains"
->;
+export type CreateSiteInput = Pick<Site, "name" | "contactEmail" | "url"> & {
+  domains?: string[];
+  locale?: LanguageCode;
+};
 
 export type SiteConnectionInput = ConnectionInput<Site>;
 export async function createSite(
   mongo: Db,
-  tenantID: string,
+  tenant: Tenant,
   communityID: string,
   input: CreateSiteInput,
   now = new Date()
@@ -43,9 +43,11 @@ export async function createSite(
   const site: Readonly<Site> = {
     id: uuid.v4(),
     createdAt: now,
-    tenantID,
+    tenantID: tenant.id,
     communityID,
     ownSettings: {},
+    locale: tenant.locale,
+    domains: [],
     ...input,
   };
 
