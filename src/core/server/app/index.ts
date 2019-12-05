@@ -1,8 +1,10 @@
 import cons from "consolidate";
 import cors from "cors";
 import { Express } from "express";
+import enforceHTTPS from "express-enforces-ssl";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
+import { hsts, noSniff, referrerPolicy, xssFilter } from "helmet";
 import http from "http";
 import { Db } from "mongodb";
 import nunjucks from "nunjucks";
@@ -13,6 +15,7 @@ import { HTMLErrorHandler } from "coral-server/app/middleware/error";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import { createPassport } from "coral-server/app/middleware/passport";
 import { Config } from "coral-server/config";
+import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
@@ -110,15 +113,38 @@ export const listenAndServe = (
   });
 
 function configureApplication(options: AppOptions) {
-  const { parent } = options;
-
-  parent.disable("x-powered-by");
+  const { parent, config } = options;
 
   // Trust the proxy in front of us, this will enable us to trust the fact that
   // SSL was terminated correctly.
   const trust = options.config.get("trust_proxy");
   if (trust) {
     parent.set("trust proxy", compileTrust(trust));
+  }
+
+  // Configure security middleware and options.
+  parent.disable("x-powered-by");
+  parent.use(noSniff());
+  parent.use(referrerPolicy({ policy: "same-origin" }));
+  parent.use(xssFilter());
+
+  // If we're in production mode, configure some production security settings.
+  if (config.get("env") === "production") {
+    if (config.get("disable_force_ssl")) {
+      logger.warn(
+        "SSL enforcement has been disabled in production, this should not be used except for testing"
+      );
+    } else {
+      // Coral in production requires SSL, so we'll send the HSTS headers here as
+      // well as force the use of HTTPS with a 301 redirect.
+      parent.use(
+        hsts({
+          // We don't want to break existing other services that run with SSL.
+          includeSubDomains: false,
+        })
+      );
+      parent.use(enforceHTTPS());
+    }
   }
 
   // Setup the view config.

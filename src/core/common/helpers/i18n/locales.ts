@@ -1,6 +1,6 @@
 /**
  * LanguageCode is the type represented by the internally identifiable types for
- * the different languages that can be supported.
+ * the different languages that can be supported in the BCP 47 format.
  */
 export type LanguageCode =
   | "en-US"

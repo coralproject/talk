@@ -78,6 +78,7 @@ configure-sideBarNavigation-organization = Organization
 configure-sideBarNavigation-advanced = Advanced
 configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
+configure-sideBarNavigation-slack = Slack
 
 configure-sideBar-saveChanges = Save Changes
 configure-configurationSubHeader = Configuration
@@ -379,6 +380,34 @@ decisionHistory-yourDecisionHistory = Your Decision History
 decisionHistory-rejectedCommentBy = Rejected comment by <Username></Username>
 decisionHistory-approvedCommentBy = Approved comment by <Username></Username>
 decisionHistory-goToComment = Go to comment
+
+### Slack
+
+configure-slack-header-title = Slack Integrations
+configure-slack-description =
+  Automatically send comments from Coral moderation queues to Slack
+  channels. You will need Slack admin access to set this up. For
+  steps on how to create a Slack App see our <externalLink>documentation</externalLink>.
+configure-slack-addChannel = Add
+
+configure-slack-channel-enabled = Enabled
+configure-slack-channel-remove = Remove
+configure-slack-channel-name-label = Name
+configure-slack-channel-name-description =
+  This is only for your information, to easily identify
+  each Slack connection. Slack does not tell us the name
+  of the channel/s you're connecting to Coral.
+configure-slack-channel-hookURL-label = Webhook URL
+configure-slack-channel-hookURL-description =
+  Slack provides a channel-specific URL to activate webhook
+  connections. To find the URL for one of your Slack channels,
+  follow the instructions <externalLink>here</externalLink>.
+configure-slack-channel-triggers-label =
+  Receive notifications in this Slack channel for
+configure-slack-channel-triggers-allComments = All Comments
+configure-slack-channel-triggers-reportedComments = Reported Comments
+configure-slack-channel-triggers-pendingComments = Pending Comments
+configure-slack-channel-triggers-featuredComments = Featured Comments
 
 ## moderate
 moderate-navigation-reported = reported
