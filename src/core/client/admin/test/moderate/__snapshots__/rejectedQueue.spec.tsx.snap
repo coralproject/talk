@@ -170,9 +170,9 @@ exports[`approves comment in rejected queue: dangling 1`] = `
               <button
                 aria-controls="uuid-0"
                 aria-expanded={false}
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Markers-detailsButtonColorRegular Button-variantDefault Markers-detailsButton Button-uppercase"
-                data-color="default"
-                data-variant="default"
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
+                data-color="mono"
+                data-variant="ghost"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -188,7 +188,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
                 </span>
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm"
+                  className="Icon-root Icon-sm ButtonIcon-root"
                 >
                   arrow_drop_down
                 </i>
@@ -420,9 +420,9 @@ exports[`renders rejected queue with comments 1`] = `
                     <button
                       aria-controls="uuid-0"
                       aria-expanded={false}
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Markers-detailsButtonColorRegular Button-variantDefault Markers-detailsButton Button-uppercase"
-                      data-color="default"
-                      data-variant="default"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
+                      data-color="mono"
+                      data-variant="ghost"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -438,7 +438,7 @@ exports[`renders rejected queue with comments 1`] = `
                       </span>
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm"
+                        className="Icon-root Icon-sm ButtonIcon-root"
                       >
                         arrow_drop_down
                       </i>
@@ -657,9 +657,9 @@ exports[`renders rejected queue with comments 1`] = `
                     <button
                       aria-controls="uuid-1"
                       aria-expanded={false}
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Markers-detailsButtonColorRegular Button-variantDefault Markers-detailsButton Button-uppercase"
-                      data-color="default"
-                      data-variant="default"
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
+                      data-color="mono"
+                      data-variant="ghost"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -675,7 +675,7 @@ exports[`renders rejected queue with comments 1`] = `
                       </span>
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm"
+                        className="Icon-root Icon-sm ButtonIcon-root"
                       >
                         arrow_drop_down
                       </i>
@@ -913,9 +913,9 @@ exports[`renders rejected queue with comments and load more 1`] = `
               <button
                 aria-controls="uuid-2"
                 aria-expanded={false}
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorDefault Markers-detailsButtonColorRegular Button-variantDefault Markers-detailsButton Button-uppercase"
-                data-color="default"
-                data-variant="default"
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
+                data-color="mono"
+                data-variant="ghost"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -931,7 +931,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 </span>
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm"
+                  className="Icon-root Icon-sm ButtonIcon-root"
                 >
                   arrow_drop_down
                 </i>
