@@ -55,13 +55,24 @@ exports[`loads more 1`] = `
             <div
               className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
-              <time
-                className="RelativeTime-root Timestamp-root"
-                dateTime="2018-11-29T16:01:51.897Z"
-                title="2018-11-29T16:01:51.897Z"
+              <button
+                className="BaseButton-root Timestamp-root"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                2018-11-29T16:01:51.897Z
-              </time>
+                <time
+                  className="RelativeTime-root Timestamp-text Timestamp-root"
+                  dateTime="2018-11-29T16:01:51.897Z"
+                  title="2018-11-29T16:01:51.897Z"
+                >
+                  2018-11-29T16:01:51.897Z
+                </time>
+              </button>
               <div
                 className="DotDivider-root"
               >
@@ -117,13 +128,24 @@ exports[`loads more 1`] = `
             <div
               className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
-              <time
-                className="RelativeTime-root Timestamp-root"
-                dateTime="2018-11-29T16:01:45.644Z"
-                title="2018-11-29T16:01:45.644Z"
+              <button
+                className="BaseButton-root Timestamp-root"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                2018-11-29T16:01:45.644Z
-              </time>
+                <time
+                  className="RelativeTime-root Timestamp-text Timestamp-root"
+                  dateTime="2018-11-29T16:01:45.644Z"
+                  title="2018-11-29T16:01:45.644Z"
+                >
+                  2018-11-29T16:01:45.644Z
+                </time>
+              </button>
               <div
                 className="DotDivider-root"
               >
@@ -179,13 +201,24 @@ exports[`loads more 1`] = `
             <div
               className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
-              <time
-                className="RelativeTime-root Timestamp-root"
-                dateTime="2018-11-29T16:01:42.060Z"
-                title="2018-11-29T16:01:42.060Z"
+              <button
+                className="BaseButton-root Timestamp-root"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                2018-11-29T16:01:42.060Z
-              </time>
+                <time
+                  className="RelativeTime-root Timestamp-text Timestamp-root"
+                  dateTime="2018-11-29T16:01:42.060Z"
+                  title="2018-11-29T16:01:42.060Z"
+                >
+                  2018-11-29T16:01:42.060Z
+                </time>
+              </button>
               <div
                 className="DotDivider-root"
               >
@@ -300,13 +333,24 @@ exports[`render popover content 1`] = `
             <div
               className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
-              <time
-                className="RelativeTime-root Timestamp-root"
-                dateTime="2018-11-29T16:01:51.897Z"
-                title="2018-11-29T16:01:51.897Z"
+              <button
+                className="BaseButton-root Timestamp-root"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                2018-11-29T16:01:51.897Z
-              </time>
+                <time
+                  className="RelativeTime-root Timestamp-text Timestamp-root"
+                  dateTime="2018-11-29T16:01:51.897Z"
+                  title="2018-11-29T16:01:51.897Z"
+                >
+                  2018-11-29T16:01:51.897Z
+                </time>
+              </button>
               <div
                 className="DotDivider-root"
               >
@@ -362,13 +406,24 @@ exports[`render popover content 1`] = `
             <div
               className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
-              <time
-                className="RelativeTime-root Timestamp-root"
-                dateTime="2018-11-29T16:01:45.644Z"
-                title="2018-11-29T16:01:45.644Z"
+              <button
+                className="BaseButton-root Timestamp-root"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                2018-11-29T16:01:45.644Z
-              </time>
+                <time
+                  className="RelativeTime-root Timestamp-text Timestamp-root"
+                  dateTime="2018-11-29T16:01:45.644Z"
+                  title="2018-11-29T16:01:45.644Z"
+                >
+                  2018-11-29T16:01:45.644Z
+                </time>
+              </button>
               <div
                 className="DotDivider-root"
               >

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { RelativeTime } from "coral-ui/components/v2";
+import { Timestamp } from "coral-ui/components/v2";
 
 import styles from "./Timestamp.css";
 
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const DecisionHistory: FunctionComponent<Props> = props => (
-  <RelativeTime className={styles.root} date={props.children} />
+  <Timestamp className={styles.root}>{props.children}</Timestamp>
 );
 
 export default DecisionHistory;
