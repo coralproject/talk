@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Button, Flex, Icon, Timestamp } from "coral-ui/components/v2";
+import { Button, ButtonIcon, Flex, Timestamp } from "coral-ui/components/v2";
 
 import styles from "./ModeratorNote.css";
 
@@ -41,17 +41,15 @@ const ModeratorNote: FunctionComponent<Props> = ({
           )}
         </Flex>
         {onDelete && (
-          <Localized id="moderatorNote-delete">
-            <Button
-              size="small"
-              uppercase={false}
-              variant="plain"
-              onClick={deleteNote}
-            >
-              <Icon>delete</Icon>
-              <span>Delete</span>
-            </Button>
-          </Localized>
+          <Button
+            uppercase={false}
+            iconLeft
+            variant="flat"
+            onClick={deleteNote}
+          >
+            <ButtonIcon>delete</ButtonIcon>
+            <Localized id="moderatorNote-delete">Delete</Localized>
+          </Button>
         )}
       </Flex>
     </div>

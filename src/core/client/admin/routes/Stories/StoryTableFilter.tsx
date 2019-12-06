@@ -63,9 +63,9 @@ const StoryTableFilter: FunctionComponent<Props> = props => (
                         >
                           <Button
                             className={styles.adornment}
-                            variant="adornment"
                             type="submit"
-                            color="emphasis"
+                            color="dark"
+                            adornmentRight
                             aria-label="Search"
                           >
                             <Icon size="md">search</Icon>

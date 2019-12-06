@@ -28,10 +28,9 @@ const Markers: FunctionComponent<Props> = ({ children, details }) => {
         {children}
         {details && (
           <Button
-            size="small"
             classes={{
-              variantDefault: styles.detailsButton,
-              colorDefault: styles.detailsButtonColorRegular,
+              variantRegular: styles.detailsButton,
+              colorRegular: styles.detailsButtonColorRegular,
             }}
             variant="ghost"
             onClick={toggleDetails}

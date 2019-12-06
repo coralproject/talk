@@ -17,9 +17,9 @@ const InviteUsers: FunctionComponent = () => {
     <div data-testid="invite-users">
       <Localized id="community-invite-invite">
         <Button
-          variant="filled"
-          color="default"
           className={styles.button}
+          variant="flat"
+          color="dark"
           type="button"
           data-testid="invite-users-button"
           onClick={show}

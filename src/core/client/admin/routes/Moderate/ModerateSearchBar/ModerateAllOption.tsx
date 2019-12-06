@@ -26,14 +26,7 @@ const ModerateAllOption: FunctionComponent<Props> = ({
       aria-selected={selected}
       {...rest}
     >
-      <Button
-        href={href}
-        color="emphasis"
-        variant="filled"
-        anchor
-        fullWidth
-        tabIndex={-1}
-      >
+      <Button href={href} color="dark" anchor fullWidth tabIndex={-1}>
         <Localized id="moderate-searchBar-moderateAllStories">
           <span>Moderate all stories</span>
         </Localized>

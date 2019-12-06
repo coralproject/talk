@@ -64,8 +64,6 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
             <Flex justifyContent="center">
               <Localized id="community-invite-inviteMore">
                 <Button
-                  variant="underlined"
-                  color="default"
                   disabled={submitting}
                   onClick={() => {
                     setEmailFieldCount(emailFieldCount + 1);
@@ -129,13 +127,7 @@ const InviteForm: FunctionComponent<Props> = ({ lastRef, onFinish }) => {
             </FormSpy>
             <Flex direction="row" justifyContent="flex-end">
               <Localized id="community-invite-sendInvitations">
-                <Button
-                  color="default"
-                  variant="filled"
-                  type="submit"
-                  disabled={submitting}
-                  ref={lastRef}
-                >
+                <Button type="submit" disabled={submitting} ref={lastRef}>
                   Send invitations
                 </Button>
               </Localized>

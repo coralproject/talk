@@ -61,10 +61,10 @@ const UserRoleChange: FunctionComponent<Props> = props => (
             className={styles.button}
             onClick={toggleVisibility}
             uppercase={false}
+            size="large"
             color="mono"
             ref={ref}
-            variant="plain"
-            size="small"
+            variant="text"
           >
             <UserRoleText>{props.role}</UserRoleText>
             {

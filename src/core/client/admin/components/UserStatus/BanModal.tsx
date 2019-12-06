@@ -117,17 +117,12 @@ const BanModal: FunctionComponent<Props> = ({
 
                   <Flex justifyContent="flex-end" itemGutter="half">
                     <Localized id="community-banModal-cancel">
-                      <Button variant="ghost" onClick={onClose}>
+                      <Button variant="flat" onClick={onClose}>
                         Cancel
                       </Button>
                     </Localized>
                     <Localized id="community-banModal-banUser">
-                      <Button
-                        variant="filled"
-                        color="default"
-                        type="submit"
-                        ref={lastFocusableRef}
-                      >
+                      <Button type="submit" ref={lastFocusableRef}>
                         Ban User
                       </Button>
                     </Localized>

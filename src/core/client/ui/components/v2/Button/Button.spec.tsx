@@ -33,7 +33,7 @@ it("forwards ref", () => {
 it("renders a medium sized, alert colored filled button with fullWidth", () => {
   const props: PropTypesOf<typeof Button> = {
     color: "alert",
-    variant: "filled",
+    variant: "regular",
     fullWidth: true,
     classes: {
       colorAlert: "colorAlert",

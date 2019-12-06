@@ -43,7 +43,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Button variant="plain" className={styles.close} onClick={onClose}>
+      <Button variant="text" className={styles.close} onClick={onClose}>
         <Icon size="md">close</Icon>
       </Button>
       <HorizontalGutter spacing={4}>
@@ -84,7 +84,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 </Icon>
               </Localized>
               <span className={styles.userDetailValue}>{user.email}</span>
-              <CopyButton text={user.email!} size="small" />
+              <CopyButton text={user.email!} />
             </Flex>
             <Flex alignItems="center" spacing={2}>
               <Localized
@@ -113,7 +113,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 </Icon>
               </Localized>
               <span className={styles.userDetailValue}>{user.id}</span>
-              <CopyButton text={user.id} size="small" />
+              <CopyButton text={user.id} />
             </Flex>
           </HorizontalGutter>
         </HorizontalGutter>

@@ -64,8 +64,7 @@ const StoryStatusChange: FunctionComponent<Props> = props => (
             ref={ref}
             color="mono"
             uppercase={false}
-            variant="plain"
-            size="small"
+            variant="text"
           >
             <StoryStatusText>{props.status}</StoryStatusText>
             {

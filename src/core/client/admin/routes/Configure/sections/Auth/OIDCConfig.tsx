@@ -178,8 +178,6 @@ const OIDCConfig: FunctionComponent<Props> = ({
                     />
                     <Button
                       id="configure-auth-oidc-discover"
-                      variant="filled"
-                      size="small"
                       disabled={disabledInside || disableForDiscover}
                       onClick={onDiscover}
                     >
