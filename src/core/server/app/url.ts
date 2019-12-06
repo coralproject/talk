@@ -29,6 +29,24 @@ export function constructTenantURL(
   return url.href;
 }
 
+export function reconstructTenantURL(
+  config: Config,
+  tenant: Pick<Tenant, "domain">,
+  req?: Request,
+  path = "/"
+) {
+  // If the request is available, then prefer it over building from the tenant
+  // as the tenant does not include the port number. This should only really
+  // be a problem if the graph API is called internally.
+  if (req) {
+    return reconstructURL(req, path);
+  }
+
+  // Note that when constructing the callback url with the tenant, the port
+  // information is lost.
+  return constructTenantURL(config, tenant, path);
+}
+
 export function doesRequireSchemePrefixing(url: string) {
   return !url.startsWith("http");
 }

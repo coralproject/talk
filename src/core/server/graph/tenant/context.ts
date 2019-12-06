@@ -61,7 +61,11 @@ export default class TenantContext extends CommonContext {
     this.clientID = options.clientID;
     this.publisher = createPublisher({
       pubsub: this.pubsub,
-      slackPublisher: createSlackPublisher(this.mongo, this.tenant),
+      slackPublisher: createSlackPublisher(
+        this.mongo,
+        this.config,
+        this.tenant
+      ),
       notifierQueue,
       tenantID: this.tenant.id,
       clientID: this.clientID,
