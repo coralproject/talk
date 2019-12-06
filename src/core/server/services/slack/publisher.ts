@@ -1,3 +1,7 @@
+import { Db } from "mongodb";
+
+import { reconstructTenantURL } from "coral-server/app/url";
+import { Config } from "coral-server/config";
 import { CommentCreatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentCreated";
 import { CommentEnteredModerationQueueInput } from "coral-server/graph/tenant/resolvers/Subscription/commentEnteredModerationQueue";
 import { CommentFeaturedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentFeatured";
@@ -7,11 +11,15 @@ import { CommentReplyCreatedInput } from "coral-server/graph/tenant/resolvers/Su
 import { CommentStatusUpdatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentStatusUpdated";
 import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
 import logger from "coral-server/logger";
+import { getLatestRevision } from "coral-server/models/comment/helpers";
+import {
+  getStoryTitle,
+  getURLWithCommentID,
+} from "coral-server/models/story/helpers";
+import { Tenant } from "coral-server/models/tenant";
 
 import { GQLMODERATION_QUEUE } from "coral-server/graph/tenant/schema/__generated__/types";
 
-import { Tenant } from "coral-server/models/tenant";
-import { Db } from "mongodb";
 import SlackContext from "./context";
 
 type Payload =
@@ -55,21 +63,19 @@ function isPending(channel: SUBSCRIPTION_CHANNELS, payload: Payload) {
   );
 }
 
-function createModerationLink(rootURL: string, commentID: string) {
-  return `${rootURL}/admin/moderate/comment/${commentID}`;
-}
-
-function createCommentLink(storyURL: string, commentID: string) {
-  const urlBuilder = new URL(storyURL);
-  urlBuilder.searchParams.set("commentID", commentID);
-  return urlBuilder.href;
+function createModerationLink(ctx: SlackContext, commentID: string) {
+  return reconstructTenantURL(
+    ctx.config,
+    ctx.tenant,
+    ctx.req,
+    `/admin/moderate/comment/${commentID}`
+  );
 }
 
 async function postCommentToSlack(
   ctx: SlackContext,
-  orgURL: string,
   commentID: string,
-  webhookURL: string
+  hookURL: string
 ) {
   const comment = await ctx.comments.load(commentID);
   if (comment === null) {
@@ -84,14 +90,14 @@ async function postCommentToSlack(
     return;
   }
 
-  const storyTitle = story.metadata ? story.metadata.title : "";
-  const commentBody =
-    comment.revisions.length > 0
-      ? comment.revisions[comment.revisions.length - 1].body
-      : "";
+  // Get some properties about the event.
+  const storyTitle = getStoryTitle(story);
+  const commentBody = getLatestRevision(comment).body;
+  const moderateLink = createModerationLink(ctx, commentID);
+  const commentLink = getURLWithCommentID(story.url, comment.id);
+
+  // Replace HTML link breaks with newlines.
   const body = commentBody.replace(/<br\/?>/g, "\n");
-  const moderateLink = createModerationLink(orgURL, comment.id);
-  const commentLink = createCommentLink(story.url, comment.id);
 
   const data = {
     text: `${author.username} commented on: ${storyTitle}`,
@@ -110,9 +116,7 @@ async function postCommentToSlack(
           text: `<${moderateLink}|Go to Moderation> | <${commentLink}|See Comment>`,
         },
       },
-      {
-        type: "divider",
-      },
+      { type: "divider" },
       {
         type: "section",
         text: {
@@ -124,17 +128,17 @@ async function postCommentToSlack(
   };
 
   try {
-    const response = await fetch(webhookURL, {
+    // Send the post to the Slack URL.
+    const res = await fetch(hookURL, {
       method: "POST",
-      cache: "no-cache",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
 
-    if (response.ok) {
-      logger.error({ response }, "error sending Slack comment");
+    if (!res.ok) {
+      logger.error({ res }, "error sending Slack comment");
     }
   } catch (err) {
     logger.error({ err }, "error sending Slack comment");
@@ -146,7 +150,11 @@ export type SlackPublisher = (
   payload: Payload
 ) => Promise<void>;
 
-function createSlackPublisher(mongo: Db, tenant: Tenant): SlackPublisher {
+function createSlackPublisher(
+  mongo: Db,
+  config: Config,
+  tenant: Tenant
+): SlackPublisher {
   if (
     !tenant.slack ||
     !tenant.slack.channels ||
@@ -160,7 +168,7 @@ function createSlackPublisher(mongo: Db, tenant: Tenant): SlackPublisher {
   const { channels } = tenant.slack;
 
   return async (channel: SUBSCRIPTION_CHANNELS, payload: Payload) => {
-    const ctx = new SlackContext({ mongo, tenantID: tenant.id });
+    const ctx = new SlackContext({ mongo, config, tenant });
 
     try {
       const inModeration = enteredModeration(channel, payload);
@@ -186,19 +194,17 @@ function createSlackPublisher(mongo: Db, tenant: Tenant): SlackPublisher {
           return;
         }
 
-        const orgURL = tenant.organization.url;
-
         if (
           triggers.allComments &&
           (reported || pending || featured || inModeration)
         ) {
-          await postCommentToSlack(ctx, orgURL, commentID, hookURL);
+          await postCommentToSlack(ctx, commentID, hookURL);
         } else if (triggers.reportedComments && reported) {
-          await postCommentToSlack(ctx, orgURL, commentID, hookURL);
+          await postCommentToSlack(ctx, commentID, hookURL);
         } else if (triggers.pendingComments && pending) {
-          await postCommentToSlack(ctx, orgURL, commentID, hookURL);
+          await postCommentToSlack(ctx, commentID, hookURL);
         } else if (triggers.featuredComments && featured) {
-          await postCommentToSlack(ctx, orgURL, commentID, hookURL);
+          await postCommentToSlack(ctx, commentID, hookURL);
         }
       }
     } catch (err) {
