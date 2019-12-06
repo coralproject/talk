@@ -388,10 +388,11 @@ configure-slack-description =
   Automatically send comments from Coral moderation queues to Slack
   channels. You will need Slack admin access to set this up. For
   steps on how to create a Slack App see our <externalLink>documentation</externalLink>.
-configure-slack-addChannel = Add
+configure-slack-addChannel = Add Channel
 
+configure-slack-channel-defaultName = New channel
 configure-slack-channel-enabled = Enabled
-configure-slack-channel-remove = Remove
+configure-slack-channel-remove = Remove Channel
 configure-slack-channel-name-label = Name
 configure-slack-channel-name-description =
   This is only for your information, to easily identify
