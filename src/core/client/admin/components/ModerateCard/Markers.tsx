@@ -28,11 +28,7 @@ const Markers: FunctionComponent<Props> = ({ children, details }) => {
         {children}
         {details && (
           <Button
-            classes={{
-              variantRegular: styles.detailsButton,
-              colorRegular: styles.detailsButtonColorRegular,
-            }}
-            variant="ghost"
+            classes={{}}
             onClick={toggleDetails}
             aria-controls={uuid}
             aria-expanded={showDetails}

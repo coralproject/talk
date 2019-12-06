@@ -160,7 +160,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
                 <span>
                   Spam
                 </span>
-                 
+
                 <span
                   className="Count-root"
                 >
@@ -170,9 +170,9 @@ exports[`approves comment in reported queue: dangling 1`] = `
               <button
                 aria-controls="uuid-0"
                 aria-expanded={false}
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
-                data-color="mono"
-                data-variant="ghost"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase"
+                data-color="regular"
+                data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -413,7 +413,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
                 <span>
                   Spam
                 </span>
-                 
+
                 <span
                   className="Count-root"
                 >
@@ -423,9 +423,9 @@ exports[`rejects comment in reported queue: dangling 1`] = `
               <button
                 aria-controls="uuid-0"
                 aria-expanded={false}
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
-                data-color="mono"
-                data-variant="ghost"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase"
+                data-color="regular"
+                data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -663,7 +663,7 @@ exports[`renders reported queue with comments 1`] = `
                       <span>
                         Spam
                       </span>
-                       
+
                       <span
                         className="Count-root"
                       >
@@ -673,9 +673,9 @@ exports[`renders reported queue with comments 1`] = `
                     <button
                       aria-controls="uuid-0"
                       aria-expanded={false}
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
-                      data-color="mono"
-                      data-variant="ghost"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase"
+                      data-color="regular"
+                      data-variant="regular"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -900,7 +900,7 @@ exports[`renders reported queue with comments 1`] = `
                       <span>
                         Offensive
                       </span>
-                       
+
                       <span
                         className="Count-root"
                       >
@@ -910,9 +910,9 @@ exports[`renders reported queue with comments 1`] = `
                     <button
                       aria-controls="uuid-1"
                       aria-expanded={false}
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
-                      data-color="mono"
-                      data-variant="ghost"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase"
+                      data-color="regular"
+                      data-variant="regular"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1153,7 +1153,7 @@ exports[`renders reported queue with comments 2`] = `
                       <span>
                         Spam
                       </span>
-                       
+
                       <span
                         className="Count-root"
                       >
@@ -1163,9 +1163,9 @@ exports[`renders reported queue with comments 2`] = `
                     <button
                       aria-controls="uuid-0"
                       aria-expanded={false}
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
-                      data-color="mono"
-                      data-variant="ghost"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase"
+                      data-color="regular"
+                      data-variant="regular"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1390,7 +1390,7 @@ exports[`renders reported queue with comments 2`] = `
                       <span>
                         Offensive
                       </span>
-                       
+
                       <span
                         className="Count-root"
                       >
@@ -1400,9 +1400,9 @@ exports[`renders reported queue with comments 2`] = `
                     <button
                       aria-controls="uuid-1"
                       aria-expanded={false}
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
-                      data-color="mono"
-                      data-variant="ghost"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase"
+                      data-color="regular"
+                      data-variant="regular"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1638,7 +1638,7 @@ exports[`renders reported queue with comments and load more 1`] = `
                 <span>
                   Offensive
                 </span>
-                 
+
                 <span
                   className="Count-root"
                 >
@@ -1651,7 +1651,7 @@ exports[`renders reported queue with comments and load more 1`] = `
                 <span>
                   Spam
                 </span>
-                 
+
                 <span
                   className="Count-root"
                 >
@@ -1661,9 +1661,9 @@ exports[`renders reported queue with comments and load more 1`] = `
               <button
                 aria-controls="uuid-2"
                 aria-expanded={false}
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
-                data-color="mono"
-                data-variant="ghost"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase"
+                data-color="regular"
+                data-variant="regular"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
