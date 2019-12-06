@@ -38,7 +38,6 @@ export interface Tenant
     GQLOrganization,
     "communities" | "ownSettings" | "auth" | "settings"
   > {
-  locale: LanguageCode;
   auth: Auth;
   ownSettings: Settings;
 }
@@ -50,8 +49,10 @@ export interface Tenant
  */
 export type CreateTenantInput = Pick<
   Tenant,
-  "name" | "locale" | "multiSite" | "domain"
->;
+  "name" | "multiSite" | "domain"
+> & {
+  locale: LanguageCode;
+};
 
 export async function createTenant(
   mongo: Db,
@@ -180,6 +181,7 @@ export async function createTenant(
         deleteAccount: false,
         downloadComments: false,
       },
+      locale: input.locale,
     },
     createdAt: now,
     slack: {
@@ -187,10 +189,11 @@ export async function createTenant(
     },
   };
 
-  // Create the new Tenant by merging it together with the defaults.
   const tenant: Readonly<Tenant> = {
     ...defaults,
-    ...input,
+    name: input.name,
+    multiSite: input.multiSite,
+    domain: input.domain,
   };
 
   // Insert the Tenant into the database.

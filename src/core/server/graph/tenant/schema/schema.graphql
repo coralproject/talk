@@ -6217,7 +6217,6 @@ input CreateOrganizationInput {
   name: String!
   contactEmail: String!
   url: String!
-  domains: [String!]!
   domain: String!
   multiSite: Boolean!
   clientMutationId: String!
@@ -6238,8 +6237,8 @@ type UpdateOrganizationPayload {
 
 input CreateCommunityInput {
   name: String!
-  contactEmail: String!
-  url: String!
+  contactEmail: String
+  url: String
   clientMutationId: String!
   locale: Locale!
 }

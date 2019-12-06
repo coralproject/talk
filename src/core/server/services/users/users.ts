@@ -376,7 +376,7 @@ export async function requestAccountDeletion(
 
   // TODO: extract out into a common shared formatter
   // this is being duplicated everywhere
-  const formattedDate = Intl.DateTimeFormat(tenant.locale, {
+  const formattedDate = Intl.DateTimeFormat(tenant.ownSettings.locale, {
     year: "numeric",
     month: "numeric",
     day: "numeric",
@@ -1128,7 +1128,7 @@ export async function requestCommentsDownload(
         name: "account-notification/download-comments",
         context: {
           username: user.username!,
-          date: Intl.DateTimeFormat(tenant.locale).format(now),
+          date: Intl.DateTimeFormat(tenant.ownSettings.locale).format(now),
           downloadUrl,
           organizationName: tenant.name,
         },

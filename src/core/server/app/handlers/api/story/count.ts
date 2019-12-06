@@ -44,7 +44,7 @@ export const countHandler = ({ mongo, i18n }: CountOptions): RequestHandler => {
         html = `<span class="${NUMBER_CLASSNAME}">${count}</span>`;
       } else {
         // Use translated string.
-        const bundle = i18n.getBundle(tenant.locale);
+        const bundle = i18n.getBundle(tenant.ownSettings.locale);
         html = translate(
           bundle,
           `<span class="${NUMBER_CLASSNAME}">${count}</span> <span class="${TEXT_CLASSNAME}">Comments</span>`,

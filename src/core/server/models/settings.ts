@@ -126,6 +126,7 @@ export type Settings = Pick<
   | "staticURI"
   | "stories"
   | "wordList"
+  | "locale"
 > & {
   /* remove once migrated */
   auth?: Auth;
@@ -145,6 +146,7 @@ export type PartialSettings = Partial<
     | "reaction"
     | "staff"
     | "staticURI"
+    | "locale"
   >
 > & {
   accountFeatures?: Partial<GQLCommenterAccountFeatures>;

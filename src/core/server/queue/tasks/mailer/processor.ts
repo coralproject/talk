@@ -252,7 +252,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
       message = await translateMessage(
         tenant,
         data.templateName,
-        tenant.locale,
+        tenant.ownSettings.locale,
         fromAddress,
         data
       );

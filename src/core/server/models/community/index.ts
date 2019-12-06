@@ -1,7 +1,6 @@
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { DeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import {
@@ -22,27 +21,28 @@ export interface Community
   extends Omit<GQLCommunity, "settings" | "sites" | "ownSettings"> {
   ownSettings: PartialSettings;
   tenantID: string;
-  locale: LanguageCode;
 }
 
 export type CreateCommunityInput = Pick<
   Community,
-  "name" | "contactEmail" | "url" | "locale"
+  "name" | "contactEmail" | "url"
 >;
 
 export type CommunityConnectionInput = ConnectionInput<Community>;
 
 export async function createCommunity(
   mongo: Db,
-  tenantID: string,
+  tenant: Tenant,
   input: CreateCommunityInput,
   now = new Date()
 ) {
   const community: Readonly<Community> = {
     id: uuid.v4(),
     createdAt: now,
-    tenantID,
-    ownSettings: {},
+    tenantID: tenant.id,
+    ownSettings: {
+      locale: tenant.ownSettings.locale,
+    },
     ...input,
   };
 
@@ -50,10 +50,7 @@ export async function createCommunity(
   return community;
 }
 
-export type UpdateCommunityInput = Omit<
-  Partial<Community>,
-  "createdAt" | "id" | "locale"
->;
+export type UpdateCommunityInput = Omit<Partial<Community>, "createdAt" | "id">;
 
 export async function updateCommunity(
   mongo: Db,

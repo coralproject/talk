@@ -1,5 +1,5 @@
 import { Redis } from "ioredis";
-import { isUndefined, pick } from "lodash";
+import { isUndefined } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import { URL } from "url";
@@ -130,8 +130,8 @@ export async function install(
     // do a lot of things
   } else {
     const [site] = sites;
-    const community = await createCommunity(mongo, tenant.id, {
-      ...pick(tenant, ["locale", "name"]),
+    const community = await createCommunity(mongo, tenant, {
+      name: tenant.name,
       ...(communities[0] || {}),
     });
     await createSite(mongo, tenant, community.id, site);

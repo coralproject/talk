@@ -2,7 +2,6 @@ import { isNull } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { DeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { Community } from "coral-server/models/community";
@@ -24,12 +23,10 @@ export interface Site extends Omit<GQLSite, "settings" | "community"> {
   ownSettings: PartialSettings;
   communityID: string;
   tenantID: string;
-  locale: LanguageCode;
 }
 
 export type CreateSiteInput = Pick<Site, "name" | "contactEmail" | "url"> & {
   domains?: string[];
-  locale?: LanguageCode;
 };
 
 export type SiteConnectionInput = ConnectionInput<Site>;
@@ -45,8 +42,9 @@ export async function createSite(
     createdAt: now,
     tenantID: tenant.id,
     communityID,
-    ownSettings: {},
-    locale: tenant.locale,
+    ownSettings: {
+      locale: tenant.ownSettings.locale,
+    },
     domains: [],
     ...input,
   };
@@ -55,10 +53,7 @@ export async function createSite(
   return site;
 }
 
-export type UpdateSiteInput = Omit<
-  Partial<Site>,
-  "createdAt" | "id" | "locale"
->;
+export type UpdateSiteInput = Omit<Partial<Site>, "createdAt" | "id">;
 
 export async function updateSite(
   mongo: Db,

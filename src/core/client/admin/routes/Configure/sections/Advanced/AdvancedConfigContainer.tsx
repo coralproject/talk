@@ -8,7 +8,6 @@ import {
 } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components";
 
-import { AdvancedConfigContainer_organization } from "coral-admin/__generated__/AdvancedConfigContainer_organization.graphql";
 import { AdvancedConfigContainer_settings } from "coral-admin/__generated__/AdvancedConfigContainer_settings.graphql";
 
 import CommentStreamLiveUpdatesContainer from "./CommentStreamLiveUpdatesContainer";
@@ -19,7 +18,6 @@ import StoryCreationConfig from "./StoryCreationConfig";
 
 interface Props {
   submitting: boolean;
-  organization: AdvancedConfigContainer_organization;
   settings: AdvancedConfigContainer_settings;
 }
 
@@ -44,11 +42,6 @@ const AdvancedConfigContainer: React.FunctionComponent<Props> = ({
 };
 
 const enhanced = withFragmentContainer<Props>({
-  organization: graphql`
-    fragment AdvancedConfigContainer_organization on Organization {
-      ...PermittedDomainsConfigContainer_organization
-    }
-  `,
   settings: graphql`
     fragment AdvancedConfigContainer_settings on Settings {
       ...CustomCSSConfig_formValues @relay(mask: false)

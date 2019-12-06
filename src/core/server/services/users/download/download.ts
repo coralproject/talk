@@ -21,7 +21,7 @@ export async function sendUserDownload(
   latestContentDate: Date
 ) {
   // Create the date formatter to format the dates for the CSV.
-  const formatter = Intl.DateTimeFormat(tenant.locale, {
+  const formatter = Intl.DateTimeFormat(tenant.ownSettings.locale, {
     year: "numeric",
     month: "numeric",
     day: "numeric",

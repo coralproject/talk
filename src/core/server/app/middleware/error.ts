@@ -29,7 +29,7 @@ const serializeError = (err: CoralError, req: Request, bundles?: I18n) => {
   if (bundles) {
     bundle = bundles.getDefaultBundle();
     if (req.coral && req.coral.tenant) {
-      bundle = bundles.getBundle(req.coral.tenant.locale);
+      bundle = bundles.getBundle(req.coral.tenant.ownSettings.locale);
     }
   }
 

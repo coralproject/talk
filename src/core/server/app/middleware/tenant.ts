@@ -58,7 +58,7 @@ export const tenantMiddleware = ({
     req.coral.tenant = tenant;
 
     // Attach the tenant's language to the request.
-    res.setHeader("Content-Language", tenant.locale);
+    res.setHeader("Content-Language", tenant.ownSettings.locale);
 
     // Attach the tenant to the view locals.
     res.locals.tenant = tenant;

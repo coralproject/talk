@@ -1,5 +1,6 @@
 import { Db } from "mongodb";
 
+import { LanguageCode } from "coral-common/helpers";
 import { Omit } from "coral-common/types";
 import { Settings } from "coral-server/models/settings";
 import {
@@ -12,6 +13,7 @@ import collections from "coral-server/services/mongodb/collections";
 import { MigrationError } from "../error";
 
 interface LegacyTenant extends Omit<Tenant, "ownSettings"> {
+  locale: LanguageCode;
   settings: Settings;
 }
 

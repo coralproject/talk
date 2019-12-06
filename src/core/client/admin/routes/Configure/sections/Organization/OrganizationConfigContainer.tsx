@@ -42,6 +42,11 @@ const enhanced = withFragmentContainer<Props>({
       ...OrganizationContactEmailConfig_formValues @relay(mask: false)
       ...OrganizationURLConfig_formValues @relay(mask: false)
     }
+    `},
+  organization: graphql`
+    fragment OrganizationConfigContainer_organization on Organization {
+      ...OrganizationNameConfigContainer_organization
+    }
   `,
 })(OrganizationConfigContainer);
 export default enhanced;

@@ -113,7 +113,7 @@ function createAuthCheckRoute(check: CheckParams) {
           }
           role
         }
-        settings {
+        organization {
           auth {
             integrations {
               local {

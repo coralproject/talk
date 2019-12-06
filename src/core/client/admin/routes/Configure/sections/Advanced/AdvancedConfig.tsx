@@ -6,7 +6,6 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import CommentStreamLiveUpdatesContainer from "./CommentStreamLiveUpdatesContainer";
 import CustomCSSConfigContainer from "./CustomCSSConfigContainer";
 import EmbedCodeContainer from "./EmbedCodeContainer";
-import PermittedDomainsConfigContainer from "./PermittedDomainsConfigContainer";
 import StoryCreationConfigContainer from "./StoryCreationConfigContainer";
 
 interface Props {
@@ -16,16 +15,12 @@ interface Props {
     PropTypesOf<typeof CommentStreamLiveUpdatesContainer>["settingsReadOnly"] &
     PropTypesOf<typeof EmbedCodeContainer>["settings"] &
     PropTypesOf<typeof StoryCreationConfigContainer>["settings"];
-  organization: PropTypesOf<
-    typeof PermittedDomainsConfigContainer
-  >["organization"];
   onInitValues: (values: any) => void;
 }
 
 const AdvancedConfig: FunctionComponent<Props> = ({
   disabled,
   settings,
-  organization,
   onInitValues,
 }) => (
   <HorizontalGutter size="double" data-testid="configure-advancedContainer">
@@ -39,11 +34,6 @@ const AdvancedConfig: FunctionComponent<Props> = ({
       disabled={disabled}
       settings={settings}
       settingsReadOnly={settings}
-      onInitValues={onInitValues}
-    />
-    <PermittedDomainsConfigContainer
-      disabled={disabled}
-      organization={organization}
       onInitValues={onInitValues}
     />
     <StoryCreationConfigContainer

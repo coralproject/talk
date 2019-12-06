@@ -14,7 +14,7 @@ export async function create(
   community: CreateCommunityInput,
   now = new Date()
 ) {
-  return createCommunity(mongo, tenant.id, community, now);
+  return createCommunity(mongo, tenant, community, now);
 }
 
 export async function updateSettings(

@@ -49,7 +49,7 @@ export default class TenantContext extends CommonContext {
   }: TenantContextOptions) {
     super({
       ...options,
-      lang: tenant.locale,
+      lang: tenant.ownSettings.locale,
       logger: logger.child({ tenantID: tenant.id }, true),
     });
 
