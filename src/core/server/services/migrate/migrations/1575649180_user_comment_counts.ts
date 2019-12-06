@@ -7,89 +7,125 @@ import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated_
 
 import { MigrationError } from "../error";
 
-export default class extends Migration {
-  public async up(mongo: Db, tenantID: string) {
-    const userIdsTouched = new Array<string>();
+const BATCH_SIZE = 50;
 
-    try {
-      const usersToUpdate = collections.users(mongo).find({
-        tenantID,
-        commentCounts: { $exists: false },
-      });
+interface Tally {
+  approved: number;
+  rejected: number;
+  none: number;
+  premod: number;
+  systemWithheld: number;
+}
 
-      await usersToUpdate.forEach(async user => {
-        const comments = collections.comments(mongo).find({
+interface UserUpdate {
+  userID: string;
+  tally: Tally;
+}
+
+async function updateBatchedCommentCounts(
+  mongo: Db,
+  tenantID: string,
+  items: UserUpdate[]
+) {
+  const bulkOps = items.map(item => {
+    return {
+      updateOne: {
+        filter: {
           tenantID,
-          authorID: user.id,
-        });
-
-        const tallies = {
-          approved: 0,
-          rejected: 0,
-          none: 0,
-          premod: 0,
-          systemWithheld: 0,
-        };
-
-        await comments.forEach(comment => {
-          const status = comment.status;
-          switch (status) {
-            case GQLCOMMENT_STATUS.APPROVED:
-              tallies.approved += 1;
-              break;
-            case GQLCOMMENT_STATUS.REJECTED:
-              tallies.rejected += 1;
-              break;
-            case GQLCOMMENT_STATUS.NONE:
-              tallies.none += 1;
-              break;
-            case GQLCOMMENT_STATUS.PREMOD:
-              tallies.premod += 1;
-              break;
-            case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
-              tallies.systemWithheld += 1;
-              break;
-          }
-        });
-
-        userIdsTouched.push(user.id);
-
-        const result = await collections.users(mongo).updateOne(
-          {
-            tenantID,
-            id: user.id,
-          },
-          {
-            $set: {
-              commentCounts: {
-                statuses: {
-                  APPROVED: tallies.approved,
-                  REJECTED: tallies.rejected,
-                  NONE: tallies.none,
-                  PREMOD: tallies.premod,
-                  SYSTEM_WITHHELD: tallies.systemWithheld,
-                },
+          id: item.userID,
+        },
+        update: {
+          $set: {
+            commentCounts: {
+              statuses: {
+                APPROVED: item.tally.approved,
+                REJECTED: item.tally.rejected,
+                NONE: item.tally.none,
+                PREMOD: item.tally.premod,
+                SYSTEM_WITHHELD: item.tally.systemWithheld,
               },
             },
-          }
-        );
+          },
+        },
+      },
+    };
+  });
 
-        if (result.modifiedCount === 0) {
-          throw new MigrationError(
-            tenantID,
-            "Failed to update user's comment counts.",
-            "users",
-            userIdsTouched
-          );
+  const result = await collections.users(mongo).bulkWrite(bulkOps);
+
+  if (result.modifiedCount !== items.length) {
+    throw new MigrationError(
+      tenantID,
+      "Failed to update user's comment counts.",
+      "users",
+      items.map(it => it.userID)
+    );
+  }
+}
+
+export default class extends Migration {
+  public async up(mongo: Db, tenantID: string) {
+    const users = collections.users(mongo).find({
+      tenantID,
+      commentCounts: { $exists: false },
+    });
+
+    const usersToUpdate = new Array<UserUpdate>();
+
+    while (await users.hasNext()) {
+      const user = await users.next();
+      if (!user) {
+        break;
+      }
+
+      const comments = collections.comments(mongo).find({
+        tenantID,
+        authorID: user.id,
+      });
+
+      const tally = {
+        approved: 0,
+        rejected: 0,
+        none: 0,
+        premod: 0,
+        systemWithheld: 0,
+      };
+
+      await comments.forEach(comment => {
+        const status = comment.status;
+        switch (status) {
+          case GQLCOMMENT_STATUS.APPROVED:
+            tally.approved += 1;
+            break;
+          case GQLCOMMENT_STATUS.REJECTED:
+            tally.rejected += 1;
+            break;
+          case GQLCOMMENT_STATUS.NONE:
+            tally.none += 1;
+            break;
+          case GQLCOMMENT_STATUS.PREMOD:
+            tally.premod += 1;
+            break;
+          case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
+            tally.systemWithheld += 1;
+            break;
         }
       });
-    } catch (err) {
-      throw new MigrationError(
-        tenantID,
-        "Failed to update user's comment counts.",
-        "users",
-        userIdsTouched
-      );
+
+      usersToUpdate.push({
+        userID: user.id,
+        tally,
+      });
+
+      if (usersToUpdate.length >= BATCH_SIZE) {
+        await updateBatchedCommentCounts(mongo, tenantID, usersToUpdate);
+        usersToUpdate.length = 0;
+      }
+    }
+
+    if (usersToUpdate.length > 0) {
+      await updateBatchedCommentCounts(mongo, tenantID, usersToUpdate);
+      usersToUpdate.length = 0;
     }
   }
 }
