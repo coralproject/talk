@@ -19,16 +19,6 @@ import {
   UsernameAlreadySetError,
   UserNotFoundError,
 } from "coral-server/errors";
-import {
-  GQLBanStatus,
-  GQLDIGEST_FREQUENCY,
-  GQLPremodStatus,
-  GQLSuspensionStatus,
-  GQLTimeRange,
-  GQLUSER_ROLE,
-  GQLUsernameStatus,
-  GQLUserNotificationSettings,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   Connection,
@@ -40,6 +30,18 @@ import { TenantResource } from "coral-server/models/tenant";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import { users as collection } from "coral-server/services/mongodb/collections";
 
+import {
+  GQLBanStatus,
+  GQLDIGEST_FREQUENCY,
+  GQLPremodStatus,
+  GQLSuspensionStatus,
+  GQLTimeRange,
+  GQLUSER_ROLE,
+  GQLUsernameStatus,
+  GQLUserNotificationSettings,
+} from "coral-server/graph/tenant/schema/__generated__/types";
+
+import { CommentStatusCounts } from "../comment";
 import { getLocalProfile, hasLocalProfile } from "./helpers";
 
 export interface LocalProfile {
@@ -352,6 +354,10 @@ export interface Digest {
   createdAt: Date;
 }
 
+export interface UserCommentCounts {
+  statuses: CommentStatusCounts;
+}
+
 /**
  * User is someone that leaves Comments, and logs in.
  */
@@ -461,6 +467,8 @@ export interface User extends TenantResource {
    * deletedAt is the time that this user was deleted from our system.
    */
   deletedAt?: Date;
+
+  commentCounts: UserCommentCounts;
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -514,6 +522,15 @@ async function findOrCreateUserInput(
     moderatorNotes: [],
     digests: [],
     createdAt: now,
+    commentCounts: {
+      statuses: {
+        NONE: 0,
+        APPROVED: 0,
+        REJECTED: 0,
+        PREMOD: 0,
+        SYSTEM_WITHHELD: 0,
+      },
+    },
   };
 
   if (input.username) {

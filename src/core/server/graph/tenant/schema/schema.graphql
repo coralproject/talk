@@ -1922,6 +1922,11 @@ type User {
   deletedAt is the time when the User was deleted.
   """
   deletedAt: Time
+
+  """
+  commentCounts is the status counts of the user's comments.
+  """
+  commentCounts: UserCommentCounts!
 }
 
 """
@@ -1957,6 +1962,16 @@ type UsersConnection {
   pageInfo is information to aid in pagination.
   """
   pageInfo: PageInfo!
+}
+
+"""
+UserCommentCounts represents their comment status counts
+"""
+type UserCommentCounts {
+  """
+  statuses stores the counts of all the statuses against Comments for this user.
+  """
+  statuses: CommentStatusCounts!
 }
 
 ################################################################################

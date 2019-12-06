@@ -1,6 +1,6 @@
 import { Db } from "mongodb";
 
-import { StoryNotFoundError } from "coral-server/errors";
+import { StoryNotFoundError, UserNotFoundError } from "coral-server/errors";
 import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
 import { Logger } from "coral-server/logger";
 import { UpdateCommentStatus } from "coral-server/models/comment";
@@ -11,6 +11,7 @@ import { AugmentedRedis } from "coral-server/services/redis";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 
+import { updateUserCommentCounts } from "../counts/updateUserCommentCounts";
 import publishChanges from "./publishChanges";
 
 const updateCounts = async (
@@ -54,6 +55,22 @@ const updateCounts = async (
   );
   if (!story) {
     throw new StoryNotFoundError(result.comment.storyID);
+  }
+
+  const user = await updateUserCommentCounts(
+    mongo,
+    redis,
+    tenant.id,
+    result.comment.authorID,
+    {
+      statuses: {
+        [result.oldStatus]: -1,
+        [status]: 1,
+      },
+    }
+  );
+  if (!user) {
+    throw new UserNotFoundError(result.comment.authorID);
   }
 
   await publishChanges(
