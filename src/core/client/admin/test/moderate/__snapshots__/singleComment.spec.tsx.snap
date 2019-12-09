@@ -121,7 +121,7 @@ exports[`approves single comment 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -335,7 +335,7 @@ exports[`rejects single comment 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -584,7 +584,7 @@ exports[`renders single comment view 1`] = `
                         <span>
                           Spam
                         </span>
-
+                         
                         <span
                           className="Count-root"
                         >

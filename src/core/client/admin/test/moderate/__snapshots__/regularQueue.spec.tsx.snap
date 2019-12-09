@@ -160,7 +160,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -413,7 +413,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -663,7 +663,7 @@ exports[`renders reported queue with comments 1`] = `
                       <span>
                         Spam
                       </span>
-
+                       
                       <span
                         className="Count-root"
                       >
@@ -900,7 +900,7 @@ exports[`renders reported queue with comments 1`] = `
                       <span>
                         Offensive
                       </span>
-
+                       
                       <span
                         className="Count-root"
                       >
@@ -1153,7 +1153,7 @@ exports[`renders reported queue with comments 2`] = `
                       <span>
                         Spam
                       </span>
-
+                       
                       <span
                         className="Count-root"
                       >
@@ -1390,7 +1390,7 @@ exports[`renders reported queue with comments 2`] = `
                       <span>
                         Offensive
                       </span>
-
+                       
                       <span
                         className="Count-root"
                       >
@@ -1638,7 +1638,7 @@ exports[`renders reported queue with comments and load more 1`] = `
                 <span>
                   Offensive
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
@@ -1651,7 +1651,7 @@ exports[`renders reported queue with comments and load more 1`] = `
                 <span>
                   Spam
                 </span>
-
+                 
                 <span
                   className="Count-root"
                 >
