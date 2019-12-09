@@ -23,11 +23,14 @@
 }
 
 .variantFilled {
+  color: var(--v2-colors-pure-white);
   &.colorReported {
     background-color: var(--v2-palette-marker-reported);
+    border-color: var(--v2-palette-marker-reported);
   }
 
   &.colorPending {
     background-color: var(--v2-palette-marker-pending);
+    border-color: var(--v2-palette-marker-pending);
   }
 }
