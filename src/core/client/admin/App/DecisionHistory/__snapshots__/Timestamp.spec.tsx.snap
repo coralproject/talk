@@ -1,8 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<ForwardRef(forwardRef)
+<Timestamp
   className="Timestamp-root"
-  date="2018-07-06T18:24:00.000Z"
-/>
+  toggleAbsolute={true}
+>
+  2018-07-06T18:24:00.000Z
+</Timestamp>
 `;
