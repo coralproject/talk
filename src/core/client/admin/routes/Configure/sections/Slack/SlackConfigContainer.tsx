@@ -112,13 +112,13 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
         <Button
           size="medium"
           variant="filled"
-          color="emphasis"
           onClick={onAddChannel}
+          className={styles.button}
         >
           <ButtonIcon size="md" className={styles.icon}>
             add
           </ButtonIcon>
-          <Localized id="configure-slack-addChannel">Add</Localized>
+          <Localized id="configure-slack-addChannel">Add Channel</Localized>
         </Button>
         <FieldArray name="slack.channels">
           {({ fields }) =>
