@@ -1002,7 +1002,7 @@ type SlackChannel {
   triggers are the filters of types of comments that will be sent to
   the correlated channel
   """
-  triggers: SlackChannelTriggers
+  triggers: SlackChannelTriggers!
 }
 
 ################################################################################

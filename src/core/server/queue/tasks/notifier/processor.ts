@@ -2,10 +2,8 @@ import { Job } from "bull";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import {
-  SUBSCRIPTION_CHANNELS,
-  SUBSCRIPTION_INPUT,
-} from "coral-server/graph/resolvers/Subscription/types";
+import { CoralEventType } from "coral-server/events/events";
+import { NotifierCoralEventListenerPayloads } from "coral-server/events/listeners/notifier";
 import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig } from "coral-server/services/jwt";
@@ -27,14 +25,14 @@ export const JOB_NAME = "notifications";
  */
 export interface NotifierData {
   tenantID: string;
-  input: SUBSCRIPTION_INPUT;
+  input: NotifierCoralEventListenerPayloads;
 }
 
 interface Options {
   mailerQueue: MailerQueue;
   mongo: Db;
   config: Config;
-  registry: Record<SUBSCRIPTION_CHANNELS, NotificationCategory[]>;
+  registry: Map<CoralEventType, NotificationCategory[]>;
   tenantCache: TenantCache;
   signingConfig: JWTSigningConfig;
 }
@@ -83,7 +81,7 @@ export const createJobProcessor = ({
 
     try {
       // Get all the handlers that are active for this channel.
-      const categories = registry[input.channel];
+      const categories = registry.get(input.type);
       if (!categories || categories.length === 0) {
         return;
       }

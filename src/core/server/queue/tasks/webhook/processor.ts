@@ -2,9 +2,9 @@ import crypto from "crypto";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import getNow from "performance-now";
-import uuid from "uuid/v4";
 
 import { Config } from "coral-server/config";
+import { CoralEventPayload } from "coral-server/events/event";
 import logger from "coral-server/logger";
 import {
   filterActiveSecrets,
@@ -19,7 +19,6 @@ import TenantCache from "coral-server/services/tenant/cache";
 export const JOB_NAME = "webhook";
 
 // The count of failures on a webhook delivery before we disable the endpoint.
-// FIXME: (wyattjoh) validate that this failure count is correct
 const MAXIMUM_FAILURE_COUNT = 10;
 
 // The number of webhook attempts that should be retained for debugging.
@@ -32,17 +31,11 @@ export interface WebhookProcessorOptions {
   tenantCache: TenantCache;
 }
 
-// FIXME: (wyattjoh) replace this with a more concrete type (based on subscription types maybe?)
-interface EventData {
-  id: string;
-}
-
-export interface WebhookData<T extends EventData = any> {
-  eventName: string;
-  eventData: T;
-  eventContextID: string;
+export interface WebhookData {
+  contextID: string;
   endpointID: string;
   tenantID: string;
+  event: CoralEventPayload;
 }
 
 export interface WebhookDelivery {
@@ -53,13 +46,6 @@ export interface WebhookDelivery {
   statusText: string;
   request: string;
   response: string;
-  createdAt: Date;
-}
-
-export interface WebhookPayload<T extends EventData = any> {
-  id: string;
-  name: string;
-  data: T;
   createdAt: Date;
 }
 
@@ -92,9 +78,9 @@ export function generateSignatures(
     .join(",");
 }
 
-export function generateFetchOptions<T extends EventData>(
+export function generateFetchOptions(
   endpoint: Pick<Endpoint, "signingSecrets">,
-  data: WebhookPayload<T>,
+  data: CoralEventPayload,
   now: Date
 ): FetchOptions {
   // Serialize the body and signature to include in the request.
@@ -103,7 +89,7 @@ export function generateFetchOptions<T extends EventData>(
 
   const headers: Record<string, any> = {
     "Content-Type": "application/json",
-    "X-Coral-Event": data.name,
+    "X-Coral-Event": data.type,
     "X-Coral-Signature": signature,
   };
 
@@ -123,17 +109,12 @@ export function createJobProcessor({
   const fetch = createFetch({ name: "Webhook" });
 
   return async job => {
-    const {
-      tenantID,
-      endpointID,
-      eventContextID,
-      eventName,
-      eventData,
-    } = job.data;
+    const { tenantID, endpointID, contextID, event } = job.data;
 
-    let log = logger.child(
+    const log = logger.child(
       {
-        eventContextID,
+        eventID: event.id,
+        contextID,
         jobID: job.id,
         jobName: JOB_NAME,
         tenantID,
@@ -164,21 +145,11 @@ export function createJobProcessor({
       return;
     }
 
-    // Prepare the payload.
-    const payload: WebhookPayload = {
-      id: uuid(),
-      name: eventName,
-      data: eventData,
-      createdAt: new Date(),
-    };
-
-    log = log.child({ deliveryID: payload.id }, true);
-
     // Get the current date.
     const now = new Date();
 
     // Get the fetch options.
-    const options = generateFetchOptions(endpoint, payload, now);
+    const options = generateFetchOptions(endpoint, event, now);
 
     // Send the request.
     const startedSendingAt = getNow();
@@ -202,15 +173,15 @@ export function createJobProcessor({
 
     // Collect the delivery information.
     const delivery: WebhookDelivery = {
-      id: payload.id,
-      name: eventName,
+      id: event.id,
+      name: event.type,
       success: res.ok,
       status: res.status,
       statusText: res.statusText,
       // We only serialize the body as a string.
       request: options.body as string,
       response,
-      createdAt: payload.createdAt,
+      createdAt: new Date(),
     };
 
     // Record the delivery.
@@ -254,11 +225,11 @@ export function createJobProcessor({
     // Remove the expired secrets in the next tick so that it does not affect
     // the sending performance of this job, and errors do not impact the
     // sending.
-    process.nextTick(() => {
-      const expiredSigningSecrets = endpoint.signingSecrets.filter(
-        filterExpiredSecrets(now)
-      );
-      if (expiredSigningSecrets.length > 0) {
+    const expiredSigningSecrets = endpoint.signingSecrets.filter(
+      filterExpiredSecrets(now)
+    );
+    if (expiredSigningSecrets.length > 0) {
+      process.nextTick(() => {
         deleteEndpointSecrets(
           mongo,
           tenantID,
@@ -277,7 +248,7 @@ export function createJobProcessor({
               "an error occurred when trying to remove expired secrets"
             );
           });
-      }
-    });
+      });
+    }
   };
 }

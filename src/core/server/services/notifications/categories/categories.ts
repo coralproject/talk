@@ -8,10 +8,10 @@ import { staffReply } from "./staffReply";
  * categories stores all the notification categories in a flat list.
  */
 const categories: NotificationCategory[] = [
-  ...reply,
-  ...staffReply,
-  ...featured,
-  ...moderation,
+  reply,
+  staffReply,
+  moderation,
+  featured,
 ];
 
 export default categories;

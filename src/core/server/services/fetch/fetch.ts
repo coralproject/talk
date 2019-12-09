@@ -1,5 +1,6 @@
 import http from "http";
 import https from "https";
+import { capitalize } from "lodash";
 import fetch, { RequestInit, Response } from "node-fetch";
 import { URL } from "url";
 
@@ -44,7 +45,7 @@ export const createFetch = ({ name }: CreateFetchOptions): Fetch => {
   // defaultHeaders are the headers attached to each request (unless they are
   // overridden).
   const defaultHeaders = {
-    "User-Agent": `Coral ${name}/${version}`,
+    "User-Agent": `Coral ${capitalize(name)}/${version}`,
   };
 
   // Return the actual fetcher that just uses fetch under the hood.

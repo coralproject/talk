@@ -1,5 +1,6 @@
 import Queue from "bull";
 
+import { CoralEventPayload } from "coral-server/events/event";
 import logger from "coral-server/logger";
 import Task from "coral-server/queue/Task";
 import TenantCache from "coral-server/services/tenant/cache";
@@ -11,10 +12,9 @@ import {
   WebhookProcessorOptions,
 } from "./processor";
 
-export interface WebhookInput<T extends {} = any> {
-  eventContextID: string;
-  eventName: string;
-  eventData: T;
+export interface WebhookInput<T extends CoralEventPayload = any> {
+  contextID: string;
+  event: T;
   tenantID: string;
 }
 
@@ -31,18 +31,13 @@ export class WebhookQueue {
     this.tenantCache = options.tenantCache;
   }
 
-  public async add({
-    eventContextID,
-    tenantID,
-    eventName,
-    eventData,
-  }: WebhookInput) {
+  public async add({ contextID, tenantID, event }: WebhookInput) {
     const log = logger.child(
       {
         jobName: JOB_NAME,
         tenantID,
-        eventName,
-        eventContextID,
+        contextID,
+        eventType: event.type,
       },
       true
     );
@@ -68,7 +63,7 @@ export class WebhookQueue {
       }
 
       // If this event name is specifically listed, include it.
-      if (endpoint.events.includes(eventName)) {
+      if (endpoint.events.includes(event.type)) {
         return true;
       }
 
@@ -91,10 +86,9 @@ export class WebhookQueue {
       endpoints.map(endpoint =>
         this.task.add({
           tenantID,
-          eventContextID,
+          contextID,
           endpointID: endpoint.id,
-          eventName,
-          eventData,
+          event,
         })
       )
     );

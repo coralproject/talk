@@ -37,6 +37,11 @@ import {
 } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
 
+import { NotifierCoralEventListener } from "./events/listeners/notifier";
+import { SlackCoralEventListener } from "./events/listeners/slack";
+import { SubscriptionCoralEventListener } from "./events/listeners/subscription";
+import { WebhookCoralEventListener } from "./events/listeners/webhook";
+import CoralEventListenerBroker from "./events/publisher";
 import { isInstalled } from "./services/tenant";
 
 export interface ServerOptions {
@@ -107,6 +112,12 @@ class Server {
 
   // migrationManager is the manager for performing migrations on Coral.
   private migrationManager: MigrationManager;
+
+  /**
+   * broker stores a reference to all of the listeners that can be used in
+   * conjunction with an event to publish activity occurring inside Coral.
+   */
+  private broker: CoralEventListenerBroker;
 
   constructor(options: ServerOptions) {
     this.parentApp = express();
@@ -201,6 +212,13 @@ class Server {
       createRedisClient(this.config),
       createRedisClient(this.config)
     );
+
+    // Setup the broker.
+    this.broker = new CoralEventListenerBroker();
+    this.broker.register(new NotifierCoralEventListener(this.tasks.notifier));
+    this.broker.register(new SlackCoralEventListener());
+    this.broker.register(new SubscriptionCoralEventListener());
+    this.broker.register(new WebhookCoralEventListener(this.tasks.webhook));
 
     // Setup the metrics collectors.
     collectDefaultMetrics({ timeout: 5000 });
@@ -325,6 +343,7 @@ class Server {
 
     const options: AppOptions = {
       parent,
+      broker: this.broker,
       pubsub: this.pubsub,
       mongo: this.mongo,
       redis: this.redis,
@@ -335,7 +354,6 @@ class Server {
       i18n: this.i18n,
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
-      notifierQueue: this.tasks.notifier,
       disableClientRoutes,
       persistedQueryCache: this.persistedQueryCache,
       persistedQueriesRequired:

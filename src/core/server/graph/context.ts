@@ -4,21 +4,18 @@ import uuid from "uuid";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { Config } from "coral-server/config";
-import {
-  createPublisher,
-  Publisher,
-} from "coral-server/graph/subscriptions/publisher";
+import CoralEventListenerBroker, {
+  CoralEventPublisherBroker,
+} from "coral-server/events/publisher";
 import logger, { Logger } from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
-import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { AugmentedRedis } from "coral-server/services/redis";
-import createSlackPublisher from "coral-server/services/slack/publisher";
 import TenantCache from "coral-server/services/tenant/cache";
 import { Request } from "coral-server/types/express";
 
@@ -41,16 +38,17 @@ export interface GraphContextOptions {
   i18n: I18n;
   mailerQueue: MailerQueue;
   mongo: Db;
-  notifierQueue: NotifierQueue;
   pubsub: RedisPubSub;
   redis: AugmentedRedis;
   scraperQueue: ScraperQueue;
   tenant: Tenant;
   tenantCache: TenantCache;
+  broker: CoralEventListenerBroker;
 }
 
 export default class GraphContext {
   public readonly config: Config;
+  public readonly broker: CoralEventPublisherBroker;
   public readonly disableCaching: boolean;
   public readonly i18n: I18n;
   public readonly id: string;
@@ -61,7 +59,6 @@ export default class GraphContext {
   public readonly mongo: Db;
   public readonly mutators: ReturnType<typeof mutators>;
   public readonly now: Date;
-  public readonly publisher: Publisher;
   public readonly pubsub: RedisPubSub;
   public readonly redis: AugmentedRedis;
   public readonly scraperQueue: ScraperQueue;
@@ -100,18 +97,7 @@ export default class GraphContext {
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
 
-    this.publisher = createPublisher({
-      pubsub: this.pubsub,
-      slackPublisher: createSlackPublisher(
-        this.mongo,
-        this.config,
-        this.tenant
-      ),
-      notifierQueue: options.notifierQueue,
-      tenantID: this.tenant.id,
-      clientID: this.clientID,
-    });
-
+    this.broker = options.broker.instance(this);
     this.loaders = loaders(this);
     this.mutators = mutators(this);
   }
