@@ -1,14 +1,15 @@
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
 
+import { CoralEventType, StoryCreatedCoralEventPayload } from "../events";
 import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
 
-export type WebhookCoralEventListenerPayloads = never;
+export type WebhookCoralEventListenerPayloads = StoryCreatedCoralEventPayload;
 
 export class WebhookCoralEventListener
   implements CoralEventListener<WebhookCoralEventListenerPayloads> {
   public readonly name = "webhook";
 
-  public readonly events = [];
+  public readonly events = [CoralEventType.STORY_CREATED];
 
   private readonly queue: WebhookQueue;
 

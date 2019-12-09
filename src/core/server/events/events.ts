@@ -18,6 +18,7 @@ export enum CoralEventType {
   COMMENT_CREATED = "COMMENT_CREATED",
   COMMENT_FEATURED = "COMMENT_FEATURED",
   COMMENT_RELEASED = "COMMENT_RELEASED",
+  STORY_CREATED = "STORY_CREATED",
 }
 
 export type CommentEnteredModerationQueueCoralEventPayload = CoralEventPayload<
@@ -82,3 +83,15 @@ export type CommentReleasedCoralEventPayload = CoralEventPayload<
 export const CommentReleasedCoralEvent = createCoralEvent<
   CommentReleasedCoralEventPayload
 >(CoralEventType.COMMENT_RELEASED);
+
+export type StoryCreatedCoralEventPayload = CoralEventPayload<
+  CoralEventType.STORY_CREATED,
+  {
+    storyID: string;
+    storyURL: string;
+  }
+>;
+
+export const StoryCreatedCoralEvent = createCoralEvent<
+  StoryCreatedCoralEventPayload
+>(CoralEventType.STORY_CREATED);
