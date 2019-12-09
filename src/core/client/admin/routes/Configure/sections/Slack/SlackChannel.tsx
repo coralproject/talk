@@ -238,8 +238,6 @@ const SlackChannel: FunctionComponent<Props> = ({
             </FormField>
             <div>
               <Button
-                size="medium"
-                variant="filled"
                 color="alert"
                 onClick={onRemove}
                 className={cn(styles.removeButton, styles.button)}

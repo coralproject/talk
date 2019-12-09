@@ -8,7 +8,6 @@ import { useState, useCallback } from "react";
 
 import Button from "../Button";
 import Card, { CardCloseButton } from "../Card";
-import Typography from "../Typography";
 import Flex from "../Flex";
 import HorizontalGutter from "../HorizontalGutter";
 import Modal from "./Modal";
@@ -35,9 +34,9 @@ import styles from "./Modal.mdx.css";
               <CardCloseButton onClick={hide} ref={firstFocusableRef} />
               <HorizontalGutter size="double">
                 <HorizontalGutter>
-                  <Typography variant="header2" id="modal-title">
+                  <h2 id="modal-title">
                     Are you sure you want to ban <strong>ButFirstCoffee</strong>?
-                  </Typography>
+                  </h2>
                   <Typography>
                     Once banned, this user will no longer be able to comment,
                     use reactions, or report comments.

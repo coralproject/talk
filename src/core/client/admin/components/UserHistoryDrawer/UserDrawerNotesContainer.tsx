@@ -78,9 +78,7 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
             </Localized>
             <Flex justifyContent="flex-end">
               <Localized id="moderate-user-drawer-notes-button">
-                <Button size="medium" type="submit">
-                  Add note
-                </Button>
+                <Button type="submit">Add note</Button>
               </Localized>
             </Flex>
           </form>

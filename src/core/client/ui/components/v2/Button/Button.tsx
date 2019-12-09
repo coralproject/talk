@@ -21,19 +21,25 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   classes: typeof styles & BaseButtonProps["classes"];
 
   /** Size of the button */
-  size?: "small" | "medium" | "large";
+  size?: "regular" | "large";
 
   /** Color of the button */
-  color?: "default" | "alert" | "emphasis" | "mono";
+  color?: "regular" | "alert" | "mono" | "alt" | "dark";
 
   /** Variant of the button */
-  variant?:
-    | "default"
-    | "filled"
-    | "adornment"
-    | "ghost"
-    | "underlined"
-    | "plain";
+  variant?: "regular" | "flat" | "outline" | "text";
+
+  /* button is attached to the LEFT of an input element */
+  adornmentLeft?: boolean;
+
+  /* button is attached to the RIGHT of an input element */
+  adornmentRight?: boolean;
+
+  /* button has a ButtonIcon to the left of the text */
+  iconLeft?: boolean;
+
+  /* button has a ButtonIcon to the right of the text */
+  iconRight?: boolean;
 
   /** If set renders a full width button */
   fullWidth?: boolean;
@@ -52,9 +58,9 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
 
 export class Button extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
-    size: "medium",
-    variant: "default",
-    color: "default",
+    size: "regular",
+    variant: "regular",
+    color: "regular",
     uppercase: true,
   };
   public render() {
@@ -70,29 +76,35 @@ export class Button extends React.Component<Props> {
       variant,
       type,
       uppercase,
+      iconLeft,
+      iconRight,
+      adornmentLeft,
+      adornmentRight,
       ...rest
     } = this.props;
 
     const rootClassName = cn(
       classes.root,
       {
-        [classes.sizeMedium]: size === "medium",
-        [classes.sizeSmall]: size === "small",
+        [classes.sizeRegular]: size === "regular",
         [classes.sizeLarge]: size === "large",
-        [classes.colorDefault]: color === "default",
+        [classes.colorRegular]: color === "regular",
         [classes.colorAlert]: color === "alert",
-        [classes.colorEmphasis]: color === "emphasis",
+        [classes.colorAlt]: color === "alt",
         [classes.colorMono]: color === "mono",
-        [classes.variantDefault]: variant === "default",
-        [classes.variantFilled]: variant === "filled",
-        [classes.variantAdornment]: variant === "adornment",
-        [classes.variantGhost]: variant === "ghost",
-        [classes.variantUnderlined]: variant === "underlined",
-        [classes.variantPlain]: variant === "plain",
+        [classes.colorDark]: color === "dark",
+        [classes.variantRegular]: variant === "regular",
+        [classes.variantFlat]: variant === "flat",
+        [classes.variantOutline]: variant === "outline",
+        [classes.variantText]: variant === "text",
         [classes.uppercase]: uppercase,
         [classes.fullWidth]: fullWidth,
         [classes.active]: active,
         [classes.disabled]: disabled,
+        [classes.iconLeft]: iconLeft,
+        [classes.iconRight]: iconRight,
+        [classes.adornmentLeft]: adornmentLeft,
+        [classes.adornmentRight]: adornmentRight,
       },
       className
     );

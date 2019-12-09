@@ -65,8 +65,9 @@ const Configure: FunctionComponent<Props> = ({
                 <Localized id="configure-sideBar-saveChanges">
                   <Button
                     data-testid="configure-sideBar-saveChanges"
-                    variant="filled"
                     type="submit"
+                    color="alt"
+                    size="large"
                     disabled={submitting || pristine}
                   >
                     Save Changes

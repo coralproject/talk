@@ -4,8 +4,8 @@ exports[`forwards ref 1`] = `
 <ForwardRef(forwardRef)
   className=""
   classes={Object {}}
-  data-color="default"
-  data-variant="default"
+  data-color="regular"
+  data-variant="regular"
 >
   Push me
 </ForwardRef(forwardRef)>
@@ -13,10 +13,10 @@ exports[`forwards ref 1`] = `
 
 exports[`renders a medium sized, alert colored filled button with fullWidth 1`] = `
 <ForwardRef(forwardRef)
-  className="sizeMedium colorAlert variantFilled fullWidth"
+  className="colorAlert fullWidth"
   classes={Object {}}
   data-color="alert"
-  data-variant="filled"
+  data-variant="regular"
 >
   Push me
 </ForwardRef(forwardRef)>
@@ -27,8 +27,8 @@ exports[`renders active state 1`] = `
   className="active"
   classes={Object {}}
   data-active={true}
-  data-color="default"
-  data-variant="default"
+  data-color="regular"
+  data-variant="regular"
 >
   Push me
 </ForwardRef(forwardRef)>
@@ -43,8 +43,8 @@ exports[`renders correctly 1`] = `
       "mouseHover": "mouseHover",
     }
   }
-  data-color="default"
-  data-variant="default"
+  data-color="regular"
+  data-variant="regular"
 >
   Push me
 </ForwardRef(forwardRef)>

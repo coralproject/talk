@@ -144,7 +144,7 @@ const UserStatusChange: FunctionComponent<Props> = ({
             ref={ref}
             color="mono"
             uppercase={false}
-            variant="plain"
+            variant="text"
           >
             {children}
             {

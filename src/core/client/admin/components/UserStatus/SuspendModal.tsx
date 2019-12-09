@@ -71,12 +71,7 @@ const SuspendModal: FunctionComponent<Props> = ({
 
               <Flex justifyContent="flex-end" itemGutter="half">
                 <Localized id="community-suspendModal-success-close">
-                  <Button
-                    ref={lastFocusableRef}
-                    variant="filled"
-                    color="default"
-                    onClick={onClose}
-                  >
+                  <Button ref={lastFocusableRef} onClick={onClose}>
                     Ok
                   </Button>
                 </Localized>

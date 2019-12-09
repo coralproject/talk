@@ -131,9 +131,9 @@ exports[`approves single comment 1`] = `
               <button
                 aria-controls="uuid-0"
                 aria-expanded={false}
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
                 data-color="mono"
-                data-variant="ghost"
+                data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -345,9 +345,9 @@ exports[`rejects single comment 1`] = `
               <button
                 aria-controls="uuid-0"
                 aria-expanded={false}
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
                 data-color="mono"
-                data-variant="ghost"
+                data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -594,9 +594,9 @@ exports[`renders single comment view 1`] = `
                       <button
                         aria-controls="uuid-0"
                         aria-expanded={false}
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantGhost Button-uppercase"
+                        className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase"
                         data-color="mono"
-                        data-variant="ghost"
+                        data-variant="text"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}

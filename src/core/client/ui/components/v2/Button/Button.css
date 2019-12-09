@@ -1,79 +1,109 @@
 /* Design tokens */
 
-$button-default-outline-background: var(--v2-colors-pure-white);
-$button-default-outline-foreground: var(--v2-colors-teal-600);
-$button-default-outline-active: var(--v2-colors-teal-500);
+/* flat button */
+$button-flat-regular-foreground: var(--v2-colors-teal-600);
+$button-flat-mono-foreground: var(--v2-colors-grey-500);
+$button-flat-alert-foreground: var(--v2-colors-red-500);
+$button-flat-alt-foreground: var(--v2-colors-green-500);
+$button-flat-dark-foreground: var(--v2-colors-blue-500);
 
-$button-default-filled-background: var(--v2-colors-teal-600);
-$button-default-filled-foreground: var(--v2-colors-pure-white);
-$button-default-filled-hover: var(--v2-colors-teal-500);
-$button-default-filled-active: var(--v2-colors-teal-400);
+$button-flat-background: var(--v2-colors-pure-white);
 
-$button-alert-outline-background: var(--v2-colors-pure-white);
-$button-alert-outline-foreground: var(--v2-colors-red-500);
-$button-alert-outline-active: var(--v2-colors-red-400);
+$button-flat-regular-background-hover: var(--v2-colors-teal-100);
+$button-flat-mono-background-hover: var(--v2-colors-grey-200);
+$button-flat-alert-background-hover: var(--v2-colors-red-100);
+$button-flat-alt-background-hover: var(--v2-colors-green-100);
+$button-flat-dark-background-hover: var(--v2-colors-blue-100);
 
-$button-alert-filled-background: var(--v2-colors-red-500);
-$button-alert-filled-foreground: var(--v2-colors-pure-white);
-$button-alert-filled-hover: var(--v2-colors-red-400);
-$button-alert-filled-active: var(--v2-colors-red-300);
+$button-flat-regular-background-active: var(--v2-colors-teal-200);
+$button-flat-mono-background-active: var(--v2-colors-grey-300);
+$button-flat-alert-background-active: var(--v2-colors-red-200);
+$button-flat-alt-background-active: var(--v2-colors-green-200);
+$button-flat-dark-background-active: var(--v2-colors-blue-200);
 
-$button-emphasis-outline-background: var(--v2-colors-pure-white);
-$button-emphasis-outline-foreground: var(--v2-colors-blue-500);
-$button-emphasis-outline-active: var(--v2-colors-blue-400);
+$button-flat-foreground-disabled: var(--v2-colors-grey-400);
 
-$button-emphasis-filled-background: var(--v2-colors-blue-500);
-$button-emphasis-filled-foreground: var(--v2-colors-pure-white);
-$button-emphasis-filled-hover: var(--v2-colors-blue-400);
-$button-emphasis-filled-active: var(--v2-colors-blue-300);
+/* regular button */
+$button-regular-foreground: var(--v2-colors-pure-white);
 
-$button-mono-outline-background: var(--v2-colors-pure-white);
-$button-mono-outline-foreground: var(--v2-colors-grey-600);
-$button-mono-outline-active: var(--v2-colors-grey-500);
+$button-regular-regular-background: var(--v2-colors-teal-600);
+$button-regular-mono-background: var(--v2-colors-grey-500);
+$button-regular-alert-background: var(--v2-colors-red-500);
+$button-regular-alt-background: var(--v2-colors-green-500);
+$button-regular-dark-background: var(--v2-colors-blue-500);
 
-$button-mono-filled-background: var(--v2-colors-grey-600);
-$button-mono-filled-foreground: var(--v2-colors-pure-white);
-$button-mono-filled-hover: var(--v2-colors-grey-500);
-$button-mono-filled-active: var(--v2-colors-grey-400);
+$button-regular-regular-background-hover: var(--v2-colors-teal-700);
+$button-regular-mono-background-hover: var(--v2-colors-grey-600);
+$button-regular-alert-background-hover: var(--v2-colors-red-600);
+$button-regular-alt-background-hover: var(--v2-colors-green-600);
+$button-regular-dark-background-hover: var(--v2-colors-blue-600);
 
-$button-adornment-foreground: var(--v2-colors-pure-white);
+$button-regular-regular-background-active: var(--v2-colors-teal-800);
+$button-regular-mono-background-active: var(--v2-colors-grey-700);
+$button-regular-alert-background-active: var(--v2-colors-red-700);
+$button-regular-alt-background-active: var(--v2-colors-green-700);
+$button-regular-dark-background-active: var(--v2-colors-blue-700);
 
-$button-adornment-default-background: var(--v2-colors-teal-600);
-$button-adornment-alert-background: var(--v2-colors-red-500);
-$button-adornment-emphasis-background: var(--v2-colors-blue-500);
-$button-adornment-mono-background: var(--v2-colors-grey-600);
+$button-regular-background-disabled: var(--v2-colors-grey-300);
 
-$button-adornment-default-hover: var(--v2-colors-teal-500);
-$button-adornment-alert-hover: var(--v2-colors-red-400);
-$button-adornment-emphasis-hover: var(--v2-colors-blue-400);
-$button-adornment-mono-hover: var(--v2-colors-grey-400);
+/* outline button */
+$button-outline-background: var(--v2-colors-pure-white);
+$button-outline-background-disabled: var(--v2-colors-grey-300);
+$button-outline-foreground-disabled: var(--v2-colors-pure-white);
+$button-outline-foreground-hover: var(--v2-colors-pure-white);
+$button-outline-foreground-active: var(--v2-colors-pure-white);
 
-$button-adornment-default-active: var(--v2-colors-teal-400);
-$button-adornment-alert-active: var(--v2-colors-red-300);
-$button-adornment-emphasis-active: var(--v2-colors-blue-300);
-$button-adornment-mono-active: var(--v2-colors-grey-300);
+$button-outline-regular-foreground: var(--v2-colors-teal-600);
+$button-outline-mono-foreground: var(--v2-colors-grey-500);
+$button-outline-alert-foreground: var(--v2-colors-red-500);
+$button-outline-alt-foreground: var(--v2-colors-green-500);
+$button-outline-dark-foreground: var(--v2-colors-blue-500);
 
-$button-ghost-default-foreground: var(--v2-colors-teal-600);
-$button-ghost-alert-foreground: var(--v2-colors-red-500);
-$button-ghost-emphasis-foreground: var(--v2-colors-blue-500);
-$button-ghost-mono-foreground: var(--v2-colors-grey-600);
+$button-outline-regular-border: var(--v2-colors-teal-600);
+$button-outline-mono-border: var(--v2-colors-grey-500);
+$button-outline-alert-border: var(--v2-colors-red-500);
+$button-outline-alt-border: var(--v2-colors-green-500);
+$button-outline-dark-border: var(--v2-colors-blue-500);
 
-$button-ghost-active-foreground: var(--v2-colors-pure-white);
+$button-outline-regular-background-hover: var(--v2-colors-teal-600);
+$button-outline-mono-background-hover: var(--v2-colors-grey-500);
+$button-outline-alert-background-hover: var(--v2-colors-red-500);
+$button-outline-alt-background-hover: var(--v2-colors-green-500);
+$button-outline-dark-background-hover: var(--v2-colors-blue-500);
 
-$button-underlined-default-foreground: var(--v2-colors-teal-600);
-$button-underlined-alert-foreground: var(--v2-colors-red-500);
-$button-underlined-emphasis-foreground: var(--v2-colors-blue-500);
-$button-underlined-mono-foreground: var(--v2-colors-grey-600);
+$button-outline-regular-background-active: var(--v2-colors-teal-800);
+$button-outline-mono-background-active: var(--v2-colors-grey-700);
+$button-outline-alert-background-active: var(--v2-colors-red-700);
+$button-outline-alt-background-active: var(--v2-colors-green-700);
+$button-outline-dark-background-active: var(--v2-colors-blue-700);
 
-$button-underlined-default-hover: var(--v2-colors-teal-500);
-$button-underlined-alert-hover: var(--v2-colors-red-400);
-$button-underlined-emphasis-hover: var(--v2-colors-blue-400);
-$button-underlined-mono-hover: var(--v2-colors-grey-500);
+$button-outline-regular-border-active: var(--v2-colors-teal-800);
+$button-outline-mono-border-active: var(--v2-colors-grey-700);
+$button-outline-alert-border-active: var(--v2-colors-red-700);
+$button-outline-alt-border-active: var(--v2-colors-green-700);
+$button-outline-dark-border-active: var(--v2-colors-blue-700);
 
-$button-underlined-default-active: var(--v2-colors-teal-400);
-$button-underlined-alert-active: var(--v2-colors-red-300);
-$button-underlined-emphasis-active: var(--v2-colors-blue-300);
-$button-underlined-mono-active: var(--v2-colors-grey-400);
+/* text button */
+$button-text-background: transparent;
+$button-text-foreground-disabled: var(--v2-colors-pure-white);
+
+$button-text-regular-foreground: var(--v2-colors-teal-600);
+$button-text-mono-foreground: var(--v2-colors-grey-500);
+$button-text-alert-foreground: var(--v2-colors-red-500);
+$button-text-alt-foreground: var(--v2-colors-green-500);
+$button-text-dark-foreground: var(--v2-colors-blue-500);
+
+$button-text-regular-foreground-hover: var(--v2-colors-teal-700);
+$button-text-mono-foreground-hover: var(--v2-colors-grey-600);
+$button-text-alert-foreground-hover: var(--v2-colors-red-600);
+$button-text-alt-foreground-hover: var(--v2-colors-green-600);
+$button-text-dark-foreground-hover: var(--v2-colors-blue-600);
+
+$button-text-regular-foreground-active: var(--v2-colors-teal-800);
+$button-text-mono-foreground-active: var(--v2-colors-grey-700);
+$button-text-alert-foreground-active: var(--v2-colors-red-700);
+$button-text-alt-foreground-active: var(--v2-colors-green-700);
+$button-text-dark-foreground-active: var(--v2-colors-blue-700);
 
 /* Class Definitions */
 
@@ -85,7 +115,14 @@ $button-underlined-mono-active: var(--v2-colors-grey-400);
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  border: 0px solid transparent;
+  border: 1px solid transparent;
+
+  letter-spacing: 0.042em;
+  transition: 0.2s ease-out background-color;
+
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  line-height: var(--v2-line-height-reset);
 
   & > * {
     margin: 0 var(--v2-spacing-1) 0 0;
@@ -95,6 +132,24 @@ $button-underlined-mono-active: var(--v2-colors-grey-400);
   & > *:last-child {
     margin: 0;
   }
+
+  &.iconLeft i {
+    padding-right: var(--v2-spacing-1);
+  }
+
+  &.iconRight i {
+    padding-left: var(--v2-spacing-1);
+  }
+}
+
+.adornmentLeft {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.adornmentRight {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .uppercase {
@@ -112,396 +167,321 @@ $button-underlined-mono-active: var(--v2-colors-grey-400);
   box-sizing: border-box;
 }
 
-.sizeSmall {
-  color: $button-default-outline-foreground;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: 1;
-
-  padding: var(--v2-spacing-1);
-}
-
-.sizeMedium {
-  color: $button-default-outline-foreground;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-font-size-2);
-  line-height: 1.28;
-
-  padding: var(--v2-spacing-3) var(--v2-spacing-5);
+.sizeRegular {
+  font-size: var(--v2-font-size-1);
+  &:not(.variantText) {
+    padding: var(--v2-spacing-2) var(--v2-spacing-3);
+    &.iconLeft,
+    &.iconRight {
+      padding-left: var(--v2-spacing-2);
+      padding-right: var(--v2-spacing-2);
+    }
+  }
 }
 
 .sizeLarge {
-  color: $button-default-outline-foreground;
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-semi-bold);
-  font-size: var(--v2-line-height-reset);
-  line-height: 1.25;
-
-  padding: var(--v2-spacing-4) var(--v2-spacing-6);
-}
-
-.variantDefault,
-.variantPlain {
-  &.colorDefault {
-    color: $button-default-outline-foreground;
-  }
-  &.colorAlert {
-    color: $button-alert-outline-foreground;
-  }
-  &.colorEmphasis {
-    color: $button-emphasis-outline-foreground;
-  }
-  &.colorMono {
-    color: $button-mono-outline-foreground;
+  font-size: var(--v2-font-size-2);
+  &:not(.variantText) {
+    padding: var(--v2-spacing-3) var(--v2-spacing-5);
+    &.iconLeft,
+    &.iconRight {
+      padding-left: var(--v2-spacing-4);
+      padding-right: var(--v2-spacing-4);
+    }
   }
 }
 
-.variantDefault {
-  border-width: 1px;
-  &.colorDefault {
-    border-color: $button-default-outline-foreground;
-    background-color: $button-default-outline-background;
-  }
-  &.colorAlert {
-    border-color: $button-alert-outline-foreground;
-    background-color: $button-alert-outline-background;
-  }
-  &.colorEmphasis {
-    border-color: $button-emphasis-outline-foreground;
-    background-color: $button-emphasis-outline-background;
-  }
-  &.colorMono {
-    border-color: $button-mono-outline-foreground;
-    background-color: $button-mono-outline-background;
+.variantRegular {
+  color: $button-regular-foreground;
+
+  &:disabled,
+  &.disabled {
+    background-color: $button-regular-background-disabled;
   }
 
-  &:not(.disabled) {
-    &.colorDefault {
+  &:not(.disabled),
+  &:not(:disabled) {
+    &.colorRegular {
+      background-color: $button-regular-regular-background;
+      &:hover,
       &.mouseHover {
-        background-color: $button-default-outline-foreground;
-        color: $button-default-outline-background;
+        background-color: $button-regular-regular-background-hover;
       }
       &:active,
       &.active {
-        color: $button-default-outline-background;
-        border-color: $button-default-outline-active;
-        background-color: $button-default-outline-active;
+        background-color: $button-regular-regular-background-active;
       }
     }
+
+    &.colorMono {
+      background-color: $button-regular-mono-background;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-regular-mono-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-regular-mono-background-active;
+      }
+    }
+
     &.colorAlert {
+      background-color: $button-regular-alert-background;
+      &:hover,
       &.mouseHover {
-        color: $button-alert-outline-background;
-        background-color: $button-alert-outline-foreground;
+        background-color: $button-regular-alert-background-hover;
       }
       &:active,
       &.active {
-        color: $button-alert-outline-background;
-        border-color: $button-alert-outline-active;
-        background-color: $button-alert-outline-active;
+        background-color: $button-regular-alert-background-active;
       }
     }
-    &.colorEmphasis {
+
+    &.colorAlt {
+      background-color: $button-regular-alt-background;
+      &:hover,
       &.mouseHover {
-        color: $button-emphasis-outline-background;
-        background-color: $button-emphasis-outline-foreground;
+        background-color: $button-regular-alt-background-hover;
       }
       &:active,
       &.active {
-        border-color: $button-emphasis-outline-active;
-        background-color: $button-emphasis-outline-active;
-        color: $button-emphasis-outline-background;
+        background-color: $button-regular-alt-background-active;
+      }
+    }
+
+    &.colorDark {
+      background-color: $button-regular-dark-background;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-regular-dark-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-regular-dark-background-active;
+      }
+    }
+  }
+}
+
+.variantFlat {
+  background-color: $button-flat-background;
+
+  &:disabled,
+  &.disabled {
+    color: $button-flat-foreground-disabled;
+  }
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    &.colorRegular {
+      color: $button-flat-regular-foreground;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-flat-regular-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-flat-regular-background-active;
       }
     }
     &.colorMono {
+      color: $button-flat-mono-foreground;
+      &:hover,
       &.mouseHover {
-        background-color: $button-mono-outline-foreground;
-        color: $button-mono-outline-background;
+        background-color: $button-flat-mono-background-hover;
       }
       &:active,
       &.active {
-        border-color: $button-mono-outline-active;
-        background-color: $button-mono-outline-active;
-        color: $button-mono-outline-background;
-      }
-    }
-  }
-}
-
-.variantPlain {
-  padding: 0;
-}
-
-.variantFilled {
-  border-width: 1px;
-
-  &.colorDefault {
-    border-color: $button-default-filled-background;
-    color: $button-default-filled-foreground;
-    background-color: $button-default-filled-background;
-  }
-  &.colorAlert {
-    border-color: $button-alert-filled-background;
-    color: $button-alert-filled-foreground;
-    background-color: $button-alert-filled-background;
-  }
-  &.colorEmphasis {
-    border-color: $button-emphasis-filled-background;
-    color: $button-emphasis-filled-foreground;
-    background-color: $button-emphasis-filled-background;
-  }
-  &.colorMono {
-    border-color: $button-mono-filled-background;
-    color: $button-mono-filled-foreground;
-    background-color: $button-mono-filled-background;
-  }
-
-  &:not(.disabled) {
-    &.colorDefault {
-      &.mouseHover {
-        border-color: $button-default-filled-hover;
-        color: $button-default-filled-foreground;
-        background-color: $button-default-filled-hover;
-      }
-      &:active,
-      &.active {
-        border-color: $button-default-filled-active;
-        color: $button-default-filled-foreground;
-        background-color: $button-default-filled-active;
+        color: $button-flat-mono-background-active;
       }
     }
     &.colorAlert {
+      color: $button-flat-alert-foreground;
+      &:hover,
       &.mouseHover {
-        border-color: $button-alert-filled-hover;
-        color: $button-alert-filled-foreground;
-        background-color: $button-alert-filled-hover;
+        background-color: $button-flat-alert-background-hover;
       }
       &:active,
       &.active {
-        border-color: $button-alert-filled-active;
-        color: $button-alert-filled-foreground;
-        background-color: $button-alert-filled-active;
+        background-color: $button-flat-alert-background-active;
       }
     }
-    &.colorEmphasis {
+    &.colorAlt {
+      color: $button-flat-alt-foreground;
+      &:hover,
       &.mouseHover {
-        border-color: $button-emphasis-filled-hover;
-        color: $button-emphasis-filled-foreground;
-        background-color: $button-emphasis-filled-hover;
+        background-color: $button-flat-alt-background-hover;
       }
       &:active,
       &.active {
-        border-color: $button-emphasis-filled-active;
-        color: $button-emphasis-filled-foreground;
-        background-color: $button-emphasis-filled-active;
+        background-color: $button-flat-alt-background-active;
       }
     }
-    &.colorMono {
+    &.colorDark {
+      color: $button-flat-dark-foreground;
+      &:hover,
       &.mouseHover {
-        border-color: $button-mono-filled-hover;
-        color: $button-mono-filled-foreground;
-        background-color: $button-mono-filled-hover;
+        background-color: $button-flat-dark-background-hover;
       }
       &:active,
       &.active {
-        border-color: $button-mono-filled-active;
-        color: $button-mono-filled-foreground;
-        background-color: $button-mono-filled-active;
+        background-color: $button-flat-dark-background-active;
       }
     }
   }
 }
 
-.variantAdornment {
-  color: $button-adornment-foreground;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-
-  &.colorDefault {
-    background-color: $button-adornment-default-background;
-    border-color: $button-adornment-default-background;
-  }
-  &.colorAlert {
-    background-color: $button-adornment-alert-background;
-    border-color: $button-adornment-alert-background;
-  }
-  &.colorEmphasis {
-    background-color: $button-adornment-emphasis-background;
-    border-color: $button-adornment-emphasis-background;
-  }
-  &.colorMono {
-    background-color: $button-adornment-mono-background;
-    border-color: $button-adornment-mono-background;
+.variantOutline {
+  background-color: $button-outline-background;
+  &:disabled,
+  &.disabled {
+    color: $button-outline-foreground-disabled;
+    background-color: $button-outline-background-disabled;
   }
 
-  &:not(.disabled) {
-    &.colorDefault {
-      &.mouseHover {
-        background-color: $button-adornment-default-hover;
-        border-color: $button-adornment-default-hover;
-      }
-      &:active,
-      &.active {
-        background-color: $button-adornment-default-active;
-        border-color: $button-adornment-default-active;
-      }
-    }
-    &.colorAlert {
-      &.mouseHover {
-        background-color: $button-adornment-alert-hover;
-        border-color: $button-adornment-alert-hover;
-      }
-      &:active,
-      &.active {
-        background-color: $button-adornment-alert-active;
-        border-color: $button-adornment-alert-active;
-      }
-    }
-    &.colorEmphasis {
-      &.mouseHover {
-        background-color: $button-adornment-emphasis-hover;
-        border-color: $button-adornment-emphasis-hover;
-      }
-      &:active,
-      &.active {
-        background-color: $button-adornment-emphasis-active;
-        border-color: $button-adornment-emphasis-active;
-      }
+  &:not(.disabled),
+  &:not(:disabled),
+  &:not(.mouseHover),
+  &:not(:hover),
+  &:not(.active),
+  &:not(:active) {
+    &.colorRegular {
+      color: $button-outline-regular-foreground;
+      border-color: $button-outline-regular-border;
     }
     &.colorMono {
-      &.mouseHover {
-        background-color: $button-adornment-mono-hover;
-        border-color: $button-adornment-mono-hover;
+      color: $button-outline-mono-foreground;
+      border-color: $button-outline-mono-border;
+    }
+    &.colorAlert {
+      color: $button-outline-alert-foreground;
+      border-color: $button-outline-alert-border;
+    }
+    &.colorAlt {
+      color: $button-outline-alt-foreground;
+      border-color: $button-outline-alt-border;
+    }
+    &.colorDark {
+      color: $button-outline-dark-foreground;
+      border-color: $button-outline-dark-border;
+    }
+  }
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    &.mouseHover,
+    &:hover {
+      color: $button-outline-foreground-hover;
+      &.colorRegular {
+        background-color: $button-outline-regular-background-hover;
       }
-      &:active,
-      &.active {
-        background-color: $button-adornment-mono-active;
-        border-color: $button-adornment-mono-active;
+      &.colorMono {
+        background-color: $button-outline-mono-background-hover;
+      }
+      &.colorAlert {
+        background-color: $button-outline-alert-background-hover;
+      }
+      &.colorAlt {
+        background-color: $button-outline-alt-background-hover;
+      }
+      &.colorDark {
+        background-color: $button-outline-dark-background-hover;
+      }
+    }
+
+    &.active,
+    &:active {
+      color: $button-outline-foreground-active;
+      &.colorRegular {
+        background-color: $button-outline-regular-background-active;
+        border-color: $button-outline-regular-border-active;
+      }
+      &.colorMono {
+        background-color: $button-outline-mono-background-active;
+        border-color: $button-outline-regular-border-active;
+      }
+      &.colorAlert {
+        background-color: $button-outline-alert-background-active;
+        border-color: $button-outline-alert-border-active;
+      }
+      &.colorAlt {
+        background-color: $button-outline-alt-background-active;
+        border-color: $button-outline-alt-border-active;
+      }
+      &.colorDark {
+        background-color: $button-outline-dark-background-active;
+        border-color: $button-outline-dark-border-active;
       }
     }
   }
 }
 
-.variantGhost {
-  border: 1px solid transparent;
-
-  &.colorDefault {
-    color: $button-ghost-default-foreground;
-  }
-  &.colorAlert {
-    color: $button-ghost-alert-foreground;
-  }
-  &.colorEmphasis {
-    color: $button-ghost-emphasis-foreground;
-  }
-  &.colorMono {
-    color: $button-ghost-mono-foreground;
+.variantText {
+  background-color: $button-text-background;
+  &:disabled,
+  &.disabled {
+    color: $button-text-foreground-disabled;
   }
 
-  &:not(.disabled) {
-    &.colorDefault {
+  &:not(.disabled),
+  &:not(:disabled) {
+    &.colorRegular {
+      color: $button-text-regular-foreground;
+      &:hover,
       &.mouseHover {
-        border: 1px solid currentColor;
+        color: $button-text-regular-foreground-hover;
       }
       &:active,
       &.active {
-        border: 1px solid currentColor;
-        color: $button-ghost-active-foreground;
-        background-color: $button-ghost-default-foreground;
+        color: $button-text-regular-foreground-active;
       }
     }
-    &.colorAlert {
-      &.mouseHover {
-        border: 1px solid currentColor;
-      }
-      &:active,
-      &.active {
-        border: 1px solid currentColor;
-        color: $button-ghost-active-foreground;
-        background-color: $button-ghost-alert-foreground;
-      }
-    }
-    &.colorEmphasis {
-      &.mouseHover {
-        border: 1px solid currentColor;
-      }
-      &:active,
-      &.active {
-        border: 1px solid currentColor;
-        color: $button-ghost-active-foreground;
-        background-color: $button-ghost-emphasis-foreground;
-      }
-    }
+
     &.colorMono {
+      color: $button-text-mono-foreground;
+      &:hover,
       &.mouseHover {
-        border: 1px solid currentColor;
+        color: $button-text-mono-foreground-hover;
       }
       &:active,
       &.active {
-        border: 1px solid currentColor;
-        color: $button-ghost-active-foreground;
-        background-color: $button-ghost-mono-foreground;
+        color: $button-text-mono-foreground-active;
       }
     }
-  }
-}
 
-.variantUnderlined {
-  padding-right: 0px;
-  padding-left: 0px;
-  border-radius: 0;
-  border-bottom: 1px solid currentColor;
-  padding: 0;
-
-  &.colorDefault {
-    color: $button-underlined-default-foreground;
-  }
-  &.colorAlert {
-    color: $button-underlined-alert-foreground;
-  }
-  &.colorEmphasis {
-    color: $button-underlined-emphasis-foreground;
-  }
-  &.colorMono {
-    color: $button-underlined-mono-foreground;
-  }
-
-  &:not(.disabled) {
-    &.colorDefault {
+    &.colorAlt {
+      color: $button-text-alt-foreground;
+      &:hover,
       &.mouseHover {
-        color: $button-underlined-default-hover;
+        color: $button-text-alt-foreground-hover;
       }
       &:active,
       &.active {
-        color: $button-underlined-default-active;
+        color: $button-text-alt-foreground-active;
       }
     }
+
     &.colorAlert {
+      color: $button-text-alert-foreground;
+      &:hover,
       &.mouseHover {
-        color: $button-underlined-alert-hover;
+        color: $button-text-alert-foreground-hover;
       }
       &:active,
       &.active {
-        color: $button-underlined-alert-active;
+        color: $button-text-alert-foreground-active;
       }
     }
-    &.colorEmphasis {
+
+    &.colorDark {
+      color: $button-text-dark-foreground;
+      &:hover,
       &.mouseHover {
-        color: $button-underlined-emphasis-hover;
+        color: $button-text-dark-foreground-hover;
       }
       &:active,
       &.active {
-        color: $button-underlined-emphasis-active;
-      }
-    }
-    &.colorMono {
-      &.mouseHover {
-        color: $button-underlined-mono-hover;
-      }
-      &:active,
-      &.active {
-        color: $button-underlined-mono-active;
+        color: $button-text-dark-foreground-active;
       }
     }
   }

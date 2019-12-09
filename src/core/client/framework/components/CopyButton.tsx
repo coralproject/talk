@@ -7,7 +7,6 @@ import { PropTypesOf } from "coral-ui/types";
 
 interface Props extends PropTypesOf<typeof Button> {
   text: string;
-  size?: "small" | "medium" | "large";
 }
 
 interface State {
@@ -40,11 +39,11 @@ class CopyButton extends React.Component<Props> {
   };
 
   public render() {
-    const { text, size, ...rest } = this.props;
+    const { text, color, size, ...rest } = this.props;
     const { copied } = this.state;
     return (
       <CopyToClipboard text={text} onCopy={this.handleCopy}>
-        <Button variant="filled" size={size || "small"} {...rest}>
+        <Button color={color || "mono"} variant="flat" {...rest}>
           {copied ? (
             <Localized id="framework-copyButton-copied">
               <span>Copied!</span>

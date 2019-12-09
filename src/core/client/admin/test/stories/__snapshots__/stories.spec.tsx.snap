@@ -46,9 +46,9 @@ exports[`renders empty stories 1`] = `
               >
                 <button
                   aria-label="Search"
-                  className="BaseButton-root Button-root Button-sizeMedium Button-colorEmphasis Button-variantAdornment Button-uppercase StoryTableFilter-adornment"
-                  data-color="emphasis"
-                  data-variant="adornment"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight StoryTableFilter-adornment"
+                  data-color="dark"
+                  data-variant="regular"
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
@@ -202,9 +202,9 @@ exports[`renders empty stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain StoryStatusChange-button"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText StoryStatusChange-button"
                   data-color="mono"
-                  data-variant="plain"
+                  data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -273,9 +273,9 @@ exports[`renders empty stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain StoryStatusChange-button"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText StoryStatusChange-button"
                   data-color="mono"
-                  data-variant="plain"
+                  data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -365,9 +365,9 @@ exports[`renders stories 1`] = `
               >
                 <button
                   aria-label="Search"
-                  className="BaseButton-root Button-root Button-sizeMedium Button-colorEmphasis Button-variantAdornment Button-uppercase StoryTableFilter-adornment"
-                  data-color="emphasis"
-                  data-variant="adornment"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight StoryTableFilter-adornment"
+                  data-color="dark"
+                  data-variant="regular"
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
@@ -521,9 +521,9 @@ exports[`renders stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain StoryStatusChange-button"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText StoryStatusChange-button"
                   data-color="mono"
-                  data-variant="plain"
+                  data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -592,9 +592,9 @@ exports[`renders stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain StoryStatusChange-button"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText StoryStatusChange-button"
                   data-color="mono"
-                  data-variant="plain"
+                  data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}

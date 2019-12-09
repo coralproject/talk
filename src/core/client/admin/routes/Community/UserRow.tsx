@@ -58,7 +58,8 @@ const UserRow: FunctionComponent<Props> = ({
         )}
         {!deletedAt && (
           <Button
-            variant="plain"
+            variant="text"
+            color="mono"
             uppercase={false}
             onClick={usernameClicked}
             className={styles.usernameButton}

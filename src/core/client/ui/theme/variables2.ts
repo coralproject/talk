@@ -314,7 +314,7 @@ const variables2 = {
     8: "60px",
     9: "84px",
   },
-  roundCorners: "2px",
+  roundCorners: "3px",
 };
 
 export default variables2;

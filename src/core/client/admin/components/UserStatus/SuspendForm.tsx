@@ -196,17 +196,12 @@ const SuspendForm: FunctionComponent<Props> = ({
               </Field>
               <Flex justifyContent="flex-end" itemGutter="half">
                 <Localized id="community-suspendModal-cancel">
-                  <Button variant="ghost" onClick={onCancel}>
+                  <Button variant="flat" onClick={onCancel}>
                     Cancel
                   </Button>
                 </Localized>
                 <Localized id="community-suspendModal-suspendUser">
-                  <Button
-                    ref={lastFocusableRef}
-                    variant="filled"
-                    color="default"
-                    type="submit"
-                  >
+                  <Button ref={lastFocusableRef} type="submit">
                     Suspend User
                   </Button>
                 </Localized>

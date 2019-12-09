@@ -49,9 +49,9 @@ exports[`renders community 1`] = `
                 >
                   <button
                     aria-label="Search"
-                    className="BaseButton-root Button-root Button-sizeMedium Button-colorEmphasis Button-variantAdornment Button-uppercase UserTableFilter-adornment"
-                    data-color="emphasis"
-                    data-variant="adornment"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight UserTableFilter-adornment"
+                    data-color="dark"
+                    data-variant="regular"
                     onBlur={[Function]}
                     onFocus={[Function]}
                     onMouseOut={[Function]}
@@ -199,10 +199,10 @@ exports[`renders community 1`] = `
         data-testid="invite-users"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase InviteUsers-button"
-          data-color="default"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantFlat Button-uppercase InviteUsers-button"
+          data-color="dark"
           data-testid="invite-users-button"
-          data-variant="filled"
+          data-variant="flat"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -264,9 +264,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
-                data-color="default"
-                data-variant="plain"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserRow-usernameButton"
+                data-color="mono"
+                data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -329,9 +329,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
-                data-color="default"
-                data-variant="plain"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserRow-usernameButton"
+                data-color="mono"
+                data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -366,9 +366,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain UserRoleChange-button"
+                  className="BaseButton-root Button-root Button-sizeLarge Button-colorMono Button-variantText UserRoleChange-button"
                   data-color="mono"
-                  data-variant="plain"
+                  data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -427,9 +427,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
-                data-color="default"
-                data-variant="plain"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserRow-usernameButton"
+                data-color="mono"
+                data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -464,9 +464,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain UserRoleChange-button"
+                  className="BaseButton-root Button-root Button-sizeLarge Button-colorMono Button-variantText UserRoleChange-button"
                   data-color="mono"
-                  data-variant="plain"
+                  data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -525,9 +525,9 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantPlain UserRow-usernameButton"
-                data-color="default"
-                data-variant="plain"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserRow-usernameButton"
+                data-color="mono"
+                data-variant="text"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -562,9 +562,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorMono Button-variantPlain UserRoleChange-button"
+                  className="BaseButton-root Button-root Button-sizeLarge Button-colorMono Button-variantText UserRoleChange-button"
                   data-color="mono"
-                  data-variant="plain"
+                  data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -608,9 +608,9 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change user status"
-                  className="BaseButton-root Button-root Button-sizeMedium Button-colorMono Button-variantPlain UserStatusChange-button UserStatusChange-fullWidth"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText UserStatusChange-button UserStatusChange-fullWidth"
                   data-color="mono"
-                  data-variant="plain"
+                  data-variant="text"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -709,9 +709,9 @@ exports[`renders empty community 1`] = `
                 >
                   <button
                     aria-label="Search"
-                    className="BaseButton-root Button-root Button-sizeMedium Button-colorEmphasis Button-variantAdornment Button-uppercase UserTableFilter-adornment"
-                    data-color="emphasis"
-                    data-variant="adornment"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight UserTableFilter-adornment"
+                    data-color="dark"
+                    data-variant="regular"
                     onBlur={[Function]}
                     onFocus={[Function]}
                     onMouseOut={[Function]}
@@ -859,10 +859,10 @@ exports[`renders empty community 1`] = `
         data-testid="invite-users"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeMedium Button-colorDefault Button-variantFilled Button-uppercase InviteUsers-button"
-          data-color="default"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantFlat Button-uppercase InviteUsers-button"
+          data-color="dark"
           data-testid="invite-users-button"
-          data-variant="filled"
+          data-variant="flat"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}

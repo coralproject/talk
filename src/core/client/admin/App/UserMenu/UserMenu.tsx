@@ -60,9 +60,8 @@ const UserMenu: FunctionComponent<Props> = props => (
           className={styles.button}
           onClick={toggleVisibility}
           ref={ref}
-          variant="plain"
+          variant="text"
           uppercase={false}
-          size="small"
         >
           <ButtonIcon className={styles.icon} size="lg">
             account_circle

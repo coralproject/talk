@@ -7,7 +7,6 @@ import { Playground } from "docz";
 import Popover from "./Popover";
 import Button from "../Button";
 import Flex from "../Flex";
-import Typography from "../Typography";
 import ButtonIcon from "../Button/ButtonIcon";
 import BaseButton from "../BaseButton";
 import ClickOutside from "../ClickOutside";
@@ -22,7 +21,7 @@ import Icon from "../Icon";
 <Playground>
   <Popover
     id="my-popover-1"
-    body={() => <Typography p={2}>This is the body</Typography>}
+    body={() => <h2>This is the body</h2>}
   >
     {({ toggleVisibility, ref }) => (
       <Button
@@ -45,7 +44,7 @@ import Icon from "../Icon";
     placement="top"
     body={({ toggleVisibility }) => (
       <Flex itemGutter="half">
-        <Typography p={2}>This is the body</Typography>
+        <h2>This is the body</h2>
         <Button onClick={toggleVisibility} size="small">
           <ButtonIcon>close</ButtonIcon>
         </Button>
@@ -72,9 +71,9 @@ import Icon from "../Icon";
     id="my-popover-1"
     body={({ toggleVisibility }) => (
       <ClickOutside onClickOutside={toggleVisibility}>
-        <Typography color="textLight" p={2}>
+        <h2>
           I am a Tooltip
-        </Typography>
+        </h2>
       </ClickOutside>
     )}
     dark

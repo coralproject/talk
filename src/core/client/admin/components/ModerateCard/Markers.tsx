@@ -28,16 +28,11 @@ const Markers: FunctionComponent<Props> = ({ children, details }) => {
         {children}
         {details && (
           <Button
-            size="small"
-            classes={{
-              variantDefault: styles.detailsButton,
-              colorDefault: styles.detailsButtonColorRegular,
-            }}
-            variant="ghost"
+            variant="text"
+            color="mono"
             onClick={toggleDetails}
             aria-controls={uuid}
             aria-expanded={showDetails}
-            color="mono"
           >
             <Localized id="moderate-markers-details">
               <span className={styles.detailsText}>DETAILS</span>

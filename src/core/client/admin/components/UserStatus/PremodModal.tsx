@@ -52,18 +52,13 @@ const PremodModal: FunctionComponent<Props> = ({
           </Localized>
           <Flex justifyContent="flex-end" itemGutter>
             <Localized id="community-premodModal-cancel">
-              <Button variant="ghost" onClick={onClose}>
+              <Button variant="flat" onClick={onClose}>
                 Cancel
               </Button>
             </Localized>
 
             <Localized id="community-premodModal-premodUser">
-              <Button
-                variant="filled"
-                color="default"
-                onClick={onConfirm}
-                ref={lastFocusableRef}
-              >
+              <Button onClick={onConfirm} ref={lastFocusableRef}>
                 Yes, always premoderate user
               </Button>
             </Localized>

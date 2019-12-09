@@ -105,7 +105,7 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
         value={embed.text}
       />
       <HorizontalGutter className={styles.copyArea}>
-        <CopyButton size="medium" text={embed.text} />
+        <CopyButton text={embed.text} />
       </HorizontalGutter>
     </ConfigBox>
   );

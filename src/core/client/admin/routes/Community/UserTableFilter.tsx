@@ -73,9 +73,9 @@ const UserTableFilter: FunctionComponent<Props> = props => (
                           >
                             <Button
                               className={styles.adornment}
-                              variant="adornment"
+                              adornmentRight
                               type="submit"
-                              color="emphasis"
+                              color="dark"
                               aria-label="Search"
                             >
                               <Icon size="md">search</Icon>

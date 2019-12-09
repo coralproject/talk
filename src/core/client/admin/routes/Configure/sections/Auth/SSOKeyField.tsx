@@ -61,8 +61,6 @@ const SSOKeyField: FunctionComponent<Props> = ({
     <Localized id="configure-auth-sso-regenerate">
       <Button
         id="configure-auth-sso-regenerate"
-        variant="filled"
-        size="small"
         disabled={disabled}
         onClick={onRegenerate}
         className={styles.regenerateButton}

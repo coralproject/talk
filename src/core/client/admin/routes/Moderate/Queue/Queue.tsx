@@ -98,11 +98,7 @@ const Queue: FunctionComponent<Props> = ({
       {Boolean(viewNewCount && viewNewCount > 0) && (
         <Flex justifyContent="center" className={styles.viewNewButtonContainer}>
           <Localized id="moderate-queue-viewNew" $count={viewNewCount}>
-            <Button
-              variant="filled"
-              onClick={onViewNew}
-              className={styles.viewNewButton}
-            >
+            <Button onClick={onViewNew} className={styles.viewNewButton}>
               View {viewNewCount} new comments
             </Button>
           </Localized>
