@@ -9,10 +9,6 @@ import BaseButton, { BaseButtonProps } from "../BaseButton";
 
 import styles from "./Button.css";
 
-export type ButtonVariant = "regular" | "flat" | "outline";
-export type ButtonColor = "regular" | "alert" | "mono" | "alt";
-export type ButtonSize = "regular" | "large";
-
 interface Props extends Omit<BaseButtonProps, "ref"> {
   /** If set renders an anchor tag instead */
   anchor?: boolean;
@@ -25,7 +21,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   classes: typeof styles & BaseButtonProps["classes"];
 
   /** Size of the button */
-  size?: "regular" | "large" | "cropped";
+  size?: "regular" | "large";
 
   /** Color of the button */
   color?: "regular" | "alert" | "mono" | "alt" | "dark";
@@ -33,12 +29,16 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   /** Variant of the button */
   variant?: "regular" | "flat" | "outline" | "text";
 
+  /* button is attached to the LEFT of an input element */
   adornmentLeft?: boolean;
 
+  /* button is attached to the RIGHT of an input element */
   adornmentRight?: boolean;
 
+  /* button has a ButtonIcon to the left of the text */
   iconLeft?: boolean;
 
+  /* button has a ButtonIcon to the right of the text */
   iconRight?: boolean;
 
   /** If set renders a full width button */

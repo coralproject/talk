@@ -449,6 +449,18 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
       }
     }
 
+    &.colorAlt {
+      color: $button-text-alt-foreground;
+      &:hover,
+      &.mouseHover {
+        color: $button-text-alt-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-alt-foreground-active;
+      }
+    }
+
     &.colorAlert {
       color: $button-text-alert-foreground;
       &:hover,
@@ -458,18 +470,6 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
       &:active,
       &.active {
         color: $button-text-alert-foreground-active;
-      }
-    }
-
-    &.colorAlert {
-      color: $button-text-alt-foreground;
-      &:hover,
-      &.mouseHover {
-        color: $button-text-alt-foreground-hover;
-      }
-      &:active,
-      &.active {
-        color: $button-text-alt-foreground-active;
       }
     }
 
