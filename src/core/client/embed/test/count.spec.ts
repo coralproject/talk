@@ -19,6 +19,7 @@ describe("Basic integration test", () => {
     mockConsole();
     const CoralEmbedStream = Coral.createStreamEmbed({
       id: "basic-integration-test-id",
+      siteID: "site-id",
     });
     CoralEmbedStream.render();
     expect(document.head.querySelector("script")).toBeNull();
@@ -30,6 +31,7 @@ describe("Basic integration test", () => {
     document.body.appendChild(commentCount);
     Coral.createStreamEmbed({
       id: "basic-integration-test-id",
+      siteID: "site-id",
     });
     const s = document.head.querySelector("script");
     expect(s).not.toBeNull();
@@ -48,6 +50,7 @@ describe("Basic integration test", () => {
     document.body.appendChild(commentCount);
     const CoralEmbedStream = Coral.createStreamEmbed({
       id: "basic-integration-test-id",
+      siteID: "site-id",
     });
     CoralEmbedStream.render();
     expect(document.head.querySelector("script")).toBeNull();
