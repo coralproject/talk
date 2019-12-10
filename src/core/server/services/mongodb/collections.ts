@@ -1,11 +1,12 @@
-import { createCollection } from "coral-server/models/helpers";
-
 import { CommentAction } from "coral-server/models/action/comment";
 import { CommentModerationAction } from "coral-server/models/action/moderation/comment";
 import { Comment } from "coral-server/models/comment";
+import { Community } from "coral-server/models/community";
+import { createCollection } from "coral-server/models/helpers";
 import { Invite } from "coral-server/models/invite";
 import { MigrationRecord } from "coral-server/models/migration";
 import { PersistedQuery } from "coral-server/models/queries";
+import { Site } from "coral-server/models/site";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
@@ -21,6 +22,10 @@ export const comments = createCollection<Comment>("comments");
 export const stories = createCollection<Story>("stories");
 
 export const commentActions = createCollection<CommentAction>("commentActions");
+
+export const sites = createCollection<Site>("sites");
+
+export const communities = createCollection<Community>("communities");
 
 export const commentModerationActions = createCollection<
   CommentModerationAction
@@ -40,6 +45,8 @@ const collections = {
   commentModerationActions,
   queries,
   migrations,
+  sites,
+  communities,
 };
 
 export default collections;
