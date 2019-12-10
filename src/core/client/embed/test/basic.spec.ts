@@ -17,6 +17,7 @@ describe("Basic integration test", () => {
     mockConsole();
     const CoralEmbedStream = Coral.createStreamEmbed({
       id: "basic-integration-test-id",
+      siteID: "site-id",
     });
     CoralEmbedStream.render();
     expect(container.innerHTML).toMatchSnapshot();
@@ -31,6 +32,7 @@ describe("Basic integration test", () => {
     document.head.appendChild(link);
     const CoralEmbedStream = Coral.createStreamEmbed({
       id: "basic-integration-test-id",
+      siteID: "site-id",
     });
     CoralEmbedStream.render();
     expect(container.innerHTML).toMatchSnapshot();
@@ -42,6 +44,7 @@ describe("Basic integration test", () => {
     mockConsole();
     const CoralEmbedStream = Coral.createStreamEmbed({
       id: "basic-integration-test-id",
+      siteID: "site-id",
     });
     CoralEmbedStream.render();
     CoralEmbedStream.remove();

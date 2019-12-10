@@ -23,17 +23,20 @@
     <script>
       const CoralStreamEmbed = Coral.createStreamEmbed({
         id: "coralStreamEmbed",
+        /** TODO: infer site id from domain?
+         */
+        siteID: "ea08f21f-7fee-4064-9bec-ea37bb5b8c6b",
         /**
-        *  You can listen to events using the example below.
-        *  The argument passed is the event emitter from
-        *  https://github.com/asyncly/EventEmitter2
-        *
-        *  events: function(events) {
-        *    events.onAny(function(eventName, data) {
-        *      console.log(eventName, data);
-        *    });
-        *  },
-        */
+         *  You can listen to events using the example below.
+         *  The argument passed is the event emitter from
+         *  https://github.com/asyncly/EventEmitter2
+         *
+         *  events: function(events) {
+         *    events.onAny(function(eventName, data) {
+         *      console.log(eventName, data);
+         *    });
+         *  },
+         */
       });
       window.CoralStreamEmbed = CoralStreamEmbed;
       CoralStreamEmbed.render();

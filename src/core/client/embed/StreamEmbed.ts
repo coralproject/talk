@@ -24,6 +24,7 @@ import PymControl, {
 } from "./PymControl";
 
 export interface StreamEmbedConfig {
+  siteID: string;
   storyID?: string;
   storyURL?: string;
   commentID?: string;
@@ -152,6 +153,7 @@ export class StreamEmbed {
       storyID: this.config.storyID,
       storyURL: this.config.storyURL,
       commentID: this.config.commentID,
+      siteID: this.config.siteID,
     });
 
     const url = `${ensureNoEndSlash(this.config.rootURL)}${urls.embed.stream}${

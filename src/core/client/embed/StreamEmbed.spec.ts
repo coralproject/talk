@@ -11,6 +11,7 @@ it("should throw when calling remove but was not rendered", () => {
     eventEmitter: new EventEmitter2(),
     id: "container-id",
     rootURL: "http://localhost/",
+    siteID: "site-id",
   };
   const streamEmbed = new StreamEmbed(config);
   expect(() => streamEmbed.remove()).toThrow();
@@ -21,6 +22,7 @@ it("should return rendered", () => {
     eventEmitter: new EventEmitter2(),
     id: "container-id",
     rootURL: "http://localhost/",
+    siteID: "site-id",
   };
   const pymControl = {
     remove: sinon.stub(),
@@ -41,6 +43,7 @@ it("should relay events methods to event emitter", () => {
     eventEmitter: new EventEmitter2(),
     id: "container-id",
     rootURL: "http://localhost/",
+    siteID: "site-id",
   };
   // eslint-disable-next-line:no-empty
   const callback = () => {};
@@ -71,6 +74,7 @@ describe("should send login message to PymControl", () => {
       eventEmitter,
       id: "container-id",
       rootURL: "http://localhost/",
+      siteID: "site-id",
     };
     const pymControl = {
       // eslint-disable-next-line:no-empty
@@ -119,6 +123,7 @@ describe("should send logout message to PymControl", () => {
       eventEmitter,
       id: "container-id",
       rootURL: "http://localhost/",
+      siteID: "site-id",
     };
     const pymControl = {
       // eslint-disable-next-line:no-empty
@@ -161,6 +166,7 @@ it("should pass default values to pymControl", () => {
     eventEmitter: new EventEmitter2(),
     id: "container-id",
     rootURL: "http://localhost/",
+    siteID: "site-id",
   };
   let pymControlConfig: PymControlConfig | null = null;
   const fakeFactory: any = (cfg: PymControlConfig) => {
@@ -181,6 +187,7 @@ it("should pass correct values to pymControl", () => {
     commentID: "comment-id",
     storyID: "story-id",
     storyURL: "story-url",
+    siteID: "site-id",
   };
   let pymControlConfig: PymControlConfig | null = null;
   const fakeFactory: any = (cfg: PymControlConfig) => {
@@ -200,6 +207,7 @@ it("should emit showPermalink", () => {
     id: "container-id",
     rootURL: "http://localhost/",
     commentID: "comment-id",
+    siteID: "site-id",
   };
   // eslint-disable-next-line:no-empty
   const fakeFactory: any = () => ({});

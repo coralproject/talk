@@ -175,7 +175,7 @@ export async function findStory(
 export interface FindOrCreateStoryInput {
   id?: string;
   url?: string;
-  siteID: string;
+  siteID?: string;
 }
 
 export async function findOrCreateStory(
@@ -184,7 +184,7 @@ export async function findOrCreateStory(
   { id, url, siteID }: FindOrCreateStoryInput,
   now = new Date()
 ) {
-  if (id) {
+  if (id && siteID) {
     if (url) {
       // The URL was specified, this is an upsert operation.
       return upsertStory(
@@ -207,6 +207,10 @@ export async function findOrCreateStory(
   // the URL exists.
   if (!url) {
     throw new Error("cannot upsert an story without the url");
+  }
+
+  if (!siteID) {
+    throw new Error("cannot upsert story without site ID");
   }
 
   return upsertStory(mongo, tenantID, { url, siteID }, now);
