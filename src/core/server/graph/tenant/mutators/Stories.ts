@@ -22,7 +22,7 @@ import {
   GQLOpenStoryInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
-  GQLUpdateStoryEntitySettingsInput,
+  GQLUpdateStorySettingsInput,
   GQLUpdateStoryInput,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
@@ -57,7 +57,7 @@ export const Stories = (ctx: TenantContext) => ({
       }
     ),
   updateSettings: async (
-    input: GQLUpdateStoryEntitySettingsInput
+    input: GQLUpdateStorySettingsInput
   ): Promise<Readonly<Story> | null> =>
     updateSettings(ctx.mongo, ctx.tenant, input.id, input.settings, ctx.now),
   close: (input: GQLCloseStoryInput): Promise<Readonly<Story> | null> =>

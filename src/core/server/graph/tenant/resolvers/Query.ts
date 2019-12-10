@@ -14,7 +14,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   comment: (source, { id }, ctx) =>
     id ? ctx.loaders.Comments.comment.load(id) : null,
   comments: (source, args, ctx) => ctx.loaders.Comments.forFilter(args),
-  settings: (source, args, ctx) => ctx.tenant.ownSettings,
+  // settings: (source, args, ctx) => ctx.tenant.ownSettings,
   auth: (source, args, ctx) => ctx.tenant.auth,
   viewer: (source, args, ctx) => ctx.user,
   discoverOIDCConfiguration: (source, { issuer }, ctx) =>
@@ -25,4 +25,13 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   site: (source, args, ctx) => ctx.loaders.Sites.find.load(args.id),
   community: (source, args, ctx) => ctx.loaders.Communities.find.load(args.id),
   organization: (source, args, ctx) => ctx.tenant,
+  settings: (source, args, ctx) => {
+    if (args.storyID) {
+      return ctx.loaders.Stories.settings.load(args.storyID);
+    } else if (args.siteID) {
+      return ctx.loaders.Sites.settings.load(args.siteID);
+    } else {
+      return ctx.tenant.ownSettings;
+    }
+  },
 };

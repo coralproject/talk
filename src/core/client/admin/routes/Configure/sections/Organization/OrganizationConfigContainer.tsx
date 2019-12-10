@@ -10,42 +10,32 @@ import { HorizontalGutter } from "coral-ui/components";
 
 import { OrganizationConfigContainer_organization as OrganizationData } from "coral-admin/__generated__/OrganizationConfigContainer_organization.graphql";
 
-import OrganizationContactEmailConfig from "./OrganizationContactEmailConfig";
 import OrganizationNameConfig from "./OrganizationNameConfig";
-import OrganizationURLConfig from "./OrganizationURLConfig";
 
 interface Props {
   submitting: boolean;
   organization: OrganizationData;
 }
 const OrganizationConfigContainer: React.FunctionComponent<Props> = ({
-  settings,
   submitting,
+  organization,
 }) => {
   const form = useForm();
-  useMemo(() => form.initialize(purgeMetadata(settings)), []);
+  useMemo(() => form.initialize(purgeMetadata(organization)), []);
   return (
     <HorizontalGutter
       size="double"
       data-testid="configure-organizationContainer"
     >
       <OrganizationNameConfig disabled={submitting} />
-      <OrganizationContactEmailConfig disabled={submitting} />
-      <OrganizationURLConfig disabled={submitting} />
     </HorizontalGutter>
   );
 };
 const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment OrganizationConfigContainer_settings on Settings {
-      ...OrganizationNameConfig_formValues @relay(mask: false)
-      ...OrganizationContactEmailConfig_formValues @relay(mask: false)
-      ...OrganizationURLConfig_formValues @relay(mask: false)
-    }
-    `},
   organization: graphql`
     fragment OrganizationConfigContainer_organization on Organization {
-      ...OrganizationNameConfigContainer_organization
+      ...OrganizationNameConfig_formValues @relay(mask: false)
+      ...OrganizationNameConfig_formValues @relay(mask: false)
     }
   `,
 })(OrganizationConfigContainer);

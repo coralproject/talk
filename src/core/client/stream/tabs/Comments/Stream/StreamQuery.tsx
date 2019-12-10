@@ -72,11 +72,11 @@ const StreamQuery: FunctionComponent<Props> = props => {
     <>
       <QueryRenderer<QueryTypes>
         query={graphql`
-          query StreamQuery($storyID: ID, $storyURL: String, $siteID: String) {
+          query StreamQuery($storyID: ID, $storyURL: String) {
             viewer {
               ...StreamContainer_viewer
             }
-            story(id: $storyID, url: $storyURL, siteID: $siteID) {
+            story(id: $storyID, url: $storyURL) {
               ...StreamContainer_story
             }
             organization {

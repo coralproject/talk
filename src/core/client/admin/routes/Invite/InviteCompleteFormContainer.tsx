@@ -2,13 +2,13 @@ import React, { FunctionComponent } from "react";
 
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 
-import { InviteCompleteFormContainer_settings } from "coral-admin/__generated__/InviteCompleteFormContainer_settings.graphql";
+import { InviteCompleteFormContainer_site } from "coral-admin/__generated__/InviteCompleteFormContainer_site.graphql";
 
 import InviteCompleteForm from "./InviteCompleteForm";
 
 interface Props {
   token: string;
-  settings: InviteCompleteFormContainer_settings;
+  site: InviteCompleteFormContainer_site;
   disabled?: boolean;
   onSuccess: () => void;
 }
@@ -16,23 +16,21 @@ interface Props {
 const InviteCompleteFormContainer: FunctionComponent<Props> = ({
   onSuccess,
   token,
-  settings,
+  site,
 }) => {
   return (
     <InviteCompleteForm
       token={token}
-      organizationName={settings.organization.name}
+      organizationName={site.organization.name}
       onSuccess={onSuccess}
     />
   );
 };
 
 const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment InviteCompleteFormContainer_settings on Settings {
-      organization {
-        name
-      }
+  site: graphql`
+    fragment InviteCompleteFormContainer_site on Site {
+      name
     }
   `,
 })(InviteCompleteFormContainer);

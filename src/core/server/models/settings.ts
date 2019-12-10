@@ -5,7 +5,7 @@ import {
   GQLAuthenticationTargetFilter,
   GQLCommenterAccountFeatures,
   GQLCommunityGuidelines,
-  GQLEntitySettings,
+  GQLSettings,
   GQLExternalIntegrations,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
@@ -20,17 +20,14 @@ import {
 
 export type LiveConfiguration = Omit<GQLLiveConfiguration, "configurable">;
 
-export type CloseCommenting = Omit<
-  GQLEntitySettings["closeCommenting"],
-  "message"
-> &
-  Partial<Pick<GQLEntitySettings["closeCommenting"], "message">>;
+export type CloseCommenting = Omit<GQLSettings["closeCommenting"], "message"> &
+  Partial<Pick<GQLSettings["closeCommenting"], "message">>;
 
 export type DisableCommenting = Omit<
-  GQLEntitySettings["disableCommenting"],
+  GQLSettings["disableCommenting"],
   "message"
 > &
-  Partial<Pick<GQLEntitySettings["disableCommenting"], "message">>;
+  Partial<Pick<GQLSettings["disableCommenting"], "message">>;
 
 export type OIDCAuthIntegration = Omit<
   GQLOIDCAuthIntegration,
@@ -110,7 +107,7 @@ export type PartialStoryConfiguration = Partial<
 };
 
 export type Settings = Pick<
-  GQLEntitySettings,
+  GQLSettings,
   | "accountFeatures"
   | "charCount"
   | "communityGuidelines"
@@ -127,6 +124,7 @@ export type Settings = Pick<
   | "stories"
   | "wordList"
   | "locale"
+  | "slack"
 > & {
   /* remove once migrated */
   auth?: Auth;
@@ -137,7 +135,7 @@ export type Settings = Pick<
 
 export type PartialSettings = Partial<
   Pick<
-    GQLEntitySettings,
+    GQLSettings,
     | "customCSSURL"
     | "editCommentWindowLength"
     | "email"
@@ -147,6 +145,7 @@ export type PartialSettings = Partial<
     | "staff"
     | "staticURI"
     | "locale"
+    | "slack"
   >
 > & {
   accountFeatures?: Partial<GQLCommenterAccountFeatures>;

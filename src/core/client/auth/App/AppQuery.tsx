@@ -20,11 +20,6 @@ export default class AppQuery extends Component {
                 ...AppContainer_auth
               }
             }
-            settings {
-              auth {
-                ...AppContainer_auth
-              }
-            }
           }
         `}
         variables={{}}

@@ -306,9 +306,8 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
         $storyID: ID
-        $siteID: String
       ) {
-        story(id: $storyID, siteID: $siteID) {
+        story(id: $storyID) {
           ...AllCommentsTabContainer_story
             @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }

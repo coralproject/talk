@@ -27,7 +27,7 @@ class MessageBoxConfigContainer extends React.Component<Props> {
 
 const enhanced = withFragmentContainer<Props>({
   storySettings: graphql`
-    fragment MessageBoxConfigContainer_storySettings on EntitySettings {
+    fragment MessageBoxConfigContainer_storySettings on Settings {
       messageBox {
         enabled
         content

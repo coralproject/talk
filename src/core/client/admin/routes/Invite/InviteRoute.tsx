@@ -65,7 +65,7 @@ const InviteRoute: React.FunctionComponent<Props> = ({ token, data }) => {
         <InviteCompleteFormContainer
           token={token!}
           onSuccess={onSuccess}
-          settings={data.settings}
+          site={data.site}
         />
       ) : (
         <SuccessContainer token={token!} settings={data.settings} />
@@ -77,9 +77,9 @@ const InviteRoute: React.FunctionComponent<Props> = ({ token, data }) => {
 const enhanced = withRouteConfig<Props>({
   query: graphql`
     query InviteRouteQuery {
-      settings {
-        ...InviteCompleteFormContainer_settings
-        ...SuccessContainer_settings
+      site {
+        ...InviteCompleteFormContainer_site
+        ...SuccessContainer_site
       }
     }
   `,

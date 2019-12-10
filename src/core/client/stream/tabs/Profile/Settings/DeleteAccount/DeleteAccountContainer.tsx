@@ -13,8 +13,7 @@ import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountD
 import { Flex, Icon, Typography } from "coral-ui/components";
 import { Button } from "coral-ui/components/Button";
 
-// import { DeleteAccountContainer_settings } from "coral-stream/__generated__/DeleteAccountContainer_settings.graphql";
-import { DeleteAccountContainer_organization } from "coral-stream/__generated__/DeleteAccountContainer_organization.graphql";
+import { DeleteAccountContainer_site } from "coral-stream/__generated__/DeleteAccountContainer_site.graphql";
 import { DeleteAccountContainer_viewer } from "coral-stream/__generated__/DeleteAccountContainer_viewer.graphql";
 
 import DeleteAccountModal from "./DeleteAccountModal";
@@ -23,13 +22,10 @@ import styles from "./DeleteAccountContainer.css";
 
 interface Props {
   viewer: DeleteAccountContainer_viewer;
-  organization: DeleteAccountContainer_organization;
+  site: DeleteAccountContainer_site;
 }
 
-const DeleteAccountContainer: FunctionComponent<Props> = ({
-  viewer,
-  organization,
-}) => {
+const DeleteAccountContainer: FunctionComponent<Props> = ({ viewer, site }) => {
   const cancelAccountDeletion = useMutation(CancelAccountDeletionMutation);
 
   const [deletePopoverVisible, setDeletePopoverVisible] = useState(false);
@@ -65,7 +61,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
         onClose={hidePopover}
         userID={viewer.id}
         scheduledDeletionDate={viewer.scheduledDeletionDate}
-        organizationEmail={organization.contactEmail}
+        organizationEmail={site.contactEmail}
       />
       <Flex
         justifyContent="space-between"
@@ -142,8 +138,8 @@ const enhanced = withFragmentContainer<Props>({
       scheduledDeletionDate
     }
   `,
-  organization: graphql`
-    fragment DeleteAccountContainer_organization on Organization {
+  site: graphql`
+    fragment DeleteAccountContainer_site on Site {
       contactEmail
     }
   `,

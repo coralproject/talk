@@ -33,7 +33,7 @@ import styles from "./MessageBoxConfig.css";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment MessageBoxConfig_formValues on StorySettings {
+  fragment MessageBoxConfig_formValues on Settings {
     messageBox {
       enabled
       content

@@ -13,7 +13,6 @@ import { AdvancedConfigContainer_settings } from "coral-admin/__generated__/Adva
 import CommentStreamLiveUpdatesContainer from "./CommentStreamLiveUpdatesContainer";
 import CustomCSSConfig from "./CustomCSSConfig";
 import EmbedCodeContainer from "./EmbedCodeContainer";
-import PermittedDomainsConfig from "./PermittedDomainsConfig";
 import StoryCreationConfig from "./StoryCreationConfig";
 
 interface Props {
@@ -35,7 +34,6 @@ const AdvancedConfigContainer: React.FunctionComponent<Props> = ({
         disabled={submitting}
         settings={settings}
       />
-      <PermittedDomainsConfig disabled={submitting} />
       <StoryCreationConfig disabled={submitting} />
     </HorizontalGutter>
   );
@@ -45,15 +43,11 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment AdvancedConfigContainer_settings on Settings {
       ...CustomCSSConfig_formValues @relay(mask: false)
-      ...PermittedDomainsConfig_formValues @relay(mask: false)
       ...CommentStreamLiveUpdates_formValues @relay(mask: false)
       ...StoryCreationConfig_formValues @relay(mask: false)
+      ...CustomCSSConfig_formValues @relay(mask: false)
 
       ...EmbedCodeContainer_settings
-<<<<<<< HEAD
-=======
-      ...CustomCSSConfigContainer_settings
->>>>>>> fix some of the routes
       ...CommentStreamLiveUpdatesContainer_settings
     }
   `,

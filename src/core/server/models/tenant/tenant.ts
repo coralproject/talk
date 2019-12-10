@@ -183,7 +183,6 @@ export async function createTenant(
       },
       locale: input.locale,
     },
-    createdAt: now,
     slack: {
       channels: [],
     },

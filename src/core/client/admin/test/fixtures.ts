@@ -88,7 +88,9 @@ export const settings = createFixture<GQLSettings>({
       threshold: TOXICITY_THRESHOLD_DEFAULT / 100,
     },
   },
-
+  slack: {
+    channels: [],
+  },
   stories: {
     scraping: {
       enabled: true,
@@ -223,9 +225,6 @@ export const orgWithEmptyAuth = createFixture<GQLOrganization>(
         },
       },
     },
-  },
-  slack: {
-    channels: [],
   },
 });
 

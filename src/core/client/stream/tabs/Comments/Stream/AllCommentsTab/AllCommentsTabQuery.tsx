@@ -53,21 +53,20 @@ export const render = (data: ReadyState<QueryTypes["response"]>) => {
 
 const AllCommentsTabQuery: FunctionComponent<Props> = props => {
   const {
-    local: { storyID, storyURL, commentsOrderBy, siteID },
+    local: { storyID, storyURL, commentsOrderBy },
   } = props;
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
         query AllCommentsTabQuery(
           $storyID: ID
-          $siteID: String
           $storyURL: String
           $commentsOrderBy: COMMENT_SORT
         ) {
           viewer {
             ...AllCommentsTabContainer_viewer
           }
-          story(id: $storyID, url: $storyURL, siteID: $siteID) {
+          story(id: $storyID, url: $storyURL) {
             ...AllCommentsTabContainer_story
               @arguments(orderBy: $commentsOrderBy)
           }
@@ -79,7 +78,6 @@ const AllCommentsTabQuery: FunctionComponent<Props> = props => {
       variables={{
         storyID,
         storyURL,
-        siteID,
         commentsOrderBy,
       }}
       render={data => (props.preload ? null : render(data))}

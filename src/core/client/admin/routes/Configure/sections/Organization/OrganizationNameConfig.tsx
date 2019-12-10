@@ -12,10 +12,8 @@ import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment OrganizationNameConfig_formValues on Settings {
-    organization {
-      name
-    }
+  fragment OrganizationNameConfig_formValues on Organization {
+    name
   }
 `;
 

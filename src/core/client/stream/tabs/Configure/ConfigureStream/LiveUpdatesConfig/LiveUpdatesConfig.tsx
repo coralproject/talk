@@ -10,7 +10,7 @@ import WidthLimitedDescription from "../WidthLimitedDescription";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment LiveUpdatesConfig_formValues on StorySettings {
+  fragment LiveUpdatesConfig_formValues on Settings {
     live {
       enabled
     }

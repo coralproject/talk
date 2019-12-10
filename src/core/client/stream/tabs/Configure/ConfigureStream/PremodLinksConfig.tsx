@@ -10,7 +10,7 @@ import WidthLimitedDescription from "./WidthLimitedDescription";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment PremodLinksConfig_formValues on StorySettings {
+  fragment PremodLinksConfig_formValues on Settings {
     premodLinksEnable
   }
 `;

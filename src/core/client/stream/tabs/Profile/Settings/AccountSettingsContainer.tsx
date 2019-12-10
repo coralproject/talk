@@ -6,6 +6,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter, Typography } from "coral-ui/components";
 
 import { AccountSettingsContainer_organization } from "coral-stream/__generated__/AccountSettingsContainer_organization.graphql";
+import { AccountSettingsContainer_site } from "coral-stream/__generated__/AccountSettingsContainer_site.graphql";
 import { AccountSettingsContainer_viewer } from "coral-stream/__generated__/AccountSettingsContainer_viewer.graphql";
 
 import ChangeEmailContainer from "./ChangeEmail";
@@ -20,11 +21,13 @@ import styles from "./AccountSettingsContainer.css";
 interface Props {
   viewer: AccountSettingsContainer_viewer;
   organization: AccountSettingsContainer_organization;
+  site: AccountSettingsContainer_site;
 }
 
 const AccountSettingsContainer: FunctionComponent<Props> = ({
   viewer,
   organization,
+  site,
 }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="accountSettings-manage-account">
@@ -39,7 +42,7 @@ const AccountSettingsContainer: FunctionComponent<Props> = ({
         <DownloadCommentsContainer viewer={viewer} />
       )}
       {organization.settings.accountFeatures.deleteAccount && (
-        <DeleteAccountContainer viewer={viewer} organization={organization} />
+        <DeleteAccountContainer viewer={viewer} site={site} />
       )}
     </HorizontalGutter>
   </HorizontalGutter>
@@ -56,10 +59,14 @@ const enhanced = withFragmentContainer<Props>({
       ...UserBoxContainer_viewer
     }
   `,
+  site: graphql`
+    fragment AccountSettingsContainer_site on Site {
+      ...DeleteAccountContainer_organization
+    }
+  `,
   organization: graphql`
     fragment AccountSettingsContainer_organization on Organization {
       ...ChangePasswordContainer_organization
-      ...DeleteAccountContainer_organization
       ...ChangeEmailContainer_organization
       ...ChangeUsernameContainer_organization
       settings {

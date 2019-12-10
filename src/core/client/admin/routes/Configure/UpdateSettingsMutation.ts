@@ -19,9 +19,6 @@ const UpdateSettingsMutation = createMutation(
         mutation UpdateSettingsMutation($input: UpdateSettingsInput!) {
           updateSettings(input: $input) {
             settings {
-              auth {
-                ...AuthConfigContainer_auth
-              }
               email {
                 ...EmailConfigContainer_email
               }

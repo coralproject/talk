@@ -966,7 +966,6 @@ type SlackChannelTriggers {
   featuredComments is whether this channel will receive featured comments
   """
   featuredComments: Boolean!
-
 }
 
 type SlackChannel {
@@ -2594,9 +2593,9 @@ type Story {
   settings is the set of Settings on a Story that inherit from the global
   settings.
   """
-  ownSettings: PartialEntitySettings!
+  ownSettings: PartialSettings!
 
-  settings: EntitySettings!
+  settings: Settings!
 
   siteID: ID
 }
@@ -2717,7 +2716,7 @@ type Query {
   """
   settings is the Settings for a given Tenant.
   """
-  settings: Settings!
+  settings(siteID: ID, storyID: ID): Settings!
 
   organization: Organization!
 
@@ -3448,7 +3447,6 @@ input SlackTriggersConfigurationInput {
   featuredComments is whether this channel will receive featured comments
   """
   featuredComments: Boolean
-
 }
 
 input SlackChannelConfigurationInput {
@@ -3482,27 +3480,27 @@ input SlackConfigurationInput {
   channels: [SlackChannelConfigurationInput!]
 }
 
-"""
-SettingsInput is the partial type of the Settings type for performing mutations.
-"""
-input SettingsInput {
-  """
-  live provides configuration options related to live updates for stories on
-  this site.
-  """
-  live: LiveConfigurationInput
+# """
+# SettingsInput is the partial type of the Settings type for performing mutations.
+# """
+# input SettingsInput {
+#   """
+#   live provides configuration options related to live updates for stories on
+#   this site.
+#   """
+#   live: LiveConfigurationInput
 
-  """
-  sortLabel is the string placed inside of the sort menu to sort for comment
-  with most reactions.
-  """
-  sortLabel: String
+#   """
+#   sortLabel is the string placed inside of the sort menu to sort for comment
+#   with most reactions.
+#   """
+#   sortLabel: String
 
-  """
-  color is the hex color code that can be used to change the color of the button.
-  """
-  color: String
-}
+#   """
+#   color is the hex color code that can be used to change the color of the button.
+#   """
+#   color: String
+# }
 
 """
 StaffConfigurationInput specifies the configuration for the staff badges
@@ -3665,21 +3663,21 @@ input SettingsInput {
   locale: Locale
 }
 
-"""
-UpdateSettingsInput provides the input for the updateSettings Mutation.
-"""
-input UpdateSettingsInput {
-  """
-  settings is the partial set of settings that will be used as a patch against
-  the existing settings object.
-  """
-  settings: SettingsInput!
+# """
+# # UpdateSettingsInput provides the input for the updateSettings Mutation.
+# # """
+# input UpdateSettingsInput {
+#   """
+#   settings is the partial set of settings that will be used as a patch against
+#   the existing settings object.
+#   """
+#   settings: SettingsInput!
 
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
+#   """
+#   clientMutationId is required for Relay support.
+#   """
+#   clientMutationId: String!
+# }
 
 """
 UpdateSettingsPayload contains the updated Settings after the updateSettings
@@ -4079,49 +4077,49 @@ input LiveConfigurationInput {
   enabled: Boolean
 }
 
-"""
-UpdateStorySettings is the input required to update a Story's Settings.
-"""
-input UpdateStorySettings {
-  """
-  live provides configuration options related to live updates on this Story.
-  """
-  live: LiveConfigurationInput
+# """
+# UpdateStorySettings is the input required to update a Story's Settings.
+# """
+# input UpdateStorySettings {
+#   """
+#   live provides configuration options related to live updates on this Story.
+#   """
+#   live: LiveConfigurationInput
 
-  """
-  moderation determines whether or not this is a PRE or POST moderated story.
-  """
-  moderation: MODERATION_MODE
+#   """
+#   moderation determines whether or not this is a PRE or POST moderated story.
+#   """
+#   moderation: MODERATION_MODE
 
-  """
-  premodLinksEnable will put all comments that contain links into premod.
-  """
-  premodLinksEnable: Boolean
+#   """
+#   premodLinksEnable will put all comments that contain links into premod.
+#   """
+#   premodLinksEnable: Boolean
 
-  """
-  messageBox stores settings related to the Story Message Box.
-  """
-  messageBox: StoryMessageBoxInput
-}
+#   """
+#   messageBox stores settings related to the Story Message Box.
+#   """
+#   messageBox: StoryMessageBoxInput
+# }
 
-input UpdateStorySettingsInput {
-  """
-  id is the identifier of the Story used either when the Story was created via
-  the API or from Coral when it was lazily created.
-  """
-  id: ID!
+# input UpdateStorySettingsInput {
+#   """
+#   id is the identifier of the Story used either when the Story was created via
+#   the API or from Coral when it was lazily created.
+#   """
+#   id: ID!
 
-  """
-  settings contains the fields on the story settings that should be updated. Any
-  fields not specified will not be changed.
-  """
-  settings: UpdateStorySettings!
+#   """
+#   settings contains the fields on the story settings that should be updated. Any
+#   fields not specified will not be changed.
+#   """
+#   settings: UpdateStorySettings!
 
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
+#   """
+#   clientMutationId is required for Relay support.
+#   """
+#   clientMutationId: String!
+# }
 
 type UpdateStorySettingsPayload {
   """
@@ -5418,7 +5416,7 @@ type Mutation {
   updateStory will update the given Story's settings.
   """
   updateStorySettings(
-    input: UpdateStoryEntitySettingsInput!
+    input: UpdateStorySettingsInput!
   ): UpdateStorySettingsPayload! @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -5863,133 +5861,133 @@ type Subscription {
     @auth(roles: [MODERATOR, ADMIN])
 }
 
-"""
-Settings stores the global settings for a given Tenant.
-"""
-type Settings {
-  """
-  domain is the domain that is associated with this Tenant.
-  """
-  domain: String! @auth(roles: [ADMIN])
+# """
+# Settings stores the global settings for a given Tenant.
+# """
+# type Settings {
+#   """
+#   domain is the domain that is associated with this Tenant.
+#   """
+#   domain: String! @auth(roles: [ADMIN])
 
-  """
-  staticURI if configured, is the static URI used to serve static files from.
-  """
-  staticURI: String @auth(roles: [ADMIN])
+#   """
+#   staticURI if configured, is the static URI used to serve static files from.
+#   """
+#   staticURI: String @auth(roles: [ADMIN])
 
-  """
-  domains is the list of domains that stories can come from.
-  """
-  domains: [String!]! @auth(roles: [ADMIN])
+#   """
+#   domains is the list of domains that stories can come from.
+#   """
+#   domains: [String!]! @auth(roles: [ADMIN])
 
-  """
-  locale is the specified locale for this Tenant.
-  """
-  locale: Locale!
+#   """
+#   locale is the specified locale for this Tenant.
+#   """
+#   locale: Locale!
 
-  """
-  live provides configuration options related to live updates for stories on
-  this site.
-  """
-  live: LiveConfiguration!
+#   """
+#   live provides configuration options related to live updates for stories on
+#   this site.
+#   """
+#   live: LiveConfiguration!
 
-  """
-  moderation is the moderation mode for all Stories on the site.
-  """
-  moderation: MODERATION_MODE @auth(roles: [ADMIN])
+#   """
+#   moderation is the moderation mode for all Stories on the site.
+#   """
+#   moderation: MODERATION_MODE @auth(roles: [ADMIN])
 
-  """
-  communityGuidelines will be shown in the comments stream.
-  """
-  communityGuidelines: CommunityGuidelines!
+#   """
+#   communityGuidelines will be shown in the comments stream.
+#   """
+#   communityGuidelines: CommunityGuidelines!
 
-  """
-  premodLinksEnable will put all comments that contain links into premod.
-  """
-  premodLinksEnable: Boolean @auth(roles: [ADMIN])
+#   """
+#   premodLinksEnable will put all comments that contain links into premod.
+#   """
+#   premodLinksEnable: Boolean @auth(roles: [ADMIN])
 
-  """
-  closeCommenting contains settings related to the automatic closing of commenting on
-  Stories.
-  """
-  closeCommenting: CloseCommenting!
+#   """
+#   closeCommenting contains settings related to the automatic closing of commenting on
+#   Stories.
+#   """
+#   closeCommenting: CloseCommenting!
 
-  """
-  customCSSURL is the URL of the custom CSS used to display on the frontend.
-  """
-  customCSSURL: String
+#   """
+#   customCSSURL is the URL of the custom CSS used to display on the frontend.
+#   """
+#   customCSSURL: String
 
-  """
-  disableCommenting will disable commenting site-wide.
-  """
-  disableCommenting: DisableCommenting!
+#   """
+#   disableCommenting will disable commenting site-wide.
+#   """
+#   disableCommenting: DisableCommenting!
 
-  """
-  editCommentWindowLength is the length of time (in seconds) after a comment is
-  posted that it can still be edited by the author.
-  """
-  editCommentWindowLength: Int!
+#   """
+#   editCommentWindowLength is the length of time (in seconds) after a comment is
+#   posted that it can still be edited by the author.
+#   """
+#   editCommentWindowLength: Int!
 
-  """
-  charCount stores the character count moderation settings.
-  """
-  charCount: CharCount!
+#   """
+#   charCount stores the character count moderation settings.
+#   """
+#   charCount: CharCount!
 
-  """
-  email is the set of credentials and settings associated with the organization.
-  """
-  email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
+#   """
+#   email is the set of credentials and settings associated with the organization.
+#   """
+#   email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
 
-  """
-  wordList will return a given list of words.
-  """
-  wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
+#   """
+#   wordList will return a given list of words.
+#   """
+#   wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
 
-  """
-  auth contains all the settings related to authentication and authorization.
-  """
-  auth: Auth!
+#   """
+#   auth contains all the settings related to authentication and authorization.
+#   """
+#   auth: Auth!
 
-  """
-  integrations contains all the external integrations that can be enabled.
-  """
-  integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
+#   """
+#   integrations contains all the external integrations that can be enabled.
+#   """
+#   integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
 
-  """
-  recentCommentHistory is the set of settings related to how automatic
-  pre-moderation is controlled.
-  """
-  recentCommentHistory: RecentCommentHistoryConfiguration!
-    @auth(roles: [ADMIN, MODERATOR])
+#   """
+#   recentCommentHistory is the set of settings related to how automatic
+#   pre-moderation is controlled.
+#   """
+#   recentCommentHistory: RecentCommentHistoryConfiguration!
+#     @auth(roles: [ADMIN, MODERATOR])
 
-  """
-  reaction specifies the configuration for reactions.
-  """
-  reaction: ReactionConfiguration!
+#   """
+#   reaction specifies the configuration for reactions.
+#   """
+#   reaction: ReactionConfiguration!
 
-  """
-  staff specifies the configuration for the staff badges assigned to users with
-  any role above COMMENTER.
-  """
-  staff: StaffConfiguration!
+#   """
+#   staff specifies the configuration for the staff badges assigned to users with
+#   any role above COMMENTER.
+#   """
+#   staff: StaffConfiguration!
 
-  """
-  accountFeatures stores the configuration for commenter account features.
-  """
-  accountFeatures: CommenterAccountFeatures!
+#   """
+#   accountFeatures stores the configuration for commenter account features.
+#   """
+#   accountFeatures: CommenterAccountFeatures!
 
-  """
-  stories stores the configuration around stories.
-  """
-  stories: StoryConfiguration! @auth(roles: [ADMIN])
+#   """
+#   stories stores the configuration around stories.
+#   """
+#   stories: StoryConfiguration! @auth(roles: [ADMIN])
 
-  """
-  createdAt is the time that the Settings was created at.
-  """
-  createdAt: Time! @auth(roles: [ADMIN])
+#   """
+#   createdAt is the time that the Settings was created at.
+#   """
+#   createdAt: Time! @auth(roles: [ADMIN])
 
-  organization: LegacyOrganization!
-}
+#   organization: LegacyOrganization!
+# }
 
 ################################################################################
 ################################################################################
@@ -5998,9 +5996,9 @@ type Settings {
 ################################################################################
 
 """
-EntitySettings stores the overrideable settings for a tenant.
+Settings stores the overrideable settings for a tenant.
 """
-type EntitySettings {
+type Settings {
   customCSSURL: String
   editCommentWindowLength: Int!
   moderation: MODERATION_MODE @auth(roles: [ADMIN])
@@ -6022,6 +6020,7 @@ type EntitySettings {
   wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
   messageBox: StoryMessageBox!
   locale: Locale!
+  slack: SlackConfiguration! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ####################################
@@ -6089,11 +6088,18 @@ type PartialEmailConfiguration {
   smtp: SMTP @auth(roles: [ADMIN])
 }
 
+type PartialSlackConfiguration {
+  """
+  channels is the set of Slack channels configured to receive comments
+  """
+  channels: [SlackChannel!]
+}
+
 """
-PartialEntitySettings stores the overrideable settings for a community or site, defaulting to settings defined
+PartialSettings stores the overrideable settings for a community or site, defaulting to settings defined
 in the previous entity in the hierarchy.
 """
-type PartialEntitySettings {
+type PartialSettings {
   customCSSURL: String
   editCommentWindowLength: Int
   moderation: MODERATION_MODE @auth(roles: [ADMIN])
@@ -6114,6 +6120,7 @@ type PartialEntitySettings {
   stories: PartialStoryConfiguration @auth(roles: [ADMIN])
   wordList: PartialWordList @auth(roles: [ADMIN, MODERATOR])
   messageBox: StoryMessageBox
+  slack: PartialSlackConfiguration
   locale: Locale
 }
 
@@ -6133,8 +6140,8 @@ type Organization {
   createdAt: Time!
   domain: String! @auth(roles: [ADMIN])
   multiSite: Boolean!
-  settings: EntitySettings!
-  ownSettings: EntitySettings!
+  settings: Settings!
+  ownSettings: Settings!
   communities(
     first: Int = 10 @constraint(max: 50)
     after: Cursor
@@ -6151,8 +6158,8 @@ type Community {
   contactEmail: String
   url: String
   createdAt: Time!
-  ownSettings: PartialEntitySettings!
-  settings: EntitySettings!
+  ownSettings: PartialSettings!
+  settings: Settings!
   sites(first: Int = 10 @constraint(max: 50), after: Cursor): SitesConnection!
 }
 
@@ -6167,8 +6174,8 @@ type Site {
   url: String!
   createdAt: Time!
   domains: [String!]! @auth(roles: [ADMIN])
-  settings: EntitySettings!
-  ownSettings: PartialEntitySettings!
+  settings: Settings!
+  ownSettings: PartialSettings!
   community: Community!
 }
 
@@ -6176,20 +6183,20 @@ type Site {
 ## New communities inputs and payloads
 ##########################
 
-input UpdateStoryEntitySettings {
+input UpdateStorySettings {
   live: LiveConfigurationInput
   moderation: MODERATION_MODE
   premodLinksEnable: Boolean
   messageBox: StoryMessageBoxInput
 }
 
-input UpdateStoryEntitySettingsInput {
+input UpdateStorySettingsInput {
   id: ID!
-  settings: UpdateStoryEntitySettings!
+  settings: UpdateStorySettings!
   clientMutationId: String!
 }
 
-input UpdateEntitySettingsInput {
+input UpdateSettingsInput {
   live: LiveConfigurationInput
   domains: [String!]
   moderation: MODERATION_MODE
@@ -6211,6 +6218,7 @@ input UpdateEntitySettingsInput {
   staff: StaffConfigurationInput
   accountFeatures: CommenterAccountFeaturesInput
   locale: Locale
+  slack: SlackConfigurationInput
 }
 
 input CreateOrganizationInput {
@@ -6258,7 +6266,7 @@ type UpdateCommunityPayload {
 input UpdateCommunitySettingsInput {
   clientMutationId: String!
   communityID: ID!
-  settings: UpdateEntitySettingsInput!
+  settings: UpdateSettingsInput!
 }
 
 input CreateSiteInput {
@@ -6281,7 +6289,7 @@ type CreateSitePayload {
 input UpdateSiteSettingsInput {
   siteID: ID!
   clientMutationId: String!
-  settings: UpdateEntitySettingsInput!
+  settings: UpdateSettingsInput!
 }
 
 type UpdateSitePayload {
