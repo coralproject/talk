@@ -81,17 +81,23 @@ export interface Story extends TenantResource {
    * lastCommentedAt is the last time someone commented on this story.
    */
   lastCommentedAt?: Date;
+
+  /**
+   * siteID references the site the story belongs to
+   */
+  siteID: string;
 }
 
 export interface UpsertStoryInput {
   id?: string;
   url: string;
+  siteID: string;
 }
 
 export async function upsertStory(
   mongo: Db,
   tenantID: string,
-  { id = uuid.v4(), url }: UpsertStoryInput,
+  { id = uuid.v4(), url, siteID }: UpsertStoryInput,
   now = new Date()
 ) {
   // Create the story, optionally sourcing the id from the input, additionally
@@ -100,6 +106,7 @@ export async function upsertStory(
     $setOnInsert: {
       id,
       url,
+      siteID,
       tenantID,
       createdAt: now,
       commentCounts: {
@@ -168,12 +175,13 @@ export async function findStory(
 export interface FindOrCreateStoryInput {
   id?: string;
   url?: string;
+  siteID: string;
 }
 
 export async function findOrCreateStory(
   mongo: Db,
   tenantID: string,
-  { id, url }: FindOrCreateStoryInput,
+  { id, url, siteID }: FindOrCreateStoryInput,
   now = new Date()
 ) {
   if (id) {
@@ -185,6 +193,7 @@ export async function findOrCreateStory(
         {
           id,
           url,
+          siteID,
         },
         now
       );
@@ -200,12 +209,14 @@ export async function findOrCreateStory(
     throw new Error("cannot upsert an story without the url");
   }
 
-  return upsertStory(mongo, tenantID, { url }, now);
+  return upsertStory(mongo, tenantID, { url, siteID }, now);
 }
 
 export type CreateStoryInput = Partial<
   Pick<Story, "metadata" | "scrapedAt" | "closedAt">
->;
+> & {
+  siteID: string;
+};
 
 export async function createStory(
   mongo: Db,
@@ -291,7 +302,7 @@ export async function retrieveManyStoriesByURL(
 
 export type UpdateStoryInput = Omit<
   Partial<Story>,
-  "id" | "tenantID" | "closedAt" | "createdAt"
+  "id" | "tenantID" | "closedAt" | "createdAt" | "siteID"
 >;
 
 export async function updateStory(

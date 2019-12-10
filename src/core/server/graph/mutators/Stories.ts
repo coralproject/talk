@@ -35,7 +35,10 @@ export const Stories = (ctx: GraphContext) => ({
         ctx.config,
         input.story.id,
         input.story.url,
-        omitBy(input.story, isNull),
+        {
+          ...omitBy(input.story, isNull),
+          siteID: input.story.siteID,
+        },
         ctx.now
       ),
       {
