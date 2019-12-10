@@ -6026,3 +6026,15 @@ type Subscription {
   commentFeatured(storyID: ID!): CommentFeaturedPayload!
     @auth(roles: [MODERATOR, ADMIN])
 }
+
+type Community {
+  name: String!
+  createdAt: Time! @auth(roles: [ADMIN])
+}
+
+type Site {
+  name: String!
+  url: String!
+  allowedDomains: [String!]!
+  createdAt: Time! @auth(roles: [ADMIN])
+}
