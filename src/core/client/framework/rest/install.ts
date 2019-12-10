@@ -12,6 +12,12 @@ export interface InstallInput {
     allowedDomains: string[];
     locale: LanguageCode;
   };
+  site: {
+    name: string;
+    contactEmail: string;
+    url: string;
+    allowedDomains: string[];
+  };
   user: {
     username: string;
     password: string;

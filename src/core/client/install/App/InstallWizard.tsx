@@ -51,6 +51,12 @@ function shapeFinalData(data: FormData): InstallInput {
       allowedDomains,
       locale,
     },
+    site: {
+      name: organizationName,
+      contactEmail: organizationContactEmail,
+      url: organizationURL,
+      allowedDomains,
+    },
     user: {
       username,
       password,

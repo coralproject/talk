@@ -11,6 +11,8 @@ import {
   InstallationForbiddenError,
   TenantInstalledAlreadyError,
 } from "coral-server/errors";
+import { createCommunity } from "coral-server/models/community";
+import { createSite, CreateSiteInput } from "coral-server/models/site";
 import { LocalProfile } from "coral-server/models/user";
 import {
   createJWTSigningConfig,
@@ -92,6 +94,7 @@ export interface TenantInstallBody {
   tenant: Omit<InstallTenant, "domain" | "locale"> & {
     locale: LanguageCode | null;
   };
+  site: Omit<CreateSiteInput, "tenantID" | "communityID">;
   user: Required<Pick<CreateUser, "username" | "email"> & { password: string }>;
 }
 
@@ -118,6 +121,21 @@ const TenantInstallBodySchema = Joi.object().keys({
         .valid(LOCALES),
     })
     .optionalKeys("locale"),
+  site: Joi.object().keys({
+    name: Joi.string().trim(),
+    url: Joi.string()
+      .trim()
+      .uri(),
+    contactEmail: Joi.string()
+      .trim()
+      .lowercase()
+      .email(),
+    allowedDomains: Joi.array().items(
+      Joi.string()
+        .trim()
+        .uri({ scheme: ["http", "https"] })
+    ),
+  }),
   user: Joi.object().keys({
     username: Joi.string().trim(),
     password: Joi.string(),
@@ -196,6 +214,7 @@ export const installHandler = ({
       // payload is invalid.
       const {
         tenant: { locale: tenantLocale, ...tenantInput },
+        site: siteInput,
         user: userInput,
       }: TenantInstallBody = validate(TenantInstallBodySchema, req.body);
 
@@ -227,6 +246,17 @@ export const installHandler = ({
         },
         req.coral.now
       );
+
+      const community = await createCommunity(mongo, {
+        name: siteInput.name,
+        tenantID: tenant.id,
+      });
+
+      await createSite(mongo, {
+        tenantID: tenant.id,
+        communityID: community.id,
+        ...siteInput,
+      });
 
       // Pull the user details out of the input for the user.
       const { email, username, password } = userInput;
