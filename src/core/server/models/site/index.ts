@@ -9,7 +9,7 @@ export interface Site extends TenantResource {
   readonly id: string;
   name: string;
   url: string;
-  allowedDomains: [string];
+  allowedDomains: string[];
   createdAt: Date;
   communityID: string;
 }

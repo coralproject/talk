@@ -13,12 +13,12 @@ export interface Community extends TenantResource {
 export type CreateCommunityInput = Pick<Community, "name" | "tenantID">;
 
 /**
- * create will create a new Site.
+ * create will create a new Community.
  *
- * @param mongo the MongoDB connection used to create the Site.
- * @param input the customizable parts of the Site available during creation
+ * @param mongo the MongoDB connection used to create the Community.
+ * @param input the customizable parts of the Community available during creation
  */
-export async function createSite(
+export async function createCommunity(
   mongo: Db,
   input: CreateCommunityInput,
   now = new Date()
