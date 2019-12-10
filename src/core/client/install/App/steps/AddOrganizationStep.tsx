@@ -36,8 +36,9 @@ interface Props {
 
 interface FormProps {
   organizationName: string;
-  organizationContactEmail: string;
-  organizationURL: string;
+  siteName: string;
+  siteContactEmail: string;
+  siteURL: string;
 }
 
 class AddOrganizationStep extends React.Component<Props> {
@@ -51,8 +52,9 @@ class AddOrganizationStep extends React.Component<Props> {
         onSubmit={this.onSubmit}
         initialValues={{
           organizationName: this.props.data.organizationName,
-          organizationContactEmail: this.props.data.organizationContactEmail,
-          organizationURL: this.props.data.organizationURL,
+          siteName: this.props.data.organizationName,
+          siteContactEmail: this.props.data.siteContactEmail,
+          siteURL: this.props.data.siteURL,
         }}
       >
         {({ handleSubmit, submitting, submitError }) => (
@@ -105,25 +107,45 @@ class AddOrganizationStep extends React.Component<Props> {
                 )}
               </Field>
 
+              <Field name="siteName" validate={composeValidators(required)}>
+                {({ input, meta }) => (
+                  <FormField>
+                    <Localized id="install-addSite-siteName">
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Site Name
+                      </InputLabel>
+                    </Localized>
+                    <TextField
+                      {...input}
+                      id={input.name}
+                      color={colorFromMeta(meta)}
+                      disabled={submitting}
+                      fullWidth
+                    />
+                    <ValidationMessage meta={meta} fullWidth />
+                  </FormField>
+                )}
+              </Field>
+
               <Field
-                name="organizationContactEmail"
+                name="siteContactEmail"
                 validate={composeValidators(required, validateEmail)}
               >
                 {({ input, meta }) => (
                   <FormField>
-                    <Localized id="install-addOrganization-orgEmail">
+                    <Localized id="install-addSite-siteEmail">
                       <InputLabel container={<label htmlFor={input.name} />}>
-                        Organization Contact Email
+                        Site Contact Email
                       </InputLabel>
                     </Localized>
                     <Localized
-                      id="install-addOrganization-orgEmailTextField"
+                      id="install-addSite-siteEmailTextField"
                       attrs={{ placeholder: true }}
                     >
                       <TextField
                         {...input}
                         id={input.name}
-                        placeholder="Organization Contact Email"
+                        placeholder="Site Contact Email"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         type="email"
@@ -138,18 +160,18 @@ class AddOrganizationStep extends React.Component<Props> {
               </Field>
 
               <Field
-                name="organizationURL"
+                name="siteURL"
                 validate={composeValidators(required, validateURL)}
               >
                 {({ input, meta }) => (
                   <FormField>
-                    <Localized id="install-addOrganization-orgURL">
+                    <Localized id="install-addSite-siteURL">
                       <InputLabel container={<label htmlFor={input.name} />}>
-                        Organization URL
+                        Site URL
                       </InputLabel>
                     </Localized>
                     <Localized
-                      id="install-addOrganization-orgURLDescription"
+                      id="install-addSite-siteURLDescription"
                       strong={<strong />}
                     >
                       <InputDescription>
@@ -159,13 +181,13 @@ class AddOrganizationStep extends React.Component<Props> {
                       </InputDescription>
                     </Localized>
                     <Localized
-                      id="install-addOrganization-orgURLTextField"
+                      id="install-addSite-siteURLTextField"
                       attrs={{ placeholder: true }}
                     >
                       <TextField
                         {...input}
                         id={input.name}
-                        placeholder="Organization URL"
+                        placeholder="Site URL"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
