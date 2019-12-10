@@ -59,11 +59,10 @@ const updateCounts = async (
 
   const user = await updateUserCommentCounts(
     mongo,
-    redis,
     tenant.id,
     result.comment.authorID,
     {
-      statuses: {
+      status: {
         [result.oldStatus]: -1,
         [status]: 1,
       },

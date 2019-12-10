@@ -10,13 +10,11 @@ import {
   UserCommentCounts,
 } from "coral-server/models/user";
 import { users as collection } from "coral-server/services/mongodb/collections";
-import { AugmentedRedis } from "coral-server/services/redis";
 
 type UserCounts = DeepPartial<UserCommentCounts>;
 
 export async function updateUserCommentCounts(
   mongo: Db,
-  redis: AugmentedRedis,
   tenantID: string,
   id: string,
   commentCounts: UserCounts
@@ -25,11 +23,11 @@ export async function updateUserCommentCounts(
   const update: DeepPartial<User> = { commentCounts };
   const $inc = pickBy(dotize(update), identity);
   if (isEmpty($inc)) {
-    // Nothing needs to be incremented, just return the story.
+    // Nothing needs to be incremented, just return the User.
     return retrieveUser(mongo, tenantID, id);
   }
 
-  logger.trace({ update: { $inc } }, "incrementing story counts");
+  logger.trace({ update: { $inc } }, "incrementing user comment counts");
 
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },

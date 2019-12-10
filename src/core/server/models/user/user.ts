@@ -41,7 +41,10 @@ import {
   GQLUserNotificationSettings,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
-import { CommentStatusCounts } from "../comment";
+import {
+  CommentStatusCounts,
+  createEmptyCommentStatusCounts,
+} from "../comment";
 import { getLocalProfile, hasLocalProfile } from "./helpers";
 
 export interface LocalProfile {
@@ -355,7 +358,7 @@ export interface Digest {
 }
 
 export interface UserCommentCounts {
-  statuses: CommentStatusCounts;
+  status: CommentStatusCounts;
 }
 
 /**
@@ -523,13 +526,7 @@ async function findOrCreateUserInput(
     digests: [],
     createdAt: now,
     commentCounts: {
-      statuses: {
-        NONE: 0,
-        APPROVED: 0,
-        REJECTED: 0,
-        PREMOD: 0,
-        SYSTEM_WITHHELD: 0,
-      },
+      status: createEmptyCommentStatusCounts(),
     },
   };
 
