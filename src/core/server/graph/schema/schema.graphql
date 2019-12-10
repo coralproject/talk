@@ -2768,7 +2768,7 @@ type Query {
   stream will load a specific story that can be identified by either an ID or a
   URL and will create the story if that feature is enabled.
   """
-  stream(id: ID, url: String, siteID: String!): Story
+  stream(id: ID, url: String, siteID: String): Story
 
   """
   stories returns filtered stories that can be paginated.

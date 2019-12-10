@@ -65,6 +65,7 @@ type Local {
   storyID: String
   storyURL: String
   commentID: String
+  siteID: String
   commentsOrderBy: COMMENT_SORT!
   profileTab: PROFILE_TAB!
   commentsTab: COMMENTS_TAB!
