@@ -27,26 +27,27 @@ interface Options {
  * that could be sent to users.
  */
 export class NotifierQueue {
-  private registry = new Map<CoralEventType, NotificationCategory[]>();
   private task: Task<NotifierData>;
 
   constructor(queue: Queue.QueueOptions, options: Options) {
+    const registry = new Map<CoralEventType, NotificationCategory[]>();
+
     // Notification categories have been grouped by their event name so that
     // each event emitted need only access the associated notification once.
     for (const category of categories) {
       for (const event of category.events as CoralEventType[]) {
-        let handlers = this.registry.get(event);
+        let handlers = registry.get(event);
         if (!handlers) {
           handlers = [];
         }
         handlers.push(category);
-        this.registry.set(event, handlers);
+        registry.set(event, handlers);
       }
     }
 
     this.task = new Task({
       jobName: JOB_NAME,
-      jobProcessor: createJobProcessor({ registry: this.registry, ...options }),
+      jobProcessor: createJobProcessor({ registry, ...options }),
       queue,
     });
   }

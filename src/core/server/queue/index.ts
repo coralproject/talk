@@ -73,18 +73,6 @@ export async function createQueue(options: QueueOptions): Promise<TaskQueue> {
   });
   const webhook = createWebhookTask(queueOptions, options);
 
-  // FIXME: (wyattjoh) remove before committing
-  // for (let i = 0; i < 5; i++) {
-  //   await webhook.add({
-  //     tenantID: "1afc0816-f8bc-4618-be88-737336d51a3a",
-  //     eventName: "comments.create",
-  //     eventData: {
-  //       id: "123",
-  //       body: "This is a comment!",
-  //     },
-  //   });
-  // }
-
   // Return the tasks + client.
   return {
     mailer,
