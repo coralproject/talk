@@ -69,6 +69,14 @@ const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
         </Localized>
         <OnOffField name="premodLinksEnable" disabled={disabled} />
       </FormField>
+      <FormField container={<FieldSet />}>
+        <Localized id="configure-moderation-preModeration-onMessage">
+          <Label component="legend">
+            Toggle custom message for pre-mod streams
+          </Label>
+        </Localized>
+        <OnOffField name="premodMessageEnable" disabled={disabled} />
+      </FormField>
     </ConfigBox>
   );
 };

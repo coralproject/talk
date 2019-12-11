@@ -276,7 +276,10 @@ configure-moderation-preModeration-moderation =
   Pre-moderate all comments sitewide
 configure-moderation-preModeration-premodLinksEnable =
   Pre-moderate comments containing links sitewide
-
+configure-moderation-preModeration-preModMessage = 
+  This stream is in Pre Moderation Mode. While in this mode,
+  your comment will not be visible to others until it is approved
+  by a moderator.
 configure-moderation-apiKey = API key
 
 configure-moderation-akismet-title = Spam detection filter

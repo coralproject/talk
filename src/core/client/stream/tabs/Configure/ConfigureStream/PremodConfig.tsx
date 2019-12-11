@@ -31,6 +31,7 @@ const PremodConfig: FunctionComponent<Props> = ({ disabled }) => (
       <ToggleConfig
         {...input}
         id={input.name}
+        message={input.message}
         disabled={disabled}
         title={
           <Localized id="configure-premod-title">
@@ -42,6 +43,7 @@ const PremodConfig: FunctionComponent<Props> = ({ disabled }) => (
           <WidthLimitedDescription>
             Moderators must approve any comment before it is published to this
             stream.
+            {input.message}
           </WidthLimitedDescription>
         </Localized>
       </ToggleConfig>
