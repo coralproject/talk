@@ -2053,6 +2053,40 @@ type UsersConnection {
   pageInfo: PageInfo!
 }
 
+"""
+SiteEdge represents a unique Site in a SitesConnection.
+"""
+type SiteEdge {
+  """
+  node is the Site for this edge.
+  """
+  node: Site!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+"""
+UsersConnection represents a subset of a stories list.
+"""
+type SitesConnection {
+  """
+  edges are a subset of SiteEdge's.
+  """
+  edges: [SiteEdge!]!
+
+  """
+  nodes is a list of Site's.
+  """
+  nodes: [Site!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
 ################################################################################
 ## Comment
 ################################################################################
@@ -2799,6 +2833,9 @@ type Query {
     query: String
     status: USER_STATUS
   ): UsersConnection! @auth(roles: [ADMIN, MODERATOR])
+
+  sites(first: Int = 10 @constraint(max: 50), after: Cursor): SitesConnection!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   viewer is the current logged in User. If no user is currently logged in, it will
@@ -6042,11 +6079,19 @@ type Subscription {
 }
 
 type Community {
+  """
+  id is the identifier of the Story.
+  """
+  id: ID!
   name: String!
   createdAt: Time! @auth(roles: [ADMIN])
 }
 
 type Site {
+  """
+  id is the identifier of the Story.
+  """
+  id: ID!
   name: String!
   url: String!
   allowedDomains: [String!]!
