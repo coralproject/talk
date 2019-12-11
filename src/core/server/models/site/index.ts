@@ -16,6 +16,7 @@ export interface Site extends TenantResource {
   name: string;
   url: string;
   allowedDomains: string[];
+  contactEmail: string;
   createdAt: Date;
   communityID: string;
 }
