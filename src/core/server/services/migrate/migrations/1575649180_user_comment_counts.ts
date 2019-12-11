@@ -13,7 +13,7 @@ const BATCH_SIZE = 500;
 
 export default class extends Migration {
   public async up(mongo: Db, tenantID: string) {
-    const cursor = await collections
+    const cursor = collections
       .comments<{
         _id: string;
         statuses: { status: GQLCOMMENT_STATUS; sum: number }[];
@@ -21,10 +21,7 @@ export default class extends Migration {
       .aggregate([
         // Find all comments written by this Tenant.
         {
-          $match: {
-            tenantID,
-            commentCounts: { $exists: false },
-          },
+          $match: { tenantID },
         },
         // Group each comment into it's authorID and status.
         {
@@ -67,7 +64,7 @@ export default class extends Migration {
       // Reconstruct the comment status counts.
       const statuses = createEmptyCommentStatusCounts();
       for (const { status, sum } of doc.statuses) {
-        statuses[status as keyof CommentStatusCounts] += sum;
+        statuses[status] += sum;
       }
 
       // Push the update.
