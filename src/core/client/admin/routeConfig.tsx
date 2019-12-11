@@ -29,6 +29,8 @@ import {
   UnmoderatedQueueRoute,
 } from "./routes/Moderate/Queue";
 import SingleModerateRoute from "./routes/Moderate/SingleModerate";
+import { Sites } from "./routes/Sites";
+import AddSiteRoute from "./routes/Sites/AddSiteRoute";
 import StoriesRoute from "./routes/Stories";
 
 export default makeRouteConfig(
@@ -64,6 +66,10 @@ export default makeRouteConfig(
             ability: Ability.CHANGE_CONFIGURATION,
           }).routeConfig}
         >
+          <Route path="sites" Component={Sites}>
+            <Redirect from="/" to="/admin/sites/new" />
+            <Route path="new" {...AddSiteRoute.routeConfig} />
+          </Route>
           <Route path="configure" Component={ConfigureRoute}>
             <Redirect from="/" to="/admin/configure/general" />
             <Route path="general" {...GeneralConfigRoute.routeConfig} />
