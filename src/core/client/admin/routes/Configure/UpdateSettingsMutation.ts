@@ -27,7 +27,7 @@ const UpdateSettingsMutation = createMutation(
               }
               ...ModerationConfigContainer_settings
               ...GeneralConfigContainer_settings
-              ...OrganizationConfigContainer_settings
+              # ...OrganizationConfigContainer_settings
               ...WordListConfigContainer_settings
               ...AdvancedConfigContainer_settings
               ...SlackConfigContainer_settings
