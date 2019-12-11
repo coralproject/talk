@@ -32,3 +32,26 @@ export async function createCommunity(
   await collection(mongo).insertOne(community);
   return community;
 }
+
+export async function retrieveTenantCommunities(mongo: Db, tenantID: string) {
+  return collection(mongo)
+    .find({ tenantID })
+    .toArray();
+}
+
+export async function retrieveManyCommunities(
+  mongo: Db,
+  tenantID: string,
+  ids: string[]
+) {
+  const cursor = collection(mongo).find({
+    id: { $in: ids },
+    tenantID,
+  });
+
+  const communities = await cursor.toArray();
+
+  return ids.map(
+    id => communities.find(community => community.id === id) || null
+  );
+}

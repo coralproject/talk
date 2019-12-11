@@ -5881,6 +5881,8 @@ type Mutation {
   deleteAnnouncement(
     input: DeleteAnnouncementInput!
   ): DeleteAnnouncementPayload! @auth(roles: [ADMIN])
+
+  createSite(input: CreateSiteInput!): CreateSitePayload! @auth(roles: [ADMIN])
 }
 
 ##################
@@ -6081,7 +6083,25 @@ type Site {
   """
   id: ID!
   name: String!
+  contactEmail: String!
   url: String!
   allowedDomains: [String!]!
   createdAt: Time! @auth(roles: [ADMIN])
+}
+
+input CreateSite {
+  name: String!
+  url: String!
+  contactEmail: String!
+  allowedDomains: [String!]!
+}
+
+input CreateSiteInput {
+  clientMutationId: String!
+  site: CreateSite!
+}
+
+type CreateSitePayload {
+  clientMutationId: String!
+  site: Site!
 }
