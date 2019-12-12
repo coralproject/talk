@@ -54,6 +54,7 @@ interface Props {
   tab: COMMENTS_TAB;
   onChangeTab: (tab: COMMENTS_TAB) => void;
   commentsOrderBy?: COMMENT_SORT;
+  siteID: string;
 }
 
 interface State {
@@ -130,6 +131,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
           storyID: this.props.story.id,
           nudge: this.state.nudge,
           commentsOrderBy: this.props.commentsOrderBy,
+          siteID: this.props.siteID,
           ...input,
         })
       );

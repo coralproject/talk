@@ -2960,6 +2960,11 @@ input CreateCommentInput {
   storyID: ID!
 
   """
+  siteID is the ID of the Site where we are creating a comment on.
+  """
+  siteID: ID!
+
+  """
   body is the Comment body, the content of the Comment.
   """
   body: String!
@@ -3000,6 +3005,11 @@ input CreateCommentReplyInput {
   nudge the user to correct the comment.
   """
   nudge: Boolean = false
+
+  """
+  siteID is the ID of the Site where we are creating a comment on.
+  """
+  siteID: ID!
 
   """
   storyID is the ID of the Story where we are creating a comment on.
