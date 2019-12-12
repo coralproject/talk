@@ -1,3 +1,4 @@
+import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
@@ -11,7 +12,7 @@ interface Props {
 const SiteRowContainer: FunctionComponent<Props> = ({ site }) => {
   return (
     <div>
-      <h2>{site.name}</h2>
+      <Link to={`/admin/sites/${site.id}`}>{site.name}</Link>
     </div>
   );
 };

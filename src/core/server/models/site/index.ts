@@ -97,10 +97,30 @@ export async function retrieveSiteConnection(
   // Create the query.
   const query = new Query(collection(mongo)).where({ tenantID });
 
-  // // If a filter is being applied, filter it as well.
-  // if (input.filter) {
-  //   query.where(input.filter);
-  // }
-
   return retrieveConnection(input, query);
+}
+
+export type UpdateSiteInput = Partial<Omit<CreateSiteInput, "tenantID">>;
+
+export async function updateSite(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  input: UpdateSiteInput,
+  now = new Date()
+) {
+  const update = {
+    $set: {
+      ...input,
+      updatedAt: now,
+    },
+  };
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    update,
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+  return result.value || null;
 }

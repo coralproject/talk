@@ -2,7 +2,12 @@ import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
 import { retrieveTenantCommunities } from "coral-server/models/community";
-import { createSite, CreateSiteInput } from "coral-server/models/site";
+import {
+  createSite,
+  CreateSiteInput,
+  updateSite,
+  UpdateSiteInput,
+} from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 
 type CreateSite = Omit<CreateSiteInput, "communityID" | "tenantID"> & {
@@ -32,4 +37,14 @@ export async function create(
     },
     now
   );
+}
+
+export async function update(
+  mongo: Db,
+  tenant: Tenant,
+  id: string,
+  input: UpdateSiteInput,
+  now = new Date()
+) {
+  return updateSite(mongo, tenant.id, id, input, now);
 }

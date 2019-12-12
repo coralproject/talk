@@ -26,7 +26,7 @@ const SitesConfig: FunctionComponent<Props> = ({ sites }) => {
         </Localized>
       }
     >
-      <Link to="/admin/configure/sites">Add a site</Link>
+      <Link to="/admin/sites">Add a site</Link>
       {sites.map(site => (
         <SiteRowContainer site={site} key={site.id} />
       ))}
