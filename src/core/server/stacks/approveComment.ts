@@ -8,7 +8,7 @@ import { AugmentedRedis } from "coral-server/services/redis";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 
-import updateCounts from "./helpers/updateCounts";
+import updateAllCounts from "./counts/updateAllCounts";
 
 const approveComment = async (
   mongo: Db,
@@ -42,14 +42,17 @@ const approveComment = async (
     now,
     log
   );
-  await updateCounts(
+  await updateAllCounts(
     mongo,
     redis,
     publisher,
-    tenant,
-    result,
-    GQLCOMMENT_STATUS.APPROVED,
-    moderatorID,
+    {
+      tenant,
+      moderatorID,
+      oldStatus: result.oldStatus,
+      newStatus: GQLCOMMENT_STATUS.APPROVED,
+      comment: result.comment,
+    },
     log
   );
 

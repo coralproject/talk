@@ -16,7 +16,7 @@ import {
   GQLTAG,
   GQLUnfeatureCommentInput,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import { addTag, edit, removeTag } from "coral-server/services/comments";
+import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
   createFlag,
@@ -60,7 +60,7 @@ export const Comments = (ctx: TenantContext) => ({
     ),
   edit: ({ commentID, body }: GQLEditCommentInput) =>
     mapFieldsetToErrorCodes(
-      edit(
+      stacks.editComment(
         ctx.mongo,
         ctx.redis,
         ctx.config,

@@ -13,7 +13,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
-import updateCounts from "./helpers/updateCounts";
+import updateAllCounts from "./counts/updateAllCounts";
 
 const rejectComment = async (
   mongo: Db,
@@ -47,14 +47,17 @@ const rejectComment = async (
     now,
     log
   );
-  await updateCounts(
+  await updateAllCounts(
     mongo,
     redis,
     publisher,
-    tenant,
-    result,
-    GQLCOMMENT_STATUS.REJECTED,
-    moderatorID,
+    {
+      tenant,
+      moderatorID,
+      oldStatus: result.oldStatus,
+      newStatus: GQLCOMMENT_STATUS.REJECTED,
+      comment: result.comment,
+    },
     log
   );
 

@@ -3,7 +3,7 @@ import { Db } from "mongodb";
 import { StoryNotFoundError, UserNotFoundError } from "coral-server/errors";
 import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
 import { Logger } from "coral-server/logger";
-import { UpdateCommentStatus } from "coral-server/models/comment";
+import { Comment } from "coral-server/models/comment";
 import { updateStoryCounts } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { calculateCountsDiff } from "coral-server/services/comments/moderation";
@@ -11,29 +11,39 @@ import { AugmentedRedis } from "coral-server/services/redis";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 
-import { updateUserCommentCounts } from "../counts/updateUserCommentCounts";
-import publishChanges from "./publishChanges";
+import publishChanges from "../helpers/publishChanges";
+import { updateUserCommentCounts } from "./updateUserCommentCounts";
 
-const updateCounts = async (
+interface CommentStatusChange {
+  tenant: Tenant;
+  moderatorID: string | null;
+  oldStatus: GQLCOMMENT_STATUS;
+  newStatus: GQLCOMMENT_STATUS;
+  comment: Readonly<Comment>;
+}
+
+const updateAllCounts = async (
   mongo: Db,
   redis: AugmentedRedis,
   publisher: Publisher,
-  tenant: Tenant,
-  result: UpdateCommentStatus,
-  status: GQLCOMMENT_STATUS,
-  moderatorID: string | null,
+  change: CommentStatusChange,
   log: Logger
 ) => {
+  // We do not update counts if the status is the same
+  if (change.newStatus === change.oldStatus) {
+    return;
+  }
+
   // Compute the queue difference as a result of the old status and the new
   // status.
   const moderationQueue = calculateCountsDiff(
     {
-      status: result.oldStatus,
-      actionCounts: result.comment.actionCounts,
+      status: change.oldStatus,
+      actionCounts: change.comment.actionCounts,
     },
     {
-      status,
-      actionCounts: result.comment.actionCounts,
+      status: change.newStatus,
+      actionCounts: change.comment.actionCounts,
     }
   );
 
@@ -41,46 +51,47 @@ const updateCounts = async (
   const story = await updateStoryCounts(
     mongo,
     redis,
-    tenant.id,
-    result.comment.storyID,
+    change.tenant.id,
+    change.comment.storyID,
     {
       // Update the comment counts.
       status: {
-        [result.oldStatus]: -1,
-        [status]: 1,
+        [change.oldStatus]: -1,
+        [change.newStatus]: 1,
       },
 
       moderationQueue,
     }
   );
   if (!story) {
-    throw new StoryNotFoundError(result.comment.storyID);
+    throw new StoryNotFoundError(change.comment.storyID);
   }
 
+  // Update the user comment counts.
   const user = await updateUserCommentCounts(
     mongo,
-    tenant.id,
-    result.comment.authorID,
+    change.tenant.id,
+    change.comment.authorID,
     {
       status: {
-        [result.oldStatus]: -1,
-        [status]: 1,
+        [change.oldStatus]: -1,
+        [change.newStatus]: 1,
       },
     }
   );
   if (!user) {
-    throw new UserNotFoundError(result.comment.authorID);
+    throw new UserNotFoundError(change.comment.authorID);
   }
 
   await publishChanges(
     publisher,
     moderationQueue,
-    result.comment,
-    result.oldStatus,
-    status,
-    moderatorID,
+    change.comment,
+    change.oldStatus,
+    change.newStatus,
+    change.moderatorID,
     log
   );
 };
 
-export default updateCounts;
+export default updateAllCounts;
