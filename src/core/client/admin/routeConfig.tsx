@@ -31,6 +31,7 @@ import {
 import SingleModerateRoute from "./routes/Moderate/SingleModerate";
 import { Sites } from "./routes/Sites";
 import AddSiteRoute from "./routes/Sites/AddSiteRoute";
+import SiteRoute from "./routes/Sites/SiteRoute";
 import StoriesRoute from "./routes/Stories";
 
 export default makeRouteConfig(
@@ -69,6 +70,7 @@ export default makeRouteConfig(
           <Route path="sites" Component={Sites}>
             <Redirect from="/" to="/admin/sites/new" />
             <Route path="new" {...AddSiteRoute.routeConfig} />
+            <Route path=":siteID" {...SiteRoute.routeConfig} />
           </Route>
           <Route path="configure" Component={ConfigureRoute}>
             <Redirect from="/" to="/admin/configure/general" />
