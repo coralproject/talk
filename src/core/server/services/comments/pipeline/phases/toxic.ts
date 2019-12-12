@@ -185,7 +185,7 @@ function convertLanguage(locale: LanguageCode): PerspectiveLanguage {
  *
  * @param text comment text to check for toxicity
  * @param model the specific model to use when storing the toxicity
- * @param settings integration settings used to communicate with the perspective api
+ * @param language language to run perspective api
  * @param timeout timeout for communicating with the perspective api
  */
 async function getScore(

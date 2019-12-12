@@ -1434,7 +1434,7 @@ export async function premodUser(
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their ban lifted
- * @param modifiedBy the ID of the user lifting the premod
+ * @param createdBy the ID of the user lifting the premod
  * @param now the current date
  */
 export async function removeUserPremod(
@@ -1635,7 +1635,7 @@ export async function removeUserBan(
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being suspended
  * @param createdBy the ID of the user banning the above mentioned user
- * @param from the range of time that the user is being banned for
+ * @param finish the date the suspension ends
  * @param message the message sent to suspended user in email
  * @param now the current date
  */
@@ -2335,6 +2335,7 @@ export async function pullUserNotificationDigests(
  * @param mongo the database to pull scheduled users to delete from
  * @param tenantID the tenant ID to pull users that have been scheduled for
  * deletion on
+ * @param rescheduledDuration duration in which to reschedule
  * @param now the current time
  */
 export async function retrieveUserScheduledForDeletion(
