@@ -16,12 +16,7 @@ import {
   GQLTAG,
   GQLUnfeatureCommentInput,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import {
-  addTag,
-  create,
-  edit,
-  removeTag,
-} from "coral-server/services/comments";
+import { addTag, edit, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
   createFlag,
@@ -32,6 +27,7 @@ import {
 import stacks from "coral-server/stacks";
 
 import { publishCommentFeatured } from "coral-server/services/events";
+
 import { validateMaximumLength, WithoutMutationID } from "./util";
 
 export const Comments = (ctx: TenantContext) => ({
@@ -41,7 +37,7 @@ export const Comments = (ctx: TenantContext) => ({
     ...comment
   }: GQLCreateCommentInput | GQLCreateCommentReplyInput) =>
     mapFieldsetToErrorCodes(
-      create(
+      stacks.createComment(
         ctx.mongo,
         ctx.redis,
         ctx.config,
