@@ -85,9 +85,9 @@ export default class MailerContent {
    * generateHTML will generate the HTML for a template and optionally cache
    * the compiled template based on the configured environment.
    *
-   * @param options configuration for generating HTML based on the email
-   *                template.
-   */
+   * @param tenant the tenant
+   * @param template the HTML email template
+   **/
   public async generateHTML(
     tenant: Tenant,
     template: EmailTemplate

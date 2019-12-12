@@ -412,6 +412,8 @@ function cursorGetterFactory(
  * replies.
  *
  * @param mongo database connection
+ * @param tenantID the tenant id
+ * @param storyID the id of the story the comment belongs to
  * @param parentID the parent id for the comment to retrieve
  * @param input connection configuration
  */
@@ -437,7 +439,7 @@ export const retrieveCommentRepliesConnection = (
  *
  * @param mongo the database connection to use when retrieving comments
  * @param tenantID the tenant id for where the comment exists
- * @param commentID the id of the comment to retrieve parents of
+ * @param comment the comment to retrieve parents of
  * @param pagination pagination options to paginate the results
  */
 export async function retrieveCommentParentsConnection(
@@ -507,6 +509,7 @@ export async function retrieveCommentParentsConnection(
  * comments.
  *
  * @param mongo database connection
+ * @param tenantID the Tenant id
  * @param storyID the Story id for the comment to retrieve
  * @param input connection configuration
  */
@@ -763,6 +766,7 @@ export async function updateCommentStatus(
  * @param mongo the database handle
  * @param tenantID the id of the Tenant
  * @param id the id of the Comment being updated
+ * @param revisionID the id of the Comment revision being updated
  * @param actionCounts the action counts to merge into the Comment
  */
 export async function updateCommentActionCounts(

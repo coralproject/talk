@@ -21,10 +21,13 @@ export interface PublisherOptions {
  * over the pubsub broker to facilitate live updates and notifications.
  *
  * TODO: Update
- * @param pubsub the pubsub broker to be used to facilitate the publish action
- * @param notifier
- * @param tenantID the ID of the Tenant where the event will be published with
- * @param clientID the ID of the client to de-duplicate mutation responses
+ *
+ * @param options options object
+ * @param options.pubsub the pubsub broker to be used to facilitate the publish action
+ * @param options.slackPublisher the slack publisher instance
+ * @param options.notifierQueue the queue
+ * @param options.tenantID the ID of the Tenant where the event will be published with
+ * @param options.clientID the ID of the client to de-duplicate mutation responses
  */
 export const createPublisher = ({
   pubsub,

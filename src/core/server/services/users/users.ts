@@ -204,6 +204,7 @@ export async function setUsername(
  * one associated with them.
  *
  * @param mongo mongo database to interact with
+ * @param mailer the mailer
  * @param tenant Tenant where the User will be interacted with
  * @param user User that should get their username changed
  * @param email the new email for the User
@@ -273,9 +274,11 @@ export async function setPassword(
  * will fail.
  *
  * @param mongo mongo database to interact with
+ * @param mailer the mailer
  * @param tenant Tenant where the User will be interacted with
  * @param user User that should get their password changed
- * @param password the new password for the User
+ * @param oldPassword the old password for the User
+ * @param newPassword the new password for the User
  */
 export async function updatePassword(
   mongo: Db,
@@ -481,7 +484,6 @@ export async function createToken(
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
- * @param config signing configuration to create the signed token
  * @param user User that should get updated
  * @param id of the Token to be deactivated
  */
@@ -600,6 +602,7 @@ export async function updateUsernameByID(
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
+ * @param user the user making the request
  * @param userID the User's ID that we are updating
  * @param role the role that we are setting on the User
  */
@@ -669,8 +672,9 @@ function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
  * @param tenant Tenant where the User will be interacted with
  * @param mailer The mailer queue
  * @param config Convict config
+ * @param signingConfig jwt signing config
  * @param user the User that we are updating
- * @param email the email address that we are setting on the User
+ * @param emailAddress the email address that we are setting on the User
  * @param password the users password for confirmation
  */
 export async function updateEmail(
@@ -800,8 +804,9 @@ export async function destroyModeratorNote(
  * ban will ban a specific user from interacting with Coral.
  *
  * @param mongo mongo database to interact with
+ * @param mailer the mailer
  * @param tenant Tenant where the User will be banned on
- * @param user the User that is banning the User
+ * @param banner the User that is banning the User
  * @param userID the ID of the User being banned
  * @param message message to banned user
  * @param now the current time that the ban took effect
@@ -919,6 +924,7 @@ export async function removePremod(
  * suspend will suspend a give user from interacting with Coral.
  *
  * @param mongo mongo database to interact with
+ * @param mailer the mailer
  * @param tenant Tenant where the User will be suspended on
  * @param user the User that is suspending the User
  * @param userID the ID of the user being suspended
