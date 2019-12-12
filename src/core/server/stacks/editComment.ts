@@ -3,11 +3,7 @@ import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
-import {
-  CommentNotFoundError,
-  StoryNotFoundError,
-  UserNotFoundError,
-} from "coral-server/errors";
+import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
 import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
 import logger from "coral-server/logger";
 import {
@@ -22,28 +18,19 @@ import {
   retrieveComment,
   validateEditable,
 } from "coral-server/models/comment";
-import {
-  retrieveStory,
-  StoryCounts,
-  updateStoryCounts,
-} from "coral-server/models/story";
+import { retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import {
-  publishCommentStatusChanges,
-  publishModerationQueueChanges,
-} from "coral-server/services/events";
-import { AugmentedRedis } from "coral-server/services/redis";
-import { Request } from "coral-server/types/express";
-
 import {
   addCommentActions,
   CreateAction,
 } from "coral-server/services/comments/actions";
-import { calculateCountsDiff } from "coral-server/services/comments/moderation/counts";
 import { processForModeration } from "coral-server/services/comments/pipeline";
+import { AugmentedRedis } from "coral-server/services/redis";
+import { Request } from "coral-server/types/express";
 
-import { updateUserCommentCounts } from "./counts/updateUserCommentCounts";
+import updateAllCounts from "./counts/updateAllCounts";
+import publishChanges from "./helpers/publishChanges";
 
 export type CreateComment = Omit<
   CreateCommentInput,
@@ -180,31 +167,7 @@ export default async function edit(
     );
   }
 
-  // Compute the changes in queue counts. This looks at the action counts that
-  // are encoded, as well as the comment status's. We however may have had the
-  // comment status when we grabbed the updated comment after changing the
-  // action counts, so we extract the action counts out of the edited comment
-  // and use the status from the moderation decision.
-  const moderationQueue = calculateCountsDiff(oldComment, {
-    status,
-    actionCounts: editedComment.actionCounts,
-  });
-
   if (oldComment.status !== editedComment.status) {
-    // Compile the changes we want to apply to the story counts.
-    const storyCounts: Required<Omit<StoryCounts, "action">> = {
-      // Status is updated below if it has been changed.
-      status: {},
-      moderationQueue,
-    };
-
-    // Increment the status count for the particular status on the Story, and
-    // decrement the status on the comment's previous status. The old comment
-    // status was only there before the atomic mutation. The new status is based
-    // on the moderation pipeline.
-    storyCounts.status[oldComment.status] = -1;
-    storyCounts.status[status] = 1;
-
     // The comment status changed as a result of a pipeline operation, create a
     // moderation action as a result.
     await createCommentModerationAction(
@@ -218,38 +181,24 @@ export default async function edit(
       },
       now
     );
-
-    log.trace({ storyCounts }, "updating story status counts");
-
-    // Update the story counts as a result.
-    await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
-
-    // Increment user comment status counts
-    const user = await updateUserCommentCounts(
-      mongo,
-      tenant.id,
-      editedComment.authorID,
-      {
-        status: {
-          [oldComment.status]: -1,
-          [editedComment.status]: 1,
-        },
-      }
-    );
-    if (!user) {
-      throw new UserNotFoundError(editedComment.authorID);
-    }
   }
 
-  // Publish changes.
-  publishModerationQueueChanges(publish, moderationQueue, editedComment);
-  publishCommentStatusChanges(
+  const countResult = await updateAllCounts(mongo, redis, {
+    tenant,
+    moderatorID: null,
+    oldStatus: oldComment.status,
+    newStatus: editedComment.status,
+    comment: editedComment,
+  });
+
+  await publishChanges(
     publish,
-    oldComment.status,
-    editedComment.status,
-    editedComment.id,
-    // This is a comment that was edited, so it should not present a moderator.
-    null
+    countResult.moderationQueue,
+    countResult.comment,
+    countResult.oldStatus,
+    countResult.newStatus,
+    countResult.moderatorID,
+    log
   );
 
   return editedComment;

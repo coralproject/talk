@@ -1,8 +1,6 @@
 import { Db } from "mongodb";
 
 import { StoryNotFoundError, UserNotFoundError } from "coral-server/errors";
-import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
-import { Logger } from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
 import { updateStoryCounts } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
@@ -11,7 +9,6 @@ import { AugmentedRedis } from "coral-server/services/redis";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 
-import publishChanges from "../helpers/publishChanges";
 import { updateUserCommentCounts } from "./updateUserCommentCounts";
 
 interface CommentStatusChange {
@@ -25,15 +22,8 @@ interface CommentStatusChange {
 const updateAllCounts = async (
   mongo: Db,
   redis: AugmentedRedis,
-  publisher: Publisher,
-  change: CommentStatusChange,
-  log: Logger
+  change: CommentStatusChange
 ) => {
-  // We do not update counts if the status is the same
-  if (change.newStatus === change.oldStatus) {
-    return;
-  }
-
   // Compute the queue difference as a result of the old status and the new
   // status.
   const moderationQueue = calculateCountsDiff(
@@ -47,51 +37,53 @@ const updateAllCounts = async (
     }
   );
 
-  // Update the story comment counts.
-  const story = await updateStoryCounts(
-    mongo,
-    redis,
-    change.tenant.id,
-    change.comment.storyID,
-    {
-      // Update the comment counts.
-      status: {
-        [change.oldStatus]: -1,
-        [change.newStatus]: 1,
-      },
+  // Only update the counts if the status has changed
+  if (change.newStatus !== change.oldStatus) {
+    // Update the story comment counts.
+    const story = await updateStoryCounts(
+      mongo,
+      redis,
+      change.tenant.id,
+      change.comment.storyID,
+      {
+        // Update the comment counts.
+        status: {
+          [change.oldStatus]: -1,
+          [change.newStatus]: 1,
+        },
 
-      moderationQueue,
+        moderationQueue,
+      }
+    );
+    if (!story) {
+      throw new StoryNotFoundError(change.comment.storyID);
     }
-  );
-  if (!story) {
-    throw new StoryNotFoundError(change.comment.storyID);
+
+    // Update the user comment counts.
+    const user = await updateUserCommentCounts(
+      mongo,
+      change.tenant.id,
+      change.comment.authorID,
+      {
+        status: {
+          [change.oldStatus]: -1,
+          [change.newStatus]: 1,
+        },
+      }
+    );
+    if (!user) {
+      throw new UserNotFoundError(change.comment.authorID);
+    }
   }
 
-  // Update the user comment counts.
-  const user = await updateUserCommentCounts(
-    mongo,
-    change.tenant.id,
-    change.comment.authorID,
-    {
-      status: {
-        [change.oldStatus]: -1,
-        [change.newStatus]: 1,
-      },
-    }
-  );
-  if (!user) {
-    throw new UserNotFoundError(change.comment.authorID);
-  }
-
-  await publishChanges(
-    publisher,
+  return {
+    tenant: change.tenant,
+    moderatorID: change.moderatorID,
     moderationQueue,
-    change.comment,
-    change.oldStatus,
-    change.newStatus,
-    change.moderatorID,
-    log
-  );
+    comment: change.comment,
+    oldStatus: change.oldStatus,
+    newStatus: change.newStatus,
+  };
 };
 
 export default updateAllCounts;

@@ -9,6 +9,7 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import updateAllCounts from "./counts/updateAllCounts";
+import publishChanges from "./helpers/publishChanges";
 
 const approveComment = async (
   mongo: Db,
@@ -42,17 +43,22 @@ const approveComment = async (
     now,
     log
   );
-  await updateAllCounts(
-    mongo,
-    redis,
+
+  const countResult = await updateAllCounts(mongo, redis, {
+    tenant,
+    moderatorID,
+    oldStatus: result.oldStatus,
+    newStatus: GQLCOMMENT_STATUS.APPROVED,
+    comment: result.comment,
+  });
+
+  await publishChanges(
     publisher,
-    {
-      tenant,
-      moderatorID,
-      oldStatus: result.oldStatus,
-      newStatus: GQLCOMMENT_STATUS.APPROVED,
-      comment: result.comment,
-    },
+    countResult.moderationQueue,
+    countResult.comment,
+    countResult.oldStatus,
+    countResult.newStatus,
+    countResult.moderatorID,
     log
   );
 
