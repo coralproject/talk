@@ -4,6 +4,8 @@ import { graphql } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 
 import { SiteRouteQueryResponse } from "coral-admin/__generated__/SiteRouteQuery.graphql";
+
+import EmbedCode from "../Configure/sections/Advanced/EmbedCode";
 import SiteForm from "./SiteForm";
 
 interface Props {
@@ -18,6 +20,7 @@ const AddSiteRoute: FunctionComponent<Props> = ({ data }) => {
   return (
     <div>
       <SiteForm site={site} />
+      <EmbedCode siteID={site.id} staticURI={data.settings.staticURI} />
     </div>
   );
 };
@@ -26,7 +29,11 @@ const enhanced = withRouteConfig<Props>({
   query: graphql`
     query SiteRouteQuery($siteID: ID!) {
       site(id: $siteID) {
+        id
         ...SiteForm_site
+      }
+      settings {
+        staticURI
       }
     }
   `,

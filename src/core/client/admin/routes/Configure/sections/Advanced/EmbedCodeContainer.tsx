@@ -12,7 +12,7 @@ interface Props {
 }
 
 const EmbedCodeContainer: FunctionComponent<Props> = ({ settings }) => {
-  return <EmbedCode staticURI={settings.staticURI} />;
+  return <EmbedCode siteID="site-id" staticURI={settings.staticURI} />;
 };
 
 const enhanced = withFragmentContainer<Props>({

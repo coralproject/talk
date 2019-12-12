@@ -92,9 +92,9 @@ export const moderationQueuesResolver:
   | QueryToModerationQueuesResolver
   | ApproveCommentPayloadToModerationQueuesResolver
   | RejectCommentPayloadToModerationQueuesResolver = async (
-  source,
-  args,
-  ctx
+  source: any,
+  args: any,
+  ctx: TenantContext
 ): Promise<ModerationQueuesInput | null> => {
   if (args.storyID) {
     const story = await ctx.loaders.Stories.story.load(args.storyID);

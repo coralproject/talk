@@ -19,10 +19,15 @@ import styles from "./EmbedCode.css";
 
 interface Props {
   staticURI: string | null;
+  siteID: string;
   getMessage: GetMessage;
 }
 
-const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
+const EmbedCode: FunctionComponent<Props> = ({
+  staticURI,
+  getMessage,
+  siteID,
+}) => {
   const embed = useMemo(() => {
     // Get the origin of the current page.
     const origin = getLocationOrigin();
@@ -68,6 +73,7 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
                   id: "coral_thread",
                   autoRender: true,
                   rootURL: '${origin}',
+                  siteID: '${siteID}',
                   ${comment}
                   // storyID: '\${storyID}',
                   // storyURL: '\${storyURL}',
