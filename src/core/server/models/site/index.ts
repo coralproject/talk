@@ -59,7 +59,6 @@ export async function retrieveManySites(
     id: { $in: ids },
     tenantID,
   });
-
   const sites = await cursor.toArray();
 
   return ids.map(id => sites.find(site => site.id === id) || null);
