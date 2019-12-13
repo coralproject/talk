@@ -969,7 +969,6 @@ type SlackChannelTriggers {
   featuredComments is whether this channel will receive featured comments
   """
   featuredComments: Boolean!
-
 }
 
 type SlackChannel {
@@ -1948,7 +1947,8 @@ type User {
   deletedAt: Time
 
   """
-  isNew
+  isNew is whether the commenter is a new user as defined
+  by the new commenter moderation rules (if enabled).
   """
   isNew: Boolean!
 }
@@ -3509,7 +3509,6 @@ input SlackTriggersConfigurationInput {
   featuredComments is whether this channel will receive featured comments
   """
   featuredComments: Boolean
-
 }
 
 input SlackChannelConfigurationInput {

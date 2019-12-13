@@ -19,16 +19,6 @@ import {
   UsernameAlreadySetError,
   UserNotFoundError,
 } from "coral-server/errors";
-import {
-  GQLBanStatus,
-  GQLDIGEST_FREQUENCY,
-  GQLPremodStatus,
-  GQLSuspensionStatus,
-  GQLTimeRange,
-  GQLUSER_ROLE,
-  GQLUsernameStatus,
-  GQLUserNotificationSettings,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   Connection,
@@ -40,6 +30,21 @@ import { TenantResource } from "coral-server/models/tenant";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import { users as collection } from "coral-server/services/mongodb/collections";
 
+import {
+  GQLBanStatus,
+  GQLDIGEST_FREQUENCY,
+  GQLPremodStatus,
+  GQLSuspensionStatus,
+  GQLTimeRange,
+  GQLUSER_ROLE,
+  GQLUsernameStatus,
+  GQLUserNotificationSettings,
+} from "coral-server/graph/tenant/schema/__generated__/types";
+
+import {
+  CommentStatusCounts,
+  createEmptyCommentStatusCounts,
+} from "../comment";
 import { getLocalProfile, hasLocalProfile } from "./helpers";
 
 export interface LocalProfile {
@@ -352,6 +357,10 @@ export interface Digest {
   createdAt: Date;
 }
 
+export interface UserCommentCounts {
+  status: CommentStatusCounts;
+}
+
 /**
  * User is someone that leaves Comments, and logs in.
  */
@@ -462,7 +471,18 @@ export interface User extends TenantResource {
    */
   deletedAt?: Date;
 
+  /**
+   * isNew is whether the user is a new user with less approved
+   * comments than the new commenter moderation config allows to
+   * be considered no longer a new user.
+   */
   isNew: boolean;
+
+  /**
+   * commentCounts are the tallies of all comment statuses for this
+   * user.
+   */
+  commentCounts: UserCommentCounts;
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -517,6 +537,9 @@ async function findOrCreateUserInput(
     digests: [],
     createdAt: now,
     isNew: true,
+    commentCounts: {
+      status: createEmptyCommentStatusCounts(),
+    },
   };
 
   if (input.username) {

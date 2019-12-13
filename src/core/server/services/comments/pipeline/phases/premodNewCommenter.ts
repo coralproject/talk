@@ -3,7 +3,6 @@ import {
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
-import { countApprovedComments } from "coral-server/models/comment";
 import { markUserNotNew } from "coral-server/models/user";
 import {
   IntermediatePhaseResult,
@@ -28,15 +27,10 @@ export const premodNewCommenter = async ({
     return;
   }
 
-  // Get the comment rates for this User.
-  const count = await countApprovedComments(
-    mongo,
-    tenant.id,
-    tenant.newCommenters.approvedCommentsThreshold,
-    author.id
-  );
-
-  if (count < tenant.newCommenters.approvedCommentsThreshold) {
+  if (
+    author.commentCounts.status.APPROVED <
+    tenant.newCommenters.approvedCommentsThreshold
+  ) {
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
@@ -45,7 +39,7 @@ export const premodNewCommenter = async ({
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_NEW_COMMENTER,
           metadata: {
-            count,
+            count: author.commentCounts.status.APPROVED,
           },
         },
       ],
