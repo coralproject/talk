@@ -12,9 +12,7 @@ interface Props {
 const SiteRowContainer: FunctionComponent<Props> = ({ site }) => {
   return (
     <div>
-      <Link to={`/admin/configure/organization/sites/${site.id}`}>
-        {site.name}
-      </Link>
+      <Link to={`/admin/sites/${site.id}`}>{site.name}</Link>
     </div>
   );
 };

@@ -29,6 +29,7 @@ import {
   UnmoderatedQueueRoute,
 } from "./routes/Moderate/Queue";
 import SingleModerateRoute from "./routes/Moderate/SingleModerate";
+import { Sites } from "./routes/Sites";
 import AddSiteRoute from "./routes/Sites/AddSiteRoute";
 import SiteRoute from "./routes/Sites/SiteRoute";
 import StoriesRoute from "./routes/Stories";
@@ -66,6 +67,11 @@ export default makeRouteConfig(
             ability: Ability.CHANGE_CONFIGURATION,
           }).routeConfig}
         >
+          <Route path="sites" Component={Sites}>
+            <Redirect from="/" to="/admin/sites/new" />
+            <Route path="new" {...AddSiteRoute.routeConfig} />
+            <Route path=":siteID" {...SiteRoute.routeConfig} />
+          </Route>
           <Route path="configure" Component={ConfigureRoute}>
             <Redirect from="/" to="/admin/configure/general" />
             <Route path="general" {...GeneralConfigRoute.routeConfig} />
@@ -79,11 +85,6 @@ export default makeRouteConfig(
             <Route path="advanced" {...AdvancedConfigRoute.routeConfig} />
             <Route path="email" {...EmailConfigRoute.routeConfig} />
             <Route path="slack" {...SlackConfigRoute.routeConfig} />
-            <Route path="organization/sites">
-              <Redirect from="/" to="/admin/configure/sites/new" />
-              <Route path="new" {...AddSiteRoute.routeConfig} />
-              <Route path=":siteID" {...SiteRoute.routeConfig} />
-            </Route>
           </Route>
         </Route>
       </Route>

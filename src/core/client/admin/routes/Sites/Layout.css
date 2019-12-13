@@ -1,0 +1,4 @@
+.root {
+  padding: calc(3 * var(--mini-unit)) calc(5 * var(--mini-unit))
+    calc(5 * var(--mini-unit)) calc(5 * var(--mini-unit));
+}
