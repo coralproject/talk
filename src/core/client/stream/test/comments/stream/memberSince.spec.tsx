@@ -24,7 +24,7 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
-          story: () => story,
+          stream: () => story,
         },
       }),
       params.resolvers

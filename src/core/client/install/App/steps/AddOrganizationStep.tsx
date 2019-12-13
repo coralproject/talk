@@ -83,18 +83,21 @@ class AddOrganizationStep extends React.Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-addOrganization-orgName">
-                      <InputLabel>Organization Name</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Organization Name
+                      </InputLabel>
                     </Localized>
                     <Localized
                       id="install-addOrganization-orgNameTextField"
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Organization Name"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />
@@ -109,13 +112,17 @@ class AddOrganizationStep extends React.Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-addOrganization-orgEmail">
-                      <InputLabel>Organization Contact Email</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Organization Contact Email
+                      </InputLabel>
                     </Localized>
                     <Localized
                       id="install-addOrganization-orgEmailTextField"
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Organization Contact Email"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
@@ -123,7 +130,6 @@ class AddOrganizationStep extends React.Component<Props> {
                         autoCapitalize="off"
                         autoCorrect="off"
                         fullWidth
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />
@@ -138,7 +144,9 @@ class AddOrganizationStep extends React.Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-addOrganization-orgURL">
-                      <InputLabel>Organization URL</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Organization URL
+                      </InputLabel>
                     </Localized>
                     <Localized
                       id="install-addOrganization-orgURLDescription"
@@ -155,11 +163,12 @@ class AddOrganizationStep extends React.Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Organization URL"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />

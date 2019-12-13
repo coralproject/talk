@@ -15,7 +15,7 @@ async function createTestRenderer(
     ...resolver,
     Query: {
       settings: sinon.stub().returns(settings),
-      story: sinon.stub().callsFake((_: any, variables: any) => {
+      stream: sinon.stub().callsFake((_: any, variables: any) => {
         expectAndFail(variables.id).toBe(story.id);
         return story;
       }),
@@ -45,4 +45,5 @@ it("renders comment stream", async () => {
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   expect(within(testRenderer.root).toJSON()).toMatchSnapshot();
+  expect(await within(testRenderer.root).axe()).toHaveNoViolations();
 });

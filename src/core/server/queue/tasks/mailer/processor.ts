@@ -94,6 +94,7 @@ function createMessageTranslator(i18n: I18n) {
    * translateMessage will translate the message to the specified locale as well
    * a juice the contents.
    *
+   * @param tenant the tenant
    * @param templateName the name of the template to base the translations off of
    * @param locale the locale to translate the email content into
    * @param fromAddress the address that is sending the email (from the Tenant)
@@ -130,7 +131,7 @@ function createMessageTranslator(i18n: I18n) {
     }
 
     // Configure the purification.
-    const purify = createDOMPurify<false>(dom.window);
+    const purify = createDOMPurify(dom.window);
 
     // Strip the l10n attributes from the email HTML.
     purify.sanitize(dom.window.document.documentElement, {
@@ -256,8 +257,8 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
         fromAddress,
         data
       );
-    } catch (err) {
-      throw new InternalError(err, "could not translate the message");
+    } catch (e) {
+      throw new InternalError(e, "could not translate the message");
     }
 
     // Compute the end time.
@@ -285,8 +286,8 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
 
         // Create the transport based on the smtp uri.
         transport = createTransport(opts);
-      } catch (err) {
-        throw new InternalError(err, "could not create email transport");
+      } catch (e) {
+        throw new InternalError(e, "could not create email transport");
       }
 
       // Set the transport back into the cache.
@@ -304,8 +305,8 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     try {
       // Send the mail message.
       await transport.sendMail(message);
-    } catch (err) {
-      throw new InternalError(err, "could not send email");
+    } catch (e) {
+      throw new InternalError(e, "could not send email");
     }
 
     // Compute the end time.

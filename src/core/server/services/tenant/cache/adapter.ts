@@ -9,11 +9,11 @@ export type DeconstructionFn<T> = (tenantID: string, value: T) => Promise<void>;
  * automatically invalidate tenants that have been updated.
  */
 export class TenantCacheAdapter<T> {
-  private cache = new Map<string, T>();
-  private tenantCache: TenantCache;
+  private readonly cache = new Map<string, T>();
+  private readonly tenantCache: TenantCache;
 
+  private readonly deconstructionFn?: DeconstructionFn<T>;
   private unsubscribeFn?: () => void;
-  private deconstructionFn?: DeconstructionFn<T>;
 
   constructor(
     tenantCache: TenantCache,
@@ -26,27 +26,32 @@ export class TenantCacheAdapter<T> {
     this.subscribe();
   }
 
+  private handle = async (tenantID: string) => {
+    // Get the current set value for the item in the cache.
+    const value = this.get(tenantID);
+
+    // Delete the tenant cache item when the tenant changes.
+    this.cache.delete(tenantID);
+
+    if (this.deconstructionFn) {
+      // The deconstruction function is set. We will check that the value
+      // exists, and if it does, we will call the function with the given
+      // identifier, this allows the caller to attach deconstruction
+      // components to the tenant being removed. The only side affect to
+      // note is that by the time that the deconstruction function is
+      // called, the tenant has already been purged from the cache.
+      if (typeof value !== "undefined") {
+        await this.deconstructionFn(tenantID, value);
+      }
+    }
+  };
+
   public subscribe() {
     if (this.tenantCache.cachingEnabled && !this.unsubscribeFn) {
-      this.unsubscribeFn = this.tenantCache.subscribe(async tenant => {
-        // Get the current set value for the item in the cache.
-        const value = this.get(tenant.id);
-
-        // Delete the tenant cache item when the tenant changes.
-        this.cache.delete(tenant.id);
-
-        if (this.deconstructionFn) {
-          // The deconstruction function is set. We will check that the value
-          // exists, and if it does, we will call the function with the given
-          // identifier, this allows the caller to attach deconstruction
-          // components to the tenant being removed. The only side affect to
-          // note is that by the time that the deconstruction function is
-          // called, the tenant has already been purged from the cache.
-          if (typeof value !== "undefined") {
-            await this.deconstructionFn(tenant.id, value);
-          }
-        }
-      });
+      this.unsubscribeFn = this.tenantCache.subscribe(
+        ({ id }) => this.handle(id),
+        id => this.handle(id)
+      );
     }
   }
 

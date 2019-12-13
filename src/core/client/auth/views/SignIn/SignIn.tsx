@@ -53,21 +53,25 @@ const SignIn: FunctionComponent<SignInForm> = ({
         subtitle={<Subtitle />}
       >
         <Bar>
-          {
-            "<title>Sign In</title><subtitle>to join the conversation</subtitle>"
-          }
+          <Title>Sign In</Title>
+          <Subtitle>to join the conversation</Subtitle>
         </Bar>
       </Localized>
-      <SubBar>
-        <Localized
-          id="signIn-noAccountSignUp"
-          textlink={<TextLink onClick={onGotoSignUp} href={signUpHref} />}
-        >
-          <Typography variant="bodyCopy" container={Flex}>
-            {"Don't have an account? <textlink>Sign Up</textlink>"}
-          </Typography>
-        </Localized>
-      </SubBar>
+      {emailEnabled && (
+        <SubBar>
+          <Localized
+            id="signIn-noAccountSignUp"
+            textlink={<TextLink onClick={onGotoSignUp} href={signUpHref} />}
+          >
+            <Typography variant="bodyCopy" container={Flex}>
+              Don't have an account?{" "}
+              <TextLink onClick={onGotoSignUp} href={signUpHref}>
+                Sign Up
+              </TextLink>
+            </Typography>
+          </Localized>
+        </SubBar>
+      )}
       <Main data-testid="signIn-main">
         <HorizontalGutter size="oneAndAHalf">
           {error && (

@@ -1,9 +1,9 @@
-import { parseBool } from "coral-framework/lib/form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { CheckBox, FormField } from "coral-ui/components";
+import { parseBool } from "coral-framework/lib/form";
+import { CheckBox, FormField } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 
@@ -32,7 +32,7 @@ const ConfigBoxWithToggleField: FunctionComponent<Props> = ({
         topRight={
           <FormField>
             <Localized id="configure-auth-configBoxEnabled">
-              <CheckBox id={input.name} disabled={disabled} light {...input}>
+              <CheckBox {...input} id={input.name} disabled={disabled} light>
                 Enabled
               </CheckBox>
             </Localized>

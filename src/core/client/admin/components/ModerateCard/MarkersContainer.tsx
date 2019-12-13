@@ -2,10 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React from "react";
 import { graphql } from "react-relay";
 
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { Marker, MarkerCount } from "coral-ui/components/v2";
+
 import { MarkersContainer_comment } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
 import { MarkersContainer_settings } from "coral-admin/__generated__/MarkersContainer_settings.graphql";
-import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Marker, MarkerCount } from "coral-ui/components";
+
 import Markers from "./Markers";
 import ModerateCardDetailsContainer from "./ModerateCardDetailsContainer";
 
@@ -30,7 +32,7 @@ const markers: Array<
   c =>
     (c.status === "PREMOD" && (
       <Localized id="moderate-marker-preMod" key={keyCounter++}>
-        <Marker color="primary">Pre-Mod</Marker>
+        <Marker color="pending">Pre-Mod</Marker>
       </Localized>
     )) ||
     null,
@@ -38,7 +40,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_LINKS && (
         <Localized id="moderate-marker-link" key={keyCounter++}>
-          <Marker color="primary">Link</Marker>
+          <Marker color="pending">Link</Marker>
         </Localized>
       )) ||
     null,
@@ -46,7 +48,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD && (
         <Localized id="moderate-marker-bannedWord" key={keyCounter++}>
-          <Marker color="error">Banned Word</Marker>
+          <Marker color="reported">Banned Word</Marker>
         </Localized>
       )) ||
     null,
@@ -54,7 +56,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD && (
         <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
-          <Marker color="error" variant="filled">
+          <Marker color="reported" variant="filled">
             Suspect Word
           </Marker>
         </Localized>
@@ -64,7 +66,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SPAM && (
         <Localized id="moderate-marker-spamDetected" key={keyCounter++}>
-          <Marker color="error">Spam Detected</Marker>
+          <Marker color="reported">Spam Detected</Marker>
         </Localized>
       )) ||
     null,
@@ -72,7 +74,15 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_TOXIC && (
         <Localized id="moderate-marker-toxic" key={keyCounter++}>
-          <Marker color="error">Toxic</Marker>
+          <Marker color="reported">Toxic</Marker>
+        </Localized>
+      )) ||
+    null,
+  c =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_REPEAT_POST && (
+        <Localized id="moderate-marker-repeatPost" key={keyCounter++}>
+          <Marker color="reported">Repeat comment</Marker>
         </Localized>
       )) ||
     null,
@@ -80,14 +90,14 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_RECENT_HISTORY && (
         <Localized id="moderate-marker-recentHistory" key={keyCounter++}>
-          <Marker color="error">Recent History</Marker>
+          <Marker color="reported">Recent History</Marker>
         </Localized>
       )) ||
     null,
   c =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE && (
-        <Marker key={keyCounter++} color="error">
+        <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-offensive">
             <span>Offensive</span>
           </Localized>{" "}
@@ -100,7 +110,7 @@ const markers: Array<
   c =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM && (
-        <Marker key={keyCounter++} color="error">
+        <Marker key={keyCounter++} color="reported">
           <Localized id="moderate-marker-spam">
             <span>Spam</span>
           </Localized>{" "}
@@ -114,7 +124,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_NEW_COMMENTER && (
         <Localized id="moderate-marker-newCommenter" key={keyCounter++}>
-          <Marker color="error">New commenter</Marker>
+          <Marker color="reported">New commenter</Marker>
         </Localized>
       )) ||
     null,
@@ -169,6 +179,7 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
               COMMENT_REPORTED_OFFENSIVE
               COMMENT_REPORTED_SPAM
               COMMENT_DETECTED_NEW_COMMENTER
+              COMMENT_DETECTED_REPEAT_POST
             }
           }
         }

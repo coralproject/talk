@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`forwards ref 1`] = `
+<ForwardRef(forwardRef)
+  className=""
+  size="sm"
+>
+  Push me
+</ForwardRef(forwardRef)>
+`;
+
+exports[`renders correctly 1`] = `
+<ForwardRef(forwardRef)
+  className="root"
+  size="sm"
+>
+  Push me
+</ForwardRef(forwardRef)>
+`;

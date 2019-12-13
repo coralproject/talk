@@ -26,7 +26,7 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
-          story: () => story,
+          stream: () => story,
         },
       }),
       params.resolvers
@@ -73,6 +73,7 @@ it("render notifications form", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("profile-account-notifications")
   );
+  expect(await within(container).axe()).toHaveNoViolations();
   const form = within(container).getByType("form");
 
   // Get the form fields.

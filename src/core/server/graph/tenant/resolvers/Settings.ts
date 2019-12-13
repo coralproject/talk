@@ -2,5 +2,5 @@ import { GQLSettingsTypeResolver } from "coral-server/graph/tenant/schema/__gene
 import { Tenant } from "coral-server/models/tenant";
 
 export const Settings: GQLSettingsTypeResolver<Tenant> = {
-  staticURI: (tenant, args, ctx) => ctx.config.get("static_uri") || null,
+  slack: ({ slack = {} }) => slack,
 };

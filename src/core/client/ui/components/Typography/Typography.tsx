@@ -1,15 +1,14 @@
 import cn from "classnames";
-import React from "react";
-import { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
-/* In this case the Box styles have higher priority! */
-import styles from "./Typography.css";
-
 /** Needs to be loaded after styles, because Box styles have priority */
 import Box from "../Box";
+
+/* In this case the Box styles have higher priority! */
+import styles from "./Typography.css";
 
 type Variant =
   | "heading1"
@@ -28,7 +27,9 @@ type Variant =
   | "fieldDescription"
   | "inputLabel"
   | "detail"
-  | "timestamp";
+  | "timestamp"
+  // V2
+  | "bodyCommentV2";
 
 // Based on Typography Component of Material UI.
 // https://github.com/mui-org/material-ui/blob/303199d39b42a321d28347d8440d69166f872f27/packages/material-ui/src/Typography/Typography.js
@@ -63,7 +64,9 @@ interface Props extends PropTypesOf<typeof Box> {
     | "error"
     | "errorDark"
     | "textDark"
-    | "success";
+    | "success"
+    // V2
+    | "textPrimaryV2";
   /**
    * The container used for the root node.
    * Either a string to use a DOM element, a component, or an element.
@@ -172,6 +175,8 @@ Typography.defaultProps = {
     timestamp: "span",
     inputLabel: "label",
     detail: "p",
+    // V2
+    bodyCommentV2: "p",
   },
   noWrap: false,
   paragraph: false,

@@ -35,43 +35,43 @@ const ResetRoute: React.FunctionComponent<Props> = ({ token }) => {
 
   if (state === "UNCHECKED") {
     return (
-      <div className={styles.container}>
+      <main className={styles.container}>
         <div className={styles.root}>
           <Loading />
         </div>
-      </div>
+      </main>
     );
   }
 
   if (state !== "VALID" || error) {
     return (
-      <div className={styles.container}>
+      <main className={styles.container}>
         <div className={styles.root}>
           <Sorry reason={error} />
         </div>
-      </div>
+      </main>
     );
   }
 
   return !finished ? (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <div className={styles.root}>
         <ResetPasswordForm token={token!} onSuccess={onSuccess} />
       </div>
-    </div>
+    </main>
   ) : (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <div className={styles.root}>
         <Success />
       </div>
-    </div>
+    </main>
   );
 };
 
 const enhanced = withRouteConfig<Props>({
-  render: ({ match, Component }) => (
-    <Component token={parseHashQuery(match.location.hash).resetToken} />
-  ),
+  render: function ResetRouteRender({ match, Component }) {
+    return <Component token={parseHashQuery(match.location.hash).resetToken} />;
+  },
 })(ResetRoute);
 
 export default enhanced;

@@ -89,10 +89,10 @@ class Server {
   private tenantCache: TenantCache;
 
   // connected when true, indicates that `connect()` was already called.
-  private connected: boolean = false;
+  private connected = false;
 
   // processing when true, indicates that `process()` was already called.
-  private processing: boolean = false;
+  private processing = false;
 
   // i18n is the server reference to the i18n framework.
   private i18n: I18n;
@@ -116,6 +116,19 @@ class Server {
       .validate({ allowed: "strict" });
     logger.debug({ config: this.config.toString() }, "loaded configuration");
 
+    // Do some extra validation for production.
+    if (this.config.get("env") === "production") {
+      // Ensure that the signing secret has been specified.
+      if (
+        this.config.get("signing_secret") ===
+        this.config.default("signing_secret")
+      ) {
+        throw new Error(
+          "SIGNING_SECRET is required in production environments"
+        );
+      }
+    }
+
     // Load the graph schemas.
     this.schema = getTenantSchema();
 
@@ -127,7 +140,10 @@ class Server {
     this.i18n = new I18n(defaultLocale);
 
     // Create the signing config.
-    this.signingConfig = createJWTSigningConfig(this.config);
+    this.signingConfig = createJWTSigningConfig(
+      this.config.get("signing_secret"),
+      this.config.get("signing_algorithm")
+    );
   }
 
   /**
@@ -200,7 +216,10 @@ class Server {
 
     // Run migrations if there is already a Tenant installed.
     if (await isInstalled(this.tenantCache)) {
-      await this.migrationManager.executePendingMigrations(this.mongo);
+      await this.migrationManager.executePendingMigrations(
+        this.mongo,
+        this.redis
+      );
       await this.tenantCache.primeAll();
     } else {
       logger.info("no tenants are installed, skipping running migrations");

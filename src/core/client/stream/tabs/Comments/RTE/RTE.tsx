@@ -1,7 +1,7 @@
 import { Blockquote, Bold, CoralRTE, Italic } from "@coralproject/rte";
 import cn from "classnames";
 import { Localized as LocalizedOriginal } from "fluent-react/compat";
-import React, { FunctionComponent, Ref } from "react";
+import React, { EventHandler, FocusEvent, FunctionComponent, Ref } from "react";
 
 import CLASSES from "coral-stream/classes";
 import { Icon } from "coral-ui/components";
@@ -14,14 +14,16 @@ import styles from "./RTE.css";
 // This is currently required in order for the RTE
 // to detect and setup the features.
 const Localized = React.forwardRef<any, PropTypesOf<typeof LocalizedOriginal>>(
-  ({ api, ...props }, ref) => (
-    <LocalizedOriginal {...props}>
-      {React.cloneElement(
-        React.Children.only(props.children as React.ReactElement),
-        { api, ref }
-      )}
-    </LocalizedOriginal>
-  )
+  function RTELocalized({ api, ...props }, ref) {
+    return (
+      <LocalizedOriginal {...props}>
+        {React.cloneElement(
+          React.Children.only(props.children as React.ReactElement),
+          { api, ref }
+        )}
+      </LocalizedOriginal>
+    );
+  }
 );
 
 export interface RTEProps {
@@ -65,13 +67,14 @@ export interface RTEProps {
    * onChange
    */
   onChange?: (data: { html: string; text: string }) => void;
+  onFocus?: EventHandler<FocusEvent>;
+  onBlur?: EventHandler<FocusEvent>;
 
   disabled?: boolean;
 
   forwardRef?: Ref<CoralRTE>;
 }
 
-// tslint:disable:jsx-wrap-multiline
 const features = [
   <Localized key="bold" id="comments-rte-bold" attrs={{ title: true }}>
     <Bold>
@@ -93,7 +96,6 @@ const features = [
     </Blockquote>
   </Localized>,
 ];
-// tslint:enable:jsx-wrap-multiline
 
 const RTE: FunctionComponent<RTEProps> = props => {
   const {
@@ -109,6 +111,8 @@ const RTE: FunctionComponent<RTEProps> = props => {
     contentClassName,
     placeholderClassName,
     toolbarClassName,
+    onFocus,
+    onBlur,
     ...rest
   } = props;
   return (
@@ -138,6 +142,8 @@ const RTE: FunctionComponent<RTEProps> = props => {
         features={features}
         ref={forwardRef}
         toolbarPosition="bottom"
+        onBlur={onBlur}
+        onFocus={onFocus}
         {...rest}
       />
     </div>

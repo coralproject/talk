@@ -1,18 +1,21 @@
-import React, { FunctionComponent } from "react";
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { useViewerNetworkEvent } from "coral-framework/lib/events";
 import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { Omit, PropTypesOf } from "coral-framework/types";
+import CLASSES from "coral-stream/classes";
+import { LoadMoreFeaturedCommentsEvent } from "coral-stream/events";
+import { Button, HorizontalGutter } from "coral-ui/components";
+
 import { FeaturedCommentsContainer_settings as SettingsData } from "coral-stream/__generated__/FeaturedCommentsContainer_settings.graphql";
 import { FeaturedCommentsContainer_story as StoryData } from "coral-stream/__generated__/FeaturedCommentsContainer_story.graphql";
 import { FeaturedCommentsContainer_viewer as ViewerData } from "coral-stream/__generated__/FeaturedCommentsContainer_viewer.graphql";
 import { FeaturedCommentsContainerPaginationQueryVariables } from "coral-stream/__generated__/FeaturedCommentsContainerPaginationQuery.graphql";
-import CLASSES from "coral-stream/classes";
-import { Button, HorizontalGutter } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
 
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import FeaturedCommentContainer from "./FeaturedCommentContainer";
@@ -26,6 +29,20 @@ interface Props {
 
 export const FeaturedCommentsContainer: FunctionComponent<Props> = props => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+  const beginLoadMoreEvent = useViewerNetworkEvent(
+    LoadMoreFeaturedCommentsEvent
+  );
+  const loadMoreAndEmit = useCallback(async () => {
+    const loadMoreEvent = beginLoadMoreEvent({ storyID: props.story.id });
+    try {
+      await loadMore();
+      loadMoreEvent.success();
+    } catch (error) {
+      loadMoreEvent.error({ message: error.message, code: error.code });
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  }, [loadMore, beginLoadMoreEvent, props.story.id]);
   const comments = props.story.featuredComments.edges.map(edge => edge.node);
   return (
     <>
@@ -53,7 +70,7 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = props => {
         {props.relay.hasMore() && (
           <Localized id="comments-loadMore">
             <Button
-              onClick={loadMore}
+              onClick={loadMoreAndEmit}
               variant="outlined"
               fullWidth
               disabled={isLoadingMore}

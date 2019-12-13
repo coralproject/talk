@@ -32,42 +32,44 @@ const DownloadRoute: FunctionComponent<Props> = ({ token }) => {
 
   if (state === "UNCHECKED") {
     return (
-      <div className={styles.container}>
+      <main className={styles.container}>
         <div className={styles.root}>
           <HorizontalGutter size="double">
             <Loading />
           </HorizontalGutter>
         </div>
-      </div>
+      </main>
     );
   }
   if (state !== "VALID" || error) {
     return (
-      <div className={styles.container}>
+      <main className={styles.container}>
         <div className={styles.root}>
           <HorizontalGutter size="double">
             <DownloadDescription />
             <Sorry />
           </HorizontalGutter>
         </div>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <div className={styles.root}>
         <DownloadDescription />
         <DownloadForm token={token!} />
       </div>
-    </div>
+    </main>
   );
 };
 
 const enhanced = withRouteConfig<Props>({
-  render: ({ match, Component }) => (
-    <Component token={parseHashQuery(match.location.hash).downloadToken} />
-  ),
+  render: function DownloadRouteRender({ match, Component }) {
+    return (
+      <Component token={parseHashQuery(match.location.hash).downloadToken} />
+    );
+  },
 })(DownloadRoute);
 
 export default enhanced;

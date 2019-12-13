@@ -3,9 +3,8 @@ import React, { Component } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 
-import SignUp from "./SignUpWithEmail";
-
 import { SignUpMutation, withSignUpMutation } from "./SignUpMutation";
+import SignUp from "./SignUpWithEmail";
 
 interface SignUpContainerProps {
   signUp: SignUpMutation;
@@ -22,7 +21,7 @@ class SignUpContainer extends Component<SignUpContainerProps> {
         password: input.password,
         username: input.username,
       });
-      return form.reset();
+      return;
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }

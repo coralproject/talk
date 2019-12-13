@@ -394,9 +394,10 @@ export interface User extends TenantResource {
   emailVerified?: boolean;
 
   /**
-   * profiles is the array of profiles assigned to the user.
+   * profiles is the array of profiles assigned to the user. When a user deletes
+   * their account, this is unset.
    */
-  profiles: Profile[];
+  profiles?: Profile[];
 
   /**
    * tokens lists the access tokens associated with the account.
@@ -418,6 +419,11 @@ export interface User extends TenantResource {
    * to be sent out based on the User's notification preferences.
    */
   digests: Digest[];
+
+  /**
+   * hasDigests is true when there is digests to send.
+   */
+  hasDigests?: boolean;
 
   /**
    * status stores the user status information regarding moderation state.
@@ -508,7 +514,6 @@ async function findOrCreateUserInput(
       digestFrequency: GQLDIGEST_FREQUENCY.NONE,
     },
     moderatorNotes: [],
-    profiles: [],
     digests: [],
     createdAt: now,
     isNew: true,
@@ -524,16 +529,20 @@ async function findOrCreateUserInput(
     });
   }
 
+  // Store the user's profiles in a new array.
+  const profiles: Profile[] = [];
+
   // Mutate the profiles to ensure we mask handle any secrets.
   switch (profile.type) {
-    case "local":
+    case "local": {
       // Hash the user's password with bcrypt.
       const password = await hashPassword(profile.password);
-      defaults.profiles.push({ ...profile, password });
+      profiles.push({ ...profile, password });
       break;
+    }
     default:
       // Push the profile onto the User.
-      defaults.profiles.push(profile);
+      profiles.push(profile);
       break;
   }
 
@@ -541,6 +550,7 @@ async function findOrCreateUserInput(
   return {
     ...defaults,
     ...input,
+    profiles,
     id,
   };
 }
@@ -629,7 +639,7 @@ export async function retrieveManyUsers(
   tenantID: string,
   ids: string[]
 ) {
-  const cursor = await collection(mongo).find({
+  const cursor = collection(mongo).find({
     tenantID,
     id: {
       $in: ids,
@@ -1101,7 +1111,7 @@ export async function updateUserEmail(
     return result.value;
   } catch (err) {
     if (err instanceof MongoError && err.code === 11000) {
-      throw new DuplicateEmailError(email!);
+      throw new DuplicateEmailError(email);
     }
     throw err;
   }
@@ -1423,10 +1433,11 @@ export async function premodUser(
 
 /**
  * removeUserPremod will lift a user premod  requirement
+ *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their ban lifted
- * @param modifiedBy the ID of the user lifting the premod
+ * @param createdBy the ID of the user lifting the premod
  * @param now the current date
  */
 export async function removeUserPremod(
@@ -1627,7 +1638,7 @@ export async function removeUserBan(
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being suspended
  * @param createdBy the ID of the user banning the above mentioned user
- * @param from the range of time that the user is being banned for
+ * @param finish the date the suspension ends
  * @param message the message sent to suspended user in email
  * @param now the current date
  */
@@ -2267,6 +2278,9 @@ export async function insertUserNotificationDigests(
       $push: {
         digests: { $each: digests },
       },
+      $set: {
+        hasDigests: true,
+      },
     },
     {
       // False to return the updated document instead of the original
@@ -2305,9 +2319,9 @@ export async function pullUserNotificationDigests(
     {
       tenantID,
       "notifications.digestFrequency": frequency,
-      digests: { $ne: [] },
+      hasDigests: true,
     },
-    { $set: { digests: [] } },
+    { $set: { digests: [], hasDigests: false } },
     {
       // True to return the original document instead of the updated document.
       returnOriginal: true,
@@ -2324,6 +2338,7 @@ export async function pullUserNotificationDigests(
  * @param mongo the database to pull scheduled users to delete from
  * @param tenantID the tenant ID to pull users that have been scheduled for
  * deletion on
+ * @param rescheduledDuration duration in which to reschedule
  * @param now the current time
  */
 export async function retrieveUserScheduledForDeletion(
@@ -2357,6 +2372,7 @@ export async function retrieveUserScheduledForDeletion(
 
 /**
  * createModeratorNote will add a note to a users account
+ *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param id the ID of the User who is the subject of the note
@@ -2400,6 +2416,7 @@ export async function createModeratorNote(
 
 /**
  * deleteModeratorNote will remove a note from a user profile
+ *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param userID the ID of the user

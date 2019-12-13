@@ -13,7 +13,7 @@ exports[`renders correctly 1`] = `
       close
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
-  <withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReportCommentFormContainer)))))
+  <withContext(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReportCommentFormContainer))))))
     comment={Object {}}
     onClose={[Function]}
     onResize={[Function]}

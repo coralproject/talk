@@ -18,7 +18,7 @@ function canUseWatchman(): boolean {
   try {
     execSync("watchman --version", { stdio: ["ignore"] });
     return true;
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
   } catch (e) {}
   return false;
 }
@@ -34,7 +34,7 @@ export default class SaneWatcher implements Watcher {
     // Autodetect watchman.
     if (this.watchman === undefined && canUseWatchman()) {
       this.watchman = true;
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.log(chalk.grey(`Watchman detected`));
     }
   }
@@ -48,7 +48,7 @@ export default class SaneWatcher implements Watcher {
     const queue: string[] = [];
 
     // If this is set, a pending promise is waiting for the next result.
-    let pending: ({ resolve: (result: string) => void }) | null = null;
+    let pending: { resolve: (result: string) => void } | null = null;
 
     // Only start client if we have something to watch.
     if (paths.length) {

@@ -392,7 +392,7 @@ export default function createWebpackConfig(
                       "@babel/typescript",
                       [
                         "@babel/env",
-                        { targets: { node: "10.0.0" }, modules: "commonjs" },
+                        { targets: { node: "12.0.0" }, modules: "commonjs" },
                       ],
                     ],
                     // This is a feature of `babel-loader` for webpack (not Babel itself).
@@ -530,9 +530,9 @@ export default function createWebpackConfig(
       // TODO: (cvle) this should work in build too but for some reasons it terminates the build afterwards.
       // Preventing from running post build steps.
       ...ifWatch(
-        // We run tslint in a separate process to have a quicker build.
+        // We run eslint in a separate process to have a quicker build.
         new ForkTsCheckerWebpackPlugin({
-          tslint: true,
+          eslint: true,
           typescript: require.resolve("typescript"),
           async: true,
           // TODO: (cvle) For some reason if incremental build is turned on it does not find lint errors during initial build.

@@ -31,7 +31,7 @@ exports[`post a reply: open reply form 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-comment-0"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -49,13 +49,13 @@ exports[`post a reply: open reply form 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
-                    role="popup"
+                    aria-labelledby="username-popover-comment-0-ariainfo"
+                    id="username-popover-comment-0"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-comment-0-ariainfo"
                     >
                       A popover with more user information
                     </div>
@@ -169,7 +169,7 @@ exports[`post a reply: open reply form 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-0-ariainfo"
                     id="permalink-popover-comment-0"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -209,7 +209,7 @@ exports[`post a reply: open reply form 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-0-ariainfo"
                     id="report-popover-comment-0"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -270,6 +270,8 @@ exports[`post a reply: open reply form 1`] = `
             <div>
               <div
                 className="$root content placeholder toolbar"
+                onBlur={[Function]}
+                onFocus={[Function]}
               >
                 <div
                   className="RTE-contentEditableContainer"
@@ -430,7 +432,7 @@ exports[`post a reply: optimistic response 1`] = `
                       className="Popover-root"
                     >
                       <button
-                        aria-controls="username-popover"
+                        aria-controls="username-popover-uuid-0"
                         className="BaseButton-root coral coral-username coral-comment-username"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -448,13 +450,13 @@ exports[`post a reply: optimistic response 1`] = `
                       </button>
                       <div
                         aria-hidden={true}
-                        aria-labelledby="username-popover-ariainfo"
-                        id="username-popover"
-                        role="popup"
+                        aria-labelledby="username-popover-uuid-0-ariainfo"
+                        id="username-popover-uuid-0"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
-                          id="username-popover-ariainfo"
+                          id="username-popover-uuid-0-ariainfo"
                         >
                           A popover with more user information
                         </div>
@@ -610,7 +612,7 @@ exports[`post a reply: optimistic response 1`] = `
                         aria-hidden={true}
                         aria-labelledby="permalink-popover-uuid-0-ariainfo"
                         id="permalink-popover-uuid-0"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"
@@ -650,7 +652,7 @@ exports[`post a reply: optimistic response 1`] = `
                         aria-hidden={true}
                         aria-labelledby="report-popover-uuid-0-ariainfo"
                         id="report-popover-uuid-0"
-                        role="popup"
+                        role="dialog"
                       >
                         <div
                           className="AriaInfo-root"

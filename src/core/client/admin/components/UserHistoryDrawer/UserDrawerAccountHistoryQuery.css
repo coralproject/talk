@@ -4,7 +4,7 @@
 
 .callout {
   width: 100%;
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--v2-font-family-primary);
   align-content: center;
   text-align: center;
 }

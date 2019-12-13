@@ -18,14 +18,14 @@ class CreateUsernameContainer extends Component<Props> {
   ) => {
     try {
       await this.props.setUsername({ username: input.username });
-      return form.reset();
+      return;
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
   };
 
   public render() {
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line:no-empty
     return <CreateUsername onSubmit={this.handleSubmit} />;
   }
 }

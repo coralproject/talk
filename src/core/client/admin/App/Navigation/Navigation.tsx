@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { AppBarNavigation } from "coral-ui/components";
+import { AppBarNavigation } from "coral-ui/components/v2";
 
 import NavigationLink from "./NavigationLink";
 

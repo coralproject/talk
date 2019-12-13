@@ -1,12 +1,12 @@
 import { ReactTestInstance } from "react-test-renderer";
 
-interface ReactTestRendererJSON {
+export interface ReactTestRendererJSON {
   type: string;
   props: { [propName: string]: any };
   children: null | ReactTestRendererNode[];
   $$typeof?: symbol; // Optional because we add it with defineProperty().
 }
-type ReactTestRendererNode = ReactTestRendererJSON | string;
+export type ReactTestRendererNode = ReactTestRendererJSON | string;
 
 export function toJSONRecursive(
   inst: ReactTestInstance

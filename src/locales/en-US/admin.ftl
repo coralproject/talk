@@ -69,7 +69,7 @@ login-signInWithOIDC = Sign in with { $name }
 ## Configure
 
 configure-unsavedInputWarning =
-  You have unsaved input. Are you sure you want to leave this page?
+  You have unsaved changes. Are you sure you want to continue?
 
 configure-sideBarNavigation-general = General
 configure-sideBarNavigation-authentication = Authentication
@@ -78,13 +78,14 @@ configure-sideBarNavigation-organization = Organization
 configure-sideBarNavigation-advanced = Advanced
 configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
+configure-sideBarNavigation-slack = Slack
 
 configure-sideBar-saveChanges = Save Changes
 configure-configurationSubHeader = Configuration
 configure-onOffField-on = On
 configure-onOffField-off = Off
-configure-permissionField-allow = Allow
-configure-permissionField-dontAllow = Don't allow
+configure-radioButton-allow = Allow
+configure-radioButton-dontAllow = Don't allow
 
 ### General
 configure-general-guidelines-title = Community guidelines summary
@@ -222,9 +223,8 @@ configure-auth-sso-key = Key
 configure-auth-sso-regenerate = Regenerate
 configure-auth-sso-regenerateAt = KEY GENERATED AT:
   { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
-configure-auth-sso-regenerateWarning =
-  Regenerating a key will invalidate any existing user sessions,
-  and all signed-in users will be signed out.
+configure-auth-sso-regenerateHonoredWarning =
+  When regenerating a key, tokens signed with the previous key will be honored for 30 days.
 
 configure-auth-local-loginWith = Login with email authentication
 configure-auth-local-useLoginOn = Use email authentication login on
@@ -394,23 +394,53 @@ decisionHistory-rejectedCommentBy = Rejected comment by <Username></Username>
 decisionHistory-approvedCommentBy = Approved comment by <Username></Username>
 decisionHistory-goToComment = Go to comment
 
+### Slack
+
+configure-slack-header-title = Slack Integrations
+configure-slack-description =
+  Automatically send comments from Coral moderation queues to Slack
+  channels. You will need Slack admin access to set this up. For
+  steps on how to create a Slack App see our <externalLink>documentation</externalLink>.
+configure-slack-addChannel = Add Channel
+
+configure-slack-channel-defaultName = New channel
+configure-slack-channel-enabled = Enabled
+configure-slack-channel-remove = Remove Channel
+configure-slack-channel-name-label = Name
+configure-slack-channel-name-description =
+  This is only for your information, to easily identify
+  each Slack connection. Slack does not tell us the name
+  of the channel/s you're connecting to Coral.
+configure-slack-channel-hookURL-label = Webhook URL
+configure-slack-channel-hookURL-description =
+  Slack provides a channel-specific URL to activate webhook
+  connections. To find the URL for one of your Slack channels,
+  follow the instructions <externalLink>here</externalLink>.
+configure-slack-channel-triggers-label =
+  Receive notifications in this Slack channel for
+configure-slack-channel-triggers-allComments = All Comments
+configure-slack-channel-triggers-reportedComments = Reported Comments
+configure-slack-channel-triggers-pendingComments = Pending Comments
+configure-slack-channel-triggers-featuredComments = Featured Comments
+
 ## moderate
 moderate-navigation-reported = reported
 moderate-navigation-pending = Pending
 moderate-navigation-unmoderated = unmoderated
 moderate-navigation-rejected = rejected
 
-moderate-marker-preMod = Pre-Mod
+moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
-moderate-marker-bannedWord = Banned Word
-moderate-marker-suspectWord = Suspect Word
+moderate-marker-bannedWord = Banned word
+moderate-marker-suspectWord = Suspect word
 moderate-marker-spam = Spam
-moderate-marker-spamDetected = Spam Detected
+moderate-marker-spamDetected = Spam detected
 moderate-marker-toxic = Toxic
-moderate-marker-recentHistory = Recent History
-moderate-marker-bodyCount = Body Count
+moderate-marker-recentHistory = Recent history
+moderate-marker-bodyCount = Body count
 moderate-marker-offensive = Offensive
 moderate-marker-newCommenter = New commenter
+moderate-marker-repeatPost = Repeat comment
 
 moderate-markers-details = Details
 moderate-flagDetails-offensive = Offensive
@@ -420,6 +450,10 @@ moderate-flagDetails-toxicityScore = Toxicity Score
 moderate-toxicityLabel-likely = Likely <score></score>
 moderate-toxicityLabel-unlikely = Unlikely <score></score>
 moderate-toxicityLabel-maybe = Maybe <score></score>
+
+moderate-linkDetails-label = Copy link to this comment
+moderate-in-stream-link-copy = In Stream
+moderate-in-moderation-link-copy = In Moderation
 
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
@@ -435,6 +469,7 @@ moderate-comment-approveButton =
   .aria-label = Approve
 moderate-comment-decision = Decision
 moderate-comment-story = Story
+moderate-comment-storyLabel = Comment On
 moderate-comment-moderateStory = Moderate Story
 moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured
@@ -472,11 +507,11 @@ moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent fi
 moderate-searchBar-moderateAllStories = Moderate all stories
 moderate-searchBar-comboBoxTextField =
   .aria-label = Search or jump to story...
-  .placeholder = Use quotation marks around each search term (e.g. “team”, “St. Louis”)
+  .placeholder = search by story title, author, url, id, etc.
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
-moderateCardDetails-tab-details = Details
+moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
 ### Moderate User History Drawer
 
@@ -558,7 +593,7 @@ moderate-user-drawer-recent-history-tooltip-submitted = Submitted
 moderate-user-drawer-notes-field =
   .placeholder = Leave a note...
 moderate-user-drawer-notes-button = Add note
-moderatorNote-left-by = Left by:
+moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
 
 ## Create Username
@@ -866,5 +901,4 @@ hotkeysModal-shortcuts-reject = Reject
 hotkeysModal-shortcuts-ban = Ban comment author
 hotkeysModal-shortcuts-zen = Toggle single-comment view
 
-
-
+authcheck-network-error = A network error occurred. Please refresh the page.

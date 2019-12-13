@@ -1,8 +1,8 @@
-import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { PropTypesOf } from "coral-ui/types";
 import React, { FunctionComponent, useMemo } from "react";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { Typography } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
 interface Props {
   date: string;

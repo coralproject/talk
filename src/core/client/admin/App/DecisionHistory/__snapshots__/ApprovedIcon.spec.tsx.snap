@@ -3,7 +3,8 @@
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   className="ApprovedIcon-root"
+  size="md"
 >
-  check
+  check_circled
 </ForwardRef(forwardRef)>
 `;

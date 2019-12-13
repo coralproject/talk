@@ -13,10 +13,12 @@ import { Environment } from "relay-runtime";
 import { PasswordField } from "coral-framework/components";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
+import { useViewerEvent } from "coral-framework/lib/events";
 import { colorFromMeta } from "coral-framework/lib/form";
-import { createFetch, useFetch } from "coral-framework/lib/relay";
 import {
+  createFetch,
   graphql,
+  useFetch,
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
@@ -25,10 +27,12 @@ import {
   required,
   validateEmail,
 } from "coral-framework/lib/validation";
-import { ChangeEmailContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
-import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
+import {
+  ResendEmailVerificationEvent,
+  ShowEditEmailDialogEvent,
+} from "coral-stream/events";
 import {
   Button,
   ButtonIcon,
@@ -42,16 +46,32 @@ import {
   Typography,
 } from "coral-ui/components";
 
+import { ChangeEmailContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
+import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
+
 import UpdateEmailMutation from "./UpdateEmailMutation";
 
 import styles from "./ChangeEmailContainer.css";
 
 const fetcher = createFetch(
   "resendConfirmation",
-  (environment: Environment, variables, context) => {
-    return context.rest.fetch<void>("/account/confirm", {
-      method: "POST",
-    });
+  async (environment: Environment, variables, { eventEmitter, rest }) => {
+    const resendEmailVerificationEvent = ResendEmailVerificationEvent.begin(
+      eventEmitter
+    );
+    try {
+      const result = await rest.fetch<void>("/account/confirm", {
+        method: "POST",
+      });
+      resendEmailVerificationEvent.success();
+      return result;
+    } catch (error) {
+      resendEmailVerificationEvent.error({
+        message: error.message,
+        code: error.code,
+      });
+      throw error;
+    }
   }
 );
 
@@ -69,6 +89,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const emitShowEvent = useViewerEvent(ShowEditEmailDialogEvent);
   const updateEmail = useMutation(UpdateEmailMutation);
 
   const [showEditForm, setShowEditForm] = useState(false);
@@ -80,6 +101,9 @@ const changeEmailContainer: FunctionComponent<Props> = ({
   }, [fetcher]);
 
   const toggleEditForm = useCallback(() => {
+    if (!showEditForm) {
+      emitShowEvent();
+    }
     setShowEditForm(!showEditForm);
   }, [setShowEditForm, showEditForm]);
   const onSubmit = useCallback(
@@ -99,7 +123,6 @@ const changeEmailContainer: FunctionComponent<Props> = ({
         };
       }
 
-      form.reset();
       setShowEditForm(false);
 
       return;
@@ -123,7 +146,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
 
   const preventSubmit = (
     formState: Pick<
-      FormState,
+      FormState<any>,
       | "pristine"
       | "hasSubmitErrors"
       | "hasValidationErrors"
@@ -324,12 +347,12 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                                 attrs={{ placeholder: true }}
                               >
                                 <PasswordField
+                                  {...input}
                                   id={input.name}
                                   placeholder="Password"
                                   color={colorFromMeta(meta)}
                                   disabled={submitting}
                                   fullWidth
-                                  {...input}
                                 />
                               </Localized>
                               <FieldValidationMessage meta={meta} fullWidth />

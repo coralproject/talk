@@ -6,6 +6,7 @@ import { Field, Form } from "react-final-form";
 
 import { OnSubmit } from "coral-framework/lib/form";
 import CLASSES from "coral-stream/classes";
+import Timestamp from "coral-stream/common/Timestamp";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
 import {
   AriaInfo,
@@ -16,7 +17,6 @@ import {
   Message,
   MessageIcon,
   RelativeTime,
-  Timestamp,
 } from "coral-ui/components";
 
 import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../../helpers";
@@ -37,7 +37,7 @@ export interface EditCommentFormProps {
   } | null;
   createdAt: string;
   editableUntil: string;
-  onSubmit: OnSubmit<FormProps>;
+  onSubmit: OnSubmit<any>;
   onCancel?: EventHandler<MouseEvent<any>>;
   onClose?: EventHandler<MouseEvent<any>>;
   initialValues?: FormProps;

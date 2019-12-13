@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from "graphql";
+import { defaultTo } from "lodash";
 
 import { StoryNotFoundError } from "coral-server/errors";
 import { getRequestedFields } from "coral-server/graph/tenant/resolvers/util";
@@ -83,9 +84,9 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   },
   // Action Counts are encoded, decode them for use with the GraphQL system.
   actionCounts: c => decodeActionCounts(c.actionCounts),
-  flags: ({ id }, { first = 10, after }, ctx) =>
+  flags: ({ id }, { first, after }, ctx) =>
     ctx.loaders.CommentActions.connection({
-      first,
+      first: defaultTo(first, 10),
       after,
       filter: {
         actionType: ACTION_TYPE.FLAG,

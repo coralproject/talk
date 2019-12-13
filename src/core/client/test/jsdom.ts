@@ -1,18 +1,11 @@
 import { JSDOM } from "jsdom";
 
-declare var global: any;
+declare const global: any;
 
 const jsdom = new JSDOM("<!doctype html><html><body></body></html>");
 const { window } = jsdom;
 
 // tiny shim for getSelection for the RTE.
-// tslint:disable:no-empty
-window.getSelection = () =>
-  ({
-    addRange() {},
-    removeAllRanges() {},
-  } as any);
-// tslint:enable:no-empty
 
 function copyProps(src: any, target: any) {
   const props = Object.getOwnPropertyNames(src)
@@ -34,3 +27,12 @@ global.navigator = {
 };
 
 copyProps(window, global);
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+global.window.getSelection = () =>
+  ({
+    addRange() {},
+    removeAllRanges() {},
+  } as any);
+global.window.resizeTo = () => {};
+/* eslint-enable @typescript-eslint/no-empty-function */

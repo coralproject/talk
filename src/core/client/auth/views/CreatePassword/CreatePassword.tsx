@@ -7,7 +7,8 @@ import { Bar, Title } from "coral-auth/components//Header";
 import Main from "coral-auth/components/Main";
 import SetPasswordField from "coral-auth/components/SetPasswordField";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
-import { OnSubmit } from "coral-framework/lib/form";
+import { FormError, OnSubmit } from "coral-framework/lib/form";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,
@@ -15,20 +16,21 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import { useMutation } from "coral-framework/lib/relay";
 import SetPasswordMutation from "./SetPasswordMutation";
 
 interface FormProps {
   password: string;
 }
 
+interface FormErrorProps extends FormProps, FormError {}
+
 const CreatePasswordContainer: FunctionComponent = () => {
   const setPassword = useMutation(SetPasswordMutation);
-  const onSubmit: OnSubmit<FormProps> = useCallback(
+  const onSubmit: OnSubmit<FormErrorProps> = useCallback(
     async (input, form) => {
       try {
         await setPassword({ password: input.password });
-        return form.reset();
+        return;
       } catch (error) {
         return { [FORM_ERROR]: error.message };
       }

@@ -1,5 +1,7 @@
 import sinon from "sinon";
 
+import { ERROR_CODES } from "coral-common/errors";
+import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {
   act,
@@ -10,8 +12,6 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
-import { ERROR_CODES } from "coral-common/errors";
-import { InvalidRequestError } from "coral-framework/lib/errors";
 import create from "./create";
 
 const token = createAccessToken();
@@ -32,6 +32,7 @@ it("renders missing reset token", async () => {
   const { root } = await createTestRenderer();
   await waitForElement(() => within(root).getByTestID("invalid-link"));
   expect(within(root).toJSON()).toMatchSnapshot();
+  expect(await within(root).axe()).toHaveNoViolations();
 });
 
 it("renders form", async () => {
@@ -57,6 +58,7 @@ it("renders form", async () => {
     );
   });
   expect(within(root).toJSON()).toMatchSnapshot();
+  expect(await within(root).axe()).toHaveNoViolations();
   restMock.verify();
 });
 
@@ -98,6 +100,7 @@ it("renders error from server", async () => {
       );
     });
     restMock.verify();
+    expect(await within(root).axe()).toHaveNoViolations();
   }
 });
 

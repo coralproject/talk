@@ -1,13 +1,14 @@
 import { graphql, requestSubscription } from "react-relay";
 import { Environment, RecordSourceSelectorProxy } from "relay-runtime";
 
-import { QueueCommentEnteredSubscription } from "coral-admin/__generated__/QueueCommentEnteredSubscription.graphql";
 import { getQueueConnection } from "coral-admin/helpers";
 import {
   createSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
 import { GQLMODERATION_QUEUE_RL } from "coral-framework/schema";
+
+import { QueueCommentEnteredSubscription } from "coral-admin/__generated__/QueueCommentEnteredSubscription.graphql";
 
 function handleCommentEnteredModerationQueue(
   store: RecordSourceSelectorProxy,

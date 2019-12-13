@@ -563,7 +563,7 @@ exports[`successfully sets email 1`] = `
           onFocus={[Function]}
           placeholder="Email Address"
           type="text"
-          value=""
+          value="hans@test.com"
         />
       </div>
     </div>
@@ -589,7 +589,7 @@ exports[`successfully sets email 1`] = `
           onFocus={[Function]}
           placeholder="Confirm Email Address"
           type="text"
-          value=""
+          value="hans@test.com"
         />
       </div>
     </div>

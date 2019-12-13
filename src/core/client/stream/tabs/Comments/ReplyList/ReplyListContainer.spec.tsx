@@ -1,4 +1,5 @@
 import { shallow, ShallowWrapper } from "enzyme";
+import { EventEmitter2 } from "eventemitter2";
 import { noop } from "lodash";
 import React from "react";
 
@@ -10,6 +11,10 @@ import { ReplyListContainer } from "./ReplyListContainer";
 
 // Remove relay refs so we can stub the props.
 const ReplyListContainerN = removeFragmentRefs(ReplyListContainer);
+
+/* Mock useContext */
+const context = { eventEmitter: new EventEmitter2() };
+jest.spyOn(React, "useContext").mockImplementation(() => context);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {

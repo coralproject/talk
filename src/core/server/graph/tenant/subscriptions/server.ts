@@ -15,7 +15,7 @@ import {
 } from "subscriptions-transport-ws";
 
 import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
-import { Omit } from "coral-common/types";
+import { Omit, RequireProperty } from "coral-common/types";
 import { AppOptions } from "coral-server/app";
 import { getHostname } from "coral-server/app/helpers/hostname";
 import {
@@ -36,11 +36,12 @@ import {
 } from "coral-server/graph/common/extensions";
 import { getOperationMetadata } from "coral-server/graph/common/extensions/helpers";
 import { getPersistedQuery } from "coral-server/graph/common/persisted";
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 import { hasStaffRole } from "coral-server/models/user/helpers";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
+
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import TenantContext, { TenantContextOptions } from "../context";
 
@@ -77,11 +78,10 @@ export function extractClientID(connectionParams: OperationMessagePayload) {
   return null;
 }
 
-export type OnConnectOptions = Omit<
-  TenantContextOptions,
-  "tenant" | "signingConfig" | "disableCaching"
-> &
-  Required<Pick<TenantContextOptions, "signingConfig">>;
+export type OnConnectOptions = RequireProperty<
+  Omit<TenantContextOptions, "tenant" | "disableCaching">,
+  "signingConfig"
+>;
 
 export function onConnect(options: OnConnectOptions): OnConnectFn {
   // Create the JWT verifiers that will be used to verify all the requests
@@ -154,13 +154,14 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
       }
 
       if (!(err instanceof CoralError)) {
+        // eslint-disable-next-line no-ex-assign
         err = new InternalError(err, "could not setup websocket connection");
       }
       const { message } = err.serializeExtensions(
         options.i18n.getDefaultBundle()
       );
 
-      throw { message };
+      throw new Error(message);
     }
   };
 }
@@ -236,6 +237,9 @@ export function onOperation(options: OnOperationOptions) {
       ) {
         throw new RawQueryNotAuthorized(
           params.context.tenant.id,
+          message.payload && message.payload.query
+            ? message.payload.query
+            : null,
           params.context.user ? params.context.user.id : null
         );
       }
@@ -259,12 +263,11 @@ export function createSubscriptionServer(
   schema: GraphQLSchema,
   options: Options
 ) {
-  const keepAlive = options.config.get("websocket_keep_alive_timeout");
-  if (typeof keepAlive !== "number" || keepAlive <= 0) {
-    throw new Error(
-      "expected the websocket_keep_alive_timeout configuration to be a positive number"
-    );
-  }
+  // This typecast is needed because the custom `ms` format does not return the
+  // desired `number` type even though that's the only type it can output.
+  const keepAlive = (options.config.get(
+    "websocket_keep_alive_timeout"
+  ) as unknown) as number;
 
   return SubscriptionServer.create(
     {

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { InferableComponentEnhancer } from "recompose";
 import { Disposable, Environment } from "relay-runtime";
 
@@ -50,6 +50,7 @@ export function useSubscription<V>(
   const context = useCoralContext();
   return useCallback<SubscriptionProp<typeof subscription>>(
     ((variables: V) => {
+      // TODO: (cvle) These events are deprecated.
       context.eventEmitter.emit(`subscription.${subscription.name}`, variables);
       return subscription.subscribe(
         context.relayEnvironment,
@@ -75,7 +76,7 @@ export function withSubscription<N extends string, V, R>(
   return (BaseComponent: React.ComponentType<any>) => {
     {
       const sub = useSubscription(subscription);
-      return props => {
+      return function WithSubscription(props) {
         const finalProps = {
           ...props,
           [subscription.name]: sub,

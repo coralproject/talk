@@ -1,0 +1,7 @@
+.root {
+  color: var(--v2-palette-username-emphasis);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-family: var(--v2-font-family-secondary);
+  line-height: var(--v2-line-height-body-short);
+  font-size: var(--v2-font-size-3);
+}

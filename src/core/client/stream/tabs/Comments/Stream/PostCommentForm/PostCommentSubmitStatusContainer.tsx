@@ -2,6 +2,7 @@ import React from "react";
 
 import { SubmitStatus } from "../../helpers/getSubmitStatus";
 import PostCommentInReviewMessage from "./PostCommentInReviewMessage";
+import PostCommentRejectedMessage from "./PostCommentRejectedMessage";
 
 interface Props {
   status: SubmitStatus | null;
@@ -18,7 +19,7 @@ export default class PostCommentSubmitStatusContainer extends React.Component<
     dismissed: false,
   };
 
-  public componentWillReceiveProps(nextProps: Props) {
+  public UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.status !== nextProps.status) {
       this.setState({ dismissed: false });
     }
@@ -33,7 +34,9 @@ export default class PostCommentSubmitStatusContainer extends React.Component<
       case "RETRY":
         throw new Error("Not implemented");
       case "REJECTED":
-      // TODO: Show a different message when rejected?
+        return this.state.dismissed ? null : (
+          <PostCommentRejectedMessage onDismiss={this.handleOnDismiss} />
+        );
       case "IN_REVIEW":
         return this.state.dismissed ? null : (
           <PostCommentInReviewMessage onDismiss={this.handleOnDismiss} />

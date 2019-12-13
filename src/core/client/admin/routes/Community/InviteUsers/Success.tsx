@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Box, Button, CheckIcon, Flex, Typography } from "coral-ui/components";
+import { Box, Button, CheckIcon, Flex } from "coral-ui/components";
 
 import * as styles from "./Success.css";
 
@@ -24,9 +24,7 @@ const Success: FunctionComponent<Props> = ({ lastFocusableRef, onClose }) => (
         </Box>
         <Box marginBottom={7}>
           <Localized id="community-invite-invitationsSent">
-            <Typography variant="header2">
-              Your invitations have been sent!
-            </Typography>
+            <h2 className={styles.title}>Your invitations have been sent!</h2>
           </Localized>
         </Box>
       </Flex>

@@ -79,13 +79,17 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-email">
-                      <InputLabel>Email</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Email
+                      </InputLabel>
                     </Localized>
                     <Localized
                       id="install-createYourAccount-emailTextField"
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Email"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
@@ -93,7 +97,6 @@ class CreateYourAccountStep extends Component<Props> {
                         autoCapitalize="off"
                         autoCorrect="off"
                         fullWidth
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />
@@ -108,7 +111,9 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-username">
-                      <InputLabel>Username</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Username
+                      </InputLabel>
                     </Localized>
                     <Localized id="install-createYourAccount-usernameDescription">
                       <InputDescription>
@@ -121,13 +126,14 @@ class CreateYourAccountStep extends Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Username"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         autoCapitalize="off"
                         autoCorrect="off"
                         fullWidth
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />
@@ -142,7 +148,9 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-password">
-                      <InputLabel>Password</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Password
+                      </InputLabel>
                     </Localized>
                     <Localized id="install-createYourAccount-passwordDescription">
                       <InputDescription>
@@ -154,12 +162,13 @@ class CreateYourAccountStep extends Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Password"
                         type="password"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />
@@ -174,19 +183,22 @@ class CreateYourAccountStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-createYourAccount-confirmPassword">
-                      <InputLabel>Confirm Password</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Confirm Password
+                      </InputLabel>
                     </Localized>
                     <Localized
                       id="install-createYourAccount-confirmPasswordTextField"
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Confirm Password"
                         type="password"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />

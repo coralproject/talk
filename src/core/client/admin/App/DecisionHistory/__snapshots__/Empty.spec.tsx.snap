@@ -9,9 +9,11 @@ exports[`renders correctly 1`] = `
   <Localized
     id="decisionHistory-youWillSeeAList"
   >
-    <ForwardRef(forwardRef)>
+    <div
+      className="Empty-text"
+    >
       You will see a list of your post moderation actions here.
-    </ForwardRef(forwardRef)>
+    </div>
   </Localized>
 </ForwardRef(forwardRef)>
 `;

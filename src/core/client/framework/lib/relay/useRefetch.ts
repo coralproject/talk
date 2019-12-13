@@ -25,7 +25,7 @@ export default function useRefetch<V = Variables>(
       error => {
         setRefetching(false);
         if (error) {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           console.error(error);
         }
       },

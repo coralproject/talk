@@ -2,9 +2,10 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { IgnoreUserSettingsContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoreUserSettingsContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
+import { ShowIgnoreUserdDialogEvent } from "coral-stream/events";
 import {
   Button,
   Flex,
@@ -13,21 +14,27 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import styles from "./IgnoreUserSettingsContainer.css";
+import { IgnoreUserSettingsContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoreUserSettingsContainer_viewer.graphql";
+
 import RemoveUserIgnoreMutation from "./RemoveUserIgnoreMutation";
 import Username from "./Username";
+
+import styles from "./IgnoreUserSettingsContainer.css";
 
 interface Props {
   viewer: ViewerData;
 }
 
 const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
+  const emitShow = useViewerEvent(ShowIgnoreUserdDialogEvent);
   const removeUserIgnore = useMutation(RemoveUserIgnoreMutation);
   const [showManage, setShowManage] = useState(false);
-  const toggleManage = useCallback(() => setShowManage(!showManage), [
-    showManage,
-    setShowManage,
-  ]);
+  const toggleManage = useCallback(() => {
+    if (!showManage) {
+      emitShow();
+    }
+    setShowManage(!showManage);
+  }, [showManage, setShowManage]);
   return (
     <div
       data-testid="profile-account-ignoredCommenters"

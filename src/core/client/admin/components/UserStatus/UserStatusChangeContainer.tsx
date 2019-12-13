@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { UserStatusChangeContainer_settings as SettingsData } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
-import { UserStatusChangeContainer_user as UserData } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import {
   graphql,
   useMutation,
@@ -9,7 +7,9 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 
-import ButtonPadding from "../ButtonPadding";
+import { UserStatusChangeContainer_settings as SettingsData } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
+import { UserStatusChangeContainer_user as UserData } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+
 import BanModal from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
 import PremodModal from "./PremodModal";
@@ -26,10 +26,11 @@ interface Props {
   user: UserData;
   fullWidth?: boolean;
   settings: SettingsData;
+  bordered?: boolean;
 }
 
 const UserStatusChangeContainer: FunctionComponent<Props> = props => {
-  const { user, settings, fullWidth } = props;
+  const { user, settings, fullWidth, bordered } = props;
   const banUser = useMutation(BanUserMutation);
   const suspendUser = useMutation(SuspendUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
@@ -118,11 +119,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
   );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
-    return (
-      <ButtonPadding>
-        <UserStatusContainer user={user} />
-      </ButtonPadding>
-    );
+    return <UserStatusContainer user={user} />;
   }
 
   return (
@@ -138,6 +135,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
         suspended={user.status.suspension.active}
         premod={user.status.premod.active}
         fullWidth={fullWidth}
+        bordered={bordered}
       >
         <UserStatusContainer user={user} />
       </UserStatusChange>

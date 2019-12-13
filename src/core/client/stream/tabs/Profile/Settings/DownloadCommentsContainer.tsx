@@ -7,9 +7,10 @@ import { DOWNLOAD_LIMIT_TIMEFRAME } from "coral-common/constants";
 import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import { Button, CallOut, Flex, Icon, Typography } from "coral-ui/components";
+
+import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 
 import RequestCommentsDownloadMutation from "./RequestCommentsDownloadMutation";
 
@@ -40,7 +41,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
     month: "2-digit",
     year: "numeric",
     hour12: true,
-    hour: "2-digit",
+    hour: "numeric",
     minute: "2-digit",
     timeZoneName: "short",
   });
@@ -117,12 +118,13 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
             query_builder
           </Icon>
           <Localized
-            id="profile-account-download-comments-timeOut"
+            id="profile-account-download-comments-requested"
             $value={scaled}
             $unit={unit}
           >
             <span>
-              You can submit another request in {scaled} {unit}
+              Request submitted. You can submit another request in {scaled}{" "}
+              {unit}
             </span>
           </Localized>
         </CallOut>

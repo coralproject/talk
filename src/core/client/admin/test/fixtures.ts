@@ -165,6 +165,9 @@ export const settings = createFixture<GQLSettings>({
     premodEnabled: false,
     approvedCommentsThreshold: 2,
   },
+  slack: {
+    channels: [],
+  },
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
@@ -453,6 +456,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
+    url: "",
     metadata: {
       author: "Vin Hoa",
       title: "Finally a Cure for Cancer",
@@ -465,6 +469,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
+    url: "",
     metadata: {
       author: "Linh Nguyen",
       title: "First Colony on Mars",
@@ -477,6 +482,7 @@ export const stories = createFixtures<GQLStory>([
     createdAt: "2018-11-29T16:01:51.897Z",
     isClosed: true,
     status: GQLSTORY_STATUS.CLOSED,
+    url: "",
     metadata: {
       author: undefined,
       title: "World hunger has been defeated",
@@ -531,6 +537,7 @@ export const baseComment = createFixture<GQLComment>({
           COMMENT_REPORTED_OFFENSIVE: 0,
           COMMENT_REPORTED_SPAM: 0,
           COMMENT_DETECTED_NEW_COMMENTER: 0,
+          COMMENT_DETECTED_REPEAT_POST: 0,
         },
       },
     },

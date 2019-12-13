@@ -1,9 +1,10 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { CommentAuthorContainer_comment as CommentData } from "coral-admin/__generated__/CommentAuthorContainer_comment.graphql";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { Tag } from "coral-ui/components";
+import { Tag } from "coral-ui/components/v2";
+
+import { CommentAuthorContainer_comment as CommentData } from "coral-admin/__generated__/CommentAuthorContainer_comment.graphql";
 
 import styles from "./CommentAuthorContainer.css";
 

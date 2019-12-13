@@ -1,3 +1,4 @@
+import { axe } from "jest-axe";
 import { ReactTestInstance } from "react-test-renderer";
 
 import { getByID, queryByID } from "./byID";
@@ -14,7 +15,15 @@ import {
   queryByTestID,
 } from "./byTestID";
 import { getAllByText, getByText, queryAllByText, queryByText } from "./byText";
-import { getAllByType, getByType, queryAllByType, queryByType } from "./byType";
+import {
+  getAllByType,
+  getByType,
+  getParentByType,
+  queryAllByType,
+  queryByType,
+  queryParentByType,
+} from "./byType";
+import toHTML from "./toHTML";
 import toJSON from "./toJSON";
 
 type Func0<R> = () => R;
@@ -32,12 +41,12 @@ type RemoveFirstArgument<T, R> = T extends [any, any, any, any?]
   ? Func0<R>
   : unknown;
 
-// tslint:disable
-// @TODO: currently tslint fails to parse this: `...any[]`.
-function applyContainer<T extends [ReactTestInstance, ...any[]], R>(container: ReactTestInstance, fn: (...args: T) => R): RemoveFirstArgument<T, R> {
-  return ((...args: any[]) => fn(...[container, ...args] as any)) as any;
+function applyContainer<T extends [ReactTestInstance, ...any[]], R>(
+  container: ReactTestInstance,
+  fn: (...args: T) => R
+): RemoveFirstArgument<T, R> {
+  return ((...args: any[]) => fn(...([container, ...args] as any))) as any;
 }
-// tslint:enable
 
 export default function within(container: ReactTestInstance) {
   return {
@@ -56,9 +65,22 @@ export default function within(container: ReactTestInstance) {
     queryByLabelText: applyContainer(container, queryByLabelText),
     queryAllByLabelText: applyContainer(container, queryAllByLabelText),
     getByType: applyContainer(container, getByType),
+    getParentByType: applyContainer(container, getParentByType),
     getAllByType: applyContainer(container, getAllByType),
     queryByType: applyContainer(container, queryByType),
+    queryParentByType: applyContainer(container, queryParentByType),
     queryAllByType: applyContainer(container, queryAllByType),
-    toJSON: () => toJSON(container),
+    toJSON: applyContainer(container, toJSON),
+    toHTML: applyContainer(container, toHTML),
+    /**
+     * Check for some accessibility violations
+     *
+     * Example use:
+     * `expect(await within(container).axe()).toHaveNoViolations();`
+     */
+    axe: () => axe(toHTML(container)),
+    /** Output the html representation of the container */
+    // eslint-disable-next-line no-console
+    debug: () => console.log(toHTML(container, { pretty: true })),
   };
 }

@@ -3,14 +3,15 @@ import React from "react";
 
 import { SubmitHookHandler } from "coral-framework/lib/form";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+
 import { ConfigureStreamContainer_story as StoryData } from "coral-stream/__generated__/ConfigureStreamContainer_story.graphql";
+
+import ConfigureStream from "./ConfigureStream";
 import {
   UpdateStorySettingsInput,
   UpdateStorySettingsMutation,
   withUpdateStorySettingsMutation,
 } from "./UpdateStorySettingsMutation";
-
-import ConfigureStream from "./ConfigureStream";
 
 interface Props {
   story: StoryData;
@@ -48,11 +49,12 @@ const enhanced = withFragmentContainer<Props>({
     fragment ConfigureStreamContainer_story on Story {
       id
       settings {
-        ...PremodConfigContainer_storySettings
-        ...PremodLinksConfigContainer_storySettings
-        ...MessageBoxConfigContainer_storySettings
+        ...PremodConfig_formValues @relay(mask: false)
+        ...PremodLinksConfig_formValues @relay(mask: false)
+        ...MessageBoxConfig_formValues @relay(mask: false)
+        ...LiveUpdatesConfig_formValues @relay(mask: false)
+
         ...LiveUpdatesConfigContainer_storySettings
-        ...LiveUpdatesConfigContainer_storySettingsReadOnly
       }
     }
   `,

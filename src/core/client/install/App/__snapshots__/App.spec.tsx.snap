@@ -5,10 +5,13 @@ exports[`renders correctly 1`] = `
   className="App-root"
 >
   <MainBar />
-  <div
+  <main
     className="App-container"
   >
-    <withContext(createMutationContainer(InstallWizard)) />
-  </div>
+    <AppState
+      error={null}
+      state="loading"
+    />
+  </main>
 </div>
 `;

@@ -9,7 +9,7 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
-import { baseUser, settings, stories } from "../fixtures";
+import { settings, stories, userWithEmail } from "../fixtures";
 import create from "./create";
 
 const story = stories[0];
@@ -23,8 +23,8 @@ async function createTestRenderer(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
-          viewer: () => baseUser,
-          story: () => story,
+          viewer: () => userWithEmail,
+          stream: () => story,
         },
       }),
       params.resolvers
@@ -49,7 +49,7 @@ describe("change email form", () => {
     const setup = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
-          viewer: () => baseUser,
+          viewer: () => userWithEmail,
         },
         Mutation: {
           updateEmail: ({ variables }) => {
@@ -58,7 +58,7 @@ describe("change email form", () => {
             });
             return {
               user: {
-                ...baseUser,
+                ...userWithEmail,
                 email: "updated_email@test.com",
               },
             };
@@ -77,6 +77,7 @@ describe("change email form", () => {
     act(() => {
       editButton.props.onClick();
     });
+    expect(await within(changeEmail).axe()).toHaveNoViolations();
     const form = within(changeEmail).getByType("form");
     act(() => {
       form.props.onSubmit();

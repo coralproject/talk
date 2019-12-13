@@ -2,6 +2,7 @@ import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
 import {
+  act,
   createSinonStub,
   wait,
   waitForElement,
@@ -59,7 +60,7 @@ beforeEach(() => {
   const resolvers = {
     Query: {
       settings: sinon.stub().returns(settings),
-      story: createSinonStub(
+      stream: createSinonStub(
         s => s.throws(),
         s =>
           s
@@ -86,6 +87,7 @@ it("renders profile", async () => {
     within(testRenderer.root).getByTestID("profile-commentHistory")
   );
   expect(within(commentHistory).toJSON()).toMatchSnapshot();
+  expect(await within(commentHistory).axe()).toHaveNoViolations();
 });
 
 it("loads more comments", async () => {
@@ -98,13 +100,17 @@ it("loads more comments", async () => {
     /^historyComment-/
   ).length;
 
-  within(commentHistory)
-    .getByText("Load More")
-    .props.onClick();
+  act(() => {
+    within(commentHistory)
+      .getByText("Load More")
+      .props.onClick();
+  });
 
   // Wait for loading.
-  await wait(() =>
-    expect(within(commentHistory).queryByText("Load More")).toBeNull()
+  await act(() =>
+    wait(() =>
+      expect(within(commentHistory).queryByText("Load More")).toBeNull()
+    )
   );
 
   expect(within(commentHistory).getAllByTestID(/^historyComment-/).length).toBe(

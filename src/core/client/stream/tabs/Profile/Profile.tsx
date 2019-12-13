@@ -1,11 +1,12 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import { graphql, useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
-import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
+import { SetProfileTabEvent } from "coral-stream/events";
 import {
   HorizontalGutter,
   Tab,
@@ -13,6 +14,8 @@ import {
   TabContent,
   TabPane,
 } from "coral-ui/components";
+
+import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 
 import CommentHistoryContainer from "./CommentHistory";
 import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";
@@ -34,14 +37,20 @@ export interface ProfileProps {
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
+  const emitSetProfileTabEvent = useViewerEvent(SetProfileTabEvent);
   const [local, setLocal] = useLocal<ProfileLocal>(graphql`
     fragment ProfileLocal on Local {
       profileTab
     }
   `);
   const onTabClick = useCallback(
-    (tab: ProfileLocal["profileTab"]) => setLocal({ profileTab: tab }),
-    [setLocal]
+    (tab: ProfileLocal["profileTab"]) => {
+      if (local.profileTab !== tab) {
+        emitSetProfileTabEvent({ tab });
+        setLocal({ profileTab: tab });
+      }
+    },
+    [setLocal, local.profileTab]
   );
   return (
     <HorizontalGutter size="double">

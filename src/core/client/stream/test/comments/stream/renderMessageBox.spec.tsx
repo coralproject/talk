@@ -18,7 +18,7 @@ async function createTestRenderer(
     Query: {
       settings: sinon.stub().returns(pureMerge(settings, data.settings)),
       viewer: sinon.stub().returns((data.loggedIn && commenters[0]) || null),
-      story: sinon.stub().callsFake((_: any, variables: any) => {
+      stream: sinon.stub().callsFake((_: any, variables: any) => {
         expectAndFail(variables.id).toBe(storyWithNoComments.id);
         return pureMerge(storyWithNoComments, data.story);
       }),

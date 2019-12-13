@@ -3,7 +3,9 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { GQLUSER_ROLE } from "coral-framework/schema";
-import { FieldSet, RadioButton, Typography } from "coral-ui/components";
+import { FieldSet, RadioButton } from "coral-ui/components/v2";
+
+import styles from "./RoleField.css";
 
 interface Props {
   disabled: boolean;
@@ -12,18 +14,16 @@ interface Props {
 const RoleField: FunctionComponent<Props> = ({ disabled }) => (
   <FieldSet>
     <Localized id="community-invite-inviteAsLabel">
-      <Typography container="legend" variant="bodyCopyBold">
-        Invite as:
-      </Typography>
+      <legend className={styles.legend}>Invite as:</legend>
     </Localized>
     <div>
       <Field name="role" type="radio" value={GQLUSER_ROLE.STAFF}>
         {({ input }) => (
           <Localized id="role-staff">
             <RadioButton
+              {...input}
               id={`${input.name}-staff`}
               disabled={disabled}
-              {...input}
             >
               Staff
             </RadioButton>
@@ -34,9 +34,9 @@ const RoleField: FunctionComponent<Props> = ({ disabled }) => (
         {({ input }) => (
           <Localized id="role-moderator">
             <RadioButton
+              {...input}
               id={`${input.name}-moderator`}
               disabled={disabled}
-              {...input}
             >
               Moderator
             </RadioButton>
@@ -47,9 +47,9 @@ const RoleField: FunctionComponent<Props> = ({ disabled }) => (
         {({ input }) => (
           <Localized id="role-admin">
             <RadioButton
+              {...input}
               id={`${input.name}-admin`}
               disabled={disabled}
-              {...input}
             >
               Admin
             </RadioButton>

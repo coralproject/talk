@@ -37,7 +37,7 @@ download-landingPage-title = Faça o download do seu histórico de comentários
 download-landingPage-description =
   Seu histórico de comentários será salvo em um arquivo .zip. Depois que o seu
   arquivo for descompactado, você terá um aquivo de valor separado por vírgula
-  (ou .csv), que você importar facilmente nas suas planilhas favoritas.
+  (ou .csv), que você pode importar facilmente nas suas planilhas favoritas.
 download-landingPage-contentsDescription =
   Para cada um dos seus comentários, as seguintes informações serão inseridas:
 download-landingPage-contentsDate =

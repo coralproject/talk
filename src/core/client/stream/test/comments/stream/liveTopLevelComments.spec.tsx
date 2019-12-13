@@ -25,7 +25,7 @@ async function createTestRenderer(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
-          story: () => story,
+          stream: () => story,
         },
       }),
       params.resolvers
@@ -123,7 +123,7 @@ it("should not subscribe when story is closed", async () => {
   const { testRenderer, subscriptionHandler } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
-        story: () => pureMerge<typeof story>(story, { isClosed: true }),
+        stream: () => pureMerge<typeof story>(story, { isClosed: true }),
       },
     }),
   });

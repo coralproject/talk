@@ -11,7 +11,6 @@ error-tenantNotFound = Tenant hostname ({$hostname}) not found.
 error-userNotFound = User ({$userID}) not found.
 error-notFound = Unrecognized request URL ({$method} {$path}).
 error-tokenInvalid = Invalid API Token provided.
-
 error-tokenNotFound = Specified token does not exist.
 error-emailAlreadySet = Email address has already been set.
 error-emailNotSet = Email address has not been set yet.
@@ -35,8 +34,9 @@ error-emailInvalidFormat =
   Provided email address does not appear to be a valid email.
 error-emailExceedsMaxLength =
   Email address exceeds maximum length of {$max} characters.
+error-scrapeFailed = Could not scrape the URL { $url }.
 error-internalError = Internal Error
-error-tenantInstalledAlready = Tenant has already been installed already.
+error-tenantInstalledAlready = Tenant has already been installed.
 error-userNotEntitled = You are not authorized to access that resource.
 error-storyNotFound = Story ({$storyID}) not found.
 error-commentNotFound = Comment ({$commentID}) not found.
@@ -57,3 +57,6 @@ error-passwordIncorrect = Incorrect password. Please try again.
 error-usernameAlreadyUpdated = You may only change your username once every { framework-timeago-time }.
 error-persistedQueryNotFound = The persisted query with ID { $id } was not found.
 error-rawQueryNotAuthorized = You are not authorized to execute this query.
+error-inviteIncludesExistingUser = A user with the email address { $email } already exists.
+error-repeatPost = Are you sure? This comment is very similar to your previous comment.
+error-installationForbidden = { -product-name } is already installed. To install another Tenant on this domain ({ $domain }) you need to generate an installation token.

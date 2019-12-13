@@ -41,6 +41,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
   for await (const tenant of tenantCache) {
     log = log.child({ tenantID: tenant.id }, true);
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const now = new Date();
       const user = await retrieveUserScheduledForDeletion(

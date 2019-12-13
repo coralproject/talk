@@ -1,15 +1,14 @@
 import cookie from "cookie";
-import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
 import { IncomingMessage } from "http";
 import { Redis } from "ioredis";
 import Joi from "joi";
-import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
+import jwt, { KeyFunction, SignOptions, VerifyOptions } from "jsonwebtoken";
 import { DateTime } from "luxon";
 import { Bearer, BearerOptions } from "permit";
 import uuid from "uuid/v4";
 
+import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
 import { Omit } from "coral-common/types";
-import { Config } from "coral-server/config";
 import {
   AuthenticationError,
   JWTRevokedError,
@@ -20,7 +19,36 @@ import { User } from "coral-server/models/user";
 import { Request } from "coral-server/types/express";
 
 /**
- *  The following Claim Names are registered in the IANA "JSON Web Token
+ * The following Header Parameter names for use in JWSs are registered
+ * in the IANA "JSON Web Signature and Encryption Header Parameters"
+ * registry established by Section 9.1, with meanings as defined in the
+ * subsections below.
+ *
+ * As indicated by the common registry, JWSs and JWEs share a common
+ * Header Parameter space; when a parameter is used by both
+ * specifications, its usage must be compatible between the
+ * specifications.
+ *
+ * https://tools.ietf.org/html/rfc7515#section-4.1
+ */
+export interface StandardHeader {
+  /**
+   * The "kid" (key ID) Header Parameter is a hint indicating which key
+   * was used to secure the JWS.  This parameter allows originators to
+   * explicitly signal a change of key to recipients.  The structure of
+   * the "kid" value is unspecified.  Its value MUST be a case-sensitive
+   * string.  Use of this Header Parameter is OPTIONAL.
+   *
+   * When used with a JWK, the "kid" value is used to match a JWK "kid"
+   * parameter value.
+   *
+   * https://tools.ietf.org/html/rfc7515#section-4.1.4
+   */
+  kid?: string;
+}
+
+/**
+ * The following Claim Names are registered in the IANA "JSON Web Token
  * Claims" registry established by Section 10.1.  None of the claims
  * defined below are intended to be mandatory to use or implement in all
  * cases, but rather they provide a starting point for a set of useful,
@@ -157,6 +185,11 @@ export interface JWTSigningConfig {
   algorithm: JWTSigningAlgorithm;
 }
 
+export interface JWTVerifyingConfig {
+  secret: Buffer | string | KeyFunction;
+  algorithm: JWTSigningAlgorithm;
+}
+
 export function dateToSeconds(date: Date): number {
   return Math.round(DateTime.fromJSDate(date).toSeconds());
 }
@@ -196,12 +229,11 @@ function isAsymmetricSigningAlgorithm(
 
 /**
  * Parses the config and provides the signing config.
- *
- * @param config the server configuration
  */
-export function createJWTSigningConfig(config: Config): JWTSigningConfig {
-  const secret = config.get("signing_secret");
-  const algorithm = config.get("signing_algorithm");
+export function createJWTSigningConfig(
+  secret: string,
+  algorithm: string = SymmetricSigningAlgorithm.HS256
+): JWTSigningConfig {
   if (isSymmetricSigningAlgorithm(algorithm)) {
     return createSymmetricSigningConfig(algorithm, secret);
   } else if (isAsymmetricSigningAlgorithm(algorithm)) {
@@ -259,23 +291,6 @@ export async function signString<T extends {}>(
 }
 
 /**
- * extractJWTFromRequest will extract the token from the request if it can find
- * it. It first tries to get the token from the headers, then from the cookie.
- *
- * @param req the request to extract the JWT from
- * @param excludeQuery when true, does not pull from the query params
- */
-export function extractTokenFromRequest(
-  req: Request | IncomingMessage,
-  excludeQuery: boolean = false
-): string | null {
-  return (
-    extractJWTFromRequestHeaders(req, excludeQuery) ||
-    extractJWTFromRequestCookie(req)
-  );
-}
-
-/**
  * COOKIE_NAME is the name of the authorization cookie used by Coral.
  */
 export const COOKIE_NAME = "authorization";
@@ -330,7 +345,7 @@ function extractJWTFromRequestCookie(
  */
 function extractJWTFromRequestHeaders(
   req: Request | IncomingMessage,
-  excludeQuery: boolean = false
+  excludeQuery = false
 ) {
   const options: BearerOptions = {
     basic: "password",
@@ -343,6 +358,23 @@ function extractJWTFromRequestHeaders(
   const permit = new Bearer(options);
 
   return permit.check(req) || null;
+}
+
+/**
+ * extractJWTFromRequest will extract the token from the request if it can find
+ * it. It first tries to get the token from the headers, then from the cookie.
+ *
+ * @param req the request to extract the JWT from
+ * @param excludeQuery when true, does not pull from the query params
+ */
+export function extractTokenFromRequest(
+  req: Request | IncomingMessage,
+  excludeQuery = false
+): string | null {
+  return (
+    extractJWTFromRequestHeaders(req, excludeQuery) ||
+    extractJWTFromRequestCookie(req)
+  );
 }
 
 function generateJTIRevokedKey(jti: string) {
@@ -408,7 +440,7 @@ export async function checkJWTRevoked(redis: Redis, jti: string) {
 
 export function verifyJWT(
   tokenString: string,
-  { algorithm, secret }: JWTSigningConfig,
+  { algorithm, secret }: JWTVerifyingConfig,
   now: Date,
   options: Omit<VerifyOptions, "algorithms" | "clockTimestamp"> = {}
 ) {

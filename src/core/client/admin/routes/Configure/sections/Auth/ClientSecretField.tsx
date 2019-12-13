@@ -4,7 +4,7 @@ import { Field } from "react-final-form";
 
 import { parseEmptyAsNull, ValidationMessage } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
-import { FormField, InputLabel, PasswordField } from "coral-ui/components";
+import { FormField, Label, PasswordField } from "coral-ui/components/v2";
 
 interface Props {
   validate?: Validator;
@@ -18,9 +18,6 @@ const ClientSecretField: FunctionComponent<Props> = ({
   validate,
 }) => (
   <FormField>
-    <Localized id="configure-auth-clientSecret">
-      <InputLabel>Client secret</InputLabel>
-    </Localized>
     <Field
       name={name}
       key={(disabled && "on") || "off"}
@@ -29,15 +26,19 @@ const ClientSecretField: FunctionComponent<Props> = ({
     >
       {({ input, meta }) => (
         <>
+          <Localized id="configure-auth-clientSecret">
+            <Label htmlFor={input.name}>Client secret</Label>
+          </Localized>
           <PasswordField
+            {...input}
+            id={input.name}
             disabled={disabled || meta.submitting}
             // TODO: (wyattjoh) figure out how to add translations to these props
             hidePasswordTitle="Show Client Secret"
             showPasswordTitle="Hide Client Secret"
             fullWidth
-            {...input}
           />
-          <ValidationMessage meta={meta} />
+          <ValidationMessage meta={meta} fullWidth />
         </>
       )}
     </Field>

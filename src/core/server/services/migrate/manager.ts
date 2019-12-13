@@ -1,4 +1,5 @@
 import fs from "fs-extra";
+import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import path from "path";
 import now from "performance-now";
@@ -33,7 +34,7 @@ export default class Manager {
   private clientID: string;
   private migrations: Migration[];
   private tenantCache: TenantCache;
-  private ran: boolean = false;
+  private ran = false;
 
   constructor({ tenantCache, i18n }: ManagerOptions) {
     this.clientID = uuid.v4();
@@ -58,15 +59,25 @@ export default class Manager {
 
       // Load the migration.
       const filePath = path.join(__dirname, "migrations", fileName);
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const m = require(filePath);
 
       // Parse the timestamp out of the migration filename.
-      const matches = fileName.match(fileNamePattern);
+      const matches = fileNamePattern.exec(fileName);
       if (!matches || matches.length !== 3) {
         throw new Error("fileName format is invalid");
       }
       const id = parseInt(matches[1], 10);
       const name = matches[2];
+
+      // Skip this migration if it was disabled.
+      if (m.default.disabled) {
+        logger.warn(
+          { migrationID: id, migrationName: name },
+          "skipping disabled migration"
+        );
+        continue;
+      }
 
       // Create the migration instance.
       const migration = new m.default({ id, name, i18n });
@@ -132,9 +143,17 @@ export default class Manager {
     return records.length > 0 ? records[records.length - 1] : null;
   }
 
-  public async executePendingMigrations(mongo: Db) {
+  public async executePendingMigrations(
+    mongo: Db,
+    redis: Redis,
+    silent = false
+  ) {
     // Error out if this is ran twice.
     if (this.ran) {
+      if (silent) {
+        return;
+      }
+
       throw new Error("pending migrations have already been executed");
     }
 
@@ -186,6 +205,7 @@ export default class Manager {
 
       if (migration.up) {
         // The migration provides an up method, we should run this per Tenant.
+        // If no tenants are installed, this will essentially be a no-op.
         for await (const tenant of this.tenantCache) {
           log = log.child({ tenantID: tenant.id }, true);
 
@@ -241,5 +261,10 @@ export default class Manager {
       },
       "finished running pending migrations"
     );
+
+    for await (const tenant of this.tenantCache) {
+      // Flush the tenant cache now for each tenant.
+      await this.tenantCache.delete(redis, tenant.id, tenant.domain);
+    }
   }
 }

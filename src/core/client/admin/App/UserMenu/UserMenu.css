@@ -1,11 +1,17 @@
 .button {
   padding-top: 0;
   padding-bottom: 0;
-  margin-left: 5px;
+  margin-left: 15px;
 }
+
+.icon {
+  color: var(--v2-palette-user-menu-button);
+}
+
 .buttonText {
-  font-size: calc(18rem / var(--rem-base));
-  letter-spacing: calc(-0.2em / 18);
+  font-family: var(--v2-font-family-secondary);
+  color: var(--v2-palette-user-menu-button);
+  font-size: var(--v2-font-size-4);
   margin-left: 2px;
   margin-right: 1px;
 }

@@ -1,6 +1,7 @@
 import convict from "convict";
 import Joi from "joi";
 import { parseConnectionString } from "mongodb-core";
+import ms from "ms";
 import os from "os";
 
 import { LOCALES } from "coral-common/helpers/i18n/locales";
@@ -44,6 +45,28 @@ convict.addFormat({
   // Ensure that there is an ending slash.
   coerce: (url: string) => (url ? ensureEndSlash(url) : url),
 });
+
+// Add a custom format that is a duration parsed with `ms` to used instead of
+// the default format which will use `moment`.
+convict.addFormat({
+  name: "ms",
+  validate: (val: number) => {
+    Joi.assert(val, Joi.number().min(0));
+  },
+  coerce: (val: string) => ms(val),
+});
+
+const algorithms = [
+  "HS256",
+  "HS384",
+  "HS512",
+  "RS256",
+  "RS384",
+  "RS512",
+  "ES256",
+  "ES384",
+  "ES512",
+];
 
 const config = convict({
   env: {
@@ -150,21 +173,26 @@ const config = convict({
     sensitive: true,
   },
   signing_algorithm: {
-    doc: "",
-    format: [
-      "HS256",
-      "HS384",
-      "HS512",
-      "RS256",
-      "RS384",
-      "RS512",
-      "ES256",
-      "ES384",
-      "ES512",
-    ],
+    doc: "The signing algorithm used to sign JSON Web Tokens (JWT).",
+    format: algorithms,
     default: "HS256",
     env: "SIGNING_ALGORITHM",
     arg: "signingAlgorithm",
+  },
+  management_signing_secret: {
+    doc: "The secret used to verify management API requests.",
+    format: "*",
+    default: null,
+    env: "MANAGEMENT_SIGNING_SECRET",
+    arg: "managementSigningSecret",
+    sensitive: true,
+  },
+  management_signing_algorithm: {
+    doc: "The algorithm used to sign management API requests",
+    format: algorithms,
+    default: "HS256",
+    env: "MANAGEMENT_SIGNING_ALGORITHM",
+    arg: "managementSigningAlgorithm",
   },
   logging_level: {
     doc: "The logging level to print to the console",
@@ -183,7 +211,7 @@ const config = convict({
   websocket_keep_alive_timeout: {
     doc:
       "The keepalive timeout (in ms) that should be used to send keep alive messages through the websocket to keep the socket alive",
-    format: "duration",
+    format: "ms",
     default: "30 seconds",
     env: "WEBSOCKET_KEEP_ALIVE_TIMEOUT",
     arg: "websocketKeepAliveTimeout",
@@ -219,6 +247,21 @@ const config = convict({
     default: false,
     env: "DISABLE_RATE_LIMITERS",
     arg: "disableRateLimiters",
+  },
+  scrape_timeout: {
+    doc: "The request timeout (in ms) for scraping operations.",
+    format: "ms",
+    default: "10 seconds",
+    env: "SCRAPE_TIMEOUT",
+    arg: "scrapeTimeout",
+  },
+  disable_force_ssl: {
+    doc:
+      "Disables forcing SSL in production environments. Should not be used except for testing.",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_FORCE_SSL",
+    arg: "disableForceSSL",
   },
 });
 

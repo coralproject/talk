@@ -1,9 +1,11 @@
 import { ConnectionHandler, Environment, RecordProxy } from "relay-runtime";
 
+import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitLocalUpdatePromisified,
   createMutation,
 } from "coral-framework/lib/relay";
+import { ShowMoreRepliesEvent } from "coral-stream/events";
 
 interface ReplyListViewNewInput {
   commentID: string;
@@ -11,7 +13,11 @@ interface ReplyListViewNewInput {
 
 const QueueViewNewMutation = createMutation(
   "viewNew",
-  async (environment: Environment, input: ReplyListViewNewInput) => {
+  async (
+    environment: Environment,
+    input: ReplyListViewNewInput,
+    { eventEmitter }: CoralContext
+  ) => {
     await commitLocalUpdatePromisified(environment, async store => {
       const parentProxy = store.get(input.commentID);
       if (!parentProxy) {
@@ -37,6 +43,10 @@ const QueueViewNewMutation = createMutation(
         ConnectionHandler.insertEdgeAfter(connection, edge);
       });
       connection.setLinkedRecords([], "viewNewEdges");
+      ShowMoreRepliesEvent.emit(eventEmitter, {
+        commentID: input.commentID,
+        count: viewNewEdges.length,
+      });
     });
   }
 );

@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 
-import { SignInContainer_auth as AuthData } from "coral-auth/__generated__/SignInContainer_auth.graphql";
-import { SignInContainerLocal as LocalData } from "coral-auth/__generated__/SignInContainerLocal.graphql";
 import { getViewURL } from "coral-auth/helpers";
 import { SetViewMutation } from "coral-auth/mutations";
 import { redirectOAuth2 } from "coral-framework/helpers";
@@ -11,6 +9,9 @@ import {
   withFragmentContainer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
+
+import { SignInContainer_auth as AuthData } from "coral-auth/__generated__/SignInContainer_auth.graphql";
+import { SignInContainerLocal as LocalData } from "coral-auth/__generated__/SignInContainerLocal.graphql";
 
 import {
   ClearErrorMutation,
@@ -50,8 +51,9 @@ const SignInContainer: FunctionComponent<Props> = ({
   // If there's only one enabled auth integration, we should just perform
   // the redirect now.
   if (
-    !auth.integrations.local.enabled ||
-    !auth.integrations.local.targetFilter.stream
+    !local.error &&
+    (!auth.integrations.local.enabled ||
+      !auth.integrations.local.targetFilter.stream)
   ) {
     // Local isn't enabled, so we can look into the rest of the integrations
     // now.

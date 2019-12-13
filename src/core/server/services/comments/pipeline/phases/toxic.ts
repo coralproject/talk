@@ -9,30 +9,35 @@ import {
   TOXICITY_MODEL_DEFAULT,
   TOXICITY_THRESHOLD_DEFAULT,
 } from "coral-common/constants";
+import { LanguageCode } from "coral-common/helpers";
 import { Omit } from "coral-common/types";
 import { ToxicCommentError } from "coral-server/errors";
-import {
-  GQLCOMMENT_FLAG_REASON,
-  GQLCOMMENT_STATUS,
-  GQLPerspectiveExternalIntegration,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
+  ModerationPhaseContext,
 } from "coral-server/services/comments/pipeline";
+
+import {
+  GQLCOMMENT_FLAG_REASON,
+  GQLCOMMENT_STATUS,
+  GQLPerspectiveExternalIntegration,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 export const toxic: IntermediateModerationPhase = async ({
   tenant,
-  comment,
   nudge,
-}): Promise<IntermediatePhaseResult | void> => {
-  if (!comment.body) {
+  log,
+  htmlStripped,
+}: Pick<
+  ModerationPhaseContext,
+  "tenant" | "nudge" | "log" | "htmlStripped"
+>): Promise<IntermediatePhaseResult | void> => {
+  if (!htmlStripped) {
     return;
   }
-
-  const log = logger.child({ tenantID: tenant.id }, true);
 
   const integration = tenant.integrations.perspective;
 
@@ -89,15 +94,21 @@ export const toxic: IntermediateModerationPhase = async ({
     // Pull the custom model out.
     const model = integration.model || TOXICITY_MODEL_DEFAULT;
 
+    // Get the language from the tenant's set language. This won't be a 1-1
+    // mapping because the Perspective API doesn't support all the languages
+    // that Coral supports in production.
+    const language = convertLanguage(tenant.locale);
+
     // Call into the Toxic comment API.
     const score = await getScore(
-      comment.body,
+      htmlStripped,
       {
         endpoint,
         key: integration.key,
         doNotStore,
         model,
       },
+      language,
       timeout
     );
 
@@ -145,11 +156,36 @@ export const toxic: IntermediateModerationPhase = async ({
 };
 
 /**
+ * Language is the language key that is supported by the Perspective API in the
+ * ISO 631-1 format.
+ */
+type PerspectiveLanguage = "en" | "es" | "fr" | "de";
+
+/**
+ * convertLanguage returns the language code for the related Perspective API
+ * model in the ISO 631-1 format.
+ *
+ * @param locale the language on the tenant in the BCP 47 format.
+ */
+function convertLanguage(locale: LanguageCode): PerspectiveLanguage {
+  switch (locale) {
+    case "en-US":
+      return "en";
+    case "es":
+      return "es";
+    case "de":
+      return "de";
+    default:
+      return "en";
+  }
+}
+
+/**
  * getScore will return the toxicity score for the comment text.
  *
  * @param text comment text to check for toxicity
  * @param model the specific model to use when storing the toxicity
- * @param settings integration settings used to communicate with the perspective api
+ * @param language language to run perspective api
  * @param timeout timeout for communicating with the perspective api
  */
 async function getScore(
@@ -160,6 +196,7 @@ async function getScore(
     model,
     doNotStore,
   }: Required<Omit<GQLPerspectiveExternalIntegration, "enabled" | "threshold">>,
+  language: PerspectiveLanguage,
   timeout: number
 ): Promise<number> {
   // Prepare the URL to send the command to.
@@ -178,8 +215,7 @@ async function getScore(
         comment: {
           text,
         },
-        // TODO: (wyattjoh) support other languages.
-        languages: ["en"],
+        languages: [language],
         doNotStore,
         requestedAttributes: {
           [model]: {},

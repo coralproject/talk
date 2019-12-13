@@ -1,80 +1,82 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
-import {
-  colorFromMeta,
-  parseEmptyAsNull,
-  ValidationMessage,
-} from "coral-framework/lib/form";
+import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { validateEmail } from "coral-framework/lib/validation";
 import {
-  FieldSet,
   FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
-  TextField,
-} from "coral-ui/components";
+  FormFieldHeader,
+  HelperText,
+  Label,
+} from "coral-ui/components/v2";
+
+import TextFieldWithValidation from "../../TextFieldWithValidation";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment From_formValues on EmailConfiguration {
+    enabled
+    fromName
+    fromEmail
+  }
+`;
 
 interface Props {
   disabled: boolean;
 }
 
 const From: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
+  <>
     <FormField>
-      <Localized id="configure-email-fromNameLabel">
-        <InputLabel>From name</InputLabel>
-      </Localized>
-      <Localized id="configure-email-fromNameDescription">
-        <InputDescription>
-          Name as it will appear on all outgoing emails
-        </InputDescription>
-      </Localized>
+      <FormFieldHeader>
+        <Localized id="configure-email-fromNameLabel">
+          <Label>From name</Label>
+        </Localized>
+        <Localized id="configure-email-fromNameDescription">
+          <HelperText>Name as it will appear on all outgoing emails</HelperText>
+        </Localized>
+      </FormFieldHeader>
       <Field name="email.fromName" parse={parseEmptyAsNull}>
         {({ input, meta }) => (
-          <>
-            <TextField
-              fullWidth
-              disabled={disabled}
-              color={colorFromMeta(meta)}
-              {...input}
-            />
-            <ValidationMessage fullWidth meta={meta} />
-          </>
+          <TextFieldWithValidation
+            {...input}
+            fullWidth
+            disabled={disabled}
+            meta={meta}
+          />
         )}
       </Field>
     </FormField>
     <FormField>
-      <Localized id="configure-email-fromEmailLabel">
-        <InputLabel>From email address</InputLabel>
-      </Localized>
-      <Localized id="configure-email-fromEmailDescription">
-        <InputDescription>
-          Email address that will be used to send messages
-        </InputDescription>
-      </Localized>
+      <FormFieldHeader>
+        <Localized id="configure-email-fromEmailLabel">
+          <Label>From email address</Label>
+        </Localized>
+        <Localized id="configure-email-fromEmailDescription">
+          <HelperText>
+            Email address that will be used to send messages
+          </HelperText>
+        </Localized>
+      </FormFieldHeader>
       <Field
         name="email.fromEmail"
         parse={parseEmptyAsNull}
         validate={validateEmail}
       >
         {({ input, meta }) => (
-          <>
-            <TextField
-              type="email"
-              fullWidth
-              color={colorFromMeta(meta)}
-              disabled={disabled}
-              {...input}
-            />
-            <ValidationMessage fullWidth meta={meta} />
-          </>
+          <TextFieldWithValidation
+            {...input}
+            type="email"
+            fullWidth
+            meta={meta}
+            disabled={disabled}
+          />
         )}
       </Field>
     </FormField>
-  </HorizontalGutter>
+  </>
 );
 
 export default From;

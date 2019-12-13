@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Counter
+  classes={
+    Object {
+      "colorAlert": "Counter-colorAlert",
+      "colorDark": "Counter-colorDark",
+      "colorDefault": "Counter-colorDefault",
+      "colorEmphasis": "Counter-colorEmphasis",
+      "colorError": "Counter-colorError",
+      "colorGrey": "Counter-colorGrey",
+      "colorInherit": "Counter-colorInherit",
+      "colorPrimary": "Counter-colorPrimary",
+      "root": "Counter-root",
+      "sizeSmall": "Counter-sizeSmall",
+      "text": "Counter-text",
+    }
+  }
+  color="inherit"
+>
+  20
+</Counter>
+`;

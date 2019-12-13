@@ -6,10 +6,11 @@ import {
   Flex,
   FormField,
   Icon,
-  InputLabel,
+  Label,
   PasswordField,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
+
+import HelperText from "../../HelperText";
 
 import styles from "./SSOKeyField.css";
 
@@ -26,11 +27,12 @@ const SSOKeyField: FunctionComponent<Props> = ({
   disabled,
   onRegenerate,
 }) => (
-  <FormField className={styles.root} data-testid="configure-auth-sso-key">
+  <FormField className={styles.root}>
     <Localized id="configure-auth-sso-key">
-      <InputLabel>Key</InputLabel>
+      <Label htmlFor="configure-auth-sso-key">Key</Label>
     </Localized>
     <PasswordField
+      id="configure-auth-sso-key"
       name="key"
       value={generatedKey}
       readOnly
@@ -40,18 +42,18 @@ const SSOKeyField: FunctionComponent<Props> = ({
       fullWidth
     />
     <Localized id="configure-auth-sso-regenerateAt" $date={keyGeneratedAt}>
-      <Typography className={styles.keyGenerated}>
+      <HelperText className={styles.keyGenerated}>
         KEY GENERATED AT: {keyGeneratedAt}
-      </Typography>
+      </HelperText>
     </Localized>
     <div className={styles.warningSection}>
       <Flex direction="row" itemGutter="half">
         <Icon className={styles.warnIcon}>warning</Icon>
-        <Localized id="configure-auth-sso-regenerateWarning">
-          <Typography className={styles.warn} variant="bodyShort">
-            Regenerating a key will invalidate any existing user sessions, and
-            all signed-in users will be signed out
-          </Typography>
+        <Localized id="configure-auth-sso-regenerateHonoredWarning">
+          <HelperText>
+            When regenerating a key, tokens signed with the previous key will be
+            honored for 30 days.
+          </HelperText>
         </Localized>
       </Flex>
     </div>
@@ -59,9 +61,6 @@ const SSOKeyField: FunctionComponent<Props> = ({
     <Localized id="configure-auth-sso-regenerate">
       <Button
         id="configure-auth-sso-regenerate"
-        variant="filled"
-        color="primary"
-        size="small"
         disabled={disabled}
         onClick={onRegenerate}
         className={styles.regenerateButton}

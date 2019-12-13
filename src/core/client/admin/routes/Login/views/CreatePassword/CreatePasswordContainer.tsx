@@ -18,14 +18,14 @@ class CreatePasswordContainer extends Component<Props> {
   ) => {
     try {
       await this.props.setPassword({ password: input.password });
-      return form.reset();
+      return;
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
   };
 
   public render() {
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line:no-empty
     return <CreatePassword onSubmit={this.handleSubmit} />;
   }
 }

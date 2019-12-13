@@ -3,7 +3,8 @@ import { GQLQueryTypeResolver } from "coral-server/graph/tenant/schema/__generat
 import { moderationQueuesResolver } from "./ModerationQueues";
 
 export const Query: Required<GQLQueryTypeResolver<void>> = {
-  story: (source, args, ctx) =>
+  story: (source, args, ctx) => ctx.loaders.Stories.find.load(args),
+  stream: (source, args, ctx) =>
     ctx.tenant.stories.disableLazy
       ? ctx.loaders.Stories.find.load(args)
       : ctx.loaders.Stories.findOrCreate.load(args),

@@ -1,4 +1,5 @@
 import DataLoader from "dataloader";
+import { defaultTo } from "lodash";
 
 import TenantContext from "coral-server/graph/tenant/context";
 import {
@@ -99,9 +100,9 @@ export default (ctx: TenantContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  connection: ({ first = 10, after, status, query }: QueryToStoriesArgs) =>
+  connection: ({ first, after, status, query }: QueryToStoriesArgs) =>
     retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
-      first,
+      first: defaultTo(first, 10),
       after,
       filter: {
         // Merge the status filter into the connection filter.
@@ -112,7 +113,14 @@ export default (ctx: TenantContext) => ({
       },
     }).then(primeStoriesFromConnection(ctx)),
   debugScrapeMetadata: new DataLoader(
-    createManyBatchLoadFn((url: string) => scraper.scrape(url)),
+    createManyBatchLoadFn((url: string) =>
+      // This typecast is needed because the custom `ms` format does not return
+      // the desired `number` type even though that's the only type it can
+      // output.
+      scraper.scrape(url, (ctx.config.get(
+        "scrape_timeout"
+      ) as unknown) as number)
+    ),
     {
       // Disable caching for the DataLoader if the Context is designed to be
       // long lived.

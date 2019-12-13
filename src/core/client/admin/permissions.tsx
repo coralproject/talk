@@ -1,5 +1,6 @@
-import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import { mapValues } from "lodash";
+
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 
 /**
  * permissionMap describes what abilities certain roles have.
@@ -19,14 +20,14 @@ const permissionMap = {
   CHANGE_ROLE: [GQLUSER_ROLE.ADMIN],
   // Mutation.openStory
   // Mutation.closeStory
-  CHANGE_STORY_STATUS: [GQLUSER_ROLE.ADMIN],
+  CHANGE_STORY_STATUS: [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR],
   // Mutation.inviteUsers
   INVITE_USERS: [GQLUSER_ROLE.ADMIN],
 };
 
 export type AbilityType = keyof typeof permissionMap;
 export const Ability = mapValues(permissionMap, (_, key) => key) as {
-  [P in AbilityType]: P
+  [P in AbilityType]: P;
 };
 
 /**

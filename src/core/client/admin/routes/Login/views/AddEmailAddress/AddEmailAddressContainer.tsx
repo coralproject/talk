@@ -17,14 +17,14 @@ class AddEmailAddressContainer extends Component<Props> {
   >["onSubmit"] = async (input, form) => {
     try {
       await this.props.setEmail({ email: input.email });
-      return form.reset();
+      return;
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
   };
 
   public render() {
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line:no-empty
     return <AddEmailAddress onSubmit={this.handleSubmit} />;
   }
 }

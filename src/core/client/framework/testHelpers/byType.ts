@@ -1,5 +1,6 @@
 import { ReactTestInstance } from "react-test-renderer";
 
+import findParent from "./findParent";
 import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
 const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
@@ -14,6 +15,18 @@ const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
     ...options,
   });
 };
+
+export function getParentByType(
+  container: ReactTestInstance,
+  pattern: TextMatchPattern,
+  options?: TextMatchOptions
+) {
+  const result = findParent(container, matcher(pattern, options));
+  if (!result) {
+    throw new Error(`Parent with pattern ${pattern} not found`);
+  }
+  return result;
+}
 
 export function getByType(
   container: ReactTestInstance,
@@ -45,6 +58,14 @@ export function queryByType(
     return null;
   }
   return results[0];
+}
+
+export function queryParentByType(
+  container: ReactTestInstance,
+  pattern: TextMatchPattern,
+  options?: TextMatchOptions
+) {
+  return findParent(container, matcher(pattern, options));
 }
 
 export function queryAllByType(

@@ -1,7 +1,9 @@
 import RTE from "@coralproject/rte";
+
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   findParentWithType,
@@ -123,16 +125,22 @@ it("post a reply", async () => {
     }),
   });
 
+  expect(await within(form).axe()).toHaveNoViolations();
+
   // Write reply .
-  rte.props.onChange({ html: "<b>Hello world!</b>" });
-  form.props.onSubmit();
+  act(() => rte.props.onChange({ html: "<b>Hello world!</b>" }));
+  act(() => {
+    form.props.onSubmit();
+  });
 
   const commentReplyList = within(testRenderer.root).getByTestID(
     "commentReplyList-comment-0"
   );
 
   // Test after server response.
-  await waitForElement(() =>
-    within(commentReplyList).getByText("(from server)", { exact: false })
-  );
+  await act(async () => {
+    await waitForElement(() =>
+      within(commentReplyList).getByText("(from server)", { exact: false })
+    );
+  });
 });

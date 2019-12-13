@@ -25,7 +25,7 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => baseUser,
-          story: () => story,
+          stream: () => story,
         },
       }),
       params.resolvers
@@ -109,6 +109,8 @@ describe("delete account steps", () => {
         nextButton.props.onClick();
       });
     }
+
+    expect(await within(modal).axe()).toHaveNoViolations();
     const form = within(modal).getByType("form");
     const confirm = within(modal).getByTestID("confirm-page-confirmation");
     const password = within(modal).getByTestID("confirm-page-password");

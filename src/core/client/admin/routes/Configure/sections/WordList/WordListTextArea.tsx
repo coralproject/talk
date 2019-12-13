@@ -7,6 +7,7 @@ import {
   parseNewLineDelimitedString,
 } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
+import { Textarea } from "coral-ui/components/v2";
 
 import ValidationMessage from "../../ValidationMessage";
 
@@ -35,7 +36,8 @@ const WordListTextArea: FunctionComponent<Props> = ({
   >
     {({ input, meta }) => (
       <>
-        <textarea
+        <Textarea
+          {...input}
           id={id}
           className={cn(className, styles.textArea)}
           disabled={disabled}
@@ -43,7 +45,6 @@ const WordListTextArea: FunctionComponent<Props> = ({
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
-          {...input}
         />
         <ValidationMessage meta={meta} />
       </>

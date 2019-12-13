@@ -1,3 +1,4 @@
+import { isMatch } from "lodash";
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
@@ -8,7 +9,6 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
-import { isMatch } from "lodash";
 
 import { comments, settings, stories } from "../../fixtures";
 import create from "./create";
@@ -81,6 +81,18 @@ beforeEach(() => {
             )
             .returns(storyStub)
       ),
+      stream: createSinonStub(
+        s => s.throws(),
+        s =>
+          s
+            .withArgs(
+              undefined,
+              sinon
+                .match({ id: storyStub.id, url: null })
+                .or(sinon.match({ id: storyStub.id }))
+            )
+            .returns(storyStub)
+      ),
       settings: sinon.stub().returns(settings),
     },
   };
@@ -106,6 +118,8 @@ it("loads more comments", async () => {
   const streamLog = await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
+
+  expect(await within(streamLog).axe()).toHaveNoViolations();
 
   // Get amount of comments before.
   const commentsBefore = within(streamLog).getAllByTestID(/^comment-/).length;

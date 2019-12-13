@@ -19,7 +19,7 @@ general-tabBar-configure = Configure
 ## Comment Count
 
 comment-count-text =
-  { $number  ->
+  { $count  ->
     [one] Comment
     *[other] Comments
   }
@@ -34,6 +34,13 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
 
+comments-bannedInfo-bannedFromCommenting = Your account has been banned from commenting.
+comments-bannedInfo-violatedCommunityGuidelines =
+  Someone with access to your account has violated our community
+  guidelines. As a result, your account has been banned. You will no
+  longer be able to comment, respect or report comments. If you think
+  this has been done in error, please contact our community team.
+
 comments-noCommentsYet = There are no comments yet. Why don't you write one?
 
 comments-streamQuery-storyNotFound = Story not found
@@ -41,7 +48,6 @@ comments-streamQuery-storyNotFound = Story not found
 comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
 comments-replyList-showMoreReplies = Show More Replies
-
 
 comments-viewNew =
   { $count ->
@@ -52,6 +58,8 @@ comments-loadMore = Load More
 
 comments-permalinkPopover =
   .description = A dialog showing a permalink to the comment
+comments-permalinkPopover-permalinkToComment =
+  .aria-label = Permalink to comment
 comments-permalinkButton-share = Share
 comments-permalinkView-viewFullDiscussion = View Full Discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
@@ -233,8 +241,8 @@ profile-account-download-comments-request-icon =
   .title = Request comment history
 profile-account-download-comments-recentRequest =
   Your most recent request: { $timeStamp }
-profile-account-download-comments-timeOut =
-  You can submit another request in { framework-timeago-time }
+profile-account-download-comments-requested =
+  Request submitted. You can submit another request in { framework-timeago-time }.
 profile-account-download-comments-request-button = Request
 
 ## Delete Account
@@ -257,6 +265,8 @@ profile-account-deleteAccount-pages-deleteButton = Delete my account
 profile-account-deleteAccount-pages-cancel = Cancel
 profile-account-deleteAccount-pages-proceed = Proceed
 profile-account-deleteAccount-pages-done = Done
+profile-account-deleteAccount-pages-phrase =
+  .aria-label = Phrase
 
 profile-account-deleteAccount-pages-descriptionHeader = Delete my account?
 profile-account-deleteAccount-pages-descriptionText =
@@ -360,6 +370,8 @@ comments-reportPopover-dismiss = Dismiss
 comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =
   Your comment has been submitted and will be reviewed by a moderator
+comments-submitStatus-submittedAndRejected =
+  This comment has been rejected for violating our guidelines
 
 # Configure
 configure-configureQuery-errorLoadingProfile = Error loading configure
@@ -406,6 +418,11 @@ configure-messageBox-description =
   announcements relating to the comments on this story.
 configure-messageBox-preview = Preview
 configure-messageBox-selectAnIcon = Select an Icon
+configure-messageBox-iconConversation = Conversation
+configure-messageBox-iconDate = Date
+configure-messageBox-iconHelp = Help
+configure-messageBox-iconWarning = Warning
+configure-messageBox-iconChatBubble = Chat Bubble
 configure-messageBox-noIcon = No Icon
 configure-messageBox-writeAMessage = Write a Message
 
@@ -421,6 +438,8 @@ configure-openStream-description =
   This comment stream is currently closed. By opening this comment
   stream new comments may be submitted and displayed.
 configure-openStream-openStream = Open Stream
+
+configure-moderateThisStream = Moderate this stream
 
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
 comments-tombstone-deleted =

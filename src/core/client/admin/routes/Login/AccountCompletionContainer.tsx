@@ -1,9 +1,6 @@
 import { RouterState, withRouter } from "found";
 import React, { Component } from "react";
 
-import { AccountCompletionContainer_auth as AuthData } from "coral-admin/__generated__/AccountCompletionContainer_auth.graphql";
-import { AccountCompletionContainer_viewer as UserData } from "coral-admin/__generated__/AccountCompletionContainer_viewer.graphql";
-import { AccountCompletionContainerLocal as Local } from "coral-admin/__generated__/AccountCompletionContainerLocal.graphql";
 import { SetRedirectPathMutation } from "coral-admin/mutations";
 import {
   graphql,
@@ -12,6 +9,10 @@ import {
   withLocalStateContainer,
   withMutation,
 } from "coral-framework/lib/relay";
+
+import { AccountCompletionContainer_auth as AuthData } from "coral-admin/__generated__/AccountCompletionContainer_auth.graphql";
+import { AccountCompletionContainer_viewer as UserData } from "coral-admin/__generated__/AccountCompletionContainer_viewer.graphql";
+import { AccountCompletionContainerLocal as Local } from "coral-admin/__generated__/AccountCompletionContainerLocal.graphql";
 
 import CompleteAccountMutation from "./CompleteAccountMutation";
 import SetAuthViewMutation from "./SetAuthViewMutation";

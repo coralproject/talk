@@ -31,7 +31,7 @@ exports[`cancel edit 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-comment-with-replies"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -49,13 +49,13 @@ exports[`cancel edit 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
-                    role="popup"
+                    aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                    id="username-popover-comment-with-replies"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-comment-with-replies-ariainfo"
                     >
                       A popover with more user information
                     </div>
@@ -184,7 +184,7 @@ exports[`cancel edit 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
                     id="permalink-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -224,7 +224,7 @@ exports[`cancel edit 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-with-replies-ariainfo"
                     id="report-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -299,6 +299,8 @@ exports[`edit a comment and handle server error: edit form 1`] = `
         <div>
           <div
             className="$root content placeholder toolbar"
+            onBlur={[Function]}
+            onFocus={[Function]}
           >
             <div
               className="RTE-contentEditableContainer"
@@ -487,6 +489,8 @@ exports[`edit a comment: edit form 1`] = `
         <div>
           <div
             className="$root content placeholder toolbar"
+            onBlur={[Function]}
+            onFocus={[Function]}
           >
             <div
               className="RTE-contentEditableContainer"
@@ -675,6 +679,8 @@ exports[`edit a comment: optimistic response 1`] = `
         <div>
           <div
             className="$root content placeholder toolbar "
+            onBlur={[Function]}
+            onFocus={[Function]}
           >
             <div
               className="RTE-contentEditableContainer"
@@ -839,7 +845,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-comment-with-replies"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -857,13 +863,13 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
-                    role="popup"
+                    aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                    id="username-popover-comment-with-replies"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-comment-with-replies-ariainfo"
                     >
                       A popover with more user information
                     </div>
@@ -992,7 +998,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
                     id="permalink-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1032,7 +1038,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-with-replies-ariainfo"
                     id="report-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1083,7 +1089,7 @@ exports[`edit a comment: server response 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-comment-with-replies"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1101,13 +1107,13 @@ exports[`edit a comment: server response 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
-                    role="popup"
+                    aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                    id="username-popover-comment-with-replies"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-comment-with-replies-ariainfo"
                     >
                       A popover with more user information
                     </div>
@@ -1245,7 +1251,7 @@ exports[`edit a comment: server response 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
                     id="permalink-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1285,7 +1291,7 @@ exports[`edit a comment: server response 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-with-replies-ariainfo"
                     id="report-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1336,7 +1342,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover"
+                    aria-controls="username-popover-comment-with-replies"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1354,13 +1360,13 @@ exports[`shows expiry message: edit form closed 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-ariainfo"
-                    id="username-popover"
-                    role="popup"
+                    aria-labelledby="username-popover-comment-with-replies-ariainfo"
+                    id="username-popover-comment-with-replies"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-ariainfo"
+                      id="username-popover-comment-with-replies-ariainfo"
                     >
                       A popover with more user information
                     </div>
@@ -1489,7 +1495,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     aria-hidden={true}
                     aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
                     id="permalink-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1529,7 +1535,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     aria-hidden={true}
                     aria-labelledby="report-popover-comment-with-replies-ariainfo"
                     id="report-popover-comment-with-replies"
-                    role="popup"
+                    role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
@@ -1604,6 +1610,8 @@ exports[`shows expiry message: edit time expired 1`] = `
         <div>
           <div
             className="$root content placeholder toolbar "
+            onBlur={[Function]}
+            onFocus={[Function]}
           >
             <div
               className="RTE-contentEditableContainer"

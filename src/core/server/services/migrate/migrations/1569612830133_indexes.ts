@@ -1,4 +1,4 @@
-import { Db } from "mongodb";
+import { Db, MongoError } from "mongodb";
 
 import Migration from "coral-server/services/migrate/migration";
 import collections from "coral-server/services/mongodb/collections";
@@ -331,9 +331,39 @@ export default class extends Migration {
   }
 
   public async indexes(mongo: Db) {
+    // Find all the collections that exist already.
+    const results = await mongo
+      .listCollections({}, { nameOnly: true })
+      .toArray();
+
+    const collectionNames = results
+      .filter(({ type }) => type === "collection")
+      .map(({ name }) => name);
+
     // Drop existing indexes on managed collections so we can re-create them.
-    for (const collection of Object.values(collections)) {
-      await collection(mongo).dropIndexes();
+    for (const collectionName in collections) {
+      if (!collections.hasOwnProperty(collectionName)) {
+        continue;
+      }
+
+      // Check to see if this collection exists.
+      if (!collectionNames.includes(collectionName)) {
+        continue;
+      }
+
+      try {
+        await mongo.collection(collectionName).dropIndexes();
+      } catch (err) {
+        if (err instanceof MongoError) {
+          // If we're dropping indexes on a collection that doesn't exist, then
+          // don't worry.
+          if (err.code === 26) {
+            continue;
+          }
+        }
+
+        throw err;
+      }
     }
 
     // Re-create the indexes for each collection now.

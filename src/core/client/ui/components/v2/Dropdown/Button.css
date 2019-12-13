@@ -1,0 +1,55 @@
+.root {
+  font-size: var(--v2-font-size-3);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--v2-spacing-2);
+  width: 100%;
+  text-align: left;
+  line-height: 1;
+}
+
+.anchor {
+  color: var(--v2-palette-primary-main);
+  text-decoration: underline;
+  &:visited {
+    color: var(--v2-palette-primary-main);
+  }
+}
+
+.root:disabled {
+  opacity: 0.6;
+}
+
+.root:not(:disabled):active {
+  background-color: var(--v2-palette-primary-lightest);
+}
+
+.mouseHover {
+  background-color: var(--v2-palette-primary-lightest);
+}
+
+.iconBefore {
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+  color: var(--v2-palette-grey-main);
+  margin-right: var(--spacing-2);
+}
+.iconAfter {
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  margin-left: var(--spacing-2);
+  text-decoration: unset;
+}
+.iconOpenInNew {
+  padding-top: 1px;
+  color: var(--v2-palette-primary-main);
+}
+
+.blankAdornment {
+  padding-right: var(--v2-spacing-6);
+}

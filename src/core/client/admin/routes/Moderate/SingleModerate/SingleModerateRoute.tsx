@@ -2,9 +2,10 @@ import { noop } from "lodash";
 import React, { FunctionComponent, useEffect } from "react";
 import { graphql } from "react-relay";
 
-import { SingleModerateRouteQueryResponse } from "coral-admin/__generated__/SingleModerateRouteQuery.graphql";
 import { useSubscription } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
+
+import { SingleModerateRouteQueryResponse } from "coral-admin/__generated__/SingleModerateRouteQuery.graphql";
 
 import NotFound from "../../NotFound";
 import { LoadingQueue, Queue } from "../Queue";
@@ -63,7 +64,7 @@ const enhanced = withRouteConfig<Props, SingleModerateRouteQueryResponse>({
     }
   `,
   cacheConfig: { force: true },
-  render: ({ Component, data }) => {
+  render: function SingleModerateRouteRender({ Component, data }) {
     if (Component && data) {
       return <Component {...data} />;
     }

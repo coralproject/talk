@@ -1,7 +1,6 @@
 import { Match, Router, withRouter } from "found";
 import React from "react";
 
-import { AuthCheckRouteQueryResponse } from "coral-admin/__generated__/AuthCheckRouteQuery.graphql";
 import { SetRedirectPathMutation } from "coral-admin/mutations";
 import { AbilityType, can } from "coral-admin/permissions";
 import { roleIsAtLeast } from "coral-framework/helpers";
@@ -9,6 +8,9 @@ import { graphql, MutationProp, withMutation } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 
+import { AuthCheckRouteQueryResponse } from "coral-admin/__generated__/AuthCheckRouteQuery.graphql";
+
+import NetworkError from "./NetworkError";
 import RestrictedContainer from "./RestrictedContainer";
 
 interface Props {
@@ -16,6 +18,7 @@ interface Props {
   router: Router;
   setRedirectPath: MutationProp<typeof SetRedirectPathMutation>;
   data: AuthCheckRouteQueryResponse;
+  error: Error | null;
 }
 
 type CheckParams =
@@ -36,7 +39,7 @@ function createAuthCheckRoute(check: CheckParams) {
       this.redirectIfNotLoggedIn();
     }
 
-    public componentWillReceiveProps(nextProps: Props) {
+    public UNSAFE_componentWillReceiveProps(nextProps: Props) {
       if (nextProps.data && nextProps.data.viewer) {
         this.wasLoggedIn = true;
       }
@@ -54,7 +57,7 @@ function createAuthCheckRoute(check: CheckParams) {
     }
 
     private hasAccess(props: Props = this.props) {
-      const { viewer } = props.data!;
+      const { viewer } = props.data;
       if (viewer) {
         if (
           (check.role && !roleIsAtLeast(viewer.role, check.role)) ||
@@ -85,6 +88,9 @@ function createAuthCheckRoute(check: CheckParams) {
     }
 
     public render() {
+      if (this.props.error) {
+        return <NetworkError />;
+      }
       if (!this.props.data || this.shouldRedirectTo()) {
         return null;
       }

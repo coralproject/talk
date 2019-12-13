@@ -24,7 +24,7 @@ process.on("unhandledRejection", err => {
 const paths = require("../config/paths.ts").default;
 
 const jest = require("jest");
-let argv = process.argv.slice(2);
+const argv = process.argv.slice(2);
 argv.push("--config", paths.appJestConfig);
 
 // Watch unless on CI or in coverage mode

@@ -1,18 +1,18 @@
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent, useCallback } from "react";
+import { graphql, RelayPaginationProp } from "react-relay";
+
+import { ModerateCardContainer } from "coral-admin/components/ModerateCard";
 import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
-import { graphql, RelayPaginationProp } from "react-relay";
+import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
 import { UserHistoryDrawerRejectedComments_settings } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_settings.graphql";
 import { UserHistoryDrawerRejectedComments_user } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_user.graphql";
 import { UserHistoryDrawerRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_viewer.graphql";
 import { UserHistoryDrawerRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsPaginationQuery.graphql";
-
-import { ModerateCardContainer } from "coral-admin/components/ModerateCard";
-import { Button, CallOut, Typography } from "coral-ui/components";
 
 import styles from "./UserHistoryDrawerRejectedComments.css";
 
@@ -51,9 +51,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
           id="moderate-user-drawer-rejected-no-comments"
           $username={user.username}
         >
-          <Typography variant="bodyCopy">
-            {user.username} does not have any rejected comments.
-          </Typography>
+          <div>{user.username} does not have any rejected comments.</div>
         </Localized>
       </CallOut>
     );
@@ -73,7 +71,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
             mini
           />
           {// Don't show horizontal rule after last comment
-          index !== comments.length - 1 && <hr />}
+          index !== comments.length - 1 && <Divider />}
         </div>
       ))}
       {hasMore && (

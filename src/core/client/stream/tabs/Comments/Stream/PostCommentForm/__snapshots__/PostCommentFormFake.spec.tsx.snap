@@ -11,9 +11,7 @@ exports[`renders correctly 1`] = `
   <ForwardRef(forwardRef)
     className="PostCommentFormFake-root"
   >
-    <div
-      aria-hidden="true"
-    >
+    <div>
       <Localized
         attrs={
           Object {
@@ -24,6 +22,7 @@ exports[`renders correctly 1`] = `
       >
         <RTE
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Post a comment"
           value=""
         />

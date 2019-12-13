@@ -35,43 +35,45 @@ const ConfirmRoute: React.FunctionComponent<Props> = ({ token }) => {
 
   if (state === "UNCHECKED") {
     return (
-      <div className={styles.container}>
+      <main className={styles.container}>
         <div className={styles.root}>
           <Loading />
         </div>
-      </div>
+      </main>
     );
   }
 
   if (state !== "VALID" || error) {
     return (
-      <div className={styles.container}>
+      <main className={styles.container}>
         <div className={styles.root}>
           <Sorry reason={error} />
         </div>
-      </div>
+      </main>
     );
   }
 
   return !finished ? (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <div className={styles.root}>
         <ConfirmForm token={token!} onSuccess={onSuccess} />
       </div>
-    </div>
+    </main>
   ) : (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <div className={styles.root}>
         <Success />
       </div>
-    </div>
+    </main>
   );
 };
 
 const enhanced = withRouteConfig<Props>({
-  render: ({ match, Component }) => (
-    <Component token={parseHashQuery(match.location.hash).confirmToken} />
-  ),
+  render: function ConfirmRouteRender({ match, Component }) {
+    return (
+      <Component token={parseHashQuery(match.location.hash).confirmToken} />
+    );
+  },
 })(ConfirmRoute);
 
 export default enhanced;

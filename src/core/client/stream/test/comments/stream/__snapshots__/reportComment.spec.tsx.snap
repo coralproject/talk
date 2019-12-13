@@ -5,7 +5,7 @@ exports[`close popup 1`] = `
   aria-hidden={true}
   aria-labelledby="report-popover-comment-0-ariainfo"
   id="report-popover-comment-0"
-  role="popup"
+  role="dialog"
 >
   <div
     className="AriaInfo-root"
@@ -21,7 +21,7 @@ exports[`render popup 1`] = `
   aria-hidden={false}
   aria-labelledby="report-popover-comment-0-ariainfo"
   id="report-popover-comment-0"
-  role="popup"
+  role="dialog"
 >
   <div
     className="AriaInfo-root"
@@ -201,7 +201,7 @@ exports[`render popup expanded 1`] = `
   aria-hidden={false}
   aria-labelledby="report-popover-comment-0-ariainfo"
   id="report-popover-comment-0"
-  role="popup"
+  role="dialog"
 >
   <div
     className="AriaInfo-root"
@@ -438,7 +438,7 @@ exports[`report comment as offensive 1`] = `
   aria-hidden={false}
   aria-labelledby="report-popover-comment-0-ariainfo"
   id="report-popover-comment-0"
-  role="popup"
+  role="dialog"
 >
   <div
     className="AriaInfo-root"

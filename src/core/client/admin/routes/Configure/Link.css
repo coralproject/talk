@@ -1,28 +1,26 @@
 .link {
-  composes: sideNavigationItem from "coral-ui/shared/typography.css";
+  color: var(--v2-palette-side-nav-item);
+  font-family: var(--v2-font-family-primary);
+  font-size: var(--v2-font-size-4);
+  line-height: var(--v2-line-height-title);
+  font-weight: var(--v2-font-weight-primary-regular);
   display: inline-block;
-  padding: calc(0.5 * var(--mini-unit)) var(--mini-unit)
-    calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) + 2px);
-  margin-left: 2px;
-  border-left: 1px solid var(--palette-grey-lighter);
+  padding: var(--v2-spacing-2) var(--v2-spacing-2)
+    var(--v2-spacing-2) calc(var(--v2-spacing-3) + 4px);
+  border-left: 1px solid var(--v2-palette-side-nav-border);
+  text-decoration: none;
 
   &:hover {
     cursor: pointer;
-    border-left: 2px solid var(--palette-brand-main);
-    padding-left: calc(var(--mini-unit) + 1px);
-    color: var(--palette-text-primary);
+    border-left: 2px solid var(--v2-palette-side-nav-indicator);
+    padding-left: calc(var(--v2-spacing-3) + 3px);
+    color: var(--v2-palette-side-nav-active);
   }
 }
 
-.linkActive {
-  composes: sideNavigationActive from "coral-ui/shared/typography.css";
-  margin-left: 2px;
-  border-left: calc(0.5 * var(--mini-unit)) solid var(--palette-brand-main);
-  padding-left: var(--mini-unit);
-
-  &:hover {
-    border-left: calc(0.5 * var(--mini-unit)) solid var(--palette-brand-main);
-    padding-left: var(--mini-unit);
-    color: var(--palette-text-primary);
-  }
+.linkActive, .linkActive:hover {
+  border-left: 4px solid var(--v2-palette-side-nav-indicator);
+  padding-left: var(--v2-spacing-3);
+  color: var(--v2-palette-side-nav-active);
+  font-weight: var(--v2-font-weight-primary-bold);
 }

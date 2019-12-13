@@ -17,6 +17,7 @@ exports[`renders all markers 1`] = `
                   "COMMENT_DETECTED_LINKS": 1,
                   "COMMENT_DETECTED_NEW_COMMENTER": 0,
                   "COMMENT_DETECTED_RECENT_HISTORY": 1,
+                  "COMMENT_DETECTED_REPEAT_POST": 1,
                   "COMMENT_DETECTED_SPAM": 1,
                   "COMMENT_DETECTED_SUSPECT_WORD": 1,
                   "COMMENT_DETECTED_TOXIC": 1,
@@ -53,7 +54,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-preMod"
   >
     <withPropsOnChange(Marker)
-      color="primary"
+      color="pending"
     >
       Pre-Mod
     </withPropsOnChange(Marker)>
@@ -62,7 +63,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-link"
   >
     <withPropsOnChange(Marker)
-      color="primary"
+      color="pending"
     >
       Link
     </withPropsOnChange(Marker)>
@@ -71,7 +72,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-bannedWord"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Banned Word
     </withPropsOnChange(Marker)>
@@ -80,7 +81,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-suspectWord"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
       variant="filled"
     >
       Suspect Word
@@ -90,7 +91,7 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-spamDetected"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Spam Detected
     </withPropsOnChange(Marker)>
@@ -99,22 +100,31 @@ exports[`renders all markers 1`] = `
     id="moderate-marker-toxic"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Toxic
+    </withPropsOnChange(Marker)>
+  </Localized>
+  <Localized
+    id="moderate-marker-repeatPost"
+  >
+    <withPropsOnChange(Marker)
+      color="reported"
+    >
+      Repeat comment
     </withPropsOnChange(Marker)>
   </Localized>
   <Localized
     id="moderate-marker-recentHistory"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Recent History
     </withPropsOnChange(Marker)>
   </Localized>
   <withPropsOnChange(Marker)
-    color="error"
+    color="reported"
   >
     <Localized
       id="moderate-marker-offensive"
@@ -129,7 +139,7 @@ exports[`renders all markers 1`] = `
     </withPropsOnChange(Count)>
   </withPropsOnChange(Marker)>
   <withPropsOnChange(Marker)
-    color="error"
+    color="reported"
   >
     <Localized
       id="moderate-marker-spam"
@@ -163,6 +173,7 @@ exports[`renders some markers 1`] = `
                   "COMMENT_DETECTED_LINKS": 0,
                   "COMMENT_DETECTED_NEW_COMMENTER": 0,
                   "COMMENT_DETECTED_RECENT_HISTORY": 1,
+                  "COMMENT_DETECTED_REPEAT_POST": 0,
                   "COMMENT_DETECTED_SPAM": 0,
                   "COMMENT_DETECTED_SUSPECT_WORD": 0,
                   "COMMENT_DETECTED_TOXIC": 1,
@@ -199,7 +210,7 @@ exports[`renders some markers 1`] = `
     id="moderate-marker-preMod"
   >
     <withPropsOnChange(Marker)
-      color="primary"
+      color="pending"
     >
       Pre-Mod
     </withPropsOnChange(Marker)>
@@ -208,7 +219,7 @@ exports[`renders some markers 1`] = `
     id="moderate-marker-bannedWord"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Banned Word
     </withPropsOnChange(Marker)>
@@ -217,7 +228,7 @@ exports[`renders some markers 1`] = `
     id="moderate-marker-toxic"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Toxic
     </withPropsOnChange(Marker)>
@@ -226,13 +237,13 @@ exports[`renders some markers 1`] = `
     id="moderate-marker-recentHistory"
   >
     <withPropsOnChange(Marker)
-      color="error"
+      color="reported"
     >
       Recent History
     </withPropsOnChange(Marker)>
   </Localized>
   <withPropsOnChange(Marker)
-    color="error"
+    color="reported"
   >
     <Localized
       id="moderate-marker-offensive"

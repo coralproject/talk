@@ -14,6 +14,7 @@ import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
+import { useViewerEvent } from "coral-framework/lib/events";
 import {
   graphql,
   useMutation,
@@ -25,10 +26,9 @@ import {
   validateUsername,
   validateUsernameEquals,
 } from "coral-framework/lib/validation";
-import { ChangeUsernameContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
-import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
+import { ShowEditUsernameDialogEvent } from "coral-stream/events";
 import {
   Box,
   Button,
@@ -42,6 +42,9 @@ import {
   TextField,
   Typography,
 } from "coral-ui/components";
+
+import { ChangeUsernameContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
+import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 
 import UpdateUsernameMutation from "./UpdateUsernameMutation";
 
@@ -65,9 +68,15 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const emitShowEditUsernameDialog = useViewerEvent(
+    ShowEditUsernameDialogEvent
+  );
   const [showEditForm, setShowEditForm] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const toggleEditForm = useCallback(() => {
+    if (!showEditForm) {
+      emitShowEditUsernameDialog();
+    }
     setShowEditForm(!showEditForm);
   }, [setShowEditForm, showEditForm]);
   const updateUsername = useMutation(UpdateUsernameMutation);
@@ -135,7 +144,6 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
         };
       }
 
-      form.reset();
       setShowEditForm(false);
       setShowSuccessMessage(true);
 
@@ -290,8 +298,8 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                             {({ input, meta }) => (
                               <>
                                 <TextField
-                                  fullWidth
                                   {...input}
+                                  fullWidth
                                   id="profile-changeUsername-username-confirm"
                                 />
                                 <FieldValidationMessage meta={meta} />

@@ -1,0 +1,97 @@
+$input-value: var(--v2-colors-mono-500);
+$input-border: var(--v2-colors-grey-500);
+$input-background: var(--v2-colors-pure-white);
+$input-placeholder: var(--v2-colors-mono-100);
+$input-regular-focused-border: var(--v2-colors-teal-500);
+$input-disabled-background: var(--v2-colors-white-500);
+$input-disabled-value: var(--v2-colors-grey-400);
+$input-disabled-border: var(--v2-colors-grey-400);
+$input-error-border: var(--v2-colors-red-500);
+$input-dark-focused-border: var(--v2-colors-blue-500);
+
+.root {
+  display: flex;
+  width: calc(29 * var(--mini-unit));
+  align-items: center;
+  height: 34px;
+}
+
+.input {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-reset);
+  position: relative;
+  display: block;
+  padding: var(--v2-spacing-2);
+  box-sizing: border-box;
+  background-color: $input-background;
+  border-radius: var(--round-corners);
+  width: 100%;
+  align-self: stretch;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: $input-value;
+
+  &:read-only,
+  &:disabled {
+    background-color: $input-disabled-background;
+    border-color: $input-disabled-border;
+    color: $input-disabled-value;
+  }
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: $input-placeholder;
+  }
+}
+
+.adornment {
+  margin-left: var(--v2-spacing-2);
+}
+
+.colorRegular {
+  border: 1px solid $input-border;
+  &:focus {
+    border: 1px solid $input-regular-focused-border;
+    box-shadow: inset 0px 0px 0px 1px $input-regular-focused-border;
+  }
+}
+
+.colorDark {
+  border: 1px solid $input-border;
+  &:focus {
+    border: 1px solid $input-dark-focused-border;
+    box-shadow: inset 0px 0px 0px 1px $input-dark-focused-border;
+  }
+}
+
+.colorError {
+  border: 2px solid $input-error-border;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.textAlignCenter {
+  text-align: center;
+}
+
+.seamlessAdornment {
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+
+  &:focus {
+    border-right: 0;
+  }
+
+  & + .adornment {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: stretch;
+  }
+}

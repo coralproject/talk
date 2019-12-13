@@ -66,6 +66,13 @@ beforeEach(() => {
             .withArgs(undefined, { id: storyStub.id, url: null })
             .returns(storyStub)
       ),
+      stream: createSinonStub(
+        s => s.throws(),
+        s =>
+          s
+            .withArgs(undefined, { id: storyStub.id, url: null })
+            .returns(storyStub)
+      ),
       settings: sinon.stub().returns(settings),
     },
   };
@@ -86,6 +93,7 @@ it("renders permalink view", async () => {
     within(testRenderer.root).getByTestID("current-tab-pane")
   );
   expect(within(tabPane).toJSON()).toMatchSnapshot();
+  expect(await within(testRenderer.root).axe()).toHaveNoViolations();
 });
 
 it("show all comments", async () => {

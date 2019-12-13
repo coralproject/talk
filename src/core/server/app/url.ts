@@ -3,7 +3,7 @@ import { Tenant } from "coral-server/models/tenant";
 import { Request } from "coral-server/types/express";
 import { URL } from "url";
 
-export function reconstructURL(req: Request, path: string = "/"): string {
+export function reconstructURL(req: Request, path = "/"): string {
   const scheme = req.secure ? "https" : "http";
   const host = req.get("host");
   const base = `${scheme}://${host}`;
@@ -19,7 +19,7 @@ export function reconstructURL(req: Request, path: string = "/"): string {
 export function constructTenantURL(
   config: Config,
   tenant: Pick<Tenant, "domain">,
-  path: string = "/"
+  path = "/"
 ): string {
   let url: URL = new URL(path, `https://${tenant.domain}`);
   if (config.get("env") === "development") {
@@ -27,6 +27,24 @@ export function constructTenantURL(
   }
 
   return url.href;
+}
+
+export function reconstructTenantURL(
+  config: Config,
+  tenant: Pick<Tenant, "domain">,
+  req?: Request,
+  path = "/"
+) {
+  // If the request is available, then prefer it over building from the tenant
+  // as the tenant does not include the port number. This should only really
+  // be a problem if the graph API is called internally.
+  if (req) {
+    return reconstructURL(req, path);
+  }
+
+  // Note that when constructing the callback url with the tenant, the port
+  // information is lost.
+  return constructTenantURL(config, tenant, path);
 }
 
 export function doesRequireSchemePrefixing(url: string) {
@@ -60,10 +78,7 @@ export function getOrigin(url: string) {
 export function prefixSchemeIfRequired(secure: boolean, url: string) {
   if (doesRequireSchemePrefixing(url)) {
     return (
-      "http" +
-      (secure ? "s" : "") +
-      (url.indexOf("//") === -1 ? "://" : ":") +
-      url
+      "http" + (secure ? "s" : "") + (!url.includes("//") ? "://" : ":") + url
     );
   }
 

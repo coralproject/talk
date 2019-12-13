@@ -1,7 +1,6 @@
 import { graphql } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
-import { FeatureCommentMutation } from "coral-admin/__generated__/FeatureCommentMutation.graphql";
 import { getQueueConnection } from "coral-admin/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
@@ -10,6 +9,8 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_STATUS, GQLTAG } from "coral-framework/schema";
+
+import { FeatureCommentMutation } from "coral-admin/__generated__/FeatureCommentMutation.graphql";
 
 let clientMutationId = 0;
 

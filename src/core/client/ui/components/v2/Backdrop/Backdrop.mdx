@@ -1,0 +1,32 @@
+---
+name: Backdrop
+menu: UI Kit
+---
+
+import { Playground, PropsTable } from "docz";
+import Container from "react-with-state-props";
+
+import Button from "../Button";
+import Backdrop from "./Backdrop";
+
+# Backdrop
+
+## Basic usage
+
+<Playground>
+  <Container
+    state={{ value: false }}
+    render={props => (
+      <div>
+        <Backdrop active={props.value} />
+        <Button
+          variant="filled"
+          color="primary"
+          onClick={() => props.setValue(!props.value)}
+        >
+          Toggle
+        </Button>
+      </div>
+    )}
+  />
+</Playground>

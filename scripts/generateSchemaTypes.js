@@ -1,4 +1,3 @@
-const { Linter, Configuration } = require("tslint");
 const { generateTSTypesAsString } = require("graphql-schema-typescript");
 const { getGraphQLConfig } = require("graphql-config");
 const path = require("path");
@@ -69,12 +68,12 @@ if (require.main === module) {
   main()
     .then(files => {
       for (const { fileName } of files) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.log(`Generated ${fileName}`);
       }
     })
     .catch(err => {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(err);
     });
 }

@@ -14,7 +14,7 @@ let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const resolvers = {
     Query: {
-      story: createSinonStub(
+      stream: createSinonStub(
         s => s.throws(),
         s =>
           s
@@ -42,4 +42,5 @@ it("renders reply list", async () => {
   );
   // Wait for loading.
   expect(within(commentReplyList).toJSON()).toMatchSnapshot();
+  expect(await within(commentReplyList).axe()).toHaveNoViolations();
 });

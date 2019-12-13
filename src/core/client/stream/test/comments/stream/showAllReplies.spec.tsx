@@ -75,7 +75,7 @@ beforeEach(() => {
         s => s.throws(),
         s => s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
       ),
-      story: createSinonStub(
+      stream: createSinonStub(
         s => s.throws(),
         s =>
           s

@@ -61,7 +61,7 @@ export async function primeQueries(
 }
 
 export async function getQueries(mongo: Db, ids: string[]) {
-  const cursor = await collection(mongo).find({ id: { $in: ids } });
+  const cursor = collection(mongo).find({ id: { $in: ids } });
   const queries = await cursor.toArray();
   return ids.map(id => queries.find(query => query.id === id) || null);
 }
