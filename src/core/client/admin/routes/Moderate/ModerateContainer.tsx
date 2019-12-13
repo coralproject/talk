@@ -24,9 +24,17 @@ class ModerateContainer extends React.Component<Props> {
 
   public render() {
     const allStories = !this.props.match.params.storyID;
+    const sites = this.props.data
+      ? this.props.data.sites.edges.map(edge => edge.node)
+      : [];
     if (!this.props.data) {
       return (
-        <Moderate moderationQueues={null} story={null} allStories={allStories}>
+        <Moderate
+          sites={[]}
+          moderationQueues={null}
+          story={null}
+          allStories={allStories}
+        >
           <Spinner />
         </Moderate>
       );
@@ -36,6 +44,7 @@ class ModerateContainer extends React.Component<Props> {
         moderationQueues={this.props.data.moderationQueues}
         story={this.props.data.story || null}
         allStories={allStories}
+        sites={sites}
       >
         {this.props.children}
       </Moderate>
@@ -46,6 +55,15 @@ class ModerateContainer extends React.Component<Props> {
 const enhanced = withRouteConfig<Props>({
   query: graphql`
     query ModerateContainerQuery($storyID: ID, $includeStory: Boolean!) {
+      # TODO: paginate
+      sites {
+        edges {
+          node {
+            id
+            ...SiteSelectorSite_site
+          }
+        }
+      }
       story(id: $storyID) @include(if: $includeStory) {
         ...ModerateNavigationContainer_story
         ...ModerateSearchBarContainer_story
