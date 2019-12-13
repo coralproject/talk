@@ -6,7 +6,7 @@ import {
   UserForbiddenError,
   UserSuspended,
 } from "coral-server/errors";
-import CommonContext from "coral-server/graph/common/context";
+import TenantContext from "coral-server/graph/tenant/context";
 import {
   consolidateUserStatus,
   consolidateUserSuspensionStatus,
@@ -64,7 +64,7 @@ const calculateAuthConditionsMemoized = memoize(calculateAuthConditions);
 
 const auth: DirectiveResolverFn<
   Record<string, string | undefined>,
-  CommonContext
+  TenantContext
 > = (
   next,
   src,
