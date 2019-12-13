@@ -6108,7 +6108,7 @@ input CreateSite {
   url: String!
   contactEmail: String!
   allowedDomains: [String!]!
-  communityID: String!
+  communityID: String
 }
 
 input UpdateSite {

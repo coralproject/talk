@@ -1,5 +1,6 @@
 import { CommentConnectionInput } from "coral-server/models/comment";
 import { FilterQuery } from "coral-server/models/helpers";
+import { Site } from "coral-server/models/site";
 import {
   CommentModerationCountsPerQueue,
   Story,
@@ -15,7 +16,7 @@ import {
   GQLModerationQueuesTypeResolver,
   QueryToModerationQueuesResolver,
   RejectCommentPayloadToModerationQueuesResolver,
-} from "coral-server/graph/schema/__generated__/types";
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 import GraphContext from "../context";
 import { ModerationQueueInput } from "./ModerationQueue";
@@ -38,6 +39,30 @@ const mergeModerationInputFilters = (
     },
   },
   count: input.counts[selector],
+});
+
+/**
+ * siteModerationInputResolver can be used to retrieve the moderationQueue for
+ * a specific site.
+ *
+ * @param site the site that will be used to base the comment moderation
+ *              queues on
+ */
+export const siteModerationInputResolver = (
+  site: Site
+): ModerationQueuesInput => ({
+  connection: {
+    filter: {
+      // This moderationQueues is being sourced from the Story, so require
+      // that all the comments for theses queues are also for this Story.
+      siteID: site.id,
+    },
+  },
+  counts: {
+    unmoderated: 0,
+    pending: 0,
+    reported: 0,
+  },
 });
 
 /**
@@ -94,8 +119,16 @@ export const moderationQueuesResolver:
   | RejectCommentPayloadToModerationQueuesResolver = async (
   source: any,
   args: any,
-  ctx: TenantContext
+  ctx: GraphContext
 ): Promise<ModerationQueuesInput | null> => {
+  if (args.siteID) {
+    const site = await ctx.loaders.Sites.site.load(args.siteID);
+    if (!site) {
+      return null;
+    }
+
+    return siteModerationInputResolver(site);
+  }
   if (args.storyID) {
     const story = await ctx.loaders.Stories.story.load(args.storyID);
     if (!story) {
