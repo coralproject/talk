@@ -229,4 +229,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.deleteModeratorNote(input),
     clientMutationId: input.clientMutationId,
   }),
+  setFeatureFlag: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.setFeatureFlag(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

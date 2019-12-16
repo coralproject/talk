@@ -3668,6 +3668,58 @@ type UpdateSettingsPayload {
 }
 
 ##################
+## setFeatureFlag
+##################
+
+input SetFeatureFlagInput {
+  """
+  flag is the name of the flag to set.
+  """
+  flag: String!
+
+  """
+  value is the value to set for the specified flag.
+  """
+  value: Boolean!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type FeatureFlag {
+  """
+  flag is the name of the flag that was set.
+  """
+  flag: String
+
+  """
+  value is the value that was set for the specified flag.
+  """
+  value: Boolean
+}
+
+type FeatureFlagSettings {
+  """
+  featureFlags are the feature flags that were updated on the tenant.
+  """
+  featureFlags: [FeatureFlag!]
+}
+
+type SetFeatureFlagPayload {
+  """
+  settings is the currently set feature flag options.
+  """
+  settings: FeatureFlagSettings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## createCommentReaction
 ##################
 
@@ -5277,6 +5329,12 @@ type Mutation {
   updateSettings will update the Settings for the given Tenant.
   """
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  setFeatureFlag will set a feature flag on the given Tenant.
+  """
+  setFeatureFlag(input: SetFeatureFlagInput!): SetFeatureFlagPayload!
     @auth(roles: [ADMIN])
 
   """

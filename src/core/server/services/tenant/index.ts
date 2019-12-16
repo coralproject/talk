@@ -19,10 +19,12 @@ import {
 import { I18n } from "coral-server/services/i18n";
 
 import {
+  GQLSetFeatureFlagInput,
   GQLSettingsInput,
   GQLSettingsWordListInput,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
+import collections from "../mongodb/collections";
 import TenantCache from "./cache";
 
 export type UpdateTenant = GQLSettingsInput;
@@ -195,4 +197,51 @@ export async function discoverOIDCConfiguration(issuerString: string) {
 
   // Discover the configuration.
   return discover(issuer);
+}
+
+export async function setFeatureFlag(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  input: GQLSetFeatureFlagInput
+) {
+  const result = await collections.tenants(mongo).findOneAndUpdate(
+    { id: tenant.id },
+    {
+      $set: {
+        [`featureFlags.${input.flag}`]: input.value,
+      },
+    },
+    { returnOriginal: false }
+  );
+
+  if (!result.ok) {
+    throw new Error("Unable to set feature flag on tenant.");
+  }
+  if (!result.value) {
+    throw new Error("Unable to set feature flag on tenant.");
+  }
+
+  const updatedTenant: any = result.value;
+  await cache.update(redis, updatedTenant);
+
+  logger.info(
+    { tenantID: tenant.id },
+    `feature flag ${input.flag} set to ${input.value}`
+  );
+
+  const flags = [];
+  for (const p in updatedTenant.featureFlags) {
+    if (typeof p !== "function") {
+      flags.push({
+        flag: p,
+        value: updatedTenant.featureFlags[p],
+      });
+    }
+  }
+
+  return {
+    featureFlags: flags,
+  };
 }
