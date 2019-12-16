@@ -19,6 +19,9 @@ import {
   IntermediatePhaseResult,
   ModerationPhaseContext,
 } from "coral-server/services/comments/pipeline";
+import loadFeatureFlag, {
+  FeatureFlag,
+} from "coral-server/services/featureFlags/featureFlags";
 
 import {
   GQLCOMMENT_FLAG_REASON,
@@ -27,13 +30,14 @@ import {
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
 export const toxic: IntermediateModerationPhase = async ({
+  mongo,
   tenant,
   nudge,
   log,
   htmlStripped,
 }: Pick<
   ModerationPhaseContext,
-  "tenant" | "nudge" | "log" | "htmlStripped"
+  "mongo" | "tenant" | "nudge" | "log" | "htmlStripped"
 >): Promise<IntermediatePhaseResult | void> => {
   if (!htmlStripped) {
     return;
@@ -116,8 +120,13 @@ export const toxic: IntermediateModerationPhase = async ({
     if (isToxic) {
       log.trace({ score, isToxic, threshold, model }, "comment was toxic");
 
+      const warnUserOfToxicComment = await loadFeatureFlag(
+        mongo,
+        tenant.id,
+        FeatureFlag.warnUserOfToxicComment
+      );
       // Throw an error if we're nudging instead of recording.
-      if (nudge) {
+      if (nudge && warnUserOfToxicComment) {
         throw new ToxicCommentError(model, score, threshold);
       }
 
