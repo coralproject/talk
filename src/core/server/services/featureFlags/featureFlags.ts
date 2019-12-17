@@ -13,6 +13,21 @@ export class FeatureFlag {
     true
   );
 
+  public static contains(id: string) {
+    for (const p in FeatureFlag) {
+      if (
+        typeof p !== "function" &&
+        p === id &&
+        p !== "id" &&
+        p !== "defaultValue"
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   private constructor(id: string, defaulValue: boolean) {
     this.id = id;
     this.defaultValue = defaulValue;

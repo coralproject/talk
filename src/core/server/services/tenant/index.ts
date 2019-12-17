@@ -24,6 +24,7 @@ import {
   GQLSettingsWordListInput,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
+import { FeatureFlag } from "../featureFlags/featureFlags";
 import collections from "../mongodb/collections";
 import TenantCache from "./cache";
 
@@ -206,6 +207,12 @@ export async function setFeatureFlag(
   tenant: Tenant,
   input: GQLSetFeatureFlagInput
 ) {
+  if (!FeatureFlag.contains(input.flag)) {
+    throw new Error(
+      `feature flag '${input.flag}' does not match any known feature flag`
+    );
+  }
+
   const result = await collections.tenants(mongo).findOneAndUpdate(
     { id: tenant.id },
     {
@@ -217,10 +224,10 @@ export async function setFeatureFlag(
   );
 
   if (!result.ok) {
-    throw new Error("Unable to set feature flag on tenant.");
+    throw new Error("unable to set feature flag on tenant");
   }
   if (!result.value) {
-    throw new Error("Unable to set feature flag on tenant.");
+    throw new Error("unable to set feature flag on tenant");
   }
 
   const updatedTenant: any = result.value;
