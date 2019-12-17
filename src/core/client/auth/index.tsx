@@ -8,6 +8,8 @@ import App from "./App";
 import { initLocalState } from "./local";
 import localesData from "./locales";
 
+const cssVars = require("css-vars-ponyfill").default;
+
 // Import css variables.
 import "coral-ui/theme/variables.css";
 
@@ -26,6 +28,7 @@ async function main() {
   );
 
   ReactDOM.render(<Index />, document.getElementById("app"));
+  cssVars();
 }
 
 main();

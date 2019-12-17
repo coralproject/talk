@@ -24,7 +24,8 @@ var url = require("url");
 var launchEditorEndpoint = require("react-dev-utils/launchEditorEndpoint");
 var formatWebpackMessages = require("react-dev-utils/formatWebpackMessages");
 var ErrorOverlay = require("react-error-overlay");
-var { debounce } = require("lodash");
+var lodash = require("lodash");
+var debounce = lodash.debounce;
 
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
   // Keep this sync with errorOverlayMiddleware.js
@@ -124,7 +125,7 @@ function handleWarnings(warnings) {
 
   // TODO: remove this workaround when we can upgrade to WebpackDevServer >= v3.3.0,
   // which includes proper `warningsFilter` support.
-  warnings = warnings.filter(w => !/export .* was not found in/.test(w));
+  warnings = warnings.filter(function(w){ return !/export .* was not found in/.test(w)});
 
   function printWarnings() {
     // Print warnings to the console.
@@ -198,7 +199,7 @@ function handleAvailableHash(hash) {
   mostRecentCompilationHash = hash;
 }
 
-const debouncedReload = debounce(() => {
+const debouncedReload = debounce(function() {
   window.location.reload();
 }, 1000);
 

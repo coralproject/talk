@@ -23,18 +23,6 @@ const createProxy = <T = any>(
   recordSource: RelayInMemoryRecordSource
 ) => {
   const proxy: ProxyHandler<any> = {
-    ownKeys() {
-      return Object.keys(recordSource);
-    },
-    getOwnPropertyDescriptor() {
-      return {
-        enumerable: true,
-        configurable: true,
-      };
-    },
-    has(_, prop) {
-      return prop in recordSource;
-    },
     get(_, prop) {
       const rsrc = recordSource as any;
       if (rsrc[prop]) {
@@ -50,7 +38,7 @@ const createProxy = <T = any>(
       return rsrc[prop];
     },
   };
-  return new Proxy({}, proxy) as RecordSourceProxy<T>;
+  return new Proxy(recordSource, proxy) as RecordSourceProxy<T>;
 };
 
 /**

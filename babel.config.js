@@ -16,6 +16,7 @@ module.exports = {
     },
     development: {
       plugins: [...lodashOptimizations],
+      presets: [["@babel/env", { targets: "IE 11" }]],
     },
     test: {
       presets: [

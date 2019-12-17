@@ -1,7 +1,7 @@
 import { FluentBundle, FluentResource } from "@fluent/bundle/compat";
+import { LocalesData } from "./locales";
 
 import * as functions from "./functions";
-import { LocalesData } from "./locales";
 
 import "fluent-intl-polyfill/compat";
 

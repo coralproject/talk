@@ -450,6 +450,7 @@ export default function createWebpackConfig(
             {
               test: /\.js$/,
               include: /node_modules\//,
+              exclude: /@babel|babel|core-js|regenerator-runtime|found|found-relay/,
               use: [
                 {
                   loader: require.resolve("babel-loader"),
@@ -460,7 +461,10 @@ export default function createWebpackConfig(
                     presets: [
                       [
                         "@babel/env",
-                        { targets: "last 2 versions", modules: false },
+                        {
+                          targets: "last 2 versions, IE 11",
+                          modules: false,
+                        },
                       ],
                     ],
                     cacheDirectory: true,
@@ -714,6 +718,7 @@ export default function createWebpackConfig(
       entry: [
         /* Use minimal amount of polyfills (for IE) */
         "intersection-observer", // also for Safari
+        paths.appPolyfill,
         paths.appEmbedIndex,
       ],
       output: {
