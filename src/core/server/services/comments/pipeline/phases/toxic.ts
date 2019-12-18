@@ -14,6 +14,7 @@ import { Omit } from "coral-common/types";
 import { ToxicCommentError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
+import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -23,6 +24,7 @@ import {
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
+  GQLFEATURE_FLAG,
   GQLPerspectiveExternalIntegration,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
@@ -118,7 +120,20 @@ export const toxic: IntermediateModerationPhase = async ({
 
       // Throw an error if we're nudging instead of recording.
       if (nudge) {
-        throw new ToxicCommentError(model, score, threshold);
+        // Only if the feature flag for disabling this behavior is not enabled.
+        if (
+          !hasFeatureFlag(
+            tenant,
+            GQLFEATURE_FLAG.DISABLE_WARN_USER_OF_TOXIC_COMMENT
+          )
+        ) {
+          throw new ToxicCommentError(model, score, threshold);
+        } else {
+          log.trace(
+            { flag: GQLFEATURE_FLAG.DISABLE_WARN_USER_OF_TOXIC_COMMENT },
+            "not nudging because of feature experiment"
+          );
+        }
       }
 
       return {

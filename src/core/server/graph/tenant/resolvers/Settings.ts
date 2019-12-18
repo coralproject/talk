@@ -3,4 +3,5 @@ import { Tenant } from "coral-server/models/tenant";
 
 export const Settings: GQLSettingsTypeResolver<Tenant> = {
   slack: ({ slack = {} }) => slack,
+  featureFlags: ({ featureFlags = [] }) => featureFlags,
 };

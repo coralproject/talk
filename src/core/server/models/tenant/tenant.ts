@@ -6,13 +6,15 @@ import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { DeepPartial, Omit, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
-import {
-  GQLMODERATION_MODE,
-  GQLSettings,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import { Settings } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
+
+import {
+  GQLFEATURE_FLAG,
+  GQLMODERATION_MODE,
+  GQLSettings,
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 import {
   generateSSOKey,
@@ -40,6 +42,11 @@ export interface TenantSettings
    * locale is the specified locale for this Tenant.
    */
   locale: LanguageCode;
+
+  /**
+   * featureFlags is the set of flags enabled on this Tenant.
+   */
+  featureFlags?: GQLFEATURE_FLAG[];
 }
 
 /**
@@ -332,6 +339,54 @@ export async function rotateTenantSSOKey(
       returnOriginal: false,
       // Add an ArrayFilter to only update one of the keys.
       arrayFilters: [{ "keys.kid": kid }],
+    }
+  );
+
+  return result.value || null;
+}
+
+export async function enableTenantFeatureFlag(
+  mongo: Db,
+  id: string,
+  flag: GQLFEATURE_FLAG
+) {
+  // Update the Tenant.
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      // Add the flag to the set of enabled flags.
+      $addToSet: {
+        featureFlags: flag,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  return result.value || null;
+}
+
+export async function disableTenantFeatureFlag(
+  mongo: Db,
+  id: string,
+  flag: GQLFEATURE_FLAG
+) {
+  // Update the Tenant.
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      // Pull the flag from the set of enabled flags.
+      $pull: {
+        featureFlags: flag,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
     }
   );
 
