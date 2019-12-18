@@ -210,7 +210,12 @@ async function getScore(
     endpoint,
     model,
     doNotStore,
-  }: Required<Omit<GQLPerspectiveExternalIntegration, "enabled" | "threshold">>,
+  }: Required<
+    Omit<
+      GQLPerspectiveExternalIntegration,
+      "enabled" | "threshold" | "sendFeedback"
+    >
+  >,
   language: PerspectiveLanguage,
   timeout: number
 ): Promise<number> {

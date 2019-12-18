@@ -15,6 +15,8 @@ interface Props {
   offLabel?: React.ReactNode;
   format?: (value: any, name: string) => any;
   parse?: (value: any, name: string) => any;
+  onTestId?: string;
+  offTestId?: string;
   className?: string;
 }
 
@@ -26,6 +28,8 @@ const OnOffField: FunctionComponent<Props> = ({
   invert = false,
   parse = parseStringBool,
   format = formatBool,
+  onTestId,
+  offTestId,
   className,
 }) => (
   <div className={className}>
@@ -37,7 +41,12 @@ const OnOffField: FunctionComponent<Props> = ({
       format={format}
     >
       {({ input }) => (
-        <RadioButton {...input} id={`${input.name}-true`} disabled={disabled}>
+        <RadioButton
+          {...input}
+          id={`${input.name}-true`}
+          disabled={disabled}
+          data-testid={onTestId}
+        >
           {onLabel || (
             <Localized id="configure-onOffField-on">
               <span>On</span>
@@ -52,6 +61,7 @@ const OnOffField: FunctionComponent<Props> = ({
       parse={parse}
       format={format}
       value={JSON.stringify(invert)}
+      data-testid={offTestId}
     >
       {({ input }) => (
         <RadioButton {...input} id={`${input.name}-false`} disabled={disabled}>
