@@ -2,6 +2,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { useField } from "react-final-form";
 
 import { ValidationMessage } from "coral-framework/lib/form";
+import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { validateEventSelection } from "coral-framework/lib/validation";
 import { Typography } from "coral-ui/components";
@@ -10,6 +11,7 @@ import {
   CheckBox,
   Flex,
   FormField,
+  FormFieldDescription,
   HelperText,
   Label,
   ListGroup,
@@ -70,6 +72,16 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
         )}
       </Flex>
 
+      <FormFieldDescription>
+        These are the events that are registered to this particular endpoint.
+        Visit our{" "}
+        <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/webhooks/#events">
+          Webhook Guide
+        </ExternalLink>{" "}
+        for the schema of these events. Any event matching the following will be
+        sent to the endpoint if it is enabled:
+      </FormFieldDescription>
+
       <ListGroup className={styles.list}>
         {settings.webhookEvents.map(event => {
           const selectedIndex = events.value.indexOf(event);
@@ -88,10 +100,11 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
       </ListGroup>
       {all.value ? (
         <HelperText>
-          You will receive all events, including any added in the future.
+          The endpoint will receive all events, including any added in the
+          future.
         </HelperText>
       ) : events.value.length > 0 ? (
-        <HelperText>You have selected {events.value.length} events.</HelperText>
+        <HelperText>{events.value.length} event selected.</HelperText>
       ) : (
         <HelperText>
           Select events above or{" "}

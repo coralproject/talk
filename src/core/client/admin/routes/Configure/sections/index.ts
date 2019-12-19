@@ -9,4 +9,5 @@ export { SlackConfigRoute } from "./Slack";
 export {
   WebhookEndpointsConfigRoute,
   ConfigureWebhookEndpointRoute,
+  AddWebhookEndpointRoute,
 } from "./WebhookEndpoints";

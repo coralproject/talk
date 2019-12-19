@@ -9,6 +9,7 @@ import { createAuthCheckRoute } from "./routes/AuthCheck";
 import CommunityRoute from "./routes/Community";
 import ConfigureRoute from "./routes/Configure";
 import {
+  AddWebhookEndpointRoute,
   AdvancedConfigRoute,
   AuthConfigRoute,
   ConfigureWebhookEndpointRoute,
@@ -119,7 +120,11 @@ export default makeRouteConfig(
               {...WebhookEndpointsConfigRoute.routeConfig}
             />
             <Route
-              path="webhooks/:webhookEndpointID"
+              path="webhooks/add"
+              {...AddWebhookEndpointRoute.routeConfig}
+            />
+            <Route
+              path="webhooks/endpoint/:webhookEndpointID"
               {...ConfigureWebhookEndpointRoute.routeConfig}
             />
           </Route>

@@ -81,7 +81,7 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
       await deleteWebhookEndpoint({ id: webhookEndpoint.id });
 
       // Send the user back to the webhook endpoints listing.
-      router.push(urls.admin.configureWebhooks);
+      router.push(urls.admin.webhooks);
     }
   }, [webhookEndpoint, disableWebhookEndpoint, router]);
 
