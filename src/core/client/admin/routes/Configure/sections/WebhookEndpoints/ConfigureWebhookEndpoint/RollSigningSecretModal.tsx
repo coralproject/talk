@@ -23,6 +23,7 @@ import {
 import RollWebhookEndpointSecretMutation from "./RollWebhookEndpointSecretMutation";
 
 import styles from "./RollSigningSecretModal.css";
+import { Localized } from "fluent-react/compat";
 
 interface Props {
   endpointID: string;
@@ -69,43 +70,76 @@ const RollWebhookEndpointSecretModal: FunctionComponent<Props> = ({
             {({ handleSubmit, submitting, submitError }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter size="double">
-                  <Typography variant="header2">Roll signing secret</Typography>
+                  <Localized id="configure-webhooks-rollSigningSecret">
+                    <Typography variant="header2">
+                      Roll signing secret
+                    </Typography>
+                  </Localized>
                   {submitError && (
                     <CallOut color="error" fullWidth>
                       {submitError}
                     </CallOut>
                   )}
-                  <HelperText>
-                    After it expires, signatures will no longer be generated
-                    with the old secret.
-                  </HelperText>
+                  <Localized id="configure-webhooks-rollSigningSecretHelper">
+                    <HelperText>
+                      After it expires, signatures will no longer be generated
+                      with the old secret.
+                    </HelperText>
+                  </Localized>
                   <Field name="inactiveIn">
                     {({ input }) => (
                       <FormField>
-                        <Label>Expires the old secret</Label>
-
+                        <Localized id="configure-webhooks-expiresOldSecret">
+                          <Label>Expire the old secret</Label>
+                        </Localized>
                         <SelectField {...input} fullWidth>
-                          <Option value="0">Immediately</Option>
-                          <Option value="3600">1 hour from now</Option>
-                          <Option value="7200">2 hours from now</Option>
-                          <Option value="43200">12 hours from now</Option>
-                          <Option value="86400">24 hours from now</Option>
+                          <Localized id="configure-webhooks-expiresOldSecretImmediately">
+                            <Option value="0">Immediately</Option>
+                          </Localized>
+                          <Localized
+                            id="configure-webhooks-expiresOldSecretHoursFromNow"
+                            $hours={1}
+                          >
+                            <Option value="3600">1 hour from now</Option>
+                          </Localized>
+                          <Localized
+                            id="configure-webhooks-expiresOldSecretHoursFromNow"
+                            $hours={2}
+                          >
+                            <Option value="7200">2 hours from now</Option>
+                          </Localized>
+                          <Localized
+                            id="configure-webhooks-expiresOldSecretHoursFromNow"
+                            $hours={12}
+                          >
+                            <Option value="43200">12 hours from now</Option>
+                          </Localized>
+                          <Localized
+                            id="configure-webhooks-expiresOldSecretHoursFromNow"
+                            $hours={24}
+                          >
+                            <Option value="86400">24 hours from now</Option>
+                          </Localized>
                         </SelectField>
                       </FormField>
                     )}
                   </Field>
                   <Flex direction="row" justifyContent="flex-end" itemGutter>
-                    <Button color="regular" onClick={onHide}>
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      color="alert"
-                      disabled={submitting}
-                      ref={lastFocusableRef}
-                    >
-                      Roll secret
-                    </Button>
+                    <Localized id="configure-webhooks-cancelButton">
+                      <Button color="regular" onClick={onHide}>
+                        Cancel
+                      </Button>
+                    </Localized>
+                    <Localized id="configure-webhooks-rollSigningSecretButton">
+                      <Button
+                        type="submit"
+                        color="alert"
+                        disabled={submitting}
+                        ref={lastFocusableRef}
+                      >
+                        Roll signing secret
+                      </Button>
+                    </Localized>
                   </Flex>
                 </HorizontalGutter>
               </form>

@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
@@ -50,7 +51,7 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
   const onEnable = useCallback(async () => {
     const message = getMessage(
       localeBundles,
-      "configure-webhookEndpointsConfigure-confirmEnable",
+      "configure-webhooks-confirmEnable",
       "Enabling the webhook endpoint will start to send events to this URL. Are you sure you want to continue?"
     );
 
@@ -61,7 +62,7 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
   const onDisable = useCallback(async () => {
     const message = getMessage(
       localeBundles,
-      "configure-webhookEndpointsConfigure-confirmDisable",
+      "configure-webhooks-confirmDisable",
       "Disabling this webhook endpoint will stop any new events from being sent to this URL. Are you sure you want to continue?"
     );
 
@@ -73,7 +74,7 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
   const onDelete = useCallback(async () => {
     const message = getMessage(
       localeBundles,
-      "configure-webhookEndpointsConfigure-confirmDelete",
+      "configure-webhooks-confirmDelete",
       "Deleting this webhook endpoint will stop any new events from being sent to this URL, and remove all the associated settings with this webhook endpoint. Are you sure you want to continue?"
     );
 
@@ -87,16 +88,24 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Subheader>Danger Zone</Subheader>
+      <Localized id="configure-webhooks-dangerZone">
+        <Subheader>Danger Zone</Subheader>
+      </Localized>
       <FormField>
-        <Label>Roll signing secret</Label>
-        <FormFieldDescription>
-          You can roll this secret if the key and the previous key will also be
-          used to sign payloads for up to 24 hours.
-        </FormFieldDescription>
-        <Button color="alert" onClick={onRollSecret}>
-          Roll secret
-        </Button>
+        <Localized id="configure-webhooks-rollSigningSecret">
+          <Label>Roll signing secret</Label>
+        </Localized>
+        <Localized id="configure-webhooks-rollSigningSecretDescription">
+          <FormFieldDescription>
+            Rolling the signing secret will allow to you to safely replace a
+            signing secret used in production with a delay.
+          </FormFieldDescription>
+        </Localized>
+        <Localized id="configure-webhooks-rollSigningSecretButton">
+          <Button color="alert" onClick={onRollSecret}>
+            Roll signing secret
+          </Button>
+        </Localized>
       </FormField>
       <RollSigningSecretModal
         endpointID={webhookEndpoint.id}
@@ -105,36 +114,54 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
       />
       {webhookEndpoint.enabled ? (
         <FormField>
-          <Label>Disable endpoint</Label>
-          <FormFieldDescription>
-            This endpoint is current enabled. By disabling this endpoint no new
-            events will be sent to the URL provided.
-          </FormFieldDescription>
-          <Button color="alert" onClick={onDisable}>
-            Disable endpoint
-          </Button>
+          <Localized id="configure-webhooks-disableEndpoint">
+            <Label>Disable endpoint</Label>
+          </Localized>
+          <Localized id="configure-webhooks-disableEndpointDescription">
+            <FormFieldDescription>
+              This endpoint is current enabled. By disabling this endpoint no
+              new events will be sent to the URL provided.
+            </FormFieldDescription>
+          </Localized>
+          <Localized id="configure-webhooks-disableEndpointButton">
+            <Button color="alert" onClick={onDisable}>
+              Disable endpoint
+            </Button>
+          </Localized>
         </FormField>
       ) : (
         <FormField>
-          <Label>Enable endpoint</Label>
-          <FormFieldDescription>
-            This endpoint is current disabled. By enabling this endpoint new
-            events will be sent to the URL provided.
-          </FormFieldDescription>
-          <Button color="regular" onClick={onEnable}>
-            Enable endpoint
-          </Button>
+          <Localized id="configure-webhooks-enableEndpoint">
+            <Label>Enable endpoint</Label>
+          </Localized>
+          <Localized id="configure-webhooks-enableEndpointDescription">
+            <FormFieldDescription>
+              This endpoint is current disabled. By enabling this endpoint new
+              events will be sent to the URL provided.
+            </FormFieldDescription>
+          </Localized>
+          <Localized id="configure-webhooks-enableEndpointButton">
+            <Button color="regular" onClick={onEnable}>
+              Enable endpoint
+            </Button>
+          </Localized>
         </FormField>
       )}
       <FormField>
-        <Label>Delete endpoint</Label>
-        <FormFieldDescription>
-          Deleting the endpoint will prevent any new events from being sent to
-          the URL provided.
-        </FormFieldDescription>
-        <Button color="alert" onClick={onDelete}>
-          Delete endpoint
-        </Button>
+        <Localized id="configure-webhooks-deleteEndpoint">
+          <Label>Delete endpoint</Label>
+        </Localized>
+        <Localized id="configure-webhooks-deleteEndpointDescription">
+          <FormFieldDescription>
+            Deleting the endpoint will prevent any new events from being sent to
+            the URL provided.
+          </FormFieldDescription>
+        </Localized>
+        <Localized id="configure-webhooks-deleteEndpointButton">
+          <Button color="alert" onClick={onDelete}>
+            Delete endpoint
+          </Button>
+        </Localized>
       </FormField>
     </>
   );

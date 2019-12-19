@@ -48,11 +48,16 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
           </Localized>
         }
       >
-        <Localized id="configure-webhooks-description">
+        <Localized
+          id="configure-webhooks-description"
+          externalLink={
+            <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/webhooks/" />
+          }
+        >
           <FormFieldDescription>
             Configure an endpoint to send events to when events occur within
             Coral. These events will be JSON encoded and signed. To learn more
-            about webhook signing, visit{" "}
+            about webhook signing, visit our{" "}
             <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/webhooks/">
               our docs
             </ExternalLink>
@@ -61,17 +66,24 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
         </Localized>
         <Button color="dark" onClick={onAddEndpoint}>
           <ButtonIcon size="md">add</ButtonIcon>
-          <Localized id="configure-webhooks-addEndpoint">
-            Add endpoint
+          <Localized id="configure-webhooks-addEndpointButton">
+            Add webhook endpoint
           </Localized>
         </Button>
-        <Subheader>Endpoints</Subheader>
+        <Localized id="configure-webhooks-endpoints">
+          <Subheader>Endpoints</Subheader>
+        </Localized>
         {settings.webhooks.endpoints.length > 0 ? (
           <Table fullWidth>
             <TableHead>
               <TableRow>
-                <TableCell>URL</TableCell>
-                <TableCell>Status</TableCell>
+                <Localized id="configure-webhooks-url">
+                  <TableCell>URL</TableCell>
+                </Localized>
+
+                <Localized id="configure-webhooks-status">
+                  <TableCell>Status</TableCell>
+                </Localized>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -81,9 +93,11 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
             </TableBody>
           </Table>
         ) : (
-          <CallOut color="regular" fullWidth>
-            There are no webhook endpoints configured, add one above.
-          </CallOut>
+          <Localized id="configure-webhooks-noEndpoints">
+            <CallOut color="regular" fullWidth>
+              There are no webhook endpoints configured, add one above.
+            </CallOut>
+          </Localized>
         )}
       </ConfigBox>
     </HorizontalGutter>

@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 
@@ -27,7 +28,13 @@ const AddWebhookEndpointContainer: FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter size="double">
-      <ConfigBox title={<Header>Add a webhook endpoint</Header>}>
+      <ConfigBox
+        title={
+          <Localized id="configure-webhooks-addEndpoint">
+            <Header>Add a webhook endpoint</Header>
+          </Localized>
+        }
+      >
         <ConfigureWebhookEndpointForm
           settings={settings}
           webhookEndpoint={null}

@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { useField } from "react-final-form";
 
@@ -64,24 +65,33 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
   return (
     <FormField>
       <Flex justifyContent="space-between">
-        <Label>Events to send</Label>
+        <Localized id="configure-webhooks-eventsToSend">
+          <Label>Events to send</Label>
+        </Localized>
         {(all.value || events.value.length > 0) && (
-          <Button variant="text" onClick={onClear}>
-            Clear
-          </Button>
+          <Localized id="configure-webhooks-clearEventsToSend">
+            <Button variant="text" onClick={onClear}>
+              Clear
+            </Button>
+          </Localized>
         )}
       </Flex>
-
-      <FormFieldDescription>
-        These are the events that are registered to this particular endpoint.
-        Visit our{" "}
-        <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/webhooks/#events">
-          Webhook Guide
-        </ExternalLink>{" "}
-        for the schema of these events. Any event matching the following will be
-        sent to the endpoint if it is enabled:
-      </FormFieldDescription>
-
+      <Localized
+        id="configure-webhooks-eventsToSendDescription"
+        externalLink={
+          <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/webhooks/#events" />
+        }
+      >
+        <FormFieldDescription>
+          These are the events that are registered to this particular endpoint.
+          Visit our{" "}
+          <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/webhooks/#events">
+            Webhook Guide
+          </ExternalLink>{" "}
+          for the schema of these events. Any event matching the following will
+          be sent to the endpoint if it is enabled:
+        </FormFieldDescription>
+      </Localized>
       <ListGroup className={styles.list}>
         {settings.webhookEvents.map(event => {
           const selectedIndex = events.value.indexOf(event);
@@ -99,20 +109,32 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
         })}
       </ListGroup>
       {all.value ? (
-        <HelperText>
-          The endpoint will receive all events, including any added in the
-          future.
-        </HelperText>
+        <Localized id="configure-webhooks-allEvents">
+          <HelperText>
+            The endpoint will receive all events, including any added in the
+            future.
+          </HelperText>
+        </Localized>
       ) : events.value.length > 0 ? (
-        <HelperText>{events.value.length} event selected.</HelperText>
+        <Localized
+          id="configure-webhooks-selectedEvents"
+          $count={events.value.length}
+        >
+          <HelperText>{events.value.length} event selected.</HelperText>
+        </Localized>
       ) : (
-        <HelperText>
-          Select events above or{" "}
-          <Button variant="text" onClick={onRecieveAll}>
-            receive all events
-          </Button>
-          .
-        </HelperText>
+        <Localized
+          id="configure-webhooks-selectAnEvent"
+          button={<Button variant="text" onClick={onRecieveAll} />}
+        >
+          <HelperText>
+            Select events above or{" "}
+            <Button variant="text" onClick={onRecieveAll}>
+              receive all events
+            </Button>
+            .
+          </HelperText>
+        </Localized>
       )}
       <ValidationMessage meta={meta} fullWidth />
     </FormField>

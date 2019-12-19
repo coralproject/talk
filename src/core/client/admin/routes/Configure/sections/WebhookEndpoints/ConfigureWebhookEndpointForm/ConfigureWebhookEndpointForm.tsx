@@ -1,4 +1,5 @@
 import { FORM_ERROR } from "final-form";
+import { Localized } from "fluent-react/compat";
 import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
@@ -97,7 +98,9 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
             >
               {({ input, meta }) => (
                 <FormField>
-                  <Label>Endpoint URL</Label>
+                  <Localized id="configure-webhooks-endpointURL">
+                    <Label>Endpoint URL</Label>
+                  </Localized>
                   <TextField
                     {...input}
                     placeholder="https://"
@@ -111,13 +114,25 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
             <EventsSelectField settings={settings} />
             <Flex direction="row" justifyContent="flex-end" itemGutter>
               {onCancel && (
-                <Button type="button" color="mono" onClick={onCancel}>
-                  Cancel
-                </Button>
+                <Localized id="configure-webhooks-cancelButton">
+                  <Button type="button" color="mono" onClick={onCancel}>
+                    Cancel
+                  </Button>
+                </Localized>
               )}
-              <Button type="submit" disabled={submitting || pristine}>
-                {webhookEndpoint ? "Update details" : "Add endpoint"}
-              </Button>
+              {webhookEndpoint ? (
+                <Localized id="configure-webhooks-updateWebhookEndpointButton">
+                  <Button type="submit" disabled={submitting || pristine}>
+                    Update details
+                  </Button>
+                </Localized>
+              ) : (
+                <Localized id="configure-webhooks-addEndpointButton">
+                  <Button type="submit" disabled={submitting}>
+                    Add webhook endpoint
+                  </Button>
+                </Localized>
+              )}
             </Flex>
           </HorizontalGutter>
         </form>

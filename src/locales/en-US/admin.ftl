@@ -79,6 +79,7 @@ configure-sideBarNavigation-advanced = Advanced
 configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
 configure-sideBarNavigation-slack = Slack
+configure-sideBarNavigation-webhooks = Webhooks
 
 configure-sideBar-saveChanges = Save Changes
 configure-configurationSubHeader = Configuration
@@ -86,6 +87,84 @@ configure-onOffField-on = On
 configure-onOffField-off = Off
 configure-radioButton-allow = Allow
 configure-radioButton-dontAllow = Don't allow
+
+### Webhooks
+configure-webhooks-webhookEndpointNotFound = Webhook endpoint not found
+configure-webhooks-header-title = Configure webhook endpoint
+configure-webhooks-description =
+  Configure an endpoint to send events to when events occur within
+  Coral. These events will be JSON encoded and signed. To learn more
+  about webhook signing, visit our <externalLink>Webhook Guide</externalLink>.
+configure-webhooks-addEndpoint = Add webhook endpoint
+configure-webhooks-addEndpointButton = Add webhook endpoint
+configure-webhooks-endpoints = Endpoints
+configure-webhooks-url = URL
+configure-webhooks-status = Status
+configure-webhooks-noEndpoints = There are no webhook endpoints configured, add one above.
+configure-webhooks-enabledWebhookEndpoint = Enabled
+configure-webhooks-disabledWebhookEndpoint = Disabled
+configure-webhooks-endpointURL = Endpoint URL
+configure-webhooks-cancelButton = Cancel
+configure-webhooks-updateWebhookEndpointButton = Update webhook endpoint
+configure-webhooks-eventsToSend = Events to send
+configure-webhooks-clearEventsToSend = Clear
+configure-webhooks-eventsToSendDescription =
+  These are the events that are registered to this particular endpoint. Visit
+  our <externalLink>Webhook Guide</externalLink> for the schema of these events.
+  Any event matching the following will be sent to the endpoint if it is
+  enabled:
+configure-webhooks-allEvents =
+  The endpoint will receive all events, including any added in the future.
+configure-webhooks-selectedEvents =
+  { $count } { $count ->
+    [1] event
+    *[other] events
+  } selected.
+configure-webhooks-selectAnEvent =
+  Select events above or <button>receive all events</button>.
+configure-webhooks-configureWebhookEndpoint = Configure webhook endpoint
+configure-webhooks-confirmEnable =
+  Enabling the webhook endpoint will start to send events to this URL. Are you sure you want to continue?
+configure-webhooks-confirmDisable =
+  Disabling this webhook endpoint will stop any new events from being sent to this URL. Are you sure you want to continue?
+configure-webhooks-confirmDelete =
+  Deleting this webhook endpoint will stop any new events from being sent to this URL, and remove all the associated settings with this webhook endpoint. Are you sure you want to continue?
+configure-webhooks-dangerZone = Danger Zone
+configure-webhooks-rollSigningSecret = Roll signing secret
+configure-webhooks-rollSigningSecretDescription =
+  Rolling the signing secret will allow to you to safely replace a signing
+  secret used in production with a delay.
+configure-webhooks-rollSigningSecretButton = Roll signing secret
+configure-webhooks-rollSigningSecretHelper =
+  After it expires, signatures will no longer be generated with the old secret.
+configure-webhooks-disableEndpoint = Disable endpoint
+configure-webhooks-disableEndpointDescription =
+  This endpoint is current enabled. By disabling this endpoint no new events
+  will be sent to the URL provided.
+configure-webhooks-disableEndpointButton = Disable endpoint
+configure-webhooks-enableEndpoint = Enable endpoint
+configure-webhooks-enableEndpointDescription =
+  This endpoint is current disabled. By enabling this endpoint new events will
+  be sent to the URL provided.
+configure-webhooks-enableEndpointButton = Enable endpoint
+configure-webhooks-deleteEndpoint = Delete endpoint
+configure-webhooks-deleteEndpointDescription =
+  Deleting the endpoint will prevent any new events from being sent to the URL
+  provided.
+configure-webhooks-deleteEndpointButton = Delete endpoint
+configure-webhooks-endpointStatus = Endpoint status
+configure-webhooks-signingSecret = Signing secret
+configure-webhooks-signingSecretDescription =
+  The following signing secret is used to sign request payloads sent
+  to the URL. To learn more about webhook signing, visit our
+  <externalLink>Webhook Guide</externalLink>.
+configure-webhooks-expiresOldSecret = Expire the old secret
+configure-webhooks-expiresOldSecretImmediately = Immediately
+configure-webhooks-expiresOldSecretHoursFromNow =
+  { $hours ->
+    [1] 1 hour
+    *[other] { $hours } hours
+  }  from now
 
 ### General
 configure-general-guidelines-title = Community guidelines summary

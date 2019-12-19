@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import Subheader from "coral-admin/routes/Configure/Subheader";
@@ -24,21 +25,34 @@ interface Props {
 const EndpointStatus: FunctionComponent<Props> = ({ webhookEndpoint }) => {
   return (
     <>
-      <Subheader>Endpoint status</Subheader>
+      <Localized id="configure-webhooks-endpointStatus">
+        <Subheader>Endpoint status</Subheader>
+      </Localized>
       <FormField>
-        <Label>Status</Label>
+        <Localized id="configure-webhooks-status">
+          <Label>Status</Label>
+        </Localized>
         <StatusMarker enabled={webhookEndpoint.enabled} />
       </FormField>
       <FormField>
-        <Label>Signing secret</Label>
-        <FormFieldDescription>
-          The following signing secret is used to sign request payloads sent to
-          the URL. To learn more about webhook signing, visit{" "}
-          <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/webhooks/#signing">
-            our docs
-          </ExternalLink>
-          .
-        </FormFieldDescription>
+        <Localized id="configure-webhooks-signingSecret">
+          <Label>Signing secret</Label>
+        </Localized>
+        <Localized
+          id="configure-webhooks-signingSecretDescription"
+          externalLink={
+            <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/webhooks/#signing" />
+          }
+        >
+          <FormFieldDescription>
+            The following signing secret is used to sign request payloads sent
+            to the URL. To learn more about webhook signing, visit our{" "}
+            <ExternalLink href="https://docs.coralproject.net/coral/v5/integrating/webhooks/#signing">
+              Webhook Guide
+            </ExternalLink>
+            .
+          </FormFieldDescription>
+        </Localized>
         <Flex direction="row" itemGutter="half" alignItems="center">
           <PasswordField
             value={webhookEndpoint.signingSecret.secret}

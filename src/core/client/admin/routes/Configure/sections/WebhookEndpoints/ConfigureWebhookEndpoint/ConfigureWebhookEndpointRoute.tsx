@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -23,9 +24,11 @@ const ConfigureWebhookEndpointRoute: FunctionComponent<Props> = ({ data }) => {
 
   if (!data.webhookEndpoint) {
     return (
-      <CallOut color="error" fullWidth>
-        Webhook endpoint not found
-      </CallOut>
+      <Localized id="configure-webhooks-webhookEndpointNotFound">
+        <CallOut color="error" fullWidth>
+          Webhook endpoint not found
+        </CallOut>
+      </Localized>
     );
   }
 
