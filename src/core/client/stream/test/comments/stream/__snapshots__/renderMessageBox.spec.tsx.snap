@@ -74,7 +74,7 @@ exports[`renders message box when commenting disabled 1`] = `
             chat
           </i>
           <div
-            className="Markdown-root MessageBoxContent-root"
+            className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "<p><strong>What do you think</strong>?</p>
@@ -279,7 +279,7 @@ exports[`renders message box when logged in 1`] = `
           chat
         </i>
         <div
-          className="Markdown-root MessageBoxContent-root"
+          className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
           dangerouslySetInnerHTML={
             Object {
               "__html": "<p><strong>What do you think</strong>?</p>
@@ -597,7 +597,7 @@ exports[`renders message box when not logged in 1`] = `
           chat
         </i>
         <div
-          className="Markdown-root MessageBoxContent-root"
+          className="Markdown-root MessageBoxContent-root MessageBoxContainer-withIcon"
           dangerouslySetInnerHTML={
             Object {
               "__html": "<p><strong>What do you think</strong>?</p>
@@ -889,7 +889,7 @@ exports[`renders message box when story isClosed 1`] = `
         className="MessageBox-root coral coral-createComment-message PostCommentFormClosed-messageBox"
       >
         <div
-          className="Markdown-root MessageBoxContent-root"
+          className="Markdown-root MessageBoxContent-root MessageBoxContainer-withoutIcon"
           dangerouslySetInnerHTML={
             Object {
               "__html": "<p><strong>What do you think</strong>?</p>
