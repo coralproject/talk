@@ -55,7 +55,7 @@ export default class extends Migration {
 
     if (sso.key && sso.keyGeneratedAt) {
       // Create the new SSOKey based on this data.
-      const key = generateSecret(sso.keyGeneratedAt);
+      const key = generateSecret("ssosec", sso.keyGeneratedAt);
 
       // Set the secret of the sso key to the secret of the current set key.
       key.secret = sso.key;

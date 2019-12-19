@@ -2,18 +2,32 @@ import GraphContext from "coral-server/graph/context";
 import { Tenant } from "coral-server/models/tenant";
 import {
   createAnnouncement,
+  createWebhookEndpoint,
   deleteAnnouncement,
+  deleteWebhookEndpoint,
   disableFeatureFlag,
+  disableWebhookEndpoint,
   enableFeatureFlag,
+  enableWebhookEndpoint,
   regenerateSSOKey,
+  rollWebhookEndpointSecret,
   update,
+  updateWebhookEndpoint,
 } from "coral-server/services/tenant";
 
 import {
   GQLCreateAnnouncementInput,
+  GQLCreateWebhookEndpointInput,
+  GQLDeleteWebhookEndpointInput,
+  GQLDisableWebhookEndpointInput,
+  GQLEnableWebhookEndpointInput,
   GQLFEATURE_FLAG,
+  GQLRollWebhookEndpointSecretInput,
   GQLUpdateSettingsInput,
+  GQLUpdateWebhookEndpointInput,
 } from "coral-server/graph/schema/__generated__/types";
+
+import { WithoutMutationID } from "./util";
 
 export const Settings = ({
   mongo,
@@ -23,7 +37,9 @@ export const Settings = ({
   config,
   now,
 }: GraphContext) => ({
-  update: (input: GQLUpdateSettingsInput): Promise<Tenant | null> =>
+  update: (
+    input: WithoutMutationID<GQLUpdateSettingsInput>
+  ): Promise<Tenant | null> =>
     update(mongo, redis, tenantCache, config, tenant, input.settings),
   regenerateSSOKey: (): Promise<Tenant | null> =>
     regenerateSSOKey(mongo, redis, tenantCache, tenant, now),
@@ -35,4 +51,42 @@ export const Settings = ({
     createAnnouncement(mongo, redis, tenantCache, tenant, input, now),
   deleteAnnouncement: () =>
     deleteAnnouncement(mongo, redis, tenantCache, tenant),
+  createWebhookEndpoint: (
+    input: WithoutMutationID<GQLCreateWebhookEndpointInput>
+  ) =>
+    createWebhookEndpoint(
+      mongo,
+      redis,
+      config,
+      tenantCache,
+      tenant,
+      input,
+      now
+    ),
+  enableWebhookEndpoint: (
+    input: WithoutMutationID<GQLEnableWebhookEndpointInput>
+  ) => enableWebhookEndpoint(mongo, redis, tenantCache, tenant, input.id),
+  disableWebhookEndpoint: (
+    input: WithoutMutationID<GQLDisableWebhookEndpointInput>
+  ) => disableWebhookEndpoint(mongo, redis, tenantCache, tenant, input.id),
+  updateWebhookEndpoint: ({
+    id,
+    ...input
+  }: WithoutMutationID<GQLUpdateWebhookEndpointInput>) =>
+    updateWebhookEndpoint(mongo, redis, config, tenantCache, tenant, id, input),
+  deleteWebhookEndpoint: (
+    input: WithoutMutationID<GQLDeleteWebhookEndpointInput>
+  ) => deleteWebhookEndpoint(mongo, redis, tenantCache, tenant, input.id),
+  rollWebhookEndpointSecret: (
+    input: WithoutMutationID<GQLRollWebhookEndpointSecretInput>
+  ) =>
+    rollWebhookEndpointSecret(
+      mongo,
+      redis,
+      tenantCache,
+      tenant,
+      input.id,
+      input.inactiveIn,
+      now
+    ),
 });

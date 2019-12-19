@@ -1,0 +1,18 @@
+.warning {
+  background-color: var(--palette-warning-main);
+  border-color: var(--palette-warning-main);
+  color: var(--v2-colors-pure-white);
+  display: inline-block;
+}
+
+.url {
+  font-family: monospace;
+}
+
+.event {
+  font-family: monospace;
+}
+
+.events {
+  max-height: 295px;
+}

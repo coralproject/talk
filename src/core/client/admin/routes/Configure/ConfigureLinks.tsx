@@ -28,6 +28,9 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
       <Localized id="configure-sideBarNavigation-slack">
         <Link to="/admin/configure/slack">Slack</Link>
       </Localized>
+      <Localized id="configure-sideBarNavigation-webhooks">
+        <Link to="/admin/configure/webhooks">Webhooks</Link>
+      </Localized>
       <Localized id="configure-sideBarNavigation-advanced">
         <Link to="/admin/configure/advanced">Advanced</Link>
       </Localized>

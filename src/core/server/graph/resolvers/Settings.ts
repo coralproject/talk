@@ -6,6 +6,7 @@ import {
 import {
   GQLFEATURE_FLAG,
   GQLSettingsTypeResolver,
+  GQLWEBHOOK_EVENT_NAME,
 } from "coral-server/graph/schema/__generated__/types";
 
 const filterValidFeatureFlags = () => {
@@ -27,4 +28,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     const sites = await ctx.loaders.Sites.connection({});
     return sites.edges.length > 1;
   },
+  webhookEvents: () => Object.values(GQLWEBHOOK_EVENT_NAME),
 };

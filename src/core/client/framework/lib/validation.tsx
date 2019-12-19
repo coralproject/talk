@@ -17,6 +17,7 @@ import {
   INVALID_CHARACTERS,
   INVALID_EMAIL,
   INVALID_URL,
+  INVALID_WEBHOOK_ENDPOINT_EVENT_SELECTION,
   NOT_A_WHOLE_NUMBER,
   NOT_A_WHOLE_NUMBER_BETWEEN,
   NOT_A_WHOLE_NUMBER_GREATER_THAN,
@@ -153,6 +154,15 @@ export const validatePassword = createValidator(
 export const validateEqualPasswords = createValidator(
   (v, values) => v === values.password,
   PASSWORDS_DO_NOT_MATCH()
+);
+
+/**
+ * validateEventSelection is a Validator that checks for a valid combination of
+ * event selections for webhook endpoints.
+ */
+export const validateEventSelection = createValidator(
+  (v, values) => values.all || (values.events && values.events.length > 0),
+  INVALID_WEBHOOK_ENDPOINT_EVENT_SELECTION()
 );
 
 /**

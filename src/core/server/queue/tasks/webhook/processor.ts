@@ -10,10 +10,14 @@ import {
   filterActiveSecrets,
   filterExpiredSecrets,
 } from "coral-server/models/settings";
-import { deleteEndpointSecrets, Endpoint } from "coral-server/models/tenant";
+import {
+  deleteEndpointSecrets,
+  Endpoint,
+  getWebhookEndpoint,
+} from "coral-server/models/tenant";
 import { JobProcessor } from "coral-server/queue/Task";
 import { createFetch, FetchOptions } from "coral-server/services/fetch";
-import { disableEndpoint } from "coral-server/services/tenant";
+import { disableWebhookEndpoint } from "coral-server/services/tenant";
 import TenantCache from "coral-server/services/tenant/cache";
 
 export const JOB_NAME = "webhook";
@@ -131,9 +135,7 @@ export function createJobProcessor({
     }
 
     // Get the referenced endpoint.
-    const endpoint = tenant.webhooks.endpoints.find(
-      ({ id }) => id === endpointID
-    );
+    const endpoint = getWebhookEndpoint(tenant, endpointID);
     if (!endpoint) {
       log.error("referenced endpoint was not found");
       return;
@@ -216,7 +218,13 @@ export function createJobProcessor({
           "maximum failures reached, disabling endpoint"
         );
 
-        await disableEndpoint(mongo, redis, tenantCache, tenant, endpointID);
+        await disableWebhookEndpoint(
+          mongo,
+          redis,
+          tenantCache,
+          tenant,
+          endpointID
+        );
       } else {
         // TODO: (wyattjoh) maybe schedule a retry?
       }

@@ -33,9 +33,13 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.updateNotificationSettings(input),
     clientMutationId,
   }),
-  updateSettings: async (source, { input }, ctx) => ({
+  updateSettings: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
     settings: await ctx.mutators.Settings.update(input),
-    clientMutationId: input.clientMutationId,
+    clientMutationId,
   }),
   createCommentReaction: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comments.createReaction(input),
@@ -251,5 +255,53 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   updateSite: async (source, { input }, ctx) => ({
     site: await ctx.mutators.Sites.update(input),
     clientMutationId: input.clientMutationId,
+  }),
+  createWebhookEndpoint: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    ...(await ctx.mutators.Settings.createWebhookEndpoint(input)),
+    clientMutationId,
+  }),
+  updateWebhookEndpoint: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    endpoint: await ctx.mutators.Settings.updateWebhookEndpoint(input),
+    clientMutationId,
+  }),
+  disableWebhookEndpoint: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    endpoint: await ctx.mutators.Settings.disableWebhookEndpoint(input),
+    clientMutationId,
+  }),
+  enableWebhookEndpoint: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    endpoint: await ctx.mutators.Settings.enableWebhookEndpoint(input),
+    clientMutationId,
+  }),
+  deleteWebhookEndpoint: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    endpoint: await ctx.mutators.Settings.deleteWebhookEndpoint(input),
+    clientMutationId,
+  }),
+  rollWebhookEndpointSecret: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    endpoint: await ctx.mutators.Settings.rollWebhookEndpointSecret(input),
+    clientMutationId,
   }),
 };

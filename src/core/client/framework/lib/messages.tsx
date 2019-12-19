@@ -14,13 +14,13 @@ export const VALIDATION_REQUIRED = () => (
 
 export const VALIDATION_TOO_SHORT = (minLength: number) => (
   <Localized id="framework-validation-tooShort" $minLength={minLength}>
-    <span>{"Please enter at least {$minLength} characters."}</span>
+    <span>Please enter at least {minLength} characters.</span>
   </Localized>
 );
 
 export const VALIDATION_TOO_LONG = (maxLength: number) => (
   <Localized id="framework-validation-tooLong" $maxLength={maxLength}>
-    <span>{"Please enter at max {$maxLength} characters."}</span>
+    <span>Please enter at max {maxLength} characters.</span>
   </Localized>
 );
 
@@ -38,25 +38,31 @@ export const INVALID_CHARACTERS = () => (
 
 export const USERNAME_TOO_SHORT = (minLength: number) => (
   <Localized id="framework-validation-usernameTooShort" $minLength={minLength}>
-    <span>{"Usernames must contain at least {$minLength} characters."}</span>
+    <span>Usernames must contain at least {minLength} characters.</span>
   </Localized>
 );
 
 export const USERNAME_TOO_LONG = (maxLength: number) => (
   <Localized id="framework-validation-usernameTooLong" $maxLength={maxLength}>
-    <span>{"Usernames cannot be longer than {$maxLength} characters."}</span>
+    <span>Usernames cannot be longer than {maxLength} characters.</span>
   </Localized>
 );
 
 export const PASSWORD_TOO_SHORT = (minLength: number) => (
   <Localized id="framework-validation-passwordTooShort" $minLength={minLength}>
-    <span>{"Password must contain at least {$minLength} characters."}</span>
+    <span>Password must contain at least {minLength} characters.</span>
   </Localized>
 );
 
 export const PASSWORDS_DO_NOT_MATCH = () => (
   <Localized id="framework-validation-passwordsDoNotMatch">
     <span>Passwords do not match. Try again.</span>
+  </Localized>
+);
+
+export const INVALID_WEBHOOK_ENDPOINT_EVENT_SELECTION = () => (
+  <Localized id="framework-validation-invalidWebhookEndpointEventSelection">
+    <span>Select at least one event to receive.</span>
   </Localized>
 );
 

@@ -1,6 +1,8 @@
 import logger from "coral-server/logger";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
 
+import { GQLWEBHOOK_EVENT_NAME } from "coral-server/graph/schema/__generated__/types";
+
 import { CoralEventType, StoryCreatedCoralEventPayload } from "../events";
 import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
 
@@ -41,8 +43,14 @@ export class WebhookCoralEventListener
         return true;
       }
 
-      // If this event name is specifically listed, include it.
-      if (endpoint.events.includes(event.type)) {
+      // If this event name is specifically listed, include it. We have to do
+      // some nasty casting here to address the fact that the types don't
+      // technically overlap.
+      if (
+        endpoint.events.includes(
+          (event.type as unknown) as GQLWEBHOOK_EVENT_NAME
+        )
+      ) {
         return true;
       }
 
