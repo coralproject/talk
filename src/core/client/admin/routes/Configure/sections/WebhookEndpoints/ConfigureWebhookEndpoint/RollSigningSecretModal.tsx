@@ -1,4 +1,5 @@
 import { FORM_ERROR } from "final-form";
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
@@ -23,7 +24,6 @@ import {
 import RollWebhookEndpointSecretMutation from "./RollWebhookEndpointSecretMutation";
 
 import styles from "./RollSigningSecretModal.css";
-import { Localized } from "fluent-react/compat";
 
 interface Props {
   endpointID: string;
