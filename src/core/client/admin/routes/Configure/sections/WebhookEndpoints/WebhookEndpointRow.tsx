@@ -7,7 +7,7 @@ import { TableCell, TableRow, TextLink } from "coral-ui/components/v2";
 
 import { WebhookEndpointRow_webhookEndpoint } from "coral-admin/__generated__/WebhookEndpointRow_webhookEndpoint.graphql";
 
-import EndpointStatusMarker from "./EndpointStatusMarker";
+import StatusMarker from "./StatusMarker";
 
 import styles from "./WebhookEndpointRow.css";
 
@@ -27,7 +27,7 @@ const WebhookEndpointRow: FunctionComponent<Props> = ({ endpoint }) => (
       </Link>
     </TableCell>
     <TableCell>
-      <EndpointStatusMarker enabled={endpoint.enabled} />
+      <StatusMarker enabled={endpoint.enabled} />
     </TableCell>
   </TableRow>
 );

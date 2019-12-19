@@ -6,19 +6,19 @@ import Header from "coral-admin/routes/Configure/Header";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
-import { ConfigureWebhookContainer_settings } from "coral-admin/__generated__/ConfigureWebhookContainer_settings.graphql";
-import { ConfigureWebhookContainer_webhookEndpoint } from "coral-admin/__generated__/ConfigureWebhookContainer_webhookEndpoint.graphql";
+import { ConfigureWebhookEndpointContainer_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointContainer_settings.graphql";
+import { ConfigureWebhookEndpointContainer_webhookEndpoint } from "coral-admin/__generated__/ConfigureWebhookEndpointContainer_webhookEndpoint.graphql";
 
 import EndpointDangerZone from "./EndpointDangerZone";
 import EndpointDetails from "./EndpointDetails";
 import EndpointStatus from "./EndpointStatus";
 
 interface Props {
-  webhookEndpoint: ConfigureWebhookContainer_webhookEndpoint;
-  settings: ConfigureWebhookContainer_settings;
+  webhookEndpoint: ConfigureWebhookEndpointContainer_webhookEndpoint;
+  settings: ConfigureWebhookEndpointContainer_settings;
 }
 
-const ConfigureWebhookContainer: FunctionComponent<Props> = ({
+const ConfigureWebhookEndpointContainer: FunctionComponent<Props> = ({
   webhookEndpoint,
   settings,
 }) => {
@@ -46,17 +46,17 @@ const ConfigureWebhookContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   webhookEndpoint: graphql`
-    fragment ConfigureWebhookContainer_webhookEndpoint on WebhookEndpoint {
+    fragment ConfigureWebhookEndpointContainer_webhookEndpoint on WebhookEndpoint {
       ...EndpointDangerZone_webhookEndpoint
       ...EndpointDetails_webhookEndpoint
       ...EndpointStatus_webhookEndpoint
     }
   `,
   settings: graphql`
-    fragment ConfigureWebhookContainer_settings on Settings {
+    fragment ConfigureWebhookEndpointContainer_settings on Settings {
       ...EndpointDetails_settings
     }
   `,
-})(ConfigureWebhookContainer);
+})(ConfigureWebhookEndpointContainer);
 
 export default enhanced;

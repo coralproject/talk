@@ -15,7 +15,7 @@ import {
 
 import { EndpointStatus_webhookEndpoint } from "coral-admin/__generated__/EndpointStatus_webhookEndpoint.graphql";
 
-import EndpointStatusMarker from "../EndpointStatusMarker";
+import StatusMarker from "../StatusMarker";
 
 interface Props {
   webhookEndpoint: EndpointStatus_webhookEndpoint;
@@ -27,7 +27,7 @@ const EndpointStatus: FunctionComponent<Props> = ({ webhookEndpoint }) => {
       <Subheader>Endpoint status</Subheader>
       <FormField>
         <Label>Status</Label>
-        <EndpointStatusMarker enabled={webhookEndpoint.enabled} />
+        <StatusMarker enabled={webhookEndpoint.enabled} />
       </FormField>
       <FormField>
         <Label>Signing secret</Label>

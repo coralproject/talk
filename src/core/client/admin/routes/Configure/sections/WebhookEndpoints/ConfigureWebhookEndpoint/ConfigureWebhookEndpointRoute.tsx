@@ -4,15 +4,15 @@ import { graphql } from "react-relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { CallOut, Delay, Spinner } from "coral-ui/components/v2";
 
-import { ConfigureWebhookRouteQueryResponse } from "coral-admin/__generated__/ConfigureWebhookRouteQuery.graphql";
+import { ConfigureWebhookEndpointRouteQueryResponse } from "coral-admin/__generated__/ConfigureWebhookEndpointRouteQuery.graphql";
 
-import ConfigureWebhookContainer from "./ConfigureWebhookContainer";
+import ConfigureWebhookContainer from "./ConfigureWebhookEndpointContainer";
 
 interface Props {
-  data: ConfigureWebhookRouteQueryResponse | null;
+  data: ConfigureWebhookEndpointRouteQueryResponse | null;
 }
 
-const ConfigureWebhookRoute: FunctionComponent<Props> = ({ data }) => {
+const ConfigureWebhookEndpointRoute: FunctionComponent<Props> = ({ data }) => {
   if (!data) {
     return (
       <Delay>
@@ -39,12 +39,12 @@ const ConfigureWebhookRoute: FunctionComponent<Props> = ({ data }) => {
 
 const enhanced = withRouteConfig<Props>({
   query: graphql`
-    query ConfigureWebhookRouteQuery($webhookEndpointID: ID!) {
+    query ConfigureWebhookEndpointRouteQuery($webhookEndpointID: ID!) {
       webhookEndpoint(id: $webhookEndpointID) {
-        ...ConfigureWebhookContainer_webhookEndpoint
+        ...ConfigureWebhookEndpointContainer_webhookEndpoint
       }
       settings {
-        ...ConfigureWebhookContainer_settings
+        ...ConfigureWebhookEndpointContainer_settings
       }
     }
   `,
@@ -54,6 +54,6 @@ const enhanced = withRouteConfig<Props>({
       webhookEndpointID: match.params.webhookEndpointID,
     };
   },
-})(ConfigureWebhookRoute);
+})(ConfigureWebhookEndpointRoute);
 
 export default enhanced;

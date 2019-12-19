@@ -20,7 +20,7 @@ import {
 import { EndpointDetails_settings } from "coral-admin/__generated__/EndpointDetails_settings.graphql";
 import { EndpointDetails_webhookEndpoint } from "coral-admin/__generated__/EndpointDetails_webhookEndpoint.graphql";
 
-import ConfigureWebhookModal from "../ConfigureWebhookModal/ConfigureWebhookModal";
+import ConfigureWebhookEndpointModal from "../ConfigureWebhookEndpointModal";
 
 import styles from "./EndpointDetails.css";
 
@@ -77,7 +77,7 @@ const EndpointDetails: FunctionComponent<Props> = ({
       <Flex justifyContent="flex-end">
         <Button onClick={show}>Update details</Button>
       </Flex>
-      <ConfigureWebhookModal
+      <ConfigureWebhookEndpointModal
         open={open}
         onHide={hide}
         settings={settings}
@@ -94,12 +94,12 @@ const enhanced = withFragmentContainer<Props>({
       url
       all
       events
-      ...ConfigureWebhookModal_webhookEndpoint
+      ...ConfigureWebhookEndpointModal_webhookEndpoint
     }
   `,
   settings: graphql`
     fragment EndpointDetails_settings on Settings {
-      ...ConfigureWebhookModal_settings
+      ...ConfigureWebhookEndpointModal_settings
     }
   `,
 })(EndpointDetails);

@@ -7,21 +7,21 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 
-import { RollWebhookEndpointSecretMutation as MutationTypes } from "coral-admin/__generated__/RollWebhookEndpointSecretMutation.graphql";
+import { EnableWebhookEndpointMutation as MutationTypes } from "coral-admin/__generated__/EnableWebhookEndpointMutation.graphql";
 
 let clientMutationId = 0;
 
-const RollWebhookEndpointSecretMutation = createMutation(
-  "rollWebhookEndpointSecret",
+const EnableWebhookEndpointMutation = createMutation(
+  "enableWebhookEndpoint",
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation RollWebhookEndpointSecretMutation(
-          $input: RollWebhookEndpointSecretInput!
+        mutation EnableWebhookEndpointMutation(
+          $input: EnableWebhookEndpointInput!
         ) {
-          rollWebhookEndpointSecret(input: $input) {
+          enableWebhookEndpoint(input: $input) {
             endpoint {
-              ...ConfigureWebhookContainer_webhookEndpoint
+              ...ConfigureWebhookEndpointContainer_webhookEndpoint
             }
           }
         }
@@ -35,4 +35,4 @@ const RollWebhookEndpointSecretMutation = createMutation(
     })
 );
 
-export default RollWebhookEndpointSecretMutation;
+export default EnableWebhookEndpointMutation;

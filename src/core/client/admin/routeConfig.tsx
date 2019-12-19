@@ -11,13 +11,13 @@ import ConfigureRoute from "./routes/Configure";
 import {
   AdvancedConfigRoute,
   AuthConfigRoute,
-  ConfigureWebhookRoute,
+  ConfigureWebhookEndpointRoute,
   EmailConfigRoute,
   GeneralConfigRoute,
   ModerationConfigRoute,
   OrganizationConfigRoute,
   SlackConfigRoute,
-  WebhooksConfigRoute,
+  WebhookEndpointsConfigRoute,
   WordListConfigRoute,
 } from "./routes/Configure/sections";
 import { Sites } from "./routes/Configure/sections/Sites";
@@ -114,10 +114,13 @@ export default makeRouteConfig(
             <Route path="advanced" {...AdvancedConfigRoute.routeConfig} />
             <Route path="email" {...EmailConfigRoute.routeConfig} />
             <Route path="slack" {...SlackConfigRoute.routeConfig} />
-            <Route path="webhooks" {...WebhooksConfigRoute.routeConfig} />
+            <Route
+              path="webhooks"
+              {...WebhookEndpointsConfigRoute.routeConfig}
+            />
             <Route
               path="webhooks/:webhookEndpointID"
-              {...ConfigureWebhookRoute.routeConfig}
+              {...ConfigureWebhookEndpointRoute.routeConfig}
             />
           </Route>
           <Route path="configure/organization/sites" Component={Sites}>

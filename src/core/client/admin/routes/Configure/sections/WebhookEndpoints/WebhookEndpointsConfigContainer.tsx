@@ -15,19 +15,21 @@ import {
   TableRow,
 } from "coral-ui/components/v2";
 
-import { WebhooksConfigContainer_settings } from "coral-admin/__generated__/WebhooksConfigContainer_settings.graphql";
+import { WebhookEndpointsConfigContainer_settings } from "coral-admin/__generated__/WebhookEndpointsConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import Subheader from "../../Subheader";
-import ConfigureWebhookModal from "./ConfigureWebhookModal/ConfigureWebhookModal";
+import ConfigureWebhookEndpointModal from "./ConfigureWebhookEndpointModal";
 import WebhookEndpointRow from "./WebhookEndpointRow";
 
 interface Props {
-  settings: WebhooksConfigContainer_settings;
+  settings: WebhookEndpointsConfigContainer_settings;
 }
 
-const WebhooksConfigContainer: FunctionComponent<Props> = ({ settings }) => {
+const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
+  settings,
+}) => {
   const [open, setOpen] = useState(false);
 
   const show = useCallback(() => setOpen(true), []);
@@ -59,7 +61,7 @@ const WebhooksConfigContainer: FunctionComponent<Props> = ({ settings }) => {
             Add endpoint
           </Localized>
         </Button>
-        <ConfigureWebhookModal
+        <ConfigureWebhookEndpointModal
           open={open}
           onHide={hide}
           settings={settings}
@@ -90,15 +92,15 @@ const WebhooksConfigContainer: FunctionComponent<Props> = ({ settings }) => {
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
-    fragment WebhooksConfigContainer_settings on Settings {
+    fragment WebhookEndpointsConfigContainer_settings on Settings {
       webhooks {
         endpoints {
           ...WebhookEndpointRow_webhookEndpoint
         }
       }
-      ...ConfigureWebhookModal_settings
+      ...ConfigureWebhookEndpointModal_settings
     }
   `,
-})(WebhooksConfigContainer);
+})(WebhookEndpointsConfigContainer);
 
 export default enhanced;

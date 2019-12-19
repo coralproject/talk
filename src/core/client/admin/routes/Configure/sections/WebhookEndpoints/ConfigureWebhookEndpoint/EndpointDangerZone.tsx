@@ -22,7 +22,7 @@ import { EndpointDangerZone_webhookEndpoint } from "coral-admin/__generated__/En
 import DeleteWebhookEndpointMutation from "./DeleteWebhookEndpointMutation";
 import DisableWebhookEndpointMutation from "./DisableWebhookEndpointMutation";
 import EnableWebhookEndpointMutation from "./EnableWebhookEndpointMutation";
-import RollWebhookEndpointSecretModal from "./RollWebhookEndpointSecretModal";
+import RollSigningSecretModal from "./RollSigningSecretModal";
 
 interface Props {
   webhookEndpoint: EndpointDangerZone_webhookEndpoint;
@@ -98,7 +98,7 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
           Roll secret
         </Button>
       </FormField>
-      <RollWebhookEndpointSecretModal
+      <RollSigningSecretModal
         endpointID={webhookEndpoint.id}
         onHide={onHideRollSecret}
         open={rollSecretOpen}

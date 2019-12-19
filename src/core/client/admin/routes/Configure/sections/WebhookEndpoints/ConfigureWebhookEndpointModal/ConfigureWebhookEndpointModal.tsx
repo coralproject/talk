@@ -30,25 +30,25 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
-import { ConfigureWebhookModal_settings } from "coral-admin/__generated__/ConfigureWebhookModal_settings.graphql";
-import { ConfigureWebhookModal_webhookEndpoint } from "coral-admin/__generated__/ConfigureWebhookModal_webhookEndpoint.graphql";
+import { ConfigureWebhookEndpointModal_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointModal_settings.graphql";
+import { ConfigureWebhookEndpointModal_webhookEndpoint } from "coral-admin/__generated__/ConfigureWebhookEndpointModal_webhookEndpoint.graphql";
 
 import CreateWebhookEndpointMutation from "./CreateWebhookEndpointMutation";
 import EventsSelectField from "./EventsSelectField";
 import UpdateWebhookEndpointMutation from "./UpdateWebhookEndpointMutation";
 
-import styles from "./ConfigureWebhookModal.css";
+import styles from "./ConfigureWebhookEndpointModal.css";
 
 interface Props {
   onHide: () => void;
   open: boolean;
   router: Router;
   match: Match;
-  webhookEndpoint: ConfigureWebhookModal_webhookEndpoint | null;
-  settings: ConfigureWebhookModal_settings;
+  webhookEndpoint: ConfigureWebhookEndpointModal_webhookEndpoint | null;
+  settings: ConfigureWebhookEndpointModal_settings;
 }
 
-const ConfigureWebhookModal: FunctionComponent<Props> = ({
+const ConfigureWebhookEndpointModal: FunctionComponent<Props> = ({
   open,
   onHide,
   settings,
@@ -159,7 +159,7 @@ const ConfigureWebhookModal: FunctionComponent<Props> = ({
 const enhanced = withRouter(
   withFragmentContainer<Props>({
     webhookEndpoint: graphql`
-      fragment ConfigureWebhookModal_webhookEndpoint on WebhookEndpoint {
+      fragment ConfigureWebhookEndpointModal_webhookEndpoint on WebhookEndpoint {
         id
         url
         events
@@ -167,11 +167,11 @@ const enhanced = withRouter(
       }
     `,
     settings: graphql`
-      fragment ConfigureWebhookModal_settings on Settings {
+      fragment ConfigureWebhookEndpointModal_settings on Settings {
         ...EventsSelectField_settings
       }
     `,
-  })(ConfigureWebhookModal)
+  })(ConfigureWebhookEndpointModal)
 );
 
 export default enhanced;

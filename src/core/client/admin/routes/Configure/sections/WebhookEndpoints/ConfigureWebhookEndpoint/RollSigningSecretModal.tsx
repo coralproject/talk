@@ -22,7 +22,7 @@ import {
 
 import RollWebhookEndpointSecretMutation from "./RollWebhookEndpointSecretMutation";
 
-import styles from "./RollWebhookEndpointSecretModal.css";
+import styles from "./RollSigningSecretModal.css";
 
 interface Props {
   endpointID: string;
