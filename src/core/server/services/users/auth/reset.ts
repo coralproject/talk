@@ -60,6 +60,7 @@ export function isResetToken(token: ResetToken | object): token is ResetToken {
  *
  * @param mongo MongoDB instance to interact with
  * @param tenant Tenant that the user exists on
+ * @param config the convict config object
  * @param signingConfig signing configuration that will be used to sign the token
  * @param user User to create the password reset URL for
  * @param now the current time
