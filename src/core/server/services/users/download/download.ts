@@ -52,7 +52,7 @@ export async function sendUserDownload(
   let commentBatch: Array<Readonly<Comment>> = [];
 
   // Generate the filename of the file that the user will download.
-  const filename = `talk-${kebabCase(user.username)}-${kebabCase(
+  const filename = `coral-${kebabCase(user.username)}-${kebabCase(
     formatter.format(latestContentDate)
   )}.zip`;
 
