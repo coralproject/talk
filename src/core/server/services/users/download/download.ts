@@ -2,6 +2,7 @@ import archiver from "archiver";
 import stringify from "csv-stringify";
 import DataLoader from "dataloader";
 import { Response } from "express";
+import htmlToText from "html-to-text";
 import { kebabCase } from "lodash";
 import { Db } from "mongodb";
 
@@ -107,7 +108,7 @@ export async function sendUserDownload(
       const urlBuilder = new URL(storyURL);
       urlBuilder.searchParams.set("commentID", commentID);
       const commentURL = urlBuilder.href;
-      const body = revision.body;
+      const body = htmlToText.fromString(revision.body);
 
       csv.write([commentID, createdAt, storyURL, commentURL, body]);
     }
