@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
@@ -95,7 +95,13 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                             <MessageBoxIcon>{iconInput.value}</MessageBoxIcon>
                           )}
                           {/* Using a zero width join character to ensure that the space is used */}
-                          <MessageBoxContent>
+                          <MessageBoxContent
+                            className={
+                              iconInput.value
+                                ? styles.withIcon
+                                : styles.withoutIcon
+                            }
+                          >
                             {contentInput.value || "&nbsp;"}
                           </MessageBoxContent>
                         </MessageBox>

@@ -1,8 +1,13 @@
-import { FluentBundle, FluentNumber, FluentType } from "fluent/compat";
+import {
+  FluentBundle,
+  FluentNumber,
+  FluentType,
+  Pattern,
+} from "@fluent/bundle/compat";
 
 const formatRegExp = /^(0+|0+\.0+)[^\d.]+$/;
 
-export function validateFormat(fmt: string) {
+export function validatePattern(fmt: Pattern) {
   return formatRegExp.test(fmt);
 }
 
@@ -15,7 +20,7 @@ export function getShortNumberCode(n: number) {
   return code;
 }
 
-function formatShortNumber(n: number, format: string, bundle: FluentBundle) {
+function formatShortNumber(n: number, format: Pattern, bundle: FluentBundle) {
   const lastIndexOf0 = format.lastIndexOf("0");
   const unit = format.substr(lastIndexOf0 + 1);
   const rest = format.substr(0, lastIndexOf0 + 1);
@@ -57,8 +62,8 @@ export default class FluentShortNumber extends FluentNumber {
     }
 
     // Check for invalid message.
-    if (!validateFormat(fmt)) {
-      const message = `Invalid Short Number Format ${fmt}`;
+    if (!fmt.value || !validatePattern(fmt.value)) {
+      const message = `Invalid Short Number Format ${fmt.value}`;
       if (process.env.NODE_ENV === "production") {
         // eslint-disable-next-line no-console
         console.warn(message);
@@ -68,7 +73,7 @@ export default class FluentShortNumber extends FluentNumber {
       return super.toString(bundle);
     }
 
-    return formatShortNumber(this.value, fmt, bundle);
+    return formatShortNumber(this.value, fmt.value, bundle);
   }
 
   public match(bundle: FluentBundle, other: FluentType) {

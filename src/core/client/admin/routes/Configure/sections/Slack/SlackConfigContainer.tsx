@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
-import { Localized } from "fluent-react/compat";
 import React, {
   FunctionComponent,
   useCallback,

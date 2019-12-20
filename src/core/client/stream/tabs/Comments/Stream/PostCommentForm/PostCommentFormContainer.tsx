@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
 import { withContext } from "coral-framework/lib/bootstrap";

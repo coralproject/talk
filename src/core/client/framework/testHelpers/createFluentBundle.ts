@@ -1,4 +1,4 @@
-import { FluentBundle } from "fluent/compat";
+import { FluentBundle, FluentResource } from "@fluent/bundle/compat";
 import fs from "fs";
 import path from "path";
 
@@ -48,7 +48,9 @@ function createFluentBundle(
     prefixes.forEach(prefix => {
       if (f.startsWith(prefix)) {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        bundle.addMessages(require(path.resolve(pathToLocale, f)));
+        bundle.addResource(
+          new FluentResource(require(path.resolve(pathToLocale, f)))
+        );
       }
     });
   });

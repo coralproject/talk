@@ -1,6 +1,6 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FormApi, FormState } from "final-form";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 

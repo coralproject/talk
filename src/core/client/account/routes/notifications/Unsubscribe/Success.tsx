@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React from "react";
 
 import { HorizontalGutter, Typography } from "coral-ui/components";

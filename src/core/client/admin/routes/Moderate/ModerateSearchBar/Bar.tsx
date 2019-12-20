@@ -1,5 +1,4 @@
-import { HOTKEYS } from "coral-admin/constants";
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import key from "keymaster";
 import React, {
   FunctionComponent,
@@ -9,6 +8,7 @@ import React, {
 } from "react";
 import { Form } from "react-final-form";
 
+import { HOTKEYS } from "coral-admin/constants";
 import { Backdrop, Icon, Popover, SubBar } from "coral-ui/components/v2";
 import { combineEventHandlers } from "coral-ui/helpers";
 import {
