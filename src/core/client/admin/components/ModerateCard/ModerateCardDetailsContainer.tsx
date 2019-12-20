@@ -48,7 +48,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         onTabClick={id => setActiveTab(id as DetailsTabs)}
       >
         {hasDetails && (
-          <Tab tabID="INFO" classes={styles}>
+          <Tab tabID="DETAILS" classes={styles}>
             <Flex alignItems="center" itemGutter>
               <Icon size="md">list</Icon>
               <Localized id="moderateCardDetails-tab-info">
