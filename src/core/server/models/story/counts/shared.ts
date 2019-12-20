@@ -1,13 +1,8 @@
-import { flattenDeep, identity, isEmpty, pickBy } from "lodash";
+import { flatten, flattenDeep, identity, isEmpty, pickBy } from "lodash";
 import { Db } from "mongodb";
 import ms from "ms";
 
 import logger from "coral-server/logger";
-import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
-import {
-  CommentStatusCounts,
-  createEmptyCommentStatusCounts,
-} from "coral-server/models/comment/helpers";
 import {
   CommentModerationCountsPerQueue,
   StoryCounts,
@@ -96,20 +91,7 @@ export async function recalculateSharedModerationQueueQueueCounts(
   // Convert the cursor from the results into an array.
   const queues = await queueResults.toArray();
 
-  // Increment the hash key values.
-  const pipeline = redis.pipeline();
-
-  // Mark the key as fresh, and update the values! We're using `HMSET` here
-  // because this can still result in race conditions when the call is made
-  // twice.
-  pipeline.hmset(
-    key,
-    ...queues.reduce((acc, queue) => [...acc, queue._id, queue.total], [])
-  );
-  pipeline.set(freshKey, now.getTime(), "EX", COUNT_FRESHNESS_EXPIRY_SECONDS);
-
-  await pipeline.exec();
-
+  // Convert the queue counts into a structured object with defaults.
   const queueCounts: CommentModerationCountsPerQueue = queues.reduce(
     (acc, queue) => ({
       ...acc,
@@ -118,232 +100,16 @@ export async function recalculateSharedModerationQueueQueueCounts(
     createEmptyCommentModerationQueueCounts().queues
   );
 
+  // Mark the key as fresh, and update the values! We're using `HMSET` here
+  // because this can still result in race conditions when the call is made
+  // twice.
+  await redis
+    .pipeline()
+    .hmset(key, ...flatten(Object.entries(queueCounts)))
+    .set(freshKey, now.getTime(), "EX", COUNT_FRESHNESS_EXPIRY_SECONDS)
+    .exec();
+
   return queueCounts;
-}
-
-/**
- * recalculateSharedModerationQueueTotalCounts will reset the counts stored for
- * this Tenant.
- *
- * @param mongo mongodb database handle
- * @param redis redis database handle
- * @param tenantID the tenant ID that we are resetting the counts for
- */
-export async function recalculateSharedModerationQueueTotalCounts(
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  now = new Date()
-) {
-  const key = commentCountsModerationQueueTotalKey(tenantID);
-  const freshKey = freshenKey(key);
-
-  // Clear the existing cached queues.
-  await redis.del(key, freshKey);
-
-  // Fetch all the totals for the moderation queues.
-  const totalResults = collection<{
-    total: number;
-  }>(mongo).aggregate([
-    {
-      $match: { tenantID, createdAt: { $lt: now } },
-    },
-    {
-      $group: {
-        _id: "total",
-        total: {
-          $sum: "$commentCounts.moderationQueue.total",
-        },
-      },
-    },
-  ]);
-
-  const totals = await totalResults.toArray();
-  if (totals.length !== 1) {
-    throw new Error("total results returned incorrect");
-  }
-
-  const [{ total }] = totals;
-
-  // Mark the key as fresh, and update the values!
-  const pipeline = redis.pipeline();
-
-  pipeline.incrby(key, total);
-  pipeline.set(freshKey, now.getTime(), "EX", COUNT_FRESHNESS_EXPIRY_SECONDS);
-
-  await pipeline.exec();
-
-  return total;
-}
-
-/**
- * recalculateSharedStatusCommentCounts will reset the counts stored for this
- * Tenant.
- *
- * @param mongo mongodb database handle
- * @param redis redis database handle
- * @param tenantID the tenant ID that we are resetting the counts for
- */
-export async function recalculateSharedStatusCommentCounts(
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  now = new Date()
-) {
-  const key = commentCountsStatusKey(tenantID);
-  const freshKey = freshenKey(key);
-
-  // Clear the existing cached queues.
-  await redis.del(key, freshKey);
-
-  // Fetch all the comments of each status.
-  const statusResults = collection<{
-    _id: string;
-    total: number;
-  }>(mongo).aggregate([
-    {
-      $match: { tenantID, createdAt: { $lt: now } },
-    },
-    {
-      $project: {
-        status: {
-          $objectToArray: "$commentCounts.status",
-        },
-      },
-    },
-    {
-      $unwind: "$status",
-    },
-    {
-      $group: {
-        _id: "$status.k",
-        total: {
-          $sum: "$status.v",
-        },
-      },
-    },
-  ]);
-
-  // Convert the cursor from the results into an array.
-  const statuses = await statusResults.toArray();
-
-  // Mark the key as fresh, and update the values!
-  const pipeline = redis.pipeline();
-
-  pipeline.mhincrby(
-    key,
-    ...statuses.reduce((acc, status) => [...acc, status._id, status.total], [])
-  );
-  pipeline.set(freshKey, now.getTime(), "EX", COUNT_FRESHNESS_EXPIRY_SECONDS);
-
-  await pipeline.exec();
-
-  // Now, reconstruct the status counts so we can return it.
-  const statusCounts: CommentStatusCounts = statuses.reduce(
-    (acc, status) => ({
-      ...acc,
-      [status._id]: status.total,
-    }),
-    createEmptyCommentStatusCounts()
-  );
-
-  return statusCounts;
-}
-
-/**
- * recalculateSharedActionCommentCounts will reset the counts stored for this
- * Tenant.
- *
- * @param mongo mongodb database handle
- * @param redis redis database handle
- * @param tenantID the tenant ID that we are resetting the counts for
- */
-export async function recalculateSharedActionCommentCounts(
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  now = new Date()
-) {
-  const key = commentCountsActionKey(tenantID);
-  const freshKey = freshenKey(key);
-
-  // Clear the existing cached queues.
-  await redis.del(key, freshKey);
-
-  // Fetch all the comments of each status.
-  const actionResults = collection<{
-    _id: string;
-    total: number;
-  }>(mongo).aggregate([
-    {
-      $match: { tenantID, createdAt: { $lt: now } },
-    },
-    {
-      $project: {
-        status: {
-          $objectToArray: "$commentCounts.status",
-        },
-      },
-    },
-    {
-      $unwind: "$status",
-    },
-    {
-      $group: {
-        _id: "$status.k",
-        total: {
-          $sum: "$status.v",
-        },
-      },
-    },
-  ]);
-
-  // Convert the cursor from the results into an array.
-  const actions = await actionResults.toArray();
-
-  // Mark the key as fresh, and update the values!
-  const pipeline = redis.pipeline();
-
-  pipeline.mhincrby(
-    key,
-    ...actions.reduce((acc, action) => [...acc, action._id, action.total], [])
-  );
-  pipeline.set(freshKey, now.getTime(), "EX", COUNT_FRESHNESS_EXPIRY_SECONDS);
-
-  await pipeline.exec();
-
-  // Now, compile the action counts into EncodedActionCounts.
-  const actionCounts: EncodedCommentActionCounts = actions.reduce(
-    (acc, action) => ({
-      ...acc,
-      [action._id]: action.total,
-    }),
-    {}
-  );
-
-  return actionCounts;
-}
-
-/**
- * recalculateSharedCommentCounts will reset the counts stored for this
- * Tenant.
- *
- * @param mongo mongodb database handle
- * @param redis redis database handle
- * @param tenantID the tenant ID that we are resetting the counts for
- */
-export async function recalculateSharedCommentCounts(
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  now = new Date()
-) {
-  await Promise.all([
-    recalculateSharedModerationQueueQueueCounts(mongo, redis, tenantID, now),
-    recalculateSharedModerationQueueTotalCounts(mongo, redis, tenantID, now),
-    recalculateSharedStatusCommentCounts(mongo, redis, tenantID, now),
-    recalculateSharedActionCommentCounts(mongo, redis, tenantID, now),
-  ]);
 }
 
 function fillAndConvertStringToNumber<
@@ -368,115 +134,6 @@ function fillAndConvertStringToNumber<
   }
 
   return result;
-}
-
-/**
- * retrieveSharedActionCommentCounts will retrieve the comment counts based on
- * actions for this Tenant.
- *
- * @param mongo mongodb database handle
- * @param redis redis database handle
- * @param tenantID the ID of the Tenant that we are getting the shared action
- *                 counts from
- */
-export async function retrieveSharedActionCommentCounts(
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  now = new Date()
-): Promise<EncodedCommentActionCounts> {
-  const key = commentCountsActionKey(tenantID);
-  const freshKey = freshenKey(key);
-
-  // Get the values, and the freshness key.
-  const [[, actions], [, fresh]]: [
-    [Error | undefined, Record<string, string> | null],
-    [Error | undefined, string | null]
-  ] = await redis
-    .pipeline()
-    .hgetall(key)
-    .get(freshKey)
-    .exec();
-  if (!fresh || !actions) {
-    return recalculateSharedActionCommentCounts(mongo, redis, tenantID, now);
-  }
-
-  return fillAndConvertStringToNumber(
-    actions,
-    {} as EncodedCommentActionCounts
-  );
-}
-
-/**
- * retrieveSharedStatusCommentCounts will retrieve the comment counts based on
- * the status for this Tenant.
- *
- * @param mongo mongodb database handle
- * @param redis redis database handle
- * @param tenantID the ID of the Tenant that we are getting the shared status
- *                 counts from
- */
-export async function retrieveSharedStatusCommentCounts(
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  now = new Date()
-): Promise<CommentStatusCounts> {
-  const key = commentCountsStatusKey(tenantID);
-  const freshKey = freshenKey(key);
-
-  // Get the values, and the freshness key.
-  const [[, statuses], [, fresh]]: [
-    [Error | undefined, Record<keyof CommentStatusCounts, string> | null],
-    [Error | undefined, string | null]
-  ] = await redis
-    .pipeline()
-    .hgetall(key)
-    .get(freshKey)
-    .exec();
-  if (!fresh || !statuses) {
-    return recalculateSharedStatusCommentCounts(mongo, redis, tenantID, now);
-  }
-
-  return fillAndConvertStringToNumber(
-    statuses,
-    createEmptyCommentStatusCounts()
-  );
-}
-
-/**
- * retrieveSharedModerationQueueTotal will retrieve the count of comments in
- * this Tenant that are in need of moderation.
- *
- * @param mongo mongodb database handle
- * @param redis redis database handle
- * @param tenantID the ID of the Tenant that we are getting the shared
- *                 moderation counts from
- */
-export async function retrieveSharedModerationQueueTotal(
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  now = new Date()
-) {
-  const key = commentCountsModerationQueueTotalKey(tenantID);
-  const freshKey = freshenKey(key);
-
-  // Get the values, and the freshness key.
-  const [total, fresh]: [string | null, string | null] = await redis.mget(
-    key,
-    freshKey
-  );
-  if (fresh === null || total === null) {
-    return recalculateSharedModerationQueueTotalCounts(
-      mongo,
-      redis,
-      tenantID,
-      now
-    );
-  }
-
-  return parseInt(total, 10) || 0;
 }
 
 /**
