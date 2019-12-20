@@ -10,6 +10,8 @@ import {
 
 import { MessageBoxContainer_story as StoryData } from "coral-stream/__generated__/MessageBoxContainer_story.graphql";
 
+import styles from "./MessageBoxContainer.css";
+
 interface Props {
   story: StoryData;
   className?: string;
@@ -24,7 +26,11 @@ const MessageBoxContainer: FunctionComponent<Props> = ({
       {story.settings.messageBox.icon && (
         <MessageBoxIcon>{story.settings.messageBox.icon}</MessageBoxIcon>
       )}
-      <MessageBoxContent>
+      <MessageBoxContent
+        className={
+          story.settings.messageBox.icon ? styles.withIcon : styles.withoutIcon
+        }
+      >
         {story.settings.messageBox.content || ""}
       </MessageBoxContent>
     </MessageBox>
