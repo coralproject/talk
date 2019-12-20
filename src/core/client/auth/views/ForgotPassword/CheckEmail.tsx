@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { Bar, Title } from "coral-auth/components/Header";

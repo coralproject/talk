@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";

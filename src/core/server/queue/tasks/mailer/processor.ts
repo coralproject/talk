@@ -1,7 +1,7 @@
+import { FluentBundle } from "@fluent/bundle/compat";
+import { DOMLocalization } from "@fluent/dom/compat";
 import { Job } from "bull";
 import createDOMPurify from "dompurify";
-import { DOMLocalization } from "fluent-dom/compat";
-import { FluentBundle } from "fluent/compat";
 import { minify } from "html-minifier";
 import htmlToText from "html-to-text";
 import Joi from "joi";

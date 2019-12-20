@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import { stripIndent } from "common-tags";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
 import { CopyButton } from "coral-framework/components";

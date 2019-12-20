@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import { Mutator } from "final-form";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, RefObject, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 

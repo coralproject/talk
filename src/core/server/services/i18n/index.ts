@@ -1,4 +1,4 @@
-import { FluentBundle } from "fluent/compat";
+import { FluentBundle, FluentResource } from "@fluent/bundle/compat";
 import fs from "fs-extra";
 import path from "path";
 
@@ -64,7 +64,7 @@ export class I18n {
 
           const messages = await fs.readFile(filePath, "utf8");
 
-          bundle.addMessages(messages);
+          bundle.addResource(new FluentResource(messages));
         }
 
         this.bundles[locale] = bundle;
@@ -117,10 +117,10 @@ export function translate(
   defaultValue: string,
   id: string,
   args?: object,
-  errors?: string[]
+  errors?: Error[]
 ): string {
   const message = bundle.getMessage(id);
-  if (!message) {
+  if (!message || !message.value) {
     if (config.get("env") === "test") {
       throw new Error(`the message for ${id} is missing`);
     }
@@ -128,7 +128,7 @@ export function translate(
     return defaultValue;
   }
 
-  const value = bundle.format(message, args, errors);
+  const value = bundle.formatPattern(message.value, args, errors);
   if (!value) {
     return defaultValue;
   }

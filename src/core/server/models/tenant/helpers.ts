@@ -1,5 +1,5 @@
+import { FluentBundle } from "@fluent/bundle/compat";
 import crypto from "crypto";
-import { FluentBundle } from "fluent/compat";
 
 import { translate } from "coral-server/services/i18n";
 

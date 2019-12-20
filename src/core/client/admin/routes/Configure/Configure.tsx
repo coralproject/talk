@@ -1,6 +1,6 @@
+import { Localized } from "@fluent/react/compat";
 import { FormApi, FormState } from "final-form";
 import arrayMutators from "final-form-arrays";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Form, FormSpy } from "react-final-form";
 

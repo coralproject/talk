@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 
-import { FluentBundle } from "fluent/compat";
+import { FluentBundle } from "@fluent/bundle/compat";
 import { MongoError } from "mongodb";
 import uuid from "uuid";
 import { VError } from "verror";
