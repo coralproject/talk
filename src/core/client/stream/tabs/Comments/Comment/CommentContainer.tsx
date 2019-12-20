@@ -1,6 +1,6 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { EventEmitter2 } from "eventemitter2";
-import { Localized } from "fluent-react/compat";
 import React, { Component, MouseEvent } from "react";
 import { graphql } from "react-relay";
 

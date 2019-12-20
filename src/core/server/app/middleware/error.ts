@@ -1,9 +1,9 @@
+import { FluentBundle } from "@fluent/bundle/compat";
 import { ErrorRequestHandler } from "express";
 
 import { CoralError, InternalError } from "coral-server/errors";
 import { I18n } from "coral-server/services/i18n";
 import { Request } from "coral-server/types/express";
-import { FluentBundle } from "fluent/compat";
 
 /**
  * wrapError ensures that the error being propagated is a CoralError.

@@ -1276,12 +1276,6 @@ integration to register for a new account.
                         </div>
                       </div>
                     </div>
-                    <p
-                      className="SSOKeyField-keyGenerated HelperText-root"
-                    >
-                      KEY GENERATED AT:
-Invalid Date
-                    </p>
                     <div
                       className="SSOKeyField-warningSection"
                     >

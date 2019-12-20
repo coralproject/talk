@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";

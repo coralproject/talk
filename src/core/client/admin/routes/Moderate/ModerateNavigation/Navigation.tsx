@@ -1,9 +1,9 @@
-import { HOTKEYS } from "coral-admin/constants";
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import { Match, Router, withRouter } from "found";
 import key from "keymaster";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 
+import { HOTKEYS } from "coral-admin/constants";
 import { getModerationLink } from "coral-admin/helpers";
 import { Counter, Icon, SubBarNavigation } from "coral-ui/components/v2";
 

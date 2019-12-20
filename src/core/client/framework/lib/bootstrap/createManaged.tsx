@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import { EventEmitter2 } from "eventemitter2";
-import { Localized } from "fluent-react/compat";
 import { noop } from "lodash";
 import { Child as PymChild } from "pym.js";
 import React, { Component, ComponentType } from "react";
