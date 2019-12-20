@@ -1,13 +1,16 @@
 import crypto from "crypto";
 import { FluentBundle } from "fluent/compat";
 
+import { translate } from "coral-server/services/i18n";
+
 import {
+  GQLFEATURE_FLAG,
   GQLReactionConfiguration,
   GQLStaffConfiguration,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import { translate } from "coral-server/services/i18n";
 
 import { SSOKey } from "../settings";
+import { Tenant } from "./tenant";
 
 export const getDefaultReactionConfiguration = (
   bundle: FluentBundle
@@ -45,4 +48,22 @@ export function generateSSOKey(createdAt: Date): SSOKey {
   const kid = generateRandomString(8, 3);
 
   return { kid, secret, createdAt };
+}
+
+/**
+ * hasFeatureFlag will check to see if the Tenant has a particular feature flag
+ * enabled.
+ *
+ * @param tenant the Tenant to test for a feature flag
+ * @param flag the FEATURE_FLAG to check for
+ */
+export function hasFeatureFlag(
+  tenant: Pick<Tenant, "featureFlags">,
+  flag: GQLFEATURE_FLAG
+) {
+  if (tenant.featureFlags && tenant.featureFlags.includes(flag)) {
+    return true;
+  }
+
+  return false;
 }

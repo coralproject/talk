@@ -12,6 +12,8 @@ import {
   createTenant,
   CreateTenantInput,
   createTenantSSOKey,
+  disableTenantFeatureFlag,
+  enableTenantFeatureFlag,
   rotateTenantSSOKey,
   Tenant,
   updateTenant,
@@ -19,6 +21,7 @@ import {
 import { I18n } from "coral-server/services/i18n";
 
 import {
+  GQLFEATURE_FLAG,
   GQLSettingsInput,
   GQLSettingsWordListInput,
 } from "coral-server/graph/tenant/schema/__generated__/types";
@@ -195,4 +198,58 @@ export async function discoverOIDCConfiguration(issuerString: string) {
 
   // Discover the configuration.
   return discover(issuer);
+}
+
+export async function enableFeatureFlag(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  flag: GQLFEATURE_FLAG
+) {
+  // If the Tenant already has this flag, don't bother adding it again.
+  if (tenant.featureFlags && tenant.featureFlags.includes(flag)) {
+    return tenant.featureFlags;
+  }
+
+  // Enable the feature flag.
+  const updated = await enableTenantFeatureFlag(mongo, tenant.id, flag);
+  if (!updated || !updated.featureFlags) {
+    // As we just added the feature flag, we would expect that the Tenant would
+    // always have the feature flags set to some array.
+    throw new Error("tenant not found");
+  }
+
+  // Update the tenant cache.
+  await cache.update(redis, updated);
+
+  // Return the updated feature flags.
+  return updated.featureFlags;
+}
+
+export async function disableFeatureFlag(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  flag: GQLFEATURE_FLAG
+) {
+  // If the feature flag doesn't exist on the Tenant (or the Tenant has no
+  // feature flags), don't bother trying to remove it again.
+  if (!tenant.featureFlags || !tenant.featureFlags.includes(flag)) {
+    return tenant.featureFlags || [];
+  }
+
+  // Remove the feature flag.
+  const updated = await disableTenantFeatureFlag(mongo, tenant.id, flag);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+
+  // Update the tenant cache.
+  await cache.update(redis, updated);
+
+  // Return the updated feature flags (or [] if there was no feature flags to
+  // begin with).
+  return updated.featureFlags || [];
 }
