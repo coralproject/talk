@@ -114,7 +114,7 @@ Then start Coral with:
 
 ```bash
 # Start the server in production mode.
-npm run start
+npm run start:development
 ```
 
 Then head on over to http://localhost:3000 to install Coral!
