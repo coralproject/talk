@@ -224,7 +224,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
           <HelperText>
             For additional information on how to set up the Perspective Toxic
             Comment Filter please visit:
-            https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md
+            https://github.com/conversationai/perspectiveapi#readme
           </HelperText>
         </Localized>
       </HorizontalGutter>

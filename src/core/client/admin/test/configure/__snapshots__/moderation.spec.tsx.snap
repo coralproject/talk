@@ -756,11 +756,11 @@ improve the API over time.
 
                     <a
                       className="ExternalLink-root"
-                      href="https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md"
+                      href="https://github.com/conversationai/perspectiveapi#readme"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
-                      https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md
+                      https://github.com/conversationai/perspectiveapi#readme
                     </a>
                   </p>
                 </div>
