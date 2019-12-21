@@ -1,13 +1,4 @@
-import approveComment from "./approveComment";
-import createComment from "./createComment";
-import editComment from "./editComment";
-import rejectComment from "./rejectComment";
-
-const stacks = {
-  approveComment,
-  rejectComment,
-  createComment,
-  editComment,
-};
-
-export default stacks;
+export { default as approveComment } from "./approveComment";
+export { default as createComment } from "./createComment";
+export { default as editComment } from "./editComment";
+export { default as rejectComment } from "./rejectComment";
