@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { identity, isEmpty, pickBy } from "lodash";
 import { DateTime, DurationObject } from "luxon";
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
@@ -2459,4 +2460,33 @@ export async function deleteModeratorNote(
     throw new UserNotFoundError(id);
   }
   return result.value;
+}
+
+export async function updateUserCommentCounts(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  commentCounts: DeepPartial<UserCommentCounts>
+) {
+  // Update all the specific comment moderation queue counts.
+  const update: DeepPartial<User> = { commentCounts };
+  const $inc = pickBy(dotize(update), identity);
+  if (isEmpty($inc)) {
+    // Nothing needs to be incremented, just return the User.
+    return retrieveUser(mongo, tenantID, id);
+  }
+
+  logger.trace({ update: { $inc } }, "incrementing user comment counts");
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    { $inc },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  return result.value || null;
 }

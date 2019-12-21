@@ -1,15 +1,13 @@
 import { Db } from "mongodb";
 
 import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
-import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
-import { approve } from "coral-server/services/comments/moderation";
+import { moderate } from "coral-server/services/comments/moderation";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 
-import updateAllCounts from "./counts/updateAllCounts";
-import publishChanges from "./helpers/publishChanges";
+import { publishChanges, updateAllCounts } from "./helpers";
 
 const approveComment = async (
   mongo: Db,
@@ -18,51 +16,37 @@ const approveComment = async (
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
-  moderatorID: string | null,
+  moderatorID: string,
   now: Date
 ) => {
-  const log = logger.child(
-    {
-      commentID,
-      commentRevisionID,
-      moderatorID,
-      tenantID: tenant.id,
-      newStatus: GQLCOMMENT_STATUS.APPROVED,
-    },
-    true
-  );
-
-  const result = await approve(
+  // Approve the comment.
+  const result = await moderate(
     mongo,
     tenant,
     {
       commentID,
       commentRevisionID,
       moderatorID,
+      status: GQLCOMMENT_STATUS.APPROVED,
     },
-    now,
-    log
+    now
   );
 
-  const countResult = await updateAllCounts(mongo, redis, {
+  // Update all the comment counts on stories and users.
+  const counts = await updateAllCounts(mongo, redis, {
     tenant,
-    moderatorID,
-    oldStatus: result.oldStatus,
-    newStatus: GQLCOMMENT_STATUS.APPROVED,
-    comment: result.comment,
+    ...result,
   });
 
-  await publishChanges(
-    publisher,
-    countResult.moderationQueue,
-    countResult.comment,
-    countResult.oldStatus,
-    countResult.newStatus,
-    countResult.moderatorID,
-    log
-  );
+  // Publish changes to the event publisher.
+  await publishChanges(publisher, {
+    ...result,
+    ...counts,
+    moderatorID,
+  });
 
-  return result.comment;
+  // Return the resulting comment.
+  return result.after;
 };
 
 export default approveComment;
