@@ -2,10 +2,11 @@ import { flatten, flattenDeep, identity, isEmpty, pickBy } from "lodash";
 import { Db } from "mongodb";
 import ms from "ms";
 
+import { DeepPartial } from "coral-common/types";
 import logger from "coral-server/logger";
 import {
   CommentModerationCountsPerQueue,
-  StoryCounts,
+  StoryCommentCounts,
 } from "coral-server/models/story/counts";
 import { stories as collection } from "coral-server/services/mongodb/collections";
 import { AugmentedPipeline, AugmentedRedis } from "coral-server/services/redis";
@@ -180,7 +181,7 @@ export async function retrieveSharedModerationQueueQueuesCounts(
 export async function updateSharedCommentCounts(
   redis: AugmentedRedis,
   tenantID: string,
-  commentCounts: StoryCounts
+  commentCounts: DeepPartial<StoryCommentCounts>
 ) {
   const pipeline: AugmentedPipeline = redis.pipeline();
 

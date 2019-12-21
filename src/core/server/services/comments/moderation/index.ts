@@ -1,2 +1,2 @@
 export * from "./counts";
-export * from "./moderation";
+export { default as moderate } from "./moderate";

@@ -126,8 +126,6 @@ export const updateStoryActionCounts = (
   action: EncodedCommentActionCounts
 ) => updateStoryCounts(mongo, redis, tenantID, id, { action });
 
-export type StoryCounts = DeepPartial<StoryCommentCounts>;
-
 /**
  * updateStoryCounts will update the comment counts for the story indicated.
  *
@@ -142,7 +140,7 @@ export async function updateStoryCounts(
   redis: AugmentedRedis,
   tenantID: string,
   id: string,
-  commentCounts: StoryCounts
+  commentCounts: DeepPartial<StoryCommentCounts>
 ) {
   // Update all the specific comment moderation queue counts.
   const update: DeepPartial<Story> = { commentCounts };

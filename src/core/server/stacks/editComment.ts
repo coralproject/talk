@@ -12,7 +12,6 @@ import {
 } from "coral-server/models/action/comment";
 import { createCommentModerationAction } from "coral-server/models/action/moderation/comment";
 import {
-  CreateCommentInput,
   editComment,
   EditCommentInput,
   retrieveComment,
@@ -29,13 +28,28 @@ import { processForModeration } from "coral-server/services/comments/pipeline";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
-import updateAllCounts from "./counts/updateAllCounts";
-import publishChanges from "./helpers/publishChanges";
+import { publishChanges, updateAllCounts } from "./helpers";
 
-export type CreateComment = Omit<
-  CreateCommentInput,
-  "status" | "metadata" | "ancestorIDs" | "actionCounts" | "tags"
->;
+/**
+ * getLastCommentEditableUntilDate will return the `createdAt` date that will
+ * represent the _oldest_ date that a comment could have been created on in
+ * order to still be editable.
+ *
+ * @param tenant the tenant that contains settings related editing
+ * @param now the date that is the base, defaulting to the current time
+ */
+function getLastCommentEditableUntilDate(
+  tenant: Pick<Tenant, "editCommentWindowLength">,
+  now = new Date()
+): Date {
+  return (
+    DateTime.fromJSDate(now)
+      // editCommentWindowLength is in seconds, so multiply by 1000 to get
+      // milliseconds.
+      .minus(tenant.editCommentWindowLength * 1000)
+      .toJSDate()
+  );
+}
 
 export type EditComment = Omit<
   EditCommentInput,
@@ -46,7 +60,7 @@ export default async function edit(
   mongo: Db,
   redis: AugmentedRedis,
   config: Config,
-  publish: Publisher,
+  publisher: Publisher,
   tenant: Tenant,
   author: User,
   input: EditComment,
@@ -137,10 +151,7 @@ export default async function edit(
     throw new CommentNotFoundError(input.id);
   }
 
-  // Pull the old/edited comments out of the edit result.
-  const { oldComment, editedComment, newRevision } = result;
-
-  log = log.child({ revisionID: newRevision.id }, true);
+  log = log.child({ revisionID: result.revision.id }, true);
 
   if (actions.length > 0) {
     // Insert and handle creating the actions.
@@ -150,8 +161,8 @@ export default async function edit(
       actions.map(
         (action): CreateAction => ({
           ...action,
-          commentID: editedComment.id,
-          commentRevisionID: newRevision.id,
+          commentID: result.after.id,
+          commentRevisionID: result.revision.id,
           storyID: story.id,
         })
       ),
@@ -167,60 +178,35 @@ export default async function edit(
     );
   }
 
-  if (oldComment.status !== editedComment.status) {
-    // The comment status changed as a result of a pipeline operation, create a
-    // moderation action as a result.
+  // If the comment status changed as a result of a pipeline operation, create a
+  // moderation action.
+  if (result.before.status !== result.after.status) {
     await createCommentModerationAction(
       mongo,
       tenant.id,
       {
-        commentID: editedComment.id,
-        commentRevisionID: newRevision.id,
-        status: editedComment.status,
+        commentID: result.after.id,
+        commentRevisionID: result.revision.id,
+        status: result.after.status,
         moderatorID: null,
       },
       now
     );
   }
 
-  const countResult = await updateAllCounts(mongo, redis, {
+  // Update all the comment counts on stories and users.
+  const counts = await updateAllCounts(mongo, redis, {
     tenant,
-    moderatorID: null,
-    oldStatus: oldComment.status,
-    newStatus: editedComment.status,
-    comment: editedComment,
+    ...result,
   });
 
-  await publishChanges(
-    publish,
-    countResult.moderationQueue,
-    countResult.comment,
-    countResult.oldStatus,
-    countResult.newStatus,
-    countResult.moderatorID,
-    log
-  );
+  // Publish changes to the event publisher.
+  await publishChanges(publisher, {
+    ...result,
+    ...counts,
+    moderatorID: null,
+  });
 
-  return editedComment;
-}
-
-/**
- * getLastCommentEditableUntilDate will return the `createdAt` date that will
- * represent the _oldest_ date that a comment could have been created on in
- * order to still be editable.
- *
- * @param tenant the tenant that contains settings related editing
- * @param now the date that is the base, defaulting to the current time
- */
-export function getLastCommentEditableUntilDate(
-  tenant: Pick<Tenant, "editCommentWindowLength">,
-  now = new Date()
-): Date {
-  return (
-    DateTime.fromJSDate(now)
-      // editCommentWindowLength is in seconds, so multiply by 1000 to get
-      // milliseconds.
-      .minus(tenant.editCommentWindowLength * 1000)
-      .toJSDate()
-  );
+  // Return the resulting comment.
+  return result.after;
 }
