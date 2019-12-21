@@ -50,10 +50,7 @@ const moderate = (
     tenant.id,
     input.commentID,
     input.commentRevisionID,
-    action.id,
-    input.moderatorID,
-    status,
-    now
+    status
   );
   if (!result) {
     throw new CommentNotFoundError(input.commentID, input.commentRevisionID);
