@@ -113,8 +113,24 @@ docker run -d -p 6379:6379 --restart always --name redis redis:3.2
 Then start Coral with:
 
 ```bash
-# Start the server in production mode.
-npm run start
+# Start the server in development mode.
+npm run start:development
 ```
 
 Then head on over to http://localhost:3000 to install Coral!
+
+Note that if you want to run Coral in production from source, you'll need to
+create a secret for signing that differs from the unsafe default. You can do
+this by using something like `openssl rand -base64 32`. You can then place this
+secret in a `.env` file in your `talk` directory as such:
+
+```bash
+SIGNING_SECRET=<replace me with something secret>
+```
+
+You can then run Coral with the production command instead:
+
+```bash
+# Start the server in production mode.
+npm run start
+```
