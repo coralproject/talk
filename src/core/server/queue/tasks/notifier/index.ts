@@ -2,7 +2,7 @@ import Queue from "bull";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import { CoralEventType } from "coral-server/events/events";
+import { CoralEventType } from "coral-server/events";
 import Task from "coral-server/queue/Task";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig } from "coral-server/services/jwt";

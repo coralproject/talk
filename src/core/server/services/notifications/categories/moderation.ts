@@ -1,7 +1,7 @@
 import {
   CommentStatusUpdatedCoralEventPayload,
   CoralEventType,
-} from "coral-server/events/events";
+} from "coral-server/events";
 import { hasModeratorStatus } from "coral-server/models/comment";
 import { getURLWithCommentID } from "coral-server/models/story";
 

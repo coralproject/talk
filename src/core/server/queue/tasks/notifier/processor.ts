@@ -2,7 +2,7 @@ import { Job } from "bull";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import { CoralEventType } from "coral-server/events/events";
+import { CoralEventType } from "coral-server/events";
 import { NotifierCoralEventListenerPayloads } from "coral-server/events/listeners/notifier";
 import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";

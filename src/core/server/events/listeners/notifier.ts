@@ -5,9 +5,9 @@ import {
   CommentFeaturedCoralEventPayload,
   CommentReplyCreatedCoralEventPayload,
   CommentStatusUpdatedCoralEventPayload,
-  CoralEventType,
 } from "../events";
 import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
+import { CoralEventType } from "../types";
 
 export type NotifierCoralEventListenerPayloads =
   | CommentFeaturedCoralEventPayload

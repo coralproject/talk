@@ -2,8 +2,8 @@ import uuid from "uuid/v4";
 
 import logger from "coral-server/logger";
 
-import { CoralEventType } from "./events";
 import { CoralEventPublisherBroker } from "./publisher";
+import { CoralEventType } from "./types";
 
 export interface CoralEventPayload<
   T extends CoralEventType = CoralEventType,

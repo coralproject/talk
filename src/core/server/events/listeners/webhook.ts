@@ -3,8 +3,9 @@ import { WebhookQueue } from "coral-server/queue/tasks/webhook";
 
 import { GQLWEBHOOK_EVENT_NAME } from "coral-server/graph/schema/__generated__/types";
 
-import { CoralEventType, StoryCreatedCoralEventPayload } from "../events";
+import { StoryCreatedCoralEventPayload } from "../events";
 import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
+import { CoralEventType } from "../types";
 
 export type WebhookCoralEventListenerPayloads = StoryCreatedCoralEventPayload;
 

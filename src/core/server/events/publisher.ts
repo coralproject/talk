@@ -4,7 +4,7 @@ import GraphContext from "coral-server/graph/context";
 import logger from "coral-server/logger";
 
 import { CoralEventPayload } from "./event";
-import { CoralEventType } from "./events";
+import { CoralEventType } from "./types";
 
 export type CoralEventPublisher<T extends CoralEventPayload = any> = (
   payload: T

@@ -10,9 +10,9 @@ import { GQLMODERATION_QUEUE } from "coral-server/graph/schema/__generated__/typ
 import {
   CommentEnteredModerationQueueCoralEventPayload,
   CommentFeaturedCoralEventPayload,
-  CoralEventType,
 } from "../events";
 import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
+import { CoralEventType } from "../types";
 
 type SlackCoralEventListenerPayloads =
   | CommentFeaturedCoralEventPayload
