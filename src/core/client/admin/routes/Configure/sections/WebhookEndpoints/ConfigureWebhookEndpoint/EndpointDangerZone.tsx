@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import { Match, Router, withRouter } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
