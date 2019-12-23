@@ -333,7 +333,7 @@ configure-moderation-perspective-accountNote =
   Pour des informations complémentaires sur comment configurer le filtre
   de commentaires toxiques de perspective, rendez-vous sur :
 
-<externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
+<externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Mots et phrases bannis
