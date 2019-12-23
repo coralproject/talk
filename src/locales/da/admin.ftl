@@ -289,7 +289,7 @@ configure-moderation-perspective-customEndpoint = Brugerdefineret slutpunkt
 configure-moderation-perspective-defaultEndpoint =
   Som standard er slutpunktet indstillet til { $default }. Du kan tilsidesætte dette her.
 configure-moderation-perspective-accountNote =
-  For yderligere information om, hvordan man konfigurerer filteret for perspektivtoksisk kommentar, kan du besøge: <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
+  For yderligere information om, hvordan man konfigurerer filteret for perspektivtoksisk kommentar, kan du besøge: <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Forbudte ord og sætninger

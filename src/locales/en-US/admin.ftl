@@ -321,7 +321,7 @@ configure-moderation-perspective-defaultEndpoint =
   By default the endpoint is set to { $default }. You may override this here.
 configure-moderation-perspective-accountNote =
   For additional information on how to set up the Perspective Toxic Comment Filter please visit:
-  <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
+  <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
