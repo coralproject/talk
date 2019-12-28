@@ -14,7 +14,7 @@ learn more about how to create a JWT token, see [this introduction](https://jwt.
 5. Copy the string in the `Key` box
 6. Click Save
 
-> **NOTE:** Replace the value of `{{ CORAL_DOMAIN_NAME }}` with the location of your running instance of Coral.
+> **NOTE:** Replace the value of `{% raw %}{{ CORAL_DOMAIN_NAME }}{% endraw %}` with the location of your running instance of Coral.
 
 You will then have to generate a JWT with the following claims:
 
