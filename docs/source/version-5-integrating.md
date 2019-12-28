@@ -60,7 +60,24 @@ To more tightly couple Coral with your CMS you can provide your CMS's unique ide
 
 Story creation can also be controlled by direct calls to Coral's API. When Lazy Story Creation is disabled embed streams can only be created by data migration or API POST request. 
 
-See [GraphQL API Overview](/v5/api/overview) for help with the API. 
+See [GraphQL API Overview](/talk/v5/api/overview/) for help with the API. 
 
+## Story Scraping
+
+By default, stories have their metadata scraped when they are loaded. This provides the easiest way for newsrooms to integrate their CMS’s into Coral in a simple way. We use the following meta tags on the target pages that allow us to extract some properties.
+
+Metadata scraping is performed by the `scraper` job which is enabled by default. 
+
+If your production site is behind a paywall or otherwise prevents scraping, you might need to confiugre a **Scraper Proxy URL**. When specified it allows scraping requests to use the provided proxy. All requests are then passed through the appropriote proxy as parsed by the npm proxy-agent package.
+
+| Asset Property     | Selector |
+|--------------------|----------|
+| `title`            | See [`metascraper-title`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-title/index.js) |
+| `description`      | See [`metascraper-description`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-description/index.js) |
+| `image`            | See [`metascraper-image`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-image/index.js) |
+| `author`           | See [`metascraper-author`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-author/index.js) |
+| `publication_date` | See [`metascraper-date`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-date/index.js) |
+| `modified_date`    | `meta[property="article:modified"]` |
+| `section`          | `meta[property="article:section"]` |
 
  
