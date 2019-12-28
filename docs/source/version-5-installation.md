@@ -3,22 +3,26 @@ title: Installing Version 5
 permalink: /
 ---
 
-Online comments are broken. Our open-source commenting platform, Coral, rethinks
-how moderation, comment display, and conversation function, creating the
-opportunity for safer, smarter discussions around your work.
-[Read more about Coral here](https://coralproject.net/talk).
+Online comments are broken. Our open-source commenting platform, Coral, reimagines
+moderation, comment display, and conversation. Use Coral to add safer, smarter discussions to your site without giving away your data.
 
-Built with ❤️ by The Coral Project, a part of [Vox Media](https://product.voxmedia.com/).
+More than 70 publishers in 14 countries trust Coral to run their on-site communities, including the Washington Post, the Wall Street Journal, and Der Spiegel.[Read more about Coral here](https://coralproject.net/).
 
-Preview Coral easily by running Coral via a Heroku App:
+<div class="callout">
+  We offer hosting and support packages for Coral, as well as exclusive, customer-only resources. [Contact us for more information.](https://coralproject.net/pricing/)
+</div>
+
+Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
+
+Try out a test version of Coral by running it via a Heroku App:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk)
 
 ## Requirements
 
-- MongoDB >=3.6
+- MongoDB >=4.2
 - Redis >=3.2
-- NodeJS >=10
+- NodeJS >=12
 - NPM >=6.7
 
 ## Running
@@ -58,7 +62,7 @@ services:
       - REDIS_URI=redis://redis:6379
       - SIGNING_SECRET=<replace me with something secret>
   mongo:
-    image: mongo:3.6
+    image: mongo:4.2
     volumes:
       - ./data/mongo:/data/db
   redis:
@@ -75,7 +79,7 @@ Then head on over to http://localhost:3000 to install Coral!
 
 ### Source
 
-Coral requires NodeJS >=10, we recommend using `nvm` to help manage node
+Coral requires NodeJS >=12, we recommend using `nvm` to help manage node
 versions: https://github.com/creationix/nvm.
 
 ```bash
@@ -95,22 +99,38 @@ This should output all the compiled application code to `./dist`.
 
 Running Coral with default settings assumes that you have:
 
-- MongoDB >=3.6 running on `127.0.0.1:27017`
+- MongoDB >=4.2 running on `127.0.0.1:27017`
 - Redis >=3.2 running on `127.0.0.1:6379`
 
 If you don't already have these databases running, you can execute the following
 assuming you have Docker installed on your local machine:
 
 ```bash
-docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
+docker run -d -p 27017:27017 --restart always --name mongo mongo:4.2
 docker run -d -p 6379:6379 --restart always --name redis redis:3.2
 ```
 
 Then start Coral with:
 
 ```bash
-# Start the server in production mode.
-npm run start
+# Start the server in development mode.
+npm run start:development
 ```
 
 Then head on over to http://localhost:3000 to install Coral!
+
+Note that if you want to run Coral in production from source, you'll need to
+create a secret for signing that differs from the unsafe default. You can do
+this by using something like `openssl rand -base64 32`. You can then place this
+secret in a `.env` file in your `talk` directory as such:
+
+```bash
+SIGNING_SECRET=<replace me with something secret>
+```
+
+You can then run Coral with the production command instead:
+
+```bash
+# Start the server in production mode.
+npm run start
+```

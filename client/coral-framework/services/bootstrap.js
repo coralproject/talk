@@ -7,7 +7,6 @@ import { createReduxEmitter } from './events';
 import { createRestClient } from './rest';
 import thunk from 'redux-thunk';
 import { loadTranslations } from './i18n';
-import bowser from 'bowser';
 import noop from 'lodash/noop';
 import { BASE_PATH } from 'coral-framework/constants/url';
 import { createPluginsService } from './plugins';
@@ -65,12 +64,7 @@ const getAuthToken = (store, storage) => {
     }
 
     return token;
-  } else if (
-    !bowser.safari &&
-    !bowser.ios &&
-    storage &&
-    storage.getItem('token')
-  ) {
+  } else if (storage && storage.getItem('token')) {
     // Use local storage auth tokens where there's a stable api.
     return storage.getItem('token');
   }

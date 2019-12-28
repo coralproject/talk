@@ -6,7 +6,7 @@ permalink: /v5/developing/
 Running Coral for development is very similar to installing Coral via Source as
 described above.
 
-Coral requires NodeJS >=10, we recommend using `nvm` to help manage node
+Coral requires NodeJS >=12, we recommend using `nvm` to help manage node
 versions: https://github.com/creationix/nvm.
 
 ```bash
@@ -20,14 +20,14 @@ npm install
 
 Running Coral with default settings assumes that you have:
 
-- MongoDB >=3.6 running on `127.0.0.1:27017`
+- MongoDB >=4.2 running on `127.0.0.1:27017`
 - Redis >=3.2 running on `127.0.0.1:6379`
 
 If you don't already have these databases running, you can execute the following
 assuming you have Docker installed on your local machine:
 
 ```bash
-docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
+docker run -d -p 27017:27017 --restart always --name mongo mongo:4.2
 docker run -d -p 6379:6379 --restart always --name redis redis:3.2
 ```
 

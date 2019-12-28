@@ -7,43 +7,47 @@ In order to allow seamless connection to an existing authentication system,
 Coral utilizes the industry standard [JWT Token](https://jwt.io/) to connect. To
 learn more about how to create a JWT token, see [this introduction](https://jwt.io/introduction/).
 
-1. Visit: `https://{{ CORAL_DOMAIN_NAME }}/admin/configure/auth`
+1. Visit: ```https://{{ CORAL_DOMAIN_NAME }} /admin/configure/auth```
 2. Scroll to the `Login with Single Sign On` section
 3. Enable the Single Sign On Authentication Integration
 4. Enable `Allow Registration`
 5. Copy the string in the `Key` box
 6. Click Save
 
+<<<<<<< HEAD
 > **NOTE:** Replace the value of `{% raw %}{{ CORAL_DOMAIN_NAME }}{% endraw %}` with the location of your running instance of Coral.
+=======
+> **NOTE:** Replace the value of ```{{ CORAL_DOMAIN_NAME }}``` with the location of your running instance of Coral.
+>>>>>>> b50d3dc96f62866f6ef2b185b0982221b4b34df5
 
 You will then have to generate a JWT with the following claims:
 
-- `jti` (_optional_) - A unique ID for this particular JWT token. We recommend
+- `jti` _(optional)_ - A unique ID for this particular JWT token. We recommend
   using a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)
   for this value. Without this parameter, the logout functionality inside the
   embed stream will not work and you will need to call logout on the embed
   itself.
-- `exp` (_optional_) - When the given SSO token should expire. This is
+- `exp` _(optional)_ - When the given SSO token should expire. This is
   specified as a unix time stamp in seconds. Once the token has expired, a new
   token should be generated and passed into Coral. Without this parameter, the
   logout functionality inside the embed stream will not work and you will need
   to call logout on the embed itself.
-- `iat` (_optional_) - When the given SSO token was issued. This is required to
+- `iat` _(optional)_ - When the given SSO token was issued. This is required to
   utilize the automatic user detail update system. If this time is newer than
   the time we received the last update, the contents of the token will be used
   to update the user.
-- `user.id` (**required**) - the ID of the user from your authentication system.
+- `user.id` **(required)** - the ID of the user from your authentication system.
   This is required to connect the user in your system to allow a seamless
   connection to Coral.
-- `user.email` (**required**) - the email address of the user from your
+- `user.email` **(required)** - the email address of the user from your
   authentication system. This is required to facilitate notification email's
   about status changes on a user account such as bans or suspensions.
-- `user.username` (**required**) - the username that should be used when being
-  presented inside Coral to moderators and other users.
-- `user.badges` (_optional_) - array of strings to be displayed as badges beside
+- `user.username` **(required)** - the username that should be used when being
+  presented inside Coral to moderators and other users. There are no username validations or restrictions enforced by Coral when you're using SSO.
+- `user.badges` _(optional)_ - array of strings to be displayed as badges beside
   username inside Coral, visible to other users and moderators. For example, to indicate
   a user's subscription status.
-- `user.role` (_optional_) - one of "COMMENTER", "STAFF", "MODERATOR", "ADMIN". Will create/update
+- `user.role` _(optional)_ - one of "COMMENTER", "STAFF", "MODERATOR", "ADMIN". Will create/update
   Coral user with this role.
 
 An example of the claims for this token would be:

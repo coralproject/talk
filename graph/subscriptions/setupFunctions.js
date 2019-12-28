@@ -8,7 +8,7 @@ const {
   SUBSCRIBE_ALL_USERNAME_CHANGED,
   SUBSCRIBE_ALL_USERNAME_FLAGGED,
   SUBSCRIBE_ALL_USERNAME_REJECTED,
-  SUBSCRIBE_COMMENT_ACCEPTED,
+  SUBSCRIBE_ALL_COMMENT_ACCEPTED,
   SUBSCRIBE_COMMENT_FLAGGED,
   SUBSCRIBE_COMMENT_REJECTED,
   SUBSCRIBE_COMMENT_RESET,
@@ -64,10 +64,14 @@ const setupFunctions = {
     return !args.asset_id || comment.asset_id === args.asset_id;
   },
   commentAccepted: (options, args, comment, context) => {
-    if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_ACCEPTED)) {
-      return false;
+    if (args.asset_id) {
+      // Allow sending back the comment for the user that has filtered based
+      // on a specific asset.
+      return comment.asset_id === args.asset_id;
+    } else {
+      // Only privileged users can subscribe to all assets.
+      return context.user && context.user.can(SUBSCRIBE_ALL_COMMENT_ACCEPTED);
     }
-    return !args.asset_id || comment.asset_id === args.asset_id;
   },
   commentRejected: (options, args, comment, context) => {
     if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_REJECTED)) {

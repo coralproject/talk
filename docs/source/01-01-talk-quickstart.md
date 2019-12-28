@@ -10,7 +10,7 @@ smarter discussions around your work.
 More than 60 newsrooms use Talk to run their on-site communities, including the Washington Post, the Wall Street Journal, and IGN.
 
 [Read more about our product features and
-goals here](https://coralproject.net/talk).
+goals here](https://coralproject.net/).
 
 <div class="callout">
   We offer hosting and support packages for Talk. [Contact us for more information.](https://coralproject.net/pricing/)

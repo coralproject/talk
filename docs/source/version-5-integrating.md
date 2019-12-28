@@ -3,25 +3,31 @@ title: Integrating on your site
 permalink: /v5/integrating/cms/
 ---
 
+<<<<<<< HEAD
 With Coral setup and running locally you can find your **Embed code** under **Configure** > **Advanced** (logged in as an ADMIN). It should look something like this, but with your domain in place of `CORAL_DOMAIN_NAME`. You can test placing the comment stream embed on your page with this sample embed script:
+=======
+With Coral setup and running you can embed the comment stream with this sample embed script:
+>>>>>>> b50d3dc96f62866f6ef2b185b0982221b4b34df5
 
 ```
 <div id="coral_thread"></div>
 <script type="text/javascript">
-(function() {
-    var talk = document.createElement('script'); talk.type = 'text/javascript'; talk.async = true;
-    var url = '{{ CORAL_DOMAIN_NAME }}';
-    talk.src = '//' + url + '/assets/js/embed.js';
-    talk.onload = function() {
-        Coral.createStreamEmbed({
-            id: "coral_thread",
-            autoRender: true,
-            rootURL: '//' + url,
-        });
-    };
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(talk);
-})();
-</script>
+  (function() {
+      var d = document, s = d.createElement('script');
+      var url = '{{ CORAL_DOMAIN_NAME }}';
+      s.src = '//' + url + '/assets/js/embed.js';
+      s.async = false;
+      s.defer = true;
+      s.onload = function() {
+          Coral.createStreamEmbed({
+              id: "coral_thread",
+              autoRender: true,
+              rootURL: '//' + url,
+          });
+      };
+      (d.head || d.body).appendChild(s);
+  })();
+</script>`;
 ```
 
 > **NOTE:** Replace the value of `{% raw %}{{ CORAL_DOMAIN_NAME }}{% endraw %}` with the location of your running instance of Coral.

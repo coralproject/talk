@@ -11,7 +11,12 @@ const { HELMET_CONFIGURATION } = require('./config');
 const { MOUNT_PATH } = require('./url');
 const routes = require('./routes');
 const debug = require('debug')('talk:app');
-const { ENABLE_TRACING, APOLLO_ENGINE_KEY, PORT } = require('./config');
+const {
+  ENABLE_TRACING,
+  APOLLO_ENGINE_KEY,
+  PORT,
+  TRUST_PROXY,
+} = require('./config');
 
 const app = express();
 
@@ -58,7 +63,26 @@ if (ENABLE_TRACING && APOLLO_ENGINE_KEY) {
 
 // Trust the first proxy in front of us, this will enable us to trust the fact
 // that SSL was terminated correctly.
-app.set('trust proxy', 1);
+app.set(
+  'trust proxy',
+  (function() {
+    if (!TRUST_PROXY) {
+      return null;
+    }
+
+    const lowercase = TRUST_PROXY.toLowerCase();
+    if (lowercase === 'true' || lowercase === 'false') {
+      return lowercase === 'true';
+    }
+
+    const parsed = Number(TRUST_PROXY);
+    if (!isNaN(parsed)) {
+      return parsed;
+    }
+
+    return TRUST_PROXY;
+  })()
+);
 
 // Enable a suite of security good practices through helmet. We disable
 // frameguard to allow crossdomain injection of the embed.

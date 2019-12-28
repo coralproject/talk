@@ -6,7 +6,7 @@
 title: Talk Documentation
 subtitle:
 description: >
-  Documentation and guides for Talk from The Coral Project.
+  Documentation and guides for Coral by Vox Media
 google_analytics: UA-73335347-5
 author:
 language: en
@@ -94,6 +94,12 @@ sidebar:
               url: /v5/integrating/cms/
             - title: Single Sign On
               url: /v5/integrating/sso/
+            - title: GDPR
+              url: /v5/integrating/gdpr/
+            - title: Comment Count
+              url: /v5/integrating/counts/
+            - title: Slack
+              url: /v5/integrating/slack/
         - title: API
           children:
             - title: GraphQL Overview
