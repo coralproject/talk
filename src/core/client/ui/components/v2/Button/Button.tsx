@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Link } from "found";
 import { pick } from "lodash";
 import React, { Ref } from "react";
 
@@ -14,6 +15,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   anchor?: boolean;
   href?: string;
   target?: string;
+  to?: string;
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -69,6 +71,7 @@ export class Button extends React.Component<Props> {
       classes,
       color,
       className,
+      children,
       size,
       fullWidth,
       disabled,
@@ -80,6 +83,7 @@ export class Button extends React.Component<Props> {
       iconRight,
       adornmentLeft,
       adornmentRight,
+      to,
       ...rest
     } = this.props;
 
@@ -109,6 +113,20 @@ export class Button extends React.Component<Props> {
       className
     );
 
+    if (to) {
+      return (
+        <Link
+          to={to}
+          className={cn(rootClassName, styles.linkButton)}
+          data-variant={variant}
+          data-color={color}
+          data-active={active}
+        >
+          {children}
+        </Link>
+      );
+    }
+
     return (
       <BaseButton
         className={rootClassName}
@@ -120,7 +138,9 @@ export class Button extends React.Component<Props> {
         data-color={color}
         data-active={active}
         {...rest}
-      />
+      >
+        {children}
+      </BaseButton>
     );
   }
 }

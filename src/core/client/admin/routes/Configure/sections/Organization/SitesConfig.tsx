@@ -1,9 +1,15 @@
 import { Localized } from "@fluent/react/compat";
-import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { FormFieldDescription } from "coral-ui/components/v2";
+import { Button, FormFieldDescription, Icon } from "coral-ui/components/v2";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "coral-ui/components/v2/Table";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -28,15 +34,38 @@ const SitesConfig: FunctionComponent<Props> = ({ sites }) => {
         </Localized>
       }
     >
-      <FormFieldDescription>
-        A description of what sites are and why you might want more.
-      </FormFieldDescription>
-      <Link to="/admin/configure/organization/sites/new">Add a site</Link>
-      <div>
-        {sites.map(site => (
-          <SiteRowContainer site={site} key={site.id} />
-        ))}
-      </div>
+      <Localized id="configure-organization-sites-explanation">
+        <FormFieldDescription>
+          Add a new site to your organization or edit an existing site's
+          details.
+        </FormFieldDescription>
+      </Localized>
+      <Localized
+        id="configure-organization-sites-add-site"
+        icon={<Icon>add</Icon>}
+      >
+        <Button
+          to="/admin/configure/organization/sites/new"
+          iconLeft
+          size="large"
+        >
+          <Icon>add</Icon>
+          Add a site
+        </Button>
+      </Localized>
+      <Table fullWidth>
+        <TableHead>
+          <TableRow>
+            <TableCell>Site name</TableCell>
+            <TableCell />
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {sites.map(site => (
+            <SiteRowContainer site={site} key={site.id} />
+          ))}
+        </TableBody>
+      </Table>
     </ConfigBox>
   );
 };

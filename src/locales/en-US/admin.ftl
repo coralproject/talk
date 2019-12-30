@@ -164,8 +164,12 @@ configure-general-closedStreamMessage-explanation = Write a message to appear wh
 
 ### Organization
 configure-organization-name = Organization name
+configure-organization-sites = Sites
 configure-organization-nameExplanation =
   Your organization name will appear on emails sent by { -product-name } to your community and organization members.
+configure-organization-sites-explanation =
+  Add a new site to your organization or edit an existing site's details.
+configure-organization-sites-add-site = <icon>add</icon> Add site
 configure-organization-email = Organization email
 configure-organization-emailExplanation =
   This email address will be used as in emails and across the platform
@@ -175,6 +179,22 @@ configure-organization-emailExplanation =
 configure-organization-url = Organization URL
 configure-organization-urlExplanation =
   Your organization url will appear on emails sent by { -product-name } to your community and organization members.
+
+### Sites
+configure-sites-site-details = Details <icon>keyboard_arrow_right</icon>
+configure-sites-add-new-site = Add a new site to { $site }
+configure-sites-site-form-name = Site name
+configure-sites-site-form-name-explanation = Site name will appear on emails sent by Coral to your community and organization members.
+configure-sites-site-form-url = Site URL
+configure-sites-site-form-url-explanation = This url will appear on emails sent by Coral to your community members.
+configure-sites-site-form-email = Site email address
+configure-sites-site-form-url-explanation = This email address is for community members to contact you with questions or if they need help. e.g. comments@yoursite.com
+configure-sites-site-form-domains = Site permitted domains
+configure-sites-site-form-domains-explanation = Domains where your Coral comment streams are allowed to be embedded (ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
+configure-sites-site-form-submit = <icon>add</icon> Add site
+configure-sites-site-form-cancel = Cancel
+
+
 
 ### Email
 
