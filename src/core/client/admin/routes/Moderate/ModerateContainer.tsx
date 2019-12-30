@@ -24,17 +24,9 @@ class ModerateContainer extends React.Component<Props> {
 
   public render() {
     const allStories = !this.props.match.params.storyID;
-    const sites = this.props.data
-      ? this.props.data.sites.edges.map(edge => edge.node)
-      : [];
     if (!this.props.data) {
       return (
-        <Moderate
-          sites={[]}
-          moderationQueues={null}
-          story={null}
-          allStories={allStories}
-        >
+        <Moderate moderationQueues={null} story={null} allStories={allStories}>
           <Spinner />
         </Moderate>
       );
@@ -44,7 +36,6 @@ class ModerateContainer extends React.Component<Props> {
         moderationQueues={this.props.data.moderationQueues}
         story={this.props.data.story || null}
         allStories={allStories}
-        sites={sites}
       >
         {this.props.children}
       </Moderate>

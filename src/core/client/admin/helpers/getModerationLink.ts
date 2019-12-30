@@ -5,6 +5,6 @@ export default function getModerationLink(
   storyID?: string | null
 ) {
   const queuePart = queue && queue !== "default" ? `/${queue}` : "";
-  const storyPart = storyID ? `/${encodeURIComponent(storyID)}` : "";
+  const storyPart = storyID ? `/stories/${encodeURIComponent(storyID)}` : "";
   return `${basePath}${queuePart}${storyPart}`;
 }
