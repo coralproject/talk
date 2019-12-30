@@ -2,7 +2,7 @@ import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { Button, ButtonIcon, Divider, Flex } from "coral-ui/components/v2";
+import { Divider, Flex } from "coral-ui/components/v2";
 
 import { SiteRowContainer_site } from "coral-admin/__generated__/SiteRowContainer_site.graphql";
 

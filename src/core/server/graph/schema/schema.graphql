@@ -2424,6 +2424,8 @@ type Comment {
   deleted is whether the comment has been deleted.
   """
   deleted: Boolean
+
+  site: Site!
 }
 
 type PageInfo {
@@ -2732,6 +2734,11 @@ type Story {
   lastCommentedAt is the last time someone commented on this story.
   """
   lastCommentedAt: Time @auth(roles: [ADMIN])
+
+  """
+  site is the site associated with the story
+  """
+  site: Site!
 }
 
 """

@@ -227,6 +227,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           selected={selected}
           selectPrev={selectPrev}
           selectNext={selectNext}
+          siteName={comment.site.name}
           onBan={openBanModal}
           moderatedBy={
             <ModeratedByContainer
@@ -299,6 +300,10 @@ const enhanced = withFragmentContainer<Props>({
         metadata {
           title
         }
+      }
+      site {
+        id
+        name
       }
       permalink
       enteredLive
