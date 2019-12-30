@@ -15,6 +15,7 @@ import {
   BaseButton,
   Card,
   Flex,
+  Icon,
   HorizontalGutter,
   TextLink,
   Timestamp,
@@ -52,6 +53,7 @@ interface Props {
   showStory: boolean;
   storyTitle?: React.ReactNode;
   storyHref?: string;
+  siteName: string;
   onModerateStory?: React.EventHandler<React.MouseEvent>;
   onApprove: () => void;
   onReject: () => void;
@@ -96,6 +98,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   storyTitle,
   storyHref,
   onModerateStory,
+  siteName,
   moderatedBy,
   selected,
   onFocusOrClick,
@@ -250,7 +253,13 @@ const ModerateCard: FunctionComponent<Props> = ({
                     </Localized>
                     <span>:</span>
                   </div>
-                  <div className={styles.storyTitle}>{storyTitle}</div>
+                  <div className={styles.commentOn}>
+                    <span className={styles.siteName}>
+                      {siteName}
+                      <Icon>keyboard_arrow_right</Icon>
+                    </span>
+                    <span className={styles.storyTitle}>{storyTitle}</span>
+                  </div>
                   <div>
                     <Localized id="moderate-comment-moderateStory">
                       <TextLink

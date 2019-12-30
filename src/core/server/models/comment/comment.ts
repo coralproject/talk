@@ -79,6 +79,11 @@ export interface Comment extends TenantResource {
   storyID: string;
 
   /**
+   * siteID stores the ID of the Site that this Comment was left on.
+   */
+  siteID: string;
+
+  /**
    * revisions stores all the revisions of the Comment body including the most
    * recent revision, the last revision is the most recent.
    */

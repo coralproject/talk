@@ -110,6 +110,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       ? ctx.loaders.Comments.parents(c, input)
       : createConnection(),
   story: (c, input, ctx) => ctx.loaders.Stories.story.load(c.storyID),
+  site: (c, input, ctx) => ctx.loaders.Sites.site.load(c.siteID),
   permalink: async ({ id, storyID }, input, ctx) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
