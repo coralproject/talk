@@ -1,5 +1,6 @@
 import { Collection, Db } from "mongodb";
 
+import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { Story } from "coral-server/models/story";
 import collections from "coral-server/services/mongodb/collections";
 
@@ -96,7 +97,7 @@ async function deleteUserActionCounts(
   await collections.commentActions(mongo).deleteMany({
     tenantID,
     userID,
-    actionType: "REACTION",
+    actionType: ACTION_TYPE.REACTION,
   });
 }
 

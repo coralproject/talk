@@ -85,7 +85,7 @@ export function prefixSchemeIfRequired(secure: boolean, url: string) {
   return url;
 }
 
-export function extractParentsURL(req: Request) {
+export function extractParentsURL(req: Pick<Request, "headers" | "query">) {
   // The only two places this could be is in the referer header or the parentUrl
   // query parameter (injected by pym.js). If both of these are empty, then we
   // can't find anything.
@@ -116,7 +116,7 @@ export function extractParentsURL(req: Request) {
  *
  * @param req the request where we want to extract the parent's hostname from.
  */
-export function extractParentsOrigin(req: Request) {
+export function extractParentsOrigin(req: Pick<Request, "headers" | "query">) {
   const url = extractParentsURL(req);
   if (!url) {
     return null;
