@@ -193,8 +193,9 @@ configure-sites-site-form-domains = Site permitted domains
 configure-sites-site-form-domains-explanation = Domains where your Coral comment streams are allowed to be embedded (ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
 configure-sites-site-form-submit = <icon>add</icon> Add site
 configure-sites-site-form-cancel = Cancel
-
-
+configure-sites-site-form-save = Save changes
+configure-sites-site-edit = Edit { $site } details
+configure-sites-site-form-embed-code = Embed code
 
 ### Email
 

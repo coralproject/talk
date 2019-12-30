@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 
@@ -9,7 +10,6 @@ import { AddSiteRouteQueryResponse } from "coral-admin/__generated__/AddSiteRout
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import CreateSiteForm from "./CreateSiteForm";
-import { Localized } from "@fluent/react/compat";
 
 interface Props {
   data: AddSiteRouteQueryResponse | null;
