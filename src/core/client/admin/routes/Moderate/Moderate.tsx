@@ -5,23 +5,17 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { graphql } from "react-relay";
 
 import MainLayout from "coral-admin/components/MainLayout";
 import { HOTKEYS } from "coral-admin/constants";
 import { PropTypesOf } from "coral-framework/types";
 import { SubBar } from "coral-ui/components/v2/SubBar";
 
-import { useLocal } from "coral-framework/lib/relay";
-
 import HotkeysModal from "./HotkeysModal";
 import ModerateNavigationContainer from "./ModerateNavigation";
 import ModerateSearchBarContainer from "./ModerateSearchBar";
 
-import { ModerateLocal } from "coral-admin/__generated__/ModerateLocal.graphql";
-
 import styles from "./Moderate.css";
-import SiteSelector from "./SiteSelector";
 
 interface Props {
   story: PropTypesOf<typeof ModerateNavigationContainer>["story"] &
@@ -30,7 +24,6 @@ interface Props {
     typeof ModerateNavigationContainer
   >["moderationQueues"];
   allStories: boolean;
-  sites: PropTypesOf<typeof SiteSelector>["sites"];
   children?: React.ReactNode;
 }
 
@@ -39,7 +32,6 @@ const Moderate: FunctionComponent<Props> = ({
   story,
   allStories,
   children,
-  sites,
 }) => {
   const [showHotkeysModal, setShowHotkeysModal] = useState(false);
   const closeModal = useCallback(() => {
@@ -58,30 +50,10 @@ const Moderate: FunctionComponent<Props> = ({
       key.unbind(HOTKEYS.GUIDE);
     };
   }, []);
-  const [local, setLocal] = useLocal<ModerateLocal>(
-    graphql`
-      fragment ModerateLocal on Local {
-        siteID
-      }
-    `
-  );
-
-  const selectSite = useCallback(
-    (siteID: string | null) => {
-      setLocal({ siteID });
-    },
-    [setLocal]
-  );
-
   return (
     <div data-testid="moderate-container">
       <ModerateSearchBarContainer story={story} allStories={allStories} />
       <SubBar data-testid="moderate-tabBar-container">
-        <SiteSelector
-          onSelect={selectSite}
-          selected={local.siteID}
-          sites={sites}
-        />
         <ModerateNavigationContainer
           moderationQueues={moderationQueues}
           story={story}
