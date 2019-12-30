@@ -24,7 +24,7 @@ class OrganizationConfigRoute extends React.Component<Props> {
       );
     }
     return (
-      <HorizontalGutter>
+      <HorizontalGutter spacing={4}>
         <OrganizationConfigContainer
           settings={this.props.data.settings}
           submitting={this.props.submitting}

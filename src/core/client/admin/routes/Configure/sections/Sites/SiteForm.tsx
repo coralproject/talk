@@ -14,7 +14,7 @@ import { Button } from "coral-ui/components/v2";
 
 import { SiteForm_site as SiteData } from "coral-admin/__generated__/SiteForm_site.graphql";
 
-import TextFieldWithValidation from "../Configure/TextFieldWithValidation";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 import UpdateSiteMutation from "./UpdateSiteMutation";
 
 interface Props {

@@ -11,7 +11,7 @@ import {
 } from "coral-framework/lib/validation";
 import { Button } from "coral-ui/components/v2";
 
-import TextFieldWithValidation from "../Configure/TextFieldWithValidation";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 import CreateSiteMutation from "./CreateSiteMutation";
 
 interface Props {

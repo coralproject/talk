@@ -6,7 +6,6 @@ import {
   purgeMetadata,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { HorizontalGutter } from "coral-ui/components";
 
 import { OrganizationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/OrganizationConfigContainer_settings.graphql";
 
@@ -22,14 +21,7 @@ const OrganizationConfigContainer: React.FunctionComponent<Props> = ({
 }) => {
   const form = useForm();
   useMemo(() => form.initialize(purgeMetadata(settings)), []);
-  return (
-    <HorizontalGutter
-      size="double"
-      data-testid="configure-organizationContainer"
-    >
-      <OrganizationNameConfig disabled={submitting} />
-    </HorizontalGutter>
-  );
+  return <OrganizationNameConfig disabled={submitting} />;
 };
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`

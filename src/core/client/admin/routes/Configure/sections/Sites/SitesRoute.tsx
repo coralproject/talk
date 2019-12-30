@@ -2,9 +2,9 @@ import React, { FunctionComponent } from "react";
 
 import MainLayout from "coral-admin/components/MainLayout";
 
-import ConfigureLinks from "../Configure/ConfigureLinks";
-import Main from "../Configure/Main";
-import SideBar from "../Configure/SideBar";
+import ConfigureLinks from "../../ConfigureLinks";
+import Main from "../../Main";
+import SideBar from "../../SideBar";
 import Layout from "./Layout";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 const SitesRoute: FunctionComponent<Props> = props => {
   return (
-    <MainLayout data-testid="configure-container">
+    <MainLayout>
       <Layout>
         <SideBar>
           <ConfigureLinks />

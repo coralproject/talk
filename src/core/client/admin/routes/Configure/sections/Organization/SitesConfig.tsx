@@ -3,6 +3,8 @@ import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
+import { Button, FormFieldDescription } from "coral-ui/components/v2";
+
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import SiteRowContainer from "./SiteRowContainer";
@@ -26,10 +28,15 @@ const SitesConfig: FunctionComponent<Props> = ({ sites }) => {
         </Localized>
       }
     >
-      <Link to="/admin/sites">Add a site</Link>
-      {sites.map(site => (
-        <SiteRowContainer site={site} key={site.id} />
-      ))}
+      <FormFieldDescription>
+        A description of what sites are and why you might want more.
+      </FormFieldDescription>
+      <Link to="/admin/configure/organization/sites/new">Add a site</Link>
+      <div>
+        {sites.map(site => (
+          <SiteRowContainer site={site} key={site.id} />
+        ))}
+      </div>
     </ConfigBox>
   );
 };
