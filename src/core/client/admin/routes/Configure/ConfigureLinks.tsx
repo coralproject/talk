@@ -10,9 +10,6 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
       <Localized id="configure-sideBarNavigation-general">
         <Link to="/admin/configure/general">General</Link>
       </Localized>
-      <Localized id="configure-sideBarNavigation-organization">
-        <Link to="/admin/configure/organization">Organization</Link>
-      </Localized>
       <Localized id="configure-sideBarNavigation-moderation">
         <Link to="/admin/configure/moderation">Moderation</Link>
       </Localized>
@@ -30,6 +27,9 @@ const ConfigureLinks: FunctionComponent<{}> = () => {
       </Localized>
       <Localized id="configure-sideBarNavigation-advanced">
         <Link to="/admin/configure/advanced">Advanced</Link>
+      </Localized>
+      <Localized id="configure-sideBarNavigation-organization">
+        <Link to="/admin/configure/organization">Organization</Link>
       </Localized>
     </Navigation>
   );

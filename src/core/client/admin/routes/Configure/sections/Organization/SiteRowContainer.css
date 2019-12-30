@@ -1,0 +1,7 @@
+.name {
+  font-size: var(--v2-font-size-3);
+  font-weight: var(--v2-font-weight-primary-bold);
+  line-height: var(--v2-line-height-reset);
+  font-family: var(--v2-font-family-primary);
+  margin: 0;
+}

@@ -5,7 +5,7 @@ import { withRouteConfig } from "coral-framework/lib/router";
 
 import { SiteRouteQueryResponse } from "coral-admin/__generated__/SiteRouteQuery.graphql";
 
-import EmbedCode from "../Configure/sections/Advanced/EmbedCode";
+import EmbedCode from "../Advanced/EmbedCode";
 import SiteForm from "./SiteForm";
 
 interface Props {
