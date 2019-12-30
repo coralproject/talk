@@ -5,7 +5,7 @@ permalink: /troubleshooting-tips/
 
 ## How do I find out what version I'm running?
 
-If you visit https://<YOUR TALK INSTANCE>/api/v1, it will return the version you're running and the hash for the latest commit.
+If you visit `https://<YOUR_TALK_INSTANCE>/api/v1`, it will return the version you're running and the hash for the latest commit.
 
 ## I've installed Talk but I can't see the comment stream appear on my articles
 

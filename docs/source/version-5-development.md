@@ -111,7 +111,7 @@ You can see what languages Coral currently supports here: https://github.com/cor
 
 You can set the default language Coral uses in Admin > Configure > General. 
 
-We use the fluent library and store our translations in FTL files in src/locales/ and src/core/server/locales/. To add a new Coral translation, strings are added or removed from localization bundles in the translation files as needed. 
+We use the fluent library and store our translations in FTL files in `src/locales/` and `src/core/server/locales/`. To add a new Coral translation, strings are added or removed from localization bundles in the translation files as needed. 
 
 Strings MUST NOT be changed after they've been committed and pushed to master. Changing a string requires creating a new ID with a new name (preferably descriptive instead of incremented) and deletion of the obsolete ID. It's often useful to add a comment above the string with info about how and where the string is used.
 
