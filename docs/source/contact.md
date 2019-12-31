@@ -3,10 +3,10 @@ title: Contact
 permalink: /contact/
 ---
 
-## How can I get help integrating Talk into my newsroom?
+## How can I get help integrating Coral into my newsroom?
 
-We're here to help with newsrooms of all sizes. Email our Support Team
-([support@coralproject.net](mailto:support@coralproject.net)) to set up a meeting.
+We're here to help with newsrooms of all sizes. Connect with us [here](https://coralproject.net/contact/) to see how we can help you! 
+
 
 ## How do I request a feature or submit a bug?
 
