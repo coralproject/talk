@@ -42,6 +42,10 @@ Optional features you can enable or disable to allows users to:
 * download their comments
 * delete their account details.
 
+## Session settings
+
+Determines length of user sessions when not using SSO or when `exp` claim is not provided on jwt. Default: `90 Days`. 
+
 ## Username Restrictions
 
 Coral usernames are subject to the following validations:
