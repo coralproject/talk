@@ -88,6 +88,8 @@ sidebar:
               url: /v5/configuration/
             - title: Developing
               url: /v5/developing/
+            - title: CLI Tools 
+              url: /v5/configuration-cli-tools/
         - title: Integration
           children:
             - title: CMS Integration
@@ -209,9 +211,13 @@ sidebar:
             - title: FAQ
               url: /faq/
             - title: Troubleshooting Tips
-              url: /troubleshooting-tips/
-        - title: Contact
-          url: /contact/
+              url: /troubleshooting-tips/        
+    - title: Contact 
+      children:
+        - title: 
+          children:
+          - title: Contact Us
+            url: /contact/
 
 marked:
   gfm: true
