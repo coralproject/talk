@@ -96,6 +96,8 @@ sidebar:
               url: /v5/integrating/cms/
             - title: Single Sign On
               url: /v5/integrating/sso/
+            - title: Social Sign-in & Email Auth
+              url: /v5/integration/auth/
             - title: GDPR
               url: /v5/integrating/gdpr/
             - title: Comment Count
