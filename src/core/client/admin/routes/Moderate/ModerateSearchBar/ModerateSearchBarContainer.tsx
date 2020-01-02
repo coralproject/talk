@@ -34,6 +34,7 @@ interface Props {
   match: Match;
   story: ModerationQueuesData | null;
   allStories: boolean;
+  siteSelector: React.ReactNode;
 }
 
 type SearchBarOptions = PropTypesOf<typeof Bar>["options"];
@@ -231,16 +232,20 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
   if (props.allStories) {
     return (
       <Localized id="moderate-searchBar-allStories" attrs={{ title: true }}>
-        <Bar title="All stories" {...childProps} />
+        <Bar
+          siteSelector={props.siteSelector}
+          title="All stories"
+          {...childProps}
+        />
       </Localized>
     );
   }
   if (!props.story) {
-    return <Bar title={""} {...childProps} />;
+    return <Bar siteSelector={props.siteSelector} title={""} {...childProps} />;
   }
   const t = props.story.metadata && props.story.metadata.title;
   if (t) {
-    return <Bar title={t} {...childProps} />;
+    return <Bar siteSelector={props.siteSelector} title={t} {...childProps} />;
   }
   return (
     <Localized
@@ -248,6 +253,7 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
       attrs={{ title: true }}
     >
       <Bar
+        siteSelector={props.siteSelector}
         title={"Title not available"}
         options={options}
         onSearch={onSearch}

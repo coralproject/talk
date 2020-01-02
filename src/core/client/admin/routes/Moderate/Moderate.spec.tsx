@@ -13,6 +13,7 @@ it("renders correctly", () => {
     allStories: true,
     moderationQueues: {},
     story: {},
+    site: {},
   };
   const renderer = createRenderer();
   renderer.render(<ModerateN {...props} />);

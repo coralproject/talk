@@ -1,0 +1,14 @@
+.root {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-1);
+  color: var(--v2-colors-mono-500);
+  line-height: var(--v2-line-height-reset);
+  display: block;
+  text-decoration: none;
+  padding: var(--v2-spacing-2) var(--v2-spacing-4);
+}
+
+.active {
+  font-weight: var(--v2-font-weight-primary-bold);
+}
