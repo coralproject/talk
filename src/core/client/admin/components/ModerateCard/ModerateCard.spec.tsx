@@ -23,6 +23,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   viewContextHref: "http://localhost/comment",
   suspectWords: ["suspect"],
   bannedWords: ["banned"],
+  siteName: "The verge",
   onApprove: noop,
   onReject: noop,
   onFeature: noop,

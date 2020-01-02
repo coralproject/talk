@@ -18,6 +18,9 @@ import {
   SlackConfigRoute,
   WordListConfigRoute,
 } from "./routes/Configure/sections";
+import { Sites } from "./routes/Configure/sections/Sites";
+import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
+import SiteRoute from "./routes/Configure/sections/Sites/SiteRoute";
 import ForgotPasswordRoute from "./routes/ForgotPassword";
 import InviteRoute from "./routes/Invite";
 import LoginRoute from "./routes/Login";
@@ -29,9 +32,6 @@ import {
   UnmoderatedQueueRoute,
 } from "./routes/Moderate/Queue";
 import SingleModerateRoute from "./routes/Moderate/SingleModerate";
-import { Sites } from "./routes/Configure/sections/Sites";
-import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
-import SiteRoute from "./routes/Configure/sections/Sites/SiteRoute";
 import StoriesRoute from "./routes/Stories";
 
 export default makeRouteConfig(
