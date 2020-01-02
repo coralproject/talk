@@ -15,8 +15,8 @@ import {
   BaseButton,
   Card,
   Flex,
-  Icon,
   HorizontalGutter,
+  Icon,
   TextLink,
   Timestamp,
 } from "coral-ui/components/v2";
