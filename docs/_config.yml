@@ -86,6 +86,8 @@ sidebar:
               url: /
             - title: Configuration
               url: /v5/configuration/
+            - title: Admin Settings
+              url: /v5/administration/
             - title: Developing
               url: /v5/developing/
             - title: CLI Tools 
