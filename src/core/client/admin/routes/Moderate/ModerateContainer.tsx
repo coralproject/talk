@@ -25,24 +25,44 @@ class ModerateContainer extends React.Component<Props> {
 
   public render() {
     const allStories = !this.props.match.params.storyID;
+    // TODO: (tessalt) get active route in a better way
+    const queueName = [
+      "default",
+      "reported",
+      "pending",
+      "unmoderated",
+      "rejected",
+    ].find(name => {
+      return this.props.match.location.pathname.match(name);
+    });
     if (!this.props.data) {
       return (
         <Moderate
           moderationQueues={null}
           story={null}
           site={null}
+          sites={[]}
+          routeParams={this.props.match.params}
+          queueName={queueName || "default"}
           allStories={allStories}
         >
           <Spinner />
         </Moderate>
       );
     }
+    const sites = this.props.data.sites
+      ? this.props.data.sites.edges.map(edge => edge.node)
+      : [];
+
     return (
       <Moderate
         moderationQueues={this.props.data.moderationQueues}
         story={this.props.data.story || null}
         site={this.props.data.site || null}
+        routeParams={this.props.match.params}
+        sites={sites}
         allStories={allStories}
+        queueName={queueName || "default"}
       >
         {this.props.children}
       </Moderate>
@@ -64,6 +84,7 @@ const enhanced = withRouteConfig<Props>({
           node {
             id
             ...SiteSelectorSite_site
+            ...SiteSelectorSelected_site
           }
         }
       }
@@ -72,6 +93,7 @@ const enhanced = withRouteConfig<Props>({
         ...ModerateSearchBarContainer_story
       }
       site(id: $siteID) @include(if: $includeSite) {
+        id
         ...ModerateNavigationContainer_site
       }
       moderationQueues(storyID: $storyID, siteID: $siteID) {

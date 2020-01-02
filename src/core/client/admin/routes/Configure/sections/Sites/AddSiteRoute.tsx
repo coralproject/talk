@@ -18,7 +18,7 @@ interface Props {
 const AddSiteRoute: FunctionComponent<Props> = props => {
   const { router } = useRouter();
   const onSiteCreate = useCallback((id: string) => {
-    router.replace(`/admin/sites/${id}`);
+    router.replace(`/admin/configure/organization/sites/${id}`);
   }, []);
   if (!props.data) {
     return null;

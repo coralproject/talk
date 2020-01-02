@@ -1,0 +1,29 @@
+.root {
+  margin-top: var(--v2-spacing-2);
+}
+
+.dropdown {
+}
+
+.wrapper {
+  overflow-x: hidden;
+}
+
+.button {
+  color: var(--v2-colors-mono-500) !important;
+  border-width: 0;
+  height: calc(4 * var(--mini-unit));
+  width: calc(20 * var(--mini-unit));
+  margin-right: calc(var(--v2-spacing-1) / 2);
+  justify-content: space-between;
+}
+
+.buttonIconLeft {
+  width: 18px;
+  margin-right: calc(var(--v2-spacing-1) / 2);
+}
+
+.buttonText {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}

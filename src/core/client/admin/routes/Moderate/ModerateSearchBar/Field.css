@@ -1,14 +1,14 @@
 @import "variables.css";
 
 .root {
-  width: calc(94 * var(--mini-unit));
+  width: calc(84 * var(--mini-unit));
   height: calc(4 * var(--mini-unit));
 }
 
 .begin {
   background-color: $story-search-input-background;
-  border-top-left-radius: var(--v2-round-corners);
-  border-bottom-left-radius: var(--v2-round-corners);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
   min-width: calc(5 * var(--mini-unit));
   flex-shrink: 0;
   pointer-events: none;

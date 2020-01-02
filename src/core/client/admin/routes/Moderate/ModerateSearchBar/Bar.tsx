@@ -34,12 +34,19 @@ interface Props {
   options: Array<ListBoxOption & { group: Group }>;
   /** onSearch will be called whenenver the user submits the search */
   onSearch?: (value: string) => void;
+
+  siteSelector: React.ReactNode;
 }
 
 /**
  * Bar is the container of the whole search bar.
  */
-const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
+const Bar: FunctionComponent<Props> = ({
+  title,
+  options,
+  onSearch,
+  siteSelector,
+}) => {
   const [focused, focusHandlers] = useFocus();
   const preventFocusLossHandlers = usePreventFocusLoss(focused);
   const submitHandler = useCallback(
@@ -80,6 +87,7 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
         aria-expanded={focused}
       >
         <Backdrop className={styles.bumpZIndex} active={focused} />
+        {siteSelector}
         <Form onSubmit={submitHandler}>
           {({ handleSubmit }) => (
             <Localized

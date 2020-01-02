@@ -14,26 +14,40 @@ import { SubBar } from "coral-ui/components/v2/SubBar";
 import HotkeysModal from "./HotkeysModal";
 import ModerateNavigationContainer from "./ModerateNavigation";
 import ModerateSearchBarContainer from "./ModerateSearchBar";
+import SiteSelector from "./SiteSelector";
 
 import styles from "./Moderate.css";
+
+interface RouteParams {
+  storyID?: string;
+  siteID?: string;
+}
 
 interface Props {
   story: PropTypesOf<typeof ModerateNavigationContainer>["story"] &
     PropTypesOf<typeof ModerateSearchBarContainer>["story"];
-  site: PropTypesOf<typeof ModerateNavigationContainer>["site"];
+  site:
+    | { id: string } & PropTypesOf<typeof ModerateNavigationContainer>["site"]
+    | null;
+  sites: PropTypesOf<typeof SiteSelector>["sites"];
   moderationQueues: PropTypesOf<
     typeof ModerateNavigationContainer
   >["moderationQueues"];
   allStories: boolean;
   children?: React.ReactNode;
+  queueName: string;
+  routeParams: RouteParams;
 }
 
 const Moderate: FunctionComponent<Props> = ({
   moderationQueues,
   story,
   site,
+  sites,
   allStories,
   children,
+  queueName,
+  routeParams,
 }) => {
   const [showHotkeysModal, setShowHotkeysModal] = useState(false);
   const closeModal = useCallback(() => {
@@ -54,7 +68,17 @@ const Moderate: FunctionComponent<Props> = ({
   }, []);
   return (
     <div data-testid="moderate-container">
-      <ModerateSearchBarContainer story={story} allStories={allStories} />
+      <ModerateSearchBarContainer
+        story={story}
+        allStories={allStories}
+        siteSelector={
+          <SiteSelector
+            sites={sites}
+            queueName={queueName}
+            siteID={routeParams.siteID}
+          />
+        }
+      />
       <SubBar data-testid="moderate-tabBar-container">
         <ModerateNavigationContainer
           moderationQueues={moderationQueues}

@@ -1,7 +1,14 @@
 const basePath = "/admin/moderate";
 
+export type QUEUE_NAME =
+  | "default"
+  | "reported"
+  | "pending"
+  | "unmoderated"
+  | "rejected";
+
 export default function getModerationLink(
-  queue?: "default" | "reported" | "pending" | "unmoderated" | "rejected",
+  queue?: QUEUE_NAME,
   storyID?: string | null,
   siteID?: string | null
 ) {
