@@ -14,6 +14,7 @@ interface Props {
   reportedCount?: number;
   pendingCount?: number;
   storyID?: string | null;
+  siteID?: string | null;
   router: Router;
   match: Match;
 }
@@ -23,17 +24,18 @@ const Navigation: FunctionComponent<Props> = ({
   reportedCount,
   pendingCount,
   storyID,
+  siteID,
   router,
   match,
 }) => {
   const moderationLinks = useMemo(() => {
     return [
-      getModerationLink("reported", storyID),
-      getModerationLink("pending", storyID),
-      getModerationLink("unmoderated", storyID),
-      getModerationLink("rejected", storyID),
+      getModerationLink("reported", storyID, siteID),
+      getModerationLink("pending", storyID, siteID),
+      getModerationLink("unmoderated", storyID, siteID),
+      getModerationLink("rejected", storyID, siteID),
     ];
-  }, [storyID]);
+  }, [storyID, siteID]);
 
   useEffect(() => {
     key(HOTKEYS.SWITCH_QUEUE, () => {
