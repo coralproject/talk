@@ -11,6 +11,7 @@ import Moderate from "./Moderate";
 
 interface RouteParams {
   storyID?: string;
+  siteID?: string;
 }
 
 interface Props {
@@ -26,7 +27,12 @@ class ModerateContainer extends React.Component<Props> {
     const allStories = !this.props.match.params.storyID;
     if (!this.props.data) {
       return (
-        <Moderate moderationQueues={null} story={null} allStories={allStories}>
+        <Moderate
+          moderationQueues={null}
+          story={null}
+          site={null}
+          allStories={allStories}
+        >
           <Spinner />
         </Moderate>
       );
@@ -35,6 +41,7 @@ class ModerateContainer extends React.Component<Props> {
       <Moderate
         moderationQueues={this.props.data.moderationQueues}
         story={this.props.data.story || null}
+        site={this.props.data.site || null}
         allStories={allStories}
       >
         {this.props.children}
@@ -45,7 +52,12 @@ class ModerateContainer extends React.Component<Props> {
 
 const enhanced = withRouteConfig<Props>({
   query: graphql`
-    query ModerateContainerQuery($storyID: ID, $includeStory: Boolean!) {
+    query ModerateContainerQuery(
+      $storyID: ID
+      $includeStory: Boolean!
+      $siteID: ID
+      $includeSite: Boolean!
+    ) {
       # TODO: paginate
       sites {
         edges {
@@ -59,7 +71,10 @@ const enhanced = withRouteConfig<Props>({
         ...ModerateNavigationContainer_story
         ...ModerateSearchBarContainer_story
       }
-      moderationQueues(storyID: $storyID) {
+      site(id: $siteID) @include(if: $includeSite) {
+        ...ModerateNavigationContainer_site
+      }
+      moderationQueues(storyID: $storyID, siteID: $siteID) {
         ...ModerateNavigationContainer_moderationQueues
       }
     }
@@ -68,7 +83,9 @@ const enhanced = withRouteConfig<Props>({
   prepareVariables: (params, match) => {
     return {
       storyID: match.params.storyID,
+      siteID: match.params.siteID,
       includeStory: Boolean(match.params.storyID),
+      includeSite: Boolean(match.params.siteID),
     };
   },
 })(withRouter(ModerateContainer));

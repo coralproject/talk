@@ -20,6 +20,7 @@ import styles from "./Moderate.css";
 interface Props {
   story: PropTypesOf<typeof ModerateNavigationContainer>["story"] &
     PropTypesOf<typeof ModerateSearchBarContainer>["story"];
+  site: PropTypesOf<typeof ModerateNavigationContainer>["site"];
   moderationQueues: PropTypesOf<
     typeof ModerateNavigationContainer
   >["moderationQueues"];
@@ -30,6 +31,7 @@ interface Props {
 const Moderate: FunctionComponent<Props> = ({
   moderationQueues,
   story,
+  site,
   allStories,
   children,
 }) => {
@@ -57,6 +59,7 @@ const Moderate: FunctionComponent<Props> = ({
         <ModerateNavigationContainer
           moderationQueues={moderationQueues}
           story={story}
+          site={site}
         />
       </SubBar>
       <div className={styles.background} />

@@ -52,9 +52,17 @@ export default makeRouteConfig(
             path="reported/stories/:storyID"
             {...ReportedQueueRoute.routeConfig}
           />
+          <Route
+            path="reported/sites/:siteID"
+            {...ReportedQueueRoute.routeConfig}
+          />
           <Route path="pending" {...PendingQueueRoute.routeConfig} />
           <Route
             path="pending/stories/:storyID"
+            {...PendingQueueRoute.routeConfig}
+          />
+          <Route
+            path="pending/sites/:siteID"
             {...PendingQueueRoute.routeConfig}
           />
           <Route path="unmoderated" {...UnmoderatedQueueRoute.routeConfig} />
@@ -62,14 +70,26 @@ export default makeRouteConfig(
             path="unmoderated/stories/:storyID"
             {...UnmoderatedQueueRoute.routeConfig}
           />
+          <Route
+            path="unmoderated/sites/:siteID"
+            {...UnmoderatedQueueRoute.routeConfig}
+          />
           <Route path="rejected" {...RejectedQueueRoute.routeConfig} />
           <Route
             path="rejected/stories/:storyID"
             {...RejectedQueueRoute.routeConfig}
           />
+          <Route
+            path="rejected/sites/:siteID"
+            {...RejectedQueueRoute.routeConfig}
+          />
           <Redirect
             from="stories/:storyID"
             to="/admin/moderate/reported/stories/:storyID"
+          />
+          <Redirect
+            from="sites/:siteID"
+            to="/admin/moderate/reported/sites/:siteID"
           />
         </Route>
         <Route path="stories" {...StoriesRoute.routeConfig} />
