@@ -9,7 +9,7 @@
   background-color: $story-search-input-background;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  min-width: calc(5 * var(--mini-unit));
+  min-width: calc(4 * var(--mini-unit));
   flex-shrink: 0;
   pointer-events: none;
 }
@@ -93,8 +93,9 @@
 }
 
 .inputWithTitle {
-  text-align: center;
   &::placeholder {
+    font-weight: var(--v2-font-weight-primary-bold);
+    color: var(--v2-colors-mono-500);
     opacity: 1;
   }
 }
