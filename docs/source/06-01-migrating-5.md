@@ -20,6 +20,9 @@ The process for migration will include:
 
 Downtime will likely be required to complete the migration, and you should carefully plan your migration accordingly depending on your infrastructure setup, and amount of data to be migrated. 
 
+### Migrating Plugins
+Plugins are no longer supported and will not work with any version 5.0+. Most of the optional `talk-plugin` features have been built right into core so you no longer need install, manage, and worry about plugins. If you were using plugins to achieve custom functionality, please contact us to learn about some of the new ways to solve custom use cases in version 5 and beyond. 
+
 
 ### Supporting your Migration
 We would love to help!

@@ -109,7 +109,7 @@ We’re so proud to have received submissions from a lot of 3rd party contributo
 
 You can see what languages Coral currently supports here: https://github.com/coralproject/talk/tree/master/src/locales
 
-You can set the default language Coral uses in Admin > Configure > General. 
+You can set the default language Coral uses in **Admin** > **Configure** > **General**. 
 
 We use the fluent library and store our translations in FTL files in `src/locales/` and `src/core/server/locales/`. To add a new Coral translation, strings are added or removed from localization bundles in the translation files as needed. 
 
