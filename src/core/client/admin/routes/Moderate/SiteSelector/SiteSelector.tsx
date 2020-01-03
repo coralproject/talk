@@ -70,7 +70,9 @@ const SiteSelector: FunctionComponent<Props> = ({
             {selectedSite && <SiteSelectorSelected site={selectedSite} />}
             {!siteID && <span className={styles.buttonText}>All sites</span>}
           </Flex>
-          <ButtonIcon>keyboard_arrow_down</ButtonIcon>
+          <ButtonIcon className={styles.buttonIconRight}>
+            keyboard_arrow_down
+          </ButtonIcon>
         </Button>
       )}
     </Popover>

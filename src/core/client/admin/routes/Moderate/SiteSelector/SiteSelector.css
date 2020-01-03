@@ -15,12 +15,18 @@
   height: calc(4 * var(--mini-unit));
   width: calc(20 * var(--mini-unit));
   margin-right: calc(var(--v2-spacing-1) / 2);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-min);
   justify-content: space-between;
 }
 
 .buttonIconLeft {
-  width: 18px;
+  width: 20px;
   margin-right: calc(var(--v2-spacing-1) / 2);
+}
+
+.buttonIconRight {
+  width: 16px;
 }
 
 .buttonText {
