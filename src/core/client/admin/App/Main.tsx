@@ -5,6 +5,10 @@ import { LogoHorizontal } from "coral-ui/components";
 import { AppBar, Begin, Divider, End } from "coral-ui/components/v2/AppBar";
 
 import { DecisionHistoryButton } from "./DecisionHistory";
+import {
+  NotificationContainer,
+  NotificationProvider,
+} from "./GlobalNotification";
 import NavigationContainer from "./Navigation";
 import UserMenuContainer from "./UserMenu";
 import Version from "./Version";
@@ -32,7 +36,10 @@ const Main: FunctionComponent<Props> = ({ children, viewer }) => (
         <UserMenuContainer viewer={viewer} />
       </End>
     </AppBar>
-    {children}
+    <NotificationProvider>
+      <NotificationContainer />
+      {children}
+    </NotificationProvider>
     <Version />
   </div>
 );

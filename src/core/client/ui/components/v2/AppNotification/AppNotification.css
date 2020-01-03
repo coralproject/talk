@@ -1,0 +1,6 @@
+.root {
+}
+
+.success {
+  background-color: var(--v2-colors-green-300);
+}
