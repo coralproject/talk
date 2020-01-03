@@ -206,7 +206,9 @@ sidebar:
               url: /when-youve-installed-talk/
             - title: Embedding Talk in Native Mobile Apps
               url: /embedding-in-native-mobile-apps/
-        - title: Migrating
+    - title: Migrating
+      children:
+        -title:
           children:
             - title: Migrating from v3.x.x
               url: /migration/3/
@@ -214,6 +216,8 @@ sidebar:
               url: /migration/4/
             - title: Migrating to v4.1.0
               url: /migration/4.1/
+            - title: Migrating to v5.0.0
+              url: /migration/5.0/
     - title: FAQ & Troubleshooting
       children:
         - title:
