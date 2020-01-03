@@ -23,8 +23,12 @@ const AppNotification: FunctionComponent<Props> = ({
 
   return (
     <div className={rootClassName}>
-      <Flex justifyContent="space-between">
-        <Flex>
+      <Flex
+        alignItems="center"
+        justifyContent="space-between"
+        className={styles.inner}
+      >
+        <Flex alignItems="center" itemGutter>
           {icon && <Icon>{icon}</Icon>}
           {children}
         </Flex>
