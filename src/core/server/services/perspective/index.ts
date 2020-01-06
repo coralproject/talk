@@ -1,4 +1,5 @@
 import { Db } from "mongodb";
+import striptags from "striptags";
 
 import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/constants";
 import { reconstructTenantURL } from "coral-server/app/url";
@@ -112,7 +113,7 @@ export async function notifyPerspectiveModerationDecision(
   try {
     const body = {
       comment: {
-        text: revision.body,
+        text: striptags(revision.body),
       },
       context: {
         entries: [
