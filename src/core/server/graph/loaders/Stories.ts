@@ -102,18 +102,23 @@ export default (ctx: GraphContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  connection: ({ first, after, status, query }: QueryToStoriesArgs) =>
-    retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
-      first: defaultTo(first, 10),
-      after,
-      filter: {
-        // Merge the status filter into the connection filter.
-        ...statusFilter(status),
+  connection: ({ first, after, status, query, siteID }: QueryToStoriesArgs) =>
+    retrieveStoryConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      {
+        first: defaultTo(first, 10),
+        after,
+        filter: {
+          // Merge the status filter into the connection filter.
+          ...statusFilter(status),
 
-        // Merge the query filters into the query.
-        ...queryFilter(query),
+          // Merge the query filters into the query.
+          ...queryFilter(query),
+        },
       },
-    }).then(primeStoriesFromConnection(ctx)),
+      siteID
+    ).then(primeStoriesFromConnection(ctx)),
   debugScrapeMetadata: new DataLoader(
     createManyBatchLoadFn((url: string) =>
       // This typecast is needed because the custom `ms` format does not return

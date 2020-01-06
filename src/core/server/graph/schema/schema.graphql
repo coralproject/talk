@@ -2813,6 +2813,7 @@ type Query {
     after: Cursor
     status: STORY_STATUS
     query: String
+    siteID: ID
   ): StoriesConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """

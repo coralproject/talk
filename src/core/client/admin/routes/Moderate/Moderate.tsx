@@ -71,6 +71,7 @@ const Moderate: FunctionComponent<Props> = ({
       <ModerateSearchBarContainer
         story={story}
         allStories={allStories}
+        siteID={routeParams.siteID || null}
         siteSelector={
           <SiteSelector
             sites={sites}
