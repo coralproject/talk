@@ -24,6 +24,9 @@ const SearchStoryFetch = createFetch(
             edges {
               node {
                 id
+                site {
+                  name
+                }
                 metadata {
                   title
                   author
