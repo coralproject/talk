@@ -5,7 +5,7 @@ import { reconstructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
-import { findStory, getURLWithCommentID } from "coral-server/models/story";
+import { getURLWithCommentID, retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 
 import {
@@ -101,9 +101,7 @@ export async function notifyPerspectiveModerationDecision(
   const communityId = `Coral:${tenantUrl}`;
   const clientToken = `comment:${comment.id}`;
 
-  const story = await findStory(mongo, comment.tenantID, {
-    id: comment.storyID,
-  });
+  const story = await retrieveStory(mongo, comment.tenantID, comment.storyID);
   if (!story) {
     logger.error({ storyID: comment.storyID }, "could not find story");
     return;
