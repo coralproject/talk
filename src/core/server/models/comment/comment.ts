@@ -70,7 +70,7 @@ export interface Comment extends TenantResource {
   /**
    * authorID stores the ID of the User that created this Comment.
    */
-  authorID: string;
+  authorID: string | null;
 
   /**
    * storyID stores the ID of the Story that this Comment was left on.
@@ -319,7 +319,7 @@ export async function editComment(
       status: {
         $in: EDITABLE_STATUSES,
       },
-      deletedAt: null,
+      deletedAt: undefined,
       createdAt: {
         $gt: lastEditableCommentCreatedAt,
       },

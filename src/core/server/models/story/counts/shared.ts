@@ -154,14 +154,7 @@ export async function retrieveSharedModerationQueueQueuesCounts(
   const key = commentCountsModerationQueueQueuesKey(tenantID);
   const freshKey = freshenKey(key);
 
-  // Get the values, and the freshness key.
-  const [[, queues], [, fresh]]: [
-    [
-      Error | undefined,
-      Record<keyof CommentModerationCountsPerQueue, string> | null
-    ],
-    [Error | undefined, string | null]
-  ] = await redis
+  const [[, fresh], [, queues]] = await redis
     .pipeline()
     .hgetall(key)
     .get(freshKey)

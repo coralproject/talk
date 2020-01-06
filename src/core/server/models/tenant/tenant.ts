@@ -223,7 +223,10 @@ export async function retrieveTenant(mongo: Db, id: string) {
   return collection(mongo).findOne({ id });
 }
 
-export async function retrieveManyTenants(mongo: Db, ids: string[]) {
+export async function retrieveManyTenants(
+  mongo: Db,
+  ids: ReadonlyArray<string>
+) {
   const cursor = collection(mongo).find({
     id: {
       $in: ids,

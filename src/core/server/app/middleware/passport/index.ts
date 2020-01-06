@@ -286,7 +286,9 @@ export const authenticate = (
       }
 
       // Attach the user to the request.
-      req.user = user;
+      if (user) {
+        req.user = user;
+      }
 
       return next();
     }
