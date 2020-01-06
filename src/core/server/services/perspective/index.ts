@@ -65,13 +65,7 @@ export async function notifyPerspectiveModerationDecision(
   comment: Comment,
   status: GQLCOMMENT_STATUS
 ) {
-  if (!config.enabled) {
-    return;
-  }
-  if (!config.key) {
-    return;
-  }
-  if (!config.sendFeedback) {
+  if (!config.enabled || !config.key || !config.sendFeedback) {
     return;
   }
 
