@@ -1,6 +1,11 @@
 import Joi from "joi";
 import jwt from "jsonwebtoken";
-import jwks, { JwksClient } from "jwks-rsa";
+import jwks, {
+  CertSigningKey,
+  JwksClient,
+  RsaSigningKey,
+  SigningKey,
+} from "jwks-rsa";
 import { isNil } from "lodash";
 import { Db } from "mongodb";
 import { Strategy as OAuth2Strategy, VerifyCallback } from "passport-oauth2";
@@ -9,7 +14,6 @@ import { Strategy } from "passport-strategy";
 import { validate } from "coral-server/app/request/body";
 import { reconstructURL } from "coral-server/app/url";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { OIDCAuthIntegration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
@@ -24,6 +28,8 @@ import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
 import { findOrCreate } from "coral-server/services/users";
 import { validateUsername } from "coral-server/services/users/helpers";
 import { Request } from "coral-server/types/express";
+
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 
 export interface Params {
   id_token?: string;
@@ -82,6 +88,12 @@ export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
   return isNil(error);
 }
 
+function isCertSigningKey(
+  key: SigningKey | RsaSigningKey
+): key is CertSigningKey {
+  return Boolean((key as CertSigningKey).publicKey);
+}
+
 /**
  * keyFunc will provide the secret based on the given jwkw client.
  *
@@ -104,9 +116,11 @@ const signingKeyFactory = (client: jwks.JwksClient): jwt.KeyFunction => (
     }
 
     // Grab the signingKey out of the provided key.
-    const signingKey = key.publicKey || key.rsaPublicKey;
-
-    callback(null, signingKey);
+    if (isCertSigningKey(key)) {
+      return callback(null, key.publicKey);
+    } else {
+      return callback(null, key.rsaPublicKey);
+    }
   });
 };
 

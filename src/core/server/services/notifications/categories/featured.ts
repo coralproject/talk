@@ -13,7 +13,7 @@ async function processor(
 ): Promise<Notification | null> {
   // Get the comment that was featured.
   const comment = await ctx.comments.load(input.commentID);
-  if (!comment || !hasPublishedStatus(comment)) {
+  if (!comment || (!hasPublishedStatus(comment) || !comment.authorID)) {
     return null;
   }
 
