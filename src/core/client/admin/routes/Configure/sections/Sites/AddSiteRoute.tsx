@@ -2,8 +2,10 @@ import { Localized } from "@fluent/react/compat";
 import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
 
+import { useNotification } from "coral-admin/App/GlobalNotification";
 import { graphql } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
+import { AppNotification } from "coral-ui/components/v2";
 
 import { AddSiteRouteQueryResponse } from "coral-admin/__generated__/AddSiteRouteQuery.graphql";
 
@@ -17,8 +19,23 @@ interface Props {
 
 const AddSiteRoute: FunctionComponent<Props> = props => {
   const { router } = useRouter();
-  const onSiteCreate = useCallback((id: string) => {
+  const { setMessage } = useNotification();
+  const onSiteCreate = useCallback((id: string, name: string) => {
     router.replace(`/admin/configure/organization/sites/${id}`);
+    if (props.data) {
+      setMessage(
+        <Localized
+          id="configure-sites-add-success"
+          $site={name}
+          $org={props.data.settings.organization.name}
+        >
+          <AppNotification icon="check_circle_outline">
+            {name} has been added to {props.data.settings.organization.name}
+          </AppNotification>
+        </Localized>,
+        3000
+      );
+    }
   }, []);
   if (!props.data) {
     return null;

@@ -27,7 +27,7 @@ import TextFieldWithValidation from "../../TextFieldWithValidation";
 import CreateSiteMutation from "./CreateSiteMutation";
 
 interface Props {
-  onCreate: (id: string) => void;
+  onCreate: (id: string, name: string) => void;
 }
 
 const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
@@ -36,7 +36,7 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
     async (input, form: FormApi) => {
       const response = await createSite({ site: input });
       if (response && response.site) {
-        onCreate(response.site.id);
+        onCreate(response.site.id, response.site.name);
       }
     },
     [onCreate]
