@@ -78,15 +78,15 @@ async function postCommentToSlack(
   hookURL: string
 ) {
   const comment = await ctx.comments.load(commentID);
-  if (comment === null) {
-    return;
-  }
-  const story = await ctx.stories.load(comment.storyID);
-  if (story === null) {
+  if (comment === null || !comment.authorID) {
     return;
   }
   const author = await ctx.users.load(comment.authorID);
   if (author === null) {
+    return;
+  }
+  const story = await ctx.stories.load(comment.storyID);
+  if (story === null) {
     return;
   }
 

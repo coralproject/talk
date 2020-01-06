@@ -14,7 +14,7 @@ async function processor(
   input: CommentReplyCreatedInput
 ): Promise<Notification | null> {
   const comment = await ctx.comments.load(input.commentID);
-  if (!comment || !hasPublishedStatus(comment)) {
+  if (!comment || !hasPublishedStatus(comment) || !comment.authorID) {
     return null;
   }
 

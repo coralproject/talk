@@ -72,10 +72,12 @@ export default async function updateAllCounts(
     moderationQueue,
   });
 
-  // Update the user comment counts.
-  await updateUserCommentCounts(mongo, tenant.id, authorID, {
-    status,
-  });
+  if (authorID) {
+    // Update the user comment counts.
+    await updateUserCommentCounts(mongo, tenant.id, authorID, {
+      status,
+    });
+  }
 
   return {
     status,

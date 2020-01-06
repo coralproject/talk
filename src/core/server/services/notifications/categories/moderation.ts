@@ -19,7 +19,7 @@ async function processor(
 
   // Load the comment in question.
   const comment = await ctx.comments.load(input.commentID);
-  if (!comment) {
+  if (!comment || !comment.authorID) {
     return null;
   }
 

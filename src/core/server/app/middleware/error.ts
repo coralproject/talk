@@ -1,9 +1,8 @@
 import { FluentBundle } from "@fluent/bundle/compat";
-import { ErrorRequestHandler } from "express";
 
 import { CoralError, InternalError } from "coral-server/errors";
 import { I18n } from "coral-server/services/i18n";
-import { Request } from "coral-server/types/express";
+import { ErrorRequestHandler, Request } from "coral-server/types/express";
 
 /**
  * wrapError ensures that the error being propagated is a CoralError.
@@ -45,10 +44,10 @@ export const JSONErrorHandler = (bundles?: I18n): ErrorRequestHandler => (
   next
 ) => {
   // Wrap the error if it needs to be wrapped.
-  err = wrapError(err);
+  const e = wrapError(err);
 
   // Send the response via JSON.
-  res.status(err.status).json(serializeError(err, req, bundles));
+  res.status(e.status).json(serializeError(e, req, bundles));
 };
 
 export const HTMLErrorHandler = (bundles?: I18n): ErrorRequestHandler => (
@@ -58,8 +57,8 @@ export const HTMLErrorHandler = (bundles?: I18n): ErrorRequestHandler => (
   next
 ) => {
   // Wrap the error if it needs to be wrapped.
-  err = wrapError(err);
+  const e = wrapError(err);
 
   // Send the response via HTML.
-  res.status(err.status).render("error", serializeError(err, req, bundles));
+  res.status(e.status).render("error", serializeError(e, req, bundles));
 };

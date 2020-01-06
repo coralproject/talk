@@ -321,7 +321,7 @@ configure-moderation-perspective-defaultEndpoint =
   Por padrão o endpoint é setado como { $default }. Você pode sobrescreve-lo aqui
 configure-moderation-perspective-accountNote =
   Para obter informações adicionais sobre como configurar o filtro de comentário tóxicos da Perspective API , visite:
-  <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
+  <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Palavras e Frases Banidas

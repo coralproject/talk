@@ -321,7 +321,7 @@ configure-moderation-perspective-defaultEndpoint =
   By default the endpoint is set to { $default }. You may override this here.
 configure-moderation-perspective-accountNote =
   For additional information on how to set up the Perspective Toxic Comment Filter please visit:
-  <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
+  <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
 
 configure-moderation-newCommenters-title = New commenter approval
 configure-moderation-newCommenters-enable = Enable new commenter approval
