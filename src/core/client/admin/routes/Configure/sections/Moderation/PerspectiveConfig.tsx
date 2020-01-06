@@ -201,18 +201,20 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         <OnOffField
           name="integrations.perspective.doNotStore"
           disabled={disabled}
+          testIDs={{
+            on: "test-allowStoreCommentData",
+            off: "test-dontAllowStoreCommentData",
+          }}
           onLabel={
             <Localized id="configure-radioButton-allow">
               <span>Allow</span>
             </Localized>
           }
-          onTestId="test-allowStoreCommentData"
           offLabel={
             <Localized id="configure-radioButton-dontAllow">
               <span>Don't Allow</span>
             </Localized>
           }
-          offTestId="test-dontAllowStoreCommentData"
           invert
         />
       </FormField>
@@ -233,18 +235,20 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         <OnOffField
           name="integrations.perspective.sendFeedback"
           disabled={disabled}
+          testIDs={{
+            on: "test-allowSendFeedback",
+            off: "test-dontAllowSendFeedback",
+          }}
           onLabel={
             <Localized id="configure-radioButton-allow">
               <span>Allow</span>
             </Localized>
           }
-          onTestId="test-allowSendFeedback"
           offLabel={
             <Localized id="configure-radioButton-dontAllow">
               <span>Don't Allow</span>
             </Localized>
           }
-          offTestId="test-dontAllowSendFeedback"
         />
       </FormField>
       <HorizontalGutter spacing={3}>
