@@ -64,6 +64,7 @@ const rejectComment = async (
     config,
     tenant.integrations.perspective,
     result.after,
+    commentRevisionID,
     GQLCOMMENT_STATUS.REJECTED
   );
 

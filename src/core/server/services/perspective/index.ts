@@ -67,6 +67,7 @@ export async function notifyPerspectiveModerationDecision(
   config: Config,
   perspectiveConfig: GQLPerspectiveExternalIntegration,
   comment: Comment,
+  commentRevisionID: string,
   status: GQLCOMMENT_STATUS
 ) {
   if (
@@ -74,6 +75,20 @@ export async function notifyPerspectiveModerationDecision(
     !perspectiveConfig.key ||
     !perspectiveConfig.sendFeedback
   ) {
+    return;
+  }
+
+  const commentStatus = computeStatus(status);
+  if (!commentStatus) {
+    return;
+  }
+
+  const revision = comment.revisions.find(c => c.id === commentRevisionID);
+  if (!revision) {
+    logger.warn(
+      { commentID: comment.id, commentRevisionID },
+      "unable to find comment revision ID in comment revision history"
+    );
     return;
   }
 
@@ -85,7 +100,6 @@ export async function notifyPerspectiveModerationDecision(
   const tenantUrl = reconstructTenantURL(config, tenant, undefined, "/");
   const communityId = `Coral:${tenantUrl}`;
   const clientToken = `comment:${comment.id}`;
-  const latestRevision = comment.revisions[comment.revisions.length - 1];
 
   const story = await findStory(mongo, comment.tenantID, {
     id: comment.storyID,
@@ -97,15 +111,10 @@ export async function notifyPerspectiveModerationDecision(
 
   const url = getURLWithCommentID(story.url, comment.id);
 
-  const commentStatus = computeStatus(status);
-  if (!commentStatus) {
-    return;
-  }
-
   try {
     const body = {
       comment: {
-        text: latestRevision.body,
+        text: revision.body,
       },
       context: {
         entries: [
