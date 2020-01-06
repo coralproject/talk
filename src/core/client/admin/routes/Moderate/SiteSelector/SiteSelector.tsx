@@ -33,7 +33,7 @@ const SiteSelector: FunctionComponent<Props> = ({
   const selectedSite = sites.find(s => s.id === siteID);
   return (
     <Popover
-      id="userMenu"
+      id="sitesMenu"
       placement="bottom-end"
       modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
       body={({ toggleVisibility }) => (

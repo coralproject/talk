@@ -35,6 +35,7 @@ interface Props {
   story: ModerationQueuesData | null;
   allStories: boolean;
   siteSelector: React.ReactNode;
+  siteID: string | null;
 }
 
 type SearchBarOptions = PropTypesOf<typeof Bar>["options"];
@@ -112,7 +113,11 @@ function getContextOptionsWhenModeratingStory(
 }
 
 type OnSearchCallback = (search: string) => void;
-
+interface SearchParams {
+  query: string;
+  limit: number;
+  siteID?: string;
+}
 /**
  * useSearchOptions
  *
@@ -121,7 +126,8 @@ type OnSearchCallback = (search: string) => void;
  */
 function useSearchOptions(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler,
-  story: ModerationQueuesData | null
+  story: ModerationQueuesData | null,
+  siteID: string | null
 ): [SearchBarOptions, OnSearchCallback] {
   const searchStory = useFetch(SearchStoryFetch);
 
@@ -150,7 +156,14 @@ function useSearchOptions(
         },
       ]);
 
-      const stories = await searchStory({ query: search, limit: 5 });
+      const searchParams: SearchParams = {
+        query: search,
+        limit: 5,
+      };
+      if (siteID) {
+        searchParams.siteID = siteID;
+      }
+      const stories = await searchStory(searchParams);
       if (searchCount !== searchCountRef.current) {
         // This result is old, so we can discard it.
         return;
@@ -204,7 +217,7 @@ function useSearchOptions(
       }
       setSearchOptions(nextSearchOptions);
     },
-    [story, searchStory, setSearchOptions]
+    [story, searchStory, setSearchOptions, siteID]
   );
 
   return [searchOptions, onSearch];
@@ -218,7 +231,8 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
 
   const [searchOptions, onSearch] = useSearchOptions(
     linkNavHandler,
-    props.story
+    props.story,
+    props.siteID
   );
 
   const options = [...contextOptions, ...searchOptions];
