@@ -33,7 +33,7 @@ class ModerateContainer extends React.Component<Props> {
       "unmoderated",
       "rejected",
     ].find(name => {
-      return this.props.match.location.pathname.match(name);
+      return this.props.match.location.pathname.includes(name);
     });
     if (!this.props.data) {
       return (
