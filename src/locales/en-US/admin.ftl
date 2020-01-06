@@ -183,6 +183,7 @@ configure-organization-urlExplanation =
 ### Sites
 configure-sites-site-details = Details <icon>keyboard_arrow_right</icon>
 configure-sites-add-new-site = Add a new site to { $site }
+configure-sites-add-success = { $site } has been added to { $org }
 configure-sites-site-form-name = Site name
 configure-sites-site-form-name-explanation = Site name will appear on emails sent by Coral to your community and organization members.
 configure-sites-site-form-url = Site URL
