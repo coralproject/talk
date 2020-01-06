@@ -1,9 +1,12 @@
 import { Db } from "mongodb";
 
 import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/constants";
+import { reconstructTenantURL } from "coral-server/app/url";
+import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
 import { findStory, getURLWithCommentID } from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
 
 import {
   GQLCOMMENT_STATUS,
@@ -60,21 +63,27 @@ function computeStatus(status: GQLCOMMENT_STATUS) {
 
 export async function notifyPerspectiveModerationDecision(
   mongo: Db,
-  domain: string,
-  config: GQLPerspectiveExternalIntegration,
+  tenant: Tenant,
+  config: Config,
+  perspectiveConfig: GQLPerspectiveExternalIntegration,
   comment: Comment,
   status: GQLCOMMENT_STATUS
 ) {
-  if (!config.enabled || !config.key || !config.sendFeedback) {
+  if (
+    !perspectiveConfig.enabled ||
+    !perspectiveConfig.key ||
+    !perspectiveConfig.sendFeedback
+  ) {
     return;
   }
 
-  const endpoint = config.endpoint
-    ? config.endpoint
+  const endpoint = perspectiveConfig.endpoint
+    ? perspectiveConfig.endpoint
     : TOXICITY_ENDPOINT_DEFAULT;
-  const apiKey = config.key;
+  const apiKey = perspectiveConfig.key;
 
-  const communityId = `Coral:${domain}`;
+  const tenantUrl = reconstructTenantURL(config, tenant, undefined, "/");
+  const communityId = `Coral:${tenantUrl}`;
   const clientToken = `comment:${comment.id}`;
   const latestRevision = comment.revisions[comment.revisions.length - 1];
 

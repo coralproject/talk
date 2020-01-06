@@ -1,5 +1,6 @@
 import { Db } from "mongodb";
 
+import { Config } from "coral-server/config";
 import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import { Tenant } from "coral-server/models/tenant";
 import { moderate } from "coral-server/services/comments/moderation";
@@ -13,6 +14,7 @@ import { publishChanges, updateAllCounts } from "./helpers";
 const approveComment = async (
   mongo: Db,
   redis: AugmentedRedis,
+  config: Config,
   publisher: Publisher,
   tenant: Tenant,
   commentID: string,
@@ -48,7 +50,8 @@ const approveComment = async (
 
   notifyPerspectiveModerationDecision(
     mongo,
-    tenant.domain,
+    tenant,
+    config,
     tenant.integrations.perspective,
     result.after,
     GQLCOMMENT_STATUS.APPROVED

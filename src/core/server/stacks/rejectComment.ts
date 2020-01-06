@@ -1,5 +1,6 @@
 import { Db } from "mongodb";
 
+import { Config } from "coral-server/config";
 import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import { hasTag } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
@@ -18,6 +19,7 @@ import { publishChanges, updateAllCounts } from "./helpers";
 const rejectComment = async (
   mongo: Db,
   redis: AugmentedRedis,
+  config: Config,
   publisher: Publisher,
   tenant: Tenant,
   commentID: string,
@@ -58,7 +60,8 @@ const rejectComment = async (
 
   notifyPerspectiveModerationDecision(
     mongo,
-    tenant.domain,
+    tenant,
+    config,
     tenant.integrations.perspective,
     result.after,
     GQLCOMMENT_STATUS.REJECTED
