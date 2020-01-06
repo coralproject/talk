@@ -103,7 +103,7 @@ export async function notifyPerspectiveModerationDecision(
 
   const story = await retrieveStory(mongo, comment.tenantID, comment.storyID);
   if (!story) {
-    logger.error({ storyID: comment.storyID }, "could not find story");
+    logger.warn({ storyID: comment.storyID }, "could not find story");
     return;
   }
 
@@ -139,7 +139,12 @@ export async function notifyPerspectiveModerationDecision(
 
     const result = await send(endpoint, apiKey, "comments:suggestscore", body);
 
-    if (!result.ok) {
+    if (result.ok) {
+      logger.debug(
+        { commentID: comment.id, commentRevisionID },
+        "successfully sent moderation feedback to perspective"
+      );
+    } else if (!result.ok) {
       logger.error(
         { status: result.status },
         "unable to send moderation feedback to perspective"
