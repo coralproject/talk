@@ -179,7 +179,12 @@ function useSearchOptions(
             element: (
               <Option
                 href={getModerationLink("default", e.node.id)}
-                details={e.node.metadata && e.node.metadata.author}
+                details={
+                  <Flex itemGutter>
+                    <strong>{e.node.site.name}</strong>
+                    {e.node.metadata && e.node.metadata.author}
+                  </Flex>
+                }
               >
                 <GoToAriaInfo /> {e.node.metadata && e.node.metadata.title}
               </Option>
@@ -281,6 +286,9 @@ const enhanced = withRouter(
     story: graphql`
       fragment ModerateSearchBarContainer_story on Story {
         id
+        site {
+          name
+        }
         metadata {
           title
           author
