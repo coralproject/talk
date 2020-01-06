@@ -19,7 +19,7 @@ interface Props {
 
 const AddSiteRoute: FunctionComponent<Props> = props => {
   const { router } = useRouter();
-  const { setMessage } = useNotification();
+  const { setMessage, clearMessage } = useNotification();
   const onSiteCreate = useCallback((id: string, name: string) => {
     router.replace(`/admin/configure/organization/sites/${id}`);
     if (props.data) {
@@ -29,11 +29,10 @@ const AddSiteRoute: FunctionComponent<Props> = props => {
           $site={name}
           $org={props.data.settings.organization.name}
         >
-          <AppNotification icon="check_circle_outline">
+          <AppNotification icon="check_circle_outline" onClose={clearMessage}>
             {name} has been added to {props.data.settings.organization.name}
           </AppNotification>
-        </Localized>,
-        3000
+        </Localized>
       );
     }
   }, []);
