@@ -1,7 +1,7 @@
 $tableHeaderAltTextColor: var(--v2-colors-mono-100);
 
 .titleColumn {
-  width: 50%;
+  width: 32.5%;
 }
 .authorColumn {
   width: 17.5%;
@@ -11,6 +11,9 @@ $tableHeaderAltTextColor: var(--v2-colors-mono-100);
 }
 .statusColumn {
   width: 15%;
+}
+.siteColumn {
+  width: 17.5%;
 }
 .clickToModerate {
   font-size: var(--v2-font-size-2);
