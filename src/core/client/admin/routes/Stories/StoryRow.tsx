@@ -17,6 +17,8 @@ interface Props {
   publishDate: string | null;
   story: PropTypesOf<typeof StoryStatus>["story"];
   viewer: PropTypesOf<typeof StoryStatus>["viewer"];
+  siteName: string;
+  siteID: string;
 }
 
 const UserRow: FunctionComponent<Props> = props => (
@@ -28,6 +30,11 @@ const UserRow: FunctionComponent<Props> = props => (
     </TableCell>
     <TableCell className={styles.authorColumn}>
       {props.author || <NotAvailable />}
+    </TableCell>
+    <TableCell className={styles.siteColumn}>
+      <Link to={getModerationLink("default", null, props.siteID)} as={TextLink}>
+        {props.siteName}
+      </Link>
     </TableCell>
     <TableCell className={styles.publishDateColumn}>
       {props.publishDate || <NotAvailable />}

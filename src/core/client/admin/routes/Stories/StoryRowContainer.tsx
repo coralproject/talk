@@ -26,6 +26,8 @@ const StoryRowContainer: FunctionComponent<Props> = props => {
       author={author}
       story={props.story}
       viewer={props.viewer}
+      siteName={props.story.site.name}
+      siteID={props.story.site.id}
       publishDate={
         publishedAt
           ? new Intl.DateTimeFormat(locales, {
@@ -56,6 +58,10 @@ const enhanced = withFragmentContainer<Props>({
         title
         author
         publishedAt
+      }
+      site {
+        name
+        id
       }
       isClosed
       ...StoryStatusChangeContainer_story

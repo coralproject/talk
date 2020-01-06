@@ -52,6 +52,9 @@ const StoryTable: FunctionComponent<Props> = props => (
             <Localized id="stories-column-author">
               <TableCell className={styles.authorColumn}>Author</TableCell>
             </Localized>
+            <Localized id="stories-column-site">
+              <TableCell className={styles.siteColumn}>Site</TableCell>
+            </Localized>
             <Localized id="stories-column-publishDate">
               <TableCell className={styles.publishDateColumn}>
                 Publish Date
