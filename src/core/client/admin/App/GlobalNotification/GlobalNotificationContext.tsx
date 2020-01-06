@@ -16,7 +16,7 @@ type Action =
       type: "SET_MESSAGE";
     } & State
   | {
-      type: "HIDE_MESSAGE";
+      type: "CLEAR_MESSAGE";
     };
 
 // TODO (tessalt) can't figure out types for this
@@ -30,8 +30,8 @@ function notificationReducer(state: State, action: Action): State {
     case "SET_MESSAGE": {
       return { message: action.message, visible: true };
     }
-    case "HIDE_MESSAGE": {
-      return { ...state, visible: false };
+    case "CLEAR_MESSAGE": {
+      return { message: null, visible: false };
     }
     default: {
       throw new Error("unsupported action");
@@ -55,12 +55,21 @@ function useNotification() {
   }
   const [state, dispatch] = context;
 
-  const setMessage = (message: ReactNode) =>
+  const setMessage = (message: ReactNode, timeout?: number) => {
     dispatch({ type: "SET_MESSAGE", message });
+    if (timeout) {
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_MESSAGE" });
+      }, timeout);
+    }
+  };
+
+  const clearMessage = () => dispatch({ type: "CLEAR_MESSAGE" });
   return {
     state,
     dispatch,
     setMessage,
+    clearMessage,
   };
 }
 
