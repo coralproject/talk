@@ -81,7 +81,13 @@ export const compose = (
     status: GQLCOMMENT_STATUS.NONE,
     body: context.comment.body,
     actions: [],
-    metadata: context.comment.metadata || {},
+    metadata: {
+      // Merge in the passed comment metadata.
+      ...(context.comment.metadata || {}),
+
+      // Add the nudge to the comment metadata.
+      nudge: context.nudge,
+    },
     tags: [],
   };
 

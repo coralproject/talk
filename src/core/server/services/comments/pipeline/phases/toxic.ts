@@ -12,7 +12,6 @@ import {
 import { LanguageCode } from "coral-common/helpers";
 import { Omit } from "coral-common/types";
 import { ToxicCommentError } from "coral-server/errors";
-import logger from "coral-server/logger";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { hasFeatureFlag } from "coral-server/models/tenant";
 import {
@@ -33,9 +32,12 @@ export const toxic: IntermediateModerationPhase = async ({
   nudge,
   log,
   htmlStripped,
+  // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
+  comment: { body },
 }: Pick<
   ModerationPhaseContext,
-  "tenant" | "nudge" | "log" | "htmlStripped"
+  // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
+  "tenant" | "nudge" | "log" | "htmlStripped" | "comment"
 >): Promise<IntermediatePhaseResult | void> => {
   if (!htmlStripped) {
     return;
@@ -91,7 +93,9 @@ export const toxic: IntermediateModerationPhase = async ({
   const timeout = ms("800ms");
 
   try {
-    logger.trace("checking comment toxicity");
+    // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
+    log.info({ body }, "checking comment toxicity");
+    // log.trace("checking comment toxicity");
 
     // Pull the custom model out.
     const model = integration.model || TOXICITY_MODEL_DEFAULT;
@@ -116,11 +120,13 @@ export const toxic: IntermediateModerationPhase = async ({
 
     const isToxic = score > threshold;
     if (isToxic) {
-      log.trace({ score, isToxic, threshold, model }, "comment was toxic");
+      // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
+      log.info({ score, isToxic, threshold, model }, "comment was toxic");
+      // log.trace({ score, isToxic, threshold, model }, "comment was toxic");
 
       // Throw an error if we're nudging instead of recording.
       if (nudge) {
-        // Only if the feature flag for disabling this behavior is not enabled.
+        // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
         if (
           !hasFeatureFlag(
             tenant,
@@ -152,7 +158,9 @@ export const toxic: IntermediateModerationPhase = async ({
       };
     }
 
-    log.trace({ score, isToxic, threshold }, "comment was not toxic");
+    // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
+    log.info({ score, isToxic, threshold }, "comment was not toxic");
+    // log.trace({ score, isToxic, threshold }, "comment was not toxic");
 
     return {
       metadata: {
