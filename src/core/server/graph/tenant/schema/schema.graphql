@@ -1958,12 +1958,6 @@ type User {
   deletedAt is the time when the User was deleted.
   """
   deletedAt: Time
-
-  """
-  isNew is whether the commenter is a new user as defined
-  by the new commenter moderation rules (if enabled).
-  """
-  isNew: Boolean!
 }
 
 """

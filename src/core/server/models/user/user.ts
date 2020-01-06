@@ -473,13 +473,6 @@ export interface User extends TenantResource {
   deletedAt?: Date;
 
   /**
-   * isNew is whether the user is a new user with less approved
-   * comments than the new commenter moderation config allows to
-   * be considered no longer a new user.
-   */
-  isNew: boolean;
-
-  /**
    * commentCounts are the tallies of all comment statuses for this
    * user.
    */
@@ -537,7 +530,6 @@ async function findOrCreateUserInput(
     moderatorNotes: [],
     digests: [],
     createdAt: now,
-    isNew: true,
     commentCounts: {
       status: createEmptyCommentStatusCounts(),
     },
@@ -2471,35 +2463,6 @@ export async function deleteModeratorNote(
   if (!result.value) {
     throw new UserNotFoundError(id);
   }
-  return result.value;
-}
-
-export async function markUserNotNew(mongo: Db, tenantID: string, id: string) {
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      id,
-      tenantID,
-    },
-    {
-      $set: { isNew: false },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-
-  if (!result.value) {
-    // Get the user so we can figure out why the operation failed.
-    const user = await retrieveUser(mongo, tenantID, id);
-    if (!user) {
-      throw new UserNotFoundError(id);
-    }
-
-    throw new Error("an unexpected error occurred");
-  }
-
   return result.value;
 }
 

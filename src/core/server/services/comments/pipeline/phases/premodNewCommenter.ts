@@ -3,7 +3,6 @@ import {
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
-import { markUserNotNew } from "coral-server/models/user";
 import {
   IntermediatePhaseResult,
   ModerationPhaseContext,
@@ -20,10 +19,6 @@ export const premodNewCommenter = async ({
 >): Promise<IntermediatePhaseResult | void> => {
   // Ensure this mode is enabled.
   if (!tenant.newCommenters.premodEnabled) {
-    return;
-  }
-
-  if (!author.isNew) {
     return;
   }
 
@@ -44,7 +39,5 @@ export const premodNewCommenter = async ({
         },
       ],
     };
-  } else {
-    await markUserNotNew(mongo, tenant.id, author.id);
   }
 };
