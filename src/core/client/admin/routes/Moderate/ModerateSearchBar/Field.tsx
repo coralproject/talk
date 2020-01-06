@@ -1,10 +1,10 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { withForwardRef } from "coral-ui/hocs";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 import { Field as FormField } from "react-final-form";
 
 import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
+import { withForwardRef } from "coral-ui/hocs";
 
 import styles from "./Field.css";
 

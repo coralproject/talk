@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { useMemo } from "react";
 import { useForm } from "react-final-form";
 import { graphql } from "react-relay";

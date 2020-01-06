@@ -1,4 +1,4 @@
-import { FluentNumber, FluentType } from "fluent/compat";
+import { FluentNumber, FluentType } from "@fluent/bundle/compat";
 
 import { FluentShortNumber } from "../types";
 

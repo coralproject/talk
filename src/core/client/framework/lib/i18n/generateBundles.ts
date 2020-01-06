@@ -1,4 +1,4 @@
-import { FluentBundle } from "fluent/compat";
+import { FluentBundle, FluentResource } from "@fluent/bundle/compat";
 
 import * as functions from "./functions";
 import { LocalesData } from "./locales";
@@ -48,11 +48,11 @@ export default async function generateBundles(
     // We should be able to use `<bdi>` tags instead to support rtl languages.
     const bundle = new FluentBundle(locale, { functions, useIsolating: false });
     if (locale in data.bundled) {
-      bundle.addMessages(data.bundled[locale]);
+      bundle.addResource(new FluentResource(data.bundled[locale]));
       promises.push(decorateWarnMissing(bundle));
     } else if (locale in data.loadables) {
       const content = await data.loadables[locale]();
-      bundle.addMessages(content);
+      bundle.addResource(new FluentResource(content));
       promises.push(decorateWarnMissing(bundle));
     } else {
       throw Error(`Locale ${locale} not available`);

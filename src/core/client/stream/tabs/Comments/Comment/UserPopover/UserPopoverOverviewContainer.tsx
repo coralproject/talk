@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -48,7 +48,7 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
         </div>
         <Localized
           id="comments-userPopover-memberSince"
-          $timestamp={user.createdAt}
+          $timestamp={new Date(user.createdAt)}
         >
           <Typography variant="detail" container="div">
             Member since: {user.createdAt}

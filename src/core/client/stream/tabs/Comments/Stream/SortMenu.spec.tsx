@@ -1,4 +1,4 @@
-import { LocalizationProvider } from "fluent-react/compat";
+import { LocalizationProvider } from "@fluent/react/compat";
 import { noop } from "lodash";
 import React from "react";
 import TestRenderer from "react-test-renderer";

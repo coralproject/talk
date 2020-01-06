@@ -1,6 +1,9 @@
 import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
-import { Logger } from "coral-server/logger";
-import { Comment } from "coral-server/models/comment";
+import {
+  Comment,
+  hasModeratorStatus,
+  hasPublishedStatus,
+} from "coral-server/models/comment";
 import { CommentModerationQueueCounts } from "coral-server/models/story";
 import {
   publishCommentReleased,
@@ -8,36 +11,33 @@ import {
   publishModerationQueueChanges,
 } from "coral-server/services/events";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+interface PublishChangesInput {
+  before?: Readonly<Comment>;
+  after: Readonly<Comment>;
+  moderationQueue: CommentModerationQueueCounts;
+  moderatorID: string | null;
+}
 
-const publishChanges = async (
+export default async function publishChanges(
   publish: Publisher,
-  moderationQueue: CommentModerationQueueCounts,
-  comment: Readonly<Comment>,
-  oldStatus: GQLCOMMENT_STATUS,
-  newStatus: GQLCOMMENT_STATUS,
-  moderatorID: string | null,
-  log: Logger
-) => {
+  input: PublishChangesInput
+) {
   // Publish changes.
-  publishModerationQueueChanges(publish, moderationQueue, comment);
-  publishCommentStatusChanges(
-    publish,
-    oldStatus,
-    newStatus,
-    comment.id,
-    moderatorID
-  );
-  if (
-    [GQLCOMMENT_STATUS.PREMOD, GQLCOMMENT_STATUS.SYSTEM_WITHHELD].includes(
-      oldStatus
-    ) &&
-    newStatus === "APPROVED"
-  ) {
-    publishCommentReleased(publish, comment);
+  publishModerationQueueChanges(publish, input.moderationQueue, input.after);
+
+  // If this was a change, and it has a "before" state for the comment, process
+  // those updates too.
+  if (input.before) {
+    publishCommentStatusChanges(
+      publish,
+      input.before.status,
+      input.after.status,
+      input.after.id,
+      input.moderatorID
+    );
+
+    if (hasModeratorStatus(input.before) && hasPublishedStatus(input.after)) {
+      publishCommentReleased(publish, input.after);
+    }
   }
-
-  log.trace({ oldStatus }, "adjusted story comment counts");
-};
-
-export default publishChanges;
+}

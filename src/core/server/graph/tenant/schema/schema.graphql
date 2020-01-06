@@ -335,6 +335,14 @@ type ActionPresence {
 ## Settings
 ################################################################################
 
+enum FEATURE_FLAG {
+  """
+  DISABLE_WARN_USER_OF_TOXIC_COMMENT when enabled will turn off warnings for
+  toxic comments.
+  """
+  DISABLE_WARN_USER_OF_TOXIC_COMMENT
+}
+
 # The moderation mode of the site.
 enum MODERATION_MODE {
   """
@@ -1340,6 +1348,11 @@ type Settings {
   stories stores the configuration around stories.
   """
   stories: StoryConfiguration! @auth(roles: [ADMIN])
+
+  """
+  featureFlags provides the enabled feature flags.
+  """
+  featureFlags: [FEATURE_FLAG!]! @auth(roles: [ADMIN])
 
   """
   createdAt is the time that the Settings was created at.
@@ -5297,6 +5310,62 @@ type RequestUserCommentsDownloadPayload {
   archiveURL: String!
 }
 
+#########################
+# enableFeatureFlag
+#########################
+
+input EnableFeatureFlagInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  flag is the feature flag to create.
+  """
+  flag: FEATURE_FLAG!
+}
+
+type EnableFeatureFlagPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  flags is the current set of flags enabled.
+  """
+  flags: [FEATURE_FLAG!]!
+}
+
+#########################
+# disableFeatureFlag
+#########################
+
+input DisableFeatureFlagInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  flag is the feature flag to delete.
+  """
+  flag: FEATURE_FLAG!
+}
+
+type DisableFeatureFlagPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  flags is the current set of flags enabled.
+  """
+  flags: [FEATURE_FLAG!]!
+}
+
 ##################
 ## Mutation
 ##################
@@ -5655,6 +5724,19 @@ type Mutation {
   deleteModeratorNote(
     input: DeleteModeratorNoteInput!
   ): DeleteModeratorNotePayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  enableFeatureFlag will enable a given FEATURE_FLAG.
+  """
+  enableFeatureFlag(input: EnableFeatureFlagInput!): EnableFeatureFlagPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  disableFeatureFlag will disable a given FEATURE_FLAG
+  """
+  disableFeatureFlag(
+    input: DisableFeatureFlagInput!
+  ): DisableFeatureFlagPayload! @auth(roles: [ADMIN])
 }
 
 ##################

@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React from "react";
 
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";

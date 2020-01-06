@@ -2,6 +2,21 @@ import { ERROR_CODES } from "coral-common/errors";
 import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/common/errors";
 import TenantContext from "coral-server/graph/tenant/context";
+import { addTag, removeTag } from "coral-server/services/comments";
+import {
+  createDontAgree,
+  createFlag,
+  createReaction,
+  removeDontAgree,
+  removeReaction,
+} from "coral-server/services/comments/actions";
+import { publishCommentFeatured } from "coral-server/services/events";
+import {
+  approveComment,
+  createComment,
+  editComment,
+} from "coral-server/stacks";
+
 import {
   GQLCOMMENT_STATUS,
   GQLCreateCommentDontAgreeInput,
@@ -16,17 +31,6 @@ import {
   GQLTAG,
   GQLUnfeatureCommentInput,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import { addTag, removeTag } from "coral-server/services/comments";
-import {
-  createDontAgree,
-  createFlag,
-  createReaction,
-  removeDontAgree,
-  removeReaction,
-} from "coral-server/services/comments/actions";
-import stacks from "coral-server/stacks";
-
-import { publishCommentFeatured } from "coral-server/services/events";
 
 import { validateMaximumLength, WithoutMutationID } from "./util";
 
@@ -37,7 +41,7 @@ export const Comments = (ctx: TenantContext) => ({
     ...comment
   }: GQLCreateCommentInput | GQLCreateCommentReplyInput) =>
     mapFieldsetToErrorCodes(
-      stacks.createComment(
+      createComment(
         ctx.mongo,
         ctx.redis,
         ctx.config,
@@ -60,7 +64,7 @@ export const Comments = (ctx: TenantContext) => ({
     ),
   edit: ({ commentID, body }: GQLEditCommentInput) =>
     mapFieldsetToErrorCodes(
-      stacks.editComment(
+      editComment(
         ctx.mongo,
         ctx.redis,
         ctx.config,
@@ -166,7 +170,7 @@ export const Comments = (ctx: TenantContext) => ({
     )
       .then(comment =>
         comment.status !== GQLCOMMENT_STATUS.APPROVED
-          ? stacks.approveComment(
+          ? approveComment(
               ctx.mongo,
               ctx.redis,
               ctx.publisher,

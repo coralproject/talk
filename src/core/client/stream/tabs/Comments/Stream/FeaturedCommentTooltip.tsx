@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useEffect } from "react";
 
 import { useViewerEvent } from "coral-framework/lib/events";

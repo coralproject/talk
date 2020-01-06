@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import { Link } from "found";
 import React, { FunctionComponent, useState } from "react";
 

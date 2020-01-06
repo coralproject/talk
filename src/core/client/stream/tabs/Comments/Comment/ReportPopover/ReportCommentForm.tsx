@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import { get } from "lodash";
 import React, { FunctionComponent } from "react";
 import { Field, FieldProps, Form } from "react-final-form";

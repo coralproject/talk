@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR, FormApi } from "final-form";
-import { Localized } from "fluent-react/compat";
 import { RouteProps } from "found";
 import React from "react";
 import { graphql } from "react-relay";

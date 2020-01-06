@@ -1,7 +1,3 @@
-.preview {
-  text-transform: uppercase;
-}
-
 .withIcon {
   width: calc(100% - 18px - var(--spacing-3));
 }

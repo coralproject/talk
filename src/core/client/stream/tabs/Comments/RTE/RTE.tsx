@@ -1,6 +1,6 @@
 import { Blockquote, Bold, CoralRTE, Italic } from "@coralproject/rte";
+import { Localized as LocalizedOriginal } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized as LocalizedOriginal } from "fluent-react/compat";
 import React, { EventHandler, FocusEvent, FunctionComponent, Ref } from "react";
 
 import CLASSES from "coral-stream/classes";

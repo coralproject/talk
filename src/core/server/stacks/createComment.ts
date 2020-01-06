@@ -7,7 +7,6 @@ import {
   CommentNotFoundError,
   CoralError,
   StoryNotFoundError,
-  UserNotFoundError,
 } from "coral-server/errors";
 import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
 import logger from "coral-server/logger";
@@ -26,18 +25,13 @@ import {
   hasAncestors,
   hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
-import {
-  retrieveStory,
-  StoryCounts,
-  updateStoryCounts,
-} from "coral-server/models/story";
+import { retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
   addCommentActions,
   CreateAction,
 } from "coral-server/services/comments/actions";
-import { calculateCounts } from "coral-server/services/comments/moderation/counts";
 import {
   PhaseResult,
   processForModeration,
@@ -45,13 +39,12 @@ import {
 import {
   publishCommentCreated,
   publishCommentReplyCreated,
-  publishModerationQueueChanges,
 } from "coral-server/services/events";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
-import { updateUserCommentCounts } from "./counts/updateUserCommentCounts";
+import { publishChanges, updateAllCounts } from "./helpers";
 
 export type CreateComment = Omit<
   CreateCommentInput,
@@ -62,7 +55,7 @@ export default async function create(
   mongo: Db,
   redis: AugmentedRedis,
   config: Config,
-  publish: Publisher,
+  publisher: Publisher,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -115,7 +108,6 @@ export default async function create(
   }
 
   let result: PhaseResult;
-
   try {
     // Run the comment through the moderation phases.
     result = await processForModeration({
@@ -227,48 +219,28 @@ export default async function create(
 
     log.trace({ actions: upsertedActions.length }, "added actions to comment");
   }
-  const moderationQueue = calculateCounts(comment);
 
-  // Publish changes.
-  publishModerationQueueChanges(publish, moderationQueue, comment);
+  // Update all the comment counts on stories and users.
+  const counts = await updateAllCounts(mongo, redis, {
+    tenant,
+    after: comment,
+  });
+
+  // Publish changes to the event publisher.
+  await publishChanges(publisher, {
+    ...counts,
+    after: comment,
+    moderatorID: null,
+  });
 
   // If this is a reply, publish it.
   if (input.parentID) {
-    publishCommentReplyCreated(publish, comment);
+    publishCommentReplyCreated(publisher, comment);
   }
 
   // If this comment is visible (and not a reply), publish it.
   if (!input.parentID && hasPublishedStatus(comment)) {
-    publishCommentCreated(publish, comment);
-  }
-
-  // Compile the changes we want to apply to the story counts.
-  const storyCounts: Required<Omit<StoryCounts, "action">> = {
-    // This is a new comment, so we need to increment for this status.
-    status: { [status]: 1 },
-    // This comment is being created, so we can compute it raw from the comment
-    // that we created.
-    moderationQueue,
-  };
-
-  log.trace({ storyCounts }, "updating story status counts");
-
-  // Increment the status count for the particular status on the Story.
-  await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
-
-  // Increment user comment status counts
-  const user = await updateUserCommentCounts(
-    mongo,
-    tenant.id,
-    comment.authorID,
-    {
-      status: {
-        [status]: 1,
-      },
-    }
-  );
-  if (!user) {
-    throw new UserNotFoundError(comment.authorID);
+    publishCommentCreated(publisher, comment);
   }
 
   return comment;

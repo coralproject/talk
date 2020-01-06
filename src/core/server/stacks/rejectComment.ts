@@ -1,11 +1,10 @@
 import { Db } from "mongodb";
 
 import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
-import logger from "coral-server/logger";
 import { hasTag } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
-import { reject } from "coral-server/services/comments/moderation";
+import { moderate } from "coral-server/services/comments/moderation";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
@@ -13,8 +12,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
-import updateAllCounts from "./counts/updateAllCounts";
-import publishChanges from "./helpers/publishChanges";
+import { publishChanges, updateAllCounts } from "./helpers";
 
 const rejectComment = async (
   mongo: Db,
@@ -23,55 +21,42 @@ const rejectComment = async (
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
-  moderatorID: string | null,
+  moderatorID: string,
   now: Date
 ) => {
-  const log = logger.child(
-    {
-      commentID,
-      commentRevisionID,
-      moderatorID,
-      tenantID: tenant.id,
-      newStatus: GQLCOMMENT_STATUS.REJECTED,
-    },
-    true
-  );
-
-  const result = await reject(
+  // Reject the comment.
+  const result = await moderate(
     mongo,
     tenant,
     {
       commentID,
       commentRevisionID,
       moderatorID,
+      status: GQLCOMMENT_STATUS.REJECTED,
     },
-    now,
-    log
+    now
   );
 
-  const countResult = await updateAllCounts(mongo, redis, {
+  // Update all the comment counts on stories and users.
+  const counts = await updateAllCounts(mongo, redis, {
     tenant,
-    moderatorID,
-    oldStatus: result.oldStatus,
-    newStatus: GQLCOMMENT_STATUS.REJECTED,
-    comment: result.comment,
+    ...result,
   });
 
-  await publishChanges(
-    publisher,
-    countResult.moderationQueue,
-    countResult.comment,
-    countResult.oldStatus,
-    countResult.newStatus,
-    countResult.moderatorID,
-    log
-  );
+  // Publish changes to the event publisher.
+  await publishChanges(publisher, {
+    ...result,
+    ...counts,
+    moderatorID,
+  });
 
-  const comment = hasTag(result.comment, GQLTAG.FEATURED)
-    ? await removeTag(mongo, tenant, commentID, GQLTAG.FEATURED)
-    : result.comment;
+  // If there was a featured tag on this comment, remove it.
+  if (hasTag(result.after, GQLTAG.FEATURED)) {
+    return removeTag(mongo, tenant, result.after.id, GQLTAG.FEATURED);
+  }
 
-  return comment;
+  // Return the resulting comment.
+  return result.after;
 };
 
 export default rejectComment;

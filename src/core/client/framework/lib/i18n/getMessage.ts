@@ -1,4 +1,4 @@
-import { FluentBundle } from "fluent/compat";
+import { FluentBundle } from "@fluent/bundle/compat";
 
 export default function getMessage<T extends {}>(
   bundles: FluentBundle[],
@@ -8,14 +8,30 @@ export default function getMessage<T extends {}>(
 ): string {
   const res = bundles.reduce((val, bundle) => {
     const message = bundle.getMessage(key);
-    if (!message && process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.warn(`Translation ${key} was not found for ${bundle.locales}`);
+
+    // Warn in development about missing translations.
+    if (process.env.NODE_ENV !== "production" && !message) {
+      window.console.warn(
+        `Translation ${key} was not found for ${bundle.locales}`
+      );
     }
-    if (!args) {
-      return val || message;
+
+    // If the message, message value, or args are not available, just continue.
+    if (!message || !message.value || !args) {
+      return val;
     }
-    return val || (message && bundle.format(message, args));
+
+    const errors: Error[] = [];
+    const formatted = bundle.formatPattern(message.value, args, errors);
+    if (process.env.NODE_ENV !== "production" && errors.length > 0) {
+      window.console.warn(
+        `Translation ${key} encountered an error: ${errors
+          .map(err => err.message)
+          .join(", ")}`
+      );
+    }
+
+    return formatted;
   }, "");
   if (res && Array.isArray(res)) {
     return res.join("");
