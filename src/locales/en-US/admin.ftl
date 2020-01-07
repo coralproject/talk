@@ -323,6 +323,19 @@ configure-moderation-perspective-accountNote =
   For additional information on how to set up the Perspective Toxic Comment Filter please visit:
   <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
 
+configure-moderation-newCommenters-title = New commenter approval
+configure-moderation-newCommenters-enable = Enable new commenter approval
+configure-moderation-newCommenters-description =
+  When this is active, initial comments by a new commenter will be sent to Pending
+  for moderator approval before publication.
+configure-moderation-newCommenters-enable-description = Enable pre-moderation for new commenters
+configure-moderation-newCommenters-approvedCommentsThreshold = Number of first comments sent for approval
+configure-moderation-newCommenters-approvedCommentsThreshold-description =
+  The number of comments a user must have approved before they do
+  not have to be premoderated
+configure-moderation-newCommenters-comments = comments
+
+
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
 configure-wordList-banned-explanation =
@@ -426,6 +439,7 @@ moderate-marker-toxic = Toxic
 moderate-marker-recentHistory = Recent history
 moderate-marker-bodyCount = Body count
 moderate-marker-offensive = Offensive
+moderate-marker-newCommenter = New commenter
 moderate-marker-repeatPost = Repeat comment
 
 moderate-markers-details = Details

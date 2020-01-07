@@ -120,6 +120,14 @@ const markers: Array<
         </Marker>
       )) ||
     null,
+  c =>
+    (c.revision &&
+      c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_NEW_COMMENTER && (
+        <Localized id="moderate-marker-newCommenter" key={keyCounter++}>
+          <Marker color="reported">New commenter</Marker>
+        </Localized>
+      )) ||
+    null,
 ];
 
 export class MarkersContainer extends React.Component<MarkersContainerProps> {
@@ -170,6 +178,7 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
               COMMENT_DETECTED_SUSPECT_WORD
               COMMENT_REPORTED_OFFENSIVE
               COMMENT_REPORTED_SPAM
+              COMMENT_DETECTED_NEW_COMMENTER
               COMMENT_DETECTED_REPEAT_POST
             }
           }

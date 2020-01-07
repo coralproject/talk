@@ -96,6 +96,14 @@ export interface AccountFeatures {
 }
 
 /**
+ * NewCommentersConfiguration is the configuration for how new commenters comments are treated.
+ */
+export interface NewCommentersConfiguration {
+  premodEnabled: boolean;
+  approvedCommentsThreshold: number;
+}
+
+/**
  * Auth is the set of configured authentication integrations.
  */
 export type Auth = Omit<GQLAuth, "integrations"> & {
@@ -165,4 +173,9 @@ export type Settings = GlobalModerationSettings &
      * AccountFeatures are features enabled for commenter accounts
      */
     accountFeatures: AccountFeatures;
+
+    /**
+     * newCommenters is the configuration for how new commenters comments are treated.
+     */
+    newCommenters: NewCommentersConfiguration;
   };
