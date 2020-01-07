@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { identity, isEmpty, pickBy } from "lodash";
 import { DateTime, DurationObject } from "luxon";
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
@@ -19,16 +20,6 @@ import {
   UsernameAlreadySetError,
   UserNotFoundError,
 } from "coral-server/errors";
-import {
-  GQLBanStatus,
-  GQLDIGEST_FREQUENCY,
-  GQLPremodStatus,
-  GQLSuspensionStatus,
-  GQLTimeRange,
-  GQLUSER_ROLE,
-  GQLUsernameStatus,
-  GQLUserNotificationSettings,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   Connection,
@@ -40,6 +31,21 @@ import { TenantResource } from "coral-server/models/tenant";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import { users as collection } from "coral-server/services/mongodb/collections";
 
+import {
+  GQLBanStatus,
+  GQLDIGEST_FREQUENCY,
+  GQLPremodStatus,
+  GQLSuspensionStatus,
+  GQLTimeRange,
+  GQLUSER_ROLE,
+  GQLUsernameStatus,
+  GQLUserNotificationSettings,
+} from "coral-server/graph/tenant/schema/__generated__/types";
+
+import {
+  CommentStatusCounts,
+  createEmptyCommentStatusCounts,
+} from "../comment";
 import { getLocalProfile, hasLocalProfile } from "./helpers";
 
 export interface LocalProfile {
@@ -352,6 +358,10 @@ export interface Digest {
   createdAt: Date;
 }
 
+export interface UserCommentCounts {
+  status: CommentStatusCounts;
+}
+
 /**
  * User is someone that leaves Comments, and logs in.
  */
@@ -461,6 +471,8 @@ export interface User extends TenantResource {
    * deletedAt is the time that this user was deleted from our system.
    */
   deletedAt?: Date;
+
+  commentCounts: UserCommentCounts;
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -514,6 +526,9 @@ async function findOrCreateUserInput(
     moderatorNotes: [],
     digests: [],
     createdAt: now,
+    commentCounts: {
+      status: createEmptyCommentStatusCounts(),
+    },
   };
 
   if (input.username) {
@@ -2445,4 +2460,33 @@ export async function deleteModeratorNote(
     throw new UserNotFoundError(id);
   }
   return result.value;
+}
+
+export async function updateUserCommentCounts(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  commentCounts: DeepPartial<UserCommentCounts>
+) {
+  // Update all the specific comment moderation queue counts.
+  const update: DeepPartial<User> = { commentCounts };
+  const $inc = pickBy(dotize(update), identity);
+  if (isEmpty($inc)) {
+    // Nothing needs to be incremented, just return the User.
+    return retrieveUser(mongo, tenantID, id);
+  }
+
+  logger.trace({ update: { $inc } }, "incrementing user comment counts");
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    { $inc },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  return result.value || null;
 }

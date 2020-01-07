@@ -1,4 +1,4 @@
-import { isEmpty, merge } from "lodash";
+import { isEmpty } from "lodash";
 import { Db } from "mongodb";
 import performanceNow from "performance-now";
 import uuid from "uuid";
@@ -253,19 +253,19 @@ export function validateEditable(
 
 export interface EditComment {
   /**
-   * oldComment is the Comment that was previously set.
+   * before is the comment before the edit.
    */
-  oldComment: Comment;
+  before: Readonly<Comment>;
 
   /**
-   * editedComment is the Comment after the edit was performed.
+   * after is the comment after the edit.
    */
-  editedComment: Comment;
+  after: Readonly<Comment>;
 
   /**
-   * newRevision returns the new revision that was created in the Comment.
+   * revision is the new revision generated.
    */
-  newRevision: Revision;
+  revision: Readonly<Revision>;
 }
 
 /**
@@ -345,25 +345,25 @@ export async function editComment(
     throw new Error("comment edit failed for an unexpected reason");
   }
 
-  // Create a new "editedComment" where the same changes were applied to it as
+  // Create a new "after" where the same changes were applied to it as
   // we did to the MongoDB document.
-  const editedComment: Comment = merge({}, result.value, {
-    // Add in all the $set operations.
+  const after: Comment = {
+    ...result.value,
+    // $set status
     status,
-    metadata,
-    // Merge the actionCounts from the old Comment with the new actionCounts.
+    // $inc actionCounts
     actionCounts: mergeCommentActionCounts(
       result.value.actionCounts,
       actionCounts
     ),
-    // Add in the $push operations.
+    // $push revisions
     revisions: [...result.value.revisions, revision],
-  });
+  };
 
   return {
-    oldComment: result.value,
-    editedComment,
-    newRevision: revision,
+    before: result.value,
+    after,
+    revision,
   };
 }
 
@@ -709,14 +709,14 @@ function applyInputToQuery(
 
 export interface UpdateCommentStatus {
   /**
-   * comment is the updated Comment with the new status associated with it.
+   * before is the comment before editing the status.
    */
-  comment: Readonly<Comment>;
+  before: Readonly<Comment>;
 
   /**
-   * oldStatus is the previous status that the given Comment had.
+   * after is the comment after editing the status.
    */
-  oldStatus: GQLCOMMENT_STATUS;
+  after: Readonly<Comment>;
 }
 
 export async function updateCommentStatus(
@@ -748,15 +748,12 @@ export async function updateCommentStatus(
     return null;
   }
 
-  // Grab the old status.
-  const oldStatus = result.value.status;
-
   return {
-    comment: {
+    before: result.value,
+    after: {
       ...result.value,
       status,
     },
-    oldStatus,
   };
 }
 
