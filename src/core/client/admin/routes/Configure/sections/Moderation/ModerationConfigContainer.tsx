@@ -11,6 +11,7 @@ import { HorizontalGutter } from "coral-ui/components";
 import { ModerationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/ModerationConfigContainer_settings.graphql";
 
 import AkismetConfig from "./AkismetConfig";
+import NewCommentersConfig from "./NewCommentersConfig";
 import PerspectiveConfig from "./PerspectiveConfig";
 import PreModerationConfig from "./PreModerationConfig";
 import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
@@ -29,6 +30,7 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
   return (
     <HorizontalGutter size="double" data-testid="configure-moderationContainer">
       <PreModerationConfig disabled={submitting} />
+      <NewCommentersConfig disabled={submitting} />
       <RecentCommentHistoryConfig disabled={submitting} />
       <PerspectiveConfig disabled={submitting} />
       <AkismetConfig disabled={submitting} />
@@ -43,6 +45,7 @@ const enhanced = withFragmentContainer<Props>({
       ...PerspectiveConfig_formValues @relay(mask: false)
       ...PreModerationConfig_formValues @relay(mask: false)
       ...RecentCommentHistoryConfig_formValues @relay(mask: false)
+      ...NewCommentersConfigContainer_settings @relay(mask: false)
     }
   `,
 })(ModerationConfigContainer);

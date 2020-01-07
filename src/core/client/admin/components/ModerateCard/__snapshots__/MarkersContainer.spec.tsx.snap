@@ -15,6 +15,7 @@ exports[`renders all markers 1`] = `
                 "reasons": Object {
                   "COMMENT_DETECTED_BANNED_WORD": 1,
                   "COMMENT_DETECTED_LINKS": 1,
+                  "COMMENT_DETECTED_NEW_COMMENTER": 0,
                   "COMMENT_DETECTED_RECENT_HISTORY": 1,
                   "COMMENT_DETECTED_REPEAT_POST": 1,
                   "COMMENT_DETECTED_SPAM": 1,
@@ -170,6 +171,7 @@ exports[`renders some markers 1`] = `
                 "reasons": Object {
                   "COMMENT_DETECTED_BANNED_WORD": 1,
                   "COMMENT_DETECTED_LINKS": 0,
+                  "COMMENT_DETECTED_NEW_COMMENTER": 0,
                   "COMMENT_DETECTED_RECENT_HISTORY": 1,
                   "COMMENT_DETECTED_REPEAT_POST": 0,
                   "COMMENT_DETECTED_SPAM": 0,

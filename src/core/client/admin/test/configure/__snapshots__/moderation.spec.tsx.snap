@@ -275,6 +275,128 @@ approved by a moderator.
               </fieldset>
             </div>
           </fieldset>
+          <div
+            className="Box-root ConfigBox-root"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <legend
+                  className="Header-root"
+                >
+                  New commenter approval
+                </legend>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <p
+                  className="FormFieldDescription-root"
+                >
+                  When this is active, initial comments by a new commenter will be sent to Pending
+for moderator approval before publication.
+                </p>
+                <fieldset
+                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <legend
+                    className="Label-root"
+                  >
+                    Enable new commenter approval
+                  </legend>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="newCommenters.premodEnabled-true"
+                        name="newCommenters.premodEnabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="newCommenters.premodEnabled-true"
+                      >
+                        <span>
+                          On
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="newCommenters.premodEnabled-false"
+                        name="newCommenters.premodEnabled"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="newCommenters.premodEnabled-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <label
+                    className="Label-root"
+                  >
+                    Number of first comments sent for approval
+                  </label>
+                  <div
+                    className="TextField-root"
+                  >
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="TextField-input NewCommentersConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
+                      disabled={false}
+                      name="newCommenters.approvedCommentsThreshold"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder=""
+                      spellCheck={false}
+                      type="text"
+                      value={2}
+                    />
+                    <div
+                      className="TextField-adornment"
+                    >
+                      comments
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <fieldset
             className="FieldSet-root Box-root ConfigBox-root"
           >

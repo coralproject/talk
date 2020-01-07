@@ -157,8 +157,8 @@ export async function retrieveSharedModerationQueueQueuesCounts(
 
   const [[, fresh], [, queues]] = await redis
     .pipeline()
-    .hgetall(key)
     .get(freshKey)
+    .hgetall(key)
     .exec();
   if (!fresh || !queues) {
     logger.debug({ tenantID }, "comment moderation counts were not cached");

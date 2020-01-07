@@ -197,6 +197,10 @@ export async function createTenant(
       deleteAccount: false,
       downloadComments: false,
     },
+    newCommenters: {
+      premodEnabled: false,
+      approvedCommentsThreshold: 2,
+    },
     createdAt: now,
     slack: {
       channels: [],

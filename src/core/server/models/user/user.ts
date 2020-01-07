@@ -472,6 +472,10 @@ export interface User extends TenantResource {
    */
   deletedAt?: Date;
 
+  /**
+   * commentCounts are the tallies of all comment statuses for this
+   * user.
+   */
   commentCounts: UserCommentCounts;
 }
 
