@@ -136,6 +136,7 @@ const SlackChannel: FunctionComponent<Props> = ({
                       spellCheck={false}
                       fullWidth
                       className={styles.textField}
+                      placeholder="https://hooks.slack.com/services/..."
                       {...input}
                     />
                   </>
