@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import {
   GQLUser,
   GQLUserTypeResolver,
@@ -13,7 +13,7 @@ import { UserStatusInput } from "./UserStatus";
 import { getRequestedFields } from "./util";
 
 const maybeLoadOnlyIgnoredUserID = (
-  ctx: TenantContext,
+  ctx: GraphContext,
   info: GraphQLResolveInfo,
   users?: user.IgnoredUser[]
 ) => {

@@ -1,7 +1,7 @@
 import { GraphQLResolveInfo } from "graphql";
 import { withFilter } from "graphql-subscriptions";
 
-import TenantContext from "../../context";
+import GraphContext from "../../context";
 import { SUBSCRIPTION_CHANNELS, SubscriptionPayload } from "./types";
 
 type FilterFn<TParent, TArgs, TContext> = (
@@ -14,7 +14,7 @@ type FilterFn<TParent, TArgs, TContext> = (
 type Resolver<TParent, TArgs, TResult> = (
   source: TParent,
   args: TArgs,
-  ctx: TenantContext,
+  ctx: GraphContext,
   info: GraphQLResolveInfo
 ) => TResult;
 
@@ -56,7 +56,7 @@ export function createSubscriptionChannelName(
 export function defaultFilterFn<TParent extends SubscriptionPayload, TArgs>(
   source: TParent,
   args: TArgs,
-  ctx: TenantContext
+  ctx: GraphContext
 ): boolean {
   if (source.clientID && ctx.clientID && source.clientID === ctx.clientID) {
     return false;
@@ -71,8 +71,8 @@ export function defaultFilterFn<TParent extends SubscriptionPayload, TArgs>(
  * prevent double responses.
  */
 export function createFilterFn<TParent, TArgs>(
-  filter?: FilterFn<TParent, TArgs, TenantContext>
-): FilterFn<TParent, TArgs, TenantContext> {
+  filter?: FilterFn<TParent, TArgs, GraphContext>
+): FilterFn<TParent, TArgs, GraphContext> {
   return filter
     ? // Combine the filters, preferring the defaultFilterFn first.
       (source, args, ctx, info) => {
@@ -86,7 +86,7 @@ export function createFilterFn<TParent, TArgs>(
 }
 
 export interface CreateIteratorInput<TParent, TArgs, TResult> {
-  filter?: FilterFn<TParent, TArgs, TenantContext>;
+  filter?: FilterFn<TParent, TArgs, GraphContext>;
 }
 
 export function createIterator<

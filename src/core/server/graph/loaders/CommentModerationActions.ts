@@ -1,13 +1,13 @@
 import { defaultTo } from "lodash";
 
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import {
   CommentToStatusHistoryArgs,
   UserToCommentModerationActionHistoryArgs,
 } from "coral-server/graph/schema/__generated__/types";
 import { retrieveCommentModerationActionConnection } from "coral-server/models/action/moderation/comment";
 
-export default (ctx: TenantContext) => ({
+export default (ctx: GraphContext) => ({
   forModerator: (
     { first, after }: UserToCommentModerationActionHistoryArgs,
     moderatorID: string

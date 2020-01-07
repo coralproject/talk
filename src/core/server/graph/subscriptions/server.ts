@@ -39,13 +39,13 @@ import { extractTokenFromRequest } from "coral-server/services/jwt";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
-import TenantContext, { TenantContextOptions } from "../context";
+import GraphContext, { GraphContextOptions } from "../context";
 
 type OnConnectFn = (
   params: OperationMessagePayload,
   socket: any,
   context: ConnectionContext
-) => Promise<TenantContext>;
+) => Promise<GraphContext>;
 
 export function extractTokenFromWSRequest(
   connectionParams: OperationMessagePayload,
@@ -75,7 +75,7 @@ export function extractClientID(connectionParams: OperationMessagePayload) {
 }
 
 export type OnConnectOptions = RequireProperty<
-  Omit<TenantContextOptions, "tenant" | "disableCaching">,
+  Omit<GraphContextOptions, "tenant" | "disableCaching">,
   "signingConfig"
 >;
 
@@ -103,7 +103,7 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
       }
 
       // Create some new options to store the tenant context details inside.
-      const opts: TenantContextOptions = {
+      const opts: GraphContextOptions = {
         ...options,
         // Disable caching with this Context to ensure that every call (besides)
         // to the tenant, is not cached, and is instead fresh.
@@ -141,7 +141,7 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
         opts.clientID = clientID;
       }
 
-      return new TenantContext(opts);
+      return new GraphContext(opts);
     } catch (err) {
       if (err instanceof LiveUpdatesDisabled) {
         logger.info({ err }, "websocket connection rejected");
@@ -170,7 +170,7 @@ export function formatResponse(
 ) {
   return (
     value: ExecutionResult,
-    { context, query }: ExecutionParams<TenantContext>
+    { context, query }: ExecutionParams<GraphContext>
   ) => {
     // Parse the query in order to extract operation metadata.
     if (typeof query === "string") {
@@ -216,7 +216,7 @@ export type OnOperationOptions = FormatResponseOptions &
 export function onOperation(options: OnOperationOptions) {
   return async (
     message: OperationMessage,
-    params: ExecutionParams<TenantContext>
+    params: ExecutionParams<GraphContext>
   ) => {
     // Handle the payload if it is a persisted query.
     const persisted = await getPersistedQuery(

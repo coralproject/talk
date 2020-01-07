@@ -1,5 +1,5 @@
 import { ERROR_CODES } from "coral-common/errors";
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { User } from "coral-server/models/user";
 import {
@@ -68,7 +68,7 @@ import {
 
 import { WithoutMutationID } from "./util";
 
-export const Users = (ctx: TenantContext) => ({
+export const Users = (ctx: GraphContext) => ({
   invite: async ({ role, emails }: GQLInviteUsersInput) =>
     mapFieldsetToErrorCodes(
       invite(

@@ -1,4 +1,4 @@
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import { Tenant } from "coral-server/models/tenant";
 import {
   disableFeatureFlag,
@@ -19,7 +19,7 @@ export const Settings = ({
   tenant,
   config,
   now,
-}: TenantContext) => ({
+}: GraphContext) => ({
   update: (input: GQLUpdateSettingsInput): Promise<Tenant | null> =>
     update(mongo, redis, tenantCache, config, tenant, input.settings),
   regenerateSSOKey: (): Promise<Tenant | null> =>

@@ -8,12 +8,9 @@ import {
   InternalDevelopmentError,
   InternalError,
 } from "coral-server/errors";
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 
-function hoistCoralErrorExtensions(
-  ctx: TenantContext,
-  err: GraphQLError
-): void {
+function hoistCoralErrorExtensions(ctx: GraphContext, err: GraphQLError): void {
   // Grab or wrap the originalError so that it's a CoralError.
   const originalError = extractOriginalError(err, ctx);
   if (!originalError) {
@@ -44,7 +41,7 @@ function hoistCoralErrorExtensions(
  */
 function extractOriginalError(
   err: GraphQLError,
-  ctx: TenantContext
+  ctx: GraphContext
 ): CoralError | undefined {
   if (err instanceof ApolloError) {
     // ApolloError's don't need to be hoisted as they contain validation
@@ -78,7 +75,7 @@ function extractOriginalError(
  * @param err the error that occurred
  */
 export function enrichError(
-  ctx: TenantContext,
+  ctx: GraphContext,
   err: GraphQLError
 ): GraphQLError {
   if (err.extensions) {
@@ -97,11 +94,11 @@ export function enrichError(
   return err;
 }
 
-export class ErrorWrappingExtension implements GraphQLExtension<TenantContext> {
+export class ErrorWrappingExtension implements GraphQLExtension<GraphContext> {
   public willSendResponse(o: {
     graphqlResponse: GraphQLResponse;
-    context: TenantContext;
-  }): void | { graphqlResponse: GraphQLResponse; context: TenantContext } {
+    context: GraphContext;
+  }): void | { graphqlResponse: GraphQLResponse; context: GraphContext } {
     if (o.graphqlResponse.errors) {
       return {
         ...o,

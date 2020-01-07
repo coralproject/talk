@@ -1,4 +1,4 @@
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import { Metrics } from "coral-server/services/metrics";
 import { ExecutionArgs } from "graphql";
 import { EndHandler, GraphQLExtension } from "graphql-extensions";
@@ -6,7 +6,7 @@ import now from "performance-now";
 
 import { getOperationMetadata } from "./helpers";
 
-export class MetricsExtension implements GraphQLExtension<TenantContext> {
+export class MetricsExtension implements GraphQLExtension<GraphContext> {
   constructor(private metrics: Metrics) {}
 
   public executionDidStart(o: {

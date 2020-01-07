@@ -25,101 +25,80 @@ import { Request } from "coral-server/types/express";
 import loaders from "./loaders";
 import mutators from "./mutators";
 
-export interface TenantContextOptions {
-  id?: string;
-  tenant: Tenant;
-  user?: User;
+export interface GraphContextOptions {
   clientID?: string;
-  now?: Date;
-
-  req?: Request;
-
-  tenantCache: TenantCache;
-  mailerQueue: MailerQueue;
-  notifierQueue: NotifierQueue;
-  scraperQueue: ScraperQueue;
-  signingConfig?: JWTSigningConfig;
-  logger?: Logger;
-  lang?: LanguageCode;
   disableCaching?: boolean;
+  id?: string;
+  lang?: LanguageCode;
+  logger?: Logger;
+  now?: Date;
   persisted?: PersistedQuery;
+  req?: Request;
+  signingConfig?: JWTSigningConfig;
+  user?: User;
+
   config: Config;
   i18n: I18n;
-  pubsub: RedisPubSub;
+  mailerQueue: MailerQueue;
   mongo: Db;
+  notifierQueue: NotifierQueue;
+  pubsub: RedisPubSub;
   redis: AugmentedRedis;
+  scraperQueue: ScraperQueue;
+  tenant: Tenant;
+  tenantCache: TenantCache;
 }
 
-export default class TenantContext {
-  public readonly id: string;
-  public readonly tenant: Tenant;
-  public readonly user?: User;
-  public readonly clientID?: string;
-  public readonly now: Date;
-
-  public readonly req?: Request;
-
-  public readonly mongo: Db;
-  public readonly redis: AugmentedRedis;
-  public readonly tenantCache: TenantCache;
-  public readonly mailerQueue: MailerQueue;
-  public readonly scraperQueue: ScraperQueue;
-  public readonly publisher: Publisher;
-  public readonly signingConfig?: JWTSigningConfig;
-  public readonly loaders: ReturnType<typeof loaders>;
-  public readonly mutators: ReturnType<typeof mutators>;
-  public readonly persisted?: PersistedQuery;
+export default class GraphContext {
   public readonly config: Config;
-  public readonly i18n: I18n;
-  public readonly lang: LanguageCode;
-  public readonly logger: Logger;
-  public readonly pubsub: RedisPubSub;
   public readonly disableCaching: boolean;
+  public readonly i18n: I18n;
+  public readonly id: string;
+  public readonly lang: LanguageCode;
+  public readonly loaders: ReturnType<typeof loaders>;
+  public readonly logger: Logger;
+  public readonly mailerQueue: MailerQueue;
+  public readonly mongo: Db;
+  public readonly mutators: ReturnType<typeof mutators>;
+  public readonly now: Date;
+  public readonly publisher: Publisher;
+  public readonly pubsub: RedisPubSub;
+  public readonly redis: AugmentedRedis;
+  public readonly scraperQueue: ScraperQueue;
+  public readonly tenant: Tenant;
+  public readonly tenantCache: TenantCache;
 
-  constructor({
-    id = uuid.v1(),
-    now = new Date(),
-    tenant,
-    user,
-    req,
-    logger: log = logger,
-    notifierQueue,
-    persisted,
-    config,
-    i18n,
-    lang = i18n.getDefaultLang(),
-    pubsub,
-    mongo,
-    redis,
-    disableCaching = false,
-    ...options
-  }: TenantContextOptions) {
-    this.id = id;
-    this.now = now;
-    this.user = user;
-    this.req = req;
-    this.persisted = persisted;
-    this.config = config;
-    this.i18n = i18n;
-    this.lang = lang;
-    this.pubsub = pubsub;
-    this.mongo = mongo;
-    this.redis = redis;
-    this.disableCaching = disableCaching;
-    this.tenant = tenant;
+  public readonly clientID?: string;
+  public readonly persisted?: PersistedQuery;
+  public readonly req?: Request;
+  public readonly signingConfig?: JWTSigningConfig;
+  public readonly user?: User;
+
+  constructor(options: GraphContextOptions) {
+    this.id = options.id || uuid.v1();
+    this.now = options.now || new Date();
+    this.lang = options.lang || options.i18n.getDefaultLang();
+    this.disableCaching = options.disableCaching || false;
+
+    this.logger = (options.logger || logger).child(
+      { context: "graph", contextID: this.id },
+      true
+    );
+
+    this.user = options.user;
+    this.req = options.req;
+    this.persisted = options.persisted;
+    this.config = options.config;
+    this.i18n = options.i18n;
+    this.pubsub = options.pubsub;
+    this.mongo = options.mongo;
+    this.redis = options.redis;
+    this.tenant = options.tenant;
     this.tenantCache = options.tenantCache;
     this.scraperQueue = options.scraperQueue;
     this.mailerQueue = options.mailerQueue;
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
-
-    this.logger = log.child(
-      {
-        context: "graph",
-        contextID: id,
-      },
-      true
-    );
 
     this.publisher = createPublisher({
       pubsub: this.pubsub,
@@ -128,7 +107,7 @@ export default class TenantContext {
         this.config,
         this.tenant
       ),
-      notifierQueue,
+      notifierQueue: options.notifierQueue,
       tenantID: this.tenant.id,
       clientID: this.clientID,
     });

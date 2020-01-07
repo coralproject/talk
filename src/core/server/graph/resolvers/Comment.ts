@@ -4,10 +4,6 @@ import { defaultTo } from "lodash";
 import { StoryNotFoundError } from "coral-server/errors";
 import { getRequestedFields } from "coral-server/graph/resolvers/util";
 import {
-  GQLComment,
-  GQLCommentTypeResolver,
-} from "coral-server/graph/schema/__generated__/types";
-import {
   ACTION_TYPE,
   decodeActionCounts,
 } from "coral-server/models/action/comment";
@@ -21,10 +17,15 @@ import { createConnection } from "coral-server/models/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
-import TenantContext from "../context";
+import {
+  GQLComment,
+  GQLCommentTypeResolver,
+} from "coral-server/graph/schema/__generated__/types";
+
+import GraphContext from "../context";
 
 export const maybeLoadOnlyID = (
-  ctx: TenantContext,
+  ctx: GraphContext,
   info: GraphQLResolveInfo,
   id: string
 ) => {

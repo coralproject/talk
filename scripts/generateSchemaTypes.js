@@ -15,9 +15,9 @@ async function main() {
         "../src/core/server/graph/schema/__generated__/types.ts"
       ),
       config: {
-        contextType: "TenantContext",
+        contextType: "GraphContext",
         importStatements: [
-          'import TenantContext from "coral-server/graph/context";',
+          'import GraphContext from "coral-server/graph/context";',
           'import { Cursor } from "coral-server/models/helpers";',
         ],
         customScalarType: { Cursor: "Cursor", Time: "Date" },

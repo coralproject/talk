@@ -1,10 +1,10 @@
 import DataLoader from "dataloader";
 
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import { GQLDiscoveredOIDCConfiguration } from "coral-server/graph/schema/__generated__/types";
 import { discoverOIDCConfiguration } from "coral-server/services/tenant";
 
-export default (ctx: TenantContext) => ({
+export default (ctx: GraphContext) => ({
   discoverOIDCConfiguration: new DataLoader<
     string,
     GQLDiscoveredOIDCConfiguration | null

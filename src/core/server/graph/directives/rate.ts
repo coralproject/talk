@@ -4,7 +4,7 @@ import { DateTime } from "luxon";
 import { RateLimitExceeded } from "coral-server/errors";
 import { calculateLocationKey } from "coral-server/graph/directives/helpers";
 
-import TenantContext from "../context";
+import GraphContext from "../context";
 
 export interface RateDirectiveArgs {
   max?: number;
@@ -14,7 +14,7 @@ export interface RateDirectiveArgs {
 
 const rate: DirectiveResolverFn<
   Record<string, string | undefined>,
-  TenantContext
+  GraphContext
 > = async (
   next,
   src,

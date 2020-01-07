@@ -6,16 +6,16 @@ import {
 } from "graphql-extensions";
 import now from "performance-now";
 
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 
 import { getOperationMetadata, getPersistedQueryMetadata } from "./helpers";
 
-export function logError(ctx: TenantContext, err: GraphQLError) {
+export function logError(ctx: GraphContext, err: GraphQLError) {
   ctx.logger.error({ err }, "graphql query error");
 }
 
 export function logQuery(
-  ctx: TenantContext,
+  ctx: GraphContext,
   document: DocumentNode,
   persisted = ctx.persisted,
   responseTime?: number
@@ -38,7 +38,7 @@ export function logQuery(
   );
 }
 
-export class LoggerExtension implements GraphQLExtension<TenantContext> {
+export class LoggerExtension implements GraphQLExtension<GraphContext> {
   public executionDidStart(o: {
     executionArgs: ExecutionArgs;
   }): EndHandler | void {
@@ -64,7 +64,7 @@ export class LoggerExtension implements GraphQLExtension<TenantContext> {
 
   public willSendResponse(response: {
     graphqlResponse: GraphQLResponse;
-    context: TenantContext;
+    context: GraphContext;
   }): void {
     if (response.graphqlResponse.errors) {
       response.graphqlResponse.errors.forEach(err =>

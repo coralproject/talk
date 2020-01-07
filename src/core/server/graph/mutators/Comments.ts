@@ -1,6 +1,6 @@
 import { ERROR_CODES } from "coral-common/errors";
 import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
@@ -34,7 +34,7 @@ import {
 
 import { validateMaximumLength, WithoutMutationID } from "./util";
 
-export const Comments = (ctx: TenantContext) => ({
+export const Comments = (ctx: GraphContext) => ({
   create: ({
     clientMutationId,
     nudge = false,

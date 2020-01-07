@@ -1,4 +1,4 @@
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import { approveComment, rejectComment } from "coral-server/stacks";
 
 import {
@@ -6,7 +6,7 @@ import {
   GQLRejectCommentInput,
 } from "../schema/__generated__/types";
 
-export const Actions = (ctx: TenantContext) => ({
+export const Actions = (ctx: GraphContext) => ({
   approveComment: (input: GQLApproveCommentInput) =>
     approveComment(
       ctx.mongo,

@@ -4,7 +4,7 @@ import { pull } from "lodash";
 
 import { reconstructTenantURL } from "coral-server/app/url";
 
-import TenantContext from "../context";
+import GraphContext from "../context";
 
 /**
  * getRequestedFields returns the fields in an array that are being queried for.
@@ -16,6 +16,6 @@ export function getRequestedFields<T>(info: GraphQLResolveInfo) {
 }
 
 export function reconstructTenantURLResolver<T = any>(path: string) {
-  return (parent: T, args: {}, ctx: TenantContext) =>
+  return (parent: T, args: {}, ctx: GraphContext) =>
     reconstructTenantURL(ctx.config, ctx.tenant, ctx.req, path);
 }

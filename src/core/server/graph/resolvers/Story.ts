@@ -8,11 +8,11 @@ import {
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import * as story from "coral-server/models/story";
 
-import TenantContext from "../context";
+import GraphContext from "../context";
 import { CommentCountsInput } from "./CommentCounts";
 import { storyModerationInputResolver } from "./ModerationQueues";
 
-const isStoryClosed = (s: story.Story, ctx: TenantContext) => {
+const isStoryClosed = (s: story.Story, ctx: GraphContext) => {
   const closedAt = story.getStoryClosedAt(ctx.tenant, s) || null;
   return !!closedAt && new Date() >= closedAt;
 };

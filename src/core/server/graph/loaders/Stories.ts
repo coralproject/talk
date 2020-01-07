@@ -1,7 +1,7 @@
 import DataLoader from "dataloader";
 import { defaultTo } from "lodash";
 
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import {
   GQLSTORY_STATUS,
   QueryToStoriesArgs,
@@ -54,7 +54,7 @@ const queryFilter = (query?: string): StoryConnectionInput["filter"] => {
  *
  * @param ctx graph context to use to prime the loaders.
  */
-const primeStoriesFromConnection = (ctx: TenantContext) => (
+const primeStoriesFromConnection = (ctx: GraphContext) => (
   connection: Readonly<Connection<Readonly<Story>>>
 ) => {
   if (!ctx.disableCaching) {
@@ -67,7 +67,7 @@ const primeStoriesFromConnection = (ctx: TenantContext) => (
   return connection;
 };
 
-export default (ctx: TenantContext) => ({
+export default (ctx: GraphContext) => ({
   findOrCreate: new DataLoader(
     createManyBatchLoadFn((input: FindOrCreateStory) =>
       findOrCreate(ctx.mongo, ctx.tenant, input, ctx.scraperQueue, ctx.now)

@@ -1,7 +1,7 @@
 import { isNull, omitBy } from "lodash";
 
 import { ERROR_CODES } from "coral-common/errors";
-import TenantContext from "coral-server/graph/context";
+import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { Story } from "coral-server/models/story";
 import {
@@ -26,7 +26,7 @@ import {
   GQLUpdateStorySettingsInput,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const Stories = (ctx: TenantContext) => ({
+export const Stories = (ctx: GraphContext) => ({
   create: async (input: GQLCreateStoryInput): Promise<Readonly<Story> | null> =>
     mapFieldsetToErrorCodes(
       create(

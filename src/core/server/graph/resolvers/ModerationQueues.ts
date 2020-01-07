@@ -1,9 +1,3 @@
-import {
-  ApproveCommentPayloadToModerationQueuesResolver,
-  GQLModerationQueuesTypeResolver,
-  QueryToModerationQueuesResolver,
-  RejectCommentPayloadToModerationQueuesResolver,
-} from "coral-server/graph/schema/__generated__/types";
 import { CommentConnectionInput } from "coral-server/models/comment";
 import { FilterQuery } from "coral-server/models/helpers";
 import {
@@ -16,7 +10,14 @@ import {
   UNMODERATED_STATUSES,
 } from "coral-server/services/comments/moderation/counts";
 
-import TenantContext from "../context";
+import {
+  ApproveCommentPayloadToModerationQueuesResolver,
+  GQLModerationQueuesTypeResolver,
+  QueryToModerationQueuesResolver,
+  RejectCommentPayloadToModerationQueuesResolver,
+} from "coral-server/graph/schema/__generated__/types";
+
+import GraphContext from "../context";
 import { ModerationQueueInput } from "./ModerationQueue";
 
 interface ModerationQueuesInput {
@@ -70,7 +71,7 @@ export const storyModerationInputResolver = (
 export const sharedModerationInputResolver = async (
   source: any,
   args: any,
-  ctx: TenantContext
+  ctx: GraphContext
 ): Promise<ModerationQueuesInput> => ({
   // We don't need to filter the connection, as this is tenant wide (tenant
   // filtering is completed at the model layer).
