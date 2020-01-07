@@ -14,6 +14,9 @@ import {
   SelectField,
   TextField,
 } from "coral-ui/components/v2";
+import { PropTypesOf } from "coral-ui/types";
+
+import StoryTableSiteOption from "./StoryTableSiteOption";
 
 import styles from "./StoryTableFilter.css";
 
@@ -22,6 +25,11 @@ interface Props {
   onSetStatusFilter: (status: GQLSTORY_STATUS_RL) => void;
   searchFilter: string;
   onSetSearchFilter: (search: string) => void;
+  siteFilter: string | null;
+  onSetSiteFilter: (id: string) => void;
+  sites: Array<
+    { id: string } & PropTypesOf<typeof StoryTableSiteOption>["site"]
+  >;
 }
 
 const StoryTableFilter: FunctionComponent<Props> = props => (
@@ -83,8 +91,34 @@ const StoryTableFilter: FunctionComponent<Props> = props => (
     </FieldSet>
     <FieldSet>
       <HorizontalGutter spacing={2}>
-        <Localized id="stories-filter-showMe">
-          <Label>Show Me</Label>
+        <Localized id="stories-filter-site">
+          <Label>Site</Label>
+        </Localized>
+        <Localized
+          id="stories-filter-siteSelectField"
+          attrs={{ "aria-label": true }}
+        >
+          <SelectField
+            aria-label="Search by site"
+            value={props.siteFilter || ""}
+            onChange={e =>
+              props.onSetSiteFilter((e.target.value as any) || null)
+            }
+          >
+            <Localized id="stories-filter-allSites">
+              <Option value="">All Sites</Option>
+            </Localized>
+            {props.sites.map(site => (
+              <StoryTableSiteOption site={site} key={site.id} />
+            ))}
+          </SelectField>
+        </Localized>
+      </HorizontalGutter>
+    </FieldSet>
+    <FieldSet>
+      <HorizontalGutter spacing={2}>
+        <Localized id="stories-filter-statuses">
+          <Label>Status</Label>
         </Localized>
         <Localized
           id="stories-filter-statusSelectField"
