@@ -13,7 +13,9 @@ it("renders correctly", () => {
     allStories: true,
     moderationQueues: {},
     story: {},
-    site: {},
+    site: {
+      id: "SiteID",
+    },
   };
   const renderer = createRenderer();
   renderer.render(<ModerateN {...props} />);

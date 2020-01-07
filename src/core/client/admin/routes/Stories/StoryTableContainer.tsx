@@ -27,6 +27,10 @@ const StoryTableContainer: FunctionComponent<Props> = props => {
     ? props.query.stories.edges.map(edge => edge.node)
     : [];
 
+  const sites = props.query
+    ? props.query.sites.edges.map(edge => edge.node)
+    : [];
+
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [searchFilter, setSearchFilter] = useState<string>(
     props.initialSearchFilter || ""
@@ -34,14 +38,16 @@ const StoryTableContainer: FunctionComponent<Props> = props => {
   const [statusFilter, setStatusFilter] = useState<GQLSTORY_STATUS_RL | null>(
     null
   );
+  const [siteFilter, setSiteFilter] = useState<string | null>(null);
   const [, isRefetching] = useRefetch<
     Pick<
       StoryTableContainerPaginationQueryVariables,
-      "searchFilter" | "statusFilter"
+      "searchFilter" | "statusFilter" | "siteID"
     >
   >(props.relay, {
     searchFilter: searchFilter || null,
     statusFilter,
+    siteID: siteFilter,
   });
 
   return (
@@ -52,6 +58,9 @@ const StoryTableContainer: FunctionComponent<Props> = props => {
           statusFilter={statusFilter}
           onSetSearchFilter={setSearchFilter}
           searchFilter={searchFilter}
+          onSetSiteFilter={setSiteFilter}
+          siteFilter={siteFilter}
+          sites={sites}
         />
         <StoryTable
           viewer={props.query && props.query.viewer}
@@ -83,15 +92,25 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
           statusFilter: { type: "STORY_STATUS" }
           searchFilter: { type: "String" }
+          siteID: { type: "ID" }
         ) {
         viewer {
           ...StoryRowContainer_viewer
+        }
+        sites {
+          edges {
+            node {
+              id
+              ...StoryTableSiteOption_site
+            }
+          }
         }
         stories(
           first: $count
           after: $cursor
           status: $statusFilter
           query: $searchFilter
+          siteID: $siteID
         ) @connection(key: "StoryTable_stories") {
           edges {
             node {
@@ -121,6 +140,7 @@ const enhanced = withPaginationContainer<
         cursor,
         statusFilter: fragmentVariables.statusFilter,
         searchFilter: fragmentVariables.searchFilter,
+        siteID: fragmentVariables.siteID,
       };
     },
     query: graphql`
@@ -131,6 +151,7 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $statusFilter: STORY_STATUS
         $searchFilter: String
+        $siteID: ID
       ) {
         ...StoryTableContainer_query
           @arguments(
@@ -138,6 +159,7 @@ const enhanced = withPaginationContainer<
             cursor: $cursor
             statusFilter: $statusFilter
             searchFilter: $searchFilter
+            siteID: $siteID
           )
       }
     `,
