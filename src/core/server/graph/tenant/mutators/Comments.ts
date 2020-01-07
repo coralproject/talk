@@ -2,6 +2,21 @@ import { ERROR_CODES } from "coral-common/errors";
 import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/common/errors";
 import TenantContext from "coral-server/graph/tenant/context";
+import { addTag, removeTag } from "coral-server/services/comments";
+import {
+  createDontAgree,
+  createFlag,
+  createReaction,
+  removeDontAgree,
+  removeReaction,
+} from "coral-server/services/comments/actions";
+import { publishCommentFeatured } from "coral-server/services/events";
+import {
+  approveComment,
+  createComment,
+  editComment,
+} from "coral-server/stacks";
+
 import {
   GQLCOMMENT_STATUS,
   GQLCreateCommentDontAgreeInput,
@@ -16,22 +31,7 @@ import {
   GQLTAG,
   GQLUnfeatureCommentInput,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import {
-  addTag,
-  create,
-  edit,
-  removeTag,
-} from "coral-server/services/comments";
-import {
-  createDontAgree,
-  createFlag,
-  createReaction,
-  removeDontAgree,
-  removeReaction,
-} from "coral-server/services/comments/actions";
 
-import { approve } from "coral-server/services/comments/moderation";
-import { publishCommentFeatured } from "coral-server/services/events";
 import { validateMaximumLength, WithoutMutationID } from "./util";
 
 export const Comments = (ctx: TenantContext) => ({
@@ -41,7 +41,7 @@ export const Comments = (ctx: TenantContext) => ({
     ...comment
   }: GQLCreateCommentInput | GQLCreateCommentReplyInput) =>
     mapFieldsetToErrorCodes(
-      create(
+      createComment(
         ctx.mongo,
         ctx.redis,
         ctx.config,
@@ -64,7 +64,7 @@ export const Comments = (ctx: TenantContext) => ({
     ),
   edit: ({ commentID, body }: GQLEditCommentInput) =>
     mapFieldsetToErrorCodes(
-      edit(
+      editComment(
         ctx.mongo,
         ctx.redis,
         ctx.config,
@@ -170,11 +170,16 @@ export const Comments = (ctx: TenantContext) => ({
     )
       .then(comment =>
         comment.status !== GQLCOMMENT_STATUS.APPROVED
-          ? approve(ctx.mongo, ctx.redis, ctx.publisher, ctx.tenant, {
+          ? approveComment(
+              ctx.mongo,
+              ctx.redis,
+              ctx.publisher,
+              ctx.tenant,
               commentID,
               commentRevisionID,
-              moderatorID: ctx.user!.id,
-            })
+              ctx.user!.id,
+              ctx.now
+            )
           : comment
       )
       .then(comment => {
