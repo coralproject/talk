@@ -6,7 +6,7 @@ import { Db } from "mongodb";
 
 import { DeepPartial } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";

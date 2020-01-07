@@ -1,7 +1,7 @@
 import {
   GQLCOMMENT_STATUS,
   GQLTAG,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 import { calculateTotalPublishedCommentCount } from "../story";
 import { Comment } from "./comment";

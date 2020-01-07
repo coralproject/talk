@@ -28,7 +28,7 @@ import {
 import {
   GQLAuthIntegrations,
   GQLUSER_ROLE,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";

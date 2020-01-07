@@ -1,4 +1,4 @@
-import { GQLCOMMENT_FLAG_REASON } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_FLAG_REASON } from "coral-server/graph/schema/__generated__/types";
 import {
   ACTION_TYPE,
   CommentAction,

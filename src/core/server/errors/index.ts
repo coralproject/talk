@@ -11,7 +11,7 @@ import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
 import { translate } from "coral-server/services/i18n";
 
 import { Writable } from "coral-common/types";
-import { GQLUSER_AUTH_CONDITIONS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_AUTH_CONDITIONS } from "coral-server/graph/schema/__generated__/types";
 import { ERROR_TRANSLATIONS } from "./translations";
 
 /**

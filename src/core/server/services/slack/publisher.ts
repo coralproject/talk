@@ -2,14 +2,14 @@ import { Db } from "mongodb";
 
 import { reconstructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
-import { CommentCreatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentCreated";
-import { CommentEnteredModerationQueueInput } from "coral-server/graph/tenant/resolvers/Subscription/commentEnteredModerationQueue";
-import { CommentFeaturedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentFeatured";
-import { CommentLeftModerationQueueInput } from "coral-server/graph/tenant/resolvers/Subscription/commentLeftModerationQueue";
-import { CommentReleasedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentReleased";
-import { CommentReplyCreatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentReplyCreated";
-import { CommentStatusUpdatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentStatusUpdated";
-import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
+import { CommentCreatedInput } from "coral-server/graph/resolvers/Subscription/commentCreated";
+import { CommentEnteredModerationQueueInput } from "coral-server/graph/resolvers/Subscription/commentEnteredModerationQueue";
+import { CommentFeaturedInput } from "coral-server/graph/resolvers/Subscription/commentFeatured";
+import { CommentLeftModerationQueueInput } from "coral-server/graph/resolvers/Subscription/commentLeftModerationQueue";
+import { CommentReleasedInput } from "coral-server/graph/resolvers/Subscription/commentReleased";
+import { CommentReplyCreatedInput } from "coral-server/graph/resolvers/Subscription/commentReplyCreated";
+import { CommentStatusUpdatedInput } from "coral-server/graph/resolvers/Subscription/commentStatusUpdated";
+import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/resolvers/Subscription/types";
 import logger from "coral-server/logger";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
 import {
@@ -18,7 +18,7 @@ import {
 } from "coral-server/models/story/helpers";
 import { Tenant } from "coral-server/models/tenant";
 
-import { GQLMODERATION_QUEUE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLMODERATION_QUEUE } from "coral-server/graph/schema/__generated__/types";
 
 import SlackContext from "./context";
 

@@ -1,7 +1,7 @@
 import { AppOptions } from "coral-server/app";
 import { RawQueryNotAuthorized } from "coral-server/errors";
-import { getPersistedQuery } from "coral-server/graph/common/persisted";
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { getPersistedQuery } from "coral-server/graph/persisted";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { RequestHandler } from "coral-server/types/express";
 
 type PersistedQueryMiddlewareOptions = Pick<

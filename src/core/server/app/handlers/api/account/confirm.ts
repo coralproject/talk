@@ -8,7 +8,7 @@ import {
   UserForbiddenError,
   UserNotFoundError,
 } from "coral-server/errors";
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { retrieveUser, User } from "coral-server/models/user";
 import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import {

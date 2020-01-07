@@ -15,7 +15,7 @@ import {
 } from "coral-server/models/user";
 import { findOrCreate } from "coral-server/services/users";
 
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 export type FacebookStrategyOptions = OAuth2StrategyOptions;
 

@@ -1,4 +1,4 @@
-import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
+import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import {
   Comment,
   hasModeratorStatus,

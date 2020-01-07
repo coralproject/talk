@@ -3,7 +3,7 @@ import { AppOptions } from "coral-server/app";
 import { graphqlMiddleware } from "coral-server/app/middleware/graphql";
 import TenantContext, {
   TenantContextOptions,
-} from "coral-server/graph/tenant/context";
+} from "coral-server/graph/context";
 import { Request, RequestHandler } from "coral-server/types/express";
 
 export type GraphMiddlewareOptions = Pick<

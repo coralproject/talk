@@ -1,4 +1,4 @@
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 export const STAFF_ROLES = [
   GQLUSER_ROLE.ADMIN,

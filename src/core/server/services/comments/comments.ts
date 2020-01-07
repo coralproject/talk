@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import { CommentNotFoundError } from "coral-server/errors";
-import { GQLTAG } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLTAG } from "coral-server/graph/schema/__generated__/types";
 import {
   addCommentTag,
   removeCommentTag,

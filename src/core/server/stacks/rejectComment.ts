@@ -1,6 +1,6 @@
 import { Db } from "mongodb";
 
-import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
+import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import { hasTag } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
@@ -10,7 +10,7 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import {
   GQLCOMMENT_STATUS,
   GQLTAG,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 import { publishChanges, updateAllCounts } from "./helpers";
 

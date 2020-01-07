@@ -26,7 +26,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLFEATURE_FLAG,
   GQLPerspectiveExternalIntegration,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 export const toxic: IntermediateModerationPhase = async ({
   tenant,

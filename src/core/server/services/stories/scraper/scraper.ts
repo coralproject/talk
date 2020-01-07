@@ -15,7 +15,7 @@ import logger from "coral-server/logger";
 import { retrieveStory, updateStory } from "coral-server/models/story";
 import { retrieveTenant } from "coral-server/models/tenant";
 
-import { GQLStoryMetadata } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLStoryMetadata } from "coral-server/graph/schema/__generated__/types";
 
 import abortAfter from "./abortAfter";
 import { modifiedScraper } from "./rules/modified";
