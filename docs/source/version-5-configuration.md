@@ -52,8 +52,7 @@ Disables mounting of client routes for developing with Webpack Dev Server (Defau
 Disables forcing SSL in production environments. Should not be used except for testing (Default `false`)
 
 ## `DISABLE_LIVE_UPDATES` 
-When `true`, disables subscriptions for the comment
-stream for all stories across all tenants (Default `false`)
+When `true`, disables subscriptions for the comment stream for all stories across all tenants (Default `false`)
 
 ## `DISABLE_MONGODB_AUTOINDEXING` 
 When `true`, Coral will not perform indexing operations when it starts up. This can be desired when you've already installed Coral on the target MongoDB, but want to improve start performance.
@@ -68,12 +67,10 @@ Disables the rate limiters in development. This will only work when also set to 
 When `true`, all tenants will be loaded from the database when needed rather than keeping a in-memory copy in sync via published events on Redis. (Default `false`)
 
 ## `ENABLE_GRAPHIQL` 
-When `true`, it will enable the `/graphiql` even in
-  production, **use with care**. (Default `false`)
+When `true`, it will enable the `/graphiql` even in production, **use with care**. (Default `false`)
 
 ## `METRICS_USERNAME` 
-The username for _Basic Authentication_ at the `/metrics` and `/cluster_metrics`
-  endpoint.
+The username for _Basic Authentication_ at the `/metrics` and `/cluster_metrics` endpoint.
 
 ## `METRICS_PASSWORD` 
 The password for _Basic Authentication_ at the `/metrics` and `/cluster_metrics` endpoint.
@@ -88,8 +85,7 @@ The request timeout (in ms) for scraping operations (Default `10 seconds`)
 The URI that static assets can be accessed from. This URI can be to a proxy that uses this Coral server on `PORT` as the upstream. Disabled by default.
 
 ## `TRUST_PROXY`
-When provided, it configures the "trust proxy" settings for Express. If you are encountering issues where urls in the administration are showing with
-a `http` instead of `https`, you may need to set the `TRUST_PROXY` setting.
+When provided, it configures the "trust proxy" settings for Express. If you are encountering issues where urls in the administration are showing with a `http` instead of `https`, you may need to set the `TRUST_PROXY` setting.
 Refer to https://expressjs.com/en/guide/behind-proxies.html for possible values
 of this configuration variable as it pertains to your setup.
 
