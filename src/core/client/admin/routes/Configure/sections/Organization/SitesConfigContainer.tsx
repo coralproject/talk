@@ -1,6 +1,7 @@
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useRefetch,
@@ -25,13 +26,15 @@ const SitesConfigContainer: React.FunctionComponent<Props> = props => {
     SitesConfigContainerPaginationQueryVariables
   >(props.relay);
   return (
-    <SitesConfig
-      loading={!props.query || isRefetching}
-      sites={sites}
-      onLoadMore={loadMore}
-      hasMore={!isRefetching && props.relay.hasMore()}
-      disableLoadMore={isLoadingMore}
-    />
+    <IntersectionProvider>
+      <SitesConfig
+        loading={!props.query || isRefetching}
+        sites={sites}
+        onLoadMore={loadMore}
+        hasMore={!isRefetching && props.relay.hasMore()}
+        disableLoadMore={isLoadingMore}
+      />
+    </IntersectionProvider>
   );
 };
 
