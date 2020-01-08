@@ -21,7 +21,7 @@ By Default - users are sent a verification email and are prompted to verify emai
 
 Allows integration with your existing OpenID Connect authentication provider. When enabled this strategy adds a "Login with ___", button to Coral's login modal with the value you've specified for `Provider Name`. 
 
-Authentication is handled by passing an access token parameter to the comment stream embed when placing the call to render it. To learn more please visit: https://openid.net/connect/
+With OpenID Connect authentication is handled by passing an access token parameter to the comment stream embed when placing the call to render it. To learn more please visit: https://openid.net/connect/
 
 ## Login with Single Sign On
 
