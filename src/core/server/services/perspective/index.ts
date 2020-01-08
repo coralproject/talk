@@ -12,7 +12,7 @@ import { Tenant } from "coral-server/models/tenant";
 import {
   GQLCOMMENT_STATUS,
   GQLPerspectiveExternalIntegration,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 interface SendResult {
   ok: boolean;
