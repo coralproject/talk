@@ -105,6 +105,8 @@ After compilation has finished you can access docz at http://localhost:3030/.
 
 ## Contributing a Translation
 
+We welcome contributions from the open source community! To get started contributing check out our [Contribution Guidelines](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md#localization).
+
 We’re so proud to have received submissions from a lot of 3rd party contributors translating Coral into their own languages.
 
 You can see what languages Coral currently supports here: https://github.com/coralproject/talk/tree/master/src/locales
