@@ -98,7 +98,7 @@ sidebar:
               url: /v5/integrating/cms/
             - title: Single Sign On
               url: /v5/integrating/sso/
-            - title: Social Sign-in & Email Auth
+            - title: Social and Email Authentication
               url: /v5/integration/auth/
             - title: Custom CSS Styles
               url: /v5/css/

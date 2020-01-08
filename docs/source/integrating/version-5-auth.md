@@ -1,5 +1,5 @@
 ---
-title: Social Sign-in & Email Auth
+title: Social and Email Authentication
 permalink: /v5/integration/auth/
 ---
 
