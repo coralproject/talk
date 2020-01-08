@@ -14,7 +14,7 @@ import {
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
   GQLSettings,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 import {
   generateSSOKey,
@@ -182,6 +182,7 @@ export async function createTenant(
       perspective: {
         enabled: false,
         doNotStore: true,
+        sendFeedback: false,
       },
     },
     reaction: getDefaultReactionConfiguration(bundle),
@@ -196,6 +197,10 @@ export async function createTenant(
       changeUsername: false,
       deleteAccount: false,
       downloadComments: false,
+    },
+    newCommenters: {
+      premodEnabled: false,
+      approvedCommentsThreshold: 2,
     },
     createdAt: now,
     slack: {

@@ -5,6 +5,7 @@ import { Field } from "react-final-form";
 
 import { parseBool } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
+import { validateURL } from "coral-framework/lib/validation";
 import {
   Box,
   Button,
@@ -17,6 +18,7 @@ import {
 } from "coral-ui/components/v2";
 
 import Subheader from "../../Subheader";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 
 import styles from "./SlackChannel.css";
 
@@ -108,9 +110,9 @@ const SlackChannel: FunctionComponent<Props> = ({
                 )}
               </Field>
             </FormField>
-            <FormField>
-              <Field name={`${channel}.hookURL`}>
-                {({ input }) => (
+            <FormField className={styles.textField}>
+              <Field name={`${channel}.hookURL`} validate={validateURL}>
+                {({ input, meta }) => (
                   <>
                     <Localized id="configure-slack-channel-hookURL-label">
                       <Label>Webhook URL</Label>
@@ -127,16 +129,17 @@ const SlackChannel: FunctionComponent<Props> = ({
                         Slack channels, follow the instructions here.
                       </FormFieldDescription>
                     </Localized>
-                    <TextField
+                    <TextFieldWithValidation
+                      {...input}
                       id={`configure-slack-channel-hookURL-${input.name}`}
                       disabled={disabled || !channelEnabled}
+                      fullWidth
                       autoComplete="off"
                       autoCorrect="off"
                       autoCapitalize="off"
                       spellCheck={false}
-                      fullWidth
-                      className={styles.textField}
-                      {...input}
+                      placeholder="https://hooks.slack.com/services/..."
+                      meta={meta}
                     />
                   </>
                 )}

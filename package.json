@@ -46,7 +46,7 @@
     "lint:server": "eslint 'src/**/*.{js,ts,tsx}' --ignore-pattern 'src/core/client/**'",
     "lint:client": "eslint 'src/core/client/**/*.{js,ts,tsx}'",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
-    "lint:graphql": "graphql-schema-linter src/core/server/graph/tenant/schema/schema.graphql",
+    "lint:graphql": "graphql-schema-linter src/core/server/graph/schema/schema.graphql",
     "lint-fix": "npm run lint:server -- --fix && npm run lint:client -- --fix && npm run lint:scripts -- --fix",
     "test": "node --trace-warnings scripts/test.js --env=jsdom",
     "tscheck": "npm-run-all --parallel tscheck:*",
@@ -394,7 +394,7 @@
     "*.{j,t}s{,x}": [
       "eslint"
     ],
-    "src/core/server/graph/tenant/schema/schema.graphql": [
+    "src/core/server/graph/schema/schema.graphql": [
       "graphql-schema-linter"
     ],
     "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,events.md}": [

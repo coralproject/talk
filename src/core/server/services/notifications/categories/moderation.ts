@@ -1,8 +1,8 @@
-import { CommentStatusUpdatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentStatusUpdated";
-import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
+import { CommentStatusUpdatedInput } from "coral-server/graph/resolvers/Subscription/commentStatusUpdated";
+import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/resolvers/Subscription/types";
 import { hasModeratorStatus } from "coral-server/models/comment";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 import { getURLWithCommentID } from "coral-server/models/story";
 import NotificationContext from "../context";
 import { Notification } from "../notification";

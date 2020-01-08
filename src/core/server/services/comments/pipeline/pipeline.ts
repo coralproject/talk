@@ -16,7 +16,7 @@ import { User } from "coral-server/models/user";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
 import { moderationPhases } from "./phases";
 

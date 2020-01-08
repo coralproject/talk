@@ -7,7 +7,7 @@ import {
   GQLFEATURE_FLAG,
   GQLReactionConfiguration,
   GQLStaffConfiguration,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 import { SSOKey } from "../settings";
 import { Tenant } from "./tenant";

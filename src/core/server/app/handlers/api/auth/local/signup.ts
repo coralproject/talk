@@ -6,7 +6,7 @@ import { handleSuccessfulLogin } from "coral-server/app/middleware/passport";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
 import { IntegrationDisabled } from "coral-server/errors";
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { LocalProfile, User } from "coral-server/models/user";
 import { create } from "coral-server/services/users";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";

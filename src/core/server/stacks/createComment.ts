@@ -8,7 +8,7 @@ import {
   CoralError,
   StoryNotFoundError,
 } from "coral-server/errors";
-import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
+import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import logger from "coral-server/logger";
 import {
   encodeActionCounts,

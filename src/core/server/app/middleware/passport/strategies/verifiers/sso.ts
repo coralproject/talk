@@ -27,7 +27,7 @@ import { findOrCreate } from "coral-server/services/users";
 import {
   GQLSSOAuthIntegration,
   GQLUSER_ROLE,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 import { Verifier } from "../jwt";
 

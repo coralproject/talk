@@ -1,6 +1,6 @@
 import { isEqual } from "lodash";
 
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 import { SSOUserProfile } from "coral-server/app/middleware/passport/strategies/verifiers/sso";
 import { STAFF_ROLES } from "./constants";

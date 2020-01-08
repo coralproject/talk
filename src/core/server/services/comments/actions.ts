@@ -2,8 +2,8 @@ import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
 import { CommentNotFoundError } from "coral-server/errors";
-import { GQLCOMMENT_FLAG_REPORTED_REASON } from "coral-server/graph/tenant/schema/__generated__/types";
-import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
+import { GQLCOMMENT_FLAG_REPORTED_REASON } from "coral-server/graph/schema/__generated__/types";
+import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import {
   ACTION_TYPE,
   CommentAction,

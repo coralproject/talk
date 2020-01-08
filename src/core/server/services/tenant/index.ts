@@ -24,7 +24,7 @@ import {
   GQLFEATURE_FLAG,
   GQLSettingsInput,
   GQLSettingsWordListInput,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 import TenantCache from "./cache";
 

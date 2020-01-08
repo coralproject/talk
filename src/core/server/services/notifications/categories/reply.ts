@@ -1,6 +1,6 @@
-import { CommentReplyCreatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentReplyCreated";
-import { CommentStatusUpdatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentStatusUpdated";
-import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
+import { CommentReplyCreatedInput } from "coral-server/graph/resolvers/Subscription/commentReplyCreated";
+import { CommentStatusUpdatedInput } from "coral-server/graph/resolvers/Subscription/commentStatusUpdated";
+import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/resolvers/Subscription/types";
 import { hasPublishedStatus } from "coral-server/models/comment";
 import { getStoryTitle, getURLWithCommentID } from "coral-server/models/story";
 
