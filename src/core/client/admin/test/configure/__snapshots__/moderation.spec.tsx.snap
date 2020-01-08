@@ -819,6 +819,7 @@ improve the API over time.
                       <input
                         checked={true}
                         className="RadioButton-input"
+                        data-testid="test-allowStoreCommentData"
                         disabled={false}
                         id="integrations.perspective.doNotStore-true"
                         name="integrations.perspective.doNotStore"
@@ -855,6 +856,76 @@ improve the API over time.
                       <label
                         className="RadioButton-label"
                         htmlFor="integrations.perspective.doNotStore-false"
+                      >
+                        <span>
+                          Don't allow
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset
+                  className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                  >
+                    <legend
+                      className="Label-root"
+                    >
+                      Allow Coral to send moderation actions to Google
+                    </legend>
+                    <p
+                      className="HelperText-root"
+                    >
+                      Sent moderation actions will be used for future research and
+community model building purposes to improve the API over time.
+                    </p>
+                  </div>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        data-testid="test-allowSendFeedback"
+                        disabled={false}
+                        id="integrations.perspective.sendFeedback-true"
+                        name="integrations.perspective.sendFeedback"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="integrations.perspective.sendFeedback-true"
+                      >
+                        <span>
+                          Allow
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="integrations.perspective.sendFeedback-false"
+                        name="integrations.perspective.sendFeedback"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="integrations.perspective.sendFeedback-false"
                       >
                         <span>
                           Don't allow

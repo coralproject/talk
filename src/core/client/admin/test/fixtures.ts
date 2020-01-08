@@ -90,6 +90,7 @@ export const settings = createFixture<GQLSettings>({
     perspective: {
       enabled: false,
       threshold: TOXICITY_THRESHOLD_DEFAULT / 100,
+      sendFeedback: false,
     },
   },
   auth: {

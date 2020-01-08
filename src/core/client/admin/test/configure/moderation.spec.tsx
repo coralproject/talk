@@ -21,14 +21,15 @@ beforeEach(() => {
 const viewer = users.admins[0];
 
 async function createTestRenderer(
-  params: CreateTestRendererParams<GQLResolver> = {}
+  params: CreateTestRendererParams<GQLResolver> = {},
+  settingsOverride?: any
 ) {
   const { testRenderer } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
-          settings: () => settings,
+          settings: () => (settingsOverride ? settingsOverride : settings),
           viewer: () => viewer,
         },
       }),
@@ -239,6 +240,7 @@ it("change perspective settings", async () => {
                 key: "my api key",
                 model: null,
                 threshold: 0.1,
+                sendFeedback: false,
               }
             );
             break;
@@ -262,7 +264,9 @@ it("change perspective settings", async () => {
   );
 
   const onField = within(perspectiveContainer).getByLabelText("On");
-  const allowField = within(perspectiveContainer).getByLabelText("Allow");
+  const allowField = within(perspectiveContainer).getByTestID(
+    "test-allowStoreCommentData"
+  );
   const keyField = within(perspectiveContainer).getByLabelText("API key");
   const thresholdField = within(perspectiveContainer).getByLabelText(
     "Toxicity threshold"
@@ -360,4 +364,74 @@ it("change perspective settings", async () => {
 
   // Should have successfully sent with server.
   expect(resolvers.Mutation!.updateSettings!.calledTwice).toBe(true);
+});
+
+it("change perspective send feedback setting", async () => {
+  const settingsOverride = settings;
+  settingsOverride.integrations.perspective = {
+    doNotStore: false,
+    enabled: true,
+    endpoint: "https://custom-endpoint.net",
+    key: "api key",
+    model: "TOXIC_MODEL",
+    threshold: 0.1,
+    sendFeedback: false,
+  };
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.integrations!.perspective).toEqual({
+          doNotStore: false,
+          enabled: true,
+          endpoint: "https://custom-endpoint.net",
+          key: "api key",
+          model: "TOXIC_MODEL",
+          threshold: 0.1,
+          sendFeedback: true,
+        });
+
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const { moderationContainer, saveChangesButton } = await createTestRenderer(
+    {
+      resolvers,
+    },
+    settingsOverride
+  );
+
+  const perspectiveContainer = within(moderationContainer).getByTestID(
+    "perspective-container"
+  );
+  const onField = within(perspectiveContainer).getByLabelText("On");
+  const allowField = within(perspectiveContainer).getByTestID(
+    "test-allowSendFeedback"
+  );
+  const form = findParentWithType(perspectiveContainer, "form")!;
+
+  // Let's turn it on.
+  act(() => allowField.props.onChange(allowField.props.value.toString()));
+  expect(saveChangesButton.props.disabled).toBe(false);
+
+  // Send form
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  // Wait for submission to be finished
+  await act(async () => {
+    await wait(() => {
+      expect(onField.props.disabled).toBe(false);
+    });
+  });
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+
+  // Should have successfully sent with server.
+  expect(resolvers.Mutation!.updateSettings!.calledOnce).toBe(true);
 });

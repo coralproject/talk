@@ -173,6 +173,7 @@ export const Comments = (ctx: GraphContext) => ({
           ? approveComment(
               ctx.mongo,
               ctx.redis,
+              ctx.config,
               ctx.publisher,
               ctx.tenant,
               commentID,
