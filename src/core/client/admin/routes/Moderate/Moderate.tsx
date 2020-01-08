@@ -14,7 +14,7 @@ import { SubBar } from "coral-ui/components/v2/SubBar";
 import HotkeysModal from "./HotkeysModal";
 import ModerateNavigationContainer from "./ModerateNavigation";
 import ModerateSearchBarContainer from "./ModerateSearchBar";
-import SiteSelector from "./SiteSelector";
+import { SiteSelectorContainer } from "./SiteSelector";
 
 import styles from "./Moderate.css";
 
@@ -27,9 +27,10 @@ interface Props {
   story: PropTypesOf<typeof ModerateNavigationContainer>["story"] &
     PropTypesOf<typeof ModerateSearchBarContainer>["story"];
   site:
-    | { id: string } & PropTypesOf<typeof ModerateNavigationContainer>["site"]
+    | { id: string } & PropTypesOf<typeof ModerateNavigationContainer>["site"] &
+        PropTypesOf<typeof SiteSelectorContainer>["site"]
     | null;
-  sites: PropTypesOf<typeof SiteSelector>["sites"];
+  query: PropTypesOf<typeof SiteSelectorContainer>["query"];
   moderationQueues: PropTypesOf<
     typeof ModerateNavigationContainer
   >["moderationQueues"];
@@ -43,7 +44,7 @@ const Moderate: FunctionComponent<Props> = ({
   moderationQueues,
   story,
   site,
-  sites,
+  query,
   allStories,
   children,
   queueName,
@@ -73,10 +74,11 @@ const Moderate: FunctionComponent<Props> = ({
         allStories={allStories}
         siteID={routeParams.siteID || null}
         siteSelector={
-          <SiteSelector
-            sites={sites}
+          <SiteSelectorContainer
             queueName={queueName}
+            site={site}
             siteID={routeParams.siteID}
+            query={query}
           />
         }
       />

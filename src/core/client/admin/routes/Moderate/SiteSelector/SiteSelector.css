@@ -3,6 +3,9 @@
 }
 
 .dropdown {
+  max-height: 15em;
+  width: calc(20 * var(--mini-unit));
+  overflow: scroll;
 }
 
 .wrapper {
@@ -27,6 +30,12 @@
 
 .buttonIconRight {
   width: 16px;
+}
+
+.buttonIconLeft,
+.buttonIconRight {
+  /* adjust for button line-height being > 1 */
+  margin-top: -2px;
 }
 
 .buttonText {
