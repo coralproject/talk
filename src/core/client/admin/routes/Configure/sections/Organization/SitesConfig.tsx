@@ -3,17 +3,11 @@ import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import { Button, FormFieldDescription, Icon } from "coral-ui/components/v2";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "coral-ui/components/v2/Table";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import SiteRowContainer from "./SiteRowContainer";
+import SitesTable from "./SitesTable";
 
 interface Props {
   sites: Array<{ id: string } & PropTypesOf<typeof SiteRowContainer>["site"]>;
@@ -23,7 +17,13 @@ interface Props {
   loading: boolean;
 }
 
-const SitesConfig: FunctionComponent<Props> = ({ sites }) => {
+const SitesConfig: FunctionComponent<Props> = ({
+  sites,
+  loading,
+  disableLoadMore,
+  onLoadMore,
+  hasMore,
+}) => {
   return (
     <ConfigBox
       title={
@@ -53,19 +53,13 @@ const SitesConfig: FunctionComponent<Props> = ({ sites }) => {
           Add a site
         </Button>
       </Localized>
-      <Table fullWidth>
-        <TableHead>
-          <TableRow>
-            <TableCell>Site name</TableCell>
-            <TableCell />
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sites.map(site => (
-            <SiteRowContainer site={site} key={site.id} />
-          ))}
-        </TableBody>
-      </Table>
+      <SitesTable
+        sites={sites}
+        loading={loading}
+        onLoadMore={onLoadMore}
+        hasMore={hasMore}
+        disableLoadMore={disableLoadMore}
+      />
     </ConfigBox>
   );
 };
