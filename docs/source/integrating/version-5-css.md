@@ -9,4 +9,4 @@ If you would like to change the styling of any elements of the comment embed, we
 
 The easiest way to find the classname for the element you're looking for is to use the web inspector, and then update your stylesheet accordingly.
 
-
+You can also navigate to https://github.com/coralproject/talk/blob/master/src/core/client/stream/classes.ts to see available stable class names.

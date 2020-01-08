@@ -32,7 +32,7 @@ Requires advanced configuration, please see:  [Single Sign On](/talk/v5/integrat
 ## Login with Google & Facebook
 Allows users to use existing social media account to sign in. Requires you to setup API keys with social sign on provider, and configure your API keys in Coral. 
 
-Users register and login via a *“Sign in with ….”*, and are not required to set a password. Users with social accounts are prompted to associate an email address with their social profile to enable notifications. 
+Users register and login via a *“Sign in with ….”*, and are not required to set a password if Email based authentication is not enabled. Users with social accounts are prompted to associate an email address with their social profile to enable notifications. 
 
 
 ## Commenter Account Management Features

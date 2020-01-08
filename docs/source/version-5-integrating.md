@@ -36,7 +36,7 @@ Lazy `Story` Creation enables stories to be automatically created when they are 
 ### storyURL
 
 If you do not specify a `storyURL` when rendering the embed, the `storyURL` is first inferred from the Canonical link element, which takes the form of a <link> element in your <head> of the page:
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>

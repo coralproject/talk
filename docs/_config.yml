@@ -90,7 +90,7 @@ sidebar:
               url: /v5/administration/
             - title: Developing
               url: /v5/developing/
-            - title: CLI Tools 
+            - title: CLI Tools
               url: /v5/configuration-cli-tools/
         - title: Integration
           children:
@@ -208,7 +208,7 @@ sidebar:
               url: /embedding-in-native-mobile-apps/
     - title: Migrating
       children:
-        -title:
+        - title:
           children:
             - title: Migrating from v3.x.x
               url: /migration/3/
@@ -220,18 +220,13 @@ sidebar:
               url: /migration/5.0/
     - title: FAQ & Troubleshooting
       children:
-        - title:
-          children:
-          - title: FAQ
-            url: /faq/
-          - title: Troubleshooting Tips
-            url: /troubleshooting-tips/        
-    - title: Contact 
-      children:
-        - title: 
-          children:
-          - title: Contact Us
-            url: /contact/
+        - children:
+            - title: FAQ
+              url: /faq/
+            - title: Troubleshooting Tips
+              url: /troubleshooting-tips/
+    - title: Contact
+      url: /contact/
 
 marked:
   gfm: true
