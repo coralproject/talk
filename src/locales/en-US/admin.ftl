@@ -316,6 +316,11 @@ configure-moderation-perspective-allowStoreCommentData = Allow Google to store c
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Stored comments will be used for future research and community model building purposes to
   improve the API over time.
+configure-moderation-perspective-allowSendFeedback =
+  Allow Coral to send moderation actions to Google
+configure-moderation-perspective-allowSendFeedbackDescription =
+  Sent moderation actions will be used for future research and
+  community model building purposes to improve the API over time.
 configure-moderation-perspective-customEndpoint = Custom endpoint
 configure-moderation-perspective-defaultEndpoint =
   By default the endpoint is set to { $default }. You may override this here.

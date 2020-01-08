@@ -52,6 +52,7 @@ graphql`
         model
         threshold
         doNotStore
+        sendFeedback
       }
     }
   }
@@ -200,6 +201,10 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         <OnOffField
           name="integrations.perspective.doNotStore"
           disabled={disabled}
+          testIDs={{
+            on: "test-allowStoreCommentData",
+            off: "test-dontAllowStoreCommentData",
+          }}
           onLabel={
             <Localized id="configure-radioButton-allow">
               <span>Allow</span>
@@ -211,6 +216,39 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
             </Localized>
           }
           invert
+        />
+      </FormField>
+      <FormField container={<FieldSet />}>
+        <FormFieldHeader>
+          <Localized id="configure-moderation-perspective-allowSendFeedback">
+            <Label component="legend">
+              Allow Coral to send moderation actions to Google
+            </Label>
+          </Localized>
+          <Localized id="configure-moderation-perspective-allowSendFeedbackDescription">
+            <HelperText>
+              Sent moderation actions will be used for future research and
+              community model building purposes to improve the API over time.
+            </HelperText>
+          </Localized>
+        </FormFieldHeader>
+        <OnOffField
+          name="integrations.perspective.sendFeedback"
+          disabled={disabled}
+          testIDs={{
+            on: "test-allowSendFeedback",
+            off: "test-dontAllowSendFeedback",
+          }}
+          onLabel={
+            <Localized id="configure-radioButton-allow">
+              <span>Allow</span>
+            </Localized>
+          }
+          offLabel={
+            <Localized id="configure-radioButton-dontAllow">
+              <span>Don't Allow</span>
+            </Localized>
+          }
         />
       </FormField>
       <HorizontalGutter spacing={3}>

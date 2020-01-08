@@ -827,6 +827,12 @@ type PerspectiveExternalIntegration {
   When True, comments sent will not be stored by the Google Perspective API.
   """
   doNotStore: Boolean @auth(roles: [ADMIN])
+
+  """
+  When True, comment moderation decisions will be sent to the Google
+  Perspective API to help improve the comment analysis algorithms.
+  """
+  sendFeedback: Boolean @auth(roles: [ADMIN])
 }
 
 type ExternalIntegrations {
@@ -3275,6 +3281,11 @@ input SettingsPerspectiveExternalIntegrationInput {
   When True, comments sent will not be stored by the Google Perspective API.
   """
   doNotStore: Boolean
+
+  """
+  When True, moderation actions will be sent to the Google Perspective API.
+  """
+  sendFeedback: Boolean
 }
 
 input SettingsExternalIntegrationsInput {
