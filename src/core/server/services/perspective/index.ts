@@ -102,15 +102,15 @@ export async function notifyPerspectiveModerationDecision(
   const communityId = `Coral:${tenantUrl}`;
   const clientToken = `comment:${comment.id}`;
 
-  const story = await retrieveStory(mongo, comment.tenantID, comment.storyID);
-  if (!story) {
-    logger.warn({ storyID: comment.storyID }, "could not find story");
-    return;
-  }
-
-  const url = getURLWithCommentID(story.url, comment.id);
-
   try {
+    const story = await retrieveStory(mongo, comment.tenantID, comment.storyID);
+    if (!story) {
+      logger.warn({ storyID: comment.storyID }, "could not find story");
+      return;
+    }
+
+    const url = getURLWithCommentID(story.url, comment.id);
+
     const body = {
       comment: {
         text: striptags(revision.body),

@@ -58,6 +58,8 @@ const rejectComment = async (
     return removeTag(mongo, tenant, result.after.id, GQLTAG.FEATURED);
   }
 
+  // We don't want to await on this so that
+  // we don't hold up the moderation flow and response
   notifyPerspectiveModerationDecision(
     mongo,
     tenant,
