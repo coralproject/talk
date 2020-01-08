@@ -41,7 +41,7 @@ class ModerateContainer extends React.Component<Props> {
           moderationQueues={null}
           story={null}
           site={null}
-          sites={[]}
+          query={this.props.data}
           routeParams={this.props.match.params}
           queueName={queueName || "default"}
           allStories={allStories}
@@ -50,9 +50,9 @@ class ModerateContainer extends React.Component<Props> {
         </Moderate>
       );
     }
-    const sites = this.props.data.sites
-      ? this.props.data.sites.edges.map(edge => edge.node)
-      : [];
+    // const sites = this.props.data.sites
+    //   ? this.props.data.sites.edges.map(edge => edge.node)
+    //   : [];
 
     return (
       <Moderate
@@ -60,7 +60,7 @@ class ModerateContainer extends React.Component<Props> {
         story={this.props.data.story || null}
         site={this.props.data.site || null}
         routeParams={this.props.match.params}
-        sites={sites}
+        query={this.props.data}
         allStories={allStories}
         queueName={queueName || "default"}
       >
@@ -78,16 +78,6 @@ const enhanced = withRouteConfig<Props>({
       $siteID: ID
       $includeSite: Boolean!
     ) {
-      # TODO: paginate
-      sites {
-        edges {
-          node {
-            id
-            ...SiteSelectorSite_site
-            ...SiteSelectorSelected_site
-          }
-        }
-      }
       story(id: $storyID) @include(if: $includeStory) {
         ...ModerateNavigationContainer_story
         ...ModerateSearchBarContainer_story
@@ -95,10 +85,12 @@ const enhanced = withRouteConfig<Props>({
       site(id: $siteID) @include(if: $includeSite) {
         id
         ...ModerateNavigationContainer_site
+        ...SiteSelectorSelected_site
       }
       moderationQueues(storyID: $storyID, siteID: $siteID) {
         ...ModerateNavigationContainer_moderationQueues
       }
+      ...SiteSelectorContainer_query
     }
   `,
   cacheConfig: { force: true },

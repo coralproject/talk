@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 
+import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import getModerationLink, {
   QUEUE_NAME,
 } from "coral-admin/helpers/getModerationLink";
@@ -11,26 +12,35 @@ import {
   Dropdown,
   Flex,
   Popover,
+  Spinner,
 } from "coral-ui/components/v2";
-import styles from "./SiteSelector.css";
+
 import SiteSelectorSelected from "./SiteSelectorSelected";
 import SiteSelectorSite from "./SiteSelectorSite";
 
+import styles from "./SiteSelector.css";
+
 interface Props {
-  sites: Array<
-    { id: string } & PropTypesOf<typeof SiteSelectorSite>["site"] &
-      PropTypesOf<typeof SiteSelectorSelected>["site"]
-  >;
+  sites: Array<{ id: string } & PropTypesOf<typeof SiteSelectorSite>["site"]>;
+  site: PropTypesOf<typeof SiteSelectorSelected>["site"] | null;
   queueName: string;
   siteID?: string;
+  onLoadMore: () => void;
+  hasMore: boolean;
+  disableLoadMore: boolean;
+  loading: boolean;
 }
 
 const SiteSelector: FunctionComponent<Props> = ({
   sites,
+  site,
   queueName,
   siteID,
+  loading,
+  onLoadMore,
+  disableLoadMore,
+  hasMore,
 }) => {
-  const selectedSite = sites.find(s => s.id === siteID);
   return (
     <Popover
       id="sitesMenu"
@@ -42,6 +52,7 @@ const SiteSelector: FunctionComponent<Props> = ({
             <SiteSelectorSite
               link={getModerationLink(queueName as QUEUE_NAME, null, null)}
               site={null}
+              active={!siteID}
             />
             {sites.map(s => (
               <SiteSelectorSite
@@ -51,6 +62,19 @@ const SiteSelector: FunctionComponent<Props> = ({
                 active={siteID ? siteID === s.id : false}
               />
             ))}
+            {loading && (
+              <Flex justifyContent="center">
+                <Spinner />
+              </Flex>
+            )}
+            {hasMore && (
+              <Flex justifyContent="center">
+                <AutoLoadMore
+                  disableLoadMore={disableLoadMore}
+                  onLoadMore={onLoadMore}
+                />
+              </Flex>
+            )}
           </Dropdown>
         </ClickOutside>
       )}
@@ -65,9 +89,9 @@ const SiteSelector: FunctionComponent<Props> = ({
           ref={ref}
           uppercase={false}
         >
+          <ButtonIcon className={styles.buttonIconLeft}>web_asset</ButtonIcon>
           <Flex alignItems="center" className={styles.wrapper}>
-            <ButtonIcon className={styles.buttonIconLeft}>web_asset</ButtonIcon>
-            {selectedSite && <SiteSelectorSelected site={selectedSite} />}
+            {site && <SiteSelectorSelected site={site} />}
             {!siteID && <span className={styles.buttonText}>All sites</span>}
           </Flex>
           <ButtonIcon className={styles.buttonIconRight}>
