@@ -1,4 +1,4 @@
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
 /**
  * PUBLISHED_STATUSES are the comment statuses that a Comment may have that would

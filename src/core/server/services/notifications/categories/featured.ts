@@ -1,5 +1,5 @@
-import { CommentFeaturedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentFeatured";
-import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
+import { CommentFeaturedInput } from "coral-server/graph/resolvers/Subscription/commentFeatured";
+import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/resolvers/Subscription/types";
 import { hasPublishedStatus } from "coral-server/models/comment";
 
 import { getStoryTitle, getURLWithCommentID } from "coral-server/models/story";

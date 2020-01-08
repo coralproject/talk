@@ -3,7 +3,7 @@ import { groupBy } from "lodash";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
+import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/resolvers/Subscription/types";
 import logger from "coral-server/logger";
 import Task from "coral-server/queue/Task";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";

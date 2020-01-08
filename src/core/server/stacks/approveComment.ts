@@ -1,11 +1,11 @@
 import { Db } from "mongodb";
 
-import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
+import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import { Tenant } from "coral-server/models/tenant";
 import { moderate } from "coral-server/services/comments/moderation";
 import { AugmentedRedis } from "coral-server/services/redis";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
 import { publishChanges, updateAllCounts } from "./helpers";
 

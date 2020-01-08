@@ -29,7 +29,7 @@ import { findOrCreate } from "coral-server/services/users";
 import { validateUsername } from "coral-server/services/users/helpers";
 import { Request } from "coral-server/types/express";
 
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 export interface Params {
   id_token?: string;

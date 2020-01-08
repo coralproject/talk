@@ -5,7 +5,7 @@ import { Config } from "coral-server/config";
 import {
   SUBSCRIPTION_CHANNELS,
   SUBSCRIPTION_INPUT,
-} from "coral-server/graph/tenant/resolvers/Subscription/types";
+} from "coral-server/graph/resolvers/Subscription/types";
 import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig } from "coral-server/services/jwt";

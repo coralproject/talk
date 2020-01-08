@@ -7,7 +7,7 @@ import {
 import Migration from "coral-server/services/migrate/migration";
 import collections from "coral-server/services/mongodb/collections";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
 const BATCH_SIZE = 500;
 

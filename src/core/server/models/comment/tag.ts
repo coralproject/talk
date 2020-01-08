@@ -1,4 +1,4 @@
-import { GQLTAG } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLTAG } from "coral-server/graph/schema/__generated__/types";
 
 /**
  * CommentTag is used to represent a given Tag added to a Comment.

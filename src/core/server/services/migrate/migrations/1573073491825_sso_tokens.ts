@@ -5,7 +5,7 @@ import { generateSSOKey, Tenant } from "coral-server/models/tenant";
 import Migration from "coral-server/services/migrate/migration";
 import collections from "coral-server/services/mongodb/collections";
 
-import { GQLTime } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLTime } from "coral-server/graph/schema/__generated__/types";
 
 import { MigrationError } from "../error";
 

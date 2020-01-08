@@ -2,7 +2,7 @@ import { DeepPartial } from "coral-common/types";
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { RevisionMetadata } from "coral-server/models/comment";
 import { GlobalModerationSettings } from "coral-server/models/settings";

@@ -40,7 +40,7 @@ import {
   GQLUSER_ROLE,
   GQLUsernameStatus,
   GQLUserNotificationSettings,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 import {
   CommentStatusCounts,
@@ -472,10 +472,6 @@ export interface User extends TenantResource {
    */
   deletedAt?: Date;
 
-  /**
-   * commentCounts are the tallies of all comment statuses for this
-   * user.
-   */
   commentCounts: UserCommentCounts;
 }
 

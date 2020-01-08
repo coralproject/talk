@@ -1,9 +1,7 @@
 import { CLIENT_ID_HEADER } from "coral-common/constants";
 import { AppOptions } from "coral-server/app";
 import { graphqlMiddleware } from "coral-server/app/middleware/graphql";
-import TenantContext, {
-  TenantContextOptions,
-} from "coral-server/graph/tenant/context";
+import GraphContext, { GraphContextOptions } from "coral-server/graph/context";
 import { Request, RequestHandler } from "coral-server/types/express";
 
 export type GraphMiddlewareOptions = Pick<
@@ -47,7 +45,7 @@ export const graphQLHandler = ({
       }
 
       // Create some new options to store the tenant context details inside.
-      const opts: TenantContextOptions = {
+      const opts: GraphContextOptions = {
         ...options,
         id,
         now,
@@ -72,7 +70,7 @@ export const graphQLHandler = ({
 
       return {
         schema,
-        context: new TenantContext(opts),
+        context: new GraphContext(opts),
       };
     },
     metrics
