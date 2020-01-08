@@ -3,7 +3,7 @@ title: Slack
 permalink: /v5/integrating/slack/
 ---
 
-Coral version 5 supports built-in Slack integration to help you forward comments from your moderation queues into appropriate Slack channels.
+Coral version 5.4+ supports built-in Slack integration to help you forward comments from your moderation queues into appropriate Slack channels.
 
 ## Creating a Slack App
 

@@ -101,3 +101,22 @@ npm run docz -- dev
 ```
 
 After compilation has finished you can access docz at http://localhost:3030/.
+
+
+## Contributing a Translation
+
+We welcome contributions from the open source community! To get started contributing check out our [Contribution Guidelines](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md).
+
+We’re so proud to have received submissions from a lot of 3rd party contributors translating Coral into their own languages.
+
+You can see what languages Coral currently supports here: https://github.com/coralproject/talk/tree/master/src/locales
+
+You can set the default language Coral uses in **Admin** > **Configure** > **General**. 
+
+We use the fluent library and store our translations in FTL files in `src/locales/` and `src/core/server/locales/`. To add a new Coral translation, strings are added or removed from localization bundles in the translation files as needed. 
+
+Strings MUST NOT be changed after they've been committed and pushed to master. Changing a string requires creating a new ID with a new name (preferably descriptive instead of incremented) and deletion of the obsolete ID. It's often useful to add a comment above the string with info about how and where the string is used.
+
+If you are a developer contributing a new language, you’ll need to add the required i18n support in the i18n files (or you can leave that to us if you like). If you’re a non-developer, you can submit the translation via GitHub if you feel comfortable doing that, or feel free to email it to us via our Support: support@coralproject.net
+
+If you want to suggest a new language or put a placeholder for a translation you’re working on, feel free to create a GitHub issue: https://github.com/coralproject/talk/issues/new
