@@ -50,9 +50,6 @@ class ModerateContainer extends React.Component<Props> {
         </Moderate>
       );
     }
-    // const sites = this.props.data.sites
-    //   ? this.props.data.sites.edges.map(edge => edge.node)
-    //   : [];
 
     return (
       <Moderate
