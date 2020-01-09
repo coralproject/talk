@@ -16,8 +16,6 @@ import {
 import EmptySitesMessage from "./EmptySitesMessage";
 import SiteRowContainer from "./SiteRowContainer";
 
-// import styles from "./SitesTable.css";
-
 interface Props {
   sites: Array<{ id: string } & PropTypesOf<typeof SiteRowContainer>["site"]>;
   onLoadMore: () => void;
