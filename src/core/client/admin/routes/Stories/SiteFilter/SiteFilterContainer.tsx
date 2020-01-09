@@ -6,53 +6,50 @@ import {
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { PropTypesOf } from "coral-ui/types";
 
-import { SiteSelectorContainer_query as QueryData } from "coral-admin/__generated__/SiteSelectorContainer_query.graphql";
-import { SiteSelectorContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSelectorContainerPaginationQuery.graphql";
+import { SiteFilterContainer_query as QueryData } from "coral-admin/__generated__/SiteFilterContainer_query.graphql";
+import { SiteFilterContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteFilterContainerPaginationQuery.graphql";
 
-import SiteSelector from "./SiteSelector";
+import SiteFilter from "./SiteFilter";
 
 interface Props {
   query: QueryData | null;
-  site: PropTypesOf<typeof SiteSelector>["site"] | null;
   relay: RelayPaginationProp;
-  queueName: string;
-  siteID?: string;
+  siteID: string | null;
+  onSelect: (id: string) => void;
 }
 
-const SiteSelectorContainer: React.FunctionComponent<Props> = props => {
+const SiteFilterContainer: React.FunctionComponent<Props> = props => {
   const sites = props.query
     ? props.query.sites.edges.map(edge => edge.node)
     : [];
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [, isRefetching] = useRefetch<
-    SiteSelectorContainerPaginationQueryVariables
+    SiteFilterContainerPaginationQueryVariables
   >(props.relay);
   return (
-    <SiteSelector
+    <SiteFilter
+      onSelect={props.onSelect}
       loading={!props.query || isRefetching}
       sites={sites}
-      site={props.site}
+      siteID={props.siteID}
       onLoadMore={loadMore}
       hasMore={!isRefetching && props.relay.hasMore()}
       disableLoadMore={isLoadingMore}
-      siteID={props.siteID}
-      queueName={props.queueName}
     />
   );
 };
 
-type FragmentVariables = SiteSelectorContainerPaginationQueryVariables;
+type FragmentVariables = SiteFilterContainerPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
   Props,
-  SiteSelectorContainerPaginationQueryVariables,
+  SiteFilterContainerPaginationQueryVariables,
   FragmentVariables
 >(
   {
     query: graphql`
-      fragment SiteSelectorContainer_query on Query
+      fragment SiteFilterContainer_query on Query
         @argumentDefinitions(
           count: { type: "Int!", defaultValue: 10 }
           cursor: { type: "Cursor" }
@@ -62,7 +59,8 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
-              ...SiteSelectorSite_site
+              ...SiteFilterOption_site
+              ...SiteFilterSelected_site
             }
           }
         }
@@ -90,14 +88,10 @@ const enhanced = withPaginationContainer<
     query: graphql`
       # Pagination query to be fetched upon calling 'loadMore'.
       # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-      query SiteSelectorContainerPaginationQuery(
-        $count: Int!
-        $cursor: Cursor
-      ) {
-        ...SiteSelectorContainer_query
-          @arguments(count: $count, cursor: $cursor)
+      query SiteFilterContainerPaginationQuery($count: Int!, $cursor: Cursor) {
+        ...SiteFilterContainer_query @arguments(count: $count, cursor: $cursor)
       }
     `,
   }
-)(SiteSelectorContainer);
+)(SiteFilterContainer);
 export default enhanced;
