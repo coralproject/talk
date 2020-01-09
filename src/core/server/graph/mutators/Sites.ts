@@ -1,8 +1,8 @@
-import TenantContext from "coral-server/graph/tenant/context";
+import TenantContext from "coral-server/graph/context";
 import {
   GQLCreateSiteInput,
   GQLUpdateSiteInput,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 import { Site } from "coral-server/models/site";
 import { create, update } from "coral-server/services/sites";
 
