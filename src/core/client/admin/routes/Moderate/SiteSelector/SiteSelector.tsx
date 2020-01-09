@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import getModerationLink, {
@@ -43,7 +44,9 @@ const SiteSelector: FunctionComponent<Props> = ({
       selected={
         <>
           {site && <SiteSelectorSelected site={site} />}
-          {!siteID && <span className={styles.buttonText}>All sites</span>}
+          <Localized id="site-selector-all-sites">
+            {!siteID && <span className={styles.buttonText}>All sites</span>}
+          </Localized>
         </>
       }
     >

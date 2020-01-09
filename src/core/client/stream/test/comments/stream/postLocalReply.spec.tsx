@@ -36,6 +36,7 @@ beforeEach(() => {
         expectAndFail(data.input).toMatchObject({
           storyID: storyWithDeepestReplies.id,
           parentID: "comment-with-deepest-replies-3",
+          siteID: storyWithDeepestReplies.site.id,
           parentRevisionID: "revision-0",
           body: "<b>Hello world!</b>",
         });

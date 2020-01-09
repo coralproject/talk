@@ -10,6 +10,7 @@ import {
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
+  GQLSite,
 } from "coral-framework/schema";
 import {
   createFixture,
@@ -106,6 +107,15 @@ export const settings = createFixture<GQLSettings>({
     changeUsername: true,
     deleteAccount: true,
   },
+});
+
+export const site = createFixture<GQLSite>({
+  name: "Test Site",
+  id: "site-id",
+  createdAt: "2018-05-06T18:24:00.000Z",
+  url: "http://test-site.com",
+  allowedDomains: ["http://test-site.com"],
+  contactEmail: "community@test-site.com",
 });
 
 export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
@@ -531,6 +541,7 @@ export const baseStory = createFixture<GQLStory>({
       configurable: true,
     },
   },
+  site,
 });
 
 export const moderators = createFixtures<GQLUser>(

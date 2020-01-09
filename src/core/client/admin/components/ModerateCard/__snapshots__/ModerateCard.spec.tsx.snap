@@ -761,9 +761,21 @@ exports[`renders story info 1`] = `
               </span>
             </div>
             <div
-              className="ModerateCard-storyTitle"
+              className="ModerateCard-commentOn"
             >
-              Cancer cured!
+              <span
+                className="ModerateCard-siteName"
+              >
+                The verge
+                <ForwardRef(forwardRef)>
+                  keyboard_arrow_right
+                </ForwardRef(forwardRef)>
+              </span>
+              <span
+                className="ModerateCard-storyTitle"
+              >
+                Cancer cured!
+              </span>
             </div>
             <div>
               <Localized
