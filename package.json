@@ -11,8 +11,8 @@
     "url": "git://github.com/coralproject/talk.git"
   },
   "engines": {
-    "node": ">=12.0.0",
-    "npm": ">=6.9.0"
+    "node": "^12",
+    "npm": "^6"
   },
   "bugs": "https://github.com/coralproject/talk/issues",
   "contributors": [
