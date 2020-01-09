@@ -49,7 +49,7 @@ const enhanced = withPaginationContainer<
     query: graphql`
       fragment SitesConfigContainer_query on Query
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 10 }
+          count: { type: "Int!", defaultValue: 20 }
           cursor: { type: "Cursor" }
         ) {
         sites(first: $count, after: $cursor)
