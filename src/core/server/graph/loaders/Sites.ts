@@ -1,7 +1,7 @@
 import DataLoader from "dataloader";
 import { defaultTo } from "lodash";
 
-import TenantContext from "coral-server/graph/tenant/context";
+import TenantContext from "coral-server/graph/context";
 import {
   retrieveManySites,
   retrieveSite,
@@ -9,7 +9,7 @@ import {
   Site,
 } from "coral-server/models/site";
 
-import { QueryToSitesArgs } from "coral-server/graph/tenant/schema/__generated__/types";
+import { QueryToSitesArgs } from "coral-server/graph/schema/__generated__/types";
 
 import { createManyBatchLoadFn } from "./util";
 

@@ -10,6 +10,8 @@
 
 .wrapper {
   overflow-x: hidden;
+  /* adjust for button line-height being > 1 */
+  margin-top: -2px;
 }
 
 .button {
