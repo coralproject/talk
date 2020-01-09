@@ -134,14 +134,29 @@ exports[`approves comment in rejected queue: dangling 1`] = `
               </span>
             </div>
             <div
-              className="ModerateCard-storyTitle"
+              className="ModerateCard-commentOn"
             >
-              Finally a Cure for Cancer
+              <span
+                className="ModerateCard-siteName"
+              >
+                Test Site
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
+                >
+                  keyboard_arrow_right
+                </i>
+              </span>
+              <span
+                className="ModerateCard-storyTitle"
+              >
+                Finally a Cure for Cancer
+              </span>
             </div>
             <div>
               <a
                 className="TextLink-root ModerateCard-link"
-                href="/admin/moderate/story-1"
+                href="/admin/moderate/stories/story-1"
                 onClick={[Function]}
               >
                 Moderate Story
@@ -384,14 +399,29 @@ exports[`renders rejected queue with comments 1`] = `
                     </span>
                   </div>
                   <div
-                    className="ModerateCard-storyTitle"
+                    className="ModerateCard-commentOn"
                   >
-                    Finally a Cure for Cancer
+                    <span
+                      className="ModerateCard-siteName"
+                    >
+                      Test Site
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm"
+                      >
+                        keyboard_arrow_right
+                      </i>
+                    </span>
+                    <span
+                      className="ModerateCard-storyTitle"
+                    >
+                      Finally a Cure for Cancer
+                    </span>
                   </div>
                   <div>
                     <a
                       className="TextLink-root ModerateCard-link"
-                      href="/admin/moderate/story-1"
+                      href="/admin/moderate/stories/story-1"
                       onClick={[Function]}
                     >
                       Moderate Story
@@ -621,14 +651,29 @@ exports[`renders rejected queue with comments 1`] = `
                     </span>
                   </div>
                   <div
-                    className="ModerateCard-storyTitle"
+                    className="ModerateCard-commentOn"
                   >
-                    Finally a Cure for Cancer
+                    <span
+                      className="ModerateCard-siteName"
+                    >
+                      Test Site
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm"
+                      >
+                        keyboard_arrow_right
+                      </i>
+                    </span>
+                    <span
+                      className="ModerateCard-storyTitle"
+                    >
+                      Finally a Cure for Cancer
+                    </span>
                   </div>
                   <div>
                     <a
                       className="TextLink-root ModerateCard-link"
-                      href="/admin/moderate/story-1"
+                      href="/admin/moderate/stories/story-1"
                       onClick={[Function]}
                     >
                       Moderate Story
@@ -864,14 +909,29 @@ exports[`renders rejected queue with comments and load more 1`] = `
               </span>
             </div>
             <div
-              className="ModerateCard-storyTitle"
+              className="ModerateCard-commentOn"
             >
-              Finally a Cure for Cancer
+              <span
+                className="ModerateCard-siteName"
+              >
+                Test Site
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
+                >
+                  keyboard_arrow_right
+                </i>
+              </span>
+              <span
+                className="ModerateCard-storyTitle"
+              >
+                Finally a Cure for Cancer
+              </span>
             </div>
             <div>
               <a
                 className="TextLink-root ModerateCard-link"
-                href="/admin/moderate/story-1"
+                href="/admin/moderate/stories/story-1"
                 onClick={[Function]}
               >
                 Moderate Story

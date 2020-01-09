@@ -23,6 +23,7 @@ exports[`renders correctly 1`] = `
           "enabled": false,
         },
       },
+      "siteID": "site-id",
     }
   }
   submitStatus={null}
@@ -42,6 +43,7 @@ exports[`renders when commenting has been disabled (collapsing) 1`] = `
           "enabled": false,
         },
       },
+      "siteID": "site-id",
     }
   }
 />
@@ -70,6 +72,7 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
           "enabled": false,
         },
       },
+      "siteID": "site-id",
     }
   }
   submitStatus={null}
@@ -89,6 +92,7 @@ exports[`renders when story has been closed (collapsing) 1`] = `
           "enabled": false,
         },
       },
+      "siteID": "site-id",
     }
   }
 />
@@ -117,6 +121,7 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
           "enabled": false,
         },
       },
+      "siteID": "site-id",
     }
   }
   submitStatus={null}
@@ -152,6 +157,7 @@ exports[`renders when user is scheduled to be deleted 1`] = `
           "enabled": false,
         },
       },
+      "siteID": "site-id",
     }
   }
   submitStatus={null}
@@ -181,6 +187,7 @@ exports[`renders with initialValues 1`] = `
           "enabled": false,
         },
       },
+      "siteID": "site-id",
     }
   }
   submitStatus={null}

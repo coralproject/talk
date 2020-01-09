@@ -28,7 +28,10 @@ exports[`renders correctly 1`] = `
       />
     </withPropsOnChange(End)>
   </withPropsOnChange(AppBar)>
-  child
+  <NotificationProvider>
+    <NotificationContainer />
+    child
+  </NotificationProvider>
   <Version />
 </div>
 `;

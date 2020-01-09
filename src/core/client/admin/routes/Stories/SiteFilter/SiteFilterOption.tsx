@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 
@@ -34,7 +35,11 @@ const SiteFilterOption: FunctionComponent<Props> = ({
       className={root}
     >
       {site && site.name}
-      {!site && "All sites"}
+      {!site && (
+        <Localized id="site-filter-option-allSites">
+          <span>All sites</span>
+        </Localized>
+      )}
     </Button>
   );
 };

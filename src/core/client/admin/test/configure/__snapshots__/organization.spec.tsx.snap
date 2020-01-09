@@ -124,7 +124,7 @@ exports[`renders configure organization 1`] = `
         className="Main-root"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
           data-testid="configure-organizationContainer"
         >
           <div
@@ -190,9 +190,9 @@ exports[`renders configure organization 1`] = `
               <div>
                 <label
                   className="Header-root"
-                  htmlFor="configure-organization-organization.contactEmail"
+                  htmlFor="configure-organization-organization.sites"
                 >
-                  Organization email
+                  Sites
                 </label>
               </div>
               <div />
@@ -206,89 +206,111 @@ exports[`renders configure organization 1`] = `
                 <p
                   className="FormFieldDescription-root"
                 >
-                  This email address will be used as in emails and across the platform
-for community members to get in touch with the organization should
-they have any questions about the status of their accounts or
-moderation questions.
+                  Add a new site to your organization or edit an existing site's details.
                 </p>
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                <a
+                  className="Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-iconLeft Button-linkButton"
+                  data-color="regular"
+                  data-variant="regular"
+                  href="/admin/configure/organization/sites/new"
+                  onClick={[Function]}
                 >
-                  <div
-                    className="TextField-root TextField-fullWidth"
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input TextField-colorRegular"
-                      disabled={false}
-                      id="configure-organization-organization.contactEmail"
-                      name="organization.contactEmail"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value="coral@test.com"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="Box-root ConfigBox-root"
-          >
-            <div
-              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
-            >
-              <div>
-                <label
-                  className="Header-root"
-                  htmlFor="configure-organization-organization.url"
+                    add
+                  </i>
+                   Add site
+                </a>
+                <table
+                  className="Table-root Table-fullWidth"
                 >
-                  Organization URL
-                </label>
-              </div>
-              <div />
-            </div>
-            <div
-              className="ConfigBox-content"
-            >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
-              >
-                <p
-                  className="FormFieldDescription-root"
-                >
-                  Your organization url will appear on emails sent by Coral to your community and organization members.
-                </p>
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
-                >
-                  <div
-                    className="TextField-root TextField-fullWidth"
+                  <thead
+                    className="TableHead-root"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input TextField-colorRegular"
-                      disabled={false}
-                      id="configure-organization-organization.url"
-                      name="organization.url"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value="https://test.com/"
-                    />
-                  </div>
-                </div>
+                    <tr
+                      className="TableRow-root"
+                    >
+                      <th
+                        className="TableCell-root TableCell-header"
+                      >
+                        Site name
+                      </th>
+                      <th
+                        className="TableCell-root TableCell-header"
+                      />
+                    </tr>
+                  </thead>
+                  <tbody
+                    className="TableBody-root"
+                  >
+                    <tr
+                      className="TableRow-root TableRow-body"
+                    >
+                      <td
+                        className="TableCell-root TableCell-body"
+                      >
+                        Test Site
+                      </td>
+                      <td
+                        className="TableCell-root TableCell-body"
+                      >
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                        >
+                          <a
+                            className="Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconRight Button-linkButton"
+                            data-color="regular"
+                            data-variant="text"
+                            href="/admin/configure/organization/sites/site-1"
+                            onClick={[Function]}
+                          >
+                            Details 
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              keyboard_arrow_right
+                            </i>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      className="TableRow-root TableRow-body"
+                    >
+                      <td
+                        className="TableCell-root TableCell-body"
+                      >
+                        Second Site
+                      </td>
+                      <td
+                        className="TableCell-root TableCell-body"
+                      >
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                        >
+                          <a
+                            className="Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconRight Button-linkButton"
+                            data-color="regular"
+                            data-variant="text"
+                            href="/admin/configure/organization/sites/site-2"
+                            onClick={[Function]}
+                          >
+                            Details 
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              keyboard_arrow_right
+                            </i>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

@@ -21,6 +21,8 @@ import {
   reportedComments,
   settings,
   users,
+  site,
+  siteConnection,
 } from "../fixtures";
 
 const viewer = users.admins[0];
@@ -41,6 +43,8 @@ async function createTestRenderer(
           viewer: () => viewer,
           moderationQueues: () => emptyModerationQueues,
           comments: () => emptyRejectedComments,
+          site: () => site,
+          sites: () => siteConnection,
         },
       }),
       params.resolvers

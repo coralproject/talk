@@ -21,6 +21,9 @@ import {
   GQLUSER_ROLE,
   GQLUSER_STATUS,
   GQLUsersConnection,
+  GQLSite,
+  GQLSitesConnection,
+  GQLCommunity,
 } from "coral-framework/schema";
 import { createFixture, createFixtures } from "coral-framework/testHelpers";
 
@@ -235,6 +238,40 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   },
   settings
 );
+
+export const community = createFixture<GQLCommunity>({
+  name: "Test community",
+  id: "community-id",
+  createdAt: "2018-06-06T18:24:00.000Z",
+});
+
+export const site = createFixture<GQLSite>({
+  name: "Test Site",
+  id: "site-id",
+  createdAt: "2018-05-06T18:24:00.000Z",
+  url: "http://test-site.com",
+  allowedDomains: ["http://test-site.com"],
+  contactEmail: "community@test-site.com",
+});
+
+export const sites = createFixtures<GQLSite>([
+  {
+    name: "Test Site",
+    id: "site-1",
+    createdAt: "2018-07-06T18:24:00.000Z",
+    url: "http://test-site.com",
+    allowedDomains: ["http://test-site.com"],
+    contactEmail: "community@test-site.com",
+  },
+  {
+    name: "Second Site",
+    id: "site-2",
+    createdAt: "2018-09-06T18:24:00.000Z",
+    url: "http://test-2-site.com",
+    allowedDomains: ["http://test-2-site.com"],
+    contactEmail: "community@test-2-site.com",
+  },
+]);
 
 export const moderationActions = createFixtures<GQLCommentModerationAction>([
   {
@@ -463,6 +500,7 @@ export const stories = createFixtures<GQLStory>([
       title: "Finally a Cure for Cancer",
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
+    site: sites[0],
   },
   {
     id: "story-2",
@@ -476,6 +514,7 @@ export const stories = createFixtures<GQLStory>([
       title: "First Colony on Mars",
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
+    site: sites[1],
   },
   {
     id: "story-3",
@@ -489,6 +528,7 @@ export const stories = createFixtures<GQLStory>([
       title: "World hunger has been defeated",
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
+    site: sites[1],
   },
 ]);
 
@@ -548,6 +588,7 @@ export const baseComment = createFixture<GQLComment>({
     nodes: [],
   },
   story: stories[0],
+  site: sites[0],
   // TODO: Should be allowed to pass null here..
   parent: undefined,
   deleted: undefined,
@@ -828,3 +869,11 @@ export const disabledLocalRegistration = createFixture<GQLSettings>(
     },
   })
 );
+
+export const siteConnection = createFixture<GQLSitesConnection>({
+  edges: [
+    { node: sites[0], cursor: sites[0].createdAt },
+    { node: sites[1], cursor: sites[1].createdAt },
+  ],
+  pageInfo: { endCursor: null, hasNextPage: false },
+});

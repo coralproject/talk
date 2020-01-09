@@ -18,6 +18,7 @@ import {
   emptyModerationQueues,
   emptyRejectedComments,
   settings,
+  siteConnection,
 } from "../fixtures";
 
 async function createTestRenderer(
@@ -30,6 +31,7 @@ async function createTestRenderer(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
+          sites: () => siteConnection,
           moderationQueues: createQueryResolverStub<
             QueryToModerationQueuesResolver
           >(() => emptyModerationQueues),
