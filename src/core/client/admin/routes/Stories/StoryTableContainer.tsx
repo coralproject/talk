@@ -8,11 +8,12 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS_RL } from "coral-framework/schema";
-import { HorizontalGutter } from "coral-ui/components/v2";
+import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import { StoryTableContainer_query as QueryData } from "coral-admin/__generated__/StoryTableContainer_query.graphql";
 import { StoryTableContainerPaginationQueryVariables } from "coral-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
 
+import SiteFilterContainer from "./SiteFilter";
 import StoryTable from "./StoryTable";
 import StoryTableFilter from "./StoryTableFilter";
 
@@ -25,10 +26,6 @@ interface Props {
 const StoryTableContainer: FunctionComponent<Props> = props => {
   const stories = props.query
     ? props.query.stories.edges.map(edge => edge.node)
-    : [];
-
-  const sites = props.query
-    ? props.query.sites.edges.map(edge => edge.node)
     : [];
 
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
@@ -53,15 +50,19 @@ const StoryTableContainer: FunctionComponent<Props> = props => {
   return (
     <IntersectionProvider>
       <HorizontalGutter size="double">
-        <StoryTableFilter
-          onSetStatusFilter={setStatusFilter}
-          statusFilter={statusFilter}
-          onSetSearchFilter={setSearchFilter}
-          searchFilter={searchFilter}
-          onSetSiteFilter={setSiteFilter}
-          siteFilter={siteFilter}
-          sites={sites}
-        />
+        <Flex itemGutter="double">
+          <StoryTableFilter
+            onSetStatusFilter={setStatusFilter}
+            statusFilter={statusFilter}
+            onSetSearchFilter={setSearchFilter}
+            searchFilter={searchFilter}
+          />
+          <SiteFilterContainer
+            query={props.query}
+            siteID={siteFilter}
+            onSelect={setSiteFilter}
+          />
+        </Flex>
         <StoryTable
           viewer={props.query && props.query.viewer}
           loading={!props.query || isRefetching}
@@ -97,14 +98,7 @@ const enhanced = withPaginationContainer<
         viewer {
           ...StoryRowContainer_viewer
         }
-        sites {
-          edges {
-            node {
-              id
-              ...StoryTableSiteOption_site
-            }
-          }
-        }
+        ...SiteFilterContainer_query
         stories(
           first: $count
           after: $cursor

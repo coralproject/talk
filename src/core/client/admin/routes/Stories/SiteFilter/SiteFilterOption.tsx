@@ -1,0 +1,51 @@
+import cn from "classnames";
+import React, { FunctionComponent, useCallback } from "react";
+
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { Button } from "coral-ui/components/v2";
+
+import { SiteFilterOption_site } from "coral-admin/__generated__/SiteFilterOption_site.graphql";
+
+import styles from "./SiteFilterOption.css";
+
+interface Props {
+  site: SiteFilterOption_site | null;
+  onSelect: (id: string | null) => void;
+  active: boolean;
+}
+
+const SiteFilterOption: FunctionComponent<Props> = ({
+  site,
+  onSelect,
+  active,
+}) => {
+  const root = cn(styles.root, {
+    [styles.active]: active,
+  });
+  const onClick = useCallback(() => {
+    onSelect(site ? site.id : null);
+  }, [site]);
+  return (
+    <Button
+      uppercase={false}
+      color="mono"
+      variant="text"
+      onClick={onClick}
+      className={root}
+    >
+      {site && site.name}
+      {!site && "All sites"}
+    </Button>
+  );
+};
+
+const enhanced = withFragmentContainer<Props>({
+  site: graphql`
+    fragment SiteFilterOption_site on Site {
+      name
+      id
+    }
+  `,
+})(SiteFilterOption);
+
+export default enhanced;

@@ -1,0 +1,9 @@
+.buttonText {
+  font-weight: var(--v2-font-weight-primary-regular);
+}
+
+.root {
+  border-radius: var(--round-corners);
+  border: 1px solid var(--v2-palette-input-border);
+  height: 34px;
+}
