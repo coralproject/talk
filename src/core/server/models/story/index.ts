@@ -7,7 +7,6 @@ import {
   DuplicateStoryIDError,
   DuplicateStoryURLError,
 } from "coral-server/errors";
-import { Logger } from "coral-server/logger";
 import {
   Connection,
   ConnectionInput,
@@ -471,6 +470,11 @@ export async function retrieveActiveStories(
   const stories = await collection(mongo)
     .find({
       tenantID,
+      // We limit this query to stories that have the following field. This
+      // allows us to use the index.
+      lastCommentedAt: {
+        $exists: true,
+      },
     })
     .sort({ lastCommentedAt: -1 })
     .limit(limit)
@@ -483,10 +487,9 @@ export async function updateStoryLastCommentedAt(
   mongo: Db,
   tenantID: string,
   storyID: string,
-  now: Date,
-  log: Logger
+  now: Date
 ) {
-  const result = await collection(mongo).findOneAndUpdate(
+  await collection(mongo).updateOne(
     {
       tenantID,
       id: storyID,
@@ -497,8 +500,4 @@ export async function updateStoryLastCommentedAt(
       },
     }
   );
-
-  if (!result.ok) {
-    log.error({ tenantID, storyID }, "unable to set lastCommentedAt on story");
-  }
 }

@@ -179,7 +179,7 @@ export default async function create(
 
   await Promise.all([
     updateUserLastCommentID(redis, tenant, author, comment.id),
-    updateStoryLastCommentedAt(mongo, tenant.id, story.id, now, log),
+    updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
   ]);
 
   // Pull the revision out.
