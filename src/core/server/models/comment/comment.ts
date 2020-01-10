@@ -6,12 +6,6 @@ import uuid from "uuid";
 import { Omit, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { CommentNotFoundError } from "coral-server/errors";
-import {
-  GQLCOMMENT_SORT,
-  GQLCOMMENT_STATUS,
-  GQLCommentTagCounts,
-  GQLTAG,
-} from "coral-server/graph/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   EncodedCommentActionCounts,
@@ -30,6 +24,13 @@ import {
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 import { comments as collection } from "coral-server/services/mongodb/collections";
+
+import {
+  GQLCOMMENT_SORT,
+  GQLCOMMENT_STATUS,
+  GQLCommentTagCounts,
+  GQLTAG,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { PUBLISHED_STATUSES } from "./constants";
 import {

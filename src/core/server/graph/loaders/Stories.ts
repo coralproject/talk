@@ -2,12 +2,9 @@ import DataLoader from "dataloader";
 import { defaultTo } from "lodash";
 
 import GraphContext from "coral-server/graph/context";
-import {
-  GQLSTORY_STATUS,
-  QueryToStoriesArgs,
-} from "coral-server/graph/schema/__generated__/types";
 import { Connection } from "coral-server/models/helpers";
 import {
+  retrieveActiveStories,
   retrieveManyStories,
   retrieveStoryConnection,
   Story,
@@ -20,6 +17,11 @@ import {
   FindStory,
 } from "coral-server/services/stories";
 import { scraper } from "coral-server/services/stories/scraper";
+
+import {
+  GQLSTORY_STATUS,
+  QueryToStoriesArgs,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { createManyBatchLoadFn } from "./util";
 
@@ -127,4 +129,6 @@ export default (ctx: GraphContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
+  activeStories: (limit: number) =>
+    retrieveActiveStories(ctx.mongo, ctx.tenant.id, limit),
 });

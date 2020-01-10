@@ -3,19 +3,6 @@ import { defaultTo, isNil, omitBy } from "lodash";
 import { DateTime } from "luxon";
 
 import Context from "coral-server/graph/context";
-import {
-  CommentToParentsArgs,
-  CommentToRepliesArgs,
-  GQLActionPresence,
-  GQLCOMMENT_SORT,
-  GQLTAG,
-  GQLUSER_ROLE,
-  QueryToCommentsArgs,
-  StoryToCommentsArgs,
-  UserToAllCommentsArgs,
-  UserToCommentsArgs,
-  UserToRejectedCommentsArgs,
-} from "coral-server/graph/schema/__generated__/types";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
   Comment,
@@ -35,6 +22,20 @@ import { hasPublishedStatus } from "coral-server/models/comment/helpers";
 import { Connection } from "coral-server/models/helpers";
 import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/story/counts/shared";
 import { User } from "coral-server/models/user";
+
+import {
+  CommentToParentsArgs,
+  CommentToRepliesArgs,
+  GQLActionPresence,
+  GQLCOMMENT_SORT,
+  GQLTAG,
+  GQLUSER_ROLE,
+  QueryToCommentsArgs,
+  StoryToCommentsArgs,
+  UserToAllCommentsArgs,
+  UserToCommentsArgs,
+  UserToRejectedCommentsArgs,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { SingletonResolver } from "./util";
 

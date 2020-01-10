@@ -769,10 +769,11 @@ type Auth {
   authentication solutions.
   """
   integrations: AuthIntegrations!
+
   """
   sessionDuration determines the duration in seconds for which an access token is valid
   """
-  sessionDuration: Int!
+  sessionDuration: Int! @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -1597,6 +1598,7 @@ type PremodStatusHistory {
   active when true, indicates that the given user is premodded.
   """
   active: Boolean!
+
   """
   createdBy is the user that flagged the commenter as pre-mod
   """
@@ -1815,6 +1817,7 @@ type User {
   badges are user display badges
   """
   badges: [String!]
+
   """
   email is the current email address for the User.
   """
@@ -1953,17 +1956,32 @@ type User {
   of their account data.
   """
   lastDownloadedAt: Time
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+    )
 
   """
   scheduledDeletionDate is the time when the User is
   scheduled to be deleted.
   """
   scheduledDeletionDate: Time
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+    )
 
   """
   deletedAt is the time when the User was deleted.
   """
   deletedAt: Time
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+    )
 }
 
 """
@@ -2583,7 +2601,7 @@ type Story {
   scrapedAt is the Time that the Story had it's metadata scraped at. If the time
   is null, the Story has not been scraped yet.
   """
-  scrapedAt: Time
+  scrapedAt: Time @auth(roles: [ADMIN, MODERATOR])
 
   """
   featuredComments are the Comments with the FEATURED tag on the Story.
@@ -2641,6 +2659,11 @@ type Story {
   settings.
   """
   settings: StorySettings!
+
+  """
+  lastCommentedAt is the last time someone commented on this story.
+  """
+  lastCommentedAt: Time @auth(roles: [ADMIN])
 }
 
 """
@@ -2780,6 +2803,14 @@ type Query {
   """
   moderationQueues(storyID: ID): ModerationQueues!
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  activeStories is the list of most recently commented on stories identified
+  by their `lastCommentedAt` field
+  """
+  activeStories(limit: Int = 10 @constraint(max: 25)): [Story!]!
+    @auth(roles: [ADMIN])
+    @rate(max: 2, seconds: 1)
 }
 
 ################################################################################

@@ -25,7 +25,10 @@ import {
   hasAncestors,
   hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
-import { retrieveStory } from "coral-server/models/story";
+import {
+  retrieveStory,
+  updateStoryLastCommentedAt,
+} from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
@@ -174,7 +177,10 @@ export default async function create(
     now
   );
 
-  await updateUserLastCommentID(redis, tenant, author, comment.id);
+  await Promise.all([
+    updateUserLastCommentID(redis, tenant, author, comment.id),
+    updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
+  ]);
 
   // Pull the revision out.
   const revision = getLatestRevision(comment);
