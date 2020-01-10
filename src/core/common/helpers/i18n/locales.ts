@@ -24,7 +24,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   "nl-NL": "Nederlands",
   da: "Dansk",
   "fr-FR": "Francais",
-  ro: "Română"
+  ro: "Română",
 };
 
 /**
