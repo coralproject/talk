@@ -7,10 +7,7 @@ import {
   DuplicateStoryIDError,
   DuplicateStoryURLError,
 } from "coral-server/errors";
-import {
-  GQLStoryMetadata,
-  GQLStorySettings,
-} from "coral-server/graph/schema/__generated__/types";
+import { Logger } from "coral-server/logger";
 import {
   Connection,
   ConnectionInput,
@@ -20,6 +17,11 @@ import {
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
 import { stories as collection } from "coral-server/services/mongodb/collections";
+
+import {
+  GQLStoryMetadata,
+  GQLStorySettings,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { createEmptyCommentStatusCounts } from "../comment/helpers";
 import {
@@ -75,6 +77,11 @@ export interface Story extends TenantResource {
    * createdAt is the date that the Story was added to the Coral database.
    */
   createdAt: Date;
+
+  /**
+   * lastCommentedAt is the last time someone commented on this story.
+   */
+  lastCommentedAt?: Date;
 }
 
 export interface UpsertStoryInput {
@@ -454,4 +461,44 @@ async function retrieveConnection(
 
   // Return a connection.
   return resolveConnection(query, input, story => story.createdAt);
+}
+
+export async function retrieveActiveStories(
+  mongo: Db,
+  tenantID: string,
+  limit: number
+) {
+  const stories = await collection(mongo)
+    .find({
+      tenantID,
+    })
+    .sort({ lastCommentedAt: -1 })
+    .limit(limit)
+    .toArray();
+
+  return stories;
+}
+
+export async function updateStoryLastCommentedAt(
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  now: Date,
+  log: Logger
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id: storyID,
+    },
+    {
+      $set: {
+        lastCommentedAt: now,
+      },
+    }
+  );
+
+  if (!result.ok) {
+    log.error({ tenantID, storyID }, "unable to set lastCommentedAt on story");
+  }
 }

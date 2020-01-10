@@ -2641,6 +2641,11 @@ type Story {
   settings.
   """
   settings: StorySettings!
+
+  """
+  lastCommentedAt is the last time someone commented on this story.
+  """
+  lastCommentedAt: Time
 }
 
 """
@@ -2780,6 +2785,12 @@ type Query {
   """
   moderationQueues(storyID: ID): ModerationQueues!
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  activeStories is the list of most recently commented on stories identified
+  by their `lastCommentedAt` field
+  """
+  activeStories(limit: Int = 10 @constraint(max: 25)): [Story!]! @auth(roles: [ADMIN]) @rate(seconds: 30)
 }
 
 ################################################################################
