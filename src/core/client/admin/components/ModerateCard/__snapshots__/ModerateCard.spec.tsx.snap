@@ -18,17 +18,19 @@ exports[`renders approved correctly 1`] = `
         <ForwardRef(forwardRef)
           alignItems="center"
         >
-          <ForwardRef(forwardRef)
-            className="ModerateCard-usernameButton"
-            onClick={[Function]}
-          >
-            <Username>
-              Theon
-            </Username>
-          </ForwardRef(forwardRef)>
-          <Relay(CommentAuthorContainer)
-            comment={Object {}}
-          />
+          <React.Fragment>
+            <ForwardRef(forwardRef)
+              className="ModerateCard-usernameButton"
+              onClick={[Function]}
+            >
+              <Username>
+                Theon
+              </Username>
+            </ForwardRef(forwardRef)>
+            <Relay(CommentAuthorContainer)
+              comment={Object {}}
+            />
+          </React.Fragment>
           <Timestamp
             toggleAbsolute={true}
           >
@@ -146,17 +148,19 @@ exports[`renders correctly 1`] = `
         <ForwardRef(forwardRef)
           alignItems="center"
         >
-          <ForwardRef(forwardRef)
-            className="ModerateCard-usernameButton"
-            onClick={[Function]}
-          >
-            <Username>
-              Theon
-            </Username>
-          </ForwardRef(forwardRef)>
-          <Relay(CommentAuthorContainer)
-            comment={Object {}}
-          />
+          <React.Fragment>
+            <ForwardRef(forwardRef)
+              className="ModerateCard-usernameButton"
+              onClick={[Function]}
+            >
+              <Username>
+                Theon
+              </Username>
+            </ForwardRef(forwardRef)>
+            <Relay(CommentAuthorContainer)
+              comment={Object {}}
+            />
+          </React.Fragment>
           <Timestamp
             toggleAbsolute={true}
           >
@@ -274,17 +278,19 @@ exports[`renders dangling correctly 1`] = `
         <ForwardRef(forwardRef)
           alignItems="center"
         >
-          <ForwardRef(forwardRef)
-            className="ModerateCard-usernameButton"
-            onClick={[Function]}
-          >
-            <Username>
-              Theon
-            </Username>
-          </ForwardRef(forwardRef)>
-          <Relay(CommentAuthorContainer)
-            comment={Object {}}
-          />
+          <React.Fragment>
+            <ForwardRef(forwardRef)
+              className="ModerateCard-usernameButton"
+              onClick={[Function]}
+            >
+              <Username>
+                Theon
+              </Username>
+            </ForwardRef(forwardRef)>
+            <Relay(CommentAuthorContainer)
+              comment={Object {}}
+            />
+          </React.Fragment>
           <Timestamp
             toggleAbsolute={true}
           >
@@ -402,17 +408,19 @@ exports[`renders rejected correctly 1`] = `
         <ForwardRef(forwardRef)
           alignItems="center"
         >
-          <ForwardRef(forwardRef)
-            className="ModerateCard-usernameButton"
-            onClick={[Function]}
-          >
-            <Username>
-              Theon
-            </Username>
-          </ForwardRef(forwardRef)>
-          <Relay(CommentAuthorContainer)
-            comment={Object {}}
-          />
+          <React.Fragment>
+            <ForwardRef(forwardRef)
+              className="ModerateCard-usernameButton"
+              onClick={[Function]}
+            >
+              <Username>
+                Theon
+              </Username>
+            </ForwardRef(forwardRef)>
+            <Relay(CommentAuthorContainer)
+              comment={Object {}}
+            />
+          </React.Fragment>
           <Timestamp
             toggleAbsolute={true}
           >
@@ -530,17 +538,19 @@ exports[`renders reply correctly 1`] = `
         <ForwardRef(forwardRef)
           alignItems="center"
         >
-          <ForwardRef(forwardRef)
-            className="ModerateCard-usernameButton"
-            onClick={[Function]}
-          >
-            <Username>
-              Theon
-            </Username>
-          </ForwardRef(forwardRef)>
-          <Relay(CommentAuthorContainer)
-            comment={Object {}}
-          />
+          <React.Fragment>
+            <ForwardRef(forwardRef)
+              className="ModerateCard-usernameButton"
+              onClick={[Function]}
+            >
+              <Username>
+                Theon
+              </Username>
+            </ForwardRef(forwardRef)>
+            <Relay(CommentAuthorContainer)
+              comment={Object {}}
+            />
+          </React.Fragment>
           <Timestamp
             toggleAbsolute={true}
           >
@@ -667,17 +677,19 @@ exports[`renders story info 1`] = `
         <ForwardRef(forwardRef)
           alignItems="center"
         >
-          <ForwardRef(forwardRef)
-            className="ModerateCard-usernameButton"
-            onClick={[Function]}
-          >
-            <Username>
-              Theon
-            </Username>
-          </ForwardRef(forwardRef)>
-          <Relay(CommentAuthorContainer)
-            comment={Object {}}
-          />
+          <React.Fragment>
+            <ForwardRef(forwardRef)
+              className="ModerateCard-usernameButton"
+              onClick={[Function]}
+            >
+              <Username>
+                Theon
+              </Username>
+            </ForwardRef(forwardRef)>
+            <Relay(CommentAuthorContainer)
+              comment={Object {}}
+            />
+          </React.Fragment>
           <Timestamp
             toggleAbsolute={true}
           >
@@ -829,17 +841,19 @@ exports[`renders tombstoned when comment is deleted 1`] = `
         <ForwardRef(forwardRef)
           alignItems="center"
         >
-          <ForwardRef(forwardRef)
-            className="ModerateCard-usernameButton"
-            onClick={[Function]}
-          >
-            <Username>
-              Theon
-            </Username>
-          </ForwardRef(forwardRef)>
-          <Relay(CommentAuthorContainer)
-            comment={Object {}}
-          />
+          <React.Fragment>
+            <ForwardRef(forwardRef)
+              className="ModerateCard-usernameButton"
+              onClick={[Function]}
+            >
+              <Username>
+                Theon
+              </Username>
+            </ForwardRef(forwardRef)>
+            <Relay(CommentAuthorContainer)
+              comment={Object {}}
+            />
+          </React.Fragment>
           <Timestamp
             toggleAbsolute={true}
           >

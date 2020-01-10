@@ -185,14 +185,16 @@ const ModerateCard: FunctionComponent<Props> = ({
           >
             <Flex alignItems="center">
               {!hideUsername && username && (
-                <BaseButton
-                  onClick={commentAuthorClick}
-                  className={styles.usernameButton}
-                >
-                  <Username>{username}</Username>
-                </BaseButton>
+                <>
+                  <BaseButton
+                    onClick={commentAuthorClick}
+                    className={styles.usernameButton}
+                  >
+                    <Username>{username}</Username>
+                  </BaseButton>
+                  <CommentAuthorContainer comment={comment} />
+                </>
               )}
-              <CommentAuthorContainer comment={comment} />
               <Timestamp>{createdAt}</Timestamp>
               {edited && (
                 <Localized id="moderate-comment-edited">
