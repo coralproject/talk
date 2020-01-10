@@ -9,7 +9,8 @@ export type LanguageCode =
   | "de"
   | "nl-NL"
   | "da"
-  | "fr-FR";
+  | "fr-FR"
+  | "ro";
 
 /**
  * LOCALES_MAP contains a map of language codes associated with their
@@ -23,6 +24,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   "nl-NL": "Nederlands",
   da: "Dansk",
   "fr-FR": "Francais",
+  ro: "Română",
 };
 
 /**
