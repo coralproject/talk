@@ -205,6 +205,11 @@ exports[`renders configure general 1`] = `
                       >
                         Francais
                       </option>
+                      <option
+                        value="ro"
+                      >
+                        Română
+                      </option>
                     </select>
                     <span
                       aria-hidden={true}
