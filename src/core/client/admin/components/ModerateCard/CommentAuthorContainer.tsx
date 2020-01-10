@@ -18,11 +18,11 @@ const CommentAuthorContainer: FunctionComponent<Props> = ({ comment }) => {
   }
   return (
     <>
-      <Localized id="commentAuthor-status-banned">
-        <div className={styles.authorStatus}>
+      <div className={styles.authorStatus}>
+        <Localized id="commentAuthor-status-banned">
           <Tag color="error">BANNED</Tag>
-        </div>
-      </Localized>
+        </Localized>
+      </div>
     </>
   );
 };
