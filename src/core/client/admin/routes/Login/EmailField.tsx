@@ -32,6 +32,7 @@ const EmailField: FunctionComponent<Props> = props => (
             color={colorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
+            data-testid="email-field"
           />
         </Localized>
         <ValidationMessage meta={meta} fullWidth />

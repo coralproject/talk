@@ -141,6 +141,7 @@ class PasswordField extends Component<PasswordFieldProps, State> {
             placeholder={placeholder}
             value={value}
             type={reveal ? "text" : "password"}
+            data-testid="password-field"
           />
           <div
             role="button"

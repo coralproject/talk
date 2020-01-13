@@ -7,14 +7,14 @@
   text-decoration: underline;
 }
 
-.fields {
+.container {
   padding-bottom: var(--v2-spacing-5);
 }
 
-.emailField {
+.field {
   padding-bottom: var(--v2-spacing-4);
 }
 
-.passwordField {
+.field {
   padding-bottom: var(--v2-spacing-4);
 }

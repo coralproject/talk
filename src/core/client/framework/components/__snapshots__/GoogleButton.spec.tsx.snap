@@ -8,13 +8,13 @@ exports[`renders correctly 1`] = `
       "colorRegular": "GoogleButton-colorRegular",
       "disabled)": "GoogleButton-disabled)",
       "mouseHover": "GoogleButton-mouseHover",
-      "variantFilled": "GoogleButton-variantFilled",
+      "variantRegular": "GoogleButton-variantRegular",
     }
   }
   fullWidth={true}
   onClick={[Function]}
   size="large"
-  variant="filled"
+  variant="regular"
 >
   <svg
     fill="none"

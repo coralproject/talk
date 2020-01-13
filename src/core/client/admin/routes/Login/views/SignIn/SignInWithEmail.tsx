@@ -41,16 +41,16 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <HorizontalGutter size="full" className={styles.fields}>
+          <HorizontalGutter size="full" className={styles.container}>
             {submitError && (
               <CallOut color="error" fullWidth>
                 {submitError}
               </CallOut>
             )}
-            <div className={styles.emailField}>
+            <div className={styles.field}>
               <EmailField disabled={submitting} />
             </div>
-            <div className={styles.passwordField}>
+            <div className={styles.field}>
               <Field name="password" validate={composeValidators(required)}>
                 {({ input, meta }) => (
                   <FormField>
