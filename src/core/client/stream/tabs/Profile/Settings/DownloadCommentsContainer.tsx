@@ -3,8 +3,9 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
-import { DOWNLOAD_LIMIT_TIMEFRAME } from "coral-common/constants";
-import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
+import { DOWNLOAD_LIMIT_TIMEFRAME_DURATION } from "coral-common/constants";
+import { reduceSeconds } from "coral-common/helpers/i18n";
+import TIME from "coral-common/time";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
@@ -34,8 +35,8 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
     ? Math.ceil((Date.now() - lastDownloadedAt.getTime()) / 1000)
     : 0;
   const canDownload =
-    !lastDownloadedAt || sinceLastDownload >= DOWNLOAD_LIMIT_TIMEFRAME;
-  const tilCanDownload = DOWNLOAD_LIMIT_TIMEFRAME - sinceLastDownload;
+    !lastDownloadedAt || sinceLastDownload >= DOWNLOAD_LIMIT_TIMEFRAME_DURATION;
+  const tilCanDownload = DOWNLOAD_LIMIT_TIMEFRAME_DURATION - sinceLastDownload;
   const formatter = new Intl.DateTimeFormat(locales, {
     day: "2-digit",
     month: "2-digit",
@@ -46,9 +47,9 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
     timeZoneName: "short",
   });
   const { scaled, unit } = reduceSeconds(tilCanDownload, [
-    UNIT.DAYS,
-    UNIT.HOURS,
-    UNIT.MINUTES,
+    TIME.DAY,
+    TIME.HOUR,
+    TIME.MINUTE,
   ]);
 
   return (

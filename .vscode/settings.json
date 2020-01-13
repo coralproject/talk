@@ -55,4 +55,7 @@
     "__generated__"
   ],
   "debug.node.autoAttach": "on",
+  "search.exclude": {
+    "package-lock.json": true
+  },
 }

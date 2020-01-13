@@ -1,29 +1,19 @@
-/**
- * UNIT are units that can be used in the
- * DurationField components.
- */
-export enum UNIT {
-  SECONDS = 1,
-  MINUTES = 60,
-  HOURS = 3600,
-  DAYS = 86400,
-  WEEKS = 604800,
-}
+import TIME from "coral-common/time";
 
 export const UNIT_MAP = {
-  [UNIT.SECONDS]: "second",
-  [UNIT.MINUTES]: "minute",
-  [UNIT.HOURS]: "hour",
-  [UNIT.DAYS]: "day",
-  [UNIT.WEEKS]: "week",
+  [TIME.SECOND]: "second",
+  [TIME.MINUTE]: "minute",
+  [TIME.HOUR]: "hour",
+  [TIME.DAY]: "day",
+  [TIME.WEEK]: "week",
 };
 
 export const DEFAULT_UNITS = [
-  UNIT.WEEKS,
-  UNIT.DAYS,
-  UNIT.HOURS,
-  UNIT.MINUTES,
-  UNIT.SECONDS,
+  TIME.WEEK,
+  TIME.DAY,
+  TIME.HOUR,
+  TIME.MINUTE,
+  TIME.SECOND,
 ];
 
 type ValueOf<T> = T[keyof T];
@@ -37,11 +27,11 @@ export interface ScaledUnit {
 
 export default function reduceSeconds(
   value: number,
-  units: UNIT[] = DEFAULT_UNITS
+  units: TIME[] = DEFAULT_UNITS
 ): ScaledUnit {
   // Find the largest match for the smallest number.
   const unit: keyof typeof UNIT_MAP =
-    units.find(compare => value >= compare) || UNIT.SECONDS;
+    units.find(compare => value >= compare) || TIME.SECOND;
 
   // Scale the value to the unit.
   const scaled = Math.round((value / unit) * 100) / 100;
