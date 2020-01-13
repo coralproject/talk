@@ -8,7 +8,7 @@ import {
   updateSite,
   UpdateSiteInput,
 } from "coral-server/models/site";
-import { Tenant } from "coral-server/models/tenant";
+import { Tenant, updateTenant } from "coral-server/models/tenant";
 
 type CreateSite = Omit<CreateSiteInput, "communityID" | "tenantID"> & {
   communityID?: string;
@@ -27,6 +27,9 @@ export async function create(
       throw new Error("must specify community ID");
     }
     communityID = communities[0].id;
+  }
+  if (!tenant.multisite) {
+    await updateTenant(mongo, tenant.id, { multisite: true });
   }
   return createSite(
     mongo,

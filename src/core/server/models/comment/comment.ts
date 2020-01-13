@@ -143,7 +143,7 @@ export type CreateCommentInput = Omit<
 > &
   Required<Pick<Revision, "body">> &
   Pick<Revision, "metadata"> &
-  Partial<Pick<Comment, "actionCounts">>;
+  Partial<Pick<Comment, "actionCounts" | "siteID">>;
 
 export async function createComment(
   mongo: Db,

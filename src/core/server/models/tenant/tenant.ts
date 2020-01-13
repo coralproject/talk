@@ -205,6 +205,7 @@ export async function createTenant(
     slack: {
       channels: [],
     },
+    multisite: false,
   };
 
   // Create the new Tenant by merging it together with the defaults.

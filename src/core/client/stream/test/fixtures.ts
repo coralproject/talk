@@ -4,13 +4,13 @@ import {
   GQLDIGEST_FREQUENCY,
   GQLMODERATION_MODE,
   GQLSettings,
+  GQLSite,
   GQLStory,
   GQLTAG,
   GQLTag,
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
-  GQLSite,
 } from "coral-framework/schema";
 import {
   createFixture,
@@ -107,6 +107,7 @@ export const settings = createFixture<GQLSettings>({
     changeUsername: true,
     deleteAccount: true,
   },
+  multisite: false,
 });
 
 export const site = createFixture<GQLSite>({

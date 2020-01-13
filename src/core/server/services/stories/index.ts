@@ -14,6 +14,7 @@ import {
   mergeManyCommentStories,
   removeStoryComments,
 } from "coral-server/models/comment";
+import { retrieveTenantSites } from "coral-server/models/site";
 import {
   calculateTotalCommentCount,
   closeStory,
@@ -75,6 +76,13 @@ export async function findOrCreate(
       storyURL: input.url,
       allowedDomains: tenant.allowedDomains,
     });
+  }
+
+  if (!tenant.multisite) {
+    const [site] = await retrieveTenantSites(mongo, tenant.id);
+    input.siteID = site.id;
+  } else if (!input.siteID) {
+    throw new Error("siteID is required if multisite is enabled");
   }
 
   const story = await findOrCreateStory(mongo, tenant.id, input, now);
@@ -159,7 +167,10 @@ export async function remove(
   return removedStory;
 }
 
-export type CreateStory = CreateStoryInput;
+// export type CreateStory = CreateStoryInput;
+export type CreateStory = Partial<
+  Pick<Story, "metadata" | "scrapedAt" | "closedAt" | "siteID">
+>;
 
 export async function create(
   mongo: Db,
@@ -176,6 +187,13 @@ export async function create(
       storyURL,
       allowedDomains: tenant.allowedDomains,
     });
+  }
+
+  if (!tenant.multisite) {
+    const [site] = await retrieveTenantSites(mongo, tenant.id);
+    siteID = site.id;
+  } else if (!siteID) {
+    throw new Error("siteID is required if multisite is enabled");
   }
 
   // Construct the input payload.

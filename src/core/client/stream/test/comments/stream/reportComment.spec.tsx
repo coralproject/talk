@@ -17,6 +17,7 @@ function createTestRenderer(
         expectAndFail(data).toEqual({
           id: stories[0].id,
           url: null,
+          siteID: null,
         });
         return stories[0];
       }),
