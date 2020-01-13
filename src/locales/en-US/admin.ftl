@@ -361,8 +361,8 @@ configure-wordList-suspect-wordListDetailInstructions =
 
 ### Advanced
 configure-advanced-customCSS = Custom CSS
-configure-advanced-customCSS-explanation =
-  URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+configure-advanced-customCSS-override =
+  URL of a CSS stylesheet that will override default Embed Stream styles.
 
 configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =

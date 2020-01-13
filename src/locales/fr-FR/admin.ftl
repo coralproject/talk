@@ -40,7 +40,7 @@ userMenu-popover =
 ## Restricted
 restricted-currentlySignedInTo = Vous êtes connecté
 restricted-noPermissionInfo = Vous n'avez pas les droits pour accéder à cette page.
-restricted-signedInAs = Vous êtes connecté en tant que : <Username></Username> 
+restricted-signedInAs = Vous êtes connecté en tant que : <Username></Username>
 restricted-signInWithADifferentAccount = Se connecter avec un autre compte.
 restricted-contactAdmin = Si vous pensez qu'il y a une erreur, merci de contacter votre administateur pour recevoir une aide.
 
@@ -107,14 +107,14 @@ configure-general-sitewideCommenting-explanation =
   Ouvrir ou fermer les flux de commentaires pour avoir les nouveaux commentaires.
   Quand les nouveaux commentaires sont désactivés, ils ne peuvent pas être soumis,
   mais les commentaires déjà éxistants peuvent continuer à recevoir des réactions,
-  à être signalés et partagés. 
+  à être signalés et partagés.
 configure-general-sitewideCommenting-enableNewCommentsSitewide =
  Activer les commentaires sur l'ensemble du site.
 configure-general-sitewideCommenting-onCommentStreamsOpened =
   Activer - Le flux de commentaires est ouvert pour recevoir de nouveaux commentaires.
 configure-general-sitewideCommenting-offCommentStreamsClosed =
   Désactiver - Le flux de commentaires est fermé pour les nouveaux commentaires.
-configure-general-sitewideCommenting-message = 
+configure-general-sitewideCommenting-message =
   Message pour dire que les commentaires sont fermés sur tout le site.
 configure-general-sitewideCommenting-messageExplanation =
   Écrire un message qui sera affiché quand le flux de commentaires sera fermé sur tout le site.
@@ -156,7 +156,7 @@ configure-general-closedStreamMessage-explanation = Écrire un message qui appar
 ### Organization
 configure-organization-name = Nom de l'entreprise
 configure-organization-nameExplanation =
-  Votre nom d'entreprise apparaîtra sur les emails envoyés par { -product-name } 
+  Votre nom d'entreprise apparaîtra sur les emails envoyés par { -product-name }
   à votre communauté et aux membres de votre entreprise.
 
 configure-organization-email =  Email de l'entreprise
@@ -166,7 +166,7 @@ configure-organization-emailExplanation =
   sur leurs comptes ou à propos de la modération.
 configure-organization-url = URL de l'entreprise
 configure-organization-urlExplanation =
-  Votre URL d'entreprise apparaîtra sur les emails envoyés par { -product-name } 
+  Votre URL d'entreprise apparaîtra sur les emails envoyés par { -product-name }
   à votre communauté et aux membres de l'entreprise.
 
 ### Email
@@ -209,14 +209,14 @@ configure-auth-confirmNoAuthForCommentStream =
 
 configure-auth-facebook-loginWith = Connexion avec Facebook
 configure-auth-facebook-toEnableIntegration =
-  Pour activer l'authentification avec Facebook, 
+  Pour activer l'authentification avec Facebook,
   vous devez créer et configurer une application web.
   Pour plus d'informations, rendez-vous sur : <Link></Link>.
 configure-auth-facebook-useLoginOn = Utiliser la connexion avec Facebook
 
 configure-auth-google-loginWith = Connexion avec Google
 configure-auth-google-toEnableIntegration =
-  Pour activer l'authentification avec Google, 
+  Pour activer l'authentification avec Google,
   vous devez créer et configurer une application web.
   Pour plus d'informations, rendez-vous sur : <Link></Link>.
 configure-auth-google-useLoginOn = Utiliser la connexion avec Google
@@ -238,12 +238,12 @@ configure-auth-oidc-loginWith = Connexion par OpenID Connect.
 configure-auth-oidc-toLearnMore = En savoir plus : <Link></Link>
 configure-auth-oidc-providerName = Nom du fournisseur
 configure-auth-oidc-providerNameDescription =
-  Le fournisseur de l'intégration de l'OpenID Connect. 
+  Le fournisseur de l'intégration de l'OpenID Connect.
   Il sera utilisé lorsque le nom du fournisseur devra être affiché,
   par ex. “Se connecter avec &lt;Facebook&gt;”.
-configure-auth-oidc-issuer = Émetteur 
+configure-auth-oidc-issuer = Émetteur
 configure-auth-oidc-issuerDescription =
-  Après avoir entré toutes vos informations d'émetteur, cliquez sur le bouton Découvrir 
+  Après avoir entré toutes vos informations d'émetteur, cliquez sur le bouton Découvrir
   pour que {-product-name} complète les champs restants automatiquement.
   Vous pouvez également entrer les informations manuellement.
 configure-auth-oidc-authorizationURL = URL d'autorisation
@@ -263,7 +263,7 @@ configure-moderation-recentCommentHistory-timeFrame = Période de l'historique d
 configure-moderation-recentCommentHistory-timeFrame-description =
   Temps nécessaire pour calculer le taux de rejet d'un intervenant.
 configure-moderation-recentCommentHistory-enabled = Filtre d'historique récent
-configure-moderation-recentCommentHistory-enabled-description = 
+configure-moderation-recentCommentHistory-enabled-description =
   Empêche les récidivistes de publier des commentaires sans approbation.
   Lorsque le taux de rejet d'un membre est supérieur au seuil,
   ses commentaires sont envoyés à "En attente d'approbation par le modérateur".
@@ -271,7 +271,7 @@ configure-moderation-recentCommentHistory-enabled-description =
 configure-moderation-recentCommentHistory-triggerRejectionRate = Seuil du taux de rejet
 configure-moderation-recentCommentHistory-triggerRejectionRate-description =
   Commentaires rejetés ÷ (commentaires rejetés + commentaires publiés)
-  sur la période indiquée au-dessus, en pourcentage. 
+  sur la période indiquée au-dessus, en pourcentage.
   Cela n'inclut pas les commentaires en cours de traitement pour toxicité,
   et les spams qui ont été pré-modérés.
 
@@ -314,7 +314,7 @@ configure-moderation-perspective-explanation =
 configure-moderation-perspective-filter = Filtre de commentaire toxique
 configure-moderation-perspective-toxicityThreshold = Seuil de toxicité
 configure-moderation-perspective-toxicityThresholdDescription =
-  Cette valeur peut être fixée comme un pourcentage entre 0 et 100. 
+  Cette valeur peut être fixée comme un pourcentage entre 0 et 100.
   Ce nombre représente la probabilité qu’un commentaire soit toxique, selon l’API de perspective.
   Par défaut, le seuil est défini sur { $ default }.
 configure-moderation-perspective-toxicityModel = Modèle de toxicité
@@ -358,8 +358,8 @@ configure-wordList-suspect-wordListDetailInstructions =
 
 ### Advanced
 configure-advanced-customCSS = CSS personnalisé
-configure-advanced-customCSS-explanation =
-  Lien vers une feuille CSS qui écrasera les styles par défaut. Il peut être interne ou externe.
+configure-advanced-customCSS-override =
+  Lien vers une feuille CSS qui écrasera les styles par défaut.
 
 configure-advanced-permittedDomains = Domaines acceptés
 configure-advanced-permittedDomains-description =
@@ -547,7 +547,7 @@ moderate-user-drawer-suspension =
 
 moderate-user-drawer-recent-history-title = Historique de commentaires récent
 moderate-user-drawer-recent-history-calculated =
-   Calculé sur la dernière { framework-timeago-time } 
+   Calculé sur la dernière { framework-timeago-time }
 moderate-user-drawer-recent-history-rejected = Rejeté
 moderate-user-drawer-recent-history-tooltip-title = Comment est-ce calculé ?
 moderate-user-drawer-recent-history-tooltip-body =
@@ -720,7 +720,7 @@ community-invite-role-admin =
   Peut configurer des articles individuels et possède
   les privilèges de configuration sur tout le site.
 community-invite-invitationsSent = Votre invitation a été envoyée.
-community-invite-close = Fermer 
+community-invite-close = Fermer
 community-invite-invite = Inviter
 
 ## Stories
@@ -770,7 +770,7 @@ invite-usernameTextField =
 invite-oopsSorry = Oups désolé !
 invite-successful = Votre compte a été créé.
 invite-youMayNowSignIn = Vous pouvez vous connecter à { -product-name } en utilisant :
-invite-goToAdmin = Aller sur l'admin de { -product-name } 
+invite-goToAdmin = Aller sur l'admin de { -product-name }
 invite-goToOrganization = Aller à { $organizationName }
 invite-tokenNotFound =
   Le lien spécifié n'est pas valide, veuillez vérifier qu'il ait été copié correctement.
@@ -801,7 +801,7 @@ configure-general-reaction-sortMenu-sortBy = Trier par
 
 configure-general-staff-title = Badge de membre du staff
 configure-general-staff-explanation =
-  Montre un badge personnalisé pour les membres du staff de votre organisation. 
+  Montre un badge personnalisé pour les membres du staff de votre organisation.
   Ce badge apparaît sur le flux de commentaires et sur l'interface d'administration.
 configure-general-staff-label = Texte du badge
 configure-general-staff-input =
@@ -819,7 +819,7 @@ configure-account-features-change-usernames-details = Les pseudos peuvent être 
 configure-account-features-yes = Oui
 configure-account-features-no = Non
 configure-account-features-download-comments = Télécharger leurs commentaires.
-configure-account-features-download-comments-details = 
+configure-account-features-download-comments-details =
   Les membres peuvent télécharger un fichier .csv de leur historique de commentaires.
 configure-account-features-delete-account = Supprimer leur compte
 configure-account-features-delete-account-details =
@@ -834,12 +834,12 @@ configure-advanced-stories-explanation = Paramètres avancés pour la création 
 configure-advanced-stories-lazy = Création d'article paresseuse
 configure-advanced-stories-lazy-detail = Autoriser les articles à être automatiquement créer quand ils sont publiés depuis votre CMS.
 configure-advanced-stories-scraping = Récolte de tous les articles.
-configure-advanced-stories-scraping-detail = 
+configure-advanced-stories-scraping-detail =
   Autoriser les données des articles à être automatiquement récoltées
   quand ils sont publiés depuis votre CMS.
 configure-advanced-stories-proxy = Récolte de toutes les URL du proxy
 configure-advanced-stories-proxy-detail =
-  Lorsque spécifié, autorise les requêtes de récolte à utiliser le proxy fourni. 
+  Lorsque spécifié, autorise les requêtes de récolte à utiliser le proxy fourni.
   Toutes les demandes seront ensuite transmises au proxy approprié,
   analysées par le package <externalLink>npm proxy-agent</externalLink>.
 
