@@ -25,7 +25,10 @@ function incrementCount(store: RecordSourceSelectorProxy, storyID: string) {
   }
   const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
   if (tagsRecord) {
-    tagsRecord.setValue(tagsRecord.getValue("FEATURED") + 1, "FEATURED");
+    tagsRecord.setValue(
+      (tagsRecord.getValue("FEATURED") as number) + 1,
+      "FEATURED"
+    );
   }
 }
 

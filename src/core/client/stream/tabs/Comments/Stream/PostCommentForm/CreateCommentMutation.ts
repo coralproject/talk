@@ -78,7 +78,7 @@ function addCommentToStory(
   commentEdge: RecordProxy
 ) {
   // Get stream proxy.
-  const streamProxy = store.get(input.storyID);
+  const streamProxy = store.get(input.storyID)!;
   const connectionKey = "Stream_comments";
 
   if (input.commentsOrderBy === "CREATED_AT_ASC") {

@@ -12,7 +12,7 @@ export default function prependCommentEdgeToProfile(
   store: RecordSourceSelectorProxy,
   commentEdge: RecordProxy
 ) {
-  const meProxy = store.get(getViewerSourceID(environment)!);
+  const meProxy = store.get(getViewerSourceID(environment)!)!;
   const con = ConnectionHandler.getConnection(
     meProxy,
     "CommentHistory_comments"

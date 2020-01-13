@@ -8,5 +8,5 @@ export default function getViewerSourceID(
   if (!root.viewer) {
     return null;
   }
-  return root.viewer.__ref;
+  return (root.viewer as any).__ref;
 }

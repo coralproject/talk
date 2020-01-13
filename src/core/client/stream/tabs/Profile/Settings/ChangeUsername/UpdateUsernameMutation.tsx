@@ -33,6 +33,7 @@ const UpdateUsernameMutation = createMutation(
               updateUsername(input: $input) {
                 clientMutationId
                 user {
+                  id
                   username
                   status {
                     username {
@@ -64,7 +65,7 @@ const UpdateUsernameMutation = createMutation(
                     history: [
                       {
                         username: input.username,
-                        createdAt: Date.now(),
+                        createdAt: Date.now().toString(),
                       },
                     ],
                   },

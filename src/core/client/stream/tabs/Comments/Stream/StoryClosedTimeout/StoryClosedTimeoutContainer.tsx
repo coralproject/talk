@@ -28,14 +28,16 @@ class StoryClosedTimeoutContainer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
     if (props.story.closedAt) {
-      this.timer = createTimeout(this.handleClose, this.props.story.closedAt);
+      this.timer = createTimeout(this.handleClose, props.story.closedAt);
     }
   }
 
   public UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.story.closedAt !== this.props.story.closedAt) {
       clearTimeout(this.timer);
-      this.timer = createTimeout(this.handleClose, nextProps.story.closedAt);
+      if (nextProps.story.closedAt) {
+        this.timer = createTimeout(this.handleClose, nextProps.story.closedAt);
+      }
     }
   }
 

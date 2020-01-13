@@ -1,10 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
-import { ReadyState } from "react-relay";
 
 import {
   graphql,
+  QueryRenderData,
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
@@ -25,10 +25,7 @@ interface Props {
   local: Local;
 }
 
-export const render = ({
-  error,
-  props,
-}: ReadyState<QueryTypes["response"]>) => {
+export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
     return (
       <CallOut color="error" fullWidth>

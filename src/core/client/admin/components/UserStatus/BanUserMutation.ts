@@ -63,7 +63,7 @@ const BanUserMutation = createMutation(
                 history: [
                   {
                     active: true,
-                    createdAt: new Date(),
+                    createdAt: new Date().toISOString(),
                     createdBy: {
                       id: viewer.id,
                       username: viewer.username,

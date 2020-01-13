@@ -14,7 +14,7 @@ export default function getQueueConnection(
   store: RecordSourceSelectorProxy | RecordSourceProxy,
   queue: GQLMODERATION_QUEUE_RL | "REJECTED",
   storyID?: string | null
-): RecordProxy | null {
+): RecordProxy | null | undefined {
   const root = store.getRoot();
   if (queue === "REJECTED") {
     return ConnectionHandler.getConnection(root, "RejectedQueue_comments", {
@@ -24,10 +24,12 @@ export default function getQueueConnection(
   }
   const queuesRecord = root.getLinkedRecord("moderationQueues", { storyID })!;
   if (!queuesRecord) {
-    return null;
+    return undefined;
   }
-  return ConnectionHandler.getConnection(
-    queuesRecord.getLinkedRecord(queue.toLowerCase()),
-    "Queue_comments"
-  );
+
+  const queueRecord = queuesRecord.getLinkedRecord(queue.toLowerCase());
+  if (!queueRecord) {
+    return undefined;
+  }
+  return ConnectionHandler.getConnection(queueRecord, "Queue_comments");
 }

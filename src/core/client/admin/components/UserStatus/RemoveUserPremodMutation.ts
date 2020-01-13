@@ -63,7 +63,7 @@ const RemoveUserPremodMutation = createMutation(
                 history: [
                   {
                     active: false,
-                    createdAt: new Date(),
+                    createdAt: new Date().toISOString(),
                     createdBy: {
                       id: viewer.id,
                       username: viewer.username,

@@ -32,7 +32,7 @@ const SingleModerateSubscription = createSubscription(
         const commentID = store
           .getRootField("commentStatusUpdated")!
           .getLinkedRecord("comment")!
-          .getValue("id")!;
+          .getValue("id")! as string;
         const commentInStore = store.get(commentID);
         if (commentInStore) {
           // Mark that the status of the comment was live updated.

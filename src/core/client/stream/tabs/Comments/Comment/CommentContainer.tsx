@@ -113,6 +113,7 @@ export class CommentContainer extends Component<Props, State> {
       !banned &&
       !suspended &&
       isMyComment &&
+      !!this.props.comment.editing.editableUntil &&
       isBeforeDate(this.props.comment.editing.editableUntil)
     );
   }
@@ -161,7 +162,8 @@ export class CommentContainer extends Component<Props, State> {
 
   private updateWhenNotEditable() {
     const ms =
-      new Date(this.props.comment.editing.editableUntil).getTime() - Date.now();
+      new Date(this.props.comment.editing.editableUntil!).getTime() -
+      Date.now();
     if (ms > 0) {
       return setTimeout(() => this.setState({ editable: false }), ms);
     }

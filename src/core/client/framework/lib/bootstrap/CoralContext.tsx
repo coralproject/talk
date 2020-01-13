@@ -85,7 +85,7 @@ const parser = new DOMParser();
 
 // Use this custom markup parser which works in IE11.
 function parseMarkup(str: string) {
-  const doc = parser.parseFromString(str, "text/html");
+  const doc = parser.parseFromString(`<body>${str}</body>`, "text/html");
   return Array.from(doc.body.childNodes);
 }
 /**

@@ -13,7 +13,7 @@ import { CommentReplyCreatedSubscription } from "coral-stream/__generated__/Comm
  */
 function determineDepthTillAncestor(comment: RecordProxy, ancestorID: string) {
   let depth = 0;
-  let cur: RecordProxy | null = comment;
+  let cur: RecordProxy | null | undefined = comment;
   while (cur) {
     cur = cur.getLinkedRecord("parent");
     if (cur) {
@@ -59,9 +59,10 @@ const CommentReplyCreatedSubscription = createSubscription(
         const comment = rootField.getLinkedRecord("comment")!;
         comment.setValue(true, "enteredLive");
 
-        const parentProxy = store.get(
-          comment.getLinkedRecord("parent")!.getValue("id")!
-        )!;
+        const parentID = comment
+          .getLinkedRecord("parent")!
+          .getValue("id")! as string;
+        const parentProxy = store.get(parentID)!;
 
         const depth = determineDepthTillAncestor(comment, variables.ancestorID);
         if (depth === null) {
@@ -73,7 +74,7 @@ const CommentReplyCreatedSubscription = createSubscription(
           // Inform last comment in visible tree about the available replies.
           // This will trigger to show the `Read More of this Conversation` link.
           const replyCount = parentProxy.getValue("replyCount") || 0;
-          parentProxy.setValue(replyCount + 1, "replyCount");
+          parentProxy.setValue((replyCount as number) + 1, "replyCount");
           return;
         }
 
@@ -89,7 +90,7 @@ const CommentReplyCreatedSubscription = createSubscription(
           // in our visible tree.
           return;
         }
-        if (connection.getLinkedRecord("pageInfo").getValue("hasNextPage")) {
+        if (connection.getLinkedRecord("pageInfo")!.getValue("hasNextPage")) {
           // It hasn't loaded all comments yet, ignore this one.
           return;
         }

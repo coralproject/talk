@@ -53,7 +53,7 @@ const RequestAccountDeletionMutation = createMutation(
               .plus({ days: SCHEDULED_DELETION_TIMESPAN_DAYS })
               .toISO();
             const viewerProxy = store.get(viewer.id);
-            if (viewerProxy !== null) {
+            if (viewerProxy) {
               viewerProxy.setValue(deletionDate, "scheduledDeletionDate");
             }
           },

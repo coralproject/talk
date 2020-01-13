@@ -1,6 +1,5 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { ReadyState } from "react-relay";
 
 import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components/v2";
@@ -30,7 +29,7 @@ const UserDrawerNotesQuery: FunctionComponent<Props> = ({ userID }) => {
       `}
       variables={{ userID }}
       cacheConfig={{ force: true }}
-      render={({ error, props }: ReadyState<QueryTypes["response"]>) => {
+      render={({ error, props }) => {
         if (error) {
           return (
             <div className={styles.callout}>

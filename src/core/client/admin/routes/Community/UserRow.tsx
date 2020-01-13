@@ -19,7 +19,7 @@ interface Props {
   viewer: PropTypesOf<typeof UserRole>["viewer"];
   settings: PropTypesOf<typeof UserStatus>["settings"];
   onUsernameClicked?: (userID: string) => void;
-  deletedAt?: string;
+  deletedAt?: string | null;
 }
 
 const UserRow: FunctionComponent<Props> = ({

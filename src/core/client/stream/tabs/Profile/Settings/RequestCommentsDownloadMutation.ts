@@ -25,7 +25,7 @@ const RequestCommentsDownloadMutation = createMutation(
       const user = store.get(viewer.id);
       const now = new Date();
 
-      if (user !== null) {
+      if (user) {
         user.setValue(now.toISOString(), "lastDownloadedAt");
       }
     };
