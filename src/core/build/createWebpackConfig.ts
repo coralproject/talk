@@ -18,8 +18,7 @@ import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 // TODO: import form coral-common/version, for some reason this fails currently.
 // Try again when we have a chance to upgrade typescript.
 import { version } from "../common/version";
-import { Config } from "./config";
-import { createClientEnv } from "./config";
+import { Config, createClientEnv } from "./config";
 import paths from "./paths";
 
 /**
@@ -450,7 +449,7 @@ export default function createWebpackConfig(
             {
               test: /\.js$/,
               include: /node_modules\//,
-              exclude: /@babel|babel|core-js|regenerator-runtime|found|found-relay/,
+              exclude: /node_modules\/(@babel|babel|core-js|regenerator-runtime)/,
               use: [
                 {
                   loader: require.resolve("babel-loader"),
@@ -716,9 +715,7 @@ export default function createWebpackConfig(
         sideEffects: true,
       },
       entry: [
-        /* Use minimal amount of polyfills (for IE) */
-        "intersection-observer", // also for Safari
-        paths.appPolyfill,
+        // Polyfills are in the index.ts file.
         paths.appEmbedIndex,
       ],
       output: {

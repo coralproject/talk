@@ -17,6 +17,10 @@ function getCurrentScriptOrigin(fallbackID?: string) {
     }
   }
   if (!script) {
+    if (process.env.NODE_ENV === "development") {
+      // In development just return top level origin.
+      return window.location.origin;
+    }
     throw new Error("Current script not found");
   }
   return new URL(script.src).origin;

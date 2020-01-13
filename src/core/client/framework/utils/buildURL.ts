@@ -11,6 +11,9 @@ export default function buildURL({
   } else if (search === "?") {
     search = "";
   }
+  if (!pathname.startsWith("/")) {
+    pathname = "/" + pathname;
+  }
   return `${protocol}//${hostname}${
     port ? `:${port}` : ""
   }${pathname}${search}${hash}`;

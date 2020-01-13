@@ -16,7 +16,7 @@ export default {
   appLoaders: resolveSrc("core/build/loaders"),
   appSrc: resolveSrc("."),
   appTsconfig: resolveSrc("core/client/tsconfig.json"),
-  appPolyfill: resolveSrc("core/build/polyfills.js"),
+  appPolyfill: resolveSrc("core/build/polyfills.ts"),
   appPublicPath: resolveSrc("core/build/publicPath.js"),
   appLocales: resolveSrc("locales"),
   appThemeVariables: resolveSrc("core/client/ui/theme/variables.ts"),

@@ -4,8 +4,6 @@ import path from "path";
 
 import * as functions from "coral-framework/lib/i18n/functions";
 
-import "fluent-intl-polyfill/compat";
-
 // These locale prefixes are always loaded.
 const commonPrefixes = ["ui", "common", "framework"];
 

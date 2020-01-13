@@ -7,7 +7,7 @@ module.exports = {
   collectCoverageFrom: ["**/*.{js,jsx,mjs,ts,tsx}"],
   coveragePathIgnorePatterns: ["/node_modules/"],
   setupFiles: [
-    "<rootDir>/src/core/build/polyfills.js",
+    "<rootDir>/src/core/client/test/polyfills.ts",
     "<rootDir>/src/core/client/test/setup.ts",
   ],
   setupFilesAfterEnv: ["<rootDir>/src/core/client/test/setupTestFramework.ts"],
