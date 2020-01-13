@@ -51,7 +51,7 @@ import { publishChanges, updateAllCounts } from "./helpers";
 
 export type CreateComment = Omit<
   CreateCommentInput,
-  "status" | "metadata" | "ancestorIDs" | "actionCounts" | "tags"
+  "status" | "metadata" | "ancestorIDs" | "actionCounts" | "tags" | "siteID"
 >;
 
 export default async function create(
@@ -167,6 +167,7 @@ export default async function create(
     tenant.id,
     {
       ...input,
+      siteID: story.siteID,
       tags,
       body,
       status,

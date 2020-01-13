@@ -53,7 +53,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
 
 const AllCommentsTabQuery: FunctionComponent<Props> = props => {
   const {
-    local: { storyID, storyURL, commentsOrderBy, siteID },
+    local: { storyID, storyURL, commentsOrderBy },
   } = props;
   return (
     <QueryRenderer<QueryTypes>
@@ -62,12 +62,11 @@ const AllCommentsTabQuery: FunctionComponent<Props> = props => {
           $storyID: ID
           $storyURL: String
           $commentsOrderBy: COMMENT_SORT
-          $siteID: String
         ) {
           viewer {
             ...AllCommentsTabContainer_viewer
           }
-          story: stream(id: $storyID, url: $storyURL, siteID: $siteID) {
+          story: stream(id: $storyID, url: $storyURL) {
             ...AllCommentsTabContainer_story
               @arguments(orderBy: $commentsOrderBy)
           }
@@ -80,7 +79,6 @@ const AllCommentsTabQuery: FunctionComponent<Props> = props => {
         storyID,
         storyURL,
         commentsOrderBy,
-        siteID,
       }}
       render={data => (props.preload ? null : render(data))}
     />
@@ -93,7 +91,6 @@ const enhanced = withLocalStateContainer(
       storyID
       storyURL
       commentsOrderBy
-      siteID
     }
   `
 )(AllCommentsTabQuery);

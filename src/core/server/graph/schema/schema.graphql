@@ -1398,6 +1398,10 @@ type Settings {
   newCommenters: NewCommentersConfiguration! @auth(roles: [ADMIN])
 
   announcement: Announcement
+  """
+  multisite is whether multiple sites are enabled.
+  """
+  multisite: Boolean!
 }
 
 ################################################################################
@@ -2970,7 +2974,7 @@ input CreateCommentInput {
   """
   siteID is the ID of the Site where we are creating a comment on.
   """
-  siteID: ID!
+  siteID: ID
 
   """
   body is the Comment body, the content of the Comment.
@@ -3017,7 +3021,7 @@ input CreateCommentReplyInput {
   """
   siteID is the ID of the Site where we are creating a comment on.
   """
-  siteID: ID!
+  siteID: ID
 
   """
   storyID is the ID of the Story where we are creating a comment on.
@@ -4153,7 +4157,7 @@ input CreateStory {
   """
   closedAt: Time
 
-  siteID: ID!
+  siteID: ID
 }
 
 input CreateStoryInput {

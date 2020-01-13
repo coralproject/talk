@@ -50,6 +50,11 @@ export async function retrieveSite(mongo: Db, tenantID: string, id: string) {
   return collection(mongo).findOne({ id, tenantID });
 }
 
+export async function retrieveTenantSites(mongo: Db, tenantID: string) {
+  const cursor = collection(mongo).find({ tenantID });
+  return cursor.toArray();
+}
+
 export async function retrieveManySites(
   mongo: Db,
   tenantID: string,
