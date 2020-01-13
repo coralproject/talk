@@ -60,7 +60,7 @@ const NewCommentersConfig: FunctionComponent<Props> = ({ disabled }) => {
       </FormField>
       <FormField>
         <Localized id="configure-moderation-newCommenters-approvedCommentsThreshold">
-          <Label>Number of first comments sent for approval</Label>
+          <Label>Number of comments that must be approved</Label>
         </Localized>
         <Field
           name="newCommenters.approvedCommentsThreshold"
