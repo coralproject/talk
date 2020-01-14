@@ -29,7 +29,7 @@ const AdvancedConfigContainer: React.FunctionComponent<Props> = ({
   useMemo(() => form.initialize(purgeMetadata(settings)), []);
   return (
     <HorizontalGutter size="double" data-testid="configure-advancedContainer">
-      <EmbedCodeContainer settings={settings} />
+      {!settings.multisite && <EmbedCodeContainer settings={settings} />}
       <CustomCSSConfig disabled={submitting} />
       <CommentStreamLiveUpdatesContainer
         disabled={submitting}
@@ -51,6 +51,7 @@ const enhanced = withFragmentContainer<Props>({
 
       ...EmbedCodeContainer_settings
       ...CommentStreamLiveUpdatesContainer_settings
+      multisite
     }
   `,
 })(AdvancedConfigContainer);
