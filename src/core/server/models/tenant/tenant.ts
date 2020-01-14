@@ -2,8 +2,9 @@ import { isEmpty } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
+import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import TIME from "coral-common/time";
 import { DeepPartial, Omit, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { Settings } from "coral-server/models/settings";
@@ -99,16 +100,12 @@ export async function createTenant(
     premodLinksEnable: false,
     closeCommenting: {
       auto: false,
-      // 2 weeks timeout.
-      timeout: 60 * 60 * 24 * 7 * 2,
+      timeout: 2 * TIME.WEEK,
     },
     disableCommenting: {
       enabled: false,
     },
-
-    // 30 seconds edit window length.
-    editCommentWindowLength: 30,
-
+    editCommentWindowLength: 30 * TIME.SECOND,
     charCount: {
       enabled: false,
     },
@@ -117,7 +114,7 @@ export async function createTenant(
       banned: [],
     },
     auth: {
-      sessionDuration: DEFAULT_SESSION_LENGTH,
+      sessionDuration: DEFAULT_SESSION_DURATION,
       integrations: {
         local: {
           enabled: true,
@@ -169,8 +166,7 @@ export async function createTenant(
     },
     recentCommentHistory: {
       enabled: false,
-      // 7 days in seconds.
-      timeFrame: 604800,
+      timeFrame: 7 * TIME.DAY,
       // Rejection rate defaulting to 30%, once exceeded, comments will be
       // pre-moderated.
       triggerRejectionRate: 0.3,

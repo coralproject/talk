@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
-import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
+import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
@@ -24,8 +24,8 @@ interface Props {
   viewer: StreamDeletionRequestCalloutContainer_viewer;
 }
 
-const formatter = (locales: string[], date: Date) => {
-  return Intl.DateTimeFormat(locales, {
+const formatter = (locales: string[], date: Date) =>
+  Intl.DateTimeFormat(locales, {
     year: "numeric",
     month: "numeric",
     day: "numeric",
@@ -33,11 +33,9 @@ const formatter = (locales: string[], date: Date) => {
     minute: "numeric",
     second: "numeric",
   }).format(date);
-};
 
-const subtractDays = (date: Date, days: number) => {
-  const millisecondsInADay = 86400000;
-  return new Date(date.getTime() - days * millisecondsInADay);
+const subtractSeconds = (date: Date, seconds: number) => {
+  return new Date(date.getTime() - seconds * 1000);
 };
 
 const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
@@ -57,9 +55,9 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
   const requestDate = viewer.scheduledDeletionDate
     ? formatter(
         locales,
-        subtractDays(
+        subtractSeconds(
           new Date(viewer.scheduledDeletionDate),
-          SCHEDULED_DELETION_TIMESPAN_DAYS
+          SCHEDULED_DELETION_WINDOW_DURATION
         )
       )
     : null;

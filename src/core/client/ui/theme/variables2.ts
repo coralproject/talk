@@ -277,7 +277,6 @@ const variables2 = {
     bodyShort: 1.3,
     reset: 1,
     title: 1.15,
-    tall: 1.3,
   },
   fontSize: {
     1: "0.75rem",

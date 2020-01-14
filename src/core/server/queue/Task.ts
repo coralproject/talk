@@ -1,6 +1,7 @@
 import Queue, { Job, Queue as QueueType } from "bull";
 import Logger from "bunyan";
 
+import TIME from "coral-common/time";
 import logger from "coral-server/logger";
 
 export interface TaskOptions<T, U = any> {
@@ -31,11 +32,10 @@ export default class Task<T, U = any> {
         // with completed entries if we don't need to.
         removeOnComplete: true,
 
-        // By default, configure jobs to use an exponential backoff
-        // strategy starting at a 10 second delay.
+        // By default, configure jobs to use an exponential backoff strategy.
         backoff: {
           type: "exponential",
-          delay: 10000,
+          delay: 10 * TIME.SECOND,
         },
 
         // Be default, try all jobs at least 5 times.

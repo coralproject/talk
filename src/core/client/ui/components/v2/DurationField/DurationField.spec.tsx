@@ -24,7 +24,7 @@ it("renders correctly with specified units", () => {
     value: "",
     disabled: false,
     onChange: noop,
-    units: [DURATION_UNIT.SECONDS, DURATION_UNIT.HOURS],
+    units: [DURATION_UNIT.SECOND, DURATION_UNIT.HOUR],
   };
   const renderer = createRenderer();
   renderer.render(<DurationField {...props} />);
@@ -37,7 +37,7 @@ it("use best matching unit", () => {
     value: "3600",
     disabled: false,
     onChange: noop,
-    units: [DURATION_UNIT.SECONDS, DURATION_UNIT.MINUTES, DURATION_UNIT.HOURS],
+    units: [DURATION_UNIT.SECOND, DURATION_UNIT.MINUTE, DURATION_UNIT.HOUR],
   };
   const renderer = createRenderer();
   renderer.render(<DurationField {...props} />);
@@ -50,7 +50,7 @@ it("use initial unit if 0", () => {
     value: "0",
     disabled: false,
     onChange: noop,
-    units: [DURATION_UNIT.SECONDS, DURATION_UNIT.MINUTES, DURATION_UNIT.HOURS],
+    units: [DURATION_UNIT.SECOND, DURATION_UNIT.MINUTE, DURATION_UNIT.HOUR],
   };
   const renderer = createRenderer();
   renderer.render(<DurationField {...props} />);
@@ -63,7 +63,7 @@ it("accepts invalid input", () => {
     value: "this is so invalid",
     disabled: false,
     onChange: noop,
-    units: [DURATION_UNIT.SECONDS, DURATION_UNIT.MINUTES, DURATION_UNIT.HOURS],
+    units: [DURATION_UNIT.SECOND, DURATION_UNIT.MINUTE, DURATION_UNIT.HOUR],
   };
   const renderer = createRenderer();
   renderer.render(<DurationField {...props} />);

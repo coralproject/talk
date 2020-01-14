@@ -334,7 +334,7 @@ configure-moderation-newCommenters-description =
   When this is active, initial comments by a new commenter will be sent to Pending
   for moderator approval before publication.
 configure-moderation-newCommenters-enable-description = Enable pre-moderation for new commenters
-configure-moderation-newCommenters-approvedCommentsThreshold = Number of first comments sent for approval
+configure-moderation-newCommenters-approvedCommentsThreshold = Number of comments that must be approved
 configure-moderation-newCommenters-approvedCommentsThreshold-description =
   The number of comments a user must have approved before they do
   not have to be premoderated
@@ -361,8 +361,8 @@ configure-wordList-suspect-wordListDetailInstructions =
 
 ### Advanced
 configure-advanced-customCSS = Custom CSS
-configure-advanced-customCSS-explanation =
-  URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+configure-advanced-customCSS-override =
+  URL of a CSS stylesheet that will override default Embed Stream styles.
 
 configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =

@@ -1,7 +1,8 @@
 import {
-  DEFAULT_SESSION_LENGTH,
+  DEFAULT_SESSION_DURATION,
   TOXICITY_THRESHOLD_DEFAULT,
 } from "coral-common/constants";
+import TIME from "coral-common/time";
 import { pureMerge } from "coral-common/utils";
 import {
   GQLComment,
@@ -77,8 +78,7 @@ export const settings = createFixture<GQLSettings>({
   },
   recentCommentHistory: {
     enabled: false,
-    // 7 days in seconds.
-    timeFrame: 604800,
+    timeFrame: 7 * TIME.DAY,
     // Rejection rate defaulting to 30%, once exceeded, comments will be
     // pre-moderated.
     triggerRejectionRate: 0.3,
@@ -94,7 +94,7 @@ export const settings = createFixture<GQLSettings>({
     },
   },
   auth: {
-    sessionDuration: DEFAULT_SESSION_LENGTH,
+    sessionDuration: DEFAULT_SESSION_DURATION,
     integrations: {
       local: {
         enabled: true,
@@ -175,7 +175,7 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   {
     id: "settings",
     auth: {
-      sessionDuration: DEFAULT_SESSION_LENGTH,
+      sessionDuration: DEFAULT_SESSION_DURATION,
       integrations: {
         local: {
           enabled: true,
