@@ -31,16 +31,6 @@ type Payload =
   | CommentFeaturedInput
   | CommentReleasedInput;
 
-function enteredModeration(channel: SUBSCRIPTION_CHANNELS, payload: Payload) {
-  const p: any = payload;
-  return (
-    channel === SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE &&
-    p.hasOwnProperty("queue") &&
-    (p.queue === GQLMODERATION_QUEUE.REPORTED ||
-      p.queue === GQLMODERATION_QUEUE.PENDING)
-  );
-}
-
 function isFeatured(channel: SUBSCRIPTION_CHANNELS) {
   return channel === SUBSCRIPTION_CHANNELS.COMMENT_FEATURED;
 }
@@ -106,7 +96,14 @@ async function postCommentToSlack(
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `${author.username} commented on:\n<${story.url}|${storyTitle}>`,
+          text: `${author.username} commented on\n<${story.url}|${storyTitle}>`,
+        },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: body,
         },
       },
       {
@@ -117,13 +114,6 @@ async function postCommentToSlack(
         },
       },
       { type: "divider" },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: body,
-        },
-      },
     ],
   };
 
@@ -171,7 +161,6 @@ function createSlackPublisher(
     const ctx = new SlackContext({ mongo, config, tenant });
 
     try {
-      const inModeration = enteredModeration(channel, payload);
       const reported = isReported(channel, payload);
       const pending = isPending(channel, payload);
       const featured = isFeatured(channel);
@@ -196,14 +185,26 @@ function createSlackPublisher(
 
         if (
           triggers.allComments &&
-          (reported || pending || featured || inModeration)
+          channel === SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE
         ) {
           await postCommentToSlack(ctx, commentID, hookURL);
-        } else if (triggers.reportedComments && reported) {
+        } else if (
+          !triggers.allComments &&
+          triggers.reportedComments &&
+          reported
+        ) {
           await postCommentToSlack(ctx, commentID, hookURL);
-        } else if (triggers.pendingComments && pending) {
+        } else if (
+          !triggers.allComments &&
+          triggers.pendingComments &&
+          pending
+        ) {
           await postCommentToSlack(ctx, commentID, hookURL);
-        } else if (triggers.featuredComments && featured) {
+        } else if (
+          !triggers.allComments &&
+          triggers.featuredComments &&
+          featured
+        ) {
           await postCommentToSlack(ctx, commentID, hookURL);
         }
       }
