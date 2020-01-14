@@ -307,8 +307,8 @@ configure-wordList-suspect-wordList = Mistænkte ordliste
 
 ### Advanced
 configure-advanced-customCSS = Tilpasset CSS
-configure-advanced-customCSS-explanation =
-  URL til et CSS-stilark, der tilsidesætter standardindlejring af streams. Kan være intern eller ekstern.
+configure-advanced-customCSS-override =
+  URL til et CSS-stilark, der tilsidesætter standardindlejring af streams.
 
 configure-advanced-permittedDomains = Tilladte domæner
 configure-advanced-liveUpdates = Kommentar Stream Live-opdateringer

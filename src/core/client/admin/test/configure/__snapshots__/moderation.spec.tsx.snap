@@ -367,7 +367,7 @@ for moderator approval before publication.
                   <label
                     className="Label-root"
                   >
-                    Number of first comments sent for approval
+                    Number of comments that must be approved
                   </label>
                   <div
                     className="TextField-root"

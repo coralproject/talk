@@ -2,11 +2,11 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import {
-  ALLOWED_USERNAME_CHANGE_FREQUENCY,
-  COMMENT_REPEAT_POST_TIMESPAN,
-  DOWNLOAD_LIMIT_TIMEFRAME,
+  ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
+  COMMENT_REPEAT_POST_DURATION,
+  DOWNLOAD_LIMIT_TIMEFRAME_DURATION,
 } from "coral-common/constants";
-import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
+import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -369,7 +369,7 @@ export async function requestAccountDeletion(
   }
 
   const deletionDate = DateTime.fromJSDate(now).plus({
-    days: SCHEDULED_DELETION_TIMESPAN_DAYS,
+    seconds: SCHEDULED_DELETION_WINDOW_DURATION,
   });
 
   const updatedUser = await scheduleDeletionDate(
@@ -528,7 +528,7 @@ export async function updateUsername(
   // Get the earliest date that the username could have been edited before to/
   // allow it now.
   const lastUsernameEditAllowed = DateTime.fromJSDate(now)
-    .plus({ seconds: -ALLOWED_USERNAME_CHANGE_FREQUENCY })
+    .plus({ seconds: -ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION })
     .toJSDate();
 
   const { history } = user.status.username;
@@ -1118,7 +1118,7 @@ export async function requestCommentsDownload(
   if (
     user.lastDownloadedAt &&
     DateTime.fromJSDate(user.lastDownloadedAt)
-      .plus({ seconds: DOWNLOAD_LIMIT_TIMEFRAME })
+      .plus({ seconds: DOWNLOAD_LIMIT_TIMEFRAME_DURATION })
       .toSeconds() >= DateTime.fromJSDate(now).toSeconds()
   ) {
     throw new Error("requested download too early");
@@ -1212,7 +1212,7 @@ export async function updateUserLastCommentID(
 ) {
   const key = userLastCommentIDKey(tenant, user);
 
-  await redis.set(key, commentID, "EX", COMMENT_REPEAT_POST_TIMESPAN);
+  await redis.set(key, commentID, "EX", COMMENT_REPEAT_POST_DURATION);
 }
 
 /**

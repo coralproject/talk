@@ -30,13 +30,10 @@ const CustomCSSConfig: FunctionComponent<Props> = ({ disabled }) => (
     }
   >
     <FormField>
-      <Localized
-        id="configure-advanced-customCSS-explanation"
-        strong={<strong />}
-      >
+      <Localized id="configure-advanced-customCSS-override" strong={<strong />}>
         <FormFieldDescription>
           URL of a CSS stylesheet that will override default Embed Stream
-          styles. Can be internal or external.
+          styles.
         </FormFieldDescription>
       </Localized>
       <Field name="customCSSURL" parse={parseEmptyAsNull} format={formatEmpty}>

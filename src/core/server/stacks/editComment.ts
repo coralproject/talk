@@ -42,13 +42,9 @@ function getLastCommentEditableUntilDate(
   tenant: Pick<Tenant, "editCommentWindowLength">,
   now = new Date()
 ): Date {
-  return (
-    DateTime.fromJSDate(now)
-      // editCommentWindowLength is in seconds, so multiply by 1000 to get
-      // milliseconds.
-      .minus(tenant.editCommentWindowLength * 1000)
-      .toJSDate()
-  );
+  return DateTime.fromJSDate(now)
+    .minus({ seconds: tenant.editCommentWindowLength })
+    .toJSDate();
 }
 
 export type EditComment = Omit<

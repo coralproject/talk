@@ -80,9 +80,9 @@ const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
             <DurationField
               {...input}
               units={[
-                DURATION_UNIT.HOURS,
-                DURATION_UNIT.DAYS,
-                DURATION_UNIT.WEEKS,
+                DURATION_UNIT.HOUR,
+                DURATION_UNIT.DAY,
+                DURATION_UNIT.WEEK,
               ]}
               disabled={disabled}
               color={colorFromMeta(meta)}

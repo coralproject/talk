@@ -343,8 +343,8 @@ configure-wordList-suspect-wordListDetailInstructions =
 
 ### Advanced
 configure-advanced-customCSS = CSS Customizado
-configure-advanced-customCSS-explanation =
-  URL de uma folha de estilo CSS que substituirá o estilo padrão dos fluxos de comentário das páginas. Pode ser interno ou externo.
+configure-advanced-customCSS-override =
+  URL de uma folha de estilo CSS que substituirá o estilo padrão dos fluxos de comentário das páginas.
 
 configure-advanced-permittedDomains = Domínios Permitidos
 configure-advanced-permittedDomains-description =
@@ -366,7 +366,7 @@ configure-advanced-embedCode-comment =
   Descomente estas linhas e substitua com o ID da
   história e a URL do seu CMS
   Substitua essas linhas pelo ID do ID e URL da história do seu CMS para fornecer a maior integração.
-  Consulte a nossa documentação em https://docs.coralproject.net para todas as 
+  Consulte a nossa documentação em https://docs.coralproject.net para todas as
   opções de configuração.
 
 ## Decision History
@@ -374,7 +374,7 @@ decisionHistory-popover =
   .description = Uma caixa de diálogo mostrando o histórico de decisões
 decisionHistory-youWillSeeAList =
   Você verá uma lista de suas ações de moderação de postagens aqui.
-decisionHistory-showMoreButton = 
+decisionHistory-showMoreButton =
   Mostrar mais
 decisionHistory-yourDecisionHistory = Seu Histórico de Decisão
 decisionHistory-rejectedCommentBy = Comentário Rejeitado por <username></username>
@@ -386,7 +386,7 @@ decisionHistory-goToComment = Ir para o comentário
 configure-slack-header-title = Integração com o Slack
 configure-slack-description =
   Encia automaticamente os comentários da fila de moderação do Coral para canais do Slack.
-  Você precisa de acesso admin do slack para realizar esta configuração. Para as etapas de 
+  Você precisa de acesso admin do slack para realizar esta configuração. Para as etapas de
   como criar uma app no Slack veja nossa <externalLink>documentação</externalLink>.
 configure-slack-addChannel = Adicionar Canal
 
@@ -686,8 +686,8 @@ community-banModal-banUser = Banir Usuário
 community-banModal-customize = Customizar mensagem de e-mail de banimento
 
 community-suspendModal-areYouSure = Banir <strong>{ $username }</strong>?
-community-suspendModal-consequence = 
-  Uma vez banido, este usuário não poderá mais comentar, reagir 
+community-suspendModal-consequence =
+  Uma vez banido, este usuário não poderá mais comentar, reagir
   ou reportar comentários
 community-suspendModal-duration-3600 = 1 hora
 community-suspendModal-duration-10800 = 3 horas
@@ -837,7 +837,7 @@ configure-account-features-no = Não
 configure-account-features-download-comments = Fazer o download de seus comentários
 configure-account-features-download-comments-details = Comentaristas podem fazer download de um csv do histórico de comentarista
 configure-account-features-delete-account = Excluir suas contas.
-configure-account-features-delete-account-details = 
+configure-account-features-delete-account-details =
   Remover todos os dados de comentários, nome de usuário e endereço de email do site e do banco de dados
 
 configure-account-features-delete-account-fieldDescriptions =

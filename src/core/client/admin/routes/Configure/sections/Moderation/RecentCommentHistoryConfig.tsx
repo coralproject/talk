@@ -77,7 +77,7 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
           {({ input, meta }) => (
             <>
               <DurationField
-                units={[DURATION_UNIT.DAYS]}
+                units={[DURATION_UNIT.DAY]}
                 disabled={disabled}
                 color={hasError(meta) ? "error" : "regular"}
                 {...input}

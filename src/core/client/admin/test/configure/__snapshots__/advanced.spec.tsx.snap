@@ -234,7 +234,7 @@ each of your site’s stories.
                   <p
                     className="FormFieldDescription-root"
                   >
-                    URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+                    URL of a CSS stylesheet that will override default Embed Stream styles.
                   </p>
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
