@@ -259,11 +259,7 @@ export class URLInvalidError extends CoralError {
 }
 
 export class StoryURLInvalidError extends CoralError {
-  constructor(properties: {
-    storyURL: string;
-    allowedDomains: string[];
-    tenantDomain?: string;
-  }) {
+  constructor(properties: { storyURL: string; tenantDomain?: string }) {
     super({
       code: ERROR_CODES.STORY_URL_NOT_PERMITTED,
       context: { pvt: properties },

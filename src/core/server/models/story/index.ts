@@ -175,17 +175,17 @@ export async function findStory(
 export interface FindOrCreateStoryInput {
   id?: string;
   url?: string;
-  siteID?: string;
 }
 
 export async function findOrCreateStory(
   mongo: Db,
   tenantID: string,
-  { id, url, siteID }: FindOrCreateStoryInput,
+  { id, url }: FindOrCreateStoryInput,
+  siteID: string | null,
   now = new Date()
 ) {
-  if (id && siteID) {
-    if (url) {
+  if (id) {
+    if (url && siteID) {
       // The URL was specified, this is an upsert operation.
       return upsertStory(
         mongo,
@@ -199,7 +199,7 @@ export async function findOrCreateStory(
       );
     }
 
-    // The URL was not specified, this is a lookup operation.
+    // The URL and siteID were not specified, this is a lookup operation.
     return retrieveStory(mongo, tenantID, id);
   }
 

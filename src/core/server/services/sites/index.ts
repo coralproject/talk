@@ -2,21 +2,32 @@ import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
+import { getOrigin } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { retrieveTenantCommunities } from "coral-server/models/community";
 import {
   createSite,
   CreateSiteInput,
+  retrieveSiteByDomain,
   updateSite,
   UpdateSiteInput,
 } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import { update as updateTenant } from "coral-server/services/tenant";
+
 import TenantCache from "../tenant/cache";
 
 type CreateSite = Omit<CreateSiteInput, "communityID" | "tenantID"> & {
   communityID?: string;
 };
+
+export async function findSiteByURL(mongo: Db, tenantID: string, url: string) {
+  const testURL = getOrigin(url);
+  if (!testURL) {
+    return null;
+  }
+  return retrieveSiteByDomain(mongo, tenantID, testURL);
+}
 
 export async function create(
   mongo: Db,
