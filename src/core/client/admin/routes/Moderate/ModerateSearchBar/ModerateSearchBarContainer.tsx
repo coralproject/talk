@@ -20,6 +20,7 @@ import {
   ListBoxOptionElement,
 } from "coral-ui/hooks/useComboBox";
 
+import { ModerateSearchBarContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateSearchBarContainer_settings.graphql";
 import { ModerateSearchBarContainer_story as ModerationQueuesData } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
 
 import Bar from "./Bar";
@@ -33,6 +34,7 @@ interface Props {
   router: Router;
   match: Match;
   story: ModerationQueuesData | null;
+  settings: SettingsData | null;
   allStories: boolean;
   siteSelector: React.ReactNode;
   siteID: string | null;
@@ -253,6 +255,7 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
       <Localized id="moderate-searchBar-allStories" attrs={{ title: true }}>
         <Bar
           siteSelector={props.siteSelector}
+          multisite={props.settings ? props.settings.multisite : false}
           title="All stories"
           {...childProps}
         />
@@ -260,11 +263,25 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
     );
   }
   if (!props.story) {
-    return <Bar siteSelector={props.siteSelector} title={""} {...childProps} />;
+    return (
+      <Bar
+        multisite={props.settings ? props.settings.multisite : false}
+        siteSelector={props.siteSelector}
+        title={""}
+        {...childProps}
+      />
+    );
   }
   const t = props.story.metadata && props.story.metadata.title;
   if (t) {
-    return <Bar siteSelector={props.siteSelector} title={t} {...childProps} />;
+    return (
+      <Bar
+        multisite={props.settings ? props.settings.multisite : false}
+        siteSelector={props.siteSelector}
+        title={t}
+        {...childProps}
+      />
+    );
   }
   return (
     <Localized
@@ -273,6 +290,7 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
     >
       <Bar
         siteSelector={props.siteSelector}
+        multisite={props.settings ? props.settings.multisite : false}
         title={"Title not available"}
         options={options}
         onSearch={onSearch}
@@ -283,6 +301,11 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
 
 const enhanced = withRouter(
   withFragmentContainer<Props>({
+    settings: graphql`
+      fragment ModerateSearchBarContainer_settings on Settings {
+        multisite
+      }
+    `,
     story: graphql`
       fragment ModerateSearchBarContainer_story on Story {
         id

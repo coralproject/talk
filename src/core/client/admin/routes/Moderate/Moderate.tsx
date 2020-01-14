@@ -35,6 +35,7 @@ interface Props {
     typeof ModerateNavigationContainer
   >["moderationQueues"];
   allStories: boolean;
+  settings: PropTypesOf<typeof ModerateSearchBarContainer>["settings"] | null;
   children?: React.ReactNode;
   queueName: string;
   routeParams: RouteParams;
@@ -49,6 +50,7 @@ const Moderate: FunctionComponent<Props> = ({
   children,
   queueName,
   routeParams,
+  settings,
 }) => {
   const [showHotkeysModal, setShowHotkeysModal] = useState(false);
   const closeModal = useCallback(() => {
@@ -71,6 +73,7 @@ const Moderate: FunctionComponent<Props> = ({
     <div data-testid="moderate-container">
       <ModerateSearchBarContainer
         story={story}
+        settings={settings}
         allStories={allStories}
         siteID={routeParams.siteID || null}
         siteSelector={
