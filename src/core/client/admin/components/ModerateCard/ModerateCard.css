@@ -1,3 +1,11 @@
+$moderateCardTimestampColor: var(--v2-colors-mono-100);
+$moderateCardEditedColor: var(--v2-colors-mono-100);
+$moderateCardAuthorStatusColor: var(--v2-colors-mono-100);
+$moderateCardDecisionColor: var(--v2-colors-mono-500);
+$moderateCardStoryTitleColor: var(--v2-colors-mono-500);
+$moderateCardUsernameBackgroundHover: var(--v2-colors-grey-200);
+$moderateCardLinkTextColor: var(--v2-colors-teal-700);
+
 .topBar {
   position: relative;
   margin-bottom: var(--v2-spacing-1);
@@ -15,13 +23,13 @@
   line-height: var(--v2-line-height-reset);
 
   &:hover {
-    background-color: var(--v2-palette-username-background-hover);
+    background-color: $moderateCardUsernameBackgroundHover;
     border-radius: var(--v2-round-corners);
     border-style: none;
   }
 
   &:active {
-    background-color: var(--v2-palette-username-background-hover);
+    background-color: $moderateCardUsernameBackgroundHover;
     border-radius: var(--v2-round-corners);
     border-style: none;
   }
@@ -76,7 +84,7 @@
 }
 
 .decision {
-  color: var(--v2-palette-label-emphasis);
+  color: $moderateCardDecisionColor;
   font-size: var(--v2-font-size-2);
   font-weight: var(--v2-font-weight-primary-bold);
   font-family: var(--v2-font-family-primary);
@@ -114,7 +122,7 @@
   font-weight: var(--v2-font-weight-primary-semi-bold);
   font-family: var(--v2-font-family-primary);
   line-height: var(--v2-line-height-reset);
-  color: var(--v2-palette-link-text);
+  color: $moderateCardLinkTextColor;
   text-transform: uppercase;
 }
 
@@ -133,7 +141,7 @@
 }
 
 .storyTitle {
-  color: var(--v2-palette-story-title);
+  color: $moderateCardStoryTitleColor;
   font-size: var(--v2-font-size-2);
   font-weight: var(--v2-font-weight-primary-regular);
   font-family: var(--v2-font-family-primary);
@@ -157,7 +165,7 @@
 }
 
 .timestamp {
-  color: var(--v2-palette-timestamp);
+  color: $moderateCardTimestampColor;
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-regular);
   font-size: var(--v2-font-size-1);
@@ -165,7 +173,7 @@
 }
 
 .edited {
-  color: var(--v2-palette-timestamp);
+  color: $moderateCardEditedColor;
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-regular);
   font-size: var(--v2-font-size-1);
@@ -179,7 +187,7 @@
 
 .authorStatus {
   padding-right: var(--spacing-2);
-  color: var(--v2-palette-timestamp);
+  color: $moderateCardAuthorStatusColor;
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-regular);
   font-size: var(--v2-font-size-1);

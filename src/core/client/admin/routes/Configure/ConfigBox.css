@@ -1,8 +1,10 @@
+$configureHeadingBackgroundColor: var(--v2-colors-blue-500);
+
 .root {
 }
 
 .title {
-  background: var(--v2-palette-configure-heading-background);
+  background: $configureHeadingBackgroundColor;
   width: calc(100% - 2 * var(--v2-spacing-2));
   padding: var(--v2-spacing-2);
 }

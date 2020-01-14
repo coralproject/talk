@@ -1,7 +1,9 @@
+$moderateCardUsernameColor: var(--v2-colors-mono-900);
+
 .root {
   font-size: var(--v2-font-size-3);
   font-weight: var(--v2-font-weight-secondary-bold);
   font-family: var(--v2-font-family-secondary);
   line-height: var(--v2-line-height-reset);
-  color: var(--v2-palette-username-emphasis);
+  color: $moderateCardUsernameColor;
 }

@@ -1,5 +1,7 @@
+$timestampColor: var(--v2-colors-mono-100);
+
 .root {
-  color: var(--v2-palette-timestamp);
+  color: $timestampColor;
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-bold);
   font-size: var(--v2-font-size-1);
