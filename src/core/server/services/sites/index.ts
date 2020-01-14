@@ -1,6 +1,8 @@
+import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
+import { Config } from "coral-server/config";
 import { retrieveTenantCommunities } from "coral-server/models/community";
 import {
   createSite,
@@ -8,7 +10,9 @@ import {
   updateSite,
   UpdateSiteInput,
 } from "coral-server/models/site";
-import { Tenant, updateTenant } from "coral-server/models/tenant";
+import { Tenant } from "coral-server/models/tenant";
+import { update as updateTenant } from "coral-server/services/tenant";
+import TenantCache from "../tenant/cache";
 
 type CreateSite = Omit<CreateSiteInput, "communityID" | "tenantID"> & {
   communityID?: string;
@@ -16,6 +20,9 @@ type CreateSite = Omit<CreateSiteInput, "communityID" | "tenantID"> & {
 
 export async function create(
   mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  config: Config,
   tenant: Tenant,
   input: CreateSite,
   now = new Date()
@@ -29,7 +36,9 @@ export async function create(
     communityID = communities[0].id;
   }
   if (!tenant.multisite) {
-    await updateTenant(mongo, tenant.id, { multisite: true });
+    await updateTenant(mongo, redis, cache, config, tenant, {
+      multisite: true,
+    });
   }
   return createSite(
     mongo,
