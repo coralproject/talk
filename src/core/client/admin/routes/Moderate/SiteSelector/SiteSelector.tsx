@@ -44,9 +44,12 @@ const SiteSelector: FunctionComponent<Props> = ({
       selected={
         <>
           {site && <SiteSelectorSelected site={site} />}
-          <Localized id="site-selector-all-sites">
-            {!siteID && <span className={styles.buttonText}>All sites</span>}
-          </Localized>
+
+          {!site && (
+            <Localized id="site-selector-all-sites">
+              <span className={styles.buttonText}>All sites</span>
+            </Localized>
+          )}
         </>
       }
     >

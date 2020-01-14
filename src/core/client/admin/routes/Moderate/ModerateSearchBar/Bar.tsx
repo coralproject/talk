@@ -36,6 +36,8 @@ interface Props {
   onSearch?: (value: string) => void;
 
   siteSelector: React.ReactNode;
+
+  multisite: boolean;
 }
 
 /**
@@ -46,6 +48,7 @@ const Bar: FunctionComponent<Props> = ({
   options,
   onSearch,
   siteSelector,
+  multisite,
 }) => {
   const [focused, focusHandlers] = useFocus();
   const preventFocusLossHandlers = usePreventFocusLoss(focused);
@@ -87,7 +90,7 @@ const Bar: FunctionComponent<Props> = ({
         aria-expanded={focused}
       >
         <Backdrop className={styles.bumpZIndex} active={focused} />
-        {siteSelector}
+        {multisite ? siteSelector : null}
         <Form onSubmit={submitHandler}>
           {({ handleSubmit }) => (
             <Localized
@@ -104,7 +107,9 @@ const Bar: FunctionComponent<Props> = ({
                 <Popover
                   id={"moderate-searchBar-popover"}
                   placement="bottom"
-                  classes={{ popover: styles.popover }}
+                  classes={{
+                    popover: multisite ? styles.popoverNarrow : styles.popover,
+                  }}
                   visible={focused}
                   eventsEnabled={false}
                   modifiers={{
@@ -174,6 +179,7 @@ const Bar: FunctionComponent<Props> = ({
                   {({ ref }) => (
                     <div ref={ref}>
                       <Field
+                        multisite={multisite}
                         title={title}
                         ref={searchInput}
                         {...combineEventHandlers(

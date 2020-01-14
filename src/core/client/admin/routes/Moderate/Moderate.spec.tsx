@@ -17,6 +17,9 @@ it("renders correctly", () => {
     query: "",
     routeParams: {},
     queueName: "",
+    settings: {
+      multisite: false,
+    },
   };
   const renderer = createRenderer();
   renderer.render(<ModerateN {...props} />);
