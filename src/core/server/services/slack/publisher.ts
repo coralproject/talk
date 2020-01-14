@@ -31,35 +31,23 @@ type Payload =
   | CommentFeaturedInput
   | CommentReleasedInput;
 
-function enteredModeration(channel: SUBSCRIPTION_CHANNELS, payload: Payload) {
-  const p: any = payload;
-  return (
-    channel === SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE &&
-    p.hasOwnProperty("queue") &&
-    (p.queue === GQLMODERATION_QUEUE.REPORTED ||
-      p.queue === GQLMODERATION_QUEUE.PENDING)
-  );
-}
-
 function isFeatured(channel: SUBSCRIPTION_CHANNELS) {
   return channel === SUBSCRIPTION_CHANNELS.COMMENT_FEATURED;
 }
 
 function isReported(channel: SUBSCRIPTION_CHANNELS, payload: Payload) {
-  const p: any = payload;
   return (
     channel === SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE &&
-    p.hasOwnProperty("queue") &&
-    p.queue === GQLMODERATION_QUEUE.REPORTED
+    (payload as CommentEnteredModerationQueueInput).queue ===
+      GQLMODERATION_QUEUE.REPORTED
   );
 }
 
 function isPending(channel: SUBSCRIPTION_CHANNELS, payload: Payload) {
-  const p: any = payload;
   return (
     channel === SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE &&
-    p.hasOwnProperty("queue") &&
-    p.queue === GQLMODERATION_QUEUE.PENDING
+    (payload as CommentEnteredModerationQueueInput).queue ===
+      GQLMODERATION_QUEUE.PENDING
   );
 }
 
@@ -74,6 +62,7 @@ function createModerationLink(ctx: SlackContext, commentID: string) {
 
 async function postCommentToSlack(
   ctx: SlackContext,
+  message: string,
   commentID: string,
   hookURL: string
 ) {
@@ -100,29 +89,11 @@ async function postCommentToSlack(
   const body = commentBody.replace(/<br\/?>/g, "\n");
 
   const data = {
-    text: `${author.username} commented on: ${storyTitle}`,
-    blocks: [
+    text: `${message} on *<${story.url}|${storyTitle}>*`,
+    attachments: [
       {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `${author.username} commented on:\n<${story.url}|${storyTitle}>`,
-        },
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `<${moderateLink}|Go to Moderation> | <${commentLink}|See Comment>`,
-        },
-      },
-      { type: "divider" },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: body,
-        },
+        text: body,
+        footer: `Authored by *${author.username}* | <${moderateLink}|Go to Moderation> | <${commentLink}|See Comment>`,
       },
     ],
   };
@@ -171,10 +142,15 @@ function createSlackPublisher(
     const ctx = new SlackContext({ mongo, config, tenant });
 
     try {
-      const inModeration = enteredModeration(channel, payload);
       const reported = isReported(channel, payload);
       const pending = isPending(channel, payload);
       const featured = isFeatured(channel);
+
+      // If the comment doesn't match any filter, then we don't need to send
+      // anything.
+      if (!reported && !pending && !featured) {
+        return;
+      }
 
       const { commentID } = payload;
 
@@ -194,17 +170,29 @@ function createSlackPublisher(
           return;
         }
 
-        if (
-          triggers.allComments &&
-          (reported || pending || featured || inModeration)
-        ) {
-          await postCommentToSlack(ctx, commentID, hookURL);
-        } else if (triggers.reportedComments && reported) {
-          await postCommentToSlack(ctx, commentID, hookURL);
+        // Add ticket to add back all comments option (including approved)
+
+        if (triggers.reportedComments && reported) {
+          await postCommentToSlack(
+            ctx,
+            "This comment has been reported",
+            commentID,
+            hookURL
+          );
         } else if (triggers.pendingComments && pending) {
-          await postCommentToSlack(ctx, commentID, hookURL);
+          await postCommentToSlack(
+            ctx,
+            "This comment is pending",
+            commentID,
+            hookURL
+          );
         } else if (triggers.featuredComments && featured) {
-          await postCommentToSlack(ctx, commentID, hookURL);
+          await postCommentToSlack(
+            ctx,
+            "This comment has been featured",
+            commentID,
+            hookURL
+          );
         }
       }
     } catch (err) {
