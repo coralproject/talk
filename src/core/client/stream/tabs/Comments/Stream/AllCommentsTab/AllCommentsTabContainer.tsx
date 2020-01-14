@@ -153,13 +153,20 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
         size="oneAndAHalf"
         className={styles.stream}
       >
-        {comments.length <= 0 ? (
+        {comments.length <= 0 && props.story.isClosed && (
+          <Localized id="comments-noCommentsAtAll">
+            <CallOut fullWidth>There are no comments on this story.</CallOut>
+          </Localized>
+        )}
+        {comments.length <= 0 && !props.story.isClosed && (
           <Localized id="comments-noCommentsYet">
             <CallOut fullWidth>
               There are no comments yet. Why don't you write one?
             </CallOut>
           </Localized>
-        ) : (
+        )}
+        {comments.length > 0 &&
+          !props.story.isClosed &&
           comments.map(comment => (
             <IgnoredTombstoneOrHideContainer
               key={comment.id}
@@ -183,8 +190,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
                 </HorizontalGutter>
               </FadeInTransition>
             </IgnoredTombstoneOrHideContainer>
-          ))
-        )}
+          ))}
         {props.relay.hasMore() && (
           <Localized id="comments-loadMore">
             <Button

@@ -41,6 +41,7 @@ comments-bannedInfo-violatedCommunityGuidelines =
   longer be able to comment, respect or report comments. If you think
   this has been done in error, please contact our community team.
 
+comments-noCommentsAtAll = There are no comments on this story.
 comments-noCommentsYet = There are no comments yet. Why don't you write one?
 
 comments-streamQuery-storyNotFound = Story not found
