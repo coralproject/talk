@@ -69,6 +69,17 @@ export async function retrieveManySites(
   return ids.map(id => sites.find(site => site.id === id) || null);
 }
 
+export async function retrieveSiteByDomain(
+  mongo: Db,
+  tenantID: string,
+  testURL: string
+) {
+  return collection(mongo).findOne({
+    tenantID,
+    allowedDomains: testURL,
+  });
+}
+
 export async function retrieveCommunitySites(
   mongo: Db,
   tenantID: string,

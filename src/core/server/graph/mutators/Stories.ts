@@ -37,7 +37,6 @@ export const Stories = (ctx: GraphContext) => ({
         input.story.url,
         {
           ...omitBy(input.story, isNull),
-          siteID: input.story.siteID,
         },
         ctx.now
       ),

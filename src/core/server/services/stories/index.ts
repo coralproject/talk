@@ -14,7 +14,6 @@ import {
   mergeManyCommentStories,
   removeStoryComments,
 } from "coral-server/models/comment";
-import { retrieveTenantSites } from "coral-server/models/site";
 import {
   calculateTotalCommentCount,
   closeStory,
@@ -40,6 +39,7 @@ import {
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
+import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
 
 import { AugmentedRedis } from "../redis";
@@ -53,7 +53,6 @@ export async function find(mongo: Db, tenant: Tenant, input: FindStory) {
   if (input.url && !isURLPermitted(tenant, input.url)) {
     throw new StoryURLInvalidError({
       storyURL: input.url,
-      allowedDomains: tenant.allowedDomains,
     });
   }
 
@@ -69,23 +68,20 @@ export async function findOrCreate(
   scraper: ScraperQueue,
   now = new Date()
 ) {
-  // If the URL is provided, and the url is not on a allowed domain, then refuse
-  // to create the Asset.
-  if (input.url && !isURLPermitted(tenant, input.url)) {
-    throw new StoryURLInvalidError({
-      storyURL: input.url,
-      allowedDomains: tenant.allowedDomains,
-    });
+  let siteID = null;
+  if (input.url) {
+    const site = await findSiteByURL(mongo, tenant.id, input.url);
+    // // If the URL is provided, and the url is not associated with a site, then refuse
+    // // to create the Asset.
+    if (!site) {
+      throw new StoryURLInvalidError({
+        storyURL: input.url,
+      });
+    }
+    siteID = site.id;
   }
 
-  if (!tenant.multisite) {
-    const [site] = await retrieveTenantSites(mongo, tenant.id);
-    input.siteID = site.id;
-  } else if (!input.siteID) {
-    throw new Error("siteID is required if multisite is enabled");
-  }
-
-  const story = await findOrCreateStory(mongo, tenant.id, input, now);
+  const story = await findOrCreateStory(mongo, tenant.id, input, siteID, now);
   if (!story) {
     return null;
   }
@@ -178,26 +174,27 @@ export async function create(
   config: Config,
   storyID: string,
   storyURL: string,
-  { metadata, closedAt, siteID }: CreateStory,
+  { metadata, closedAt }: CreateStory,
   now = new Date()
 ) {
   // Ensure that the given URL is allowed.
   if (!isURLPermitted(tenant, storyURL)) {
     throw new StoryURLInvalidError({
       storyURL,
-      allowedDomains: tenant.allowedDomains,
     });
   }
 
-  if (!tenant.multisite) {
-    const [site] = await retrieveTenantSites(mongo, tenant.id);
-    siteID = site.id;
-  } else if (!siteID) {
-    throw new Error("siteID is required if multisite is enabled");
+  const site = await findSiteByURL(mongo, tenant.id, storyURL);
+  // // If the URL is provided, and the url is not associated with a site, then refuse
+  // // to create the Asset.
+  if (!site) {
+    throw new StoryURLInvalidError({
+      storyURL,
+    });
   }
 
   // Construct the input payload.
-  const input: CreateStoryInput = { metadata, closedAt, siteID };
+  const input: CreateStoryInput = { metadata, closedAt, siteID: site.id };
   if (metadata) {
     input.scrapedAt = now;
   }
@@ -233,7 +230,6 @@ export async function update(
   if (input.url && !isURLPermitted(tenant, input.url)) {
     throw new StoryURLInvalidError({
       storyURL: input.url,
-      allowedDomains: tenant.allowedDomains,
     });
   }
 
