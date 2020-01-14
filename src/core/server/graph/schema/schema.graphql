@@ -966,11 +966,6 @@ type SlackConfiguration {
 
 type SlackChannelTriggers {
   """
-  allComments is whether this channel will receive all comments entering moderation
-  """
-  allComments: Boolean!
-
-  """
   reportedComments is whether this channel will receive reported comments
   """
   reportedComments: Boolean!
@@ -3539,11 +3534,6 @@ input CommenterAccountFeaturesInput {
 }
 
 input SlackTriggersConfigurationInput {
-  """
-  allComments is whether this channel will receive all comments entering moderation
-  """
-  allComments: Boolean
-
   """
   reportedComments is whether this channel will receive reported comments
   """

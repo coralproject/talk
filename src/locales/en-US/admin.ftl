@@ -423,7 +423,6 @@ configure-slack-channel-hookURL-description =
   follow the instructions <externalLink>here</externalLink>.
 configure-slack-channel-triggers-label =
   Receive notifications in this Slack channel for
-configure-slack-channel-triggers-allComments = All Comments
 configure-slack-channel-triggers-reportedComments = Reported Comments
 configure-slack-channel-triggers-pendingComments = Pending Comments
 configure-slack-channel-triggers-featuredComments = Featured Comments

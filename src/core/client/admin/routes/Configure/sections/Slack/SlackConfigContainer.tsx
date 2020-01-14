@@ -41,7 +41,6 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
           name: "",
           hookURL: "",
           triggers: {
-            allComments: false,
             reportedComments: false,
             pendingComments: false,
             featuredComments: false,
@@ -57,7 +56,6 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
       enabled: true,
       hookURL: "",
       triggers: {
-        allComments: false,
         reportedComments: false,
         pendingComments: false,
         featuredComments: false,
@@ -143,7 +141,6 @@ const enhanced = withFragmentContainer<Props>({
           name
           hookURL
           triggers {
-            allComments
             reportedComments
             pendingComments
             featuredComments
