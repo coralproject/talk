@@ -3866,6 +3866,11 @@ input SettingsInput {
   newCommenters is the configuration for how new commenters comments are treated.
   """
   newCommenters: NewCommentersConfigurationInput
+
+  """
+  multisite is whether multiple sites are enabled.
+  """
+  multisite: Boolean
 }
 
 """
