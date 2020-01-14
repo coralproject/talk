@@ -20,9 +20,9 @@ import {
   emptyRejectedComments,
   reportedComments,
   settings,
-  users,
   site,
   siteConnection,
+  users,
 } from "../fixtures";
 
 const viewer = users.admins[0];

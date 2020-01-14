@@ -10,9 +10,12 @@ import {
   GQLCOMMENT_STATUS,
   GQLCommentModerationAction,
   GQLCommentsConnection,
+  GQLCommunity,
   GQLMODERATION_MODE,
   GQLModerationQueues,
   GQLSettings,
+  GQLSite,
+  GQLSitesConnection,
   GQLStoriesConnection,
   GQLStory,
   GQLSTORY_STATUS,
@@ -21,9 +24,6 @@ import {
   GQLUSER_ROLE,
   GQLUSER_STATUS,
   GQLUsersConnection,
-  GQLSite,
-  GQLSitesConnection,
-  GQLCommunity,
 } from "coral-framework/schema";
 import { createFixture, createFixtures } from "coral-framework/testHelpers";
 
