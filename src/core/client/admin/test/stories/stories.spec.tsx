@@ -24,11 +24,11 @@ import create from "../create";
 import {
   emptyStories,
   settings,
+  site,
+  siteConnection,
   stories,
   storyConnection,
   users,
-  site,
-  siteConnection,
 } from "../fixtures";
 
 const viewer = users.admins[0];
