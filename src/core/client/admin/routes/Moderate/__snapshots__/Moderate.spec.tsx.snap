@@ -6,6 +6,11 @@ exports[`renders correctly 1`] = `
 >
   <ForwardRef(render)
     allStories={true}
+    settings={
+      Object {
+        "multisite": false,
+      }
+    }
     siteID={null}
     siteSelector={
       <Relay(SiteSelectorContainer)
