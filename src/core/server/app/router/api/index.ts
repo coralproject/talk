@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 
 import { AppOptions } from "coral-server/app";
-import { graphQLHandler, versionHandler } from "coral-server/app/handlers";
+import { graphQLHandler } from "coral-server/app/handlers";
 import { JSONErrorHandler } from "coral-server/app/middleware/error";
 import { persistedQueryMiddleware } from "coral-server/app/middleware/graphql";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
@@ -28,9 +28,6 @@ export interface RouterOptions {
 export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
   const router = express.Router();
-
-  // Configure the version route.
-  router.get("/version", versionHandler);
 
   // Installation router.
   router.use("/install", createNewInstallRouter(app));
