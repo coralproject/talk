@@ -38,8 +38,21 @@ const commentCountsStatusKey = (tenantID: string) =>
 const commentCountsModerationQueueTotalKey = (tenantID: string) =>
   `${tenantID}:commentCounts:moderationQueue:total`;
 
-const commentCountsModerationQueueQueuesKey = (tenantID: string) =>
-  `${tenantID}:commentCounts:moderationQueue:queues`;
+const commentCountsModerationQueueQueuesKey = (
+  tenantID: string,
+  siteID?: string | null
+) =>
+  `${tenantID}:${
+    siteID ? siteID + ":" : ""
+  }commentCounts:moderationQueue:queues`;
+
+interface SharedModerationQueueCountsMatch {
+  tenantID: string;
+  createdAt: {
+    $lt: Date;
+  };
+  siteID?: string;
+}
 
 /**
  * recalculateSharedModerationQueueQueueCounts will reset the counts stored for
@@ -53,13 +66,22 @@ export async function recalculateSharedModerationQueueQueueCounts(
   mongo: Db,
   redis: AugmentedRedis,
   tenantID: string,
+  siteID: string | null,
   now = new Date()
 ) {
-  const key = commentCountsModerationQueueQueuesKey(tenantID);
+  const key = commentCountsModerationQueueQueuesKey(tenantID, siteID);
   const freshKey = freshenKey(key);
 
   // Clear the existing cached queues.
   await redis.del(key, freshKey);
+
+  const match: SharedModerationQueueCountsMatch = {
+    tenantID,
+    createdAt: { $lt: now },
+  };
+  if (siteID) {
+    match.siteID = siteID;
+  }
 
   // Fetch all the moderation queue counts.
   const queueResults = collection<{
@@ -67,7 +89,7 @@ export async function recalculateSharedModerationQueueQueueCounts(
     total: number;
   }>(mongo).aggregate([
     {
-      $match: { tenantID, createdAt: { $lt: now } },
+      $match: match,
     },
     {
       $project: {
@@ -150,6 +172,7 @@ export async function retrieveSharedModerationQueueQueuesCounts(
   mongo: Db,
   redis: AugmentedRedis,
   tenantID: string,
+  siteID: string | null,
   now = new Date()
 ): Promise<CommentModerationCountsPerQueue> {
   const key = commentCountsModerationQueueQueuesKey(tenantID);
@@ -166,6 +189,7 @@ export async function retrieveSharedModerationQueueQueuesCounts(
       mongo,
       redis,
       tenantID,
+      siteID,
       now
     );
   }
