@@ -60,7 +60,6 @@ const createProxy = <T = any>(
     delete proxy.ownKeys;
     delete proxy.getOwnPropertyDescriptor;
     delete proxy.has;
-    delete proxy.get;
   }
   return new Proxy(target, proxy) as RecordSourceProxy<T>;
 };
