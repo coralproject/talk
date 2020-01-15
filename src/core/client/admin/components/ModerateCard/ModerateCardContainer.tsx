@@ -227,7 +227,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           selected={selected}
           selectPrev={selectPrev}
           selectNext={selectNext}
-          siteName={comment.site.name}
+          siteName={settings.multisite ? comment.site.name : null}
           onBan={openBanModal}
           moderatedBy={
             <ModeratedByContainer
@@ -319,6 +319,7 @@ const enhanced = withFragmentContainer<Props>({
         banned
         suspect
       }
+      multisite
       ...MarkersContainer_settings
     }
   `,

@@ -1,6 +1,9 @@
 $tableHeaderAltTextColor: var(--v2-colors-mono-100);
 
 .titleColumn {
+  width: 50%;
+}
+.titleColumnNarrow {
   width: 32.5%;
 }
 .authorColumn {

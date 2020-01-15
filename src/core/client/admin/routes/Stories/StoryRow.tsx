@@ -19,6 +19,7 @@ interface Props {
   viewer: PropTypesOf<typeof StoryStatus>["viewer"];
   siteName: string;
   siteID: string;
+  multisite: boolean;
 }
 
 const UserRow: FunctionComponent<Props> = props => (
@@ -31,11 +32,16 @@ const UserRow: FunctionComponent<Props> = props => (
     <TableCell className={styles.authorColumn}>
       {props.author || <NotAvailable />}
     </TableCell>
-    <TableCell className={styles.siteColumn}>
-      <Link to={getModerationLink("default", null, props.siteID)} as={TextLink}>
-        {props.siteName}
-      </Link>
-    </TableCell>
+    {props.multisite && (
+      <TableCell className={styles.siteColumn}>
+        <Link
+          to={getModerationLink("default", null, props.siteID)}
+          as={TextLink}
+        >
+          {props.siteName}
+        </Link>
+      </TableCell>
+    )}
     <TableCell className={styles.publishDateColumn}>
       {props.publishDate || <NotAvailable />}
     </TableCell>

@@ -53,7 +53,7 @@ interface Props {
   showStory: boolean;
   storyTitle?: React.ReactNode;
   storyHref?: string;
-  siteName: string;
+  siteName: string | null;
   onModerateStory?: React.EventHandler<React.MouseEvent>;
   onApprove: () => void;
   onReject: () => void;
@@ -254,10 +254,12 @@ const ModerateCard: FunctionComponent<Props> = ({
                     <span>:</span>
                   </div>
                   <div className={styles.commentOn}>
-                    <span className={styles.siteName}>
-                      {siteName}
-                      <Icon>keyboard_arrow_right</Icon>
-                    </span>
+                    {siteName && (
+                      <span className={styles.siteName}>
+                        {siteName}
+                        <Icon>keyboard_arrow_right</Icon>
+                      </span>
+                    )}
                     <span className={styles.storyTitle}>{storyTitle}</span>
                   </div>
                   <div>
