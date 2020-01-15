@@ -7,7 +7,6 @@ import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 import { default as create, StreamEmbed } from "./StreamEmbed";
 
 export interface Config {
-  siteID: string;
   storyID?: string;
   storyURL?: string;
   commentID?: string;
@@ -30,7 +29,6 @@ export function createStreamEmbed(config: Config): StreamEmbed {
 
   return create({
     title: "Coral Embed Stream",
-    siteID: config.siteID,
     storyID: config.storyID || query.storyID,
     storyURL: config.storyURL || resolveStoryURL(),
     commentID: config.commentID || query.commentID,

@@ -177,7 +177,6 @@ async function commit(
           input: {
             storyID: input.storyID,
             parentID: input.parentID,
-            siteID: input.siteID,
             parentRevisionID: input.parentRevisionID,
             body: input.body,
             nudge: input.nudge,

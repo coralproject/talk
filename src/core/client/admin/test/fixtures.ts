@@ -172,6 +172,7 @@ export const settings = createFixture<GQLSettings>({
   slack: {
     channels: [],
   },
+  multisite: false,
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(

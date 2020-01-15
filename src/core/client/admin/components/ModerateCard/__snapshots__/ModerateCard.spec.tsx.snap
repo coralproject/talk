@@ -764,14 +764,6 @@ exports[`renders story info 1`] = `
               className="ModerateCard-commentOn"
             >
               <span
-                className="ModerateCard-siteName"
-              >
-                The verge
-                <ForwardRef(forwardRef)>
-                  keyboard_arrow_right
-                </ForwardRef(forwardRef)>
-              </span>
-              <span
                 className="ModerateCard-storyTitle"
               >
                 Cancer cured!
