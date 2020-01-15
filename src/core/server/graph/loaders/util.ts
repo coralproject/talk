@@ -7,27 +7,27 @@ export interface SingletonResolverOptions {
  */
 export class SingletonResolver<T> {
   private cache: Promise<T> | null = null;
-  private resolver: () => Promise<T>;
+  private resolver: (args?: any) => Promise<T>;
   private cacheable: boolean;
 
   constructor(
-    resolver: () => Promise<T>,
+    resolver: (args?: any) => Promise<T>,
     { cacheable = true }: SingletonResolverOptions = {}
   ) {
     this.resolver = resolver;
     this.cacheable = cacheable;
   }
 
-  public load() {
+  public load(args?: any) {
     if (!this.cacheable) {
-      return this.resolver();
+      return this.resolver(args);
     }
 
     if (this.cache) {
       return this.cache;
     }
 
-    const promise = this.resolver().then(result => {
+    const promise = this.resolver(args).then(result => {
       return result;
     });
 

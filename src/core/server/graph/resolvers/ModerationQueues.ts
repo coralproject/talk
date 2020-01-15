@@ -48,9 +48,10 @@ const mergeModerationInputFilters = (
  * @param site the site that will be used to base the comment moderation
  *              queues on
  */
-export const siteModerationInputResolver = (
-  site: Site
-): ModerationQueuesInput => ({
+export const siteModerationInputResolver = async (
+  site: Site,
+  ctx: GraphContext
+): Promise<ModerationQueuesInput> => ({
   connection: {
     filter: {
       // This moderationQueues is being sourced from the Story, so require
@@ -58,11 +59,9 @@ export const siteModerationInputResolver = (
       siteID: site.id,
     },
   },
-  counts: {
-    unmoderated: 0,
-    pending: 0,
-    reported: 0,
-  },
+  counts: await ctx.loaders.Comments.sharedSiteModerationQueueQueuesCounts(
+    site.id
+  ),
 });
 
 /**
@@ -127,7 +126,7 @@ export const moderationQueuesResolver:
       return null;
     }
 
-    return siteModerationInputResolver(site);
+    return siteModerationInputResolver(site, ctx);
   }
   if (args.storyID) {
     const story = await ctx.loaders.Stories.story.load(args.storyID);

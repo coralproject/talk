@@ -233,12 +233,22 @@ export default (ctx: Context) => ({
       // The cursor passed here is always going to be a number.
       before: before as number,
     }).then(primeCommentsFromConnection(ctx)),
+  sharedSiteModerationQueueQueuesCounts: (siteID: string) =>
+    retrieveSharedModerationQueueQueuesCounts(
+      ctx.mongo,
+      ctx.redis,
+      ctx.tenant.id,
+      siteID,
+      ctx.now
+    ),
+
   sharedModerationQueueQueuesCounts: new SingletonResolver(
     () =>
       retrieveSharedModerationQueueQueuesCounts(
         ctx.mongo,
         ctx.redis,
         ctx.tenant.id,
+        null,
         ctx.now
       ),
     {
