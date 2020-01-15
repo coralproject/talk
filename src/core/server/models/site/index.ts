@@ -2,6 +2,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit } from "coral-common/types";
+import { getOrigin } from "coral-server/app/url";
 import {
   Connection,
   ConnectionInput,
@@ -24,6 +25,17 @@ export interface Site extends TenantResource {
 export type CreateSiteInput = Omit<Site, "createdAt" | "id">;
 
 export type SiteConnectionInput = ConnectionInput<Site>;
+
+export function getUrlOrigins(urls: string[]): string[] {
+  const origins = [];
+  for (const url of urls) {
+    const origin = getOrigin(url);
+    if (origin) {
+      origins.push(origin);
+    }
+  }
+  return origins;
+}
 
 /**
  * create will create a new Site.
