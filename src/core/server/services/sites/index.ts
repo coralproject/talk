@@ -8,6 +8,7 @@ import { retrieveTenantCommunities } from "coral-server/models/community";
 import {
   createSite,
   CreateSiteInput,
+  getUrlOrigins,
   retrieveSiteByDomain,
   updateSite,
   UpdateSiteInput,
@@ -51,6 +52,7 @@ export async function create(
       multisite: true,
     });
   }
+  input.allowedDomains = getUrlOrigins(input.allowedDomains);
   return createSite(
     mongo,
     {

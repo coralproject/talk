@@ -12,7 +12,11 @@ import {
   TenantInstalledAlreadyError,
 } from "coral-server/errors";
 import { createCommunity } from "coral-server/models/community";
-import { createSite, CreateSiteInput } from "coral-server/models/site";
+import {
+  createSite,
+  CreateSiteInput,
+  getUrlOrigins,
+} from "coral-server/models/site";
 import { LocalProfile } from "coral-server/models/user";
 import {
   createJWTSigningConfig,
@@ -251,6 +255,8 @@ export const installHandler = ({
         name: siteInput.name,
         tenantID: tenant.id,
       });
+
+      siteInput.allowedDomains = getUrlOrigins(siteInput.allowedDomains);
 
       await createSite(mongo, {
         tenantID: tenant.id,
