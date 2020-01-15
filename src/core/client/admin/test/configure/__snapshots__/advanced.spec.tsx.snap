@@ -127,11 +127,33 @@ exports[`renders configure advanced 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
           data-testid="configure-advancedContainer"
         >
-          <textarea
-            className="Textarea-root EmbedCode-textArea"
-            readOnly={true}
-            rows={25}
-            value="<div id=\\"coral_thread\\"></div>
+          <div
+            className="Box-root ConfigBox-root"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <label
+                  className="Header-root"
+                  htmlFor="configure-advanced-embedCode"
+                >
+                  Embed code
+                </label>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <textarea
+                  className="Textarea-root EmbedCode-textArea"
+                  readOnly={true}
+                  rows={25}
+                  value="<div id=\\"coral_thread\\"></div>
 <script type=\\"text/javascript\\">
   (function() {
       var d = document, s = d.createElement('script');
@@ -143,7 +165,7 @@ exports[`renders configure advanced 1`] = `
               id: \\"coral_thread\\",
               autoRender: true,
               rootURL: 'http://localhost',
-              siteID: 'site-id',
+              
               // Uncomment these lines and replace with the ID of the
               // story's ID and URL from your CMS to provide the
               // tightest integration. Refer to our documentation at
@@ -156,26 +178,29 @@ exports[`renders configure advanced 1`] = `
       (d.head || d.body).appendChild(s);
   })();
 </script>"
-          />
-          <div
-            className="Box-root HorizontalGutter-root EmbedCode-copyArea HorizontalGutter-full"
-          >
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantRegular Button-uppercase"
-              data-color="mono"
-              data-variant="regular"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              <span>
-                Copy
-              </span>
-            </button>
+                />
+                <div
+                  className="Box-root HorizontalGutter-root EmbedCode-copyArea HorizontalGutter-full"
+                >
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantRegular Button-uppercase"
+                    data-color="mono"
+                    data-variant="regular"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span>
+                      Copy
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             className="Box-root ConfigBox-root"

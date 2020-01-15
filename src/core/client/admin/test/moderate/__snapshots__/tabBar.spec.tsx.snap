@@ -31,6 +31,16 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             <span>
               reported
             </span>
+            <span
+              className="Counter-root Counter-colorInherit"
+              data-testid="moderate-navigation-reported-count"
+            >
+              <span
+                className="Counter-text"
+              >
+                0
+              </span>
+            </span>
           </a>
         </li>
         <li
@@ -50,6 +60,16 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             <span>
               Pending
             </span>
+            <span
+              className="Counter-root Counter-colorInherit"
+              data-testid="moderate-navigation-pending-count"
+            >
+              <span
+                className="Counter-text"
+              >
+                0
+              </span>
+            </span>
           </a>
         </li>
         <li
@@ -68,6 +88,16 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
             </i>
             <span>
               unmoderated
+            </span>
+            <span
+              className="Counter-root Counter-colorInherit"
+              data-testid="moderate-navigation-unmoderated-count"
+            >
+              <span
+                className="Counter-text"
+              >
+                0
+              </span>
             </span>
           </a>
         </li>

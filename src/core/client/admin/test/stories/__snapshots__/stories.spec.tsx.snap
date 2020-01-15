@@ -124,57 +124,6 @@ exports[`renders empty stories 1`] = `
           </div>
         </fieldset>
       </div>
-      <fieldset
-        className="FieldSet-root"
-      >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
-        >
-          <label
-            className="Label-root"
-          >
-            Site
-          </label>
-          <div
-            className="Popover-root"
-          >
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-adornmentLeft PaginatedSelect-button SiteFilter-root"
-              data-color="mono"
-              data-variant="flat"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              <div
-                className="Box-root Flex-root PaginatedSelect-wrapper Flex-flex Flex-alignCenter"
-              >
-                <span
-                  className="SiteFilter-buttonText"
-                >
-                  All sites
-                </span>
-              </div>
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root PaginatedSelect-buttonIconRight"
-              >
-                keyboard_arrow_down
-              </i>
-            </button>
-            <div
-              aria-hidden={true}
-              aria-labelledby="-ariainfo"
-              id=""
-              role="dialog"
-            />
-          </div>
-        </div>
-      </fieldset>
     </div>
     <div
       className="Box-root HorizontalGutter-root HorizontalGutter-double"
@@ -211,11 +160,6 @@ exports[`renders empty stories 1`] = `
               Author
             </th>
             <th
-              className="TableCell-root StoryTable-siteColumn TableCell-header"
-            >
-              Site
-            </th>
-            <th
               className="TableCell-root StoryTable-publishDateColumn TableCell-header"
             >
               Publish Date
@@ -248,17 +192,6 @@ exports[`renders empty stories 1`] = `
               className="TableCell-root StoryRow-authorColumn TableCell-body"
             >
               Vin Hoa
-            </td>
-            <td
-              className="TableCell-root StoryRow-siteColumn TableCell-body"
-            >
-              <a
-                className="TextLink-root"
-                href="/admin/moderate/sites/site-1"
-                onClick={[Function]}
-              >
-                Test Site
-              </a>
             </td>
             <td
               className="TableCell-root StoryRow-publishDateColumn TableCell-body"
@@ -330,17 +263,6 @@ exports[`renders empty stories 1`] = `
               className="TableCell-root StoryRow-authorColumn TableCell-body"
             >
               Linh Nguyen
-            </td>
-            <td
-              className="TableCell-root StoryRow-siteColumn TableCell-body"
-            >
-              <a
-                className="TextLink-root"
-                href="/admin/moderate/sites/site-2"
-                onClick={[Function]}
-              >
-                Second Site
-              </a>
             </td>
             <td
               className="TableCell-root StoryRow-publishDateColumn TableCell-body"
@@ -525,57 +447,6 @@ exports[`renders stories 1`] = `
           </div>
         </fieldset>
       </div>
-      <fieldset
-        className="FieldSet-root"
-      >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
-        >
-          <label
-            className="Label-root"
-          >
-            Site
-          </label>
-          <div
-            className="Popover-root"
-          >
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantFlat Button-adornmentLeft PaginatedSelect-button SiteFilter-root"
-              data-color="mono"
-              data-variant="flat"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              <div
-                className="Box-root Flex-root PaginatedSelect-wrapper Flex-flex Flex-alignCenter"
-              >
-                <span
-                  className="SiteFilter-buttonText"
-                >
-                  All sites
-                </span>
-              </div>
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm ButtonIcon-root PaginatedSelect-buttonIconRight"
-              >
-                keyboard_arrow_down
-              </i>
-            </button>
-            <div
-              aria-hidden={true}
-              aria-labelledby="-ariainfo"
-              id=""
-              role="dialog"
-            />
-          </div>
-        </div>
-      </fieldset>
     </div>
     <div
       className="Box-root HorizontalGutter-root HorizontalGutter-double"
@@ -612,11 +483,6 @@ exports[`renders stories 1`] = `
               Author
             </th>
             <th
-              className="TableCell-root StoryTable-siteColumn TableCell-header"
-            >
-              Site
-            </th>
-            <th
               className="TableCell-root StoryTable-publishDateColumn TableCell-header"
             >
               Publish Date
@@ -649,17 +515,6 @@ exports[`renders stories 1`] = `
               className="TableCell-root StoryRow-authorColumn TableCell-body"
             >
               Vin Hoa
-            </td>
-            <td
-              className="TableCell-root StoryRow-siteColumn TableCell-body"
-            >
-              <a
-                className="TextLink-root"
-                href="/admin/moderate/sites/site-1"
-                onClick={[Function]}
-              >
-                Test Site
-              </a>
             </td>
             <td
               className="TableCell-root StoryRow-publishDateColumn TableCell-body"
@@ -731,17 +586,6 @@ exports[`renders stories 1`] = `
               className="TableCell-root StoryRow-authorColumn TableCell-body"
             >
               Linh Nguyen
-            </td>
-            <td
-              className="TableCell-root StoryRow-siteColumn TableCell-body"
-            >
-              <a
-                className="TextLink-root"
-                href="/admin/moderate/sites/site-2"
-                onClick={[Function]}
-              >
-                Second Site
-              </a>
             </td>
             <td
               className="TableCell-root StoryRow-publishDateColumn TableCell-body"

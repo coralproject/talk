@@ -175,7 +175,6 @@ async function commit(
             storyID: input.storyID,
             body: input.body,
             nudge: input.nudge,
-            siteID: input.siteID,
             clientMutationId: clientMutationId.toString(),
           },
         },
