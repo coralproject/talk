@@ -58,7 +58,7 @@ module.exports = {
               "@babel/typescript",
               [
                 "@babel/env",
-                { targets: { node: "12.0.0" }, modules: "commonjs" },
+                { targets: { node: "current" }, modules: "commonjs" },
               ],
             ],
             // This is a feature of `babel-loader` for webpack (not Babel itself).

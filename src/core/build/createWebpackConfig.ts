@@ -391,7 +391,7 @@ export default function createWebpackConfig(
                       "@babel/typescript",
                       [
                         "@babel/env",
-                        { targets: { node: "12.0.0" }, modules: "commonjs" },
+                        { targets: { node: "current" }, modules: "commonjs" },
                       ],
                     ],
                     // This is a feature of `babel-loader` for webpack (not Babel itself).
@@ -454,18 +454,6 @@ export default function createWebpackConfig(
                 {
                   loader: require.resolve("babel-loader"),
                   options: {
-                    // This will ensure that all packages in node_modules that
-                    // import lodash do so in a way that supports tree shaking.
-                    plugins: ["lodash"],
-                    presets: [
-                      [
-                        "@babel/env",
-                        {
-                          targets: "last 2 versions, IE 11",
-                          modules: false,
-                        },
-                      ],
-                    ],
                     cacheDirectory: true,
                   },
                 },
