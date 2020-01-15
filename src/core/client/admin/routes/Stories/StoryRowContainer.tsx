@@ -12,6 +12,7 @@ import StoryRow from "./StoryRow";
 interface Props {
   story: StoryData;
   viewer: ViewerData;
+  multisite: boolean;
 }
 
 const StoryRowContainer: FunctionComponent<Props> = props => {
@@ -28,6 +29,7 @@ const StoryRowContainer: FunctionComponent<Props> = props => {
       viewer={props.viewer}
       siteName={props.story.site.name}
       siteID={props.story.site.id}
+      multisite={props.multisite}
       publishDate={
         publishedAt
           ? new Intl.DateTimeFormat(locales, {

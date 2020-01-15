@@ -57,17 +57,20 @@ const StoryTableContainer: FunctionComponent<Props> = props => {
             onSetSearchFilter={setSearchFilter}
             searchFilter={searchFilter}
           />
-          <SiteFilterContainer
-            query={props.query}
-            siteID={siteFilter}
-            onSelect={setSiteFilter}
-          />
+          {props.query && props.query.settings.multisite && (
+            <SiteFilterContainer
+              query={props.query}
+              siteID={siteFilter}
+              onSelect={setSiteFilter}
+            />
+          )}
         </Flex>
         <StoryTable
           viewer={props.query && props.query.viewer}
           loading={!props.query || isRefetching}
           stories={stories}
           onLoadMore={loadMore}
+          multisite={props.query ? props.query.settings.multisite : false}
           hasMore={!isRefetching && props.relay.hasMore()}
           disableLoadMore={isLoadingMore}
           isSearching={Boolean(statusFilter) || Boolean(searchFilter)}
@@ -97,6 +100,9 @@ const enhanced = withPaginationContainer<
         ) {
         viewer {
           ...StoryRowContainer_viewer
+        }
+        settings {
+          multisite
         }
         ...SiteFilterContainer_query
         stories(
