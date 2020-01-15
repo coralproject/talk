@@ -15,6 +15,7 @@
 
   /* Enable Ligatures */
   font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
   font-variant-ligatures: "discretionary-ligatures";
 
   /* Support for Safari and Chrome. */

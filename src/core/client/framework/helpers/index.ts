@@ -16,3 +16,4 @@ export { default as potentiallyInjectAxe } from "./potentiallyInjectAxe";
 export {
   default as injectConditionalPolyfills,
 } from "./injectConditionalPolyfills";
+export { default as polyfillCSSVarsForIE11 } from "./polyfillCSSVarsForIE11";

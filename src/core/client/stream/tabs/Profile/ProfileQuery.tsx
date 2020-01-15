@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
 
+import { polyfillCSSVarsForIE11 } from "coral-framework/helpers";
 import {
   graphql,
   QueryRenderData,
@@ -15,7 +16,11 @@ import { ProfileQuery as QueryTypes } from "coral-stream/__generated__/ProfileQu
 import { ProfileQueryLocal as Local } from "coral-stream/__generated__/ProfileQueryLocal.graphql";
 
 const loadProfileContainer = () =>
-  import("./ProfileContainer" /* webpackChunkName: "profile" */);
+  import("./ProfileContainer" /* webpackChunkName: "profile" */).then(x => {
+    // New css is loaded, take care of polyfilling those css vars for IE11.
+    polyfillCSSVarsForIE11();
+    return x;
+  });
 // (cvle) For some reason without `setTimeout` this request will block other requests.
 const preloadProfileContainer = once(() => setTimeout(loadProfileContainer));
 

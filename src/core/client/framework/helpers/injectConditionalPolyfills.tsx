@@ -1,5 +1,7 @@
 import bowser from "bowser";
 
+import polyfillCSSVarsForIE11 from "./polyfillCSSVarsForIE11";
+
 export default async function injectConditionalPolyfills() {
   const pending: Promise<any>[] = [];
 
@@ -23,7 +25,7 @@ export default async function injectConditionalPolyfills() {
   if (bowser.msie) {
     pending.push(import("whatwg-fetch"));
     pending.push(import("proxy-polyfill"));
-    pending.push(import("css-vars-ponyfill").then(module => module.default()));
+    pending.push(polyfillCSSVarsForIE11());
   }
   await Promise.all(pending);
 }
