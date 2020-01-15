@@ -1,7 +1,7 @@
 import cons from "consolidate";
 import cors from "cors";
 import { Express } from "express";
-import enforceHTTPS from "express-enforces-ssl";
+import enforceHTTPSMiddleware from "express-enforces-ssl";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import { hsts, noSniff, referrerPolicy, xssFilter } from "helmet";
@@ -27,6 +27,7 @@ import { PersistedQueryCache } from "coral-server/services/queries";
 import { AugmentedRedis } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
 
+import { healthHandler } from "./handlers";
 import { compileTrust } from "./helpers";
 import { accessLogger, errorLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
@@ -71,6 +72,12 @@ export async function createApp(options: AppOptions): Promise<Express> {
     parent.use(metricsRecorder(options.metrics));
   }
 
+  // Configure the health check endpoint.
+  parent.get("/api/health", healthHandler);
+
+  // Configure the SSL requirement after the health check endpoint.
+  configureApplicationHTTPS(options);
+
   // Create some services for the router.
   const passport = createPassport(options);
 
@@ -113,7 +120,7 @@ export const listenAndServe = (
   });
 
 function configureApplication(options: AppOptions) {
-  const { parent, config } = options;
+  const { parent } = options;
 
   // Trust the proxy in front of us, this will enable us to trust the fact that
   // SSL was terminated correctly.
@@ -127,6 +134,13 @@ function configureApplication(options: AppOptions) {
   parent.use(noSniff());
   parent.use(referrerPolicy({ policy: "same-origin" }));
   parent.use(xssFilter());
+
+  // Setup the view config.
+  configureApplicationViews(options);
+}
+
+function configureApplicationHTTPS(options: AppOptions) {
+  const { parent, config } = options;
 
   // If we're in production mode, configure some production security settings.
   if (config.get("env") === "production") {
@@ -143,15 +157,12 @@ function configureApplication(options: AppOptions) {
           includeSubDomains: false,
         })
       );
-      parent.use(enforceHTTPS());
+      parent.use(enforceHTTPSMiddleware());
     }
   }
-
-  // Setup the view config.
-  setupViews(options);
 }
 
-function setupViews(options: AppOptions) {
+function configureApplicationViews(options: AppOptions) {
   const { parent } = options;
 
   // Configure the default views directory.
