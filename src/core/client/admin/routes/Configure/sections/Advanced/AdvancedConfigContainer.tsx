@@ -35,7 +35,7 @@ const AdvancedConfigContainer: React.FunctionComponent<Props> = ({
         disabled={submitting}
         settings={settings}
       />
-      <PermittedDomainsConfig disabled={submitting} />
+      {!settings.multisite && <PermittedDomainsConfig disabled={submitting} />}
       <StoryCreationConfig disabled={submitting} />
     </HorizontalGutter>
   );
