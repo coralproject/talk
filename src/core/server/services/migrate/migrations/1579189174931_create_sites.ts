@@ -23,7 +23,6 @@ function isOldTenant(tenant: Tenant | OldTenant): tenant is OldTenant {
 export default class extends Migration {
   // Remove the following line once the migration is ready, otherwise the
   // migration will not be ran!
-  public static disabled = true;
 
   public async up(mongo: Db, tenantID: string) {
     const tenant = await collections
