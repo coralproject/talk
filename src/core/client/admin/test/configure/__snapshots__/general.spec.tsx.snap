@@ -211,9 +211,9 @@ exports[`renders configure general 1`] = `
                         Română
                       </option>
                       <option
-                      value="sv"
+                        value="sv"
                       >
-                      Svenska
+                        Svenska
                       </option>
                     </select>
                     <span
