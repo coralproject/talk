@@ -239,12 +239,6 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   settings
 );
 
-export const community = createFixture<GQLCommunity>({
-  name: "Test community",
-  id: "community-id",
-  createdAt: "2018-06-06T18:24:00.000Z",
-});
-
 export const site = createFixture<GQLSite>({
   name: "Test Site",
   id: "site-id",
