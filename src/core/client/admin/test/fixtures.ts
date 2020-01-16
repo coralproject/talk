@@ -10,7 +10,6 @@ import {
   GQLCOMMENT_STATUS,
   GQLCommentModerationAction,
   GQLCommentsConnection,
-  GQLCommunity,
   GQLMODERATION_MODE,
   GQLModerationQueues,
   GQLSettings,
