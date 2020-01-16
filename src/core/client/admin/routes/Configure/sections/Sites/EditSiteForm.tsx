@@ -170,7 +170,7 @@ const EditSiteForm: FunctionComponent<Props> = ({ site, settings }) => {
                   </Localized>
                 </FormFieldHeader>
 
-                <EmbedCode siteID={site.id} staticURI={settings.staticURI} />
+                <EmbedCode staticURI={settings.staticURI} />
               </FormField>
               <Flex itemGutter justifyContent="flex-end">
                 <Localized id="configure-sites-site-form-save">
