@@ -19,7 +19,6 @@ export interface Site extends TenantResource {
   allowedDomains: string[];
   contactEmail: string;
   createdAt: Date;
-  communityID: string;
 }
 
 export type CreateSiteInput = Omit<Site, "createdAt" | "id">;
@@ -90,16 +89,6 @@ export async function retrieveSiteByDomain(
     tenantID,
     allowedDomains: testURL,
   });
-}
-
-export async function retrieveCommunitySites(
-  mongo: Db,
-  tenantID: string,
-  communityID: string
-) {
-  return collection(mongo)
-    .find({ communityID, tenantID })
-    .toArray();
 }
 
 async function retrieveConnection(

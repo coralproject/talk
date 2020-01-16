@@ -1,7 +1,6 @@
 import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
-import { createCommunity } from "coral-server/models/community";
 import { createSite, getUrlOrigins } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import Migration from "coral-server/services/migrate/migration";
@@ -39,13 +38,6 @@ export default class extends Migration {
       return;
     }
 
-    const community = await createCommunity(mongo, {
-      tenantID,
-      name: tenant.organization.name,
-    });
-
-    this.logger.info("created community " + community.id);
-
     const { name, contactEmail, url } = tenant.organization;
 
     const allowedDomains = getUrlOrigins([
@@ -55,7 +47,6 @@ export default class extends Migration {
 
     const site = await createSite(mongo, {
       tenantID,
-      communityID: community.id,
       name,
       contactEmail,
       url,

@@ -6099,15 +6099,6 @@ type Subscription {
     @auth(roles: [MODERATOR, ADMIN])
 }
 
-type Community {
-  """
-  id is the identifier of the Story.
-  """
-  id: ID!
-  name: String!
-  createdAt: Time! @auth(roles: [ADMIN])
-}
-
 type Site {
   """
   id is the identifier of the Story.
@@ -6125,7 +6116,6 @@ input CreateSite {
   url: String!
   contactEmail: String!
   allowedDomains: [String!]!
-  communityID: String
 }
 
 input UpdateSite {
@@ -6133,7 +6123,6 @@ input UpdateSite {
   url: String
   contactEmail: String
   allowedDomains: [String!]
-  communityID: String
 }
 
 input CreateSiteInput {

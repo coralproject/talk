@@ -4,7 +4,6 @@ import { Db } from "mongodb";
 import { Omit } from "coral-common/types";
 import { getOrigin } from "coral-server/app/url";
 import { Config } from "coral-server/config";
-import { retrieveTenantCommunities } from "coral-server/models/community";
 import {
   createSite,
   CreateSiteInput,
@@ -18,9 +17,7 @@ import { update as updateTenant } from "coral-server/services/tenant";
 
 import TenantCache from "../tenant/cache";
 
-type CreateSite = Omit<CreateSiteInput, "communityID" | "tenantID"> & {
-  communityID?: string;
-};
+type CreateSite = Omit<CreateSiteInput, "tenantID">;
 
 export async function findSiteByURL(mongo: Db, tenantID: string, url: string) {
   const testURL = getOrigin(url);
@@ -39,14 +36,6 @@ export async function create(
   input: CreateSite,
   now = new Date()
 ) {
-  let { communityID } = input;
-  if (!communityID) {
-    const communities = await retrieveTenantCommunities(mongo, tenant.id);
-    if (communities.length > 1) {
-      throw new Error("must specify community ID");
-    }
-    communityID = communities[0].id;
-  }
   if (!tenant.multisite) {
     await updateTenant(mongo, redis, cache, config, tenant, {
       multisite: true,
@@ -57,7 +46,6 @@ export async function create(
     mongo,
     {
       ...input,
-      communityID,
       tenantID: tenant.id,
     },
     now
