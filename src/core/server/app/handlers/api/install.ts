@@ -11,7 +11,6 @@ import {
   InstallationForbiddenError,
   TenantInstalledAlreadyError,
 } from "coral-server/errors";
-import { createCommunity } from "coral-server/models/community";
 import {
   createSite,
   CreateSiteInput,
@@ -98,7 +97,7 @@ export interface TenantInstallBody {
   tenant: Omit<InstallTenant, "domain" | "locale"> & {
     locale: LanguageCode | null;
   };
-  site: Omit<CreateSiteInput, "tenantID" | "communityID">;
+  site: Omit<CreateSiteInput, "tenantID">;
   user: Required<Pick<CreateUser, "username" | "email"> & { password: string }>;
 }
 
@@ -251,16 +250,10 @@ export const installHandler = ({
         req.coral.now
       );
 
-      const community = await createCommunity(mongo, {
-        name: siteInput.name,
-        tenantID: tenant.id,
-      });
-
       siteInput.allowedDomains = getUrlOrigins(siteInput.allowedDomains);
 
       await createSite(mongo, {
         tenantID: tenant.id,
-        communityID: community.id,
         ...siteInput,
       });
 
