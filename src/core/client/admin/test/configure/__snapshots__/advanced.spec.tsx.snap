@@ -152,7 +152,7 @@ exports[`renders configure advanced 1`] = `
                 <textarea
                   className="Textarea-root EmbedCode-textArea"
                   readOnly={true}
-                  rows={25}
+                  rows={24}
                   value="<div id=\\"coral_thread\\"></div>
 <script type=\\"text/javascript\\">
   (function() {
@@ -165,7 +165,6 @@ exports[`renders configure advanced 1`] = `
               id: \\"coral_thread\\",
               autoRender: true,
               rootURL: 'http://localhost',
-              
               // Uncomment these lines and replace with the ID of the
               // story's ID and URL from your CMS to provide the
               // tightest integration. Refer to our documentation at
