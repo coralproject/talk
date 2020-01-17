@@ -20,6 +20,10 @@
   align-items: center;
 }
 
+.labelChecked {
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+}
+
 .labelLight {
   color: var(--palette-text-light);
 }
