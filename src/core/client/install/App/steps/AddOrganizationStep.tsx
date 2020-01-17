@@ -86,7 +86,7 @@ class AddOrganizationStep extends React.Component<Props> {
                   <FormField>
                     <Localized id="install-addOrganization-orgName">
                       <InputLabel container={<label htmlFor={input.name} />}>
-                        Organization Name
+                        Organization name
                       </InputLabel>
                     </Localized>
                     <Localized
@@ -112,16 +112,27 @@ class AddOrganizationStep extends React.Component<Props> {
                   <FormField>
                     <Localized id="install-addSite-siteName">
                       <InputLabel container={<label htmlFor={input.name} />}>
-                        Site Name
+                        Site name
                       </InputLabel>
                     </Localized>
-                    <TextField
-                      {...input}
-                      id={input.name}
-                      color={colorFromMeta(meta)}
-                      disabled={submitting}
-                      fullWidth
-                    />
+                    <Localized id="install-addSite-siteNameDescription">
+                      <InputDescription>
+                        Site name will appear on emails sent by Coral to your
+                        community and organization members.
+                      </InputDescription>
+                    </Localized>
+                    <Localized
+                      id="install-addSite-siteNameTextField"
+                      attrs={{ placeholder: true }}
+                    >
+                      <TextField
+                        {...input}
+                        id={input.name}
+                        color={colorFromMeta(meta)}
+                        disabled={submitting}
+                        fullWidth
+                      />
+                    </Localized>
                     <ValidationMessage meta={meta} fullWidth />
                   </FormField>
                 )}
@@ -135,7 +146,7 @@ class AddOrganizationStep extends React.Component<Props> {
                   <FormField>
                     <Localized id="install-addSite-siteEmail">
                       <InputLabel container={<label htmlFor={input.name} />}>
-                        Site Contact Email
+                        Site contact email
                       </InputLabel>
                     </Localized>
                     <Localized
