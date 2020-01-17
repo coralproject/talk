@@ -23,7 +23,7 @@ const Header: FunctionComponent<HeaderProps> = ({ main }) => {
           [styles.headlineMain]: main,
         })}
       >
-        The Coral Project
+        Coral by Vox Media
       </Typography>
       <Localized id="install-header-title">
         <Typography
