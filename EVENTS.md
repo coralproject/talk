@@ -1,31 +1,52 @@
+# Events Guide
+
+This serves as a guide to events emitted by the javascript via the embed events
+hook, as described below in [Viewer Events](#viewer-events).
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [Viewer Events](#viewer-events)
+  - [Viewer Network Events](#viewer-network-events)
+- [Event List](#event-list)
+  - [Index](#index)
+  - [Events](#events)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Viewer Events
+
 _Viewer Events_ are emitted when the viewer performs certain actions.
 They can be subscribed to using the `events` parameter in
 `Coral.createStreamEmbed`.
+
 ```html
- <script>
-   const CoralStreamEmbed = Coral.createStreamEmbed({
-     events: function(events) {
-       events.onAny(function(eventName, data) {
-         console.log(eventName, data);
-       });
-     },
-   });
- </script>
+<script>
+  const CoralStreamEmbed = Coral.createStreamEmbed({
+    events: function(events) {
+      events.onAny(function(eventName, data) {
+        console.log(eventName, data);
+      });
+    },
+  });
+</script>
 ```
 
 Example events:
+
 - `setMainTab {tab: "PROFILE"}`
 - `showFeaturedCommentTooltip`
 - `viewConversation {from: "FEATURED_COMMENTS", commentID: "c45fb5f5-03f9-49a3-a755-488c698ca0df"}`
 
 ### Viewer Network Events
 
-_Viewer Network Events_ are events that involves a network request and thus can succeed or fail. Succeeding events will have a  `.success` appended to the event name while failing events have an `.error` appended to the event name.
+_Viewer Network Events_ are events that involves a network request and thus can succeed or fail. Succeeding events will have a `.success` appended to the event name while failing events have an `.error` appended to the event name.
 
 Moreover _Viewer Network Events_ contains the `rtt` field which indicates the time it needed from initiating the request until the _UI_ has been updated with the response data.
 
 Example events:
+
 ```
 createComment.success
 {
@@ -53,6 +74,7 @@ createComment.error
 ```
 
 ## Event List
+
 <!-- START docs:events -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN npm run docs:events -->
 ### Index

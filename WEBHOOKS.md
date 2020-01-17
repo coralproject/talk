@@ -7,6 +7,18 @@ Once you've configured a webhook endpoint in Coral, you will receive updates
 from Coral when those events occur. These will be in the form of `POST` requests
 with a `JSON` payload consisting of the schema represented below.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [Webhook Signing](#webhook-signing)
+  - [How to verify the signature(s)](#how-to-verify-the-signatures)
+- [Schema](#schema)
+- [Events Listing](#events-listing)
+- [Events](#events)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Webhook Signing
 
 Each webhook sent by Coral is signed by your webhook endpoint signing secret.
