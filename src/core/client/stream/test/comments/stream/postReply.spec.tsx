@@ -328,34 +328,32 @@ it("handle disabled commenting error", async () => {
 });
 
 it("handle story closed error", async () => {
-  let returnStory = stories[0];
-  const { rte, form } = await createTestRenderer(
-    {
-      Mutation: {
-        createCommentReply: sinon.stub().callsFake(() => {
-          throw new InvalidRequestError({
-            code: ERROR_CODES.STORY_CLOSED,
-          });
-        }),
-      },
-      Query: {
-        story: sinon.stub().callsFake(() => returnStory),
-      },
-    },
-    { muteNetworkErrors: true }
-  );
-
-  act(() => rte.props.onChange({ html: "abc" }));
-  act(() => {
-    form.props.onSubmit();
-  });
-
-  // Change the story that we return to be closed.
-  returnStory = { ...stories[0], isClosed: true };
-
   await act(async () => {
-    await waitForElement(() => within(form).getByText("Story is closed"));
+    let returnStory = stories[0];
+    const { rte, form, testRenderer } = await createTestRenderer(
+      {
+        Mutation: {
+          createCommentReply: sinon.stub().callsFake(() => {
+            throw new InvalidRequestError({
+              code: ERROR_CODES.STORY_CLOSED,
+            });
+          }),
+        },
+        Query: {
+          story: sinon.stub().callsFake(() => returnStory),
+        },
+      },
+      { muteNetworkErrors: true }
+    );
+
+    rte.props.onChange({ html: "abc" });
+    form.props.onSubmit();
+
+    // Change the story that we return to be closed.
+    returnStory = { ...stories[0], isClosed: true };
+
+    await waitForElement(() =>
+      within(testRenderer.root).getByText("Story is closed")
+    );
   });
-  expect(rte.props.disabled).toBe(true);
-  expect(within(form).getByText("Submit").props.disabled).toBe(true);
 });
