@@ -200,7 +200,7 @@ compliance.
                             value="true"
                           />
                           <label
-                            className="RadioButton-label"
+                            className="RadioButton-label RadioButton-labelChecked"
                             htmlFor="accountFeatures.changeUsername-true"
                           >
                             <span>
@@ -274,7 +274,7 @@ compliance.
                             value="true"
                           />
                           <label
-                            className="RadioButton-label"
+                            className="RadioButton-label RadioButton-labelChecked"
                             htmlFor="accountFeatures.downloadComments-true"
                           >
                             <span>
@@ -349,7 +349,7 @@ address from the site and the database.
                             value="true"
                           />
                           <label
-                            className="RadioButton-label"
+                            className="RadioButton-label RadioButton-labelChecked"
                             htmlFor="accountFeatures.deleteAccount-true"
                           >
                             <span>

@@ -281,7 +281,7 @@ reactions, be reported, and be shared.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="disableCommenting.enabled-true"
                       >
                         <span>
@@ -419,7 +419,7 @@ reactions, be reported, and be shared.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="communityGuidelines.enabled-false"
                       >
                         <span>
@@ -551,7 +551,7 @@ Blank spaces at the beginning and the end of a comment will be trimmed.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="charCount.enabled-false"
                       >
                         <span>
@@ -828,7 +828,7 @@ moderation panel.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="closeCommenting.auto-false"
                       >
                         <span>
