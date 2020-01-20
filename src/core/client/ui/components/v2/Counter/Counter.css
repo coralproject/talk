@@ -1,3 +1,8 @@
+$counterBadgeForegroundColor: var(--v2-colors-pure-white);
+$counterBadgeBackgroundDefaultColor: var(--v2-colors-grey-500);
+$counterBadgeBackgroundEmphasisColor: var(--v2-colors-grey-500);
+$counterBadgeBackgroundAlertColor: var(--v2-colors-grey-500);
+
 .root {
   font-size: var(--v2-font-size-2);
   font-weight: var(--v2-font-weight-primary-bold);
@@ -16,7 +21,7 @@
 }
 
 .text {
-  color: var(--v2-palette-counter-badge-foreground);
+  color: $counterBadgeForegroundColor;
 }
 
 .colorInherit {
@@ -44,13 +49,13 @@
 }
 
 .colorEmphasis {
-  background-color: var(--v2-palette-counter-badge-background-emphasis);
+  background-color: $counterBadgeBackgroundEmphasisColor;
 }
 
 .colorDefault {
-  background-color: var(--v2-palette-counter-badge-background-default);
+  background-color: $counterBadgeBackgroundDefaultColor;
 }
 
 .colorAlert {
-  background-color: var(--v2-palette-counter-badge-background-alert);
+  background-color: $counterBadgeBackgroundAlertColor;
 }

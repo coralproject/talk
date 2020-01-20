@@ -1,3 +1,6 @@
+$messageErrorBackgroundColor: var(--v2-colors-red-500);
+$messageErrorForegroundColor: var(--v2-colors-pure-white);
+
 .root {
   position: relative;
   display: inline-flex;
@@ -25,8 +28,8 @@
 }
 
 .colorError {
-  background-color: var(--v2-palette-message-error-background);
-  color: var(--v2-palette-message-error-foreground);
+  background-color: $messageErrorBackgroundColor;
+  color: $messageErrorForegroundColor;
 }
 
 .colorPrimary {

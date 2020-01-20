@@ -1,3 +1,8 @@
+$popoverBorderColor: var(--v2-colors-grey-400);
+$popoverBackgroundColor: var(--v2-colors-pure-white);
+$popoverDarkBackgroundColor: var(--v2-colors-grey-500);
+$popoverDarkBorderColor: var(--v2-colors-grey-500);
+
 .root {
   position: absolute;
   width: 20px;
@@ -12,22 +17,22 @@
     filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
     &::before {
       border-width: 0 10px 6px 10px;
-      border-color: transparent transparent var(--v2-palette-popover-border)
+      border-color: transparent transparent $popoverBorderColor
         transparent;
     }
     &::after {
       margin-top: -5px;
       border-width: 0 10px 6px 10px;
-      border-color: transparent transparent var(--v2-palette-popover-background)
+      border-color: transparent transparent $popoverBackgroundColor
         transparent;
     }
     &.colorDark {
       &::before {
-        border-color: transparent transparent var(--v2-palette-popover-dark-border)
+        border-color: transparent transparent $popoverDarkBorderColor
           transparent;
       }
       &::after {
-        border-color: transparent transparent var(--v2-palette-popover-dark-border)
+        border-color: transparent transparent $popoverDarkBorderColor
           transparent;
       }
     }
@@ -42,22 +47,22 @@
     filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.1));
     &::before {
       border-width: 6px 10px 0 10px;
-      border-color: var(--v2-palette-popover-border) transparent transparent
+      border-color: $popoverBorderColor transparent transparent
         transparent;
     }
     &::after {
       margin-top: -7px;
       border-width: 6px 10px 0 10px;
-      border-color: var(--v2-palette-popover-background) transparent transparent
+      border-color: $popoverBackgroundColor transparent transparent
         transparent;
     }
     &.colorDark {
       &::before {
-        border-color: var(--v2-palette-popover-dark-border) transparent transparent
+        border-color: $popoverDarkBorderColor transparent transparent
           transparent;
       }
       &::after {
-        border-color: var(--v2-palette-popover-dark-border) transparent transparent
+        border-color: $popoverDarkBorderColor transparent transparent
           transparent;
       }
     }
@@ -71,23 +76,23 @@
     filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.1));
     &::before {
       border-width: 10px 6px 10px 0;
-      border-color: transparent var(--v2-palette-popover-border) transparent
+      border-color: transparent $popoverBorderColor transparent
         transparent;
     }
     &::after {
       margin-top: -20px;
       margin-right: -1px;
       border-width: 10px 6px 10px 0;
-      border-color: transparent var(--v2-palette-popover-background) transparent
+      border-color: transparent $popoverBackgroundColor transparent
         transparent;
     }
     &.colorDark {
       &::before {
-        border-color: transparent var(--v2-palette-popover-dark-border) transparent
+        border-color: transparent $popoverDarkBorderColor transparent
           transparent;
       }
       &::after {
-        border-color: transparent var(--v2-palette-popover-dark-border) transparent
+        border-color: transparent $popoverDarkBorderColor transparent
           transparent;
       }
     }
@@ -102,23 +107,23 @@
     &::before {
       border-width: 10px 0 10px 6px;
       border-color: transparent transparent transparent
-        var(--v2-palette-popover-border);
+        $popoverBorderColor;
     }
     &::after {
       margin-top: -20px;
       margin-left: -1px;
       border-width: 10px 0 10px 6px;
       border-color: transparent transparent transparent
-        var(--v2-palette-popover-background);
+        $popoverBackgroundColor;
     }
     &.colorDark {
       &::before {
         border-color: transparent transparent transparent
-          var(--v2-palette-popover-dark-border);
+          $popoverDarkBorderColor;
       }
       &::after {
         border-color: transparent transparent transparent
-          var(--v2-palette-popover-dark-border);
+          $popoverDarkBorderColor;
       }
     }
   }

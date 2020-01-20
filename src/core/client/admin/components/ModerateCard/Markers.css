@@ -1,3 +1,6 @@
+$moderateCardDetailsHeaderColor: var(--v2-colors-mono-500);
+$moderateCardDetailsDividerColor: var(--v2-colors-grey-100);
+
 .detailsButton {
   font-size: var(--v2-font-size-1);
   font-family: var(--v2-font-family-primary);
@@ -12,7 +15,7 @@
 }
 
 .detailsButtonColorRegular {
-  border-color: var(--v2-palette-details-header);
+  border-color: $moderateCardDetailsHeaderColor;
 }
 
 .detailsText {
@@ -20,5 +23,5 @@
 }
 
 .detailsDivider {
-  border-color: var(--v2-palette-details-divider);
+  border-color: $moderateCardDetailsDividerColor;
 }

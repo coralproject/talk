@@ -1,6 +1,8 @@
+$tableBodyDisabledColor: var(--v2-colors-mono-100);
+
 .root {
   font-weight: var(--v2-font-weight-primary-regular);
-  color: var(--v2-palette-table-body-disabled);
+  color: $tableBodyDisabledColor;
 }
 
 .open {
