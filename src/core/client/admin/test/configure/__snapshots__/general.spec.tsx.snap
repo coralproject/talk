@@ -124,7 +124,7 @@ exports[`renders configure general 1`] = `
         className="Main-root"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root GeneralConfigContainer-root HorizontalGutter-double"
           data-testid="configure-generalContainer"
         >
           <div
