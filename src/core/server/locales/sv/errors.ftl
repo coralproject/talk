@@ -1,12 +1,12 @@
-error-commentingDisabled = Commenting has been disabled tenant wide.
-error-storyClosed = Story is currently closed for commenting.
-error-commentBodyTooShort = Comment body must have at least {$min} characters.
+error-commentingDisabled = Kommentarer har inaktiverats globalt.
+error-storyClosed = Den här artikelns kommentarer är för närvarande inaktiverade.
+error-commentBodyTooShort = Kommentaren måste bestå av minst {$min} tecken.
 error-commentBodyExceedsMaxLength =
-  Comment body exceeds maximum length of {$max} characters.
+  Kommentaren har är för lång, den får max bestå av {$max} tecken.
 error-storyURLNotPermitted =
-  The specified story URL does not exist in the permitted domains list.
-error-urlNotPermitted = The specified URL ({$url}) is not permitted.
-error-duplicateStoryURL =  The specified story URL already exists.
+  Artikelns url finns inte med i listan över godkända domäner.
+error-urlNotPermitted = Den valda URL:en är inte tillåten ({$url}).
+error-duplicateStoryURL =  Den valda artikel-URL:en finns redan.
 error-tenantNotFound = Tenant hostname ({$hostname}) not found.
 error-userNotFound = User ({$userID}) not found.
 error-notFound = Unrecognized request URL ({$method} {$path}).
@@ -35,25 +35,25 @@ error-emailInvalidFormat =
   Provided email address does not appear to be a valid email.
 error-emailExceedsMaxLength =
   Email address exceeds maximum length of {$max} characters.
-error-internalError = Internal Error
+error-internalError = Intärnt fel
 error-tenantInstalledAlready = Tenant has already been installed already.
 error-userNotEntitled = You are not authorized to access that resource.
 error-storyNotFound = Story ({$storyID}) not found.
 error-commentNotFound = Comment ({$commentID}) not found.
 error-invalidCredentials = Email and/or password combination incorrect.
-error-toxicComment = Are you sure? The language in this comment might violate our community guidelines. You can edit the comment or submit it for moderator review.
-error-spamComment = The language in this comment looks like spam. You can edit the comment or submit it anyway for moderator review.
+error-toxicComment = Är du säker? Språket i den här kommentaren kan strida mot våra regler. Du kan redigera länken eller skicka in den och vänta på att den modereras.
+error-spamComment = Språket i den här kommentaren ser ut som spam. Du kan redigera länken eller skicka in den och vänta på att den modereras.
 error-userAlreadySuspended = The user already has an active suspension until {$until}.
 error-userAlreadyBanned = The user is already banned.
-error-userBanned = Your account is currently banned.
-error-userSuspended = Your account is currently suspended until {$until}.
+error-userBanned = Ditt konto är för närvarande avstängt.
+error-userSuspended = Ditt konto är för avstängt till {$until}.
 error-integrationDisabled = Specified integration is disabled.
-error-passwordResetTokenExpired = Password reset link expired.
-error-emailConfirmTokenExpired = Email confirmation link expired.
+error-passwordResetTokenExpired = Länken för att nollställa lösendordet är inte giltig längre.
+error-emailConfirmTokenExpired = Länken för att bekräfta e-postadressen är inte giltig längre.
 error-rateLimitExceeded = You're trying to do that too many times. Please wait and try again.
-error-inviteTokenExpired = Invite link has expired.
+error-inviteTokenExpired = Inbjudningslänken är inte giltig längre.
 error-inviteRequiresEmailAddresses = Please add an email address to send invitations.
-error-passwordIncorrect = Incorrect password. Please try again.
-error-usernameAlreadyUpdated = You may only change your username once every { framework-timeago-time }.
-error-persistedQueryNotFound = The persisted query with ID { $id } was not found.
-error-rawQueryNotAuthorized = You are not authorized to execute this query.
+error-passwordIncorrect = Felaktigt lösenord. var god försök igen.
+error-usernameAlreadyUpdated = Du kan bara ändra ditt användarnamn en gång under perioden { framework-timeago-time }.
+error-persistedQueryNotFound = Den aktuella frågan med ID { $id } hittades inte.
+error-rawQueryNotAuthorized = Du har inte rätt access för att köra den här frågan.

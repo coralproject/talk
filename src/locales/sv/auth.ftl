@@ -3,115 +3,113 @@
 ## General
 general-orSeparator = Or
 
-general-usernameLabel = Username
-general-usernameDescription = You may use “_” and “.” Spaces not permitted.
+general-usernameLabel = Användarnamn
+general-usernameDescription = Användarnamnet kan innehålla “_” och “.” men inte mellanslag.
 general-usernameTextField =
-  .placeholder = Username
-general-emailAddressLabel = Email Address
+  .placeholder = Användarnamn
+general-emailAddressLabel = E-postadress
 general-emailAddressTextField =
-  .placeholder = Email Address
-general-passwordLabel = Password
-general-passwordDescription = Must be at least {$minLength} characters
+  .placeholder = E-postadress
+general-passwordLabel = Lösenord
+general-passwordDescription = Måste vara minst {$minLength} tecken
 general-passwordTextField =
-  .placeholder = Password
+  .placeholder = Lösenord
 general-confirmPasswordTextField =
-  .placeholder = Confirm Password
-general-confirmEmailAddressLabel = Confirm Email Address
+  .placeholder = Bekräfta lösenord
+general-confirmEmailAddressLabel = Bekräfta e-postadress
 general-confirmEmailAddressTextField =
-  .placeholder = Confirm Email Address
+  .placeholder = Bekräfta e-postadress
 
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Sign In</title><subtitle>to join the conversation<subtitle>
+  <title>Registrera dig</title><subtitle>för att delta i konversationen<subtitle>
 
-signIn-signInWithEmail = Sign in with Email
-signIn-signInWithFacebook = Sign in with Facebook
-signIn-signInWithGoogle = Sign in with Google
-signIn-signInWithOIDC = Sign in with { $name }
+signIn-signInWithEmail = Logga in med din e-postadress
+signIn-signInWithFacebook = Logga in med Facebook
+signIn-signInWithGoogle = Logga in med Google
+signIn-signInWithOIDC = Logga in med { $name }
 
-signIn-passwordLabel = Password
+signIn-passwordLabel = Lösenord
 signIn-passwordTextField =
-  .placeholder = Password
+  .placeholder = Lösenord
 
-signIn-forgotYourPassword = Forgot your password?
+signIn-forgotYourPassword = Glömt ditt lösenord?
 
-signIn-noAccountSignUp = Don't have an account? <textlink>Sign Up</textlink>
+signIn-noAccountSignUp = Saknar du ett konto? <textlink>Registrera dig</textlink>
 
 ## Sign Up
 
 signUp-signUpToJoinHeader =
-  <title>Sign Up</title><subtitle>to join the conversation</subtitle>
+  <title>Registrera dig</title><subtitle>för att delta i konversationen</subtitle>
 
-signUp-signUpWithEmail = Sign up with Email
-signUp-signUpWithFacebook = Sign up with Facebook
-signUp-signUpWithGoogle = Sign up with Google
-signUp-signUpWithOIDC = Sign up with { $name }
+signUp-signUpWithEmail = Registrera dig med din e-postadress
+signUp-signUpWithFacebook = Registrera dig med Facebook
+signUp-signUpWithGoogle = Registrera dig med Google
+signUp-signUpWithOIDC = Registrera dig med { $name }
 
-signUp-accountAvailableSignIn = Already have an account? <textlink>Sign In</textlink>
+signUp-accountAvailableSignIn = Har du redan ett konto? <textlink>Logga in</textlink>
 
 ## Forgot Password
 
-forgotPassword-forgotPasswordHeader = Forgot Password?
+forgotPassword-forgotPasswordHeader = Glömt lösenord?
 forgotPassword-enterEmailAndGetALink =
-  Enter your email address below and we will send you a link to
-  reset your password.
+  Ange din e-postadress så skickar vi en länk för att nollställa ditt lösenord.
 
-forgotPassword-sendEmailButton = Send Email
+forgotPassword-sendEmailButton = Skicka e-post
 
-forgotPassword-emailAddressLabel = Email Address
+forgotPassword-emailAddressLabel = E-postadress
 forgotPassword-emailAddressTextField =
-  .placeholder = Email Address
-forgotPassword-gotBackToSignIn = Go back to sign in page
+  .placeholder = E-postadress
+forgotPassword-gotBackToSignIn = Gå tillbaka till inloggningssidan
 
 forgotPassword-enterEmailAndGetALink =
-  Enter your email address below and we will send you a link to
-  reset your password.
+  Ange din e-postadress så skickar vi en länk för att nollställa ditt lösenord.
 
 ### Check Email
 
-forgotPassword-checkEmail-checkEmailHeader = Check Your Email
+forgotPassword-checkEmail-checkEmailHeader = Kolla din e-postinkorg
 forgotPassword-checkEmail-receiveEmail =
-  If there is an account associated with <email></email>,
-  you will receive an email with a link to create a new password.
-forgotPassword-checkEmail-closeButton = Close
+  Om det finns ett konto kopplat till <email></email>,
+  kommer du få ett mejl med en länk för att skapa ett nytt lösenord.
+forgotPassword-checkEmail-closeButton = Stäng
 
 ## Reset Password
 
-resetPassword-resetPasswordHeader = Reset Password
-resetPassword-resetPasswordButton = Reset Password
+resetPassword-resetPasswordHeader = Nollställ lösenord
+resetPassword-resetPasswordButton = Nollställ lösenord
 
 ## Create Username
 
-createUsername-createUsernameHeader = Create Username
+createUsername-createUsernameHeader = Ange ditt användarnamn
 createUsername-whatItIs =
-  Your username is an identifier that will appear on all of your comments.
-createUsername-createUsernameButton = Create Username
+  Ditt användarnamn är unikt och kommer synas i anslutning till alla dina 
+  kommentarer.  
+createUsername-createUsernameButton = Skapa användarnamn
 
 ## Add Email Address
-addEmailAddress-addEmailAddressHeader = Add Email Address
+addEmailAddress-addEmailAddressHeader = Lägg till e-postadress
 
 addEmailAddress-whatItIs =
-  For your added security, we require users to add an email address to their accounts.
-  Your email address will be used to:
+  Av säkerhetsskäl behöver vi din e-postadress. 
+  Den kommer användas till:
 
 addEmailAddress-receiveUpdates =
-  Receive updates regarding any changes to your account
-  (email address, username, password, etc.)
+  Information gällande ändringar av ditt konto
+  (e-postadress, användarnamn, lösenord, m.m.)
 
 addEmailAddress-allowDownload =
-  Allow you to download your comments.
+  För att du ska kunna ladda ner din kommentarshistorik.
 
 addEmailAddress-sendNotifications =
-  Send comment notifications that you have chosen to receive.
+  Skicka de notifikationer som du valt att ta emot.
 
 addEmailAddress-addEmailAddressButton =
-  Add Email Address
+  Lägg till e-postadress
 
 ## Create Password
-createPassword-createPasswordHeader = Create Password
+createPassword-createPasswordHeader = Skapa lösenord
 createPassword-whatItIs =
-  To protect against unauthorized changes to your account,
-  we require users to create a password.
+  För att skydda ditt konto kräver vi att du anger ett lösenord.
 createPassword-createPasswordButton =
-  Create Password
+  Skapa lösenord

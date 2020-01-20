@@ -1,22 +1,22 @@
 ## Install
 
-install-backButton-back = Back
-install-nextButton-next = Next
-install-permittedDomains-finishInstall = Finish Install
-install-header-title = { -product-name } Installation Wizard
+install-backButton-back = Tillbaka
+install-nextButton-next = Nästa
+install-permittedDomains-finishInstall = Avsluta installationen
+install-header-title = { -product-name } Installations-wizard
 
-install-initialStep-theRemainder = The remainder of the installation wizard will take about 10 minutes. Once you are finished, you will have your own instance of { -product-name }.
-install-initialStep-getStarted = Get Started
+install-initialStep-theRemainder = Installations-wizarden kommer ta ca 10 minutes. När den är klar kommer du ha dig egna instans av { -product-name }.
+install-initialStep-getStarted = Kom igång med installationen
 
-install-selectLanguage-stepTitleSelect = Select Language
-install-selectLanguage-selectLanguage = Select language for Coral
+install-selectLanguage-stepTitleSelect = Välj språk
+install-selectLanguage-selectLanguage = Välj språk för Coral
 install-selectLanguage-description =
-  Choose the language to be used during the installation process.
-  This will also be the default language for your Coral community.
-install-selectLanguage-language = Language
+  Välj språk som ska användas under installationen.
+  Detta kommer också bli standardspråket för ditt Coral community.
+install-selectLanguage-language = Språk
 
-install-addOrganization-stepTitle = Add Organization Details
-install-addOrganization-title = Add Organization
+install-addOrganization-stepTitle = Lägg till organisation och annan info
+install-addOrganization-title = Lägg till organisation
 install-addOrganization-description = Please tell us the name of your organization. This will appear in emails when inviting new team members.
 install-addOrganization-orgName = Organization Name
 install-addOrganization-orgNameTextField =
@@ -58,6 +58,6 @@ install-permittedDomains-permittedDomainsTextField =
   .placeholder = Domains
 install-permittedDomains-permittedDomainsDescription = Insert domains separated by comma
 
-install-finalStep-description = Thanks for installing { -product-name }! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now.
-install-finalStep-goToTheDocs = Go to the Docs
-install-finalStep-goToAdmin = Go to Admin
+install-finalStep-description = För att du installerar { -product-name }! Vi har skickat ett bekräftelsemejl till din e-postadress. Du kan börja engagera dina läsare redan nu medan du slutför skapandet av ditt konto.
+install-finalStep-goToTheDocs = Gå till dokumentationen
+install-finalStep-goToAdmin = Gå till adminsidan
