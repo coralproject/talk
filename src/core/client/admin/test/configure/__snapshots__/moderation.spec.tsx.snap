@@ -203,7 +203,7 @@ approved by a moderator.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="moderation-false"
                       >
                         <span>
@@ -262,7 +262,7 @@ approved by a moderator.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="premodLinksEnable-false"
                       >
                         <span>
@@ -351,7 +351,7 @@ for moderator approval before publication.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="newCommenters.premodEnabled-false"
                       >
                         <span>
@@ -524,7 +524,7 @@ apply to Staff comments.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="recentCommentHistory.enabled-false"
                       >
                         <span>
@@ -678,7 +678,7 @@ If approved by a moderator, the comment will be published.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="integrations.perspective.enabled-false"
                       >
                         <span>
@@ -830,7 +830,7 @@ improve the API over time.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="integrations.perspective.doNotStore-true"
                       >
                         <span>
@@ -924,7 +924,7 @@ community model building purposes to improve the API over time.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="integrations.perspective.sendFeedback-false"
                       >
                         <span>
@@ -1128,7 +1128,7 @@ If approved by a moderator, the comment will be published.
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="integrations.akismet.enabled-false"
                       >
                         <span>
