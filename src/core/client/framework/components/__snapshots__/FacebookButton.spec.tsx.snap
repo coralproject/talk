@@ -8,13 +8,13 @@ exports[`renders correctly 1`] = `
       "colorRegular": "FacebookButton-colorRegular",
       "disabled)": "FacebookButton-disabled)",
       "mouseHover": "FacebookButton-mouseHover",
-      "variantFilled": "FacebookButton-variantFilled",
+      "variantRegular": "FacebookButton-variantRegular",
     }
   }
   fullWidth={true}
   onClick={[Function]}
   size="large"
-  variant="filled"
+  variant="regular"
 >
   <svg
     fill="none"

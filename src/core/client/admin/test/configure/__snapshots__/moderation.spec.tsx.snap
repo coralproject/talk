@@ -977,6 +977,7 @@ community model building purposes to improve the API over time.
                         autoComplete="off"
                         autoCorrect="off"
                         className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                        data-testid="password-field"
                         disabled={false}
                         id="configure-moderation-integrations.perspective.key"
                         name="integrations.perspective.key"
@@ -1180,6 +1181,7 @@ in your Akismet account:
                         autoComplete="off"
                         autoCorrect="off"
                         className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                        data-testid="password-field"
                         disabled={false}
                         id="configure-moderation-integrations.akismet.key"
                         name="integrations.akismet.key"

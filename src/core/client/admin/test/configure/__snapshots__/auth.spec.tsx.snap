@@ -872,6 +872,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                           autoComplete="off"
                           autoCorrect="off"
                           className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                          data-testid="password-field"
                           disabled={true}
                           id="auth.integrations.oidc.clientSecret"
                           name="auth.integrations.oidc.clientSecret"
@@ -1252,6 +1253,7 @@ integration to register for a new account.
                           autoComplete="off"
                           autoCorrect="off"
                           className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                          data-testid="password-field"
                           id="configure-auth-sso-key"
                           name="key"
                           placeholder=""
@@ -1603,6 +1605,7 @@ to create and set up a web application. For more information visit:
                           autoComplete="off"
                           autoCorrect="off"
                           className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                          data-testid="password-field"
                           disabled={true}
                           id="auth.integrations.google.clientSecret"
                           name="auth.integrations.google.clientSecret"
@@ -1923,6 +1926,7 @@ For more information visit:
                           autoComplete="off"
                           autoCorrect="off"
                           className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                          data-testid="password-field"
                           disabled={true}
                           id="auth.integrations.facebook.clientSecret"
                           name="auth.integrations.facebook.clientSecret"

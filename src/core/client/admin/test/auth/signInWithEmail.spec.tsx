@@ -85,7 +85,7 @@ it("checks for invalid email", async () => {
 
   act(() => {
     within(form)
-      .getByLabelText("Email Address")
+      .getByTestID("email-field")
       .props.onChange({ target: { value: "invalid-email" } });
   });
   act(() => {
@@ -104,7 +104,7 @@ it("accepts valid email", async () => {
 
   act(() => {
     within(form)
-      .getByLabelText("Email Address")
+      .getByTestID("email-field")
       .props.onChange({ target: { value: "hans@test.com" } });
   });
   act(() => {
@@ -123,7 +123,7 @@ it("accepts correct password", async () => {
 
   act(() => {
     within(form)
-      .getByLabelText("Password")
+      .getByTestID("password-field")
       .props.onChange({ target: { value: "testtest" } });
   });
   act(() => {
@@ -141,12 +141,12 @@ it("shows server error", async () => {
   const { form, context } = await createTestRenderer();
   act(() => {
     within(form)
-      .getByLabelText("Email Address")
+      .getByTestID("email-field")
       .props.onChange({ target: { value: "hans@test.com" } });
   });
   act(() => {
     within(form)
-      .getByLabelText("Password")
+      .getByTestID("password-field")
       .props.onChange({ target: { value: "testtest" } });
   });
 
@@ -184,12 +184,12 @@ it("submits form successfully", async () => {
   const { form, context } = await createTestRenderer();
   act(() => {
     within(form)
-      .getByLabelText("Email Address")
+      .getByTestID("email-field")
       .props.onChange({ target: { value: "hans@test.com" } });
   });
   act(() => {
     within(form)
-      .getByLabelText("Password")
+      .getByTestID("password-field")
       .props.onChange({ target: { value: "testtest" } });
   });
 
