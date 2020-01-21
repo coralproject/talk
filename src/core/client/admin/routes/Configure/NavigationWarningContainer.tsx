@@ -24,7 +24,7 @@ class NavigationWarningContainer extends React.Component<Props> {
     );
 
     this.removeTransitionHook = props.router.addTransitionHook(() =>
-      this.props.active ? warningMessage : true
+      this.props.active ? warningMessage : undefined
     );
   }
 
