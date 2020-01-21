@@ -1,0 +1,64 @@
+$tag-color-primary: var(--v2-palette-primary-main);
+$tag-color-primary-light: var(--v2-palette-primary-lightest);
+$tag-color-grey: var(--v2-palette-grey-main);
+$tag-color-grey-light: var(--v2-palette-grey-light);
+$tag-color-error: var(--v2-palette-error-main);
+$tag-color-error-light: var(--v2-palette-error-lightest);
+$tag-color-dark: var(--v2-palette-primary-darkest);
+$tag-color-dark-light: var(--v2-palette-primary-lightest);
+$tag-text-color: var(--v2-palette-text-light);
+$tag-pill-bg: var(--v2-colors-pure-white);
+
+.root {
+  font-size: var(--v2-font-size-2);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  color: $tag-text-color;
+  line-height: var(--v2-line-height-reset);
+  padding: var(--v2-spacing-1);
+  white-space: nowrap;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.colorPrimary {
+  background-color: $tag-color-primary;
+}
+
+.colorGrey {
+  background-color: $tag-color-grey;
+}
+
+.colorError {
+  background-color: $tag-color-error;
+}
+
+.colorDarkest {
+  background-color: $tag-color-dark;
+}
+
+.variantPill {
+  border-radius: 20px;
+  padding: 2px 10px;
+  background-color: $tag-pill-bg;
+  &.colorGrey {
+    border: 1px solid $tag-color-grey;
+    color: $tag-color-grey;
+  }
+  &.colorPrimary {
+    border: 1px solid $tag-color-primary;
+    color: $tag-color-primary;
+  }
+  &.colorError {
+    border: 1px solid $tag-color-error;
+    color: $tag-color-error;
+  }
+  &.colorDarkest {
+    border: 1px solid $tag-color-dark;
+    color: $tag-color-dark;
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+}

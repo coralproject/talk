@@ -1,12 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import {
-  BrandMark,
-  BrandName,
-  Flex,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { BrandName, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import styles from "./AuthBox.css";
 
@@ -20,15 +14,10 @@ const AuthBox: FunctionComponent<Props> = ({ title, children }) => {
     <div data-testid="authBox">
       <Flex justifyContent="center">
         <HorizontalGutter className={styles.container} size="double">
-          <Flex justifyContent="center">
-            <div className={styles.brandIcon}>
-              <BrandMark size="lg" />
-            </div>
-          </Flex>
           <div>
-            <Typography align="center" variant="heading3">
-              {title}
-            </Typography>
+            <Flex justifyContent="center">
+              <div className="adminSignInTitle">{title}</div>
+            </Flex>
             <BrandName size="lg" align="center" />
           </div>
           {children}

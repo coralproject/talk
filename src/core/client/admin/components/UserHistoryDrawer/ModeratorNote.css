@@ -1,37 +1,57 @@
+$moderator-note-bg: var(--v2-colors-grey-100);
+$moderator-note-body: var(--v2-colors-mono-500);
+$moderator-note-dot: var(--v2-colors-mono-100);
+$moderator-note-username: var(--v2-colors-mono-900);
+
 .root {
-  
 }
 
 .body {
-  background-color: #f2f2f2;
+  font-family: var(--v2-font-family-primary);
+  font-size: var(--v2-font-size-3);
+  font-weight: var(--v2-font-weight-primary-regular);
+  line-height: var(--v2-line-height-body-short);
+  background-color: $moderator-note-bg;
   border-radius: 4px;
-  padding: var(--spacing-4); 
+  padding: var(--v2-spacing-3);
+  color: $moderator-note-body;
+  margin-bottom: var(--v2-spacing-2);
 }
 
 .bodyType {
-  color: var(--palette-text-dark);
 }
 
 .leftBy {
-  padding-left: var(--spacing-4);
-  padding-right: var(--spacing-1);
+  font-family: var(--v2-font-family-primary);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-regular);
+  line-height: var(--v2-line-height-reset);
+  padding-left: var(--v2-spacing-4);
+  padding-right: var(--v2-spacing-1);
   position: relative;
-  color: var(--palette-grey-main);
+  color: $moderator-note-body;
 }
 
 .leftBy:before {
   content: "";
   width: 4px;
   height: 4px;
-  background-color: var(--palette-grey-main); 
+  background-color: ;
   position: absolute;
   border-radius: 50%;
-  left: var(--spacing-1);
+  left: var(--v2-spacing-1);
+  background-color: $moderator-note-dot;
   top: 50%;
 }
 
 .username {
-  font-family: var(--font-family-serif);
-  font-weight: var(--font-weight-medium);
-  color: var(--palette-grey-main); 
+  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  line-height: var(--v2-line-height-reset);
+  font-size: var(--v2-font-size-3);
+  color: $moderator-note-username;
+}
+
+.footerLeft {
+  padding-left: var(--v2-spacing-3);
 }

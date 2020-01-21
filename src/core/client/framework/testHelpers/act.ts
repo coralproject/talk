@@ -1,7 +1,22 @@
 import TestRenderer from "react-test-renderer";
 
-export default function act(
-  callback: () => Promise<void> | void | undefined
-): Promise<void> | void {
-  return TestRenderer.act(callback as any) as any;
+import { isPromiseLike } from "coral-common/utils";
+
+export default function act<T>(callback: () => T): T {
+  let callbackResult: T;
+  const actResult = TestRenderer.act(() => {
+    callbackResult = callback();
+    return callbackResult as any;
+  });
+  if (isPromiseLike(callbackResult!)) {
+    // Return it this way, to preserve warnings that React emits.
+    return {
+      then(resolve: (value: any) => void, reject: (err?: Error) => void) {
+        (actResult as PromiseLike<any>).then(() => {
+          resolve(callbackResult);
+        }, reject);
+      },
+    } as any;
+  }
+  return callbackResult!;
 }

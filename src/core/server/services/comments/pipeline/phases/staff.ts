@@ -2,7 +2,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLTAG,
   GQLUSER_ROLE,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,

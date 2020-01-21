@@ -1,6 +1,4 @@
 .root {
-  font-size: calc(14rem / var(--rem-base));
-  line-height: calc(16em / 12);
   /*
     Fallback begin
 
@@ -10,4 +8,9 @@
   word-break: break-all;
   /* Fallback end */
   word-break: break-word;
+  color: var(--v2-palette-text-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-body-short);
+  font-size: var(--v2-font-size-2);
 }

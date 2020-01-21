@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { Component } from "react";
 
 import { urls } from "coral-framework/helpers";
@@ -28,7 +28,12 @@ class FinalStep extends Component {
             </Button>
           </Localized>
           <Localized id="install-finalStep-goToAdmin">
-            <Button anchor color="primary" variant="filled" href={urls.admin}>
+            <Button
+              anchor
+              color="primary"
+              variant="filled"
+              href={urls.admin.moderateReported}
+            >
               Go to Admin
             </Button>
           </Localized>

@@ -1,17 +1,19 @@
 /* eslint-disable max-classes-per-file */
 
-import { FluentBundle } from "fluent/compat";
+import { FluentBundle } from "@fluent/bundle/compat";
 import { MongoError } from "mongodb";
 import uuid from "uuid";
 import { VError } from "verror";
 
-import { ALLOWED_USERNAME_CHANGE_FREQUENCY } from "coral-common/constants";
+import { ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION } from "coral-common/constants";
 import { ERROR_CODES, ERROR_TYPES } from "coral-common/errors";
-import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
+import { reduceSeconds } from "coral-common/helpers/i18n";
+import TIME from "coral-common/time";
+import { Writable } from "coral-common/types";
 import { translate } from "coral-server/services/i18n";
 
-import { Writable } from "coral-common/types";
-import { GQLUSER_AUTH_CONDITIONS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_AUTH_CONDITIONS } from "coral-server/graph/schema/__generated__/types";
+
 import { ERROR_TRANSLATIONS } from "./translations";
 
 /**
@@ -315,9 +317,10 @@ export class UsernameAlreadySetError extends CoralError {
 
 export class UsernameUpdatedWithinWindowError extends CoralError {
   constructor(lastUpdate: Date) {
-    const { scaled, unit } = reduceSeconds(ALLOWED_USERNAME_CHANGE_FREQUENCY, [
-      UNIT.DAYS,
-    ]);
+    const { scaled, unit } = reduceSeconds(
+      ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
+      [TIME.DAY]
+    );
     super({
       code: ERROR_CODES.USERNAME_UPDATED_WITHIN_WINDOW,
       context: {
@@ -755,5 +758,22 @@ export class RawQueryNotAuthorized extends CoralError {
       status: 400,
       context: { tenantID, pvt: { userID, query } },
     });
+  }
+}
+
+export class ScrapeFailed extends CoralError {
+  constructor(url: string, cause?: Error | string) {
+    if (cause instanceof Error) {
+      super({
+        code: ERROR_CODES.SCRAPE_FAILED,
+        cause,
+        context: { pub: { url } },
+      });
+    } else {
+      super({
+        code: ERROR_CODES.SCRAPE_FAILED,
+        context: { pub: { url }, pvt: { cause } },
+      });
+    }
   }
 }

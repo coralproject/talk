@@ -1,0 +1,14 @@
+$tableHighlightColor: var(--v2-colors-grey-100);
+$tableHoverColor: var(--v2-colors-teal-100);
+
+.root {
+  box-sizing: border-box;
+}
+
+.body:nth-child(even) {
+  background-color: $tableHighlightColor;
+}
+
+.body:hover {
+  background-color: $tableHoverColor;
+}

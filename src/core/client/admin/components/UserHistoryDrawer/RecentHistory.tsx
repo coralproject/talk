@@ -1,15 +1,15 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
+import { reduceSeconds } from "coral-common/helpers/i18n";
+import TIME from "coral-common/time";
 import {
-  Box,
   Flex,
+  HorizontalGutter,
   Tooltip,
   TooltipButton,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import styles from "./RecentHistory.css";
 
@@ -26,45 +26,42 @@ const RecentHistory: FunctionComponent<Props> = ({
   rejectionRate,
   submitted,
 }) => {
-  const { scaled, unit } = reduceSeconds(timeFrame, [UNIT.DAYS]);
+  const { scaled, unit } = reduceSeconds(timeFrame, [TIME.DAY]);
 
   return (
-    <Box mt={3}>
-      <Localized id="moderate-user-drawer-recent-history-title">
-        <Typography className={styles.title} variant="bodyCopyBold">
-          Recent comment history
-        </Typography>
-      </Localized>
-      <Localized
-        id="moderate-user-drawer-recent-history-calculated"
-        $unit={unit}
-        $value={scaled}
-      >
-        <Typography className={styles.subTitle} variant="bodyCopy">
-          Calculated over the last {scaled} {unit}
-        </Typography>
-      </Localized>
-      <Box mt={1}>
-        <Box className={styles.info} mr={4}>
-          <Typography
+    <HorizontalGutter spacing={2}>
+      <div>
+        <Localized id="moderate-user-drawer-recent-history-title">
+          <h3 className={styles.title}>Recent comment history</h3>
+        </Localized>
+        <Localized
+          id="moderate-user-drawer-recent-history-calculated"
+          $unit={unit}
+          $value={scaled}
+        >
+          <p className={styles.subTitle}>
+            Calculated over the last {scaled} {unit}
+          </p>
+        </Localized>
+      </div>
+      <Flex spacing={3}>
+        <div>
+          <p
             className={cn(styles.amount, {
               [styles.triggered]: triggered,
             })}
-            variant="bodyCopyBold"
           >
             {Math.round(rejectionRate * 100)}%
-          </Typography>
-          <Flex alignItems="center">
+          </p>
+          <Flex>
             <Localized id="moderate-user-drawer-recent-history-rejected">
-              <Typography
+              <span
                 className={cn(styles.amountLabel, {
                   [styles.triggered]: triggered,
                 })}
-                variant="bodyCopy"
-                container="span"
               >
                 Rejected
-              </Typography>
+              </span>
             </Localized>
             <Tooltip
               id="recentCommentHistory-rejectionPopover"
@@ -97,19 +94,15 @@ const RecentHistory: FunctionComponent<Props> = ({
               )}
             />
           </Flex>
-        </Box>
-        <Box className={styles.info}>
-          <Typography className={styles.amount} variant="bodyCopyBold">
-            {submitted}
-          </Typography>
+        </div>
+        <div>
+          <p className={styles.amount}>{submitted}</p>
           <Localized id="moderate-user-drawer-recent-history-tooltip-submitted">
-            <Typography className={styles.amountLabel} variant="bodyCopy">
-              Submitted
-            </Typography>
+            <p className={styles.amountLabel}>Submitted</p>
           </Localized>
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </Flex>
+    </HorizontalGutter>
   );
 };
 

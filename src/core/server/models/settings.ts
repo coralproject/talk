@@ -11,7 +11,7 @@ import {
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
   GQLSettings,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 export type LiveConfiguration = Omit<GQLLiveConfiguration, "configurable">;
 
@@ -96,6 +96,14 @@ export interface AccountFeatures {
 }
 
 /**
+ * NewCommentersConfiguration is the configuration for how new commenters comments are treated.
+ */
+export interface NewCommentersConfiguration {
+  premodEnabled: boolean;
+  approvedCommentsThreshold: number;
+}
+
+/**
  * Auth is the set of configured authentication integrations.
  */
 export type Auth = Omit<GQLAuth, "integrations"> & {
@@ -137,6 +145,7 @@ export type Settings = GlobalModerationSettings &
     | "communityGuidelines"
     | "stories"
     | "createdAt"
+    | "slack"
   > & {
     /**
      * auth is the set of configured authentication integrations.
@@ -164,4 +173,9 @@ export type Settings = GlobalModerationSettings &
      * AccountFeatures are features enabled for commenter accounts
      */
     accountFeatures: AccountFeatures;
+
+    /**
+     * newCommenters is the configuration for how new commenters comments are treated.
+     */
+    newCommenters: NewCommentersConfiguration;
   };

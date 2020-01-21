@@ -1,8 +1,8 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
-import { Icon } from "coral-ui/components";
+import { Icon } from "coral-ui/components/v2";
 
 import styles from "./SeeAllOption.css";
 
@@ -30,7 +30,9 @@ const SeeAllOption: FunctionComponent<Props> = ({
         <Localized id="moderate-searchBar-seeAllResults">
           <span>See all results</span>
         </Localized>
-        <Icon className={styles.icon}>arrow_forward</Icon>
+        <Icon className={styles.icon} size="md">
+          keyboard_arrow_right
+        </Icon>
       </a>
     </li>
   );

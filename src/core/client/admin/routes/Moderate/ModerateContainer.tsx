@@ -3,7 +3,7 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { withRouteConfig } from "coral-framework/lib/router";
-import { Spinner } from "coral-ui/components";
+import { Spinner } from "coral-ui/components/v2";
 
 import { ModerateContainerQueryResponse } from "coral-admin/__generated__/ModerateContainerQuery.graphql";
 

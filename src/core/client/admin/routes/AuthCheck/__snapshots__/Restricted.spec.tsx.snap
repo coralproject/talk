@@ -3,13 +3,17 @@
 exports[`renders correctly 1`] = `
 <AuthBox
   title={
-    <Localized
-      id="restricted-currentlySignedInTo"
+    <div
+      className="Restricted-title"
     >
-      <span>
-        Currently signed in to
-      </span>
-    </Localized>
+      <Localized
+        id="restricted-currentlySignedInTo"
+      >
+        <span>
+          Currently signed in to
+        </span>
+      </Localized>
+    </div>
   }
 >
   <ForwardRef(forwardRef)
@@ -29,13 +33,11 @@ exports[`renders correctly 1`] = `
       <Localized
         id="restricted-noPermissionInfo"
       >
-        <ForwardRef(forwardRef)
-          align="center"
+        <div
           className="Restricted-noPermission"
-          variant="heading3"
         >
           You do not have permission to access this page.
-        </ForwardRef(forwardRef)>
+        </div>
       </Localized>
     </div>
     <div>
@@ -43,13 +45,11 @@ exports[`renders correctly 1`] = `
         Username={<Username />}
         id="restricted-signedInAs"
       >
-        <ForwardRef(forwardRef)
-          align="center"
-          container="div"
-          variant="bodyCopy"
+        <div
+          className="Restricted-copy"
         >
           You are signed in as: &lt;Username&gt;&lt;/Username&gt;
-        </ForwardRef(forwardRef)>
+        </div>
       </Localized>
     </div>
     <ForwardRef(forwardRef)
@@ -59,9 +59,10 @@ exports[`renders correctly 1`] = `
         id="restricted-signInWithADifferentAccount"
       >
         <ForwardRef(forwardRef)
-          color="primary"
+          color="regular"
           onClick={[Function]}
-          variant="filled"
+          size="large"
+          variant="regular"
         >
           Sign in with a different account
         </ForwardRef(forwardRef)>
@@ -70,13 +71,11 @@ exports[`renders correctly 1`] = `
     <Localized
       id="restricted-contactAdmin"
     >
-      <ForwardRef(forwardRef)
-        align="center"
-        className="Restricted-contactAdmin"
-        variant="bodyCopy"
+      <div
+        className="Restricted-copy Restricted-contactAdmin"
       >
         If you think this is an error, please contact your administrator for assistance.
-      </ForwardRef(forwardRef)>
+      </div>
     </Localized>
   </ForwardRef(forwardRef)>
 </AuthBox>

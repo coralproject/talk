@@ -27,7 +27,7 @@ import { findOrCreate } from "coral-server/services/users";
 import {
   GQLSSOAuthIntegration,
   GQLUSER_ROLE,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 import { Verifier } from "../jwt";
 
@@ -84,11 +84,6 @@ export async function findOrCreateSSOUser(
   token: SSOToken,
   now = new Date()
 ) {
-  if (!token.user) {
-    // TODO: (wyattjoh) replace with better error.
-    throw new Error("token is malformed, missing user claim");
-  }
-
   // Validate the token content.
   const decodedToken: SSOToken = validate(SSOTokenSchema, token);
 

@@ -1,8 +1,8 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import { Omit, PropTypesOf } from "coral-framework/types";
-import { PasswordField as PasswordFieldUI } from "coral-ui/components";
+import { PasswordField as PasswordFieldUI } from "coral-ui/components/v2";
 
 type Props = Omit<
   PropTypesOf<typeof PasswordFieldUI>,

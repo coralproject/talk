@@ -1,8 +1,13 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { useUUID } from "coral-framework/hooks";
-import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components";
+import {
+  Button,
+  ButtonIcon,
+  Flex,
+  HorizontalGutter,
+} from "coral-ui/components/v2";
 
 import styles from "./Markers.css";
 
@@ -23,11 +28,8 @@ const Markers: FunctionComponent<Props> = ({ children, details }) => {
         {children}
         {details && (
           <Button
-            size="small"
-            classes={{
-              variantRegular: styles.detailsButton,
-              colorRegular: styles.detailsButtonColorRegular,
-            }}
+            variant="text"
+            color="mono"
             onClick={toggleDetails}
             aria-controls={uuid}
             aria-expanded={showDetails}
@@ -35,7 +37,9 @@ const Markers: FunctionComponent<Props> = ({ children, details }) => {
             <Localized id="moderate-markers-details">
               <span className={styles.detailsText}>DETAILS</span>
             </Localized>
-            <Icon>{showDetails ? "arrow_drop_up" : "arrow_drop_down"}</Icon>
+            <ButtonIcon>
+              {showDetails ? "arrow_drop_up" : "arrow_drop_down"}
+            </ButtonIcon>
           </Button>
         )}
       </Flex>

@@ -67,6 +67,7 @@ it("renders the empty settings pane", async () => {
     testRenderer: { root },
   } = await createTestRenderer();
   expect(within(root).toJSON()).toMatchSnapshot();
+  expect(await within(root).axe()).toHaveNoViolations();
 });
 
 it("doesn't show the change password pane when local auth is disabled", async () => {
@@ -112,6 +113,7 @@ it("render password change form", async () => {
   const newPassword = await waitForElement(() =>
     within(form).getByID("newPassword", { exact: false })
   );
+  expect(await within(changePassword).axe()).toHaveNoViolations();
 
   // Submit an empty form.
   act(() => {

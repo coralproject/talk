@@ -1,6 +1,7 @@
 import { uniq, zip } from "lodash";
 import { Db } from "mongodb";
 
+import { Config } from "coral-server/config";
 import { StoryURLInvalidError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
@@ -163,6 +164,7 @@ export type CreateStory = CreateStoryInput;
 export async function create(
   mongo: Db,
   tenant: Tenant,
+  config: Config,
   storyID: string,
   storyURL: string,
   { metadata, closedAt }: CreateStory,
@@ -194,7 +196,7 @@ export async function create(
   if (!metadata && tenant.stories.scraping.enabled) {
     // If the scraper has not scraped this story and story metadata was not
     // provided, we need to scrape it now!
-    newStory = await scrape(mongo, tenant.id, newStory.id, storyURL);
+    newStory = await scrape(mongo, config, tenant.id, newStory.id, storyURL);
   }
 
   return newStory;

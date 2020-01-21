@@ -3,7 +3,7 @@
   right: 0px;
   top: 2px;
 
-  border: 1px solid var(--palette-grey-lighter);
+  border: 1px solid var(--v2-palette-grey-main);
   box-sizing: border-box;
   border-radius: var(--round-corners);
   padding: 2px var(--spacing-2) 2px var(--spacing-2);
@@ -11,22 +11,21 @@
   justify-content: center;
   align-items: center;
 
-  font-size: calc(14rem / var(--rem-base));
-  font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-sans-serif);
+  color: var(--v2-palette-grey-main);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
   line-height: 1.2;
-  letter-spacing: calc(0.2em / 14);
-  color: var(--palette-grey-lighter);
-  
+
   &:active {
-    background-color: var(--palette-primary-lightest);
-    border-color: var(--palette-primary-main);
-    color: var(--palette-primary-main);
+    background-color: var(--v2-palette-primary-lightest);
+    border-color: var(--v2-palette-primary-main);
+    color: var(--v2-palette-primary-main);
   }
 }
 
 .invert {
-  background-color: var(--palette-primary-main);
-  border-color: var(--palette-primary-main);
-  color: var(--palette-text-light) ;
+  background-color: var(--v2-palette-primary-main);
+  border-color: var(--v2-palette-primary-main);
+  color: var(--v2-palette-text-light);
 }

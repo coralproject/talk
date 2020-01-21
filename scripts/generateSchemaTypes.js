@@ -12,12 +12,12 @@ async function main() {
       name: "tenant",
       fileName: path.join(
         __dirname,
-        "../src/core/server/graph/tenant/schema/__generated__/types.ts"
+        "../src/core/server/graph/schema/__generated__/types.ts"
       ),
       config: {
-        contextType: "TenantContext",
+        contextType: "GraphContext",
         importStatements: [
-          'import TenantContext from "coral-server/graph/tenant/context";',
+          'import GraphContext from "coral-server/graph/context";',
           'import { Cursor } from "coral-server/models/helpers";',
         ],
         customScalarType: { Cursor: "Cursor", Time: "Date" },

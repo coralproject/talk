@@ -1,0 +1,8 @@
+.root {
+  align-self: flex-start;
+  margin-top: 1px;
+  flex-shrink: 0;
+  &:first-child {
+    margin-right: calc(0.5 * var(--mini-unit));
+  }
+}

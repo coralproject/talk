@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
@@ -49,6 +49,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       reject({
         commentID: comment.id,
         commentRevisionID: comment.revision.id,
+        storyID: story.id,
         noEmit: true,
       });
     }

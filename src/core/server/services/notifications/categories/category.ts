@@ -1,7 +1,7 @@
 import {
   SUBSCRIPTION_CHANNELS,
   SUBSCRIPTION_INPUT,
-} from "coral-server/graph/tenant/resolvers/Subscription/types";
+} from "coral-server/graph/resolvers/Subscription/types";
 
 import NotificationContext from "../context";
 import { Notification } from "../notification";

@@ -392,7 +392,7 @@ export default function createWebpackConfig(
                       "@babel/typescript",
                       [
                         "@babel/env",
-                        { targets: { node: "10.0.0" }, modules: "commonjs" },
+                        { targets: { node: "12.0.0" }, modules: "commonjs" },
                       ],
                     ],
                     // This is a feature of `babel-loader` for webpack (not Babel itself).

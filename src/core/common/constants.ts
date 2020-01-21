@@ -1,3 +1,5 @@
+import TIME from "./time";
+
 /**
  * CLIENT_ID_HEADER references the name of the header used to extract/send the
  * client ID to enable automatic de-duplication.
@@ -36,30 +38,32 @@ export const TOXICITY_ENDPOINT_DEFAULT =
   "https://commentanalyzer.googleapis.com/v1alpha1";
 
 /**
- * DOWNLOAD_LIMIT_TIMEFRAME is the number of seconds that a given download may
- * be made within.
+ * DOWNLOAD_LIMIT_TIMEFRAME_DURATION is the number of seconds that a given
+ * download may be made within.
  */
-export const DOWNLOAD_LIMIT_TIMEFRAME = 14 * 86400;
+export const DOWNLOAD_LIMIT_TIMEFRAME_DURATION = 14 * TIME.DAY;
 
 /**
- * ALLOWED_USERNAME_CHANGE_FREQUENCY is the length of time in seconds a user must wait after changing their username to change it again.
+ * ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION is the length of time in seconds
+ * a user must wait after changing their username to change it again.
  */
-export const ALLOWED_USERNAME_CHANGE_FREQUENCY = 14 * 86400;
+export const ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION = 14 * TIME.DAY;
 
 /**
- * SCHEDULED_DELETION_TIMESPAN_DAYS is the length of time in days a user
- * will have to wait for their account to be deleted after requesting a
- * deletion.
+ * SCHEDULED_DELETION_TIMEFRAME is the length of time in seconds a user will
+ * have to wait for their account to be deleted after requesting a deletion.
  */
-export const SCHEDULED_DELETION_TIMESPAN_DAYS = 14;
+export const SCHEDULED_DELETION_WINDOW_DURATION = 1 * TIME.DAY;
 
 /**
- * DEFAULT_SESSION_LENTTH is the length of time in seconds a session is valid for unless configured in tenant.
+ * DEFAULT_SESSION_DURATION is the length of time in seconds a session is valid
+ * for unless configured in tenant.
  */
-export const DEFAULT_SESSION_LENGTH = 7776000;
+export const DEFAULT_SESSION_DURATION = 90 * TIME.DAY;
 
 /**
- * COMMENT_REPEAT_POST_TIMESPAN is the length of time in seconds that a previous comment ID is stored for a
- * user to prevent them from posting the same comment repeatedly.
+ * COMMENT_REPEAT_POST_DURATION is the length of time in seconds that a
+ * previous comment ID is stored for a user to prevent them from posting the
+ * same comment repeatedly.
  */
-export const COMMENT_REPEAT_POST_TIMESPAN = 21600;
+export const COMMENT_REPEAT_POST_DURATION = 6 * TIME.MINUTE;

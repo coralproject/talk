@@ -2,17 +2,20 @@ import { isEmpty } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
+import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import TIME from "coral-common/time";
 import { DeepPartial, Omit, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
-import {
-  GQLMODERATION_MODE,
-  GQLSettings,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import { Settings } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
+
+import {
+  GQLFEATURE_FLAG,
+  GQLMODERATION_MODE,
+  GQLSettings,
+} from "coral-server/graph/schema/__generated__/types";
 
 import {
   generateSSOKey,
@@ -40,6 +43,11 @@ export interface TenantSettings
    * locale is the specified locale for this Tenant.
    */
   locale: LanguageCode;
+
+  /**
+   * featureFlags is the set of flags enabled on this Tenant.
+   */
+  featureFlags?: GQLFEATURE_FLAG[];
 }
 
 /**
@@ -61,6 +69,7 @@ export type CreateTenantInput = Pick<
  * create will create a new Tenant.
  *
  * @param mongo the MongoDB connection used to create the tenant.
+ * @param i18n i18n instance
  * @param input the customizable parts of the Tenant available during creation
  */
 export async function createTenant(
@@ -91,16 +100,12 @@ export async function createTenant(
     premodLinksEnable: false,
     closeCommenting: {
       auto: false,
-      // 2 weeks timeout.
-      timeout: 60 * 60 * 24 * 7 * 2,
+      timeout: 2 * TIME.WEEK,
     },
     disableCommenting: {
       enabled: false,
     },
-
-    // 30 seconds edit window length.
-    editCommentWindowLength: 30,
-
+    editCommentWindowLength: 30 * TIME.SECOND,
     charCount: {
       enabled: false,
     },
@@ -109,7 +114,7 @@ export async function createTenant(
       banned: [],
     },
     auth: {
-      sessionDuration: DEFAULT_SESSION_LENGTH,
+      sessionDuration: DEFAULT_SESSION_DURATION,
       integrations: {
         local: {
           enabled: true,
@@ -161,8 +166,7 @@ export async function createTenant(
     },
     recentCommentHistory: {
       enabled: false,
-      // 7 days in seconds.
-      timeFrame: 604800,
+      timeFrame: 7 * TIME.DAY,
       // Rejection rate defaulting to 30%, once exceeded, comments will be
       // pre-moderated.
       triggerRejectionRate: 0.3,
@@ -174,6 +178,7 @@ export async function createTenant(
       perspective: {
         enabled: false,
         doNotStore: true,
+        sendFeedback: false,
       },
     },
     reaction: getDefaultReactionConfiguration(bundle),
@@ -189,7 +194,14 @@ export async function createTenant(
       deleteAccount: false,
       downloadComments: false,
     },
+    newCommenters: {
+      premodEnabled: false,
+      approvedCommentsThreshold: 2,
+    },
     createdAt: now,
+    slack: {
+      channels: [],
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -212,7 +224,10 @@ export async function retrieveTenant(mongo: Db, id: string) {
   return collection(mongo).findOne({ id });
 }
 
-export async function retrieveManyTenants(mongo: Db, ids: string[]) {
+export async function retrieveManyTenants(
+  mongo: Db,
+  ids: ReadonlyArray<string>
+) {
   const cursor = collection(mongo).find({
     id: {
       $in: ids,
@@ -328,6 +343,54 @@ export async function rotateTenantSSOKey(
       returnOriginal: false,
       // Add an ArrayFilter to only update one of the keys.
       arrayFilters: [{ "keys.kid": kid }],
+    }
+  );
+
+  return result.value || null;
+}
+
+export async function enableTenantFeatureFlag(
+  mongo: Db,
+  id: string,
+  flag: GQLFEATURE_FLAG
+) {
+  // Update the Tenant.
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      // Add the flag to the set of enabled flags.
+      $addToSet: {
+        featureFlags: flag,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  return result.value || null;
+}
+
+export async function disableTenantFeatureFlag(
+  mongo: Db,
+  id: string,
+  flag: GQLFEATURE_FLAG
+) {
+  // Update the Tenant.
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      // Pull the flag from the set of enabled flags.
+      $pull: {
+        featureFlags: flag,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
     }
   );
 

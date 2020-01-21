@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -105,7 +105,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
     props.relay.hasMore(),
     props.story.settings.live.enabled,
   ]);
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 20);
   const beginLoadMoreEvent = useViewerNetworkEvent(LoadMoreAllCommentsEvent);
   const loadMoreAndEmit = useCallback(async () => {
     const loadMoreEvent = beginLoadMoreEvent({ storyID: props.story.id });
@@ -153,13 +153,20 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
         size="oneAndAHalf"
         className={styles.stream}
       >
-        {comments.length <= 0 ? (
+        {comments.length <= 0 && props.story.isClosed && (
+          <Localized id="comments-noCommentsAtAll">
+            <CallOut fullWidth>There are no comments on this story.</CallOut>
+          </Localized>
+        )}
+        {comments.length <= 0 && !props.story.isClosed && (
           <Localized id="comments-noCommentsYet">
             <CallOut fullWidth>
               There are no comments yet. Why don't you write one?
             </CallOut>
           </Localized>
-        ) : (
+        )}
+        {comments.length > 0 &&
+          !props.story.isClosed &&
           comments.map(comment => (
             <IgnoredTombstoneOrHideContainer
               key={comment.id}
@@ -183,8 +190,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
                 </HorizontalGutter>
               </FadeInTransition>
             </IgnoredTombstoneOrHideContainer>
-          ))
-        )}
+          ))}
         {props.relay.hasMore() && (
           <Localized id="comments-loadMore">
             <Button
@@ -219,7 +225,7 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 5 }
+          count: { type: "Int!", defaultValue: 20 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         ) {

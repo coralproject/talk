@@ -2,11 +2,11 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import {
-  ALLOWED_USERNAME_CHANGE_FREQUENCY,
-  COMMENT_REPEAT_POST_TIMESPAN,
-  DOWNLOAD_LIMIT_TIMEFRAME,
+  ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
+  COMMENT_REPEAT_POST_DURATION,
+  DOWNLOAD_LIMIT_TIMEFRAME_DURATION,
 } from "coral-common/constants";
-import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
+import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -28,7 +28,7 @@ import {
 import {
   GQLAuthIntegrations,
   GQLUSER_ROLE,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
@@ -204,6 +204,7 @@ export async function setUsername(
  * one associated with them.
  *
  * @param mongo mongo database to interact with
+ * @param mailer the mailer
  * @param tenant Tenant where the User will be interacted with
  * @param user User that should get their username changed
  * @param email the new email for the User
@@ -273,9 +274,11 @@ export async function setPassword(
  * will fail.
  *
  * @param mongo mongo database to interact with
+ * @param mailer the mailer
  * @param tenant Tenant where the User will be interacted with
  * @param user User that should get their password changed
- * @param password the new password for the User
+ * @param oldPassword the old password for the User
+ * @param newPassword the new password for the User
  */
 export async function updatePassword(
   mongo: Db,
@@ -366,7 +369,7 @@ export async function requestAccountDeletion(
   }
 
   const deletionDate = DateTime.fromJSDate(now).plus({
-    days: SCHEDULED_DELETION_TIMESPAN_DAYS,
+    seconds: SCHEDULED_DELETION_WINDOW_DURATION,
   });
 
   const updatedUser = await scheduleDeletionDate(
@@ -481,7 +484,6 @@ export async function createToken(
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
- * @param config signing configuration to create the signed token
  * @param user User that should get updated
  * @param id of the Token to be deactivated
  */
@@ -526,7 +528,7 @@ export async function updateUsername(
   // Get the earliest date that the username could have been edited before to/
   // allow it now.
   const lastUsernameEditAllowed = DateTime.fromJSDate(now)
-    .plus({ seconds: -ALLOWED_USERNAME_CHANGE_FREQUENCY })
+    .plus({ seconds: -ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION })
     .toJSDate();
 
   const { history } = user.status.username;
@@ -600,6 +602,7 @@ export async function updateUsernameByID(
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
+ * @param user the user making the request
  * @param userID the User's ID that we are updating
  * @param role the role that we are setting on the User
  */
@@ -669,8 +672,9 @@ function canUpdateLocalProfile(tenant: Tenant, user: User): boolean {
  * @param tenant Tenant where the User will be interacted with
  * @param mailer The mailer queue
  * @param config Convict config
+ * @param signingConfig jwt signing config
  * @param user the User that we are updating
- * @param email the email address that we are setting on the User
+ * @param emailAddress the email address that we are setting on the User
  * @param password the users password for confirmation
  */
 export async function updateEmail(
@@ -800,8 +804,9 @@ export async function destroyModeratorNote(
  * ban will ban a specific user from interacting with Coral.
  *
  * @param mongo mongo database to interact with
+ * @param mailer the mailer
  * @param tenant Tenant where the User will be banned on
- * @param user the User that is banning the User
+ * @param banner the User that is banning the User
  * @param userID the ID of the User being banned
  * @param message message to banned user
  * @param now the current time that the ban took effect
@@ -919,6 +924,7 @@ export async function removePremod(
  * suspend will suspend a give user from interacting with Coral.
  *
  * @param mongo mongo database to interact with
+ * @param mailer the mailer
  * @param tenant Tenant where the User will be suspended on
  * @param user the User that is suspending the User
  * @param userID the ID of the user being suspended
@@ -1112,7 +1118,7 @@ export async function requestCommentsDownload(
   if (
     user.lastDownloadedAt &&
     DateTime.fromJSDate(user.lastDownloadedAt)
-      .plus({ seconds: DOWNLOAD_LIMIT_TIMEFRAME })
+      .plus({ seconds: DOWNLOAD_LIMIT_TIMEFRAME_DURATION })
       .toSeconds() >= DateTime.fromJSDate(now).toSeconds()
   ) {
     throw new Error("requested download too early");
@@ -1206,7 +1212,7 @@ export async function updateUserLastCommentID(
 ) {
   const key = userLastCommentIDKey(tenant, user);
 
-  await redis.set(key, commentID, "EX", COMMENT_REPEAT_POST_TIMESPAN);
+  await redis.set(key, commentID, "EX", COMMENT_REPEAT_POST_DURATION);
 }
 
 /**

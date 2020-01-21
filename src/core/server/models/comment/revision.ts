@@ -1,12 +1,38 @@
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 
 export interface RevisionMetadata {
+  /**
+   * akismet is true when it was determined to be spam.
+   */
   akismet?: boolean;
+
+  /**
+   * linkCount is the number of links in a revision body that was detected.
+   */
   linkCount?: number;
+
+  /**
+   * perspective stores the detected properties from checking with the
+   * perspective model.
+   */
   perspective?: {
+    /**
+     * score is the percentage likelihood (in decimal form) that the comment
+     * matches the selected model.
+     */
     score: number;
+
+    /**
+     * model is the perspective model used to determine the above score.
+     */
     model: string;
   };
+
+  /**
+   * nudge when true indicates that the comment was written on the first try
+   * without a warning.
+   */
+  nudge?: boolean;
 }
 
 /**

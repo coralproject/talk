@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -22,7 +22,7 @@ interface Props {
 }
 
 const CaretContainer: FunctionComponent<Props> = props => {
-  const popoverID = `comments-moderationMenu`;
+  const popoverID = `comments-moderationMenu-${props.comment.id}`;
   return (
     <Localized
       id="comments-moderationDropdown-popover"
@@ -71,6 +71,7 @@ const CaretContainer: FunctionComponent<Props> = props => {
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment CaretContainer_comment on Comment {
+      id
       ...ModerationDropdownContainer_comment
     }
   `,

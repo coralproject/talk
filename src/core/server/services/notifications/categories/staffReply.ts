@@ -1,6 +1,6 @@
-import { CommentReplyCreatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentReplyCreated";
-import { CommentStatusUpdatedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentStatusUpdated";
-import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
+import { CommentReplyCreatedInput } from "coral-server/graph/resolvers/Subscription/commentReplyCreated";
+import { CommentStatusUpdatedInput } from "coral-server/graph/resolvers/Subscription/commentStatusUpdated";
+import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/resolvers/Subscription/types";
 import { hasPublishedStatus } from "coral-server/models/comment";
 import { getStoryTitle, getURLWithCommentID } from "coral-server/models/story";
 import { hasStaffRole } from "coral-server/models/user/helpers";
@@ -14,7 +14,7 @@ async function processor(
   input: CommentReplyCreatedInput
 ): Promise<Notification | null> {
   const comment = await ctx.comments.load(input.commentID);
-  if (!comment || !hasPublishedStatus(comment)) {
+  if (!comment || !hasPublishedStatus(comment) || !comment.authorID) {
     return null;
   }
 

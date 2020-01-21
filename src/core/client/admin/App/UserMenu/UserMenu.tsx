@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import {
@@ -9,7 +9,7 @@ import {
   DropdownButton,
   DropdownDivider,
   Popover,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import styles from "./UserMenu.css";
 
@@ -60,13 +60,15 @@ const UserMenu: FunctionComponent<Props> = props => (
           className={styles.button}
           onClick={toggleVisibility}
           ref={ref}
-          variant="regular"
-          size="small"
+          variant="text"
+          uppercase={false}
         >
-          <ButtonIcon size="lg">account_circle</ButtonIcon>
+          <ButtonIcon className={styles.icon} size="lg">
+            account_circle
+          </ButtonIcon>
           <span className={styles.buttonText}>{props.username}</span>
           {
-            <ButtonIcon size="lg">
+            <ButtonIcon className={styles.icon} size="lg">
               {visible ? "arrow_drop_up" : "arrow_drop_down"}
             </ButtonIcon>
           }

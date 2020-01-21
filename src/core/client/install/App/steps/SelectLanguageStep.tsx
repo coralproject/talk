@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
@@ -73,9 +73,16 @@ const SelectLanguageStep: FunctionComponent<Props> = props => {
               {({ input, meta }) => (
                 <FormField>
                   <Localized id="install-selectLanguage-language">
-                    <InputLabel>Language</InputLabel>
+                    <InputLabel container={<label htmlFor={input.name} />}>
+                      Language
+                    </InputLabel>
                   </Localized>
-                  <LocaleField disabled={submitting} fullWidth {...input} />
+                  <LocaleField
+                    disabled={submitting}
+                    fullWidth
+                    id={input.name}
+                    {...input}
+                  />
                   <ValidationMessage meta={meta} fullWidth />
                 </FormField>
               )}

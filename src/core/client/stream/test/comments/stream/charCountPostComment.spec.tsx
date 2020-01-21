@@ -5,8 +5,10 @@ import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   findParentWithType,
+  wait,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
@@ -71,16 +73,22 @@ it("validate min", async () => {
 
   const text = "Please enter at least 3 characters.";
 
-  rte.props.onChange({ html: "ab" });
-  form.props.onSubmit();
-  within(form).getByText(text);
+  act(() => rte.props.onChange({ html: "ab" }));
+  act(() => form.props.onSubmit());
+  await act(async () => {
+    waitForElement(() => within(form).getByText(text));
+  });
 
   // Reset validation when erasing all content.
-  rte.props.onChange({ html: "" });
-  expect(within(form).queryByText(text)).toBeNull();
+  act(() => rte.props.onChange({ html: "" }));
+  await wait(() => {
+    expect(within(form).queryByText(text)).toBeNull();
+  });
 
-  rte.props.onChange({ html: "ab" });
-  expect(within(form).queryByText(text)).toBeNull();
+  act(() => rte.props.onChange({ html: "ab" }));
+  await wait(() => {
+    expect(within(form).queryByText(text)).toBeNull();
+  });
 });
 
 it("validate max", async () => {
@@ -88,24 +96,32 @@ it("validate max", async () => {
 
   const text = "Please enter at max 10 characters.";
 
-  rte.props.onChange({ html: "abcdefghijklmnopqrst" });
-  form.props.onSubmit();
-  within(form).getByText(text);
+  act(() => rte.props.onChange({ html: "abcdefghijklmnopqrst" }));
+  act(() => {
+    form.props.onSubmit();
+  });
+  await act(async () => {
+    await waitForElement(() => within(form).queryByText(text));
+  });
 
   // Reset validation when erasing all content.
-  rte.props.onChange({ html: "" });
-  expect(within(form).queryByText(text)).toBeNull();
+  act(() => rte.props.onChange({ html: "" }));
+  await wait(() => {
+    expect(within(form).queryByText(text)).toBeNull();
+  });
 
-  rte.props.onChange({ html: "abcdefghijklmnopqrst" });
-  expect(within(form).queryByText(text)).toBeNull();
+  act(() => rte.props.onChange({ html: "abcdefghijklmnopqrst" }));
+  await wait(() => {
+    expect(within(form).queryByText(text)).toBeNull();
+  });
 });
 
 it("show remaining characters", async () => {
   const { rte, form } = await createTestRenderer();
 
-  rte.props.onChange({ html: "abc" });
+  act(() => rte.props.onChange({ html: "abc" }));
   within(form).getByText("7 characters remaining");
-  rte.props.onChange({ html: "abcdefghijkl" });
+  act(() => rte.props.onChange({ html: "abcdefghijkl" }));
   within(form).getByText("-2 characters remaining");
 });
 
@@ -145,19 +161,27 @@ it("update from server upon specific char count error", async () => {
       { muteNetworkErrors: true }
     );
 
-    rte.props.onChange({ html: "abc" });
-    within(form).getByText("7 characters remaining");
-    rte.props.onChange({ html: "abcdefgh" });
-    within(form).getByText("2 characters remaining");
-    form.props.onSubmit();
-    await waitForElement(() =>
-      within(form).getByText("-3 characters remaining")
-    );
-    // Body submit error should be displayed.
-    within(form).getByText(errorCode);
-    rte.props.onChange({ html: "abcde" });
+    act(() => rte.props.onChange({ html: "abc" }));
+    waitForElement(() => within(form).getByText("7 characters remaining"));
 
-    // Body submit error should disappear when form gets dirty.
-    expect(within(form).queryByText(errorCode)).toBeNull();
+    act(() => rte.props.onChange({ html: "abcdefgh" }));
+    waitForElement(() => within(form).getByText("2 characters remaining"));
+
+    act(() => {
+      form.props.onSubmit();
+    });
+    await act(async () => {
+      await waitForElement(() =>
+        within(form).getByText("-3 characters remaining")
+      );
+    });
+    // Body submit error should be displayed.
+    await waitForElement(() => within(form).getByText(errorCode));
+
+    act(() => rte.props.onChange({ html: "abcde" }));
+    await wait(() => {
+      // Body submit error should disappear when form gets dirty.
+      expect(within(form).queryByText(errorCode)).toBeNull();
+    });
   }
 });

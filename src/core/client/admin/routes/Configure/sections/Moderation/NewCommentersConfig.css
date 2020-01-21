@@ -1,0 +1,3 @@
+.thresholdTextField {
+  width: calc(6 * var(--mini-unit));
+}

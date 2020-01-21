@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
@@ -36,13 +36,13 @@ const SetPasswordField: FunctionComponent<Props> = props => (
         </Localized>
         <Localized id="invite-passwordTextField" attrs={{ placeholder: true }}>
           <PasswordField
+            {...input}
             id={input.name}
             placeholder="Password"
             autoComplete="new-password"
             color={colorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
-            {...input}
           />
         </Localized>
         <ValidationMessage meta={meta} fullWidth />

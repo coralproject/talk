@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
@@ -8,7 +8,7 @@ import {
   required,
   validateEmail,
 } from "coral-framework/lib/validation";
-import { FormField, InputLabel, TextField } from "coral-ui/components";
+import { FormField, InputLabel, TextField } from "coral-ui/components/v2";
 
 interface Props {
   disabled: boolean;
@@ -26,12 +26,13 @@ const EmailField: FunctionComponent<Props> = props => (
           attrs={{ placeholder: true }}
         >
           <TextField
+            {...input}
             id={input.name}
             placeholder="Email Address"
             color={colorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
-            {...input}
+            data-testid="email-field"
           />
         </Localized>
         <ValidationMessage meta={meta} fullWidth />

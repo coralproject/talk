@@ -100,6 +100,7 @@ export function createComment(author?: GQLUser) {
             COMMENT_DETECTED_SUSPECT_WORD: 0,
             COMMENT_REPORTED_OFFENSIVE: 0,
             COMMENT_REPORTED_SPAM: 0,
+            COMMENT_DETECTED_NEW_COMMENTER: 0,
             COMMENT_DETECTED_REPEAT_POST: 0,
           },
         },
@@ -148,6 +149,7 @@ export function createComment(author?: GQLUser) {
           COMMENT_DETECTED_BANNED_WORD: 0,
           COMMENT_DETECTED_SUSPECT_WORD: 0,
           COMMENT_DETECTED_PREMOD_USER: 0,
+          COMMENT_DETECTED_NEW_COMMENTER: 0,
           COMMENT_DETECTED_REPEAT_POST: 0,
         },
       },
@@ -285,6 +287,10 @@ export function createSettings() {
       perspective: {
         enabled: false,
       },
+    },
+    newCommenters: {
+      premodEnabled: false,
+      approvedCommentsThreshold: 2,
     },
     auth: {
       integrations: {

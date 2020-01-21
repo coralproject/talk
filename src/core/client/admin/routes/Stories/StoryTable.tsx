@@ -1,16 +1,16 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import { PropTypesOf } from "coral-framework/types";
-import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
+import { Flex, HorizontalGutter, Spinner } from "coral-ui/components/v2";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from "coral-ui/components/Table";
+} from "coral-ui/components/v2/Table";
 
 import EmptyMessage from "./EmptyMessage";
 import NoMatchMessage from "./NoMatchMessage";

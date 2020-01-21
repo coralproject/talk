@@ -10,7 +10,7 @@ export interface BarProps {
 
 const Bar: FunctionComponent<BarProps> = props => (
   <Flex className={styles.root} alignItems="center" justifyContent="center">
-    <div>{props.children}</div>
+    <header>{props.children}</header>
   </Flex>
 );
 

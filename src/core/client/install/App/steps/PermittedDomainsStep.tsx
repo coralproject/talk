@@ -1,11 +1,12 @@
+import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 import { Field, Form } from "react-final-form";
 
 import {
   colorFromMeta,
   formatStringList,
+  FormError,
   OnSubmit,
   parseStringList,
   ValidationMessage,
@@ -29,6 +30,8 @@ interface FormProps {
   allowedDomains: string[];
 }
 
+interface FormSubmitProps extends FormProps, FormError {}
+
 interface Props {
   onGoToNextStep: () => void;
   onGoToPreviousStep: () => void;
@@ -37,7 +40,10 @@ interface Props {
 }
 
 class PermittedDomainsStep extends Component<Props> {
-  private onSubmit: OnSubmit<FormProps> = async ({ allowedDomains }, form) => {
+  private onSubmit: OnSubmit<FormSubmitProps> = async (
+    { allowedDomains },
+    form
+  ) => {
     try {
       await this.props.onInstall({ allowedDomains });
       return this.props.onGoToNextStep();
@@ -85,7 +91,9 @@ class PermittedDomainsStep extends Component<Props> {
                 {({ input, meta }) => (
                   <FormField>
                     <Localized id="install-permittedDomains-permittedDomains">
-                      <InputLabel>Permitted Domains</InputLabel>
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Permitted Domains
+                      </InputLabel>
                     </Localized>
                     <Localized id="install-permittedDomains-permittedDomainsDescription">
                       <InputDescription>
@@ -97,11 +105,12 @@ class PermittedDomainsStep extends Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
+                        {...input}
+                        id={input.name}
                         placeholder="Domains"
                         color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
-                        {...input}
                       />
                     </Localized>
                     <ValidationMessage meta={meta} fullWidth />

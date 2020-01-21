@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import TranslatedStoryStatus from "coral-admin/components/TranslatedStoryStatus";
@@ -10,7 +10,7 @@ import {
   Dropdown,
   DropdownButton,
   Popover,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import StoryStatusText from "./StoryStatusText";
 
@@ -62,8 +62,9 @@ const StoryStatusChange: FunctionComponent<Props> = props => (
             className={styles.button}
             onClick={toggleVisibility}
             ref={ref}
-            variant="regular"
-            size="small"
+            color="mono"
+            uppercase={false}
+            variant="text"
           >
             <StoryStatusText>{props.status}</StoryStatusText>
             {

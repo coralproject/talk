@@ -16,9 +16,9 @@ import { accessLogger, errorLogger } from "coral-server/app/middleware/logging";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import config, { Config } from "coral-server/config";
 import startScheduledTasks, { ScheduledJobGroups } from "coral-server/cron";
-import { createPubSubClient } from "coral-server/graph/common/subscriptions/pubsub";
-import getTenantSchema from "coral-server/graph/tenant/schema";
-import { createSubscriptionServer } from "coral-server/graph/tenant/subscriptions/server";
+import getTenantSchema from "coral-server/graph/schema";
+import { createPubSubClient } from "coral-server/graph/subscriptions/pubsub";
+import { createSubscriptionServer } from "coral-server/graph/subscriptions/server";
 import logger from "coral-server/logger";
 import { createQueue, TaskQueue } from "coral-server/queue";
 import { I18n } from "coral-server/services/i18n";
@@ -36,6 +36,7 @@ import {
   createRedisClient,
 } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
+
 import { isInstalled } from "./services/tenant";
 
 export interface ServerOptions {
@@ -115,6 +116,19 @@ class Server {
       .load(options.config || {})
       .validate({ allowed: "strict" });
     logger.debug({ config: this.config.toString() }, "loaded configuration");
+
+    // Do some extra validation for production.
+    if (this.config.get("env") === "production") {
+      // Ensure that the signing secret has been specified.
+      if (
+        this.config.get("signing_secret") ===
+        this.config.default("signing_secret")
+      ) {
+        throw new Error(
+          "SIGNING_SECRET is required in production environments"
+        );
+      }
+    }
 
     // Load the graph schemas.
     this.schema = getTenantSchema();

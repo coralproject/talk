@@ -1,0 +1,16 @@
+.label {
+  font-size: calc(16rem / var(--rem-base));
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-sans-serif);
+  color: var(--palette-text-primary);
+}
+
+.buttonContainer {
+  display: inline-block;
+  padding-right: var(--spacing-2);
+}
+
+.button {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}

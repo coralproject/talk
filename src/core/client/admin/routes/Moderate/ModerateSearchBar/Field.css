@@ -1,48 +1,57 @@
+@import "variables.css";
+
 .root {
   width: calc(94 * var(--mini-unit));
   height: calc(4 * var(--mini-unit));
 }
 
 .begin {
-  background-color: var(--palette-primary-darkest);
-  border-top-left-radius: var(--round-corners);
-  border-bottom-left-radius: var(--round-corners);
+  background-color: $story-search-input-background;
+  border-top-left-radius: var(--v2-round-corners);
+  border-bottom-left-radius: var(--v2-round-corners);
   min-width: calc(5 * var(--mini-unit));
   flex-shrink: 0;
   pointer-events: none;
 }
 
 .beginStories {
-  font-size: calc(13rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
+  font-size: var(--v2-font-size-2);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-family: var(--v2-font-family-primary);
   line-height: 1.5;
-  letter-spacing: calc(0.2em / 13);
-  color: var(--palette-text-light);
+  color: $story-search-input-label;
   text-transform: uppercase;
   padding-right: calc(0.25 * var(--mini-unit));
 }
 
 .searchIcon {
   padding: 0 calc(0.5 * var(--mini-unit)) 0 calc(0.75 * var(--mini-unit));
-  font-weight: var(--font-weight-medium);
-  color: var(--palette-text-light);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  color: $story-search-input-label;
 }
 
 .end {
   min-width: calc(5 * var(--mini-unit));
-  background-color: var(--palette-primary-darkest);
-  border-top-right-radius: var(--round-corners);
-  border-bottom-right-radius: var(--round-corners);
+  background-color: $story-search-input-background;
+  border-top-right-radius: var(--v2-round-corners);
+  border-bottom-right-radius: var(--v2-round-corners);
   flex-shrink: 0;
 }
 
 .searchButton {
-  composes: button from "coral-ui/shared/typography.css";
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: 1.28;
+
+  background-color: $story-search-button-background;
+  color: $story-search-button-foreground;
+  border-left: 1px solid $story-search-button-background;
+  border-radius: var(--v2-round-corners);
+
   padding: 0 calc(1 * var(--mini-unit));
-  color: var(--palette-text-light);
-  border-left: 1px solid var(--palette-text-light);
   height: calc(4 * var(--mini-unit) - 4px);
+  margin-right: var(--spacing-1);
 
   &:disabled {
     cursor: pointer;
@@ -50,16 +59,20 @@
 }
 
 .input {
-  composes: inputText placeholderPseudo from "coral-ui/shared/typography.css";
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: 1.25;
+
   position: relative;
   display: block;
   padding: calc(0.5 * var(--mini-unit));
   box-sizing: border-box;
   width: 100%;
   align-self: stretch;
-  color: var(--palette-text-light);
+  color: $story-search-input-text;
   border: 0;
-  background-color: var(--palette-primary-darkest);
+  background-color: $story-search-input-background;
   margin: 0;
 
   &:focus {
@@ -67,7 +80,7 @@
   }
 
   &::placeholder {
-    color: var(--palette-text-light);
+    color: $story-search-input-text;
     opacity: 0.5;
   }
 

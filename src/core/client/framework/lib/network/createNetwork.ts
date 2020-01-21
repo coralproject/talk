@@ -7,6 +7,8 @@ import {
   urlMiddleware,
 } from "react-relay-network-modern/es";
 
+import TIME from "coral-common/time";
+
 import clientIDMiddleware from "./clientIDMiddleware";
 import { ManagedSubscriptionClient } from "./createManagedSubscriptionClient";
 import customErrorMiddleware from "./customErrorMiddleware";
@@ -45,7 +47,7 @@ export default function createNetwork(
       customErrorMiddleware,
       cacheMiddleware({
         size: 100, // max 100 requests
-        ttl: 900000, // 15 minutes
+        ttl: 15 * TIME.MINUTE,
         clearOnMutation: true,
       }),
       urlMiddleware({
@@ -56,6 +58,11 @@ export default function createNetwork(
         retryDelays: (attempt: number) => Math.pow(2, attempt + 4) * 100,
         // or simple array [3200, 6400, 12800, 25600, 51200, 102400, 204800, 409600],
         statusCodes: [500, 503, 504],
+        beforeRetry: ({ abort, attempt }) => {
+          if (attempt > 2) {
+            abort();
+          }
+        },
       }),
       authMiddleware({
         token: tokenGetter,

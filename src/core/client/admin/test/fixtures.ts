@@ -1,7 +1,8 @@
 import {
-  DEFAULT_SESSION_LENGTH,
+  DEFAULT_SESSION_DURATION,
   TOXICITY_THRESHOLD_DEFAULT,
 } from "coral-common/constants";
+import TIME from "coral-common/time";
 import { pureMerge } from "coral-common/utils";
 import {
   GQLComment,
@@ -77,8 +78,7 @@ export const settings = createFixture<GQLSettings>({
   },
   recentCommentHistory: {
     enabled: false,
-    // 7 days in seconds.
-    timeFrame: 604800,
+    timeFrame: 7 * TIME.DAY,
     // Rejection rate defaulting to 30%, once exceeded, comments will be
     // pre-moderated.
     triggerRejectionRate: 0.3,
@@ -90,10 +90,11 @@ export const settings = createFixture<GQLSettings>({
     perspective: {
       enabled: false,
       threshold: TOXICITY_THRESHOLD_DEFAULT / 100,
+      sendFeedback: false,
     },
   },
   auth: {
-    sessionDuration: DEFAULT_SESSION_LENGTH,
+    sessionDuration: DEFAULT_SESSION_DURATION,
     integrations: {
       local: {
         enabled: true,
@@ -161,13 +162,20 @@ export const settings = createFixture<GQLSettings>({
     changeUsername: true,
     deleteAccount: true,
   },
+  newCommenters: {
+    premodEnabled: false,
+    approvedCommentsThreshold: 2,
+  },
+  slack: {
+    channels: [],
+  },
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
   {
     id: "settings",
     auth: {
-      sessionDuration: DEFAULT_SESSION_LENGTH,
+      sessionDuration: DEFAULT_SESSION_DURATION,
       integrations: {
         local: {
           enabled: true,
@@ -449,6 +457,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
+    url: "",
     metadata: {
       author: "Vin Hoa",
       title: "Finally a Cure for Cancer",
@@ -461,6 +470,7 @@ export const stories = createFixtures<GQLStory>([
     isClosed: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
+    url: "",
     metadata: {
       author: "Linh Nguyen",
       title: "First Colony on Mars",
@@ -473,6 +483,7 @@ export const stories = createFixtures<GQLStory>([
     createdAt: "2018-11-29T16:01:51.897Z",
     isClosed: true,
     status: GQLSTORY_STATUS.CLOSED,
+    url: "",
     metadata: {
       author: undefined,
       title: "World hunger has been defeated",
@@ -526,6 +537,7 @@ export const baseComment = createFixture<GQLComment>({
           COMMENT_DETECTED_SUSPECT_WORD: 0,
           COMMENT_REPORTED_OFFENSIVE: 0,
           COMMENT_REPORTED_SPAM: 0,
+          COMMENT_DETECTED_NEW_COMMENTER: 0,
           COMMENT_DETECTED_REPEAT_POST: 0,
         },
       },

@@ -41,6 +41,7 @@ comments-bannedInfo-violatedCommunityGuidelines =
   longer be able to comment, respect or report comments. If you think
   this has been done in error, please contact our community team.
 
+comments-noCommentsAtAll = There are no comments on this story.
 comments-noCommentsYet = There are no comments yet. Why don't you write one?
 
 comments-streamQuery-storyNotFound = Story not found
@@ -58,6 +59,8 @@ comments-loadMore = Load More
 
 comments-permalinkPopover =
   .description = A dialog showing a permalink to the comment
+comments-permalinkPopover-permalinkToComment =
+  .aria-label = Permalink to comment
 comments-permalinkButton-share = Share
 comments-permalinkView-viewFullDiscussion = View Full Discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
@@ -263,6 +266,8 @@ profile-account-deleteAccount-pages-deleteButton = Delete my account
 profile-account-deleteAccount-pages-cancel = Cancel
 profile-account-deleteAccount-pages-proceed = Proceed
 profile-account-deleteAccount-pages-done = Done
+profile-account-deleteAccount-pages-phrase =
+  .aria-label = Phrase
 
 profile-account-deleteAccount-pages-descriptionHeader = Delete my account?
 profile-account-deleteAccount-pages-descriptionText =
@@ -366,6 +371,8 @@ comments-reportPopover-dismiss = Dismiss
 comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =
   Your comment has been submitted and will be reviewed by a moderator
+comments-submitStatus-submittedAndRejected =
+  This comment has been rejected for violating our guidelines
 
 # Configure
 configure-configureQuery-errorLoadingProfile = Error loading configure
@@ -412,6 +419,11 @@ configure-messageBox-description =
   announcements relating to the comments on this story.
 configure-messageBox-preview = Preview
 configure-messageBox-selectAnIcon = Select an Icon
+configure-messageBox-iconConversation = Conversation
+configure-messageBox-iconDate = Date
+configure-messageBox-iconHelp = Help
+configure-messageBox-iconWarning = Warning
+configure-messageBox-iconChatBubble = Chat Bubble
 configure-messageBox-noIcon = No Icon
 configure-messageBox-writeAMessage = Write a Message
 
@@ -427,6 +439,8 @@ configure-openStream-description =
   This comment stream is currently closed. By opening this comment
   stream new comments may be submitted and displayed.
 configure-openStream-openStream = Open Stream
+
+configure-moderateThisStream = Moderate this stream
 
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
 comments-tombstone-deleted =

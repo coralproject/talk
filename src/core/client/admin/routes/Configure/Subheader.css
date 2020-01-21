@@ -1,5 +1,13 @@
+$configureHeadingForegroundColor: var(--v2-colors-pure-white);
+$configureSubHeadingBorderColor: var(--v2-colors-grey-300);
+
 .root {
-  padding-bottom: calc(0.25 * var(--mini-unit));
-  border-bottom: 1px solid var(--palette-divider);
-  margin-bottom: calc(0.75 * var(--mini-unit));
+  border-bottom: 1px solid $configureSubHeadingBorderColor;
+  color: $configureHeadingForegroundColor;
+  font-family: var(--v2-font-family-primary);
+  font-size: var(--v2-font-size-3);
+  font-weight: var(--v2-font-weight-primary-bold);
+  padding-bottom: var(--v2-spacing-2);
+  margin: 0;
+  line-height: var(--v2-lh-reset);
 }

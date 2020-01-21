@@ -4,13 +4,17 @@ exports[`renders correctly 1`] = `
 <React.Fragment>
   <AuthBox
     title={
-      <Localized
-        id="login-signInTo"
+      <div
+        className="SignIn-title"
       >
-        <span>
-          Sign in to
-        </span>
-      </Localized>
+        <Localized
+          id="login-signInTo"
+        >
+          <span>
+            Sign in to
+          </span>
+        </Localized>
+      </div>
     }
   >
     <ForwardRef(forwardRef)

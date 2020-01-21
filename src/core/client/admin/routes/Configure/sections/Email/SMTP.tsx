@@ -1,6 +1,7 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
 import {
   colorFromMeta,
@@ -13,85 +14,96 @@ import {
   required,
 } from "coral-framework/lib/validation";
 import {
-  FieldSet,
   FormField,
-  HorizontalGutter,
-  InputDescription,
-  InputLabel,
+  FormFieldHeader,
+  Label,
   PasswordField,
-  TextField,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
+import HelperText from "../../HelperText";
 import OnOffField from "../../OnOffField";
 import Subheader from "../../Subheader";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 import { FormProps } from "./EmailConfigContainer";
 
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment SMTP_formValues on EmailConfiguration {
+    enabled
+    smtp {
+      host
+      port
+      secure
+      authentication
+      username
+      password
+    }
+  }
+`;
 interface Props {
   disabled: boolean;
 }
 
 const isEnabled: Condition<any, FormProps> = (value, values) =>
-  Boolean(values.email.enabled);
+  Boolean(values.email && values.email.enabled);
 
 const isAuthenticating: Condition<any, FormProps> = (value, values) =>
   Boolean(values.email.enabled && values.email.smtp.authentication);
 
 const SMTP: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
+  <>
     <FormField>
-      <Localized id="configure-email-smtpHostLabel">
-        <InputLabel>SMTP host</InputLabel>
-      </Localized>
-      <Localized id="configure-email-smtpHostDescription">
-        <InputDescription>(ex. smtp.sendgrid.com)</InputDescription>
-      </Localized>
+      <FormFieldHeader>
+        <Localized id="configure-email-smtpHostLabel">
+          <Label>SMTP host</Label>
+        </Localized>
+        <Localized id="configure-email-smtpHostDescription">
+          <HelperText>(ex. smtp.sendgrid.com)</HelperText>
+        </Localized>
+      </FormFieldHeader>
       <Field
         name="email.smtp.host"
         validate={composeValidatorsWhen(isEnabled, required)}
       >
         {({ input, meta }) => (
-          <>
-            <TextField
-              id={input.name}
-              fullWidth
-              disabled={disabled}
-              color={colorFromMeta(meta)}
-              {...input}
-            />
-            <ValidationMessage fullWidth meta={meta} />
-          </>
+          <TextFieldWithValidation
+            {...input}
+            id={input.name}
+            fullWidth
+            disabled={disabled}
+            meta={meta}
+          />
         )}
       </Field>
     </FormField>
     <FormField>
-      <Localized id="configure-email-smtpPortLabel">
-        <InputLabel>SMTP port</InputLabel>
-      </Localized>
-      <Localized id="configure-email-smtpPortDescription">
-        <InputDescription>(ex. 25)</InputDescription>
-      </Localized>
+      <FormFieldHeader>
+        <Localized id="configure-email-smtpPortLabel">
+          <Label>SMTP port</Label>
+        </Localized>
+        <Localized id="configure-email-smtpPortDescription">
+          <HelperText>(ex. 25)</HelperText>
+        </Localized>
+      </FormFieldHeader>
       <Field
         name="email.smtp.port"
         validate={composeValidatorsWhen(isEnabled, required)}
       >
         {({ input, meta }) => (
-          <>
-            <TextField
-              id={input.name}
-              type="number"
-              fullWidth
-              disabled={disabled}
-              color={colorFromMeta(meta)}
-              {...input}
-            />
-            <ValidationMessage fullWidth meta={meta} />
-          </>
+          <TextFieldWithValidation
+            {...input}
+            id={input.name}
+            type="number"
+            fullWidth
+            disabled={disabled}
+            meta={meta}
+          />
         )}
       </Field>
     </FormField>
     <FormField>
       <Localized id="configure-email-smtpTLSLabel">
-        <InputLabel>TLS</InputLabel>
+        <Label>TLS</Label>
       </Localized>
       <OnOffField
         name="email.smtp.secure"
@@ -101,7 +113,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
     </FormField>
     <FormField>
       <Localized id="configure-email-smtpAuthenticationLabel">
-        <InputLabel>SMTP authentication</InputLabel>
+        <Label>SMTP authentication</Label>
       </Localized>
       <OnOffField
         name="email.smtp.authentication"
@@ -117,7 +129,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
           </Localized>
           <FormField>
             <Localized id="configure-email-smtpUsernameLabel">
-              <InputLabel>Username</InputLabel>
+              <Label>Username</Label>
             </Localized>
             <Field
               name="email.smtp.username"
@@ -125,22 +137,19 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
               validate={composeValidatorsWhen(isAuthenticating, required)}
             >
               {({ input, meta }) => (
-                <>
-                  <TextField
-                    id={input.name}
-                    disabled={disabled || !enabled}
-                    fullWidth
-                    color={colorFromMeta(meta)}
-                    {...input}
-                  />
-                  <ValidationMessage fullWidth meta={meta} />
-                </>
+                <TextFieldWithValidation
+                  {...input}
+                  id={input.name}
+                  disabled={disabled || !enabled}
+                  fullWidth
+                  meta={meta}
+                />
               )}
             </Field>
           </FormField>
           <FormField>
             <Localized id="configure-email-smtpPasswordLabel">
-              <InputLabel>Password</InputLabel>
+              <Label>Password</Label>
             </Localized>
             <Field
               name="email.smtp.password"
@@ -150,11 +159,11 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
               {({ input, meta }) => (
                 <>
                   <PasswordField
+                    {...input}
                     id={input.name}
                     disabled={disabled || !enabled}
                     fullWidth
                     color={colorFromMeta(meta)}
-                    {...input}
                   />
                   <ValidationMessage fullWidth meta={meta} />
                 </>
@@ -164,7 +173,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
         </>
       )}
     </Field>
-  </HorizontalGutter>
+  </>
 );
 
 export default SMTP;

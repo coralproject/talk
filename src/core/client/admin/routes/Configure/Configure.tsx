@@ -1,10 +1,11 @@
+import { Localized } from "@fluent/react/compat";
 import { FormApi, FormState } from "final-form";
-import { Localized } from "fluent-react/compat";
+import arrayMutators from "final-form-arrays";
 import React, { FunctionComponent } from "react";
 import { Form, FormSpy } from "react-final-form";
 
 import MainLayout from "coral-admin/components/MainLayout";
-import { Button, CallOut, HorizontalGutter } from "coral-ui/components";
+import { Button, CallOut, HorizontalGutter } from "coral-ui/components/v2";
 
 import Layout from "./Layout";
 import Link from "./Link";
@@ -14,7 +15,7 @@ import SideBar from "./SideBar";
 
 interface Props {
   onSubmit: (settings: any, form: FormApi) => void;
-  onChange: (formState: FormState) => void;
+  onChange: (formState: FormState<any>) => void;
   children: React.ReactElement;
 }
 
@@ -24,8 +25,8 @@ const Configure: FunctionComponent<Props> = ({
   children,
 }) => (
   <MainLayout data-testid="configure-container">
-    <Form onSubmit={onSubmit}>
-      {({ handleSubmit, submitting, pristine, form, submitError }) => (
+    <Form onSubmit={onSubmit} mutators={{ ...arrayMutators }}>
+      {({ handleSubmit, submitting, form, pristine, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
           <FormSpy onChange={onChange} />
           <Layout>
@@ -52,6 +53,9 @@ const Configure: FunctionComponent<Props> = ({
                   <Localized id="configure-sideBarNavigation-email">
                     <Link to="/admin/configure/email">Email</Link>
                   </Localized>
+                  <Localized id="configure-sideBarNavigation-slack">
+                    <Link to="/admin/configure/slack">Slack</Link>
+                  </Localized>
                   <Localized id="configure-sideBarNavigation-advanced">
                     <Link to="/admin/configure/advanced">Advanced</Link>
                   </Localized>
@@ -61,9 +65,9 @@ const Configure: FunctionComponent<Props> = ({
                 <Localized id="configure-sideBar-saveChanges">
                   <Button
                     data-testid="configure-sideBar-saveChanges"
-                    color="success"
-                    variant="filled"
                     type="submit"
+                    color="alt"
+                    size="large"
                     disabled={submitting || pristine}
                   >
                     Save Changes

@@ -81,8 +81,8 @@ configure-sideBar-saveChanges = Gem ændringer
 configure-configurationSubHeader = Konfiguration
 configure-onOffField-on = Tændt
 configure-onOffField-off = Slukket
-configure-permissionField-allow = Tilladt
-configure-permissionField-dontAllow = Ikke tilladt
+configure-radioButton-allow = Tilladt
+configure-radioButton-dontAllow = Ikke tilladt
 
 ### General
 configure-general-guidelines-title = Oversigt over fællesskabsretningslinjer
@@ -289,7 +289,7 @@ configure-moderation-perspective-customEndpoint = Brugerdefineret slutpunkt
 configure-moderation-perspective-defaultEndpoint =
   Som standard er slutpunktet indstillet til { $default }. Du kan tilsidesætte dette her.
 configure-moderation-perspective-accountNote =
-  For yderligere information om, hvordan man konfigurerer filteret for perspektivtoksisk kommentar, kan du besøge: <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
+  For yderligere information om, hvordan man konfigurerer filteret for perspektivtoksisk kommentar, kan du besøge: <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Forbudte ord og sætninger
@@ -307,8 +307,8 @@ configure-wordList-suspect-wordList = Mistænkte ordliste
 
 ### Advanced
 configure-advanced-customCSS = Tilpasset CSS
-configure-advanced-customCSS-explanation =
-  URL til et CSS-stilark, der tilsidesætter standardindlejring af streams. Kan være intern eller ekstern.
+configure-advanced-customCSS-override =
+  URL til et CSS-stilark, der tilsidesætter standardindlejring af streams.
 
 configure-advanced-permittedDomains = Tilladte domæner
 configure-advanced-liveUpdates = Kommentar Stream Live-opdateringer
@@ -413,7 +413,7 @@ moderate-searchBar-comboBoxTextField =
   .placeholder = Brugertilbudstegn omkring hvert søgeterm (f.eks. "Team", "St. Louis")
 moderate-searchBar-goTo = Gå til
 moderate-searchBar-seeAllResults = Se alle resultater
- 
+
 ### Moderate User History Drawer
 
 moderate-user-drawer-email =
@@ -537,7 +537,7 @@ community-filter-search = Søg
 community-filter-showMe = Vis mig
 community-filter-allRoles = Alle roller
 community-filter-allStatuses = Alle statuer
- 
+
 community-column-username = Brugernavn
 community-column-email = Email
 community-column-memberSince = Medlem siden

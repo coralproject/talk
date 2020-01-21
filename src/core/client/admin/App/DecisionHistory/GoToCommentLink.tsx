@@ -1,8 +1,8 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
-import { Icon, TextLink } from "coral-ui/components";
+import { Icon, TextLink } from "coral-ui/components/v2";
 
 import styles from "./GoToCommentLink.css";
 

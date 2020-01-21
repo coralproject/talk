@@ -1,7 +1,7 @@
+import { FluentBundle } from "@fluent/bundle/compat";
+import { DOMLocalization } from "@fluent/dom/compat";
 import { Job } from "bull";
 import createDOMPurify from "dompurify";
-import { DOMLocalization } from "fluent-dom/compat";
-import { FluentBundle } from "fluent/compat";
 import { minify } from "html-minifier";
 import htmlToText from "html-to-text";
 import Joi from "joi";
@@ -94,6 +94,7 @@ function createMessageTranslator(i18n: I18n) {
    * translateMessage will translate the message to the specified locale as well
    * a juice the contents.
    *
+   * @param tenant the tenant
    * @param templateName the name of the template to base the translations off of
    * @param locale the locale to translate the email content into
    * @param fromAddress the address that is sending the email (from the Tenant)

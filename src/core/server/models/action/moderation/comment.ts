@@ -2,7 +2,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "coral-common/types";
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 import {
   Connection,
   ConnectionInput,
@@ -56,7 +56,8 @@ export type CreateCommentModerationActionInput = Omit<
 export async function createCommentModerationAction(
   mongo: Db,
   tenantID: string,
-  input: CreateCommentModerationActionInput
+  input: CreateCommentModerationActionInput,
+  now: Date
 ) {
   // default are the properties set by the application when a new comment
   // moderation action is created.
@@ -66,7 +67,7 @@ export async function createCommentModerationAction(
   > = {
     id: uuid.v4(),
     tenantID,
-    createdAt: new Date(),
+    createdAt: now,
   };
 
   // Merge the defaults and the input together.

@@ -1,0 +1,75 @@
+import { DocumentNode, ExecutionArgs, GraphQLError } from "graphql";
+import {
+  EndHandler,
+  GraphQLExtension,
+  GraphQLResponse,
+} from "graphql-extensions";
+import now from "performance-now";
+
+import GraphContext from "coral-server/graph/context";
+
+import { getOperationMetadata, getPersistedQueryMetadata } from "./helpers";
+
+export function logError(ctx: GraphContext, err: GraphQLError) {
+  ctx.logger.error({ err }, "graphql query error");
+}
+
+export function logQuery(
+  ctx: GraphContext,
+  document: DocumentNode,
+  persisted = ctx.persisted,
+  responseTime?: number
+) {
+  ctx.logger.info(
+    {
+      responseTime,
+      // deprecated: use of the `authenticated` log field is deprecated in favour of the `userID` field
+      authenticated: ctx.user ? true : false,
+      userID: ctx.user ? ctx.user.id : null,
+      ...(persisted
+        ? // A persisted query was provided, we can pull the operation metadata
+          // out from the persisted object.
+          getPersistedQueryMetadata(persisted)
+        : // A persisted query was not provided, parse the operation metadata
+          // out from the document.
+          getOperationMetadata(document)),
+    },
+    "graphql query"
+  );
+}
+
+export class LoggerExtension implements GraphQLExtension<GraphContext> {
+  public executionDidStart(o: {
+    executionArgs: ExecutionArgs;
+  }): EndHandler | void {
+    // Only try to log things if the context is provided.
+    if (o.executionArgs.contextValue) {
+      // Grab the start time so we can calculate the time it takes to execute
+      // the graph query.
+      const startTime = now();
+      return () => {
+        // Compute the end time.
+        const responseTime = Math.round(now() - startTime);
+
+        // Log out the details of the request.
+        logQuery(
+          o.executionArgs.contextValue,
+          o.executionArgs.document,
+          undefined,
+          responseTime
+        );
+      };
+    }
+  }
+
+  public willSendResponse(response: {
+    graphqlResponse: GraphQLResponse;
+    context: GraphContext;
+  }): void {
+    if (response.graphqlResponse.errors) {
+      response.graphqlResponse.errors.forEach(err =>
+        logError(response.context, err)
+      );
+    }
+  }
+}
