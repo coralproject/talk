@@ -1,4 +1,7 @@
-import { Tenant } from "coral-server/models/tenant";
+import {
+  retrieveAnnouncementIfEnabled,
+  Tenant,
+} from "coral-server/models/tenant";
 
 import {
   GQLFEATURE_FLAG,
@@ -18,4 +21,6 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   slack: ({ slack = {} }) => slack,
   featureFlags: ({ featureFlags = [] }) =>
     featureFlags.filter(filterValidFeatureFlags()),
+  announcement: ({ announcement }) =>
+    retrieveAnnouncementIfEnabled(announcement),
 };

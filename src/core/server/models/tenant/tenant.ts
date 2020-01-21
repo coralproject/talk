@@ -6,12 +6,14 @@ import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import TIME from "coral-common/time";
 import { DeepPartial, Omit, Sub } from "coral-common/types";
+import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
 import { Settings } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
 import {
+  GQLAnnouncement,
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
   GQLSettings,
@@ -463,4 +465,16 @@ export async function deleteTenantAnnouncement(mongo: Db, id: string) {
     }
   );
   return result.value || null;
+}
+
+export function retrieveAnnouncementIfEnabled(
+  announcement?: GQLAnnouncement | null
+) {
+  if (!announcement) {
+    return null;
+  }
+  if (isBeforeDate(announcement.disableAt)) {
+    return announcement;
+  }
+  return null;
 }

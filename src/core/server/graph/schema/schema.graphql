@@ -1217,8 +1217,8 @@ type NewCommentersConfiguration {
 
 type Announcement {
   ID: ID!
-  disableAt: Time
-  content: String
+  disableAt: Time!
+  content: String!
 }
 
 """
