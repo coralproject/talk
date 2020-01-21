@@ -1,4 +1,4 @@
-# Events Guide
+# Client Events Guide
 
 This serves as a guide to events emitted by the javascript via the embed events
 hook, as described below in [Viewer Events](#viewer-events).

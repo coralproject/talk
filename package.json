@@ -25,8 +25,8 @@
     "build:client": "ts-node --transpile-only ./scripts/build.ts",
     "build:server": "gulp server",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
-    "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./EVENTS.md",
-    "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' {README,EVENTS,CONTRIBUTING,WEBHOOKS}.md",
+    "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./CLIENT_EVENTS.md",
+    "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' {README,CLIENT_EVENTS,CONTRIBUTING,WEBHOOKS}.md",
     "generate": "npm-run-all generate:css-types generate:schema generate:relay",
     "generate-persist": "npm-run-all generate:css-types generate:schema generate:relay-persist",
     "generate:css-types": "tcm src/core/client/",
@@ -400,10 +400,10 @@
     "src/core/server/graph/schema/schema.graphql": [
       "graphql-schema-linter"
     ],
-    "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,EVENTS.md}": [
+    "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,CLIENT_EVENTS.md}": [
       "npm run docs:events -- --verify"
     ],
-    "{README,EVENTS,CONTRIBUTING,WEBHOOKS}.md": [
+    "{README,CLIENT_EVENTS,CONTRIBUTING,WEBHOOKS}.md": [
       "npm run doctoc",
       "git add"
     ]
