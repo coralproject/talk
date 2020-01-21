@@ -1034,7 +1034,7 @@ exports[`renders message box when story isClosed 1`] = `
             className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
           >
             <div>
-              There are no comments yet. Why don't you write one?
+              There are no comments on this story.
             </div>
           </div>
         </div>

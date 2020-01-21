@@ -12,10 +12,10 @@
   },
   "tslint.enable": false,
   "eslint.validate": [
-		{ "language": "javascript", "autoFix": true },
-		{ "language": "typescript", "autoFix": true },
-		{ "language": "typescriptreact", "autoFix": true }
-	],
+    { "language": "javascript", "autoFix": true },
+    { "language": "typescript", "autoFix": true },
+    { "language": "typescriptreact", "autoFix": true }
+  ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "postcss.validate": false,
   "javascript.preferences.importModuleSpecifier": "non-relative",
@@ -44,18 +44,15 @@
     {
       "regex": "^[.]",
       "orderLevel": 50
-    },
+    }
   ],
   "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "newLineEachExpressionAfterCountLimitExceptIfOnlyOne",
   "importSorter.importStringConfiguration.trailingComma": "multiLine",
   "importSorter.importStringConfiguration.tabSize": 2,
   "eslint.enable": true,
-  "importSorter.generalConfiguration.exclude": [
-    "d\\.ts$",
-    "__generated__"
-  ],
-  "debug.node.autoAttach": "on",
+  "importSorter.generalConfiguration.exclude": ["d\\.ts$", "__generated__"],
   "search.exclude": {
     "package-lock.json": true
   },
+  "debug.node.autoAttach": "off"
 }

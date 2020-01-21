@@ -1,4 +1,6 @@
+$mainNavDividerColor: var(--v2-colors-grey-400);
+
 .root {
   height: 32px;
-  border-right: 2px solid var(--v2-palette-main-nav-divider);
+  border-right: 2px solid $mainNavDividerColor;
 }

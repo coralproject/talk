@@ -1,12 +1,15 @@
+$moderateCardDecisionHistoryLinkTextColor: var(--v2-colors-teal-700);
+$moderateCardDecisionHistoryBorderColor: var(--v2-colors-grey-300);
+
 .root {
   font-size: var(--v2-font-size-2);
   font-weight: var(--v2-font-weight-primary-bold);
   font-family: var(--v2-font-family-primary);
   line-height: var(--v2-line-height-reset);
   text-transform: uppercase;
-  color: var(--v2-palette-link-text);
+  color: $moderateCardDecisionHistoryLinkTextColor;
   width: 100%;
-  border-top: 1px solid var(--v2-palette-decision-history-border);
+  border-top: 1px solid $moderateCardDecisionHistoryBorderColor;
   text-align: center;
   padding-top: var(--v2-spacing-1);
   padding-bottom: var(--v2-spacing-1);

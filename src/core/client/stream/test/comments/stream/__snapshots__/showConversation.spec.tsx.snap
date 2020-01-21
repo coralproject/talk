@@ -3,7 +3,7 @@
 exports[`renders deepest comment with link 1`] = `
 <div
   className="coral coral-comment"
-  data-testid="comment-comment-with-deepest-replies-5"
+  data-testid="comment-comment-with-deepest-replies-3"
 >
   <div
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
@@ -12,7 +12,7 @@ exports[`renders deepest comment with link 1`] = `
       className="Indent-root"
     >
       <div
-        className="Indent-level5 coral coral-indent-5"
+        className="Indent-level3 coral coral-indent-3"
       >
         <div
           className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -31,7 +31,7 @@ exports[`renders deepest comment with link 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="username-popover-comment-with-deepest-replies-5"
+                    aria-controls="username-popover-comment-with-deepest-replies-3"
                     className="BaseButton-root coral coral-username coral-comment-username"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -49,13 +49,13 @@ exports[`renders deepest comment with link 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="username-popover-comment-with-deepest-replies-5-ariainfo"
-                    id="username-popover-comment-with-deepest-replies-5"
+                    aria-labelledby="username-popover-comment-with-deepest-replies-3-ariainfo"
+                    id="username-popover-comment-with-deepest-replies-3"
                     role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="username-popover-comment-with-deepest-replies-5-ariainfo"
+                      id="username-popover-comment-with-deepest-replies-3-ariainfo"
                     >
                       A popover with more user information
                     </div>
@@ -125,7 +125,7 @@ exports[`renders deepest comment with link 1`] = `
               className="HTMLContent-root coral coral-content coral-comment-content"
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "body 5",
+                  "__html": "body 3",
                 }
               }
             />
@@ -158,7 +158,7 @@ exports[`renders deepest comment with link 1`] = `
                   data-color="primary"
                   data-variant="textUnderlined"
                   disabled={false}
-                  id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
+                  id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -175,7 +175,7 @@ exports[`renders deepest comment with link 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="permalink-popover-comment-with-deepest-replies-5"
+                    aria-controls="permalink-popover-comment-with-deepest-replies-3"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-comment-shareButton"
                     data-active={false}
                     data-color="primary"
@@ -194,13 +194,13 @@ exports[`renders deepest comment with link 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="permalink-popover-comment-with-deepest-replies-5-ariainfo"
-                    id="permalink-popover-comment-with-deepest-replies-5"
+                    aria-labelledby="permalink-popover-comment-with-deepest-replies-3-ariainfo"
+                    id="permalink-popover-comment-with-deepest-replies-3"
                     role="dialog"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="permalink-popover-comment-with-deepest-replies-5-ariainfo"
+                      id="permalink-popover-comment-with-deepest-replies-3-ariainfo"
                     >
                       A dialog showing a permalink to the comment
                     </div>
@@ -233,8 +233,8 @@ exports[`renders deepest comment with link 1`] = `
               className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-comment-readMoreOfConveration"
               data-color="primary"
               data-variant="underlined"
-              href="http://localhost/stories/story-with-replies?commentID=comment-with-deepest-replies-5"
-              id="comments-commentContainer-showConversation-comment-with-deepest-replies-5"
+              href="http://localhost/stories/story-with-replies?commentID=comment-with-deepest-replies-3"
+              id="comments-commentContainer-showConversation-comment-with-deepest-replies-3"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}

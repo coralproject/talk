@@ -1,3 +1,5 @@
+$tableBodyDisabledColor: var(--v2-colors-mono-100);
+
 .root {
-  color: var(--v2-palette-table-body-disabled);
+  color: $tableBodyDisabledColor;
 }

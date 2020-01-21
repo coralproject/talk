@@ -11,23 +11,15 @@ exports[`renders correctly 1`] = `
       className="AuthBox-container"
       size="double"
     >
-      <ForwardRef(forwardRef)
-        justifyContent="center"
-      >
-        <div
-          className="AuthBox-brandIcon"
-        >
-          <withPropsOnChange(BrandMark)
-            size="lg"
-          />
-        </div>
-      </ForwardRef(forwardRef)>
       <div>
         <ForwardRef(forwardRef)
-          align="center"
-          variant="heading3"
+          justifyContent="center"
         >
-          title
+          <div
+            className="adminSignInTitle"
+          >
+            title
+          </div>
         </ForwardRef(forwardRef)>
         <withPropsOnChange(BrandName)
           align="center"

@@ -6,100 +6,106 @@ exports[`accepts correct password 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root SignInWithEmail-container HorizontalGutter-full"
   >
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="SignInWithEmail-field"
     >
-      <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        htmlFor="email"
-      >
-        Email Address
-      </label>
       <div
-        className="TextField-root TextField-fullWidth"
-      >
-        <input
-          className="TextField-input TextField-colorError"
-          disabled={false}
-          id="email"
-          name="email"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="Message-root Message-colorError Message-fullWidth"
-      >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
-        >
-          warning
-        </i>
-        <span>
-          This field is required.
-        </span>
-      </div>
-    </div>
-    <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-    >
-      <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        htmlFor="password"
-      >
-        Password
-      </label>
-      <div
-        className="PasswordField-fullWidth PasswordField-root"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="PasswordField-wrapper"
+          className="InputLabel-root"
+          htmlFor="email"
+        >
+          Email Address
+        </div>
+        <div
+          className="TextField-root TextField-fullWidth"
         >
           <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+            className="TextField-input TextField-colorError"
+            data-testid="email-field"
             disabled={false}
-            id="password"
-            name="password"
+            id="email"
+            name="email"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
-            placeholder="Password"
-            spellCheck={false}
-            type="password"
-            value="testtest"
+            placeholder="Email Address"
+            type="text"
+            value=""
           />
-          <div
-            className="PasswordField-icon"
-            onClick={[Function]}
-            onKeyUp={[Function]}
-            role="button"
-            tabIndex={0}
-            title="Show password"
+        </div>
+        <div
+          className="Message-root Message-colorError Message-fullWidth"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              visibility
-            </i>
-          </div>
+            warning
+          </i>
+          <span>
+            This field is required.
+          </span>
         </div>
       </div>
+    </div>
+    <div
+      className="SignInWithEmail-field"
+    >
       <div
-        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <p
-          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        <div
+          className="InputLabel-root"
+          htmlFor="password"
+        >
+          Password
+        </div>
+        <div
+          className="PasswordField-fullWidth PasswordField-root"
+        >
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+              data-testid="password-field"
+              disabled={false}
+              id="password"
+              name="password"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder="Password"
+              spellCheck={false}
+              type="password"
+              value="testtest"
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              onKeyUp={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Show password"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </i>
+            </div>
+          </div>
+        </div>
+        <div
+          className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
         >
           <a
             className="SignInWithEmail-textLink"
@@ -108,13 +114,13 @@ exports[`accepts correct password 1`] = `
           >
             Forgot your password?
           </a>
-        </p>
+        </div>
       </div>
     </div>
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
-      data-color="brand"
-      data-variant="filled"
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+      data-color="regular"
+      data-variant="regular"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -143,100 +149,106 @@ exports[`accepts valid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root SignInWithEmail-container HorizontalGutter-full"
   >
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="SignInWithEmail-field"
     >
-      <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        htmlFor="email"
-      >
-        Email Address
-      </label>
       <div
-        className="TextField-root TextField-fullWidth"
-      >
-        <input
-          className="TextField-input TextField-colorRegular"
-          disabled={false}
-          id="email"
-          name="email"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value="hans@test.com"
-        />
-      </div>
-    </div>
-    <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-    >
-      <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        htmlFor="password"
-      >
-        Password
-      </label>
-      <div
-        className="PasswordField-fullWidth PasswordField-root"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="PasswordField-wrapper"
+          className="InputLabel-root"
+          htmlFor="email"
+        >
+          Email Address
+        </div>
+        <div
+          className="TextField-root TextField-fullWidth"
         >
           <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+            className="TextField-input TextField-colorRegular"
+            data-testid="email-field"
             disabled={false}
-            id="password"
-            name="password"
+            id="email"
+            name="email"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
-            placeholder="Password"
-            spellCheck={false}
-            type="password"
-            value=""
+            placeholder="Email Address"
+            type="text"
+            value="hans@test.com"
           />
-          <div
-            className="PasswordField-icon"
-            onClick={[Function]}
-            onKeyUp={[Function]}
-            role="button"
-            tabIndex={0}
-            title="Show password"
-          >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              visibility
-            </i>
-          </div>
         </div>
       </div>
+    </div>
+    <div
+      className="SignInWithEmail-field"
+    >
       <div
-        className="Message-root Message-colorError Message-fullWidth"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
+        <div
+          className="InputLabel-root"
+          htmlFor="password"
         >
-          warning
-        </i>
-        <span>
-          This field is required.
-        </span>
-      </div>
-      <div
-        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
-      >
-        <p
-          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          Password
+        </div>
+        <div
+          className="PasswordField-fullWidth PasswordField-root"
+        >
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+              data-testid="password-field"
+              disabled={false}
+              id="password"
+              name="password"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder="Password"
+              spellCheck={false}
+              type="password"
+              value=""
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              onKeyUp={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Show password"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </i>
+            </div>
+          </div>
+        </div>
+        <div
+          className="Message-root Message-colorError Message-fullWidth"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm MessageIcon-root"
+          >
+            warning
+          </i>
+          <span>
+            This field is required.
+          </span>
+        </div>
+        <div
+          className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
         >
           <a
             className="SignInWithEmail-textLink"
@@ -245,13 +257,13 @@ exports[`accepts valid email 1`] = `
           >
             Forgot your password?
           </a>
-        </p>
+        </div>
       </div>
     </div>
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
-      data-color="brand"
-      data-variant="filled"
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+      data-color="regular"
+      data-variant="regular"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -280,113 +292,119 @@ exports[`checks for invalid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root SignInWithEmail-container HorizontalGutter-full"
   >
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="SignInWithEmail-field"
     >
-      <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        htmlFor="email"
-      >
-        Email Address
-      </label>
       <div
-        className="TextField-root TextField-fullWidth"
-      >
-        <input
-          className="TextField-input TextField-colorError"
-          disabled={false}
-          id="email"
-          name="email"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value="invalid-email"
-        />
-      </div>
-      <div
-        className="Message-root Message-colorError Message-fullWidth"
-      >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
-        >
-          warning
-        </i>
-        <span>
-          Please enter a valid email address.
-        </span>
-      </div>
-    </div>
-    <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-    >
-      <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        htmlFor="password"
-      >
-        Password
-      </label>
-      <div
-        className="PasswordField-fullWidth PasswordField-root"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="PasswordField-wrapper"
+          className="InputLabel-root"
+          htmlFor="email"
+        >
+          Email Address
+        </div>
+        <div
+          className="TextField-root TextField-fullWidth"
         >
           <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+            className="TextField-input TextField-colorError"
+            data-testid="email-field"
             disabled={false}
-            id="password"
-            name="password"
+            id="email"
+            name="email"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
-            placeholder="Password"
-            spellCheck={false}
-            type="password"
-            value=""
+            placeholder="Email Address"
+            type="text"
+            value="invalid-email"
           />
-          <div
-            className="PasswordField-icon"
-            onClick={[Function]}
-            onKeyUp={[Function]}
-            role="button"
-            tabIndex={0}
-            title="Show password"
+        </div>
+        <div
+          className="Message-root Message-colorError Message-fullWidth"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              visibility
-            </i>
-          </div>
+            warning
+          </i>
+          <span>
+            Please enter a valid email address.
+          </span>
         </div>
       </div>
+    </div>
+    <div
+      className="SignInWithEmail-field"
+    >
       <div
-        className="Message-root Message-colorError Message-fullWidth"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
+        <div
+          className="InputLabel-root"
+          htmlFor="password"
         >
-          warning
-        </i>
-        <span>
-          This field is required.
-        </span>
-      </div>
-      <div
-        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
-      >
-        <p
-          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          Password
+        </div>
+        <div
+          className="PasswordField-fullWidth PasswordField-root"
+        >
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+              data-testid="password-field"
+              disabled={false}
+              id="password"
+              name="password"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder="Password"
+              spellCheck={false}
+              type="password"
+              value=""
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              onKeyUp={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Show password"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </i>
+            </div>
+          </div>
+        </div>
+        <div
+          className="Message-root Message-colorError Message-fullWidth"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm MessageIcon-root"
+          >
+            warning
+          </i>
+          <span>
+            This field is required.
+          </span>
+        </div>
+        <div
+          className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
         >
           <a
             className="SignInWithEmail-textLink"
@@ -395,13 +413,13 @@ exports[`checks for invalid email 1`] = `
           >
             Forgot your password?
           </a>
-        </p>
+        </div>
       </div>
     </div>
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
-      data-color="brand"
-      data-variant="filled"
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+      data-color="regular"
+      data-variant="regular"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -435,39 +453,27 @@ exports[`renders sign in form 1`] = `
       <div
         className="Box-root HorizontalGutter-root AuthBox-container HorizontalGutter-double"
       >
-        <div
-          className="Box-root Flex-root Flex-flex Flex-justifyCenter"
-        >
-          <div
-            className="AuthBox-brandIcon"
-          >
-            <svg
-              className="BrandMark-base BrandMark-lg"
-              data-name="Layer 1"
-              id="Layer_1"
-              viewBox="0 0 520.96 540.83"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M510.27,352.74a17.5,17.5,0,0,0-22.93,9.3A235.18,235.18,0,0,1,287.92,505.19V463a66.65,66.65,0,0,1,3.22-6.65c10.93-19.65,31.34-30.85,55-43.83,26.9-14.77,57.38-31.51,76-64.65a17.5,17.5,0,1,0-30.51-17.14c-13.72,24.41-37.33,37.38-62.33,51.11-14.16,7.78-28.59,15.71-41.34,25.91V382.59c0-36,23.82-56.49,54-82.46,18.33-15.79,37.29-32.11,52.27-53.74C411.77,221,420.32,193,420.32,160.7a17.5,17.5,0,0,0-35,0c0,35.62-13.1,59.79-31.43,80.24-17.9-24.71-30.34-56.66-30.34-80.24a17.5,17.5,0,0,0-35,0c0,32.53,15.93,73.46,39.93,104.75-3.11,2.72-6.26,5.43-9.43,8.16-17.77,15.31-35.87,30.91-48.63,50.41-12.77-19.5-30.86-35.1-48.64-50.41-3.17-2.73-6.32-5.44-9.42-8.16,24-31.29,39.92-72.22,39.92-104.75a17.5,17.5,0,0,0-35,0c0,23.58-12.44,55.54-30.34,80.24-18.33-20.45-31.43-44.62-31.43-80.24a17.5,17.5,0,0,0-35,0c0,32.26,8.56,60.29,26.16,85.69,15,21.63,33.94,37.95,52.27,53.74,30.16,26,54,46.48,54,82.46v25.19c-12.77-10.22-27.21-18.16-41.38-25.94-25-13.73-48.62-26.7-62.33-51.11a17.5,17.5,0,1,0-30.51,17.14c18.61,33.14,49.09,49.88,76,64.65,23.63,13,44,24.18,55,43.83a70.43,70.43,0,0,1,3.26,6.72v42.12A235.34,235.34,0,0,1,104,104a235.56,235.56,0,0,1,383.39,74.84,17.5,17.5,0,1,0,32.23-13.64,270.22,270.22,0,1,0,0,210.53A17.5,17.5,0,0,0,510.27,352.74Z"
-                fill="#f77160"
-              />
-            </svg>
-          </div>
-        </div>
         <div>
-          <h1
-            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter"
+          <div
+            className="Box-root Flex-root Flex-flex Flex-justifyCenter"
           >
-            <span>
-              Sign in to
-            </span>
-          </h1>
-          <h1
-            className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
+            <div
+              className="adminSignInTitle"
+            >
+              <div
+                className="SignIn-title"
+              >
+                <span>
+                  Sign in to
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="BrandName-root BrandName-lg BrandName-alignCenter"
           >
             Coral
-          </h1>
+          </div>
         </div>
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -477,87 +483,93 @@ exports[`renders sign in form 1`] = `
             onSubmit={[Function]}
           >
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              className="Box-root HorizontalGutter-root SignInWithEmail-container HorizontalGutter-full"
             >
               <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="SignInWithEmail-field"
               >
-                <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                  htmlFor="email"
-                >
-                  Email Address
-                </label>
                 <div
-                  className="TextField-root TextField-fullWidth"
-                >
-                  <input
-                    className="TextField-input TextField-colorRegular"
-                    disabled={false}
-                    id="email"
-                    name="email"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    placeholder="Email Address"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-              <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-              >
-                <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                  htmlFor="password"
-                >
-                  Password
-                </label>
-                <div
-                  className="PasswordField-fullWidth PasswordField-root"
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                 >
                   <div
-                    className="PasswordField-wrapper"
+                    className="InputLabel-root"
+                    htmlFor="email"
+                  >
+                    Email Address
+                  </div>
+                  <div
+                    className="TextField-root TextField-fullWidth"
                   >
                     <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                      className="TextField-input TextField-colorRegular"
+                      data-testid="email-field"
                       disabled={false}
-                      id="password"
-                      name="password"
+                      id="email"
+                      name="email"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
-                      placeholder="Password"
-                      spellCheck={false}
-                      type="password"
+                      placeholder="Email Address"
+                      type="text"
                       value=""
                     />
-                    <div
-                      className="PasswordField-icon"
-                      onClick={[Function]}
-                      onKeyUp={[Function]}
-                      role="button"
-                      tabIndex={0}
-                      title="Show password"
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm"
-                      >
-                        visibility
-                      </i>
-                    </div>
                   </div>
                 </div>
+              </div>
+              <div
+                className="SignInWithEmail-field"
+              >
                 <div
-                  className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                 >
-                  <p
-                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  <div
+                    className="InputLabel-root"
+                    htmlFor="password"
+                  >
+                    Password
+                  </div>
+                  <div
+                    className="PasswordField-fullWidth PasswordField-root"
+                  >
+                    <div
+                      className="PasswordField-wrapper"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                        data-testid="password-field"
+                        disabled={false}
+                        id="password"
+                        name="password"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Password"
+                        spellCheck={false}
+                        type="password"
+                        value=""
+                      />
+                      <div
+                        className="PasswordField-icon"
+                        onClick={[Function]}
+                        onKeyUp={[Function]}
+                        role="button"
+                        tabIndex={0}
+                        title="Show password"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm"
+                        >
+                          visibility
+                        </i>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
                   >
                     <a
                       className="SignInWithEmail-textLink"
@@ -566,13 +578,13 @@ exports[`renders sign in form 1`] = `
                     >
                       Forgot your password?
                     </a>
-                  </p>
+                  </div>
                 </div>
               </div>
               <button
-                className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
-                data-color="brand"
-                data-variant="filled"
+                className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+                data-color="regular"
+                data-variant="regular"
                 disabled={false}
                 onBlur={[Function]}
                 onFocus={[Function]}
@@ -598,13 +610,13 @@ exports[`renders sign in form 1`] = `
     </div>
   </div>
   <div
-    className="Box-root Flex-root Flex-flex Flex-justifyCenter"
+    className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
   >
-    <p
-      className="Box-root Typography-root Typography-detail Typography-colorTextPrimary Typography-alignCenter Version-version"
+    <div
+      className="Version-container"
     >
       vTest
-    </p>
+    </div>
   </div>
 </div>
 `;
@@ -615,113 +627,119 @@ exports[`shows error when submitting empty form 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root SignInWithEmail-container HorizontalGutter-full"
   >
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="SignInWithEmail-field"
     >
-      <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        htmlFor="email"
-      >
-        Email Address
-      </label>
       <div
-        className="TextField-root TextField-fullWidth"
-      >
-        <input
-          className="TextField-input TextField-colorError"
-          disabled={false}
-          id="email"
-          name="email"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="Message-root Message-colorError Message-fullWidth"
-      >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
-        >
-          warning
-        </i>
-        <span>
-          This field is required.
-        </span>
-      </div>
-    </div>
-    <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-    >
-      <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        htmlFor="password"
-      >
-        Password
-      </label>
-      <div
-        className="PasswordField-fullWidth PasswordField-root"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="PasswordField-wrapper"
+          className="InputLabel-root"
+          htmlFor="email"
+        >
+          Email Address
+        </div>
+        <div
+          className="TextField-root TextField-fullWidth"
         >
           <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+            className="TextField-input TextField-colorError"
+            data-testid="email-field"
             disabled={false}
-            id="password"
-            name="password"
+            id="email"
+            name="email"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
-            placeholder="Password"
-            spellCheck={false}
-            type="password"
+            placeholder="Email Address"
+            type="text"
             value=""
           />
-          <div
-            className="PasswordField-icon"
-            onClick={[Function]}
-            onKeyUp={[Function]}
-            role="button"
-            tabIndex={0}
-            title="Show password"
+        </div>
+        <div
+          className="Message-root Message-colorError Message-fullWidth"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              visibility
-            </i>
-          </div>
+            warning
+          </i>
+          <span>
+            This field is required.
+          </span>
         </div>
       </div>
+    </div>
+    <div
+      className="SignInWithEmail-field"
+    >
       <div
-        className="Message-root Message-colorError Message-fullWidth"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm MessageIcon-root"
+        <div
+          className="InputLabel-root"
+          htmlFor="password"
         >
-          warning
-        </i>
-        <span>
-          This field is required.
-        </span>
-      </div>
-      <div
-        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
-      >
-        <p
-          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          Password
+        </div>
+        <div
+          className="PasswordField-fullWidth PasswordField-root"
+        >
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+              data-testid="password-field"
+              disabled={false}
+              id="password"
+              name="password"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder="Password"
+              spellCheck={false}
+              type="password"
+              value=""
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              onKeyUp={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Show password"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </i>
+            </div>
+          </div>
+        </div>
+        <div
+          className="Message-root Message-colorError Message-fullWidth"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm MessageIcon-root"
+          >
+            warning
+          </i>
+          <span>
+            This field is required.
+          </span>
+        </div>
+        <div
+          className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
         >
           <a
             className="SignInWithEmail-textLink"
@@ -730,13 +748,13 @@ exports[`shows error when submitting empty form 1`] = `
           >
             Forgot your password?
           </a>
-        </p>
+        </div>
       </div>
     </div>
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
-      data-color="brand"
-      data-variant="filled"
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+      data-color="regular"
+      data-variant="regular"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}
@@ -765,7 +783,7 @@ exports[`shows server error 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="Box-root HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root SignInWithEmail-container HorizontalGutter-full"
   >
     <div
       className="CallOut-root CallOut-colorError CallOut-fullWidth"
@@ -775,84 +793,90 @@ exports[`shows server error 1`] = `
       </div>
     </div>
     <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="SignInWithEmail-field"
     >
-      <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        htmlFor="email"
-      >
-        Email Address
-      </label>
       <div
-        className="TextField-root TextField-fullWidth"
-      >
-        <input
-          className="TextField-input TextField-colorRegular"
-          disabled={false}
-          id="email"
-          name="email"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value="hans@test.com"
-        />
-      </div>
-    </div>
-    <div
-      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-    >
-      <label
-        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        htmlFor="password"
-      >
-        Password
-      </label>
-      <div
-        className="PasswordField-fullWidth PasswordField-root"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
         <div
-          className="PasswordField-wrapper"
+          className="InputLabel-root"
+          htmlFor="email"
+        >
+          Email Address
+        </div>
+        <div
+          className="TextField-root TextField-fullWidth"
         >
           <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+            className="TextField-input TextField-colorRegular"
+            data-testid="email-field"
             disabled={false}
-            id="password"
-            name="password"
+            id="email"
+            name="email"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
-            placeholder="Password"
-            spellCheck={false}
-            type="password"
-            value="testtest"
+            placeholder="Email Address"
+            type="text"
+            value="hans@test.com"
           />
-          <div
-            className="PasswordField-icon"
-            onClick={[Function]}
-            onKeyUp={[Function]}
-            role="button"
-            tabIndex={0}
-            title="Show password"
-          >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              visibility
-            </i>
-          </div>
         </div>
       </div>
+    </div>
+    <div
+      className="SignInWithEmail-field"
+    >
       <div
-        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
       >
-        <p
-          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        <div
+          className="InputLabel-root"
+          htmlFor="password"
+        >
+          Password
+        </div>
+        <div
+          className="PasswordField-fullWidth PasswordField-root"
+        >
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+              data-testid="password-field"
+              disabled={false}
+              id="password"
+              name="password"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder="Password"
+              spellCheck={false}
+              type="password"
+              value="testtest"
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              onKeyUp={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Show password"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </i>
+            </div>
+          </div>
+        </div>
+        <div
+          className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
         >
           <a
             className="SignInWithEmail-textLink"
@@ -861,13 +885,13 @@ exports[`shows server error 1`] = `
           >
             Forgot your password?
           </a>
-        </p>
+        </div>
       </div>
     </div>
     <button
-      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
-      data-color="brand"
-      data-variant="filled"
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-fullWidth"
+      data-color="regular"
+      data-variant="regular"
       disabled={false}
       onBlur={[Function]}
       onFocus={[Function]}

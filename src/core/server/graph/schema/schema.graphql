@@ -2611,7 +2611,7 @@ type Story {
   comments are the comments on the Story.
   """
   comments(
-    first: Int = 10 @constraint(max: 50)
+    first: Int = 20 @constraint(max: 50)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection!

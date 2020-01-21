@@ -1,4 +1,20 @@
 .textLink {
-  color: var(--palette-primary-main);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-family: var(--v2-font-family-primary);
+  color: var(--v2-colors-teal-700);
+  font-size: var(--v2-font-size-1);
+  line-height: var(--v2-line-height-reset);
   text-decoration: underline;
+}
+
+.container {
+  padding-bottom: var(--v2-spacing-5);
+}
+
+.field {
+  padding-bottom: var(--v2-spacing-4);
+}
+
+.field {
+  padding-bottom: var(--v2-spacing-4);
 }

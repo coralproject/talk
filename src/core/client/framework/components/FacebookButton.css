@@ -1,9 +1,7 @@
-.variantFilled {
-  &.colorRegular {
-    background-color: #3b5998;
-  }
+.variantRegular {
   &:not(.disabled) {
     &.colorRegular {
+      background-color: #3b5998;
       &.mouseHover {
         background-color: #4467b0;
       }
