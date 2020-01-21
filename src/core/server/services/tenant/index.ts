@@ -9,14 +9,19 @@ import { Config } from "coral-server/config";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
+  CreateAnnouncementInput,
   createTenant,
+  createTenantAnnouncement,
   CreateTenantInput,
   createTenantSSOKey,
+  deleteTenantAnnouncement,
   disableTenantFeatureFlag,
   enableTenantFeatureFlag,
   rotateTenantSSOKey,
   Tenant,
+  UpdateAnnouncementInput,
   updateTenant,
+  updateTenantAnnouncement,
 } from "coral-server/models/tenant";
 import { I18n } from "coral-server/services/i18n";
 
@@ -252,4 +257,48 @@ export async function disableFeatureFlag(
   // Return the updated feature flags (or [] if there was no feature flags to
   // begin with).
   return updated.featureFlags || [];
+}
+
+export async function createAnnouncement(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  input: CreateAnnouncementInput
+) {
+  const updated = await createTenantAnnouncement(mongo, tenant.id, input);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+  await cache.update(redis, updated);
+  return updated.announcement;
+}
+
+export async function updateAnnouncement(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  input: UpdateAnnouncementInput
+) {
+  const updated = await updateTenantAnnouncement(mongo, tenant.id, input);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+  await cache.update(redis, updated);
+  return updated.announcement;
+}
+
+export async function deleteAnnouncement(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant
+) {
+  const updated = await deleteTenantAnnouncement(mongo, tenant.id);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+  await cache.update(redis, updated);
+  return updated.announcement;
 }

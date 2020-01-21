@@ -1215,6 +1215,12 @@ type NewCommentersConfiguration {
   approvedCommentsThreshold: Int!
 }
 
+type Announcement {
+  ID: ID!
+  disableAt: Time
+  content: String
+}
+
 """
 Settings stores the global settings for a given Tenant.
 """
@@ -1365,6 +1371,8 @@ type Settings {
   newCommenters is the configuration for how new commenters comments are treated.
   """
   newCommenters: NewCommentersConfiguration! @auth(roles: [ADMIN])
+
+  announcement: Announcement
 }
 
 ################################################################################
@@ -3351,6 +3359,62 @@ input RecentCommentHistoryConfigurationInput {
   the rejection rate decreases.
   """
   triggerRejectionRate: Float
+}
+
+input CreateAnnouncementInput {
+  """
+  content of the announcement.
+  """
+  content: String!
+
+  disableAt: Time!
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input UpdateAnnouncementInput {
+  content: String
+  disableAt: Time
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input DeleteAnnouncementInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateAnnouncementPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  announcement: Announcement!
+}
+
+type UpdateAnnouncementPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  announcement: Announcement!
+}
+
+type DeleteAnnouncementPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  announcement: Announcement
 }
 
 input SettingsCommunityGuidelinesInput {
@@ -5763,6 +5827,18 @@ type Mutation {
   disableFeatureFlag(
     input: DisableFeatureFlagInput!
   ): DisableFeatureFlagPayload! @auth(roles: [ADMIN])
+
+  createAnnouncement(
+    input: CreateAnnouncementInput!
+  ): CreateAnnouncementPayload! @auth(roles: [ADMIN])
+
+  updateAnnouncement(
+    input: UpdateAnnouncementInput!
+  ): UpdateAnnouncementPayload! @auth(roles: [ADMIN])
+
+  deleteAnnouncement(
+    input: DeleteAnnouncementInput!
+  ): DeleteAnnouncementPayload! @auth(roles: [ADMIN])
 }
 
 ##################

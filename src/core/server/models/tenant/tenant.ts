@@ -396,3 +396,71 @@ export async function disableTenantFeatureFlag(
 
   return result.value || null;
 }
+
+export interface CreateAnnouncementInput {
+  content: string;
+  disableAt: Date;
+}
+
+export async function createTenantAnnouncement(
+  mongo: Db,
+  id: string,
+  input: CreateAnnouncementInput
+) {
+  const announcement = {
+    id: uuid.v4(),
+    ...input,
+  };
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $set: {
+        announcement,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value || null;
+}
+
+export interface UpdateAnnouncementInput {
+  content?: string;
+  disableAt?: Date;
+}
+
+export async function updateTenantAnnouncement(
+  mongo: Db,
+  id: string,
+  announcement: UpdateAnnouncementInput
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $set: {
+        announcement,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value || null;
+}
+
+export async function deleteTenantAnnouncement(mongo: Db, id: string) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $unset: {
+        announcement: "",
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value || null;
+}
