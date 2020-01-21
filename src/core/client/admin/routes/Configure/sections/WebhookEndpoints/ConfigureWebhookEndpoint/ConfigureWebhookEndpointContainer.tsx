@@ -23,7 +23,7 @@ const ConfigureWebhookEndpointContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
   return (
-    <HorizontalGutter size="double">
+    <HorizontalGutter size="double" data-testid="webhook-endpoint-container">
       <ConfigBox
         title={
           <Localized id="configure-webhooks-configureWebhookEndpoint">

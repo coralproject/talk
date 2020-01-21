@@ -21,6 +21,7 @@ const WebhookEndpointRow: FunctionComponent<Props> = ({ endpoint }) => (
       <Link
         to={getEndpointLink(endpoint.id)}
         as={TextLink}
+        data-testid={`webhook-endpoint-${endpoint.id}`}
         className={styles.urlButton}
       >
         {endpoint.url}

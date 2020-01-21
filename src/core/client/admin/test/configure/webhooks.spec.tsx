@@ -83,4 +83,94 @@ it("goes to add new webhook endpoint when clicking add", async () => {
       );
     });
   });
+
+  await act(async () => {
+    await wait(() => {
+      expect(within(container).toJSON()).toMatchSnapshot();
+    });
+  });
+});
+
+it("displays a list of webhook endpoints that have been configured", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () =>
+        pureMerge<typeof settings>(settings, {
+          webhooks: {
+            endpoints: [
+              {
+                id: "webhook-endpoint-1",
+                enabled: true,
+                url: "http://example.com/webhook-endpoint-1",
+                all: true,
+                events: [],
+              },
+              {
+                id: "webhook-endpoint-2",
+                enabled: false,
+                url: "http://example.com/webhook-endpoint-2",
+                all: true,
+                events: [],
+              },
+            ],
+          },
+        }),
+    },
+  });
+  const { container } = await createTestRenderer({ resolvers });
+
+  await act(async () => {
+    await wait(() => {
+      expect(within(container).toJSON()).toMatchSnapshot();
+    });
+  });
+});
+
+it("goes to the webhook endpoint configuration page when selected", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () =>
+        pureMerge<typeof settings>(settings, {
+          webhooks: {
+            endpoints: [
+              {
+                id: "webhook-endpoint-1",
+                enabled: true,
+                url: "http://example.com/webhook-endpoint-1",
+                all: true,
+                events: [],
+              },
+            ],
+          },
+        }),
+    },
+  });
+  const {
+    container,
+    context: { transitionControl },
+  } = await createTestRenderer({ resolvers });
+
+  // Prevent router transitions.
+  transitionControl.allowTransition = false;
+
+  act(() => {
+    within(container)
+      .getByTestID("webhook-endpoint-webhook-endpoint-1")
+      .props.onClick({ button: 0, preventDefault: noop });
+  });
+
+  // Expect a routing request was made to the right url.
+  await act(async () => {
+    await wait(() => {
+      expect(transitionControl.history[0].pathname).toBe(
+        "/admin/configure/webhooks/endpoint/webhook-endpoint-1"
+      );
+    });
+  });
+
+  await act(async () => {
+    await wait(() => {
+      expect(within(container).toJSON()).toMatchSnapshot();
+    });
+  });
 });
