@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
-import { Match, Router, withRouter } from "found";
-import React, { FunctionComponent, useCallback } from "react";
+import { Link } from "found";
+import React, { FunctionComponent } from "react";
 
 import { urls } from "coral-framework/helpers";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
@@ -26,21 +26,14 @@ import Subheader from "../../Subheader";
 import WebhookEndpointRow from "./WebhookEndpointRow";
 
 interface Props {
-  router: Router;
-  match: Match;
   settings: WebhookEndpointsConfigContainer_settings;
 }
 
 const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
   settings,
-  router,
 }) => {
-  const onAddEndpoint = useCallback(() => {
-    router.push(urls.admin.addWebhookEndpoint);
-  }, [router]);
-
   return (
-    <HorizontalGutter size="double">
+    <HorizontalGutter size="double" data-testid="webhooks-container">
       <ConfigBox
         title={
           <Localized id="configure-webhooks-header-title">
@@ -64,12 +57,17 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
             .
           </FormFieldDescription>
         </Localized>
-        <Button color="dark" onClick={onAddEndpoint}>
+        <Link
+          to={urls.admin.addWebhookEndpoint}
+          as={Button}
+          color="dark"
+          data-testid="add-webhook-endpoint"
+        >
           <ButtonIcon size="md">add</ButtonIcon>
           <Localized id="configure-webhooks-addEndpointButton">
             Add webhook endpoint
           </Localized>
-        </Button>
+        </Link>
         <Localized id="configure-webhooks-endpoints">
           <Subheader>Endpoints</Subheader>
         </Localized>
@@ -104,18 +102,16 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withRouter(
-  withFragmentContainer<Props>({
-    settings: graphql`
-      fragment WebhookEndpointsConfigContainer_settings on Settings {
-        webhooks {
-          endpoints {
-            ...WebhookEndpointRow_webhookEndpoint
-          }
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment WebhookEndpointsConfigContainer_settings on Settings {
+      webhooks {
+        endpoints {
+          ...WebhookEndpointRow_webhookEndpoint
         }
       }
-    `,
-  })(WebhookEndpointsConfigContainer)
-);
+    }
+  `,
+})(WebhookEndpointsConfigContainer);
 
 export default enhanced;

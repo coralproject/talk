@@ -23,6 +23,7 @@ import {
   GQLUSER_ROLE,
   GQLUSER_STATUS,
   GQLUsersConnection,
+  GQLWEBHOOK_EVENT_NAME,
 } from "coral-framework/schema";
 import { createFixture, createFixtures } from "coral-framework/testHelpers";
 
@@ -152,6 +153,10 @@ export const settings = createFixture<GQLSettings>({
       },
     },
   },
+  webhooks: {
+    endpoints: [],
+  },
+  webhookEvents: [GQLWEBHOOK_EVENT_NAME.STORY_CREATED],
   stories: {
     scraping: {
       enabled: true,

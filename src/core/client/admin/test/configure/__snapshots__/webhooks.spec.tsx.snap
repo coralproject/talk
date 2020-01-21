@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders webhooks 1`] = `
+<div
+  className="Box-root HorizontalGutter-root HorizontalGutter-double"
+  data-testid="webhooks-container"
+>
+  <div
+    className="Box-root ConfigBox-root"
+  >
+    <div
+      className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+    >
+      <div>
+        <label
+          className="Header-root"
+          htmlFor="configure-webhooks-header.title"
+        >
+          Configure webhook endpoint
+        </label>
+      </div>
+      <div />
+    </div>
+    <div
+      className="ConfigBox-content"
+    >
+      <div
+        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+      >
+        <p
+          className="FormFieldDescription-root"
+        >
+          Configure an endpoint to send events to when events occur within
+Coral. These events will be JSON encoded and signed. To learn more
+about webhook signing, visit our
+          <a
+            className="ExternalLink-root"
+            href="https://docs.coralproject.net/coral/v5/integrating/webhooks/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Webhook Guide
+          </a>
+          .
+        </p>
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase"
+          data-color="dark"
+          data-testid="add-webhook-endpoint"
+          data-variant="regular"
+          href="/admin/configure/webhooks/add"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-md ButtonIcon-root"
+          >
+            add
+          </i>
+          Add webhook endpoint
+        </button>
+        <h3
+          className="Subheader-root"
+        >
+          Endpoints
+        </h3>
+        <div
+          className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+        >
+          <div>
+            There are no webhook endpoints configured, add one above.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
