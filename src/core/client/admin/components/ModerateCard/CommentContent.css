@@ -1,13 +1,52 @@
+$comment-content: var(--v2-colors-mono-900);
+$comment-blockquote-bg: var(--v2-colors-grey-100);
+$comment-highlight-bg: var(--v2-colors-yellow-500);
+$comment-link: var(--v2-palette-primary-main);
+$comment-link-active: var(--v2-palette-primary-darkest);
+
 .root {
-  composes: root from "coral-stream/shared/htmlContent.css";
+  composes: bodyCommentV2 from "coral-ui/shared/typography.css";
+  font-family: var(--v2-font-family-primary);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-body-comment);
+  color: $comment-content;
+  overflow-wrap: break-word;
+
+  & * bold,
+  & * strong {
+    font-weight: var(--v2-font-weight-primary-bold);
+  }
+  & * italic,
+  & * em {
+    font-style: italic;
+  }
+  blockquote {
+    background-color: $comment-blockquote-bg;
+    padding: var(--mini-unit);
+    margin: calc(2 * var(--mini-unit)) 0 calc(2 * var(--mini-unit))
+      var(--mini-unit);
+    border-radius: var(--round-corners);
+    &::after {
+      content: none;
+    }
+    &::before {
+      content: none;
+    }
+  }
 
   mark {
-    background-color: var(--palette-highlight);
+    background-color: $comment-highlight-bg;
     padding: 0 2px;
+    a {
+      color: $comment-link;
+    }
   }
   a {
-    color: var(--palette-primary-dark);
-    background-color: var(--palette-highlight);
+    color: $comment-link;
+    background-color: $comment-highlight-bg;
     padding: 0 2px;
+    &:hover {
+      color: $comment-link-active;
+    }
   }
 }

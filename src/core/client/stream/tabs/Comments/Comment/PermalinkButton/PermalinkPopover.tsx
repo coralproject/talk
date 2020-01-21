@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 
@@ -33,11 +34,17 @@ const PermalinkPopover: FunctionComponent<Props> = ({
       itemGutter="half"
       className={cn(styles.root, CLASSES.sharePopover.$root)}
     >
-      <TextField
-        defaultValue={permalinkURL}
-        className={styles.textField}
-        readOnly
-      />
+      <Localized
+        id="comments-permalinkPopover-permalinkToComment"
+        attrs={{ "aria-label": true }}
+      >
+        <TextField
+          defaultValue={permalinkURL}
+          className={styles.textField}
+          aria-label="Permalink to button"
+          readOnly
+        />
+      </Localized>
       <CopyButton
         onClick={onButtonClick}
         text={permalinkURL}

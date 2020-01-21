@@ -32,6 +32,7 @@ it("renders missing confirm token", async () => {
   const { root } = await createTestRenderer();
   await waitForElement(() => within(root).getByTestID("invalid-link"));
   expect(within(root).toJSON()).toMatchSnapshot();
+  expect(await within(root).axe()).toHaveNoViolations();
 });
 
 it("renders form", async () => {
@@ -53,6 +54,7 @@ it("renders form", async () => {
     await waitForElement(() => within(root).getByTestID("unsubscribe-form"));
   });
   expect(within(root).toJSON()).toMatchSnapshot();
+  expect(await within(root).axe()).toHaveNoViolations();
   restMock.verify();
 });
 
@@ -93,6 +95,7 @@ it("renders error from server", async () => {
       );
     });
     restMock.verify();
+    expect(await within(root).axe()).toHaveNoViolations();
   }
 });
 

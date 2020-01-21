@@ -36,7 +36,7 @@ import {
   InviteTokenExpired,
   TokenInvalidError,
 } from "coral-server/errors";
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { validateEmail, validatePassword, validateUsername } from "../helpers";
 
 export interface InviteToken extends Required<StandardClaims> {

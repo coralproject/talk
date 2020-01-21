@@ -1,9 +1,8 @@
 import sinon from "sinon";
 
 import { ERROR_CODES } from "coral-common/errors";
-import { timeout } from "coral-common/utils";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { wait, waitForElement, within } from "coral-framework/testHelpers";
+import { act, wait, waitForElement, within } from "coral-framework/testHelpers";
 
 import { commenters, settings, stories } from "../../fixtures";
 import create from "./create";
@@ -78,7 +77,7 @@ it("render popup", async () => {
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
   const button = within(comment).getByText("Report", { selector: "button" });
-  button.props.onClick();
+  act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
     button.props["aria-controls"]
@@ -94,18 +93,17 @@ it("close popup", async () => {
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
   const button = within(comment).getByText("Report", { selector: "button" });
-  button.props.onClick();
+  act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
     button.props["aria-controls"]
   );
 
-  // There is a once per frame click protection, so we wait a frame...
-  await timeout();
-
-  within(popover)
-    .getByLabelText("Close Popover", { exact: false })
-    .props.onClick({});
+  act(() =>
+    within(popover)
+      .getByLabelText("Close Popover", { exact: false })
+      .props.onClick({})
+  );
   expect(within(popover).toJSON()).toMatchSnapshot();
 });
 
@@ -116,7 +114,7 @@ it("render popup expanded", async () => {
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
   const button = within(comment).getByText("Report", { selector: "button" });
-  button.props.onClick();
+  act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
     button.props["aria-controls"]
@@ -126,9 +124,11 @@ it("render popup expanded", async () => {
     "This comment is offensive"
   );
 
-  radioButton.props.onChange({
-    target: { type: "radio", value: radioButton.props.value },
-  });
+  act(() =>
+    radioButton.props.onChange({
+      target: { type: "radio", value: radioButton.props.value },
+    })
+  );
 
   expect(within(popover).toJSON()).toMatchSnapshot();
 });
@@ -140,7 +140,7 @@ it("report comment as offensive", async () => {
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
   const button = within(comment).getByText("Report", { selector: "button" });
-  button.props.onClick();
+  act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
     button.props["aria-controls"]
@@ -150,21 +150,31 @@ it("report comment as offensive", async () => {
     "This comment is offensive"
   );
 
-  radioButton.props.onChange({
-    target: { type: "radio", value: radioButton.props.value },
+  act(() =>
+    radioButton.props.onChange({
+      target: { type: "radio", value: radioButton.props.value },
+    })
+  );
+
+  act(() =>
+    within(popover)
+      .getByLabelText("Please leave any additional information", {
+        exact: false,
+      })
+      .props.onChange({ target: { value: "More info" } })
+  );
+
+  act(() => {
+    within(popover)
+      .getByType("form")
+      .props.onSubmit({});
   });
 
-  within(popover)
-    .getByLabelText("Please leave any additional information", { exact: false })
-    .props.onChange({ target: { value: "More info" } });
-
-  within(popover)
-    .getByType("form")
-    .props.onSubmit({});
-
-  await waitForElement(() =>
-    within(popover).getByText("Thank you", { exact: false })
-  );
+  await act(async () => {
+    await waitForElement(() =>
+      within(popover).getByText("Thank you", { exact: false })
+    );
+  });
   expect(within(popover).toJSON()).toMatchSnapshot();
 
   const reportedButton = within(comment).getByText("Reported", {
@@ -185,7 +195,7 @@ it("dont agree with comment", async () => {
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
   const button = within(comment).getByText("Report", { selector: "button" });
-  button.props.onClick();
+  act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
     button.props["aria-controls"]
@@ -195,25 +205,37 @@ it("dont agree with comment", async () => {
     exact: false,
   });
 
-  radioButton.props.onChange({
-    target: { type: "radio", value: radioButton.props.value },
-  });
-
-  within(popover)
-    .getByLabelText("Please leave any additional information", { exact: false })
-    .props.onChange({ target: { value: "More info" } });
-
-  within(popover)
-    .getByType("form")
-    .props.onSubmit({});
-
-  await waitForElement(() =>
-    within(popover).getByText("Thank you", { exact: false })
+  act(() =>
+    radioButton.props.onChange({
+      target: { type: "radio", value: radioButton.props.value },
+    })
   );
 
-  within(popover)
-    .getByText("Dismiss", { exact: false })
-    .props.onClick({});
+  act(() =>
+    within(popover)
+      .getByLabelText("Please leave any additional information", {
+        exact: false,
+      })
+      .props.onChange({ target: { value: "More info" } })
+  );
+
+  act(() => {
+    within(popover)
+      .getByType("form")
+      .props.onSubmit({});
+  });
+
+  await act(async () => {
+    await waitForElement(() =>
+      within(popover).getByText("Thank you", { exact: false })
+    );
+  });
+
+  act(() =>
+    within(popover)
+      .getByText("Dismiss", { exact: false })
+      .props.onClick({})
+  );
 
   await wait(() =>
     expect(
@@ -244,7 +266,7 @@ it("report comment as offensive and handle server error", async () => {
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
   const button = within(comment).getByText("Report", { selector: "button" });
-  button.props.onClick();
+  act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
     button.props["aria-controls"]
@@ -254,14 +276,20 @@ it("report comment as offensive and handle server error", async () => {
     "This comment is offensive"
   );
 
-  radioButton.props.onChange({
-    target: { type: "radio", value: radioButton.props.value },
+  act(() =>
+    radioButton.props.onChange({
+      target: { type: "radio", value: radioButton.props.value },
+    })
+  );
+
+  act(() => {
+    within(popover)
+      .getByType("form")
+      .props.onSubmit({});
   });
 
-  within(popover)
-    .getByType("form")
-    .props.onSubmit({});
-
   // Look for internal error being displayed.
-  await waitForElement(() => within(popover).getByText("INTERNAL_ERROR"));
+  await act(async () => {
+    await waitForElement(() => within(popover).getByText("INTERNAL_ERROR"));
+  });
 });

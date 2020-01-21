@@ -5,9 +5,10 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
+  lookup,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_STATUS } from "coral-framework/schema";
+import { GQLComment, GQLCOMMENT_STATUS } from "coral-framework/schema";
 import { RejectCommentEvent } from "coral-stream/events";
 
 import { RejectCommentMutation as MutationTypes } from "coral-stream/__generated__/RejectCommentMutation.graphql";
@@ -18,7 +19,7 @@ const RejectCommentMutation = createMutation(
   "rejectComment",
   async (
     environment: Environment,
-    input: MutationInput<MutationTypes> & { noEmit?: boolean },
+    input: MutationInput<MutationTypes> & { storyID: string; noEmit?: boolean },
     { eventEmitter }: CoralContext
   ) => {
     let rejectCommentEvent: ReturnType<
@@ -65,7 +66,9 @@ const RejectCommentMutation = createMutation(
               comment: {
                 id: input.commentID,
                 status: GQLCOMMENT_STATUS.REJECTED,
+                tags: lookup<GQLComment>(environment, input.commentID)!.tags,
                 story: {
+                  id: input.storyID,
                   commentCounts: {
                     tags: {
                       FEATURED: 0,

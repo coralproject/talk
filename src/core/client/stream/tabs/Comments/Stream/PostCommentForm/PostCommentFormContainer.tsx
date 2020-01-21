@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
 import { withContext } from "coral-framework/lib/bootstrap";
@@ -23,7 +23,10 @@ import {
 import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
 import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
-import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
+import {
+  COMMENT_SORT,
+  COMMENTS_TAB,
+} from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import {
   getSubmitStatus,
@@ -50,6 +53,7 @@ interface Props {
   showAuthPopup: ShowAuthPopupMutation;
   tab: COMMENTS_TAB;
   onChangeTab: (tab: COMMENTS_TAB) => void;
+  commentsOrderBy?: COMMENT_SORT;
 }
 
 interface State {
@@ -125,11 +129,12 @@ export class PostCommentFormContainer extends Component<Props, State> {
         await this.props.createComment({
           storyID: this.props.story.id,
           nudge: this.state.nudge,
+          commentsOrderBy: this.props.commentsOrderBy,
           ...input,
         })
       );
       if (submitStatus !== "RETRY") {
-        form.reset({});
+        form.initialize({});
       }
       this.setState({ submitStatus, nudge: true });
     } catch (error) {

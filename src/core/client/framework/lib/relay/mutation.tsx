@@ -71,6 +71,8 @@ export function useMutation<I, R>(
   const context = useCoralContext();
   return useCallback<MutationProp<typeof mutation>>(
     ((input: I) => {
+      // TODO: (cvle) These events are deprecated.
+      context.eventEmitter.emit(`mutation.${mutation.name}`, input);
       return mutation.commit(context.relayEnvironment, input, context);
     }) as any,
     [context]
@@ -98,6 +100,11 @@ export function withMutation<N extends string, I, R>(
         );
 
         private commit = (input: I) => {
+          // TODO: (cvle) These events are deprecated.
+          this.props.context.eventEmitter.emit(
+            `mutation.${mutation.name}`,
+            input
+          );
           return mutation.commit(
             this.props.context.relayEnvironment,
             input,

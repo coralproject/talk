@@ -2,7 +2,7 @@ import DataLoader from "dataloader";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import { GQLDIGEST_FREQUENCY } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";
 import logger, { Logger } from "coral-server/logger";
 import { Comment, retrieveManyComments } from "coral-server/models/comment";
 import { retrieveManyStories, Story } from "coral-server/models/story";

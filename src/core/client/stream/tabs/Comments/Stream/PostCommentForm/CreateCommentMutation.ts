@@ -19,6 +19,7 @@ import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
 import { CreateCommentEvent } from "coral-stream/events";
 
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
+import { COMMENT_SORT } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import {
   incrementStoryCommentCounts,
@@ -26,7 +27,9 @@ import {
   prependCommentEdgeToProfile,
 } from "../../helpers";
 
-export type CreateCommentInput = MutationInput<MutationTypes>;
+export type CreateCommentInput = MutationInput<MutationTypes> & {
+  commentsOrderBy?: COMMENT_SORT;
+};
 
 function sharedUpdater(
   environment: Environment,
@@ -48,6 +51,24 @@ function sharedUpdater(
   addCommentToStory(store, input, commentEdge);
 }
 
+function getConnection(
+  streamProxy: RecordProxy | null,
+  connectionKey: string,
+  filters: any
+) {
+  if (!streamProxy) {
+    return null;
+  }
+
+  const con = ConnectionHandler.getConnection(
+    streamProxy,
+    connectionKey,
+    filters
+  );
+
+  return con;
+}
+
 /**
  * update integrates new comment into the CommentConnection.
  */
@@ -59,14 +80,18 @@ function addCommentToStory(
   // Get stream proxy.
   const streamProxy = store.get(input.storyID);
   const connectionKey = "Stream_comments";
-  const filters = { orderBy: "CREATED_AT_DESC" };
 
-  if (streamProxy) {
-    const con = ConnectionHandler.getConnection(
-      streamProxy,
-      connectionKey,
-      filters
-    );
+  if (input.commentsOrderBy === "CREATED_AT_ASC") {
+    const con = getConnection(streamProxy, connectionKey, {
+      orderBy: "CREATED_AT_ASC",
+    });
+    if (con) {
+      ConnectionHandler.insertEdgeAfter(con, commentEdge);
+    }
+  } else {
+    const con = getConnection(streamProxy, connectionKey, {
+      orderBy: "CREATED_AT_DESC",
+    });
     if (con) {
       ConnectionHandler.insertEdgeBefore(con, commentEdge);
     }

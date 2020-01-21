@@ -1,0 +1,15 @@
+.value {
+  width: calc(6 * var(--mini-unit));
+}
+
+.select {
+  height: 100%;
+  min-width: calc(17 * var(--mini-unit));
+}
+
+.unit {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: 36px;
+}

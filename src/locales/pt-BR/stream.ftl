@@ -16,6 +16,14 @@ general-tabBar-commentsTab = Comentários
 general-tabBar-myProfileTab = Meu Perfil
 general-tabBar-configure = Configurações
 
+## Comment Count
+
+comment-count-text =
+  { $count  ->
+    [one] Comentário
+    *[other] Comentários
+  }
+
 ## Comments Tab
 
 comments-allCommentsTab = Todos os comentários
@@ -26,6 +34,13 @@ comments-featuredCommentTooltip-handSelectedComments =
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Ative a dica de comentários
 
+comments-bannedInfo-bannedFromCommenting = Sua conta foi banida de comentar.
+comments-bannedInfo-violatedCommunityGuidelines =
+  Alguém com acesso à sua conta violou nossas diretrizes da comunidade.
+  Como resultado, sua conta foi banida. Você não poder comentar,
+  respeitar ou denunciar comentários. Se você acha
+  isso foi feito por engano, entre em contato com nossa equipe da comunidade.
+
 comments-noCommentsYet = Ainda não há comentários. Seja o primeiro a comentar.
 
 comments-streamQuery-storyNotFound = História não encontrada
@@ -33,7 +48,6 @@ comments-streamQuery-storyNotFound = História não encontrada
 comments-postCommentForm-submit = Enviar
 comments-stream-loadMore = Carregar Mais
 comments-replyList-showAll = Mostrar Tudo
-
 
 comments-viewNew =
   { $count ->
@@ -44,6 +58,8 @@ comments-loadMore = Carregar Mais
 
 comments-permalinkPopover =
   .description = Uma caixa de diálogo mostrando um link permanente para o comentário
+comments-permalinkPopover-permalinkToComment =
+  .aria-label = Link permanente para o comentário
 comments-permalinkButton-share = Compartilhar
 comments-permalinkView-viewFullDiscussion = Ver discussão completa
 comments-permalinkView-commentRemovedOrDoesNotExist = Este comentário foi removido ou não existe.
@@ -193,16 +209,17 @@ profile-commentHistory-loadMore = Carregar Mais
 profile-commentHistory-empty = Você não escreveu nenhum comentário
 profile-commentHistory-empty-subheading = Um histórico dos seus comentários aparecerá aqui
 
-### Settings
+### Account
 profile-account-ignoredCommenters = Usuários ignorados
 profile-account-ignoredCommenters-description =
-  Depois de ignorar alguém, todos os seus comentários ficam ocultos de você.
-  Usuários que você ignora ainda poderão ver seus comentários.
+  Você pode ignorar outros usuários clicando no nome de usuário
+   e selecionando Ignorar. Quando você ignora alguém, todos os comentários dele
+   estarão ocultos para você. Os usuários que você ignora ainda poderão
+   ver seus comentários.
 profile-account-ignoredCommenters-empty = Você não está ignorando ninguém
 profile-account-ignoredCommenters-stopIgnoring = Parar de ignorar
 profile-account-ignoredCommenters-manage = Gerenciar
 profile-account-ignoredCommenters-cancel = Cancelar
-
 
 profile-account-changePassword-cancel = Cancelar
 profile-account-changePassword = Alterar a Senha
@@ -224,6 +241,8 @@ profile-account-download-comments-request-icon =
   .title = Solicitar histórico de comentários
 profile-account-download-comments-recentRequest =
   Sua solicitação mais recente: { $timeStamp }
+profile-account-download-comments-requested =
+  Solicitação submetida. Você pode submeter outra solicitação em { framework-timeago-time }.
 profile-account-download-comments-request-button = Solicitar
 
 ## Delete Account
@@ -246,6 +265,8 @@ profile-account-deleteAccount-pages-deleteButton = Deletar minha conta
 profile-account-deleteAccount-pages-cancel = Cancelar
 profile-account-deleteAccount-pages-proceed = Continuar
 profile-account-deleteAccount-pages-done = Pronto
+profile-account-deleteAccount-pages-phrase =
+  .aria-label = Frase
 
 profile-account-deleteAccount-pages-descriptionHeader = Deletar minha conta?
 profile-account-deleteAccount-pages-descriptionText =
@@ -321,7 +342,6 @@ profile-account-notifications-updated = Suas configurações de notificação fo
 profile-account-notifications-button = Atualizar configurações de notificação
 profile-account-notifications-button-update = Atualizar
 
-
 ## Report Comment Popover
 comments-reportPopover =
   .description = Uma caixa de diálogo para relatar comentários
@@ -350,6 +370,8 @@ comments-reportPopover-dismiss = Dispensar
 comments-submitStatus-dismiss = Dispensar
 comments-submitStatus-submittedAndWillBeReviewed =
   Seu comentário foi enviado e será revisado por um moderador
+comments-submitStatus-submittedAndRejected =
+  Este comentário foi rejeitado por violar nossos termos de uso.
 
 # Configure
 configure-configureQuery-errorLoadingProfile = Erro ao carregar o configure
@@ -366,7 +388,6 @@ profile-changeUsername-current = Nome de usuário atual
 profile-changeUsername-newUsername-label = Novo usuário
 profile-changeUsername-confirmNewUsername-label = Confirme o novo nome de usuário
 profile-changeUsername-cancel = Cancelar
-profile-changeUsername-submit = <ButtonIcon>save</ButtonIcon> <span>Salvar</span>
 profile-changeUsername-submit-button = Salvar
 profile-changeUsername-recentChange = Seu nome de usuário foi alterado em { framework-timeago-time }. Você pode alterar seu nome de usuário novamente em { $nextUpdate }
 profile-changeUsername-close = Fechar
@@ -385,14 +406,23 @@ configure-premodLink-description =
 
 configure-liveUpdates-title = Ativar atualizações em tempo real para esta história
 configure-liveUpdates-description =
-  Quando ativado, habilitará o carregamento e atualização em tempo real dos comentários, à medida que novos comentários e respostas forem publicados.
+  Quando ativado, os comentários serão atualizados instantaneamente
+  assim como novos comentários e respostas, ao invés de exigir 
+  o recarregamento da página. Você pode desabilitar esta opção
+  em certas situações, como um alto volume de acesso que pode fazer com que os comentários fiquem lentos.
 
 configure-messageBox-title = Ativar caixa de mensagens para este fluxo
 configure-messageBox-description =
-  Adicione uma mensagem ao topo da caixa de comentários para seus leitores. Use isso para representar um tópico,
-  faça uma pergunta ou faça anúncios relacionados a essa história.
+  Adicione uma mensagem ao topo da caixa de comentários para seus leitores. 
+  Use isso para representar um tópico, faça uma pergunta ou faça anúncios 
+  relacionados a essa história.
 configure-messageBox-preview = Visualizar
 configure-messageBox-selectAnIcon = Selecione um ícone
+configure-messageBox-iconConversation = Conversa
+configure-messageBox-iconDate = Data
+configure-messageBox-iconHelp = Ajuda
+configure-messageBox-iconWarning = Aviso
+configure-messageBox-iconChatBubble = Chat
 configure-messageBox-noIcon = Sem ícone
 configure-messageBox-writeAMessage = Escreve uma mensagem
 
@@ -408,6 +438,8 @@ configure-openStream-description =
   Este fluxo de comentários está atualmente fechado. Abrindo este fluxo de comentários
   novos comentários podem ser enviados e exibidos.
 configure-openStream-openStream = Abrir Fluxo
+
+configure-moderateThisStream = Moderar esta história
 
 comments-tombstone-ignore = Este comentário está oculto porque você ignorou {$username}
 comments-tombstone-deleted =

@@ -4,32 +4,41 @@ exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   className="coral coral-stream App-root"
 >
-  <withContext(withLocalStateContainer(TabBarQuery)) />
-  <TabContent
-    activeTab="COMMENTS"
-    className="App-tabContent"
-  >
-    <TabPane
-      className="coral coral-comments"
-      data-testid="current-tab-pane"
-      tabID="COMMENTS"
+  <nav>
+    <ForwardRef(forwardRef)
+      component="h2"
     >
-      <CommentsPane />
-    </TabPane>
-    <TabPane
-      className="coral coral-myProfile"
-      data-testid="current-tab-pane"
-      tabID="PROFILE"
+      Navigation
+    </ForwardRef(forwardRef)>
+    <withContext(withLocalStateContainer(TabBarQuery)) />
+  </nav>
+  <main>
+    <TabContent
+      activeTab="COMMENTS"
+      className="App-tabContent"
     >
-      <withContext(withLocalStateContainer(ProfileQuery)) />
-    </TabPane>
-    <TabPane
-      className="coral coral-configure"
-      data-testid="current-tab-pane"
-      tabID="CONFIGURE"
-    >
-      <withContext(withLocalStateContainer(ConfigureQuery)) />
-    </TabPane>
-  </TabContent>
+      <TabPane
+        className="coral coral-comments"
+        data-testid="current-tab-pane"
+        tabID="COMMENTS"
+      >
+        <CommentsPane />
+      </TabPane>
+      <TabPane
+        className="coral coral-myProfile"
+        data-testid="current-tab-pane"
+        tabID="PROFILE"
+      >
+        <withContext(withLocalStateContainer(ProfileQuery)) />
+      </TabPane>
+      <TabPane
+        className="coral coral-configure"
+        data-testid="current-tab-pane"
+        tabID="CONFIGURE"
+      >
+        <withContext(withLocalStateContainer(ConfigureQuery)) />
+      </TabPane>
+    </TabContent>
+  </main>
 </ForwardRef(forwardRef)>
 `;

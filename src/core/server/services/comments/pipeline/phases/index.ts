@@ -6,6 +6,7 @@ import { detectLinks } from "./detectLinks";
 import { linkify } from "./linkify";
 import { preModerate } from "./preModerate";
 import { premodUser } from "./preModerateUser";
+import { premodNewCommenter } from "./premodNewCommenter";
 import { purify } from "./purify";
 import { recentCommentHistory } from "./recentCommentHistory";
 import { repeatPost } from "./repeatPost";
@@ -33,4 +34,5 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   detectLinks,
   preModerate,
   premodUser,
+  premodNewCommenter,
 ];

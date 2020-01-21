@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { Flex, HorizontalGutter, Icon, Typography } from "coral-ui/components";
@@ -10,7 +10,7 @@ const DownloadDescription: FunctionComponent = () => {
   return (
     <HorizontalGutter size="double">
       <Localized id="download-landingPage-title">
-        <div className={styles.title}>Download Your Comment History</div>
+        <h1 className={styles.title}>Download Your Comment History</h1>
       </Localized>
       <div className={styles.content}>
         <div className={styles.section}>

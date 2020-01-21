@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<ForwardRef(forwardRef)
+<div
   className="custom CommentContent-root"
-  container="div"
   dangerouslySetInnerHTML={
     Object {
       "__html": "Hello <b>Bob</b><span>, you <mark>bad</mark> guy</span>",
@@ -13,9 +12,8 @@ exports[`renders correctly 1`] = `
 `;
 
 exports[`renders empty words correctly 1`] = `
-<ForwardRef(forwardRef)
+<div
   className="custom CommentContent-root"
-  container="div"
   dangerouslySetInnerHTML={
     Object {
       "__html": "Hello <b>Bob</b>, you bad guy",

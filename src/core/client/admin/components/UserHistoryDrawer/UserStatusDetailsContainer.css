@@ -1,0 +1,14 @@
+$user-status-details: var(--v2-colors-mono-500);
+
+.root {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-2);
+  color: $user-status-details;
+  line-height: var(--v2-line-height-body-short);
+  margin: 0 0 var(--v2-spacing-1) 0;
+}
+
+.root strong {
+  font-weight: var(--v2-font-weight-primary-bold);
+}

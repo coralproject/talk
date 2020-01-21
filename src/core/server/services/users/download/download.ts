@@ -2,6 +2,7 @@ import archiver from "archiver";
 import stringify from "csv-stringify";
 import DataLoader from "dataloader";
 import { Response } from "express";
+import htmlToText from "html-to-text";
 import { kebabCase } from "lodash";
 import { Db } from "mongodb";
 
@@ -52,7 +53,7 @@ export async function sendUserDownload(
   let commentBatch: Array<Readonly<Comment>> = [];
 
   // Generate the filename of the file that the user will download.
-  const filename = `talk-${kebabCase(user.username)}-${kebabCase(
+  const filename = `coral-${kebabCase(user.username)}-${kebabCase(
     formatter.format(latestContentDate)
   )}.zip`;
 
@@ -104,8 +105,10 @@ export async function sendUserDownload(
       const commentID = comment.id;
       const createdAt = formatter.format(new Date(comment.createdAt));
       const storyURL = story.url;
-      const commentURL = `${storyURL}?commentID=${commentID}`;
-      const body = revision.body;
+      const urlBuilder = new URL(storyURL);
+      urlBuilder.searchParams.set("commentID", commentID);
+      const commentURL = urlBuilder.href;
+      const body = htmlToText.fromString(revision.body);
 
       csv.write([commentID, createdAt, storyURL, commentURL, body]);
     }

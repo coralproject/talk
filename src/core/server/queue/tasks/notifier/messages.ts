@@ -1,5 +1,5 @@
-import { SUBSCRIPTION_INPUT } from "coral-server/graph/tenant/resolvers/Subscription/types";
-import { GQLDIGEST_FREQUENCY } from "coral-server/graph/tenant/schema/__generated__/types";
+import { SUBSCRIPTION_INPUT } from "coral-server/graph/resolvers/Subscription/types";
+import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { NotificationCategory } from "coral-server/services/notifications/categories";
 import NotificationContext from "coral-server/services/notifications/context";

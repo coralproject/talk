@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
@@ -83,13 +83,13 @@ const ForgotPasswordForm: FunctionComponent<Props> = props => {
                         attrs={{ placeholder: true }}
                       >
                         <TextField
+                          {...input}
                           id={input.name}
                           placeholder="Email Address"
                           color={colorFromMeta(meta)}
                           disabled={submitting}
                           type="email"
                           fullWidth
-                          {...input}
                         />
                       </Localized>
                       <ValidationMessage meta={meta} fullWidth />

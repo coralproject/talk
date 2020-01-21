@@ -45,4 +45,5 @@ it("renders comment stream", async () => {
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   expect(within(testRenderer.root).toJSON()).toMatchSnapshot();
+  expect(await within(testRenderer.root).axe()).toHaveNoViolations();
 });

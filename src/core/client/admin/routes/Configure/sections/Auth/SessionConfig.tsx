@@ -1,37 +1,47 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
+import { graphql } from "react-relay";
 
-import { DurationField } from "coral-framework/components";
-import { ValidationMessage } from "coral-framework/lib/form";
+import { colorFromMeta } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
   validateWholeNumberGreaterThanOrEqual,
 } from "coral-framework/lib/validation";
 import {
+  DurationField,
   FieldSet,
   FormField,
-  HorizontalGutter,
-  InputLabel,
-} from "coral-ui/components";
+  Label,
+} from "coral-ui/components/v2";
 
+import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
+import ValidationMessage from "../../ValidationMessage";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment SessionConfig_formValues on Auth {
+    sessionDuration
+  }
+`;
 
 interface Props {
   disabled?: boolean;
 }
 
 const SessionConfig: FunctionComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter>
-    <HorizontalGutter size="full">
+  <ConfigBox
+    title={
       <Localized id="configure-auth-settings">
-        <Header>Session settings</Header>
+        <Header container="h2">Session settings</Header>
       </Localized>
-    </HorizontalGutter>
+    }
+  >
     <FormField container={<FieldSet />}>
       <Localized id="configure-auth-settings-session-duration-label">
-        <InputLabel container="legend">Session Duration</InputLabel>
+        <Label component="legend">Session Duration</Label>
       </Localized>
       <Field
         name="auth.sessionDuration"
@@ -42,13 +52,17 @@ const SessionConfig: FunctionComponent<Props> = ({ disabled }) => (
       >
         {({ input, meta }) => (
           <>
-            <DurationField disabled={!!disabled} {...input} />
-            <ValidationMessage meta={meta} />
+            <DurationField
+              {...input}
+              color={colorFromMeta(meta)}
+              disabled={!!disabled}
+            />
+            <ValidationMessage meta={meta} fullWidth />
           </>
         )}
       </Field>
     </FormField>
-  </HorizontalGutter>
+  </ConfigBox>
 );
 
 export default SessionConfig;

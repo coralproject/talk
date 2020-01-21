@@ -48,7 +48,7 @@ export default class SaneWatcher implements Watcher {
     const queue: string[] = [];
 
     // If this is set, a pending promise is waiting for the next result.
-    let pending: ({ resolve: (result: string) => void }) | null = null;
+    let pending: { resolve: (result: string) => void } | null = null;
 
     // Only start client if we have something to watch.
     if (paths.length) {

@@ -1,8 +1,10 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLMODERATION_MODE, GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
+  findParentWithType,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -19,14 +21,15 @@ beforeEach(() => {
 const viewer = users.admins[0];
 
 async function createTestRenderer(
-  params: CreateTestRendererParams<GQLResolver> = {}
+  params: CreateTestRendererParams<GQLResolver> = {},
+  settingsOverride?: any
 ) {
   const { testRenderer } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
-          settings: () => settings,
+          settings: () => (settingsOverride ? settingsOverride : settings),
           viewer: () => viewer,
         },
       }),
@@ -73,11 +76,7 @@ it("change site wide pre-moderation", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    moderationContainer,
-    saveChangesButton,
-  } = await createTestRenderer({
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
@@ -87,22 +86,24 @@ it("change site wide pre-moderation", async () => {
   )[0];
 
   const onField = within(preModerationContainer).getByLabelText("On");
+  const form = findParentWithType(preModerationContainer, "form")!;
 
   // Let's enable it.
-  onField.props.onChange(onField.props.value.toString());
-
+  act(() => onField.props.onChange(onField.props.value.toString()));
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(onField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(onField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(onField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -120,11 +121,7 @@ it("change site wide link pre-moderation", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    moderationContainer,
-    saveChangesButton,
-  } = await createTestRenderer({
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
@@ -134,22 +131,25 @@ it("change site wide link pre-moderation", async () => {
   )[0];
 
   const onField = within(preModerationContainer).getByLabelText("On");
+  const form = findParentWithType(preModerationContainer, "form")!;
 
   // Let's enable it.
-  onField.props.onChange(onField.props.value.toString());
+  act(() => onField.props.onChange(onField.props.value.toString()));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(onField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(onField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(onField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -171,11 +171,9 @@ it("change akismet settings", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    moderationContainer,
-    saveChangesButton,
-  } = await createTestRenderer({ resolvers });
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
 
   const akismetContainer = within(moderationContainer).getByTestID(
     "akismet-config"
@@ -184,41 +182,44 @@ it("change akismet settings", async () => {
   const onField = within(akismetContainer).getByLabelText("On");
   const keyField = within(akismetContainer).getByLabelText("API key");
   const siteField = within(akismetContainer).getByLabelText("Site URL");
+  const form = findParentWithType(akismetContainer, "form")!;
 
   // Let's turn it on.
-  onField.props.onChange(onField.props.value.toString());
+  act(() => onField.props.onChange(onField.props.value.toString()));
 
   expect(saveChangesButton.props.disabled).toBe(false);
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   expect(
     within(akismetContainer).queryAllByText("This field is required.").length
   ).toBe(2);
 
   // Input valid api key
-  keyField.props.onChange("my api key");
+  act(() => keyField.props.onChange("my api key"));
 
   // Input correct site.
-  siteField.props.onChange("https://coralproject.net");
+  act(() => siteField.props.onChange("https://coralproject.net"));
 
   expect(within(akismetContainer).queryAllByText("Invalid URL").length).toBe(0);
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(onField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(onField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(onField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -239,6 +240,7 @@ it("change perspective settings", async () => {
                 key: "my api key",
                 model: null,
                 threshold: 0.1,
+                sendFeedback: false,
               }
             );
             break;
@@ -253,18 +255,18 @@ it("change perspective settings", async () => {
       },
     },
   });
-  const {
-    configureContainer,
-    moderationContainer,
-    saveChangesButton,
-  } = await createTestRenderer({ resolvers });
+  const { moderationContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
 
   const perspectiveContainer = within(moderationContainer).getByTestID(
     "perspective-container"
   );
 
   const onField = within(perspectiveContainer).getByLabelText("On");
-  const allowField = within(perspectiveContainer).getByLabelText("Allow");
+  const allowField = within(perspectiveContainer).getByTestID(
+    "test-allowStoreCommentData"
+  );
   const keyField = within(perspectiveContainer).getByLabelText("API key");
   const thresholdField = within(perspectiveContainer).getByLabelText(
     "Toxicity threshold"
@@ -272,17 +274,18 @@ it("change perspective settings", async () => {
   const endpointField = within(perspectiveContainer).getByLabelText(
     "Custom endpoint"
   );
+  const form = findParentWithType(perspectiveContainer, "form")!;
 
   // Let's turn it on.
-  onField.props.onChange(onField.props.value.toString());
-  allowField.props.onChange(allowField.props.value.toString());
+  act(() => onField.props.onChange(onField.props.value.toString()));
+  act(() => allowField.props.onChange(allowField.props.value.toString()));
 
   expect(saveChangesButton.props.disabled).toBe(false);
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   expect(
     within(perspectiveContainer).queryAllByText("This field is required.")
@@ -290,13 +293,13 @@ it("change perspective settings", async () => {
   ).toBe(1);
 
   // Input valid api key
-  keyField.props.onChange("my api key");
+  act(() => keyField.props.onChange("my api key"));
 
   // Input malformed endpoint.
-  endpointField.props.onChange("malformed url");
+  act(() => endpointField.props.onChange("malformed url"));
 
   // Input malformed threshold.
-  thresholdField.props.onChange("abc");
+  act(() => thresholdField.props.onChange("abc"));
 
   expect(
     within(perspectiveContainer).queryAllByText("This field is required.")
@@ -312,49 +315,123 @@ it("change perspective settings", async () => {
   ).toBe(1);
 
   // Input correct site.
-  endpointField.props.onChange("https://custom-endpoint.net");
+  act(() => endpointField.props.onChange("https://custom-endpoint.net"));
 
   // Input valid threshold.
-  thresholdField.props.onChange(10);
+  act(() => thresholdField.props.onChange(10));
 
   expect(
     within(perspectiveContainer).queryAllByText("Invalid URL").length
   ).toBe(0);
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(onField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(onField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(onField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
   expect(resolvers.Mutation!.updateSettings!.calledOnce).toBe(true);
 
   // Use default threshold.
-  thresholdField.props.onChange("");
+  act(() => thresholdField.props.onChange(""));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(onField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(onField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(onField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
   expect(resolvers.Mutation!.updateSettings!.calledTwice).toBe(true);
+});
+
+it("change perspective send feedback setting", async () => {
+  const settingsOverride = settings;
+  settingsOverride.integrations.perspective = {
+    doNotStore: false,
+    enabled: true,
+    endpoint: "https://custom-endpoint.net",
+    key: "api key",
+    model: "TOXIC_MODEL",
+    threshold: 0.1,
+    sendFeedback: false,
+  };
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.integrations!.perspective).toEqual({
+          doNotStore: false,
+          enabled: true,
+          endpoint: "https://custom-endpoint.net",
+          key: "api key",
+          model: "TOXIC_MODEL",
+          threshold: 0.1,
+          sendFeedback: true,
+        });
+
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const { moderationContainer, saveChangesButton } = await createTestRenderer(
+    {
+      resolvers,
+    },
+    settingsOverride
+  );
+
+  const perspectiveContainer = within(moderationContainer).getByTestID(
+    "perspective-container"
+  );
+  const onField = within(perspectiveContainer).getByLabelText("On");
+  const allowField = within(perspectiveContainer).getByTestID(
+    "test-allowSendFeedback"
+  );
+  const form = findParentWithType(perspectiveContainer, "form")!;
+
+  // Let's turn it on.
+  act(() => allowField.props.onChange(allowField.props.value.toString()));
+  expect(saveChangesButton.props.disabled).toBe(false);
+
+  // Send form
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  // Wait for submission to be finished
+  await act(async () => {
+    await wait(() => {
+      expect(onField.props.disabled).toBe(false);
+    });
+  });
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+
+  // Should have successfully sent with server.
+  expect(resolvers.Mutation!.updateSettings!.calledOnce).toBe(true);
 });

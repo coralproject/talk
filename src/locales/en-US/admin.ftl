@@ -69,7 +69,7 @@ login-signInWithOIDC = Sign in with { $name }
 ## Configure
 
 configure-unsavedInputWarning =
-  You have unsaved input. Are you sure you want to leave this page?
+  You have unsaved changes. Are you sure you want to continue?
 
 configure-sideBarNavigation-general = General
 configure-sideBarNavigation-authentication = Authentication
@@ -78,13 +78,14 @@ configure-sideBarNavigation-organization = Organization
 configure-sideBarNavigation-advanced = Advanced
 configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
+configure-sideBarNavigation-slack = Slack
 
 configure-sideBar-saveChanges = Save Changes
 configure-configurationSubHeader = Configuration
 configure-onOffField-on = On
 configure-onOffField-off = Off
-configure-permissionField-allow = Allow
-configure-permissionField-dontAllow = Don't allow
+configure-radioButton-allow = Allow
+configure-radioButton-dontAllow = Don't allow
 
 ### General
 configure-general-guidelines-title = Community guidelines summary
@@ -315,12 +316,30 @@ configure-moderation-perspective-allowStoreCommentData = Allow Google to store c
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Stored comments will be used for future research and community model building purposes to
   improve the API over time.
+configure-moderation-perspective-allowSendFeedback =
+  Allow Coral to send moderation actions to Google
+configure-moderation-perspective-allowSendFeedbackDescription =
+  Sent moderation actions will be used for future research and
+  community model building purposes to improve the API over time.
 configure-moderation-perspective-customEndpoint = Custom endpoint
 configure-moderation-perspective-defaultEndpoint =
   By default the endpoint is set to { $default }. You may override this here.
 configure-moderation-perspective-accountNote =
   For additional information on how to set up the Perspective Toxic Comment Filter please visit:
-  <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
+  <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
+
+configure-moderation-newCommenters-title = New commenter approval
+configure-moderation-newCommenters-enable = Enable new commenter approval
+configure-moderation-newCommenters-description =
+  When this is active, initial comments by a new commenter will be sent to Pending
+  for moderator approval before publication.
+configure-moderation-newCommenters-enable-description = Enable pre-moderation for new commenters
+configure-moderation-newCommenters-approvedCommentsThreshold = Number of comments that must be approved
+configure-moderation-newCommenters-approvedCommentsThreshold-description =
+  The number of comments a user must have approved before they do
+  not have to be premoderated
+configure-moderation-newCommenters-comments = comments
+
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
@@ -342,8 +361,8 @@ configure-wordList-suspect-wordListDetailInstructions =
 
 ### Advanced
 configure-advanced-customCSS = Custom CSS
-configure-advanced-customCSS-explanation =
-  URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+configure-advanced-customCSS-override =
+  URL of a CSS stylesheet that will override default Embed Stream styles.
 
 configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =
@@ -380,6 +399,34 @@ decisionHistory-rejectedCommentBy = Rejected comment by <Username></Username>
 decisionHistory-approvedCommentBy = Approved comment by <Username></Username>
 decisionHistory-goToComment = Go to comment
 
+### Slack
+
+configure-slack-header-title = Slack Integrations
+configure-slack-description =
+  Automatically send comments from Coral moderation queues to Slack
+  channels. You will need Slack admin access to set this up. For
+  steps on how to create a Slack App see our <externalLink>documentation</externalLink>.
+configure-slack-addChannel = Add Channel
+
+configure-slack-channel-defaultName = New channel
+configure-slack-channel-enabled = Enabled
+configure-slack-channel-remove = Remove Channel
+configure-slack-channel-name-label = Name
+configure-slack-channel-name-description =
+  This is only for your information, to easily identify
+  each Slack connection. Slack does not tell us the name
+  of the channel/s you're connecting to Coral.
+configure-slack-channel-hookURL-label = Webhook URL
+configure-slack-channel-hookURL-description =
+  Slack provides a channel-specific URL to activate webhook
+  connections. To find the URL for one of your Slack channels,
+  follow the instructions <externalLink>here</externalLink>.
+configure-slack-channel-triggers-label =
+  Receive notifications in this Slack channel for
+configure-slack-channel-triggers-reportedComments = Reported Comments
+configure-slack-channel-triggers-pendingComments = Pending Comments
+configure-slack-channel-triggers-featuredComments = Featured Comments
+
 ## moderate
 moderate-navigation-reported = reported
 moderate-navigation-pending = Pending
@@ -396,6 +443,7 @@ moderate-marker-toxic = Toxic
 moderate-marker-recentHistory = Recent history
 moderate-marker-bodyCount = Body count
 moderate-marker-offensive = Offensive
+moderate-marker-newCommenter = New commenter
 moderate-marker-repeatPost = Repeat comment
 
 moderate-markers-details = Details
@@ -406,6 +454,10 @@ moderate-flagDetails-toxicityScore = Toxicity Score
 moderate-toxicityLabel-likely = Likely <score></score>
 moderate-toxicityLabel-unlikely = Unlikely <score></score>
 moderate-toxicityLabel-maybe = Maybe <score></score>
+
+moderate-linkDetails-label = Copy link to this comment
+moderate-in-stream-link-copy = In Stream
+moderate-in-moderation-link-copy = In Moderation
 
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
@@ -421,6 +473,7 @@ moderate-comment-approveButton =
   .aria-label = Approve
 moderate-comment-decision = Decision
 moderate-comment-story = Story
+moderate-comment-storyLabel = Comment On
 moderate-comment-moderateStory = Moderate Story
 moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured
@@ -458,11 +511,11 @@ moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent fi
 moderate-searchBar-moderateAllStories = Moderate all stories
 moderate-searchBar-comboBoxTextField =
   .aria-label = Search or jump to story...
-  .placeholder = Use quotation marks around each search term (e.g. “team”, “St. Louis”)
+  .placeholder = search by story title, author, url, id, etc.
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
-moderateCardDetails-tab-details = Details
+moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
 ### Moderate User History Drawer
 
@@ -544,7 +597,7 @@ moderate-user-drawer-recent-history-tooltip-submitted = Submitted
 moderate-user-drawer-notes-field =
   .placeholder = Leave a note...
 moderate-user-drawer-notes-button = Add note
-moderatorNote-left-by = Left by:
+moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
 
 ## Create Username
@@ -852,5 +905,4 @@ hotkeysModal-shortcuts-reject = Reject
 hotkeysModal-shortcuts-ban = Ban comment author
 hotkeysModal-shortcuts-zen = Toggle single-comment view
 
-
-
+authcheck-network-error = A network error occurred. Please refresh the page.

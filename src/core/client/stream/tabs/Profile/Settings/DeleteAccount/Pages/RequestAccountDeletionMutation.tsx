@@ -1,8 +1,7 @@
-import { DateTime } from "luxon";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { SCHEDULED_DELETION_TIMESPAN_DAYS } from "coral-common/constants";
+import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/constants";
 import { getViewer } from "coral-framework/helpers";
 import {
   commitMutationPromiseNormalized,
@@ -49,9 +48,9 @@ const RequestAccountDeletionMutation = createMutation(
           },
           optimisticUpdater: store => {
             const viewer = getViewer(environment)!;
-            const deletionDate = DateTime.fromJSDate(new Date())
-              .plus({ days: SCHEDULED_DELETION_TIMESPAN_DAYS })
-              .toISO();
+            const deletionDate = new Date(
+              Date.now() + SCHEDULED_DELETION_WINDOW_DURATION * 1000
+            ).toISOString();
             const viewerProxy = store.get(viewer.id);
             if (viewerProxy !== null) {
               viewerProxy.setValue(deletionDate, "scheduledDeletionDate");

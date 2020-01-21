@@ -1,13 +1,42 @@
+$moderateCardIconColor: var(--v2-colors-mono-100);
+$moderateCardInReplyToColor: var(--v2-colors-mono-100);
+$moderateCardInReplyToUsernameColor: var(--v2-colors-mono-500);
+$moderateCardUsernameBackgroundHover: var(--v2-colors-grey-200);
+
 .icon {
-  color: var(--palette-grey-main);
+  color: $moderateCardIconColor;
 }
 .inReplyTo {
-  color: var(--palette-grey-main);
+  color: $moderateCardInReplyToColor;
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-reset);
 }
 .username {
-  color: var(--palette-grey-main);
+  color: $moderateCardInReplyToUsernameColor;
+  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-reset);
+
+  padding: var(--spacing-1);
+
+  &:hover {
+    background-color: $moderateCardUsernameBackgroundHover;
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+
+  &:active {
+    background-color: $moderateCardUsernameBackgroundHover;
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
 }
 
 .usernameButton {
-  display: inline-flex;
+  vertical-align: baseline;
+
+  margin-left: calc(-1 * var(--v2-spacing-1));
 }

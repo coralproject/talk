@@ -1,13 +1,30 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import { PropTypesOf } from "coral-framework/types";
-import { HorizontalGutter } from "coral-ui/components";
 
+import Header from "../../Header";
 import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
 import RegistrationField from "./RegistrationField";
 import SSOKeyFieldContainer from "./SSOKeyFieldContainer";
 import TargetFilterField from "./TargetFilterField";
+
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment SSOConfig_formValues on Auth {
+    integrations {
+      sso {
+        enabled
+        allowRegistration
+        targetFilter {
+          admin
+          stream
+        }
+      }
+    }
+  }
+`;
 
 interface Props {
   disabled?: boolean;
@@ -18,14 +35,15 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled, sso }) => (
   <ConfigBoxWithToggleField
     title={
       <Localized id="configure-auth-sso-loginWith">
-        <span>Login with SSO</span>
+        <Header container="h2">Login with SSO</Header>
       </Localized>
     }
     name="auth.integrations.sso.enabled"
     disabled={disabled}
+    data-testid="configure-auth-sso"
   >
     {disabledInside => (
-      <HorizontalGutter size="double">
+      <>
         <SSOKeyFieldContainer sso={sso} disabled={disabledInside} />
         <TargetFilterField
           label={
@@ -40,7 +58,7 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled, sso }) => (
           name="auth.integrations.sso.allowRegistration"
           disabled={disabledInside}
         />
-      </HorizontalGutter>
+      </>
     )}
   </ConfigBoxWithToggleField>
 );

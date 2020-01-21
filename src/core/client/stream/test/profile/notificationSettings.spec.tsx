@@ -73,6 +73,7 @@ it("render notifications form", async () => {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("profile-account-notifications")
   );
+  expect(await within(container).axe()).toHaveNoViolations();
   const form = within(container).getByType("form");
 
   // Get the form fields.

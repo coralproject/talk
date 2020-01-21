@@ -1,0 +1,35 @@
+$popoverBorderColor: var(--v2-colors-grey-400);
+$popoverBackgroundColor: var(--v2-colors-pure-white);
+$popoverDarkBackgroundColor: var(--v2-colors-grey-500);
+$popoverDarkBorderColor: var(--v2-colors-grey-500);
+
+.root {
+}
+
+.popover {
+  background: $popoverBackgroundColor;
+  border: 1px solid $popoverBorderColor;
+  box-sizing: border-box;
+  box-shadow: var(--elevation-main);
+  border-radius: var(--round-corners);
+  z-index: var(--zindex-popover);
+  margin: 2px;
+}
+
+.colorDark {
+  background: $popoverDarkBackgroundColor;
+  border-color: $popoverDarkBorderColor;
+}
+
+.top {
+  margin: calc(0.5 * var(--mini-unit)) 0;
+}
+.left {
+  margin: 0 calc(0.5 * var(--mini-unit));
+}
+.right {
+  margin: 0 calc(0.5 * var(--mini-unit));
+}
+.bottom {
+  margin: calc(0.5 * var(--mini-unit)) 0;
+}

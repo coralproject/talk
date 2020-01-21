@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { identity, isEmpty, pickBy } from "lodash";
 import { DateTime, DurationObject } from "luxon";
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
@@ -19,16 +20,6 @@ import {
   UsernameAlreadySetError,
   UserNotFoundError,
 } from "coral-server/errors";
-import {
-  GQLBanStatus,
-  GQLDIGEST_FREQUENCY,
-  GQLPremodStatus,
-  GQLSuspensionStatus,
-  GQLTimeRange,
-  GQLUSER_ROLE,
-  GQLUsernameStatus,
-  GQLUserNotificationSettings,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   Connection,
@@ -40,6 +31,21 @@ import { TenantResource } from "coral-server/models/tenant";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import { users as collection } from "coral-server/services/mongodb/collections";
 
+import {
+  GQLBanStatus,
+  GQLDIGEST_FREQUENCY,
+  GQLPremodStatus,
+  GQLSuspensionStatus,
+  GQLTimeRange,
+  GQLUSER_ROLE,
+  GQLUsernameStatus,
+  GQLUserNotificationSettings,
+} from "coral-server/graph/schema/__generated__/types";
+
+import {
+  CommentStatusCounts,
+  createEmptyCommentStatusCounts,
+} from "../comment";
 import { getLocalProfile, hasLocalProfile } from "./helpers";
 
 export interface LocalProfile {
@@ -352,6 +358,10 @@ export interface Digest {
   createdAt: Date;
 }
 
+export interface UserCommentCounts {
+  status: CommentStatusCounts;
+}
+
 /**
  * User is someone that leaves Comments, and logs in.
  */
@@ -421,6 +431,11 @@ export interface User extends TenantResource {
   digests: Digest[];
 
   /**
+   * hasDigests is true when there is digests to send.
+   */
+  hasDigests?: boolean;
+
+  /**
    * status stores the user status information regarding moderation state.
    */
   status: UserStatus;
@@ -456,6 +471,8 @@ export interface User extends TenantResource {
    * deletedAt is the time that this user was deleted from our system.
    */
   deletedAt?: Date;
+
+  commentCounts: UserCommentCounts;
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -509,6 +526,9 @@ async function findOrCreateUserInput(
     moderatorNotes: [],
     digests: [],
     createdAt: now,
+    commentCounts: {
+      status: createEmptyCommentStatusCounts(),
+    },
   };
 
   if (input.username) {
@@ -1429,7 +1449,7 @@ export async function premodUser(
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their ban lifted
- * @param modifiedBy the ID of the user lifting the premod
+ * @param createdBy the ID of the user lifting the premod
  * @param now the current date
  */
 export async function removeUserPremod(
@@ -1630,7 +1650,7 @@ export async function removeUserBan(
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being suspended
  * @param createdBy the ID of the user banning the above mentioned user
- * @param from the range of time that the user is being banned for
+ * @param finish the date the suspension ends
  * @param message the message sent to suspended user in email
  * @param now the current date
  */
@@ -2270,6 +2290,9 @@ export async function insertUserNotificationDigests(
       $push: {
         digests: { $each: digests },
       },
+      $set: {
+        hasDigests: true,
+      },
     },
     {
       // False to return the updated document instead of the original
@@ -2308,9 +2331,9 @@ export async function pullUserNotificationDigests(
     {
       tenantID,
       "notifications.digestFrequency": frequency,
-      digests: { $ne: [] },
+      hasDigests: true,
     },
-    { $set: { digests: [] } },
+    { $set: { digests: [], hasDigests: false } },
     {
       // True to return the original document instead of the updated document.
       returnOriginal: true,
@@ -2327,6 +2350,7 @@ export async function pullUserNotificationDigests(
  * @param mongo the database to pull scheduled users to delete from
  * @param tenantID the tenant ID to pull users that have been scheduled for
  * deletion on
+ * @param rescheduledDuration duration in which to reschedule
  * @param now the current time
  */
 export async function retrieveUserScheduledForDeletion(
@@ -2436,4 +2460,33 @@ export async function deleteModeratorNote(
     throw new UserNotFoundError(id);
   }
   return result.value;
+}
+
+export async function updateUserCommentCounts(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  commentCounts: DeepPartial<UserCommentCounts>
+) {
+  // Update all the specific comment moderation queue counts.
+  const update: DeepPartial<User> = { commentCounts };
+  const $inc = pickBy(dotize(update), identity);
+  if (isEmpty($inc)) {
+    // Nothing needs to be incremented, just return the User.
+    return retrieveUser(mongo, tenantID, id);
+  }
+
+  logger.trace({ update: { $inc } }, "incrementing user comment counts");
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    { $inc },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  return result.value || null;
 }

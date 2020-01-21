@@ -1,9 +1,52 @@
+.title {
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-family: var(--v2-font-family-secondary);
+  color: var(--v2-colors-mono-100);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-title);
+
+  padding-bottom: var(--v2-spacing-3);
+}
+
+.username {
+  font-size: var(--v2-font-size-6);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-family: var(--v2-font-family-secondary);
+  line-height: var(--v2-line-height-reset);
+  color: var(--v2-colors-mono-900);
+
+  text-align: center;
+
+  padding-bottom: var(--v2-spacing-5);
+}
+
+.copy {
+  font-size: var(--v2-font-size-3);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-reset);
+  color: var(--v2-colors-mono-500);
+
+  text-align: center;
+}
+
 .lockIcon {
-  color: var(--palette-grey-dark);
+  color: var(--v2-colors-mono-900);
+  padding-bottom: var(--v2-spacing-2);
 }
+
 .noPermission {
-  color: var(--palette-grey-dark);
+  font-size: var(--v2-font-size-4);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-family: var(--v2-font-family-primary);
+  line-height: var(--v2-line-height-reset);
+  color: var(--v2-colors-mono-900);
+
+  text-align: center;
+
+  padding-bottom: var(--v2-spacing-5);
 }
+
 .contactAdmin {
-  color: var(--palette-grey-main);
+  padding-top: var(--v2-spacing-3);
 }

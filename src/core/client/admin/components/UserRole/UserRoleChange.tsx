@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import TranslatedRole from "coral-admin/components/TranslatedRole";
@@ -10,7 +10,7 @@ import {
   Dropdown,
   DropdownButton,
   Popover,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import UserRoleText from "./UserRoleText";
 
@@ -60,9 +60,11 @@ const UserRoleChange: FunctionComponent<Props> = props => (
             aria-label="Change role"
             className={styles.button}
             onClick={toggleVisibility}
+            uppercase={false}
+            size="large"
+            color="mono"
             ref={ref}
-            variant="regular"
-            size="small"
+            variant="text"
           >
             <UserRoleText>{props.role}</UserRoleText>
             {

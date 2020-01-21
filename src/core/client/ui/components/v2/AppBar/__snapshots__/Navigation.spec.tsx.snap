@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Navigation
+  classes={
+    Object {
+      "root": "Navigation-root",
+      "ul": "Navigation-ul",
+    }
+  }
+>
+  children
+</Navigation>
+`;

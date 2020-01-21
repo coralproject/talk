@@ -1,0 +1,43 @@
+.root {
+  /* reset button */
+  user-select: none;
+  font-family: inherit;
+  outline: none;
+  border: none;
+  touch-action: manipulation;
+  padding: 0;
+  margin: 0;
+
+  /* Unify anchor and button. */
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
+  align-items: flex-start;
+  vertical-align: middle;
+  white-space: nowrap;
+  background: transparent;
+  font-size: inherit;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  -webkit-appearance: none;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  &:-moz-focusring {
+    textshadow: 0 0 0 #000;
+  }
+}
+
+.keyboardFocus {
+  @mixin outline;
+}
+
+.mouseHover {
+}

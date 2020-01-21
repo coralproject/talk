@@ -10,7 +10,7 @@ import {
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/schema/__generated__/types";
 
 export const spam: IntermediateModerationPhase = async ({
   story,

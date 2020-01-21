@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -84,18 +85,20 @@ it("change organization name", async () => {
   );
 
   // Let's change some organization name.
-  organizationNameField.props.onChange("");
+  act(() => organizationNameField.props.onChange(""));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Should show validation error.
   within(organizationContainer).getByText("This field is required.");
 
   // Let's change to some valid organization name.
-  organizationNameField.props.onChange("Coral Test");
+  act(() => organizationNameField.props.onChange("Coral Test"));
 
   // Should not show validation error.
   expect(
@@ -103,17 +106,21 @@ it("change organization name", async () => {
   ).toBeNull();
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(organizationNameField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(organizationNameField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(organizationNameField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.
@@ -144,18 +151,20 @@ it("change organization contact email", async () => {
   );
 
   // Let's change some organization name.
-  organizationEmailField.props.onChange("");
+  act(() => organizationEmailField.props.onChange(""));
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Should show validation error.
   within(organizationContainer).getByText("This field is required.");
 
   // Let's change to some valid organization name.
-  organizationEmailField.props.onChange("test@coralproject.net");
+  act(() => organizationEmailField.props.onChange("test@coralproject.net"));
 
   // Should not show validation error.
   expect(
@@ -163,17 +172,21 @@ it("change organization contact email", async () => {
   ).toBeNull();
 
   // Send form
-  within(configureContainer)
-    .getByType("form")
-    .props.onSubmit();
+  act(() => {
+    within(configureContainer)
+      .getByType("form")
+      .props.onSubmit();
+  });
 
   // Submit button and text field should be disabled.
   expect(saveChangesButton.props.disabled).toBe(true);
   expect(organizationEmailField.props.disabled).toBe(true);
 
   // Wait for submission to be finished
-  await wait(() => {
-    expect(organizationEmailField.props.disabled).toBe(false);
+  await act(async () => {
+    await wait(() => {
+      expect(organizationEmailField.props.disabled).toBe(false);
+    });
   });
 
   // Should have successfully sent with server.

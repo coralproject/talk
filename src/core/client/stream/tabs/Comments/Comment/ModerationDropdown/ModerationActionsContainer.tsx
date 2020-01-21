@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
@@ -59,6 +59,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     await reject({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
+      storyID: story.id,
     });
   }, [approve, comment, story]);
   const onFeature = useCallback(() => {

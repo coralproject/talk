@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
@@ -28,7 +28,11 @@ interface CommentHistoryProps {
 
 const CommentHistory: FunctionComponent<CommentHistoryProps> = props => {
   return (
-    <HorizontalGutter size="double" data-testid="profile-commentHistory">
+    <HorizontalGutter
+      size="double"
+      id="coral-profile-commentHistory-log"
+      data-testid="profile-commentHistory"
+    >
       {props.comments.length < 1 && (
         <Flex
           direction="column"

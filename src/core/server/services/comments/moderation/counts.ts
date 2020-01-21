@@ -1,4 +1,4 @@
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import { Comment } from "coral-server/models/comment";
 import { CommentModerationQueueCounts } from "coral-server/models/story";

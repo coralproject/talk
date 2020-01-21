@@ -1,6 +1,8 @@
+@import "variables.css";
+
 .root {
   &:not(:first-child) {
-    border-top: 1px solid var(--palette-divider);
+    border-top: 1px solid var(--v2-palette-divider);
   }
   &[aria-selected="true"] {
     @mixin outline;
@@ -8,12 +10,12 @@
 }
 
 .link {
-  justify-content: left;
+  justify-content: center;
   min-height: calc(4 * var(--mini-unit));
-  font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-medium);
-  font-size: calc(16rem / var(--rem-base));
-  line-height: calc(16em / 16);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-family-primary-semi-bold);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-reset);
 }
 
 .icon {

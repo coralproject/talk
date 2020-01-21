@@ -7,7 +7,7 @@ import { DateTime } from "luxon";
 import { Bearer, BearerOptions } from "permit";
 import uuid from "uuid/v4";
 
-import { DEFAULT_SESSION_LENGTH } from "coral-common/constants";
+import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
 import { Omit } from "coral-common/types";
 import {
   AuthenticationError,
@@ -262,7 +262,7 @@ export const signTokenString = async (
     secret,
     {
       jwtid: uuid(),
-      expiresIn: DEFAULT_SESSION_LENGTH,
+      expiresIn: DEFAULT_SESSION_DURATION,
       ...options,
       issuer: tenant.id,
       subject: user.id,

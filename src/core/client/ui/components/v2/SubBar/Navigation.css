@@ -1,0 +1,20 @@
+.root {
+  height: 100%;
+  padding: 0 calc(1.5 * var(--mini-unit));
+}
+
+.ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  height: 100%;
+  margin: 0;
+  align-items: flex-end;
+
+  & > * {
+    margin: 0 calc(3 * var(--mini-unit)) 0 0;
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+}

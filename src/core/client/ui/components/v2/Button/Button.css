@@ -1,0 +1,488 @@
+/* Design tokens */
+
+/* flat button */
+$button-flat-regular-foreground: var(--v2-colors-teal-600);
+$button-flat-mono-foreground: var(--v2-colors-grey-500);
+$button-flat-alert-foreground: var(--v2-colors-red-500);
+$button-flat-alt-foreground: var(--v2-colors-green-500);
+$button-flat-dark-foreground: var(--v2-colors-blue-500);
+
+$button-flat-background: var(--v2-colors-pure-white);
+
+$button-flat-regular-background-hover: var(--v2-colors-teal-100);
+$button-flat-mono-background-hover: var(--v2-colors-grey-200);
+$button-flat-alert-background-hover: var(--v2-colors-red-100);
+$button-flat-alt-background-hover: var(--v2-colors-green-100);
+$button-flat-dark-background-hover: var(--v2-colors-blue-100);
+
+$button-flat-regular-background-active: var(--v2-colors-teal-200);
+$button-flat-mono-background-active: var(--v2-colors-grey-300);
+$button-flat-alert-background-active: var(--v2-colors-red-200);
+$button-flat-alt-background-active: var(--v2-colors-green-200);
+$button-flat-dark-background-active: var(--v2-colors-blue-200);
+
+$button-flat-foreground-disabled: var(--v2-colors-grey-400);
+
+/* regular button */
+$button-regular-foreground: var(--v2-colors-pure-white);
+
+$button-regular-regular-background: var(--v2-colors-teal-600);
+$button-regular-mono-background: var(--v2-colors-grey-500);
+$button-regular-alert-background: var(--v2-colors-red-500);
+$button-regular-alt-background: var(--v2-colors-green-500);
+$button-regular-dark-background: var(--v2-colors-blue-500);
+
+$button-regular-regular-background-hover: var(--v2-colors-teal-700);
+$button-regular-mono-background-hover: var(--v2-colors-grey-600);
+$button-regular-alert-background-hover: var(--v2-colors-red-600);
+$button-regular-alt-background-hover: var(--v2-colors-green-600);
+$button-regular-dark-background-hover: var(--v2-colors-blue-600);
+
+$button-regular-regular-background-active: var(--v2-colors-teal-800);
+$button-regular-mono-background-active: var(--v2-colors-grey-700);
+$button-regular-alert-background-active: var(--v2-colors-red-700);
+$button-regular-alt-background-active: var(--v2-colors-green-700);
+$button-regular-dark-background-active: var(--v2-colors-blue-700);
+
+$button-regular-background-disabled: var(--v2-colors-grey-300);
+
+/* outline button */
+$button-outline-background: var(--v2-colors-pure-white);
+$button-outline-background-disabled: var(--v2-colors-grey-300);
+$button-outline-foreground-disabled: var(--v2-colors-pure-white);
+$button-outline-foreground-hover: var(--v2-colors-pure-white);
+$button-outline-foreground-active: var(--v2-colors-pure-white);
+
+$button-outline-regular-foreground: var(--v2-colors-teal-600);
+$button-outline-mono-foreground: var(--v2-colors-grey-500);
+$button-outline-alert-foreground: var(--v2-colors-red-500);
+$button-outline-alt-foreground: var(--v2-colors-green-500);
+$button-outline-dark-foreground: var(--v2-colors-blue-500);
+
+$button-outline-regular-border: var(--v2-colors-teal-600);
+$button-outline-mono-border: var(--v2-colors-grey-500);
+$button-outline-alert-border: var(--v2-colors-red-500);
+$button-outline-alt-border: var(--v2-colors-green-500);
+$button-outline-dark-border: var(--v2-colors-blue-500);
+
+$button-outline-regular-background-hover: var(--v2-colors-teal-600);
+$button-outline-mono-background-hover: var(--v2-colors-grey-500);
+$button-outline-alert-background-hover: var(--v2-colors-red-500);
+$button-outline-alt-background-hover: var(--v2-colors-green-500);
+$button-outline-dark-background-hover: var(--v2-colors-blue-500);
+
+$button-outline-regular-background-active: var(--v2-colors-teal-800);
+$button-outline-mono-background-active: var(--v2-colors-grey-700);
+$button-outline-alert-background-active: var(--v2-colors-red-700);
+$button-outline-alt-background-active: var(--v2-colors-green-700);
+$button-outline-dark-background-active: var(--v2-colors-blue-700);
+
+$button-outline-regular-border-active: var(--v2-colors-teal-800);
+$button-outline-mono-border-active: var(--v2-colors-grey-700);
+$button-outline-alert-border-active: var(--v2-colors-red-700);
+$button-outline-alt-border-active: var(--v2-colors-green-700);
+$button-outline-dark-border-active: var(--v2-colors-blue-700);
+
+/* text button */
+$button-text-background: transparent;
+$button-text-foreground-disabled: var(--v2-colors-pure-white);
+
+$button-text-regular-foreground: var(--v2-colors-teal-600);
+$button-text-mono-foreground: var(--v2-colors-grey-500);
+$button-text-alert-foreground: var(--v2-colors-red-500);
+$button-text-alt-foreground: var(--v2-colors-green-500);
+$button-text-dark-foreground: var(--v2-colors-blue-500);
+
+$button-text-regular-foreground-hover: var(--v2-colors-teal-700);
+$button-text-mono-foreground-hover: var(--v2-colors-grey-600);
+$button-text-alert-foreground-hover: var(--v2-colors-red-600);
+$button-text-alt-foreground-hover: var(--v2-colors-green-600);
+$button-text-dark-foreground-hover: var(--v2-colors-blue-600);
+
+$button-text-regular-foreground-active: var(--v2-colors-teal-800);
+$button-text-mono-foreground-active: var(--v2-colors-grey-700);
+$button-text-alert-foreground-active: var(--v2-colors-red-700);
+$button-text-alt-foreground-active: var(--v2-colors-green-700);
+$button-text-dark-foreground-active: var(--v2-colors-blue-700);
+
+/* Class Definitions */
+
+.root {
+  border-radius: var(--v2-round-corners);
+  background-color: transparent;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+
+  letter-spacing: 0.042em;
+  transition: 0.2s ease-out background-color;
+
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  line-height: var(--v2-line-height-reset);
+
+  & > * {
+    margin: 0 var(--v2-spacing-1) 0 0;
+    /* convince safari */
+    align-self: center;
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+
+  &.iconLeft i {
+    padding-right: var(--v2-spacing-1);
+  }
+
+  &.iconRight i {
+    padding-left: var(--v2-spacing-1);
+  }
+}
+
+.adornmentLeft {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.adornmentRight {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.root.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.fullWidth {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sizeRegular {
+  font-size: var(--v2-font-size-1);
+  &:not(.variantText) {
+    padding: var(--v2-spacing-2) var(--v2-spacing-3);
+    &.iconLeft,
+    &.iconRight {
+      padding-left: var(--v2-spacing-2);
+      padding-right: var(--v2-spacing-2);
+    }
+  }
+}
+
+.sizeLarge {
+  font-size: var(--v2-font-size-2);
+  &:not(.variantText) {
+    padding: var(--v2-spacing-3) var(--v2-spacing-5);
+    &.iconLeft,
+    &.iconRight {
+      padding-left: var(--v2-spacing-4);
+      padding-right: var(--v2-spacing-4);
+    }
+  }
+}
+
+.variantRegular {
+  color: $button-regular-foreground;
+
+  &:disabled,
+  &.disabled {
+    background-color: $button-regular-background-disabled;
+  }
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    &.colorRegular {
+      background-color: $button-regular-regular-background;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-regular-regular-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-regular-regular-background-active;
+      }
+    }
+
+    &.colorMono {
+      background-color: $button-regular-mono-background;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-regular-mono-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-regular-mono-background-active;
+      }
+    }
+
+    &.colorAlert {
+      background-color: $button-regular-alert-background;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-regular-alert-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-regular-alert-background-active;
+      }
+    }
+
+    &.colorAlt {
+      background-color: $button-regular-alt-background;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-regular-alt-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-regular-alt-background-active;
+      }
+    }
+
+    &.colorDark {
+      background-color: $button-regular-dark-background;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-regular-dark-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-regular-dark-background-active;
+      }
+    }
+  }
+}
+
+.variantFlat {
+  background-color: $button-flat-background;
+
+  &:disabled,
+  &.disabled {
+    color: $button-flat-foreground-disabled;
+  }
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    &.colorRegular {
+      color: $button-flat-regular-foreground;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-flat-regular-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-flat-regular-background-active;
+      }
+    }
+    &.colorMono {
+      color: $button-flat-mono-foreground;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-flat-mono-background-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-flat-mono-background-active;
+      }
+    }
+    &.colorAlert {
+      color: $button-flat-alert-foreground;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-flat-alert-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-flat-alert-background-active;
+      }
+    }
+    &.colorAlt {
+      color: $button-flat-alt-foreground;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-flat-alt-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-flat-alt-background-active;
+      }
+    }
+    &.colorDark {
+      color: $button-flat-dark-foreground;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-flat-dark-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-flat-dark-background-active;
+      }
+    }
+  }
+}
+
+.variantOutline {
+  background-color: $button-outline-background;
+  &:disabled,
+  &.disabled {
+    color: $button-outline-foreground-disabled;
+    background-color: $button-outline-background-disabled;
+  }
+
+  &:not(.disabled),
+  &:not(:disabled),
+  &:not(.mouseHover),
+  &:not(:hover),
+  &:not(.active),
+  &:not(:active) {
+    &.colorRegular {
+      color: $button-outline-regular-foreground;
+      border-color: $button-outline-regular-border;
+    }
+    &.colorMono {
+      color: $button-outline-mono-foreground;
+      border-color: $button-outline-mono-border;
+    }
+    &.colorAlert {
+      color: $button-outline-alert-foreground;
+      border-color: $button-outline-alert-border;
+    }
+    &.colorAlt {
+      color: $button-outline-alt-foreground;
+      border-color: $button-outline-alt-border;
+    }
+    &.colorDark {
+      color: $button-outline-dark-foreground;
+      border-color: $button-outline-dark-border;
+    }
+  }
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    &.mouseHover,
+    &:hover {
+      color: $button-outline-foreground-hover;
+      &.colorRegular {
+        background-color: $button-outline-regular-background-hover;
+      }
+      &.colorMono {
+        background-color: $button-outline-mono-background-hover;
+      }
+      &.colorAlert {
+        background-color: $button-outline-alert-background-hover;
+      }
+      &.colorAlt {
+        background-color: $button-outline-alt-background-hover;
+      }
+      &.colorDark {
+        background-color: $button-outline-dark-background-hover;
+      }
+    }
+
+    &.active,
+    &:active {
+      color: $button-outline-foreground-active;
+      &.colorRegular {
+        background-color: $button-outline-regular-background-active;
+        border-color: $button-outline-regular-border-active;
+      }
+      &.colorMono {
+        background-color: $button-outline-mono-background-active;
+        border-color: $button-outline-regular-border-active;
+      }
+      &.colorAlert {
+        background-color: $button-outline-alert-background-active;
+        border-color: $button-outline-alert-border-active;
+      }
+      &.colorAlt {
+        background-color: $button-outline-alt-background-active;
+        border-color: $button-outline-alt-border-active;
+      }
+      &.colorDark {
+        background-color: $button-outline-dark-background-active;
+        border-color: $button-outline-dark-border-active;
+      }
+    }
+  }
+}
+
+.variantText {
+  background-color: $button-text-background;
+  &:disabled,
+  &.disabled {
+    color: $button-text-foreground-disabled;
+  }
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    &.colorRegular {
+      color: $button-text-regular-foreground;
+      &:hover,
+      &.mouseHover {
+        color: $button-text-regular-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-regular-foreground-active;
+      }
+    }
+
+    &.colorMono {
+      color: $button-text-mono-foreground;
+      &:hover,
+      &.mouseHover {
+        color: $button-text-mono-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-mono-foreground-active;
+      }
+    }
+
+    &.colorAlt {
+      color: $button-text-alt-foreground;
+      &:hover,
+      &.mouseHover {
+        color: $button-text-alt-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-alt-foreground-active;
+      }
+    }
+
+    &.colorAlert {
+      color: $button-text-alert-foreground;
+      &:hover,
+      &.mouseHover {
+        color: $button-text-alert-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-alert-foreground-active;
+      }
+    }
+
+    &.colorDark {
+      color: $button-text-dark-foreground;
+      &:hover,
+      &.mouseHover {
+        color: $button-text-dark-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-dark-foreground-active;
+      }
+    }
+  }
+}

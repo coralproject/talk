@@ -43,7 +43,7 @@ const Icon: FunctionComponent<Props> = props => {
   return (
     <i
       className={rootClassName}
-      aria-hidden="true"
+      aria-hidden={rest["aria-label"] ? "false" : "true"}
       {...rest}
       ref={forwardRef}
     />

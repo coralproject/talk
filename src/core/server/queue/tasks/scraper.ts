@@ -2,6 +2,7 @@ import Queue, { Job } from "bull";
 import { Db } from "mongodb";
 import now from "performance-now";
 
+import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import Task from "coral-server/queue/Task";
 import { scrape } from "coral-server/services/stories/scraper";
@@ -10,6 +11,7 @@ const JOB_NAME = "scraper";
 
 export interface ScrapeProcessorOptions {
   mongo: Db;
+  config: Config;
 }
 
 export interface ScraperData {
@@ -18,9 +20,10 @@ export interface ScraperData {
   tenantID: string;
 }
 
-const createJobProcessor = ({ mongo }: ScrapeProcessorOptions) => async (
-  job: Job<ScraperData>
-) => {
+const createJobProcessor = ({
+  mongo,
+  config,
+}: ScrapeProcessorOptions) => async (job: Job<ScraperData>) => {
   // Pull out the job data.
   const { storyID, storyURL, tenantID } = job.data;
 
@@ -41,7 +44,7 @@ const createJobProcessor = ({ mongo }: ScrapeProcessorOptions) => async (
   log.debug("starting to scrape the story");
 
   try {
-    await scrape(mongo, tenantID, storyID, storyURL);
+    await scrape(mongo, config, tenantID, storyID, storyURL);
   } catch (err) {
     log.error({ err }, "could not scrape the story");
 

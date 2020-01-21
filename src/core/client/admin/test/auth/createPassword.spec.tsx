@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -42,50 +43,71 @@ async function createTestRenderer(
     },
   });
 
-  const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("completeAccountBox")
-  );
-  const form = within(container).getByType("form");
-  const passwordField = within(form).getByLabelText("Password");
+  return await act(async () => {
+    const container = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("completeAccountBox")
+    );
+    const form = within(container).getByType("form");
+    const passwordField = within(form).getByLabelText("Password");
 
-  return {
-    context,
-    testRenderer,
-    form,
-    root: testRenderer.root,
-    passwordField,
-    container,
-  };
+    return {
+      context,
+      testRenderer,
+      form,
+      root: testRenderer.root,
+      passwordField,
+      container,
+    };
+  });
 }
 
 it("renders createPassword view", async () => {
   const { root } = await createTestRenderer();
-  expect(toJSON(root)).toMatchSnapshot();
+
+  await act(async () => {
+    await wait(async () => {
+      expect(toJSON(root)).toMatchSnapshot();
+    });
+  });
 });
 
 it("shows error when submitting empty form", async () => {
   const { form } = await createTestRenderer();
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
+
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  await act(async () => {
+    await wait(async () => {
+      expect(toJSON(form)).toMatchSnapshot();
+    });
+  });
 });
 
 it("checks for invalid password", async () => {
   const { form, passwordField } = await createTestRenderer();
-  passwordField.props.onChange({ target: { value: "x" } });
-  form.props.onSubmit();
+
+  act(() => passwordField.props.onChange({ target: { value: "x" } }));
+  act(() => {
+    form.props.onSubmit();
+  });
+
+  await act(async () => {});
   expect(toJSON(form)).toMatchSnapshot();
 });
 
 it("shows server error", async () => {
   const password = "secretpassword";
-  const resolvers = createResolversStub<GQLResolver>({
-    Mutation: {
-      setPassword: () => {
-        throw new Error("server error");
+  const resolvers = await act(async () => {
+    return createResolversStub<GQLResolver>({
+      Mutation: {
+        setPassword: () => {
+          throw new Error("server error");
+        },
       },
-    },
+    });
   });
-
   const { form, passwordField } = await createTestRenderer({
     resolvers,
     muteNetworkErrors: true,
@@ -94,33 +116,38 @@ it("shows server error", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  passwordField.props.onChange({ target: { value: password } });
+  act(() => passwordField.props.onChange({ target: { value: password } }));
 
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
   expect(passwordField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
-
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
   expect(toJSON(form)).toMatchSnapshot();
 });
 
 it("successfully sets password", async () => {
   const password = "secretpassword";
-  const resolvers = createResolversStub<GQLResolver>({
-    Mutation: {
-      setPassword: ({ variables }) => {
-        expectAndFail(variables).toEqual({
-          password,
-        });
-        return {
-          user: {
-            id: "me",
-            profiles: [],
-          },
-        };
+  const resolvers = await act(async () => {
+    return createResolversStub<GQLResolver>({
+      Mutation: {
+        setPassword: ({ variables }) => {
+          expectAndFail(variables).toEqual({
+            password,
+          });
+          return {
+            user: {
+              id: "me",
+              profiles: [],
+            },
+          };
+        },
       },
-    },
+    });
   });
   const { form, passwordField } = await createTestRenderer({
     resolvers,
@@ -129,14 +156,17 @@ it("successfully sets password", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  passwordField.props.onChange({ target: { value: password } });
+  act(() => passwordField.props.onChange({ target: { value: password } }));
 
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
   expect(passwordField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
-
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
   expect(toJSON(form)).toMatchSnapshot();
   expect(resolvers.Mutation!.setPassword!.called).toBe(true);
 });

@@ -3,6 +3,7 @@
 exports[`has more disables load more 1`] = `
 <ForwardRef(forwardRef)
   data-testid="profile-commentHistory"
+  id="coral-profile-commentHistory-log"
   size="double"
 >
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
@@ -44,6 +45,7 @@ exports[`has more disables load more 1`] = `
 exports[`has more renders correctly 1`] = `
 <ForwardRef(forwardRef)
   data-testid="profile-commentHistory"
+  id="coral-profile-commentHistory-log"
   size="double"
 >
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
@@ -85,6 +87,7 @@ exports[`has more renders correctly 1`] = `
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   data-testid="profile-commentHistory"
+  id="coral-profile-commentHistory-log"
   size="double"
 >
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))

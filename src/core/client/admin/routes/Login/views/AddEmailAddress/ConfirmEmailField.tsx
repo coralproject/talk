@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
@@ -29,12 +29,12 @@ const ConfirmEmailField: FunctionComponent<Props> = props => (
           attrs={{ placeholder: true }}
         >
           <TextField
+            {...input}
             id={input.name}
             placeholder="Confirm Email Address"
             color={colorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
-            {...input}
           />
         </Localized>
         <ValidationMessage meta={meta} fullWidth />

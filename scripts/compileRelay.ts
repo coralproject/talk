@@ -74,7 +74,7 @@ if (persist) {
   if (fs.existsSync(persist)) {
     // Create the new filename.
     const name = path.basename(program.src);
-    const generated = "./src/core/server/graph/common/persisted/__generated__";
+    const generated = "./src/core/server/graph/persisted/__generated__";
 
     // Create the generated directory if it doesn't exist.
     fs.ensureDirSync(generated);

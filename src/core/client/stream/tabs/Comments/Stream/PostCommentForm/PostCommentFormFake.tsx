@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { useViewerEvent } from "coral-framework/lib/events";
@@ -39,7 +39,7 @@ const PostCommentFormFake: FunctionComponent<Props> = props => {
         />
       )}
       <HorizontalGutter className={styles.root}>
-        <div aria-hidden="true">
+        <div>
           <Localized
             id="comments-postCommentFormFake-rte"
             attrs={{ placeholder: true }}

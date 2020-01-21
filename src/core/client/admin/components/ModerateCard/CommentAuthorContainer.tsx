@@ -1,9 +1,10 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { CommentAuthorContainer_comment as CommentData } from "coral-admin/__generated__/CommentAuthorContainer_comment.graphql";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { Tag } from "coral-ui/components";
+import { Tag } from "coral-ui/components/v2";
+
+import { CommentAuthorContainer_comment as CommentData } from "coral-admin/__generated__/CommentAuthorContainer_comment.graphql";
 
 import styles from "./CommentAuthorContainer.css";
 
@@ -17,11 +18,11 @@ const CommentAuthorContainer: FunctionComponent<Props> = ({ comment }) => {
   }
   return (
     <>
-      <Localized id="commentAuthor-status-banned">
-        <div className={styles.authorStatus}>
+      <div className={styles.authorStatus}>
+        <Localized id="commentAuthor-status-banned">
           <Tag color="error">BANNED</Tag>
-        </div>
-      </Localized>
+        </Localized>
+      </div>
     </>
   );
 };

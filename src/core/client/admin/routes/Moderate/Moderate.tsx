@@ -9,7 +9,7 @@ import React, {
 import MainLayout from "coral-admin/components/MainLayout";
 import { HOTKEYS } from "coral-admin/constants";
 import { PropTypesOf } from "coral-framework/types";
-import { SubBar } from "coral-ui/components/SubBar";
+import { SubBar } from "coral-ui/components/v2/SubBar";
 
 import HotkeysModal from "./HotkeysModal";
 import ModerateNavigationContainer from "./ModerateNavigation";

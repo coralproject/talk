@@ -1,5 +1,5 @@
-import { CommentFeaturedInput } from "coral-server/graph/tenant/resolvers/Subscription/commentFeatured";
-import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
+import { CommentFeaturedInput } from "coral-server/graph/resolvers/Subscription/commentFeatured";
+import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/resolvers/Subscription/types";
 import { hasPublishedStatus } from "coral-server/models/comment";
 
 import { getStoryTitle, getURLWithCommentID } from "coral-server/models/story";
@@ -13,7 +13,7 @@ async function processor(
 ): Promise<Notification | null> {
   // Get the comment that was featured.
   const comment = await ctx.comments.load(input.commentID);
-  if (!comment || !hasPublishedStatus(comment)) {
+  if (!comment || (!hasPublishedStatus(comment) || !comment.authorID)) {
     return null;
   }
 

@@ -14,7 +14,7 @@ import {
   ErrorWrappingExtension,
   LoggerExtension,
   MetricsExtension,
-} from "coral-server/graph/common/extensions";
+} from "coral-server/graph/extensions";
 import { Metrics } from "coral-server/services/metrics";
 
 // Sourced from: https://github.com/apollographql/apollo-server/blob/958846887598491fadea57b3f9373d129300f250/packages/apollo-server-core/src/ApolloServer.ts#L46-L57

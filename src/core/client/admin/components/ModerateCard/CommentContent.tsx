@@ -3,7 +3,6 @@ import { memoize } from "lodash";
 import React, { FunctionComponent } from "react";
 
 import { createPurify } from "coral-common/utils/purify";
-import { Typography } from "coral-ui/components";
 
 import styles from "./CommentContent.css";
 
@@ -131,10 +130,9 @@ const CommentContent: FunctionComponent<Props> = ({
 
     // Finally we render the content of the Shadow DOM Tree
     return (
-      <Typography
+      <div
         className={cn(className, styles.root)}
         dangerouslySetInnerHTML={{ __html: node.innerHTML }}
-        container="div"
       />
     );
   }

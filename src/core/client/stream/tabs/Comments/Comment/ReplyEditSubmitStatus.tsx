@@ -1,5 +1,5 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import { Localized } from "fluent-react/compat";
 import React from "react";
 
 import { Button, CallOut, Flex, HorizontalGutter } from "coral-ui/components";

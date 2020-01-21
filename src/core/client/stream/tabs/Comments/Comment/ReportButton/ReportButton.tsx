@@ -1,4 +1,4 @@
-import { Localized } from "fluent-react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { Ref } from "react";
 
 import { PropTypesOf } from "coral-framework/types";

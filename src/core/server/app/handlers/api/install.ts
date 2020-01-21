@@ -26,7 +26,7 @@ import {
 import { create, CreateUser } from "coral-server/services/users";
 import { Request, RequestHandler } from "coral-server/types/express";
 
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 export type TenantInstallCheckHandlerOptions = Pick<
   AppOptions,

@@ -1,8 +1,10 @@
 import cons from "consolidate";
 import cors from "cors";
 import { Express } from "express";
+import enforceHTTPSMiddleware from "express-enforces-ssl";
 import { GraphQLSchema } from "graphql";
 import { RedisPubSub } from "graphql-redis-subscriptions";
+import { hsts, noSniff, referrerPolicy, xssFilter } from "helmet";
 import http from "http";
 import { Db } from "mongodb";
 import nunjucks from "nunjucks";
@@ -13,6 +15,7 @@ import { HTMLErrorHandler } from "coral-server/app/middleware/error";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import { createPassport } from "coral-server/app/middleware/passport";
 import { Config } from "coral-server/config";
+import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
@@ -24,6 +27,7 @@ import { PersistedQueryCache } from "coral-server/services/queries";
 import { AugmentedRedis } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
 
+import { healthHandler, versionHandler } from "./handlers";
 import { compileTrust } from "./helpers";
 import { accessLogger, errorLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
@@ -67,6 +71,15 @@ export async function createApp(options: AppOptions): Promise<Express> {
     // Capturing metrics.
     parent.use(metricsRecorder(options.metrics));
   }
+
+  // Configure the health check endpoint.
+  parent.get("/api/health", healthHandler);
+
+  // Configure the version route.
+  parent.get("/api/version", versionHandler);
+
+  // Configure the SSL requirement after the health check endpoint.
+  configureApplicationHTTPS(options);
 
   // Create some services for the router.
   const passport = createPassport(options);
@@ -112,8 +125,6 @@ export const listenAndServe = (
 function configureApplication(options: AppOptions) {
   const { parent } = options;
 
-  parent.disable("x-powered-by");
-
   // Trust the proxy in front of us, this will enable us to trust the fact that
   // SSL was terminated correctly.
   const trust = options.config.get("trust_proxy");
@@ -121,11 +132,40 @@ function configureApplication(options: AppOptions) {
     parent.set("trust proxy", compileTrust(trust));
   }
 
+  // Configure security middleware and options.
+  parent.disable("x-powered-by");
+  parent.use(noSniff());
+  parent.use(referrerPolicy({ policy: "same-origin" }));
+  parent.use(xssFilter());
+
   // Setup the view config.
-  setupViews(options);
+  configureApplicationViews(options);
 }
 
-function setupViews(options: AppOptions) {
+function configureApplicationHTTPS(options: AppOptions) {
+  const { parent, config } = options;
+
+  // If we're in production mode, configure some production security settings.
+  if (config.get("env") === "production") {
+    if (config.get("disable_force_ssl")) {
+      logger.warn(
+        "SSL enforcement has been disabled in production, this should not be used except for testing"
+      );
+    } else {
+      // Coral in production requires SSL, so we'll send the HSTS headers here as
+      // well as force the use of HTTPS with a 301 redirect.
+      parent.use(
+        hsts({
+          // We don't want to break existing other services that run with SSL.
+          includeSubDomains: false,
+        })
+      );
+      parent.use(enforceHTTPSMiddleware());
+    }
+  }
+}
+
+function configureApplicationViews(options: AppOptions) {
   const { parent } = options;
 
   // Configure the default views directory.

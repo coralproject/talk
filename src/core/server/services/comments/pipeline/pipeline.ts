@@ -16,7 +16,7 @@ import { User } from "coral-server/models/user";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
 import { moderationPhases } from "./phases";
 
@@ -81,7 +81,13 @@ export const compose = (
     status: GQLCOMMENT_STATUS.NONE,
     body: context.comment.body,
     actions: [],
-    metadata: context.comment.metadata || {},
+    metadata: {
+      // Merge in the passed comment metadata.
+      ...(context.comment.metadata || {}),
+
+      // Add the nudge to the comment metadata.
+      nudge: context.nudge,
+    },
     tags: [],
   };
 

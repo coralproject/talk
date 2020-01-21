@@ -1,4 +1,4 @@
-import { isEmpty, merge } from "lodash";
+import { isEmpty } from "lodash";
 import { Db } from "mongodb";
 import performanceNow from "performance-now";
 import uuid from "uuid";
@@ -6,12 +6,6 @@ import uuid from "uuid";
 import { Omit, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { CommentNotFoundError } from "coral-server/errors";
-import {
-  GQLCOMMENT_SORT,
-  GQLCOMMENT_STATUS,
-  GQLCommentTagCounts,
-  GQLTAG,
-} from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
   EncodedCommentActionCounts,
@@ -30,6 +24,13 @@ import {
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 import { comments as collection } from "coral-server/services/mongodb/collections";
+
+import {
+  GQLCOMMENT_SORT,
+  GQLCOMMENT_STATUS,
+  GQLCommentTagCounts,
+  GQLTAG,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { PUBLISHED_STATUSES } from "./constants";
 import {
@@ -70,7 +71,7 @@ export interface Comment extends TenantResource {
   /**
    * authorID stores the ID of the User that created this Comment.
    */
-  authorID: string;
+  authorID: string | null;
 
   /**
    * storyID stores the ID of the Story that this Comment was left on.
@@ -253,19 +254,19 @@ export function validateEditable(
 
 export interface EditComment {
   /**
-   * oldComment is the Comment that was previously set.
+   * before is the comment before the edit.
    */
-  oldComment: Comment;
+  before: Readonly<Comment>;
 
   /**
-   * editedComment is the Comment after the edit was performed.
+   * after is the comment after the edit.
    */
-  editedComment: Comment;
+  after: Readonly<Comment>;
 
   /**
-   * newRevision returns the new revision that was created in the Comment.
+   * revision is the new revision generated.
    */
-  newRevision: Revision;
+  revision: Readonly<Revision>;
 }
 
 /**
@@ -319,7 +320,7 @@ export async function editComment(
       status: {
         $in: EDITABLE_STATUSES,
       },
-      deletedAt: null,
+      deletedAt: undefined,
       createdAt: {
         $gt: lastEditableCommentCreatedAt,
       },
@@ -345,25 +346,25 @@ export async function editComment(
     throw new Error("comment edit failed for an unexpected reason");
   }
 
-  // Create a new "editedComment" where the same changes were applied to it as
+  // Create a new "after" where the same changes were applied to it as
   // we did to the MongoDB document.
-  const editedComment: Comment = merge({}, result.value, {
-    // Add in all the $set operations.
+  const after: Comment = {
+    ...result.value,
+    // $set status
     status,
-    metadata,
-    // Merge the actionCounts from the old Comment with the new actionCounts.
+    // $inc actionCounts
     actionCounts: mergeCommentActionCounts(
       result.value.actionCounts,
       actionCounts
     ),
-    // Add in the $push operations.
+    // $push revisions
     revisions: [...result.value.revisions, revision],
-  });
+  };
 
   return {
-    oldComment: result.value,
-    editedComment,
-    newRevision: revision,
+    before: result.value,
+    after,
+    revision,
   };
 }
 
@@ -412,6 +413,8 @@ function cursorGetterFactory(
  * replies.
  *
  * @param mongo database connection
+ * @param tenantID the tenant id
+ * @param storyID the id of the story the comment belongs to
  * @param parentID the parent id for the comment to retrieve
  * @param input connection configuration
  */
@@ -437,7 +440,7 @@ export const retrieveCommentRepliesConnection = (
  *
  * @param mongo the database connection to use when retrieving comments
  * @param tenantID the tenant id for where the comment exists
- * @param commentID the id of the comment to retrieve parents of
+ * @param comment the comment to retrieve parents of
  * @param pagination pagination options to paginate the results
  */
 export async function retrieveCommentParentsConnection(
@@ -507,6 +510,7 @@ export async function retrieveCommentParentsConnection(
  * comments.
  *
  * @param mongo database connection
+ * @param tenantID the Tenant id
  * @param storyID the Story id for the comment to retrieve
  * @param input connection configuration
  */
@@ -706,14 +710,14 @@ function applyInputToQuery(
 
 export interface UpdateCommentStatus {
   /**
-   * comment is the updated Comment with the new status associated with it.
+   * before is the comment before editing the status.
    */
-  comment: Readonly<Comment>;
+  before: Readonly<Comment>;
 
   /**
-   * oldStatus is the previous status that the given Comment had.
+   * after is the comment after editing the status.
    */
-  oldStatus: GQLCOMMENT_STATUS;
+  after: Readonly<Comment>;
 }
 
 export async function updateCommentStatus(
@@ -745,15 +749,12 @@ export async function updateCommentStatus(
     return null;
   }
 
-  // Grab the old status.
-  const oldStatus = result.value.status;
-
   return {
-    comment: {
+    before: result.value,
+    after: {
       ...result.value,
       status,
     },
-    oldStatus,
   };
 }
 
@@ -763,6 +764,7 @@ export async function updateCommentStatus(
  * @param mongo the database handle
  * @param tenantID the id of the Tenant
  * @param id the id of the Comment being updated
+ * @param revisionID the id of the Comment revision being updated
  * @param actionCounts the action counts to merge into the Comment
  */
 export async function updateCommentActionCounts(

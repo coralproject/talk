@@ -1,0 +1,25 @@
+$story-search-background: var(--v2-colors-teal-600);
+
+$story-search-story-title: var(--v2-colors-mono-900);
+$story-search-story-detail: var(--v2-colors-mono-100);
+$story-search-story-background: var(--v2-colors-pure-white);
+$story-search-story-hover: var(--v2-colors-grey-100);
+
+$story-search-input-text: var(--v2-colors-mono-100);
+$story-search-input-label: var(--v2-colors-mono-500);
+$story-search-input-background: var(--v2-colors-pure-white);
+
+$story-search-button-background: var(--v2-colors-blue-500);
+$story-search-button-foreground: var(--v2-colors-pure-white);
+
+$story-search-group-background: var(--v2-colors-blue-500);
+$story-search-group-foreground: var(--v2-colors-pure-white);
+
+$story-search-results-heading: var(--v2-colors-white-500);
+$story-search-results-heading-background: var(--v2-colors-grey-500);
+
+$story-search-results-see-all-label: var(--v2-colors-white-500);
+$story-search-results-see-all-background: var(--v2-colors-blue-500);
+$story-search-results-see-all-hover: var(--v2-colors-blue-400);
+$story-search-results-see-all-border: var(--v2-colors-grey-400);
+$story-search-results-see-all-divider: var(--v2-colors-grey-300);
