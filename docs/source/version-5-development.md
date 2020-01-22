@@ -123,11 +123,11 @@ If you want to suggest a new language or put a placeholder for a translation you
 
 ## Compatibility with IE11
 
-We strive to make the Embed Stream usable in IE11 without being pixel-perfect. If you develop on the Embed Stream you need to be aware of the following:
+We strive to make the Comment Stream Embed usable in IE11 without being pixel-perfect. If you develop on the Comment Stream you need to be aware of the following:
 
 ### CSS Variables
 
-In order to support IE11 on the stream, every time new CSS is loaded, you need to call `polyfillCSSVarsForIE11()`.
+In order to support IE11 on the Comment Stream, every time new CSS is loaded, you need to call `polyfillCSSVarsForIE11()`.
 
 ```ts
 import { polyfillCSSVarsForIE11 } from "coral-framework/helpers";
