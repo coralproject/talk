@@ -1,10 +1,12 @@
+$decisionHistoryBorderColor: var(--v2-colors-grey-300);
+
 .root {
   margin: 0;
   padding: 0;
   list-style-type: none;
 
   & > * {
-    border-bottom: 1px solid var(--v2-palette-decision-history-border);
+    border-bottom: 1px solid $decisionHistoryBorderColor;
   }
   & > *:last-child {
     border-bottom: 0;

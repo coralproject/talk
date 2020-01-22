@@ -966,11 +966,6 @@ type SlackConfiguration {
 
 type SlackChannelTriggers {
   """
-  allComments is whether this channel will receive all comments entering moderation
-  """
-  allComments: Boolean!
-
-  """
   reportedComments is whether this channel will receive reported comments
   """
   reportedComments: Boolean!
@@ -2616,7 +2611,7 @@ type Story {
   comments are the comments on the Story.
   """
   comments(
-    first: Int = 10 @constraint(max: 50)
+    first: Int = 20 @constraint(max: 50)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection!
@@ -3539,11 +3534,6 @@ input CommenterAccountFeaturesInput {
 }
 
 input SlackTriggersConfigurationInput {
-  """
-  allComments is whether this channel will receive all comments entering moderation
-  """
-  allComments: Boolean
-
   """
   reportedComments is whether this channel will receive reported comments
   """

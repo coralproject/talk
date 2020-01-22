@@ -234,7 +234,7 @@ each of your site’s stories.
                   <p
                     className="FormFieldDescription-root"
                   >
-                    URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+                    URL of a CSS stylesheet that will override default Embed Stream styles.
                   </p>
                   <div
                     className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
@@ -312,7 +312,7 @@ When disabled, users will have to refresh the page to see new comments.
                         value="true"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="live.enabled-true"
                       >
                         <span>
@@ -469,7 +469,7 @@ https://domain.com).
                         value="false"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="stories.disableLazy-true"
                       >
                         <span>
@@ -537,7 +537,7 @@ https://domain.com).
                         value="true"
                       />
                       <label
-                        className="RadioButton-label"
+                        className="RadioButton-label RadioButton-labelChecked"
                         htmlFor="stories.scraping.enabled-true"
                       >
                         <span>

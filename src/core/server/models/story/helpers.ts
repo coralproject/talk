@@ -45,13 +45,9 @@ export function getStoryClosedAt(
   if (tenant.closeCommenting.auto) {
     // Auto-close stream has been enabled, convert the createdAt time into the
     // closedAt time by adding the closedTimeout.
-    return (
-      DateTime.fromJSDate(story.createdAt)
-        // closedTimeout is in seconds, so multiply by 1000 to get
-        // milliseconds.
-        .plus(tenant.closeCommenting.timeout * 1000)
-        .toJSDate()
-    );
+    return DateTime.fromJSDate(story.createdAt)
+      .plus({ seconds: tenant.closeCommenting.timeout })
+      .toJSDate();
   }
 
   return;

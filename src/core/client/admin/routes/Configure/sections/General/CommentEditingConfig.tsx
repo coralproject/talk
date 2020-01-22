@@ -67,9 +67,9 @@ const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
             <DurationField
               {...input}
               units={[
-                DURATION_UNIT.SECONDS,
-                DURATION_UNIT.MINUTES,
-                DURATION_UNIT.HOURS,
+                DURATION_UNIT.SECOND,
+                DURATION_UNIT.MINUTE,
+                DURATION_UNIT.HOUR,
               ]}
               color={colorFromMeta(meta)}
               disabled={disabled}

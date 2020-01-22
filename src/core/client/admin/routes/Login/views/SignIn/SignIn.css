@@ -1,0 +1,17 @@
+.title {
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-family: var(--v2-font-family-secondary);
+  color: var(--v2-colors-mono-100);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-title);
+
+  padding-bottom: var(--v2-spacing-3);
+}
+
+.orSeparator {
+  padding-bottom: var(--v2-spacing-5);
+}
+
+.loginButton {
+  padding-bottom: var(--v2-spacing-4);
+}

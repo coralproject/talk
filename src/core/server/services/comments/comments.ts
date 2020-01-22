@@ -23,13 +23,9 @@ export function getCommentEditableUntilDate(
   tenant: Pick<Tenant, "editCommentWindowLength">,
   createdAt: Date
 ): Date {
-  return (
-    DateTime.fromJSDate(createdAt)
-      // editCommentWindowLength is in seconds, so multiply by 1000 to get
-      // milliseconds.
-      .plus(tenant.editCommentWindowLength * 1000)
-      .toJSDate()
-  );
+  return DateTime.fromJSDate(createdAt)
+    .plus({ seconds: tenant.editCommentWindowLength })
+    .toJSDate();
 }
 
 export async function addTag(

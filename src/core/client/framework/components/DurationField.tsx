@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 
-import { UNIT } from "coral-common/helpers/i18n";
+import TIME from "coral-common/time";
 import {
   Flex,
   Option,
@@ -23,14 +23,14 @@ import styles from "./DurationField.css";
  * DURATION_UNIT are units that can be used in the
  * DurationField components.
  */
-export const DURATION_UNIT = UNIT;
+export const DURATION_UNIT = TIME;
 
 const DURATION_UNIT_MAP = {
-  [DURATION_UNIT.SECONDS]: "second",
-  [DURATION_UNIT.MINUTES]: "minute",
-  [DURATION_UNIT.HOURS]: "hour",
-  [DURATION_UNIT.DAYS]: "day",
-  [DURATION_UNIT.WEEKS]: "week",
+  [DURATION_UNIT.SECOND]: "second",
+  [DURATION_UNIT.MINUTE]: "minute",
+  [DURATION_UNIT.HOUR]: "hour",
+  [DURATION_UNIT.DAY]: "day",
+  [DURATION_UNIT.WEEK]: "week",
 };
 
 interface Props {
@@ -39,18 +39,18 @@ interface Props {
   disabled: boolean;
   onChange: (v: string) => void;
   /** Specifiy units to include */
-  units?: ReadonlyArray<UNIT>;
+  units?: ReadonlyArray<TIME>;
 }
 
-function convertToSeconds(value: string, unit?: UNIT) {
+function convertToSeconds(value: string, unit?: TIME) {
   const parsed = parseInt(value, 10);
   return (isNaN(parsed) || !unit ? value : parsed * unit).toString();
 }
 
 function convertFromSeconds(
   value: string,
-  units: ReadonlyArray<UNIT>,
-  unit?: UNIT
+  units: ReadonlyArray<TIME>,
+  unit?: TIME
 ) {
   const parsed = parseInt(value, 10);
 
@@ -82,7 +82,7 @@ function convertFromSeconds(
  */
 const DurationField: FunctionComponent<Props> = ({
   value,
-  units = [UNIT.HOURS, UNIT.DAYS, UNIT.WEEKS],
+  units = [TIME.HOUR, TIME.DAY, TIME.WEEK],
   onChange,
   disabled,
   name,

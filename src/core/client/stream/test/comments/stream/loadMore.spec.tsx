@@ -13,6 +13,8 @@ import {
 import { comments, settings, stories } from "../../fixtures";
 import create from "./create";
 
+const loadMoreDateCursor = "2019-07-06T18:24:00.000Z";
+
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const storyStub = {
@@ -21,7 +23,28 @@ beforeEach(() => {
       s.callsFake((input: any) => {
         if (
           isMatch(input, {
-            first: 5,
+            first: 20,
+            orderBy: "CREATED_AT_DESC",
+            after: loadMoreDateCursor,
+          })
+        ) {
+          return {
+            edges: [
+              {
+                node: comments[2],
+                cursor: "2019-08-06T18:24:00.000Z",
+              },
+            ],
+            pageInfo: {
+              endCursor: "2019-08-06T18:24:00.000Z",
+              hasNextPage: false,
+            },
+          };
+        }
+
+        if (
+          isMatch(input, {
+            first: 20,
             orderBy: "CREATED_AT_DESC",
           })
         ) {
@@ -33,35 +56,16 @@ beforeEach(() => {
               },
               {
                 node: comments[1],
-                cursor: comments[1].createdAt,
+                cursor: loadMoreDateCursor,
               },
             ],
             pageInfo: {
-              endCursor: comments[1].createdAt,
+              endCursor: loadMoreDateCursor,
               hasNextPage: true,
             },
           };
         }
-        if (
-          isMatch(input, {
-            first: 10,
-            orderBy: "CREATED_AT_DESC",
-            after: comments[1].createdAt,
-          })
-        ) {
-          return {
-            edges: [
-              {
-                node: comments[2],
-                cursor: comments[2].createdAt,
-              },
-            ],
-            pageInfo: {
-              endCursor: comments[2].createdAt,
-              hasNextPage: false,
-            },
-          };
-        }
+
         throw new Error("Unexpected request");
       })
     ),
@@ -111,7 +115,11 @@ it("renders comment stream with load more button", async () => {
   const streamLog = await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
+
   expect(within(streamLog).toJSON()).toMatchSnapshot();
+  await wait(() =>
+    expect(within(streamLog).queryByText("Load More")).toBeDefined()
+  );
 });
 
 it("loads more comments", async () => {
@@ -128,14 +136,13 @@ it("loads more comments", async () => {
     within(streamLog)
       .getByText("Load More")
       .props.onClick();
-
-    // Wait for load more button to disappear
-
-    // Should now have one more comment
-    await wait(() =>
-      expect(within(streamLog).queryByText("Load More")).toBeNull()
-    );
   });
+
+  // Should now have one more comment
+  await wait(() =>
+    expect(within(streamLog).queryByText("Load More")).toBeNull()
+  );
+
   expect(within(streamLog).getAllByTestID(/^comment-/).length).toBe(
     commentsBefore + 1
   );

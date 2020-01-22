@@ -6,7 +6,7 @@ $input-regular-focused-border: var(--v2-colors-teal-500);
 $input-disabled-background: var(--v2-colors-white-500);
 $input-disabled-value: var(--v2-colors-grey-400);
 $input-disabled-border: var(--v2-colors-grey-400);
-$input-error-border: var(--v2-colors-red-500);
+$input-error-border: var(--v2-palette-error-darkest);
 $input-dark-focused-border: var(--v2-colors-blue-500);
 
 .root {
@@ -49,6 +49,11 @@ $input-dark-focused-border: var(--v2-colors-blue-500);
 
 .adornment {
   margin-left: var(--v2-spacing-2);
+
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-reset);
 }
 
 .colorRegular {

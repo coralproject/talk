@@ -1,17 +1,8 @@
 .container {
-  width: 350px;
-  background-color: #f5f5f5;
-  border: 1px solid var(--palette-grey-lighter);
+  width: 385px;
+  background-color: var(--v2-colors-grey-100);
+  border: 1px solid var(--v2-colors-grey-300);
   margin-top: 70px;
-  padding: 0 calc(3 * var(--mini-unit)) calc(4 * var(--mini-unit))
-    calc(3 * var(--mini-unit));
+  padding: var(--v2-spacing-6);
   box-sizing: border-box;
-}
-
-.brandIcon {
-  display: inline-flex;
-  background: var(--palette-common-white);
-  padding: calc(0.5 * var(--mini-unit));
-  border: 1px solid var(--palette-grey-lighter);
-  margin-top: -42px;
 }

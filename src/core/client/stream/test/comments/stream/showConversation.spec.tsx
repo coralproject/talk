@@ -27,10 +27,10 @@ beforeEach(() => {
         s => s.throws(),
         s =>
           s
-            .withArgs(undefined, { id: "comment-with-deepest-replies-5" })
+            .withArgs(undefined, { id: "comment-with-deepest-replies-3" })
             .returns({
               ...comments[0],
-              id: "comment-with-deepest-replies-5",
+              id: "comment-with-deepest-replies-3",
             })
       ),
       settings: sinon.stub().returns(settings),
@@ -52,7 +52,7 @@ it("renders deepest comment with link", async () => {
     within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   const deepestReply = within(streamLog).getByTestID(
-    "comment-comment-with-deepest-replies-5"
+    "comment-comment-with-deepest-replies-3"
   );
   expect(within(deepestReply).toJSON()).toMatchSnapshot();
 });

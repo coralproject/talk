@@ -1,14 +1,9 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import AuthBox from "coral-admin/components/AuthBox";
-import {
-  Button,
-  Flex,
-  HorizontalGutter,
-  Icon,
-  Typography,
-} from "coral-ui/components";
+import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 
 import styles from "./Restricted.css";
 
@@ -18,17 +13,15 @@ interface Props {
 }
 
 const SignIn: FunctionComponent<Props> = ({ username, onSignInAs }) => {
-  const Username = () => (
-    <Typography variant="heading1" align="center">
-      {username}
-    </Typography>
-  );
+  const Username = () => <div className={styles.username}>{username}</div>;
   return (
     <AuthBox
       title={
-        <Localized id="restricted-currentlySignedInTo">
-          <span>Currently signed in to</span>
-        </Localized>
+        <div className={styles.title}>
+          <Localized id="restricted-currentlySignedInTo">
+            <span>Currently signed in to</span>
+          </Localized>
+        </div>
       }
     >
       <HorizontalGutter size="double">
@@ -39,38 +32,35 @@ const SignIn: FunctionComponent<Props> = ({ username, onSignInAs }) => {
             </Icon>
           </Flex>
           <Localized id="restricted-noPermissionInfo">
-            <Typography
-              variant="heading3"
-              align="center"
-              className={styles.noPermission}
-            >
+            <div className={styles.noPermission}>
               You do not have permission to access this page.
-            </Typography>
+            </div>
           </Localized>
         </div>
         <div>
           <Localized id="restricted-signedInAs" Username={<Username />}>
-            <Typography variant="bodyCopy" align="center" container="div">
+            <div className={styles.copy}>
               {"You are signed in as: <Username></Username>"}
-            </Typography>
+            </div>
           </Localized>
         </div>
         <Flex justifyContent="center">
           <Localized id="restricted-signInWithADifferentAccount">
-            <Button variant="filled" color="primary" onClick={onSignInAs}>
+            <Button
+              variant="regular"
+              color="regular"
+              size="large"
+              onClick={onSignInAs}
+            >
               Sign in with a different account
             </Button>
           </Localized>
         </Flex>
         <Localized id="restricted-contactAdmin">
-          <Typography
-            variant="bodyCopy"
-            align="center"
-            className={styles.contactAdmin}
-          >
+          <div className={cn(styles.copy, styles.contactAdmin)}>
             If you think this is an error, please contact your administrator for
             assistance.
-          </Typography>
+          </div>
         </Localized>
       </HorizontalGutter>
     </AuthBox>

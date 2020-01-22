@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { reduceSeconds, UNIT } from "coral-common/helpers/i18n";
+import { reduceSeconds } from "coral-common/helpers/i18n";
+import TIME from "coral-common/time";
 import {
   Flex,
   HorizontalGutter,
@@ -25,7 +26,7 @@ const RecentHistory: FunctionComponent<Props> = ({
   rejectionRate,
   submitted,
 }) => {
-  const { scaled, unit } = reduceSeconds(timeFrame, [UNIT.DAYS]);
+  const { scaled, unit } = reduceSeconds(timeFrame, [TIME.DAY]);
 
   return (
     <HorizontalGutter spacing={2}>

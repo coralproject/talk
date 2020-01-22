@@ -1,5 +1,7 @@
+$configureDescriptionColor: var(--v2-colors-mono-500);
+
 .root {
-  color: var(--v2-palette-configure-description);
+  color: $configureDescriptionColor;
   line-height: var(--v2-line-height-body-short);
   font-size: var(--v2-font-size-3);
   font-family: var(--v2-font-family-primary);

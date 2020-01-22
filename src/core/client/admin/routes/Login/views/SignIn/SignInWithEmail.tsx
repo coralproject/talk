@@ -19,8 +19,7 @@ import {
   FormField,
   HorizontalGutter,
   InputLabel,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import EmailField from "../../EmailField";
 
@@ -42,36 +41,37 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <HorizontalGutter size="full">
+          <HorizontalGutter size="full" className={styles.container}>
             {submitError && (
               <CallOut color="error" fullWidth>
                 {submitError}
               </CallOut>
             )}
-
-            <EmailField disabled={submitting} />
-            <Field name="password" validate={composeValidators(required)}>
-              {({ input, meta }) => (
-                <FormField>
-                  <Localized id="login-signIn-passwordLabel">
-                    <InputLabel htmlFor={input.name}>Password</InputLabel>
-                  </Localized>
-                  <Localized
-                    id="login-signIn-passwordTextField"
-                    attrs={{ placeholder: true }}
-                  >
-                    <PasswordField
-                      {...input}
-                      id={input.name}
-                      placeholder="Password"
-                      color={colorFromMeta(meta)}
-                      disabled={submitting}
-                      fullWidth
-                    />
-                  </Localized>
-                  <ValidationMessage meta={meta} fullWidth />
-                  <Flex justifyContent="flex-end">
-                    <Typography>
+            <div className={styles.field}>
+              <EmailField disabled={submitting} />
+            </div>
+            <div className={styles.field}>
+              <Field name="password" validate={composeValidators(required)}>
+                {({ input, meta }) => (
+                  <FormField>
+                    <Localized id="login-signIn-passwordLabel">
+                      <InputLabel htmlFor={input.name}>Password</InputLabel>
+                    </Localized>
+                    <Localized
+                      id="login-signIn-passwordTextField"
+                      attrs={{ placeholder: true }}
+                    >
+                      <PasswordField
+                        {...input}
+                        id={input.name}
+                        placeholder="Password"
+                        color={colorFromMeta(meta)}
+                        disabled={submitting}
+                        fullWidth
+                      />
+                    </Localized>
+                    <ValidationMessage meta={meta} fullWidth />
+                    <Flex justifyContent="flex-end">
                       <Localized id="login-signIn-forgot-password">
                         <Link
                           className={styles.textLink}
@@ -80,21 +80,20 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
                           Forgot your password?
                         </Link>
                       </Localized>
-                    </Typography>
-                  </Flex>
-                </FormField>
-              )}
-            </Field>
+                    </Flex>
+                  </FormField>
+                )}
+              </Field>
+            </div>
             <Button
-              variant="filled"
-              color="brand"
+              variant="regular"
+              color="regular"
               size="large"
               type="submit"
               disabled={submitting}
               fullWidth
             >
               <ButtonIcon size="md">email</ButtonIcon>
-
               <Localized id="login-signIn-signInWithEmail">
                 <span>Sign in with Email</span>
               </Localized>

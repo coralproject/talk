@@ -1,3 +1,5 @@
+$userMenuButtonColor: var(--v2-colors-mono-100);
+
 .button {
   padding-top: 0;
   padding-bottom: 0;
@@ -5,12 +7,12 @@
 }
 
 .icon {
-  color: var(--v2-palette-user-menu-button);
+  color: $userMenuButtonColor;
 }
 
 .buttonText {
   font-family: var(--v2-font-family-secondary);
-  color: var(--v2-palette-user-menu-button);
+  color: $userMenuButtonColor;
   font-size: var(--v2-font-size-4);
   margin-left: 2px;
   margin-right: 1px;

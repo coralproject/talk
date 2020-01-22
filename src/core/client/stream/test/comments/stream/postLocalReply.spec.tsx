@@ -35,7 +35,7 @@ beforeEach(() => {
       createCommentReply: sinon.stub().callsFake((_: any, data: any) => {
         expectAndFail(data.input).toMatchObject({
           storyID: storyWithDeepestReplies.id,
-          parentID: "comment-with-deepest-replies-5",
+          parentID: "comment-with-deepest-replies-3",
           parentRevisionID: "revision-0",
           body: "<b>Hello world!</b>",
         });
@@ -79,7 +79,7 @@ it("post a reply", async () => {
   );
 
   const deepestReply = within(streamLog).getByTestID(
-    "comment-comment-with-deepest-replies-5"
+    "comment-comment-with-deepest-replies-3"
   );
 
   // Open reply form.
@@ -98,7 +98,7 @@ it("post a reply", async () => {
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: "comments-replyCommentForm-rte-comment-with-deepest-replies-5",
+        inputId: "comments-replyCommentForm-rte-comment-with-deepest-replies-3",
       })
       .props.onChange({ html: "<b>Hello world!</b>" })
   );
@@ -109,7 +109,7 @@ it("post a reply", async () => {
   });
 
   const deepestReplyList = within(streamLog).getByTestID(
-    "commentReplyList-comment-with-deepest-replies-5"
+    "commentReplyList-comment-with-deepest-replies-3"
   );
 
   // Test optimistic response.
