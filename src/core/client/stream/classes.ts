@@ -10,6 +10,11 @@ const CLASSES = {
   guidelines: "coral coral-guidelines",
 
   /**
+   * guidlines represents the box containing the guidlines.
+   */
+  announcement: "coral coral-announcement",
+
+  /**
    * closedSitewide represents the box containing the message when comments
    * are closed sitewide.
    */

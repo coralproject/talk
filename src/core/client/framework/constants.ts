@@ -10,3 +10,6 @@ export const COUNT_SELECTOR = ".coral-count";
  * `document.currentScript` is not available (for legacy browsers).
  */
 export const ORIGIN_FALLBACK_ID = "coral-script";
+
+export const ANNOUNEMENT_DISMISSED_KEY =
+  "coral:coral:lastAnnouncementDismissed";
