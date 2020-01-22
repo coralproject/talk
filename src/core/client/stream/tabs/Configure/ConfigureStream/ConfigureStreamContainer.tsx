@@ -23,6 +23,8 @@ class ConfigureStreamContainer extends React.Component<Props> {
     data: UpdateStorySettingsInput["settings"],
     form: FormApi
   ) => {
+    window.console.log(data);
+
     await this.props.updateStorySettings({
       id: this.props.story.id,
       settings: data,
@@ -54,6 +56,7 @@ const enhanced = withFragmentContainer<Props>({
         ...PremodLinksConfig_formValues @relay(mask: false)
         ...MessageBoxConfig_formValues @relay(mask: false)
         ...LiveUpdatesConfig_formValues @relay(mask: false)
+        ...StreamMode_formValues @relay(mask: false)
 
         ...LiveUpdatesConfigContainer_storySettings
       }
