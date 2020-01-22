@@ -2,7 +2,6 @@ import polyfillNodeListForEach from "coral-framework/helpers/polyfillNodeListFor
 
 // Include minimal polyfills for IE11
 import "core-js/stable/object/assign";
-import "core-js/stable/string/starts-with";
 import "intersection-observer"; // also for Safari.
 
 polyfillNodeListForEach();

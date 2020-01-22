@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import startsWith from "coral-common/utils/startsWith";
+
 import {
   EMAIL_REGEX,
   PASSWORD_MIN_LENGTH,
@@ -236,7 +238,7 @@ export const validateStrictURLList = createValidator(v => {
       return false;
     }
 
-    if (!url.startsWith("http")) {
+    if (!startsWith(url, "http")) {
       return false;
     }
   }

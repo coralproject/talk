@@ -1,3 +1,5 @@
+import startsWith from "coral-common/utils/startsWith";
+
 /**
  * Purges relay metadata from response e.g. information about fragments.
  *
@@ -14,7 +16,7 @@ export default function purgeMetadata<T>(data: T): T {
       }
       const result: any = {};
       Object.keys(data)
-        .filter(k => !k.startsWith("__"))
+        .filter(k => !startsWith(k, "__"))
         .forEach(k => {
           result[k] = purgeMetadata((data as any)[k]);
         });
