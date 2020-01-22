@@ -11,11 +11,7 @@ import {
   InstallationForbiddenError,
   TenantInstalledAlreadyError,
 } from "coral-server/errors";
-import {
-  createSite,
-  CreateSiteInput,
-  getUrlOrigins,
-} from "coral-server/models/site";
+import { CreateSiteInput } from "coral-server/models/site";
 import { LocalProfile } from "coral-server/models/user";
 import {
   createJWTSigningConfig,
@@ -23,6 +19,7 @@ import {
   JWTSigningConfig,
 } from "coral-server/services/jwt";
 import { verifyInstallationTokenString } from "coral-server/services/management";
+import { create as createSite } from "coral-server/services/sites";
 import {
   install,
   InstallTenant,
@@ -106,19 +103,7 @@ const TenantInstallBodySchema = Joi.object().keys({
     .keys({
       organization: Joi.object().keys({
         name: Joi.string().trim(),
-        url: Joi.string()
-          .trim()
-          .uri(),
-        contactEmail: Joi.string()
-          .trim()
-          .lowercase()
-          .email(),
       }),
-      allowedDomains: Joi.array().items(
-        Joi.string()
-          .trim()
-          .uri({ scheme: ["http", "https"] })
-      ),
       locale: Joi.string()
         .default(null)
         .valid(LOCALES),
@@ -250,12 +235,7 @@ export const installHandler = ({
         req.coral.now
       );
 
-      siteInput.allowedDomains = getUrlOrigins(siteInput.allowedDomains);
-
-      await createSite(mongo, {
-        tenantID: tenant.id,
-        ...siteInput,
-      });
+      await createSite(mongo, tenant, siteInput);
 
       // Pull the user details out of the input for the user.
       const { email, username, password } = userInput;
