@@ -28,4 +28,11 @@ export const StorySettings: GQLStorySettingsTypeResolver<
 
     return GQLSTORY_MODE.COMMENTS;
   },
+  experts: s => {
+    if (s.experts) {
+      return s.experts;
+    }
+
+    return [];
+  },
 };

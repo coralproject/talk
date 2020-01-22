@@ -2611,11 +2611,11 @@ type StorySettings {
   mode: STORY_MODE
 
   """
-  expert is used during Q&A mode to assign a user to answer questions
-  on the Q&A stream. It is an optional parameter and is only used when
+  experts are used during Q&A mode to assign users to answer questions
+  on a Q&A stream. It is an optional parameter and is only used when
   the story stream is in Q&A mode.
   """
-  expert: User
+  experts: [User!]!
 }
 
 """
