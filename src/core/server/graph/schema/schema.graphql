@@ -372,6 +372,18 @@ type WordList {
   suspect: [String!]!
 }
 
+enum STORY_MODE {
+  """
+  Coments is when a story is used for general commenting.
+  """
+  COMMENTS
+
+  """
+  QA is used for when the story is in Q&A mode.
+  """
+  QA
+}
+
 ################################################################################
 ## Moderation
 ################################################################################
@@ -2590,6 +2602,20 @@ type StorySettings {
   messageBox stores settings related to the Story Message Box.
   """
   messageBox: StoryMessageBox!
+
+  """
+  mode is whether the story stream is in commenting or Q&A mode.
+  This will determine the appearance of the stream and how it functions.
+  This is an optional parameter and if unset, defaults to commenting.
+  """
+  mode: STORY_MODE
+
+  """
+  expert is used during Q&A mode to assign a user to answer questions
+  on the Q&A stream. It is an optional parameter and is only used when
+  the story stream is in Q&A mode.
+  """
+  expert: User
 }
 
 """
@@ -4242,6 +4268,8 @@ input UpdateStorySettings {
   messageBox stores settings related to the Story Message Box.
   """
   messageBox: StoryMessageBoxInput
+
+  mode: STORY_MODE
 }
 
 input UpdateStorySettingsInput {

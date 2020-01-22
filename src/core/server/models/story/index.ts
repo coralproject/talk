@@ -32,7 +32,7 @@ export * from "./counts";
 export * from "./helpers";
 
 export type StorySettings = DeepPartial<
-  Pick<GQLStorySettings, "messageBox"> & GlobalModerationSettings
+  Pick<GQLStorySettings, "messageBox" | "mode"> & GlobalModerationSettings
 >;
 
 export type StoryMetadata = GQLStoryMetadata;

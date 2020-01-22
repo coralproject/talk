@@ -18,6 +18,7 @@ import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
 import MessageBoxConfigContainer from "./MessageBoxConfig";
 import PremodConfigContainer from "./PremodConfig";
 import PremodLinksConfigContainer from "./PremodLinksConfig";
+import StreamMode from "./Q&A/StreamMode";
 
 import styles from "./ConfigureStream.css";
 
@@ -74,6 +75,8 @@ const ConfigureStream: FunctionComponent<Props> = ({
           <PremodConfigContainer disabled={submitting} />
           <PremodLinksConfigContainer disabled={submitting} />
           <MessageBoxConfigContainer disabled={submitting} />
+
+          <StreamMode disabled={submitting} />
         </HorizontalGutter>
       </form>
     )}
