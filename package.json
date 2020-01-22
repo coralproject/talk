@@ -26,7 +26,7 @@
     "build:server": "gulp server",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./CLIENT_EVENTS.md",
-    "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' {README,CLIENT_EVENTS,CONTRIBUTING,WEBHOOKS}.md",
+    "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' README.md CLIENT_EVENTS.md CONTRIBUTING.md WEBHOOKS.md",
     "generate": "npm-run-all generate:css-types generate:schema generate:relay",
     "generate-persist": "npm-run-all generate:css-types generate:schema generate:relay-persist",
     "generate:css-types": "tcm src/core/client/",
