@@ -18,6 +18,7 @@ import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
 import MessageBoxConfigContainer from "./MessageBoxConfig";
 import PremodConfigContainer from "./PremodConfig";
 import PremodLinksConfigContainer from "./PremodLinksConfig";
+import ExpertSelectionQuery from "./Q&A/ExpertSelectionQuery";
 import StreamMode from "./Q&A/StreamMode";
 
 import styles from "./ConfigureStream.css";
@@ -78,6 +79,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
           <MessageBoxConfigContainer disabled={submitting} />
 
           <StreamMode disabled={submitting} />
+          <ExpertSelectionQuery />
         </HorizontalGutter>
       </form>
     )}
