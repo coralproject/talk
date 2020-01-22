@@ -10,6 +10,7 @@ import { HorizontalGutter } from "coral-ui/components";
 
 import { GeneralConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
 
+import AnnouncementConfigContainer from "./AnnouncementConfigContainer";
 import ClosedStreamMessageConfig from "./ClosedStreamMessageConfig";
 import ClosingCommentStreamsConfig from "./ClosingCommentStreamsConfig";
 import CommentEditingConfig from "./CommentEditingConfig";
@@ -39,6 +40,7 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       data-testid="configure-generalContainer"
       className={styles.root}
     >
+      <AnnouncementConfigContainer disabled={submitting} settings={settings} />
       <LocaleConfig disabled={submitting} />
       <SitewideCommentingConfig disabled={submitting} />
       <GuidelinesConfig disabled={submitting} />
@@ -55,6 +57,7 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment GeneralConfigContainer_settings on Settings {
+      ...AnnouncementConfigContainer_settings
       ...LocaleConfig_formValues @relay(mask: false)
       ...GuidelinesConfig_formValues @relay(mask: false)
       ...CommentLengthConfig_formValues @relay(mask: false)

@@ -1,31 +1,31 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
+import { useMutation } from "coral-framework/lib/relay";
 import { Button, FieldSet } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
-import UpdateAnnouncementConfig from "./UpdateAnnouncementConfig";
+import AnnouncementForm from "./AnnouncementForm";
+import CreateAnnouncementMutaiton from "./CreateAnnouncementMutation";
+import DeleteAnnouncementMutaiton from "./DeleteAnnouncementMutation";
 
 interface Props {
-  settings: PropTypesOf<typeof UpdateAnnouncementConfig>["settings"];
+  settings: PropTypesOf<typeof AnnouncementForm>["settings"];
 }
 
-const AnnouncementConfig: FunctionComponent<Props> = ({ settings }) => {
+const AnnouncementConfig: FunctionComponent<Props> = ({
+  settings,
+  ...rest
+}) => {
   const [showForm, setShowForm] = useState<boolean>(false);
-  const onUpdate = useCallback(
-    values => {
-      // console.log(values);
-    },
-    [settings]
-  );
-  const onCreate = useCallback(
-    values => {
-      // console.log(values);
-    },
-    [settings]
-  );
+  const createAnnouncement = useMutation(CreateAnnouncementMutaiton);
+  const deleteAnnouncement = useMutation(DeleteAnnouncementMutaiton);
+  const onCreate = useCallback(values => {
+    createAnnouncement(values.announcement);
+  }, []);
+  const onDelete = useCallback(() => deleteAnnouncement(), []);
   return (
     <ConfigBox
       title={
@@ -39,13 +39,17 @@ const AnnouncementConfig: FunctionComponent<Props> = ({ settings }) => {
         <Button onClick={() => setShowForm(true)}>Add announcement</Button>
       )}
       {showForm && (
-        <UpdateAnnouncementConfig
+        <AnnouncementForm
           settings={{ announcement: null }}
           onSubmit={onCreate}
+          disabled={false}
         />
       )}
       {settings.announcement && (
-        <UpdateAnnouncementConfig settings={settings} onSubmit={onUpdate} />
+        <>
+          <AnnouncementForm settings={settings} disabled={false} />
+          <Button onClick={onDelete}>Delete announcement</Button>
+        </>
       )}
     </ConfigBox>
   );
