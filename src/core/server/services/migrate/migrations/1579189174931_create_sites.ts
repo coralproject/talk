@@ -1,28 +1,13 @@
 import { Db } from "mongodb";
 
-import { Omit } from "coral-common/types";
-import { createSite, getUrlOrigins } from "coral-server/models/site";
+import { createSite, getUrlOrigins, Site } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import Migration from "coral-server/services/migrate/migration";
 import collections from "coral-server/services/mongodb/collections";
 
-// Use the following collections reference to interact with specific
-// collections.
 import { MigrationError } from "../error";
 
-type OldTenant = Omit<Tenant, "multisite">;
-
-function isOldTenant(tenant: Tenant | OldTenant): tenant is OldTenant {
-  if ("multisite" in (tenant as Tenant)) {
-    return false;
-  }
-  return true;
-}
-
 export default class extends Migration {
-  // Remove the following line once the migration is ready, otherwise the
-  // migration will not be ran!
-
   public async up(mongo: Db, tenantID: string) {
     const tenant = await collections
       .tenants<Tenant>(mongo)
@@ -33,7 +18,11 @@ export default class extends Migration {
       ]);
     }
 
-    if (!isOldTenant(tenant)) {
+    const existingSite = await collections
+      .sites<Site>(mongo)
+      .findOne({ tenantID });
+
+    if (existingSite) {
       this.log(tenantID).info("tenant already has been migrated");
       return;
     }
@@ -53,7 +42,7 @@ export default class extends Migration {
       allowedDomains,
     });
 
-    this.logger.info("created site " + site.id);
+    this.logger.info("created site", { site });
 
     const storiesResult = await collections.stories(mongo).updateMany(
       {
@@ -91,17 +80,6 @@ export default class extends Migration {
         modifiedCount: commentsResult.modifiedCount,
       },
       "added siteID to comments"
-    );
-
-    await collections.tenants(mongo).updateOne(
-      {
-        id: tenantID,
-      },
-      {
-        $set: {
-          multisite: false,
-        },
-      }
     );
   }
 }

@@ -68,6 +68,9 @@ export type CreateTenantInput = Pick<
   "domain" | "allowedDomains" | "locale" | "organization"
 >;
 
+export interface TenantComputedProperties {
+  multisite: boolean;
+}
 /**
  * create will create a new Tenant.
  *
@@ -205,7 +208,6 @@ export async function createTenant(
     slack: {
       channels: [],
     },
-    multisite: false,
   };
 
   // Create the new Tenant by merging it together with the defaults.
