@@ -1399,7 +1399,7 @@ type Settings {
 
   announcement: Announcement
   """
-  multisite is whether multiple sites are enabled.
+  multisite is whether multiple sites exist for this tenant.
   """
   multisite: Boolean!
 }
@@ -3844,11 +3844,6 @@ input SettingsInput {
   newCommenters is the configuration for how new commenters comments are treated.
   """
   newCommenters: NewCommentersConfigurationInput
-
-  """
-  multisite is whether multiple sites are enabled.
-  """
-  multisite: Boolean
 }
 
 """
@@ -6089,27 +6084,77 @@ type Subscription {
 
 type Site {
   """
-  id is the identifier of the Story.
+  id is the identifier of the Site.
   """
   id: ID!
+
+  """
+  name is the name of the Site.
+  """
   name: String!
+
+  """
+  contactEmail is the contact email for the Site, seen in email communications.
+  """
   contactEmail: String!
+
+  """
+  url is the Site URL, seen in email communications.
+  """
   url: String!
+
+  """
+  allowedDomains are the allowed origins for embeds.
+  """
   allowedDomains: [String!]!
-  createdAt: Time! @auth(roles: [ADMIN])
+
+  """
+  createdAt is when the site was created.
+  """
+  createdAt: Time!
 }
 
 input CreateSite {
+  """
+  name is the name of the Site.
+  """
   name: String!
+
+  """
+  url is the Site URL, seen in email communications.
+  """
   url: String!
+
+  """
+  contactEmail is the contact email for the Site, seen in email communications.
+  """
   contactEmail: String!
+
+  """
+  allowedDomains are the allowed origins for embeds.
+  """
   allowedDomains: [String!]!
 }
 
 input UpdateSite {
+  """
+  name is the name of the Site.
+  """
   name: String
+
+  """
+  url is the Site URL, seen in email communications.
+  """
   url: String
+
+  """
+  contactEmail is the contact email for the Site, seen in email communications.
+  """
   contactEmail: String
+
+  """
+  allowedDomains are the allowed origins for embeds.
+  """
   allowedDomains: [String!]
 }
 
