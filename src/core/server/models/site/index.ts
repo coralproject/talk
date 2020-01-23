@@ -1,3 +1,4 @@
+import { isNumber } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -96,13 +97,14 @@ async function retrieveConnection(
   query: Query<Site>
 ): Promise<Readonly<Connection<Readonly<Site>>>> {
   // Apply the pagination arguments to the query.
-  query.orderBy({ createdAt: -1 });
-  if (input.after) {
-    query.where({ createdAt: { $lt: input.after as Date } });
+  query.orderBy({ name: 1 });
+  const skip = isNumber(input.after) ? input.after : 0;
+  if (skip) {
+    query.after(skip);
   }
 
   // Return a connection.
-  return resolveConnection(query, input, action => action.createdAt);
+  return resolveConnection(query, input, (_, index) => index + skip + 1);
 }
 
 export async function retrieveSiteConnection(
