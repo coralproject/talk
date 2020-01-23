@@ -50,7 +50,6 @@ const AddSiteRoute: FunctionComponent<Props> = props => {
           $site={props.data.settings.organization.name}
         >
           <Header>
-            {" "}
             Add a new site to {props.data.settings.organization.name}
           </Header>
         </Localized>

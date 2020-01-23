@@ -51,10 +51,10 @@ const SiteFilter: FunctionComponent<Props> = ({
           loading={loading}
           selected={
             <>
-              {selected && <SiteFilterSelected site={selected} />}
-
-              {!selected && (
-                <Localized id="stories-filter-sites-allSites">
+              {selected ? (
+                <SiteFilterSelected site={selected} />
+              ) : (
+                <Localized id="sites-filter-sites-allSites">
                   <span className={styles.buttonText}>All sites</span>
                 </Localized>
               )}
