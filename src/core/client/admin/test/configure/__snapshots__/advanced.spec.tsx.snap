@@ -351,66 +351,6 @@ When disabled, users will have to refresh the page to see new comments.
               className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
             >
               <div>
-                <label
-                  className="Header-root"
-                  htmlFor="configure-advanced-allowedDomains"
-                >
-                  Permitted domains
-                </label>
-              </div>
-              <div />
-            </div>
-            <div
-              className="ConfigBox-content"
-            >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
-              >
-                <div
-                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
-                >
-                  <p
-                    className="FormFieldDescription-root"
-                  >
-                    Domains where your Coral instance is allowed to be embedded
-including the scheme (ex. http://localhost:3000, https://staging.domain.com,
-https://domain.com).
-                  </p>
-                  <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
-                  >
-                    <div
-                      className="TextField-root TextField-fullWidth"
-                    >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={false}
-                        id="configure-advanced-allowedDomains"
-                        name="allowedDomains"
-                        onBlur={[Function]}
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value="http://localhost:8080"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="Box-root ConfigBox-root"
-          >
-            <div
-              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
-            >
-              <div>
                 <h2
                   className="Header-root"
                 >

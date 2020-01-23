@@ -35,8 +35,7 @@ beforeEach(() => {
       createCommentReply: sinon.stub().callsFake((_: any, data: any) => {
         expectAndFail(data.input).toMatchObject({
           storyID: storyWithDeepestReplies.id,
-          siteID: storyWithDeepestReplies.site.id,
-          parentID: "comment-with-deepest-replies-5",
+          parentID: "comment-with-deepest-replies-3",
           parentRevisionID: "revision-0",
           body: "<b>Hello world!</b>",
         });
