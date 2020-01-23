@@ -19,14 +19,12 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
   return pureMerge(
     {
       showAuthPopup: noop as any,
-      siteID: "site-id",
       createComment: noop as any,
       refreshSettings: noop as any,
       tab: "",
       onChangeTab: noop as any,
       story: {
         id: "story-id",
-        siteID: "site-id",
         isClosed: false,
         settings: {
           messageBox: {
