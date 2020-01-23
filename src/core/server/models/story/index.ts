@@ -447,23 +447,13 @@ export async function removeStories(
 
 export type StoryConnectionInput = ConnectionInput<Story>;
 
-interface StoryConnectionWhere {
-  tenantID: string;
-  siteID?: string;
-}
-
 export async function retrieveStoryConnection(
   mongo: Db,
   tenantID: string,
-  input: StoryConnectionInput,
-  siteID?: string
+  input: StoryConnectionInput
 ): Promise<Readonly<Connection<Readonly<Story>>>> {
   // Create the query.
-  const where: StoryConnectionWhere = { tenantID };
-  if (siteID) {
-    where.siteID = siteID;
-  }
-  const query = new Query(collection(mongo)).where(where);
+  const query = new Query(collection(mongo)).where({ tenantID });
 
   // If a filter is being applied, filter it as well.
   if (input.filter) {
