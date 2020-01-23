@@ -67,7 +67,6 @@ export const settings = createFixture<GQLSettings>({
     smtp: {},
   },
   customCSSURL: "",
-  allowedDomains: ["http://localhost:8080"],
   editCommentWindowLength: 30000,
   communityGuidelines: {
     enabled: false,

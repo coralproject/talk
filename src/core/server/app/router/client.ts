@@ -1,10 +1,11 @@
 import express, { Router } from "express";
 import { minify } from "html-minifier";
+import { Db } from "mongodb";
 import path from "path";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { cacheHeadersMiddleware } from "coral-server/app/middleware/cacheHeaders";
-import { cspTenantMiddleware } from "coral-server/app/middleware/csp/tenant";
+import { cspSiteMiddleware } from "coral-server/app/middleware/csp/tenant";
 import { installedMiddleware } from "coral-server/app/middleware/installed";
 import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 import logger from "coral-server/logger";
@@ -15,6 +16,11 @@ import Entrypoints, { Entrypoint } from "../helpers/entrypoints";
 
 export interface ClientTargetHandlerOptions {
   defaultLocale: LanguageCode;
+
+  /**
+   * mongo is used when trying to infer a site from the request.
+   */
+  mongo: Db;
 
   /**
    * entrypoint is the entrypoint entry to load.
@@ -43,6 +49,9 @@ function createClientTargetRouter(options: ClientTargetHandlerOptions) {
   // Create a router.
   const router = express.Router();
 
+  // Add CSP headers to the request, which only apply when serving HTML content.
+  router.use(cspSiteMiddleware(options));
+
   // Always send the cache headers.
   router.use(cacheHeadersMiddleware(options.cacheDuration));
 
@@ -56,6 +65,7 @@ interface MountClientRouteOptions {
   defaultLocale: LanguageCode;
   tenantCache: TenantCache;
   staticURI: string;
+  mongo: Db;
 }
 
 const clientHandler = ({
@@ -96,7 +106,7 @@ const clientHandler = ({
 
 export function mountClientRoutes(
   router: Router,
-  { staticURI, tenantCache, defaultLocale }: MountClientRouteOptions
+  { staticURI, tenantCache, defaultLocale, mongo }: MountClientRouteOptions
 ) {
   // TODO: (wyattjoh) figure out a better way of referencing paths.
   // Load the entrypoint manifest.
@@ -127,9 +137,6 @@ export function mountClientRoutes(
     })
   );
 
-  // Add CSP headers to the request, which only apply when serving HTML content.
-  router.use(cspTenantMiddleware);
-
   // Add the embed targets.
   router.use(
     "/embed/stream",
@@ -138,6 +145,7 @@ export function mountClientRoutes(
       enableCustomCSS: true,
       entrypoint: entrypoints.get("stream"),
       defaultLocale,
+      mongo,
     })
   );
   router.use(
@@ -147,6 +155,7 @@ export function mountClientRoutes(
       cacheDuration: false,
       entrypoint: entrypoints.get("authCallback"),
       defaultLocale,
+      mongo,
     })
   );
   router.use(
@@ -156,6 +165,7 @@ export function mountClientRoutes(
       cacheDuration: false,
       entrypoint: entrypoints.get("auth"),
       defaultLocale,
+      mongo,
     })
   );
 
@@ -169,6 +179,7 @@ export function mountClientRoutes(
       cacheDuration: false,
       entrypoint: entrypoints.get("account"),
       defaultLocale,
+      mongo,
     })
   );
   // Add the standalone targets.
@@ -181,6 +192,7 @@ export function mountClientRoutes(
       cacheDuration: false,
       entrypoint: entrypoints.get("admin"),
       defaultLocale,
+      mongo,
     })
   );
   router.use(
@@ -195,6 +207,7 @@ export function mountClientRoutes(
       cacheDuration: false,
       entrypoint: entrypoints.get("install"),
       defaultLocale,
+      mongo,
     })
   );
 

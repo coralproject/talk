@@ -62,8 +62,8 @@ export async function findOrCreate(
   let siteID = null;
   if (input.url) {
     const site = await findSiteByURL(mongo, tenant.id, input.url);
-    // // If the URL is provided, and the url is not associated with a site, then refuse
-    // // to create the Asset.
+    // If the URL is provided, and the url is not associated with a site, then refuse
+    // to create the Asset.
     if (!site) {
       throw new StoryURLInvalidError({
         storyURL: input.url,

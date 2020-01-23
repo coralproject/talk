@@ -27,7 +27,7 @@ import { EditSiteForm_site as SiteData } from "coral-admin/__generated__/EditSit
 
 import HelperText from "../../HelperText";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
-import EmbedCode from "../Advanced/EmbedCode";
+import EmbedCode from "./EmbedCode";
 import UpdateSiteMutation from "./UpdateSiteMutation";
 
 interface Props {
