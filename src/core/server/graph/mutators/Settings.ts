@@ -10,7 +10,7 @@ import {
   enableFeatureFlag,
   enableWebhookEndpoint,
   regenerateSSOKey,
-  rollWebhookEndpointSecret,
+  rotateWebhookEndpointSecret,
   update,
   updateWebhookEndpoint,
 } from "coral-server/services/tenant";
@@ -22,7 +22,7 @@ import {
   GQLDisableWebhookEndpointInput,
   GQLEnableWebhookEndpointInput,
   GQLFEATURE_FLAG,
-  GQLRollWebhookEndpointSecretInput,
+  GQLRotateWebhookEndpointSecretInput,
   GQLUpdateSettingsInput,
   GQLUpdateWebhookEndpointInput,
 } from "coral-server/graph/schema/__generated__/types";
@@ -77,10 +77,10 @@ export const Settings = ({
   deleteWebhookEndpoint: (
     input: WithoutMutationID<GQLDeleteWebhookEndpointInput>
   ) => deleteWebhookEndpoint(mongo, redis, tenantCache, tenant, input.id),
-  rollWebhookEndpointSecret: (
-    input: WithoutMutationID<GQLRollWebhookEndpointSecretInput>
+  rotateWebhookEndpointSecret: (
+    input: WithoutMutationID<GQLRotateWebhookEndpointSecretInput>
   ) =>
-    rollWebhookEndpointSecret(
+    rotateWebhookEndpointSecret(
       mongo,
       redis,
       tenantCache,

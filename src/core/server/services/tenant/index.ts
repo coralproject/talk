@@ -425,7 +425,7 @@ export async function deleteWebhookEndpoint(
   return endpoint;
 }
 
-export async function rollWebhookEndpointSecret(
+export async function rotateWebhookEndpointSecret(
   mongo: Db,
   redis: Redis,
   cache: TenantCache,

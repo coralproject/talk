@@ -23,7 +23,7 @@ import { EndpointDangerZone_webhookEndpoint } from "coral-admin/__generated__/En
 import DeleteWebhookEndpointMutation from "./DeleteWebhookEndpointMutation";
 import DisableWebhookEndpointMutation from "./DisableWebhookEndpointMutation";
 import EnableWebhookEndpointMutation from "./EnableWebhookEndpointMutation";
-import RollSigningSecretModal from "./RollSigningSecretModal";
+import RotateSigningSecretModal from "./RotateSigningSecretModal";
 
 interface Props {
   webhookEndpoint: EndpointDangerZone_webhookEndpoint;
@@ -40,13 +40,13 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
   const disableWebhookEndpoint = useMutation(DisableWebhookEndpointMutation);
   const deleteWebhookEndpoint = useMutation(DeleteWebhookEndpointMutation);
 
-  const [rollSecretOpen, setRollSecretOpen] = useState<boolean>(false);
-  const onRollSecret = useCallback(async () => {
-    setRollSecretOpen(true);
+  const [rotateSecretOpen, setRotateSecretOpen] = useState<boolean>(false);
+  const onRotateSecret = useCallback(async () => {
+    setRotateSecretOpen(true);
   }, []);
-  const onHideRollSecret = useCallback(async () => {
-    setRollSecretOpen(false);
-  }, [setRollSecretOpen]);
+  const onHideRotateSecret = useCallback(async () => {
+    setRotateSecretOpen(false);
+  }, [setRotateSecretOpen]);
 
   const onEnable = useCallback(async () => {
     const message = getMessage(
@@ -92,25 +92,25 @@ const EndpointDangerZone: FunctionComponent<Props> = ({
         <Subheader>Danger Zone</Subheader>
       </Localized>
       <FormField>
-        <Localized id="configure-webhooks-rollSigningSecret">
-          <Label>Roll signing secret</Label>
+        <Localized id="configure-webhooks-rotateSigningSecret">
+          <Label>Rotate signing secret</Label>
         </Localized>
-        <Localized id="configure-webhooks-rollSigningSecretDescription">
+        <Localized id="configure-webhooks-rotateSigningSecretDescription">
           <FormFieldDescription>
-            Rolling the signing secret will allow to you to safely replace a
+            Rotating the signing secret will allow to you to safely replace a
             signing secret used in production with a delay.
           </FormFieldDescription>
         </Localized>
-        <Localized id="configure-webhooks-rollSigningSecretButton">
-          <Button color="alert" onClick={onRollSecret}>
-            Roll signing secret
+        <Localized id="configure-webhooks-rotateSigningSecretButton">
+          <Button color="alert" onClick={onRotateSecret}>
+            Rotate signing secret
           </Button>
         </Localized>
       </FormField>
-      <RollSigningSecretModal
+      <RotateSigningSecretModal
         endpointID={webhookEndpoint.id}
-        onHide={onHideRollSecret}
-        open={rollSecretOpen}
+        onHide={onHideRotateSecret}
+        open={rotateSecretOpen}
       />
       {webhookEndpoint.enabled ? (
         <FormField>

@@ -130,12 +130,12 @@ configure-webhooks-confirmDisable =
 configure-webhooks-confirmDelete =
   Deleting this webhook endpoint will stop any new events from being sent to this URL, and remove all the associated settings with this webhook endpoint. Are you sure you want to continue?
 configure-webhooks-dangerZone = Danger Zone
-configure-webhooks-rollSigningSecret = Roll signing secret
-configure-webhooks-rollSigningSecretDescription =
-  Rolling the signing secret will allow to you to safely replace a signing
+configure-webhooks-rotateSigningSecret = Rotate signing secret
+configure-webhooks-rotateSigningSecretDescription =
+  Rotating the signing secret will allow to you to safely replace a signing
   secret used in production with a delay.
-configure-webhooks-rollSigningSecretButton = Roll signing secret
-configure-webhooks-rollSigningSecretHelper =
+configure-webhooks-rotateSigningSecretButton = Rotate signing secret
+configure-webhooks-rotateSigningSecretHelper =
   After it expires, signatures will no longer be generated with the old secret.
 configure-webhooks-disableEndpoint = Disable endpoint
 configure-webhooks-disableEndpointDescription =

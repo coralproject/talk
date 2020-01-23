@@ -33,7 +33,7 @@ keep the previous secret active for a duration of time.
 ### How to verify the signature(s)
 
 ```js
-// Set your secret secret here from the administratio n panel.
+// Set your signing secret here from the administration panel.
 const SIGNING_SECRET = "< YOUR SIGNING SECRET HERE >";
 
 // We're using crypto to verify the signatures.

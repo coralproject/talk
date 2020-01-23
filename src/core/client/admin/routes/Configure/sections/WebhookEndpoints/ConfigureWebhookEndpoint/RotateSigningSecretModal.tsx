@@ -5,7 +5,6 @@ import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation } from "coral-framework/lib/relay";
-import { Typography } from "coral-ui/components";
 import {
   Button,
   CallOut,
@@ -21,9 +20,9 @@ import {
   SelectField,
 } from "coral-ui/components/v2";
 
-import RollWebhookEndpointSecretMutation from "./RollWebhookEndpointSecretMutation";
+import RotateWebhookEndpointSecretMutation from "./RotateWebhookEndpointSecretMutation";
 
-import styles from "./RollSigningSecretModal.css";
+import styles from "./RotateSigningSecretModal.css";
 
 interface Props {
   endpointID: string;
@@ -31,19 +30,19 @@ interface Props {
   open: boolean;
 }
 
-const RollWebhookEndpointSecretModal: FunctionComponent<Props> = ({
+const RotateWebhookEndpointSecretModal: FunctionComponent<Props> = ({
   onHide,
   open,
   endpointID,
 }) => {
-  const rollWebhookEndpointSecret = useMutation(
-    RollWebhookEndpointSecretMutation
+  const rotateWebhookEndpointSecret = useMutation(
+    RotateWebhookEndpointSecretMutation
   );
-  const onRollSecret = useCallback(
+  const onRotateSecret = useCallback(
     async ({ inactiveIn: inactiveInString }) => {
       try {
         const inactiveIn = parseInt(inactiveInString, 10);
-        await rollWebhookEndpointSecret({ id: endpointID, inactiveIn });
+        await rotateWebhookEndpointSecret({ id: endpointID, inactiveIn });
       } catch (err) {
         if (err instanceof InvalidRequestError) {
           return err.invalidArgs;
@@ -56,7 +55,7 @@ const RollWebhookEndpointSecretModal: FunctionComponent<Props> = ({
 
       return;
     },
-    [endpointID, rollWebhookEndpointSecret]
+    [endpointID, rotateWebhookEndpointSecret]
   );
 
   return (
@@ -66,21 +65,19 @@ const RollWebhookEndpointSecretModal: FunctionComponent<Props> = ({
           <Flex justifyContent="flex-end">
             <CardCloseButton onClick={onHide} ref={firstFocusableRef} />
           </Flex>
-          <Form onSubmit={onRollSecret} initialValues={{ inactiveIn: 0 }}>
+          <Form onSubmit={onRotateSecret} initialValues={{ inactiveIn: 0 }}>
             {({ handleSubmit, submitting, submitError }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter size="double">
-                  <Localized id="configure-webhooks-rollSigningSecret">
-                    <Typography variant="header2">
-                      Roll signing secret
-                    </Typography>
+                  <Localized id="configure-webhooks-rotateSigningSecret">
+                    <h2 className={styles.title}>Rotate signing secret</h2>
                   </Localized>
                   {submitError && (
                     <CallOut color="error" fullWidth>
                       {submitError}
                     </CallOut>
                   )}
-                  <Localized id="configure-webhooks-rollSigningSecretHelper">
+                  <Localized id="configure-webhooks-rotateSigningSecretHelper">
                     <HelperText>
                       After it expires, signatures will no longer be generated
                       with the old secret.
@@ -130,14 +127,14 @@ const RollWebhookEndpointSecretModal: FunctionComponent<Props> = ({
                         Cancel
                       </Button>
                     </Localized>
-                    <Localized id="configure-webhooks-rollSigningSecretButton">
+                    <Localized id="configure-webhooks-rotateSigningSecretButton">
                       <Button
                         type="submit"
                         color="alert"
                         disabled={submitting}
                         ref={lastFocusableRef}
                       >
-                        Roll signing secret
+                        Rotate signing secret
                       </Button>
                     </Localized>
                   </Flex>
@@ -151,4 +148,4 @@ const RollWebhookEndpointSecretModal: FunctionComponent<Props> = ({
   );
 };
 
-export default RollWebhookEndpointSecretModal;
+export default RotateWebhookEndpointSecretModal;

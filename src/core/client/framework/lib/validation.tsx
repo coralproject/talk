@@ -157,10 +157,10 @@ export const validateEqualPasswords = createValidator(
 );
 
 /**
- * validateEventSelection is a Validator that checks for a valid combination of
- * event selections for webhook endpoints.
+ * validateWebhookEventSelection is a Validator that checks for a valid
+ * combination of event selections for webhook endpoints.
  */
-export const validateEventSelection = createValidator(
+export const validateWebhookEventSelection = createValidator(
   (v, values) => values.all || (values.events && values.events.length > 0),
   INVALID_WEBHOOK_ENDPOINT_EVENT_SELECTION()
 );

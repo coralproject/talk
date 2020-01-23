@@ -4945,10 +4945,10 @@ type UpdateWebhookEndpointPayload {
 }
 
 ##################
-# rollWebhookEndpointSecret
+# rotateWebhookEndpointSecret
 ##################
 
-input RollWebhookEndpointSecretInput {
+input RotateWebhookEndpointSecretInput {
   """
   clientMutationId is required for Relay support.
   """
@@ -4966,7 +4966,7 @@ input RollWebhookEndpointSecretInput {
   inactiveIn: Int!
 }
 
-type RollWebhookEndpointSecretPayload {
+type RotateWebhookEndpointSecretPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -6231,11 +6231,11 @@ type Mutation {
   ): DeleteWebhookEndpointPayload! @auth(roles: [ADMIN])
 
   """
-  rollWebhookEndpointSecret will roll the current active secret to a new key.
+  rotateWebhookEndpointSecret will roll the current active secret to a new key.
   """
-  rollWebhookEndpointSecret(
-    input: RollWebhookEndpointSecretInput!
-  ): RollWebhookEndpointSecretPayload! @auth(roles: [ADMIN])
+  rotateWebhookEndpointSecret(
+    input: RotateWebhookEndpointSecretInput!
+  ): RotateWebhookEndpointSecretPayload! @auth(roles: [ADMIN])
 }
 
 ##################

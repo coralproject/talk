@@ -296,12 +296,12 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     endpoint: await ctx.mutators.Settings.deleteWebhookEndpoint(input),
     clientMutationId,
   }),
-  rollWebhookEndpointSecret: async (
+  rotateWebhookEndpointSecret: async (
     source,
     { input: { clientMutationId, ...input } },
     ctx
   ) => ({
-    endpoint: await ctx.mutators.Settings.rollWebhookEndpointSecret(input),
+    endpoint: await ctx.mutators.Settings.rotateWebhookEndpointSecret(input),
     clientMutationId,
   }),
 };

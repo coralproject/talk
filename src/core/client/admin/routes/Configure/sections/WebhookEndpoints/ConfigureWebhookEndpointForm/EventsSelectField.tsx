@@ -5,7 +5,7 @@ import { useField } from "react-final-form";
 import { ValidationMessage } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { validateEventSelection } from "coral-framework/lib/validation";
+import { validateWebhookEventSelection } from "coral-framework/lib/validation";
 import { Typography } from "coral-ui/components";
 import {
   Button,
@@ -33,7 +33,7 @@ interface Props {
 const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
   const { input: all } = useField<boolean>("all");
   const { input: events, meta } = useField<WEBHOOK_EVENT_NAME[]>("events", {
-    validate: validateEventSelection,
+    validate: validateWebhookEventSelection,
   });
 
   const onClear = useCallback(() => {
