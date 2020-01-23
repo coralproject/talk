@@ -13,7 +13,6 @@ import { AdvancedConfigContainer_settings } from "coral-admin/__generated__/Adva
 import CommentStreamLiveUpdatesContainer from "./CommentStreamLiveUpdatesContainer";
 import CustomCSSConfig from "./CustomCSSConfig";
 import EmbedCodeContainer from "./EmbedCodeContainer";
-import PermittedDomainsConfig from "./PermittedDomainsConfig";
 import StoryCreationConfig from "./StoryCreationConfig";
 
 interface Props {
@@ -29,13 +28,12 @@ const AdvancedConfigContainer: React.FunctionComponent<Props> = ({
   useMemo(() => form.initialize(purgeMetadata(settings)), []);
   return (
     <HorizontalGutter size="double" data-testid="configure-advancedContainer">
-      {!settings.multisite && <EmbedCodeContainer settings={settings} />}
+      <EmbedCodeContainer settings={settings} />
       <CustomCSSConfig disabled={submitting} />
       <CommentStreamLiveUpdatesContainer
         disabled={submitting}
         settings={settings}
       />
-      {!settings.multisite && <PermittedDomainsConfig disabled={submitting} />}
       <StoryCreationConfig disabled={submitting} />
     </HorizontalGutter>
   );
@@ -45,13 +43,10 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment AdvancedConfigContainer_settings on Settings {
       ...CustomCSSConfig_formValues @relay(mask: false)
-      ...PermittedDomainsConfig_formValues @relay(mask: false)
       ...CommentStreamLiveUpdates_formValues @relay(mask: false)
       ...StoryCreationConfig_formValues @relay(mask: false)
-
       ...EmbedCodeContainer_settings
       ...CommentStreamLiveUpdatesContainer_settings
-      multisite
     }
   `,
 })(AdvancedConfigContainer);
