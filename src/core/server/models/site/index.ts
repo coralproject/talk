@@ -1,4 +1,4 @@
-import { isNumber } from "lodash";
+import { identity, isNumber } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -27,14 +27,7 @@ export type CreateSiteInput = Omit<Site, "createdAt" | "id">;
 export type SiteConnectionInput = ConnectionInput<Site>;
 
 export function getUrlOrigins(urls: string[]): string[] {
-  const origins = [];
-  for (const url of urls) {
-    const origin = getOrigin(url);
-    if (origin) {
-      origins.push(origin);
-    }
-  }
-  return origins;
+  return urls.map(url => getOrigin(url)).filter(identity) as string[];
 }
 
 /**
