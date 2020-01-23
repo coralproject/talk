@@ -42,6 +42,15 @@ const statusFilter = (
   }
 };
 
+const siteFilter = (siteID?: string): StoryConnectionInput["filter"] => {
+  if (siteID) {
+    return {
+      siteID,
+    };
+  }
+  return {};
+};
+
 const queryFilter = (query?: string): StoryConnectionInput["filter"] => {
   if (query) {
     return { $text: { $search: query } };
@@ -103,22 +112,18 @@ export default (ctx: GraphContext) => ({
     }
   ),
   connection: ({ first, after, status, query, siteID }: QueryToStoriesArgs) =>
-    retrieveStoryConnection(
-      ctx.mongo,
-      ctx.tenant.id,
-      {
-        first: defaultTo(first, 10),
-        after,
-        filter: {
-          // Merge the status filter into the connection filter.
-          ...statusFilter(status),
-
-          // Merge the query filters into the query.
-          ...queryFilter(query),
-        },
+    retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
+      first: defaultTo(first, 10),
+      after,
+      filter: {
+        // Merge the site filter into the connection filter.
+        ...siteFilter(siteID),
+        // Merge the status filter into the connection filter.
+        ...statusFilter(status),
+        // Merge the query filters into the query.
+        ...queryFilter(query),
       },
-      siteID
-    ).then(primeStoriesFromConnection(ctx)),
+    }).then(primeStoriesFromConnection(ctx)),
   debugScrapeMetadata: new DataLoader(
     createManyBatchLoadFn((url: string) =>
       // This typecast is needed because the custom `ms` format does not return
