@@ -43,19 +43,10 @@ import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
 
 import { AugmentedRedis } from "../redis";
-import { isURLPermitted } from "../tenant/url";
 
 export type FindStory = FindStoryInput;
 
 export async function find(mongo: Db, tenant: Tenant, input: FindStory) {
-  // If the URL is provided, and the url is not on a allowed domain, then refuse
-  // to create the Asset.
-  if (input.url && !isURLPermitted(tenant, input.url)) {
-    throw new StoryURLInvalidError({
-      storyURL: input.url,
-    });
-  }
-
   return findStory(mongo, tenant.id, input);
 }
 
@@ -177,13 +168,6 @@ export async function create(
   { metadata, closedAt }: CreateStory,
   now = new Date()
 ) {
-  // Ensure that the given URL is allowed.
-  if (!isURLPermitted(tenant, storyURL)) {
-    throw new StoryURLInvalidError({
-      storyURL,
-    });
-  }
-
   const site = await findSiteByURL(mongo, tenant.id, storyURL);
   // // If the URL is provided, and the url is not associated with a site, then refuse
   // // to create the Asset.
@@ -226,11 +210,15 @@ export async function update(
   input: UpdateStory,
   now = new Date()
 ) {
-  // Ensure that the given URL is allowed.
-  if (input.url && !isURLPermitted(tenant, input.url)) {
-    throw new StoryURLInvalidError({
-      storyURL: input.url,
-    });
+  if (input.url) {
+    const site = await findSiteByURL(mongo, tenant.id, input.url);
+    // // If the URL is provided, and the url is not associated with a site, then refuse
+    // // to update the Asset.
+    if (!site) {
+      throw new StoryURLInvalidError({
+        storyURL: input.url,
+      });
+    }
   }
 
   return updateStory(mongo, tenant.id, storyID, input, now);
