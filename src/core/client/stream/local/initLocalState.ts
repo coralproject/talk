@@ -27,9 +27,6 @@ export default async function initLocalState(
 
     // Parse query params
     const query = parseQuery(location.search);
-    if (query.siteID) {
-      localRecord.setValue(query.siteID, "siteID");
-    }
 
     if (query.storyID) {
       localRecord.setValue(query.storyID, "storyID");
