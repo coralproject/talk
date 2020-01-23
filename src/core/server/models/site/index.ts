@@ -74,14 +74,14 @@ export async function retrieveManySites(
   return ids.map(id => sites.find(site => site.id === id) || null);
 }
 
-export async function retrieveSiteByDomain(
+export async function retrieveSiteByOrigin(
   mongo: Db,
   tenantID: string,
-  testURL: string
+  origin: string
 ) {
   return collection(mongo).findOne({
     tenantID,
-    allowedDomains: testURL,
+    allowedDomains: origin,
   });
 }
 

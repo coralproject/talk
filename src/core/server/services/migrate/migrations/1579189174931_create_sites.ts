@@ -7,10 +7,14 @@ import collections from "coral-server/services/mongodb/collections";
 
 import { MigrationError } from "../error";
 
+interface OldTenant extends Tenant {
+  allowedDomains: string[];
+}
+
 export default class extends Migration {
   public async up(mongo: Db, tenantID: string) {
     const tenant = await collections
-      .tenants<Tenant>(mongo)
+      .tenants<OldTenant>(mongo)
       .findOne({ id: tenantID });
     if (!tenant) {
       throw new MigrationError(tenantID, "could not find tenant", "tenants", [

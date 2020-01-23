@@ -37,6 +37,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
       // not provided to the default current domain relative "/".
       staticURI: app.config.get("static_uri") || "/",
       tenantCache: app.tenantCache,
+      mongo: app.mongo,
     });
   } else {
     logger.warn("client routes are disabled");

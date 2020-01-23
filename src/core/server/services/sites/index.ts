@@ -6,7 +6,7 @@ import {
   createSite,
   CreateSiteInput,
   getUrlOrigins,
-  retrieveSiteByDomain,
+  retrieveSiteByOrigin,
   updateSite,
   UpdateSiteInput,
 } from "coral-server/models/site";
@@ -15,11 +15,12 @@ import { Tenant } from "coral-server/models/tenant";
 type CreateSite = Omit<CreateSiteInput, "tenantID">;
 
 export async function findSiteByURL(mongo: Db, tenantID: string, url: string) {
-  const testURL = getOrigin(url);
-  if (!testURL) {
+  const origin = getOrigin(url);
+  if (!origin) {
     return null;
   }
-  return retrieveSiteByDomain(mongo, tenantID, testURL);
+
+  return retrieveSiteByOrigin(mongo, tenantID, origin);
 }
 
 export async function create(

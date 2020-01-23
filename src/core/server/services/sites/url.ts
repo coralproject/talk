@@ -4,16 +4,16 @@ import {
   isURLSecure,
   prefixSchemeIfRequired,
 } from "coral-server/app/url";
-import { Tenant } from "coral-server/models/tenant";
+import { Site } from "coral-server/models/site";
 
 export function isURLPermitted(
-  tenant: Pick<Tenant, "allowedDomains">,
+  site: Pick<Site, "allowedDomains">,
   targetURL: string,
   includeTenantDomain?: false
 ): boolean;
 
 export function isURLPermitted(
-  tenant: Pick<Tenant, "allowedDomains" | "domain">,
+  site: Pick<Site, "allowedDomains" | "url">,
   targetURL: string,
   includeTenantDomain: true
 ): boolean;
@@ -23,13 +23,13 @@ export function isURLPermitted(
  * the Tenant's domain configuration.
  */
 export function isURLPermitted(
-  tenant: Pick<Tenant, "allowedDomains" | "domain">,
+  site: Pick<Site, "allowedDomains" | "url">,
   targetURL: string,
   includeTenantDomain = false
 ) {
   // If there aren't any domains, then we reject it, because no url we have can
   // satisfy those requirements.
-  if (tenant.allowedDomains.length === 0 && !includeTenantDomain) {
+  if (site.allowedDomains.length === 0 && !includeTenantDomain) {
     return false;
   }
 
@@ -48,8 +48,8 @@ export function isURLPermitted(
 
   // Create the list of domains to check against.
   const domains = includeTenantDomain
-    ? [tenant.domain, ...tenant.allowedDomains]
-    : tenant.allowedDomains;
+    ? [site.url, ...site.allowedDomains]
+    : site.allowedDomains;
 
   // Loop over all the Tenant domains provided. Prefix the domain of each if it
   // is required with the target url scheme. Return if at least one match is
