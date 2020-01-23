@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useMemo,
-  useReducer,
-} from "react";
+import React, { createContext, ReactNode, useMemo, useReducer } from "react";
 
 interface State {
   message: ReactNode | null;
@@ -48,29 +42,4 @@ function NotificationProvider(props: any) {
   return <NotificationContext.Provider value={value} {...props} />;
 }
 
-function useNotification() {
-  const context = useContext(NotificationContext);
-  if (!context) {
-    throw new Error(`useCount must be used within a CountProvider`);
-  }
-  const [state, dispatch] = context;
-
-  const setMessage = (message: ReactNode, timeout?: number) => {
-    dispatch({ type: "SET_MESSAGE", message });
-    if (timeout) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_MESSAGE" });
-      }, timeout);
-    }
-  };
-
-  const clearMessage = () => dispatch({ type: "CLEAR_MESSAGE" });
-  return {
-    state,
-    dispatch,
-    setMessage,
-    clearMessage,
-  };
-}
-
-export { NotificationProvider, useNotification };
+export { NotificationProvider, NotificationContext };

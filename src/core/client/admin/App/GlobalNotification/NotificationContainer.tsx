@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { useNotification } from "./GlobalNotificationContext";
+import useNotification from "./useNotification";
 
 const NotificationContainer: FunctionComponent<{}> = () => {
   const { state } = useNotification();
