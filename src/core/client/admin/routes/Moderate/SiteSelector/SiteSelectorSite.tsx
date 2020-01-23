@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
@@ -22,8 +23,11 @@ const SiteSelectorSite: FunctionComponent<Props> = ({ site, link, active }) => {
       })}
       to={link || ""}
     >
-      {site && site.name}
-      {!site && "All sites"}
+      {site ? (
+        site.name
+      ) : (
+        <Localized id="sites-selector-allSites">All sites</Localized>
+      )}
     </Link>
   );
 };

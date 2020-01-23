@@ -197,6 +197,9 @@ configure-sites-site-form-cancel = Cancel
 configure-sites-site-form-save = Save changes
 configure-sites-site-edit = Edit { $site } details
 configure-sites-site-form-embed-code = Embed code
+sites-emptyMessage = We could not find any sites matching your criteria.
+sites-selector-allSites = All sites
+sites-filter-sites-allSites = All sites
 
 site-selector-all-sites = All sites
 stories-filter-sites-allSites = All sites
