@@ -13,7 +13,7 @@ let clientMutationId = 0;
 
 const DeleteWebhookEndpointMutation = createMutation(
   "deleteWebhookEndpoint",
-  (environment: Environment, input: MutationInput<MutationTypes>) =>
+  (environment: Environment, { id }: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation DeleteWebhookEndpointMutation(
@@ -28,7 +28,7 @@ const DeleteWebhookEndpointMutation = createMutation(
       `,
       variables: {
         input: {
-          ...input,
+          id,
           clientMutationId: (clientMutationId++).toString(),
         },
       },

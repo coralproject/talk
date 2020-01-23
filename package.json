@@ -390,7 +390,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "FAST_LINT=true lint-staged"
     }
   },
   "lint-staged": {
