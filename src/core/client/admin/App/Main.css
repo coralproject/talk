@@ -3,6 +3,9 @@
     padding: 0;
     margin: 0;
   }
+  input::-ms-clear, input::-ms-reveal {
+    display: none;
+  }
 }
 
 .root {
