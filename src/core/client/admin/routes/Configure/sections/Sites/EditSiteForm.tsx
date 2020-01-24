@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
@@ -33,20 +33,23 @@ import UpdateSiteMutation from "./UpdateSiteMutation";
 interface Props {
   site: SiteData;
   settings: SettingsData;
+  onEditSuccess: (name: string) => void;
 }
 
-const EditSiteForm: FunctionComponent<Props> = ({ site, settings }) => {
+const EditSiteForm: FunctionComponent<Props> = ({
+  site,
+  settings,
+  onEditSuccess,
+}) => {
   const updateSite = useMutation(UpdateSiteMutation);
-  const [success, setSuccess] = useState<boolean>(false);
   const onSubmit = useCallback(async (input, form: FormApi) => {
     const result = await updateSite({ site: input, id: site.id });
     if (result) {
-      setSuccess(true);
+      onEditSuccess(result.site.name);
     }
   }, []);
   return (
     <div>
-      {success && <p>Successfully updated</p>}
       <Form onSubmit={onSubmit}>
         {({ handleSubmit, submitError, invalid, submitting, ...formProps }) => (
           <form onSubmit={handleSubmit}>
