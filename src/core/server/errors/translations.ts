@@ -59,4 +59,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   REPEAT_POST: "error-repeatPost",
   INSTALLATION_FORBIDDEN: "error-installationForbidden",
   SCRAPE_FAILED: "error-scrapeFailed",
+  DUPLICATE_SITE_ORIGIN: "error-duplicateSiteOrigin",
 };

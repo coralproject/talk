@@ -1,9 +1,10 @@
 import { identity, isNumber } from "lodash";
-import { Db } from "mongodb";
+import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
 import { Omit } from "coral-common/types";
 import { getOrigin } from "coral-server/app/url";
+import { DuplicateSiteAllowedOriginError } from "coral-server/errors";
 import {
   Connection,
   ConnectionInput,
@@ -47,8 +48,22 @@ export async function createSite(
     ...input,
   };
 
-  await collection(mongo).insertOne(site);
-  return site;
+  try {
+    await collection(mongo).insertOne(site);
+    return site;
+  } catch (err) {
+    // Evaluate the error, if it is in regards to violating the unique index,
+    // then return a duplicate Story error.
+    if (err instanceof MongoError && err.code === 11000) {
+      throw new DuplicateSiteAllowedOriginError(
+        err,
+        null,
+        input.allowedDomains
+      );
+    }
+
+    throw err;
+  }
 }
 
 export async function retrieveSite(mongo: Db, tenantID: string, id: string) {
@@ -126,12 +141,22 @@ export async function updateSite(
       updatedAt: now,
     },
   };
-  const result = await collection(mongo).findOneAndUpdate(
-    { id, tenantID },
-    update,
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
-  );
-  return result.value || null;
+  try {
+    const result = await collection(mongo).findOneAndUpdate(
+      { id, tenantID },
+      update,
+      // False to return the updated document instead of the original
+      // document.
+      { returnOriginal: false }
+    );
+    return result.value || null;
+  } catch (err) {
+    // Evaluate the error, if it is in regards to violating the unique index,
+    // then return a duplicate Story error.
+    if (err instanceof MongoError && err.code === 11000) {
+      throw new DuplicateSiteAllowedOriginError(err, id, input.allowedDomains);
+    }
+
+    throw err;
+  }
 }

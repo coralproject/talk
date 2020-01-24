@@ -299,6 +299,16 @@ export class DuplicateStoryURLError extends CoralError {
   }
 }
 
+export class DuplicateSiteAllowedOriginError extends CoralError {
+  constructor(cause: MongoError, id: string | null, domains?: string[]) {
+    super({
+      cause,
+      code: ERROR_CODES.DUPLICATE_SITE_ORIGIN,
+      context: { pvt: { id, domains } },
+    });
+  }
+}
+
 export class DuplicateEmailError extends CoralError {
   constructor(email: string) {
     super({ code: ERROR_CODES.DUPLICATE_EMAIL, context: { pvt: { email } } });
