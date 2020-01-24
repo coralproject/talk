@@ -23,7 +23,7 @@ import { ModerationQueueInput } from "./ModerationQueue";
 
 interface ModerationQueuesInput {
   connection: Partial<CommentConnectionInput>;
-  counts: CommentModerationCountsPerQueue;
+  counts: CommentModerationCountsPerQueue | null;
 }
 
 const mergeModerationInputFilters = (
@@ -38,7 +38,7 @@ const mergeModerationInputFilters = (
       ...filter,
     },
   },
-  count: input.counts[selector],
+  count: input.counts ? input.counts[selector] : null,
 });
 
 /**
@@ -59,9 +59,7 @@ export const siteModerationInputResolver = async (
       siteID: site.id,
     },
   },
-  counts: await ctx.loaders.Comments.sharedSiteModerationQueueQueuesCounts(
-    site.id
-  ),
+  counts: null,
 });
 
 /**
