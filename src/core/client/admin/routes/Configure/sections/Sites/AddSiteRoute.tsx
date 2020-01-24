@@ -54,7 +54,6 @@ const AddSiteRoute: FunctionComponent<Props> = props => {
         </Localized>
       }
     >
-      <button onClick={() => onSiteCreate("1", "name")}>click</button>
       <CreateSiteForm onCreate={onSiteCreate} />
     </ConfigBox>
   );

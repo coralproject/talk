@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 
 import { formatStringList, parseStringList } from "coral-framework/lib/form";
@@ -15,6 +15,7 @@ import {
 import {
   Button,
   ButtonIcon,
+  CallOut,
   Flex,
   FormField,
   FormFieldHeader,
@@ -32,11 +33,16 @@ interface Props {
 
 const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
   const createSite = useMutation(CreateSiteMutation);
+  const [submitError, setSubmitError] = useState<null | string>(null);
   const onSubmit = useCallback(
     async (input, form: FormApi) => {
-      const response = await createSite({ site: input });
-      if (response && response.site) {
-        onCreate(response.site.id, response.site.name);
+      try {
+        const response = await createSite({ site: input });
+        if (response && response.site) {
+          onCreate(response.site.id, response.site.name);
+        }
+      } catch (error) {
+        setSubmitError(error.message);
       }
     },
     [onCreate]
@@ -44,7 +50,7 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
   return (
     <div>
       <Form onSubmit={onSubmit}>
-        {({ handleSubmit, submitError, invalid, submitting, ...formProps }) => (
+        {({ handleSubmit, invalid, submitting, ...formProps }) => (
           <form onSubmit={handleSubmit}>
             <HorizontalGutter spacing={4}>
               <FormField>
@@ -156,6 +162,11 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
                   )}
                 </Field>
               </FormField>
+              {submitError && (
+                <CallOut fullWidth color="error">
+                  {submitError}
+                </CallOut>
+              )}
               <Flex itemGutter justifyContent="flex-end">
                 <Localized id="configure-sites-site-form-cancel">
                   <Button
