@@ -27,7 +27,9 @@ export default class extends Migration {
       .findOne({ tenantID });
 
     if (existingSite) {
-      this.log(tenantID).info("tenant already has been migrated");
+      this.log(tenantID).info("site has already been created", {
+        site: existingSite,
+      });
       return;
     }
 
