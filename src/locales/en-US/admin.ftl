@@ -137,6 +137,9 @@ configure-webhooks-rotateSigningSecretDescription =
 configure-webhooks-rotateSigningSecretButton = Rotate signing secret
 configure-webhooks-rotateSigningSecretHelper =
   After it expires, signatures will no longer be generated with the old secret.
+configure-webhooks-rotateSigningSecretSuccessUseNewSecret =
+  Webhook endpoint signing secret has been rotated. Please ensure
+  you update your integrations to use the new secret below.
 configure-webhooks-disableEndpoint = Disable endpoint
 configure-webhooks-disableEndpointDescription =
   This endpoint is current enabled. By disabling this endpoint no new events

@@ -3,6 +3,7 @@ import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
+import { useNotification } from "coral-admin/App/GlobalNotification";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation } from "coral-framework/lib/relay";
 import {
@@ -19,6 +20,7 @@ import {
   Option,
   SelectField,
 } from "coral-ui/components/v2";
+import AppNotification from "coral-ui/components/v2/AppNotification";
 
 import RotateWebhookEndpointSecretMutation from "./RotateWebhookEndpointSecretMutation";
 
@@ -38,11 +40,23 @@ const RotateWebhookEndpointSecretModal: FunctionComponent<Props> = ({
   const rotateWebhookEndpointSecret = useMutation(
     RotateWebhookEndpointSecretMutation
   );
+  const { setMessage, clearMessage } = useNotification();
   const onRotateSecret = useCallback(
     async ({ inactiveIn: inactiveInString }) => {
       try {
         const inactiveIn = parseInt(inactiveInString, 10);
         await rotateWebhookEndpointSecret({ id: endpointID, inactiveIn });
+
+        // Post a notification about the successful change.
+        setMessage(
+          <Localized id="configure-webhooks-rotateSigningSecretSuccessUseNewSecret">
+            <AppNotification icon="check_circle_outline" onClose={clearMessage}>
+              Webhook endpoint signing secret has been rotated. Please ensure
+              you update your integrations to use the new secret below.
+            </AppNotification>
+          </Localized>
+        );
+        window.scroll(0, 0);
       } catch (err) {
         if (err instanceof InvalidRequestError) {
           return err.invalidArgs;
