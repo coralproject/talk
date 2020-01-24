@@ -1,9 +1,15 @@
-import { Link } from "found";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import getEndpointLink from "coral-admin/helpers/getEndpointLink";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { TableCell, TableRow, TextLink } from "coral-ui/components/v2";
+import {
+  Button,
+  Flex,
+  Icon,
+  TableCell,
+  TableRow,
+} from "coral-ui/components/v2";
 
 import { WebhookEndpointRow_webhookEndpoint } from "coral-admin/__generated__/WebhookEndpointRow_webhookEndpoint.graphql";
 
@@ -17,18 +23,27 @@ interface Props {
 
 const WebhookEndpointRow: FunctionComponent<Props> = ({ endpoint }) => (
   <TableRow>
-    <TableCell>
-      <Link
-        to={getEndpointLink(endpoint.id)}
-        as={TextLink}
-        data-testid={`webhook-endpoint-${endpoint.id}`}
-        className={styles.urlButton}
-      >
-        {endpoint.url}
-      </Link>
-    </TableCell>
+    <TableCell className={styles.urlColumn}>{endpoint.url}</TableCell>
     <TableCell>
       <StatusMarker enabled={endpoint.enabled} />
+    </TableCell>
+    <TableCell>
+      <Flex justifyContent="flex-end">
+        <Localized
+          id="configure-webhooks-detailsButton"
+          icon={<Icon>keyboard_arrow_right</Icon>}
+        >
+          <Button
+            variant="text"
+            to={getEndpointLink(endpoint.id)}
+            data-testid={`webhook-endpoint-${endpoint.id}`}
+            iconRight
+          >
+            Details
+            <Icon>keyboard_arrow_right</Icon>
+          </Button>
+        </Localized>
+      </Flex>
     </TableCell>
   </TableRow>
 );

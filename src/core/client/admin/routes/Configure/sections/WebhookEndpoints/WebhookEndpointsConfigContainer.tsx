@@ -1,5 +1,4 @@
 import { Localized } from "@fluent/react/compat";
-import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
 import { urls } from "coral-framework/helpers";
@@ -7,10 +6,10 @@ import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
-  ButtonIcon,
   CallOut,
   FormFieldDescription,
   HorizontalGutter,
+  Icon,
   Table,
   TableBody,
   TableCell,
@@ -57,17 +56,16 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
             .
           </FormFieldDescription>
         </Localized>
-        <Link
+        <Button
           to={urls.admin.addWebhookEndpoint}
-          as={Button}
-          color="dark"
+          iconLeft
           data-testid="add-webhook-endpoint"
         >
-          <ButtonIcon size="md">add</ButtonIcon>
+          <Icon size="md">add</Icon>
           <Localized id="configure-webhooks-addEndpointButton">
             Add webhook endpoint
           </Localized>
-        </Link>
+        </Button>
         <Localized id="configure-webhooks-endpoints">
           <Subheader>Endpoints</Subheader>
         </Localized>
@@ -78,10 +76,10 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
                 <Localized id="configure-webhooks-url">
                   <TableCell>URL</TableCell>
                 </Localized>
-
                 <Localized id="configure-webhooks-status">
                   <TableCell>Status</TableCell>
                 </Localized>
+                <TableCell />
               </TableRow>
             </TableHead>
             <TableBody>

@@ -168,6 +168,7 @@ configure-webhooks-expiresOldSecretHoursFromNow =
     [1] 1 hour
     *[other] { $hours } hours
   }  from now
+configure-webhooks-detailsButton = Details <icon>keyboard_arrow_right</icon>
 
 ### General
 configure-general-guidelines-title = Community guidelines summary

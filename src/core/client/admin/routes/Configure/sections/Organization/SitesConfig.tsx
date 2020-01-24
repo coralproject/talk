@@ -44,11 +44,7 @@ const SitesConfig: FunctionComponent<Props> = ({
         id="configure-organization-sites-add-site"
         icon={<Icon>add</Icon>}
       >
-        <Button
-          to="/admin/configure/organization/sites/new"
-          iconLeft
-          size="large"
-        >
+        <Button to="/admin/configure/organization/sites/new" iconLeft>
           <Icon>add</Icon>
           Add a site
         </Button>
