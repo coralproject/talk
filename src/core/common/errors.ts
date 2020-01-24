@@ -338,4 +338,6 @@ export enum ERROR_CODES {
    * when it is not authorized to do so.
    */
   INSTALLATION_FORBIDDEN = "INSTALLATION_FORBIDDEN",
+
+  DUPLICATE_SITE_ORIGIN = "DUPLICATE_SITE_ORIGIN",
 }
