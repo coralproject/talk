@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
@@ -20,6 +20,7 @@ import {
   FormFieldHeader,
   HorizontalGutter,
   Label,
+  CallOut,
 } from "coral-ui/components/v2";
 
 import { EditSiteForm_settings as SettingsData } from "coral-admin/__generated__/EditSiteForm_settings.graphql";
@@ -42,16 +43,21 @@ const EditSiteForm: FunctionComponent<Props> = ({
   onEditSuccess,
 }) => {
   const updateSite = useMutation(UpdateSiteMutation);
+  const [submitError, setSubmitError] = useState<null | string>(null);
   const onSubmit = useCallback(async (input, form: FormApi) => {
-    const result = await updateSite({ site: input, id: site.id });
-    if (result) {
-      onEditSuccess(result.site.name);
+    try {
+      const result = await updateSite({ site: input, id: site.id });
+      if (result) {
+        onEditSuccess(result.site.name);
+      }
+    } catch (error) {
+      setSubmitError(error.message);
     }
   }, []);
   return (
     <div>
       <Form onSubmit={onSubmit}>
-        {({ handleSubmit, submitError, invalid, submitting, ...formProps }) => (
+        {({ handleSubmit, invalid, submitting, ...formProps }) => (
           <form onSubmit={handleSubmit}>
             <HorizontalGutter spacing={4}>
               <FormField>
@@ -175,6 +181,11 @@ const EditSiteForm: FunctionComponent<Props> = ({
 
                 <EmbedCode staticURI={settings.staticURI} />
               </FormField>
+              {submitError && (
+                <CallOut fullWidth color="error">
+                  {submitError}
+                </CallOut>
+              )}
               <Flex itemGutter justifyContent="flex-end">
                 <Localized id="configure-sites-site-form-save">
                   <Button
