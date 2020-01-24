@@ -71,7 +71,7 @@ it("goes to add new webhook endpoint when clicking add", async () => {
 
   act(() => {
     within(container)
-      .getByTestID("add-webhook-endpoint")
+      .getByText(/Add webhook endpoint/)
       .props.onClick({ button: 0, preventDefault: noop });
   });
 
@@ -154,8 +154,14 @@ it("goes to the webhook endpoint configuration page when selected", async () => 
   transitionControl.allowTransition = false;
 
   act(() => {
-    within(container)
-      .getByTestID("webhook-endpoint-webhook-endpoint-1")
+    const row = within(container).getByTestID(
+      "webhook-endpoint-webhook-endpoint-1"
+    );
+
+    within(row)
+      .getByText(/Details/, {
+        selector: "a",
+      })
       .props.onClick({ button: 0, preventDefault: noop });
   });
 

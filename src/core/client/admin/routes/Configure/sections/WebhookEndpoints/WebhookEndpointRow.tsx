@@ -22,7 +22,7 @@ interface Props {
 }
 
 const WebhookEndpointRow: FunctionComponent<Props> = ({ endpoint }) => (
-  <TableRow>
+  <TableRow data-testid={`webhook-endpoint-${endpoint.id}`}>
     <TableCell className={styles.urlColumn}>{endpoint.url}</TableCell>
     <TableCell>
       <StatusMarker enabled={endpoint.enabled} />
@@ -33,12 +33,7 @@ const WebhookEndpointRow: FunctionComponent<Props> = ({ endpoint }) => (
           id="configure-webhooks-detailsButton"
           icon={<Icon>keyboard_arrow_right</Icon>}
         >
-          <Button
-            variant="text"
-            to={getEndpointLink(endpoint.id)}
-            data-testid={`webhook-endpoint-${endpoint.id}`}
-            iconRight
-          >
+          <Button variant="text" to={getEndpointLink(endpoint.id)} iconRight>
             Details
             <Icon>keyboard_arrow_right</Icon>
           </Button>

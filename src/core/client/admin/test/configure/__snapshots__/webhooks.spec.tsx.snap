@@ -43,28 +43,21 @@ about webhook signing, visit our
           </a>
           .
         </p>
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase"
-          data-color="dark"
-          data-testid="add-webhook-endpoint"
+        <a
+          className="Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase Button-iconLeft Button-linkButton"
+          data-color="regular"
           data-variant="regular"
           href="/admin/configure/webhooks/add"
-          onBlur={[Function]}
           onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md ButtonIcon-root"
+            className="Icon-root Icon-md"
           >
             add
           </i>
           Add webhook endpoint
-        </button>
+        </a>
         <h3
           className="Subheader-root"
         >
@@ -89,6 +82,9 @@ about webhook signing, visit our
               >
                 Status
               </th>
+              <th
+                className="TableCell-root TableCell-header"
+              />
             </tr>
           </thead>
           <tbody
@@ -96,18 +92,12 @@ about webhook signing, visit our
           >
             <tr
               className="TableRow-root TableRow-body"
+              data-testid="webhook-endpoint-webhook-endpoint-1"
             >
               <td
-                className="TableCell-root TableCell-body"
+                className="TableCell-root WebhookEndpointRow-urlColumn TableCell-body"
               >
-                <a
-                  className="TextLink-root WebhookEndpointRow-urlButton"
-                  data-testid="webhook-endpoint-webhook-endpoint-1"
-                  href="/admin/configure/webhooks/endpoint/webhook-endpoint-1"
-                  onClick={[Function]}
-                >
-                  http://example.com/webhook-endpoint-1
-                </a>
+                http://example.com/webhook-endpoint-1
               </td>
               <td
                 className="TableCell-root TableCell-body"
@@ -118,21 +108,38 @@ about webhook signing, visit our
                   Enabled
                 </span>
               </td>
-            </tr>
-            <tr
-              className="TableRow-root TableRow-body"
-            >
               <td
                 className="TableCell-root TableCell-body"
               >
-                <a
-                  className="TextLink-root WebhookEndpointRow-urlButton"
-                  data-testid="webhook-endpoint-webhook-endpoint-2"
-                  href="/admin/configure/webhooks/endpoint/webhook-endpoint-2"
-                  onClick={[Function]}
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
                 >
-                  http://example.com/webhook-endpoint-2
-                </a>
+                  <a
+                    className="Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconRight Button-linkButton"
+                    data-color="regular"
+                    data-variant="text"
+                    href="/admin/configure/webhooks/endpoint/webhook-endpoint-1"
+                    onClick={[Function]}
+                  >
+                    Details 
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      keyboard_arrow_right
+                    </i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+            <tr
+              className="TableRow-root TableRow-body"
+              data-testid="webhook-endpoint-webhook-endpoint-2"
+            >
+              <td
+                className="TableCell-root WebhookEndpointRow-urlColumn TableCell-body"
+              >
+                http://example.com/webhook-endpoint-2
               </td>
               <td
                 className="TableCell-root TableCell-body"
@@ -142,6 +149,29 @@ about webhook signing, visit our
                 >
                   Disabled
                 </span>
+              </td>
+              <td
+                className="TableCell-root TableCell-body"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                >
+                  <a
+                    className="Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconRight Button-linkButton"
+                    data-color="regular"
+                    data-variant="text"
+                    href="/admin/configure/webhooks/endpoint/webhook-endpoint-2"
+                    onClick={[Function]}
+                  >
+                    Details 
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      keyboard_arrow_right
+                    </i>
+                  </a>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -195,28 +225,21 @@ about webhook signing, visit our
           </a>
           .
         </p>
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase"
-          data-color="dark"
-          data-testid="add-webhook-endpoint"
+        <a
+          className="Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase Button-iconLeft Button-linkButton"
+          data-color="regular"
           data-variant="regular"
           href="/admin/configure/webhooks/add"
-          onBlur={[Function]}
           onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md ButtonIcon-root"
+            className="Icon-root Icon-md"
           >
             add
           </i>
           Add webhook endpoint
-        </button>
+        </a>
         <h3
           className="Subheader-root"
         >
@@ -278,28 +301,21 @@ about webhook signing, visit our
           </a>
           .
         </p>
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase"
-          data-color="dark"
-          data-testid="add-webhook-endpoint"
+        <a
+          className="Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase Button-iconLeft Button-linkButton"
+          data-color="regular"
           data-variant="regular"
           href="/admin/configure/webhooks/add"
-          onBlur={[Function]}
           onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md ButtonIcon-root"
+            className="Icon-root Icon-md"
           >
             add
           </i>
           Add webhook endpoint
-        </button>
+        </a>
         <h3
           className="Subheader-root"
         >
@@ -324,6 +340,9 @@ about webhook signing, visit our
               >
                 Status
               </th>
+              <th
+                className="TableCell-root TableCell-header"
+              />
             </tr>
           </thead>
           <tbody
@@ -331,18 +350,12 @@ about webhook signing, visit our
           >
             <tr
               className="TableRow-root TableRow-body"
+              data-testid="webhook-endpoint-webhook-endpoint-1"
             >
               <td
-                className="TableCell-root TableCell-body"
+                className="TableCell-root WebhookEndpointRow-urlColumn TableCell-body"
               >
-                <a
-                  className="TextLink-root WebhookEndpointRow-urlButton"
-                  data-testid="webhook-endpoint-webhook-endpoint-1"
-                  href="/admin/configure/webhooks/endpoint/webhook-endpoint-1"
-                  onClick={[Function]}
-                >
-                  http://example.com/webhook-endpoint-1
-                </a>
+                http://example.com/webhook-endpoint-1
               </td>
               <td
                 className="TableCell-root TableCell-body"
@@ -352,6 +365,29 @@ about webhook signing, visit our
                 >
                   Enabled
                 </span>
+              </td>
+              <td
+                className="TableCell-root TableCell-body"
+              >
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                >
+                  <a
+                    className="Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconRight Button-linkButton"
+                    data-color="regular"
+                    data-variant="text"
+                    href="/admin/configure/webhooks/endpoint/webhook-endpoint-1"
+                    onClick={[Function]}
+                  >
+                    Details 
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      keyboard_arrow_right
+                    </i>
+                  </a>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -405,28 +441,21 @@ about webhook signing, visit our
           </a>
           .
         </p>
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase"
-          data-color="dark"
-          data-testid="add-webhook-endpoint"
+        <a
+          className="Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase Button-iconLeft Button-linkButton"
+          data-color="regular"
           data-variant="regular"
           href="/admin/configure/webhooks/add"
-          onBlur={[Function]}
           onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-md ButtonIcon-root"
+            className="Icon-root Icon-md"
           >
             add
           </i>
           Add webhook endpoint
-        </button>
+        </a>
         <h3
           className="Subheader-root"
         >
