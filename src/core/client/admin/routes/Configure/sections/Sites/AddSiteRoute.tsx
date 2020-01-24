@@ -22,6 +22,7 @@ const AddSiteRoute: FunctionComponent<Props> = props => {
   const { setMessage, clearMessage } = useNotification();
   const onSiteCreate = useCallback(
     (id: string, name: string) => {
+      router.replace(`/admin/configure/organization/sites/${id}`);
       setMessage(
         <Localized
           id="configure-sites-add-success"
@@ -32,10 +33,8 @@ const AddSiteRoute: FunctionComponent<Props> = props => {
             {name} has been added to{" "}
             {props.data && props.data.settings.organization.name}
           </AppNotification>
-        </Localized>,
-        5000
+        </Localized>
       );
-      router.replace(`/admin/configure/organization/sites/${id}`);
     },
     [props.data]
   );
@@ -55,6 +54,7 @@ const AddSiteRoute: FunctionComponent<Props> = props => {
         </Localized>
       }
     >
+      <button onClick={() => onSiteCreate("1", "name")}>click</button>
       <CreateSiteForm onCreate={onSiteCreate} />
     </ConfigBox>
   );
