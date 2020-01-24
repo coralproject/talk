@@ -388,7 +388,7 @@ type ModerationQueue {
   """
   count will return the number of Comments that are in this queue.
   """
-  count: Int!
+  count: Int
 
   """
   comments are the comments on the ModerationQueue.
