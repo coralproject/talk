@@ -9,8 +9,8 @@ import {
 
 import { OrganizationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/OrganizationConfigContainer_settings.graphql";
 
-import OrganizationNameConfig from "./OrganizationNameConfig";
 import OrganizationContactEmailConfig from "./OrganizationContactEmailConfig";
+import OrganizationNameConfig from "./OrganizationNameConfig";
 import OrganizationURLConfig from "./OrganizationURLConfig";
 
 interface Props {
