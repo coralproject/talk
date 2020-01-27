@@ -11,6 +11,7 @@ export type LanguageCode =
   | "da"
   | "fr-FR"
   | "ro"
+  | "fi-FI"
   | "sv";
 
 /**
@@ -26,6 +27,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   da: "Dansk",
   "fr-FR": "Francais",
   ro: "Română",
+  "fi-FI": "Suomi",
   sv: "Svenska",
 };
 
