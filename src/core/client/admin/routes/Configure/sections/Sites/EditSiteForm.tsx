@@ -12,12 +12,12 @@ import {
 } from "coral-framework/lib/validation";
 import {
   Button,
+  CallOut,
   Flex,
   FormField,
   FormFieldHeader,
   HorizontalGutter,
   Label,
-  CallOut,
 } from "coral-ui/components/v2";
 
 import { EditSiteForm_settings as SettingsData } from "coral-admin/__generated__/EditSiteForm_settings.graphql";
