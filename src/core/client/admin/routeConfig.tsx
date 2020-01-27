@@ -24,6 +24,7 @@ import {
 import { Sites } from "./routes/Configure/sections/Sites";
 import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
 import SiteRoute from "./routes/Configure/sections/Sites/SiteRoute";
+import WebhookEndpointsLayout from "./routes/Configure/sections/WebhookEndpoints/WebhookEndpointsLayout";
 import ForgotPasswordRoute from "./routes/ForgotPassword";
 import InviteRoute from "./routes/Invite";
 import LoginRoute from "./routes/Login";
@@ -115,16 +116,12 @@ export default makeRouteConfig(
             <Route path="advanced" {...AdvancedConfigRoute.routeConfig} />
             <Route path="email" {...EmailConfigRoute.routeConfig} />
             <Route path="slack" {...SlackConfigRoute.routeConfig} />
+          </Route>
+          <Route path="configure/webhooks" Component={WebhookEndpointsLayout}>
+            <Route path="/" {...WebhookEndpointsConfigRoute.routeConfig} />
+            <Route path="add" {...AddWebhookEndpointRoute.routeConfig} />
             <Route
-              path="webhooks"
-              {...WebhookEndpointsConfigRoute.routeConfig}
-            />
-            <Route
-              path="webhooks/add"
-              {...AddWebhookEndpointRoute.routeConfig}
-            />
-            <Route
-              path="webhooks/endpoint/:webhookEndpointID"
+              path="endpoint/:webhookEndpointID"
               {...ConfigureWebhookEndpointRoute.routeConfig}
             />
           </Route>
