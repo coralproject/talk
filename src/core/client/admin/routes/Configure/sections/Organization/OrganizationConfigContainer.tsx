@@ -10,6 +10,8 @@ import {
 import { OrganizationConfigContainer_settings as SettingsData } from "coral-admin/__generated__/OrganizationConfigContainer_settings.graphql";
 
 import OrganizationNameConfig from "./OrganizationNameConfig";
+import OrganizationContactEmailConfig from "./OrganizationContactEmailConfig";
+import OrganizationURLConfig from "./OrganizationURLConfig";
 
 interface Props {
   submitting: boolean;
@@ -21,12 +23,20 @@ const OrganizationConfigContainer: React.FunctionComponent<Props> = ({
 }) => {
   const form = useForm();
   useMemo(() => form.initialize(purgeMetadata(settings)), []);
-  return <OrganizationNameConfig disabled={submitting} />;
+  return (
+    <>
+      <OrganizationNameConfig disabled={submitting} />
+      <OrganizationURLConfig disabled={submitting} />
+      <OrganizationContactEmailConfig disabled={submitting} />
+    </>
+  );
 };
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment OrganizationConfigContainer_settings on Settings {
       ...OrganizationNameConfig_formValues @relay(mask: false)
+      ...OrganizationURLConfig_formValues @relay(mask: false)
+      ...OrganizationContactEmailConfig_formValues @relay(mask: false)
     }
   `,
 })(OrganizationConfigContainer);
