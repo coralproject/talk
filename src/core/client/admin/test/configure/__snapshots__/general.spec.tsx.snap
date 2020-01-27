@@ -214,7 +214,7 @@ exports[`renders configure general 1`] = `
                         value="fi-FI"
                       >
                         Suomi
-                      </option>                      
+                      </option>
                       <option
                         value="sv"
                       >
