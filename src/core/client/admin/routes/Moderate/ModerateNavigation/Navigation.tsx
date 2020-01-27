@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { Match, Router, withRouter } from "found";
 import key from "keymaster";
+import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 
 import { HOTKEYS } from "coral-admin/constants";
@@ -10,9 +11,9 @@ import { Counter, Icon, SubBarNavigation } from "coral-ui/components/v2";
 import NavigationLink from "./NavigationLink";
 
 interface Props {
-  unmoderatedCount?: number;
-  reportedCount?: number;
-  pendingCount?: number;
+  unmoderatedCount?: number | null;
+  reportedCount?: number | null;
+  pendingCount?: number | null;
   storyID?: string | null;
   siteID?: string | null;
   router: Router;
@@ -69,7 +70,7 @@ const Navigation: FunctionComponent<Props> = ({
         <Localized id="moderate-navigation-reported">
           <span>Reported</span>
         </Localized>
-        {reportedCount !== undefined && (
+        {isNumber(reportedCount) && (
           <Counter data-testid="moderate-navigation-reported-count">
             {reportedCount}
           </Counter>
@@ -80,7 +81,7 @@ const Navigation: FunctionComponent<Props> = ({
         <Localized id="moderate-navigation-pending">
           <span>Pending</span>
         </Localized>
-        {pendingCount !== undefined && (
+        {isNumber(pendingCount) && (
           <Counter data-testid="moderate-navigation-pending-count">
             {pendingCount}
           </Counter>
@@ -91,7 +92,7 @@ const Navigation: FunctionComponent<Props> = ({
         <Localized id="moderate-navigation-unmoderated">
           <span>Unmoderated</span>
         </Localized>
-        {unmoderatedCount !== undefined && (
+        {isNumber(unmoderatedCount) && (
           <Counter data-testid="moderate-navigation-unmoderated-count">
             {unmoderatedCount}
           </Counter>
