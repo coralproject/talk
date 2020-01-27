@@ -17,9 +17,7 @@ import { sites as collection } from "coral-server/services/mongodb/collections";
 export interface Site extends TenantResource {
   readonly id: string;
   name: string;
-  url: string;
   allowedDomains: string[];
-  contactEmail: string;
   createdAt: Date;
 }
 

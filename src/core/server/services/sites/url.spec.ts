@@ -2,13 +2,9 @@ import { Site } from "coral-server/models/site";
 
 import { isURLPermitted } from "./url";
 
-type PartialSite = Pick<Site, "allowedDomains" | "url">;
+type PartialSite = Pick<Site, "allowedDomains">;
 
 function createSite(input: Partial<PartialSite> = {}): PartialSite {
-  if (!input.url) {
-    input.url = "";
-  }
-
   if (!input.allowedDomains) {
     input.allowedDomains = [];
   }
@@ -83,24 +79,4 @@ it("allows when there are some prefix allowedDomains and a valid url", () => {
   expect(isURLPermitted(site, "https://news.coralproject.net/a/page")).toEqual(
     true
   );
-});
-
-it("allows and validates with the site domain", () => {
-  const site = createSite({
-    url: "https://coralproject.net",
-  });
-
-  expect(
-    isURLPermitted(site, "https://coralproject.net/admin/login", true)
-  ).toEqual(true);
-});
-
-it("denies and validates with the site domain", () => {
-  const site = createSite({
-    url: "https://coral.coralproject.net",
-  });
-
-  expect(
-    isURLPermitted(site, "https://coralproject.net/admin/login", true)
-  ).toEqual(false);
 });

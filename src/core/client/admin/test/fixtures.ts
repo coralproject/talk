@@ -242,9 +242,7 @@ export const site = createFixture<GQLSite>({
   name: "Test Site",
   id: "site-id",
   createdAt: "2018-05-06T18:24:00.000Z",
-  url: "http://test-site.com",
   allowedDomains: ["http://test-site.com"],
-  contactEmail: "community@test-site.com",
 });
 
 export const sites = createFixtures<GQLSite>([
@@ -252,17 +250,13 @@ export const sites = createFixtures<GQLSite>([
     name: "Test Site",
     id: "site-1",
     createdAt: "2018-07-06T18:24:00.000Z",
-    url: "http://test-site.com",
     allowedDomains: ["http://test-site.com"],
-    contactEmail: "community@test-site.com",
   },
   {
     name: "Second Site",
     id: "site-2",
     createdAt: "2018-09-06T18:24:00.000Z",
-    url: "http://test-2-site.com",
     allowedDomains: ["http://test-2-site.com"],
-    contactEmail: "community@test-2-site.com",
   },
 ]);
 
