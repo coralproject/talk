@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Button } from "coral-ui/components";
+import { Button } from "coral-ui/components/v2";
 
 import styles from "./FacebookButton.css";
 
@@ -28,7 +28,7 @@ const facebookIcon = (
 const FacebookButton: FunctionComponent<Props> = props => (
   <Button
     classes={styles}
-    variant="filled"
+    variant="regular"
     size="large"
     fullWidth
     onClick={props.onClick}

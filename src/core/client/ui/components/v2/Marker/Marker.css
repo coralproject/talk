@@ -1,10 +1,13 @@
+$markerReportedColor: var(--v2-colors-red-500);
+$markerPendingColor: var(--v2-colors-teal-700);
+
 .root {
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-semi-bold);
   font-size: 0.8125rem;
   letter-spacing: calc(-0.35em / 13);
 
-  color: var(--v2-palette-marker-reported);
+  color: $markerReportedColor;
   border: 1px solid currentColor;
   border-radius: 20px;
   padding: 1px var(--mini-unit);
@@ -12,11 +15,11 @@
 }
 
 .colorReported {
-  color: var(--v2-palette-marker-reported);
+  color: $markerReportedColor;
 }
 
 .colorPending {
-  color: var(--v2-palette-marker-pending);
+  color: $markerPendingColor;
 }
 
 .variantRegular {
@@ -25,12 +28,12 @@
 .variantFilled {
   color: var(--v2-colors-pure-white);
   &.colorReported {
-    background-color: var(--v2-palette-marker-reported);
-    border-color: var(--v2-palette-marker-reported);
+    background-color: $markerReportedColor;
+    border-color: $markerReportedColor;
   }
 
   &.colorPending {
-    background-color: var(--v2-palette-marker-pending);
-    border-color: var(--v2-palette-marker-pending);
+    background-color: $markerPendingColor;
+    border-color: $markerPendingColor;
   }
 }

@@ -1,5 +1,8 @@
+$moderateCardFlagUsernameColor: var(--v2-colors-mono-900);
+$moderateCardReasonTextColor: var(--v2-colors-mono-500);
+
 .user {
-  color: var(--v2-palette-username-emphasis);
+  color: $moderateCardFlagUsernameColor;
   font-size: var(--v2-font-size-2);
   font-weight: var(--v2-font-weight-secondary-bold);
   font-family: var(--v2-font-family-secondary);
@@ -8,7 +11,7 @@
 }
 
 .details {
-  color: var(--v2-palette-reason-text);
+  color: $moderateCardReasonTextColor;
   font-size: var(--v2-font-size-2);
   font-weight: var(--v2-font-weight-primary-regular);
   font-family: var(--v2-font-family-primary);

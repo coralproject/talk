@@ -75,6 +75,7 @@ class RadioButton extends Component<RadioButtonProps> {
           className={cn(classes.label, {
             [classes.labelLight]: light,
             [classes.focus]: keyboardFocus,
+            [classes.labelChecked]: this.props.checked,
           })}
           htmlFor={finalID}
         >

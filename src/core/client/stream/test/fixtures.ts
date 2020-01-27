@@ -307,6 +307,81 @@ export const comments = denormalizeComments(
         author: commenters[2],
         body: "Comment Body 5",
       },
+      {
+        id: "comment-6",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-7",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-8",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-9",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-10",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-11",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-12",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-13",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-14",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-15",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-16",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-17",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-18",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-19",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
+      {
+        id: "comment-20",
+        author: commenters[2],
+        body: "Comment Body 5",
+      },
     ],
     baseComment
   )
@@ -403,41 +478,11 @@ export const commentWithDeepestReplies = denormalizeComment(
                                   node: {
                                     ...baseComment,
                                     id: "comment-with-deepest-replies-4",
-                                    body: "body 4",
+                                    body: "body 1",
                                     replyCount: 1,
                                     replies: {
                                       ...baseComment.replies,
-                                      edges: [
-                                        {
-                                          cursor: baseComment.createdAt,
-                                          node: {
-                                            ...baseComment,
-                                            id:
-                                              "comment-with-deepest-replies-5",
-                                            body: "body 5",
-                                            replyCount: 1,
-                                            replies: {
-                                              ...baseComment.replies,
-                                              edges: [
-                                                {
-                                                  cursor: baseComment.createdAt,
-                                                  node: {
-                                                    ...baseComment,
-                                                    id:
-                                                      "comment-with-deepest-replies-6",
-                                                    body: "body 6",
-                                                    replyCount: 1,
-                                                    replies: {
-                                                      ...baseComment.replies,
-                                                      edges: [],
-                                                    },
-                                                  },
-                                                },
-                                              ],
-                                            },
-                                          },
-                                        },
-                                      ],
+                                      edges: [],
                                     },
                                   },
                                 },

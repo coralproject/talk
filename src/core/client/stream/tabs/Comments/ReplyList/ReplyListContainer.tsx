@@ -18,7 +18,7 @@ import { ReplyListContainer1_settings as SettingsData } from "coral-stream/__gen
 import { ReplyListContainer1_story as StoryData } from "coral-stream/__generated__/ReplyListContainer1_story.graphql";
 import { ReplyListContainer1_viewer as ViewerData } from "coral-stream/__generated__/ReplyListContainer1_viewer.graphql";
 import { ReplyListContainer1PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
-import { ReplyListContainer5_comment as Comment5Data } from "coral-stream/__generated__/ReplyListContainer5_comment.graphql";
+import { ReplyListContainer3_comment as Comment3Data } from "coral-stream/__generated__/ReplyListContainer3_comment.graphql";
 
 import { isPublished } from "../helpers";
 import CommentReplyCreatedSubscription from "./CommentReplyCreatedSubscription";
@@ -27,7 +27,7 @@ import ReplyList from "./ReplyList";
 import ReplyListViewNewMutation from "./ReplyListViewNewMutation";
 
 type UnpackArray<T> = T extends ReadonlyArray<infer U> ? U : any;
-type ReplyNode5 = UnpackArray<Comment5Data["replies"]["edges"]>["node"];
+type ReplyNode3 = UnpackArray<Comment3Data["replies"]["edges"]>["node"];
 
 interface BaseProps {
   viewer: ViewerData | null;
@@ -135,7 +135,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = props => {
           ),
           // ReplyListContainer5 contains replyCount.
           showConversationLink:
-            ((edge.node as any) as ReplyNode5).replyCount > 0,
+            ((edge.node as any) as ReplyNode3).replyCount > 0,
         }));
   return (
     <ReplyList
@@ -202,20 +202,20 @@ function createReplyListContainer(
  */
 const LastReplyList: FunctionComponent<
   PropTypesOf<typeof LocalReplyListContainer>
-> = props => <LocalReplyListContainer {...props} indentLevel={6} />;
+> = props => <LocalReplyListContainer {...props} indentLevel={3} />;
 
-const ReplyListContainer5 = createReplyListContainer(
-  5,
+const ReplyListContainer3 = createReplyListContainer(
+  3,
   {
     viewer: graphql`
-      fragment ReplyListContainer5_viewer on User {
+      fragment ReplyListContainer3_viewer on User {
         ...CommentContainer_viewer
         ...IgnoredTombstoneOrHideContainer_viewer
         ...LocalReplyListContainer_viewer
       }
     `,
     settings: graphql`
-      fragment ReplyListContainer5_settings on Settings {
+      fragment ReplyListContainer3_settings on Settings {
         disableCommenting {
           enabled
         }
@@ -224,7 +224,7 @@ const ReplyListContainer5 = createReplyListContainer(
       }
     `,
     story: graphql`
-      fragment ReplyListContainer5_story on Story {
+      fragment ReplyListContainer3_story on Story {
         isClosed
         settings {
           live {
@@ -236,9 +236,9 @@ const ReplyListContainer5 = createReplyListContainer(
       }
     `,
     comment: graphql`
-      fragment ReplyListContainer5_comment on Comment
+      fragment ReplyListContainer3_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 5 }
+          count: { type: "Int!", defaultValue: 3 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
@@ -267,161 +267,6 @@ const ReplyListContainer5 = createReplyListContainer(
   graphql`
     # Pagination query to be fetched upon calling 'loadMore'.
     # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-    query ReplyListContainer5PaginationQuery(
-      $count: Int!
-      $cursor: Cursor
-      $orderBy: COMMENT_SORT!
-      $commentID: ID!
-    ) {
-      comment(id: $commentID) {
-        ...ReplyListContainer5_comment
-          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
-      }
-    }
-  `,
-  LastReplyList,
-  true
-);
-
-const ReplyListContainer4 = createReplyListContainer(
-  4,
-  {
-    viewer: graphql`
-      fragment ReplyListContainer4_viewer on User {
-        ...ReplyListContainer5_viewer
-        ...CommentContainer_viewer
-        ...IgnoredTombstoneOrHideContainer_viewer
-      }
-    `,
-    settings: graphql`
-      fragment ReplyListContainer4_settings on Settings {
-        disableCommenting {
-          enabled
-        }
-        ...ReplyListContainer5_settings
-        ...CommentContainer_settings
-      }
-    `,
-    story: graphql`
-      fragment ReplyListContainer4_story on Story {
-        isClosed
-        settings {
-          live {
-            enabled
-          }
-        }
-        ...ReplyListContainer5_story
-        ...CommentContainer_story
-      }
-    `,
-    comment: graphql`
-      fragment ReplyListContainer4_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 5 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        ) {
-        id
-        status
-        lastViewerAction
-        replies(first: $count, after: $cursor, orderBy: $orderBy)
-          @connection(key: "ReplyList_replies") {
-          viewNewEdges {
-            cursor
-          }
-          edges {
-            node {
-              id
-              enteredLive
-              ...CommentContainer_comment
-              ...IgnoredTombstoneOrHideContainer_comment
-              ...ReplyListContainer5_comment
-            }
-          }
-        }
-      }
-    `,
-  },
-  graphql`
-    # Pagination query to be fetched upon calling 'loadMore'.
-    # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-    query ReplyListContainer4PaginationQuery(
-      $count: Int!
-      $cursor: Cursor
-      $orderBy: COMMENT_SORT!
-      $commentID: ID!
-    ) {
-      comment(id: $commentID) {
-        ...ReplyListContainer4_comment
-          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
-      }
-    }
-  `,
-  ReplyListContainer5
-);
-
-const ReplyListContainer3 = createReplyListContainer(
-  3,
-  {
-    viewer: graphql`
-      fragment ReplyListContainer3_viewer on User {
-        ...ReplyListContainer4_viewer
-        ...CommentContainer_viewer
-        ...IgnoredTombstoneOrHideContainer_viewer
-      }
-    `,
-    settings: graphql`
-      fragment ReplyListContainer3_settings on Settings {
-        disableCommenting {
-          enabled
-        }
-        ...ReplyListContainer4_settings
-        ...CommentContainer_settings
-      }
-    `,
-    story: graphql`
-      fragment ReplyListContainer3_story on Story {
-        isClosed
-        settings {
-          live {
-            enabled
-          }
-        }
-        ...ReplyListContainer4_story
-        ...CommentContainer_story
-      }
-    `,
-    comment: graphql`
-      fragment ReplyListContainer3_comment on Comment
-        @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 5 }
-          cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        ) {
-        id
-        status
-        lastViewerAction
-        replies(first: $count, after: $cursor, orderBy: $orderBy)
-          @connection(key: "ReplyList_replies") {
-          viewNewEdges {
-            cursor
-          }
-          edges {
-            node {
-              id
-              enteredLive
-              ...CommentContainer_comment
-              ...IgnoredTombstoneOrHideContainer_comment
-              ...ReplyListContainer4_comment
-            }
-          }
-        }
-      }
-    `,
-  },
-  graphql`
-    # Pagination query to be fetched upon calling 'loadMore'.
-    # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
     query ReplyListContainer3PaginationQuery(
       $count: Int!
       $cursor: Cursor
@@ -434,9 +279,9 @@ const ReplyListContainer3 = createReplyListContainer(
       }
     }
   `,
-  ReplyListContainer4
+  LastReplyList,
+  true
 );
-
 const ReplyListContainer2 = createReplyListContainer(
   2,
   {
@@ -471,7 +316,7 @@ const ReplyListContainer2 = createReplyListContainer(
     comment: graphql`
       fragment ReplyListContainer2_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 5 }
+          count: { type: "Int!", defaultValue: 3 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
@@ -548,7 +393,7 @@ const ReplyListContainer1 = createReplyListContainer(
     comment: graphql`
       fragment ReplyListContainer1_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 5 }
+          count: { type: "Int!", defaultValue: 3 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {

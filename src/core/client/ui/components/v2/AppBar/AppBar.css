@@ -1,5 +1,7 @@
+$mainNavBackgroundDefaultColor: var(--v2-colors-pure-white);
+
 .root {
-  background-color: var(--v2-palette-main-nav-background-default);
+  background-color: $mainNavBackgroundDefaultColor;
   border-bottom: 1px solid var(--v2-palette-divider);
 }
 

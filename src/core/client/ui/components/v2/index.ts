@@ -63,3 +63,5 @@ export {
   default as ValidationMessage,
   ValidationMessageProps,
 } from "./ValidationMessage";
+export { BrandName, BrandMark, LogoHorizontal } from "./Brand";
+export { default as InputLabel } from "./InputLabel";

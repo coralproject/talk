@@ -1,9 +1,14 @@
+$popoverBorderColor: var(--v2-colors-grey-400);
+$popoverBackgroundColor: var(--v2-colors-pure-white);
+$popoverDarkBackgroundColor: var(--v2-colors-grey-500);
+$popoverDarkBorderColor: var(--v2-colors-grey-500);
+
 .root {
 }
 
 .popover {
-  background: var(--v2-palette-popover-background);
-  border: 1px solid var(--v2-palette-popover-border);
+  background: $popoverBackgroundColor;
+  border: 1px solid $popoverBorderColor;
   box-sizing: border-box;
   box-shadow: var(--elevation-main);
   border-radius: var(--round-corners);
@@ -12,8 +17,8 @@
 }
 
 .colorDark {
-  background: var(--v2-palette-popover-dark-background);
-  border-color: var(--v2-palette-popover-dark-border);
+  background: $popoverDarkBackgroundColor;
+  border-color: $popoverDarkBorderColor;
 }
 
 .top {

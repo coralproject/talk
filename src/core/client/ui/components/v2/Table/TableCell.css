@@ -1,3 +1,6 @@
+$tableBodyTextColor: var(--v2-colors-mono-500);
+$tableHeaderTextColor: var(--v2-colors-mono-500);
+
 .root {
   /* acts like min-width in a cell */
   height: calc(4.5 * var(--mini-unit));
@@ -11,7 +14,7 @@
   line-height: var(--v2-line-height-reset);
   font-weight: var(--v2-font-weight-primary-bold);
   font-size: var(--v2-font-size-2);
-  color: var(--v2-palette-table-header-text);
+  color: $tableHeaderTextColor;
   padding: var(--v2-spacing-3);
 }
 
@@ -20,7 +23,7 @@
   line-height: var(--v2-line-height-title);
   font-weight: var(--v2-font-weight-primary-regular);
   font-size: var(--v2-font-size-2);
-  color: var(--v2-palette-table-body-text);
+  color: $tableBodyTextColor;
 }
 
 .alignCenter {

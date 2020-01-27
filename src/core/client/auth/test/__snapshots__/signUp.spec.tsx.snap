@@ -97,6 +97,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
                 autoComplete="off"
                 autoCorrect="off"
                 className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                data-testid="password-field"
                 disabled={false}
                 id="password"
                 name="password"
@@ -166,9 +167,9 @@ exports[`auth configuration renders all auth enabled 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     >
       <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantFilled FacebookButton-variantFilled Button-fullWidth"
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantRegular FacebookButton-variantRegular Button-uppercase Button-fullWidth"
         data-color="regular"
-        data-variant="filled"
+        data-variant="regular"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -194,9 +195,9 @@ exports[`auth configuration renders all auth enabled 1`] = `
         </span>
       </button>
       <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular GoogleButton-colorRegular Button-variantFilled GoogleButton-variantFilled Button-fullWidth"
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular GoogleButton-colorRegular Button-variantRegular GoogleButton-variantRegular Button-uppercase Button-fullWidth"
         data-color="regular"
-        data-variant="filled"
+        data-variant="regular"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -222,7 +223,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
         </span>
       </button>
       <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular OIDCButton-colorRegular Button-variantFilled OIDCButton-variantFilled Button-fullWidth"
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular OIDCButton-colorRegular Button-variantFilled Button-fullWidth"
         data-color="regular"
         data-variant="filled"
         onBlur={[Function]}
@@ -254,9 +255,9 @@ exports[`auth configuration renders only some social login enabled 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     >
       <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantFilled FacebookButton-variantFilled Button-fullWidth"
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantRegular FacebookButton-variantRegular Button-uppercase Button-fullWidth"
         data-color="regular"
-        data-variant="filled"
+        data-variant="regular"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -282,9 +283,9 @@ exports[`auth configuration renders only some social login enabled 1`] = `
         </span>
       </button>
       <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular GoogleButton-colorRegular Button-variantFilled GoogleButton-variantFilled Button-fullWidth"
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular GoogleButton-colorRegular Button-variantRegular GoogleButton-variantRegular Button-uppercase Button-fullWidth"
         data-color="regular"
-        data-variant="filled"
+        data-variant="regular"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -452,6 +453,7 @@ exports[`renders sign up form 1`] = `
                       autoComplete="off"
                       autoCorrect="off"
                       className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                      data-testid="password-field"
                       disabled={false}
                       id="password"
                       name="password"

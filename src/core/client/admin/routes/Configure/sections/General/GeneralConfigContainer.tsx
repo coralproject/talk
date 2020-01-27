@@ -20,6 +20,8 @@ import ReactionConfigContainer from "./ReactionConfigContainer";
 import SitewideCommentingConfig from "./SitewideCommentingConfig";
 import StaffConfig from "./StaffConfig";
 
+import styles from "./GeneralConfigContainer.css";
+
 interface Props {
   submitting: boolean;
   settings: SettingsData;
@@ -32,7 +34,11 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
   const form = useForm();
   useMemo(() => form.initialize(purgeMetadata(settings)), []);
   return (
-    <HorizontalGutter size="double" data-testid="configure-generalContainer">
+    <HorizontalGutter
+      size="double"
+      data-testid="configure-generalContainer"
+      className={styles.root}
+    >
       <LocaleConfig disabled={submitting} />
       <SitewideCommentingConfig disabled={submitting} />
       <GuidelinesConfig disabled={submitting} />

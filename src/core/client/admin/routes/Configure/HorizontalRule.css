@@ -1,5 +1,7 @@
+$configBoxBorderColor: var(--v2-colors-grey-300);
+
 .root {
   border: 0;
-  border-bottom: 1px solid var(--v2-palette-config-box-border);
+  border-bottom: 1px solid $configBoxBorderColor;
   padding-top: 1px;
 }

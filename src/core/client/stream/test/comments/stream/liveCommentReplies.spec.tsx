@@ -55,38 +55,10 @@ const rootComment = denormalizeComment(
                             ...baseComment,
                             id: "my-comment-3",
                             body: "body 3",
-                            replyCount: 1,
+                            replyCount: 0,
                             replies: {
                               ...baseComment.replies,
-                              edges: [
-                                {
-                                  cursor: baseComment.createdAt,
-                                  node: {
-                                    ...baseComment,
-                                    id: "my-comment-4",
-                                    body: "body 4",
-                                    replyCount: 1,
-                                    replies: {
-                                      ...baseComment.replies,
-                                      edges: [
-                                        {
-                                          cursor: baseComment.createdAt,
-                                          node: {
-                                            ...baseComment,
-                                            id: "my-comment-5",
-                                            body: "body 5",
-                                            replyCount: 0,
-                                            replies: {
-                                              ...baseComment.replies,
-                                              edges: [],
-                                            },
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                },
-                              ],
+                              edges: [],
                             },
                           },
                         },
@@ -208,7 +180,7 @@ it("should show Read More of this Conversation", async () => {
       }
       return {
         comment: pureMerge<typeof commentData>(commentData, {
-          parent: { ...baseComment, id: "my-comment-5" },
+          parent: { ...baseComment, id: "my-comment-3" },
         }),
       };
     }

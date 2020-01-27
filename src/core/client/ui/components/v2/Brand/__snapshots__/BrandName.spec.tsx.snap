@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<BrandName
+  align="center"
+  className="custom"
+  classes={
+    Object {
+      "alignCenter": "BrandName-alignCenter",
+      "alignJustify": "BrandName-alignJustify",
+      "alignLeft": "BrandName-alignLeft",
+      "alignRight": "BrandName-alignRight",
+      "lg": "BrandName-lg",
+      "md": "BrandName-md",
+      "root": "BrandName-root",
+    }
+  }
+  size="lg"
+/>
+`;

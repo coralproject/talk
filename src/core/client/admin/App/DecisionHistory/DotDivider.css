@@ -2,6 +2,6 @@
   height: 100%;
   font-size: var(--v2-font-size-1);
   line-height: var(--v2-line-height-reset);
-  color: var(--v2-palette-timestamp);
+  color: var(--v2-colors-mono-100);
   padding: 0 var(--v2-spacing-1);
 }

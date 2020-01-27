@@ -1,11 +1,14 @@
+$moderateCardCounterBadgeBackgroundAlert: var(--v2-colors-red-500);
+$moderateCardToxicityColor: var(--v2-colors-mono-500);
+
 .root {
   font-size: var(--v2-font-size-2);
   font-weight: var(--v2-font-weight-primary-semi-bold);
   font-family: var(--v2-font-family-primary);
   line-height: var(--v2-line-height-body-short);
-  color: var(--v2-palette-accordion-label);
+  color: $moderateCardToxicityColor;
 }
 
 .likely {
-  color: var(--v2-palette-counter-badge-background-alert);
+  color: $moderateCardCounterBadgeBackgroundAlert;
 }
