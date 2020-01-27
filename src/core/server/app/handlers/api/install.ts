@@ -103,6 +103,13 @@ const TenantInstallBodySchema = Joi.object().keys({
     .keys({
       organization: Joi.object().keys({
         name: Joi.string().trim(),
+        url: Joi.string()
+          .trim()
+          .uri(),
+        contactEmail: Joi.string()
+          .trim()
+          .lowercase()
+          .email(),
       }),
       locale: Joi.string()
         .default(null)
@@ -111,13 +118,6 @@ const TenantInstallBodySchema = Joi.object().keys({
     .optionalKeys("locale"),
   site: Joi.object().keys({
     name: Joi.string().trim(),
-    url: Joi.string()
-      .trim()
-      .uri(),
-    contactEmail: Joi.string()
-      .trim()
-      .lowercase()
-      .email(),
     allowedDomains: Joi.array().items(
       Joi.string()
         .trim()

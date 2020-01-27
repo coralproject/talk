@@ -13,7 +13,7 @@ export function isURLPermitted(
 ): boolean;
 
 export function isURLPermitted(
-  site: Pick<Site, "allowedDomains" | "url">,
+  site: Pick<Site, "allowedDomains">,
   targetURL: string,
   includeTenantDomain: true
 ): boolean;
@@ -23,7 +23,7 @@ export function isURLPermitted(
  * the Tenant's domain configuration.
  */
 export function isURLPermitted(
-  site: Pick<Site, "allowedDomains" | "url">,
+  site: Pick<Site, "allowedDomains">,
   targetURL: string,
   includeTenantDomain = false
 ) {
@@ -47,9 +47,7 @@ export function isURLPermitted(
   const targetOrigin = getOrigin(targetURL);
 
   // Create the list of domains to check against.
-  const domains = includeTenantDomain
-    ? [site.url, ...site.allowedDomains]
-    : site.allowedDomains;
+  const domains = site.allowedDomains;
 
   // Loop over all the Tenant domains provided. Prefix the domain of each if it
   // is required with the target url scheme. Return if at least one match is

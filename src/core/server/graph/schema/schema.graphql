@@ -6089,16 +6089,6 @@ type Site {
   name: String!
 
   """
-  contactEmail is the contact email for the Site, seen in email communications.
-  """
-  contactEmail: String!
-
-  """
-  url is the Site URL, seen in email communications.
-  """
-  url: String!
-
-  """
   allowedDomains are the allowed origins for embeds.
   """
   allowedDomains: [String!]!
@@ -6114,16 +6104,6 @@ input CreateSite {
   name is the name of the Site.
   """
   name: String!
-
-  """
-  url is the Site URL, seen in email communications.
-  """
-  url: String!
-
-  """
-  contactEmail is the contact email for the Site, seen in email communications.
-  """
-  contactEmail: String!
 
   """
   allowedDomains are the allowed origins for embeds.

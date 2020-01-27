@@ -33,7 +33,7 @@ export default class extends Migration {
       return;
     }
 
-    const { name, contactEmail, url } = tenant.organization;
+    const { name } = tenant.organization;
 
     const allowedDomains = getUrlOrigins([
       ...tenant.allowedDomains,
@@ -43,8 +43,6 @@ export default class extends Migration {
     const site = await createSite(mongo, {
       tenantID,
       name,
-      contactEmail,
-      url,
       allowedDomains,
     });
 

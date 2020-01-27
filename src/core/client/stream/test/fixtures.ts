@@ -114,9 +114,7 @@ export const site = createFixture<GQLSite>({
   name: "Test Site",
   id: "site-id",
   createdAt: "2018-05-06T18:24:00.000Z",
-  url: "http://test-site.com",
   allowedDomains: ["http://test-site.com"],
-  contactEmail: "community@test-site.com",
 });
 
 export const settingsWithoutLocalAuth = createFixture<GQLSettings>(

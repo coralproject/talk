@@ -7,11 +7,8 @@ import { graphql } from "react-relay";
 import { formatStringList, parseStringList } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
-  composeValidators,
   required,
-  validateEmail,
   validateStrictURLList,
-  validateURL,
 } from "coral-framework/lib/validation";
 import {
   Button,
@@ -73,61 +70,6 @@ const EditSiteForm: FunctionComponent<Props> = ({
                   </Localized>
                 </FormFieldHeader>
                 <Field name="name" validate={required} defaultValue={site.name}>
-                  {({ input, meta }) => (
-                    <TextFieldWithValidation
-                      {...input}
-                      id={input.name}
-                      fullWidth
-                      meta={meta}
-                    />
-                  )}
-                </Field>
-              </FormField>
-              <FormField>
-                <FormFieldHeader>
-                  <Localized id="configure-sites-site-form-url">
-                    <Label>Site URL</Label>
-                  </Localized>
-                  <Localized id="configure-sites-site-form-url-explanation">
-                    <HelperText>
-                      This url will appear on emails sent by Coral to your
-                      community members.
-                    </HelperText>
-                  </Localized>
-                </FormFieldHeader>
-                <Field
-                  name="url"
-                  defaultValue={site.url}
-                  validate={composeValidators(required, validateURL)}
-                >
-                  {({ input, meta }) => (
-                    <TextFieldWithValidation
-                      {...input}
-                      id={input.name}
-                      fullWidth
-                      meta={meta}
-                    />
-                  )}
-                </Field>
-              </FormField>
-              <FormField>
-                <FormFieldHeader>
-                  <Localized id="configure-sites-site-form-email">
-                    <Label>Site email address</Label>
-                  </Localized>
-                  <Localized id="configure-sites-site-form-email-explanation">
-                    <HelperText>
-                      This email address is for community members to contact you
-                      with questions or if they need help. e.g.
-                      comments@yoursite.com
-                    </HelperText>
-                  </Localized>
-                </FormFieldHeader>
-                <Field
-                  name="contactEmail"
-                  validate={composeValidators(required, validateEmail)}
-                  defaultValue={site.contactEmail}
-                >
                   {({ input, meta }) => (
                     <TextFieldWithValidation
                       {...input}
@@ -212,8 +154,6 @@ const enhanced = withFragmentContainer<Props>({
       name
       createdAt
       id
-      contactEmail
-      url
       allowedDomains
     }
   `,
