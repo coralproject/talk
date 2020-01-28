@@ -12,10 +12,8 @@ import {
 } from "coral-server/services/comments/moderation/counts";
 
 import {
-  ApproveCommentPayloadToModerationQueuesResolver,
   GQLModerationQueuesTypeResolver,
   QueryToModerationQueuesResolver,
-  RejectCommentPayloadToModerationQueuesResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
@@ -110,13 +108,10 @@ export const sharedModerationInputResolver = async (
  * @param args the args of the payload containing potentially a Story ID
  * @param ctx the TenantContext for which we can use to retrieve the shared data
  */
-export const moderationQueuesResolver:
-  | QueryToModerationQueuesResolver
-  | ApproveCommentPayloadToModerationQueuesResolver
-  | RejectCommentPayloadToModerationQueuesResolver = async (
-  source: any,
-  args: any,
-  ctx: GraphContext
+export const moderationQueuesResolver: QueryToModerationQueuesResolver = async (
+  source,
+  args,
+  ctx
 ): Promise<ModerationQueuesInput | null> => {
   if (args.siteID) {
     const site = await ctx.loaders.Sites.site.load(args.siteID);
