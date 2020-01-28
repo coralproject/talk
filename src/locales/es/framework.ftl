@@ -25,8 +25,8 @@ framework-timeago =
           *[other] horas
         }
         [day] { $value ->
-          [1] dia
-          *[other] dias
+          [1] día
+          *[other] días
         }
         [week] { $value ->
           [1] semana
@@ -40,6 +40,6 @@ framework-timeago =
           [1] año
           *[other] años
         }
-        *[other] unknown unit
+        *[other] unidad desconocida
       }
   }

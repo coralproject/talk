@@ -4,7 +4,7 @@
 
 general-userBoxUnauthenticated-joinTheConversation = Unirse a la conversación
 general-userBoxUnauthenticated-signIn = Iniciar sesión
-general-userBoxUnauthenticated-register = Registrar
+general-userBoxUnauthenticated-register = Registrarse
 
 general-userBoxAuthenticated-signedInAs =
   Registrado como <Username></Username>.

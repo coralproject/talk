@@ -9,7 +9,7 @@ resetPassword-resetPassword = Restablecer la contraseña
 resetPassword-resetYourPassword = Restablecer tu contraseña
 resetPassword-pleaseEnterNewPassword =
   Por favor, introduzca una nueva contraseña para acceder a su cuenta.
-  Asegúrese de que sea único y asegúrese de mantenerlo seguro.
+  Asegúrese de que sea única y asegúrese de mantenerlo seguro.
 resetPassword-passwordLabel = Contraseña
 resetPassword-passwordDescription = Debe tener al menos {$minLength} caracteres
 resetPassword-passwordTextField =

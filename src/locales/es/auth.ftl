@@ -11,7 +11,7 @@ general-emailAddressLabel = Correo electrónico
 general-emailAddressTextField =
   .placeholder = Correo electrónico
 general-passwordLabel = Contraseña
-general-passwordDescription = Must be at least {$minLength} characters
+general-passwordDescription = Tiene que tener al menos {$minLength} caracteres
 general-passwordTextField =
   .placeholder = Contraseña
 general-confirmPasswordLabel = Confirmar contraseña
@@ -71,7 +71,7 @@ forgotPassword-enterEmailAndGetALink =
 
 ### Check Email
 
-forgotPassword-checkEmail-checkEmailHeader = Check Your Email
+forgotPassword-checkEmail-checkEmailHeader = Revisa tu Correo
 forgotPassword-checkEmail-receiveEmail =
   Si hay una cuenta asociada con <email></email>,
   recibirá un correo electrónico con un enlace para crear una nueva contraseña.
@@ -86,7 +86,7 @@ resetPassword-resetPasswordButton = Restablecer la contraseña
 
 createUsername-createUsernameHeader = Crear nombre de usuario
 createUsername-whatItIs =
-  Your username is an identifier that will appear on all of your comments.
+  Tu nombre de usuario es un identificador que aparecerá en todos sus comentarios.
 createUsername-createUsernameButton = Crear nombre de usuario
 
 ## Add Email Address
