@@ -17,7 +17,7 @@ const Announcement: FunctionComponent<Props> = props => {
       <Flex justifyContent="space-between" alignItems="center">
         <Flex itemGutter>
           <Icon size="lg">notifications</Icon>
-          {props.children}
+          <span className={styles.text}>{props.children}</span>
         </Flex>
         <Button color="light" onClick={props.onClose}>
           <Icon>close</Icon>

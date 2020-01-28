@@ -6,5 +6,6 @@
 }
 
 .text {
+  @mixin bodyCopy;
   color: white;
 }

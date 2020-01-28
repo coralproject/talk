@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import { FormState } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, FormSpy } from "react-final-form";
 
@@ -12,8 +13,8 @@ import {
   Button,
   DURATION_UNIT,
   DurationField,
-  Flex,
   FieldSet,
+  Flex,
   FormField,
   FormFieldHeader,
   Label,
@@ -48,7 +49,7 @@ const AnnouncementForm: FunctionComponent<Props> = ({
   disabled,
   onClose,
 }) => {
-  const [values, setValues] = useState<{} | null>(null);
+  const [values, setValues] = useState<FormState<any> | null>(null);
   const onButtonClick = useCallback(() => {
     if (!values) {
       return;
