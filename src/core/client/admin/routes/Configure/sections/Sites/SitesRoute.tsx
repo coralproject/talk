@@ -3,9 +3,9 @@ import React, { FunctionComponent } from "react";
 import MainLayout from "coral-admin/components/MainLayout";
 
 import ConfigureLinks from "../../ConfigureLinks";
+import Layout from "../../Layout";
 import Main from "../../Main";
 import SideBar from "../../SideBar";
-import Layout from "./Layout";
 
 interface Props {
   children: React.ReactElement;
