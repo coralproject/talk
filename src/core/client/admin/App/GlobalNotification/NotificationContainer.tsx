@@ -6,7 +6,7 @@ const NotificationContainer: FunctionComponent<{}> = () => {
   if (!state.visible) {
     return null;
   }
-  return <div>{state.message}</div>;
+  return <div role="status">{state.message}</div>;
 };
 
 export default NotificationContainer;
