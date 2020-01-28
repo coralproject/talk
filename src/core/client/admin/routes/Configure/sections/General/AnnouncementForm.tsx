@@ -66,8 +66,8 @@ const AnnouncementForm: FunctionComponent<Props> = ({
       />
       <FormField>
         <FormFieldHeader>
-          <Localized id="configure-general-announcement-title">
-            <Label htmlFor="configure-general-announcement-content">
+          <Localized id="configure-general-announcements-title">
+            <Label htmlFor="configure-general-announcements-content">
               Announcement text
             </Label>
           </Localized>
@@ -86,7 +86,7 @@ const AnnouncementForm: FunctionComponent<Props> = ({
               <Textarea
                 {...input}
                 fullwidth
-                id="configure-general-announcement-content"
+                id="configure-general-announcements-content"
               />
               <ValidationMessage meta={meta} />
             </>
@@ -94,7 +94,7 @@ const AnnouncementForm: FunctionComponent<Props> = ({
         </Field>
       </FormField>
       <FormField container={<FieldSet />}>
-        <Localized id="configure-general-announcement-duration">
+        <Localized id="configure-general-announcements-duration">
           <Label component="legend">Show this announcement for</Label>
         </Localized>
 
@@ -124,12 +124,12 @@ const AnnouncementForm: FunctionComponent<Props> = ({
         </Field>
       </FormField>
       <Flex itemGutter justifyContent="flex-end">
-        <Localized id="configure-general-announcement-cancel">
+        <Localized id="configure-general-announcements-cancel">
           <Button color="mono" variant="outline" onClick={onClose}>
             Cancel
           </Button>
         </Localized>
-        <Localized id="configure-general-announcement-start">
+        <Localized id="configure-general-announcements-start">
           <Button onClick={onButtonClick}>Start announcement</Button>
         </Localized>
       </Flex>

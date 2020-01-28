@@ -38,8 +38,8 @@ const Announcement: FunctionComponent<Props> = ({
   return (
     <FormField>
       <FormFieldHeader>
-        <Localized id="configure-general-announcement-current-label">
-          <Label htmlFor="configure-general-announcement-current-content">
+        <Localized id="configure-general-announcements-current-label">
+          <Label htmlFor="configure-general-announcements-current-content">
             Current announcement
           </Label>
         </Localized>
@@ -47,12 +47,12 @@ const Announcement: FunctionComponent<Props> = ({
       <Textarea
         fullwidth
         disabled
-        name="configure-general-announcement-current-content"
+        name="configure-general-announcements-current-content"
         value={content}
       />
       <Localized
-        id="configure-general-announcement-current-duration"
-        $timestamp={<strong>{formattedDate}</strong>}
+        id="configure-general-announcements-current-duration"
+        $timestamp={formattedDate}
       >
         <FormFieldFooter>
           This announcement will automatically end on:{" "}

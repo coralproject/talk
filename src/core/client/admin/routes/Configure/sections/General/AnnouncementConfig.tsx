@@ -63,7 +63,9 @@ const AnnouncementConfig: FunctionComponent<Props> = ({
         </FormFieldDescription>
       </Localized>
       {!settings.announcement && !showForm && (
-        <Button onClick={() => setShowForm(true)}>Add announcement</Button>
+        <Localized id="configure-general-announcements-add">
+          <Button onClick={() => setShowForm(true)}>Add announcement</Button>
+        </Localized>
       )}
       {!settings.announcement && showForm && (
         <AnnouncementForm
@@ -85,9 +87,11 @@ const AnnouncementConfig: FunctionComponent<Props> = ({
             createdAt={settings.announcement.createdAt}
             duration={settings.announcement.duration}
           />
-          <Button color="alert" onClick={onDelete}>
-            Delete announcement
-          </Button>
+          <Localized id="configure-general-announcements-delete">
+            <Button color="alert" onClick={onDelete}>
+              Delete announcement
+            </Button>
+          </Localized>
         </>
       )}
     </ConfigBox>
