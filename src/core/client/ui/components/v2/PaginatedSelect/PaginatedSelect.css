@@ -5,7 +5,7 @@
 .dropdown {
   max-height: 15em;
   width: calc(20 * var(--mini-unit));
-  overflow: scroll;
+  overflow: auto;
 }
 
 .wrapper {
