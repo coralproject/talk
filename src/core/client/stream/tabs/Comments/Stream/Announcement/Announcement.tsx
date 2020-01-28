@@ -1,7 +1,6 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Markdown } from "coral-framework/components";
 import CLASSES from "coral-stream/classes";
 import { Button, Flex, Icon } from "coral-ui/components";
 
@@ -18,7 +17,7 @@ const Announcement: FunctionComponent<Props> = props => {
       <Flex justifyContent="space-between" alignItems="center">
         <Flex itemGutter>
           <Icon size="lg">notifications</Icon>
-          <Markdown className={styles.text}>{props.children}</Markdown>
+          {props.children}
         </Flex>
         <Button color="light" onClick={props.onClose}>
           <Icon>close</Icon>

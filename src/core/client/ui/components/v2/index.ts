@@ -31,6 +31,7 @@ export { default as Flex } from "./Flex";
 export { default as FormField } from "./FormField";
 export { default as FormFieldDescription } from "./FormFieldDescription";
 export { default as FormFieldHeader } from "./FormFieldHeader";
+export { default as FormFieldFooter } from "./FormFieldFooter";
 export { default as HelperText } from "./HelperText";
 export { default as HorizontalGutter } from "./HorizontalGutter";
 export { default as Icon } from "./Icon";

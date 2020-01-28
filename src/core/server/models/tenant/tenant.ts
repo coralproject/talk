@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash";
+import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -401,17 +402,19 @@ export async function disableTenantFeatureFlag(
 
 export interface CreateAnnouncementInput {
   content: string;
-  disableAt: Date;
+  duration: number;
 }
 
 export async function createTenantAnnouncement(
   mongo: Db,
   id: string,
-  input: CreateAnnouncementInput
+  input: CreateAnnouncementInput,
+  now = new Date()
 ) {
   const announcement = {
     id: uuid.v4(),
     ...input,
+    createdAt: now,
   };
 
   const result = await collection(mongo).findOneAndUpdate(
@@ -425,31 +428,7 @@ export async function createTenantAnnouncement(
       returnOriginal: false,
     }
   );
-  return result.value || null;
-}
-
-export interface UpdateAnnouncementInput {
-  content?: string;
-  disableAt?: Date;
-}
-
-export async function updateTenantAnnouncement(
-  mongo: Db,
-  id: string,
-  announcement: UpdateAnnouncementInput
-) {
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $set: {
-        announcement,
-      },
-    },
-    {
-      returnOriginal: false,
-    }
-  );
-  return result.value || null;
+  return result.value;
 }
 
 export async function deleteTenantAnnouncement(mongo: Db, id: string) {
@@ -464,7 +443,7 @@ export async function deleteTenantAnnouncement(mongo: Db, id: string) {
       returnOriginal: false,
     }
   );
-  return result.value || null;
+  return result.value;
 }
 
 export function retrieveAnnouncementIfEnabled(
@@ -473,8 +452,14 @@ export function retrieveAnnouncementIfEnabled(
   if (!announcement) {
     return null;
   }
-  if (isBeforeDate(announcement.disableAt)) {
-    return announcement;
+  const disableAt = DateTime.fromJSDate(announcement.createdAt)
+    .plus({ seconds: announcement.duration })
+    .toJSDate();
+  if (isBeforeDate(disableAt)) {
+    return {
+      ...announcement,
+      disableAt,
+    };
   }
   return null;
 }

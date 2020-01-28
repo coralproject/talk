@@ -238,15 +238,11 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     clientMutationId: input.clientMutationId,
   }),
   createAnnouncement: async (source, { input }, ctx) => ({
-    announcement: await ctx.mutators.Settings.createAnnouncement(input),
-    clientMutationId: input.clientMutationId,
-  }),
-  updateAnnouncement: async (source, { input }, ctx) => ({
-    announcement: await ctx.mutators.Settings.updateAnnouncement(input),
+    settings: await ctx.mutators.Settings.createAnnouncement(input),
     clientMutationId: input.clientMutationId,
   }),
   deleteAnnouncement: async (source, { input }, ctx) => ({
-    announcement: await ctx.mutators.Settings.deleteAnnouncement(),
+    settings: await ctx.mutators.Settings.deleteAnnouncement(),
     clientMutationId: input.clientMutationId,
   }),
 };

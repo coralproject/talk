@@ -7,13 +7,11 @@ import {
   enableFeatureFlag,
   regenerateSSOKey,
   update,
-  updateAnnouncement,
 } from "coral-server/services/tenant";
 
 import {
   GQLCreateAnnouncementInput,
   GQLFEATURE_FLAG,
-  GQLUpdateAnnouncementInput,
   GQLUpdateSettingsInput,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -34,9 +32,7 @@ export const Settings = ({
   disableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
     disableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
   createAnnouncement: (input: GQLCreateAnnouncementInput) =>
-    createAnnouncement(mongo, redis, tenantCache, tenant, input),
-  updateAnnouncement: (input: GQLUpdateAnnouncementInput) =>
-    updateAnnouncement(mongo, redis, tenantCache, tenant, input),
+    createAnnouncement(mongo, redis, tenantCache, tenant, input, now),
   deleteAnnouncement: () =>
     deleteAnnouncement(mongo, redis, tenantCache, tenant),
 });

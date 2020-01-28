@@ -19,9 +19,7 @@ import {
   enableTenantFeatureFlag,
   rotateTenantSSOKey,
   Tenant,
-  UpdateAnnouncementInput,
   updateTenant,
-  updateTenantAnnouncement,
 } from "coral-server/models/tenant";
 import { I18n } from "coral-server/services/i18n";
 
@@ -264,29 +262,15 @@ export async function createAnnouncement(
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
-  input: CreateAnnouncementInput
+  input: CreateAnnouncementInput,
+  now = new Date()
 ) {
   const updated = await createTenantAnnouncement(mongo, tenant.id, input);
   if (!updated) {
     throw new Error("tenant not found");
   }
   await cache.update(redis, updated);
-  return updated.announcement;
-}
-
-export async function updateAnnouncement(
-  mongo: Db,
-  redis: Redis,
-  cache: TenantCache,
-  tenant: Tenant,
-  input: UpdateAnnouncementInput
-) {
-  const updated = await updateTenantAnnouncement(mongo, tenant.id, input);
-  if (!updated) {
-    throw new Error("tenant not found");
-  }
-  await cache.update(redis, updated);
-  return updated.announcement;
+  return updated;
 }
 
 export async function deleteAnnouncement(
@@ -300,5 +284,5 @@ export async function deleteAnnouncement(
     throw new Error("tenant not found");
   }
   await cache.update(redis, updated);
-  return updated.announcement;
+  return updated;
 }

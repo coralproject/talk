@@ -1217,7 +1217,9 @@ type NewCommentersConfiguration {
 
 type Announcement {
   id: ID!
+  createdAt: Time!
   disableAt: Time!
+  duration: Int!
   content: String!
 }
 
@@ -3367,16 +3369,7 @@ input CreateAnnouncementInput {
   """
   content: String!
 
-  disableAt: Time!
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-input UpdateAnnouncementInput {
-  content: String
-  disableAt: Time
+  duration: Int!
   """
   clientMutationId is required for Relay support.
   """
@@ -3396,16 +3389,7 @@ type CreateAnnouncementPayload {
   """
   clientMutationId: String!
 
-  announcement: Announcement!
-}
-
-type UpdateAnnouncementPayload {
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-
-  announcement: Announcement!
+  settings: Settings!
 }
 
 type DeleteAnnouncementPayload {
@@ -3414,7 +3398,7 @@ type DeleteAnnouncementPayload {
   """
   clientMutationId: String!
 
-  announcement: Announcement
+  settings: Settings!
 }
 
 input SettingsCommunityGuidelinesInput {
@@ -5831,10 +5815,6 @@ type Mutation {
   createAnnouncement(
     input: CreateAnnouncementInput!
   ): CreateAnnouncementPayload! @auth(roles: [ADMIN])
-
-  updateAnnouncement(
-    input: UpdateAnnouncementInput!
-  ): UpdateAnnouncementPayload! @auth(roles: [ADMIN])
 
   deleteAnnouncement(
     input: DeleteAnnouncementInput!

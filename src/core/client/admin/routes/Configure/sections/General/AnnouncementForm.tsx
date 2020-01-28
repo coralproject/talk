@@ -1,20 +1,23 @@
 import { Localized } from "@fluent/react/compat";
-import React, {
-  FunctionComponent,
-  Suspense,
-  useCallback,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, FormSpy } from "react-final-form";
 
-import { MarkdownEditor } from "coral-framework/components/loadables";
-import { parseEmptyAsNull } from "coral-framework/lib/form";
+import { colorFromMeta, parseEmptyAsNull } from "coral-framework/lib/form";
+import {
+  composeValidators,
+  required,
+  validateWholeNumberGreaterThan,
+} from "coral-framework/lib/validation";
 import {
   Button,
+  DURATION_UNIT,
+  DurationField,
+  Flex,
+  FieldSet,
   FormField,
   FormFieldHeader,
   Label,
-  Spinner,
+  Textarea,
 } from "coral-ui/components/v2";
 
 import ValidationMessage from "../../ValidationMessage";
@@ -23,7 +26,9 @@ import ValidationMessage from "../../ValidationMessage";
 
 interface Announcement {
   content: string;
-  disableAt: Date;
+  duration: number;
+  createdAt?: Date;
+  disableAt?: Date;
 }
 
 interface Settings {
@@ -32,24 +37,32 @@ interface Settings {
 
 interface Props {
   settings: Settings;
-  onSubmit?: (values: any) => void;
+  onSubmit: (values: any) => void;
   disabled: boolean;
+  onClose: () => void;
 }
 
 const AnnouncementForm: FunctionComponent<Props> = ({
   settings,
   onSubmit,
   disabled,
+  onClose,
 }) => {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState<{} | null>(null);
   const onButtonClick = useCallback(() => {
-    if (onSubmit && !disabled) {
-      onSubmit(values);
+    if (!values) {
+      return;
+    }
+    if (onSubmit && !disabled && !values.hasValidationErrors) {
+      onSubmit(values.values);
     }
   }, [values]);
   return (
     <>
-      <FormSpy subscription={{ values: true }} onChange={v => setValues(v)} />
+      <FormSpy
+        subscription={{ values: true, hasValidationErrors: true }}
+        onChange={v => setValues(v)}
+      />
       <FormField>
         <FormFieldHeader>
           <Localized id="configure-general-announcement-title">
@@ -62,24 +75,63 @@ const AnnouncementForm: FunctionComponent<Props> = ({
         <Field
           name="announcement.content"
           parse={parseEmptyAsNull}
+          validate={required}
           defaultValue={
             settings.announcement ? settings.announcement.content : ""
           }
         >
           {({ input, meta }) => (
             <>
-              <Suspense fallback={<Spinner />}>
-                <MarkdownEditor
-                  {...input}
-                  id="configure-general-announcement-content"
-                />
-              </Suspense>
+              <Textarea
+                {...input}
+                fullwidth
+                id="configure-general-announcement-content"
+              />
               <ValidationMessage meta={meta} />
             </>
           )}
         </Field>
       </FormField>
-      {onSubmit && <Button onClick={onButtonClick}>create</Button>}
+      <FormField container={<FieldSet />}>
+        <Localized id="configure-general-announcement-duration">
+          <Label component="legend">Show this announcement for</Label>
+        </Localized>
+
+        <Field
+          name="announcement.duration"
+          defaultValue="86400"
+          validate={composeValidators(
+            required,
+            validateWholeNumberGreaterThan(0)
+          )}
+        >
+          {({ input, meta }) => (
+            <>
+              <DurationField
+                {...input}
+                units={[
+                  DURATION_UNIT.HOUR,
+                  DURATION_UNIT.DAY,
+                  DURATION_UNIT.WEEK,
+                ]}
+                disabled={disabled}
+                color={colorFromMeta(meta)}
+              />
+              <ValidationMessage meta={meta} fullWidth />
+            </>
+          )}
+        </Field>
+      </FormField>
+      <Flex itemGutter justifyContent="flex-end">
+        <Localized id="configure-general-announcement-cancel">
+          <Button color="mono" variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+        </Localized>
+        <Localized id="configure-general-announcement-start">
+          <Button onClick={onButtonClick}>Start announcement</Button>
+        </Localized>
+      </Flex>
     </>
   );
 };

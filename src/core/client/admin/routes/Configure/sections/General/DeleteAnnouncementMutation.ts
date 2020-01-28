@@ -19,6 +19,11 @@ const DeleteAnnouncementMutation = createMutation(
         mutation DeleteAnnouncementMutation($input: DeleteAnnouncementInput!) {
           deleteAnnouncement(input: $input) {
             clientMutationId
+            settings {
+              announcement {
+                content
+              }
+            }
           }
         }
       `,

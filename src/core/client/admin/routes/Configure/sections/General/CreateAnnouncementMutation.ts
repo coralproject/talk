@@ -18,10 +18,13 @@ const CreateAnnouncementMutation = createMutation(
       mutation: graphql`
         mutation CreateAnnouncementMutation($input: CreateAnnouncementInput!) {
           createAnnouncement(input: $input) {
-            announcement {
-              id
-              content
-              disableAt
+            settings {
+              announcement {
+                id
+                content
+                createdAt
+                duration
+              }
             }
             clientMutationId
           }
@@ -30,7 +33,7 @@ const CreateAnnouncementMutation = createMutation(
       variables: {
         input: {
           content: input.content,
-          disableAt: input.disableAt,
+          duration: input.duration,
           clientMutationId: (clientMutationId++).toString(),
         },
       },
