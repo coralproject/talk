@@ -5503,6 +5503,39 @@ type DisableFeatureFlagPayload {
   flags: [FEATURE_FLAG!]!
 }
 
+#########################
+# Add / Remove Expert
+#########################
+
+input AddExpertInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story to add the expert to.
+  """
+  storyID: ID!
+
+  """
+  userID is the user to add as an expert to the story.
+  """
+  userID: ID!
+}
+
+type AddExpertPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  story is the resultant story the expert was added to.
+  """
+  story: Story!
+}
+
 ##################
 ## Mutation
 ##################
@@ -5875,13 +5908,26 @@ type Mutation {
     input: DisableFeatureFlagInput!
   ): DisableFeatureFlagPayload! @auth(roles: [ADMIN])
 
+  """
+  createAnnouncement creates a global announcement.
+  """
   createAnnouncement(
     input: CreateAnnouncementInput!
   ): CreateAnnouncementPayload! @auth(roles: [ADMIN])
 
+  """
+  deleteAnnouncement removes a global announcement.
+  """
   deleteAnnouncement(
     input: DeleteAnnouncementInput!
   ): DeleteAnnouncementPayload! @auth(roles: [ADMIN])
+
+  """
+  addExpertToStory adds an expert to a story.
+  """
+  addExpertToStory(
+    input: AddExpertInput!
+  ): AddExpertPayload! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################

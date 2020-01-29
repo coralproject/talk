@@ -24,6 +24,7 @@ import StreamMode from "./Q&A/StreamMode";
 import styles from "./ConfigureStream.css";
 
 interface Props {
+  storyID: string;
   onSubmit: (settings: any, form: FormApi) => void;
   storySettings: PropTypesOf<
     typeof LiveUpdatesConfigContainer
@@ -31,6 +32,7 @@ interface Props {
 }
 
 const ConfigureStream: FunctionComponent<Props> = ({
+  storyID,
   onSubmit,
   storySettings,
 }) => (
@@ -78,7 +80,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
           <MessageBoxConfigContainer disabled={submitting} />
 
           <StreamMode disabled={submitting} />
-          <ExpertSelectionQuery />
+          <ExpertSelectionQuery storyID={storyID} />
         </HorizontalGutter>
       </form>
     )}

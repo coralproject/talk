@@ -5,6 +5,7 @@ import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { Story } from "coral-server/models/story";
 import {
+  addExpertToStory,
   close,
   create,
   merge,
@@ -16,6 +17,7 @@ import {
 import { scrape } from "coral-server/services/stories/scraper";
 
 import {
+  GQLAddExpertInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
   GQLMergeStoriesInput,
@@ -75,4 +77,6 @@ export const Stories = (ctx: GraphContext) => ({
     remove(ctx.mongo, ctx.tenant, input.id, input.includeComments),
   scrape: async (input: GQLScrapeStoryInput): Promise<Readonly<Story> | null> =>
     scrape(ctx.mongo, ctx.config, ctx.tenant.id, input.id),
+  addExpertToStory: async (input: GQLAddExpertInput) =>
+    addExpertToStory(ctx.mongo, ctx.tenant, input.storyID, input.userID),
 });

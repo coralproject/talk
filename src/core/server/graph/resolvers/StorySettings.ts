@@ -28,9 +28,9 @@ export const StorySettings: GQLStorySettingsTypeResolver<
 
     return GQLSTORY_MODE.COMMENTS;
   },
-  experts: s => {
-    if (s.experts) {
-      return s.experts;
+  experts: (s, input, ctx) => {
+    if (s.expertIDs) {
+      return ctx.loaders.Users.user.loadMany(s.expertIDs);
     }
 
     return [];
