@@ -560,6 +560,7 @@ export async function addExpert(
 
   return result.value || null;
 }
+<<<<<<< HEAD
 
 export async function removeExpert(
   mongo: Db,
@@ -655,3 +656,5 @@ export async function disableQA(mongo: Db, tenantID: string, storyID: string) {
 
   return result.value || null;
 }
+=======
+>>>>>>> Create addExpertToStory mutation
