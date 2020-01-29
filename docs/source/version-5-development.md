@@ -120,3 +120,26 @@ Strings MUST NOT be changed after they've been committed and pushed to master. C
 If you are a developer contributing a new language, you’ll need to add the required i18n support in the i18n files (or you can leave that to us if you like). If you’re a non-developer, you can submit the translation via GitHub if you feel comfortable doing that, or feel free to email it to us via our Support: support@coralproject.net
 
 If you want to suggest a new language or put a placeholder for a translation you’re working on, feel free to create a GitHub issue: https://github.com/coralproject/talk/issues/new
+
+## Compatibility with IE11
+
+We strive to make the Comment Stream Embed usable in IE11 without being pixel-perfect. If you develop on the Comment Stream you need to be aware of the following:
+
+### CSS Variables
+
+In order to support IE11 on the Comment Stream, every time new CSS is loaded, you need to call `polyfillCSSVarsForIE11()`.
+
+```ts
+import { polyfillCSSVarsForIE11 } from "coral-framework/helpers";
+
+const loadProfileContainer = () =>
+  import("./ProfileContainer" /* webpackChunkName: "profile" */).then(x => {
+    // New css is loaded, take care of polyfilling those css vars for IE11.
+    polyfillCSSVarsForIE11();
+    return x;
+  });
+```
+
+### CSS Calc
+
+Various bugs exists around `calc` support in IE11 (see https://caniuse.com/#feat=calc). We work around most of them by pre-transforming `calc` values using `postcss-calc-function`. Some css attributes might have an issue if you use `css-variables` inside `calc`.
