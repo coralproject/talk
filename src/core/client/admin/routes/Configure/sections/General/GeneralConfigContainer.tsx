@@ -40,9 +40,9 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       data-testid="configure-generalContainer"
       className={styles.root}
     >
-      <AnnouncementConfigContainer disabled={submitting} settings={settings} />
       <LocaleConfig disabled={submitting} />
       <SitewideCommentingConfig disabled={submitting} />
+      <AnnouncementConfigContainer disabled={submitting} settings={settings} />
       <GuidelinesConfig disabled={submitting} />
       <CommentLengthConfig disabled={submitting} />
       <CommentEditingConfig disabled={submitting} />
