@@ -788,7 +788,9 @@ exports[`shows server error 1`] = `
     <div
       className="CallOut-root CallOut-colorError CallOut-fullWidth"
     >
-      <div>
+      <div
+        className="CallOut-inner"
+      >
         Server Error
       </div>
     </div>

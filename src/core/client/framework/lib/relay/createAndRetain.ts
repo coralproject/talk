@@ -16,7 +16,8 @@ export default function createAndRetain(
   const result = source.create(id, type);
   environment.retain({
     dataID: id,
-    node: { selections: [] },
+    // TODO: Do we still need this retain hack?
+    node: { selections: [] } as any,
     variables: {},
   });
   return result;

@@ -1,4 +1,4 @@
-import { COUNT_SELECTOR } from "coral-framework/constants";
+import { COUNT_SELECTOR, ORIGIN_FALLBACK_ID } from "coral-framework/constants";
 import detectCountScript from "coral-framework/helpers/detectCountScript";
 
 /**
@@ -13,6 +13,7 @@ const injectCountScriptIfNeeded = (rootURL: string) => {
   if (document.querySelector(COUNT_SELECTOR)) {
     const s = document.createElement("script");
     s.src = `${rootURL}/assets/js/count.js`;
+    s.className = ORIGIN_FALLBACK_ID;
     s.async = false;
     s.defer = true;
     (document.head || document.body).appendChild(s);

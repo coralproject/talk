@@ -7,11 +7,11 @@ import {
   wrapDisplayName,
 } from "recompose";
 import {
-  CSelector,
-  CSnapshot,
   Disposable,
   Environment,
   GraphQLTaggedNode,
+  ReaderSelector,
+  Snapshot,
 } from "relay-runtime";
 
 import { withContext } from "../bootstrap";
@@ -33,7 +33,7 @@ function withLocalStateContainer(
 ): InferableComponentEnhancer<{ local: _RefType<any> }> {
   const fragment =
     typeof fragmentSpec === "function"
-      ? fragmentSpec().default
+      ? (fragmentSpec() as any).default
       : (fragmentSpec as any).data().default;
   return compose(
     withContext(({ relayEnvironment }) => ({ relayEnvironment })),
@@ -54,9 +54,14 @@ function withLocalStateContainer(
               `Type must be "Local" in "Fragment ${fragment.name}"`
             );
           }
-          const selector: CSelector<any> = {
+          const selector: ReaderSelector = {
             dataID: LOCAL_ID,
-            node: { selections: fragment.selections },
+            node: {
+              kind: fragment.kind,
+              name: fragment.name,
+              metadata: fragment.metadata,
+              selections: fragment.selections,
+            },
             variables: {},
           };
           const snapshot = environment.lookup(selector);
@@ -72,7 +77,7 @@ function withLocalStateContainer(
           this.subscribe(props.relayEnvironment);
         }
 
-        private updateSnapshot = (snapshot: CSnapshot<any>) => {
+        private updateSnapshot = (snapshot: Snapshot) => {
           const nextState = { data: snapshot.data };
           // State has not been initialized yet.
           if (!this.state) {

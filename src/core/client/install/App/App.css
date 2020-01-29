@@ -10,6 +10,9 @@
     background-color: var(--palette-background-light);
     color: var(--palette-text-primary);
   }
+  input::-ms-clear, input::-ms-reveal {
+    display: none;
+  }
 }
 
 .root {

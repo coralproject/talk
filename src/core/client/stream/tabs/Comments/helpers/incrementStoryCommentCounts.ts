@@ -11,7 +11,7 @@ export default function incrementStoryCommentCounts(
     if (record) {
       // TODO: when we have moderation, we'll need to be careful here.
       const currentCount = record.getValue("totalPublished");
-      record.setValue(currentCount + 1, "totalPublished");
+      record.setValue((currentCount as number) + 1, "totalPublished");
     }
   }
 }

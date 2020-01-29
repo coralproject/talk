@@ -18,8 +18,7 @@ import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 // TODO: import form coral-common/version, for some reason this fails currently.
 // Try again when we have a chance to upgrade typescript.
 import { version } from "../common/version";
-import { Config } from "./config";
-import { createClientEnv } from "./config";
+import { Config, createClientEnv } from "./config";
 import paths from "./paths";
 
 /**
@@ -392,7 +391,7 @@ export default function createWebpackConfig(
                       "@babel/typescript",
                       [
                         "@babel/env",
-                        { targets: { node: "12.0.0" }, modules: "commonjs" },
+                        { targets: { node: "current" }, modules: "commonjs" },
                       ],
                     ],
                     // This is a feature of `babel-loader` for webpack (not Babel itself).
@@ -450,19 +449,11 @@ export default function createWebpackConfig(
             {
               test: /\.js$/,
               include: /node_modules\//,
+              exclude: /node_modules\/(@babel|babel|core-js|regenerator-runtime)/,
               use: [
                 {
                   loader: require.resolve("babel-loader"),
                   options: {
-                    // This will ensure that all packages in node_modules that
-                    // import lodash do so in a way that supports tree shaking.
-                    plugins: ["lodash"],
-                    presets: [
-                      [
-                        "@babel/env",
-                        { targets: "last 2 versions", modules: false },
-                      ],
-                    ],
                     cacheDirectory: true,
                   },
                 },
@@ -712,8 +703,7 @@ export default function createWebpackConfig(
         sideEffects: true,
       },
       entry: [
-        /* Use minimal amount of polyfills (for IE) */
-        "intersection-observer", // also for Safari
+        // Polyfills are in the index.ts file.
         paths.appEmbedIndex,
       ],
       output: {

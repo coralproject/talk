@@ -7,6 +7,7 @@ const pickBy = require("lodash/pickBy");
 const flat = require("flat");
 const paths = require("./paths").default;
 const autoprefixer = require("autoprefixer");
+const postcssCalcFunction = require("postcss-calc-function").default;
 const postcssFontMagician = require("postcss-font-magician");
 const postcssFlexbugsFixes = require("postcss-flexbugs-fixes");
 const postcssPresetEnv = require("postcss-preset-env");
@@ -52,6 +53,8 @@ module.exports = {
     postcssNested(),
     // Sass style variables to be used in media queries.
     postcssAdvancedVariables({ variables: mediaQueryVariables }),
+    // Reduce some calc()
+    postcssCalcFunction(),
     // Provides a modern CSS environment.
     postcssPresetEnv(),
     // Does all the font handling logic.

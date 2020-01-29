@@ -19,7 +19,7 @@ import {
   RelativeTime,
 } from "coral-ui/components";
 
-import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../../helpers";
+import { getCommentBodyValidators, normalizeRTEHTML } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTE from "../../RTE";
 import TopBarLeft from "../TopBarLeft";
@@ -88,7 +88,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
                       <RTE
                         inputId={inputID}
                         onChange={({ html }) =>
-                          input.onChange(cleanupRTEEmptyHTML(html))
+                          input.onChange(normalizeRTEHTML(html))
                         }
                         value={input.value}
                         placeholder="Edit comment"

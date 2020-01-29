@@ -1,9 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { ReadyState } from "react-relay";
 
 import {
   graphql,
+  QueryRenderData,
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
@@ -22,7 +22,7 @@ interface Props {
 }
 
 export const render = (
-  data: ReadyState<QueryTypes["response"]>,
+  data: QueryRenderData<QueryTypes>,
   commentsTab: COMMENTS_TAB
 ) => {
   if (data.error) {

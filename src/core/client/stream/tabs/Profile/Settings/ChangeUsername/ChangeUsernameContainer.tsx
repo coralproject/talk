@@ -112,9 +112,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
         lastUsernameEditAllowed.getSeconds() -
           ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION
       );
-      const lastUsernameEdit =
-        username.history[username.history.length - 1].createdAt;
-      return lastUsernameEdit > lastUsernameEditAllowed;
+      const lastUsernameEdit = new Date(
+        username.history[username.history.length - 1].createdAt
+      );
+      return lastUsernameEdit <= lastUsernameEditAllowed;
     }
     return true;
   }, [viewer]);

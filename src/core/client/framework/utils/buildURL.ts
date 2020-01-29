@@ -1,3 +1,5 @@
+import startsWith from "coral-common/utils/startsWith";
+
 export default function buildURL({
   protocol = window.location.protocol,
   hostname = window.location.hostname,
@@ -6,10 +8,13 @@ export default function buildURL({
   search = window.location.search,
   hash = window.location.hash,
 } = {}) {
-  if (search && !search.startsWith("?")) {
+  if (search && !startsWith(search, "?")) {
     search = `?${search}`;
   } else if (search === "?") {
     search = "";
+  }
+  if (!startsWith(pathname, "/")) {
+    pathname = "/" + pathname;
   }
   return `${protocol}//${hostname}${
     port ? `:${port}` : ""

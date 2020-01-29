@@ -9,6 +9,9 @@
     /* Support for Firefox. */
     -moz-osx-font-smoothing: grayscale;
   }
+  input::-ms-clear, input::-ms-reveal {
+    display: none;
+  }
 }
 
 .root {

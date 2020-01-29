@@ -18,7 +18,7 @@ import styles from "./Modal.css";
 
 function appendDivNode() {
   const div = document.createElement("div");
-  document.body.append(div);
+  document.body.appendChild(div);
   div.setAttribute("data-portal", "modal");
   return div;
 }

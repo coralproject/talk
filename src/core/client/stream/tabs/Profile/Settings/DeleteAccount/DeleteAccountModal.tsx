@@ -6,7 +6,7 @@ import DeleteAccountModalContents from "./DeleteAccountModalContents";
 
 interface Props {
   userID: string;
-  scheduledDeletionDate?: string;
+  scheduledDeletionDate?: string | null;
   organizationEmail: string;
   open: boolean;
   onClose: () => void;
@@ -33,7 +33,7 @@ const DeleteAccountModal: FunctionComponent<Props> = ({
         <DeleteAccountModalContents
           userID={userID}
           onClose={onClose}
-          scheduledDeletionDate={scheduledDeletionDate}
+          scheduledDeletionDate={scheduledDeletionDate || undefined}
           organizationEmail={organizationEmail}
         />
       </Modal>

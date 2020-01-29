@@ -1,4 +1,5 @@
-import { Environment, RelayInMemoryRecordSource } from "relay-runtime";
+import bowser from "bowser";
+import { Environment } from "relay-runtime";
 
 /**
  * RecordSourceProxy has the same shape as the underlying Schema Type, but
@@ -20,8 +21,9 @@ type RecordSourceProxy<T> = T extends object
  */
 const createProxy = <T = any>(
   environment: Environment,
-  recordSource: RelayInMemoryRecordSource
+  recordSource: Record<string, any>
 ) => {
+  let target = {};
   const proxy: ProxyHandler<any> = {
     ownKeys() {
       return Object.keys(recordSource);
@@ -50,7 +52,16 @@ const createProxy = <T = any>(
       return rsrc[prop];
     },
   };
-  return new Proxy({}, proxy) as RecordSourceProxy<T>;
+  // IE11 does not have Proxy support and the polyfill only supports
+  // a subset of features under special circumstances.
+  // https://github.com/GoogleChrome/proxy-polyfill
+  if (bowser.msie) {
+    target = recordSource;
+    delete proxy.ownKeys;
+    delete proxy.getOwnPropertyDescriptor;
+    delete proxy.has;
+  }
+  return new Proxy(target, proxy) as RecordSourceProxy<T>;
 };
 
 /**

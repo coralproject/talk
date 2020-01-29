@@ -27,8 +27,10 @@ const AllCommentsTabViewNewMutation = createMutation(
         {
           orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
         }
-      )! as RecordProxy;
-      const viewNewEdges = connection.getLinkedRecords("viewNewEdges");
+      )!;
+      const viewNewEdges = connection.getLinkedRecords(
+        "viewNewEdges"
+      ) as ReadonlyArray<RecordProxy>;
       if (!viewNewEdges || viewNewEdges.length === 0) {
         return;
       }

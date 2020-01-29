@@ -12,7 +12,7 @@ import ValidationMessage from "coral-stream/common/ValidationMessage";
 import { CreateCommentFocusEvent } from "coral-stream/events";
 import { AriaInfo, Button, Flex, HorizontalGutter } from "coral-ui/components";
 
-import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../../helpers";
+import { getCommentBodyValidators, normalizeRTEHTML } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTE from "../../RTE";
 import MessageBoxContainer from "../MessageBoxContainer";
@@ -86,7 +86,7 @@ const PostCommentForm: FunctionComponent<Props> = props => {
                           inputId="comments-postCommentForm-field"
                           onFocus={onFocus}
                           onChange={({ html }) =>
-                            input.onChange(cleanupRTEEmptyHTML(html))
+                            input.onChange(normalizeRTEHTML(html))
                           }
                           contentClassName={
                             props.showMessageBox

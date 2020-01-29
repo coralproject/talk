@@ -81,6 +81,13 @@ export const useCoralContext = () => React.useContext(CoralReactContext);
  */
 export const CoralContextConsumer = CoralReactContext.Consumer;
 
+const parser = new DOMParser();
+
+// Use this custom markup parser which works in IE11.
+function parseMarkup(str: string) {
+  const doc = parser.parseFromString(`<body>${str}</body>`, "text/html");
+  return Array.from(doc.body.childNodes);
+}
 /**
  * In addition to just providing the context, CoralContextProvider also
  * renders the `LocalizationProvider` with the appropite data.
@@ -89,7 +96,10 @@ export const CoralContextProvider: FunctionComponent<{
   value: CoralContext;
 }> = ({ value, children }) => (
   <CoralReactContext.Provider value={value}>
-    <LocalizationProvider bundles={value.localeBundles}>
+    <LocalizationProvider
+      bundles={value.localeBundles}
+      parseMarkup={parseMarkup}
+    >
       <UIContext.Provider
         value={{
           timeagoFormatter: value.timeagoFormatter,

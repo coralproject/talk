@@ -2,6 +2,7 @@ import { Child as PymChild } from "pym.js";
 import React, { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
+import injectConditionalPolyfills from "coral-framework/helpers/injectConditionalPolyfills";
 import potentiallyInjectAxe from "coral-framework/helpers/potentiallyInjectAxe";
 import { createManaged } from "coral-framework/lib/bootstrap";
 
@@ -16,6 +17,7 @@ async function main() {
   const pym = new PymChild({
     polling: 100,
   });
+  await injectConditionalPolyfills();
   // Potentially inject react-axe for runtime a11y checks.
   await potentiallyInjectAxe(pym.parentUrl);
   const ManagedCoralContextProvider = await createManaged({

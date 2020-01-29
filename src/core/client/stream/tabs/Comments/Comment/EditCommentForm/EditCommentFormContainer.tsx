@@ -52,7 +52,9 @@ export class EditCommentFormContainer extends Component<Props, State> {
 
   public state: State = {
     initialized: false,
-    expired: !isBeforeDate(this.props.comment.editing.editableUntil),
+    expired:
+      !!this.props.comment.editing.editableUntil &&
+      !isBeforeDate(this.props.comment.editing.editableUntil),
     submitStatus: null,
   };
 
@@ -67,7 +69,8 @@ export class EditCommentFormContainer extends Component<Props, State> {
 
   private updateWhenExpired() {
     const ms =
-      new Date(this.props.comment.editing.editableUntil).getTime() - Date.now();
+      new Date(this.props.comment.editing.editableUntil!).getTime() -
+      Date.now();
     if (ms > 0) {
       return setTimeout(() => this.setState({ expired: true }), ms);
     }
@@ -138,7 +141,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
         rteRef={this.handleRTERef}
         author={this.props.comment.author}
         createdAt={this.props.comment.createdAt}
-        editableUntil={this.props.comment.editing.editableUntil}
+        editableUntil={this.props.comment.editing.editableUntil!}
         expired={this.state.expired}
         min={
           (this.props.settings.charCount.enabled &&

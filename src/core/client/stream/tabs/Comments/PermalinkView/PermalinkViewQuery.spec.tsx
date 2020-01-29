@@ -1,3 +1,4 @@
+import { noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
@@ -10,6 +11,7 @@ it("renders permalink view container", () => {
       comment: {},
     } as any,
     error: null,
+    retry: noop,
   };
   const renderer = createRenderer();
   renderer.render(React.createElement(() => render(data)));
@@ -20,6 +22,7 @@ it("renders loading", () => {
   const data = {
     props: null,
     error: null,
+    retry: noop,
   };
   const renderer = createRenderer();
   renderer.render(React.createElement(() => render(data)));
@@ -30,6 +33,7 @@ it("renders error", () => {
   const data = {
     props: null,
     error: new Error("error"),
+    retry: noop,
   };
   const renderer = createRenderer();
   renderer.render(React.createElement(() => render(data)));

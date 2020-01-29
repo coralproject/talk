@@ -20,5 +20,8 @@ export default function changeQueueCount(
   if (!queueProxy) {
     return;
   }
-  queueProxy.setValue(queueProxy.getValue("count") + change, "count");
+  queueProxy.setValue(
+    (queueProxy.getValue("count") as number) + change,
+    "count"
+  );
 }

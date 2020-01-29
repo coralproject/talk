@@ -1,5 +1,5 @@
 import { commitMutation } from "react-relay";
-import { Environment, MutationConfig, OperationBase } from "relay-runtime";
+import { Environment, MutationConfig, OperationType } from "relay-runtime";
 
 import { DeepPartial, Omit } from "coral-framework/types";
 
@@ -9,7 +9,7 @@ import extractPayload from "./extractPayload";
  * Like `MutationConfig` but omits `onCompleted` and `onError`
  * because we are going to use a Promise API.
  */
-export type MutationPromiseConfig<T extends OperationBase> = Omit<
+export type MutationPromiseConfig<T extends OperationType> = Omit<
   MutationConfig<T>,
   "onCompleted" | "onError" | "optimisticResponse"
 > & { optimisticResponse?: DeepPartial<T["response"]> };
@@ -20,7 +20,7 @@ export type MutationPromiseConfig<T extends OperationBase> = Omit<
  * and errors are wrapped inside of application specific
  * error instances.
  */
-export async function commitMutationPromiseNormalized<T extends OperationBase>(
+export async function commitMutationPromiseNormalized<T extends OperationType>(
   environment: Environment,
   config: MutationPromiseConfig<T>
 ): Promise<T["response"][keyof T["response"]]> {
@@ -30,7 +30,7 @@ export async function commitMutationPromiseNormalized<T extends OperationBase>(
 /**
  * Like `commitMutation` of the Relay API but returns a Promise.
  */
-export function commitMutationPromise<T extends OperationBase>(
+export function commitMutationPromise<T extends OperationType>(
   environment: Environment,
   config: MutationPromiseConfig<T>
 ): Promise<T["response"][keyof T["response"]]> {

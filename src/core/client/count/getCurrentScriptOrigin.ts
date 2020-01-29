@@ -1,3 +1,5 @@
+import getOrigin from "coral-common/utils/getOrigin";
+
 /**
  * getCurrentScriptOrigin will try to find the script origin.
  * For legacy browsers a fallbackIdentifier is required.
@@ -17,9 +19,14 @@ function getCurrentScriptOrigin(fallbackID?: string) {
     }
   }
   if (!script) {
+    if (process.env.NODE_ENV === "development") {
+      // In development just return top level origin.
+      return window.location.origin;
+    }
     throw new Error("Current script not found");
   }
-  return new URL(script.src).origin;
+  // Get origin.
+  return getOrigin(script.src);
 }
 
 export default getCurrentScriptOrigin;

@@ -32,6 +32,7 @@ declare module "@fluent/react/compat" {
 
   export interface LocalizationProviderProps {
     bundles: FluentBundle[];
+    parseMarkup?: (s: string) => ChildNode[];
   }
   export const LocalizationProvider: ComponentType<LocalizationProviderProps>;
 

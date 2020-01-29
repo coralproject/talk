@@ -1,6 +1,7 @@
 import { FormApi, FormState } from "final-form";
 import React from "react";
 
+import { LanguageCode } from "coral-common/helpers/i18n";
 import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 import { SubmitHookHandler } from "coral-framework/lib/form";
 import { MutationProp, withMutation } from "coral-framework/lib/relay";
@@ -31,7 +32,7 @@ class ConfigureRoute extends React.Component<Props, State> {
     await this.props.updateSettings({ settings: data });
     const localeFieldState = form.getFieldState("locale");
     if (localeFieldState && localeFieldState.dirty) {
-      await this.props.changeLocale(data.locale);
+      await this.props.changeLocale(data.locale as LanguageCode);
     }
     form.initialize(data);
   };

@@ -1,14 +1,12 @@
-import { pick } from "lodash";
-
 export default function parseURL(url: string) {
   const parser = document.createElement("a");
   parser.href = url;
-  return pick(parser, [
-    "protocol",
-    "hostname",
-    "port",
-    "pathname",
-    "search",
-    "hash",
-  ]);
+  return {
+    protocol: parser.protocol,
+    hostname: parser.hostname,
+    port: parser.port,
+    pathname: parser.pathname,
+    search: parser.search,
+    hash: parser.hash,
+  };
 }

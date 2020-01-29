@@ -1,28 +1,20 @@
 /**
  * This is a project wide babel configuration.
  * https://babeljs.io/docs/en/config-files#project-wide-configuration
- *
- * We use this file to apply babel configuration to packages in `node_modules`
  */
 
-const lodashOptimizations =
+// Note: If Webpack env is set, we are building for the client.
+
+const plugins =
   process.env.WEBPACK === "true" ? ["use-lodash-es", "lodash"] : [];
+
+const environment =
+  process.env.WEBPACK === "true"
+    ? { targets: "IE 11", modules: false }
+    : { targets: { node: "current" }, modules: "commonjs" };
 
 module.exports = {
   babelrcRoots: ["./src/core/client/*"],
-  env: {
-    production: {
-      plugins: [...lodashOptimizations],
-    },
-    development: {
-      plugins: [...lodashOptimizations],
-    },
-    test: {
-      presets: [
-        ["@babel/env", { targets: { node: "current" } }],
-        "@babel/react",
-      ],
-      plugins: ["dynamic-import-node"],
-    },
-  },
+  plugins,
+  presets: [["@babel/env", environment]],
 };

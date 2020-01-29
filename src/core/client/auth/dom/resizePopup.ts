@@ -1,6 +1,11 @@
 function resizePopup() {
   const innerHeight = window.document.body.offsetHeight;
-  window.resizeTo(350, innerHeight + window.outerHeight - window.innerHeight);
+
+  try {
+    window.resizeTo(350, innerHeight + window.outerHeight - window.innerHeight);
+  } catch {
+    // Ignore occasional errors in IE11.
+  }
 }
 
 let resizedAlready = false;

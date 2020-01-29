@@ -1,6 +1,6 @@
 declare module "relay-local-schema" {
   import { GraphQLSchema } from "graphql";
-  import { Network as RelayNetwork, FetchFunction } from "relay-runtime";
+  import { INetwork as RelayNetwork, FetchFunction } from "relay-runtime";
 
   interface CreateArguments {
     schema: GraphQLSchema;

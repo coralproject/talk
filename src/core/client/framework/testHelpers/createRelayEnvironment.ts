@@ -4,6 +4,7 @@ import { SubscribeFunction } from "react-relay-network-modern/es";
 import {
   commitLocalUpdate,
   Environment,
+  INetwork,
   Network,
   RecordProxy,
   RecordSource,
@@ -87,7 +88,10 @@ function createFetch({
         });
         throw new Error(payload.errors.toString());
       }
-      return payload;
+      return {
+        data: payload.data,
+        errors: payload.errors || [],
+      };
     });
   };
 }
@@ -147,7 +151,7 @@ function createSubscribe(
 export default function createRelayEnvironment(
   params: CreateRelayEnvironmentParams = {}
 ) {
-  let network: Network = null as any;
+  let network: INetwork = null as any;
   if (params.network) {
     const schema = loadSchema(
       params.network.projectName,

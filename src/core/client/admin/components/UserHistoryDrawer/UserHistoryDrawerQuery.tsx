@@ -1,8 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
-import { ReadyState } from "react-relay";
 
-import { graphql, QueryRenderer } from "coral-framework/lib/relay";
+import {
+  graphql,
+  QueryRenderData,
+  QueryRenderer,
+} from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components/v2";
 
 import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
@@ -36,7 +39,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
       `}
       variables={{ userID }}
       cacheConfig={{ force: true }}
-      render={({ props }: ReadyState<QueryTypes["response"]>) => {
+      render={({ props }: QueryRenderData<QueryTypes>) => {
         if (!props) {
           return (
             <div className={styles.root}>

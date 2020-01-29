@@ -447,7 +447,9 @@ exports[`shows server error 1`] = `
     <div
       className="CallOut-root CallOut-colorError CallOut-fullWidth"
     >
-      <div>
+      <div
+        className="CallOut-inner"
+      >
         server error
 
 GraphQL request (4:3)

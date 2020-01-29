@@ -7,7 +7,7 @@ import getHTMLText from "./getHTMLText";
  *
  * @param html the html to be cleaned up
  */
-export default function cleanupRTEEmptyHTML(html: string) {
+function cleanupRTEEmptyHTML(html: string) {
   if (html.includes("blockquote")) {
     return html;
   }
@@ -19,4 +19,13 @@ export default function cleanupRTEEmptyHTML(html: string) {
     return html;
   }
   return "";
+}
+
+export default function normalizeRTEHTML(html: string) {
+  // IE11 uses strong and em instead of b and i.
+  html = html.replace("<strong>", "<b>");
+  html = html.replace("</strong>", "</b>");
+  html = html.replace("<em>", "<i>");
+  html = html.replace("</em>", "</i>");
+  return cleanupRTEEmptyHTML(html);
 }

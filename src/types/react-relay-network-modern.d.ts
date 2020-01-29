@@ -5,6 +5,7 @@
 declare module "react-relay-network-modern/es" {
   // TODO: missing typescript types.
   // import { QueryResponseCache } from 'relay-runtime';
+  import { ExecuteFunction } from "relay-runtime";
 
   export interface Variables {
     [name: string]: any;
@@ -188,6 +189,7 @@ declare module "react-relay-network-modern/es" {
       middlewares: Array<Middleware | MiddlewareSync | MiddlewareRaw>,
       opts?: RelayNetworkLayerOpts
     );
+    execute: ExecuteFunction;
   }
 
   export interface AuthMiddlewareOpts {

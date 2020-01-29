@@ -24,7 +24,7 @@ import {
   MatchMedia,
 } from "coral-ui/components";
 
-import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../../helpers";
+import { getCommentBodyValidators, normalizeRTEHTML } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTE from "../../RTE";
 import ReplyTo from "./ReplyTo";
@@ -92,7 +92,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
                           inputId={inputID}
                           onFocus={onFocus}
                           onChange={({ html }) =>
-                            input.onChange(cleanupRTEEmptyHTML(html))
+                            input.onChange(normalizeRTEHTML(html))
                           }
                           value={input.value}
                           placeholder="Write a reply"

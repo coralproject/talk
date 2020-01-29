@@ -6,6 +6,7 @@ import {
   act,
   createResolversStub,
   CreateTestRendererParams,
+  waitForElement,
   within,
 } from "coral-framework/testHelpers";
 
@@ -70,8 +71,8 @@ describe("change email form", () => {
   });
 
   it("ensures email field is required", async () => {
-    const changeEmail = within(testRenderer.root).getByTestID(
-      "profile-changeEmail"
+    const changeEmail = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("profile-changeEmail")
     );
     const editButton = within(changeEmail).getByText("Edit");
     act(() => {
@@ -90,8 +91,8 @@ describe("change email form", () => {
   });
 
   it("ensures password field is required", async () => {
-    const changeEmail = within(testRenderer.root).getByTestID(
-      "profile-changeEmail"
+    const changeEmail = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("profile-changeEmail")
     );
     const editButton = within(changeEmail).getByText("Edit");
     act(() => {
@@ -113,8 +114,8 @@ describe("change email form", () => {
   });
 
   it("updates email if fields are valid", async () => {
-    const changeEmail = within(testRenderer.root).getByTestID(
-      "profile-changeEmail"
+    const changeEmail = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("profile-changeEmail")
     );
     const editButton = within(changeEmail).getByText("Edit");
     act(() => {

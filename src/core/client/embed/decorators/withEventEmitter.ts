@@ -1,5 +1,7 @@
 import { EventEmitter2 } from "eventemitter2";
 
+import startsWith from "coral-common/utils/startsWith";
+
 import { Decorator } from "./types";
 
 const withEventEmitter = (
@@ -11,13 +13,13 @@ const withEventEmitter = (
     const { eventName, value } = JSON.parse(raw);
     // TODO: (cvle) Remove this when no longer needed.
     if (!enableDeprecatedEvents) {
-      if ((eventName as string).startsWith("mutation.")) {
+      if (startsWith(eventName as string, "mutation.")) {
         return;
       }
-      if ((eventName as string).startsWith("fetch.")) {
+      if (startsWith(eventName as string, "fetch.")) {
         return;
       }
-      if ((eventName as string).startsWith("subscription.")) {
+      if (startsWith(eventName as string, "subscription.")) {
         return;
       }
     }

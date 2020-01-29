@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   commitLocalUpdate,
-  CSelector,
+  CReaderSelector,
   GraphQLTaggedNode,
   RecordProxy,
 } from "relay-runtime";
@@ -85,7 +85,7 @@ function useLocal<T>(
 ): [OmitFragments<T>, (update: LocalUpdater<OmitFragments<T>>) => void] {
   const fragment =
     typeof fragmentSpec === "function"
-      ? fragmentSpec().default
+      ? (fragmentSpec() as any).default
       : (fragmentSpec as any).data().default;
   if (fragment.kind !== "Fragment") {
     throw new Error("Expected fragment");
@@ -93,7 +93,7 @@ function useLocal<T>(
   if (fragment.type !== LOCAL_TYPE) {
     throw new Error(`Type must be "Local" in "Fragment ${fragment.name}"`);
   }
-  const selector: CSelector<any> = {
+  const selector: CReaderSelector<any> = {
     dataID: LOCAL_ID,
     node: { selections: fragment.selections },
     variables: {},

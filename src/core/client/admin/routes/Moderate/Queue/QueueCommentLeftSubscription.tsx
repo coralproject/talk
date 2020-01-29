@@ -19,7 +19,9 @@ function handleCommentLeftModerationQueue(
   if (!rootField) {
     return;
   }
-  const commentID = rootField.getLinkedRecord("comment")!.getValue("id")!;
+  const commentID = rootField
+    .getLinkedRecord("comment")!
+    .getValue("id")! as string;
   const commentInStore = store.get(commentID);
   if (commentInStore) {
     // Mark that the status of the comment was live updated.

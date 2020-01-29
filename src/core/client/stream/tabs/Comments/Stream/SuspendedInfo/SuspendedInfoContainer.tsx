@@ -22,7 +22,7 @@ export const SuspendedInfoContainer: FunctionComponent<Props> = ({
   }
   return (
     <SuspendedInfo
-      until={viewer.status.suspension.until}
+      until={viewer.status.suspension.until!}
       organization={settings.organization.name}
     />
   );

@@ -131,7 +131,7 @@
 
       const button = document.getElementById("showComments");
 
-      const showStreamEmbed = () => {
+      const showStreamEmbed = function() {
         CoralStreamEmbed.render();
         button.parentElement.removeChild(button);
       };

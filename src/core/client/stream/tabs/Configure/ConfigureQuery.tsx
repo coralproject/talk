@@ -1,10 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
-import { ReadyState } from "react-relay";
 
+import { polyfillCSSVarsForIE11 } from "coral-framework/helpers";
 import {
   graphql,
+  QueryRenderData,
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
@@ -15,7 +16,11 @@ import { ConfigureQuery as QueryTypes } from "coral-stream/__generated__/Configu
 import { ConfigureQueryLocal as Local } from "coral-stream/__generated__/ConfigureQueryLocal.graphql";
 
 const loadConfigureContainer = () =>
-  import("./ConfigureContainer" /* webpackChunkName: "configure" */);
+  import("./ConfigureContainer" /* webpackChunkName: "configure" */).then(x => {
+    // New css is loaded, take care of polyfilling those css vars for IE11.
+    polyfillCSSVarsForIE11();
+    return x;
+  });
 // (cvle) For some reason without `setTimeout` this request will block other requests.
 const preloadConfigureContainer = once(() =>
   setTimeout(loadConfigureContainer)
@@ -27,10 +32,7 @@ interface Props {
   local: Local;
 }
 
-export const render = ({
-  error,
-  props,
-}: ReadyState<QueryTypes["response"]>) => {
+export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
   if (error) {
     return <div>{error.message}</div>;
   }

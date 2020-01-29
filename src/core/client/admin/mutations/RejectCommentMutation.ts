@@ -83,7 +83,7 @@ const RejectCommentMutation = createMutation(
           getQueueConnection(store, "UNMODERATED", input.storyID),
         ].filter(c => c);
         connections.forEach(con =>
-          ConnectionHandler.deleteNode(con, input.commentID)
+          ConnectionHandler.deleteNode(con!, input.commentID)
         );
       },
     })

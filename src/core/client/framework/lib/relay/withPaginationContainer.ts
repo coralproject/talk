@@ -1,5 +1,4 @@
 import {
-  ConnectionData,
   createPaginationContainer,
   FragmentOrRegularProp,
   GraphQLTaggedNode,
@@ -9,10 +8,15 @@ import {
   InferableComponentEnhancerWithProps,
   wrapDisplayName,
 } from "recompose";
-import { Variables } from "relay-runtime";
+import { PageInfo, Variables } from "relay-runtime";
 
 import hideForwardRef from "./hideForwardRef";
 import { FragmentKeysNoLocal } from "./types";
+
+interface ConnectionData {
+  edges?: ReadonlyArray<any> | null;
+  pageInfo?: Partial<PageInfo> | null;
+}
 
 // TODO: (cvle) at some point we might switch these to stock react-relay typings
 // when they become versatile enough.

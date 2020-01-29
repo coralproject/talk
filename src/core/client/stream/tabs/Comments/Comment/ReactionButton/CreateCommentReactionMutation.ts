@@ -35,10 +35,8 @@ async function commit(
   input: CreateCommentReactionInput,
   { eventEmitter }: Pick<CoralContext, "eventEmitter">
 ) {
-  const source = environment.getStore().getSource();
-  const currentCount = source.get(
-    source.get(source.get(input.commentID)!.actionCounts.__ref)!.reaction.__ref
-  )!.total;
+  const currentCount = lookup(environment, input.commentID).actionCounts
+    .reaction.total;
 
   const createCommentReactionEvent = CreateCommentReactionEvent.begin(
     eventEmitter,
