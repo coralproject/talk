@@ -32,6 +32,7 @@ interface Props {
 }
 
 const ConfigureStream: FunctionComponent<Props> = ({
+  storyID,
   onSubmit,
   storySettings,
 }) => (
@@ -79,7 +80,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
           <MessageBoxConfigContainer disabled={submitting} />
 
           <StreamMode disabled={submitting} />
-          <ExpertSelectionQuery />
+          <ExpertSelectionQuery storyID={storyID} />
         </HorizontalGutter>
       </form>
     )}

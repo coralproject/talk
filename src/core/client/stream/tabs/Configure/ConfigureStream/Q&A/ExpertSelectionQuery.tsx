@@ -8,15 +8,21 @@ import { ExpertSelectionQuery as QueryTypes } from "coral-stream/__generated__/E
 
 import ExpertSelectionContainer from "./ExpertSelectionContainer";
 
-const ExpertSelectionQuery: FunctionComponent = () => (
+interface Props {
+  storyID: string;
+}
+
+const ExpertSelectionQuery: FunctionComponent<Props> = ({ storyID }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query ExpertSelectionQuery {
-        ...ExpertSelectionContainer_query
+      query ExpertSelectionQuery($storyID: ID) {
+        ...ExpertSelectionContainer_query @arguments(storyID: $storyID)
       }
     `}
     cacheConfig={{ force: true }}
-    variables={{}}
+    variables={{
+      storyID,
+    }}
     render={({ error, props }: ReadyState<QueryTypes["response"]>) => {
       if (error) {
         return <div>{error.message}</div>;
@@ -29,7 +35,7 @@ const ExpertSelectionQuery: FunctionComponent = () => (
         );
       }
 
-      return <ExpertSelectionContainer query={props} />;
+      return <ExpertSelectionContainer query={props} storyID={storyID} />;
     }}
   />
 );

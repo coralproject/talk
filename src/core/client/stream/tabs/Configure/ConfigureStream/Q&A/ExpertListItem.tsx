@@ -7,22 +7,18 @@ interface Props {
   id: string;
   username: string | null;
   email: string | null;
-  onClickAdd: (
-    id: string,
-    username: string | null,
-    email: string | null
-  ) => void;
+  onClickRemove: (id: string) => void;
 }
 
-const ExpertSearchItem: FunctionComponent<Props> = ({
+const ExpertListItem: FunctionComponent<Props> = ({
   id,
   username,
   email,
-  onClickAdd,
+  onClickRemove,
 }) => {
   const onClick = useCallback(() => {
-    onClickAdd(id, username, email);
-  }, [id, username, email, onClickAdd]);
+    onClickRemove(id);
+  }, [id, username, email, onClickRemove]);
 
   return (
     <div key={id}>
@@ -31,11 +27,11 @@ const ExpertSearchItem: FunctionComponent<Props> = ({
         {email && username ? <span> - </span> : null}
         {username ? <span>{username}</span> : null}
         <Button onClick={onClick}>
-          <Localized id="configure-experts-add-button">Add</Localized>
+          <Localized id="configure-experts-remove-button">Remove</Localized>
         </Button>
       </Flex>
     </div>
   );
 };
 
-export default ExpertSearchItem;
+export default ExpertListItem;

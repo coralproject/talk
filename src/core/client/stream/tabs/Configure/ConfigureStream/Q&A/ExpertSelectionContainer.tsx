@@ -4,27 +4,61 @@ import { RelayPaginationProp } from "react-relay";
 
 import {
   graphql,
+  useMutation,
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE_RL, GQLUSER_STATUS_RL } from "coral-framework/schema";
-import { Button, Flex, Icon, Spinner, TextField } from "coral-ui/components";
+import {
+  Button,
+  Flex,
+  Icon,
+  Spinner,
+  TextField,
+  Typography,
+} from "coral-ui/components";
 
 import { ExpertSelectionContainer_query as QueryData } from "coral-stream/__generated__/ExpertSelectionContainer_query.graphql";
 import { ExpertSelectionContainerPaginationQueryVariables } from "coral-stream/__generated__/ExpertSelectionContainerPaginationQuery.graphql";
 
+import AddExpertMutation from "./AddExpertMutation";
+import ExpertListItem from "./ExpertListItem";
 import ExpertSearchItem from "./ExpertSearchItem";
 
 interface Props {
+  storyID: string;
   query: QueryData | null;
   relay: RelayPaginationProp;
 }
 
+function computeUsers(query: QueryData | null) {
+  if (!query) {
+    return [];
+  }
+
+  return query.users.edges.map(edge => edge.node);
+}
+
+function computeExperts(query: QueryData | null) {
+  if (!query) {
+    return [];
+  }
+  if (!query.story) {
+    return [];
+  }
+
+  return query.story.settings.experts;
+}
+
 const ExpertSelectionContainer: FunctionComponent<Props> = ({
+  storyID,
   query,
   relay,
 }) => {
-  const users = query ? query.users.edges.map(edge => edge.node) : [];
+  const addExpertMutation = useMutation(AddExpertMutation);
+
+  const users = computeUsers(query);
+  const experts = computeExperts(query);
 
   // const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const [searchFilter, setSearchFilter] = useState<string>("");
@@ -40,7 +74,18 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   const loading = !query || isRefetching;
   const hasMore = !isRefetching && relay.hasMore();
 
-  const onAddExpert = useCallback((id: string) => {
+  const onAddExpert = useCallback(
+    (id: string, username: string | null, email: string | null) => {
+      addExpertMutation({
+        storyID,
+        userID: id,
+        username: username ? username : "",
+        email: email ? email : "",
+      });
+    },
+    [addExpertMutation]
+  );
+  const onRemoveExpert = useCallback((id: string) => {
     window.console.log(id);
   }, []);
 
@@ -64,6 +109,31 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
 
   return (
     <>
+      <Typography variant="heading3" container="div">
+        <Localized id="configure-experts-title">
+          <span>Experts</span>
+        </Localized>
+      </Typography>
+      {experts.length === 0 && (
+        <div>
+          <Localized id="configure-experts-list-none">
+            There are currently no experts for this story.
+          </Localized>
+        </div>
+      )}
+      {experts.length > 0 && (
+        <ol>
+          {users.map(u => (
+            <ExpertListItem
+              key={u.id}
+              id={u.id}
+              username={u.username}
+              email={u.email}
+              onClickRemove={onRemoveExpert}
+            />
+          ))}
+        </ol>
+      )}
       <Localized
         id="configure-experts-filter-searchField"
         attrs={{ placeholder: true, "aria-label": true }}
@@ -127,6 +197,7 @@ const enhanced = withPaginationContainer<
     query: graphql`
       fragment ExpertSelectionContainer_query on Query
         @argumentDefinitions(
+          storyID: { type: "ID!" }
           count: { type: "Int!", defaultValue: 10 }
           cursor: { type: "Cursor" }
           roleFilter: { type: "USER_ROLE" }
@@ -136,6 +207,15 @@ const enhanced = withPaginationContainer<
         viewer {
           id
           username
+        }
+        story(id: $storyID) {
+          settings {
+            experts {
+              id
+              email
+              username
+            }
+          }
         }
         users(
           first: $count
@@ -169,6 +249,7 @@ const enhanced = withPaginationContainer<
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {
+        storyID: props.storyID,
         count,
         cursor,
         roleFilter: fragmentVariables.roleFilter,
@@ -180,6 +261,7 @@ const enhanced = withPaginationContainer<
       # Pagination query to be fetched upon calling 'loadMore'.
       # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
       query ExpertSelectionContainerPaginationQuery(
+        $storyID: ID!
         $count: Int!
         $cursor: Cursor
         $roleFilter: USER_ROLE
@@ -188,6 +270,7 @@ const enhanced = withPaginationContainer<
       ) {
         ...ExpertSelectionContainer_query
           @arguments(
+            storyID: $storyID
             count: $count
             cursor: $cursor
             roleFilter: $roleFilter
