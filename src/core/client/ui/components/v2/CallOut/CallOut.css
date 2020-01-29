@@ -49,3 +49,7 @@ $callout-regular-border: var(--v2-colors-grey-300);
   display: flex;
   width: 100%;
 }
+
+.inner {
+  width: 100%;
+}

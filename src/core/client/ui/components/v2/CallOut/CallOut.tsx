@@ -59,7 +59,7 @@ const CallOut: FunctionComponent<CallOutProps> = props => {
 
   return (
     <div className={rootClassName} {...rest}>
-      <div>{children}</div>
+      <div className={classes.inner}>{children}</div>
     </div>
   );
 };
