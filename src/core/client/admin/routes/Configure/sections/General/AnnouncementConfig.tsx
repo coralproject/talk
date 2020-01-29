@@ -45,6 +45,7 @@ const AnnouncementConfig: FunctionComponent<Props> = ({
       deleteAnnouncement();
     } catch (error) {
       setSubmitError(error.message);
+      setShowForm(false);
     }
   }, []);
   return (
@@ -89,7 +90,7 @@ const AnnouncementConfig: FunctionComponent<Props> = ({
           />
           <Localized id="configure-general-announcements-delete">
             <Button color="alert" onClick={onDelete}>
-              Delete announcement
+              Remove announcement
             </Button>
           </Localized>
         </>

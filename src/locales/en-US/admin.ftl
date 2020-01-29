@@ -120,7 +120,7 @@ configure-general-sitewideCommenting-messageExplanation =
 configure-general-announcements-title = Community announcement
 configure-general-announcements-description =
   Add a temporary announcement that will appear at the top of all of your organization’s comment streams for a specific amount of time.
-configure-general-announcements-delete = Delete announcement
+configure-general-announcements-delete = Remove announcement
 configure-general-announcements-add = Add announcement
 configure-general-announcements-start = Start announcement
 configure-general-announcements-cancel = Cancel

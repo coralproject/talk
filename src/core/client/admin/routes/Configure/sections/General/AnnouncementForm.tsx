@@ -23,8 +23,6 @@ import {
 
 import ValidationMessage from "../../ValidationMessage";
 
-// import styles from "./AnnouncementConfig.css";
-
 interface Announcement {
   content: string;
   duration: number;
