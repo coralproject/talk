@@ -80,7 +80,9 @@ exports[`renders missing confirm token 1`] = `
           <div
             className="CallOut-root CallOut-colorError CallOut-fullWidth"
           >
-            <div>
+            <div
+              className="CallOut-inner"
+            >
               <span
                 data-testid="invalid-link"
               >

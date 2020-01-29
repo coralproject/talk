@@ -49,7 +49,9 @@ exports[`renders message box when commenting disabled 1`] = `
       <div
         className="CallOut-root CallOut-colorRegular CallOut-fullWidth PostCommentFormClosedSitewide-root coral coral-closedSitewide"
       >
-        <div>
+        <div
+          className="CallOut-inner"
+        >
           <div
             className="Markdown-root PostCommentFormClosedSitewide-message"
             dangerouslySetInnerHTML={
@@ -204,7 +206,9 @@ exports[`renders message box when commenting disabled 1`] = `
           <div
             className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
           >
-            <div>
+            <div
+              className="CallOut-inner"
+            >
               There are no comments yet. Why don't you write one?
             </div>
           </div>
@@ -530,7 +534,9 @@ exports[`renders message box when logged in 1`] = `
           <div
             className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
           >
-            <div>
+            <div
+              className="CallOut-inner"
+            >
               There are no comments yet. Why don't you write one?
             </div>
           </div>
@@ -828,7 +834,9 @@ exports[`renders message box when not logged in 1`] = `
           <div
             className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
           >
-            <div>
+            <div
+              className="CallOut-inner"
+            >
               There are no comments yet. Why don't you write one?
             </div>
           </div>
@@ -901,7 +909,9 @@ exports[`renders message box when story isClosed 1`] = `
       <div
         className="CallOut-root CallOut-colorRegular CallOut-fullWidth coral coral-createComment-closed"
       >
-        <div>
+        <div
+          className="CallOut-inner"
+        >
           <div
             className="Markdown-root"
             dangerouslySetInnerHTML={
@@ -1033,7 +1043,9 @@ exports[`renders message box when story isClosed 1`] = `
           <div
             className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
           >
-            <div>
+            <div
+              className="CallOut-inner"
+            >
               There are no comments on this story.
             </div>
           </div>

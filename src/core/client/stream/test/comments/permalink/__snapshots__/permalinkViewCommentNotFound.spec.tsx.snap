@@ -76,7 +76,9 @@ exports[`renders permalink view with unknown comment 1`] = `
     <div
       className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
     >
-      <div>
+      <div
+        className="CallOut-inner"
+      >
         <p
           className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >

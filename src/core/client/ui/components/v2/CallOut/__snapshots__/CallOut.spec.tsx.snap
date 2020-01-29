@@ -4,7 +4,9 @@ exports[`renders correctly 1`] = `
 <div
   className="CallOut-root CallOut-colorError custom"
 >
-  <div>
+  <div
+    className="CallOut-inner"
+  >
     Hello World
   </div>
 </div>

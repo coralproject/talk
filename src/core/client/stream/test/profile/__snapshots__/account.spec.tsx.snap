@@ -286,7 +286,9 @@ exports[`renders the empty settings pane 1`] = `
                 <div
                   className="CallOut-root CallOut-colorRegular coral coral-verifyEmail"
                 >
-                  <div>
+                  <div
+                    className="CallOut-inner"
+                  >
                     <div
                       className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                     >
