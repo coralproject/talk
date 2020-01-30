@@ -1215,11 +1215,34 @@ type NewCommentersConfiguration {
   approvedCommentsThreshold: Int!
 }
 
+"""
+Announcement is an organization-wide announcement displayed above the stream
+for a set duration
+"""
 type Announcement {
+  """
+  id is a canonical identifier for this Annoucnement, used to dismiss on front-end.
+  """
   id: ID!
+
+  """
+  createdAt is the creation date.
+  """
   createdAt: Time!
+
+  """
+  disableAt is the computed date at which announcement will be invalid.
+  """
   disableAt: Time!
+
+  """
+  duration determines how long the announcement will be valid for.
+  """
   duration: Int!
+
+  """
+  content is the content displayed for the announcement.
+  """
   content: String!
 }
 

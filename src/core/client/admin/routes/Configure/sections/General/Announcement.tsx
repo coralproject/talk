@@ -13,7 +13,7 @@ import {
 
 interface Props {
   content: string;
-  createdAt: Date;
+  createdAt: string;
   duration: number;
 }
 
@@ -24,7 +24,7 @@ const Announcement: FunctionComponent<Props> = ({
 }) => {
   const { locales } = useCoralContext();
   const formattedDate = useMemo(() => {
-    const disableAt = DateTime.fromISO(createdAt.toString())
+    const disableAt = DateTime.fromISO(createdAt)
       .plus({ seconds: duration })
       .toJSDate();
     return new Intl.DateTimeFormat(locales, {
