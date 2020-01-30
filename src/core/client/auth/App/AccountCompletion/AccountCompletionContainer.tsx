@@ -65,19 +65,23 @@ function handleAccountCompletion(props: Props) {
 
 interface State {
   checkedCompletionStatus: boolean;
+  completed: boolean;
 }
 
 class AccountCompletionContainer extends Component<Props, State> {
   public state = {
     checkedCompletionStatus: false,
+    completed: false,
   };
 
   public componentDidMount() {
-    handleAccountCompletion(this.props);
-    this.setState({ checkedCompletionStatus: true });
+    const completed = handleAccountCompletion(this.props);
+    this.setState({ checkedCompletionStatus: true, completed });
   }
   public componentDidUpdate() {
-    handleAccountCompletion(this.props);
+    if (!this.state.completed) {
+      handleAccountCompletion(this.props);
+    }
   }
 
   public render() {
