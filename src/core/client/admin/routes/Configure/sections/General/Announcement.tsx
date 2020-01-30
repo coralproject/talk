@@ -23,10 +23,10 @@ const Announcement: FunctionComponent<Props> = ({
   duration,
 }) => {
   const { locales } = useCoralContext();
-  const disableAt = DateTime.fromISO(createdAt.toString())
-    .plus({ seconds: duration })
-    .toJSDate();
   const formattedDate = useMemo(() => {
+    const disableAt = DateTime.fromISO(createdAt.toString())
+      .plus({ seconds: duration })
+      .toJSDate();
     return new Intl.DateTimeFormat(locales, {
       day: "2-digit",
       month: "2-digit",
@@ -34,7 +34,7 @@ const Announcement: FunctionComponent<Props> = ({
       hour: "2-digit",
       minute: "2-digit",
     }).format(new Date(disableAt));
-  }, [disableAt]);
+  }, [createdAt, duration]);
   return (
     <FormField>
       <FormFieldHeader>
