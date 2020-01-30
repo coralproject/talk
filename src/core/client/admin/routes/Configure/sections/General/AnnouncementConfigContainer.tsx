@@ -1,14 +1,24 @@
-import React, { FunctionComponent } from "react";
+import { Localized } from "@fluent/react/compat";
+import React, { FunctionComponent, useCallback, useState } from "react";
 
 import {
   graphql,
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import {
+  Button,
+  CallOut,
+  FieldSet,
+  FormFieldDescription,
+} from "coral-ui/components/v2";
 
 import { AnnouncementConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AnnouncementConfigContainer_settings.graphql";
 
-import AnnouncementConfig from "./AnnouncementConfig";
+import ConfigBox from "../../ConfigBox";
+import Header from "../../Header";
+import Announcement from "./Announcement";
+import AnnouncementForm from "./AnnouncementForm";
 import CreateAnnouncementMutaiton from "./CreateAnnouncementMutation";
 import DeleteAnnouncementMutaiton from "./DeleteAnnouncementMutation";
 
@@ -23,14 +33,76 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
 }) => {
   const createAnnouncement = useMutation(CreateAnnouncementMutaiton);
   const deleteAnnouncement = useMutation(DeleteAnnouncementMutaiton);
+  const [showForm, setShowForm] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState(null);
+  const onClose = useCallback(() => {
+    setShowForm(false);
+  }, [showForm]);
+  const onCreate = useCallback(values => {
+    try {
+      setSubmitError(null);
+      createAnnouncement(values.announcement);
+    } catch (error) {
+      setSubmitError(error.message);
+    }
+  }, []);
+  const onDelete = useCallback(() => {
+    try {
+      setSubmitError(null);
+      deleteAnnouncement();
+    } catch (error) {
+      setSubmitError(error.message);
+      setShowForm(false);
+    }
+  }, []);
   return (
-    <>
-      <AnnouncementConfig
-        settings={settings}
-        createAnnouncement={createAnnouncement}
-        deleteAnnouncement={deleteAnnouncement}
-      />
-    </>
+    <ConfigBox
+      title={
+        <Localized id="configure-general-announcements-title">
+          <Header container={<legend />}>Community announcement</Header>
+        </Localized>
+      }
+      container={<FieldSet />}
+    >
+      <Localized id="configure-general-announcements-description">
+        <FormFieldDescription>
+          Add a temporary announcement that will appear at the top of all of
+          your organization’s comment streams for a specific amount of time.
+        </FormFieldDescription>
+      </Localized>
+      {!settings.announcement && !showForm && (
+        <Localized id="configure-general-announcements-add">
+          <Button onClick={() => setShowForm(true)}>Add announcement</Button>
+        </Localized>
+      )}
+      {!settings.announcement && showForm && (
+        <AnnouncementForm
+          settings={{ announcement: null }}
+          onSubmit={onCreate}
+          onClose={onClose}
+          disabled={false}
+        />
+      )}
+      {submitError && (
+        <CallOut fullWidth color="error">
+          {submitError}
+        </CallOut>
+      )}
+      {settings.announcement && settings.announcement.createdAt && (
+        <>
+          <Announcement
+            content={settings.announcement.content}
+            createdAt={settings.announcement.createdAt}
+            duration={settings.announcement.duration}
+          />
+          <Localized id="configure-general-announcements-delete">
+            <Button color="alert" onClick={onDelete}>
+              Remove announcement
+            </Button>
+          </Localized>
+        </>
+      )}
+    </ConfigBox>
   );
 };
 
