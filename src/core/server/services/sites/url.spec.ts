@@ -2,31 +2,31 @@ import { Site } from "coral-server/models/site";
 
 import { isURLPermitted } from "./url";
 
-type PartialSite = Pick<Site, "allowedDomains">;
+type PartialSite = Pick<Site, "allowedOrigins">;
 
 function createSite(input: Partial<PartialSite> = {}): PartialSite {
-  if (!input.allowedDomains) {
-    input.allowedDomains = [];
+  if (!input.allowedOrigins) {
+    input.allowedOrigins = [];
   }
 
   return input as PartialSite;
 }
 
 it("denies when the site has no specified domains", () => {
-  const site = { allowedDomains: [] };
+  const site = { allowedOrigins: [] };
 
   expect(isURLPermitted(site, "")).toEqual(false);
 });
 
 it("denies when site has a domain but not a valid url", () => {
-  const site = createSite({ allowedDomains: ["https://coralproject.net"] });
+  const site = createSite({ allowedOrigins: ["https://coralproject.net"] });
 
   expect(isURLPermitted(site, "")).toEqual(false);
 });
 
-it("denies when there are multiple sites allowedDomains and not a valid url", () => {
+it("denies when there are multiple sites allowedOrigins and not a valid url", () => {
   const site = createSite({
-    allowedDomains: [
+    allowedOrigins: [
       "https://coralproject.net",
       "https://news.coralproject.net",
     ],
@@ -35,9 +35,9 @@ it("denies when there are multiple sites allowedDomains and not a valid url", ()
   expect(isURLPermitted(site, "")).toEqual(false);
 });
 
-it("denies when there are multiple sites allowedDomains and a invalid url", () => {
+it("denies when there are multiple sites allowedOrigins and a invalid url", () => {
   const site = createSite({
-    allowedDomains: [
+    allowedOrigins: [
       "https://coralproject.net",
       "https://news.coralproject.net",
     ],
@@ -48,9 +48,9 @@ it("denies when there are multiple sites allowedDomains and a invalid url", () =
   );
 });
 
-it("allows when there are multiple sites allowedDomains and a valid url", () => {
+it("allows when there are multiple sites allowedOrigins and a valid url", () => {
   const site = createSite({
-    allowedDomains: [
+    allowedOrigins: [
       "https://coralproject.net",
       "https://news.coralproject.net",
     ],
@@ -61,9 +61,9 @@ it("allows when there are multiple sites allowedDomains and a valid url", () => 
   );
 });
 
-it("allows when there are multiple prefix allowedDomains and a valid url", () => {
+it("allows when there are multiple prefix allowedOrigins and a valid url", () => {
   const site = createSite({
-    allowedDomains: ["coralproject.net", "news.coralproject.net"],
+    allowedOrigins: ["coralproject.net", "news.coralproject.net"],
   });
 
   expect(isURLPermitted(site, "http://news.coralproject.net/a/page")).toEqual(
@@ -71,9 +71,9 @@ it("allows when there are multiple prefix allowedDomains and a valid url", () =>
   );
 });
 
-it("allows when there are some prefix allowedDomains and a valid url", () => {
+it("allows when there are some prefix allowedOrigins and a valid url", () => {
   const site = createSite({
-    allowedDomains: ["http://coralproject.net", "news.coralproject.net"],
+    allowedOrigins: ["http://coralproject.net", "news.coralproject.net"],
   });
 
   expect(isURLPermitted(site, "https://news.coralproject.net/a/page")).toEqual(

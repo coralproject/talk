@@ -87,7 +87,7 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
                   </Localized>
                 </FormFieldHeader>
                 <Field
-                  name="allowedDomains"
+                  name="allowedOrigins"
                   parse={parseStringList}
                   format={formatStringList}
                   validate={validateStrictURLList}

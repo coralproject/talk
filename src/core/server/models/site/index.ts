@@ -17,7 +17,7 @@ import { sites as collection } from "coral-server/services/mongodb/collections";
 export interface Site extends TenantResource {
   readonly id: string;
   name: string;
-  allowedDomains: string[];
+  allowedOrigins: string[];
   createdAt: Date;
 }
 
@@ -25,7 +25,7 @@ export type CreateSiteInput = Omit<Site, "createdAt" | "id">;
 
 export type SiteConnectionInput = ConnectionInput<Site>;
 
-export function getUrlOrigins(urls: string[]): string[] {
+export function getURLOrigins(urls: ReadonlyArray<string>) {
   return urls.map(url => getOrigin(url)).filter(identity) as string[];
 }
 
@@ -56,7 +56,7 @@ export async function createSite(
       throw new DuplicateSiteAllowedOriginError(
         err,
         null,
-        input.allowedDomains
+        input.allowedOrigins
       );
     }
 
@@ -94,7 +94,7 @@ export async function retrieveSiteByOrigin(
 ) {
   return collection(mongo).findOne({
     tenantID,
-    allowedDomains: origin,
+    allowedOrigins: origin,
   });
 }
 
@@ -152,7 +152,7 @@ export async function updateSite(
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
     if (err instanceof MongoError && err.code === 11000) {
-      throw new DuplicateSiteAllowedOriginError(err, id, input.allowedDomains);
+      throw new DuplicateSiteAllowedOriginError(err, id, input.allowedOrigins);
     }
 
     throw err;

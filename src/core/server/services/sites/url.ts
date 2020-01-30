@@ -7,13 +7,13 @@ import {
 import { Site } from "coral-server/models/site";
 
 export function isURLPermitted(
-  site: Pick<Site, "allowedDomains">,
+  site: Pick<Site, "allowedOrigins">,
   targetURL: string,
   includeTenantDomain?: false
 ): boolean;
 
 export function isURLPermitted(
-  site: Pick<Site, "allowedDomains">,
+  site: Pick<Site, "allowedOrigins">,
   targetURL: string,
   includeTenantDomain: true
 ): boolean;
@@ -23,13 +23,13 @@ export function isURLPermitted(
  * the Tenant's domain configuration.
  */
 export function isURLPermitted(
-  site: Pick<Site, "allowedDomains">,
+  site: Pick<Site, "allowedOrigins">,
   targetURL: string,
   includeTenantDomain = false
 ) {
   // If there aren't any domains, then we reject it, because no url we have can
   // satisfy those requirements.
-  if (site.allowedDomains.length === 0 && !includeTenantDomain) {
+  if (site.allowedOrigins.length === 0 && !includeTenantDomain) {
     return false;
   }
 
@@ -47,7 +47,7 @@ export function isURLPermitted(
   const targetOrigin = getOrigin(targetURL);
 
   // Create the list of domains to check against.
-  const domains = site.allowedDomains;
+  const domains = site.allowedOrigins;
 
   // Loop over all the Tenant domains provided. Prefix the domain of each if it
   // is required with the target url scheme. Return if at least one match is

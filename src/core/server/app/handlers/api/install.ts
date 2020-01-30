@@ -118,7 +118,7 @@ const TenantInstallBodySchema = Joi.object().keys({
     .optionalKeys("locale"),
   site: Joi.object().keys({
     name: Joi.string().trim(),
-    allowedDomains: Joi.array().items(
+    allowedOrigins: Joi.array().items(
       Joi.string()
         .trim()
         .uri({ scheme: ["http", "https"] })

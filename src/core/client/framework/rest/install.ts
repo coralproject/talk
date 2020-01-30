@@ -9,14 +9,13 @@ export interface InstallInput {
       contactEmail: string;
       url: string;
     };
-    allowedDomains: string[];
     locale: LanguageCode;
   };
   site: {
     name: string;
     contactEmail: string;
     url: string;
-    allowedDomains: string[];
+    allowedOrigins: string[];
   };
   user: {
     username: string;

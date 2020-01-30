@@ -5,7 +5,7 @@ import { getOrigin } from "coral-server/app/url";
 import {
   createSite,
   CreateSiteInput,
-  getUrlOrigins,
+  getURLOrigins,
   retrieveSiteByOrigin,
   updateSite,
   UpdateSiteInput,
@@ -23,29 +23,50 @@ export async function findSiteByURL(mongo: Db, tenantID: string, url: string) {
   return retrieveSiteByOrigin(mongo, tenantID, origin);
 }
 
+function conformURLToOrigins(allowedOrigins?: string[]) {
+  if (allowedOrigins) {
+    return {
+      allowedOrigins: getURLOrigins(allowedOrigins),
+    };
+  }
+
+  return {};
+}
+
 export async function create(
   mongo: Db,
   tenant: Tenant,
   input: CreateSite,
   now = new Date()
 ) {
-  input.allowedDomains = getUrlOrigins(input.allowedDomains);
+  // Create the new site.
   return createSite(
     mongo,
     {
       ...input,
+      ...conformURLToOrigins(input.allowedOrigins),
       tenantID: tenant.id,
     },
     now
   );
 }
 
-export async function update(
+export const update = (
   mongo: Db,
   tenant: Tenant,
   id: string,
   input: UpdateSiteInput,
   now = new Date()
-) {
-  return updateSite(mongo, tenant.id, id, input, now);
-}
+) => {
+  // Update the site.
+  return updateSite(
+    mongo,
+    tenant.id,
+    id,
+    {
+      ...input,
+      ...conformURLToOrigins(input.allowedOrigins),
+    },
+    now
+  );
+};

@@ -22,7 +22,7 @@ const UpdateSiteMutation = createMutation(
               id
               name
               createdAt
-              allowedDomains
+              allowedOrigins
             }
             clientMutationId
           }

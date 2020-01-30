@@ -80,7 +80,7 @@ export const cspSiteMiddleware = ({ mongo }: Options): RequestHandler => async (
   const site = await retrieveSiteFromEmbed(mongo, req);
 
   // Grab the origins from the site.
-  const origins = site ? site.allowedDomains : [];
+  const origins = site ? site.allowedOrigins : [];
 
   res.setHeader(
     "Content-Security-Policy",
@@ -94,11 +94,12 @@ export const cspSiteMiddleware = ({ mongo }: Options): RequestHandler => async (
   next();
 };
 
-function generateContentSecurityPolicy(origins: string[]) {
+function generateContentSecurityPolicy(allowedOrigins: string[]) {
   const directives: Record<string, any> = {};
 
   // Only the domains that are allowed by the tenant may embed Coral.
-  directives.frameAncestors = origins.length > 0 ? origins : ["'none'"];
+  directives.frameAncestors =
+    allowedOrigins.length > 0 ? allowedOrigins : ["'none'"];
 
   // Build the directive.
   const directive = builder({ directives });
@@ -106,15 +107,15 @@ function generateContentSecurityPolicy(origins: string[]) {
   return directive;
 }
 
-export function generateFrameOptions(req: Request, origins: string[]) {
+export function generateFrameOptions(req: Request, allowedOrigins: string[]) {
   // If there aren't any domains, then we reject it.
-  if (origins.length === 0) {
+  if (allowedOrigins.length === 0) {
     return "deny";
   }
 
   // If there is only one domain on the tenant then return it!
-  if (origins.length === 1) {
-    return `allow-from ${getOrigin(origins[0])}`;
+  if (allowedOrigins.length === 1) {
+    return `allow-from ${getOrigin(allowedOrigins[0])}`;
   }
 
   const parentsURL = extractParentsURL(req);
@@ -129,7 +130,7 @@ export function generateFrameOptions(req: Request, origins: string[]) {
   }
 
   // Determine if this origin is allowed.
-  if (!isURLPermitted({ allowedDomains: origins }, parentsURL)) {
+  if (!isURLPermitted({ allowedOrigins }, parentsURL)) {
     return "deny";
   }
 
@@ -137,7 +138,7 @@ export function generateFrameOptions(req: Request, origins: string[]) {
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   // We need to find the domain that is asking so we can respond with the right
   // result, sort of like CORS!
-  const allowFrom = origins
+  const allowFrom = allowedOrigins
     .map(domain => getOrigin(domain))
     .find(origin => origin === parentsOrigin);
   if (!allowFrom) {

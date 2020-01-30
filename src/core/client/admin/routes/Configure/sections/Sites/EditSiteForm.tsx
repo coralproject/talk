@@ -94,8 +94,8 @@ const EditSiteForm: FunctionComponent<Props> = ({
                   </Localized>
                 </FormFieldHeader>
                 <Field
-                  name="allowedDomains"
-                  defaultValue={site.allowedDomains}
+                  name="allowedOrigins"
+                  defaultValue={site.allowedOrigins}
                   parse={parseStringList}
                   format={formatStringList}
                   validate={validateStrictURLList}
@@ -154,7 +154,7 @@ const enhanced = withFragmentContainer<Props>({
       name
       createdAt
       id
-      allowedDomains
+      allowedOrigins
     }
   `,
   settings: graphql`

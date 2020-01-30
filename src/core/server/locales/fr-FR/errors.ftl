@@ -5,7 +5,6 @@ error-commentBodyExceedsMaxLength =
   Le commentaire ne doit pas dépasser {$max} caractères.
 error-storyURLNotPermitted =
   L'URL de l'article n'existe pas dans les domaines autorisés.
-error-urlNotPermitted = L'url spécifiée : ({$url}) n'est pas autorisée.
 error-duplicateStoryURL = L'url spécifiée existe déjà.
 error-tenantNotFound = Le nom d'hôte ({$hostname}) n'a pas été trouvé.
 error-userNotFound = L'utilisateur ({$userID}) n'a pas été trouvé.

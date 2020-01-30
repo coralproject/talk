@@ -3,7 +3,6 @@ error-storyClosed = Det er ikke muligt at kommentere dette lige nu.
 error-commenatBodyTooShort = Kommentaren skal have mindst {$ min} tegn.
 error-commentBodyExceedsMaxLength = Kommentaren overskrider den maksimale længde på {$ max} tegn.
 error-storyURLNotPermitted = Den angivne historie-URL findes ikke på listen over tilladte domæner.
-error-urlNotPermitted = Denne URL ({$ url}) er ikke tilladt.
 error-duplicateStoryURL =  Denne URL-adresse findes allerede.
 error-tenantNotFound = ({$ værtsnavn}) ikke fundet.
 error-userNotFound = Bruger ({$userID}) eksisterer ikke.
