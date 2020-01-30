@@ -1,10 +1,14 @@
-import React, { FunctionComponent, useCallback } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import { ANNOUNEMENT_DISMISSED_KEY } from "coral-framework/constants";
-
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { useLocalStorage } from "coral-ui/hooks";
 
 import { AnnouncementContainer_settings as SettingsData } from "coral-stream/__generated__/AnnouncementContainer_settings.graphql";
 
@@ -17,16 +21,31 @@ interface Props {
 export const AnnouncementContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
-  const [value, setValue] = useLocalStorage(ANNOUNEMENT_DISMISSED_KEY);
-  const dismissAnnouncement = useCallback(() => {
+  const { localStorage } = useCoralContext();
+  const [dismissed, setDismissed] = useState(false);
+  useEffect(() => {
+    async function getDismissedStatus() {
+      if (!settings.announcement) {
+        setDismissed(true);
+      } else {
+        const key = await localStorage.getItem(ANNOUNEMENT_DISMISSED_KEY);
+        if (key && key === settings.announcement.id) {
+          setDismissed(true);
+        }
+      }
+    }
+    getDismissedStatus();
+  }, [settings]);
+  const dismissAnnouncement = useCallback(async () => {
     if (settings.announcement) {
-      setValue(settings.announcement.id);
+      await localStorage.setItem(
+        ANNOUNEMENT_DISMISSED_KEY,
+        settings.announcement.id
+      );
+      setDismissed(true);
     }
   }, [settings]);
-  if (!settings.announcement) {
-    return null;
-  }
-  if (value && value === settings.announcement.id) {
+  if (!settings.announcement || dismissed) {
     return null;
   }
   return (
