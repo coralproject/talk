@@ -27,7 +27,7 @@ import {
 import BackButton from "./BackButton";
 
 interface FormProps {
-  allowedDomains: string[];
+  allowedOrigins: string[];
 }
 
 interface FormSubmitProps extends FormProps, FormError {}
@@ -35,17 +35,17 @@ interface FormSubmitProps extends FormProps, FormError {}
 interface Props {
   onGoToNextStep: () => void;
   onGoToPreviousStep: () => void;
-  data: { allowedDomains: string[] };
-  onInstall: (newData: { allowedDomains: string[] }) => Promise<void>;
+  data: { allowedOrigins: string[] };
+  onInstall: (newData: { allowedOrigins: string[] }) => Promise<void>;
 }
 
 class PermittedDomainsStep extends Component<Props> {
   private onSubmit: OnSubmit<FormSubmitProps> = async (
-    { allowedDomains },
+    { allowedOrigins },
     form
   ) => {
     try {
-      await this.props.onInstall({ allowedDomains });
+      await this.props.onInstall({ allowedOrigins });
       return this.props.onGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
@@ -56,7 +56,7 @@ class PermittedDomainsStep extends Component<Props> {
       <Form
         onSubmit={this.onSubmit}
         initialValues={{
-          allowedDomains: this.props.data.allowedDomains,
+          allowedOrigins: this.props.data.allowedOrigins,
         }}
       >
         {({ handleSubmit, submitting, submitError }) => (
@@ -83,7 +83,7 @@ class PermittedDomainsStep extends Component<Props> {
               )}
 
               <Field
-                name="allowedDomains"
+                name="allowedOrigins"
                 parse={parseStringList}
                 format={formatStringList}
                 validate={validateStrictURLList}

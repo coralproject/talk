@@ -11,7 +11,7 @@ export default class extends Migration {
   public async indexes(mongo: Db) {
     const createIndex = createIndexFactory(collections.sites(mongo));
     await createIndex({ tenantID: 1, id: 1 }, { background: true });
-    await createIndex({ tenantID: 1, allowedDomains: 1 }, { unique: true });
+    await createIndex({ tenantID: 1, allowedOrigins: 1 }, { unique: true });
     await createIndex({ tenantID: 1, name: 1 }, { background: true });
   }
 }

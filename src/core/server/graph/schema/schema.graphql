@@ -3738,11 +3738,6 @@ input SettingsInput {
   live: LiveConfigurationInput
 
   """
-  allowedDomains is the list of domains that stories can come from.
-  """
-  allowedDomains: [String!]
-
-  """
   moderation is the moderation mode for all Stories on the site.
   """
   moderation: MODERATION_MODE
@@ -6101,9 +6096,9 @@ type Site {
   name: String!
 
   """
-  allowedDomains are the allowed origins for embeds.
+  allowedOrigins are the allowed origins for embeds.
   """
-  allowedDomains: [String!]!
+  allowedOrigins: [String!]!
 
   """
   createdAt is when the site was created.
@@ -6118,9 +6113,9 @@ input CreateSite {
   name: String!
 
   """
-  allowedDomains are the allowed origins for embeds.
+  allowedOrigins are the allowed origins for embeds.
   """
-  allowedDomains: [String!]!
+  allowedOrigins: [String!]!
 }
 
 input UpdateSite {
@@ -6140,9 +6135,9 @@ input UpdateSite {
   contactEmail: String
 
   """
-  allowedDomains are the allowed origins for embeds.
+  allowedOrigins are the allowed origins for embeds.
   """
-  allowedDomains: [String!]
+  allowedOrigins: [String!]
 }
 
 input CreateSiteInput {

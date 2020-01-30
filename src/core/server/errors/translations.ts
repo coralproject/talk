@@ -21,7 +21,6 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   STORY_CLOSED: "error-storyClosed",
   STORY_NOT_FOUND: "error-storyNotFound",
   STORY_URL_NOT_PERMITTED: "error-storyURLNotPermitted",
-  URL_NOT_PERMITTED: "error-urlNotPermitted",
   TENANT_INSTALLED_ALREADY: "error-tenantInstalledAlready",
   TENANT_NOT_FOUND: "error-tenantNotFound",
   TOKEN_INVALID: "error-tokenInvalid",

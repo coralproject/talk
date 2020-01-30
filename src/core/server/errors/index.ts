@@ -242,22 +242,6 @@ export class CommentBodyExceedsMaxLengthError extends CoralError {
   }
 }
 
-export class URLInvalidError extends CoralError {
-  constructor({
-    url,
-    ...properties
-  }: {
-    url: string;
-    allowedDomains: string[];
-    tenantDomain?: string;
-  }) {
-    super({
-      code: ERROR_CODES.URL_NOT_PERMITTED,
-      context: { pvt: properties, pub: { url } },
-    });
-  }
-}
-
 export class StoryURLInvalidError extends CoralError {
   constructor(properties: { storyURL: string; tenantDomain?: string }) {
     super({
