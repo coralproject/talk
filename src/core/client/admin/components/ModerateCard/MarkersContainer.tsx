@@ -56,9 +56,7 @@ const markers: Array<
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD && (
         <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
-          <Marker color="reported" variant="filled">
-            Suspect Word
-          </Marker>
+          <Marker color="reported">Suspect Word</Marker>
         </Localized>
       )) ||
     null,
