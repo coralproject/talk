@@ -18,7 +18,7 @@ import { AnnouncementConfigContainer_settings as SettingsData } from "coral-admi
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import Announcement from "./Announcement";
-import AnnouncementForm from "./AnnouncementForm";
+import AnnouncementFormModal from "./AnnouncementFormModal";
 import CreateAnnouncementMutaiton from "./CreateAnnouncementMutation";
 import DeleteAnnouncementMutaiton from "./DeleteAnnouncementMutation";
 
@@ -41,7 +41,8 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
   const onCreate = useCallback(values => {
     try {
       setSubmitError(null);
-      createAnnouncement(values.announcement);
+      createAnnouncement(values);
+      setShowForm(false);
     } catch (error) {
       setSubmitError(error.message);
     }
@@ -70,19 +71,18 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
           your organization’s comment streams for a specific amount of time.
         </FormFieldDescription>
       </Localized>
-      {!settings.announcement && !showForm && (
+      {!settings.announcement && (
         <Localized id="configure-general-announcements-add">
-          <Button onClick={() => setShowForm(true)}>Add announcement</Button>
+          <Button disabled={disabled} onClick={() => setShowForm(true)}>
+            Add announcement
+          </Button>
         </Localized>
       )}
-      {!settings.announcement && showForm && (
-        <AnnouncementForm
-          settings={{ announcement: null }}
-          onSubmit={onCreate}
-          onClose={onClose}
-          disabled={false}
-        />
-      )}
+      <AnnouncementFormModal
+        open={!settings.announcement && showForm}
+        onSubmit={onCreate}
+        onClose={onClose}
+      />
       {submitError && (
         <CallOut fullWidth color="error">
           {submitError}
