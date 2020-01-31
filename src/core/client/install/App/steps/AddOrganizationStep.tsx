@@ -107,6 +107,76 @@ class AddOrganizationStep extends React.Component<Props> {
                 )}
               </Field>
 
+              <Field
+                name="siteContactEmail"
+                validate={composeValidators(required, validateEmail)}
+              >
+                {({ input, meta }) => (
+                  <FormField>
+                    <Localized id="install-addSite-siteEmail">
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Contact email
+                      </InputLabel>
+                    </Localized>
+                    <Localized
+                      id="install-addSite-siteEmailTextField"
+                      attrs={{ placeholder: true }}
+                    >
+                      <TextField
+                        {...input}
+                        id={input.name}
+                        placeholder="Contact Email"
+                        color={colorFromMeta(meta)}
+                        disabled={submitting}
+                        type="email"
+                        autoCapitalize="off"
+                        autoCorrect="off"
+                        fullWidth
+                      />
+                    </Localized>
+                    <ValidationMessage meta={meta} fullWidth />
+                  </FormField>
+                )}
+              </Field>
+
+              <Field
+                name="siteURL"
+                validate={composeValidators(required, validateURL)}
+              >
+                {({ input, meta }) => (
+                  <FormField>
+                    <Localized id="install-addSite-siteURL">
+                      <InputLabel container={<label htmlFor={input.name} />}>
+                        Organization URL
+                      </InputLabel>
+                    </Localized>
+                    <Localized
+                      id="install-addSite-siteURLDescription"
+                      strong={<strong />}
+                    >
+                      <InputDescription>
+                        {/* Related: https://github.com/prettier/prettier/issues/2347 */}
+                        Be sure to include <strong>{"http://"}</strong> or{" "}
+                        <strong>{"https://"}</strong> in your URL
+                      </InputDescription>
+                    </Localized>
+                    <Localized
+                      id="install-addSite-siteURLTextField"
+                      attrs={{ placeholder: true }}
+                    >
+                      <TextField
+                        {...input}
+                        id={input.name}
+                        placeholder="Organization URL"
+                        color={colorFromMeta(meta)}
+                        disabled={submitting}
+                        fullWidth
+                      />
+                    </Localized>
+                    <ValidationMessage meta={meta} fullWidth />
+                  </FormField>
+                )}
+              </Field>
               <Field name="siteName" validate={composeValidators(required)}>
                 {({ input, meta }) => (
                   <FormField>
@@ -138,76 +208,6 @@ class AddOrganizationStep extends React.Component<Props> {
                 )}
               </Field>
 
-              <Field
-                name="siteContactEmail"
-                validate={composeValidators(required, validateEmail)}
-              >
-                {({ input, meta }) => (
-                  <FormField>
-                    <Localized id="install-addSite-siteEmail">
-                      <InputLabel container={<label htmlFor={input.name} />}>
-                        Site contact email
-                      </InputLabel>
-                    </Localized>
-                    <Localized
-                      id="install-addSite-siteEmailTextField"
-                      attrs={{ placeholder: true }}
-                    >
-                      <TextField
-                        {...input}
-                        id={input.name}
-                        placeholder="Site Contact Email"
-                        color={colorFromMeta(meta)}
-                        disabled={submitting}
-                        type="email"
-                        autoCapitalize="off"
-                        autoCorrect="off"
-                        fullWidth
-                      />
-                    </Localized>
-                    <ValidationMessage meta={meta} fullWidth />
-                  </FormField>
-                )}
-              </Field>
-
-              <Field
-                name="siteURL"
-                validate={composeValidators(required, validateURL)}
-              >
-                {({ input, meta }) => (
-                  <FormField>
-                    <Localized id="install-addSite-siteURL">
-                      <InputLabel container={<label htmlFor={input.name} />}>
-                        Site URL
-                      </InputLabel>
-                    </Localized>
-                    <Localized
-                      id="install-addSite-siteURLDescription"
-                      strong={<strong />}
-                    >
-                      <InputDescription>
-                        {/* Related: https://github.com/prettier/prettier/issues/2347 */}
-                        Be sure to include <strong>{"http://"}</strong> or{" "}
-                        <strong>{"https://"}</strong> in your URL
-                      </InputDescription>
-                    </Localized>
-                    <Localized
-                      id="install-addSite-siteURLTextField"
-                      attrs={{ placeholder: true }}
-                    >
-                      <TextField
-                        {...input}
-                        id={input.name}
-                        placeholder="Site URL"
-                        color={colorFromMeta(meta)}
-                        disabled={submitting}
-                        fullWidth
-                      />
-                    </Localized>
-                    <ValidationMessage meta={meta} fullWidth />
-                  </FormField>
-                )}
-              </Field>
               <Flex direction="row-reverse" itemGutter>
                 <NextButton submitting={submitting} />
                 <BackButton
