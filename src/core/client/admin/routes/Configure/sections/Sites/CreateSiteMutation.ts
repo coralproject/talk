@@ -20,6 +20,7 @@ const CreateSiteMutation = createMutation(
     { uuidGenerator }: CoralContext
   ) => {
     const id = uuidGenerator();
+    const now = new Date();
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation CreateSiteMutation($input: CreateSiteInput!) {
@@ -43,7 +44,7 @@ const CreateSiteMutation = createMutation(
         createSite: {
           site: {
             id,
-            createdAt: new Date(),
+            createdAt: now.toISOString(),
             name: input.site.name,
           },
           clientMutationId: (clientMutationId++).toString(),
