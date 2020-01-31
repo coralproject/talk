@@ -82,7 +82,6 @@ exports[`renders all markers 1`] = `
   >
     <withPropsOnChange(Marker)
       color="reported"
-      variant="filled"
     >
       Suspect Word
     </withPropsOnChange(Marker)>
