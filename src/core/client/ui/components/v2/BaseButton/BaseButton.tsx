@@ -64,7 +64,6 @@ const BaseButton: FunctionComponent<Props> = ({
   mouseHover,
   forwardRef,
   type,
-  to,
   ...rest
 }) => {
   let Element: React.ComponentType<
@@ -72,7 +71,7 @@ const BaseButton: FunctionComponent<Props> = ({
       React.ClassAttributes<HTMLButtonElement | HTMLAnchorElement>
   > = "button" as any;
 
-  if (to) {
+  if (rest.to) {
     Element = Link as any;
   }
 
