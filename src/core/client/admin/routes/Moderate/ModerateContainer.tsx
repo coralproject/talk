@@ -56,7 +56,10 @@ class ModerateContainer extends React.Component<Props> {
       <Moderate
         moderationQueues={this.props.data.moderationQueues}
         story={this.props.data.story || null}
-        site={this.props.data.site || null}
+        site={
+          this.props.data.site ||
+          (this.props.data.story ? this.props.data.story.site : null)
+        }
         routeParams={this.props.match.params}
         query={this.props.data}
         allStories={allStories}
@@ -83,6 +86,11 @@ const enhanced = withRouteConfig<Props>({
       story(id: $storyID) @include(if: $includeStory) {
         ...ModerateNavigationContainer_story
         ...ModerateSearchBarContainer_story
+        site {
+          id
+          ...ModerateNavigationContainer_site
+          ...SiteSelectorSelected_site
+        }
       }
       site(id: $siteID) @include(if: $includeSite) {
         id

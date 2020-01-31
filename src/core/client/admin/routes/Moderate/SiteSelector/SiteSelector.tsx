@@ -14,9 +14,10 @@ import styles from "./SiteSelector.css";
 
 interface Props {
   sites: Array<{ id: string } & PropTypesOf<typeof SiteSelectorSite>["site"]>;
-  site: PropTypesOf<typeof SiteSelectorSelected>["site"] | null;
+  site:
+    | { id: string } & PropTypesOf<typeof SiteSelectorSelected>["site"]
+    | null;
   queueName: string;
-  siteID?: string;
   onLoadMore: () => void;
   hasMore: boolean;
   disableLoadMore: boolean;
@@ -27,7 +28,6 @@ const SiteSelector: FunctionComponent<Props> = ({
   sites,
   site,
   queueName,
-  siteID,
   loading,
   onLoadMore,
   disableLoadMore,
@@ -57,14 +57,14 @@ const SiteSelector: FunctionComponent<Props> = ({
         <SiteSelectorSite
           link={getModerationLink(queueName as QUEUE_NAME, null, null)}
           site={null}
-          active={!siteID}
+          active={!site}
         />
         {sites.map(s => (
           <SiteSelectorSite
             link={getModerationLink(queueName as QUEUE_NAME, null, s.id)}
             key={s.id}
             site={s}
-            active={siteID ? siteID === s.id : false}
+            active={(site && site.id === s.id) || false}
           />
         ))}
       </>

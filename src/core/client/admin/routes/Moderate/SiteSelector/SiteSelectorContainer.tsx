@@ -18,7 +18,6 @@ interface Props {
   site: PropTypesOf<typeof SiteSelector>["site"] | null;
   relay: RelayPaginationProp;
   queueName: string;
-  siteID?: string;
 }
 
 const SiteSelectorContainer: React.FunctionComponent<Props> = props => {
@@ -37,7 +36,6 @@ const SiteSelectorContainer: React.FunctionComponent<Props> = props => {
       onLoadMore={loadMore}
       hasMore={!isRefetching && props.relay.hasMore()}
       disableLoadMore={isLoadingMore}
-      siteID={props.siteID}
       queueName={props.queueName}
     />
   );
