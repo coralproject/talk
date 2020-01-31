@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
 import React, { FunctionComponent } from "react";
-import { Form } from "react-final-form";
+import { Form, Field } from "react-final-form";
 
 import { purgeMetadata } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
@@ -80,7 +80,13 @@ const ConfigureStream: FunctionComponent<Props> = ({
           <MessageBoxConfigContainer disabled={submitting} />
 
           <StreamMode disabled={submitting} />
-          <ExpertSelectionQuery storyID={storyID} />
+          <Field name="mode">
+            {({ input }) => {
+              return input.value === "QA" ? (
+                <ExpertSelectionQuery storyID={storyID} />
+              ) : null;
+            }}
+          </Field>
         </HorizontalGutter>
       </form>
     )}
