@@ -25,9 +25,7 @@ export const AnnouncementContainer: FunctionComponent<Props> = ({
   const [dismissed, setDismissed] = useState(false);
   useEffect(() => {
     async function getDismissedStatus() {
-      if (!settings.announcement) {
-        setDismissed(true);
-      } else {
+      if (settings.announcement) {
         const key = await localStorage.getItem(ANNOUNEMENT_DISMISSED_KEY);
         if (key && key === settings.announcement.id) {
           setDismissed(true);
