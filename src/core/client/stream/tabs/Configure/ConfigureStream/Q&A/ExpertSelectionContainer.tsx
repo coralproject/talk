@@ -24,6 +24,7 @@ import { ExpertSelectionContainerPaginationQueryVariables } from "coral-stream/_
 import AddExpertMutation from "./AddExpertMutation";
 import ExpertListItem from "./ExpertListItem";
 import ExpertSearchItem from "./ExpertSearchItem";
+import RemoveExpertMutation from "./RemoveExpertMutation";
 
 interface Props {
   storyID: string;
@@ -55,8 +56,6 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   query,
   relay,
 }) => {
-  const addExpertMutation = useMutation(AddExpertMutation);
-
   const users = computeUsers(query);
   const experts = computeExperts(query);
 
@@ -74,6 +73,9 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   const loading = !query || isRefetching;
   const hasMore = !isRefetching && relay.hasMore();
 
+  const addExpertMutation = useMutation(AddExpertMutation);
+  const removeExpertMutation = useMutation(RemoveExpertMutation);
+
   const onAddExpert = useCallback(
     (id: string, username: string | null, email: string | null) => {
       addExpertMutation({
@@ -85,9 +87,15 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
     },
     [addExpertMutation]
   );
-  const onRemoveExpert = useCallback((id: string) => {
-    window.console.log(id);
-  }, []);
+  const onRemoveExpert = useCallback(
+    (id: string) => {
+      removeExpertMutation({
+        storyID,
+        userID: id,
+      });
+    },
+    [removeExpertMutation]
+  );
 
   const onSubmitSearch = useCallback(() => {
     setSearchFilter(tempSearchFilter);

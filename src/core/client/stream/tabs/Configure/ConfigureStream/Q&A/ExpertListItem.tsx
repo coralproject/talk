@@ -18,7 +18,7 @@ const ExpertListItem: FunctionComponent<Props> = ({
 }) => {
   const onClick = useCallback(() => {
     onClickRemove(id);
-  }, [id, username, email, onClickRemove]);
+  }, [id, onClickRemove]);
 
   return (
     <div key={id}>
