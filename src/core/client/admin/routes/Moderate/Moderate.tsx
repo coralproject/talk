@@ -80,7 +80,6 @@ const Moderate: FunctionComponent<Props> = ({
           <SiteSelectorContainer
             queueName={queueName}
             site={site}
-            siteID={routeParams.siteID}
             query={query}
           />
         }
@@ -89,7 +88,7 @@ const Moderate: FunctionComponent<Props> = ({
         <ModerateNavigationContainer
           moderationQueues={moderationQueues}
           story={story}
-          site={site}
+          site={story ? null : site}
         />
       </SubBar>
       <div className={styles.background} />
