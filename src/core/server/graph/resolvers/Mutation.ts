@@ -247,4 +247,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     story: await ctx.mutators.Stories.addExpertToStory(input),
     clientMutationId: input.clientMutationId,
   }),
+  removeExpertFromStory: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Stories.removeExpertFromStory(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

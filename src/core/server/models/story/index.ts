@@ -560,3 +560,42 @@ export async function addExpert(
 
   return result.value || null;
 }
+
+export async function removeExpert(
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  userID: string
+) {
+  const story = await collection(mongo).findOne({ tenantID, id: storyID });
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+  if (
+    story.settings.expertIDs &&
+    !story.settings.expertIDs.some(e => e === userID)
+  ) {
+    return story;
+  }
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id: storyID,
+    },
+    {
+      $pull: {
+        "settings.expertIDs": userID,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.ok) {
+    throw new Error("unable to remove expert from story");
+  }
+
+  return result.value || null;
+}

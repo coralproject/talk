@@ -5536,6 +5536,35 @@ type AddExpertPayload {
   story: Story!
 }
 
+input RemoveExpertInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story to remove the expert from.
+  """
+  storyID: ID!
+
+  """
+  userID is the user to remove as an expert from the story.
+  """
+  userID: ID!
+}
+
+type RemoveExpertPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  story is the resultant story the expert was removed from.
+  """
+  story: Story!
+}
+
 ##################
 ## Mutation
 ##################
@@ -5928,6 +5957,13 @@ type Mutation {
   addExpertToStory(
     input: AddExpertInput!
   ): AddExpertPayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  removeExpertFromStory removes an expert from a story.
+  """
+  removeExpertFromStory(
+    input: RemoveExpertInput!
+  ): RemoveExpertPayload! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################

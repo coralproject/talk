@@ -11,6 +11,7 @@ import {
   merge,
   open,
   remove,
+  removeExpertFromStory,
   update,
   updateSettings,
 } from "coral-server/services/stories";
@@ -22,6 +23,7 @@ import {
   GQLCreateStoryInput,
   GQLMergeStoriesInput,
   GQLOpenStoryInput,
+  GQLRemoveExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
   GQLUpdateStoryInput,
@@ -79,4 +81,6 @@ export const Stories = (ctx: GraphContext) => ({
     scrape(ctx.mongo, ctx.config, ctx.tenant.id, input.id),
   addExpertToStory: async (input: GQLAddExpertInput) =>
     addExpertToStory(ctx.mongo, ctx.tenant, input.storyID, input.userID),
+  removeExpertFromStory: async (input: GQLRemoveExpertInput) =>
+    removeExpertFromStory(ctx.mongo, ctx.tenant, input.storyID, input.userID),
 });

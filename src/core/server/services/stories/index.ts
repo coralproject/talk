@@ -26,6 +26,7 @@ import {
   FindStoryInput,
   mergeCommentStatusCount,
   openStory,
+  removeExpert,
   removeStories,
   removeStory,
   retrieveManyStories,
@@ -383,4 +384,18 @@ export async function addExpertToStory(
   }
 
   return addExpert(mongo, tenant.id, storyID, userID);
+}
+
+export async function removeExpertFromStory(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  userID: string
+) {
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  return removeExpert(mongo, tenant.id, storyID, userID);
 }
