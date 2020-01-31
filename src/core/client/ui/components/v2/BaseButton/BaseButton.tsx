@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Link } from "found";
 import React, {
   ButtonHTMLAttributes,
   EventHandler,
@@ -25,6 +26,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string;
   target?: string;
   rel?: string;
+
+  to?: string;
 
   /**
    * This prop can be used to add custom classnames.
@@ -61,12 +64,17 @@ const BaseButton: FunctionComponent<Props> = ({
   mouseHover,
   forwardRef,
   type,
+  to,
   ...rest
 }) => {
   let Element: React.ComponentType<
     React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement> &
       React.ClassAttributes<HTMLButtonElement | HTMLAnchorElement>
   > = "button" as any;
+
+  if (to) {
+    Element = Link as any;
+  }
 
   if (anchor) {
     Element = "a" as any;

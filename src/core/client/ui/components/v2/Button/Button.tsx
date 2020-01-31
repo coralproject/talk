@@ -1,5 +1,4 @@
 import cn from "classnames";
-import { Link, LinkProps } from "found";
 import { pick } from "lodash";
 import React, { Ref } from "react";
 
@@ -113,21 +112,6 @@ export class Button extends React.Component<Props> {
       className
     );
 
-    if (to) {
-      return (
-        <Link
-          to={to}
-          className={cn(rootClassName, styles.linkButton)}
-          data-variant={variant}
-          data-color={color}
-          data-active={active}
-          {...(rest as LinkProps)}
-        >
-          {children}
-        </Link>
-      );
-    }
-
     return (
       <BaseButton
         className={rootClassName}
@@ -137,6 +121,7 @@ export class Button extends React.Component<Props> {
         type={type}
         data-variant={variant}
         data-color={color}
+        to={to}
         data-active={active}
         {...rest}
       >
