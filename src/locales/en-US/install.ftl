@@ -30,17 +30,17 @@ install-addSite-siteNameDescription =
 install-addOrganization-orgEmail = Organization contact email
 install-addOrganization-orgEmailTextField =
   .placeholder = Organization contact email
-install-addSite-siteEmail = Site contact email address
+install-addSite-siteEmail = Contact email address
 install-addSite-siteEmailTextField =
-  .placeholder = Site contact email
+  .placeholder = Contact email
 install-addSite-siteEmailDescription =
   This email address is for community members to contact you with questions or if they need help. e.g. comments@yoursite.com
 install-addOrganization-orgURL = Organization URL
 install-addOrganization-orgURLTextField =
   .placeholder = Organization URL
-install-addSite-siteURL = Site URL
+install-addSite-siteURL = Organization URL
 install-addSite-siteURLTextField =
-  .placeholder = Site URL
+  .placeholder = Organization URL
 install-addSite-siteURLDescription =
   This url will appear on emails sent by Coral to your community members.
 install-addOrganization-orgURLDescription = Be sure to include <strong>http://</strong> or <strong>https://</strong> in your URL
