@@ -49,7 +49,9 @@ exports[`renders message box when commenting disabled 1`] = `
       <div
         className="CallOut-root CallOut-colorRegular CallOut-fullWidth PostCommentFormClosedSitewide-root coral coral-closedSitewide"
       >
-        <div>
+        <div
+          className="CallOut-inner"
+        >
           <div
             className="Markdown-root PostCommentFormClosedSitewide-message"
             dangerouslySetInnerHTML={
@@ -237,7 +239,7 @@ exports[`renders message box when logged in 1`] = `
         <div
           className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary UserBoxAuthenticated-userBoxText"
         >
-          Signed in as
+          Signed in as 
           <span
             className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
           >
@@ -907,7 +909,9 @@ exports[`renders message box when story isClosed 1`] = `
       <div
         className="CallOut-root CallOut-colorRegular CallOut-fullWidth coral coral-createComment-closed"
       >
-        <div>
+        <div
+          className="CallOut-inner"
+        >
           <div
             className="Markdown-root"
             dangerouslySetInnerHTML={
