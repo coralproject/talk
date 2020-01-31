@@ -1,5 +1,4 @@
 import { FormApi, FormState } from "final-form";
-import { omit } from "lodash";
 import React from "react";
 
 import { LanguageCode } from "coral-common/helpers/i18n";
@@ -30,8 +29,7 @@ class ConfigureRoute extends React.Component<Props, State> {
     data: Parameters<Props["updateSettings"]>[0]["settings"],
     form: FormApi
   ) => {
-    const payload = omit(data, "announcement");
-    await this.props.updateSettings({ settings: payload });
+    await this.props.updateSettings({ settings: data });
     const localeFieldState = form.getFieldState("locale");
     if (localeFieldState && localeFieldState.dirty) {
       await this.props.changeLocale(data.locale as LanguageCode);
