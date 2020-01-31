@@ -79,7 +79,7 @@ const AnnouncementForm: FunctionComponent<Props> = ({
                               fullwidth
                               id="configure-general-announcements-content"
                             />
-                            <ValidationMessage meta={meta} />
+                            <ValidationMessage meta={meta} fullWidth />
                           </>
                         )}
                       </Field>
