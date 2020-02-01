@@ -102,7 +102,7 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeReaction: ({ commentID }: GQLRemoveCommentReactionInput) =>
-    removeReaction(ctx.mongo, ctx.redis, ctx.tenant, ctx.user!, {
+    removeReaction(ctx.mongo, ctx.redis, ctx.publisher, ctx.tenant, ctx.user!, {
       commentID,
     }),
   createDontAgree: ({
@@ -128,9 +128,14 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeDontAgree: ({ commentID }: GQLRemoveCommentDontAgreeInput) =>
-    removeDontAgree(ctx.mongo, ctx.redis, ctx.tenant, ctx.user!, {
-      commentID,
-    }),
+    removeDontAgree(
+      ctx.mongo,
+      ctx.redis,
+      ctx.publisher,
+      ctx.tenant,
+      ctx.user!,
+      { commentID }
+    ),
   createFlag: ({
     commentID,
     commentRevisionID,

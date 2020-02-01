@@ -2,7 +2,7 @@ import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { getModerationLink } from "coral-admin/helpers";
+import { getModerationLink } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import { TableCell, TableRow, TextLink } from "coral-ui/components/v2";
 
@@ -25,7 +25,7 @@ interface Props {
 const UserRow: FunctionComponent<Props> = props => (
   <TableRow>
     <TableCell className={styles.titleColumn}>
-      <Link to={getModerationLink("default", props.storyID)} as={TextLink}>
+      <Link to={getModerationLink({ storyID: props.storyID })} as={TextLink}>
         {props.title || <NotAvailable />}
       </Link>
     </TableCell>
@@ -34,10 +34,7 @@ const UserRow: FunctionComponent<Props> = props => (
     </TableCell>
     {props.multisite && (
       <TableCell className={styles.siteColumn}>
-        <Link
-          to={getModerationLink("default", null, props.siteID)}
-          as={TextLink}
-        >
+        <Link to={getModerationLink({ siteID: props.siteID })} as={TextLink}>
           {props.siteName}
         </Link>
       </TableCell>

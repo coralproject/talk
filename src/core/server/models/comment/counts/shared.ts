@@ -2,13 +2,13 @@ import { flatten, flattenDeep, identity, isEmpty, pickBy } from "lodash";
 import { Db } from "mongodb";
 import ms from "ms";
 
-import { DeepPartial } from "coral-common/types";
+import { FirstDeepPartial } from "coral-common/types";
 import logger from "coral-server/logger";
 import {
   CommentModerationCountsPerQueue,
-  StoryCommentCounts,
-} from "coral-server/models/story/counts";
-import { stories as collection } from "coral-server/services/mongodb/collections";
+  RelatedCommentCounts,
+} from "coral-server/models/comment/counts";
+import { sites } from "coral-server/services/mongodb/collections";
 import { AugmentedPipeline, AugmentedRedis } from "coral-server/services/redis";
 
 import {
@@ -29,12 +29,6 @@ const COUNT_FRESHNESS_EXPIRY_SECONDS = Math.floor(ms("24h") / 1000);
 
 const freshenKey = (key: string) => `${key}:fresh`;
 
-const commentCountsActionKey = (tenantID: string) =>
-  `${tenantID}:commentCounts:action`;
-
-const commentCountsStatusKey = (tenantID: string) =>
-  `${tenantID}:commentCounts:status`;
-
 const commentCountsModerationQueueTotalKey = (tenantID: string) =>
   `${tenantID}:commentCounts:moderationQueue:total`;
 
@@ -46,7 +40,6 @@ interface SharedModerationQueueCountsMatch {
   createdAt: {
     $lt: Date;
   };
-  siteID?: string;
 }
 
 /**
@@ -75,7 +68,7 @@ export async function recalculateSharedModerationQueueQueueCounts(
   };
 
   // Fetch all the moderation queue counts.
-  const queueResults = collection<{
+  const queueResults = sites<{
     _id: string;
     total: number;
   }>(mongo).aggregate([
@@ -194,34 +187,11 @@ export async function retrieveSharedModerationQueueQueuesCounts(
 export async function updateSharedCommentCounts(
   redis: AugmentedRedis,
   tenantID: string,
-  commentCounts: DeepPartial<StoryCommentCounts>
+  commentCounts: FirstDeepPartial<RelatedCommentCounts>
 ) {
   const pipeline: AugmentedPipeline = redis.pipeline();
 
-  // HASH ${tenantID}:commentCounts:action
-
-  const action = pickBy(commentCounts.action || {}, identity);
-  if (!isEmpty(action)) {
-    // Determine the arguments that we will increment.
-    const args = flattenDeep(Object.entries(action));
-
-    // Add the command to the pipeline.
-    pipeline.mhincrby(commentCountsActionKey(tenantID), ...args);
-  }
-
-  // HASH ${tenantID}:commentCounts:status
-
-  const status = pickBy(commentCounts.status || {}, identity);
-  if (!isEmpty(status)) {
-    // Determine the arguments that we will increment.
-    const args = flattenDeep(Object.entries(status));
-
-    // Add the command to the pipeline.
-    pipeline.mhincrby(commentCountsStatusKey(tenantID), ...args);
-  }
-
-  // HASH ${tenantID}:commentCounts:moderationQueue:total
-
+  // Update the moderation queue total.
   const moderationQueue = commentCounts.moderationQueue || {};
   const moderationQueueTotal =
     typeof moderationQueue.total === "number" ? moderationQueue.total : 0;
@@ -233,8 +203,7 @@ export async function updateSharedCommentCounts(
     );
   }
 
-  // HASH ${tenantID}:commentCounts:moderationQueue:queues
-
+  // Update the moderation queue counts.
   const moderationQueueQueues = pickBy(moderationQueue.queues || {}, identity);
   if (!isEmpty(moderationQueueQueues)) {
     // Determine the arguments that we will increment.

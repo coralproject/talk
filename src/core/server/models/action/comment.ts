@@ -114,6 +114,11 @@ export interface CommentAction extends TenantResource {
   storyID: string;
 
   /**
+   * siteID represents the ID of the Site where the comment was left on.
+   */
+  siteID: string;
+
+  /**
    * userID is the ID of the User that left this Action. In the event that the
    * Action was left by Coral, it will be null.
    */
@@ -474,7 +479,7 @@ export function invertEncodedActionCounts(
  * encodeActionCountKeys encodes the action into string keys which represents
  * the groupings as seen in `EncodedActionCounts`.
  */
-function encodeActionCountKeys(
+export function encodeActionCountKeys(
   action: Pick<CommentAction, "actionType" | "reason">
 ): string[] {
   const keys = [action.actionType as string];

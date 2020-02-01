@@ -1,10 +1,10 @@
 import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import {
   Comment,
+  CommentModerationQueueCounts,
   hasModeratorStatus,
   hasPublishedStatus,
 } from "coral-server/models/comment";
-import { CommentModerationQueueCounts } from "coral-server/models/story";
 import {
   publishCommentReleased,
   publishCommentStatusChanges,
@@ -15,7 +15,7 @@ interface PublishChangesInput {
   before?: Readonly<Comment>;
   after: Readonly<Comment>;
   moderationQueue: CommentModerationQueueCounts;
-  moderatorID: string | null;
+  moderatorID?: string;
 }
 
 export default async function publishChanges(
@@ -33,7 +33,7 @@ export default async function publishChanges(
       input.before.status,
       input.after.status,
       input.after.id,
-      input.moderatorID
+      input.moderatorID || null
     );
 
     if (hasModeratorStatus(input.before) && hasPublishedStatus(input.after)) {

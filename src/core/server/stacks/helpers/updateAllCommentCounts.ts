@@ -1,10 +1,14 @@
 import { Db } from "mongodb";
 
-import { Comment, CommentStatusCounts } from "coral-server/models/comment";
+import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
+  Comment,
   CommentModerationQueueCounts,
-  updateStoryCounts,
-} from "coral-server/models/story";
+  CommentStatusCounts,
+  updateSharedCommentCounts,
+} from "coral-server/models/comment";
+import { updateSiteCounts } from "coral-server/models/site";
+import { updateStoryCounts } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { updateUserCommentCounts } from "coral-server/models/user";
 import {
@@ -13,14 +17,25 @@ import {
 } from "coral-server/services/comments/moderation";
 import { AugmentedRedis } from "coral-server/services/redis";
 
-interface UpdateAllCountsInput {
+interface UpdateAllCommentCountsInput {
   tenant: Readonly<Tenant>;
-  before?: Readonly<Comment>;
   after: Readonly<Comment>;
+
+  /**
+   * actionCounts when provided will increment the related entries for an
+   * operation that creates actions.
+   */
+  actionCounts: Readonly<EncodedCommentActionCounts>;
+
+  /**
+   * before when provided is used when a comment has been changed. A comment
+   * that has just been created should not provide before.
+   */
+  before?: Readonly<Comment>;
 }
 
 function calculateModerationQueue(
-  input: UpdateAllCountsInput
+  input: UpdateAllCommentCountsInput
 ): CommentModerationQueueCounts {
   if (input.before) {
     return calculateCountsDiff(input.before, input.after);
@@ -30,7 +45,7 @@ function calculateModerationQueue(
 }
 
 function calculateStatus(
-  input: UpdateAllCountsInput
+  input: UpdateAllCommentCountsInput
 ): Partial<CommentStatusCounts> {
   if (input.before) {
     if (input.before.status !== input.after.status) {
@@ -48,10 +63,10 @@ function calculateStatus(
   };
 }
 
-export default async function updateAllCounts(
+export default async function updateAllCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
-  input: UpdateAllCountsInput
+  input: UpdateAllCommentCountsInput
 ) {
   // Compute the queue difference as a result of the old status and the new
   // status and the action counts.
@@ -63,23 +78,38 @@ export default async function updateAllCounts(
   // Pull out some params from the input for easier usage.
   const {
     tenant,
-    after: { storyID, authorID },
+    actionCounts: action,
+    after: { storyID, authorID, siteID },
   } = input;
 
-  // Update the story comment counts.
-  await updateStoryCounts(mongo, redis, tenant.id, storyID, {
+  // Update the story, site, and user comment counts.
+  await updateStoryCounts(mongo, tenant.id, storyID, {
+    action,
+    status,
+    moderationQueue,
+  });
+
+  await updateSiteCounts(mongo, tenant.id, siteID, {
+    action,
     status,
     moderationQueue,
   });
 
   if (authorID) {
-    // Update the user comment counts.
     await updateUserCommentCounts(mongo, tenant.id, authorID, {
       status,
     });
   }
 
+  // Update the shared counts.
+  await updateSharedCommentCounts(redis, tenant.id, {
+    action,
+    status,
+    moderationQueue,
+  });
+
   return {
+    action,
     status,
     moderationQueue,
   };

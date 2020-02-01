@@ -4,12 +4,12 @@ import { graphql } from "react-relay";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import BanModal from "coral-admin/components/UserStatus/BanModal";
-import { getModerationLink } from "coral-admin/helpers";
 import {
   ApproveCommentMutation,
   RejectCommentMutation,
 } from "coral-admin/mutations";
 import FadeInTransition from "coral-framework/components/FadeInTransition";
+import { getModerationLink } from "coral-framework/helpers";
 import {
   MutationProp,
   withFragmentContainer,
@@ -162,7 +162,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const handleModerateStory = useCallback(
     (e: React.MouseEvent) => {
-      router.push(getModerationLink("default", comment.story.id));
+      router.push(getModerationLink({ storyID: comment.story.id }));
       if (e.preventDefault) {
         e.preventDefault();
       }
@@ -243,7 +243,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
               <NotAvailable />
             )
           }
-          storyHref={getModerationLink("default", comment.story.id)}
+          storyHref={getModerationLink({ storyID: comment.story.id })}
           onModerateStory={handleModerateStory}
           mini={mini}
           hideUsername={hideUsername}

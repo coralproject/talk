@@ -11,11 +11,7 @@ class FinalStep extends Component {
       <Flex direction="column" justifyContent="center" itemGutter="double">
         <Localized
           id="install-finalStep-description"
-          $url={
-            <Link to={urls.admin.moderateReported}>
-              {urls.admin.moderateReported}
-            </Link>
-          }
+          $url={<Link to={urls.admin.moderate}>{urls.admin.moderate}</Link>}
         >
           <Typography variant="bodyCopy">
             Thanks for installing Coral! We sent an email to verify your email
@@ -29,7 +25,7 @@ class FinalStep extends Component {
               anchor
               color="primary"
               variant="filled"
-              href={urls.admin.moderateReported}
+              href={urls.admin.moderate}
             >
               Go to Admin
             </Button>

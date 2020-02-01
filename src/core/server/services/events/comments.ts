@@ -1,11 +1,12 @@
 import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/resolvers/Subscription/types";
+import { Publisher } from "coral-server/graph/subscriptions/publisher";
+import { Comment, hasPublishedStatus } from "coral-server/models/comment";
+import { CommentModerationQueueCounts } from "coral-server/models/comment/counts";
+
 import {
   GQLCOMMENT_STATUS,
   GQLMODERATION_QUEUE,
 } from "coral-server/graph/schema/__generated__/types";
-import { Publisher } from "coral-server/graph/subscriptions/publisher";
-import { Comment, hasPublishedStatus } from "coral-server/models/comment";
-import { CommentModerationQueueCounts } from "coral-server/models/story/counts";
 
 export function publishCommentStatusChanges(
   publish: Publisher,

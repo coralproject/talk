@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { urls } from "coral-framework/helpers";
+import { getModerationLink } from "coral-framework/helpers";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   withFragmentContainer,
@@ -26,7 +26,7 @@ const ModerateStreamContainer: FunctionComponent<Props> = ({
   story: { id },
 }) => {
   const href = useMemo(() => {
-    let link = urls.admin.moderateReported + "/" + id;
+    let link = getModerationLink({ storyID: id });
     if (
       accessToken &&
       settings.auth.integrations.sso.enabled &&

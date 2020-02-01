@@ -1,9 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import getModerationLink, {
-  QUEUE_NAME,
-} from "coral-admin/helpers/getModerationLink";
+import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import { PaginatedSelect } from "coral-ui/components/v2";
 
@@ -55,13 +53,16 @@ const SiteSelector: FunctionComponent<Props> = ({
     >
       <>
         <SiteSelectorSite
-          link={getModerationLink(queueName as QUEUE_NAME, null, null)}
+          link={getModerationLink({ queue: queueName as QUEUE_NAME })}
           site={null}
           active={!site}
         />
         {sites.map(s => (
           <SiteSelectorSite
-            link={getModerationLink(queueName as QUEUE_NAME, null, s.id)}
+            link={getModerationLink({
+              queue: queueName as QUEUE_NAME,
+              siteID: s.id,
+            })}
             key={s.id}
             site={s}
             active={(site && site.id === s.id) || false}
