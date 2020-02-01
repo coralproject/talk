@@ -1,10 +1,10 @@
-import { CommentConnectionInput } from "coral-server/models/comment";
+import {
+  CommentConnectionInput,
+  CommentModerationCountsPerQueue,
+} from "coral-server/models/comment";
 import { FilterQuery } from "coral-server/models/helpers";
 import { Site } from "coral-server/models/site";
-import {
-  CommentModerationCountsPerQueue,
-  Story,
-} from "coral-server/models/story";
+import { Story } from "coral-server/models/story";
 import {
   PENDING_STATUS,
   REPORTED_STATUS,
@@ -21,7 +21,7 @@ import { ModerationQueueInput } from "./ModerationQueue";
 
 interface ModerationQueuesInput {
   connection: Partial<CommentConnectionInput>;
-  counts: CommentModerationCountsPerQueue | null;
+  counts: CommentModerationCountsPerQueue;
 }
 
 const mergeModerationInputFilters = (
@@ -47,8 +47,7 @@ const mergeModerationInputFilters = (
  *              queues on
  */
 export const siteModerationInputResolver = async (
-  site: Site,
-  ctx: GraphContext
+  site: Site
 ): Promise<ModerationQueuesInput> => ({
   connection: {
     filter: {
@@ -57,7 +56,7 @@ export const siteModerationInputResolver = async (
       siteID: site.id,
     },
   },
-  counts: null,
+  counts: site.commentCounts.moderationQueue.queues,
 });
 
 /**
@@ -75,6 +74,7 @@ export const storyModerationInputResolver = (
       // This moderationQueues is being sourced from the Story, so require
       // that all the comments for theses queues are also for this Story.
       storyID: story.id,
+      siteID: story.siteID,
     },
   },
   counts: story.commentCounts.moderationQueue.queues,
@@ -113,14 +113,6 @@ export const moderationQueuesResolver: QueryToModerationQueuesResolver = async (
   args,
   ctx
 ): Promise<ModerationQueuesInput | null> => {
-  if (args.siteID) {
-    const site = await ctx.loaders.Sites.site.load(args.siteID);
-    if (!site) {
-      return null;
-    }
-
-    return siteModerationInputResolver(site, ctx);
-  }
   if (args.storyID) {
     const story = await ctx.loaders.Stories.story.load(args.storyID);
     if (!story) {
@@ -128,6 +120,15 @@ export const moderationQueuesResolver: QueryToModerationQueuesResolver = async (
     }
 
     return storyModerationInputResolver(story);
+  }
+
+  if (args.siteID) {
+    const site = await ctx.loaders.Sites.site.load(args.siteID);
+    if (!site) {
+      return null;
+    }
+
+    return siteModerationInputResolver(site);
   }
 
   return sharedModerationInputResolver(source, args, ctx);

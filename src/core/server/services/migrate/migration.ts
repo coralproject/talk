@@ -1,8 +1,11 @@
 import Logger from "bunyan";
-import { Db } from "mongodb";
+import { Collection, Db } from "mongodb";
 
 import logger from "coral-server/logger";
+import { TenantResource } from "coral-server/models/tenant";
 import { I18n } from "coral-server/services/i18n";
+
+import Batch from "./batch";
 
 interface Migration {
   indexes?(mongo: Db): Promise<void>;
@@ -26,7 +29,7 @@ abstract class Migration {
   /**
    * disabled when true will not run the migration.
    */
-  public static disabled?: boolean;
+  public static readonly disabled?: boolean;
 
   constructor({ id, name, i18n }: MigrationOptions) {
     this.id = id;
@@ -43,6 +46,14 @@ abstract class Migration {
 
   protected log(tenantID: string) {
     return this.logger.child({ tenantID }, true);
+  }
+
+  protected batch<T extends TenantResource>(
+    collection: Collection<T>,
+    tenantID: string,
+    size = 500
+  ) {
+    return new Batch(this.log(tenantID), collection, size, tenantID);
   }
 }
 

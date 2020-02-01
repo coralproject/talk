@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
-import { getModerationLink } from "coral-admin/helpers";
+import { getModerationLink } from "coral-framework/helpers";
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
@@ -180,7 +180,7 @@ function useSearchOptions(
           nextSearchOptions.push({
             element: (
               <Option
-                href={getModerationLink("default", e.node.id)}
+                href={getModerationLink({ storyID: e.node.id })}
                 details={
                   <Flex itemGutter>
                     <strong>{e.node.site.name}</strong>

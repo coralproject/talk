@@ -1,24 +1,18 @@
-export * from "./empty";
-export * from "./shared";
-
 import { identity, isEmpty, pickBy } from "lodash";
-import { Db } from "mongodb";
+import { Collection } from "mongodb";
 
 import { DeepPartial } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
-import {
-  CommentStatusCounts,
-  createEmptyCommentStatusCounts,
-} from "coral-server/models/comment/helpers";
-import { retrieveStory, Story } from "coral-server/models/story";
-import { stories as collection } from "coral-server/services/mongodb/collections";
-import { AugmentedRedis } from "coral-server/services/redis";
 
-import { updateSharedCommentCounts } from "./shared";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+
+import {
+  createEmptyCommentModerationQueueCounts,
+  createEmptyCommentStatusCounts,
+} from "./empty";
 
 /**
  * CommentModerationCountsPerQueue stores the number of Comments that exist in
@@ -60,117 +54,49 @@ export interface CommentModerationQueueCounts {
   queues: CommentModerationCountsPerQueue;
 }
 
+// TODO: (wyattjoh) write a test to verify that this set of counts is always in sync with GQLCOMMENT_STATUS.
+
 /**
- * StoryCommentCounts stores all the Comment Counts that will be stored on each
- * Story.
+ * CommentStatusCounts stores the count of Comments that have the particular
+ * statuses.
  */
-export interface StoryCommentCounts {
+export interface CommentStatusCounts {
+  [GQLCOMMENT_STATUS.APPROVED]: number;
+  [GQLCOMMENT_STATUS.NONE]: number;
+  [GQLCOMMENT_STATUS.PREMOD]: number;
+  [GQLCOMMENT_STATUS.REJECTED]: number;
+  [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: number;
+}
+
+/**
+ * RelatedCommentCounts stores all the Comment Counts that will be stored on
+ * each related document (like a Story, or a Site).
+ */
+export interface RelatedCommentCounts {
   /**
-   * actionCounts stores all the action counts for all Comment's on this Story.
+   * actionCounts stores all the action counts for all Comment's on this related
+   * document.
    */
   action: EncodedCommentActionCounts;
 
   /**
-   * commentCounts stores the different counts for each comment on the Story
-   * according to their statuses.
+   * commentCounts stores the different counts for each comment on the related
+   * document according to their statuses.
    */
   status: CommentStatusCounts;
 
   /**
-   * moderationQueue stores the number of Comments that exist in
-   * each of the ModerationQueue's on this Story.
+   * moderationQueue stores the number of Comments that exist in each of the
+   * ModerationQueue's on this related document.
    */
   moderationQueue: CommentModerationQueueCounts;
-}
-
-/**
- * updateStoryCommentStatusCount will update a given Story's status counts.
- *
- * @param mongo database handle
- * @param redis redis database handle
- * @param tenantID ID of the Tenant where this Story is
- * @param id ID of the Story where we're updating the counts
- * @param status the set of counts that we will update
- */
-export const updateStoryCommentStatusCount = (
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  id: string,
-  status: Partial<CommentStatusCounts>
-) => updateStoryCounts(mongo, redis, tenantID, id, { status });
-
-/**
- * updateStoryCommentModerationQueueCounts will update the moderation queue
- * counts on a Story.
- *
- * @param mongo mongo database handle
- * @param redis redis database handle
- * @param tenantID ID of the Tenant where this Story is
- * @param id ID of the Story where we're updating the counts
- * @param moderationQueue the set of counts that we will update
- */
-export const updateStoryCommentModerationQueueCounts = (
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  id: string,
-  moderationQueue: DeepPartial<CommentModerationQueueCounts>
-) => updateStoryCounts(mongo, redis, tenantID, id, { moderationQueue });
-
-export const updateStoryActionCounts = (
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  id: string,
-  action: EncodedCommentActionCounts
-) => updateStoryCounts(mongo, redis, tenantID, id, { action });
-
-/**
- * updateStoryCounts will update the comment counts for the story indicated.
- *
- * @param mongo mongodb database handle
- * @param redis redis database handle
- * @param tenantID ID of the Tenant where the Story is on
- * @param id the ID of the Story that we are updating counts on
- * @param commentCounts the counts that we are updating
- */
-export async function updateStoryCounts(
-  mongo: Db,
-  redis: AugmentedRedis,
-  tenantID: string,
-  id: string,
-  commentCounts: DeepPartial<StoryCommentCounts>
-) {
-  // Update all the specific comment moderation queue counts.
-  const update: DeepPartial<Story> = { commentCounts };
-  const $inc = pickBy(dotize(update), identity);
-  if (isEmpty($inc)) {
-    // Nothing needs to be incremented, just return the story.
-    return retrieveStory(mongo, tenantID, id);
-  }
-
-  logger.trace({ update: { $inc } }, "incrementing story counts");
-
-  const result = await collection(mongo).findOneAndUpdate(
-    { id, tenantID },
-    { $inc },
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
-  );
-
-  // Update the shared counts.
-  await updateSharedCommentCounts(redis, tenantID, commentCounts);
-
-  return result.value || null;
 }
 
 /**
  * mergeCommentStatusCount will merge an array of commentStatusCount's into one.
  */
 export function mergeCommentStatusCount(
-  statusCounts: CommentStatusCounts[]
+  ...statusCounts: CommentStatusCounts[]
 ): CommentStatusCounts {
   const mergedStatusCounts = createEmptyCommentStatusCounts();
   for (const commentCounts of statusCounts) {
@@ -195,6 +121,21 @@ export function mergeCommentStatusCount(
     }
   }
   return mergedStatusCounts;
+}
+
+export function mergeCommentModerationQueueCount(
+  ...moderationQueues: CommentModerationQueueCounts[]
+): CommentModerationQueueCounts {
+  const merged = createEmptyCommentModerationQueueCounts();
+
+  for (const moderationQueue of moderationQueues) {
+    merged.total += moderationQueue.total;
+    merged.queues.unmoderated += moderationQueue.queues.unmoderated;
+    merged.queues.pending += moderationQueue.queues.pending;
+    merged.queues.reported += moderationQueue.queues.reported;
+  }
+
+  return merged;
 }
 
 /**
@@ -238,4 +179,50 @@ export function calculateTotalPublishedCommentCount(
     (total, status) => total + commentCounts[status],
     0
   );
+}
+
+interface RelatedCommentCountsDocument {
+  id: string;
+  tenantID: string;
+  commentCounts: Partial<RelatedCommentCounts>;
+}
+
+export async function updateRelatedCommentCounts<
+  T extends RelatedCommentCountsDocument
+>(
+  collection: Collection<T>,
+  tenantID: string,
+  id: string,
+  commentCounts: DeepPartial<RelatedCommentCounts>
+) {
+  // Update all the specific comment moderation queue counts.
+  const update: DeepPartial<RelatedCommentCountsDocument> = { commentCounts };
+
+  // For each of the paths that we can update, we want to reduce it to a flat
+  // object that's dotted (via dotize). We then use the `pickBy` with `identity`
+  // to remove all the increment operations that are zero. This should leave
+  // only increments that are positive or negative numbers.
+  const $inc = pickBy(dotize(update), identity);
+
+  // If th object is empty, then we don't actually have anything to increment,
+  // lets return the object directly to stay consistent with the return API.
+  if (isEmpty($inc)) {
+    // Nothing needs to be incremented, just return the story.
+    return collection.findOne({ id, tenantID });
+  }
+
+  logger.trace(
+    { collection: collection.collectionName, tenantID, id, update: { $inc } },
+    "updating related comment counts"
+  );
+
+  const result = await collection.findOneAndUpdate(
+    { id, tenantID },
+    { $inc },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value || null;
 }

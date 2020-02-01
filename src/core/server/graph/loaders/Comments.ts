@@ -18,9 +18,9 @@ import {
   retrieveRejectedCommentUserConnection,
   retrieveStoryCommentTagCounts,
 } from "coral-server/models/comment";
+import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/comment/counts/shared";
 import { hasPublishedStatus } from "coral-server/models/comment/helpers";
 import { Connection } from "coral-server/models/helpers";
-import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/story/counts/shared";
 import { User } from "coral-server/models/user";
 
 import {

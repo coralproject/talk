@@ -8,6 +8,7 @@ import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import logger from "coral-server/logger";
 import {
   encodeActionCounts,
+  EncodedCommentActionCounts,
   filterDuplicateActions,
 } from "coral-server/models/action/comment";
 import { createCommentModerationAction } from "coral-server/models/action/moderation/comment";
@@ -28,7 +29,7 @@ import { processForModeration } from "coral-server/services/comments/pipeline";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
-import { publishChanges, updateAllCounts } from "./helpers";
+import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 /**
  * getLastCommentEditableUntilDate will return the `createdAt` date that will
@@ -116,17 +117,12 @@ export default async function edit(
     now,
   });
 
-  let actionCounts = {};
+  let actionCounts: EncodedCommentActionCounts = {};
   if (actions.length > 0) {
     // Encode the new action counts that are going to be added to the new
     // revision.
     actionCounts = encodeActionCounts(...filterDuplicateActions(actions));
   }
-
-  log.trace(
-    { predictedActionCounts: actionCounts },
-    "associating action counts with comment"
-  );
 
   // Perform the edit.
   const result = await editComment(
@@ -149,9 +145,10 @@ export default async function edit(
 
   log = log.child({ revisionID: result.revision.id }, true);
 
+  // If there were actions to insert, then insert them into the commentActions
+  // collection.
   if (actions.length > 0) {
-    // Insert and handle creating the actions.
-    const upsertedActions = await addCommentActions(
+    await addCommentActions(
       mongo,
       tenant,
       actions.map(
@@ -160,22 +157,15 @@ export default async function edit(
           commentID: result.after.id,
           commentRevisionID: result.revision.id,
           storyID: story.id,
+          siteID: story.siteID,
         })
       ),
       now
     );
-
-    log.trace(
-      {
-        actualActionCounts: encodeActionCounts(...upsertedActions),
-        actions: upsertedActions.length,
-      },
-      "added actions to comment"
-    );
   }
 
   // If the comment status changed as a result of a pipeline operation, create a
-  // moderation action.
+  // moderation action (but don't associate it with a moderator).
   if (result.before.status !== result.after.status) {
     await createCommentModerationAction(
       mongo,
@@ -191,8 +181,9 @@ export default async function edit(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCounts(mongo, redis, {
+  const counts = await updateAllCommentCounts(mongo, redis, {
     tenant,
+    actionCounts,
     ...result,
   });
 
@@ -200,7 +191,6 @@ export default async function edit(
   await publishChanges(publisher, {
     ...result,
     ...counts,
-    moderatorID: null,
   });
 
   // Return the resulting comment.

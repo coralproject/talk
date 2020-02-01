@@ -5,7 +5,7 @@ import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 
 import { HOTKEYS } from "coral-admin/constants";
-import { getModerationLink } from "coral-admin/helpers";
+import { getModerationLink } from "coral-framework/helpers";
 import { Counter, Icon, SubBarNavigation } from "coral-ui/components/v2";
 
 import NavigationLink from "./NavigationLink";
@@ -31,10 +31,10 @@ const Navigation: FunctionComponent<Props> = ({
 }) => {
   const moderationLinks = useMemo(() => {
     return [
-      getModerationLink("reported", storyID, siteID),
-      getModerationLink("pending", storyID, siteID),
-      getModerationLink("unmoderated", storyID, siteID),
-      getModerationLink("rejected", storyID, siteID),
+      getModerationLink({ queue: "reported", storyID, siteID }),
+      getModerationLink({ queue: "pending", storyID, siteID }),
+      getModerationLink({ queue: "unmoderated", storyID, siteID }),
+      getModerationLink({ queue: "rejected", storyID, siteID }),
     ];
   }, [storyID, siteID]);
 

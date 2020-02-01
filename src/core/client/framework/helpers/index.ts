@@ -17,3 +17,4 @@ export {
   default as injectConditionalPolyfills,
 } from "./injectConditionalPolyfills";
 export { default as polyfillCSSVarsForIE11 } from "./polyfillCSSVarsForIE11";
+export { default as getModerationLink, QUEUE_NAME } from "./getModerationLink";

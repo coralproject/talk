@@ -2,7 +2,7 @@ import { identity, isNumber } from "lodash";
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
-import { Omit } from "coral-common/types";
+import { FirstDeepPartial, Omit } from "coral-common/types";
 import { getOrigin } from "coral-server/app/url";
 import { DuplicateSiteAllowedOriginError } from "coral-server/errors";
 import {
@@ -14,14 +14,21 @@ import {
 import { TenantResource } from "coral-server/models/tenant";
 import { sites as collection } from "coral-server/services/mongodb/collections";
 
+import {
+  createEmptyRelatedCommentCounts,
+  RelatedCommentCounts,
+  updateRelatedCommentCounts,
+} from "../comment";
+
 export interface Site extends TenantResource {
   readonly id: string;
   name: string;
   allowedOrigins: string[];
+  commentCounts: RelatedCommentCounts;
   createdAt: Date;
 }
 
-export type CreateSiteInput = Omit<Site, "createdAt" | "id">;
+export type CreateSiteInput = Omit<Site, "id" | "commentCounts" | "createdAt">;
 
 export type SiteConnectionInput = ConnectionInput<Site>;
 
@@ -39,11 +46,12 @@ export async function createSite(
   mongo: Db,
   input: CreateSiteInput,
   now = new Date()
-) {
-  const site = {
-    id: uuid.v4(),
-    createdAt: now,
+): Promise<Readonly<Site>> {
+  const site: Site = {
     ...input,
+    id: uuid.v4(),
+    commentCounts: createEmptyRelatedCommentCounts(),
+    createdAt: now,
   };
 
   try {
@@ -158,3 +166,10 @@ export async function updateSite(
     throw err;
   }
 }
+
+export const updateSiteCounts = (
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  commentCounts: FirstDeepPartial<RelatedCommentCounts>
+) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);

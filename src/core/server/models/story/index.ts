@@ -1,7 +1,7 @@
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
-import { DeepPartial, Omit } from "coral-common/types";
+import { DeepPartial, FirstDeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import {
   DuplicateStoryIDError,
@@ -22,13 +22,12 @@ import {
   GQLStorySettings,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { createEmptyCommentStatusCounts } from "../comment/helpers";
 import {
-  createEmptyCommentModerationQueueCounts,
-  StoryCommentCounts,
-} from "./counts";
+  createEmptyRelatedCommentCounts,
+  RelatedCommentCounts,
+  updateRelatedCommentCounts,
+} from "../comment/counts";
 
-export * from "./counts";
 export * from "./helpers";
 
 export type StorySettings = DeepPartial<
@@ -58,7 +57,7 @@ export interface Story extends TenantResource {
   /**
    * commentCounts stores all the comment counters.
    */
-  commentCounts: StoryCommentCounts;
+  commentCounts: RelatedCommentCounts;
 
   /**
    * settings provides a point where the settings can be overridden for a
@@ -109,11 +108,7 @@ export async function upsertStory(
       siteID,
       tenantID,
       createdAt: now,
-      commentCounts: {
-        action: {},
-        status: createEmptyCommentStatusCounts(),
-        moderationQueue: createEmptyCommentModerationQueueCounts(),
-      },
+      commentCounts: createEmptyRelatedCommentCounts(),
       settings: {},
     },
   };
@@ -237,11 +232,7 @@ export async function createStory(
     url,
     tenantID,
     createdAt: now,
-    commentCounts: {
-      action: {},
-      moderationQueue: createEmptyCommentModerationQueueCounts(),
-      status: createEmptyCommentStatusCounts(),
-    },
+    commentCounts: createEmptyRelatedCommentCounts(),
     settings: {},
   };
 
@@ -516,3 +507,18 @@ export async function updateStoryLastCommentedAt(
     }
   );
 }
+
+/**
+ * updateStoryCounts will update the comment counts for the story indicated.
+ *
+ * @param mongo mongodb database handle
+ * @param tenantID ID of the Tenant where the Story is on
+ * @param id the ID of the Story that we are updating counts on
+ * @param commentCounts the counts that we are updating
+ */
+export const updateStoryCounts = (
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  commentCounts: FirstDeepPartial<RelatedCommentCounts>
+) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);

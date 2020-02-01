@@ -33,11 +33,8 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { PUBLISHED_STATUSES } from "./constants";
-import {
-  CommentStatusCounts,
-  createEmptyCommentStatusCounts,
-  hasAncestors,
-} from "./helpers";
+import { CommentStatusCounts, createEmptyCommentStatusCounts } from "./counts";
+import { hasAncestors } from "./helpers";
 import { Revision } from "./revision";
 import { CommentTag } from "./tag";
 

@@ -127,6 +127,7 @@ describe("#filterDuplicateActions", () => {
     const actions: CreateActionInput[] = [
       {
         storyID: "1",
+        siteID: "1",
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
         commentID: "1",
@@ -135,6 +136,7 @@ describe("#filterDuplicateActions", () => {
       },
       {
         storyID: "1",
+        siteID: "1",
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
         commentID: "1",
@@ -143,6 +145,7 @@ describe("#filterDuplicateActions", () => {
       },
       {
         storyID: "1",
+        siteID: "1",
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
         commentID: "1",

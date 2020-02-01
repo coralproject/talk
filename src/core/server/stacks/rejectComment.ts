@@ -14,7 +14,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { publishChanges, updateAllCounts } from "./helpers";
+import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 const rejectComment = async (
   mongo: Db,
@@ -41,9 +41,11 @@ const rejectComment = async (
   );
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCounts(mongo, redis, {
-    tenant,
+  const counts = await updateAllCommentCounts(mongo, redis, {
     ...result,
+    tenant,
+    // Rejecting a comment does not change the action counts.
+    actionCounts: {},
   });
 
   // Publish changes to the event publisher.
