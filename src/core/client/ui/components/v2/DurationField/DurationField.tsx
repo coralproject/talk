@@ -32,6 +32,7 @@ const DURATION_UNIT_MAP = {
 
 interface Props extends Pick<TextFieldProps, "color" | "name" | "disabled"> {
   value: string;
+  defaultValue?: string;
   onChange: (v: string) => void;
   /** Specifiy units to include */
   units?: ReadonlyArray<TIME>;
@@ -79,10 +80,14 @@ const DurationField: FunctionComponent<Props> = ({
   value,
   units = [TIME.HOUR, TIME.DAY, TIME.WEEK],
   onChange,
+  defaultValue = "",
   disabled,
   name,
   color,
 }) => {
+  if (value.length < 1) {
+    value = defaultValue;
+  }
   const [selectedUnit, setSelectedUnit] = useState(
     convertFromSeconds(value, units).unit
   );

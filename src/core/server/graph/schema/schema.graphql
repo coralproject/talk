@@ -1216,6 +1216,37 @@ type NewCommentersConfiguration {
 }
 
 """
+Announcement is an organization-wide announcement displayed above the stream
+for a set duration
+"""
+type Announcement {
+  """
+  id is a canonical identifier for this Annoucnement, used to dismiss on front-end.
+  """
+  id: ID!
+
+  """
+  createdAt is the creation date.
+  """
+  createdAt: Time!
+
+  """
+  disableAt is the computed date at which announcement will be invalid.
+  """
+  disableAt: Time!
+
+  """
+  duration determines how long the announcement will be valid for.
+  """
+  duration: Int!
+
+  """
+  content is the content displayed for the announcement.
+  """
+  content: String!
+}
+
+"""
 Settings stores the global settings for a given Tenant.
 """
 type Settings {
@@ -1365,6 +1396,8 @@ type Settings {
   newCommenters is the configuration for how new commenters comments are treated.
   """
   newCommenters: NewCommentersConfiguration! @auth(roles: [ADMIN])
+
+  announcement: Announcement
 }
 
 ################################################################################
@@ -3351,6 +3384,44 @@ input RecentCommentHistoryConfigurationInput {
   the rejection rate decreases.
   """
   triggerRejectionRate: Float
+}
+
+input CreateAnnouncementInput {
+  """
+  content of the announcement.
+  """
+  content: String!
+
+  duration: Int!
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input DeleteAnnouncementInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateAnnouncementPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  settings: Settings!
+}
+
+type DeleteAnnouncementPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  settings: Settings!
 }
 
 input SettingsCommunityGuidelinesInput {
@@ -5763,6 +5834,14 @@ type Mutation {
   disableFeatureFlag(
     input: DisableFeatureFlagInput!
   ): DisableFeatureFlagPayload! @auth(roles: [ADMIN])
+
+  createAnnouncement(
+    input: CreateAnnouncementInput!
+  ): CreateAnnouncementPayload! @auth(roles: [ADMIN])
+
+  deleteAnnouncement(
+    input: DeleteAnnouncementInput!
+  ): DeleteAnnouncementPayload! @auth(roles: [ADMIN])
 }
 
 ##################

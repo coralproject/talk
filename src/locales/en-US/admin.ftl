@@ -117,6 +117,18 @@ configure-general-sitewideCommenting-message = Sitewide closed comments message
 configure-general-sitewideCommenting-messageExplanation =
   Write a message that will be displayed when comment streams are closed sitewide
 
+configure-general-announcements-title = Community announcement
+configure-general-announcements-description =
+  Add a temporary announcement that will appear at the top of all of your organization’s comment streams for a specific amount of time.
+configure-general-announcements-delete = Remove announcement
+configure-general-announcements-add = Add announcement
+configure-general-announcements-start = Start announcement
+configure-general-announcements-cancel = Cancel
+configure-general-announcements-current-label = Current announcement
+configure-general-announcements-current-duration =
+  This announcement will automatically end on: { $timestamp }
+configure-general-announcements-duration = Show this announcement for
+
 #### Closing Comment Streams
 configure-general-closingCommentStreams-title = Closing comment streams
 configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after a story’s publication

@@ -9,9 +9,12 @@ import { Config } from "coral-server/config";
 import { TenantInstalledAlreadyError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
+  CreateAnnouncementInput,
   createTenant,
+  createTenantAnnouncement,
   CreateTenantInput,
   createTenantSSOKey,
+  deleteTenantAnnouncement,
   disableTenantFeatureFlag,
   enableTenantFeatureFlag,
   rotateTenantSSOKey,
@@ -252,4 +255,34 @@ export async function disableFeatureFlag(
   // Return the updated feature flags (or [] if there was no feature flags to
   // begin with).
   return updated.featureFlags || [];
+}
+
+export async function createAnnouncement(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  input: CreateAnnouncementInput,
+  now = new Date()
+) {
+  const updated = await createTenantAnnouncement(mongo, tenant.id, input);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+  await cache.update(redis, updated);
+  return updated;
+}
+
+export async function deleteAnnouncement(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant
+) {
+  const updated = await deleteTenantAnnouncement(mongo, tenant.id);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+  await cache.update(redis, updated);
+  return updated;
 }

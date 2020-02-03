@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash";
+import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -6,12 +7,14 @@ import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import TIME from "coral-common/time";
 import { DeepPartial, Omit, Sub } from "coral-common/types";
+import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
 import { Settings } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
 import {
+  GQLAnnouncement,
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
   GQLSettings,
@@ -395,4 +398,68 @@ export async function disableTenantFeatureFlag(
   );
 
   return result.value || null;
+}
+
+export interface CreateAnnouncementInput {
+  content: string;
+  duration: number;
+}
+
+export async function createTenantAnnouncement(
+  mongo: Db,
+  id: string,
+  input: CreateAnnouncementInput,
+  now = new Date()
+) {
+  const announcement = {
+    id: uuid.v4(),
+    ...input,
+    createdAt: now,
+  };
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $set: {
+        announcement,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value;
+}
+
+export async function deleteTenantAnnouncement(mongo: Db, id: string) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $unset: {
+        announcement: "",
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value;
+}
+
+export function retrieveAnnouncementIfEnabled(
+  announcement?: GQLAnnouncement | null
+) {
+  if (!announcement) {
+    return null;
+  }
+  const disableAt = DateTime.fromJSDate(announcement.createdAt)
+    .plus({ seconds: announcement.duration })
+    .toJSDate();
+  if (isBeforeDate(disableAt)) {
+    return {
+      ...announcement,
+      disableAt,
+    };
+  }
+  return null;
 }

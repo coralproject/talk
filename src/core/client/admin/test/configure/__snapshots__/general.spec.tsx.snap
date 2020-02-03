@@ -369,6 +369,50 @@ reactions, be reported, and be shared.
                 <legend
                   className="Header-root"
                 >
+                  Community announcement
+                </legend>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <fieldset
+                className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <p
+                  className="FormFieldDescription-root"
+                >
+                  Add a temporary announcement that will appear at the top of all of your organization’s comment streams for a specific amount of time.
+                </p>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase"
+                  data-color="regular"
+                  data-variant="regular"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Add announcement
+                </button>
+              </fieldset>
+            </div>
+          </fieldset>
+          <fieldset
+            className="FieldSet-root Box-root ConfigBox-root"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <legend
+                  className="Header-root"
+                >
                   Community guidelines summary
                 </legend>
               </div>

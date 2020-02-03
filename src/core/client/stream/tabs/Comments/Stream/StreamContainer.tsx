@@ -32,6 +32,7 @@ import {
 } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 
 import AllCommentsTab from "./AllCommentsTab";
+import AnnouncementContainer from "./Announcement";
 import BannedInfo from "./BannedInfo";
 import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
 import StreamDeletionRequestCalloutContainer from "./DeleteAccount/StreamDeletionRequestCalloutContainer";
@@ -152,6 +153,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
         size="double"
       >
         <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+        <AnnouncementContainer settings={props.settings} />
         {props.viewer && (
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
         )}
@@ -296,6 +298,7 @@ const enhanced = withFragmentContainer<Props>({
       ...UserBoxContainer_settings
       ...CommunityGuidelinesContainer_settings
       ...SuspendedInfoContainer_settings
+      ...AnnouncementContainer_settings
     }
   `,
 })(StreamContainer);

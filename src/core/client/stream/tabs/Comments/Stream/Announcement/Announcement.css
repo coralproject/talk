@@ -1,0 +1,11 @@
+.root {
+  background-color: #2b7eb5;
+  color: white;
+  padding: var(--v2-spacing-3);
+  border-radius: 2px;
+}
+
+.text {
+  @mixin bodyCopy;
+  color: white;
+}
