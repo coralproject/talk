@@ -58,7 +58,7 @@ exports[`renders configure 1`] = `
         >
           <a
             className="ExternalLink-root"
-            href="/admin/moderate/reported/story-1"
+            href="/admin/moderate/stories/story-1"
             rel="noopener noreferrer"
             target="_blank"
           >
