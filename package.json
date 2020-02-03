@@ -58,7 +58,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@coralproject/bunyan-prettystream": "^0.1.4",
-    "@fluent/bundle": "^0.14.0",
+    "@fluent/bundle": "^0.15.0",
     "@fluent/dom": "^0.6.0",
     "@metascraper/helpers": "^5.7.21",
     "abort-controller": "^3.0.0",
@@ -150,7 +150,7 @@
     "@babel/runtime-corejs3": "^7.8.3",
     "@coralproject/npm-run-all": "^4.1.5",
     "@coralproject/rte": "^0.11.1",
-    "@fluent/react": "^0.10.0",
+    "@fluent/react": "^0.11.0",
     "@intervolga/optimize-cssnano-plugin": "^1.0.6",
     "@types/agent-base": "^4.2.0",
     "@types/archiver": "^3.0.0",
