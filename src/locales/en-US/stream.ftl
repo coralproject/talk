@@ -442,6 +442,14 @@ configure-openStream-openStream = Open Stream
 
 configure-moderateThisStream = Moderate this stream
 
+configure-experts-title = Q&A Experts
+configure-experts-filter-searchField =
+  .placeholder = Search by username or email address...
+  .aria-label = Search by username or email address
+configure-experts-filter-searchButton = Search
+configure-experts-search-none-found = No users were found with that email or username
+configure-experts-remove-button = Remove
+
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
 comments-tombstone-deleted =
   This comment is no longer available. The commenter has deleted their account.

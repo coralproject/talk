@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
 import React, { FunctionComponent } from "react";
-import { Form, Field } from "react-final-form";
+import { Field, Form } from "react-final-form";
 
 import { purgeMetadata } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
@@ -71,14 +71,6 @@ const ConfigureStream: FunctionComponent<Props> = ({
               {submitError}
             </CallOut>
           )}
-          <LiveUpdatesConfigContainer
-            storySettings={storySettings}
-            disabled={submitting}
-          />
-          <PremodConfigContainer disabled={submitting} />
-          <PremodLinksConfigContainer disabled={submitting} />
-          <MessageBoxConfigContainer disabled={submitting} />
-
           <StreamMode disabled={submitting} />
           <Field name="mode">
             {({ input }) => {
@@ -87,6 +79,13 @@ const ConfigureStream: FunctionComponent<Props> = ({
               ) : null;
             }}
           </Field>
+          <LiveUpdatesConfigContainer
+            storySettings={storySettings}
+            disabled={submitting}
+          />
+          <PremodConfigContainer disabled={submitting} />
+          <PremodLinksConfigContainer disabled={submitting} />
+          <MessageBoxConfigContainer disabled={submitting} />
         </HorizontalGutter>
       </form>
     )}

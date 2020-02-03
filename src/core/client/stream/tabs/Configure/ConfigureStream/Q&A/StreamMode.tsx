@@ -30,7 +30,7 @@ const StreamMode: FunctionComponent<Props> = ({ disabled }) => (
       <>
         <Typography variant="heading3" container="div">
           <Localized id="configure-mode-title">
-            <span>Stream Mode</span>
+            <span>Stream Type</span>
           </Localized>
         </Typography>
         <SelectField {...input} id={input.name} disabled={disabled}>
