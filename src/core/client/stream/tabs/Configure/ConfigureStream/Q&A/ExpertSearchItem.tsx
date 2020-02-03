@@ -1,4 +1,3 @@
-import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { Button, Flex } from "coral-ui/components";
@@ -26,12 +25,15 @@ const ExpertSearchItem: FunctionComponent<Props> = ({
 
   return (
     <div key={id}>
-      <Flex alignItems="center" justifyContent="center">
-        {email ? <span>{email}</span> : null}
-        {email && username ? <span> - </span> : null}
-        {username ? <span>{username}</span> : null}
+      <Flex alignItems="center">
         <Button onClick={onClick}>
-          <Localized id="configure-experts-add-button">Add</Localized>
+          {email && username && (
+            <span>
+              {email}
+              {` (${username})`}
+            </span>
+          )}
+          {email && !username && <span>{email}</span>}
         </Button>
       </Flex>
     </div>
