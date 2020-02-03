@@ -1,5 +1,4 @@
 import { isNil } from "lodash";
-import ms from "ms";
 import fetch from "node-fetch";
 import path from "path";
 import { URL } from "url";
@@ -32,12 +31,13 @@ export const toxic: IntermediateModerationPhase = async ({
   nudge,
   log,
   htmlStripped,
+  config,
   // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
   comment: { body },
 }: Pick<
   ModerationPhaseContext,
   // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
-  "tenant" | "nudge" | "log" | "htmlStripped" | "comment"
+  "tenant" | "nudge" | "log" | "htmlStripped" | "comment" | "config"
 >): Promise<IntermediatePhaseResult | void> => {
   if (!htmlStripped) {
     return;
@@ -89,8 +89,9 @@ export const toxic: IntermediateModerationPhase = async ({
     );
   }
 
-  // TODO: (wyattjoh) replace hardcoded default with config.
-  const timeout = ms("800ms");
+  // This typecast is needed because the custom `ms` format does not return the
+  // desired `number` type even though that's the only type it can output.
+  const timeout = (config.get("perspective_timeout") as unknown) as number;
 
   try {
     // FEATURE_FLAG:DISABLE_WARN_USER_OF_TOXIC_COMMENT
