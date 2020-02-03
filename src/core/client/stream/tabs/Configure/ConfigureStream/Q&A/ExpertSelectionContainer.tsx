@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { RelayPaginationProp } from "react-relay";
 
 import {
@@ -9,22 +14,17 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE_RL, GQLUSER_STATUS_RL } from "coral-framework/schema";
-import {
-  Button,
-  Flex,
-  Icon,
-  Spinner,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+import { Button, Flex, TextField, Typography } from "coral-ui/components";
 
 import { ExpertSelectionContainer_query as QueryData } from "coral-stream/__generated__/ExpertSelectionContainer_query.graphql";
 import { ExpertSelectionContainerPaginationQueryVariables } from "coral-stream/__generated__/ExpertSelectionContainerPaginationQuery.graphql";
 
 import AddExpertMutation from "./AddExpertMutation";
 import ExpertListItem from "./ExpertListItem";
-import ExpertSearchItem from "./ExpertSearchItem";
+import ExpertSearchList from "./ExpertSearchList";
 import RemoveExpertMutation from "./RemoveExpertMutation";
+
+import styles from "./ExpertSelectionContainer.css";
 
 interface Props {
   storyID: string;
@@ -59,6 +59,9 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   const users = computeUsers(query);
   const experts = computeExperts(query);
 
+  const searchFieldRef = React.createRef<HTMLInputElement>();
+  const searchRootRef = React.createRef<HTMLDivElement>();
+
   // const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const [searchFilter, setSearchFilter] = useState<string>("");
   const [roleFilter] = useState<GQLUSER_ROLE_RL | null>(null);
@@ -69,12 +72,39 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
     statusFilter,
   });
   const [tempSearchFilter, setTempSearchFilter] = useState<string>("");
-
   const loading = !query || isRefetching;
   const hasMore = !isRefetching && relay.hasMore();
 
   const addExpertMutation = useMutation(AddExpertMutation);
   const removeExpertMutation = useMutation(RemoveExpertMutation);
+
+  const clearSearchFilter = useCallback(() => {
+    const searchInputNode: any = searchFieldRef.current;
+    searchInputNode.value = "";
+    setTempSearchFilter("");
+    setSearchFilter("");
+  }, [setSearchFilter, setTempSearchFilter, searchFieldRef]);
+
+  const onClickOutside = useCallback(
+    (e: any) => {
+      if (
+        searchRootRef &&
+        searchRootRef.current &&
+        searchRootRef.current.contains(e.target)
+      ) {
+        return;
+      }
+
+      clearSearchFilter();
+    },
+    [clearSearchFilter, searchRootRef]
+  );
+  useEffect(() => {
+    document.addEventListener("mousedown", onClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", onClickOutside);
+    };
+  }, [onClickOutside]);
 
   const onAddExpert = useCallback(
     (id: string, username: string | null, email: string | null) => {
@@ -84,8 +114,9 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
         username: username ? username : "",
         email: email ? email : "",
       });
+      clearSearchFilter();
     },
-    [addExpertMutation]
+    [addExpertMutation, clearSearchFilter]
   );
   const onRemoveExpert = useCallback(
     (id: string) => {
@@ -106,89 +137,84 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
     },
     [setTempSearchFilter]
   );
+  const onSearchKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === "Escape") {
+        clearSearchFilter();
+      }
+    },
+    [clearSearchFilter]
+  );
   const onSearchKeyPress = useCallback(
     (event: React.KeyboardEvent) => {
       if (event.key === "Enter") {
         onSubmitSearch();
       }
+      if (event.key === "Escape") {
+        clearSearchFilter();
+      }
     },
-    [onSubmitSearch]
+    [onSubmitSearch, clearSearchFilter]
   );
 
   return (
     <>
       <Typography variant="heading3" container="div">
         <Localized id="configure-experts-title">
-          <span>Experts</span>
+          <span>Q&A Experts</span>
         </Localized>
       </Typography>
-      {experts.length === 0 && (
-        <div>
-          <Localized id="configure-experts-list-none">
-            There are currently no experts for this story.
+      <div className={styles.searchRoot} ref={searchRootRef}>
+        <Flex>
+          <Localized
+            id="configure-experts-filter-searchField"
+            attrs={{ placeholder: true, "aria-label": true }}
+          >
+            <TextField
+              color="regular"
+              placeholder="Search by username or email address..."
+              aria-label="Search by username or email address"
+              onChange={onSearchTextChanged}
+              onKeyPress={onSearchKeyPress}
+              onKeyDown={onSearchKeyDown}
+              ref={searchFieldRef}
+              className={styles.searchField}
+            />
           </Localized>
-        </div>
-      )}
-      {experts.length > 0 && (
-        <ol>
-          {users.map(u => (
-            <ExpertListItem
-              key={u.id}
-              id={u.id}
-              username={u.username}
-              email={u.email}
-              onClickRemove={onRemoveExpert}
-            />
-          ))}
-        </ol>
-      )}
-      <Localized
-        id="configure-experts-filter-searchField"
-        attrs={{ placeholder: true, "aria-label": true }}
-      >
-        <TextField
-          color="regular"
-          placeholder="Search by username or email address..."
-          aria-label="Search by username or email address"
-          variant="seamlessAdornment"
-          adornment={
-            <Localized
-              id="configure-experts-filter-searchButton"
-              attrs={{ "aria-label": true }}
+          <Localized
+            id="configure-experts-filter-searchButton"
+            attrs={{ "aria-label": true }}
+          >
+            <Button
+              color="light"
+              aria-label="Search"
+              onClick={onSubmitSearch}
+              className={styles.searchButton}
             >
-              <Button color="dark" aria-label="Search" onClick={onSubmitSearch}>
-                <Icon size="md">search</Icon>
-              </Button>
-            </Localized>
-          }
-          onChange={onSearchTextChanged}
-          onKeyPress={onSearchKeyPress}
+              Search
+            </Button>
+          </Localized>
+        </Flex>
+        <ExpertSearchList
+          isVisible={searchFilter.length > 0}
+          users={users}
+          onAdd={onAddExpert}
+          loading={loading}
+          hasMore={hasMore}
         />
-      </Localized>
-      <div>
-        {searchFilter.length > 0 &&
-          users.map(u => (
-            <ExpertSearchItem
-              key={u.id}
-              id={u.id}
-              username={u.username}
-              email={u.email}
-              onClickAdd={onAddExpert}
-            />
-          ))}
-        {!loading && users.length === 0 && (
-          <div>
-            <Localized id="configure-experts-search-none-found">
-              No users were found with that email or username
-            </Localized>
-          </div>
+        {experts.length > 0 && (
+          <ul className={styles.expertList}>
+            {experts.map(u => (
+              <ExpertListItem
+                key={u.id}
+                id={u.id}
+                username={u.username}
+                email={u.email}
+                onClickRemove={onRemoveExpert}
+              />
+            ))}
+          </ul>
         )}
-        {loading && (
-          <Flex justifyContent="center">
-            <Spinner />
-          </Flex>
-        )}
-        {hasMore && <div>Load more</div>}
       </div>
     </>
   );

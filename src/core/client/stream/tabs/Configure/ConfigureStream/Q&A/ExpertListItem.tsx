@@ -1,7 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Button, Flex } from "coral-ui/components";
+import { Button, Typography } from "coral-ui/components";
+
+import styles from "./ExpertListItem.css";
 
 interface Props {
   id: string;
@@ -21,15 +23,24 @@ const ExpertListItem: FunctionComponent<Props> = ({
   }, [id, onClickRemove]);
 
   return (
-    <div key={id}>
-      <Flex alignItems="center" justifyContent="center">
-        {email ? <span>{email}</span> : null}
-        {email && username ? <span> - </span> : null}
-        {username ? <span>{username}</span> : null}
-        <Button onClick={onClick}>
-          <Localized id="configure-experts-remove-button">Remove</Localized>
-        </Button>
-      </Flex>
+    <div key={id} className={styles.root}>
+      <Typography variant="bodyCopy">
+        {email && username && (
+          <span>
+            {email}
+            {` (${username})`}
+          </span>
+        )}
+        {email && !username && <span>{email}</span>}
+      </Typography>
+      <Button
+        variant="filled"
+        color="error"
+        onClick={onClick}
+        className={styles.removeButton}
+      >
+        <Localized id="configure-experts-remove-button">Remove</Localized>
+      </Button>
     </div>
   );
 };
