@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { translate } from "coral-server/services/i18n";
 
 import {
+  GQLAuthIntegrations,
   GQLFEATURE_FLAG,
   GQLReactionConfiguration,
   GQLStaffConfiguration,
@@ -66,4 +67,19 @@ export function hasFeatureFlag(
   }
 
   return false;
+}
+
+export function hasEnabledAuthIntegration(
+  tenant: Pick<Tenant, "auth">,
+  integration: keyof GQLAuthIntegrations
+) {
+  return tenant.auth.integrations[integration].enabled;
+}
+
+export function linkUsersAvailable(tenant: Pick<Tenant, "auth">) {
+  return (
+    hasEnabledAuthIntegration(tenant, "local") &&
+    (hasEnabledAuthIntegration(tenant, "facebook") ||
+      hasEnabledAuthIntegration(tenant, "google"))
+  );
 }

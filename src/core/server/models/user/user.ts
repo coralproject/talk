@@ -2462,6 +2462,50 @@ export async function deleteModeratorNote(
   return result.value;
 }
 
+export async function linkUsers(
+  mongo: Db,
+  tenantID: string,
+  sourceUserID: string,
+  destinationUserID: string
+) {
+  // Delete the old user from the database.
+  const source = await collection(mongo).findOneAndDelete({
+    id: sourceUserID,
+    tenantID,
+  });
+  if (!source.value) {
+    throw new UserNotFoundError(sourceUserID);
+  }
+
+  // If the source user doesn't have any profiles, we have nothing to do. We
+  // should abort.
+  if (!source.value.profiles) {
+    throw new Error(
+      "cannot link a user with no profiles, failed source authentication precondition"
+    );
+  }
+
+  // Add the new profile to the destination user.
+  const dest = await collection(mongo).findOneAndUpdate(
+    {
+      id: destinationUserID,
+      tenantID,
+    },
+    {
+      $push: {
+        profiles: {
+          $each: source.value.profiles,
+        },
+      },
+    }
+  );
+  if (!dest.value) {
+    throw new UserNotFoundError(destinationUserID);
+  }
+
+  return dest.value;
+}
+
 export async function updateUserCommentCounts(
   mongo: Db,
   tenantID: string,

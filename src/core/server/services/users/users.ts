@@ -1,3 +1,4 @@
+import { intersection } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
@@ -5,14 +6,15 @@ import {
   ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
   COMMENT_REPEAT_POST_DURATION,
   DOWNLOAD_LIMIT_TIMEFRAME_DURATION,
+  SCHEDULED_DELETION_WINDOW_DURATION,
 } from "coral-common/constants";
-import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
   DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
+  InvalidCredentialsError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
   PasswordIncorrect,
@@ -25,13 +27,9 @@ import {
   UsernameUpdatedWithinWindowError,
   UserNotFoundError,
 } from "coral-server/errors";
-import {
-  GQLAuthIntegrations,
-  GQLUSER_ROLE,
-} from "coral-server/graph/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
-import { Tenant } from "coral-server/models/tenant";
+import { linkUsersAvailable, Tenant } from "coral-server/models/tenant";
 import {
   banUser,
   clearDeletionDate,
@@ -46,6 +44,7 @@ import {
   findOrCreateUser,
   FindOrCreateUserInput,
   ignoreUser,
+  linkUsers,
   NotificationSettingsInput,
   premodUser,
   removeActiveUserSuspensions,
@@ -72,12 +71,16 @@ import {
 import {
   getLocalProfile,
   hasLocalProfile,
+  hasStaffRole,
 } from "coral-server/models/user/helpers";
-import { hasStaffRole } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
-import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
+import {
+  GQLAuthIntegrations,
+  GQLUSER_ROLE,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { AugmentedRedis } from "../redis";
 import {
@@ -125,11 +128,25 @@ export async function findOrCreate(
   // Validate the input.
   validateFindOrCreateUserInput(input, options);
 
-  const user = await findOrCreateUser(mongo, tenant.id, input, now);
+  try {
+    const user = await findOrCreateUser(mongo, tenant.id, input, now);
 
-  // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
+    // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
 
-  return user;
+    return user;
+  } catch (err) {
+    // If this is an error related to a duplicate email, we might be in a
+    // position where the user can link their accounts. This can only occur if
+    // the tenant has both local and another social profile enabled.
+    if (err instanceof DuplicateEmailError && linkUsersAvailable(tenant)) {
+      // Pull the email address out of the input, and re-try creating the user
+      // given that.
+      const { email, ...rest } = input;
+      return findOrCreateUser(mongo, tenant.id, rest, now);
+    }
+
+    throw err;
+  }
 }
 
 export type CreateUser = FindOrCreateUserInput;
@@ -1237,4 +1254,78 @@ export async function retrieveUserLastComment(
   }
 
   return retrieveComment(mongo, tenant.id, id);
+}
+
+export interface LinkUser {
+  email: string;
+  password: string;
+}
+
+export async function link(
+  mongo: Db,
+  tenant: Tenant,
+  source: User,
+  { email, password }: LinkUser
+) {
+  if (!linkUsersAvailable(tenant)) {
+    throw new Error("cannot link users, not available");
+  }
+
+  // TODO: validate the source user
+
+  // Refuse to link a user that already has an email address.
+  if (source.email || hasLocalProfile(source)) {
+    throw new Error("user already has an email linked to the source account");
+  }
+
+  // Validate the input. If the values do not pass validation, it can't possibly
+  // be correct.
+  validateEmail(email);
+  validatePassword(password);
+
+  // Validate if the credentials are correct.
+  const destination = await retrieveUserWithEmail(mongo, tenant.id, email);
+  if (!destination) {
+    throw new InvalidCredentialsError(
+      "can't find user linked with email address"
+    );
+  }
+
+  // Validate that the source and destination user aren't the same.
+  if (destination.id === source.id) {
+    throw new Error("cannot link the same accounts together");
+  }
+
+  // Ensure that the destination profile has a local profile.
+  if (!hasLocalProfile(destination, email)) {
+    throw new Error("destination user does not have a local profile");
+  }
+
+  // Ensure there is no clash between the source and destination user profiles.
+  const profiles = {
+    destination: (destination.profiles || []).map(p => p.type),
+    source: (source.profiles || []).map(p => p.type),
+  };
+
+  // Check for any intersecting profiles.
+  const intersecting = intersection(profiles.destination, profiles.source);
+  if (intersecting.length > 0) {
+    throw new Error(
+      `user linking found intersecting profiles: ${intersecting}`
+    );
+  }
+
+  // Verify if the password provided is correct for this account.
+  const verified = await verifyUserPassword(destination, password, email);
+  if (!verified) {
+    throw new InvalidCredentialsError("can't verify password for linking");
+  }
+
+  // Perform the account linking step to delete the source user and copy over
+  // the account profiles.
+  const linked = await linkUsers(mongo, tenant.id, source.id, destination.id);
+
+  // TODO: send an email to the linked user
+
+  return linked;
 }

@@ -1,10 +1,11 @@
 import { isEqual } from "lodash";
 
+import { SSOUserProfile } from "coral-server/app/middleware/passport/strategies/verifiers/sso";
+
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
-import { SSOUserProfile } from "coral-server/app/middleware/passport/strategies/verifiers/sso";
 import { STAFF_ROLES } from "./constants";
-import { LocalProfile, SSOProfile, User } from "./user";
+import { LocalProfile, Profile, SSOProfile, User } from "./user";
 
 export function roleIsStaff(role: GQLUSER_ROLE) {
   if (STAFF_ROLES.includes(role)) {
@@ -18,14 +19,19 @@ export function hasStaffRole(user: Pick<User, "role">) {
   return roleIsStaff(user.role);
 }
 
-export function getSSOProfile(user: Pick<User, "profiles">) {
+export function getUserProfile(
+  user: Pick<User, "profiles">,
+  type: Profile["type"]
+) {
   if (!user.profiles) {
-    return;
+    return null;
   }
 
-  return user.profiles.find(profile => profile.type === "sso") as
-    | SSOProfile
-    | undefined;
+  return user.profiles.find(p => p.type === type) || null;
+}
+
+export function getSSOProfile(user: Pick<User, "profiles">) {
+  return getUserProfile(user, "sso") as SSOProfile | null;
 }
 
 export function needsSSOUpdate(
@@ -49,14 +55,7 @@ export function getLocalProfile(
   user: Pick<User, "profiles">,
   withEmail?: string
 ): LocalProfile | undefined {
-  if (!user.profiles) {
-    return;
-  }
-
-  const profile = user.profiles.find(({ type }) => type === "local") as
-    | LocalProfile
-    | undefined;
-
+  const profile = getUserProfile(user, "local") as LocalProfile | null;
   if (!profile) {
     return;
   }

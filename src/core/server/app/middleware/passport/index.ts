@@ -126,9 +126,7 @@ export async function handleSuccessfulLogin(
       signingConfig,
       user,
       tenant,
-      {
-        expiresIn: tenant.auth.sessionDuration,
-      },
+      {},
       coral.now
     );
 
@@ -190,7 +188,7 @@ export async function handleOAuth2Callback(
       signingConfig,
       user,
       tenant,
-      { expiresIn: tenant.auth.sessionDuration },
+      {},
       req.coral!.now
     );
     res.cookie(
