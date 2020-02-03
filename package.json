@@ -171,7 +171,7 @@
     "@types/cors": "^2.8.6",
     "@types/cron": "^1.7.1",
     "@types/cross-spawn": "^6.0.0",
-    "@types/dompurify": "0.0.33",
+    "@types/dompurify": "^2.0.1",
     "@types/dotenv": "^4.0.3",
     "@types/enzyme": "^3.1.15",
     "@types/enzyme-adapter-react-16": "^1.0.3",
