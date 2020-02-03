@@ -62,7 +62,7 @@
     "@fluent/dom": "^0.6.0",
     "@metascraper/helpers": "^5.10.6",
     "abort-controller": "^3.0.0",
-    "akismet-api": "^4.2.0",
+    "akismet-api": "^5.0.0",
     "apollo-server-express": "^2.8.1",
     "archiver": "^3.0.3",
     "basic-auth": "^2.0.1",
