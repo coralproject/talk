@@ -17,13 +17,6 @@ interface Props {
   disabled: boolean;
 }
 
-type ModeType = "COMMENTS" | "QA";
-
-const MODES_MAP: Record<ModeType, string> = {
-  COMMENTS: "Comments",
-  QA: "Q&A",
-};
-
 const StreamMode: FunctionComponent<Props> = ({ disabled }) => (
   <Field name="mode">
     {({ input }) => (
@@ -33,15 +26,25 @@ const StreamMode: FunctionComponent<Props> = ({ disabled }) => (
             <span>Stream Type</span>
           </Localized>
         </Typography>
-        <SelectField {...input} id={input.name} disabled={disabled}>
-          {Object.keys(MODES_MAP).map((mode: ModeType) => {
-            return (
-              <Option value={mode} key={mode}>
-                {MODES_MAP[mode]}
-              </Option>
-            );
-          })}
-        </SelectField>
+        <Localized
+          id="configure-mode-selectField"
+          attrs={{ "aria-label": true }}
+        >
+          <SelectField
+            aria-label="Select stream type"
+            {...input}
+            id={input.name}
+            disabled={disabled}
+          >
+            <Localized id="configure-mode-option-qa">
+              <Option value={"QA"}>Q&A</Option>
+            </Localized>
+            <Localized id="configure-mode-option-comments">
+              <Option value={"COMMENTS"}>Comments</Option>
+            </Localized>
+            })}
+          </SelectField>
+        </Localized>
       </>
     )}
   </Field>
