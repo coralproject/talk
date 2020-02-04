@@ -1,13 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
+import PaginatedSelect from "coral-admin/components/PaginatedSelect";
 import { PropTypesOf } from "coral-framework/types";
-import {
-  FieldSet,
-  HorizontalGutter,
-  Label,
-  PaginatedSelect,
-} from "coral-ui/components/v2";
+import { FieldSet, HorizontalGutter, Label } from "coral-ui/components/v2";
 
 import SiteFilterOption from "./SiteFilterOption";
 import SiteFilterSelected from "./SiteFilterSelected";
