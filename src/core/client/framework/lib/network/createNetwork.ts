@@ -8,6 +8,7 @@ import {
 } from "react-relay-network-modern/es";
 
 import TIME from "coral-common/time";
+import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
 
 import clientIDMiddleware from "./clientIDMiddleware";
 import { ManagedSubscriptionClient } from "./createManagedSubscriptionClient";
@@ -16,7 +17,7 @@ import persistedQueriesGetMethodMiddleware from "./persistedQueriesGetMethodMidd
 
 export type TokenGetter = () => string;
 
-const graphqlURL = "/api/graphql";
+const graphqlURL = `${getLocationOrigin()}/api/graphql`;
 
 function createSubscriptionFunction(
   subscriptionClient: ManagedSubscriptionClient
