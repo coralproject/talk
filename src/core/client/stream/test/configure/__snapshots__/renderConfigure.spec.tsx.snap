@@ -101,6 +101,51 @@ exports[`renders configure 1`] = `
         <div
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
+          <div
+            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
+          >
+            <span>
+              Stream Type
+            </span>
+          </div>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              aria-label="Select stream type"
+              className="SelectField-select"
+              disabled={false}
+              id="mode"
+              name="mode"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              value=""
+            >
+              <option
+                value="QA"
+              >
+                Q&A
+              </option>
+              <option
+                value="COMMENTS"
+              >
+                Comments
+              </option>
+              })}
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper"
+            >
+              <i
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </i>
+            </span>
+          </span>
           <div>
             <div
               className="CheckBox-root"
