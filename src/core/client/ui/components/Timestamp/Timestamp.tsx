@@ -7,7 +7,12 @@ import React, {
   useState,
 } from "react";
 
-import { AbsoluteTime, BaseButton, RelativeTime } from "coral-ui/components";
+import {
+  AbsoluteTime,
+  BaseButton,
+  RelativeTime,
+  UIContext,
+} from "coral-ui/components";
 
 import styles from "./Timestamp.css";
 
@@ -36,19 +41,24 @@ const Timestamp: FunctionComponent<TimestampProps> = props => {
     [showAbsolute, setShowAbsolute, props.onClick]
   );
   return (
-    <BaseButton className={styles.root} onClick={handleOnClick}>
-      {showAbsolute ? (
-        <AbsoluteTime
-          date={props.children}
-          className={cn(styles.text, props.className)}
-        />
-      ) : (
-        <RelativeTime
-          className={cn(styles.text, props.className)}
-          date={props.children}
-        />
+    <UIContext.Consumer>
+      {({ locales }) => (
+        <BaseButton className={styles.root} onClick={handleOnClick}>
+          {showAbsolute && locales ? (
+            <AbsoluteTime
+              date={props.children}
+              locales={locales}
+              className={cn(styles.text, props.className)}
+            />
+          ) : (
+            <RelativeTime
+              className={cn(styles.text, props.className)}
+              date={props.children}
+            />
+          )}
+        </BaseButton>
       )}
-    </BaseButton>
+    </UIContext.Consumer>
   );
 };
 
