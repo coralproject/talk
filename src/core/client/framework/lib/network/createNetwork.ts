@@ -16,7 +16,7 @@ import persistedQueriesGetMethodMiddleware from "./persistedQueriesGetMethodMidd
 
 export type TokenGetter = () => string;
 
-const graphqlURL = "/api/graphql";
+const graphqlURL = `${location.protocol}//${location.hostname}:${location.port}/api/graphql`;
 
 function createSubscriptionFunction(
   subscriptionClient: ManagedSubscriptionClient
