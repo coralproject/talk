@@ -56,8 +56,8 @@ interface CreateContextArguments {
 
 /** websocketURL points to our live graphql server */
 const websocketURL = `${location.protocol === "https:" ? "wss" : "ws"}://${
-  location.hostname
-}:${location.port}/api/graphql/live`;
+  location.host
+}/api/graphql/live`;
 
 /**
  * timeagoFormatter integrates timeago into our translation
