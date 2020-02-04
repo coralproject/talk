@@ -50,47 +50,45 @@ export default class FacebookStrategy extends OAuth2Strategy<
       id,
     };
 
-    let user = await retrieveUserWithProfile(this.mongo, tenant.id, profile);
-    if (!user) {
-      if (!integration.allowRegistration) {
-        // Registration is disabled, so we can't create the user user here.
-        return null;
-      }
-
-      // FIXME: implement rules.
-
-      // Try to get the avatar.
-      let avatar: string | undefined;
-      if (photos && photos.length > 0) {
-        avatar = photos[0].value;
-      }
-
-      // Try to get the email address.
-      let email: string | undefined;
-      let emailVerified: boolean | undefined;
-      if (emails && emails.length > 0) {
-        email = emails[0].value;
-        emailVerified = false;
-      }
-
-      user = await findOrCreate(
-        this.mongo,
-        tenant,
-        {
-          role: GQLUSER_ROLE.COMMENTER,
-          email,
-          emailVerified,
-          avatar,
-          profile,
-        },
-        {},
-        now
-      );
+    const user = await retrieveUserWithProfile(this.mongo, tenant.id, profile);
+    if (user) {
+      return { user };
     }
 
-    // TODO: maybe update user details?
+    if (!integration.allowRegistration) {
+      // Registration is disabled, so we can't create the user user here.
+      return null;
+    }
 
-    return user;
+    // FIXME: implement rules.
+
+    // Try to get the avatar.
+    let avatar: string | undefined;
+    if (photos && photos.length > 0) {
+      avatar = photos[0].value;
+    }
+
+    // Try to get the email address.
+    let email: string | undefined;
+    let emailVerified: boolean | undefined;
+    if (emails && emails.length > 0) {
+      email = emails[0].value;
+      emailVerified = false;
+    }
+
+    return findOrCreate(
+      this.mongo,
+      tenant,
+      {
+        role: GQLUSER_ROLE.COMMENTER,
+        email,
+        emailVerified,
+        avatar,
+        profile,
+      },
+      {},
+      now
+    );
   }
 
   protected createStrategy(

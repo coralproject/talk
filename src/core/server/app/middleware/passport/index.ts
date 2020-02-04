@@ -22,6 +22,7 @@ import {
 } from "coral-server/services/jwt";
 import { Request } from "coral-server/types/express";
 import { DateTime } from "luxon";
+import { stringifyQuery } from "coral-common/utils";
 
 export type VerifyCallback = (
   err?: Error | null,
@@ -157,6 +158,14 @@ const generateCookieOptions = (
   expires: expiresIn,
 });
 
+function redirectWithHash(
+  res: Response,
+  path: string,
+  hash: Record<string, any>
+) {
+  res.redirect(`${path}${stringifyQuery(hash, "#")}`);
+}
+
 export async function handleOAuth2Callback(
   err: Error | null,
   user: User | null,
@@ -171,36 +180,40 @@ export async function handleOAuth2Callback(
       err = new Error("user not on request");
     }
 
-    return res.redirect(path + `#error=${encodeURIComponent(err.message)}`);
+    return redirectWithHash(res, path, { error: err.message });
   }
 
   try {
     // Tenant is guaranteed at this point.
-    const tenant = req.coral!.tenant!;
+    const coral = req.coral!;
+    const tenant = coral.tenant!;
 
     // Compute the expiry date.
-    const expiresIn = DateTime.fromJSDate(req.coral!.now).plus({
+    const expiresIn = DateTime.fromJSDate(coral.now).plus({
       seconds: tenant.auth.sessionDuration,
     });
 
     // Grab the token.
-    const token = await signTokenString(
+    const accessToken = await signTokenString(
       signingConfig,
       user,
       tenant,
       {},
-      req.coral!.now
+      coral.now
     );
     res.cookie(
       COOKIE_NAME,
-      token,
+      accessToken,
       generateCookieOptions(req, expiresIn.toJSDate())
     );
 
+    // Grab some more properties to add to the hash.
+    const { duplicateEmail } = coral;
+
     // Send back the details!
-    res.redirect(path + `#accessToken=${token}`);
+    return redirectWithHash(res, path, { accessToken, duplicateEmail });
   } catch (e) {
-    res.redirect(path + `#error=${encodeURIComponent(e.message)}`);
+    return redirectWithHash(res, path, { error: e.message });
   }
 }
 

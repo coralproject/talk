@@ -133,7 +133,7 @@ export async function findOrCreate(
 
     // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
 
-    return user;
+    return { user };
   } catch (err) {
     // If this is an error related to a duplicate email, we might be in a
     // position where the user can link their accounts. This can only occur if
@@ -141,8 +141,11 @@ export async function findOrCreate(
     if (err instanceof DuplicateEmailError && linkUsersAvailable(tenant)) {
       // Pull the email address out of the input, and re-try creating the user
       // given that.
-      const { email, ...rest } = input;
-      return findOrCreateUser(mongo, tenant.id, rest, now);
+      const { email, emailVerified, ...rest } = input;
+
+      const user = await findOrCreateUser(mongo, tenant.id, rest, now);
+
+      return { user, duplicateEmail: email };
     }
 
     throw err;

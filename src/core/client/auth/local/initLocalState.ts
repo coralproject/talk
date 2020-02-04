@@ -12,7 +12,12 @@ export default async function initLocalState(
   environment: Environment,
   context: CoralContext
 ) {
-  const { error = null, accessToken = null } = getParamsFromHashAndClearIt();
+  const {
+    error = null,
+    accessToken = null,
+    // TODO: use the duplicateEmail here and set it in session storage
+    // duplicateEmail = null,
+  } = getParamsFromHashAndClearIt();
 
   await initLocalBaseState(environment, context, accessToken);
 
