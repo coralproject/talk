@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { graphql, ReadyState } from "react-relay";
+import { graphql } from "react-relay";
 
 import { QueryRenderer } from "coral-framework/lib/relay";
 import { Flex, Spinner } from "coral-ui/components";
@@ -23,7 +23,7 @@ const ExpertSelectionQuery: FunctionComponent<Props> = ({ storyID }) => (
     variables={{
       storyID,
     }}
-    render={({ error, props }: ReadyState<QueryTypes["response"]>) => {
+    render={({ error, props }: any) => {
       if (error) {
         return <div>{error.message}</div>;
       }
