@@ -51,9 +51,15 @@ convict.addFormat({
 convict.addFormat({
   name: "ms",
   validate: (val: number) => {
-    Joi.assert(val, Joi.number().min(0));
+    Joi.assert(
+      val,
+      Joi.number()
+        .positive()
+        .integer()
+        .required()
+    );
   },
-  coerce: (val: string) => ms(val),
+  coerce: (val: string): number => ms(val),
 });
 
 const algorithms = [
@@ -254,6 +260,14 @@ const config = convict({
     default: "10 seconds",
     env: "SCRAPE_TIMEOUT",
     arg: "scrapeTimeout",
+  },
+  perspective_timeout: {
+    doc:
+      "The request timeout (in ms) for perspective comment checking operations.",
+    format: "ms",
+    default: "800 milliseconds",
+    env: "PERSPECTIVE_TIMEOUT",
+    arg: "perspectiveTimeout",
   },
   disable_force_ssl: {
     doc:
