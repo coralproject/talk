@@ -7,5 +7,6 @@
 
 .text {
   @mixin bodyCopy;
+  font-weight: var(--font-weight-medium);
   color: white;
 }
