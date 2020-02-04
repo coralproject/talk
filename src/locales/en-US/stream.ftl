@@ -455,6 +455,7 @@ configure-experts-filter-searchField =
 configure-experts-filter-searchButton = Search
 configure-experts-search-none-found = No users were found with that email or username
 configure-experts-remove-button = Remove
+configure-experts-load-more = Load More
 
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
 comments-tombstone-deleted =

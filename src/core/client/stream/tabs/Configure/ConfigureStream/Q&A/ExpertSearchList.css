@@ -2,4 +2,14 @@
   position: absolute;
   z-index: 99;
   width: 100%;
+
+  max-height: 235px;
+  overflow-y: auto;
+}
+
+.loadMore {
+  padding-top: var(--v2-spacing-1);
+  padding-bottom: var(--v2-spacing-1);
+
+  width: 100%;
 }
