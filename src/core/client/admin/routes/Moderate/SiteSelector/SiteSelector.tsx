@@ -1,9 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
+import PaginatedSelect from "coral-admin/components/PaginatedSelect";
 import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
-import { PaginatedSelect } from "coral-ui/components/v2";
 
 import SiteSelectorSelected from "./SiteSelectorSelected";
 import SiteSelectorSite from "./SiteSelectorSite";
