@@ -1,4 +1,4 @@
-$configureHeadingForegroundColor: var(--v2-colors-pure-white);
+$configureHeadingForegroundColor: var(--v2-colors-mono-500);
 $configureSubHeadingBorderColor: var(--v2-colors-grey-300);
 
 .root {
