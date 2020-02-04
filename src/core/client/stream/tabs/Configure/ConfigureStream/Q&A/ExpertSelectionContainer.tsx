@@ -9,6 +9,7 @@ import { RelayPaginationProp } from "react-relay";
 
 import {
   graphql,
+  useLoadMore,
   useMutation,
   useRefetch,
   withPaginationContainer,
@@ -62,7 +63,7 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   const searchFieldRef = React.createRef<HTMLInputElement>();
   const searchRootRef = React.createRef<HTMLDivElement>();
 
-  // const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
   const [searchFilter, setSearchFilter] = useState<string>("");
   const [roleFilter] = useState<GQLUSER_ROLE_RL | null>(null);
   const [statusFilter] = useState<GQLUSER_STATUS_RL | null>(null);
@@ -201,6 +202,8 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
           onAdd={onAddExpert}
           loading={loading}
           hasMore={hasMore}
+          disableLoadMore={isLoadingMore}
+          onLoadMore={loadMore}
         />
         {experts.length > 0 && (
           <ul className={styles.expertList}>

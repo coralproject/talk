@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Card, Flex, Spinner } from "coral-ui/components";
+import { Button, Card, Flex, Spinner } from "coral-ui/components";
 
 import ExpertSearchItem from "./ExpertSearchItem";
 
@@ -20,6 +20,8 @@ interface Props {
 
   hasMore: boolean;
   loading: boolean;
+  disableLoadMore: boolean;
+  onLoadMore: () => void;
 }
 
 const ExpertSearchList: FunctionComponent<Props> = ({
@@ -27,6 +29,8 @@ const ExpertSearchList: FunctionComponent<Props> = ({
   users,
   loading,
   hasMore,
+  disableLoadMore,
+  onLoadMore,
   onAdd,
 }) => {
   const onAddClick = useCallback(
@@ -35,38 +39,51 @@ const ExpertSearchList: FunctionComponent<Props> = ({
     },
     [onAdd]
   );
+  const loadMore = useCallback(() => {
+    onLoadMore();
+  }, [onLoadMore]);
 
   if (!isVisible) {
     return null;
   }
 
   return (
-    <div className={styles.list}>
-      <Card>
-        {users.map(u => (
-          <ExpertSearchItem
-            key={u.id}
-            id={u.id}
-            username={u.username}
-            email={u.email}
-            onClickAdd={onAddClick}
-          />
-        ))}
-        {!loading && users.length === 0 && (
-          <div>
-            <Localized id="configure-experts-search-none-found">
-              No users were found with that email or username
-            </Localized>
-          </div>
-        )}
-        {loading && (
-          <Flex justifyContent="center">
-            <Spinner />
-          </Flex>
-        )}
-        {hasMore && <div>Load more</div>}
-      </Card>
-    </div>
+    <Card className={styles.list}>
+      {users.map(u => (
+        <ExpertSearchItem
+          key={u.id}
+          id={u.id}
+          username={u.username}
+          email={u.email}
+          onClickAdd={onAddClick}
+        />
+      ))}
+      {!loading && users.length === 0 && (
+        <div>
+          <Localized id="configure-experts-search-none-found">
+            No users were found with that email or username
+          </Localized>
+        </div>
+      )}
+      {loading && (
+        <Flex justifyContent="center">
+          <Spinner />
+        </Flex>
+      )}
+      {hasMore && (
+        <Localized id="configure-experts-load-more">
+          <Button
+            variant="filled"
+            color="primary"
+            onClick={loadMore}
+            disabled={disableLoadMore}
+            className={styles.loadMore}
+          >
+            Load More
+          </Button>
+        </Localized>
+      )}
+    </Card>
   );
 };
 
