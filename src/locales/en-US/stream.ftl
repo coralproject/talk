@@ -485,11 +485,8 @@ configure-experts-filter-description =
 configure-experts-search-none-found = No users were found with that email or username
 configure-experts-remove-button = Remove
 configure-experts-load-more = Load More
-<<<<<<< HEAD
 configure-experts-none-yet = There are currently no experts for this Q&A.
 configure-experts-assigned-title = Experts
-=======
->>>>>>> Add load more button to expert search list
 
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
 comments-tombstone-deleted =
