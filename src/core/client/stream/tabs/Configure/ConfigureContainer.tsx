@@ -32,6 +32,7 @@ const enhanced = withFragmentContainer<ConfigureContainerProps>({
       ...ConfigureStreamContainer_story
       ...OpenOrCloseStreamContainer_story
       ...ModerateStreamContainer_story
+      ...QAConfigContainer_story
     }
   `,
   viewer: graphql`

@@ -5565,6 +5565,54 @@ type RemoveExpertPayload {
   story: Story!
 }
 
+input EnableQAInput {
+  """
+  storyID is the story id to enable Q&A on.
+  """
+  storyID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type EnableQAPayload {
+  """
+  story is the resultant story that Q&A was enabled on.
+  """
+  story: Story!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input DisableQAInput {
+  """
+  storyID is the story id to enable Q&A on.
+  """
+  storyID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DisableQAPayload {
+  """
+  story is the resultant story that Q&A was enabled on.
+  """
+  story: Story!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 ##################
 ## Mutation
 ##################
@@ -5950,6 +5998,18 @@ type Mutation {
   deleteAnnouncement(
     input: DeleteAnnouncementInput!
   ): DeleteAnnouncementPayload! @auth(roles: [ADMIN])
+
+  """
+  enableQAOnStory will enable Q&A mode on a story.
+  """
+  enableQAOnStory(input: EnableQAInput!): EnableQAPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  disableQAOnStory will disable Q&A mode on a story.
+  """
+  disableQAOnStory(input: DisableQAInput!): DisableQAPayload!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   addExpertToStory adds an expert to a story.

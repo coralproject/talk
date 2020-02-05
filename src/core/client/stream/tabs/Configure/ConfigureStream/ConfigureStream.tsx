@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
 import React, { FunctionComponent } from "react";
-import { Field, Form } from "react-final-form";
+import { Form } from "react-final-form";
 
 import { purgeMetadata } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
@@ -18,8 +18,6 @@ import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
 import MessageBoxConfigContainer from "./MessageBoxConfig";
 import PremodConfigContainer from "./PremodConfig";
 import PremodLinksConfigContainer from "./PremodLinksConfig";
-import ExpertSelectionQuery from "./Q&A/ExpertSelectionQuery";
-import StreamMode from "./Q&A/StreamMode";
 
 import styles from "./ConfigureStream.css";
 
@@ -32,7 +30,6 @@ interface Props {
 }
 
 const ConfigureStream: FunctionComponent<Props> = ({
-  storyID,
   onSubmit,
   storySettings,
 }) => (
@@ -71,14 +68,6 @@ const ConfigureStream: FunctionComponent<Props> = ({
               {submitError}
             </CallOut>
           )}
-          <StreamMode disabled={submitting} />
-          <Field name="mode">
-            {({ input }) => {
-              return input.value === "QA" ? (
-                <ExpertSelectionQuery storyID={storyID} />
-              ) : null;
-            }}
-          </Field>
           <LiveUpdatesConfigContainer
             storySettings={storySettings}
             disabled={submitting}

@@ -8,6 +8,8 @@ import {
   addExpertToStory,
   close,
   create,
+  disableQAOnStory,
+  enableQAOnStory,
   merge,
   open,
   remove,
@@ -21,6 +23,8 @@ import {
   GQLAddExpertInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
+  GQLDisableQAInput,
+  GQLEnableQAInput,
   GQLMergeStoriesInput,
   GQLOpenStoryInput,
   GQLRemoveExpertInput,
@@ -79,6 +83,10 @@ export const Stories = (ctx: GraphContext) => ({
     remove(ctx.mongo, ctx.tenant, input.id, input.includeComments),
   scrape: async (input: GQLScrapeStoryInput): Promise<Readonly<Story> | null> =>
     scrape(ctx.mongo, ctx.config, ctx.tenant.id, input.id),
+  enableQAOnStory: async (input: GQLEnableQAInput) =>
+    enableQAOnStory(ctx.mongo, ctx.tenant, input.storyID),
+  disableQAOnStory: async (input: GQLDisableQAInput) =>
+    disableQAOnStory(ctx.mongo, ctx.tenant, input.storyID),
   addExpertToStory: async (input: GQLAddExpertInput) =>
     addExpertToStory(ctx.mongo, ctx.tenant, input.storyID, input.userID),
   removeExpertFromStory: async (input: GQLRemoveExpertInput) =>

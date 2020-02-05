@@ -599,3 +599,59 @@ export async function removeExpert(
 
   return result.value || null;
 }
+
+export async function enableQA(mongo: Db, tenantID: string, storyID: string) {
+  const story = await collection(mongo).findOne({ tenantID, id: storyID });
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id: storyID,
+    },
+    {
+      $set: {
+        "settings.mode": GQLSTORY_MODE.QA,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.ok) {
+    throw new Error("unable to enable Q&A on story");
+  }
+
+  return result.value || null;
+}
+
+export async function disableQA(mongo: Db, tenantID: string, storyID: string) {
+  const story = await collection(mongo).findOne({ tenantID, id: storyID });
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id: storyID,
+    },
+    {
+      $set: {
+        "settings.mode": GQLSTORY_MODE.COMMENTS,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.ok) {
+    throw new Error("unable to enable Q&A on story");
+  }
+
+  return result.value || null;
+}

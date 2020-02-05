@@ -442,12 +442,6 @@ configure-openStream-openStream = Open Stream
 
 configure-moderateThisStream = Moderate this stream
 
-configure-mode-title = Stream Type
-configure-mode-selectField =
-  .aria-label = Select stream type
-configure-mode-option-comments = Comments
-configure-mode-option-qa = Q&A
-
 configure-experts-title = Q&A Experts
 configure-experts-filter-searchField =
   .placeholder = Search by username or email address...

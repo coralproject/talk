@@ -20,6 +20,8 @@ import {
   closeStory,
   createStory,
   CreateStoryInput,
+  disableQA,
+  enableQA,
   findOrCreateStory,
   FindOrCreateStoryInput,
   findStory,
@@ -398,4 +400,20 @@ export async function removeExpertFromStory(
   }
 
   return removeExpert(mongo, tenant.id, storyID, userID);
+}
+
+export async function enableQAOnStory(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string
+) {
+  return enableQA(mongo, tenant.id, storyID);
+}
+
+export async function disableQAOnStory(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string
+) {
+  return disableQA(mongo, tenant.id, storyID);
 }
