@@ -54,7 +54,6 @@ const enhanced = withFragmentContainer<Props>({
         ...PremodLinksConfig_formValues @relay(mask: false)
         ...MessageBoxConfig_formValues @relay(mask: false)
         ...LiveUpdatesConfig_formValues @relay(mask: false)
-        ...StreamMode_formValues @relay(mask: false)
 
         ...LiveUpdatesConfigContainer_storySettings
       }
