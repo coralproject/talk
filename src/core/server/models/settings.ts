@@ -147,7 +147,6 @@ export type Settings = GlobalModerationSettings &
     | "createdAt"
     | "slack"
     | "announcement"
-    | "multisite"
   > & {
     /**
      * auth is the set of configured authentication integrations.
