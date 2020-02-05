@@ -885,6 +885,10 @@ configure-advanced-stories-proxy-detail =
   When specified, allows scraping requests to use the provided
   proxy. All requests will then be passed through the appropriote
   proxy as parsed by the <externalLink>npm proxy-agent</externalLink> package.
+configure-advanced-stories-custom-user-agent = Custom Scraper User Agent Header
+configure-advanced-stories-custom-user-agent-detail =
+  When specified, overrides the <code>User-Agent</code> header sent with each
+  scrape request.
 
 forgotPassword-forgotPasswordHeader = Forgot password?
 forgotPassword-checkEmailHeader = Check your email

@@ -26,6 +26,7 @@ graphql`
       scraping {
         enabled
         proxyURL
+        customUserAgent
       }
       disableLazy
     }
@@ -106,6 +107,39 @@ const StoryCreationConfig: FunctionComponent<Props> = ({ disabled }) => (
           <TextFieldWithValidation
             {...input}
             id="configure-advanced-stories-proxy-url"
+            disabled={disabled}
+            fullWidth
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            meta={meta}
+          />
+        )}
+      </Field>
+    </FormField>
+    <FormField>
+      <FormFieldHeader>
+        <Localized id="configure-advanced-stories-custom-user-agent">
+          <Label htmlFor="configure-advanced-stories-custom-user-agent">
+            Custom Scraper User Agent Header
+          </Label>
+        </Localized>
+        <Localized
+          id="configure-advanced-stories-custom-user-agent-detail"
+          code={<code />}
+        >
+          <HelperText>
+            When specified, overrides the <code>User-Agent</code> header sent
+            with each scrape request.
+          </HelperText>
+        </Localized>
+      </FormFieldHeader>
+      <Field name="stories.scraping.customUserAgent" parse={parseEmptyAsNull}>
+        {({ input, meta }) => (
+          <TextFieldWithValidation
+            {...input}
+            id="configure-advanced-stories-custom-user-agent"
             disabled={disabled}
             fullWidth
             autoComplete="off"

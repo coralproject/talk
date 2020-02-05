@@ -625,6 +625,54 @@ proxy as parsed by the
                     </div>
                   </div>
                 </div>
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <div
+                    className="Box-root HorizontalGutter-root FormFieldHeader-root HorizontalGutter-spacing-1"
+                  >
+                    <label
+                      className="Label-root"
+                      htmlFor="configure-advanced-stories-custom-user-agent"
+                    >
+                      Custom Scraper User Agent Header
+                    </label>
+                    <p
+                      className="HelperText-root"
+                    >
+                      When specified, overrides the 
+                      <code>
+                        User-Agent
+                      </code>
+                       header sent with each
+scrape request.
+                    </p>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                  >
+                    <div
+                      className="TextField-root TextField-fullWidth"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={false}
+                        id="configure-advanced-stories-custom-user-agent"
+                        name="stories.scraping.customUserAgent"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
