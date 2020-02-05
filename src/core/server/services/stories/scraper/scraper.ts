@@ -86,6 +86,7 @@ class Scraper {
   public async download(
     url: string,
     abortAfterMilliseconds: number,
+    customUserAgent?: string,
     proxyURL?: string
   ) {
     const log = this.log.child({ storyURL: url }, true);
@@ -95,7 +96,7 @@ class Scraper {
 
     const options: RequestInit = {
       headers: {
-        "User-Agent": `Talk Scraper/${version}`,
+        "User-Agent": customUserAgent || `Talk Scraper/${version}`,
       },
       signal: controller.signal,
     };
@@ -136,9 +137,15 @@ class Scraper {
   public async scrape(
     url: string,
     abortAfterMilliseconds: number,
+    customUserAgent?: string,
     proxyURL?: string
   ): Promise<GQLStoryMetadata | null> {
-    const html = await this.download(url, abortAfterMilliseconds, proxyURL);
+    const html = await this.download(
+      url,
+      abortAfterMilliseconds,
+      customUserAgent,
+      proxyURL
+    );
     if (!html) {
       return null;
     }
@@ -199,6 +206,7 @@ export async function scrape(
   const metadata = await scraper.scrape(
     storyURL,
     abortAfterMilliseconds,
+    tenant.stories.scraping.customUserAgent,
     tenant.stories.scraping.proxyURL
   );
   if (!metadata) {

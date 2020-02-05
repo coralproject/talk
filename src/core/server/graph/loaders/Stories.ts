@@ -119,9 +119,12 @@ export default (ctx: GraphContext) => ({
       // This typecast is needed because the custom `ms` format does not return
       // the desired `number` type even though that's the only type it can
       // output.
-      scraper.scrape(url, (ctx.config.get(
-        "scrape_timeout"
-      ) as unknown) as number)
+      scraper.scrape(
+        url,
+        (ctx.config.get("scrape_timeout") as unknown) as number,
+        ctx.tenant.stories.scraping.customUserAgent,
+        ctx.tenant.stories.scraping.proxyURL
+      )
     ),
     {
       // Disable caching for the DataLoader if the Context is designed to be

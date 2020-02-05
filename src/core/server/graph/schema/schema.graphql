@@ -1150,6 +1150,12 @@ type StoryScrapingConfiguration {
   the [proxy-agent](https://www.npmjs.com/package/proxy-agent) package.
   """
   proxyURL: String
+
+  """
+  customUserAgent when specified will override the user agent used by fetch
+  requests made during the scraping process.
+  """
+  customUserAgent: String
 }
 
 """
@@ -3519,6 +3525,12 @@ input StoryScrapingConfigurationInput {
   the [proxy-agent](https://www.npmjs.com/package/proxy-agent) package.
   """
   proxyURL: String
+
+  """
+  customUserAgent when specified will override the user agent used by fetch
+  requests made during the scraping process.
+  """
+  customUserAgent: String
 }
 
 """
