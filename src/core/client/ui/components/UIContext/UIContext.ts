@@ -20,4 +20,6 @@ export interface UIContextProps {
 
 const UIContext = React.createContext<UIContextProps>({} as any);
 
+export const useUIContext = () => React.useContext(UIContext);
+
 export default UIContext;

@@ -1,19 +1,21 @@
 import React, { FunctionComponent, useMemo } from "react";
 
-import { Typography } from "coral-ui/components";
+import { Typography, useUIContext } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
 interface Props {
   date: string;
   className?: string;
-  locales: string[];
+  locales?: string[];
 }
 
 const AbsoluteTime: FunctionComponent<Props> = ({
   date,
   className,
-  locales,
+  locales: localesFromProps,
 }) => {
+  const { locales: localesFromContext } = useUIContext();
+  const locales = localesFromProps || localesFromContext || ["en-US"];
   const formatted = useMemo(() => {
     const formatter = new Intl.DateTimeFormat(locales, {
       year: "numeric",
