@@ -18,11 +18,6 @@ interface OAuth2Integration {
   clientSecret?: string;
 }
 
-interface FindOrCreateUserResult {
-  user: User;
-  duplicateEmail?: string;
-}
-
 export interface OAuth2StrategyOptions {
   config: Config;
   mongo: Db;
@@ -66,7 +61,7 @@ export default abstract class OAuth2Strategy<
     integration: Required<T>,
     profile: Profile,
     now: Date
-  ): Promise<FindOrCreateUserResult | null | undefined>;
+  ): Promise<User | null | undefined>;
 
   protected verifyCallback = async (
     req: Request,
@@ -84,23 +79,14 @@ export default abstract class OAuth2Strategy<
       const integration = this.getIntegration(tenant.auth.integrations);
 
       // Find or create the user.
-      const result = await this.findOrCreateUser(
+      const user = await this.findOrCreateUser(
         tenant,
         integration as Required<T>,
         profile,
         coral.now
       );
-      if (!result) {
+      if (!user) {
         return done(null);
-      }
-
-      // Get the user.
-      const { user, duplicateEmail } = result;
-
-      // If the duplicate email was included in the result, pass that up to the
-      // login.
-      if (duplicateEmail) {
-        coral.duplicateEmail = duplicateEmail;
       }
 
       return done(null, user);

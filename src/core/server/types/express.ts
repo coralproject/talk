@@ -14,7 +14,6 @@ export interface CoralRequest {
   };
   tenant?: Tenant;
   persisted?: PersistedQuery;
-  duplicateEmail?: string;
   logger: Logger;
 }
 

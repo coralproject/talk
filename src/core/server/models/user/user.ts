@@ -10,6 +10,7 @@ import {
   ConfirmEmailTokenExpired,
   DuplicateEmailError,
   DuplicateUserError,
+  EmailAlreadySetError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
   PasswordResetTokenExpired,
@@ -387,12 +388,6 @@ export interface User extends TenantResource {
   email?: string;
 
   /**
-   *
-   * badges are user display badges
-   */
-  badges?: string[];
-
-  /**
    * emailVerificationID is used to store state regarding the verification state
    * of an email address to prevent replay attacks.
    */
@@ -402,6 +397,19 @@ export interface User extends TenantResource {
    * emailVerified when true indicates that the given email address has been verified.
    */
   emailVerified?: boolean;
+
+  /**
+   * duplicateEmail is used to store the email address that was associated with
+   * the user account on creation that at the time was previously associated
+   * with another local account.
+   */
+  duplicateEmail?: string;
+
+  /**
+   *
+   * badges are user display badges
+   */
+  badges?: string[];
 
   /**
    * profiles is the array of profiles assigned to the user. When a user deletes
@@ -484,8 +492,9 @@ export interface FindOrCreateUserInput {
   username?: string;
   avatar?: string;
   email?: string;
-  badges?: string[];
   emailVerified?: boolean;
+  duplicateEmail?: string;
+  badges?: string[];
   role: GQLUSER_ROLE;
   profile: Profile;
 }
@@ -1049,6 +1058,9 @@ export async function setUserEmail(
       $set: {
         email,
       },
+      $unset: {
+        duplicateEmail: "",
+      },
     },
     {
       // False to return the updated document instead of the original
@@ -1064,7 +1076,7 @@ export async function setUserEmail(
     }
 
     if (user.email) {
-      throw new UsernameAlreadySetError();
+      throw new EmailAlreadySetError();
     }
 
     throw new Error("an unexpected error occurred");

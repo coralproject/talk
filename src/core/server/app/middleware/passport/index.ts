@@ -2,8 +2,10 @@ import { CookieOptions, NextFunction, RequestHandler, Response } from "express";
 import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
+import { DateTime } from "luxon";
 import passport, { Authenticator } from "passport";
 
+import { stringifyQuery } from "coral-common/utils";
 import { AppOptions } from "coral-server/app";
 import FacebookStrategy from "coral-server/app/middleware/passport/strategies/facebook";
 import GoogleStrategy from "coral-server/app/middleware/passport/strategies/google";
@@ -21,8 +23,6 @@ import {
   signTokenString,
 } from "coral-server/services/jwt";
 import { Request } from "coral-server/types/express";
-import { DateTime } from "luxon";
-import { stringifyQuery } from "coral-common/utils";
 
 export type VerifyCallback = (
   err?: Error | null,
@@ -208,7 +208,7 @@ export async function handleOAuth2Callback(
     );
 
     // Grab some more properties to add to the hash.
-    const { duplicateEmail } = coral;
+    const { duplicateEmail } = user;
 
     // Send back the details!
     return redirectWithHash(res, path, { accessToken, duplicateEmail });

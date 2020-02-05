@@ -52,7 +52,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
 
     const user = await retrieveUserWithProfile(this.mongo, tenant.id, profile);
     if (user) {
-      return { user };
+      return user;
     }
 
     if (!integration.allowRegistration) {
