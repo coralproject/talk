@@ -18,8 +18,6 @@ import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
 import MessageBoxConfigContainer from "./MessageBoxConfig";
 import PremodConfigContainer from "./PremodConfig";
 import PremodLinksConfigContainer from "./PremodLinksConfig";
-import ExpertSelectionQuery from "./Q&A/ExpertSelectionQuery";
-import StreamMode from "./Q&A/StreamMode";
 
 import styles from "./ConfigureStream.css";
 
@@ -32,7 +30,6 @@ interface Props {
 }
 
 const ConfigureStream: FunctionComponent<Props> = ({
-  storyID,
   onSubmit,
   storySettings,
 }) => (
