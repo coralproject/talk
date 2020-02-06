@@ -328,13 +328,27 @@ configure-moderation-perspective-allowStoreCommentData = Permitir que o Google a
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Comentários armazenados serão usados para futuras pesquisas e propósitos de construção de modelos
   melhorar a API ao longo do tempo
+configure-moderation-perspective-allowSendFeedback =
+  Permitir que o Coral envie ações moderadas para o Google
+configure-moderation-perspective-allowSendFeedbackDescription =
+  As ações moderadas enviadas serão usadas para futuras pesquisas e com propósito de criação de modelo
+   comunitário para melhorar a API ao longo do tempo.
 configure-moderation-perspective-customEndpoint = Customizar Endpoint
 configure-moderation-perspective-defaultEndpoint =
   Por padrão o endpoint é setado como { $default }. Você pode sobrescreve-lo aqui
 configure-moderation-perspective-accountNote =
   Para obter informações adicionais sobre como configurar o filtro de comentário tóxicos da Perspective API , visite:
   <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
-
+configure-moderation-newCommenters-title = Nova aprovação do comentarista
+configure-moderation-newCommenters-enable = Habilitar nova aprovação do comentarista
+configure-moderation-newCommenters-description =
+  Quando isto estiver ativo, os comentários iniciais de um novo comentarista
+  serão enviados para Pendente para aprovação do moderador antes da publicação.
+configure-moderation-newCommenters-enable-description = Habilitar pré-moderação para novos comentaristas
+configure-moderation-newCommenters-approvedCommentsThreshold = Número de comentários deve ser aprovado
+configure-moderation-newCommenters-approvedCommentsThreshold-description =
+  A quantidade de comentários aprovados para que os comentários sejam aprovados automaticamente sem precisar da pré-moderação.
+configure-moderation-newCommenters-comments = comentários
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Palavras e Frases Banidas
 configure-wordList-banned-explanation =
