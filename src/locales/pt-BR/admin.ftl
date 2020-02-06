@@ -117,6 +117,18 @@ configure-general-sitewideCommenting-message = Mensagem de Comentários Fechados
 configure-general-sitewideCommenting-messageExplanation =
   Escreva uma mensagem que será exibida quando o fluxo de comentários estiver fechado em todo o site
 
+configure-general-announcements-title = Anúncio da comunidade
+configure-general-announcements-description =
+Adicione um anúncio temporário que aparecerá na parte superior de todos os fluxos de comentários da sua organização por um período específico.
+configure-general-announcements-delete = Remover anúncio
+configure-general-announcements-add = Adicionar anúncio
+configure-general-announcements-start = Começar anúncio
+configure-general-announcements-cancel = Cancelar
+configure-general-announcements-current-label = Anúncio atual
+configure-general-announcements-current-duration =
+  Este anúncio irá ser encerrado automaticamente em: { $timestamp }
+configure-general-announcements-duration = Mostrar este anúncio para
+
 ### Closing Comment Streams
 configure-general-closingCommentStreams-title = Fechando fluxos de comentários
 configure-general-closingCommentStreams-explanation = Defina fluxos de comentários para fechar após um período de tempo definido após a publicação de uma história
