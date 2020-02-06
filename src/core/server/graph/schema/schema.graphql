@@ -5491,6 +5491,8 @@ input BanUserInput {
   message is sent to banned user via email.
   """
   message: String!
+
+  rejectExistingComments: Boolean!
 }
 
 type BanUserPayload {

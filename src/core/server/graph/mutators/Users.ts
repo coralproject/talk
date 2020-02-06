@@ -229,10 +229,12 @@ export const Users = (ctx: GraphContext) => ({
     ban(
       ctx.mongo,
       ctx.mailerQueue,
+      ctx.rejectorQueue,
       ctx.tenant,
       ctx.user!,
       input.userID,
       input.message,
+      input.rejectExistingComments,
       ctx.now
     ),
   premodUser: async (input: GQLPremodUserInput) =>

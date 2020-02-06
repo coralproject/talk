@@ -254,6 +254,7 @@ class Server {
     this.tasks.scraper.process();
     this.tasks.notifier.process();
     this.tasks.webhook.process();
+    this.tasks.rejector.process();
 
     // Start up the cron job processors.
     this.scheduledTasks = startScheduledTasks({
