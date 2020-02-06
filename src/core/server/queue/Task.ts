@@ -60,8 +60,6 @@ export default class Task<T, U = any> {
    */
   public async add(data: T): Promise<Queue.Job<T> | undefined> {
     // Create the job.
-    /* eslint-disable-next-line */
-    // console.log(data);
     const job = await this.queue.add(data, this.options.jobOptions);
 
     this.log.trace({ jobID: job.id }, "added job to queue");
@@ -74,8 +72,6 @@ export default class Task<T, U = any> {
    */
   public process() {
     this.queue.process(async (job: Job<T>) => {
-      /* eslint-disable-next-line */
-      console.log("PROCESSING JOB");
       const log = this.log.child(
         { jobID: job.id, attemptsMade: job.attemptsMade },
         true
@@ -86,13 +82,9 @@ export default class Task<T, U = any> {
       try {
         // Send the job off to the job processor to be handled.
         const promise: U = await this.options.jobProcessor(job);
-        /* eslint-disable-next-line */
-        console.log("PROCESSING DONE");
         log.trace("processing completed");
         return promise;
       } catch (err) {
-        /* eslint-disable-next-line */
-        console.log(err);
         log.error({ err }, "job failed to process");
         throw err;
       }
