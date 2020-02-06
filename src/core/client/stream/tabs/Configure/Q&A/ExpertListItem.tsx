@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Button, Typography } from "coral-ui/components";
+import { Button } from "coral-ui/components";
 
 import styles from "./ExpertListItem.css";
 
@@ -23,16 +23,17 @@ const ExpertListItem: FunctionComponent<Props> = ({
   }, [id, onClickRemove]);
 
   return (
-    <div key={id} className={styles.root}>
-      <Typography variant="bodyCopy">
-        {email && username && (
-          <span>
+    <li key={id} className={styles.root}>
+      <div>
+        {username && <span className={styles.username}>{username}</span>}
+        {email && (
+          <span className={styles.email}>
+            {"("}
             {email}
-            {` (${username})`}
+            {")"}
           </span>
         )}
-        {email && !username && <span>{email}</span>}
-      </Typography>
+      </div>
       <Button
         variant="filled"
         color="error"
@@ -41,7 +42,7 @@ const ExpertListItem: FunctionComponent<Props> = ({
       >
         <Localized id="configure-experts-remove-button">Remove</Localized>
       </Button>
-    </div>
+    </li>
   );
 };
 

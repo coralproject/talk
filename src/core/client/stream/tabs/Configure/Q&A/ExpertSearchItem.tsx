@@ -2,6 +2,8 @@ import React, { FunctionComponent, useCallback } from "react";
 
 import { Button, Flex } from "coral-ui/components";
 
+import styles from "./ExpertSearchItem.css";
+
 interface Props {
   id: string;
   username: string | null;
@@ -24,19 +26,18 @@ const ExpertSearchItem: FunctionComponent<Props> = ({
   }, [id, username, email, onClickAdd]);
 
   return (
-    <div key={id}>
-      <Flex alignItems="center">
-        <Button onClick={onClick}>
-          {email && username && (
-            <span>
-              {email}
-              {` (${username})`}
-            </span>
-          )}
-          {email && !username && <span>{email}</span>}
-        </Button>
-      </Flex>
-    </div>
+    <Flex alignItems="center" key={id}>
+      <Button onClick={onClick} className={styles.button}>
+        {username && <span className={styles.username}>{username}</span>}
+        {email && (
+          <span className={styles.email}>
+            {"("}
+            {email}
+            {")"}
+          </span>
+        )}
+      </Button>
+    </Flex>
   );
 };
 

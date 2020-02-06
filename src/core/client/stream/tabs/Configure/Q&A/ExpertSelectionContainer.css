@@ -1,8 +1,6 @@
-$searchButtonColor: rgb(101, 88, 245);
-
 .searchRoot {
   position: relative;
-  width: 65%;
+  width: 100%;
 }
 
 .searchField {
@@ -10,11 +8,7 @@ $searchButtonColor: rgb(101, 88, 245);
   width: 100%;
 }
 
-.searchButton {
-  background-color: $searchButtonColor;
-}
-
-.expertList {
-  padding-left: var(--v2-spacing-2);
-  padding-right: var(--v2-spacing-1);
+.list {
+  padding: 0;
+  list-style-type: none;
 }

@@ -187,10 +187,10 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
             attrs={{ "aria-label": true }}
           >
             <Button
-              color="light"
+              variant="outlined"
+              color="primary"
               aria-label="Search"
               onClick={onSubmitSearch}
-              className={styles.searchButton}
             >
               Search
             </Button>
@@ -206,7 +206,7 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
           onLoadMore={loadMore}
         />
         {experts.length > 0 && (
-          <ul className={styles.expertList}>
+          <ul className={styles.list}>
             {experts.map(u => (
               <ExpertListItem
                 key={u.id}

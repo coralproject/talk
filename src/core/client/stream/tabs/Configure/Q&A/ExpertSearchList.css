@@ -1,13 +1,19 @@
 .list {
   position: absolute;
   z-index: 99;
-  width: 100%;
 
-  max-height: 235px;
+  width: 100%;
+  max-height: 120px;
   overflow-y: auto;
+
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: var(--v2-spacing-1);
 }
 
 .loadMore {
+  margin-top: var(--v2-spacing-1);
+
   padding-top: var(--v2-spacing-1);
   padding-bottom: var(--v2-spacing-1);
 
