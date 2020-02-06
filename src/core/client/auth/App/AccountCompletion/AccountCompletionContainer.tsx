@@ -28,13 +28,17 @@ interface Props {
 
 function handleAccountCompletion(props: Props) {
   const {
-    local: { view, accessToken },
+    local: { view, accessToken, duplicateEmail },
     viewer,
     auth,
     setView,
     completeAccount,
   } = props;
   if (viewer) {
+    if (duplicateEmail) {
+      setView({ view: "DUPLICATE_EMAIL" });
+      return false;
+    }
     if (!viewer.email) {
       if (view !== "ADD_EMAIL_ADDRESS") {
         setView({ view: "ADD_EMAIL_ADDRESS" });
@@ -99,6 +103,7 @@ const enhanced = withLocalStateContainer(
     fragment AccountCompletionContainerLocal on Local {
       accessToken
       view
+      duplicateEmail
     }
   `
 )(

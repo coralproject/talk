@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { parseQuery } from "coral-common/utils";
@@ -15,11 +16,19 @@ export default async function initLocalState(
   const {
     error = null,
     accessToken = null,
-    // TODO: use the duplicateEmail here and set it in session storage
-    // duplicateEmail = null,
+    duplicateEmail: duplicateEmailFromHash = null,
   } = getParamsFromHashAndClearIt();
 
   await initLocalBaseState(environment, context, accessToken);
+
+  if (duplicateEmailFromHash) {
+    await context.sessionStorage.setItem(
+      "duplicateEmail",
+      duplicateEmailFromHash || ""
+    );
+  }
+  const duplicateEmail =
+    (await context.sessionStorage.getItem("duplicateEmail")) || null;
 
   commitLocalUpdate(environment, s => {
     const localRecord = s.get(LOCAL_ID)!;
@@ -32,5 +41,11 @@ export default async function initLocalState(
 
     // Set error.
     localRecord.setValue(error, "error");
+
+    // Set duplicateEmail.
+    localRecord.setValue(
+      duplicateEmail,
+      "duplicateEmail"
+    );
   });
 }

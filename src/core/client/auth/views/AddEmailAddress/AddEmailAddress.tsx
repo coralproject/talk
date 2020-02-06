@@ -8,6 +8,8 @@ import ConfirmEmailField from "coral-auth/components/ConfirmEmailField";
 import EmailField from "coral-auth/components/EmailField";
 import Main from "coral-auth/components/Main";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
+import { SetDuplicateEmailMutation } from "coral-auth/mutations";
+import { InvalidRequestError } from "coral-framework/lib/errors";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
@@ -29,12 +31,20 @@ interface FormErrorProps extends FormProps, FormError {}
 
 const AddEmailAddressContainer: FunctionComponent = () => {
   const setEmail = useMutation(SetEmailMutation);
+  const setDuplicateEmail = useMutation(SetDuplicateEmailMutation);
   const onSubmit: OnSubmit<FormErrorProps> = useCallback(
     async (input, form) => {
       try {
         await setEmail({ email: input.email });
         return;
       } catch (error) {
+        if (error instanceof InvalidRequestError) {
+          if (error.code === "DUPLICATE_EMAIL") {
+            setDuplicateEmail({ duplicateEmail: input.email });
+            return;
+          }
+          return error.invalidArgs;
+        }
         return { [FORM_ERROR]: error.message };
       }
     },

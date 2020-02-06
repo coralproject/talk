@@ -6,6 +6,7 @@ import AddEmailAddress from "../views/AddEmailAddress";
 import CreatePassword from "../views/CreatePassword";
 import CreateUsername from "../views/CreateUsername";
 import ForgotPassword from "../views/ForgotPassword";
+import LinkAccount from "../views/LinkAccount";
 import SignInContainer from "../views/SignIn";
 import SignUpContainer from "../views/SignUp";
 import ViewRouter from "./ViewRouter";
@@ -19,6 +20,7 @@ export type View =
   | "CREATE_USERNAME"
   | "CREATE_PASSWORD"
   | "ADD_EMAIL_ADDRESS"
+  | "DUPLICATE_EMAIL"
   | "%future added value";
 
 export interface AppProps {
@@ -42,6 +44,8 @@ const render = ({ view, auth, viewer }: AppProps) => {
       return <CreatePassword />;
     case "ADD_EMAIL_ADDRESS":
       return <AddEmailAddress />;
+    case "DUPLICATE_EMAIL":
+      return <LinkAccount />;
     default:
       throw new Error(`Unknown view ${view}`);
   }
