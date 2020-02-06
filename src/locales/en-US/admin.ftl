@@ -833,6 +833,7 @@ community-banModal-consequence =
 community-banModal-cancel = Cancel
 community-banModal-banUser = Ban User
 community-banModal-customize = Customize ban email message
+community-banModal-reject-existing = Reject all comments by this user
 
 community-suspendModal-areYouSure = Suspend <strong>{ $username }</strong>?
 community-suspendModal-consequence =
