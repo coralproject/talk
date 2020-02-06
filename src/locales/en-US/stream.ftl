@@ -442,6 +442,16 @@ configure-openStream-openStream = Open Stream
 
 configure-moderateThisStream = Moderate this stream
 
+configure-enableQA-title = Enable Q&A
+configure-enableQA-description =
+  This will turn Q&A mode on for the stream.
+configure-enableQA-enableQA = Enable Q&A
+
+configure-disableQA-title = Disable Q&A
+configure-disableQA-description =
+  This will turn Q&A mode off for the stream.
+configure-disableQA-disableQA = Disable Q&A
+
 configure-experts-title = Q&A Experts
 configure-experts-filter-searchField =
   .placeholder = Search by username or email address...

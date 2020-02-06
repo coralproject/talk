@@ -26,7 +26,7 @@ const DisableQA: FunctionComponent<Props> = ({ onClick, disableButton }) => (
       <Localized id="configure-disableQA-disableQA">
         <Button
           variant="outlined"
-          color="error"
+          color="primary"
           className={cn(styles.button, CLASSES.openCommentStream.openButton)}
           onClick={onClick}
           disabled={disableButton}
