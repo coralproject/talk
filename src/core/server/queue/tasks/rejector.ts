@@ -91,8 +91,6 @@ const createJobProcessor = ({
   try {
     // Find all comments written by the author that should be rejected.
     let connection = await getBatch(mongo, tenantID, authorID);
-    /* eslint-disable-next-line */
-    console.log(connection.nodes.length);
     while (connection.nodes.length > 0) {
       for (const comment of connection.nodes) {
         // Get the latest revision of the comment.
@@ -109,8 +107,6 @@ const createJobProcessor = ({
           moderatorID,
           currentTime
         );
-        /* eslint-disable-next-line */
-        console.log("rejected");
       }
       // If there was not another page, abort processing.
       if (!connection.pageInfo.hasNextPage) {
@@ -120,8 +116,6 @@ const createJobProcessor = ({
       connection = await getBatch(mongo, tenantID, authorID, connection);
     }
   } catch (err) {
-    /* eslint-disable-next-line */
-    console.log(err);
     log.error({ err }, "could not reject the author's comments");
     throw err;
   }

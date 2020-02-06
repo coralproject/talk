@@ -852,9 +852,6 @@ export async function ban(
   // Ban the user.
   const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
-  /* eslint-disable-next-line */
-  console.log(rejectExistingComments);
-
   if (rejectExistingComments) {
     await rejector.add({
       tenantID: tenant.id,
