@@ -35,9 +35,6 @@ const AccountSettingsContainer: FunctionComponent<Props> = ({
       <ChangeEmailContainer settings={settings} viewer={viewer} />
       <ChangePasswordContainer settings={settings} />
       <IgnoreUserSettingsContainer viewer={viewer} />
-      {/* {settings.accountFeatures.downloadComments && (
-        <DownloadCommentsContainer viewer={viewer} />
-      )} */}
       {settings.accountFeatures.deleteAccount && (
         <DeleteAccountContainer viewer={viewer} settings={settings} />
       )}

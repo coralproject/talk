@@ -29,15 +29,14 @@ export class ProfileContainer extends React.Component<ProfileContainerProps> {
 const enhanced = withFragmentContainer<ProfileContainerProps>({
   story: graphql`
     fragment ProfileContainer_story on Story {
-      ...CommentHistoryContainer_story
+      ...MyCommentsContainer_story
     }
   `,
   viewer: graphql`
     fragment ProfileContainer_viewer on User {
       ...UserBoxContainer_viewer
       ...CommentHistoryContainer_viewer
-      ...DownloadCommentsContainer_viewer
-      ...AccountSettingsContainer_viewer
+      ...MyCommentsContainer_viewer
       ...ChangeUsernameContainer_viewer
       ...ChangeEmailContainer_viewer
       ...DeletionRequestCalloutContainer_viewer
@@ -48,7 +47,7 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
     fragment ProfileContainer_settings on Settings {
       ...UserBoxContainer_settings
       ...AccountSettingsContainer_settings
-      ...CommentHistoryContainer_settings
+      ...MyCommentsContainer_settings
     }
   `,
 })(ProfileContainer);
