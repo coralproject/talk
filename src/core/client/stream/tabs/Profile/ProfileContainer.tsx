@@ -36,6 +36,7 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
     fragment ProfileContainer_viewer on User {
       ...UserBoxContainer_viewer
       ...CommentHistoryContainer_viewer
+      ...DownloadCommentsContainer_viewer
       ...AccountSettingsContainer_viewer
       ...ChangeUsernameContainer_viewer
       ...ChangeEmailContainer_viewer

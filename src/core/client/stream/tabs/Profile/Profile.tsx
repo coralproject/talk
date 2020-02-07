@@ -17,15 +17,15 @@ import {
 
 import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 
-import CommentHistoryContainer from "./CommentHistory";
 import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";
+import MyComments from "./MyComments";
 import AccountSettingsContainer from "./Settings";
 import NotificationSettingsContainer from "./Settings/NotificationSettingsContainer";
 
 export interface ProfileProps {
-  story: PropTypesOf<typeof CommentHistoryContainer>["story"];
+  story: PropTypesOf<typeof MyComments>["story"];
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
-    PropTypesOf<typeof CommentHistoryContainer>["viewer"] &
+    PropTypesOf<typeof MyComments>["viewer"] &
     PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
     PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
     PropTypesOf<typeof DeletionRequestCalloutContainer>["viewer"] &
@@ -33,7 +33,7 @@ export interface ProfileProps {
     PropTypesOf<typeof NotificationSettingsContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
     PropTypesOf<typeof AccountSettingsContainer>["settings"] &
-    PropTypesOf<typeof CommentHistoryContainer>["settings"];
+    PropTypesOf<typeof MyComments>["settings"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
@@ -85,7 +85,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           className={CLASSES.myCommentsTabPane.$root}
           tabID="MY_COMMENTS"
         >
-          <CommentHistoryContainer
+          <MyComments
             settings={props.settings}
             viewer={props.viewer}
             story={props.story}
