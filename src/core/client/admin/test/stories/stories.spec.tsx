@@ -107,12 +107,15 @@ it("goes to moderation when clicking on title", async () => {
   // Prevent router transitions.
   transitionControl.allowTransition = false;
 
+  within(container).debug();
   const story = storyConnection.edges[0].node;
   act(() => {
     within(container)
       .getByText(story.metadata!.title!)
       .props.onClick({ button: 0, preventDefault: noop });
   });
+
+  within(container).debug();
 
   // Expect a routing request was made to the right url.
   await act(async () => {
