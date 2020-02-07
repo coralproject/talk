@@ -30,6 +30,9 @@ const StoryRowContainer: FunctionComponent<Props> = props => {
       siteName={props.story.site.name}
       siteID={props.story.site.id}
       multisite={props.multisite}
+      totalCount={props.story.commentCounts.totalPublished}
+      reportedCount={props.story.moderationQueues.reported.count}
+      pendingCount={props.story.moderationQueues.pending.count}
       publishDate={
         publishedAt
           ? new Intl.DateTimeFormat(locales, {
@@ -60,6 +63,17 @@ const enhanced = withFragmentContainer<Props>({
         title
         author
         publishedAt
+      }
+      commentCounts {
+        totalPublished
+      }
+      moderationQueues {
+        reported {
+          count
+        }
+        pending {
+          count
+        }
       }
       site {
         name
