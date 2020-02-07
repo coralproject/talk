@@ -33,5 +33,11 @@ export const containsMatchingPhrase = (phrases: string[], testString: string) =>
 export const containsMatchingPhraseMemoized = (
   phrases: string[],
   testString: string
-) =>
-  phrases.length > 0 ? generateRegExpMemoized(phrases).test(testString) : false;
+) => {
+  if (phrases.length > 0) {
+    const regExp = generateRegExpMemoized(phrases);
+    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
+    return !!testString.match(regExp);
+  }
+  return false;
+};
