@@ -2,10 +2,12 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { Tag } from "coral-ui/components";
+import { Flex, Icon, Tag } from "coral-ui/components";
 
 import { UserTagsContainer_comment } from "coral-stream/__generated__/UserTagsContainer_comment.graphql";
 import { UserTagsContainer_settings } from "coral-stream/__generated__/UserTagsContainer_settings.graphql";
+
+import styles from "./UserTagsContainer.css";
 
 interface Props {
   comment: UserTagsContainer_comment;
@@ -20,7 +22,16 @@ const UserTagsContainer: FunctionComponent<Props> = ({
 }) => {
   const staffTag = comment.tags.find(t => t.code === "STAFF");
   return (
-    <>{staffTag && <Tag className={className}>{settings.staff.label}</Tag>}</>
+    <>
+      {comment.authorIsExpert && (
+        <Tag variant="regular" color="primary">
+          <Flex alignItems="center">
+            <Icon className={styles.icon}>star</Icon>EXPERT
+          </Flex>
+        </Tag>
+      )}
+      {staffTag && <Tag className={className}>{settings.staff.label}</Tag>}
+    </>
   );
 };
 
@@ -30,6 +41,7 @@ const enhanced = withFragmentContainer<Props>({
       tags {
         code
       }
+      authorIsExpert
     }
   `,
   settings: graphql`
