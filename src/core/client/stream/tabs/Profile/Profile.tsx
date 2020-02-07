@@ -19,18 +19,18 @@ import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 
 import DeletionRequestCalloutContainer from "./DeletionRequest/DeletionRequestCalloutContainer";
 import MyCommentsContainer from "./MyComments";
+import PreferencesContainer from "./Preferences";
 import AccountSettingsContainer from "./Settings";
-import NotificationSettingsContainer from "./Settings/NotificationSettingsContainer";
+
+// import NotificationSettingsContainer from "./Preferences/NotificationSettingsContainer";
 
 export interface ProfileProps {
   story: PropTypesOf<typeof MyCommentsContainer>["story"];
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
     PropTypesOf<typeof MyCommentsContainer>["viewer"] &
     PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
-    PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
     PropTypesOf<typeof DeletionRequestCalloutContainer>["viewer"] &
-    PropTypesOf<typeof AccountSettingsContainer>["viewer"] &
-    PropTypesOf<typeof NotificationSettingsContainer>["viewer"];
+    PropTypesOf<typeof PreferencesContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
     PropTypesOf<typeof AccountSettingsContainer>["settings"] &
     PropTypesOf<typeof MyCommentsContainer>["settings"];
@@ -67,11 +67,11 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           </Localized>
         </Tab>
         <Tab
-          tabID="NOTIFICATIONS"
-          className={CLASSES.tabBarMyProfile.notifications}
+          tabID="PREFERENCES"
+          className={CLASSES.tabBarMyProfile.preferences}
         >
-          <Localized id="profile-notificationsTab">
-            <span>Notifications</span>
+          <Localized id="profile-preferencesTab">
+            <span>Preferences</span>
           </Localized>
         </Tab>
         <Tab tabID="ACCOUNT" className={CLASSES.tabBarMyProfile.settings}>
@@ -93,9 +93,9 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         </TabPane>
         <TabPane
           className={CLASSES.notificationsTabPane.$root}
-          tabID="NOTIFICATIONS"
+          tabID="PREFERENCES"
         >
-          <NotificationSettingsContainer viewer={props.viewer} />
+          <PreferencesContainer viewer={props.viewer} />
         </TabPane>
         <TabPane className={CLASSES.accountTabPane.$root} tabID="ACCOUNT">
           <AccountSettingsContainer

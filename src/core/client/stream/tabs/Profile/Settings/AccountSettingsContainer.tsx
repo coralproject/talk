@@ -13,7 +13,6 @@ import ChangePasswordContainer from "./ChangePasswordContainer";
 import ChangeUsernameContainer from "./ChangeUsername";
 import DeleteAccountContainer from "./DeleteAccount/DeleteAccountContainer";
 // import DownloadCommentsContainer from "../CommentHistory/DownloadCommentsContainer";
-import IgnoreUserSettingsContainer from "./IgnoreUserSettingsContainer";
 
 import styles from "./AccountSettingsContainer.css";
 
@@ -34,7 +33,6 @@ const AccountSettingsContainer: FunctionComponent<Props> = ({
       <ChangeUsernameContainer settings={settings} viewer={viewer} />
       <ChangeEmailContainer settings={settings} viewer={viewer} />
       <ChangePasswordContainer settings={settings} />
-      <IgnoreUserSettingsContainer viewer={viewer} />
       {settings.accountFeatures.deleteAccount && (
         <DeleteAccountContainer viewer={viewer} settings={settings} />
       )}
@@ -45,8 +43,6 @@ const AccountSettingsContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment AccountSettingsContainer_viewer on User {
-      ...IgnoreUserSettingsContainer_viewer
-      # ...DownloadCommentsContainer_viewer
       ...DeleteAccountContainer_viewer
       ...ChangeUsernameContainer_viewer
       ...ChangeEmailContainer_viewer

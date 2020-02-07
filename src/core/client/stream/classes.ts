@@ -107,6 +107,12 @@ const CLASSES = {
       "coral coral-tabBarSecondary-tab coral-tabBarMyProfile-myComments",
 
     /**
+     * preferences is the button for the "Preferences" tab.
+     */
+    preferences:
+      "coral coral-tabBarSecondary-tab coral-tabBarMyProfile-preferences",
+
+    /**
      * notifications is the button for the "Notifications" tab.
      */
     notifications:
