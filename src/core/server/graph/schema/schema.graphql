@@ -2408,6 +2408,12 @@ type Comment {
   deleted is whether the comment has been deleted.
   """
   deleted: Boolean
+
+  """
+  authorIsExpert is true when the stream mode is set to Q&A and the
+  comment's author is a listed expert in the parent story's settings.
+  """
+  authorIsExpert: Boolean!
 }
 
 type PageInfo {
@@ -2730,6 +2736,12 @@ type Story {
   lastCommentedAt is the last time someone commented on this story.
   """
   lastCommentedAt: Time @auth(roles: [ADMIN])
+
+  """
+  viewerIsExpert is true when the stream mode is set to Q&A and the
+  current viewing user is a listed expert in the story's settings.
+  """
+  viewerIsExpert: Boolean!
 }
 
 """
