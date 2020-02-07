@@ -492,6 +492,19 @@ export const stories = createFixtures<GQLStory>([
       title: "Finally a Cure for Cancer",
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
+    commentCounts: {
+      totalPublished: 5,
+    },
+    moderationQueues: {
+      reported: {
+        id: "reported",
+        count: 3,
+      },
+      pending: {
+        id: "pending",
+        count: 2,
+      },
+    },
     site: sites[0],
   },
   {
@@ -506,6 +519,19 @@ export const stories = createFixtures<GQLStory>([
       title: "First Colony on Mars",
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
+    commentCounts: {
+      totalPublished: 5,
+    },
+    moderationQueues: {
+      reported: {
+        id: "reported",
+        count: 3,
+      },
+      pending: {
+        id: "pending",
+        count: 2,
+      },
+    },
     site: sites[1],
   },
   {
@@ -515,6 +541,19 @@ export const stories = createFixtures<GQLStory>([
     isClosed: true,
     status: GQLSTORY_STATUS.CLOSED,
     url: "",
+    commentCounts: {
+      totalPublished: 5,
+    },
+    moderationQueues: {
+      reported: {
+        id: "reported",
+        count: 3,
+      },
+      pending: {
+        id: "pending",
+        count: 2,
+      },
+    },
     metadata: {
       author: undefined,
       title: "World hunger has been defeated",

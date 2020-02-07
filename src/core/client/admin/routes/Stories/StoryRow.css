@@ -4,18 +4,25 @@
   padding-top: 15px;
   padding-bottom: 15px;
 }
-.authorColumn {
-  vertical-align: top;
-  word-break: break-word;
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-.publishDateColumn {
-  vertical-align: top;
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
 .statusColumn {
 }
 .siteColumn {
+}
+
+.meta {
+  color: var(--v2-colors-mono-100);
+}
+
+.authorName {
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+}
+
+.reportedCountColumn,
+.pendingCountColumn,
+.totalCountColumn {
+  text-align: center;
+}
+
+.boldColumn {
+  font-weight: var(--v2-font-weight-primary-semi-bold);
 }
