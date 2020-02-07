@@ -2413,7 +2413,7 @@ type Comment {
   authorIsExpert is true when the stream mode is set to Q&A and the
   comment's author is a listed expert in the parent story's settings.
   """
-  authorIsExpert: Boolean!
+  authorIsExpert: Boolean
 }
 
 type PageInfo {
@@ -2741,7 +2741,7 @@ type Story {
   viewerIsExpert is true when the stream mode is set to Q&A and the
   current viewing user is a listed expert in the story's settings.
   """
-  viewerIsExpert: Boolean!
+  viewerIsExpert: Boolean
 }
 
 """

@@ -463,6 +463,7 @@ export const stories = createFixtures<GQLStory>([
       title: "Finally a Cure for Cancer",
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
+    viewerIsExpert: false,
   },
   {
     id: "story-2",
@@ -476,6 +477,7 @@ export const stories = createFixtures<GQLStory>([
       title: "First Colony on Mars",
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
+    viewerIsExpert: false,
   },
   {
     id: "story-3",
@@ -489,6 +491,7 @@ export const stories = createFixtures<GQLStory>([
       title: "World hunger has been defeated",
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
+    viewerIsExpert: false,
   },
 ]);
 
@@ -551,6 +554,7 @@ export const baseComment = createFixture<GQLComment>({
   // TODO: Should be allowed to pass null here..
   parent: undefined,
   deleted: undefined,
+  authorIsExpert: false,
 });
 
 export const unmoderatedComments = createFixtures<GQLComment>(

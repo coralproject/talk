@@ -273,6 +273,7 @@ export const baseComment = createFixture<GQLComment>({
   viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
   tags: [],
   deleted: undefined,
+  authorIsExpert: false,
 });
 
 export const comments = denormalizeComments(
@@ -282,11 +283,13 @@ export const comments = denormalizeComments(
         id: "comment-0",
         author: commenters[0],
         body: "Joining Too",
+        authorIsExpert: false,
       },
       {
         id: "comment-1",
         author: commenters[1],
         body: "What's up?",
+        authorIsExpert: false,
       },
       {
         id: "comment-2",
@@ -534,6 +537,7 @@ export const baseStory = createFixture<GQLStory>({
     mode: GQLSTORY_MODE.COMMENTS,
     experts: [],
   },
+  viewerIsExpert: false,
 });
 
 export const moderators = createFixtures<GQLUser>(
@@ -574,6 +578,7 @@ export const stories = denormalizeStories(
             { node: comments[1], cursor: comments[1].createdAt },
           ],
         },
+        viewerIsExpert: false,
       },
       {
         id: "story-2",
@@ -584,6 +589,7 @@ export const stories = denormalizeStories(
             { node: comments[3], cursor: comments[3].createdAt },
           ],
         },
+        viewerIsExpert: false,
       },
       {
         id: "story-3",
@@ -597,6 +603,7 @@ export const stories = denormalizeStories(
             },
           ],
         },
+        viewerIsExpert: false,
       },
     ],
     baseStory
