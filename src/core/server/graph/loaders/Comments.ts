@@ -28,6 +28,7 @@ import {
   CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
+  GQLSTORY_MODE,
   GQLTAG,
   GQLUSER_ROLE,
   QueryToCommentsArgs,
@@ -268,4 +269,22 @@ export default (ctx: Context) => ({
       authorIDs
     )
   ),
+  authorIsExpert: async (comment: Comment) => {
+    if (!comment.authorID) {
+      return false;
+    }
+
+    const story = await ctx.loaders.Stories.story.load(comment.storyID);
+    if (!story) {
+      return false;
+    }
+    if (!story.settings.mode || story.settings.mode !== GQLSTORY_MODE.QA) {
+      return false;
+    }
+    if (!story.settings.expertIDs) {
+      return false;
+    }
+
+    return story.settings.expertIDs.some(id => id === comment.authorID);
+  },
 });
