@@ -830,6 +830,9 @@ stories-column-author = Author
 stories-column-publishDate = Publish Date
 stories-column-status = Status
 stories-column-clickToModerate = Click title to moderate story
+stories-column-reportedCount = Reported
+stories-column-pendingCount = Pending
+stories-column-totalCount = Total
 
 stories-status-popover =
   .description = A dropdown to change the story status
