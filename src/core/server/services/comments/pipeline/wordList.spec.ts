@@ -1,4 +1,7 @@
-import { containsMatchingPhrase } from "coral-server/services/comments/pipeline/wordList";
+import {
+  containsMatchingPhrase,
+  containsMatchingPhraseMemoized,
+} from "coral-server/services/comments/pipeline/wordList";
 
 const phrases = [
   "cookies",
@@ -42,5 +45,22 @@ describe("containsMatchingPhrase", () => {
 
   it("allows an empty list", () => {
     expect(containsMatchingPhrase([], "test")).toEqual(false);
+  });
+});
+
+describe("containsMatchingPhraseMemoized", () => {
+  it("return true for all cases after memoizing the first result", () => {
+    [
+      "cookies 1",
+      "cookies 2",
+      "cookies 4",
+      "cookies 5",
+      "this is for cookies 6",
+      "this is for cookies 7",
+      "this is for cookies 8",
+      "this is for cookies 9",
+    ].forEach(word => {
+      expect(containsMatchingPhraseMemoized(phrases, word)).toEqual(true);
+    });
   });
 });
