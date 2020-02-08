@@ -55,10 +55,10 @@ describe("containsMatchingPhraseMemoized", () => {
       "cookies 2",
       "cookies 4",
       "cookies 5",
-      "cookies 6",
-      "cookies 7",
-      "cookies 8",
-      "cookies 9",
+      "this is for cookies 6",
+      "this is for cookies 7",
+      "this is for cookies 8",
+      "this is for cookies 9",
     ].forEach(word => {
       expect(containsMatchingPhraseMemoized(phrases, word)).toEqual(true);
     });

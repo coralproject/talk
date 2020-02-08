@@ -22,7 +22,7 @@ export function generateRegExp(phrases: string[]) {
         .join('[\\s"?!.]+')
     )
     .join("|");
-  return new RegExp(`(^|[^\\w])(${inner})(?=[^\\w]|$)`, "gmiu");
+  return new RegExp(`(^|[^\\w])(${inner})(?=[^\\w]|$)`, "miu");
 }
 
 export const generateRegExpMemoized = memoize(generateRegExp);
@@ -33,11 +33,5 @@ export const containsMatchingPhrase = (phrases: string[], testString: string) =>
 export const containsMatchingPhraseMemoized = (
   phrases: string[],
   testString: string
-) => {
-  if (phrases.length > 0) {
-    const regExp = generateRegExpMemoized(phrases);
-    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
-    return !!testString.match(regExp);
-  }
-  return false;
-};
+) =>
+  phrases.length > 0 ? generateRegExpMemoized(phrases).test(testString) : false;
