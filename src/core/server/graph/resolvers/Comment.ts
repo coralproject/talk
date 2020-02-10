@@ -117,5 +117,4 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     }
     return getURLWithCommentID(story.url, id);
   },
-  authorIsExpert: (c, input, ctx) => ctx.loaders.Comments.authorIsExpert(c),
 };
