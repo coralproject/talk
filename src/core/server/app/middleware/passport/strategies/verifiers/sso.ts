@@ -41,6 +41,7 @@ export interface SSOUserProfile {
   username: string;
   badges?: string[];
   role?: GQLUSER_ROLE;
+  url?: string;
 }
 
 export interface SSOToken {
@@ -64,6 +65,7 @@ export const SSOUserProfileSchema = Joi.object()
     username: Joi.string().required(),
     badges: Joi.array().items(Joi.string()),
     role: Joi.string().only(Object.values(GQLUSER_ROLE)),
+    url: Joi.string().uri(),
   })
   .optionalKeys(["badges", "role"]);
 
@@ -91,7 +93,7 @@ export async function findOrCreateSSOUser(
   const {
     jti,
     exp,
-    user: { id, email, username, badges, role },
+    user: { id, email, username, badges, role, url },
     iat,
   } = decodedToken;
 
@@ -109,6 +111,7 @@ export async function findOrCreateSSOUser(
     type: "sso",
     id,
   });
+
   if (!user) {
     if (!integration.allowRegistration) {
       // Registration is disabled, so we can't create the user user here.
@@ -131,6 +134,7 @@ export async function findOrCreateSSOUser(
         id,
         username,
         role: role || GQLUSER_ROLE.COMMENTER,
+        ssoURL: url,
         badges,
         email,
         emailVerified: true,

@@ -2016,6 +2016,11 @@ type User {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
+
+  """
+  ssoURL is the url for managing sso account
+  """
+  ssoURL: String
 }
 
 """
