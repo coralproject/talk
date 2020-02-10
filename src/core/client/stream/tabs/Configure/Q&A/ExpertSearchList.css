@@ -2,13 +2,15 @@
   position: absolute;
   z-index: 99;
 
-  width: 100%;
+  min-width: calc(80% - 47px);
   max-height: 120px;
   overflow-y: auto;
 
   padding-left: 0;
   padding-right: 0;
   padding-top: var(--v2-spacing-1);
+
+  margin-bottom: var(--v2-spacing-2);
 }
 
 .loadMore {

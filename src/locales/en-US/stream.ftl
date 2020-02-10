@@ -395,6 +395,8 @@ profile-changeUsername-close = Close
 
 ## Comment Stream
 configure-stream-title = Configure this Comment Stream
+configure-stream-title-configureThisStream =
+  Configure this Stream
 configure-stream-apply = Apply
 
 configure-premod-title = Enable Pre-Moderation
@@ -442,24 +444,33 @@ configure-openStream-openStream = Open Stream
 
 configure-moderateThisStream = Moderate this stream
 
-configure-enableQA-title = Enable Q&A
+configure-enableQA-title = Switch to Q&A Format
 configure-enableQA-description =
-  This will turn Q&A mode on for the stream.
-configure-enableQA-enableQA = Enable Q&A
+  The Q&A format allows community members to submit questions for chosen
+  experts to answer.
+configure-enableQA-enableQA = Switch to Q&A
 
-configure-disableQA-title = Disable Q&A
+configure-disableQA-title = Configure this Q&A
 configure-disableQA-description =
-  This will turn Q&A mode off for the stream.
-configure-disableQA-disableQA = Disable Q&A
+  The Q&A format allows community members to submit questions for chosen
+  experts to answer.
+configure-disableQA-disableQA = Switch to Comments
 
-configure-experts-title = Q&A Experts
+configure-experts-title = Add an Expert
 configure-experts-filter-searchField =
-  .placeholder = Search by username or email address...
-  .aria-label = Search by username or email address
-configure-experts-filter-searchButton = Search
+  .placeholder = Search by email or username
+  .aria-label = Search by email or username
+configure-experts-filter-searchButton =
+  .aria-label = Search
+configure-experts-filter-description =
+  Adds an Expert Badge to comments by registered users, only on this
+  page. New users must first sign up and open the comments on a page
+  to create their account.
 configure-experts-search-none-found = No users were found with that email or username
 configure-experts-remove-button = Remove
 configure-experts-load-more = Load More
+configure-experts-none-yet = There are currently no experts for this Q&A.
+configure-experts-assigned-title = Experts
 
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
 comments-tombstone-deleted =

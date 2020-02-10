@@ -4,8 +4,23 @@
 }
 
 .searchField {
-  margin-right: var(--v2-spacing-1);
-  width: 100%;
+  width: 80%;
+
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.searchButton {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.description {
+  max-width: 350px;
+}
+
+.expertListTitle {
+  margin-top: var(--v2-spacing-3);
 }
 
 .list {

@@ -81,7 +81,7 @@ exports[`renders configure 1`] = `
           <h1
             className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary ConfigureStream-heading"
           >
-            Configure this Comment Stream
+            Configure this Stream
           </h1>
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled coral coral-configureCommentStream-applyButton"
@@ -293,7 +293,7 @@ announcements relating to the comments on this story.
         <h1
           className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary EnableQA-heading"
         >
-          Enable Q&A
+          Switch to Q&A Format
         </h1>
         <div
           className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignFlexStart gutter"
@@ -301,7 +301,8 @@ announcements relating to the comments on this story.
           <p
             className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
-            This will turn Q&A mode on for the stream.
+            The Q&A format allows community members to submit questions for chosen
+experts to answer.
           </p>
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantOutlined EnableQA-button coral coral-openCommentStream-openButton"
@@ -316,7 +317,7 @@ announcements relating to the comments on this story.
             onTouchEnd={[Function]}
             type="button"
           >
-            Enable Q&A
+            Switch to Q&A
           </button>
         </div>
       </div>

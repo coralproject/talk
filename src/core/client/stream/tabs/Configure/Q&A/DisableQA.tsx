@@ -16,12 +16,15 @@ const DisableQA: FunctionComponent<Props> = ({ onClick, disableButton }) => (
   <div className={CLASSES.openCommentStream.$root}>
     <Localized id="configure-disableQA-title">
       <Typography variant="heading2" className={styles.heading}>
-        Disable Q&A
+        Configure this Q&A
       </Typography>
     </Localized>
     <Flex alignItems="flex-start" itemGutter>
       <Localized id="configure-disableQA-description">
-        <Typography>This will turn Q&A mode on for the stream.</Typography>
+        <Typography>
+          The Q&A format allows community members to submit questions for chosen
+          experts to answer.
+        </Typography>
       </Localized>
       <Localized id="configure-disableQA-disableQA">
         <Button
@@ -31,7 +34,7 @@ const DisableQA: FunctionComponent<Props> = ({ onClick, disableButton }) => (
           onClick={onClick}
           disabled={disableButton}
         >
-          Disable Q&A
+          Switch to Comments
         </Button>
       </Localized>
     </Flex>

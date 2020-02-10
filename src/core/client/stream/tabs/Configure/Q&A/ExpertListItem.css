@@ -7,6 +7,22 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+
+  max-width: 80%;
+}
+
+@media (min-width: 550px) {
+  .usernameEmail {
+    display: inline-block;
+
+    width: calc(100% - 75px);
+  }
+}
+
+@media (max-width: 549px) {
+  .usernameEmail {
+    display: inline-block;
+  }
 }
 
 .username {
@@ -35,5 +51,4 @@
 
 .removeButton {
   padding: var(--v2-spacing-1);
-  margin-right: 80px;
 }

@@ -15,7 +15,8 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE_RL, GQLUSER_STATUS_RL } from "coral-framework/schema";
-import { Button, Flex, TextField, Typography } from "coral-ui/components";
+import { Button, Flex, Icon, Typography } from "coral-ui/components";
+import { TextField as SearchTextField } from "coral-ui/components/v2";
 
 import { ExpertSelectionContainer_query as QueryData } from "coral-stream/__generated__/ExpertSelectionContainer_query.graphql";
 import { ExpertSelectionContainerPaginationQueryVariables } from "coral-stream/__generated__/ExpertSelectionContainerPaginationQuery.graphql";
@@ -162,38 +163,53 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
     <>
       <Typography variant="heading3" container="div">
         <Localized id="configure-experts-title">
-          <span>Q&A Experts</span>
+          <span>Add an Expert</span>
         </Localized>
       </Typography>
+      <Localized id="configure-experts-filter-description">
+        <Typography
+          variant="detail"
+          color="textSecondary"
+          className={styles.description}
+        >
+          Adds an Expert Badge to comments by registered users, only on this
+          page. New users must first sign up and open the comments on a page to
+          create their account.
+        </Typography>
+      </Localized>
       <div className={styles.searchRoot} ref={searchRootRef}>
         <Flex>
           <Localized
             id="configure-experts-filter-searchField"
             attrs={{ placeholder: true, "aria-label": true }}
           >
-            <TextField
+            <SearchTextField
               color="regular"
-              placeholder="Search by username or email address..."
-              aria-label="Search by username or email address"
+              placeholder="Search by email or username"
+              aria-label="Search by email or username"
               onChange={onSearchTextChanged}
               onKeyPress={onSearchKeyPress}
               onKeyDown={onSearchKeyDown}
-              ref={searchFieldRef}
+              forwardRef={searchFieldRef}
               className={styles.searchField}
+              variant="seamlessAdornment"
+              adornment={
+                <Localized
+                  id="configure-experts-filter-searchButton"
+                  attrs={{ "aria-label": true }}
+                >
+                  <Button
+                    className={styles.searchButton}
+                    variant="filled"
+                    color="primary"
+                    aria-label="Search"
+                    onClick={onSubmitSearch}
+                  >
+                    <Icon size="md">search</Icon>
+                  </Button>
+                </Localized>
+              }
             />
-          </Localized>
-          <Localized
-            id="configure-experts-filter-searchButton"
-            attrs={{ "aria-label": true }}
-          >
-            <Button
-              variant="outlined"
-              color="primary"
-              aria-label="Search"
-              onClick={onSubmitSearch}
-            >
-              Search
-            </Button>
           </Localized>
         </Flex>
         <ExpertSearchList
@@ -205,7 +221,16 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
           disableLoadMore={isLoadingMore}
           onLoadMore={loadMore}
         />
-        {experts.length > 0 && (
+        <Typography
+          variant="heading3"
+          container="div"
+          className={styles.expertListTitle}
+        >
+          <Localized id="configure-experts-assigned-title">
+            <span>Experts</span>
+          </Localized>
+        </Typography>
+        {experts.length > 0 ? (
           <ul className={styles.list}>
             {experts.map(u => (
               <ExpertListItem
@@ -217,6 +242,12 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
               />
             ))}
           </ul>
+        ) : (
+          <Localized id="configure-experts-none-yet">
+            <Typography color="textSecondary">
+              There are currently no experts for this Q&A.
+            </Typography>
+          </Localized>
         )}
       </div>
     </>

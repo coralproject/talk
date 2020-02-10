@@ -1,8 +1,13 @@
 import cn from "classnames";
-import React, { AllHTMLAttributes, ChangeEvent, EventHandler } from "react";
+import React, {
+  AllHTMLAttributes,
+  ChangeEvent,
+  EventHandler,
+  FunctionComponent,
+  Ref,
+} from "react";
 
 import { withStyles } from "coral-ui/hocs";
-import { FunctionComponent } from "react";
 
 import styles from "./TextField.css";
 
@@ -60,6 +65,8 @@ export interface TextFieldProps {
    * onChange
    */
   onChange?: EventHandler<ChangeEvent<HTMLInputElement>>;
+  onKeyPress?: React.EventHandler<React.KeyboardEvent>;
+  onKeyDown?: React.EventHandler<React.KeyboardEvent>;
 
   disabled?: boolean;
 
@@ -72,6 +79,8 @@ export interface TextFieldProps {
   adornment?: React.ReactNode;
 
   variant?: "regular" | "seamlessAdornment";
+
+  forwardRef?: Ref<HTMLInputElement>;
 }
 
 const TextField: FunctionComponent<TextFieldProps> = props => {
@@ -85,6 +94,7 @@ const TextField: FunctionComponent<TextFieldProps> = props => {
     adornment,
     textAlignCenter,
     variant,
+    forwardRef,
     ...rest
   } = props;
 
@@ -110,6 +120,7 @@ const TextField: FunctionComponent<TextFieldProps> = props => {
         className={inputClassName}
         placeholder={placeholder}
         value={value}
+        ref={forwardRef}
         {...rest}
       />
       {adornment && <div className={styles.adornment}>{adornment}</div>}

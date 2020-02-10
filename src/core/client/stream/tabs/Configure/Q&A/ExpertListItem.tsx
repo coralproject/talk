@@ -24,7 +24,7 @@ const ExpertListItem: FunctionComponent<Props> = ({
 
   return (
     <li key={id} className={styles.root}>
-      <div>
+      <div className={styles.usernameEmail}>
         {username && <span className={styles.username}>{username}</span>}
         {email && (
           <span className={styles.email}>
