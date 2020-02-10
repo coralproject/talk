@@ -1,3 +1,4 @@
+import { isNull } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
@@ -17,11 +18,16 @@ interface ProfileContainerProps {
 
 export class ProfileContainer extends React.Component<ProfileContainerProps> {
   public render() {
+    const ssoProfile = this.props.viewer.profiles.find(
+      profile => profile.__typename === "SSOProfile"
+    );
     return (
       <Profile
         viewer={this.props.viewer}
         story={this.props.story}
         settings={this.props.settings}
+        isSSO={!isNull(ssoProfile)}
+        ssoURL={this.props.viewer.ssoURL}
       />
     );
   }
@@ -39,6 +45,10 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
       ...MyCommentsContainer_viewer
       ...DeletionRequestCalloutContainer_viewer
       ...PreferencesContainer_viewer
+      profiles {
+        __typename
+      }
+      ssoURL
     }
   `,
   settings: graphql`

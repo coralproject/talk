@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { graphql, useLocal } from "coral-framework/lib/relay";
@@ -22,9 +22,9 @@ import MyCommentsContainer from "./MyComments";
 import PreferencesContainer from "./Preferences";
 import AccountSettingsContainer from "./Settings";
 
-// import NotificationSettingsContainer from "./Preferences/NotificationSettingsContainer";
-
 export interface ProfileProps {
+  isSSO: boolean;
+  ssoURL: string | null;
   story: PropTypesOf<typeof MyCommentsContainer>["story"];
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
     PropTypesOf<typeof MyCommentsContainer>["viewer"] &
@@ -45,13 +45,31 @@ const Profile: FunctionComponent<ProfileProps> = props => {
   `);
   const onTabClick = useCallback(
     (tab: ProfileLocal["profileTab"]) => {
-      if (local.profileTab !== tab) {
+      if (
+        tab === "ACCOUNT" &&
+        props.isSSO &&
+        props.ssoURL &&
+        props.ssoURL.length > 0
+      ) {
+        window.open(props.ssoURL);
+      } else if (local.profileTab !== tab) {
         emitSetProfileTabEvent({ tab });
         setLocal({ profileTab: tab });
       }
     },
-    [setLocal, local.profileTab]
+    [setLocal, local.profileTab, props.ssoURL, props.isSSO]
   );
+
+  const showAccountTab = useMemo(() => {
+    if (!props.isSSO) {
+      return true;
+    }
+    if (props.ssoURL) {
+      return true;
+    }
+    return false;
+  }, [props.ssoURL, props.isSSO]);
+
   return (
     <HorizontalGutter size="double">
       <UserBoxContainer viewer={props.viewer} settings={props.settings} />
@@ -74,11 +92,13 @@ const Profile: FunctionComponent<ProfileProps> = props => {
             <span>Preferences</span>
           </Localized>
         </Tab>
-        <Tab tabID="ACCOUNT" className={CLASSES.tabBarMyProfile.settings}>
-          <Localized id="profile-accountTab">
-            <span>Account</span>
-          </Localized>
-        </Tab>
+        {showAccountTab && (
+          <Tab tabID="ACCOUNT" className={CLASSES.tabBarMyProfile.settings}>
+            <Localized id="profile-accountTab">
+              <span>Account</span>
+            </Localized>
+          </Tab>
+        )}
       </TabBar>
       <TabContent activeTab={local.profileTab}>
         <TabPane
@@ -97,13 +117,15 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         >
           <PreferencesContainer viewer={props.viewer} />
         </TabPane>
-        <TabPane className={CLASSES.accountTabPane.$root} tabID="ACCOUNT">
-          <AccountSettingsContainer
-            viewer={props.viewer}
-            settings={props.settings}
-          />
-          <DeletionRequestCalloutContainer viewer={props.viewer} />
-        </TabPane>
+        {showAccountTab && (
+          <TabPane className={CLASSES.accountTabPane.$root} tabID="ACCOUNT">
+            <AccountSettingsContainer
+              viewer={props.viewer}
+              settings={props.settings}
+            />
+            <DeletionRequestCalloutContainer viewer={props.viewer} />
+          </TabPane>
+        )}
       </TabContent>
     </HorizontalGutter>
   );
