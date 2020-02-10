@@ -22,7 +22,7 @@ export function generateRegExp(phrases: string[]) {
         .join('[\\s"?!.]+')
     )
     .join("|");
-  return new RegExp(`(^|[^\\w])(${inner})(?=[^\\w]|$)`, "gmiu");
+  return new RegExp(`(^|[^\\w])(${inner})(?=[^\\w]|$)`, "miu");
 }
 
 export const generateRegExpMemoized = memoize(generateRegExp);
