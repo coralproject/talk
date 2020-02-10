@@ -750,6 +750,10 @@ const CLASSES = {
     $root: "coral coral-notifications",
   },
 
+  preferencesTabPane: {
+    $root: "coral coral-preferences",
+  },
+
   /**
    * accountTabPane is the tab pane that shows account settings.
    */

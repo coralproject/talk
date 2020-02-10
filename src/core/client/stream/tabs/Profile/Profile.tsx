@@ -112,7 +112,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           />
         </TabPane>
         <TabPane
-          className={CLASSES.notificationsTabPane.$root}
+          className={CLASSES.preferencesTabPane.$root}
           tabID="PREFERENCES"
         >
           <PreferencesContainer viewer={props.viewer} />
