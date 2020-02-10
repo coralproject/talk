@@ -96,7 +96,6 @@ export function createComment() {
         },
       },
       tags: [],
-      authorIsExpert: false,
     })
   );
 }
@@ -142,7 +141,6 @@ export function createStory(createComments = true) {
         mode: GQLSTORY_MODE.COMMENTS,
         experts: [],
       },
-      viewerIsExpert: false,
     })
   );
 }

@@ -31,6 +31,4 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   // options if they exist.
   settings: (s, input, ctx) => defaultsDeep({}, s.settings, ctx.tenant),
   moderationQueues: storyModerationInputResolver,
-  viewerIsExpert: (s, input, ctx) =>
-    ctx.loaders.Stories.userIsExpertForStory(s, ctx.user),
 };
