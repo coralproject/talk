@@ -10,7 +10,6 @@ import {
   Story,
   StoryConnectionInput,
 } from "coral-server/models/story";
-import { User } from "coral-server/models/user";
 import {
   find,
   findOrCreate,
@@ -20,7 +19,6 @@ import {
 import { scraper } from "coral-server/services/stories/scraper";
 
 import {
-  GQLSTORY_MODE,
   GQLSTORY_STATUS,
   QueryToStoriesArgs,
 } from "coral-server/graph/schema/__generated__/types";
@@ -136,20 +134,4 @@ export default (ctx: GraphContext) => ({
   ),
   activeStories: (limit: number) =>
     retrieveActiveStories(ctx.mongo, ctx.tenant.id, limit),
-  userIsExpertForStory: (story: Story, user?: User) => {
-    if (!story.settings.mode) {
-      return false;
-    }
-    if (!story.settings.expertIDs) {
-      return false;
-    }
-    if (story.settings.mode !== GQLSTORY_MODE.QA) {
-      return false;
-    }
-    if (!user) {
-      return false;
-    }
-
-    return story.settings.expertIDs.some(id => user.id === id);
-  },
 });

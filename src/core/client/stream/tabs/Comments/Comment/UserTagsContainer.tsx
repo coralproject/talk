@@ -48,7 +48,6 @@ const enhanced = withFragmentContainer<Props>({
       tags {
         code
       }
-      authorIsExpert
     }
   `,
   settings: graphql`
