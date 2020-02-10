@@ -67,7 +67,7 @@ export const SSOUserProfileSchema = Joi.object()
     role: Joi.string().only(Object.values(GQLUSER_ROLE)),
     url: Joi.string().uri(),
   })
-  .optionalKeys(["badges", "role"]);
+  .optionalKeys(["badges", "role", "url"]);
 
 export const SSOTokenSchema = Joi.object()
   .keys({
