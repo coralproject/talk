@@ -35,10 +35,8 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
   viewer: graphql`
     fragment ProfileContainer_viewer on User {
       ...UserBoxContainer_viewer
-      ...CommentHistoryContainer_viewer
+      ...AccountSettingsContainer_viewer
       ...MyCommentsContainer_viewer
-      ...ChangeUsernameContainer_viewer
-      ...ChangeEmailContainer_viewer
       ...DeletionRequestCalloutContainer_viewer
       ...PreferencesContainer_viewer
     }

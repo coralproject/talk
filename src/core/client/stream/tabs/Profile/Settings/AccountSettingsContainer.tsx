@@ -46,20 +46,17 @@ const enhanced = withFragmentContainer<Props>({
       ...DeleteAccountContainer_viewer
       ...ChangeUsernameContainer_viewer
       ...ChangeEmailContainer_viewer
-      ...UserBoxContainer_viewer
     }
   `,
   settings: graphql`
     fragment AccountSettingsContainer_settings on Settings {
       accountFeatures {
-        # downloadComments
         deleteAccount
       }
       ...ChangePasswordContainer_settings
       ...DeleteAccountContainer_settings
       ...ChangeEmailContainer_settings
       ...ChangeUsernameContainer_settings
-      ...UserBoxContainer_settings
     }
   `,
 })(AccountSettingsContainer);
