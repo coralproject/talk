@@ -1,4 +1,4 @@
-import { isNull } from "lodash";
+import { isUndefined } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
@@ -26,7 +26,7 @@ export class ProfileContainer extends React.Component<ProfileContainerProps> {
         viewer={this.props.viewer}
         story={this.props.story}
         settings={this.props.settings}
-        isSSO={!isNull(ssoProfile)}
+        isSSO={!isUndefined(ssoProfile)}
         ssoURL={this.props.viewer.ssoURL}
       />
     );

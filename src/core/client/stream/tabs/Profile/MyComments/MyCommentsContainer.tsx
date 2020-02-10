@@ -10,7 +10,7 @@ import { MyCommentsContainer_viewer } from "coral-stream/__generated__/MyComment
 import CommentHistoryContainer from "./CommentHistoryContainer";
 import DownloadCommentsContainer from "./DownloadCommentsContainer";
 
-// import {} from "coral-ui/components/v2";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
 // import styles from "./MyComments.css";
 
@@ -26,7 +26,7 @@ const MyCommentsContainer: FunctionComponent<Props> = ({
   story,
 }) => {
   return (
-    <div>
+    <HorizontalGutter spacing={6}>
       <CommentHistoryContainer
         settings={settings}
         viewer={viewer}
@@ -35,7 +35,7 @@ const MyCommentsContainer: FunctionComponent<Props> = ({
       {settings.accountFeatures.downloadComments && (
         <DownloadCommentsContainer viewer={viewer} />
       )}
-    </div>
+    </HorizontalGutter>
   );
 };
 
