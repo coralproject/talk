@@ -230,7 +230,6 @@ async function commit(
                   pageInfo: { endCursor: null, hasNextPage: false },
                 },
                 deleted: false,
-                authorIsExpert: false,
               },
             },
             clientMutationId: (clientMutationId++).toString(),

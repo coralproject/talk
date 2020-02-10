@@ -1,5 +1,4 @@
 import {
-  GQLCOMMENT_STATUS,
   GQLTAG,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -15,7 +14,6 @@ export const staff: IntermediateModerationPhase = ({
 }): IntermediatePhaseResult | void => {
   if (author.role !== GQLUSER_ROLE.COMMENTER) {
     return {
-      status: GQLCOMMENT_STATUS.APPROVED,
       tags: [
         {
           type: GQLTAG.STAFF,

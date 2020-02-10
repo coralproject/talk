@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -21,17 +22,23 @@ const UserTagsContainer: FunctionComponent<Props> = ({
   className,
 }) => {
   const staffTag = comment.tags.find(t => t.code === "STAFF");
+  const expertTag = comment.tags.find(t => t.code === "EXPERT");
   return (
-    <>
-      {comment.authorIsExpert && (
-        <Tag variant="regular" color="primary">
+    <Flex alignItems="center">
+      {expertTag && (
+        <Tag variant="regular" color="primary" className={styles.tag}>
           <Flex alignItems="center">
-            <Icon className={styles.icon}>star</Icon>EXPERT
+            <Icon size="xs" className={styles.icon}>
+              star
+            </Icon>
+            EXPERT
           </Flex>
         </Tag>
       )}
-      {staffTag && <Tag className={className}>{settings.staff.label}</Tag>}
-    </>
+      {staffTag && (
+        <Tag className={cn(className, styles.tag)}>{settings.staff.label}</Tag>
+      )}
+    </Flex>
   );
 };
 
@@ -41,7 +48,6 @@ const enhanced = withFragmentContainer<Props>({
       tags {
         code
       }
-      authorIsExpert
     }
   `,
   settings: graphql`

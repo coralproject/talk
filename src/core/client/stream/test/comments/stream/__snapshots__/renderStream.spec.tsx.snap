@@ -367,6 +367,9 @@ exports[`renders comment stream 1`] = `
                                     </div>
                                   </div>
                                 </div>
+                                <div
+                                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                                />
                               </div>
                               <div
                                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
@@ -578,11 +581,15 @@ exports[`renders comment stream 1`] = `
                                     </div>
                                   </div>
                                 </div>
-                                <span
-                                  className="Tag-root coral coral-userTag coral-comment-userTag Tag-colorGrey Tag-uppercase"
+                                <div
+                                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
                                 >
-                                  Staff
-                                </span>
+                                  <span
+                                    className="Tag-root coral coral-userTag coral-comment-userTag UserTagsContainer-tag Tag-colorGrey Tag-uppercase"
+                                  >
+                                    Staff
+                                  </span>
+                                </div>
                               </div>
                               <div
                                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
