@@ -25,7 +25,7 @@ const AccountSettingsContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => (
-  <HorizontalGutter size="oneAndAHalf">
+  <HorizontalGutter size="oneAndAHalf" data-testid="profile-manageAccount">
     <Localized id="accountSettings-manage-account">
       <Typography variant="heading1">Manage your account</Typography>
     </Localized>

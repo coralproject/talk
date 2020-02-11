@@ -44,14 +44,9 @@ async function createTestRenderer(
     },
   });
 
-  const changePassword = within(testRenderer.root).queryByTestID(
-    "profile-account-changePassword"
-  );
-
   return {
     testRenderer,
     context,
-    changePassword,
   };
 }
 
@@ -59,19 +54,29 @@ it("renders the empty settings pane", async () => {
   const {
     testRenderer: { root },
   } = await createTestRenderer();
-  expect(within(root).toJSON()).toMatchSnapshot();
-  within(root).debug();
-  expect(await within(root).axe()).toHaveNoViolations();
+  const account = await waitForElement(() =>
+    within(root).getByTestID("profile-manageAccount")
+  );
+  expect(within(account).toJSON()).toMatchSnapshot();
+  expect(await within(account).axe()).toHaveNoViolations();
 });
 
 it("doesn't show the change password pane when local auth is disabled", async () => {
-  const { changePassword } = await createTestRenderer({
+  const {
+    testRenderer: { root },
+  } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         settings: () => settingsWithoutLocalAuth,
       },
     }),
   });
+  const account = await waitForElement(() =>
+    within(root).getByTestID("profile-manageAccount")
+  );
+  const changePassword = within(account).queryByTestID(
+    "profile-account-changePassword"
+  );
   expect(changePassword).toBeNull();
 });
 
