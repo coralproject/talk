@@ -12,11 +12,9 @@ email-template-accountNotificationForgotPassword =
 
 email-subject-accountNotificationBan = Sua conta foi banida
 email-template-accountNotificationBan =
-  Olá { $username },<br/><br/>
-  Alguém com acesso à sua conta violou nossas diretrizes da comunidade.
-  Como resultado, sua conta foi banida. Você não será mais capaz de
-  comentar, reagir ou reportar comentários. se você acha que isso foi feito por engano,
-  entre em contato com nossa equipe em <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
+  { $customMessage }<br /><br />
+  Se você acha que ocorreu algum erro, entre em contato com o a comunidade em
+  <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
 email-subject-accountNotificationPasswordChange = Sua senha foi alterada
 email-template-accountNotificationPasswordChange =
@@ -94,7 +92,7 @@ email-template-notificationOnReply =
 email-subject-notificationOnFeatured = Um dos seus comentários foi destacado em { $organizationName }
 email-template-notificationOnFeatured =
   Um membro da sua equipe destacou <a data-l10n-name="commentPermalink">o comentário</a> que você publicou em <a data-l10n-name="storyLink">{ $storyTitle }</a>
- 
+
 ## On Staff Reply
 
 email-subject-notificationOnStaffReply = Alguém da { $organizationName } respondeu o seu comentário

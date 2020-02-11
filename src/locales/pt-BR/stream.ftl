@@ -41,6 +41,7 @@ comments-bannedInfo-violatedCommunityGuidelines =
   respeitar ou denunciar comentários. Se você acha
   isso foi feito por engano, entre em contato com nossa equipe da comunidade.
 
+comments-noCommentsAtAll = Não existem comentáriosnesta história.
 comments-noCommentsYet = Ainda não há comentários. Seja o primeiro a comentar.
 
 comments-streamQuery-storyNotFound = História não encontrada
@@ -407,14 +408,14 @@ configure-premodLink-description =
 configure-liveUpdates-title = Ativar atualizações em tempo real para esta história
 configure-liveUpdates-description =
   Quando ativado, os comentários serão atualizados instantaneamente
-  assim como novos comentários e respostas, ao invés de exigir 
+  assim como novos comentários e respostas, ao invés de exigir
   o recarregamento da página. Você pode desabilitar esta opção
   em certas situações, como um alto volume de acesso que pode fazer com que os comentários fiquem lentos.
 
 configure-messageBox-title = Ativar caixa de mensagens para este fluxo
 configure-messageBox-description =
-  Adicione uma mensagem ao topo da caixa de comentários para seus leitores. 
-  Use isso para representar um tópico, faça uma pergunta ou faça anúncios 
+  Adicione uma mensagem ao topo da caixa de comentários para seus leitores.
+  Use isso para representar um tópico, faça uma pergunta ou faça anúncios
   relacionados a essa história.
 configure-messageBox-preview = Visualizar
 configure-messageBox-selectAnIcon = Selecione um ícone
