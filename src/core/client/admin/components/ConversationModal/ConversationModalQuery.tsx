@@ -11,6 +11,7 @@ import { CallOut, Spinner } from "coral-ui/components/v2";
 import { ConversationModalQuery as QueryTypes } from "coral-admin/__generated__/ConversationModalQuery.graphql";
 
 import ConversationModalContainer from "./ConversationModalContainer";
+import ConversationModalRepliesContainer from "./ConversationModalRepliesContainer";
 
 // import styles from "./ConversationModalQuery.css";
 
@@ -31,6 +32,7 @@ const ConversationModalQuery: FunctionComponent<Props> = ({
         query ConversationModalQuery($commentID: ID!) {
           comment(id: $commentID) {
             ...ConversationModalContainer_comment
+            ...ConversationModalRepliesContainer_comment
           }
         }
       `}
@@ -58,10 +60,16 @@ const ConversationModalQuery: FunctionComponent<Props> = ({
         }
 
         return (
-          <ConversationModalContainer
-            onClose={onClose}
-            comment={props.comment}
-          />
+          <>
+            <ConversationModalContainer
+              onClose={onClose}
+              comment={props.comment}
+            />
+            <ConversationModalRepliesContainer
+              onClose={onClose}
+              comment={props.comment}
+            />
+          </>
         );
       }}
     />
