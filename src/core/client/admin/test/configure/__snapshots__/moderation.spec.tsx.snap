@@ -974,7 +974,7 @@ community model building purposes to improve the API over time.
                     >
                       <input
                         autoCapitalize="off"
-                        autoComplete="off"
+                        autoComplete="new-password"
                         autoCorrect="off"
                         className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                         data-testid="password-field"
@@ -995,7 +995,7 @@ community model building purposes to improve the API over time.
                         onKeyUp={[Function]}
                         role="button"
                         tabIndex={0}
-                        title="Hide API Key"
+                        title="Show API Key"
                       >
                         <i
                           aria-hidden="true"
@@ -1178,7 +1178,7 @@ in your Akismet account:
                     >
                       <input
                         autoCapitalize="off"
-                        autoComplete="off"
+                        autoComplete="new-password"
                         autoCorrect="off"
                         className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                         data-testid="password-field"
@@ -1199,7 +1199,7 @@ in your Akismet account:
                         onKeyUp={[Function]}
                         role="button"
                         tabIndex={0}
-                        title="Hide API Key"
+                        title="Show API Key"
                       >
                         <i
                           aria-hidden="true"

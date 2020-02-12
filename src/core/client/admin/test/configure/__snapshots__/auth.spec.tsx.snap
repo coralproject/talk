@@ -869,7 +869,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                       >
                         <input
                           autoCapitalize="off"
-                          autoComplete="off"
+                          autoComplete="new-password"
                           autoCorrect="off"
                           className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                           data-testid="password-field"
@@ -1602,7 +1602,7 @@ to create and set up a web application. For more information visit:
                       >
                         <input
                           autoCapitalize="off"
-                          autoComplete="off"
+                          autoComplete="new-password"
                           autoCorrect="off"
                           className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                           data-testid="password-field"
@@ -1923,7 +1923,7 @@ For more information visit:
                       >
                         <input
                           autoCapitalize="off"
-                          autoComplete="off"
+                          autoComplete="new-password"
                           autoCorrect="off"
                           className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                           data-testid="password-field"
