@@ -27,12 +27,6 @@ const ConversationModalContainer: FunctionComponent<Props> = ({
   const parents = comment.parents.edges.map(edge => edge.node);
   return (
     <HorizontalGutter>
-      <h1>
-        Comment on:{" "}
-        {comment.story.metadata
-          ? comment.story.metadata.title
-          : comment.story.url}
-      </h1>
       {comment.parentCount > parents.length && (
         <Button onClick={loadMore}>Show more of this conversation</Button>
       )}
@@ -71,12 +65,6 @@ const enhanced = withPaginationContainer<
         ) {
         id
         body
-        story {
-          url
-          metadata {
-            title
-          }
-        }
         author {
           username
         }

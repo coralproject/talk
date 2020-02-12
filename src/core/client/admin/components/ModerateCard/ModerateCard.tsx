@@ -230,15 +230,10 @@ const ModerateCard: FunctionComponent<Props> = ({
               {commentBody}
             </CommentContent>
             <div className={styles.viewContext}>
-              <Button onClick={viewConversationClick}>View conversation</Button>
-              <Localized id="moderate-comment-viewContext">
-                <TextLink
-                  className={styles.link}
-                  href={viewContextHref}
-                  target="_blank"
-                >
-                  View Context
-                </TextLink>
+              <Localized id="moderate-comment-viewConversation">
+                <Button variant="text" onClick={viewConversationClick}>
+                  View conversation
+                </Button>
               </Localized>
             </div>
             <div

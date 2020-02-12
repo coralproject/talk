@@ -6,14 +6,15 @@ import {
   QueryRenderData,
   QueryRenderer,
 } from "coral-framework/lib/relay";
-import { CallOut, Spinner } from "coral-ui/components/v2";
+import { CallOut, Card, Spinner } from "coral-ui/components/v2";
 
 import { ConversationModalQuery as QueryTypes } from "coral-admin/__generated__/ConversationModalQuery.graphql";
 
 import ConversationModalContainer from "./ConversationModalContainer";
+import ConversationModalHeaderContainer from "./ConversationModalHeaderContainer";
 import ConversationModalRepliesContainer from "./ConversationModalRepliesContainer";
 
-// import styles from "./ConversationModalQuery.css";
+import styles from "./ConversationModalQuery.css";
 
 interface Props {
   commentID: string;
@@ -25,6 +26,7 @@ interface Props {
 const ConversationModalQuery: FunctionComponent<Props> = ({
   commentID,
   onClose,
+  lastFocusableRef,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -33,6 +35,7 @@ const ConversationModalQuery: FunctionComponent<Props> = ({
           comment(id: $commentID) {
             ...ConversationModalContainer_comment
             ...ConversationModalRepliesContainer_comment
+            ...ConversationModalHeaderContainer_comment
           }
         }
       `}
@@ -60,16 +63,23 @@ const ConversationModalQuery: FunctionComponent<Props> = ({
         }
 
         return (
-          <>
-            <ConversationModalContainer
+          <Card className={styles.root}>
+            <ConversationModalHeaderContainer
               onClose={onClose}
               comment={props.comment}
+              focusableRef={lastFocusableRef}
             />
-            <ConversationModalRepliesContainer
-              onClose={onClose}
-              comment={props.comment}
-            />
-          </>
+            <div className={styles.body}>
+              <ConversationModalContainer
+                onClose={onClose}
+                comment={props.comment}
+              />
+              <ConversationModalRepliesContainer
+                onClose={onClose}
+                comment={props.comment}
+              />
+            </div>
+          </Card>
         );
       }}
     />

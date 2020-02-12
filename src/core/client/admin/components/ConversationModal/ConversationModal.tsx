@@ -1,11 +1,8 @@
 import React, { FunctionComponent } from "react";
 
 import { Modal } from "coral-ui/components";
-import { Card } from "coral-ui/components/v2";
 
 import ConversationModalQuery from "./ConversationModalQuery";
-
-// import styles from "./ConversationModal.css";
 
 interface ConversationModalProps {
   open: boolean;
@@ -21,7 +18,7 @@ const ConversationModal: FunctionComponent<ConversationModalProps> = ({
   return (
     <Modal open={open} onClose={onClose}>
       {({ firstFocusableRef, lastFocusableRef }) => (
-        <Card>
+        <>
           {commentID && (
             <ConversationModalQuery
               commentID={commentID}
@@ -30,7 +27,7 @@ const ConversationModal: FunctionComponent<ConversationModalProps> = ({
               lastFocusableRef={lastFocusableRef}
             />
           )}
-        </Card>
+        </>
       )}
     </Modal>
   );

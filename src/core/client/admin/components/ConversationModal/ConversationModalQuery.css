@@ -1,0 +1,7 @@
+.root {
+  padding: 0;
+}
+
+.body {
+  padding: var(--v2-spacing-4);
+}
