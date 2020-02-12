@@ -18,6 +18,9 @@ import {
   SlackConfigRoute,
   WordListConfigRoute,
 } from "./routes/Configure/sections";
+import { Sites } from "./routes/Configure/sections/Sites";
+import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
+import SiteRoute from "./routes/Configure/sections/Sites/SiteRoute";
 import ForgotPasswordRoute from "./routes/ForgotPassword";
 import InviteRoute from "./routes/Invite";
 import LoginRoute from "./routes/Login";
@@ -45,17 +48,49 @@ export default makeRouteConfig(
         <Route path="moderate" {...ModerateRoute.routeConfig}>
           <Redirect from="/" to="/admin/moderate/reported" />
           <Route path="reported" {...ReportedQueueRoute.routeConfig} />
-          <Route path="reported/:storyID" {...ReportedQueueRoute.routeConfig} />
+          <Route
+            path="reported/stories/:storyID"
+            {...ReportedQueueRoute.routeConfig}
+          />
+          <Route
+            path="reported/sites/:siteID"
+            {...ReportedQueueRoute.routeConfig}
+          />
           <Route path="pending" {...PendingQueueRoute.routeConfig} />
-          <Route path="pending/:storyID" {...PendingQueueRoute.routeConfig} />
+          <Route
+            path="pending/stories/:storyID"
+            {...PendingQueueRoute.routeConfig}
+          />
+          <Route
+            path="pending/sites/:siteID"
+            {...PendingQueueRoute.routeConfig}
+          />
           <Route path="unmoderated" {...UnmoderatedQueueRoute.routeConfig} />
           <Route
-            path="unmoderated/:storyID"
+            path="unmoderated/stories/:storyID"
+            {...UnmoderatedQueueRoute.routeConfig}
+          />
+          <Route
+            path="unmoderated/sites/:siteID"
             {...UnmoderatedQueueRoute.routeConfig}
           />
           <Route path="rejected" {...RejectedQueueRoute.routeConfig} />
-          <Route path="rejected/:storyID" {...RejectedQueueRoute.routeConfig} />
-          <Redirect from=":storyID" to="/admin/moderate/reported/:storyID" />
+          <Route
+            path="rejected/stories/:storyID"
+            {...RejectedQueueRoute.routeConfig}
+          />
+          <Route
+            path="rejected/sites/:siteID"
+            {...RejectedQueueRoute.routeConfig}
+          />
+          <Redirect
+            from="stories/:storyID"
+            to="/admin/moderate/reported/stories/:storyID"
+          />
+          <Redirect
+            from="sites/:siteID"
+            to="/admin/moderate/reported/sites/:siteID"
+          />
         </Route>
         <Route path="stories" {...StoriesRoute.routeConfig} />
         <Route path="community" {...CommunityRoute.routeConfig} />
@@ -77,6 +112,11 @@ export default makeRouteConfig(
             <Route path="advanced" {...AdvancedConfigRoute.routeConfig} />
             <Route path="email" {...EmailConfigRoute.routeConfig} />
             <Route path="slack" {...SlackConfigRoute.routeConfig} />
+          </Route>
+          <Route path="configure/organization/sites" Component={Sites}>
+            <Redirect from="/" to="/admin/configure/organization/sites/new" />
+            <Route path="new" {...AddSiteRoute.routeConfig} />
+            <Route path=":siteID" {...SiteRoute.routeConfig} />
           </Route>
         </Route>
       </Route>

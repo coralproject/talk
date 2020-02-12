@@ -142,11 +142,21 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
 
 .storyTitle {
   color: $moderateCardStoryTitleColor;
+}
+
+.commentOn {
   font-size: var(--v2-font-size-2);
-  font-weight: var(--v2-font-weight-primary-regular);
   font-family: var(--v2-font-family-primary);
   line-height: var(--v2-line-height-reset);
   margin-bottom: var(--v2-spacing-1);
+}
+
+.siteName {
+  font-weight: var(--v2-font-weight-primary-regular);
+}
+
+.storyTitle {
+  font-weight: var(--v2-font-weight-primary-semi-bold);
 }
 
 .borderless {

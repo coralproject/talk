@@ -1,9 +1,10 @@
-import { CommentConnectionInput } from "coral-server/models/comment";
-import { FilterQuery } from "coral-server/models/helpers";
 import {
+  CommentConnectionInput,
   CommentModerationCountsPerQueue,
-  Story,
-} from "coral-server/models/story";
+} from "coral-server/models/comment";
+import { FilterQuery } from "coral-server/models/helpers";
+import { Site } from "coral-server/models/site";
+import { Story } from "coral-server/models/story";
 import {
   PENDING_STATUS,
   REPORTED_STATUS,
@@ -11,10 +12,8 @@ import {
 } from "coral-server/services/comments/moderation/counts";
 
 import {
-  ApproveCommentPayloadToModerationQueuesResolver,
   GQLModerationQueuesTypeResolver,
   QueryToModerationQueuesResolver,
-  RejectCommentPayloadToModerationQueuesResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
@@ -37,7 +36,27 @@ const mergeModerationInputFilters = (
       ...filter,
     },
   },
-  count: input.counts[selector],
+  count: input.counts ? input.counts[selector] : null,
+});
+
+/**
+ * siteModerationInputResolver can be used to retrieve the moderationQueue for
+ * a specific site.
+ *
+ * @param site the site that will be used to base the comment moderation
+ *              queues on
+ */
+export const siteModerationInputResolver = async (
+  site: Site
+): Promise<ModerationQueuesInput> => ({
+  connection: {
+    filter: {
+      // This moderationQueues is being sourced from the Story, so require
+      // that all the comments for theses queues are also for this Story.
+      siteID: site.id,
+    },
+  },
+  counts: site.commentCounts.moderationQueue.queues,
 });
 
 /**
@@ -55,6 +74,7 @@ export const storyModerationInputResolver = (
       // This moderationQueues is being sourced from the Story, so require
       // that all the comments for theses queues are also for this Story.
       storyID: story.id,
+      siteID: story.siteID,
     },
   },
   counts: story.commentCounts.moderationQueue.queues,
@@ -88,10 +108,7 @@ export const sharedModerationInputResolver = async (
  * @param args the args of the payload containing potentially a Story ID
  * @param ctx the TenantContext for which we can use to retrieve the shared data
  */
-export const moderationQueuesResolver:
-  | QueryToModerationQueuesResolver
-  | ApproveCommentPayloadToModerationQueuesResolver
-  | RejectCommentPayloadToModerationQueuesResolver = async (
+export const moderationQueuesResolver: QueryToModerationQueuesResolver = async (
   source,
   args,
   ctx
@@ -103,6 +120,15 @@ export const moderationQueuesResolver:
     }
 
     return storyModerationInputResolver(story);
+  }
+
+  if (args.siteID) {
+    const site = await ctx.loaders.Sites.site.load(args.siteID);
+    if (!site) {
+      return null;
+    }
+
+    return siteModerationInputResolver(site);
   }
 
   return sharedModerationInputResolver(source, args, ctx);

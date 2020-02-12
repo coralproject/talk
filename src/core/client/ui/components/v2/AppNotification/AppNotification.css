@@ -1,0 +1,15 @@
+.root {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-bold);
+  line-height: var(--v2-line-height-min);
+  padding: var(--v2-spacing-2);
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.success {
+  background-color: var(--v2-colors-green-300);
+}

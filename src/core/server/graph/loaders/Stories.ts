@@ -42,6 +42,15 @@ const statusFilter = (
   }
 };
 
+const siteFilter = (siteID?: string): StoryConnectionInput["filter"] => {
+  if (siteID) {
+    return {
+      siteID,
+    };
+  }
+  return {};
+};
+
 const queryFilter = (query?: string): StoryConnectionInput["filter"] => {
   if (query) {
     return { $text: { $search: query } };
@@ -102,14 +111,15 @@ export default (ctx: GraphContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  connection: ({ first, after, status, query }: QueryToStoriesArgs) =>
+  connection: ({ first, after, status, query, siteID }: QueryToStoriesArgs) =>
     retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
       filter: {
+        // Merge the site filter into the connection filter.
+        ...siteFilter(siteID),
         // Merge the status filter into the connection filter.
         ...statusFilter(status),
-
         // Merge the query filters into the query.
         ...queryFilter(query),
       },

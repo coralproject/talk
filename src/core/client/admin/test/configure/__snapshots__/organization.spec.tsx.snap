@@ -124,7 +124,7 @@ exports[`renders configure organization 1`] = `
         className="Main-root"
       >
         <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
           data-testid="configure-organizationContainer"
         >
           <div
@@ -175,6 +175,60 @@ exports[`renders configure organization 1`] = `
                       spellCheck={false}
                       type="text"
                       value="Coral"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Box-root ConfigBox-root"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <label
+                  className="Header-root"
+                  htmlFor="configure-organization-organization.url"
+                >
+                  Organization URL
+                </label>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <p
+                  className="FormFieldDescription-root"
+                >
+                  Your organization url will appear on emails sent by Coral to your community and organization members.
+                </p>
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                >
+                  <div
+                    className="TextField-root TextField-fullWidth"
+                  >
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="TextField-input TextField-colorRegular"
+                      disabled={false}
+                      id="configure-organization-organization.url"
+                      name="organization.url"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder=""
+                      spellCheck={false}
+                      type="text"
+                      value="https://test.com/"
                     />
                   </div>
                 </div>
@@ -247,9 +301,9 @@ moderation questions.
               <div>
                 <label
                   className="Header-root"
-                  htmlFor="configure-organization-organization.url"
+                  htmlFor="configure-organization-organization.sites"
                 >
-                  Organization URL
+                  Sites
                 </label>
               </div>
               <div />
@@ -263,32 +317,129 @@ moderation questions.
                 <p
                   className="FormFieldDescription-root"
                 >
-                  Your organization url will appear on emails sent by Coral to your community and organization members.
+                  Add a new site to your organization or edit an existing site's details.
                 </p>
-                <div
-                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+                <a
+                  className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantRegular Button-uppercase Button-iconLeft"
+                  data-color="regular"
+                  data-variant="regular"
+                  href="/admin/configure/organization/sites/new"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  <div
-                    className="TextField-root TextField-fullWidth"
+                  <i
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
                   >
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-input TextField-colorRegular"
-                      disabled={false}
-                      id="configure-organization-organization.url"
-                      name="organization.url"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value="https://test.com/"
-                    />
-                  </div>
-                </div>
+                    add
+                  </i>
+                   Add site
+                </a>
+                <table
+                  className="Table-root Table-fullWidth"
+                >
+                  <thead
+                    className="TableHead-root"
+                  >
+                    <tr
+                      className="TableRow-root"
+                    >
+                      <th
+                        className="TableCell-root TableCell-header"
+                      >
+                        Site name
+                      </th>
+                      <th
+                        className="TableCell-root TableCell-header"
+                      />
+                    </tr>
+                  </thead>
+                  <tbody
+                    className="TableBody-root"
+                  >
+                    <tr
+                      className="TableRow-root TableRow-body"
+                    >
+                      <td
+                        className="TableCell-root TableCell-body"
+                      >
+                        Test Site
+                      </td>
+                      <td
+                        className="TableCell-root TableCell-body"
+                      >
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                        >
+                          <a
+                            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconRight"
+                            data-color="regular"
+                            data-variant="text"
+                            href="/admin/configure/organization/sites/site-1"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            Details 
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              keyboard_arrow_right
+                            </i>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      className="TableRow-root TableRow-body"
+                    >
+                      <td
+                        className="TableCell-root TableCell-body"
+                      >
+                        Second Site
+                      </td>
+                      <td
+                        className="TableCell-root TableCell-body"
+                      >
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                        >
+                          <a
+                            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconRight"
+                            data-color="regular"
+                            data-variant="text"
+                            href="/admin/configure/organization/sites/site-2"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            Details 
+                            <i
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              keyboard_arrow_right
+                            </i>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

@@ -20,6 +20,8 @@ import {
   emptyRejectedComments,
   emptyStories,
   settings,
+  site,
+  siteConnection,
   stories,
   storyConnection,
   users,
@@ -43,6 +45,8 @@ async function createTestRenderer(
           viewer: () => viewer,
           moderationQueues: () => emptyModerationQueues,
           comments: () => emptyRejectedComments,
+          site: () => site,
+          sites: () => siteConnection,
         },
       }),
       params.resolvers
@@ -165,7 +169,7 @@ describe("all stories", () => {
 
       // Expect a routing request was made to the right url.
       expect(transitionControl.history[0].pathname).toBe(
-        `/admin/moderate/${story.id}`
+        `/admin/moderate/stories/${story.id}`
       );
     });
     it("search with too many results", async () => {
@@ -216,7 +220,9 @@ describe("all stories", () => {
 });
 describe("specified story", () => {
   beforeEach(() => {
-    replaceHistoryLocation(`http://localhost/admin/moderate/${stories[0].id}`);
+    replaceHistoryLocation(
+      `http://localhost/admin/moderate/stories/${stories[0].id}`
+    );
   });
   it("renders search bar", async () => {
     await act(async () => {

@@ -761,9 +761,13 @@ exports[`renders story info 1`] = `
               </span>
             </div>
             <div
-              className="ModerateCard-storyTitle"
+              className="ModerateCard-commentOn"
             >
-              Cancer cured!
+              <span
+                className="ModerateCard-storyTitle"
+              >
+                Cancer cured!
+              </span>
             </div>
             <div>
               <Localized

@@ -4,6 +4,7 @@ import {
   GQLDIGEST_FREQUENCY,
   GQLMODERATION_MODE,
   GQLSettings,
+  GQLSite,
   GQLStory,
   GQLTAG,
   GQLTag,
@@ -106,6 +107,14 @@ export const settings = createFixture<GQLSettings>({
     changeUsername: true,
     deleteAccount: true,
   },
+  multisite: false,
+});
+
+export const site = createFixture<GQLSite>({
+  name: "Test Site",
+  id: "site-id",
+  createdAt: "2018-05-06T18:24:00.000Z",
+  allowedOrigins: ["http://test-site.com"],
 });
 
 export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
@@ -531,6 +540,7 @@ export const baseStory = createFixture<GQLStory>({
       configurable: true,
     },
   },
+  site,
 });
 
 export const moderators = createFixtures<GQLUser>(

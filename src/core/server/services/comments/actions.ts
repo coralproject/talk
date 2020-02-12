@@ -2,35 +2,33 @@ import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
 import { CommentNotFoundError } from "coral-server/errors";
-import { GQLCOMMENT_FLAG_REPORTED_REASON } from "coral-server/graph/schema/__generated__/types";
 import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import {
   ACTION_TYPE,
-  CommentAction,
   CreateActionInput,
   createActions,
   encodeActionCounts,
+  EncodedCommentActionCounts,
   invertEncodedActionCounts,
   removeAction,
   RemoveActionInput,
   retrieveUserAction,
 } from "coral-server/models/action/comment";
 import {
+  Comment,
   retrieveComment,
   updateCommentActionCounts,
 } from "coral-server/models/comment";
-import { Comment } from "coral-server/models/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
-import {
-  updateStoryActionCounts,
-  updateStoryCounts,
-} from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { publishModerationQueueChanges } from "coral-server/services/events";
 import { AugmentedRedis } from "coral-server/services/redis";
+import {
+  publishChanges,
+  updateAllCommentCounts,
+} from "coral-server/stacks/helpers";
 
-import { calculateCountsDiff } from "./moderation/counts";
+import { GQLCOMMENT_FLAG_REPORTED_REASON } from "coral-server/graph/schema/__generated__/types";
 
 export type CreateAction = CreateActionInput;
 
@@ -54,11 +52,8 @@ export async function addCommentActionCounts(
   mongo: Db,
   tenant: Tenant,
   oldComment: Readonly<Comment>,
-  ...actions: CommentAction[]
+  action: EncodedCommentActionCounts
 ) {
-  // Compute the action counts.
-  const action = encodeActionCounts(...actions);
-
   // Grab the last revision (the most recent).
   const revision = getLatestRevision(oldComment);
 
@@ -81,9 +76,9 @@ export async function addCommentActionCounts(
 async function addCommentAction(
   mongo: Db,
   redis: AugmentedRedis,
-  publish: Publisher,
+  publisher: Publisher,
   tenant: Tenant,
-  input: Omit<CreateActionInput, "storyID">,
+  input: Omit<CreateActionInput, "storyID" | "siteID">,
   now = new Date()
 ): Promise<Readonly<Comment>> {
   const oldComment = await retrieveComment(mongo, tenant.id, input.commentID);
@@ -95,29 +90,37 @@ async function addCommentAction(
   const action: CreateAction = {
     ...input,
     storyID: oldComment.storyID,
+    siteID: oldComment.siteID,
   };
 
   // Update the actions for the comment.
   const commentActions = await addCommentActions(mongo, tenant, [action], now);
   if (commentActions.length > 0) {
+    // Compute the action counts.
+    const actionCounts = encodeActionCounts(...commentActions);
+
     // Update the comment action counts.
     const updatedComment = await addCommentActionCounts(
       mongo,
       tenant,
       oldComment,
-      ...commentActions
+      actionCounts
     );
 
-    const moderationQueue = calculateCountsDiff(oldComment, updatedComment);
-
-    // Calculate the new story counts.
-    await updateStoryCounts(mongo, redis, tenant.id, updatedComment.storyID, {
-      action: encodeActionCounts(...commentActions),
-      moderationQueue,
+    // Update the comment counts onto other documents.
+    const counts = await updateAllCommentCounts(mongo, redis, {
+      tenant,
+      actionCounts,
+      before: oldComment,
+      after: updatedComment,
     });
 
-    // Publish changes to the queue.
-    publishModerationQueueChanges(publish, moderationQueue, updatedComment);
+    // Publish changes to the event publisher.
+    await publishChanges(publisher, {
+      ...counts,
+      before: oldComment,
+      after: updatedComment,
+    });
 
     return updatedComment;
   }
@@ -128,12 +131,13 @@ async function addCommentAction(
 export async function removeCommentAction(
   mongo: Db,
   redis: AugmentedRedis,
+  publisher: Publisher,
   tenant: Tenant,
   input: Omit<RemoveActionInput, "commentRevisionID" | "reason">
 ): Promise<Readonly<Comment>> {
   // Get the Comment that we are leaving the Action on.
-  const comment = await retrieveComment(mongo, tenant.id, input.commentID);
-  if (!comment) {
+  const oldComment = await retrieveComment(mongo, tenant.id, input.commentID);
+  if (!oldComment) {
     throw new CommentNotFoundError(input.commentID);
   }
 
@@ -147,7 +151,7 @@ export async function removeCommentAction(
   );
   if (!action) {
     // The action that is trying to get removed does not exist!
-    return comment;
+    return oldComment;
   }
 
   // Grab the revision ID out of the action.
@@ -172,29 +176,31 @@ export async function removeCommentAction(
       actionCounts
     );
 
-    // Flags can't be removed, an that is the only type of operation that will
-    // affect the moderation queue counts, so we don't have to interact with
-    // updating the moderation queue counts.
-
-    // Update the Story with the updated action counts.
-    await updateStoryActionCounts(
-      mongo,
-      redis,
-      tenant.id,
-      comment.storyID,
-      actionCounts
-    );
-
     // Check to see if there was an actual comment returned.
     if (!updatedComment) {
       // TODO: (wyattjoh) return a better error.
       throw new Error("could not update comment action counts");
     }
 
+    // Update the comment counts onto other documents.
+    const counts = await updateAllCommentCounts(mongo, redis, {
+      tenant,
+      actionCounts,
+      before: oldComment,
+      after: updatedComment,
+    });
+
+    // Publish changes to the event publisher.
+    await publishChanges(publisher, {
+      ...counts,
+      before: oldComment,
+      after: updatedComment,
+    });
+
     return updatedComment;
   }
 
-  return comment;
+  return oldComment;
 }
 
 export type CreateCommentReaction = Pick<
@@ -231,11 +237,12 @@ export type RemoveCommentReaction = Pick<RemoveActionInput, "commentID">;
 export async function removeReaction(
   mongo: Db,
   redis: AugmentedRedis,
+  publisher: Publisher,
   tenant: Tenant,
   author: User,
   input: RemoveCommentReaction
 ) {
-  return removeCommentAction(mongo, redis, tenant, {
+  return removeCommentAction(mongo, redis, publisher, tenant, {
     actionType: ACTION_TYPE.REACTION,
     commentID: input.commentID,
     userID: author.id,
@@ -277,11 +284,12 @@ export type RemoveCommentDontAgree = Pick<RemoveActionInput, "commentID">;
 export async function removeDontAgree(
   mongo: Db,
   redis: AugmentedRedis,
+  publisher: Publisher,
   tenant: Tenant,
   author: User,
   input: RemoveCommentDontAgree
 ) {
-  return removeCommentAction(mongo, redis, tenant, {
+  return removeCommentAction(mongo, redis, publisher, tenant, {
     actionType: ACTION_TYPE.DONT_AGREE,
     commentID: input.commentID,
     userID: author.id,

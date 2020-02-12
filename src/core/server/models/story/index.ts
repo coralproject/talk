@@ -1,7 +1,7 @@
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
-import { DeepPartial, Omit } from "coral-common/types";
+import { DeepPartial, FirstDeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import {
   DuplicateStoryIDError,
@@ -22,13 +22,12 @@ import {
   GQLStorySettings,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { createEmptyCommentStatusCounts } from "../comment/helpers";
 import {
-  createEmptyCommentModerationQueueCounts,
-  StoryCommentCounts,
-} from "./counts";
+  createEmptyRelatedCommentCounts,
+  RelatedCommentCounts,
+  updateRelatedCommentCounts,
+} from "../comment/counts";
 
-export * from "./counts";
 export * from "./helpers";
 
 export type StorySettings = DeepPartial<
@@ -58,7 +57,7 @@ export interface Story extends TenantResource {
   /**
    * commentCounts stores all the comment counters.
    */
-  commentCounts: StoryCommentCounts;
+  commentCounts: RelatedCommentCounts;
 
   /**
    * settings provides a point where the settings can be overridden for a
@@ -81,17 +80,23 @@ export interface Story extends TenantResource {
    * lastCommentedAt is the last time someone commented on this story.
    */
   lastCommentedAt?: Date;
+
+  /**
+   * siteID references the site the story belongs to
+   */
+  siteID: string;
 }
 
 export interface UpsertStoryInput {
   id?: string;
   url: string;
+  siteID: string;
 }
 
 export async function upsertStory(
   mongo: Db,
   tenantID: string,
-  { id = uuid.v4(), url }: UpsertStoryInput,
+  { id = uuid.v4(), url, siteID }: UpsertStoryInput,
   now = new Date()
 ) {
   // Create the story, optionally sourcing the id from the input, additionally
@@ -100,13 +105,10 @@ export async function upsertStory(
     $setOnInsert: {
       id,
       url,
+      siteID,
       tenantID,
       createdAt: now,
-      commentCounts: {
-        action: {},
-        status: createEmptyCommentStatusCounts(),
-        moderationQueue: createEmptyCommentModerationQueueCounts(),
-      },
+      commentCounts: createEmptyRelatedCommentCounts(),
       settings: {},
     },
   };
@@ -174,10 +176,11 @@ export async function findOrCreateStory(
   mongo: Db,
   tenantID: string,
   { id, url }: FindOrCreateStoryInput,
+  siteID: string | null,
   now = new Date()
 ) {
   if (id) {
-    if (url) {
+    if (url && siteID) {
       // The URL was specified, this is an upsert operation.
       return upsertStory(
         mongo,
@@ -185,12 +188,13 @@ export async function findOrCreateStory(
         {
           id,
           url,
+          siteID,
         },
         now
       );
     }
 
-    // The URL was not specified, this is a lookup operation.
+    // The URL and siteID were not specified, this is a lookup operation.
     return retrieveStory(mongo, tenantID, id);
   }
 
@@ -200,12 +204,18 @@ export async function findOrCreateStory(
     throw new Error("cannot upsert an story without the url");
   }
 
-  return upsertStory(mongo, tenantID, { url }, now);
+  if (!siteID) {
+    throw new Error("cannot upsert story without site ID");
+  }
+
+  return upsertStory(mongo, tenantID, { url, siteID }, now);
 }
 
 export type CreateStoryInput = Partial<
   Pick<Story, "metadata" | "scrapedAt" | "closedAt">
->;
+> & {
+  siteID: string;
+};
 
 export async function createStory(
   mongo: Db,
@@ -222,11 +232,7 @@ export async function createStory(
     url,
     tenantID,
     createdAt: now,
-    commentCounts: {
-      action: {},
-      moderationQueue: createEmptyCommentModerationQueueCounts(),
-      status: createEmptyCommentStatusCounts(),
-    },
+    commentCounts: createEmptyRelatedCommentCounts(),
     settings: {},
   };
 
@@ -291,7 +297,7 @@ export async function retrieveManyStoriesByURL(
 
 export type UpdateStoryInput = Omit<
   Partial<Story>,
-  "id" | "tenantID" | "closedAt" | "createdAt"
+  "id" | "tenantID" | "closedAt" | "createdAt" | "siteID"
 >;
 
 export async function updateStory(
@@ -501,3 +507,18 @@ export async function updateStoryLastCommentedAt(
     }
   );
 }
+
+/**
+ * updateStoryCounts will update the comment counts for the story indicated.
+ *
+ * @param mongo mongodb database handle
+ * @param tenantID ID of the Tenant where the Story is on
+ * @param id the ID of the Story that we are updating counts on
+ * @param commentCounts the counts that we are updating
+ */
+export const updateStoryCounts = (
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  commentCounts: FirstDeepPartial<RelatedCommentCounts>
+) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);

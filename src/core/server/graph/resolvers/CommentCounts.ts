@@ -1,8 +1,7 @@
+import { calculateTotalPublishedCommentCount } from "coral-server/models/comment";
+import { Story } from "coral-server/models/story";
+
 import { GQLCommentCountsTypeResolver } from "coral-server/graph/schema/__generated__/types";
-import {
-  calculateTotalPublishedCommentCount,
-  Story,
-} from "coral-server/models/story";
 
 export type CommentCountsInput = Pick<Story, "commentCounts" | "id">;
 

@@ -11,115 +11,119 @@ exports[`renders empty stories 1`] = `
     <div
       className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
     >
-      <fieldset
-        className="FieldSet-root"
+      <div
+        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
       >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+        <fieldset
+          className="FieldSet-root"
         >
-          <label
-            className="Label-root"
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
           >
-            Search
-          </label>
-          <form
-            autoComplete="off"
-            id="configure-form"
-            onSubmit={[Function]}
-          >
-            <div
-              className="TextField-root StoryTableFilter-textField"
+            <label
+              className="Label-root"
             >
-              <input
-                aria-label="Search by story title or author"
-                className="TextField-input TextField-colorDark TextField-seamlessAdornment"
-                name="search"
+              Search
+            </label>
+            <form
+              autoComplete="off"
+              id="configure-form"
+              onSubmit={[Function]}
+            >
+              <div
+                className="TextField-root StoryTableFilter-textField"
+              >
+                <input
+                  aria-label="Search by story title or author"
+                  className="TextField-input TextField-colorDark TextField-seamlessAdornment"
+                  name="search"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder="Search by story title or author..."
+                  type="text"
+                  value=""
+                />
+                <div
+                  className="TextField-adornment"
+                >
+                  <button
+                    aria-label="Search"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight StoryTableFilter-adornment"
+                    data-color="dark"
+                    data-variant="regular"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="submit"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      search
+                    </i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </fieldset>
+        <fieldset
+          className="FieldSet-root"
+        >
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+          >
+            <label
+              className="Label-root"
+            >
+              Status
+            </label>
+            <span
+              className="SelectField-root"
+            >
+              <select
+                aria-label="Search by status"
+                className="SelectField-select"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
-                placeholder="Search by story title or author..."
-                type="text"
                 value=""
-              />
-              <div
-                className="TextField-adornment"
               >
-                <button
-                  aria-label="Search"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight StoryTableFilter-adornment"
-                  data-color="dark"
-                  data-variant="regular"
-                  onBlur={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="submit"
+                <option
+                  value=""
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    search
-                  </i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </fieldset>
-      <fieldset
-        className="FieldSet-root"
-      >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
-        >
-          <label
-            className="Label-root"
-          >
-            Show Me
-          </label>
-          <span
-            className="SelectField-root"
-          >
-            <select
-              aria-label="Search by status"
-              className="SelectField-select"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              value=""
-            >
-              <option
-                value=""
+                  All Stories
+                </option>
+                <option
+                  value="OPEN"
+                >
+                  Open Stories
+                </option>
+                <option
+                  value="CLOSED"
+                >
+                  Closed Stories
+                </option>
+              </select>
+              <span
+                aria-hidden={true}
+                className="SelectField-afterWrapper"
               >
-                All Stories
-              </option>
-              <option
-                value="OPEN"
-              >
-                Open Stories
-              </option>
-              <option
-                value="CLOSED"
-              >
-                Closed Stories
-              </option>
-            </select>
-            <span
-              aria-hidden={true}
-              className="SelectField-afterWrapper"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm"
-              >
-                expand_more
-              </i>
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
+                >
+                  expand_more
+                </i>
+              </span>
             </span>
-          </span>
-        </div>
-      </fieldset>
+          </div>
+        </fieldset>
+      </div>
     </div>
     <div
       className="Box-root HorizontalGutter-root HorizontalGutter-double"
@@ -178,7 +182,7 @@ exports[`renders empty stories 1`] = `
             >
               <a
                 className="TextLink-root"
-                href="/admin/moderate/story-1"
+                href="/admin/moderate/stories/story-1"
                 onClick={[Function]}
               >
                 Finally a Cure for Cancer
@@ -249,7 +253,7 @@ exports[`renders empty stories 1`] = `
             >
               <a
                 className="TextLink-root"
-                href="/admin/moderate/story-2"
+                href="/admin/moderate/stories/story-2"
                 onClick={[Function]}
               >
                 First Colony on Mars
@@ -330,115 +334,119 @@ exports[`renders stories 1`] = `
     <div
       className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
     >
-      <fieldset
-        className="FieldSet-root"
+      <div
+        className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
       >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+        <fieldset
+          className="FieldSet-root"
         >
-          <label
-            className="Label-root"
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
           >
-            Search
-          </label>
-          <form
-            autoComplete="off"
-            id="configure-form"
-            onSubmit={[Function]}
-          >
-            <div
-              className="TextField-root StoryTableFilter-textField"
+            <label
+              className="Label-root"
             >
-              <input
-                aria-label="Search by story title or author"
-                className="TextField-input TextField-colorDark TextField-seamlessAdornment"
-                name="search"
+              Search
+            </label>
+            <form
+              autoComplete="off"
+              id="configure-form"
+              onSubmit={[Function]}
+            >
+              <div
+                className="TextField-root StoryTableFilter-textField"
+              >
+                <input
+                  aria-label="Search by story title or author"
+                  className="TextField-input TextField-colorDark TextField-seamlessAdornment"
+                  name="search"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder="Search by story title or author..."
+                  type="text"
+                  value=""
+                />
+                <div
+                  className="TextField-adornment"
+                >
+                  <button
+                    aria-label="Search"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight StoryTableFilter-adornment"
+                    data-color="dark"
+                    data-variant="regular"
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="submit"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      search
+                    </i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </fieldset>
+        <fieldset
+          className="FieldSet-root"
+        >
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
+          >
+            <label
+              className="Label-root"
+            >
+              Status
+            </label>
+            <span
+              className="SelectField-root"
+            >
+              <select
+                aria-label="Search by status"
+                className="SelectField-select"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
-                placeholder="Search by story title or author..."
-                type="text"
                 value=""
-              />
-              <div
-                className="TextField-adornment"
               >
-                <button
-                  aria-label="Search"
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantRegular Button-uppercase Button-adornmentRight StoryTableFilter-adornment"
-                  data-color="dark"
-                  data-variant="regular"
-                  onBlur={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="submit"
+                <option
+                  value=""
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    search
-                  </i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </fieldset>
-      <fieldset
-        className="FieldSet-root"
-      >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
-        >
-          <label
-            className="Label-root"
-          >
-            Show Me
-          </label>
-          <span
-            className="SelectField-root"
-          >
-            <select
-              aria-label="Search by status"
-              className="SelectField-select"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              value=""
-            >
-              <option
-                value=""
+                  All Stories
+                </option>
+                <option
+                  value="OPEN"
+                >
+                  Open Stories
+                </option>
+                <option
+                  value="CLOSED"
+                >
+                  Closed Stories
+                </option>
+              </select>
+              <span
+                aria-hidden={true}
+                className="SelectField-afterWrapper"
               >
-                All Stories
-              </option>
-              <option
-                value="OPEN"
-              >
-                Open Stories
-              </option>
-              <option
-                value="CLOSED"
-              >
-                Closed Stories
-              </option>
-            </select>
-            <span
-              aria-hidden={true}
-              className="SelectField-afterWrapper"
-            >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-sm"
-              >
-                expand_more
-              </i>
+                <i
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
+                >
+                  expand_more
+                </i>
+              </span>
             </span>
-          </span>
-        </div>
-      </fieldset>
+          </div>
+        </fieldset>
+      </div>
     </div>
     <div
       className="Box-root HorizontalGutter-root HorizontalGutter-double"
@@ -497,7 +505,7 @@ exports[`renders stories 1`] = `
             >
               <a
                 className="TextLink-root"
-                href="/admin/moderate/story-1"
+                href="/admin/moderate/stories/story-1"
                 onClick={[Function]}
               >
                 Finally a Cure for Cancer
@@ -568,7 +576,7 @@ exports[`renders stories 1`] = `
             >
               <a
                 className="TextLink-root"
-                href="/admin/moderate/story-2"
+                href="/admin/moderate/stories/story-2"
                 onClick={[Function]}
               >
                 First Colony on Mars

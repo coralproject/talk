@@ -31,4 +31,5 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   // options if they exist.
   settings: (s, input, ctx) => defaultsDeep({}, s.settings, ctx.tenant),
   moderationQueues: storyModerationInputResolver,
+  site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
 };

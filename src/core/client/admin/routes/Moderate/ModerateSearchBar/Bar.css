@@ -11,9 +11,17 @@
   z-index: 100;
 }
 
+.popover,
+.popoverNarrow {
+  border: 0;
+}
+
 .popover {
   width: calc(94 * var(--mini-unit));
-  border: 0;
+}
+
+.popoverNarrow {
+  width: calc(84 * var(--mini-unit));
 }
 
 .listBox {

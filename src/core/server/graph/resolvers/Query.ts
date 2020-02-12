@@ -23,4 +23,6 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   moderationQueues: moderationQueuesResolver,
   activeStories: (source, { limit = 10 }, ctx) =>
     ctx.loaders.Stories.activeStories(limit),
+  sites: (source, args, ctx) => ctx.loaders.Sites.connection(args),
+  site: (source, { id }, ctx) => (id ? ctx.loaders.Sites.site.load(id) : null),
 };

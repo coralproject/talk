@@ -86,6 +86,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
   const [local, setLocal] = useLocal<StreamContainerLocal>(
     graphql`
       fragment StreamContainerLocal on Local {
+        siteID
         commentsTab
         commentsOrderBy
       }

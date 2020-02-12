@@ -388,7 +388,7 @@ type ModerationQueue {
   """
   count will return the number of Comments that are in this queue.
   """
-  count: Int!
+  count: Int
 
   """
   comments are the comments on the ModerationQueue.
@@ -1272,11 +1272,6 @@ type Settings {
   staticURI: String @auth(roles: [ADMIN])
 
   """
-  allowedDomains is the list of domains that stories can come from.
-  """
-  allowedDomains: [String!]! @auth(roles: [ADMIN])
-
-  """
   locale is the specified locale for this Tenant.
   """
   locale: Locale!
@@ -1404,6 +1399,10 @@ type Settings {
   newCommenters: NewCommentersConfiguration! @auth(roles: [ADMIN])
 
   announcement: Announcement
+  """
+  multisite is whether multiple sites exist for this tenant.
+  """
+  multisite: Boolean!
 }
 
 ################################################################################
@@ -2053,6 +2052,40 @@ type UsersConnection {
   pageInfo: PageInfo!
 }
 
+"""
+SiteEdge represents a unique Site in a SitesConnection.
+"""
+type SiteEdge {
+  """
+  node is the Site for this edge.
+  """
+  node: Site!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+"""
+UsersConnection represents a subset of a stories list.
+"""
+type SitesConnection {
+  """
+  edges are a subset of SiteEdge's.
+  """
+  edges: [SiteEdge!]!
+
+  """
+  nodes is a list of Site's.
+  """
+  nodes: [Site!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
 ################################################################################
 ## Comment
 ################################################################################
@@ -2390,6 +2423,8 @@ type Comment {
   deleted is whether the comment has been deleted.
   """
   deleted: Boolean
+
+  site: Site!
 }
 
 type PageInfo {
@@ -2698,6 +2733,11 @@ type Story {
   lastCommentedAt is the last time someone commented on this story.
   """
   lastCommentedAt: Time @auth(roles: [ADMIN])
+
+  """
+  site is the site associated with the story
+  """
+  site: Site!
 }
 
 """
@@ -2778,6 +2818,7 @@ type Query {
     after: Cursor
     status: STORY_STATUS
     query: String
+    siteID: ID
   ): StoriesConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -2799,6 +2840,11 @@ type Query {
     query: String
     status: USER_STATUS
   ): UsersConnection! @auth(roles: [ADMIN, MODERATOR])
+
+  site(id: ID): Site @auth(roles: [ADMIN, MODERATOR])
+
+  sites(first: Int = 10 @constraint(max: 50), after: Cursor): SitesConnection!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   viewer is the current logged in User. If no user is currently logged in, it will
@@ -2835,7 +2881,7 @@ type Query {
   moderationQueues returns the set of ModerationQueues that are available for
   all stories or if given the story identified by the `storyID`.
   """
-  moderationQueues(storyID: ID): ModerationQueues!
+  moderationQueues(storyID: ID, siteID: ID): ModerationQueues!
     @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -3690,11 +3736,6 @@ input SettingsInput {
   this site.
   """
   live: LiveConfigurationInput
-
-  """
-  allowedDomains is the list of domains that stories can come from.
-  """
-  allowedDomains: [String!]
 
   """
   moderation is the moderation mode for all Stories on the site.
@@ -5854,6 +5895,10 @@ type Mutation {
   deleteAnnouncement(
     input: DeleteAnnouncementInput!
   ): DeleteAnnouncementPayload! @auth(roles: [ADMIN])
+
+  createSite(input: CreateSiteInput!): CreateSitePayload! @auth(roles: [ADMIN])
+
+  updateSite(input: UpdateSiteInput!): UpdateSitePayload! @auth(roles: [ADMIN])
 }
 
 ##################
@@ -6037,4 +6082,81 @@ type Subscription {
   """
   commentFeatured(storyID: ID!): CommentFeaturedPayload!
     @auth(roles: [MODERATOR, ADMIN])
+}
+
+type Site {
+  """
+  id is the identifier of the Site.
+  """
+  id: ID!
+
+  """
+  name is the name of the Site.
+  """
+  name: String!
+
+  """
+  allowedOrigins are the allowed origins for embeds.
+  """
+  allowedOrigins: [String!]!
+
+  """
+  createdAt is when the site was created.
+  """
+  createdAt: Time!
+}
+
+input CreateSite {
+  """
+  name is the name of the Site.
+  """
+  name: String!
+
+  """
+  allowedOrigins are the allowed origins for embeds.
+  """
+  allowedOrigins: [String!]!
+}
+
+input UpdateSite {
+  """
+  name is the name of the Site.
+  """
+  name: String
+
+  """
+  url is the Site URL, seen in email communications.
+  """
+  url: String
+
+  """
+  contactEmail is the contact email for the Site, seen in email communications.
+  """
+  contactEmail: String
+
+  """
+  allowedOrigins are the allowed origins for embeds.
+  """
+  allowedOrigins: [String!]
+}
+
+input CreateSiteInput {
+  clientMutationId: String!
+  site: CreateSite!
+}
+
+type CreateSitePayload {
+  clientMutationId: String!
+  site: Site!
+}
+
+input UpdateSiteInput {
+  clientMutationId: String!
+  site: UpdateSite!
+  id: ID!
+}
+
+type UpdateSitePayload {
+  clientMutationId: String!
+  site: Site!
 }

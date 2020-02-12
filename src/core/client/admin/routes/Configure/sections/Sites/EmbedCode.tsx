@@ -1,19 +1,10 @@
-import { Localized } from "@fluent/react/compat";
 import { stripIndent } from "common-tags";
 import React, { FunctionComponent, useMemo } from "react";
 
 import { CopyButton } from "coral-framework/components";
 import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import { getLocationOrigin } from "coral-framework/utils";
-import {
-  FieldSet,
-  FormFieldDescription,
-  HorizontalGutter,
-  Textarea,
-} from "coral-ui/components/v2";
-
-import ConfigBox from "../../ConfigBox";
-import Header from "../../Header";
+import { HorizontalGutter, Textarea } from "coral-ui/components/v2";
 
 import styles from "./EmbedCode.css";
 
@@ -84,20 +75,7 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
   }, [staticURI]);
 
   return (
-    <ConfigBox
-      title={
-        <Localized id="configure-advanced-embedCode-title">
-          <Header container={<legend />}>Embed code</Header>
-        </Localized>
-      }
-      container={<FieldSet />}
-    >
-      <Localized id="configure-advanced-embedCode-explanation">
-        <FormFieldDescription>
-          Copy and paste the code below into your CMS to embed Coral comment
-          streams in each of your site’s stories.
-        </FormFieldDescription>
-      </Localized>
+    <>
       <Textarea
         rows={embed.rows}
         className={styles.textArea}
@@ -105,9 +83,9 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
         value={embed.text}
       />
       <HorizontalGutter className={styles.copyArea}>
-        <CopyButton text={embed.text} />
+        <CopyButton variant="regular" color="mono" text={embed.text} />
       </HorizontalGutter>
-    </ConfigBox>
+    </>
   );
 };
 

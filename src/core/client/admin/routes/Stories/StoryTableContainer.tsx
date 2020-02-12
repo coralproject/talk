@@ -8,11 +8,12 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS_RL } from "coral-framework/schema";
-import { HorizontalGutter } from "coral-ui/components/v2";
+import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import { StoryTableContainer_query as QueryData } from "coral-admin/__generated__/StoryTableContainer_query.graphql";
 import { StoryTableContainerPaginationQueryVariables } from "coral-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
 
+import SiteFilterContainer from "./SiteFilter";
 import StoryTable from "./StoryTable";
 import StoryTableFilter from "./StoryTableFilter";
 
@@ -34,30 +35,42 @@ const StoryTableContainer: FunctionComponent<Props> = props => {
   const [statusFilter, setStatusFilter] = useState<GQLSTORY_STATUS_RL | null>(
     null
   );
+  const [siteFilter, setSiteFilter] = useState<string | null>(null);
   const [, isRefetching] = useRefetch<
     Pick<
       StoryTableContainerPaginationQueryVariables,
-      "searchFilter" | "statusFilter"
+      "searchFilter" | "statusFilter" | "siteID"
     >
   >(props.relay, {
     searchFilter: searchFilter || null,
     statusFilter,
+    siteID: siteFilter,
   });
 
   return (
     <IntersectionProvider>
       <HorizontalGutter size="double">
-        <StoryTableFilter
-          onSetStatusFilter={setStatusFilter}
-          statusFilter={statusFilter}
-          onSetSearchFilter={setSearchFilter}
-          searchFilter={searchFilter}
-        />
+        <Flex itemGutter="double">
+          <StoryTableFilter
+            onSetStatusFilter={setStatusFilter}
+            statusFilter={statusFilter}
+            onSetSearchFilter={setSearchFilter}
+            searchFilter={searchFilter}
+          />
+          {props.query && props.query.settings.multisite && (
+            <SiteFilterContainer
+              query={props.query}
+              siteID={siteFilter}
+              onSelect={setSiteFilter}
+            />
+          )}
+        </Flex>
         <StoryTable
           viewer={props.query && props.query.viewer}
           loading={!props.query || isRefetching}
           stories={stories}
           onLoadMore={loadMore}
+          multisite={props.query ? props.query.settings.multisite : false}
           hasMore={!isRefetching && props.relay.hasMore()}
           disableLoadMore={isLoadingMore}
           isSearching={Boolean(statusFilter) || Boolean(searchFilter)}
@@ -83,15 +96,21 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
           statusFilter: { type: "STORY_STATUS" }
           searchFilter: { type: "String" }
+          siteID: { type: "ID" }
         ) {
         viewer {
           ...StoryRowContainer_viewer
         }
+        settings {
+          multisite
+        }
+        ...SiteFilterContainer_query
         stories(
           first: $count
           after: $cursor
           status: $statusFilter
           query: $searchFilter
+          siteID: $siteID
         ) @connection(key: "StoryTable_stories") {
           edges {
             node {
@@ -121,6 +140,7 @@ const enhanced = withPaginationContainer<
         cursor,
         statusFilter: fragmentVariables.statusFilter,
         searchFilter: fragmentVariables.searchFilter,
+        siteID: fragmentVariables.siteID,
       };
     },
     query: graphql`
@@ -131,6 +151,7 @@ const enhanced = withPaginationContainer<
         $cursor: Cursor
         $statusFilter: STORY_STATUS
         $searchFilter: String
+        $siteID: ID
       ) {
         ...StoryTableContainer_query
           @arguments(
@@ -138,6 +159,7 @@ const enhanced = withPaginationContainer<
             cursor: $cursor
             statusFilter: $statusFilter
             searchFilter: $searchFilter
+            siteID: $siteID
           )
       }
     `,

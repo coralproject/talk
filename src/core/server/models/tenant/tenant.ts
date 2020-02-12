@@ -39,7 +39,7 @@ export interface TenantResource {
 }
 
 export interface TenantSettings
-  extends Pick<GQLSettings, "domain" | "allowedDomains" | "organization"> {
+  extends Pick<GQLSettings, "domain" | "organization"> {
   readonly id: string;
 
   /**
@@ -65,9 +65,12 @@ export type Tenant = Settings & TenantSettings;
  */
 export type CreateTenantInput = Pick<
   Tenant,
-  "domain" | "allowedDomains" | "locale" | "organization"
+  "domain" | "locale" | "organization"
 >;
 
+export interface TenantComputedProperties {
+  multisite: boolean;
+}
 /**
  * create will create a new Tenant.
  *

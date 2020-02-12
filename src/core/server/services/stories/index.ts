@@ -1,21 +1,23 @@
-import { uniq, zip } from "lodash";
+import { uniq } from "lodash";
 import { Db } from "mongodb";
 
+import isNonNullArray from "coral-common/helpers/isNonNullArray";
 import { Config } from "coral-server/config";
 import { StoryURLInvalidError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
-  countTotalActionCounts,
   mergeCommentActionCounts,
   mergeManyStoryActions,
   removeStoryActions,
 } from "coral-server/models/action/comment";
 import {
+  calculateTotalCommentCount,
+  mergeCommentModerationQueueCount,
+  mergeCommentStatusCount,
   mergeManyCommentStories,
   removeStoryComments,
 } from "coral-server/models/comment";
 import {
-  calculateTotalCommentCount,
   closeStory,
   createStory,
   CreateStoryInput,
@@ -23,7 +25,6 @@ import {
   FindOrCreateStoryInput,
   findStory,
   FindStoryInput,
-  mergeCommentStatusCount,
   openStory,
   removeStories,
   removeStory,
@@ -31,31 +32,19 @@ import {
   retrieveStory,
   Story,
   updateStory,
-  updateStoryActionCounts,
-  updateStoryCommentStatusCount,
+  updateStoryCounts,
   UpdateStoryInput,
   updateStorySettings,
   UpdateStorySettingsInput,
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
+import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
-
-import { AugmentedRedis } from "../redis";
-import { isURLPermitted } from "../tenant/url";
 
 export type FindStory = FindStoryInput;
 
 export async function find(mongo: Db, tenant: Tenant, input: FindStory) {
-  // If the URL is provided, and the url is not on a allowed domain, then refuse
-  // to create the Asset.
-  if (input.url && !isURLPermitted(tenant, input.url)) {
-    throw new StoryURLInvalidError({
-      storyURL: input.url,
-      allowedDomains: tenant.allowedDomains,
-    });
-  }
-
   return findStory(mongo, tenant.id, input);
 }
 
@@ -68,16 +57,20 @@ export async function findOrCreate(
   scraper: ScraperQueue,
   now = new Date()
 ) {
-  // If the URL is provided, and the url is not on a allowed domain, then refuse
-  // to create the Asset.
-  if (input.url && !isURLPermitted(tenant, input.url)) {
-    throw new StoryURLInvalidError({
-      storyURL: input.url,
-      allowedDomains: tenant.allowedDomains,
-    });
+  let siteID = null;
+  if (input.url) {
+    const site = await findSiteByURL(mongo, tenant.id, input.url);
+    // If the URL is provided, and the url is not associated with a site, then refuse
+    // to create the Asset.
+    if (!site) {
+      throw new StoryURLInvalidError({
+        storyURL: input.url,
+      });
+    }
+    siteID = site.id;
   }
 
-  const story = await findOrCreateStory(mongo, tenant.id, input, now);
+  const story = await findOrCreateStory(mongo, tenant.id, input, siteID, now);
   if (!story) {
     return null;
   }
@@ -159,7 +152,10 @@ export async function remove(
   return removedStory;
 }
 
-export type CreateStory = CreateStoryInput;
+// export type CreateStory = CreateStoryInput;
+export type CreateStory = Partial<
+  Pick<Story, "metadata" | "scrapedAt" | "closedAt" | "siteID">
+>;
 
 export async function create(
   mongo: Db,
@@ -170,16 +166,17 @@ export async function create(
   { metadata, closedAt }: CreateStory,
   now = new Date()
 ) {
-  // Ensure that the given URL is allowed.
-  if (!isURLPermitted(tenant, storyURL)) {
+  const site = await findSiteByURL(mongo, tenant.id, storyURL);
+  // // If the URL is provided, and the url is not associated with a site, then refuse
+  // // to create the Asset.
+  if (!site) {
     throw new StoryURLInvalidError({
       storyURL,
-      allowedDomains: tenant.allowedDomains,
     });
   }
 
   // Construct the input payload.
-  const input: CreateStoryInput = { metadata, closedAt };
+  const input: CreateStoryInput = { metadata, closedAt, siteID: site.id };
   if (metadata) {
     input.scrapedAt = now;
   }
@@ -211,12 +208,15 @@ export async function update(
   input: UpdateStory,
   now = new Date()
 ) {
-  // Ensure that the given URL is allowed.
-  if (input.url && !isURLPermitted(tenant, input.url)) {
-    throw new StoryURLInvalidError({
-      storyURL: input.url,
-      allowedDomains: tenant.allowedDomains,
-    });
+  if (input.url) {
+    const site = await findSiteByURL(mongo, tenant.id, input.url);
+    // // If the URL is provided, and the url is not associated with a site, then refuse
+    // // to update the Asset.
+    if (!site) {
+      throw new StoryURLInvalidError({
+        storyURL: input.url,
+      });
+    }
   }
 
   return updateStory(mongo, tenant.id, storyID, input, now);
@@ -253,19 +253,12 @@ export async function close(
 
 export async function merge(
   mongo: Db,
-  redis: AugmentedRedis,
   tenant: Tenant,
   destinationID: string,
   sourceIDs: string[]
 ) {
   // Create a logger for this operation.
-  const log = logger.child(
-    {
-      destinationID,
-      sourceIDs,
-    },
-    true
-  );
+  const log = logger.child({ destinationID, sourceIDs }, true);
 
   if (sourceIDs.length === 0) {
     log.warn("cannot merge from 0 stories");
@@ -280,22 +273,13 @@ export async function merge(
 
   // Get the stories referenced.
   const stories = await retrieveManyStories(mongo, tenant.id, storyIDs);
+  if (!isNonNullArray(stories)) {
+    throw new Error("cannot find all the stories");
+  }
 
-  // Ensure that these are all defined.
-  if (
-    zip(storyIDs, stories).some(([storyID, story]) => {
-      if (!story) {
-        log.warn(
-          { storyID },
-          "story that was going to be merged was not found"
-        );
-        return true;
-      }
-
-      return false;
-    })
-  ) {
-    return null;
+  // We can only merge stories if they are all on the same site.
+  if (uniq(stories.map(({ siteID }) => siteID)).length > 1) {
+    throw new Error("cannot merge stories on different sites");
   }
 
   // Move all the comment's from the source stories over to the destination
@@ -323,40 +307,33 @@ export async function merge(
   // Merge the comment and action counts for all the source stories.
   const [, ...sourceStories] = stories;
 
-  let destinationStory = await updateStoryCommentStatusCount(
+  // Compute the new comment counts from the old stories.
+  const commentCounts = {
+    status: mergeCommentStatusCount(
+      ...sourceStories.map(s => s.commentCounts.status)
+    ),
+    moderationQueue: mergeCommentModerationQueueCount(
+      ...sourceStories.map(s => s.commentCounts.moderationQueue)
+    ),
+    action: mergeCommentActionCounts(
+      ...sourceStories.map(s => s.commentCounts.action)
+    ),
+  };
+
+  // Update the story that was the destination of the merge.
+  const destinationStory = await updateStoryCounts(
     mongo,
-    redis,
     tenant.id,
     destinationID,
-    mergeCommentStatusCount(
-      // We perform the type assertion here because above, we already verified
-      // that none of the stories are null.
-      (sourceStories as Story[]).map(({ commentCounts: { status } }) => status)
-    )
+    commentCounts
   );
-
-  const mergedActionCounts = mergeCommentActionCounts(
-    // We perform the type assertion here because above, we already verified
-    // that none of the stories are null.
-    ...(sourceStories as Story[]).map(({ commentCounts: { action } }) => action)
-  );
-  if (countTotalActionCounts(mergedActionCounts) > 0) {
-    destinationStory = await updateStoryActionCounts(
-      mongo,
-      redis,
-      tenant.id,
-      destinationID,
-      mergedActionCounts
-    );
-  }
-
   if (!destinationStory) {
     log.warn("destination story cannot be updated with new comment counts");
     return null;
   }
 
   log.debug(
-    { commentCounts: destinationStory.commentCounts.status },
+    { commentCounts: destinationStory.commentCounts },
     "updated destination story with new comment counts"
   );
 

@@ -117,7 +117,6 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
   box-sizing: border-box;
   border: 1px solid transparent;
 
-  letter-spacing: 0.042em;
   transition: 0.2s ease-out background-color;
 
   font-family: var(--v2-font-family-primary);
@@ -154,6 +153,7 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
 
 .uppercase {
   text-transform: uppercase;
+  letter-spacing: 0.042em;
 }
 
 .root.disabled {
@@ -485,4 +485,8 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
       }
     }
   }
+}
+
+.linkButton {
+  text-decoration: none;
 }

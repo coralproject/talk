@@ -83,8 +83,8 @@ const StoryTableFilter: FunctionComponent<Props> = props => (
     </FieldSet>
     <FieldSet>
       <HorizontalGutter spacing={2}>
-        <Localized id="stories-filter-showMe">
-          <Label>Show Me</Label>
+        <Localized id="stories-filter-statuses">
+          <Label>Status</Label>
         </Localized>
         <Localized
           id="stories-filter-statusSelectField"
