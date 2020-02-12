@@ -16,6 +16,7 @@ import { spam } from "./spam";
 import { staff } from "./staff";
 import { storyClosed } from "./storyClosed";
 import { toxic } from "./toxic";
+import { unanswered } from "./unanswered";
 import { wordList } from "./wordList";
 
 /**
@@ -31,6 +32,7 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   wordList,
   expert,
   staff,
+  unanswered,
   approve,
   toxic,
   recentCommentHistory,

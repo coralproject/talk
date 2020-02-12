@@ -277,6 +277,7 @@ export class CommentContainer extends Component<Props, State> {
                     />
                     <UserTagsContainer
                       className={CLASSES.comment.topBar.userTag}
+                      story={story}
                       comment={comment}
                       settings={settings}
                     />
@@ -422,6 +423,7 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             ...ReplyCommentFormContainer_story
             ...PermalinkButtonContainer_story
             ...EditCommentFormContainer_story
+            ...UserTagsContainer_story
           }
         `,
         comment: graphql`
