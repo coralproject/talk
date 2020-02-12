@@ -14,6 +14,7 @@ import { GetPhrasesRegExpOptions } from "coral-admin/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import {
   BaseButton,
+  Button,
   Card,
   Flex,
   HorizontalGutter,
@@ -59,6 +60,7 @@ interface Props {
   onReject: () => void;
   onFeature: () => void;
   onUsernameClick: (id?: string) => void;
+  onConversationClick: (id?: string) => void;
   onFocusOrClick: () => void;
   mini?: boolean;
   hideUsername?: boolean;
@@ -102,6 +104,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   moderatedBy,
   selected,
   onFocusOrClick,
+  onConversationClick,
   mini = false,
   hideUsername = false,
   deleted = false,
@@ -165,6 +168,9 @@ const ModerateCard: FunctionComponent<Props> = ({
       onUsernameClick(inReplyTo.id);
     }
   }, [onUsernameClick, inReplyTo]);
+  const viewConversationClick = useCallback(() => {
+    onConversationClick();
+  }, [onConversationClick]);
   return (
     <Card
       className={cn(
@@ -224,6 +230,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               {commentBody}
             </CommentContent>
             <div className={styles.viewContext}>
+              <Button onClick={viewConversationClick}>View conversation</Button>
               <Localized id="moderate-comment-viewContext">
                 <TextLink
                   className={styles.link}
