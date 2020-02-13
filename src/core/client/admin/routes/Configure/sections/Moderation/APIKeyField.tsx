@@ -32,9 +32,10 @@ const APIKeyField: FunctionComponent<Props> = ({
             {...input}
             id={`configure-moderation-${input.name}`}
             disabled={disabled}
+            autoComplete="new-password"
             // TODO: (wyattjoh) figure out how to add translations to these props
-            hidePasswordTitle="Show API Key"
-            showPasswordTitle="Hide API Key"
+            hidePasswordTitle="Hide API Key"
+            showPasswordTitle="Show API Key"
             color={colorFromMeta(meta)}
             fullWidth
           />
