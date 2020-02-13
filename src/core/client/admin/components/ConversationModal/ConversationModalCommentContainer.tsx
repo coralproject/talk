@@ -8,6 +8,7 @@ import { Flex, Timestamp } from "coral-ui/components/v2";
 import { ConversationModalCommentContainer_comment } from "coral-admin/__generated__/ConversationModalCommentContainer_comment.graphql";
 
 import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
+import { Circle, Line } from "../Timeline";
 
 import styles from "./ConversationModalCommentContainer.css";
 
@@ -15,11 +16,15 @@ interface Props {
   comment: ConversationModalCommentContainer_comment;
   isHighlighted: boolean;
   onUsernameClick: (id?: string) => void;
+  isParent?: boolean;
+  isReply?: boolean;
 }
 
 const ConversationModalCommentContainer: FunctionComponent<Props> = ({
   comment,
   isHighlighted,
+  isParent,
+  isReply,
   onUsernameClick,
 }) => {
   const commentAuthorClick = useCallback(() => {
@@ -33,40 +38,52 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
     }
   }, [onUsernameClick, comment.parent]);
   return (
-    <div
-      className={cn(styles.root, {
-        [styles.highlighted]: isHighlighted,
-      })}
-    >
-      <div>
-        <Flex alignItems="center">
-          {comment.author && comment.author.username && (
-            <UsernameButton
-              onClick={commentAuthorClick}
-              username={comment.author.username}
-            />
-          )}
-          <Timestamp>{comment.createdAt}</Timestamp>
-        </Flex>
-        {comment.parent &&
-          comment.parent.author &&
-          comment.parent.author.username && (
-            <div className={styles.inReplyTo}>
-              <InReplyTo onUsernameClick={commentParentAuthorClick}>
-                {comment.parent.author.username}
-              </InReplyTo>
-            </div>
-          )}
-      </div>
+    <Flex className={styles.outer}>
+      <Flex
+        direction="column"
+        alignItems="center"
+        className={cn(styles.adornments, {
+          [styles.highlightedCircle]: isHighlighted,
+        })}
+      >
+        {!isReply && <Circle />}
+        {(isParent || isReply) && <Line />}
+      </Flex>
+      <div
+        className={cn(styles.root, {
+          [styles.highlighted]: isHighlighted,
+        })}
+      >
+        <div>
+          <Flex alignItems="center">
+            {comment.author && comment.author.username && (
+              <UsernameButton
+                onClick={commentAuthorClick}
+                username={comment.author.username}
+              />
+            )}
+            <Timestamp>{comment.createdAt}</Timestamp>
+          </Flex>
+          {comment.parent &&
+            comment.parent.author &&
+            comment.parent.author.username && (
+              <div className={styles.inReplyTo}>
+                <InReplyTo onUsernameClick={commentParentAuthorClick}>
+                  {comment.parent.author.username}
+                </InReplyTo>
+              </div>
+            )}
+        </div>
 
-      <div>
-        {comment.body && (
-          <CommentContent suspectWords={[]} bannedWords={[]}>
-            {comment.body}
-          </CommentContent>
-        )}
+        <div>
+          {comment.body && (
+            <CommentContent suspectWords={[]} bannedWords={[]}>
+              {comment.body}
+            </CommentContent>
+          )}
+        </div>
       </div>
-    </div>
+    </Flex>
   );
 };
 

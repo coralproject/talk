@@ -14,6 +14,7 @@ import { GetPhrasesRegExpOptions } from "coral-admin/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import {
   Button,
+  ButtonIcon,
   Card,
   Flex,
   HorizontalGutter,
@@ -225,11 +226,12 @@ const ModerateCard: FunctionComponent<Props> = ({
               {commentBody}
             </CommentContent>
             <div className={styles.viewContext}>
-              <Localized id="moderate-comment-viewConversation">
-                <Button variant="text" onClick={viewConversationClick}>
-                  View conversation
-                </Button>
-              </Localized>
+              <Button iconLeft variant="text" onClick={viewConversationClick}>
+                <ButtonIcon>question_answer</ButtonIcon>
+                <Localized id="moderate-comment-viewConversation">
+                  <span>View conversation</span>
+                </Localized>
+              </Button>
             </div>
             <div
               className={cn(styles.separator, {

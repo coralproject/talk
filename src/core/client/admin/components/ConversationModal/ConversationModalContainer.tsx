@@ -1,4 +1,4 @@
-// import { Localized } from "@fluent/react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -6,10 +6,11 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { Button, HorizontalGutter } from "coral-ui/components/v2";
+import { Button, Counter, HorizontalGutter } from "coral-ui/components/v2";
 
 import { ConversationModalContainer_comment } from "coral-admin/__generated__/ConversationModalContainer_comment.graphql";
 import { ConversationModalContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalContainerPaginationQuery.graphql";
+
 import ConversationModalComment from "./ConversationModalCommentContainer";
 
 import styles from "./ConversationModalContainer.css";
@@ -31,22 +32,22 @@ const ConversationModalContainer: FunctionComponent<Props> = ({
   return (
     <HorizontalGutter className={styles.root}>
       {comment.parentCount > parents.length && (
-        <Button variant="text" onClick={loadMore}>
-          Show more of this conversation
+        <Button underline variant="text" onClick={loadMore}>
+          <Localized id="conversation-modal-show-more-parents">
+            <span>Show more of this conversation</span>
+          </Localized>
+          <Counter>{comment.parentCount}</Counter>
         </Button>
       )}
-      {comment.parents && (
-        <>
-          {parents.map(parent => (
-            <ConversationModalComment
-              key={parent.id}
-              comment={parent}
-              onUsernameClick={onUsernameClicked}
-              isHighlighted={false}
-            />
-          ))}
-        </>
-      )}
+      {parents.map(parent => (
+        <ConversationModalComment
+          key={parent.id}
+          isParent={true}
+          comment={parent}
+          onUsernameClick={onUsernameClicked}
+          isHighlighted={false}
+        />
+      ))}
       <ConversationModalComment
         comment={comment}
         onUsernameClick={onUsernameClicked}

@@ -1,4 +1,4 @@
-// import { Localized } from "@fluent/react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -13,7 +13,7 @@ import { ConversationModalRepliesContainer_comment } from "coral-admin/__generat
 import { ConversationModalRepliesContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalRepliesContainerPaginationQuery.graphql";
 import ConversationModalCommentContainer from "./ConversationModalCommentContainer";
 
-// import styles from "./ConversationModalRepliesContainer.css";
+import styles from "./ConversationModalRepliesContainer.css";
 
 interface Props {
   relay: RelayPaginationProp;
@@ -31,28 +31,30 @@ const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
   const replies = comment.replies.edges.map(edge => edge.node);
   return (
     <HorizontalGutter>
-      <p>Replies: {comment.replyCount}</p>
-      {replies && (
-        <>
-          {replies.map(reply => (
-            <ConversationModalCommentContainer
-              key={reply.id}
-              comment={reply}
-              isHighlighted={false}
-              onUsernameClick={onUsernameClicked}
-            />
-          ))}
-        </>
-      )}
+      {replies.map(reply => (
+        <div key={reply.id} className={styles.comment}>
+          <ConversationModalCommentContainer
+            key={reply.id}
+            comment={reply}
+            isHighlighted={false}
+            isReply={true}
+            onUsernameClick={onUsernameClicked}
+          />
+        </div>
+      ))}
       {replies.length === 0 && comment.replyCount > 0 && (
-        <Button variant="text" onClick={loadMore}>
-          Show replies
-        </Button>
+        <Localized id="conversation-modal-replies-show">
+          <Button variant="outline" fullWidth onClick={loadMore}>
+            Show replies
+          </Button>
+        </Localized>
       )}
       {comment.replyCount > replies.length && replies.length > 0 && (
-        <Button variant="text" onClick={loadMore}>
-          Show more replies
-        </Button>
+        <Localized id="conversation-modal-replies-show-more">
+          <Button variant="outline" fullWidth onClick={loadMore}>
+            Show more replies
+          </Button>
+        </Localized>
       )}
     </HorizontalGutter>
   );

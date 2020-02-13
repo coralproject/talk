@@ -1,0 +1,3 @@
+.comment {
+  padding-left: calc(var(--v2-spacing-4) + 4px);
+}

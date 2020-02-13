@@ -1,0 +1,30 @@
+.circleContainer {
+  position: relative;
+}
+
+.circleSubContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: calc(-1 * var(--mini-unit) - var(--mini-unit) - 1px);
+  background-color: var(--palette-common-white);
+  width: calc(2 * var(--mini-unit));
+  height: 23px;
+  color: var(--palette-grey-main);
+}
+
+.end {
+  align-items: flex-start;
+  padding-top: 8px;
+  height: 100%;
+  @media (min-width: $breakpoints-xs) {
+    padding-top: 6px;
+  }
+}
+
+.circle {
+  width: var(--mini-unit);
+  height: var(--mini-unit);
+  fill: currentColor;
+  stroke: currentColor;
+}
