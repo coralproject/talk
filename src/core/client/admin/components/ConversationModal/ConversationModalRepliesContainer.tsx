@@ -11,6 +11,7 @@ import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
 import { ConversationModalRepliesContainer_comment } from "coral-admin/__generated__/ConversationModalRepliesContainer_comment.graphql";
 import { ConversationModalRepliesContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalRepliesContainerPaginationQuery.graphql";
+import ConversationModalCommentContainer from "./ConversationModalCommentContainer";
 
 // import styles from "./ConversationModalRepliesContainer.css";
 
@@ -18,11 +19,13 @@ interface Props {
   relay: RelayPaginationProp;
   comment: ConversationModalRepliesContainer_comment;
   onClose: () => void;
+  onUsernameClicked: (id?: string) => void;
 }
 
 const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
   comment,
   relay,
+  onUsernameClicked,
 }) => {
   const [loadMore] = useLoadMore(relay, 5);
   const replies = comment.replies.edges.map(edge => edge.node);
@@ -32,18 +35,24 @@ const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
       {replies && (
         <>
           {replies.map(reply => (
-            <div key={reply.id}>
-              <strong>{reply.author ? reply.author.username : null}</strong>
-              <div>{reply.body}</div>
-            </div>
+            <ConversationModalCommentContainer
+              key={reply.id}
+              comment={reply}
+              isHighlighted={false}
+              onUsernameClick={onUsernameClicked}
+            />
           ))}
         </>
       )}
       {replies.length === 0 && comment.replyCount > 0 && (
-        <Button onClick={loadMore}>Show replies</Button>
+        <Button variant="text" onClick={loadMore}>
+          Show replies
+        </Button>
       )}
       {comment.replyCount > replies.length && replies.length > 0 && (
-        <Button onClick={loadMore}>Show more replies</Button>
+        <Button variant="text" onClick={loadMore}>
+          Show more replies
+        </Button>
       )}
     </HorizontalGutter>
   );
@@ -74,10 +83,7 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
-              body
-              author {
-                username
-              }
+              ...ConversationModalCommentContainer_comment
             }
           }
         }

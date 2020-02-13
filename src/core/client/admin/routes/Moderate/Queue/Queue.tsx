@@ -109,6 +109,13 @@ const Queue: FunctionComponent<Props> = ({
     setConversationCommentID("");
   }, []);
 
+  const onUsernameClickedFromModal = useCallback((userID: string) => {
+    setUserDrawerID(userID);
+    setUserDrawerVisible(true);
+    setConversationModalVisible(false);
+    setConversationCommentID("");
+  }, []);
+
   return (
     <HorizontalGutter className={styles.root} size="double">
       {Boolean(viewNewCount && viewNewCount > 0) && (
@@ -158,6 +165,7 @@ const Queue: FunctionComponent<Props> = ({
         userID={userDrawerId}
       />
       <ConversationModal
+        onUsernameClicked={onUsernameClickedFromModal}
         open={conversationModalVisible}
         onClose={onHideConversationModal}
         commentID={conversationCommentID}

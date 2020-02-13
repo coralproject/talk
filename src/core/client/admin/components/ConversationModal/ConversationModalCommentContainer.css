@@ -1,0 +1,15 @@
+$conversationModalHighlightBackground: var(--v2-colors-white-500);
+
+.root {
+}
+
+.usernameButton {
+}
+
+.inReplyTo {
+}
+
+.highlighted {
+  background-color: $conversationModalHighlightBackground;
+  padding: var(--v2-spacing-2);
+}

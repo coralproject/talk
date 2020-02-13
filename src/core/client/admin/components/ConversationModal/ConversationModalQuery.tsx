@@ -20,6 +20,7 @@ interface Props {
   commentID: string;
   onClose: () => void;
   firstFocusableRef: React.RefObject<any>;
+  onUsernameClicked: (userID: string) => void;
   lastFocusableRef: React.RefObject<any>;
 }
 
@@ -27,6 +28,7 @@ const ConversationModalQuery: FunctionComponent<Props> = ({
   commentID,
   onClose,
   lastFocusableRef,
+  onUsernameClicked,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -73,10 +75,12 @@ const ConversationModalQuery: FunctionComponent<Props> = ({
               <ConversationModalContainer
                 onClose={onClose}
                 comment={props.comment}
+                onUsernameClicked={onUsernameClicked}
               />
               <ConversationModalRepliesContainer
                 onClose={onClose}
                 comment={props.comment}
+                onUsernameClicked={onUsernameClicked}
               />
             </div>
           </Card>

@@ -8,26 +8,28 @@ interface ConversationModalProps {
   open: boolean;
   onClose: () => void;
   commentID?: string;
+  onUsernameClicked: (userID: string) => void;
 }
 
 const ConversationModal: FunctionComponent<ConversationModalProps> = ({
   open,
   onClose,
   commentID,
+  onUsernameClicked,
 }) => {
+  if (!commentID) {
+    return null;
+  }
   return (
     <Modal open={open} onClose={onClose}>
       {({ firstFocusableRef, lastFocusableRef }) => (
-        <>
-          {commentID && (
-            <ConversationModalQuery
-              commentID={commentID}
-              onClose={onClose}
-              firstFocusableRef={firstFocusableRef}
-              lastFocusableRef={lastFocusableRef}
-            />
-          )}
-        </>
+        <ConversationModalQuery
+          commentID={commentID}
+          onClose={onClose}
+          firstFocusableRef={firstFocusableRef}
+          lastFocusableRef={lastFocusableRef}
+          onUsernameClicked={onUsernameClicked}
+        />
       )}
     </Modal>
   );

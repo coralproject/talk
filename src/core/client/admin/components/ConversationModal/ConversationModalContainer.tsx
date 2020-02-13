@@ -10,6 +10,7 @@ import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
 import { ConversationModalContainer_comment } from "coral-admin/__generated__/ConversationModalContainer_comment.graphql";
 import { ConversationModalContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalContainerPaginationQuery.graphql";
+import ConversationModalComment from "./ConversationModalCommentContainer";
 
 import styles from "./ConversationModalContainer.css";
 
@@ -17,33 +18,40 @@ interface Props {
   relay: RelayPaginationProp;
   comment: ConversationModalContainer_comment;
   onClose: () => void;
+  onUsernameClicked: (id?: string) => void;
 }
 
 const ConversationModalContainer: FunctionComponent<Props> = ({
   comment,
   relay,
+  onUsernameClicked,
 }) => {
   const [loadMore] = useLoadMore(relay, 5);
   const parents = comment.parents.edges.map(edge => edge.node);
   return (
-    <HorizontalGutter>
+    <HorizontalGutter className={styles.root}>
       {comment.parentCount > parents.length && (
-        <Button onClick={loadMore}>Show more of this conversation</Button>
+        <Button variant="text" onClick={loadMore}>
+          Show more of this conversation
+        </Button>
       )}
       {comment.parents && (
         <>
           {parents.map(parent => (
-            <div key={parent.id}>
-              <strong>{parent.author ? parent.author.username : null}</strong>
-              <div>{parent.body}</div>
-            </div>
+            <ConversationModalComment
+              key={parent.id}
+              comment={parent}
+              onUsernameClick={onUsernameClicked}
+              isHighlighted={false}
+            />
           ))}
         </>
       )}
-      <div className={styles.comment}>
-        <strong>{comment.author ? comment.author.username : null}</strong>
-        {comment.body}
-      </div>
+      <ConversationModalComment
+        comment={comment}
+        onUsernameClick={onUsernameClicked}
+        isHighlighted={true}
+      />
     </HorizontalGutter>
   );
 };
@@ -64,10 +72,7 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
         ) {
         id
-        body
-        author {
-          username
-        }
+        ...ConversationModalCommentContainer_comment
         rootParent {
           id
         }
@@ -76,10 +81,7 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
-              body
-              author {
-                username
-              }
+              ...ConversationModalCommentContainer_comment
             }
           }
         }
