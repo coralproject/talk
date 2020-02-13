@@ -1,3 +1,5 @@
+import striptags from "striptags";
+
 import { reconstructTenantURL } from "coral-server/app/url";
 import GraphContext from "coral-server/graph/context";
 import logger from "coral-server/logger";
@@ -81,7 +83,6 @@ export class SlackCoralEventListener
 
     // Get some properties about the event.
     const storyTitle = getStoryTitle(story);
-    const commentBody = getLatestRevision(comment).body;
     const moderateLink = reconstructTenantURL(
       config,
       tenant,
@@ -91,7 +92,7 @@ export class SlackCoralEventListener
     const commentLink = getURLWithCommentID(story.url, comment.id);
 
     // Replace HTML link breaks with newlines.
-    const body = commentBody.replace(/<br\/?>/g, "\n");
+    const body = striptags(getLatestRevision(comment).body);
 
     // Send the post to the Slack URL. We don't wrap this in a try/catch because
     // it's handled in the calling function.
@@ -101,12 +102,32 @@ export class SlackCoralEventListener
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        text: `${message} on *<${story.url}|${storyTitle}>*`,
-        attachments: [
+        blocks: [
           {
-            text: body,
-            footer: `Authored by *${author.username}* | <${moderateLink}|Go to Moderation> | <${commentLink}|See Comment>`,
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `${message} *<${story.url}|${storyTitle}>*`,
+            },
           },
+          { type: "divider" },
+          {
+            type: "section",
+            text: {
+              type: "plain_text",
+              text: body,
+            },
+          },
+          {
+            type: "context",
+            elements: [
+              {
+                type: "mrkdwn",
+                text: `Authored by *${author.username}* | <${moderateLink}|Go to Moderation> | <${commentLink}|See Comment>`,
+              },
+            ],
+          },
+          { type: "divider" },
         ],
       }),
     });
