@@ -107,7 +107,7 @@ export class SlackCoralEventListener
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `${message} *<${story.url}|${storyTitle}>*`,
+              text: `${message} on *<${story.url}|${storyTitle}>*`,
             },
           },
           { type: "divider" },
