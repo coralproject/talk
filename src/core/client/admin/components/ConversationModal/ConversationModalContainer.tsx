@@ -6,11 +6,17 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { Button, Counter, HorizontalGutter } from "coral-ui/components/v2";
+import {
+  Button,
+  Counter,
+  Flex,
+  HorizontalGutter,
+} from "coral-ui/components/v2";
 
 import { ConversationModalContainer_comment } from "coral-admin/__generated__/ConversationModalContainer_comment.graphql";
 import { ConversationModalContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalContainerPaginationQuery.graphql";
 
+import { Circle } from "../Timeline";
 import ConversationModalComment from "./ConversationModalCommentContainer";
 
 import styles from "./ConversationModalContainer.css";
@@ -32,12 +38,24 @@ const ConversationModalContainer: FunctionComponent<Props> = ({
   return (
     <HorizontalGutter className={styles.root}>
       {comment.parentCount > parents.length && (
-        <Button underline variant="text" onClick={loadMore}>
-          <Localized id="conversation-modal-show-more-parents">
-            <span>Show more of this conversation</span>
-          </Localized>
-          <Counter>{comment.parentCount}</Counter>
-        </Button>
+        <div>
+          <Flex alignItems="center">
+            <Circle hollow={true} className={styles.topCircle} />
+            <Button underline variant="text" onClick={loadMore}>
+              <Localized id="conversation-modal-show-more-parents">
+                <span>Show more of this conversation</span>
+              </Localized>
+              <Counter>{comment.parentCount}</Counter>
+            </Button>
+          </Flex>
+          <Flex
+            direction="column"
+            alignItems="center"
+            className={styles.bottomCircleContainer}
+          >
+            <Circle color="light" size="small" />
+          </Flex>
+        </div>
       )}
       {parents.map(parent => (
         <ConversationModalComment

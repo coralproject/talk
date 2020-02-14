@@ -42,20 +42,22 @@ const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
           />
         </div>
       ))}
-      {replies.length === 0 && comment.replyCount > 0 && (
-        <Localized id="conversation-modal-replies-show">
-          <Button variant="outline" fullWidth onClick={loadMore}>
-            Show replies
-          </Button>
-        </Localized>
-      )}
-      {comment.replyCount > replies.length && replies.length > 0 && (
-        <Localized id="conversation-modal-replies-show-more">
-          <Button variant="outline" fullWidth onClick={loadMore}>
-            Show more replies
-          </Button>
-        </Localized>
-      )}
+      <div className={styles.footer}>
+        {replies.length === 0 && comment.replyCount > 0 && (
+          <Localized id="conversation-modal-replies-show">
+            <Button variant="outline" fullWidth onClick={loadMore}>
+              Show replies
+            </Button>
+          </Localized>
+        )}
+        {comment.replyCount > replies.length && replies.length > 0 && (
+          <Localized id="conversation-modal-replies-show-more">
+            <Button variant="outline" fullWidth onClick={loadMore}>
+              Show more replies
+            </Button>
+          </Localized>
+        )}
+      </div>
     </HorizontalGutter>
   );
 };

@@ -1,30 +1,29 @@
-.circleContainer {
+.sizeReg {
+  width: 8px;
+  height: 8px;
+}
+
+.sizeSmall {
+  width: 4px;
+  height: 4px;
+}
+
+.colorReg {
+  color: var(--v2-colors-grey-500);
+}
+
+.colorLight {
+  color: var(--v2-colors-grey-400);
+}
+
+.root {
   position: relative;
 }
 
-.circleSubContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: calc(-1 * var(--mini-unit) - var(--mini-unit) - 1px);
-  background-color: var(--palette-common-white);
-  width: calc(2 * var(--mini-unit));
-  height: 23px;
-  color: var(--palette-grey-main);
-}
-
-.end {
-  align-items: flex-start;
-  padding-top: 8px;
-  height: 100%;
-  @media (min-width: $breakpoints-xs) {
-    padding-top: 6px;
-  }
-}
-
 .circle {
-  width: var(--mini-unit);
-  height: var(--mini-unit);
   fill: currentColor;
   stroke: currentColor;
+  position: absolute;
+  left: 0;
+  top: 0;
 }

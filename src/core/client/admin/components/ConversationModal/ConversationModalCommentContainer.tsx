@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { Flex, Timestamp } from "coral-ui/components/v2";
+import { Flex, HorizontalGutter, Timestamp } from "coral-ui/components/v2";
 
 import { ConversationModalCommentContainer_comment } from "coral-admin/__generated__/ConversationModalCommentContainer_comment.graphql";
 
@@ -38,7 +38,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
     }
   }, [onUsernameClick, comment.parent]);
   return (
-    <Flex className={styles.outer}>
+    <Flex>
       <Flex
         direction="column"
         alignItems="center"
@@ -46,10 +46,11 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
           [styles.highlightedCircle]: isHighlighted,
         })}
       >
-        {!isReply && <Circle />}
-        {(isParent || isReply) && <Line />}
+        {!isReply && <Circle className={styles.circle} />}
+        {(isParent || isReply) && <Line className={styles.line} />}
       </Flex>
-      <div
+      <HorizontalGutter
+        spacing={1}
         className={cn(styles.root, {
           [styles.highlighted]: isHighlighted,
         })}
@@ -67,22 +68,24 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
           {comment.parent &&
             comment.parent.author &&
             comment.parent.author.username && (
-              <div className={styles.inReplyTo}>
-                <InReplyTo onUsernameClick={commentParentAuthorClick}>
-                  {comment.parent.author.username}
-                </InReplyTo>
-              </div>
+              <InReplyTo onUsernameClick={commentParentAuthorClick}>
+                {comment.parent.author.username}
+              </InReplyTo>
             )}
         </div>
 
         <div>
           {comment.body && (
-            <CommentContent suspectWords={[]} bannedWords={[]}>
+            <CommentContent
+              className={styles.commentText}
+              suspectWords={[]}
+              bannedWords={[]}
+            >
               {comment.body}
             </CommentContent>
           )}
         </div>
-      </div>
+      </HorizontalGutter>
     </Flex>
   );
 };
