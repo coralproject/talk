@@ -28,7 +28,6 @@ const UserTagsContainer: FunctionComponent<Props> = ({
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
   const staffTag = comment.tags.find(t => t.code === "STAFF");
   const expertTag = isQA && comment.tags.find(t => t.code === "EXPERT");
-  const unansweredTag = isQA && comment.tags.find(t => t.code === "UNANSWERED");
   return (
     <Flex alignItems="center">
       {expertTag && (
@@ -43,11 +42,6 @@ const UserTagsContainer: FunctionComponent<Props> = ({
       )}
       {staffTag && (
         <Tag className={cn(className, styles.tag)}>{settings.staff.label}</Tag>
-      )}
-      {unansweredTag && (
-        <Tag variant="pill" color="grey" className={styles.tag}>
-          <Flex alignItems="center">UNANSWERED</Flex>
-        </Tag>
       )}
     </Flex>
   );
