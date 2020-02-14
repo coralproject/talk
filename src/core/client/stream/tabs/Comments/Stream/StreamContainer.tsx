@@ -33,6 +33,7 @@ import {
 
 import AllCommentsTab from "./AllCommentsTab";
 import AnnouncementContainer from "./Announcement";
+import AnsweredComments from "./AnsweredCommentsTab";
 import BannedInfo from "./BannedInfo";
 import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
 import StreamDeletionRequestCalloutContainer from "./DeleteAccount/StreamDeletionRequestCalloutContainer";
@@ -199,9 +200,16 @@ export const StreamContainer: FunctionComponent<Props> = props => {
               {featuredCommentsCount > 0 && (
                 <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS">
                   <Flex spacing={1} alignItems="center">
-                    <Localized id="comments-featuredTab">
-                      <span>Featured</span>
-                    </Localized>
+                    {props.story.settings.mode === GQLSTORY_MODE.QA ? (
+                      <Localized id="qa-answeredTab">
+                        <span>Answered</span>
+                      </Localized>
+                    ) : (
+                      <Localized id="comments-featuredTab">
+                        <span>Featured</span>
+                      </Localized>
+                    )}
+
                     <Counter
                       data-testid="comments-featuredCount"
                       size="sm"
@@ -243,7 +251,6 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                   </Flex>
                 </Tab>
               )}
-
               <Tab
                 tabID="ALL_COMMENTS"
                 className={cn(
@@ -277,12 +284,21 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             </TabBar>
           </Flex>
           <TabContent activeTab={local.commentsTab}>
-            <TabPane
-              className={CLASSES.featuredCommentsTabPane.$root}
-              tabID="FEATURED_COMMENTS"
-            >
-              <FeaturedComments />
-            </TabPane>
+            {props.story.settings.mode === GQLSTORY_MODE.QA ? (
+              <TabPane
+                className={CLASSES.featuredCommentsTabPane.$root}
+                tabID="FEATURED_COMMENTS"
+              >
+                <AnsweredComments />
+              </TabPane>
+            ) : (
+              <TabPane
+                className={CLASSES.featuredCommentsTabPane.$root}
+                tabID="FEATURED_COMMENTS"
+              >
+                <FeaturedComments />
+              </TabPane>
+            )}
             {props.story.settings.mode === GQLSTORY_MODE.QA && (
               <TabPane
                 className={CLASSES.allCommentsTabPane.$root}

@@ -32,6 +32,7 @@ interface Props {
   readOnly?: boolean;
   className?: string;
   reactedClassName?: string;
+  isQA?: boolean;
 }
 
 class ReactionButtonContainer extends React.Component<Props> {
@@ -80,8 +81,8 @@ class ReactionButtonContainer extends React.Component<Props> {
         onClick={this.handleClick}
         totalReactions={totalReactions}
         reacted={reacted}
-        label={label}
-        labelActive={labelActive}
+        label={this.props.isQA ? "Vote" : label}
+        labelActive={this.props.isQA ? "Voted" : labelActive}
         icon={icon}
         iconActive={iconActive}
         readOnly={readOnly}

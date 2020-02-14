@@ -169,8 +169,9 @@ comments-featuredTag = Featured
 
 ### Q&A
 
-general-tabBar-qaTab =
+general-tabBar-qaTab = Q&A
 
+qa-answeredTab = Answered
 qa-allCommentsTab = All
 
 qa-noQuestionsAtAll =

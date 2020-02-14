@@ -39,7 +39,8 @@ function sharedUpdater(
   const commentEdge = store
     .getRootField("createCommentReply")!
     .getLinkedRecord("edge")!;
-  const status = commentEdge.getLinkedRecord("node")!.getValue("status");
+  const node = commentEdge.getLinkedRecord("node")!;
+  const status = node.getValue("status");
 
   // If comment is not published, we don't need to add it.
   if (!isPublished(status)) {
@@ -134,6 +135,12 @@ const mutation = graphql`
         node {
           ...AllCommentsTabContainer_comment @relay(mask: false)
           status
+          parent {
+            id
+            tags {
+              code
+            }
+          }
         }
       }
       clientMutationId
@@ -207,6 +214,7 @@ async function commit(
                   author: parentComment.author
                     ? pick(parentComment.author, "username", "id")
                     : null,
+                  tags: [],
                 },
                 editing: {
                   editableUntil: new Date(Date.now() + 10000).toISOString(),

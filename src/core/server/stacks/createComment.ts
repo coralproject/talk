@@ -15,6 +15,7 @@ import {
   filterDuplicateActions,
 } from "coral-server/models/action/comment";
 import {
+  Comment,
   createComment,
   CreateCommentInput,
   pushChildCommentIDOntoParent,
@@ -27,10 +28,12 @@ import {
 } from "coral-server/models/comment/helpers";
 import {
   retrieveStory,
+  Story,
   updateStoryLastCommentedAt,
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { removeTag } from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
@@ -47,12 +50,51 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
+import {
+  GQLSTORY_MODE,
+  GQLTAG,
+} from "coral-server/graph/schema/__generated__/types";
+
 import { publishChanges, updateAllCounts } from "./helpers";
 
 export type CreateComment = Omit<
   CreateCommentInput,
   "status" | "metadata" | "ancestorIDs" | "actionCounts" | "tags"
 >;
+
+const markCommentAsAnswered = async (
+  mongo: Db,
+  tenant: Tenant,
+  comment: Readonly<Comment>,
+  story: Story,
+  author: User
+) => {
+  // We only process this if we're in Q&A mode.
+  if (story.settings.mode !== GQLSTORY_MODE.QA) {
+    return;
+  }
+
+  // Answers are always a reply to another comment.
+  // If we have a parentID and a parentRevisionID, then
+  // we have a parent, which means we are replying.
+  if (!comment.parentID || !comment.parentRevisionID) {
+    return;
+  }
+
+  // If we have no experts, there cannot be anyone
+  // providing expert answers.
+  if (!story.settings.expertIDs) {
+    return;
+  }
+
+  // If we have experts and this reply is created by
+  // one of them, then this is an expert's answer.
+  if (story.settings.expertIDs.some(id => id === author.id)) {
+    // We need to mark this question as answered now.
+    // We can now remove the unanswered tag.
+    await removeTag(mongo, tenant, comment.parentID, GQLTAG.UNANSWERED);
+  }
+};
 
 export default async function create(
   mongo: Db,
@@ -180,6 +222,7 @@ export default async function create(
   await Promise.all([
     updateUserLastCommentID(redis, tenant, author, comment.id),
     updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
+    markCommentAsAnswered(mongo, tenant, comment, story, author),
   ]);
 
   // Pull the revision out.
