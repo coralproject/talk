@@ -43,11 +43,6 @@ const UserTagsContainer: FunctionComponent<Props> = ({
       {staffTag && (
         <Tag className={cn(className, styles.tag)}>{settings.staff.label}</Tag>
       )}
-      {unansweredTag && (
-        <Tag variant="pill" color="grey" className={styles.tag}>
-          <Flex alignItems="center">UNANSWERED</Flex>
-        </Tag>
-      )}
     </Flex>
   );
 };
