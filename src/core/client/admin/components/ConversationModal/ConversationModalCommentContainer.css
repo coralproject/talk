@@ -31,3 +31,7 @@ $conversationModalCommentText: var(--v2-colors-mono-500);
 .commentText {
   color: $conversationModalCommentText;
 }
+
+.showReplies {
+  padding-left: var(--v2-spacing-2);
+}
