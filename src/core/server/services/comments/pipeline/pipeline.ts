@@ -64,6 +64,7 @@ export type IntermediatePhaseResult = Partial<PhaseResult> | void;
 export interface IntermediateModerationPhaseContext
   extends ModerationPhaseContext {
   metadata: RevisionMetadata;
+  tags: CommentTag[];
 }
 
 export type IntermediateModerationPhase = (
@@ -103,6 +104,7 @@ export const compose = (
         ...context.comment,
         body: final.body,
       },
+      tags: final.tags,
       htmlStripped,
       metadata: final.metadata,
     });

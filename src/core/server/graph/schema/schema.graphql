@@ -2350,6 +2350,12 @@ enum TAG {
   FEATURED is used when a Comment is marked as such by a staff member.
   """
   FEATURED
+
+  """
+  EXPERT is used when an a Comment is written by a User that is assigned as
+  an expert on a story.
+  """
+  EXPERT
 }
 
 """

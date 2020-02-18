@@ -6,6 +6,7 @@ import {
   GQLSettings,
   GQLSite,
   GQLStory,
+  GQLSTORY_MODE,
   GQLTAG,
   GQLTag,
   GQLUser,
@@ -539,6 +540,8 @@ export const baseStory = createFixture<GQLStory>({
       enabled: true,
       configurable: true,
     },
+    mode: GQLSTORY_MODE.COMMENTS,
+    experts: [],
   },
   site,
 });
