@@ -372,6 +372,18 @@ type WordList {
   suspect: [String!]!
 }
 
+enum STORY_MODE {
+  """
+  Coments is when a story is used for general commenting.
+  """
+  COMMENTS
+
+  """
+  QA is used for when the story is in Q&A mode.
+  """
+  QA
+}
+
 ################################################################################
 ## Moderation
 ################################################################################
@@ -2590,6 +2602,20 @@ type StorySettings {
   messageBox stores settings related to the Story Message Box.
   """
   messageBox: StoryMessageBox!
+
+  """
+  mode is whether the story stream is in commenting or Q&A mode.
+  This will determine the appearance of the stream and how it functions.
+  This is an optional parameter and if unset, defaults to commenting.
+  """
+  mode: STORY_MODE
+
+  """
+  experts are used during Q&A mode to assign users to answer questions
+  on a Q&A stream. It is an optional parameter and is only used when
+  the story stream is in Q&A mode.
+  """
+  experts: [User!]!
 }
 
 """
@@ -4242,6 +4268,8 @@ input UpdateStorySettings {
   messageBox stores settings related to the Story Message Box.
   """
   messageBox: StoryMessageBoxInput
+
+  mode: STORY_MODE
 }
 
 input UpdateStorySettingsInput {
@@ -5475,6 +5503,116 @@ type DisableFeatureFlagPayload {
   flags: [FEATURE_FLAG!]!
 }
 
+#########################
+# Add / Remove Expert
+#########################
+
+input AddExpertInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story to add the expert to.
+  """
+  storyID: ID!
+
+  """
+  userID is the user to add as an expert to the story.
+  """
+  userID: ID!
+}
+
+type AddExpertPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  story is the resultant story the expert was added to.
+  """
+  story: Story!
+}
+
+input RemoveExpertInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story to remove the expert from.
+  """
+  storyID: ID!
+
+  """
+  userID is the user to remove as an expert from the story.
+  """
+  userID: ID!
+}
+
+type RemoveExpertPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  story is the resultant story the expert was removed from.
+  """
+  story: Story!
+}
+
+input EnableQAInput {
+  """
+  storyID is the story id to enable Q&A on.
+  """
+  storyID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type EnableQAPayload {
+  """
+  story is the resultant story that Q&A was enabled on.
+  """
+  story: Story!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input DisableQAInput {
+  """
+  storyID is the story id to enable Q&A on.
+  """
+  storyID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DisableQAPayload {
+  """
+  story is the resultant story that Q&A was enabled on.
+  """
+  story: Story!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 ##################
 ## Mutation
 ##################
@@ -5847,13 +5985,45 @@ type Mutation {
     input: DisableFeatureFlagInput!
   ): DisableFeatureFlagPayload! @auth(roles: [ADMIN])
 
+  """
+  createAnnouncement creates a global announcement.
+  """
   createAnnouncement(
     input: CreateAnnouncementInput!
   ): CreateAnnouncementPayload! @auth(roles: [ADMIN])
 
+  """
+  deleteAnnouncement removes a global announcement.
+  """
   deleteAnnouncement(
     input: DeleteAnnouncementInput!
   ): DeleteAnnouncementPayload! @auth(roles: [ADMIN])
+
+  """
+  enableQAOnStory will enable Q&A mode on a story.
+  """
+  enableQAOnStory(input: EnableQAInput!): EnableQAPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  disableQAOnStory will disable Q&A mode on a story.
+  """
+  disableQAOnStory(input: DisableQAInput!): DisableQAPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  addExpertToStory adds an expert to a story.
+  """
+  addExpertToStory(
+    input: AddExpertInput!
+  ): AddExpertPayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  removeExpertFromStory removes an expert from a story.
+  """
+  removeExpertFromStory(
+    input: RemoveExpertInput!
+  ): RemoveExpertPayload! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################

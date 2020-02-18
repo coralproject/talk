@@ -1,0 +1,23 @@
+.list {
+  position: absolute;
+  z-index: 99;
+
+  min-width: calc(80% - 47px);
+  max-height: 120px;
+  overflow-y: auto;
+
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: var(--v2-spacing-1);
+
+  margin-bottom: var(--v2-spacing-2);
+}
+
+.loadMore {
+  margin-top: var(--v2-spacing-1);
+
+  padding-top: var(--v2-spacing-1);
+  padding-bottom: var(--v2-spacing-1);
+
+  width: 100%;
+}
