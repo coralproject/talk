@@ -1,0 +1,7 @@
+.heading {
+  padding-bottom: calc(1.5 * var(--mini-unit));
+}
+
+.button {
+  flex-shrink: 0;
+}

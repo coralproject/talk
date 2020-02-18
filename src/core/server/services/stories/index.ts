@@ -3,7 +3,7 @@ import { Db } from "mongodb";
 
 import isNonNullArray from "coral-common/helpers/isNonNullArray";
 import { Config } from "coral-server/config";
-import { StoryURLInvalidError } from "coral-server/errors";
+import { StoryURLInvalidError, UserNotFoundError } from "coral-server/errors";
 import { StoryCreatedCoralEvent } from "coral-server/events";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
@@ -20,14 +20,19 @@ import {
   removeStoryComments,
 } from "coral-server/models/comment";
 import {
+  addExpert,
+  calculateTotalCommentCount,
   closeStory,
   createStory,
   CreateStoryInput,
+  disableQA,
+  enableQA,
   findOrCreateStory,
   FindOrCreateStoryInput,
   findStory,
   FindStoryInput,
   openStory,
+  removeExpert,
   removeStories,
   removeStory,
   retrieveManyStories,
@@ -40,6 +45,7 @@ import {
   UpdateStorySettingsInput,
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
+import { retrieveUser } from "coral-server/models/user";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
@@ -366,4 +372,48 @@ export async function merge(
 
   // Return the story that had the other stories merged into.
   return destinationStory;
+}
+
+export async function addExpertToStory(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  userID: string
+) {
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  return addExpert(mongo, tenant.id, storyID, userID);
+}
+
+export async function removeExpertFromStory(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  userID: string
+) {
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  return removeExpert(mongo, tenant.id, storyID, userID);
+}
+
+export async function enableQAOnStory(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string
+) {
+  return enableQA(mongo, tenant.id, storyID);
+}
+
+export async function disableQAOnStory(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string
+) {
+  return disableQA(mongo, tenant.id, storyID);
 }

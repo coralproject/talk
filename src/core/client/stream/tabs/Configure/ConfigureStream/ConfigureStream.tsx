@@ -22,6 +22,7 @@ import PremodLinksConfigContainer from "./PremodLinksConfig";
 import styles from "./ConfigureStream.css";
 
 interface Props {
+  storyID: string;
   onSubmit: (settings: any, form: FormApi) => void;
   storySettings: PropTypesOf<
     typeof LiveUpdatesConfigContainer
@@ -41,9 +42,9 @@ const ConfigureStream: FunctionComponent<Props> = ({
         id="configure-form"
       >
         <Flex justifyContent="space-between" alignItems="flex-start" itemGutter>
-          <Localized id="configure-stream-title">
+          <Localized id="configure-stream-title-configureThisStream">
             <Typography variant="heading2" className={styles.heading}>
-              Configure this Comment Stream
+              Configure this Stream
             </Typography>
           </Localized>
           <Localized id="configure-stream-apply">

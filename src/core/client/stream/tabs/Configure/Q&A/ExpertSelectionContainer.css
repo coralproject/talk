@@ -1,0 +1,29 @@
+.searchRoot {
+  position: relative;
+  width: 100%;
+}
+
+.searchField {
+  width: 80%;
+
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.searchButton {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.description {
+  max-width: 350px;
+}
+
+.expertListTitle {
+  margin-top: var(--v2-spacing-3);
+}
+
+.list {
+  padding: 0;
+  list-style-type: none;
+}

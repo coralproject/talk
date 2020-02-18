@@ -8,6 +8,7 @@ import ConfigureStreamContainer from "./ConfigureStream";
 import HorizontalRule from "./HorizontalRule";
 import ModerateStreamContainer from "./ModerateStreamContainer";
 import OpenOrCloseStreamContainer from "./OpenOrCloseStream";
+import { QAConfigContainer } from "./Q&A";
 
 export interface Props {
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"];
@@ -15,7 +16,8 @@ export interface Props {
     PropTypesOf<typeof ModerateStreamContainer>["settings"];
   story: PropTypesOf<typeof ConfigureStreamContainer>["story"] &
     PropTypesOf<typeof OpenOrCloseStreamContainer>["story"] &
-    PropTypesOf<typeof ModerateStreamContainer>["story"];
+    PropTypesOf<typeof ModerateStreamContainer>["story"] &
+    PropTypesOf<typeof QAConfigContainer>["story"];
 }
 
 const Configure: FunctionComponent<Props> = props => {
@@ -29,6 +31,8 @@ const Configure: FunctionComponent<Props> = props => {
         />
         <HorizontalRule />
         <ConfigureStreamContainer story={props.story} />
+        <HorizontalRule />
+        <QAConfigContainer story={props.story} />
         <HorizontalRule />
         <OpenOrCloseStreamContainer story={props.story} />
       </HorizontalGutter>

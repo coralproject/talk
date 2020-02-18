@@ -5,21 +5,29 @@ import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { Story } from "coral-server/models/story";
 import {
+  addExpertToStory,
   close,
   create,
+  disableQAOnStory,
+  enableQAOnStory,
   merge,
   open,
   remove,
+  removeExpertFromStory,
   update,
   updateSettings,
 } from "coral-server/services/stories";
 import { scrape } from "coral-server/services/stories/scraper";
 
 import {
+  GQLAddExpertInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
+  GQLDisableQAInput,
+  GQLEnableQAInput,
   GQLMergeStoriesInput,
   GQLOpenStoryInput,
+  GQLRemoveExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
   GQLUpdateStoryInput,
@@ -70,4 +78,12 @@ export const Stories = (ctx: GraphContext) => ({
     remove(ctx.mongo, ctx.tenant, input.id, input.includeComments),
   scrape: async (input: GQLScrapeStoryInput): Promise<Readonly<Story> | null> =>
     scrape(ctx.mongo, ctx.config, ctx.tenant.id, input.id),
+  enableQAOnStory: async (input: GQLEnableQAInput) =>
+    enableQAOnStory(ctx.mongo, ctx.tenant, input.storyID),
+  disableQAOnStory: async (input: GQLDisableQAInput) =>
+    disableQAOnStory(ctx.mongo, ctx.tenant, input.storyID),
+  addExpertToStory: async (input: GQLAddExpertInput) =>
+    addExpertToStory(ctx.mongo, ctx.tenant, input.storyID, input.userID),
+  removeExpertFromStory: async (input: GQLRemoveExpertInput) =>
+    removeExpertFromStory(ctx.mongo, ctx.tenant, input.storyID, input.userID),
 });
