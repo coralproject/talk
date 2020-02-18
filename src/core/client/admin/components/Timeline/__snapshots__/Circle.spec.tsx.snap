@@ -2,24 +2,20 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="Circle-circleContainer root"
+  className="Circle-root root Circle-sizeReg Circle-colorReg"
 >
-  <div
-    className="Circle-circleSubContainer Circle-end"
+  <svg
+    className="Circle-circle"
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <svg
-      className="Circle-circle"
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle
-        cx="50"
-        cy="50"
-        fill="none"
-        r="40"
-        strokeWidth="8"
-      />
-    </svg>
-  </div>
+    <circle
+      cx="50%"
+      cy="50%"
+      fill="none"
+      r="45"
+      strokeWidth="10"
+    />
+  </svg>
 </div>
 `;

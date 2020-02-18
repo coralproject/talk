@@ -77,7 +77,7 @@ const enhanced = withPaginationContainer<
     comment: graphql`
       fragment ConversationModalRepliesContainer_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 1 }
+          count: { type: "Int!", defaultValue: 0 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
