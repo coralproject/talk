@@ -29,7 +29,7 @@ interface FormSubmitProps extends FormProps, FormError {}
 
 interface StorySettings {
   settings?: {
-    mode?: GQLSTORY_MODE | null;
+    mode?: "COMMENTS" | "QA" | "%future added value" | null;
   };
 }
 

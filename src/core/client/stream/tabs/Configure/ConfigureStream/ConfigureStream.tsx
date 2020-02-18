@@ -75,8 +75,6 @@ const ConfigureStream: FunctionComponent<Props> = ({
           <PremodConfigContainer disabled={submitting} />
           <PremodLinksConfigContainer disabled={submitting} />
           <MessageBoxConfigContainer disabled={submitting} />
-          <StreamMode disabled={submitting} />
-          <ExpertSelectionQuery storyID={storyID} />
         </HorizontalGutter>
       </form>
     )}
