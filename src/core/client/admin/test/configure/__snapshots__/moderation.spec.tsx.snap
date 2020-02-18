@@ -760,7 +760,7 @@ comment is toxic, according to Perspective API. By default the threshold is set 
 You can find out more about model choices 
                       <a
                         className="ExternalLink-root"
-                        href="https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#models"
+                        href="https://github.com/conversationai/perspectiveapi/blob/master/2-api/models.md"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
