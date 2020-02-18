@@ -1002,7 +1002,7 @@ type SlackChannel {
   triggers are the filters of types of comments that will be sent to
   the correlated channel
   """
-  triggers: SlackChannelTriggers
+  triggers: SlackChannelTriggers!
 }
 
 ################################################################################
@@ -1204,6 +1204,79 @@ type StaffConfiguration {
   label: String!
 }
 
+type WebhookDelivery {
+  success: Boolean!
+  status: Int!
+  statusText: String!
+  request: String!
+  response: String!
+  createdAt: Time!
+}
+
+enum WEBHOOK_EVENT_NAME {
+  STORY_CREATED
+}
+
+"""
+TODO: merge with SSOKey with PR #2732
+"""
+type Secret {
+  """
+  secret is the actual underlying secret used to verify the tokens with.
+  """
+  secret: String!
+
+  """
+  createdAt is the date that the key was created at.
+  """
+  createdAt: Time!
+}
+
+type WebhookEndpoint {
+  """
+  id is the unique identifier for this specific endpoint.
+  """
+  id: ID!
+
+  """
+  enabled when true will enable events to be sent to this endpoint.
+  """
+  enabled: Boolean!
+
+  """
+  url is the URL that we will POST event data to.
+  """
+  url: String!
+
+  """
+  signingSecret is the current secret used to sign the events sent out.
+  """
+  signingSecret: Secret!
+
+  """
+  deliveries store the deliveries for each event sent for the last 50 events.
+  """
+  deliveries: [WebhookDelivery!]!
+
+  """
+  all is true when all events are subscribed to.
+  """
+  all: Boolean!
+
+  """
+  events are the specific event names that this endpoint is configured to send
+  for.
+  """
+  events: [WEBHOOK_EVENT_NAME!]!
+}
+
+type WebhookConfiguration {
+  """
+  endpoints is all the configured endpoints that should receive events.
+  """
+  endpoints: [WebhookEndpoint!]!
+}
+
 """
 NewCommenterConfiguration specifies the features that apply to new commenters
 """
@@ -1265,6 +1338,16 @@ type Settings {
   domain is the domain that is associated with this Tenant.
   """
   domain: String! @auth(roles: [ADMIN])
+
+  """
+  webhooks store the webhook configuration.
+  """
+  webhooks: WebhookConfiguration! @auth(roles: [ADMIN])
+
+  """
+  webhookEvents returns all the events that can trigger webhooks.
+  """
+  webhookEvents: [WEBHOOK_EVENT_NAME!]! @auth(roles: [ADMIN])
 
   """
   staticURI if configured, is the static URI used to serve static files from.
@@ -2891,6 +2974,11 @@ type Query {
   activeStories(limit: Int = 10 @constraint(max: 25)): [Story!]!
     @auth(roles: [ADMIN])
     @rate(max: 2, seconds: 1)
+
+  """
+  webhookEndpint will return a specific WebhookEndpoint if it exists.
+  """
+  webhookEndpoint(id: ID!): WebhookEndpoint @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -4769,6 +4857,212 @@ type DeleteModeratorNotePayload {
 }
 
 ##################
+# createWebhookEndpoint
+##################
+
+input CreateWebhookEndpointInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  url is the URL that Coral will POST event data to.
+  """
+  url: String!
+
+  """
+  all is true when all events are subscribed to.
+  """
+  all: Boolean!
+
+  """
+  events are the specific event names that this endpoint is configured to send
+  for.
+  """
+  events: [WEBHOOK_EVENT_NAME!]!
+}
+
+type CreateWebhookEndpointPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  endpoint is the endpoint that we just created.
+  """
+  endpoint: WebhookEndpoint!
+
+  """
+  settings is the updated settings also containing the new endpoint.
+  """
+  settings: Settings!
+}
+
+##################
+# updateWebhookEndpoint
+##################
+
+input UpdateWebhookEndpointInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the WebhookEndpoint being updated.
+  """
+  id: ID!
+
+  """
+  url is the URL that Coral will POST event data to.
+  """
+  url: String
+
+  """
+  all is true when all events are subscribed to.
+  """
+  all: Boolean
+
+  """
+  events are the specific event names that this endpoint is configured to send
+  for.
+  """
+  events: [WEBHOOK_EVENT_NAME!]
+}
+
+type UpdateWebhookEndpointPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  endpoint is the endpoint that we just created.
+  """
+  endpoint: WebhookEndpoint!
+}
+
+##################
+# rotateWebhookEndpointSecret
+##################
+
+input RotateWebhookEndpointSecretInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the WebhookEndpoint being updated.
+  """
+  id: ID!
+
+  """
+  inactiveIn is the number of seconds that the current active Secret should be
+  kept active.
+  """
+  inactiveIn: Int!
+}
+
+type RotateWebhookEndpointSecretPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  endpoint is the endpoint that we just updated.
+  """
+  endpoint: WebhookEndpoint
+}
+
+##################
+# disableWebhookEndpoint
+##################
+
+input DisableWebhookEndpointInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the WebhookEndpoint being disabled.
+  """
+  id: ID!
+}
+
+type DisableWebhookEndpointPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  endpoint is the endpoint that we just disabled.
+  """
+  endpoint: WebhookEndpoint
+}
+
+##################
+# enableWebhookEndpoint
+##################
+
+input EnableWebhookEndpointInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the WebhookEndpoint being enabled.
+  """
+  id: ID!
+}
+
+type EnableWebhookEndpointPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  endpoint is the endpoint that we just enabled.
+  """
+  endpoint: WebhookEndpoint
+}
+
+##################
+# deleteWebhookEndpoint
+##################
+
+input DeleteWebhookEndpointInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the WebhookEndpoint being deleted.
+  """
+  id: ID!
+}
+
+type DeleteWebhookEndpointPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  endpoint is the endpoint that we just deleted.
+  """
+  endpoint: WebhookEndpoint
+}
+
+##################
 # setEmail
 ##################
 
@@ -5899,6 +6193,49 @@ type Mutation {
   createSite(input: CreateSiteInput!): CreateSitePayload! @auth(roles: [ADMIN])
 
   updateSite(input: UpdateSiteInput!): UpdateSitePayload! @auth(roles: [ADMIN])
+
+  """
+  createWebhookEndpoint will create a new WebhookEndpoint.
+  """
+  createWebhookEndpoint(
+    input: CreateWebhookEndpointInput!
+  ): CreateWebhookEndpointPayload! @auth(roles: [ADMIN])
+
+  """
+  updateWebhookEndpoint will update a WebhookEndpoint.
+  """
+  updateWebhookEndpoint(
+    input: UpdateWebhookEndpointInput!
+  ): UpdateWebhookEndpointPayload! @auth(roles: [ADMIN])
+
+  """
+  enableWebhookEndpoint will enable a WebhookEndpoint to recieve new events.
+  """
+  enableWebhookEndpoint(
+    input: EnableWebhookEndpointInput!
+  ): EnableWebhookEndpointPayload! @auth(roles: [ADMIN])
+
+  """
+  disableWebhookEndpoint will disable a WebhookEndpoint from recieving new
+  events.
+  """
+  disableWebhookEndpoint(
+    input: DisableWebhookEndpointInput!
+  ): DisableWebhookEndpointPayload! @auth(roles: [ADMIN])
+
+  """
+  deleteWebhookEndpoint will delete a WebhookEndpoint.
+  """
+  deleteWebhookEndpoint(
+    input: DeleteWebhookEndpointInput!
+  ): DeleteWebhookEndpointPayload! @auth(roles: [ADMIN])
+
+  """
+  rotateWebhookEndpointSecret will roll the current active secret to a new key.
+  """
+  rotateWebhookEndpointSecret(
+    input: RotateWebhookEndpointSecretInput!
+  ): RotateWebhookEndpointSecretPayload! @auth(roles: [ADMIN])
 }
 
 ##################

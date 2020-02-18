@@ -86,7 +86,7 @@ export const storyModerationInputResolver = (
  *
  * @param source the source of the type, not used
  * @param args the args of the type, not used
- * @param ctx the TenantContext that will be used to get the shared counts
+ * @param ctx the GraphContext that will be used to get the shared counts
  */
 export const sharedModerationInputResolver = async (
   source: any,
@@ -106,7 +106,7 @@ export const sharedModerationInputResolver = async (
  *
  * @param source the source of the payload, not used
  * @param args the args of the payload containing potentially a Story ID
- * @param ctx the TenantContext for which we can use to retrieve the shared data
+ * @param ctx the GraphContext for which we can use to retrieve the shared data
  */
 export const moderationQueuesResolver: QueryToModerationQueuesResolver = async (
   source,

@@ -1,4 +1,4 @@
-import { Publisher } from "coral-server/graph/subscriptions/publisher";
+import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import {
   Comment,
   CommentModerationQueueCounts,
@@ -19,17 +19,17 @@ interface PublishChangesInput {
 }
 
 export default async function publishChanges(
-  publish: Publisher,
+  broker: CoralEventPublisherBroker,
   input: PublishChangesInput
 ) {
   // Publish changes.
-  publishModerationQueueChanges(publish, input.moderationQueue, input.after);
+  publishModerationQueueChanges(broker, input.moderationQueue, input.after);
 
   // If this was a change, and it has a "before" state for the comment, process
   // those updates too.
   if (input.before) {
     publishCommentStatusChanges(
-      publish,
+      broker,
       input.before.status,
       input.after.status,
       input.after.id,
@@ -37,7 +37,7 @@ export default async function publishChanges(
     );
 
     if (hasModeratorStatus(input.before) && hasPublishedStatus(input.after)) {
-      publishCommentReleased(publish, input.after);
+      publishCommentReleased(broker, input.after);
     }
   }
 }

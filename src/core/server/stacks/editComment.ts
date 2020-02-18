@@ -4,7 +4,7 @@ import { Db } from "mongodb";
 import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
 import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
-import { Publisher } from "coral-server/graph/subscriptions/publisher";
+import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import {
   encodeActionCounts,
@@ -57,7 +57,7 @@ export default async function edit(
   mongo: Db,
   redis: AugmentedRedis,
   config: Config,
-  publisher: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: EditComment,
@@ -188,7 +188,7 @@ export default async function edit(
   });
 
   // Publish changes to the event publisher.
-  await publishChanges(publisher, {
+  await publishChanges(broker, {
     ...result,
     ...counts,
   });

@@ -9,7 +9,8 @@ import TIME from "coral-common/time";
 import { DeepPartial, Omit, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
-import { Settings } from "coral-server/models/settings";
+import logger from "coral-server/logger";
+import { Secret, Settings } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
@@ -18,12 +19,14 @@ import {
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
   GQLSettings,
+  GQLWEBHOOK_EVENT_NAME,
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
-  generateSSOKey,
+  generateSecret,
   getDefaultReactionConfiguration,
   getDefaultStaffConfiguration,
+  getWebhookEndpoint,
 } from "./helpers";
 
 /**
@@ -36,6 +39,49 @@ export interface TenantResource {
    * resource.
    */
   readonly tenantID: string;
+}
+
+export interface Endpoint {
+  /**
+   * id is the unique identifier for this specific endpoint.
+   */
+  id: string;
+
+  /**
+   * enabled when true will enable events to be sent to this endpoint.
+   */
+  enabled: boolean;
+
+  /**
+   * url is the URL that we will POST event data to.
+   */
+  url: string;
+
+  /**
+   * signingSecret is the secret used to sign the events sent out.
+   */
+  signingSecrets: Secret[];
+
+  /**
+   * all when true indicates that all events should trigger.
+   */
+  all: boolean;
+
+  /**
+   * events is the array of events that will trigger the delivery of an
+   * event.
+   */
+  events: GQLWEBHOOK_EVENT_NAME[];
+
+  /**
+   * createdAt is the date that this endpoint was created.
+   */
+  createdAt: Date;
+
+  /**
+   * modifiedAt is the date that this Endpoint was last modified at.
+   */
+  modifiedAt?: Date;
 }
 
 export interface TenantSettings
@@ -51,6 +97,16 @@ export interface TenantSettings
    * featureFlags is the set of flags enabled on this Tenant.
    */
   featureFlags?: GQLFEATURE_FLAG[];
+
+  /**
+   * webhooks stores the configurations for this Tenant's webhook rules.
+   */
+  webhooks: {
+    /**
+     * endpoints is all the configured endpoints that should receive events.
+     */
+    endpoints: Endpoint[];
+  };
 }
 
 /**
@@ -112,6 +168,9 @@ export async function createTenant(
       enabled: false,
     },
     editCommentWindowLength: 30 * TIME.SECOND,
+    webhooks: {
+      endpoints: [],
+    },
     charCount: {
       enabled: false,
     },
@@ -138,7 +197,7 @@ export async function createTenant(
             stream: true,
           },
           // TODO: [CORL-754] (wyattjoh) remove this in favor of generating this when needed
-          keys: [generateSSOKey(now)],
+          keys: [generateSecret("ssosec", now)],
         },
         oidc: {
           enabled: false,
@@ -294,9 +353,11 @@ export async function updateTenant(
     { id },
     // Only update fields that have been updated.
     { $set },
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
   );
 
   return result.value || null;
@@ -309,7 +370,7 @@ export async function updateTenant(
  */
 export async function createTenantSSOKey(mongo: Db, id: string, now: Date) {
   // Construct the new key.
-  const key = generateSSOKey(now);
+  const key = generateSecret("ssosec", now);
 
   // Update the Tenant with this new key.
   const result = await collection(mongo).findOneAndUpdate(
@@ -465,4 +526,244 @@ export function retrieveAnnouncementIfEnabled(
     };
   }
   return null;
+}
+
+export async function rollTenantWebhookEndpointSecret(
+  mongo: Db,
+  id: string,
+  endpointID: string,
+  inactiveAt: Date,
+  now: Date
+) {
+  // Create the new secret.
+  const secret = generateSecret("whsec", now);
+
+  // Update the Tenant with this new secret.
+  let result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $push: { "webhooks.endpoints.$[endpoint].signingSecrets": secret },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+      arrayFilters: [
+        // Select the endpoint we're updating.
+        { "endpoint.id": endpointID },
+      ],
+    }
+  );
+  if (!result.value) {
+    return null;
+  }
+
+  // Grab the endpoint we just modified.
+  const endpoint = getWebhookEndpoint(result.value, endpointID);
+  if (!endpoint) {
+    return null;
+  }
+
+  // Get the secrets we need to deactivate...
+  const secretKIDsToDeprecate = endpoint.signingSecrets
+    // By excluding the last one (the one we just pushed)...
+    .splice(0, endpoint.signingSecrets.length - 1)
+    // And only finding keys that have not been rotated yet.
+    .filter(s => !s.rotatedAt)
+    // And get their kid's.
+    .map(s => s.kid);
+  if (secretKIDsToDeprecate.length > 0) {
+    logger.trace(
+      { kids: secretKIDsToDeprecate },
+      "deprecating old signingSecrets"
+    );
+
+    // Deactivate the old keys.
+    result = await collection(mongo).findOneAndUpdate(
+      { id },
+      {
+        $set: {
+          "webhooks.endpoints.$[endpoint].signingSecrets.$[signingSecret].inactiveAt": inactiveAt,
+          "webhooks.endpoints.$[endpoint].signingSecrets.$[signingSecret].rotatedAt": now,
+        },
+      },
+      {
+        arrayFilters: [
+          // Select the endpoint we're updating.
+          { "endpoint.id": endpointID },
+          // Select any signing secrets with the given ids.
+          { "signingSecret.kid": { $in: secretKIDsToDeprecate } },
+        ],
+      }
+    );
+  }
+
+  return result.value;
+}
+
+export interface CreateTenantWebhookEndpointInput {
+  url: string;
+  all: boolean;
+  events: GQLWEBHOOK_EVENT_NAME[];
+}
+
+export async function createTenantWebhookEndpoint(
+  mongo: Db,
+  id: string,
+  input: CreateTenantWebhookEndpointInput,
+  now: Date
+) {
+  // Create the new endpoint.
+  const endpoint: Endpoint = {
+    ...input,
+    id: uuid(),
+    enabled: true,
+    signingSecrets: [generateSecret("whsec", now)],
+    createdAt: now,
+  };
+
+  // Update the Tenant with this new endpoint.
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    { $push: { "webhooks.endpoints": endpoint } },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    const tenant = await retrieveTenant(mongo, id);
+    if (!tenant) {
+      return {
+        endpoint: null,
+        tenant: null,
+      };
+    }
+
+    throw new Error("update failed for an unexpected reason");
+  }
+
+  return {
+    endpoint,
+    tenant: result.value,
+  };
+}
+
+export interface UpdateTenantWebhookEndpointInput {
+  enabled?: boolean;
+  url?: string;
+  all?: boolean;
+  events?: GQLWEBHOOK_EVENT_NAME[];
+}
+
+export async function updateTenantWebhookEndpoint(
+  mongo: Db,
+  id: string,
+  endpointID: string,
+  update: UpdateTenantWebhookEndpointInput
+) {
+  const $set = dotize(
+    { "webhooks.endpoints.$[endpoint]": update },
+    { embedArrays: true }
+  );
+
+  // Check to see if there is any updates that will be made.
+  if (isEmpty($set)) {
+    // No updates need to be made, abort here and just return the tenant.
+    return retrieveTenant(mongo, id);
+  }
+
+  // Perform the actual update operation.
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    { $set },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+      arrayFilters: [{ "endpoint.id": endpointID }],
+    }
+  );
+  if (!result.value) {
+    const tenant = await retrieveTenant(mongo, id);
+    if (!tenant) {
+      return null;
+    }
+
+    const endpoint = getWebhookEndpoint(tenant, endpointID);
+    if (!endpoint) {
+      throw new Error(
+        `endpoint not found with id: ${endpointID} on tenant: ${id}`
+      );
+    }
+
+    throw new Error("update failed for an unexpected reason");
+  }
+
+  return result.value;
+}
+
+export async function deleteEndpointSecrets(
+  mongo: Db,
+  id: string,
+  endpointID: string,
+  kids: string[]
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $pull: {
+        "webhooks.endpoints.$[endpoint].signingSecrets": { kid: { $in: kids } },
+      },
+    },
+    { returnOriginal: false, arrayFilters: [{ "endpoint.id": endpointID }] }
+  );
+  if (!result.value) {
+    const tenant = await retrieveTenant(mongo, id);
+    if (!tenant) {
+      return null;
+    }
+
+    const endpoint = getWebhookEndpoint(tenant, endpointID);
+    if (!endpoint) {
+      throw new Error(
+        `endpoint not found with id: ${endpointID} on tenant: ${id}`
+      );
+    }
+
+    throw new Error("update failed for an unexpected reason");
+  }
+
+  return result.value;
+}
+
+export async function deleteTenantWebhookEndpoint(
+  mongo: Db,
+  id: string,
+  endpointID: string
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $pull: {
+        "webhooks.endpoints": { id: endpointID },
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    const tenant = await retrieveTenant(mongo, id);
+    if (!tenant) {
+      return null;
+    }
+
+    throw new Error("update failed for an unexpected reason");
+  }
+
+  return result.value;
 }

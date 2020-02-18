@@ -576,7 +576,7 @@ export async function findOrCreateUser(
   const user = await findOrCreateUserInput(tenantID, input, now);
 
   try {
-    await collection(mongo).findOneAndUpdate(
+    const result = await collection(mongo).findOneAndUpdate(
       {
         tenantID,
         profiles: {
@@ -588,12 +588,18 @@ export async function findOrCreateUser(
       },
       { $setOnInsert: user },
       {
-        // False to return the updated document instead of the original
-        // document.
-        returnOriginal: false,
+        // True to return the original document instead of the updated document.
+        // This will ensure that when an upsert operation adds a new User, it
+        // should return null.
+        returnOriginal: true,
         upsert: true,
       }
     );
+
+    return {
+      user: result.value || user,
+      wasUpserted: !result.value,
+    };
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate User error.
@@ -607,8 +613,6 @@ export async function findOrCreateUser(
 
     throw err;
   }
-
-  return user;
 }
 
 export type CreateUserInput = FindOrCreateUserInput;

@@ -8,7 +8,7 @@ import {
   CoralError,
   StoryNotFoundError,
 } from "coral-server/errors";
-import { Publisher } from "coral-server/graph/subscriptions/publisher";
+import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import {
   encodeActionCounts,
@@ -59,7 +59,7 @@ export default async function create(
   mongo: Db,
   redis: AugmentedRedis,
   config: Config,
-  publisher: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -233,19 +233,19 @@ export default async function create(
   });
 
   // Publish changes to the event publisher.
-  await publishChanges(publisher, {
+  await publishChanges(broker, {
     ...counts,
     after: comment,
   });
 
   // If this is a reply, publish it.
   if (input.parentID) {
-    publishCommentReplyCreated(publisher, comment);
+    publishCommentReplyCreated(broker, comment);
   }
 
   // If this comment is visible (and not a reply), publish it.
   if (!input.parentID && hasPublishedStatus(comment)) {
-    publishCommentCreated(publisher, comment);
+    publishCommentCreated(broker, comment);
   }
 
   return comment;

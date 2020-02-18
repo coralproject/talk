@@ -81,7 +81,14 @@ const primeStoriesFromConnection = (ctx: GraphContext) => (
 export default (ctx: GraphContext) => ({
   findOrCreate: new DataLoader(
     createManyBatchLoadFn((input: FindOrCreateStory) =>
-      findOrCreate(ctx.mongo, ctx.tenant, input, ctx.scraperQueue, ctx.now)
+      findOrCreate(
+        ctx.mongo,
+        ctx.tenant,
+        ctx.broker,
+        input,
+        ctx.scraperQueue,
+        ctx.now
+      )
     ),
     {
       // TODO: (wyattjoh) see if there's something we can do to improve the cache key

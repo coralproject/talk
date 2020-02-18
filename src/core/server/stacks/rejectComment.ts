@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import { Publisher } from "coral-server/graph/subscriptions/publisher";
+import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { hasTag } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
@@ -20,7 +20,7 @@ const rejectComment = async (
   mongo: Db,
   redis: AugmentedRedis,
   config: Config,
-  publisher: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -49,7 +49,7 @@ const rejectComment = async (
   });
 
   // Publish changes to the event publisher.
-  await publishChanges(publisher, {
+  await publishChanges(broker, {
     ...result,
     ...counts,
     moderatorID,

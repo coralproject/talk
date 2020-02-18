@@ -4,9 +4,11 @@ import Logger from "bunyan";
 import TIME from "coral-common/time";
 import logger from "coral-server/logger";
 
-export interface TaskOptions<T, U = any> {
+export type JobProcessor<T, U = void> = (job: Job<T>) => Promise<U>;
+
+export interface TaskOptions<T, U = void> {
   jobName: string;
-  jobProcessor: (job: Job<T>) => Promise<U>;
+  jobProcessor: JobProcessor<T, U>;
   jobOptions?: Queue.JobOptions;
   queue: Queue.QueueOptions;
 }

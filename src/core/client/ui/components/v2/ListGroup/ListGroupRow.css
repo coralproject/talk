@@ -1,0 +1,8 @@
+.root {
+  border-bottom: 1px solid var(--v2-colors-grey-200);
+  padding: var(--v2-spacing-2);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

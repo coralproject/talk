@@ -90,6 +90,15 @@ exports[`renders configure advanced 1`] = `
               </li>
               <li>
                 <a
+                  className="Link-link"
+                  href="/admin/configure/webhooks"
+                  onClick={[Function]}
+                >
+                  Webhooks
+                </a>
+              </li>
+              <li>
+                <a
                   className="Link-link Link-linkActive"
                   href="/admin/configure/advanced"
                   onClick={[Function]}

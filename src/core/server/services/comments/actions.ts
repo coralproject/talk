@@ -2,7 +2,7 @@ import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
 import { CommentNotFoundError } from "coral-server/errors";
-import { Publisher } from "coral-server/graph/subscriptions/publisher";
+import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import {
   ACTION_TYPE,
   CreateActionInput,
@@ -76,7 +76,7 @@ export async function addCommentActionCounts(
 async function addCommentAction(
   mongo: Db,
   redis: AugmentedRedis,
-  publisher: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   input: Omit<CreateActionInput, "storyID" | "siteID">,
   now = new Date()
@@ -116,7 +116,7 @@ async function addCommentAction(
     });
 
     // Publish changes to the event publisher.
-    await publishChanges(publisher, {
+    await publishChanges(broker, {
       ...counts,
       before: oldComment,
       after: updatedComment,
@@ -131,7 +131,7 @@ async function addCommentAction(
 export async function removeCommentAction(
   mongo: Db,
   redis: AugmentedRedis,
-  publisher: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   input: Omit<RemoveActionInput, "commentRevisionID" | "reason">
 ): Promise<Readonly<Comment>> {
@@ -191,7 +191,7 @@ export async function removeCommentAction(
     });
 
     // Publish changes to the event publisher.
-    await publishChanges(publisher, {
+    await publishChanges(broker, {
       ...counts,
       before: oldComment,
       after: updatedComment,
@@ -211,7 +211,7 @@ export type CreateCommentReaction = Pick<
 export async function createReaction(
   mongo: Db,
   redis: AugmentedRedis,
-  publish: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: CreateCommentReaction,
@@ -220,7 +220,7 @@ export async function createReaction(
   return addCommentAction(
     mongo,
     redis,
-    publish,
+    broker,
     tenant,
     {
       actionType: ACTION_TYPE.REACTION,
@@ -237,12 +237,12 @@ export type RemoveCommentReaction = Pick<RemoveActionInput, "commentID">;
 export async function removeReaction(
   mongo: Db,
   redis: AugmentedRedis,
-  publisher: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: RemoveCommentReaction
 ) {
-  return removeCommentAction(mongo, redis, publisher, tenant, {
+  return removeCommentAction(mongo, redis, broker, tenant, {
     actionType: ACTION_TYPE.REACTION,
     commentID: input.commentID,
     userID: author.id,
@@ -257,7 +257,7 @@ export type CreateCommentDontAgree = Pick<
 export async function createDontAgree(
   mongo: Db,
   redis: AugmentedRedis,
-  publish: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: CreateCommentDontAgree,
@@ -266,7 +266,7 @@ export async function createDontAgree(
   return addCommentAction(
     mongo,
     redis,
-    publish,
+    broker,
     tenant,
     {
       actionType: ACTION_TYPE.DONT_AGREE,
@@ -284,12 +284,12 @@ export type RemoveCommentDontAgree = Pick<RemoveActionInput, "commentID">;
 export async function removeDontAgree(
   mongo: Db,
   redis: AugmentedRedis,
-  publisher: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: RemoveCommentDontAgree
 ) {
-  return removeCommentAction(mongo, redis, publisher, tenant, {
+  return removeCommentAction(mongo, redis, broker, tenant, {
     actionType: ACTION_TYPE.DONT_AGREE,
     commentID: input.commentID,
     userID: author.id,
@@ -306,7 +306,7 @@ export type CreateCommentFlag = Pick<
 export async function createFlag(
   mongo: Db,
   redis: AugmentedRedis,
-  publish: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: CreateCommentFlag,
@@ -315,7 +315,7 @@ export async function createFlag(
   return addCommentAction(
     mongo,
     redis,
-    publish,
+    broker,
     tenant,
     {
       actionType: ACTION_TYPE.FLAG,

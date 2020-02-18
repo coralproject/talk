@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
-import { SSOKey } from "coral-server/models/settings";
+import { Secret } from "coral-server/models/settings";
 import Migration from "coral-server/services/migrate/migration";
 import collections from "coral-server/services/mongodb/collections";
 
@@ -15,16 +15,16 @@ interface OldSSOKey {
   deletedAt?: Date;
 }
 
-function isOldSSOKey(key: SSOKey | OldSSOKey): key is OldSSOKey {
+function isOldSSOKey(key: Secret | OldSSOKey): key is OldSSOKey {
   if (!key) {
     return true;
   }
 
-  if ((key as SSOKey).inactiveAt) {
+  if ((key as Secret).inactiveAt) {
     return false;
   }
 
-  if ((key as SSOKey).rotatedAt) {
+  if ((key as Secret).rotatedAt) {
     return false;
   }
 
@@ -63,7 +63,7 @@ export default class extends Migration {
 
     // Transform the keys into the new format.
     const keys: OldSSOKey[] = tenant.auth.integrations.sso.keys.map(
-      (key: OldSSOKey | SSOKey): OldSSOKey =>
+      (key: OldSSOKey | Secret): OldSSOKey =>
         !isOldSSOKey(key)
           ? {
               kid: key.kid,
@@ -100,8 +100,8 @@ export default class extends Migration {
     }
 
     // Transform the keys into the new format.
-    const keys: SSOKey[] = tenant.auth.integrations.sso.keys.map(
-      (key): SSOKey => ({
+    const keys: Secret[] = tenant.auth.integrations.sso.keys.map(
+      (key): Secret => ({
         kid: key.kid,
         secret: key.secret || "<deleted>",
         createdAt: key.createdAt,
