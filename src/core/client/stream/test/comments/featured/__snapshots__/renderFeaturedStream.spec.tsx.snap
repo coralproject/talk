@@ -424,7 +424,11 @@ exports[`renders comment stream 1`] = `
                   </div>
                   <span
                     className="Box-root Box-ml-1"
-                  />
+                  >
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    />
+                  </span>
                   <button
                     className="BaseButton-root Timestamp-root"
                     onBlur={[Function]}
@@ -537,7 +541,11 @@ exports[`renders comment stream 1`] = `
                   </div>
                   <span
                     className="Box-root Box-ml-1"
-                  />
+                  >
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    />
+                  </span>
                   <button
                     className="BaseButton-root Timestamp-root"
                     onBlur={[Function]}

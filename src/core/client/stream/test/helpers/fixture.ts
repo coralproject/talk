@@ -5,6 +5,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLMODERATION_MODE,
   GQLStory,
+  GQLSTORY_MODE,
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
@@ -136,6 +137,8 @@ export function createStory(createComments = true) {
           enabled: true,
           configurable: true,
         },
+        mode: GQLSTORY_MODE.COMMENTS,
+        experts: [],
       },
     })
   );
