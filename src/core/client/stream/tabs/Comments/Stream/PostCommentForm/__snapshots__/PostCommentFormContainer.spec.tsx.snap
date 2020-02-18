@@ -22,6 +22,7 @@ exports[`renders correctly 1`] = `
         "messageBox": Object {
           "enabled": false,
         },
+        "mode": "COMMENTS",
       },
     }
   }
@@ -41,6 +42,7 @@ exports[`renders when commenting has been disabled (collapsing) 1`] = `
         "messageBox": Object {
           "enabled": false,
         },
+        "mode": "COMMENTS",
       },
     }
   }
@@ -69,6 +71,7 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
         "messageBox": Object {
           "enabled": false,
         },
+        "mode": "COMMENTS",
       },
     }
   }
@@ -88,6 +91,7 @@ exports[`renders when story has been closed (collapsing) 1`] = `
         "messageBox": Object {
           "enabled": false,
         },
+        "mode": "COMMENTS",
       },
     }
   }
@@ -116,6 +120,7 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
         "messageBox": Object {
           "enabled": false,
         },
+        "mode": "COMMENTS",
       },
     }
   }
@@ -151,6 +156,7 @@ exports[`renders when user is scheduled to be deleted 1`] = `
         "messageBox": Object {
           "enabled": false,
         },
+        "mode": "COMMENTS",
       },
     }
   }
@@ -180,6 +186,7 @@ exports[`renders with initialValues 1`] = `
         "messageBox": Object {
           "enabled": false,
         },
+        "mode": "COMMENTS",
       },
     }
   }

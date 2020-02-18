@@ -8,7 +8,7 @@ import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { withContext } from "coral-framework/lib/bootstrap";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import {
@@ -23,7 +23,7 @@ import {
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
-import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
+import { Button, Flex, HorizontalGutter, Icon, Tag } from "coral-ui/components";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -47,6 +47,8 @@ import ShowConversationLink from "./ShowConversationLink";
 import { UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer from "./UserTagsContainer";
 
+import styles from "./CommentContainer.css";
+
 interface Props {
   viewer: ViewerData | null;
   comment: CommentData;
@@ -67,6 +69,8 @@ interface Props {
   showConversationLink?: boolean;
   highlight?: boolean;
   className?: string;
+
+  hideAnsweredTag?: boolean;
 }
 
 interface State {
@@ -192,10 +196,20 @@ export class CommentContainer extends Component<Props, State> {
       highlight,
       viewer,
       className,
+      hideAnsweredTag,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     const hasFeaturedTag = Boolean(
       comment.tags.find(t => t.code === GQLTAG.FEATURED)
+    );
+    // When we're in Q&A and we are not un-answered (answered)
+    // and we're a top level comment (no parent), then we
+    // are an answered question
+    const hasAnsweredTag = Boolean(
+      !hideAnsweredTag &&
+        story.settings.mode === GQLSTORY_MODE.QA &&
+        !comment.tags.some(t => t.code === GQLTAG.UNANSWERED) &&
+        !comment.parent
     );
     const commentTags = (
       <>
@@ -208,6 +222,16 @@ export class CommentContainer extends Component<Props, State> {
             <Localized id="comments-featuredTag">
               <span>Featured</span>
             </Localized>
+          </Tag>
+        )}
+        {hasAnsweredTag && (
+          <Tag variant="regular" color="primary" className={styles.answeredTag}>
+            <Flex alignItems="center">
+              <Icon size="xs" className={styles.tagIcon}>
+                check
+              </Icon>
+              ANSWERED
+            </Flex>
           </Tag>
         )}
       </>
@@ -328,6 +352,7 @@ export class CommentContainer extends Component<Props, State> {
                         reactedClassName={
                           CLASSES.comment.actionBar.reactedButton
                         }
+                        isQA={story.settings.mode === GQLSTORY_MODE.QA}
                       />
                       {!disableReplies &&
                         !banned &&
@@ -419,6 +444,9 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           fragment CommentContainer_story on Story {
             url
             isClosed
+            settings {
+              mode
+            }
             ...CaretContainer_story
             ...ReplyCommentFormContainer_story
             ...PermalinkButtonContainer_story

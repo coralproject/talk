@@ -45,6 +45,7 @@ const enhanced = withFragmentContainer<Props>({
           content
           icon
         }
+        mode
       }
     }
   `,

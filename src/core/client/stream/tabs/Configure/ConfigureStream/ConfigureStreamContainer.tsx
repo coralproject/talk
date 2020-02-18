@@ -23,6 +23,8 @@ class ConfigureStreamContainer extends React.Component<Props> {
     data: UpdateStorySettingsInput["settings"],
     form: FormApi
   ) => {
+    window.console.log(data);
+
     await this.props.updateStorySettings({
       id: this.props.story.id,
       settings: data,

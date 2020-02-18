@@ -170,8 +170,9 @@ comments-featuredTag = Featured
 
 ### Q&A
 
-general-tabBar-qaTab =
+general-tabBar-qaTab = Q&A
 
+qa-answeredTab = Answered
 qa-allCommentsTab = All
 
 qa-noQuestionsAtAll =
@@ -183,6 +184,16 @@ qa-viewNew =
     [1] View {$count} New Question
     *[other] View {$count} New Questions
   }
+
+qa-postQuestionForm-rteLabel = Post a question
+
+qa-postQuestionForm-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+
+qa-postQuestionFormFake-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+
+qa-sortMenu-mostVoted = Most Voted
 
 ### Account Deletion Stream
 
