@@ -165,6 +165,12 @@ exports[`hide reply button 1`] = `
                 },
               }
             }
+            story={
+              Object {
+                "isClosed": false,
+                "url": "http://localhost/story",
+              }
+            }
           />
           <Relay(AuthorBadgesContainer)
             className="coral coral-userBadge coral-comment-userBadge"
@@ -368,6 +374,12 @@ exports[`renders body only 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+              }
+            }
+            story={
+              Object {
+                "isClosed": false,
+                "url": "http://localhost/story",
               }
             }
           />
@@ -575,6 +587,12 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 },
               }
             }
+            story={
+              Object {
+                "isClosed": false,
+                "url": "http://localhost/story",
+              }
+            }
           />
           <Relay(AuthorBadgesContainer)
             className="coral coral-userBadge coral-comment-userBadge"
@@ -778,6 +796,12 @@ exports[`renders disabled reply when story is closed 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+              }
+            }
+            story={
+              Object {
+                "isClosed": true,
+                "url": "http://localhost/story",
               }
             }
           />
@@ -1001,6 +1025,12 @@ exports[`renders in reply to 1`] = `
                 },
               }
             }
+            story={
+              Object {
+                "isClosed": false,
+                "url": "http://localhost/story",
+              }
+            }
           />
           <Relay(AuthorBadgesContainer)
             className="coral coral-userBadge coral-comment-userBadge"
@@ -1208,6 +1238,12 @@ exports[`renders username and body 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+              }
+            }
+            story={
+              Object {
+                "isClosed": false,
+                "url": "http://localhost/story",
               }
             }
           />
@@ -1428,6 +1464,12 @@ exports[`shows conversation link 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+              }
+            }
+            story={
+              Object {
+                "isClosed": false,
+                "url": "http://localhost/story",
               }
             }
           />

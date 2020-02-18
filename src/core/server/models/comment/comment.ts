@@ -929,7 +929,7 @@ export async function retrieveStoryCommentTagCounts(
     // we should switch this out to something like
     // `"tags.type": { $exists: true }` to ensure that we are using the
     // specified index.
-    "tags.type": GQLTAG.FEATURED,
+    "tags.type": { $exists: true },
     // Only show published comment's tag counts.
     status: { $in: PUBLISHED_STATUSES },
   };
@@ -984,6 +984,7 @@ export async function retrieveStoryCommentTagCounts(
       // missing/extra tags here.
       {
         [GQLTAG.FEATURED]: 0,
+        [GQLTAG.UNANSWERED]: 0,
       }
     );
   });

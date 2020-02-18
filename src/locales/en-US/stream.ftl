@@ -167,6 +167,22 @@ comments-rejectedTombstone =
 
 comments-featuredTag = Featured
 
+### Q&A
+
+general-tabBar-qaTab =
+
+qa-allCommentsTab = All
+
+qa-noQuestionsAtAll =
+  There are no questions on this story.
+qa-noQuestionsYet =
+  There are no questions yet. Why don't you ask one?
+qa-viewNew =
+  { $count ->
+    [1] View {$count} New Question
+    *[other] View {$count} New Questions
+  }
+
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =
