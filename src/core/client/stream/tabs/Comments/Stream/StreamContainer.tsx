@@ -142,6 +142,12 @@ export const StreamContainer: FunctionComponent<Props> = props => {
       } else {
         onChangeTab("FEATURED_COMMENTS", false);
       }
+
+      // If we are in Q&A mode, we default to most voted
+      // sorting by default
+      if (props.story.settings.mode === GQLSTORY_MODE.QA) {
+        setLocal({ commentsOrderBy: "REACTION_DESC" });
+      }
     }
   }, [featuredCommentsCount, local.commentsTab, onChangeTab]);
 
@@ -190,6 +196,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
               orderBy={local.commentsOrderBy}
               onChange={onChangeOrder}
               reactionSortLabel={props.settings.reaction.sortLabel}
+              isQA={props.story.settings.mode === GQLSTORY_MODE.QA}
             />
             <TabBar
               variant="secondary"

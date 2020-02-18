@@ -11,7 +11,7 @@ import {
   useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { GQLCOMMENT_SORT, GQLSTORY_MODE } from "coral-framework/schema";
 import { Omit, PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
@@ -139,9 +139,15 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
             className={CLASSES.allCommentsTabPane.viewNewButton}
             fullWidth
           >
-            <Localized id="comments-viewNew" $count={viewNewCount}>
-              <span>View {viewNewCount} New Comments</span>
-            </Localized>
+            {props.story.settings.mode === GQLSTORY_MODE.QA ? (
+              <Localized id="qa-viewNew" $count={viewNewCount}>
+                <span>View {viewNewCount} New Questions</span>
+              </Localized>
+            ) : (
+              <Localized id="comments-viewNew" $count={viewNewCount}>
+                <span>View {viewNewCount} New Comments</span>
+              </Localized>
+            )}
           </Button>
         </Box>
       )}
@@ -153,18 +159,38 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
         size="oneAndAHalf"
         className={styles.stream}
       >
-        {comments.length <= 0 && props.story.isClosed && (
-          <Localized id="comments-noCommentsAtAll">
-            <CallOut fullWidth>There are no comments on this story.</CallOut>
-          </Localized>
-        )}
-        {comments.length <= 0 && !props.story.isClosed && (
-          <Localized id="comments-noCommentsYet">
-            <CallOut fullWidth>
-              There are no comments yet. Why don't you write one?
-            </CallOut>
-          </Localized>
-        )}
+        {props.story.settings.mode === GQLSTORY_MODE.COMMENTS &&
+          comments.length <= 0 &&
+          props.story.isClosed && (
+            <Localized id="comments-noCommentsAtAll">
+              <CallOut fullWidth>There are no comments on this story.</CallOut>
+            </Localized>
+          )}
+        {props.story.settings.mode === GQLSTORY_MODE.COMMENTS &&
+          comments.length <= 0 &&
+          !props.story.isClosed && (
+            <Localized id="comments-noCommentsYet">
+              <CallOut fullWidth>
+                There are no comments yet. Why don't you write one?
+              </CallOut>
+            </Localized>
+          )}
+        {props.story.settings.mode === GQLSTORY_MODE.QA &&
+          comments.length <= 0 &&
+          props.story.isClosed && (
+            <Localized id="qa-noQuestionsAtAll">
+              <CallOut fullWidth>There are no questions on this story.</CallOut>
+            </Localized>
+          )}
+        {props.story.settings.mode === GQLSTORY_MODE.QA &&
+          comments.length <= 0 &&
+          !props.story.isClosed && (
+            <Localized id="qa-noQuestionsYet">
+              <CallOut fullWidth>
+                There are no questions yet. Why don't you ask one?
+              </CallOut>
+            </Localized>
+          )}
         {comments.length > 0 &&
           !props.story.isClosed &&
           comments.map(comment => (
@@ -235,6 +261,7 @@ const enhanced = withPaginationContainer<
           live {
             enabled
           }
+          mode
         }
         comments(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "Stream_comments") {

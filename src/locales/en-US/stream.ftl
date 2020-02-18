@@ -184,6 +184,16 @@ qa-viewNew =
     *[other] View {$count} New Questions
   }
 
+qa-postQuestionForm-rteLabel = Post a question
+
+qa-postQuestionForm-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+
+qa-postQuestionFormFake-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+
+qa-sortMenu-mostVoted = Most Voted
+
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =
