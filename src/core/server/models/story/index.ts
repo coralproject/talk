@@ -51,7 +51,7 @@ export interface StreamModeSettings {
 export type StorySettings = DeepPartial<
   StreamModeSettings &
     GlobalModerationSettings &
-    Pick<GQLStorySettings, "messageBox">
+    Pick<GQLStorySettings, "messageBox" | "mode" | "experts">
 >;
 
 export type StoryMetadata = GQLStoryMetadata;

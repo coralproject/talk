@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import Counter from "coral-stream/common/Counter";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
@@ -42,6 +42,7 @@ import { PostCommentFormContainer } from "./PostCommentForm";
 import SortMenu from "./SortMenu";
 import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
 import { SuspendedInfoContainer } from "./SuspendedInfo/index";
+import UnansweredCommentsTab from "./UnansweredCommentsTab";
 import useCommentCountEvent from "./useCommentCountEvent";
 
 import styles from "./StreamContainer.css";
@@ -124,6 +125,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
 
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
+  const unansweredCommentsCount = props.story.commentCounts.tags.UNANSWERED;
 
   // Emit comment count event.
   useCommentCountEvent(props.story.id, props.story.url, allCommentsCount);
@@ -220,6 +222,34 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                   </Flex>
                 </TabWithFeaturedTooltip>
               )}
+              {props.story.settings.mode === GQLSTORY_MODE.QA && (
+                <Tab
+                  tabID="UNANSWERED_COMMENTS"
+                  className={cn(
+                    {
+                      [styles.fixedTab]: featuredCommentsCount > 0,
+                    },
+                    CLASSES.tabBarComments.allComments
+                  )}
+                >
+                  <Flex alignItems="center" spacing={1}>
+                    <Localized id="comments-unansweredCommentsTab">
+                      <span>Unanswered</span>
+                    </Localized>
+                    <Counter
+                      size="sm"
+                      color={
+                        local.commentsTab === "UNANSWERED_COMMENTS"
+                          ? "primary"
+                          : "grey"
+                      }
+                    >
+                      {unansweredCommentsCount}
+                    </Counter>
+                  </Flex>
+                </Tab>
+              )}
+
               <Tab
                 tabID="ALL_COMMENTS"
                 className={cn(
@@ -230,9 +260,16 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                 )}
               >
                 <Flex alignItems="center" spacing={1}>
-                  <Localized id="comments-allCommentsTab">
-                    <span>All Comments</span>
-                  </Localized>
+                  {props.story.settings.mode === GQLSTORY_MODE.QA ? (
+                    <Localized id="qa-allCommentsTab">
+                      <span>All</span>
+                    </Localized>
+                  ) : (
+                    <Localized id="comments-allCommentsTab">
+                      <span>All Comments</span>
+                    </Localized>
+                  )}
+
                   <Counter
                     size="sm"
                     color={
@@ -257,6 +294,14 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             >
               <FeaturedComments />
             </TabPane>
+            {props.story.settings.mode === GQLSTORY_MODE.QA && (
+              <TabPane
+                className={CLASSES.allCommentsTabPane.$root}
+                tabID="UNANSWERED_COMMENTS"
+              >
+                <UnansweredCommentsTab />
+              </TabPane>
+            )}
             <TabPane
               className={CLASSES.allCommentsTabPane.$root}
               tabID="ALL_COMMENTS"
@@ -279,10 +324,14 @@ const enhanced = withFragmentContainer<Props>({
       ...CreateCommentMutation_story
       id
       url
+      settings {
+        mode
+      }
       commentCounts {
         totalPublished
         tags {
           FEATURED
+          UNANSWERED
         }
       }
     }

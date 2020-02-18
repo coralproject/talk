@@ -2356,6 +2356,12 @@ enum TAG {
   an expert on a story.
   """
   EXPERT
+
+  """
+  UNANSWERED is used when a Comment is written by a User and is unanswered
+  by an expert for that Comment's story.
+  """
+  UNANSWERED
 }
 
 """
@@ -2387,6 +2393,11 @@ type CommentTagCounts {
   FEATURED is the count of Comment's with the FEATURED tag.
   """
   FEATURED: Int!
+
+  """
+  UNANSWERED is the count of Comment's with the UNANSWERED tag.
+  """
+  UNANSWERED: Int!
 }
 
 """
@@ -2808,6 +2819,7 @@ type Story {
     first: Int = 20 @constraint(max: 50)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+    tag: TAG
   ): CommentsConnection!
 
   """

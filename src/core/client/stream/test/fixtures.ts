@@ -528,6 +528,7 @@ export const baseStory = createFixture<GQLStory>({
     totalPublished: 0,
     tags: {
       FEATURED: 0,
+      UNANSWERED: 0,
     },
   },
   settings: {

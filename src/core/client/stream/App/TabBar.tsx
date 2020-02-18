@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
+import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components";
 
@@ -11,6 +12,7 @@ export interface Props {
   onTabClick: (tab: TabValue) => void;
   showProfileTab: boolean;
   showConfigureTab: boolean;
+  mode: "%future added value" | "COMMENTS" | "QA" | null;
 }
 
 const AppTabBar: FunctionComponent<Props> = props => {
@@ -21,9 +23,15 @@ const AppTabBar: FunctionComponent<Props> = props => {
       onTabClick={props.onTabClick}
     >
       <Tab className={CLASSES.tabBar.comments} tabID="COMMENTS">
-        <Localized id="general-tabBar-commentsTab">
-          <span>Comments</span>
-        </Localized>
+        {props.mode === GQLSTORY_MODE.QA ? (
+          <Localized id="general-tabBar-qaTab">
+            <span>Q&A</span>
+          </Localized>
+        ) : (
+          <Localized id="general-tabBar-commentsTab">
+            <span>Comments</span>
+          </Localized>
+        )}
       </Tab>
       {props.showProfileTab && (
         <Tab className={CLASSES.tabBar.myProfile} tabID="PROFILE">

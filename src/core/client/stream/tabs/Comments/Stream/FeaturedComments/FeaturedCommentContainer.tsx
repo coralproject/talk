@@ -79,6 +79,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
         <Box ml={1} container="span">
           <UserTagsContainer
             className={CLASSES.featuredComment.authorBar.userTag}
+            story={story}
             comment={comment}
             settings={settings}
           />
@@ -158,6 +159,7 @@ const enhanced = withSetCommentIDMutation(
     story: graphql`
       fragment FeaturedCommentContainer_story on Story {
         url
+        ...UserTagsContainer_story
       }
     `,
     comment: graphql`

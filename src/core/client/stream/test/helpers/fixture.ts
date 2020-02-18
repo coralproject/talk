@@ -125,6 +125,7 @@ export function createStory(createComments = true) {
         totalPublished: 0,
         tags: {
           FEATURED: 0,
+          UNANSWERED: 0,
         },
       },
       settings: {
