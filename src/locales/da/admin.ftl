@@ -58,7 +58,7 @@ login-signIn-passwordTextField =
   .placeholder = Adgangskode
 
 login-signIn-signInWithEmail = Log ind med e-mail
-login-signIn-orSeparator = Eller
+login-orSeparator = Eller
 
 login-signInWithFacebook = Log ind med Facebook
 login-signInWithGoogle = Log ind med Google

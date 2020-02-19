@@ -21,6 +21,7 @@ export default async function initLocalState(
 
   await initLocalBaseState(environment, context, accessToken);
 
+  // Duplicate Email reported in server response, save it into local state.
   if (duplicateEmailFromHash) {
     await context.sessionStorage.setItem(
       "duplicateEmail",

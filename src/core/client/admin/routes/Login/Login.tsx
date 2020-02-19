@@ -2,9 +2,10 @@ import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 
-import AddEmailAddressContainer from "./views/AddEmailAddress";
+import AddEmailAddress from "./views/AddEmailAddress";
 import CreatePasswordContainer from "./views/CreatePassword";
 import CreateUsernameContainer from "./views/CreateUsername";
+import LinkAccount from "./views/LinkAccount";
 import SignInContainer from "./views/SignIn";
 
 export type View =
@@ -14,6 +15,7 @@ export type View =
   | "CREATE_USERNAME"
   | "CREATE_PASSWORD"
   | "ADD_EMAIL_ADDRESS"
+  | "LINK_ACCOUNT"
   | "%future added value";
 
 interface Props {
@@ -30,7 +32,9 @@ const renderView = (view: Props["view"], auth: Props["auth"]) => {
     case "CREATE_PASSWORD":
       return <CreatePasswordContainer />;
     case "ADD_EMAIL_ADDRESS":
-      return <AddEmailAddressContainer />;
+      return <AddEmailAddress />;
+    case "LINK_ACCOUNT":
+      return <LinkAccount />;
     default:
       throw new Error(`Unknown view ${view}`);
   }

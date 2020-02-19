@@ -28,12 +28,16 @@ type Props = {
 
 function handleAccountCompletion(props: Props) {
   const {
-    local: { authView },
+    local: { authView, authDuplicateEmail },
     viewer,
     auth,
     setAuthView,
   } = props;
   if (viewer) {
+    if (authDuplicateEmail) {
+      setAuthView({ view: "LINK_ACCOUNT" });
+      return false;
+    }
     if (!viewer.email) {
       if (authView !== "ADD_EMAIL_ADDRESS") {
         setAuthView({ view: "ADD_EMAIL_ADDRESS" });
@@ -102,6 +106,7 @@ const enhanced = withLocalStateContainer(
     fragment AccountCompletionContainerLocal on Local {
       accessToken
       authView
+      authDuplicateEmail
       redirectPath
     }
   `

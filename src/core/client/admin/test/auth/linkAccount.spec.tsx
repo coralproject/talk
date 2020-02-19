@@ -7,31 +7,38 @@ import {
   createAccessToken,
   createResolversStub,
   CreateTestRendererParams,
+  replaceHistoryLocation,
   wait,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
 
-import create from "./create";
-import { settings } from "./fixtures";
+import create from "../create";
+import { settings, users } from "../fixtures";
+
+const viewer = pureMerge<typeof users["admins"][0]>(users.admins[0], {
+  email: "",
+});
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
+  replaceHistoryLocation("http://localhost/admin/login");
+
   const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
         Query: {
-          viewer: () => ({ id: "me", profiles: [] }),
+          viewer: () => viewer,
           settings: () => settings,
         },
       }),
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue("LINK_ACCOUNT", "view");
-      localRecord.setValue("my@email.com", "duplicateEmail");
+      localRecord.setValue("LINK_ACCOUNT", "authView");
+      localRecord.setValue("my@email.com", "authDuplicateEmail");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }

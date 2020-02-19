@@ -8,6 +8,7 @@ enum View {
   CREATE_USERNAME
   CREATE_PASSWORD
   ADD_EMAIL_ADDRESS
+  LINK_ACCOUNT
 }
 
 extend type Comment {
@@ -31,6 +32,7 @@ type Local {
   redirectPath: String
   authView: View
   authError: String
+  authDuplicateEmail: String
 }
 
 extend type Query {

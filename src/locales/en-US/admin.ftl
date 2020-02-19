@@ -59,12 +59,80 @@ login-signIn-passwordTextField =
   .placeholder = Password
 
 login-signIn-signInWithEmail = Sign in with Email
-login-signIn-orSeparator = Or
+login-orSeparator = Or
 login-signIn-forgot-password = Forgot your password?
 
 login-signInWithFacebook = Sign in with Facebook
 login-signInWithGoogle = Sign in with Google
 login-signInWithOIDC = Sign in with { $name }
+
+# Create Username
+
+createUsername-createUsernameHeader = Create Username
+createUsername-whatItIs =
+  Your username is an identifier that will appear on all of your comments.
+createUsername-createUsernameButton = Create Username
+createUsername-usernameLabel = Username
+createUsername-usernameDescription = You may use “_” and “.” Spaces not permitted.
+createUsername-usernameTextField =
+  .placeholder = Username
+
+# Add Email Address
+addEmailAddress-addEmailAddressHeader = Add Email Address
+
+addEmailAddress-emailAddressLabel = Email Address
+addEmailAddress-emailAddressTextField =
+  .placeholder = Email Address
+
+addEmailAddress-confirmEmailAddressLabel = Confirm Email Address
+addEmailAddress-confirmEmailAddressTextField =
+  .placeholder = Confirm Email Address
+
+addEmailAddress-whatItIs =
+  For your added security, we require users to add an email address to their accounts.
+
+addEmailAddress-addEmailAddressButton =
+  Add Email Address
+
+# Create Password
+createPassword-createPasswordHeader = Create Password
+createPassword-whatItIs =
+  To protect against unauthorized changes to your account,
+  we require users to create a password.
+createPassword-createPasswordButton =
+  Create Password
+
+createPassword-passwordLabel = Password
+createPassword-passwordDescription = Must be at least {$minLength} characters
+createPassword-passwordTextField =
+  .placeholder = Password
+
+# Forgot Password
+forgotPassword-forgotPasswordHeader = Forgot password?
+forgotPassword-checkEmailHeader = Check your email
+forgotPassword-gotBackToSignIn = Go back to sign in page
+forgotPassword-checkEmail-receiveEmail =
+  If there is an account associated with <strong>{ $email }</strong>,
+  you will receive an email with a link to create a new password.
+forgotPassword-enterEmailAndGetALink =
+  Enter your email address below and we will send you a link
+  to reset your password.
+forgotPassword-emailAddressLabel = Email address
+forgotPassword-emailAddressTextField =
+  .placeholder = Email Address
+forgotPassword-sendEmailButton = Send email
+
+# Link Account
+linkAccount-linkAccountHeader = Link Account
+linkAccount-alreadyAssociated =
+  The email <strong>{ $email }</strong> is
+  already associated with an account. If you would like to
+  link these enter your password.
+linkAccount-passwordLabel = Password
+linkAccount-passwordTextField =
+  .label = Password
+linkAccount-linkAccountButton = Link Account
+linkAccount-useDifferentEmail = Use a different email address
 
 ## Configure
 
@@ -612,47 +680,6 @@ moderate-user-drawer-notes-button = Add note
 moderatorNote-left-by = Left by
 moderatorNote-delete = Delete
 
-## Create Username
-
-createUsername-createUsernameHeader = Create Username
-createUsername-whatItIs =
-  Your username is an identifier that will appear on all of your comments.
-createUsername-createUsernameButton = Create Username
-createUsername-usernameLabel = Username
-createUsername-usernameDescription = You may use “_” and “.” Spaces not permitted.
-createUsername-usernameTextField =
-  .placeholder = Username
-
-## Add Email Address
-addEmailAddress-addEmailAddressHeader = Add Email Address
-
-addEmailAddress-emailAddressLabel = Email Address
-addEmailAddress-emailAddressTextField =
-  .placeholder = Email Address
-
-addEmailAddress-confirmEmailAddressLabel = Confirm Email Address
-addEmailAddress-confirmEmailAddressTextField =
-  .placeholder = Confirm Email Address
-
-addEmailAddress-whatItIs =
-  For your added security, we require users to add an email address to their accounts.
-
-addEmailAddress-addEmailAddressButton =
-  Add Email Address
-
-## Create Password
-createPassword-createPasswordHeader = Create Password
-createPassword-whatItIs =
-  To protect against unauthorized changes to your account,
-  we require users to create a password.
-createPassword-createPasswordButton =
-  Create Password
-
-createPassword-passwordLabel = Password
-createPassword-passwordDescription = Must be at least {$minLength} characters
-createPassword-passwordTextField =
-  .placeholder = Password
-
 ## Community
 community-emptyMessage = We could not find anyone in your community matching your criteria.
 
@@ -885,20 +912,6 @@ configure-advanced-stories-proxy-detail =
   When specified, allows scraping requests to use the provided
   proxy. All requests will then be passed through the appropriote
   proxy as parsed by the <externalLink>npm proxy-agent</externalLink> package.
-
-forgotPassword-forgotPasswordHeader = Forgot password?
-forgotPassword-checkEmailHeader = Check your email
-forgotPassword-gotBackToSignIn = Go back to sign in page
-forgotPassword-checkEmail-receiveEmail =
-  If there is an account associated with <strong>{ $email }</strong>,
-  you will receive an email with a link to create a new password.
-forgotPassword-enterEmailAndGetALink =
-  Enter your email address below and we will send you a link
-  to reset your password.
-forgotPassword-emailAddressLabel = Email address
-forgotPassword-emailAddressTextField =
-  .placeholder = Email Address
-forgotPassword-sendEmailButton = Send email
 
 commentAuthor-status-banned = Banned
 

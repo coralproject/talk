@@ -1,7 +1,9 @@
 import { get } from "lodash";
 import sinon from "sinon";
 
+import { ERROR_CODES } from "coral-common/errors";
 import { pureMerge } from "coral-common/utils";
+import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
   act,
   toJSON,
@@ -21,6 +23,7 @@ async function createTestRenderer(
     ...customResolver,
     Query: {
       ...customResolver.Query,
+      viewer: sinon.stub().returns({ id: "me", profiles: [] }),
       settings: sinon
         .stub()
         .returns(pureMerge(settings, get(customResolver, "Query.settings"))),
@@ -212,11 +215,50 @@ it("successfully sets email", async () => {
   expect(confirmEmailAddressField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
-  await act(async () => {
-    await wait(() => {
-      expect(submitButton.props.disabled).toBe(false);
-    });
+  await wait(() => {
+    expect(setEmail.called).toBe(true);
   });
-  expect(toJSON(form)).toMatchSnapshot();
-  expect(setEmail.called).toBe(true);
+});
+
+it("switch to link account", async () => {
+  const email = "hans@test.com";
+  const setEmail = sinon.stub().callsFake((_: any, data: any) => {
+    throw new InvalidRequestError({ code: ERROR_CODES.DUPLICATE_EMAIL });
+  });
+  const {
+    testRenderer,
+    form,
+    emailAddressField,
+    confirmEmailAddressField,
+  } = await createTestRenderer(
+    {
+      Mutation: {
+        setEmail,
+      },
+    },
+    { muteNetworkErrors: true }
+  );
+  const submitButton = form.find(
+    i => i.type === "button" && i.props.type === "submit"
+  );
+
+  act(() => emailAddressField.props.onChange({ target: { value: email } }));
+  act(() =>
+    confirmEmailAddressField.props.onChange({
+      target: { value: email },
+    })
+  );
+
+  act(() => {
+    form.props.onSubmit();
+  });
+  expect(emailAddressField.props.disabled).toBe(true);
+  expect(confirmEmailAddressField.props.disabled).toBe(true);
+  expect(submitButton.props.disabled).toBe(true);
+
+  await act(async () => {
+    await waitForElement(() =>
+      within(testRenderer.root).getByTestID("linkAccount-container")
+    );
+  });
 });

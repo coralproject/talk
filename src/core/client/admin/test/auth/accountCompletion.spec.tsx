@@ -145,3 +145,21 @@ it("complete account", async () => {
     );
   });
 });
+
+it("renders account linking view", async () => {
+  const { root } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        viewer: () =>
+          pureMerge<typeof viewer>(viewer, {
+            email: "hans@test.com",
+            username: "hans",
+          }),
+      },
+    },
+    initLocalState: localRecord => {
+      localRecord.setValue("dupli@email.ocm", "authDuplicateEmail");
+    },
+  });
+  await waitForElement(() => within(root).getByTestID("linkAccount-container"));
+});

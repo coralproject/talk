@@ -235,86 +235,90 @@ exports[`renders addEmailAddress view 1`] = `
         <div
           className="CompleteAccountBox-main"
         >
-          <form
-            autoComplete="off"
-            onSubmit={[Function]}
+          <div
+            data-testid="addEmailAddress-container"
           >
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            <form
+              autoComplete="off"
+              onSubmit={[Function]}
             >
-              <p
-                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-              >
-                For your added security, we require users to add an email address to their accounts.
-              </p>
               <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
               >
-                <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                  htmlFor="email"
+                <p
+                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                 >
-                  Email Address
-                </label>
+                  For your added security, we require users to add an email address to their accounts.
+                </p>
                 <div
-                  className="TextField-root TextField-fullWidth"
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                 >
-                  <input
-                    className="TextField-input TextField-colorRegular"
-                    disabled={false}
-                    id="email"
-                    name="email"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    placeholder="Email Address"
-                    type="text"
-                    value=""
-                  />
+                  <label
+                    className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                    htmlFor="email"
+                  >
+                    Email Address
+                  </label>
+                  <div
+                    className="TextField-root TextField-fullWidth"
+                  >
+                    <input
+                      className="TextField-input TextField-colorRegular"
+                      disabled={false}
+                      id="email"
+                      name="email"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="Email Address"
+                      type="text"
+                      value=""
+                    />
+                  </div>
                 </div>
-              </div>
-              <div
-                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-              >
-                <label
-                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                  htmlFor="confirmEmail"
-                >
-                  Confirm Email Address
-                </label>
                 <div
-                  className="TextField-root TextField-fullWidth"
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                 >
-                  <input
-                    className="TextField-input TextField-colorRegular"
-                    disabled={false}
-                    id="confirmEmail"
-                    name="confirmEmail"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    placeholder="Confirm Email Address"
-                    type="text"
-                    value=""
-                  />
+                  <label
+                    className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                    htmlFor="confirmEmail"
+                  >
+                    Confirm Email Address
+                  </label>
+                  <div
+                    className="TextField-root TextField-fullWidth"
+                  >
+                    <input
+                      className="TextField-input TextField-colorRegular"
+                      disabled={false}
+                      id="confirmEmail"
+                      name="confirmEmail"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="Confirm Email Address"
+                      type="text"
+                      value=""
+                    />
+                  </div>
                 </div>
+                <button
+                  className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+                  data-color="primary"
+                  data-variant="filled"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="submit"
+                >
+                  Add Email Address
+                </button>
               </div>
-              <button
-                className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-                data-color="primary"
-                data-variant="filled"
-                disabled={false}
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="submit"
-              >
-                Add Email Address
-              </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>

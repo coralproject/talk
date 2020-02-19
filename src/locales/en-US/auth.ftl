@@ -68,7 +68,7 @@ forgotPassword-enterEmailAndGetALink =
   Enter your email address below and we will send you a link to
   reset your password.
 
-### Check Email
+# Check Email
 
 forgotPassword-checkEmail-checkEmailHeader = Check Your Email
 forgotPassword-checkEmail-receiveEmail =
@@ -76,7 +76,7 @@ forgotPassword-checkEmail-receiveEmail =
   you will receive an email with a link to create a new password.
 forgotPassword-checkEmail-closeButton = Close
 
-### Link Account
+## Link Account
 
 linkAccount-linkAccountHeader = Link Account
 linkAccount-alreadyAssociated =

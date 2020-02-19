@@ -1884,7 +1884,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [SUSPENDED, BANNED, PENDING_DELETION]
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED, PENDING_DELETION]
     )
 
   """
