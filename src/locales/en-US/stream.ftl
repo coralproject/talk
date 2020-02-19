@@ -28,6 +28,7 @@ comment-count-text =
 
 comments-allCommentsTab = All Comments
 comments-featuredTab = Featured
+comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-featuredCommentTooltip-how = How is a comment featured?
 comments-featuredCommentTooltip-handSelectedComments =
   Comments are chosen by our team as worth reading.
@@ -188,6 +189,7 @@ comments-featured-replies = Replies
 profile-myCommentsTab = My Comments
 profile-myCommentsTab-comments = My comments
 profile-accountTab = Account
+profile-preferencesTab = Preferences
 
 accountSettings-manage-account = Manage your account
 
