@@ -560,6 +560,7 @@ moderate-navigation-reported = reported
 moderate-navigation-pending = Pending
 moderate-navigation-unmoderated = unmoderated
 moderate-navigation-rejected = rejected
+moderate-navigation-approved = approved
 
 moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
@@ -591,6 +592,7 @@ moderate-emptyQueue-pending = Nicely done! There are no more pending comments to
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
 moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.
 moderate-emptyQueue-rejected = There are no rejected comments.
+moderate-emptyQueue-approved = There are no approved comments.
 
 moderate-comment-edited = (edited)
 moderate-comment-inReplyTo = Reply to <Username></Username>

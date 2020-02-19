@@ -12,7 +12,7 @@ import {
 
 export default function getQueueConnection(
   store: RecordSourceSelectorProxy | RecordSourceProxy,
-  queue: GQLMODERATION_QUEUE_RL | "REJECTED",
+  queue: GQLMODERATION_QUEUE_RL | "REJECTED" | "APPROVED",
   storyID?: string | null,
   siteID?: string | null
 ): RecordProxy | null | undefined {
@@ -20,6 +20,13 @@ export default function getQueueConnection(
   if (queue === "REJECTED") {
     return ConnectionHandler.getConnection(root, "RejectedQueue_comments", {
       status: GQLCOMMENT_STATUS.REJECTED,
+      storyID,
+      siteID,
+    });
+  }
+  if (queue === "APPROVED") {
+    return ConnectionHandler.getConnection(root, "ApprovedQueue_comments", {
+      status: GQLCOMMENT_STATUS.APPROVED,
       storyID,
       siteID,
     });

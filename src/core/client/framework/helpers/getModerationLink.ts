@@ -1,6 +1,11 @@
 import urls from "./urls";
 
-export type QUEUE_NAME = "reported" | "pending" | "unmoderated" | "rejected";
+export type QUEUE_NAME =
+  | "reported"
+  | "pending"
+  | "unmoderated"
+  | "rejected"
+  | "approved";
 
 interface Options {
   queue?: QUEUE_NAME;
