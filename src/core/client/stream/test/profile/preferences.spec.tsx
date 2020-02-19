@@ -7,10 +7,11 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
+  waitUntilThrow,
   within,
 } from "coral-framework/testHelpers";
 
-import { settings, stories, viewerPassive } from "../fixtures";
+import { commenters, settings, stories, viewerPassive } from "../fixtures";
 import create from "./create";
 
 const story = stories[0];
@@ -32,16 +33,20 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue("NOTIFICATIONS", "profileTab");
+      localRecord.setValue("PREFERENCES", "profileTab");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
     },
   });
+  const ignoredCommenters = await waitForElement(() =>
+    within(testRenderer.root).queryByTestID("profile-account-ignoredCommenters")
+  );
 
   return {
     testRenderer,
     context,
+    ignoredCommenters,
   };
 }
 
@@ -141,4 +146,58 @@ it("render notifications form", async () => {
 
   // The save button should now be disabled.
   expect(save.props.disabled).toEqual(true);
+});
+
+it("render empty ignored users list", async () => {
+  const { ignoredCommenters } = await createTestRenderer();
+  const editButton = within(ignoredCommenters).getByText("Manage");
+  act(() => {
+    editButton.props.onClick();
+  });
+  await waitForElement(() =>
+    within(ignoredCommenters).getByText(
+      "You are not currently ignoring anyone",
+      {
+        exact: false,
+      }
+    )
+  );
+});
+
+it("render ignored users list", async () => {
+  const { ignoredCommenters } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () =>
+          pureMerge<typeof viewer>(viewer, {
+            ignoredUsers: [commenters[0], commenters[1]],
+          }),
+      },
+      Mutation: {
+        removeUserIgnore: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            userID: commenters[0].id,
+          });
+          return {};
+        },
+      },
+    }),
+  });
+  const editButton = within(ignoredCommenters).getByText("Manage");
+  act(() => {
+    editButton.props.onClick();
+  });
+  within(ignoredCommenters).getByText(commenters[0].username!);
+  within(ignoredCommenters).getByText(commenters[1].username!);
+
+  // Stop ignoring first users.
+  within(ignoredCommenters)
+    .getAllByText("Stop ignoring", { selector: "button" })[0]
+    .props.onClick();
+
+  // First user should dissappear from list.
+  await waitUntilThrow(() =>
+    within(ignoredCommenters).getByText(commenters[0].username!)
+  );
+  within(ignoredCommenters).getByText(commenters[1].username!);
 });

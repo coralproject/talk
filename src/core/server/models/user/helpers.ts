@@ -30,11 +30,12 @@ export function getSSOProfile(user: Pick<User, "profiles">) {
 
 export function needsSSOUpdate(
   token: SSOUserProfile,
-  user: Pick<User, "email" | "username" | "badges" | "role">
+  user: Pick<User, "email" | "username" | "badges" | "role" | "ssoURL">
 ) {
   return (
     user.email !== token.email ||
     user.username !== token.username ||
+    (user.ssoURL && user.ssoURL !== token.url) ||
     (token.role && user.role !== token.role) ||
     !isEqual(user.badges, token.badges)
   );

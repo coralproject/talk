@@ -7,12 +7,10 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
-  waitUntilThrow,
   within,
 } from "coral-framework/testHelpers";
 
 import {
-  commenters,
   settings,
   settingsWithoutLocalAuth,
   stories,
@@ -46,19 +44,9 @@ async function createTestRenderer(
     },
   });
 
-  const ignoredCommenters = await waitForElement(() =>
-    within(testRenderer.root).queryByTestID("profile-account-ignoredCommenters")
-  );
-
-  const changePassword = within(testRenderer.root).queryByTestID(
-    "profile-account-changePassword"
-  );
-
   return {
     testRenderer,
     context,
-    ignoredCommenters,
-    changePassword,
   };
 }
 
@@ -66,18 +54,29 @@ it("renders the empty settings pane", async () => {
   const {
     testRenderer: { root },
   } = await createTestRenderer();
-  expect(within(root).toJSON()).toMatchSnapshot();
-  expect(await within(root).axe()).toHaveNoViolations();
+  const account = await waitForElement(() =>
+    within(root).getByTestID("profile-manageAccount")
+  );
+  expect(within(account).toJSON()).toMatchSnapshot();
+  expect(await within(account).axe()).toHaveNoViolations();
 });
 
 it("doesn't show the change password pane when local auth is disabled", async () => {
-  const { changePassword } = await createTestRenderer({
+  const {
+    testRenderer: { root },
+  } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         settings: () => settingsWithoutLocalAuth,
       },
     }),
   });
+  const account = await waitForElement(() =>
+    within(root).getByTestID("profile-manageAccount")
+  );
+  const changePassword = within(account).queryByTestID(
+    "profile-account-changePassword"
+  );
   expect(changePassword).toBeNull();
 });
 
@@ -142,58 +141,4 @@ it("render password change form", async () => {
   });
 
   expect(updatePassword.calledOnce).toBeTruthy();
-});
-
-it("render empty ignored users list", async () => {
-  const { ignoredCommenters } = await createTestRenderer();
-  const editButton = within(ignoredCommenters).getByText("Manage");
-  act(() => {
-    editButton.props.onClick();
-  });
-  await waitForElement(() =>
-    within(ignoredCommenters).getByText(
-      "You are not currently ignoring anyone",
-      {
-        exact: false,
-      }
-    )
-  );
-});
-
-it("render ignored users list", async () => {
-  const { ignoredCommenters } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        viewer: () =>
-          pureMerge<typeof viewer>(viewer, {
-            ignoredUsers: [commenters[0], commenters[1]],
-          }),
-      },
-      Mutation: {
-        removeUserIgnore: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            userID: commenters[0].id,
-          });
-          return {};
-        },
-      },
-    }),
-  });
-  const editButton = within(ignoredCommenters).getByText("Manage");
-  act(() => {
-    editButton.props.onClick();
-  });
-  within(ignoredCommenters).getByText(commenters[0].username!);
-  within(ignoredCommenters).getByText(commenters[1].username!);
-
-  // Stop ignoring first users.
-  within(ignoredCommenters)
-    .getAllByText("Stop ignoring", { selector: "button" })[0]
-    .props.onClick();
-
-  // First user should dissappear from list.
-  await waitUntilThrow(() =>
-    within(ignoredCommenters).getByText(commenters[0].username!)
-  );
-  within(ignoredCommenters).getByText(commenters[1].username!);
 });

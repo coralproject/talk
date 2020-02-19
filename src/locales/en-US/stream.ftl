@@ -188,6 +188,7 @@ comments-featured-replies = Replies
 profile-myCommentsTab = My Comments
 profile-myCommentsTab-comments = My comments
 profile-accountTab = Account
+profile-preferencesTab = Preferences
 
 accountSettings-manage-account = Manage your account
 
