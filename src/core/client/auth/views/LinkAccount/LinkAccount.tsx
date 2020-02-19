@@ -80,7 +80,11 @@ const LinkAccountContainer: FunctionComponent = () => {
             {({ handleSubmit, submitting, submitError }) => (
               <form autoComplete="off" onSubmit={handleSubmit}>
                 <HorizontalGutter size="oneAndAHalf">
-                  <Localized id="linkAccount-whatItIs">
+                  <Localized
+                    id="linkAccount-alreadyAssociated"
+                    $email={local.duplicateEmail}
+                    strong={<strong />}
+                  >
                     <Typography variant="bodyCopy">
                       The email <strong>{local.duplicateEmail}</strong> is
                       already associated with an account. If you would like to
@@ -132,7 +136,7 @@ const LinkAccountContainer: FunctionComponent = () => {
             )}
           </Form>
           <OrSeparator />
-          <Localized id="linkAccount-changeEmail">
+          <Localized id="linkAccount-useDifferentEmail">
             <Button
               variant="filled"
               size="large"

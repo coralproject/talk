@@ -57,3 +57,19 @@ it("get error from url", async () => {
   expect(source.get(LOCAL_ID)!.error).toBe("error");
   restoreHistoryLocation();
 });
+
+it("get duplicate email from url", async () => {
+  const restoreHistoryLocation = replaceHistoryLocation(
+    `http://localhost/#duplicateEmail=my@email.com`
+  );
+  await initLocalState(environment, context as any);
+  expect(source.get(LOCAL_ID)!.duplicateEmail).toBe("my@email.com");
+  expect(context.sessionStorage.getItem("duplicateEmail")).toBe("my@email.com");
+  restoreHistoryLocation();
+});
+
+it("get duplicate email from session storage", async () => {
+  context.sessionStorage.setItem("duplicateEmail", "my@email.com");
+  await initLocalState(environment, context as any);
+  expect(source.get(LOCAL_ID)!.duplicateEmail).toBe("my@email.com");
+});

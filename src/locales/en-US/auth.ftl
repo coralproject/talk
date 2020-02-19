@@ -76,6 +76,19 @@ forgotPassword-checkEmail-receiveEmail =
   you will receive an email with a link to create a new password.
 forgotPassword-checkEmail-closeButton = Close
 
+### Link Account
+
+linkAccount-linkAccountHeader = Link Account
+linkAccount-alreadyAssociated =
+  The email <strong>{ $email }</strong> is
+  already associated with an account. If you would like to
+  link these enter your password.
+linkAccount-passwordLabel = Password
+linkAccount-passwordTextField =
+  .label = Password
+linkAccount-linkAccountButton = Link Account
+linkAccount-useDifferentEmail = Use a different email address
+
 ## Reset Password
 
 resetPassword-resetPasswordHeader = Reset Password
