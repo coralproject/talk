@@ -195,6 +195,9 @@ qa-postQuestionFormFake-rte =
 
 qa-sortMenu-mostVoted = Most Voted
 
+qa-answered-tag = answered
+qa-expert-tag = expert
+
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =

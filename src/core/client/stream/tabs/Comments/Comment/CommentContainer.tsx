@@ -230,7 +230,7 @@ export class CommentContainer extends Component<Props, State> {
               <Icon size="xs" className={styles.tagIcon}>
                 check
               </Icon>
-              ANSWERED
+              <Localized id="qa-answered-tag">answered</Localized>
             </Flex>
           </Tag>
         )}

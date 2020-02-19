@@ -5,8 +5,11 @@
 .answeredTag {
   color: #03AB61;
   background: #E6FAF1;
+
   border-color: #03AB61;
   border-style: solid;
   border-radius: 2px;
   border-width: 1px;
+
+  text-transform: uppercase;
 }

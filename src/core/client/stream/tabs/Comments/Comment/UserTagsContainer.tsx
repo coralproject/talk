@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
@@ -36,7 +37,7 @@ const UserTagsContainer: FunctionComponent<Props> = ({
             <Icon size="xs" className={styles.icon}>
               star
             </Icon>
-            EXPERT
+            <Localized id="qa-expert-tag">expert</Localized>
           </Flex>
         </Tag>
       )}
