@@ -27,14 +27,14 @@ function formatShortNumber(n: number, format: Pattern, scope: FluentScope) {
   const rest = format.substr(0, lastIndexOf0 + 1);
   const splitted = rest.split(".");
   const digits = splitted[0].length;
-  const fractalDigits = (splitted.length > 1 && splitted[1].length) || 0;
+  const fractionDigits = (splitted.length > 1 && splitted[1].length) || 0;
   const threshold = Math.pow(10, digits);
 
   while (n >= threshold) {
     n /= 10;
   }
   const formattedNumber = new FluentNumber(n, {
-    maximumFractionDigits: fractalDigits,
+    maximumFractionDigits: fractionDigits,
   }).toString(scope);
   return `${formattedNumber}${unit}`;
 }
