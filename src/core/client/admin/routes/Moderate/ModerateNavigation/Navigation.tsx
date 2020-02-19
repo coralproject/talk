@@ -34,6 +34,7 @@ const Navigation: FunctionComponent<Props> = ({
       getModerationLink({ queue: "reported", storyID, siteID }),
       getModerationLink({ queue: "pending", storyID, siteID }),
       getModerationLink({ queue: "unmoderated", storyID, siteID }),
+      getModerationLink({ queue: "approved", storyID, siteID }),
       getModerationLink({ queue: "rejected", storyID, siteID }),
     ];
   }, [storyID, siteID]);
@@ -114,6 +115,12 @@ const Navigation: FunctionComponent<Props> = ({
         )}
       </NavigationLink>
       <NavigationLink to={moderationLinks[3]}>
+        <Icon>check_circle</Icon>
+        <Localized id="moderate-navigation-approved">
+          <span>Approved</span>
+        </Localized>
+      </NavigationLink>
+      <NavigationLink to={moderationLinks[4]}>
         <Icon>cancel</Icon>
         <Localized id="moderate-navigation-rejected">
           <span>Rejected</span>

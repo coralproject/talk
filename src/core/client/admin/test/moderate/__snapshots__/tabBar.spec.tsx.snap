@@ -106,6 +106,25 @@ exports[`tab bar renders tab bar (empty queues) 1`] = `
         >
           <a
             className="NavigationItem-anchor"
+            href="/admin/moderate/approved"
+            onClick={[Function]}
+          >
+            <i
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              check_circle
+            </i>
+            <span>
+              approved
+            </span>
+          </a>
+        </li>
+        <li
+          className="NavigationItem-root"
+        >
+          <a
+            className="NavigationItem-anchor"
             href="/admin/moderate/rejected"
             onClick={[Function]}
           >
