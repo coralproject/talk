@@ -8,7 +8,8 @@ exports[`get access token from url 1`] = `
   \\"accessTokenExp\\": null,
   \\"accessTokenJTI\\": \\"31b26591-4e9a-4388-a7ff-e1bdc5d97cce\\",
   \\"view\\": \\"SIGN_IN\\",
-  \\"error\\": null
+  \\"error\\": null,
+  \\"duplicateEmail\\": null
 }"
 `;
 
@@ -28,7 +29,8 @@ exports[`init local state 1`] = `
     \\"accessTokenExp\\": null,
     \\"accessTokenJTI\\": null,
     \\"view\\": \\"SIGN_IN\\",
-    \\"error\\": null
+    \\"error\\": null,
+    \\"duplicateEmail\\": null
   }
 }"
 `;
