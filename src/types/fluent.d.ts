@@ -76,12 +76,18 @@ declare module "@fluent/bundle/compat" {
     ): string;
   }
 
+  export interface FluentScope {
+    bundle: FluentBundle;
+    errors?: Error[];
+    args?: object;
+  }
+
   export class FluentType {
     protected value: any;
     protected opts: any;
     constructor(value: any, opts?: any);
     public valueOf(): any;
-    public toString(bundle: FluentBundle): string;
+    public toString(scope: FluentScope): string;
   }
 
   export class FluentNumber extends FluentType {}

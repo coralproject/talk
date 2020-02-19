@@ -560,6 +560,7 @@ moderate-navigation-reported = reported
 moderate-navigation-pending = Pending
 moderate-navigation-unmoderated = unmoderated
 moderate-navigation-rejected = rejected
+moderate-navigation-comment-count = { SHORT_NUMBER($count) }
 
 moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link

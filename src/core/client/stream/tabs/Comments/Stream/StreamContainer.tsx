@@ -210,7 +210,12 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                           : "grey"
                       }
                     >
-                      {featuredCommentsCount}
+                      <Localized
+                        id="comments-counter-shortNum"
+                        $count={featuredCommentsCount}
+                      >
+                        {featuredCommentsCount}
+                      </Localized>
                     </Counter>
                   </Flex>
                 </TabWithFeaturedTooltip>
@@ -234,7 +239,12 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                       local.commentsTab === "ALL_COMMENTS" ? "primary" : "grey"
                     }
                   >
-                    {allCommentsCount}
+                    <Localized
+                      id="comments-counter-shortNum"
+                      $count={allCommentsCount}
+                    >
+                      {allCommentsCount}
+                    </Localized>
                   </Counter>
                 </Flex>
               </Tab>

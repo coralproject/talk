@@ -1,6 +1,7 @@
 import {
   FluentBundle,
   FluentNumber,
+  FluentScope,
   FluentType,
   Pattern,
 } from "@fluent/bundle/compat";
@@ -20,7 +21,7 @@ export function getShortNumberCode(n: number) {
   return code;
 }
 
-function formatShortNumber(n: number, format: Pattern, bundle: FluentBundle) {
+function formatShortNumber(n: number, format: Pattern, scope: FluentScope) {
   const lastIndexOf0 = format.lastIndexOf("0");
   const unit = format.substr(lastIndexOf0 + 1);
   const rest = format.substr(0, lastIndexOf0 + 1);
@@ -32,8 +33,8 @@ function formatShortNumber(n: number, format: Pattern, bundle: FluentBundle) {
     n /= 10;
   }
   const formattedNumber = new FluentNumber(n, {
-    maximumFractionDigits: fractalDigits,
-  }).toString(bundle);
+    maximumFractioDigits: fractalDigits,
+  }).toString(scope);
   return `${formattedNumber}${unit}`;
 }
 
@@ -42,23 +43,23 @@ export default class FluentShortNumber extends FluentNumber {
     super(value, opts);
   }
 
-  public toString(bundle: FluentBundle) {
+  public toString(scope: FluentScope) {
     if (this.value < 1000) {
-      return super.toString(bundle);
+      return super.toString(scope);
     }
     const key = `framework-shortNumber-${getShortNumberCode(this.value)}`;
-    const fmt = bundle.getMessage(key);
+    const fmt = scope.bundle.getMessage(key);
 
     // Handle message not found.
     if (!fmt) {
-      const message = `Missing translation key for ${key} for languages ${bundle.locales.toString()}`;
+      const message = `Missing translation key for ${key} for languages ${scope.bundle.locales.toString()}`;
       if (process.env.NODE_ENV === "production") {
         // eslint-disable-next-line no-console
         console.warn(message);
       } else {
         throw new Error(message);
       }
-      return super.toString(bundle);
+      return super.toString(scope);
     }
 
     // Check for invalid message.
@@ -70,10 +71,10 @@ export default class FluentShortNumber extends FluentNumber {
       } else {
         throw new Error(message);
       }
-      return super.toString(bundle);
+      return super.toString(scope);
     }
 
-    return formatShortNumber(this.value, fmt.value, bundle);
+    return formatShortNumber(this.value, fmt.value, scope);
   }
 
   public match(bundle: FluentBundle, other: FluentType) {
