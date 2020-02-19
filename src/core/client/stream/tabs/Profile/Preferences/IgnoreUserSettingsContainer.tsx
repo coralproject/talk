@@ -16,8 +16,8 @@ import {
 
 import { IgnoreUserSettingsContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoreUserSettingsContainer_viewer.graphql";
 
+import Username from "../Settings/Username";
 import RemoveUserIgnoreMutation from "./RemoveUserIgnoreMutation";
-import Username from "./Username";
 
 import styles from "./IgnoreUserSettingsContainer.css";
 
