@@ -89,6 +89,14 @@ export default makeRouteConfig(
             path="rejected/sites/:siteID"
             {...RejectedQueueRoute.routeConfig}
           />
+          <Route
+            path="approved/stories/:storyID"
+            {...ApprovedQueueRoute.routeConfig}
+          />
+          <Route
+            path="approved/sites/:siteID"
+            {...ApprovedQueueRoute.routeConfig}
+          />
           <Redirect
             from="stories/:storyID"
             to="/admin/moderate/reported/stories/:storyID"
