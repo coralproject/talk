@@ -28,6 +28,7 @@ comment-count-text =
 
 comments-allCommentsTab = All Comments
 comments-featuredTab = Featured
+comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-featuredCommentTooltip-how = How is a comment featured?
 comments-featuredCommentTooltip-handSelectedComments =
   Comments are chosen by our team as worth reading.

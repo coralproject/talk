@@ -72,7 +72,12 @@ const Navigation: FunctionComponent<Props> = ({
         </Localized>
         {isNumber(reportedCount) && (
           <Counter data-testid="moderate-navigation-reported-count">
-            {reportedCount}
+            <Localized
+              id="moderate-navigation-comment-count"
+              $count={reportedCount}
+            >
+              {reportedCount}
+            </Localized>
           </Counter>
         )}
       </NavigationLink>
@@ -83,7 +88,12 @@ const Navigation: FunctionComponent<Props> = ({
         </Localized>
         {isNumber(pendingCount) && (
           <Counter data-testid="moderate-navigation-pending-count">
-            {pendingCount}
+            <Localized
+              id="moderate-navigation-comment-count"
+              $count={pendingCount}
+            >
+              {pendingCount}
+            </Localized>
           </Counter>
         )}
       </NavigationLink>
@@ -94,7 +104,12 @@ const Navigation: FunctionComponent<Props> = ({
         </Localized>
         {isNumber(unmoderatedCount) && (
           <Counter data-testid="moderate-navigation-unmoderated-count">
-            {unmoderatedCount}
+            <Localized
+              id="moderate-navigation-comment-count"
+              $count={unmoderatedCount}
+            >
+              {unmoderatedCount}
+            </Localized>
           </Counter>
         )}
       </NavigationLink>
