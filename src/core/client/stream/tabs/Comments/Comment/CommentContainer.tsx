@@ -202,18 +202,19 @@ export class CommentContainer extends Component<Props, State> {
     const hasFeaturedTag = Boolean(
       comment.tags.find(t => t.code === GQLTAG.FEATURED)
     );
+    const isQA = Boolean(story.settings.mode === GQLSTORY_MODE.QA);
     // When we're in Q&A and we are not un-answered (answered)
     // and we're a top level comment (no parent), then we
     // are an answered question
     const hasAnsweredTag = Boolean(
       !hideAnsweredTag &&
-        story.settings.mode === GQLSTORY_MODE.QA &&
-        !comment.tags.some(t => t.code === GQLTAG.UNANSWERED) &&
+        isQA &&
+        comment.tags.every(t => t.code !== GQLTAG.UNANSWERED) &&
         !comment.parent
     );
     const commentTags = (
       <>
-        {hasFeaturedTag && (
+        {hasFeaturedTag && !isQA && (
           <Tag
             className={CLASSES.comment.topBar.commentTag}
             color="primary"
@@ -224,7 +225,7 @@ export class CommentContainer extends Component<Props, State> {
             </Localized>
           </Tag>
         )}
-        {hasAnsweredTag && (
+        {hasAnsweredTag && isQA && (
           <Tag variant="regular" color="primary" className={styles.answeredTag}>
             <Flex alignItems="center">
               <Icon size="xs" className={styles.tagIcon}>
