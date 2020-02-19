@@ -242,28 +242,8 @@ export class CommentBodyExceedsMaxLengthError extends CoralError {
   }
 }
 
-export class URLInvalidError extends CoralError {
-  constructor({
-    url,
-    ...properties
-  }: {
-    url: string;
-    allowedDomains: string[];
-    tenantDomain?: string;
-  }) {
-    super({
-      code: ERROR_CODES.URL_NOT_PERMITTED,
-      context: { pvt: properties, pub: { url } },
-    });
-  }
-}
-
 export class StoryURLInvalidError extends CoralError {
-  constructor(properties: {
-    storyURL: string;
-    allowedDomains: string[];
-    tenantDomain?: string;
-  }) {
+  constructor(properties: { storyURL: string; tenantDomain?: string }) {
     super({
       code: ERROR_CODES.STORY_URL_NOT_PERMITTED,
       context: { pvt: properties },
@@ -299,6 +279,16 @@ export class DuplicateStoryURLError extends CoralError {
       cause,
       code: ERROR_CODES.DUPLICATE_STORY_URL,
       context: { pvt: { id, url } },
+    });
+  }
+}
+
+export class DuplicateSiteAllowedOriginError extends CoralError {
+  constructor(cause: MongoError, id: string | null, domains?: string[]) {
+    super({
+      cause,
+      code: ERROR_CODES.DUPLICATE_SITE_ORIGIN,
+      context: { pvt: { id, domains } },
     });
   }
 }

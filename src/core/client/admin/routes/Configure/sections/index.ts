@@ -6,3 +6,8 @@ export { ModerationConfigRoute } from "./Moderation";
 export { OrganizationConfigRoute } from "./Organization";
 export { WordListConfigRoute } from "./WordList";
 export { SlackConfigRoute } from "./Slack";
+export {
+  WebhookEndpointsConfigRoute,
+  ConfigureWebhookEndpointRoute,
+  AddWebhookEndpointRoute,
+} from "./WebhookEndpoints";

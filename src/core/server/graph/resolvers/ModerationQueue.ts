@@ -12,7 +12,7 @@ import {
 export interface ModerationQueueInput {
   selector: string;
   connection: Partial<CommentConnectionInput>;
-  count: number;
+  count: number | null;
 }
 
 export const ModerationQueue: GQLModerationQueueTypeResolver<

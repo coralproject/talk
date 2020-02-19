@@ -14,7 +14,7 @@ import {
   Snapshot,
 } from "relay-runtime";
 
-import { withContext } from "../bootstrap";
+import withContext from "../bootstrap/withContext";
 import { LOCAL_ID, LOCAL_TYPE } from "./localState";
 
 interface Props {

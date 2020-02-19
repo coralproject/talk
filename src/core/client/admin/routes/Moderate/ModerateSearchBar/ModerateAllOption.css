@@ -22,3 +22,7 @@
   font-weight: var(--font-weight-medium);
   margin-top: -2px;
 }
+
+.button {
+  border-radius: 0;
+}

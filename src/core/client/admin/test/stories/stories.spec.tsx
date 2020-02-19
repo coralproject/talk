@@ -24,6 +24,8 @@ import create from "../create";
 import {
   emptyStories,
   settings,
+  site,
+  siteConnection,
   stories,
   storyConnection,
   users,
@@ -45,6 +47,8 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
+          site: () => site,
+          sites: () => siteConnection,
           stories: ({ variables }) => {
             expectAndFail(variables.status).toBeFalsy();
             return storyConnection;
@@ -114,7 +118,7 @@ it("goes to moderation when clicking on title", async () => {
   await act(async () => {
     await wait(() => {
       expect(transitionControl.history[0].pathname).toBe(
-        `/admin/moderate/${story.id}`
+        `/admin/moderate/stories/${story.id}`
       );
     });
   });

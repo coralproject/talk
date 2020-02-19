@@ -4,7 +4,15 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
+import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
+import {
+  IntegrationDisabled,
+  InviteIncludesExistingUser,
+  InviteRequiresEmailAddresses,
+  InviteTokenExpired,
+  TokenInvalidError,
+} from "coral-server/errors";
 import {
   createInvite,
   Invite,
@@ -28,15 +36,8 @@ import {
   verifyJWT,
 } from "coral-server/services/jwt";
 
-import { constructTenantURL } from "coral-server/app/url";
-import {
-  IntegrationDisabled,
-  InviteIncludesExistingUser,
-  InviteRequiresEmailAddresses,
-  InviteTokenExpired,
-  TokenInvalidError,
-} from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+
 import { validateEmail, validatePassword, validateUsername } from "../helpers";
 
 export interface InviteToken extends Required<StandardClaims> {
@@ -323,6 +324,8 @@ export async function redeem(
     },
     now
   );
+
+  // TODO: (wyattjoh) emit that a user was created
 
   return user;
 }

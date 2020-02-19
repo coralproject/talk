@@ -5,19 +5,17 @@ import descriptionScraper from "metascraper-description";
 import imageScraper from "metascraper-image";
 import titleScraper from "metascraper-title";
 import { Db } from "mongodb";
-import fetch, { RequestInit } from "node-fetch";
 import ProxyAgent from "proxy-agent";
 
-import { version } from "coral-common/version";
 import { Config } from "coral-server/config";
 import { ScrapeFailed } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { retrieveStory, updateStory } from "coral-server/models/story";
 import { retrieveTenant } from "coral-server/models/tenant";
+import { createFetch, Fetch, FetchOptions } from "coral-server/services/fetch";
 
 import { GQLStoryMetadata } from "coral-server/graph/schema/__generated__/types";
 
-import abortAfter from "./abortAfter";
 import { modifiedScraper } from "./rules/modified";
 import { publishedScraper } from "./rules/published";
 import { sectionScraper } from "./rules/section";
@@ -32,8 +30,10 @@ export type Rule = Record<
 class Scraper {
   private readonly rules: Rule[];
   private readonly log: Logger;
+  private readonly fetch: Fetch;
 
   constructor(rules: Rule[]) {
+    this.fetch = createFetch({ name: "Scraper" });
     this.rules = rules;
     this.log = logger.child({ taskName: "scraper" }, true);
   }
@@ -85,27 +85,25 @@ class Scraper {
 
   public async download(
     url: string,
-    abortAfterMilliseconds: number,
+    timeout: number,
     customUserAgent?: string,
     proxyURL?: string
   ) {
     const log = this.log.child({ storyURL: url }, true);
 
-    // Abort the scrape request after the timeout is reached.
-    const { controller, timeout } = abortAfter(abortAfterMilliseconds);
-
-    const options: RequestInit = {
-      headers: {
-        "User-Agent": customUserAgent || `Talk Scraper/${version}`,
-      },
-      signal: controller.signal,
-    };
+    const options: FetchOptions = { timeout };
+    if (customUserAgent) {
+      options.headers = {
+        ...options.headers,
+        "User-Agent": customUserAgent,
+      };
+    }
 
     if (proxyURL) {
       // Force the type here because there's a slight mismatch.
       options.agent = (new ProxyAgent(
         proxyURL
-      ) as unknown) as RequestInit["agent"];
+      ) as unknown) as FetchOptions["agent"];
       log.debug("using proxy for scrape");
     }
 
@@ -113,8 +111,8 @@ class Scraper {
     log.debug("starting scrape of Story");
 
     try {
-      const res = await fetch(url, options);
-      if (!res.ok || res.status !== 200) {
+      const res = await this.fetch(url, options);
+      if (!res.ok) {
         log.warn(
           { statusCode: res.status, statusText: res.statusText },
           "scrape failed with non-200 status code"
@@ -129,8 +127,6 @@ class Scraper {
       return html;
     } catch (err) {
       throw new ScrapeFailed(url, err);
-    } finally {
-      clearTimeout(timeout);
     }
   }
 
@@ -198,14 +194,12 @@ export async function scrape(
 
   // This typecast is needed because the custom `ms` format does not return the
   // desired `number` type even though that's the only type it can output.
-  const abortAfterMilliseconds = (config.get(
-    "scrape_timeout"
-  ) as unknown) as number;
+  const timeout = (config.get("scrape_timeout") as unknown) as number;
 
   // Get the metadata from the scraped html.
   const metadata = await scraper.scrape(
     storyURL,
-    abortAfterMilliseconds,
+    timeout,
     tenant.stories.scraping.customUserAgent,
     tenant.stories.scraping.proxyURL
   );

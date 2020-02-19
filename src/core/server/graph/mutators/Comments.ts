@@ -45,7 +45,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.mongo,
         ctx.redis,
         ctx.config,
-        ctx.publisher,
+        ctx.broker,
         ctx.tenant,
         ctx.user!,
         { authorID: ctx.user!.id, ...comment },
@@ -68,7 +68,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.mongo,
         ctx.redis,
         ctx.config,
-        ctx.publisher,
+        ctx.broker,
         ctx.tenant,
         ctx.user!,
         {
@@ -92,7 +92,7 @@ export const Comments = (ctx: GraphContext) => ({
     createReaction(
       ctx.mongo,
       ctx.redis,
-      ctx.publisher,
+      ctx.broker,
       ctx.tenant,
       ctx.user!,
       {
@@ -102,7 +102,7 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeReaction: ({ commentID }: GQLRemoveCommentReactionInput) =>
-    removeReaction(ctx.mongo, ctx.redis, ctx.tenant, ctx.user!, {
+    removeReaction(ctx.mongo, ctx.redis, ctx.broker, ctx.tenant, ctx.user!, {
       commentID,
     }),
   createDontAgree: ({
@@ -113,7 +113,7 @@ export const Comments = (ctx: GraphContext) => ({
     createDontAgree(
       ctx.mongo,
       ctx.redis,
-      ctx.publisher,
+      ctx.broker,
       ctx.tenant,
       ctx.user!,
       {
@@ -128,7 +128,7 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeDontAgree: ({ commentID }: GQLRemoveCommentDontAgreeInput) =>
-    removeDontAgree(ctx.mongo, ctx.redis, ctx.tenant, ctx.user!, {
+    removeDontAgree(ctx.mongo, ctx.redis, ctx.broker, ctx.tenant, ctx.user!, {
       commentID,
     }),
   createFlag: ({
@@ -140,7 +140,7 @@ export const Comments = (ctx: GraphContext) => ({
     createFlag(
       ctx.mongo,
       ctx.redis,
-      ctx.publisher,
+      ctx.broker,
       ctx.tenant,
       ctx.user!,
       {
@@ -174,7 +174,7 @@ export const Comments = (ctx: GraphContext) => ({
               ctx.mongo,
               ctx.redis,
               ctx.config,
-              ctx.publisher,
+              ctx.broker,
               ctx.tenant,
               commentID,
               commentRevisionID,
@@ -185,7 +185,7 @@ export const Comments = (ctx: GraphContext) => ({
       )
       .then(comment => {
         // Publish that the comment was featured.
-        publishCommentFeatured(ctx.publisher, comment);
+        publishCommentFeatured(ctx.broker, comment);
 
         // Return it to the next step.
         return comment;

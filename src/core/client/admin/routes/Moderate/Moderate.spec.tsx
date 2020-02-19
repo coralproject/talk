@@ -13,6 +13,13 @@ it("renders correctly", () => {
     allStories: true,
     moderationQueues: {},
     story: {},
+    site: null,
+    query: "",
+    routeParams: {},
+    queueName: "",
+    settings: {
+      multisite: false,
+    },
   };
   const renderer = createRenderer();
   renderer.render(<ModerateN {...props} />);

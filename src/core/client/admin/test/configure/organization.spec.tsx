@@ -11,7 +11,7 @@ import {
 } from "coral-framework/testHelpers";
 
 import create from "../create";
-import { settings, users } from "../fixtures";
+import { settings, siteConnection, users } from "../fixtures";
 
 beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/organization");
@@ -29,6 +29,7 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
+          sites: () => siteConnection,
         },
       }),
       params.resolvers
@@ -120,72 +121,6 @@ it("change organization name", async () => {
   await act(async () => {
     await wait(() => {
       expect(organizationNameField.props.disabled).toBe(false);
-    });
-  });
-
-  // Should have successfully sent with server.
-  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
-});
-
-it("change organization contact email", async () => {
-  const resolvers = createResolversStub<GQLResolver>({
-    Mutation: {
-      updateSettings: ({ variables }) => {
-        expectAndFail(variables.settings.organization!.contactEmail).toEqual(
-          "test@coralproject.net"
-        );
-        return {
-          settings: pureMerge(settings, variables.settings),
-        };
-      },
-    },
-  });
-  const {
-    configureContainer,
-    organizationContainer,
-    saveChangesButton,
-  } = await createTestRenderer({ resolvers });
-
-  const organizationEmailField = within(organizationContainer).getByLabelText(
-    "Organization email"
-  );
-
-  // Let's change some organization name.
-  act(() => organizationEmailField.props.onChange(""));
-
-  // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
-  });
-
-  // Should show validation error.
-  within(organizationContainer).getByText("This field is required.");
-
-  // Let's change to some valid organization name.
-  act(() => organizationEmailField.props.onChange("test@coralproject.net"));
-
-  // Should not show validation error.
-  expect(
-    within(organizationContainer).queryByText("This field is required.")
-  ).toBeNull();
-
-  // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
-  });
-
-  // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
-  expect(organizationEmailField.props.disabled).toBe(true);
-
-  // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(organizationEmailField.props.disabled).toBe(false);
     });
   });
 

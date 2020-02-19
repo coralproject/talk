@@ -1,9 +1,10 @@
-import { SUBSCRIPTION_INPUT } from "coral-server/graph/resolvers/Subscription/types";
-import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";
+import { CoralEventPayload } from "coral-server/events/event";
 import logger from "coral-server/logger";
 import { NotificationCategory } from "coral-server/services/notifications/categories";
 import NotificationContext from "coral-server/services/notifications/context";
 import { Notification } from "coral-server/services/notifications/notification";
+
+import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";
 
 import { MailerQueue } from "../mailer";
 import { DigestibleTemplate } from "../mailer/templates";
@@ -52,11 +53,11 @@ export const filterSuperseded = (
 export const handleHandlers = async (
   ctx: NotificationContext,
   categories: NotificationCategory[],
-  input: SUBSCRIPTION_INPUT
+  payload: CoralEventPayload
 ): Promise<CategoryNotification[]> => {
   const notifications: Array<CategoryNotification | null> = await Promise.all(
     categories.map(async category => {
-      const notification = await category.process(ctx, input.payload);
+      const notification = await category.process(ctx, payload);
       if (!notification) {
         return null;
       }

@@ -8,10 +8,11 @@ import {
   CoralError,
   StoryNotFoundError,
 } from "coral-server/errors";
-import { Publisher } from "coral-server/graph/subscriptions/publisher";
+import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import {
   encodeActionCounts,
+  EncodedCommentActionCounts,
   filterDuplicateActions,
 } from "coral-server/models/action/comment";
 import {
@@ -47,18 +48,18 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
-import { publishChanges, updateAllCounts } from "./helpers";
+import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 export type CreateComment = Omit<
   CreateCommentInput,
-  "status" | "metadata" | "ancestorIDs" | "actionCounts" | "tags"
+  "status" | "metadata" | "ancestorIDs" | "actionCounts" | "tags" | "siteID"
 >;
 
 export default async function create(
   mongo: Db,
   redis: AugmentedRedis,
   config: Config,
-  publisher: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -151,14 +152,11 @@ export default async function create(
   // for the first time to ensure that the data is there for when the next flag
   // is added, that it can already know that the comment is already in the
   // queue.
-  let actionCounts = {};
+  let actionCounts: EncodedCommentActionCounts = {};
   if (actions.length > 0) {
     // Determine the unique actions, we will use this to compute the comment
     // action counts. This should match what is added below.
-    const deDuplicatedActions = filterDuplicateActions(actions);
-
-    // Encode the action counts.
-    actionCounts = encodeActionCounts(...deDuplicatedActions);
+    actionCounts = encodeActionCounts(...filterDuplicateActions(actions));
   }
 
   // Create the comment!
@@ -167,6 +165,7 @@ export default async function create(
     tenant.id,
     {
       ...input,
+      siteID: story.siteID,
       tags,
       body,
       status,
@@ -177,6 +176,7 @@ export default async function create(
     now
   );
 
+  // Updating some associated data.
   await Promise.all([
     updateUserLastCommentID(redis, tenant, author, comment.id),
     updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
@@ -207,7 +207,7 @@ export default async function create(
   if (actions.length > 0) {
     // Actually add the actions to the database. This will not interact with the
     // counts at all.
-    const upsertedActions = await addCommentActions(
+    await addCommentActions(
       mongo,
       tenant,
       actions.map(
@@ -218,35 +218,34 @@ export default async function create(
 
           // Store the Story ID on the action.
           storyID: story.id,
+          siteID: story.siteID,
         })
       ),
       now
     );
-
-    log.trace({ actions: upsertedActions.length }, "added actions to comment");
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCounts(mongo, redis, {
+  const counts = await updateAllCommentCounts(mongo, redis, {
     tenant,
+    actionCounts,
     after: comment,
   });
 
   // Publish changes to the event publisher.
-  await publishChanges(publisher, {
+  await publishChanges(broker, {
     ...counts,
     after: comment,
-    moderatorID: null,
   });
 
   // If this is a reply, publish it.
   if (input.parentID) {
-    publishCommentReplyCreated(publisher, comment);
+    publishCommentReplyCreated(broker, comment);
   }
 
   // If this comment is visible (and not a reply), publish it.
   if (!input.parentID && hasPublishedStatus(comment)) {
-    publishCommentCreated(publisher, comment);
+    publishCommentCreated(broker, comment);
   }
 
   return comment;

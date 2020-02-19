@@ -1,19 +1,21 @@
 import { Localized } from "@fluent/react/compat";
 import { Match, Router, withRouter } from "found";
 import key from "keymaster";
+import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 
 import { HOTKEYS } from "coral-admin/constants";
-import { getModerationLink } from "coral-admin/helpers";
+import { getModerationLink } from "coral-framework/helpers";
 import { Counter, Icon, SubBarNavigation } from "coral-ui/components/v2";
 
 import NavigationLink from "./NavigationLink";
 
 interface Props {
-  unmoderatedCount?: number;
-  reportedCount?: number;
-  pendingCount?: number;
+  unmoderatedCount?: number | null;
+  reportedCount?: number | null;
+  pendingCount?: number | null;
   storyID?: string | null;
+  siteID?: string | null;
   router: Router;
   match: Match;
 }
@@ -23,17 +25,18 @@ const Navigation: FunctionComponent<Props> = ({
   reportedCount,
   pendingCount,
   storyID,
+  siteID,
   router,
   match,
 }) => {
   const moderationLinks = useMemo(() => {
     return [
-      getModerationLink("reported", storyID),
-      getModerationLink("pending", storyID),
-      getModerationLink("unmoderated", storyID),
-      getModerationLink("rejected", storyID),
+      getModerationLink({ queue: "reported", storyID, siteID }),
+      getModerationLink({ queue: "pending", storyID, siteID }),
+      getModerationLink({ queue: "unmoderated", storyID, siteID }),
+      getModerationLink({ queue: "rejected", storyID, siteID }),
     ];
-  }, [storyID]);
+  }, [storyID, siteID]);
 
   useEffect(() => {
     key(HOTKEYS.SWITCH_QUEUE, () => {
@@ -67,7 +70,7 @@ const Navigation: FunctionComponent<Props> = ({
         <Localized id="moderate-navigation-reported">
           <span>Reported</span>
         </Localized>
-        {reportedCount !== undefined && (
+        {isNumber(reportedCount) && (
           <Counter data-testid="moderate-navigation-reported-count">
             {reportedCount}
           </Counter>
@@ -78,7 +81,7 @@ const Navigation: FunctionComponent<Props> = ({
         <Localized id="moderate-navigation-pending">
           <span>Pending</span>
         </Localized>
-        {pendingCount !== undefined && (
+        {isNumber(pendingCount) && (
           <Counter data-testid="moderate-navigation-pending-count">
             {pendingCount}
           </Counter>
@@ -89,7 +92,7 @@ const Navigation: FunctionComponent<Props> = ({
         <Localized id="moderate-navigation-unmoderated">
           <span>Unmoderated</span>
         </Localized>
-        {unmoderatedCount !== undefined && (
+        {isNumber(unmoderatedCount) && (
           <Counter data-testid="moderate-navigation-unmoderated-count">
             {unmoderatedCount}
           </Counter>

@@ -5,8 +5,8 @@ import {
   ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION,
   COMMENT_REPEAT_POST_DURATION,
   DOWNLOAD_LIMIT_TIMEFRAME_DURATION,
+  SCHEDULED_DELETION_WINDOW_DURATION,
 } from "coral-common/constants";
-import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -25,10 +25,6 @@ import {
   UsernameUpdatedWithinWindowError,
   UserNotFoundError,
 } from "coral-server/errors";
-import {
-  GQLAuthIntegrations,
-  GQLUSER_ROLE,
-} from "coral-server/graph/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
@@ -72,12 +68,16 @@ import {
 import {
   getLocalProfile,
   hasLocalProfile,
+  hasStaffRole,
 } from "coral-server/models/user/helpers";
-import { hasStaffRole } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
-import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
+import {
+  GQLAuthIntegrations,
+  GQLUSER_ROLE,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { AugmentedRedis } from "../redis";
 import {
@@ -125,7 +125,16 @@ export async function findOrCreate(
   // Validate the input.
   validateFindOrCreateUserInput(input, options);
 
-  const user = await findOrCreateUser(mongo, tenant.id, input, now);
+  const { user, wasUpserted } = await findOrCreateUser(
+    mongo,
+    tenant.id,
+    input,
+    now
+  );
+
+  if (wasUpserted) {
+    // TODO: (wyattjoh) emit that a user was created
+  }
 
   // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
 
@@ -168,6 +177,8 @@ export async function create(
   }
 
   const user = await createUser(mongo, tenant.id, input, now);
+
+  // TODO: (wyattjoh) emit that a user was created
 
   // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
 

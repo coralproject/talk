@@ -1,4 +1,4 @@
-import { createContextHOC } from "coral-framework/helpers";
+import createContextHOC from "coral-framework/helpers/createContextHOC";
 
 import { CoralContext, CoralContextConsumer } from "./CoralContext";
 

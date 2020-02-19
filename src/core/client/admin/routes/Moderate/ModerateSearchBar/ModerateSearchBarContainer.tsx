@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
-import { getModerationLink } from "coral-admin/helpers";
+import { getModerationLink } from "coral-framework/helpers";
 import { useEffectWhenChanged } from "coral-framework/hooks";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
@@ -20,6 +20,7 @@ import {
   ListBoxOptionElement,
 } from "coral-ui/hooks/useComboBox";
 
+import { ModerateSearchBarContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateSearchBarContainer_settings.graphql";
 import { ModerateSearchBarContainer_story as ModerationQueuesData } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
 
 import Bar from "./Bar";
@@ -33,7 +34,10 @@ interface Props {
   router: Router;
   match: Match;
   story: ModerationQueuesData | null;
+  settings: SettingsData | null;
   allStories: boolean;
+  siteSelector: React.ReactNode;
+  siteID: string | null;
 }
 
 type SearchBarOptions = PropTypesOf<typeof Bar>["options"];
@@ -111,7 +115,11 @@ function getContextOptionsWhenModeratingStory(
 }
 
 type OnSearchCallback = (search: string) => void;
-
+interface SearchParams {
+  query: string;
+  limit: number;
+  siteID?: string;
+}
 /**
  * useSearchOptions
  *
@@ -120,7 +128,8 @@ type OnSearchCallback = (search: string) => void;
  */
 function useSearchOptions(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler,
-  story: ModerationQueuesData | null
+  story: ModerationQueuesData | null,
+  siteID: string | null
 ): [SearchBarOptions, OnSearchCallback] {
   const searchStory = useFetch(SearchStoryFetch);
 
@@ -149,7 +158,14 @@ function useSearchOptions(
         },
       ]);
 
-      const stories = await searchStory({ query: search, limit: 5 });
+      const searchParams: SearchParams = {
+        query: search,
+        limit: 5,
+      };
+      if (siteID) {
+        searchParams.siteID = siteID;
+      }
+      const stories = await searchStory(searchParams);
       if (searchCount !== searchCountRef.current) {
         // This result is old, so we can discard it.
         return;
@@ -164,8 +180,13 @@ function useSearchOptions(
           nextSearchOptions.push({
             element: (
               <Option
-                href={getModerationLink("default", e.node.id)}
-                details={e.node.metadata && e.node.metadata.author}
+                href={getModerationLink({ storyID: e.node.id })}
+                details={
+                  <Flex itemGutter>
+                    <strong>{e.node.site.name}</strong>
+                    {e.node.metadata && e.node.metadata.author}
+                  </Flex>
+                }
               >
                 <GoToAriaInfo /> {e.node.metadata && e.node.metadata.title}
               </Option>
@@ -203,7 +224,7 @@ function useSearchOptions(
       }
       setSearchOptions(nextSearchOptions);
     },
-    [story, searchStory, setSearchOptions]
+    [story, searchStory, setSearchOptions, siteID]
   );
 
   return [searchOptions, onSearch];
@@ -217,7 +238,8 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
 
   const [searchOptions, onSearch] = useSearchOptions(
     linkNavHandler,
-    props.story
+    props.story,
+    props.siteID
   );
 
   const options = [...contextOptions, ...searchOptions];
@@ -231,16 +253,35 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
   if (props.allStories) {
     return (
       <Localized id="moderate-searchBar-allStories" attrs={{ title: true }}>
-        <Bar title="All stories" {...childProps} />
+        <Bar
+          siteSelector={props.siteSelector}
+          multisite={props.settings ? props.settings.multisite : false}
+          title="All stories"
+          {...childProps}
+        />
       </Localized>
     );
   }
   if (!props.story) {
-    return <Bar title={""} {...childProps} />;
+    return (
+      <Bar
+        multisite={props.settings ? props.settings.multisite : false}
+        siteSelector={props.siteSelector}
+        title={""}
+        {...childProps}
+      />
+    );
   }
   const t = props.story.metadata && props.story.metadata.title;
   if (t) {
-    return <Bar title={t} {...childProps} />;
+    return (
+      <Bar
+        multisite={props.settings ? props.settings.multisite : false}
+        siteSelector={props.siteSelector}
+        title={t}
+        {...childProps}
+      />
+    );
   }
   return (
     <Localized
@@ -248,6 +289,8 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
       attrs={{ title: true }}
     >
       <Bar
+        siteSelector={props.siteSelector}
+        multisite={props.settings ? props.settings.multisite : false}
         title={"Title not available"}
         options={options}
         onSearch={onSearch}
@@ -258,9 +301,17 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
 
 const enhanced = withRouter(
   withFragmentContainer<Props>({
+    settings: graphql`
+      fragment ModerateSearchBarContainer_settings on Settings {
+        multisite
+      }
+    `,
     story: graphql`
       fragment ModerateSearchBarContainer_story on Story {
         id
+        site {
+          name
+        }
         metadata {
           title
           author

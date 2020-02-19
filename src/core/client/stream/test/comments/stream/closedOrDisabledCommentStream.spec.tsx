@@ -52,7 +52,9 @@ it("renders disabled comment stream", async () => {
     },
   });
   await waitForElement(() =>
-    within(testRenderer.root).getByText("commenting disabled", { exact: false })
+    within(testRenderer.root).getByText("commenting disabled", {
+      exact: false,
+    })
   );
 });
 

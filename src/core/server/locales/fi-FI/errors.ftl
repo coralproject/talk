@@ -5,7 +5,6 @@ error-commentBodyExceedsMaxLength =
   Kommenttisi on liian pitkä. Se voi olla korkeintaan {$max} merkkiä.
 error-storyURLNotPermitted =
   The specified story URL does not exist in the permitted domains list.
-error-urlNotPermitted = The specified URL ({$url}) is not permitted.
 error-duplicateStoryURL =  The specified story URL already exists.
 error-tenantNotFound = Tenant hostname ({$hostname}) not found.
 error-userNotFound = Käyttäjää ({$userID}) ei löydy.

@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
@@ -28,6 +29,7 @@ interface Props {
   disableLoadMore: boolean;
   loading: boolean;
   isSearching: boolean;
+  multisite: boolean;
 }
 
 const StoryTable: FunctionComponent<Props> = props => (
@@ -36,7 +38,11 @@ const StoryTable: FunctionComponent<Props> = props => (
       <Table fullWidth>
         <TableHead>
           <TableRow>
-            <TableCell className={styles.titleColumn}>
+            <TableCell
+              className={cn(styles.titleColumn, {
+                [styles.titleColumnNarrow]: props.multisite,
+              })}
+            >
               <Localized id="stories-column-title">
                 <span>Title</span>
               </Localized>{" "}
@@ -52,6 +58,11 @@ const StoryTable: FunctionComponent<Props> = props => (
             <Localized id="stories-column-author">
               <TableCell className={styles.authorColumn}>Author</TableCell>
             </Localized>
+            {props.multisite && (
+              <Localized id="stories-column-site">
+                <TableCell className={styles.siteColumn}>Site</TableCell>
+              </Localized>
+            )}
             <Localized id="stories-column-publishDate">
               <TableCell className={styles.publishDateColumn}>
                 Publish Date
@@ -65,7 +76,12 @@ const StoryTable: FunctionComponent<Props> = props => (
         <TableBody>
           {!props.loading &&
             props.stories.map(u => (
-              <StoryRowContainer key={u.id} story={u} viewer={props.viewer!} />
+              <StoryRowContainer
+                key={u.id}
+                story={u}
+                viewer={props.viewer!}
+                multisite={props.multisite}
+              />
             ))}
         </TableBody>
       </Table>

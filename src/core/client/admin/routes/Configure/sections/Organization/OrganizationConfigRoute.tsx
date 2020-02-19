@@ -2,11 +2,12 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { withRouteConfig } from "coral-framework/lib/router";
-import { Delay, Spinner } from "coral-ui/components/v2";
+import { Delay, HorizontalGutter, Spinner } from "coral-ui/components/v2";
 
 import { OrganizationConfigRouteQueryResponse } from "coral-admin/__generated__/OrganizationConfigRouteQuery.graphql";
 
 import OrganizationConfigContainer from "./OrganizationConfigContainer";
+import SitesConfigContainer from "./SitesConfigContainer";
 
 interface Props {
   data: OrganizationConfigRouteQueryResponse | null;
@@ -23,10 +24,16 @@ class OrganizationConfigRoute extends React.Component<Props> {
       );
     }
     return (
-      <OrganizationConfigContainer
-        settings={this.props.data.settings}
-        submitting={this.props.submitting}
-      />
+      <HorizontalGutter
+        spacing={4}
+        data-testid="configure-organizationContainer"
+      >
+        <OrganizationConfigContainer
+          settings={this.props.data.settings}
+          submitting={this.props.submitting}
+        />
+        <SitesConfigContainer query={this.props.data} />
+      </HorizontalGutter>
     );
   }
 }
@@ -37,6 +44,7 @@ const enhanced = withRouteConfig<Props>({
       settings {
         ...OrganizationConfigContainer_settings
       }
+      ...SitesConfigContainer_query
     }
   `,
   cacheConfig: { force: true },

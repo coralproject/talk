@@ -22,6 +22,8 @@ import {
   rejectedComments,
   reportedComments,
   settings,
+  site,
+  siteConnection,
   users,
 } from "../fixtures";
 
@@ -43,6 +45,8 @@ async function createTestRenderer(
           viewer: () => viewer,
           moderationQueues: () => emptyModerationQueues,
           comments: () => emptyRejectedComments,
+          site: () => site,
+          sites: () => siteConnection,
         },
       }),
       params.resolvers
@@ -136,7 +140,7 @@ it("shows a moderate story", async () => {
   moderateStory.props.onClick({});
   // Expect a routing request was made to the right url.
   expect(transitionControl.history[0].pathname).toBe(
-    `/admin/moderate/${reportedComments[0].story.id}`
+    `/admin/moderate/stories/${reportedComments[0].story.id}`
   );
 });
 

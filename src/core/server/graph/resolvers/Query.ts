@@ -1,3 +1,5 @@
+import { getWebhookEndpoint } from "coral-server/models/tenant";
+
 import { GQLQueryTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 import { moderationQueuesResolver } from "./ModerationQueues";
@@ -23,4 +25,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   moderationQueues: moderationQueuesResolver,
   activeStories: (source, { limit = 10 }, ctx) =>
     ctx.loaders.Stories.activeStories(limit),
+  sites: (source, args, ctx) => ctx.loaders.Sites.connection(args),
+  site: (source, { id }, ctx) => (id ? ctx.loaders.Sites.site.load(id) : null),
+  webhookEndpoint: (source, { id }, ctx) => getWebhookEndpoint(ctx.tenant, id),
 };

@@ -62,7 +62,7 @@ class CreateYourAccountStep extends Component<Props> {
             <HorizontalGutter size="double">
               <Localized id="install-createYourAccount-title">
                 <Typography variant="heading1" align="center">
-                  Create an Administrator Account
+                  Create an admin account
                 </Typography>
               </Localized>
 
@@ -118,7 +118,7 @@ class CreateYourAccountStep extends Component<Props> {
                     <Localized id="install-createYourAccount-usernameDescription">
                       <InputDescription>
                         An identifier displayed on your comments. You may use
-                        “_” and “.”
+                        “_” and “.” Spaces not permitted.
                       </InputDescription>
                     </Localized>
                     <Localized
@@ -184,7 +184,7 @@ class CreateYourAccountStep extends Component<Props> {
                   <FormField>
                     <Localized id="install-createYourAccount-confirmPassword">
                       <InputLabel container={<label htmlFor={input.name} />}>
-                        Confirm Password
+                        Confirm password
                       </InputLabel>
                     </Localized>
                     <Localized

@@ -69,7 +69,7 @@ export function getHostname(url: string) {
 
 export function getOrigin(url: string) {
   try {
-    return new URL(url).origin;
+    return new URL(url).origin.toLowerCase();
   } catch (err) {
     return null;
   }

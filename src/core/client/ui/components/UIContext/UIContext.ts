@@ -14,8 +14,12 @@ export interface UIContextProps {
    * current frame for `ClickOutside`
    */
   registerClickFarAway?: ClickFarAwayRegister;
+
+  locales?: string[];
 }
 
 const UIContext = React.createContext<UIContextProps>({} as any);
+
+export const useUIContext = () => React.useContext(UIContext);
 
 export default UIContext;

@@ -14,13 +14,14 @@ import Wizard from "./Wizard";
 
 interface FormData {
   organizationName: string;
-  organizationContactEmail: string;
-  organizationURL: string;
+  siteName: string;
+  siteContactEmail: string;
+  siteURL: string;
   email: string;
   username: string;
   password: string;
   confirmPassword: string;
-  allowedDomains: string[];
+  allowedOrigins: string[];
   locale: LanguageCode;
 }
 
@@ -32,9 +33,10 @@ interface InstallWizardState {
 function shapeFinalData(data: FormData): InstallInput {
   const {
     organizationName,
-    organizationContactEmail,
-    organizationURL,
-    allowedDomains,
+    siteName,
+    siteContactEmail,
+    siteURL,
+    allowedOrigins,
     username,
     password,
     email,
@@ -45,11 +47,16 @@ function shapeFinalData(data: FormData): InstallInput {
     tenant: {
       organization: {
         name: organizationName,
-        contactEmail: organizationContactEmail,
-        url: organizationURL,
+        contactEmail: siteContactEmail,
+        url: siteURL,
       },
-      allowedDomains,
       locale,
+    },
+    site: {
+      name: siteName,
+      contactEmail: siteContactEmail,
+      url: siteURL,
+      allowedOrigins,
     },
     user: {
       username,
@@ -67,14 +74,15 @@ class InstallWizard extends Component<Props, InstallWizardState> {
   public state = {
     step: 0,
     data: {
-      organizationContactEmail: "",
       organizationName: "",
-      organizationURL: "",
+      siteContactEmail: "",
+      siteName: "",
+      siteURL: "",
       email: "",
       username: "",
       password: "",
       confirmPassword: "",
-      allowedDomains: [],
+      allowedOrigins: [],
       locale: "en-US" as LanguageCode,
     },
   };

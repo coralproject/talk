@@ -91,6 +91,15 @@ exports[`renders configure moderation 1`] = `
               <li>
                 <a
                   className="Link-link"
+                  href="/admin/configure/webhooks"
+                  onClick={[Function]}
+                >
+                  Webhooks
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
                   href="/admin/configure/advanced"
                   onClick={[Function]}
                 >
@@ -760,7 +769,7 @@ comment is toxic, according to Perspective API. By default the threshold is set 
 You can find out more about model choices 
                       <a
                         className="ExternalLink-root"
-                        href="https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#models"
+                        href="https://github.com/conversationai/perspectiveapi/blob/master/2-api/models.md"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -974,7 +983,7 @@ community model building purposes to improve the API over time.
                     >
                       <input
                         autoCapitalize="off"
-                        autoComplete="off"
+                        autoComplete="new-password"
                         autoCorrect="off"
                         className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                         data-testid="password-field"
@@ -995,7 +1004,7 @@ community model building purposes to improve the API over time.
                         onKeyUp={[Function]}
                         role="button"
                         tabIndex={0}
-                        title="Hide API Key"
+                        title="Show API Key"
                       >
                         <i
                           aria-hidden="true"
@@ -1178,7 +1187,7 @@ in your Akismet account:
                     >
                       <input
                         autoCapitalize="off"
-                        autoComplete="off"
+                        autoComplete="new-password"
                         autoCorrect="off"
                         className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                         data-testid="password-field"
@@ -1199,7 +1208,7 @@ in your Akismet account:
                         onKeyUp={[Function]}
                         role="button"
                         tabIndex={0}
-                        title="Hide API Key"
+                        title="Show API Key"
                       >
                         <i
                           aria-hidden="true"

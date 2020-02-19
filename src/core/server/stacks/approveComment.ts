@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
-import { Publisher } from "coral-server/graph/subscriptions/publisher";
+import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { Tenant } from "coral-server/models/tenant";
 import { moderate } from "coral-server/services/comments/moderation";
 import { notifyPerspectiveModerationDecision } from "coral-server/services/perspective";
@@ -9,13 +9,13 @@ import { AugmentedRedis } from "coral-server/services/redis";
 
 import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 
-import { publishChanges, updateAllCounts } from "./helpers";
+import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 const approveComment = async (
   mongo: Db,
   redis: AugmentedRedis,
   config: Config,
-  publisher: Publisher,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -36,13 +36,15 @@ const approveComment = async (
   );
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCounts(mongo, redis, {
-    tenant,
+  const counts = await updateAllCommentCounts(mongo, redis, {
     ...result,
+    tenant,
+    // Rejecting a comment does not change the action counts.
+    actionCounts: {},
   });
 
   // Publish changes to the event publisher.
-  await publishChanges(publisher, {
+  await publishChanges(broker, {
     ...result,
     ...counts,
     moderatorID,
