@@ -20,7 +20,7 @@ export type View =
   | "CREATE_USERNAME"
   | "CREATE_PASSWORD"
   | "ADD_EMAIL_ADDRESS"
-  | "DUPLICATE_EMAIL"
+  | "LINK_ACCOUNT"
   | "%future added value";
 
 export interface AppProps {
@@ -44,7 +44,7 @@ const render = ({ view, auth, viewer }: AppProps) => {
       return <CreatePassword />;
     case "ADD_EMAIL_ADDRESS":
       return <AddEmailAddress />;
-    case "DUPLICATE_EMAIL":
+    case "LINK_ACCOUNT":
       return <LinkAccount />;
     default:
       throw new Error(`Unknown view ${view}`);

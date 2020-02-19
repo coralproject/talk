@@ -36,7 +36,7 @@ function handleAccountCompletion(props: Props) {
   } = props;
   if (viewer) {
     if (duplicateEmail) {
-      setView({ view: "DUPLICATE_EMAIL" });
+      setView({ view: "LINK_ACCOUNT" });
       return false;
     }
     if (!viewer.email) {

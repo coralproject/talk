@@ -9,7 +9,7 @@ export type View =
   | "ADD_EMAIL_ADDRESS"
   | "CREATE_USERNAME"
   | "CREATE_PASSWORD"
-  | "DUPLICATE_EMAIL";
+  | "LINK_ACCOUNT";
 
 export interface SetViewInput {
   // TODO: replace with generated typescript types.
