@@ -1302,7 +1302,6 @@ export async function link(
   // Validate the input. If the values do not pass validation, it can't possibly
   // be correct.
   validateEmail(email);
-  validatePassword(password);
 
   // Validate if the credentials are correct.
   const destination = await retrieveUserWithEmail(mongo, tenant.id, email);
