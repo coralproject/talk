@@ -7,7 +7,7 @@ import { Bar, Title } from "coral-auth/components//Header";
 import Main from "coral-auth/components/Main";
 import OrSeparator from "coral-auth/components/OrSeparator";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
-import { SetDuplicateEmailMutation } from "coral-auth/mutations";
+import { SetViewMutation } from "coral-auth/mutations";
 import {
   colorFromMeta,
   FormError,
@@ -42,7 +42,7 @@ const LinkAccountContainer: FunctionComponent = () => {
       duplicateEmail
     }
   `);
-  const setDuplicateEmail = useMutation(SetDuplicateEmailMutation);
+  const setView = useMutation(SetViewMutation);
   const linkAccount = useMutation(LinkAccountMutation);
   const onSubmit: OnSubmit<FormErrorProps> = useCallback(
     async (input, form) => {
@@ -62,8 +62,8 @@ const LinkAccountContainer: FunctionComponent = () => {
     [linkAccount]
   );
   const changeEmail = useCallback(() => {
-    setDuplicateEmail({ duplicateEmail: null });
-  }, [setDuplicateEmail]);
+    setView({ view: "ADD_EMAIL_ADDRESS" });
+  }, [setView]);
 
   const ref = useResizePopup();
 

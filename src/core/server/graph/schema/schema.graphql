@@ -1857,6 +1857,13 @@ type User {
     )
 
   """
+  duplicateEmail is set on users that have a matching email with another user in
+  the database. Only relevant during the account completion process.
+  """
+  duplicateEmail: String
+    @auth(userIDField: "id", permit: [MISSING_NAME, MISSING_EMAIL])
+
+  """
   emailVerified when true indicates that the given email address has been
   verified.
   """

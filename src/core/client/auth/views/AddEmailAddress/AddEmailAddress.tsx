@@ -8,7 +8,10 @@ import ConfirmEmailField from "coral-auth/components/ConfirmEmailField";
 import EmailField from "coral-auth/components/EmailField";
 import Main from "coral-auth/components/Main";
 import useResizePopup from "coral-auth/hooks/useResizePopup";
-import { SetDuplicateEmailMutation } from "coral-auth/mutations";
+import {
+  SetDuplicateEmailMutation,
+  SetViewMutation,
+} from "coral-auth/mutations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
@@ -32,6 +35,7 @@ interface FormErrorProps extends FormProps, FormError {}
 const AddEmailAddressContainer: FunctionComponent = () => {
   const setEmail = useMutation(SetEmailMutation);
   const setDuplicateEmail = useMutation(SetDuplicateEmailMutation);
+  const setView = useMutation(SetViewMutation);
   const onSubmit: OnSubmit<FormErrorProps> = useCallback(
     async (input, form) => {
       try {
@@ -41,6 +45,7 @@ const AddEmailAddressContainer: FunctionComponent = () => {
         if (error instanceof InvalidRequestError) {
           if (error.code === "DUPLICATE_EMAIL") {
             setDuplicateEmail({ duplicateEmail: input.email });
+            setView({ view: "LINK_ACCOUNT" });
             return;
           }
           return error.invalidArgs;

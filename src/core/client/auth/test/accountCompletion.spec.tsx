@@ -103,16 +103,15 @@ it("renders account linking view", async () => {
       Query: {
         viewer: () =>
           pureMerge(viewer, {
-            email: "hans@test.com",
+            email: "",
             username: "hans",
+            duplicateEmail: "my@email.com",
           }),
       },
     },
-    initLocalState: localRecord => {
-      localRecord.setValue("dupli@email.ocm", "duplicateEmail");
-    },
   });
   await waitForElement(() => within(root).getByTestID("linkAccount-container"));
+  within(root).getByText("my@email.com", { exact: false });
 });
 
 it("do not render createPassword view when local auth is disabled", async () => {

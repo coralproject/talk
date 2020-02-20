@@ -207,11 +207,8 @@ export async function handleOAuth2Callback(
       generateCookieOptions(req, expiresIn.toJSDate())
     );
 
-    // Grab some more properties to add to the hash.
-    const { duplicateEmail } = user;
-
     // Send back the details!
-    return redirectWithHash(res, path, { accessToken, duplicateEmail });
+    return redirectWithHash(res, path, { accessToken });
   } catch (e) {
     return redirectWithHash(res, path, { error: e.message });
   }

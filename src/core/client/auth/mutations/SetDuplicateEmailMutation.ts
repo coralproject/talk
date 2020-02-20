@@ -12,16 +12,7 @@ export interface SetDuplicateEmailInput {
  */
 const SetDuplicateEmailMutation = createMutation(
   "setDuplicateEmail",
-  async (
-    environment: Environment,
-    input: SetDuplicateEmailInput,
-    { sessionStorage }
-  ) => {
-    if (input.duplicateEmail === null) {
-      await sessionStorage.removeItem("duplicateEmail");
-    } else {
-      await sessionStorage.setItem("duplicateEmail", input.duplicateEmail);
-    }
+  (environment: Environment, input: SetDuplicateEmailInput) => {
     return commitLocalUpdate(environment, store => {
       const record = store.get(LOCAL_ID)!;
       record.setValue(input.duplicateEmail, "duplicateEmail");

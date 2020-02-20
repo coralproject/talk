@@ -16,20 +16,9 @@ export default async function initLocalState(
   const {
     error = null,
     accessToken = null,
-    duplicateEmail: duplicateEmailFromHash = null,
   } = getParamsFromHashAndClearIt();
 
   await initLocalBaseState(environment, context, accessToken);
-
-  // Duplicate Email reported in server response, save it into local state.
-  if (duplicateEmailFromHash) {
-    await context.sessionStorage.setItem(
-      "duplicateEmail",
-      duplicateEmailFromHash || ""
-    );
-  }
-  const duplicateEmail =
-    (await context.sessionStorage.getItem("duplicateEmail")) || null;
 
   commitLocalUpdate(environment, s => {
     const localRecord = s.get(LOCAL_ID)!;
@@ -42,11 +31,5 @@ export default async function initLocalState(
 
     // Set error.
     localRecord.setValue(error, "error");
-
-    // Set duplicateEmail.
-    localRecord.setValue(
-      duplicateEmail,
-      "duplicateEmail"
-    );
   });
 }

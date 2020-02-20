@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 
-import { SetViewMutation } from "coral-auth/mutations";
+import {
+  SetDuplicateEmailMutation,
+  SetViewMutation,
+} from "coral-auth/mutations";
 import {
   graphql,
   MutationProp,
@@ -21,6 +24,7 @@ import {
 interface Props {
   completeAccount: CompleteAccountMutation;
   setView: MutationProp<typeof SetViewMutation>;
+  setDuplicateEmail: MutationProp<typeof SetDuplicateEmailMutation>;
   local: Local;
   auth: AuthData;
   viewer: UserData | null;
@@ -32,11 +36,17 @@ function handleAccountCompletion(props: Props) {
     viewer,
     auth,
     setView,
+    setDuplicateEmail,
     completeAccount,
   } = props;
   if (viewer) {
-    if (duplicateEmail) {
-      setView({ view: "LINK_ACCOUNT" });
+    if (duplicateEmail || viewer.duplicateEmail) {
+      if (view !== "ADD_EMAIL_ADDRESS" && view !== "LINK_ACCOUNT") {
+        setView({ view: "LINK_ACCOUNT" });
+        if (!duplicateEmail) {
+          setDuplicateEmail({ duplicateEmail: viewer.duplicateEmail });
+        }
+      }
       return false;
     }
     if (!viewer.email) {
@@ -124,14 +134,17 @@ const enhanced = withLocalStateContainer(
       fragment AccountCompletionContainer_viewer on User {
         username
         email
+        duplicateEmail
         profiles {
           __typename
         }
       }
     `,
   })(
-    withMutation(SetViewMutation)(
-      withCompleteAccountMutation(AccountCompletionContainer)
+    withMutation(SetDuplicateEmailMutation)(
+      withMutation(SetViewMutation)(
+        withCompleteAccountMutation(AccountCompletionContainer)
+      )
     )
   )
 );
