@@ -45,44 +45,42 @@ export const AnsweredCommentsContainer: FunctionComponent<Props> = props => {
   }, [loadMore, beginLoadMoreEvent, props.story.id]);
   const comments = props.story.featuredComments.edges.map(edge => edge.node);
   return (
-    <>
-      <HorizontalGutter
-        id="comments-featuredComments-log"
-        data-testid="comments-featuredComments-log"
-        role="log"
-        aria-live="polite"
-        spacing={3}
-      >
-        {comments.map(comment => (
-          <IgnoredTombstoneOrHideContainer
-            key={comment.id}
+    <HorizontalGutter
+      id="comments-featuredComments-log"
+      data-testid="comments-featuredComments-log"
+      role="log"
+      aria-live="polite"
+      spacing={3}
+    >
+      {comments.map(comment => (
+        <IgnoredTombstoneOrHideContainer
+          key={comment.id}
+          viewer={props.viewer}
+          comment={comment}
+        >
+          <AnsweredCommentContainer
             viewer={props.viewer}
+            settings={props.settings}
             comment={comment}
+            story={props.story}
+          />
+        </IgnoredTombstoneOrHideContainer>
+      ))}
+      {props.relay.hasMore() && (
+        <Localized id="comments-loadMore">
+          <Button
+            onClick={loadMoreAndEmit}
+            variant="outlined"
+            fullWidth
+            disabled={isLoadingMore}
+            aria-controls="comments-featuredComments-log"
+            className={CLASSES.featuredCommentsTabPane.loadMoreButton}
           >
-            <AnsweredCommentContainer
-              viewer={props.viewer}
-              settings={props.settings}
-              comment={comment}
-              story={props.story}
-            />
-          </IgnoredTombstoneOrHideContainer>
-        ))}
-        {props.relay.hasMore() && (
-          <Localized id="comments-loadMore">
-            <Button
-              onClick={loadMoreAndEmit}
-              variant="outlined"
-              fullWidth
-              disabled={isLoadingMore}
-              aria-controls="comments-featuredComments-log"
-              className={CLASSES.featuredCommentsTabPane.loadMoreButton}
-            >
-              Load More
-            </Button>
-          </Localized>
-        )}
-      </HorizontalGutter>
-    </>
+            Load More
+          </Button>
+        </Localized>
+      )}
+    </HorizontalGutter>
   );
 };
 
