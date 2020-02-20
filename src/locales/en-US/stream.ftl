@@ -186,10 +186,8 @@ qa-viewNew =
   }
 
 qa-postQuestionForm-rteLabel = Post a question
-
 qa-postQuestionForm-rte =
   .placeholder = { qa-postQuestionForm-rteLabel }
-
 qa-postQuestionFormFake-rte =
   .placeholder = { qa-postQuestionForm-rteLabel }
 
@@ -197,6 +195,9 @@ qa-sortMenu-mostVoted = Most Voted
 
 qa-answered-tag = answered
 qa-expert-tag = expert
+
+qa-unansweredTab-removeAnsweredQuestions =
+  Remove answered questions
 
 ### Account Deletion Stream
 

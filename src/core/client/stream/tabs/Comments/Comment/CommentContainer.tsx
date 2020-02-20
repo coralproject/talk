@@ -71,6 +71,7 @@ interface Props {
   className?: string;
 
   hideAnsweredTag?: boolean;
+  onRemoveAnswered?: () => void;
 }
 
 interface State {
@@ -202,7 +203,22 @@ export class CommentContainer extends Component<Props, State> {
     const hasFeaturedTag = Boolean(
       comment.tags.find(t => t.code === GQLTAG.FEATURED)
     );
+    // We are in a Q&A if the story mode is set to QA.
     const isQA = Boolean(story.settings.mode === GQLSTORY_MODE.QA);
+    // Author is expert if comment is tagged Expert and the
+    // story mode is Q&A.
+    const authorIsExpert =
+      isQA && comment.tags.find(t => t.code === GQLTAG.EXPERT);
+    // Only show a button to clear removed answers if
+    // this comment is by an expert, reply to a top level
+    // comment (question) with an answer
+    const showRemoveAnswered = Boolean(
+      !comment.deleted &&
+        isQA &&
+        authorIsExpert &&
+        indentLevel === 1 &&
+        this.props.onRemoveAnswered
+    );
     // When we're in Q&A and we are not un-answered (answered)
     // and we're a top level comment (no parent), then we
     // are an answered question
@@ -412,6 +428,18 @@ export class CommentContainer extends Component<Props, State> {
               onClose={this.closeReplyDialog}
               localReply={localReply}
             />
+          )}
+          {showRemoveAnswered && (
+            <Localized id="qa-unansweredTab-removeAnsweredQuestions">
+              <Button
+                variant="filled"
+                color="regular"
+                className={styles.removeAnswered}
+                onClick={this.props.onRemoveAnswered}
+              >
+                Remove answered questions
+              </Button>
+            </Localized>
           )}
         </HorizontalGutter>
       </div>

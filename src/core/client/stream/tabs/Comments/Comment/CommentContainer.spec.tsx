@@ -56,6 +56,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       setCommentID: noop as any,
       localReply: false,
       disableReplies: false,
+      onRemoveAnswered: undefined,
     },
     add
   );

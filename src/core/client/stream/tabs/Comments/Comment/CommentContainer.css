@@ -13,3 +13,7 @@
 
   text-transform: uppercase;
 }
+
+.removeAnswered {
+  width: 100%;
+}
