@@ -30,6 +30,7 @@ import InviteRoute from "./routes/Invite";
 import LoginRoute from "./routes/Login";
 import ModerateRoute from "./routes/Moderate";
 import {
+  ApprovedQueueRoute,
   PendingQueueRoute,
   RejectedQueueRoute,
   ReportedQueueRoute,
@@ -78,6 +79,7 @@ export default makeRouteConfig(
             path="unmoderated/sites/:siteID"
             {...UnmoderatedQueueRoute.routeConfig}
           />
+          <Route path="approved" {...ApprovedQueueRoute.routeConfig} />
           <Route path="rejected" {...RejectedQueueRoute.routeConfig} />
           <Route
             path="rejected/stories/:storyID"
@@ -86,6 +88,14 @@ export default makeRouteConfig(
           <Route
             path="rejected/sites/:siteID"
             {...RejectedQueueRoute.routeConfig}
+          />
+          <Route
+            path="approved/stories/:storyID"
+            {...ApprovedQueueRoute.routeConfig}
+          />
+          <Route
+            path="approved/sites/:siteID"
+            {...ApprovedQueueRoute.routeConfig}
           />
           <Redirect
             from="stories/:storyID"

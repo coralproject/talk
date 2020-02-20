@@ -13,7 +13,7 @@ import { Button, CallOut, Flex, Icon, Typography } from "coral-ui/components";
 
 import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 
-import RequestCommentsDownloadMutation from "./RequestCommentsDownloadMutation";
+import RequestCommentsDownloadMutation from "../Settings/RequestCommentsDownloadMutation";
 
 import styles from "./DownloadCommentsContainer.css";
 

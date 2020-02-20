@@ -393,6 +393,11 @@ export interface User extends TenantResource {
   badges?: string[];
 
   /**
+   * ssoURL is the url where a user can manage their sso account
+   */
+  ssoURL?: string;
+
+  /**
    * emailVerificationID is used to store state regarding the verification state
    * of an email address to prevent replay attacks.
    */
@@ -485,6 +490,7 @@ export interface FindOrCreateUserInput {
   avatar?: string;
   email?: string;
   badges?: string[];
+  ssoURL?: string;
   emailVerified?: boolean;
   role: GQLUSER_ROLE;
   profile: Profile;
