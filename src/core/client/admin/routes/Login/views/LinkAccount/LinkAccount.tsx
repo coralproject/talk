@@ -24,7 +24,7 @@ import {
 import { LinkAccountLocal } from "coral-admin/__generated__/LinkAccountLocal.graphql";
 
 import CompleteAccountBox from "../../CompleteAccountBox";
-import SetDuplicateEmailMutation from "../../SetDuplicateEmailMutation";
+import SetAuthViewMutation from "../../SetAuthViewMutation";
 import LinkAccountMutation from "./LinkAccountMutation";
 import OrSeparator from "./OrSeparator";
 
@@ -40,7 +40,7 @@ const LinkAccountContainer: FunctionComponent = () => {
       authDuplicateEmail
     }
   `);
-  const setDuplicateEmail = useMutation(SetDuplicateEmailMutation);
+  const setView = useMutation(SetAuthViewMutation);
   const linkAccount = useMutation(LinkAccountMutation);
   const onSubmit: OnSubmit<FormErrorProps> = useCallback(
     async (input, form) => {
@@ -60,8 +60,8 @@ const LinkAccountContainer: FunctionComponent = () => {
     [linkAccount]
   );
   const changeEmail = useCallback(() => {
-    setDuplicateEmail({ duplicateEmail: null });
-  }, [setDuplicateEmail]);
+    setView({ view: "ADD_EMAIL_ADDRESS" });
+  }, [setView]);
 
   return (
     <CompleteAccountBox

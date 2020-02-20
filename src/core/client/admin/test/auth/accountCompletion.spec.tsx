@@ -20,45 +20,48 @@ async function createTestRenderer(
 ) {
   replaceHistoryLocation("http://localhost/admin/login");
 
-  const { testRenderer, context } = create({
-    ...params,
-    resolvers: pureMerge(
-      createResolversStub<GQLResolver>({
-        Query: {
-          settings: () => settings,
-          viewer: () =>
-            pureMerge<typeof viewer>(viewer, {
-              email: "",
-              username: "",
-              profiles: [],
-            }),
-          moderationQueues: () => emptyModerationQueues,
-        },
-      }),
-      params.resolvers
-    ),
-    initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue("SIGN_IN", "authView");
-      if (params.initLocalState) {
-        params.initLocalState(localRecord, source, environment);
-      }
-    },
-  });
+  return act(() => {
+    const { testRenderer, context } = create({
+      ...params,
+      resolvers: pureMerge(
+        createResolversStub<GQLResolver>({
+          Query: {
+            settings: () => settings,
+            viewer: () =>
+              pureMerge<typeof viewer>(viewer, {
+                email: "",
+                username: "",
+                profiles: [],
+              }),
+            moderationQueues: () => emptyModerationQueues,
+          },
+        }),
+        params.resolvers
+      ),
+      initLocalState: (localRecord, source, environment) => {
+        localRecord.setValue("SIGN_IN", "authView");
+        if (params.initLocalState) {
+          params.initLocalState(localRecord, source, environment);
+        }
+      },
+    });
 
-  return {
-    context,
-    testRenderer,
-    root: testRenderer.root,
-  };
+    return {
+      context,
+      testRenderer,
+    };
+  });
 }
 
 it("renders addEmailAddress view", async () => {
-  const { root } = await createTestRenderer();
-  await waitForElement(() => within(root).queryByText("Add Email Address"));
+  const { testRenderer } = await createTestRenderer();
+  await waitForElement(() =>
+    within(testRenderer.root).queryByText("Add Email Address")
+  );
 });
 
 it("renders createUsername view", async () => {
-  const { root } = await createTestRenderer({
+  const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         viewer: () =>
@@ -70,11 +73,13 @@ it("renders createUsername view", async () => {
       },
     }),
   });
-  await waitForElement(() => within(root).queryByText("Create Username"));
+  await waitForElement(() =>
+    within(testRenderer.root).queryByText("Create Username")
+  );
 });
 
 it("renders createPassword view", async () => {
-  const { root } = await createTestRenderer({
+  const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         settings: () => settings,
@@ -88,7 +93,9 @@ it("renders createPassword view", async () => {
       },
     }),
   });
-  await waitForElement(() => within(root).queryByText("Create Password"));
+  await waitForElement(() =>
+    within(testRenderer.root).queryByText("Create Password")
+  );
 });
 
 it("do not render createPassword view when local auth is disabled", async () => {
@@ -147,19 +154,22 @@ it("complete account", async () => {
 });
 
 it("renders account linking view", async () => {
-  const { root } = await createTestRenderer({
+  const { testRenderer } = await createTestRenderer({
     resolvers: {
       Query: {
         viewer: () =>
           pureMerge<typeof viewer>(viewer, {
-            email: "hans@test.com",
+            email: "",
             username: "hans",
+            duplicateEmail: "my@email.com",
           }),
       },
     },
-    initLocalState: localRecord => {
-      localRecord.setValue("dupli@email.ocm", "authDuplicateEmail");
-    },
   });
-  await waitForElement(() => within(root).getByTestID("linkAccount-container"));
+  await act(async () => {
+    within(testRenderer.root).debug();
+    await waitForElement(() =>
+      within(testRenderer.root).getByTestID("linkAccount-container")
+    );
+  });
 });

@@ -13,6 +13,7 @@ import {
 } from "coral-ui/components";
 
 import CompleteAccountBox from "../../CompleteAccountBox";
+import SetAuthViewMutation from "../../SetAuthViewMutation";
 import SetDuplicateEmailMutation from "../../SetDuplicateEmailMutation";
 import ConfirmEmailField from "./ConfirmEmailField";
 import EmailField from "./EmailField";
@@ -21,6 +22,7 @@ import SetEmailMutation from "./SetEmailMutation";
 const AddEmailAddress: FunctionComponent = () => {
   const setDuplicateEmail = useMutation(SetDuplicateEmailMutation);
   const setEmail = useMutation(SetEmailMutation);
+  const setView = useMutation(SetAuthViewMutation);
   const onSubmit = useCallback(
     async (input: any) => {
       try {
@@ -30,6 +32,7 @@ const AddEmailAddress: FunctionComponent = () => {
         if (error instanceof InvalidRequestError) {
           if (error.code === "DUPLICATE_EMAIL") {
             setDuplicateEmail({ duplicateEmail: input.email });
+            setView({ view: "LINK_ACCOUNT" });
             return;
           }
           return error.invalidArgs;

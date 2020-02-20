@@ -40,17 +40,15 @@ function handleAccountCompletion(props: Props) {
     completeAccount,
   } = props;
   if (viewer) {
-    if (duplicateEmail || viewer.duplicateEmail) {
-      if (view !== "ADD_EMAIL_ADDRESS" && view !== "LINK_ACCOUNT") {
-        setView({ view: "LINK_ACCOUNT" });
-        if (!duplicateEmail) {
-          setDuplicateEmail({ duplicateEmail: viewer.duplicateEmail });
-        }
-      }
-      return false;
-    }
     if (!viewer.email) {
-      if (view !== "ADD_EMAIL_ADDRESS") {
+      if (duplicateEmail || viewer.duplicateEmail) {
+        if (view !== "ADD_EMAIL_ADDRESS" && view !== "LINK_ACCOUNT") {
+          setView({ view: "LINK_ACCOUNT" });
+          if (!duplicateEmail) {
+            setDuplicateEmail({ duplicateEmail: viewer.duplicateEmail });
+          }
+        }
+      } else if (view !== "ADD_EMAIL_ADDRESS") {
         setView({ view: "ADD_EMAIL_ADDRESS" });
       }
       return false;

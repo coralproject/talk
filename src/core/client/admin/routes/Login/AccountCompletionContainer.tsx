@@ -16,10 +16,12 @@ import { AccountCompletionContainerLocal as Local } from "coral-admin/__generate
 
 import CompleteAccountMutation from "./CompleteAccountMutation";
 import SetAuthViewMutation from "./SetAuthViewMutation";
+import SetDuplicateEmailMutation from "./SetDuplicateEmailMutation";
 
 type Props = {
   completeAccount: MutationProp<typeof CompleteAccountMutation>;
   setAuthView: MutationProp<typeof SetAuthViewMutation>;
+  setDuplicateEmail: MutationProp<typeof SetDuplicateEmailMutation>;
   local: Local;
   auth: AuthData;
   viewer: UserData | null;
@@ -32,14 +34,18 @@ function handleAccountCompletion(props: Props) {
     viewer,
     auth,
     setAuthView,
+    setDuplicateEmail,
   } = props;
   if (viewer) {
-    if (authDuplicateEmail) {
-      setAuthView({ view: "LINK_ACCOUNT" });
-      return false;
-    }
     if (!viewer.email) {
-      if (authView !== "ADD_EMAIL_ADDRESS") {
+      if (authDuplicateEmail || viewer.duplicateEmail) {
+        if (authView !== "ADD_EMAIL_ADDRESS" && authView !== "LINK_ACCOUNT") {
+          setAuthView({ view: "LINK_ACCOUNT" });
+          if (!authDuplicateEmail) {
+            setDuplicateEmail({ duplicateEmail: viewer.duplicateEmail });
+          }
+        }
+      } else if (authView !== "ADD_EMAIL_ADDRESS") {
         setAuthView({ view: "ADD_EMAIL_ADDRESS" });
       }
     } else if (!viewer.username) {
@@ -129,16 +135,19 @@ const enhanced = withLocalStateContainer(
       fragment AccountCompletionContainer_viewer on User {
         username
         email
+        duplicateEmail
         profiles {
           __typename
         }
       }
     `,
   })(
-    withMutation(SetAuthViewMutation)(
-      withMutation(SetRedirectPathMutation)(
-        withMutation(CompleteAccountMutation)(
-          withRouter(AccountCompletionContainer)
+    withMutation(SetDuplicateEmailMutation)(
+      withMutation(SetAuthViewMutation)(
+        withMutation(SetRedirectPathMutation)(
+          withMutation(CompleteAccountMutation)(
+            withRouter(AccountCompletionContainer)
+          )
         )
       )
     )

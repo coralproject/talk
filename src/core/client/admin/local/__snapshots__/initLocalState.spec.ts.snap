@@ -9,8 +9,7 @@ exports[`get access token from url 1`] = `
   \\"accessTokenJTI\\": \\"31b26591-4e9a-4388-a7ff-e1bdc5d97cce\\",
   \\"redirectPath\\": null,
   \\"authView\\": \\"SIGN_IN\\",
-  \\"authError\\": null,
-  \\"authDuplicateEmail\\": null
+  \\"authError\\": null
 }"
 `;
 
@@ -31,8 +30,7 @@ exports[`init local state 1`] = `
     \\"accessTokenJTI\\": null,
     \\"redirectPath\\": null,
     \\"authView\\": \\"SIGN_IN\\",
-    \\"authError\\": null,
-    \\"authDuplicateEmail\\": null
+    \\"authError\\": null
   }
 }"
 `;

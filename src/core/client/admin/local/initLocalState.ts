@@ -19,11 +19,10 @@ export default async function initLocalState(
   // Initialize the redirect path in case we don't need to redirect somewhere.
   let redirectPath: string | null = null;
   let error: string | null = null;
-  let duplicateEmail: string | null = null;
 
   // Get all the parameters from the hash.
   const params = getParamsFromHash();
-  if (params && (params.accessToken || params.error || params.duplicateEmail)) {
+  if (params && (params.accessToken || params.error)) {
     // If there were params in the hash, then clear them!
     clearHash();
 
@@ -38,16 +37,6 @@ export default async function initLocalState(
       accessToken = params.accessToken;
       await context.sessionStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
     }
-
-    // Duplicate Email reported in server response, save it into local state.
-    if (params.duplicateEmail) {
-      await context.sessionStorage.setItem(
-        "authDuplicateEmail",
-        params.duplicateEmail || ""
-      );
-    }
-    duplicateEmail =
-      (await context.sessionStorage.getItem("authDuplicateEmail")) || null;
 
     // As we are in the middle of an auth flow (given that there was something
     // in the hash) we should now grab the redirect path.
@@ -79,6 +68,5 @@ export default async function initLocalState(
     localRecord.setValue(redirectPath, "redirectPath");
     localRecord.setValue("SIGN_IN", "authView");
     localRecord.setValue(error, "authError");
-    localRecord.setValue(duplicateEmail, "authDuplicateEmail");
   });
 }
