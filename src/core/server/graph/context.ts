@@ -95,6 +95,9 @@ export default class GraphContext {
     this.redis = options.redis;
     this.tenant = options.tenant;
     this.tenantCache = options.tenantCache;
+    this.scraperQueue = options.scraperQueue;
+    this.mailerQueue = options.mailerQueue;
+    this.rejectorQueue = options.rejectorQueue;
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
 

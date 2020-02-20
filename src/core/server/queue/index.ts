@@ -1,5 +1,4 @@
 import Queue from "bull";
-import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
