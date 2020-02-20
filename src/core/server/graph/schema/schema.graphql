@@ -4419,8 +4419,6 @@ input UpdateStorySettings {
   messageBox stores settings related to the Story Message Box.
   """
   messageBox: StoryMessageBoxInput
-
-  mode: STORY_MODE
 }
 
 input UpdateStorySettingsInput {
