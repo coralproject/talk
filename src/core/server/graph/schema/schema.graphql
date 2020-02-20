@@ -2746,9 +2746,8 @@ type StorySettings {
   """
   mode is whether the story stream is in commenting or Q&A mode.
   This will determine the appearance of the stream and how it functions.
-  This is an optional parameter and if unset, defaults to commenting.
   """
-  mode: STORY_MODE
+  mode: STORY_MODE!
 
   """
   experts are used during Q&A mode to assign users to answer questions
