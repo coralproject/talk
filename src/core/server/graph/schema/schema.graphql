@@ -5927,23 +5927,16 @@ type RemoveExpertPayload {
   story: Story!
 }
 
-input EnableQAInput {
+input UpdateStoryModeInput {
   """
   storyID is the story id to enable Q&A on.
   """
   storyID: ID!
 
   """
-  clientMutationId is required for Relay support.
+  mode is the mode to set the story to.
   """
-  clientMutationId: String!
-}
-
-type EnableQAPayload {
-  """
-  story is the resultant story that Q&A was enabled on.
-  """
-  story: Story!
+  mode: STORY_MODE!
 
   """
   clientMutationId is required for Relay support.
@@ -5951,19 +5944,7 @@ type EnableQAPayload {
   clientMutationId: String!
 }
 
-input DisableQAInput {
-  """
-  storyID is the story id to enable Q&A on.
-  """
-  storyID: ID!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type DisableQAPayload {
+type UpdateStoryModePayload {
   """
   story is the resultant story that Q&A was enabled on.
   """
@@ -6409,28 +6390,22 @@ type Mutation {
   ): RotateWebhookEndpointSecretPayload! @auth(roles: [ADMIN])
 
   """
-  enableQAOnStory will enable Q&A mode on a story.
+  updateStoryMode will set the story mode.
   """
-  enableQAOnStory(input: EnableQAInput!): EnableQAPayload!
+  updateStoryMode(input: UpdateStoryModeInput!): UpdateStoryModePayload!
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  disableQAOnStory will disable Q&A mode on a story.
+  addStoryExpert adds an expert to a story.
   """
-  disableQAOnStory(input: DisableQAInput!): DisableQAPayload!
-    @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  addExpertToStory adds an expert to a story.
-  """
-  addExpertToStory(
+  addStoryExpert(
     input: AddExpertInput!
   ): AddExpertPayload! @auth(roles: [ADMIN, MODERATOR])
 
   """
-  removeExpertFromStory removes an expert from a story.
+  removeStoryExpert removes an expert from a story.
   """
-  removeExpertFromStory(
+  removeStoryExpert(
     input: RemoveExpertInput!
   ): RemoveExpertPayload! @auth(roles: [ADMIN, MODERATOR])
 }

@@ -21,12 +21,9 @@ import {
 } from "coral-server/models/comment";
 import {
   addExpert,
-  calculateTotalCommentCount,
   closeStory,
   createStory,
   CreateStoryInput,
-  disableQA,
-  enableQA,
   findOrCreateStory,
   FindOrCreateStoryInput,
   findStory,
@@ -37,6 +34,7 @@ import {
   removeStory,
   retrieveManyStories,
   retrieveStory,
+  setStoryMode,
   Story,
   updateStory,
   updateStoryCounts,
@@ -49,6 +47,8 @@ import { retrieveUser } from "coral-server/models/user";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
+
+import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
 
 export type FindStory = FindStoryInput;
 
@@ -374,7 +374,7 @@ export async function merge(
   return destinationStory;
 }
 
-export async function addExpertToStory(
+export async function addStoryExpert(
   mongo: Db,
   tenant: Tenant,
   storyID: string,
@@ -388,7 +388,7 @@ export async function addExpertToStory(
   return addExpert(mongo, tenant.id, storyID, userID);
 }
 
-export async function removeExpertFromStory(
+export async function removeStoryExpert(
   mongo: Db,
   tenant: Tenant,
   storyID: string,
@@ -402,18 +402,11 @@ export async function removeExpertFromStory(
   return removeExpert(mongo, tenant.id, storyID, userID);
 }
 
-export async function enableQAOnStory(
+export async function updateStoryMode(
   mongo: Db,
   tenant: Tenant,
-  storyID: string
+  storyID: string,
+  mode: GQLSTORY_MODE
 ) {
-  return enableQA(mongo, tenant.id, storyID);
-}
-
-export async function disableQAOnStory(
-  mongo: Db,
-  tenant: Tenant,
-  storyID: string
-) {
-  return disableQA(mongo, tenant.id, storyID);
+  return setStoryMode(mongo, tenant.id, storyID, mode);
 }

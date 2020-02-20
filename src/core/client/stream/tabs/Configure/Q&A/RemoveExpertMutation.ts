@@ -17,7 +17,7 @@ const RemoveExpertMutation = createMutation(
     commitMutationPromiseNormalized<RemoveExpertMutation>(environment, {
       mutation: graphql`
         mutation RemoveExpertMutation($input: RemoveExpertInput!) {
-          removeExpertFromStory(input: $input) {
+          removeStoryExpert(input: $input) {
             story {
               id
               settings {

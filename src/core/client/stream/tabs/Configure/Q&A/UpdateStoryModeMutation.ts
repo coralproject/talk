@@ -7,22 +7,23 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 
-import { EnableQAMutation } from "coral-stream/__generated__/EnableQAMutation.graphql";
+import { UpdateStoryModeMutation } from "coral-stream/__generated__/UpdateStoryModeMutation.graphql";
 
 let clientMutationId = 0;
 
-const EnableQAMutation = createMutation(
-  "enableQA",
+const UpdateStoryModeMutation = createMutation(
+  "disableQA",
   (
     environment: Environment,
-    input: MutationInput<EnableQAMutation> & {
+    input: MutationInput<UpdateStoryModeMutation> & {
       storyID: string;
+      mode: string;
     }
   ) =>
-    commitMutationPromiseNormalized<EnableQAMutation>(environment, {
+    commitMutationPromiseNormalized<UpdateStoryModeMutation>(environment, {
       mutation: graphql`
-        mutation EnableQAMutation($input: EnableQAInput!) {
-          enableQAOnStory(input: $input) {
+        mutation UpdateStoryModeMutation($input: UpdateStoryModeInput!) {
+          updateStoryMode(input: $input) {
             story {
               id
               settings {
@@ -36,10 +37,11 @@ const EnableQAMutation = createMutation(
       variables: {
         input: {
           storyID: input.storyID,
+          mode: input.mode,
           clientMutationId: (clientMutationId++).toString(),
         },
       },
     })
 );
 
-export default EnableQAMutation;
+export default UpdateStoryModeMutation;

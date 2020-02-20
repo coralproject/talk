@@ -643,7 +643,12 @@ export async function removeExpert(
   return result.value || null;
 }
 
-export async function enableQA(mongo: Db, tenantID: string, storyID: string) {
+export async function setStoryMode(
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  mode: GQLSTORY_MODE
+) {
   const story = await collection(mongo).findOne({ tenantID, id: storyID });
   if (!story) {
     throw new StoryNotFoundError(storyID);
@@ -656,35 +661,7 @@ export async function enableQA(mongo: Db, tenantID: string, storyID: string) {
     },
     {
       $set: {
-        "settings.mode": GQLSTORY_MODE.QA,
-      },
-    },
-    {
-      returnOriginal: false,
-    }
-  );
-
-  if (!result.ok) {
-    throw new Error("unable to enable Q&A on story");
-  }
-
-  return result.value || null;
-}
-
-export async function disableQA(mongo: Db, tenantID: string, storyID: string) {
-  const story = await collection(mongo).findOne({ tenantID, id: storyID });
-  if (!story) {
-    throw new StoryNotFoundError(storyID);
-  }
-
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      tenantID,
-      id: storyID,
-    },
-    {
-      $set: {
-        "settings.mode": GQLSTORY_MODE.COMMENTS,
+        "settings.mode": mode,
       },
     },
     {

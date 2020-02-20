@@ -5,14 +5,14 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import { GQLSTORY_MODE } from "coral-framework/schema";
 
 import { QAConfigContainer_story } from "coral-stream/__generated__/QAConfigContainer_story.graphql";
 
 import DisableQA from "./DisableQA";
-import DisableQAMutation from "./DisableQAMutation";
 import EnableQA from "./EnableQA";
-import EnableQAMutation from "./EnableQAMutation";
 import ExpertSelectionQuery from "./ExpertSelectionQuery";
+import UpdateStoryModeMutation from "./UpdateStoryModeMutation";
 
 interface Props {
   story: QAConfigContainer_story;
@@ -20,20 +20,19 @@ interface Props {
 
 const QAConfigContainer: FunctionComponent<Props> = ({ story }) => {
   const [waiting, setWaiting] = useState(false);
-  const enableQA = useMutation(EnableQAMutation);
-  const disableQA = useMutation(DisableQAMutation);
+  const updateStoryMode = useMutation(UpdateStoryModeMutation);
 
   const handleOnClick = useCallback(async () => {
     if (!waiting) {
       setWaiting(true);
       if (story.settings.mode === "COMMENTS") {
-        enableQA({ storyID: story.id });
+        updateStoryMode({ storyID: story.id, mode: GQLSTORY_MODE.QA });
       } else {
-        disableQA({ storyID: story.id });
+        updateStoryMode({ storyID: story.id, mode: GQLSTORY_MODE.COMMENTS });
       }
       setWaiting(false);
     }
-  }, [waiting, setWaiting, story, disableQA, enableQA]);
+  }, [waiting, setWaiting, story, updateStoryMode]);
 
   return story.settings.mode === "QA" ? (
     <>

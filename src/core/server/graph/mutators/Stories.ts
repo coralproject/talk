@@ -5,17 +5,16 @@ import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { Story } from "coral-server/models/story";
 import {
-  addExpertToStory,
+  addStoryExpert,
   close,
   create,
-  disableQAOnStory,
-  enableQAOnStory,
   merge,
   open,
   remove,
-  removeExpertFromStory,
+  removeStoryExpert,
   update,
   updateSettings,
+  updateStoryMode,
 } from "coral-server/services/stories";
 import { scrape } from "coral-server/services/stories/scraper";
 
@@ -23,14 +22,13 @@ import {
   GQLAddExpertInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
-  GQLDisableQAInput,
-  GQLEnableQAInput,
   GQLMergeStoriesInput,
   GQLOpenStoryInput,
   GQLRemoveExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
   GQLUpdateStoryInput,
+  GQLUpdateStoryModeInput,
   GQLUpdateStorySettingsInput,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -78,12 +76,10 @@ export const Stories = (ctx: GraphContext) => ({
     remove(ctx.mongo, ctx.tenant, input.id, input.includeComments),
   scrape: async (input: GQLScrapeStoryInput): Promise<Readonly<Story> | null> =>
     scrape(ctx.mongo, ctx.config, ctx.tenant.id, input.id),
-  enableQAOnStory: async (input: GQLEnableQAInput) =>
-    enableQAOnStory(ctx.mongo, ctx.tenant, input.storyID),
-  disableQAOnStory: async (input: GQLDisableQAInput) =>
-    disableQAOnStory(ctx.mongo, ctx.tenant, input.storyID),
-  addExpertToStory: async (input: GQLAddExpertInput) =>
-    addExpertToStory(ctx.mongo, ctx.tenant, input.storyID, input.userID),
-  removeExpertFromStory: async (input: GQLRemoveExpertInput) =>
-    removeExpertFromStory(ctx.mongo, ctx.tenant, input.storyID, input.userID),
+  updateStoryMode: async (input: GQLUpdateStoryModeInput) =>
+    updateStoryMode(ctx.mongo, ctx.tenant, input.storyID, input.mode),
+  addStoryExpert: async (input: GQLAddExpertInput) =>
+    addStoryExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID),
+  removeStoryExpert: async (input: GQLRemoveExpertInput) =>
+    removeStoryExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID),
 });
