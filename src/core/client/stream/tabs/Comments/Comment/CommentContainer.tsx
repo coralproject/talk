@@ -71,6 +71,8 @@ interface Props {
   className?: string;
 
   hideAnsweredTag?: boolean;
+  hideReportButton?: boolean;
+  hideModerationCarat?: boolean;
   onRemoveAnswered?: () => void;
 }
 
@@ -265,7 +267,9 @@ export class CommentContainer extends Component<Props, State> {
       this.props.viewer && this.props.viewer.scheduledDeletionDate
     );
     const showCaret =
-      this.props.viewer && can(this.props.viewer, Ability.MODERATE);
+      this.props.viewer &&
+      can(this.props.viewer, Ability.MODERATE) &&
+      !this.props.hideModerationCarat;
     if (showEditDialog) {
       return (
         <div data-testid={`comment-${comment.id}`}>
@@ -393,16 +397,18 @@ export class CommentContainer extends Component<Props, State> {
                       />
                     </ButtonsBar>
                     <ButtonsBar>
-                      {!banned && !suspended && (
-                        <ReportButtonContainer
-                          comment={comment}
-                          viewer={viewer}
-                          className={CLASSES.comment.actionBar.reportButton}
-                          reportedClassName={
-                            CLASSES.comment.actionBar.reportedButton
-                          }
-                        />
-                      )}
+                      {!banned &&
+                        !suspended &&
+                        !this.props.hideReportButton && (
+                          <ReportButtonContainer
+                            comment={comment}
+                            viewer={viewer}
+                            className={CLASSES.comment.actionBar.reportButton}
+                            reportedClassName={
+                              CLASSES.comment.actionBar.reportedButton
+                            }
+                          />
+                        )}
                     </ButtonsBar>
                   </Flex>
                   {showConversationLink && (

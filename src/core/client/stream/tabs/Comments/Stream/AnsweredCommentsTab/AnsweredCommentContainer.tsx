@@ -64,6 +64,8 @@ const AnsweredCommentContainer: FunctionComponent<Props> = props => {
           comment={comment.parent}
           story={props.story}
           hideAnsweredTag
+          hideReportButton
+          hideModerationCarat
           disableReplies
           highlight
         />
