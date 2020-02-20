@@ -1,9 +1,11 @@
 import { merge } from "lodash";
-import { Collection, IndexOptions } from "mongodb";
+import { Collection, Db, IndexOptions } from "mongodb";
 import now from "performance-now";
 
 import { Writable } from "coral-common/types";
 import logger from "coral-server/logger";
+
+import collections from "../mongodb/collections";
 
 type IndexType = 1 | -1 | "text";
 
@@ -61,13 +63,9 @@ export function createIndexFactory<T>(
 
 export function createConnectionOrderVariants<T>(
   createIndexFn: IndexCreationFunction<T>,
-  variants: Array<IndexSpecification<T>>,
-  indexOptions: IndexOptions = { background: true }
+  variants: Array<IndexSpecification<T>>
 ) {
-  return async (
-    indexSpec: IndexSpecification<T>,
-    variantIndexOptions: IndexOptions = {}
-  ) => {
+  return async (indexSpec: IndexSpecification<T>) => {
     /**
      * createIndexVariant will create a variant on the specified `indexSpec` that
      * will include the new variation.
@@ -75,10 +73,7 @@ export function createConnectionOrderVariants<T>(
      * @param variantSpec the spec that makes this variant different
      */
     const createIndexVariant = (variantSpec: IndexSpecification<T>) =>
-      createIndexFn(
-        merge({}, indexSpec, variantSpec),
-        merge({}, indexOptions, variantIndexOptions)
-      );
+      createIndexFn(merge({}, indexSpec, variantSpec), { background: true });
 
     // Create all the variants.
     for (const variant of variants) {
@@ -86,3 +81,18 @@ export function createConnectionOrderVariants<T>(
     }
   };
 }
+
+export const createIndexesFactory = (mongo: Db) => ({
+  users: createIndexFactory(collections.users(mongo)),
+  invites: createIndexFactory(collections.invites(mongo)),
+  tenants: createIndexFactory(collections.tenants(mongo)),
+  comments: createIndexFactory(collections.comments(mongo)),
+  stories: createIndexFactory(collections.stories(mongo)),
+  commentActions: createIndexFactory(collections.commentActions(mongo)),
+  commentModerationActions: createIndexFactory(
+    collections.commentModerationActions(mongo)
+  ),
+  queries: createIndexFactory(collections.queries(mongo)),
+  migrations: createIndexFactory(collections.migrations(mongo)),
+  sites: createIndexFactory(collections.sites(mongo)),
+});
