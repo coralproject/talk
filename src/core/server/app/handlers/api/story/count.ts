@@ -1,11 +1,11 @@
-import { RequestHandler } from "coral-server/types/express";
 import createDOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
 
 import { AppOptions } from "coral-server/app";
-import { calculateTotalPublishedCommentCount } from "coral-server/models/story";
+import { calculateTotalPublishedCommentCount } from "coral-server/models/comment";
 import { translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
+import { RequestHandler } from "coral-server/types/express";
 
 const NUMBER_CLASSNAME = "coral-count-number";
 const TEXT_CLASSNAME = "coral-count-text";

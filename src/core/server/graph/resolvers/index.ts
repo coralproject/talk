@@ -50,6 +50,7 @@ import { User } from "./User";
 import { UsernameHistory } from "./UsernameHistory";
 import { UsernameStatus } from "./UsernameStatus";
 import { UserStatus } from "./UserStatus";
+import { WebhookEndpoint } from "./WebhookEndpoint";
 
 const Resolvers: GQLResolver = {
   ApproveCommentPayload,
@@ -101,6 +102,7 @@ const Resolvers: GQLResolver = {
   UserStatus,
   Settings,
   SlackConfiguration,
+  WebhookEndpoint,
 };
 
 export default Resolvers;

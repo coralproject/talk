@@ -22,7 +22,7 @@ import { moderationPhases } from "./phases";
 
 export type ModerationAction = Omit<
   CreateActionInput,
-  "commentID" | "commentRevisionID" | "storyID"
+  "commentID" | "commentRevisionID" | "storyID" | "siteID"
 >;
 
 export interface PhaseResult {

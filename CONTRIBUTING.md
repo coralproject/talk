@@ -8,6 +8,18 @@ do so, please [let us know how we can improve it](https://github.com/coralprojec
 By contributing to this project you agree to the
 [Code of Conduct](CODE_OF_CONDUCT.md).
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [What should I Contribute?](#what-should-i-contribute)
+- [Writing Code](#writing-code)
+  - [When should I create an issue?](#when-should-i-create-an-issue)
+  - [What should I include?](#what-should-i-include)
+- [Localization](#localization)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## What should I Contribute?
 
 There are at least three ways to contribute to Coral:

@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import { identity, isEmpty, pickBy } from "lodash";
 import { DateTime, DurationObject } from "luxon";
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
@@ -46,6 +45,7 @@ import {
 import {
   CommentStatusCounts,
   createEmptyCommentStatusCounts,
+  updateRelatedCommentCounts,
 } from "../comment";
 import { getLocalProfile, hasLocalProfile } from "./helpers";
 
@@ -388,6 +388,17 @@ export interface User extends TenantResource {
   email?: string;
 
   /**
+   *
+   * badges are user display badges
+   */
+  badges?: string[];
+
+  /**
+   * ssoURL is the url where a user can manage their sso account
+   */
+  ssoURL?: string;
+
+  /**
    * emailVerificationID is used to store state regarding the verification state
    * of an email address to prevent replay attacks.
    */
@@ -404,12 +415,6 @@ export interface User extends TenantResource {
    * with another local account.
    */
   duplicateEmail?: string;
-
-  /**
-   *
-   * badges are user display badges
-   */
-  badges?: string[];
 
   /**
    * profiles is the array of profiles assigned to the user. When a user deletes
@@ -492,9 +497,10 @@ export interface FindOrCreateUserInput {
   username?: string;
   avatar?: string;
   email?: string;
+  badges?: string[];
+  ssoURL?: string;
   emailVerified?: boolean;
   duplicateEmail?: string;
-  badges?: string[];
   role: GQLUSER_ROLE;
   profile: Profile;
 }
@@ -585,7 +591,7 @@ export async function findOrCreateUser(
   const user = await findOrCreateUserInput(tenantID, input, now);
 
   try {
-    await collection(mongo).findOneAndUpdate(
+    const result = await collection(mongo).findOneAndUpdate(
       {
         tenantID,
         profiles: {
@@ -597,12 +603,18 @@ export async function findOrCreateUser(
       },
       { $setOnInsert: user },
       {
-        // False to return the updated document instead of the original
-        // document.
-        returnOriginal: false,
+        // True to return the original document instead of the updated document.
+        // This will ensure that when an upsert operation adds a new User, it
+        // should return null.
+        returnOriginal: true,
         upsert: true,
       }
     );
+
+    return {
+      user: result.value || user,
+      wasUpserted: !result.value,
+    };
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate User error.
@@ -616,8 +628,6 @@ export async function findOrCreateUser(
 
     throw err;
   }
-
-  return user;
 }
 
 export type CreateUserInput = FindOrCreateUserInput;
@@ -2518,31 +2528,9 @@ export async function linkUsers(
   return dest.value;
 }
 
-export async function updateUserCommentCounts(
+export const updateUserCommentCounts = (
   mongo: Db,
   tenantID: string,
   id: string,
   commentCounts: DeepPartial<UserCommentCounts>
-) {
-  // Update all the specific comment moderation queue counts.
-  const update: DeepPartial<User> = { commentCounts };
-  const $inc = pickBy(dotize(update), identity);
-  if (isEmpty($inc)) {
-    // Nothing needs to be incremented, just return the User.
-    return retrieveUser(mongo, tenantID, id);
-  }
-
-  logger.trace({ update: { $inc } }, "incrementing user comment counts");
-
-  const result = await collection(mongo).findOneAndUpdate(
-    { id, tenantID },
-    { $inc },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-
-  return result.value || null;
-}
+) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);

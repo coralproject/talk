@@ -156,7 +156,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
             externalLink={
               <ExternalLink
                 href={
-                  "https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#models"
+                  "https://github.com/conversationai/perspectiveapi/blob/master/2-api/models.md"
                 }
               />
             }

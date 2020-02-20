@@ -10,7 +10,7 @@ import {
   GQLStaffConfiguration,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { SSOKey } from "../settings";
+import { Secret } from "../settings";
 import { Tenant } from "./tenant";
 
 export const getDefaultReactionConfiguration = (
@@ -40,12 +40,12 @@ export function generateRandomString(size: number, drift = 5) {
     .toString("hex");
 }
 
-export function generateSSOKey(createdAt: Date): SSOKey {
+export function generateSecret(prefix: string, createdAt: Date): Secret {
   // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
   // as 16 was the minimum length recommended.
   //
   // Reference: https://security.stackexchange.com/a/96176
-  const secret = generateRandomString(32, 5);
+  const secret = prefix + "_" + generateRandomString(32, 5);
   const kid = generateRandomString(8, 3);
 
   return { kid, secret, createdAt };
@@ -82,4 +82,11 @@ export function linkUsersAvailable(tenant: Pick<Tenant, "auth">) {
     (hasEnabledAuthIntegration(tenant, "facebook") ||
       hasEnabledAuthIntegration(tenant, "google"))
   );
+}
+
+export function getWebhookEndpoint(
+  tenant: Pick<Tenant, "webhooks">,
+  endpointID: string
+) {
+  return tenant.webhooks.endpoints.find(e => e.id === endpointID) || null;
 }

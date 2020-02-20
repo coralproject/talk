@@ -9,6 +9,7 @@ import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 
 interface QueueViewNewInput {
   storyID: string | null;
+  siteID: string | null;
   queue: GQLMODERATION_QUEUE;
 }
 
@@ -16,7 +17,12 @@ const QueueViewNewMutation = createMutation(
   "viewNew",
   async (environment: Environment, input: QueueViewNewInput) => {
     await commitLocalUpdatePromisified(environment, async store => {
-      const connection = getQueueConnection(store, input.queue, input.storyID);
+      const connection = getQueueConnection(
+        store,
+        input.queue,
+        input.storyID,
+        input.siteID
+      );
       if (!connection) {
         return;
       }

@@ -33,6 +33,7 @@ framework-validation-notAWholeNumberGreaterThan = Please enter a whole number gr
 framework-validation-notAWholeNumberGreaterThanOrEqual = Please enter a whole number greater than or equal to { $x }
 framework-validation-usernamesDoNotMatch = Usernames do not match. Try again.
 framework-validation-deleteConfirmationInvalid = Incorrect confirmation. Try again.
+framework-validation-invalidWebhookEndpointEventSelection = Select at least one event to receive.
 
 framework-timeago-just-now = Just now
 

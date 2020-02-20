@@ -147,6 +147,7 @@ configure-sideBarNavigation-advanced = Advanced
 configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
 configure-sideBarNavigation-slack = Slack
+configure-sideBarNavigation-webhooks = Webhooks
 
 configure-sideBar-saveChanges = Save Changes
 configure-configurationSubHeader = Configuration
@@ -154,6 +155,88 @@ configure-onOffField-on = On
 configure-onOffField-off = Off
 configure-radioButton-allow = Allow
 configure-radioButton-dontAllow = Don't allow
+
+### Webhooks
+configure-webhooks-webhookEndpointNotFound = Webhook endpoint not found
+configure-webhooks-header-title = Configure webhook endpoint
+configure-webhooks-description =
+  Configure an endpoint to send events to when events occur within
+  Coral. These events will be JSON encoded and signed. To learn more
+  about webhook signing, visit our <externalLink>Webhook Guide</externalLink>.
+configure-webhooks-addEndpoint = Add webhook endpoint
+configure-webhooks-addEndpointButton = Add webhook endpoint
+configure-webhooks-endpoints = Endpoints
+configure-webhooks-url = URL
+configure-webhooks-status = Status
+configure-webhooks-noEndpoints = There are no webhook endpoints configured, add one above.
+configure-webhooks-enabledWebhookEndpoint = Enabled
+configure-webhooks-disabledWebhookEndpoint = Disabled
+configure-webhooks-endpointURL = Endpoint URL
+configure-webhooks-cancelButton = Cancel
+configure-webhooks-updateWebhookEndpointButton = Update webhook endpoint
+configure-webhooks-eventsToSend = Events to send
+configure-webhooks-clearEventsToSend = Clear
+configure-webhooks-eventsToSendDescription =
+  These are the events that are registered to this particular endpoint. Visit
+  our <externalLink>Webhook Guide</externalLink> for the schema of these events.
+  Any event matching the following will be sent to the endpoint if it is
+  enabled:
+configure-webhooks-allEvents =
+  The endpoint will receive all events, including any added in the future.
+configure-webhooks-selectedEvents =
+  { $count } { $count ->
+    [1] event
+    *[other] events
+  } selected.
+configure-webhooks-selectAnEvent =
+  Select events above or <button>receive all events</button>.
+configure-webhooks-configureWebhookEndpoint = Configure webhook endpoint
+configure-webhooks-confirmEnable =
+  Enabling the webhook endpoint will start to send events to this URL. Are you sure you want to continue?
+configure-webhooks-confirmDisable =
+  Disabling this webhook endpoint will stop any new events from being sent to this URL. Are you sure you want to continue?
+configure-webhooks-confirmDelete =
+  Deleting this webhook endpoint will stop any new events from being sent to this URL, and remove all the associated settings with this webhook endpoint. Are you sure you want to continue?
+configure-webhooks-dangerZone = Danger Zone
+configure-webhooks-rotateSigningSecret = Rotate signing secret
+configure-webhooks-rotateSigningSecretDescription =
+  Rotating the signing secret will allow to you to safely replace a signing
+  secret used in production with a delay.
+configure-webhooks-rotateSigningSecretButton = Rotate signing secret
+configure-webhooks-rotateSigningSecretHelper =
+  After it expires, signatures will no longer be generated with the old secret.
+configure-webhooks-rotateSigningSecretSuccessUseNewSecret =
+  Webhook endpoint signing secret has been rotated. Please ensure
+  you update your integrations to use the new secret below.
+configure-webhooks-disableEndpoint = Disable endpoint
+configure-webhooks-disableEndpointDescription =
+  This endpoint is current enabled. By disabling this endpoint no new events
+  will be sent to the URL provided.
+configure-webhooks-disableEndpointButton = Disable endpoint
+configure-webhooks-enableEndpoint = Enable endpoint
+configure-webhooks-enableEndpointDescription =
+  This endpoint is current disabled. By enabling this endpoint new events will
+  be sent to the URL provided.
+configure-webhooks-enableEndpointButton = Enable endpoint
+configure-webhooks-deleteEndpoint = Delete endpoint
+configure-webhooks-deleteEndpointDescription =
+  Deleting the endpoint will prevent any new events from being sent to the URL
+  provided.
+configure-webhooks-deleteEndpointButton = Delete endpoint
+configure-webhooks-endpointStatus = Endpoint status
+configure-webhooks-signingSecret = Signing secret
+configure-webhooks-signingSecretDescription =
+  The following signing secret is used to sign request payloads sent
+  to the URL. To learn more about webhook signing, visit our
+  <externalLink>Webhook Guide</externalLink>.
+configure-webhooks-expiresOldSecret = Expire the old secret
+configure-webhooks-expiresOldSecretImmediately = Immediately
+configure-webhooks-expiresOldSecretHoursFromNow =
+  { $hours ->
+    [1] 1 hour
+    *[other] { $hours } hours
+  }  from now
+configure-webhooks-detailsButton = Details <icon>keyboard_arrow_right</icon>
 
 ### General
 configure-general-guidelines-title = Community guidelines summary
@@ -232,8 +315,12 @@ configure-general-closedStreamMessage-explanation = Write a message to appear wh
 
 ### Organization
 configure-organization-name = Organization name
+configure-organization-sites = Sites
 configure-organization-nameExplanation =
   Your organization name will appear on emails sent by { -product-name } to your community and organization members.
+configure-organization-sites-explanation =
+  Add a new site to your organization or edit an existing site's details.
+configure-organization-sites-add-site = <icon>add</icon> Add site
 configure-organization-email = Organization email
 configure-organization-emailExplanation =
   This email address will be used as in emails and across the platform
@@ -243,6 +330,35 @@ configure-organization-emailExplanation =
 configure-organization-url = Organization URL
 configure-organization-urlExplanation =
   Your organization url will appear on emails sent by { -product-name } to your community and organization members.
+
+### Sites
+configure-sites-site-details = Details <icon>keyboard_arrow_right</icon>
+configure-sites-add-new-site = Add a new site to { $site }
+configure-sites-add-success = { $site } has been added to { $org }
+configure-sites-edit-success = Changes to { $site } have been saved.
+configure-sites-site-form-name = Site name
+configure-sites-site-form-name-explanation = Site name will appear on emails sent by Coral to your community and organization members.
+configure-sites-site-form-url = Site URL
+configure-sites-site-form-url-explanation = This url will appear on emails sent by Coral to your community members.
+configure-sites-site-form-email = Site email address
+configure-sites-site-form-url-explanation = This email address is for community members to contact you with questions or if they need help. e.g. comments@yoursite.com
+configure-sites-site-form-domains = Site permitted domains
+configure-sites-site-form-domains-explanation = Domains where your Coral comment streams are allowed to be embedded (ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
+configure-sites-site-form-submit = <icon>add</icon> Add site
+configure-sites-site-form-cancel = Cancel
+configure-sites-site-form-save = Save changes
+configure-sites-site-edit = Edit { $site } details
+configure-sites-site-form-embed-code = Embed code
+sites-emptyMessage = We could not find any sites matching your criteria.
+sites-selector-allSites = All sites
+sites-filter-sites-allSites = All sites
+
+site-selector-all-sites = All sites
+stories-filter-sites-allSites = All sites
+stories-filter-statuses = Status
+stories-column-site = Site
+site-table-siteName = Site name
+stories-filter-sites = Site
 
 ### Email
 
@@ -512,6 +628,8 @@ moderate-navigation-reported = reported
 moderate-navigation-pending = Pending
 moderate-navigation-unmoderated = unmoderated
 moderate-navigation-rejected = rejected
+moderate-navigation-approved = approved
+moderate-navigation-comment-count = { SHORT_NUMBER($count) }
 
 moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
@@ -543,6 +661,7 @@ moderate-emptyQueue-pending = Nicely done! There are no more pending comments to
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
 moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.
 moderate-emptyQueue-rejected = There are no rejected comments.
+moderate-emptyQueue-approved = There are no approved comments.
 
 moderate-comment-edited = (edited)
 moderate-comment-inReplyTo = Reply to <Username></Username>
@@ -912,6 +1031,10 @@ configure-advanced-stories-proxy-detail =
   When specified, allows scraping requests to use the provided
   proxy. All requests will then be passed through the appropriote
   proxy as parsed by the <externalLink>npm proxy-agent</externalLink> package.
+configure-advanced-stories-custom-user-agent = Custom Scraper User Agent Header
+configure-advanced-stories-custom-user-agent-detail =
+  When specified, overrides the <code>User-Agent</code> header sent with each
+  scrape request.
 
 commentAuthor-status-banned = Banned
 

@@ -5,7 +5,6 @@ error-commentBodyExceedsMaxLength =
   Comment body exceeds maximum length of {$max} characters.
 error-storyURLNotPermitted =
   The specified story URL does not exist in the permitted domains list.
-error-urlNotPermitted = The specified URL ({$url}) is not permitted.
 error-duplicateStoryURL =  The specified story URL already exists.
 error-tenantNotFound = Tenant hostname ({$hostname}) not found.
 error-userNotFound = User ({$userID}) not found.
@@ -60,3 +59,4 @@ error-rawQueryNotAuthorized = You are not authorized to execute this query.
 error-inviteIncludesExistingUser = A user with the email address { $email } already exists.
 error-repeatPost = Are you sure? This comment is very similar to your previous comment.
 error-installationForbidden = { -product-name } is already installed. To install another Tenant on this domain ({ $domain }) you need to generate an installation token.
+error-duplicateSiteOrigin = Allowed domains may only be associated with a single site.

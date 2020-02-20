@@ -20,6 +20,8 @@ import {
   emptyRejectedComments,
   reportedComments,
   settings,
+  site,
+  siteConnection,
   users,
 } from "../fixtures";
 
@@ -41,6 +43,8 @@ async function createTestRenderer(
           viewer: () => viewer,
           moderationQueues: () => emptyModerationQueues,
           comments: () => emptyRejectedComments,
+          site: () => site,
+          sites: () => siteConnection,
         },
       }),
       params.resolvers

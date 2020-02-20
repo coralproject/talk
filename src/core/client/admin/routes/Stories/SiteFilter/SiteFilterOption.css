@@ -1,0 +1,9 @@
+.root {
+  display: block;
+  font-weight: var(--v2-font-weight-primary-regular);
+  padding: var(--v2-spacing-2);
+}
+
+.active {
+  font-weight: var(--v2-font-weight-primary-bold);
+}

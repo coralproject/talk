@@ -14,6 +14,7 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   className?: string;
   focused?: boolean;
   forwardRef?: Ref<HTMLInputElement>;
+  multisite: boolean;
 }
 
 /**
@@ -26,13 +27,24 @@ const Field: FunctionComponent<Props> = ({
   onBlur,
   onChange,
   forwardRef,
+  multisite,
   ...rest
 }) => {
   return (
     <FormField name="search">
       {({ input }) => (
-        <Flex className={cn(className, styles.root)} alignItems="stretch">
-          <Flex className={styles.begin} alignItems="center">
+        <Flex
+          className={cn(className, styles.root, {
+            [styles.hasSiteSelector]: multisite,
+          })}
+          alignItems="stretch"
+        >
+          <Flex
+            className={cn(styles.begin, {
+              [styles.adornmentLeft]: multisite,
+            })}
+            alignItems="center"
+          >
             <Icon className={styles.searchIcon} size="md">
               search
             </Icon>

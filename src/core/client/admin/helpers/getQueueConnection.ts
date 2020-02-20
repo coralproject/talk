@@ -12,17 +12,29 @@ import {
 
 export default function getQueueConnection(
   store: RecordSourceSelectorProxy | RecordSourceProxy,
-  queue: GQLMODERATION_QUEUE_RL | "REJECTED",
-  storyID?: string | null
+  queue: GQLMODERATION_QUEUE_RL | "REJECTED" | "APPROVED",
+  storyID?: string | null,
+  siteID?: string | null
 ): RecordProxy | null | undefined {
   const root = store.getRoot();
   if (queue === "REJECTED") {
     return ConnectionHandler.getConnection(root, "RejectedQueue_comments", {
       status: GQLCOMMENT_STATUS.REJECTED,
       storyID,
+      siteID,
     });
   }
-  const queuesRecord = root.getLinkedRecord("moderationQueues", { storyID })!;
+  if (queue === "APPROVED") {
+    return ConnectionHandler.getConnection(root, "ApprovedQueue_comments", {
+      status: GQLCOMMENT_STATUS.APPROVED,
+      storyID,
+      siteID,
+    });
+  }
+  const queuesRecord = root.getLinkedRecord("moderationQueues", {
+    storyID,
+    siteID,
+  })!;
   if (!queuesRecord) {
     return undefined;
   }

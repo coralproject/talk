@@ -33,12 +33,6 @@ export enum ERROR_CODES {
   STORY_URL_NOT_PERMITTED = "STORY_URL_NOT_PERMITTED",
 
   /**
-   * URL_NOT_PERMITTED is used when a given URL is provided that can not be
-   * matched to the Tenant.
-   */
-  URL_NOT_PERMITTED = "URL_NOT_PERMITTED",
-
-  /**
    * TOKEN_NOT_FOUND is used when a Token is referenced by ID but can not be
    * found to be associated with the given User.
    */
@@ -338,4 +332,6 @@ export enum ERROR_CODES {
    * when it is not authorized to do so.
    */
   INSTALLATION_FORBIDDEN = "INSTALLATION_FORBIDDEN",
+
+  DUPLICATE_SITE_ORIGIN = "DUPLICATE_SITE_ORIGIN",
 }

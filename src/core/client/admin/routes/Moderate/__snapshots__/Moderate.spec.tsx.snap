@@ -6,6 +6,19 @@ exports[`renders correctly 1`] = `
 >
   <ForwardRef(render)
     allStories={true}
+    settings={
+      Object {
+        "multisite": false,
+      }
+    }
+    siteID={null}
+    siteSelector={
+      <Relay(SiteSelectorContainer)
+        query=""
+        queueName=""
+        site={null}
+      />
+    }
     story={Object {}}
   />
   <withPropsOnChange(SubBar)
@@ -13,6 +26,7 @@ exports[`renders correctly 1`] = `
   >
     <Relay(ModerateNavigationContainer)
       moderationQueues={Object {}}
+      site={null}
       story={Object {}}
     />
   </withPropsOnChange(SubBar)>

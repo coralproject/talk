@@ -1,7 +1,7 @@
-import fetch from "node-fetch";
 import { URL } from "url";
 
 import { ensureNoEndSlash } from "coral-common/utils";
+import { createFetch } from "coral-server/services/fetch";
 
 /**
  * Configuration that Coral is expecting.
@@ -24,6 +24,12 @@ interface DiscoveryRawConfiguration {
   token_endpoint?: string;
   jwks_uri: string;
 }
+
+/**
+ * fetch provides a single source for managing the fetching operations for
+ * discovery.
+ */
+const fetch = createFetch({ name: "OIDC" });
 
 /**
  * discover will discover the configuration for the issuer.

@@ -5,7 +5,7 @@ import { Db } from "mongodb";
 
 import { validate } from "coral-server/app/request/body";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
-import { SSOAuthIntegration, SSOKey } from "coral-server/models/settings";
+import { Secret, SSOAuthIntegration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import {
   retrieveUserWithProfile,
@@ -41,6 +41,7 @@ export interface SSOUserProfile {
   username: string;
   badges?: string[];
   role?: GQLUSER_ROLE;
+  url?: string;
 }
 
 export interface SSOToken {
@@ -64,8 +65,9 @@ export const SSOUserProfileSchema = Joi.object()
     username: Joi.string().required(),
     badges: Joi.array().items(Joi.string()),
     role: Joi.string().only(Object.values(GQLUSER_ROLE)),
+    url: Joi.string().uri(),
   })
-  .optionalKeys(["badges", "role"]);
+  .optionalKeys(["badges", "role", "url"]);
 
 export const SSOTokenSchema = Joi.object()
   .keys({
@@ -91,7 +93,7 @@ export async function findOrCreateSSOUser(
   const {
     jti,
     exp,
-    user: { id, email, username, badges, role },
+    user: { id, email, username, badges, role, url },
     iat,
   } = decodedToken;
 
@@ -109,6 +111,7 @@ export async function findOrCreateSSOUser(
     type: "sso",
     id,
   });
+
   if (!user) {
     if (!integration.allowRegistration) {
       // Registration is disabled, so we can't create the user user here.
@@ -131,6 +134,7 @@ export async function findOrCreateSSOUser(
         id,
         username,
         role: role || GQLUSER_ROLE.COMMENTER,
+        ssoURL: url,
         badges,
         email,
         emailVerified: true,
@@ -169,7 +173,7 @@ export function getRelevantSSOKeys(
   tokenString: string,
   now: Date,
   kid?: string
-): SSOKey[] {
+): Secret[] {
   // Collect all the current valid keys.
   const keys = integration.keys.filter(k => {
     if (k.inactiveAt && now >= k.inactiveAt) {

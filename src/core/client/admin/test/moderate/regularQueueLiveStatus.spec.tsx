@@ -21,6 +21,8 @@ import {
   emptyRejectedComments,
   reportedComments,
   settings,
+  site,
+  siteConnection,
   users,
 } from "../fixtures";
 
@@ -38,6 +40,8 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
+          sites: () => siteConnection,
+          site: () => site,
           moderationQueues: () =>
             pureMerge(emptyModerationQueues, {
               reported: {

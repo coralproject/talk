@@ -5,13 +5,11 @@ error-commentBodyExceedsMaxLength =
   O corpo do comentário excede o comprimento máximo de {$max} caracteres.
 error-storyURLNotPermitted =
   A URL da história especificada não existe na lista de domínios permitidos.
-error-urlNotPermitted = A URL especificada ({$url}) não é permitida.
 error-duplicateStoryURL =  A URL da história especificada já existe.
 error-tenantNotFound = Hostname do tenant ({$hostname}) não encontrado.
 error-userNotFound = Usuário ({$userID}) não encontrado.
 error-notFound = URL da requisição desconhecida ({$method} {$path}).
 error-tokenInvalid = Token de API inválido.
-
 error-tokenNotFound = O token especificado não existe.
 error-emailAlreadySet = O endereço de e-mail já foi definido.
 error-emailNotSet = O endereço de email ainda não foi definido.
@@ -57,3 +55,6 @@ error-passwordIncorrect = Senha incorreta. Por favor, tente novamente.
 error-usernameAlreadyUpdated = Você só pode alterar seu nome de usuário uma vez a cada { framework-timeago-time }.
 error-persistedQueryNotFound = A consulta persistente com o ID { $id } não foi encontrada.
 error-rawQueryNotAuthorized = Você não está autorizado a executar esta consulta.
+error-inviteIncludesExistingUser = Já existe um usuário com o email { $email }.
+error-repeatPost = Você tem certeza? Este comentário é muito parecido com o anterior.
+error-installationForbidden = { -product-name } já foi instalado. Para instalar outro Tenant no domínio ({ $domain }) você precisa gerar um token de instalação.

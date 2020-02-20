@@ -15,11 +15,18 @@ const SearchStoryFetch = createFetch(
     return fetchQuery<QueryTypes>(
       environment,
       graphql`
-        query SearchStoryFetchQuery($query: String!, $limit: Int!) {
-          stories(query: $query, first: $limit) {
+        query SearchStoryFetchQuery(
+          $query: String!
+          $limit: Int!
+          $siteID: ID
+        ) {
+          stories(query: $query, first: $limit, siteID: $siteID) {
             edges {
               node {
                 id
+                site {
+                  name
+                }
                 metadata {
                   title
                   author

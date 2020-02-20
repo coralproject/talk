@@ -105,6 +105,7 @@ export const CoralContextProvider: FunctionComponent<{
           timeagoFormatter: value.timeagoFormatter,
           registerClickFarAway: value.registerClickFarAway,
           mediaQueryValues: value.mediaQueryValues,
+          locales: value.locales,
         }}
       >
         {children}

@@ -11,6 +11,7 @@ import {
   InstallationForbiddenError,
   TenantInstalledAlreadyError,
 } from "coral-server/errors";
+import { CreateSiteInput } from "coral-server/models/site";
 import { LocalProfile } from "coral-server/models/user";
 import {
   createJWTSigningConfig,
@@ -18,6 +19,7 @@ import {
   JWTSigningConfig,
 } from "coral-server/services/jwt";
 import { verifyInstallationTokenString } from "coral-server/services/management";
+import { create as createSite } from "coral-server/services/sites";
 import {
   install,
   InstallTenant,
@@ -92,6 +94,7 @@ export interface TenantInstallBody {
   tenant: Omit<InstallTenant, "domain" | "locale"> & {
     locale: LanguageCode | null;
   };
+  site: Omit<CreateSiteInput, "tenantID">;
   user: Required<Pick<CreateUser, "username" | "email"> & { password: string }>;
 }
 
@@ -108,16 +111,19 @@ const TenantInstallBodySchema = Joi.object().keys({
           .lowercase()
           .email(),
       }),
-      allowedDomains: Joi.array().items(
-        Joi.string()
-          .trim()
-          .uri({ scheme: ["http", "https"] })
-      ),
       locale: Joi.string()
         .default(null)
         .valid(LOCALES),
     })
     .optionalKeys("locale"),
+  site: Joi.object().keys({
+    name: Joi.string().trim(),
+    allowedOrigins: Joi.array().items(
+      Joi.string()
+        .trim()
+        .uri({ scheme: ["http", "https"] })
+    ),
+  }),
   user: Joi.object().keys({
     username: Joi.string().trim(),
     password: Joi.string(),
@@ -196,6 +202,7 @@ export const installHandler = ({
       // payload is invalid.
       const {
         tenant: { locale: tenantLocale, ...tenantInput },
+        site: siteInput,
         user: userInput,
       }: TenantInstallBody = validate(TenantInstallBodySchema, req.body);
 
@@ -227,6 +234,8 @@ export const installHandler = ({
         },
         req.coral.now
       );
+
+      await createSite(mongo, tenant, siteInput);
 
       // Pull the user details out of the input for the user.
       const { email, username, password } = userInput;

@@ -33,6 +33,7 @@ type Local {
   authView: View
   authError: String
   authDuplicateEmail: String
+  siteID: String
 }
 
 extend type Query {

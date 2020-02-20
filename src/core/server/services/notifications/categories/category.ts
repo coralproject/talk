@@ -1,7 +1,4 @@
-import {
-  SUBSCRIPTION_CHANNELS,
-  SUBSCRIPTION_INPUT,
-} from "coral-server/graph/resolvers/Subscription/types";
+import { CoralEventPayload } from "coral-server/events/event";
 
 import NotificationContext from "../context";
 import { Notification } from "../notification";
@@ -10,7 +7,7 @@ import { Notification } from "../notification";
  * NotificationCategory define the Category that is used to define a
  * Notification type.
  */
-export interface NotificationCategory {
+export interface NotificationCategory<T extends CoralEventPayload = any> {
   /**
    * name is the actual name of the notification that can be used to define the
    * other category names that are superseded by this one.
@@ -23,14 +20,14 @@ export interface NotificationCategory {
    */
   process: (
     ctx: NotificationContext,
-    input: SUBSCRIPTION_INPUT["payload"]
+    payload: T
   ) => Promise<Notification | null>;
 
   /**
-   * event is the subscription event that when fired, will trigger this
+   * events is the subscription event that when fired, will trigger this
    * notification processor to be called.
    */
-  event: SUBSCRIPTION_CHANNELS;
+  events: T["type"][];
 
   /**
    * digestOrder, when provided, allows the custom ordering of notifications in

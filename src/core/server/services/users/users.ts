@@ -128,12 +128,13 @@ export async function findOrCreate(
   // Validate the input.
   validateFindOrCreateUserInput(input, options);
 
+  let user: Readonly<User>;
+  let wasUpserted: boolean;
+
   try {
-    const user = await findOrCreateUser(mongo, tenant.id, input, now);
-
-    // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
-
-    return user;
+    const result = await findOrCreateUser(mongo, tenant.id, input, now);
+    user = result.user;
+    wasUpserted = result.wasUpserted;
   } catch (err) {
     // If this is an error related to a duplicate email, we might be in a
     // position where the user can link their accounts. This can only occur if
@@ -145,18 +146,26 @@ export async function findOrCreate(
 
       // Create the user again this time, but associate the duplicate email to
       // the user account.
-      const user = await findOrCreateUser(
+      const result = await findOrCreateUser(
         mongo,
         tenant.id,
         { ...rest, duplicateEmail: email },
         now
       );
 
-      return user;
+      user = result.user;
+      wasUpserted = result.wasUpserted;
+    } else {
+      throw err;
     }
-
-    throw err;
   }
+
+  if (wasUpserted) {
+    // TODO: (wyattjoh) emit that a user was created
+  }
+
+  // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
+  return user;
 }
 
 export type CreateUser = FindOrCreateUserInput;
@@ -195,6 +204,8 @@ export async function create(
   }
 
   const user = await createUser(mongo, tenant.id, input, now);
+
+  // TODO: (wyattjoh) emit that a user was created
 
   // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
 
@@ -1291,6 +1302,7 @@ export async function link(
   // Validate the input. If the values do not pass validation, it can't possibly
   // be correct.
   validateEmail(email);
+  validatePassword(password);
 
   // Validate if the credentials are correct.
   const destination = await retrieveUserWithEmail(mongo, tenant.id, email);

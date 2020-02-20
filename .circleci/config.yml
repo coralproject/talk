@@ -65,11 +65,10 @@ jobs:
           name: Lint Source Code
           command: npm run lint
       - run:
-          name: Lint README.md
+          name: Lint Markdown
           command: |
-            cp README.md README.md.orig
             npm run doctoc
-            diff -q README.md README.md.orig
+            git diff --exit-code
 
   # unit_tests will run the unit tests.
   unit_tests:

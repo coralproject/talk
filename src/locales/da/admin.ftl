@@ -541,7 +541,7 @@ community-filter-allStatuses = Alle statuer
 community-column-username = Brugernavn
 community-column-email = Email
 community-column-memberSince = Medlem siden
-community-column-role = Rolle
+community-column-role = Rotatee
 community-column-status = Status
 
 community-role-popover =

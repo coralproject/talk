@@ -1,8 +1,8 @@
 /* eslint-disable no-bitwise */
 
 import { codeBlock, stripIndent } from "common-tags";
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import ts from "typescript";
 
 interface DocEntry {

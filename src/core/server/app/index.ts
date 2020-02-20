@@ -15,9 +15,9 @@ import { HTMLErrorHandler } from "coral-server/app/middleware/error";
 import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import { createPassport } from "coral-server/app/middleware/passport";
 import { Config } from "coral-server/config";
+import CoralEventListenerBroker from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
-import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
@@ -41,7 +41,6 @@ export interface AppOptions {
   mailerQueue: MailerQueue;
   metrics?: Metrics;
   mongo: Db;
-  notifierQueue: NotifierQueue;
   parent: Express;
   persistedQueriesRequired: boolean;
   persistedQueryCache: PersistedQueryCache;
@@ -52,6 +51,7 @@ export interface AppOptions {
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
   migrationManager: MigrationManager;
+  broker: CoralEventListenerBroker;
 }
 
 /**

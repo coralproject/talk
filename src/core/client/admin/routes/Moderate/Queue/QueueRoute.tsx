@@ -34,6 +34,7 @@ interface Props {
   relay: RelayPaginationProp;
   emptyElement: React.ReactElement;
   storyID?: string;
+  siteID?: string;
   count?: string;
 }
 
@@ -51,12 +52,17 @@ export const QueueRoute: FunctionComponent<Props> = props => {
   );
   const viewNew = useMutation(QueueViewNewMutation);
   const onViewNew = useCallback(() => {
-    viewNew({ queue: props.queueName, storyID: props.storyID || null });
-  }, [props.queueName, props.storyID, viewNew]);
+    viewNew({
+      queue: props.queueName,
+      storyID: props.storyID || null,
+      siteID: props.siteID || null,
+    });
+  }, [props.queueName, props.storyID, props.siteID, viewNew]);
   useEffect(() => {
     const vars = {
       queue: props.queueName,
       storyID: props.storyID || null,
+      siteID: props.siteID || null,
     };
     const disposable = combineDisposables(
       subscribeToQueueCommentEntered(vars),
@@ -67,6 +73,7 @@ export const QueueRoute: FunctionComponent<Props> = props => {
     };
   }, [
     props.storyID,
+    props.siteID,
     props.queueName,
     subscribeToQueueCommentEntered,
     subscribeToQueueCommentLeft,
@@ -124,6 +131,7 @@ const createQueueRoute = (
             viewer={null}
             emptyElement={emptyElement}
             storyID={match.params.storyID}
+            siteID={match.params.siteID}
           />
         );
       }
@@ -138,6 +146,7 @@ const createQueueRoute = (
           viewer={data.viewer}
           emptyElement={emptyElement}
           storyID={match.params.storyID}
+          siteID={match.params.siteID}
         />
       );
     },
@@ -210,8 +219,8 @@ const createQueueRoute = (
 export const PendingQueueRoute = createQueueRoute(
   GQLMODERATION_QUEUE.PENDING,
   graphql`
-    query QueueRoutePendingQuery($storyID: ID, $count: Int) {
-      moderationQueues(storyID: $storyID) {
+    query QueueRoutePendingQuery($storyID: ID, $siteID: ID, $count: Int) {
+      moderationQueues(storyID: $storyID, siteID: $siteID) {
         pending {
           ...QueueRoute_queue @arguments(count: $count)
         }
@@ -229,10 +238,11 @@ export const PendingQueueRoute = createQueueRoute(
     # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
     query QueueRoutePaginationPendingQuery(
       $storyID: ID
+      $siteID: ID
       $count: Int!
       $cursor: Cursor
     ) {
-      moderationQueues(storyID: $storyID) {
+      moderationQueues(storyID: $storyID, siteID: $siteID) {
         pending {
           ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
         }
@@ -250,8 +260,8 @@ export const PendingQueueRoute = createQueueRoute(
 export const ReportedQueueRoute = createQueueRoute(
   GQLMODERATION_QUEUE.REPORTED,
   graphql`
-    query QueueRouteReportedQuery($storyID: ID) {
-      moderationQueues(storyID: $storyID) {
+    query QueueRouteReportedQuery($storyID: ID, $siteID: ID) {
+      moderationQueues(storyID: $storyID, siteID: $siteID) {
         reported {
           ...QueueRoute_queue
         }
@@ -269,10 +279,11 @@ export const ReportedQueueRoute = createQueueRoute(
     # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
     query QueueRoutePaginationReportedQuery(
       $storyID: ID
+      $siteID: ID
       $count: Int!
       $cursor: Cursor
     ) {
-      moderationQueues(storyID: $storyID) {
+      moderationQueues(storyID: $storyID, siteID: $siteID) {
         reported {
           ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
         }
@@ -290,8 +301,8 @@ export const ReportedQueueRoute = createQueueRoute(
 export const UnmoderatedQueueRoute = createQueueRoute(
   GQLMODERATION_QUEUE.UNMODERATED,
   graphql`
-    query QueueRouteUnmoderatedQuery($storyID: ID) {
-      moderationQueues(storyID: $storyID) {
+    query QueueRouteUnmoderatedQuery($storyID: ID, $siteID: ID) {
+      moderationQueues(storyID: $storyID, siteID: $siteID) {
         unmoderated {
           ...QueueRoute_queue
         }
@@ -309,10 +320,11 @@ export const UnmoderatedQueueRoute = createQueueRoute(
     # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
     query QueueRoutePaginationUnmoderatedQuery(
       $storyID: ID
+      $siteID: ID
       $count: Int!
       $cursor: Cursor
     ) {
-      moderationQueues(storyID: $storyID) {
+      moderationQueues(storyID: $storyID, siteID: $siteID) {
         unmoderated {
           ...QueueRoute_queue @arguments(count: $count, cursor: $cursor)
         }

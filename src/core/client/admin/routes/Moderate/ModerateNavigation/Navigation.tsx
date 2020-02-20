@@ -1,19 +1,21 @@
 import { Localized } from "@fluent/react/compat";
 import { Match, Router, withRouter } from "found";
 import key from "keymaster";
+import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 
 import { HOTKEYS } from "coral-admin/constants";
-import { getModerationLink } from "coral-admin/helpers";
+import { getModerationLink } from "coral-framework/helpers";
 import { Counter, Icon, SubBarNavigation } from "coral-ui/components/v2";
 
 import NavigationLink from "./NavigationLink";
 
 interface Props {
-  unmoderatedCount?: number;
-  reportedCount?: number;
-  pendingCount?: number;
+  unmoderatedCount?: number | null;
+  reportedCount?: number | null;
+  pendingCount?: number | null;
   storyID?: string | null;
+  siteID?: string | null;
   router: Router;
   match: Match;
 }
@@ -23,17 +25,19 @@ const Navigation: FunctionComponent<Props> = ({
   reportedCount,
   pendingCount,
   storyID,
+  siteID,
   router,
   match,
 }) => {
   const moderationLinks = useMemo(() => {
     return [
-      getModerationLink("reported", storyID),
-      getModerationLink("pending", storyID),
-      getModerationLink("unmoderated", storyID),
-      getModerationLink("rejected", storyID),
+      getModerationLink({ queue: "reported", storyID, siteID }),
+      getModerationLink({ queue: "pending", storyID, siteID }),
+      getModerationLink({ queue: "unmoderated", storyID, siteID }),
+      getModerationLink({ queue: "approved", storyID, siteID }),
+      getModerationLink({ queue: "rejected", storyID, siteID }),
     ];
-  }, [storyID]);
+  }, [storyID, siteID]);
 
   useEffect(() => {
     key(HOTKEYS.SWITCH_QUEUE, () => {
@@ -67,9 +71,14 @@ const Navigation: FunctionComponent<Props> = ({
         <Localized id="moderate-navigation-reported">
           <span>Reported</span>
         </Localized>
-        {reportedCount !== undefined && (
+        {isNumber(reportedCount) && (
           <Counter data-testid="moderate-navigation-reported-count">
-            {reportedCount}
+            <Localized
+              id="moderate-navigation-comment-count"
+              $count={reportedCount}
+            >
+              {reportedCount}
+            </Localized>
           </Counter>
         )}
       </NavigationLink>
@@ -78,9 +87,14 @@ const Navigation: FunctionComponent<Props> = ({
         <Localized id="moderate-navigation-pending">
           <span>Pending</span>
         </Localized>
-        {pendingCount !== undefined && (
+        {isNumber(pendingCount) && (
           <Counter data-testid="moderate-navigation-pending-count">
-            {pendingCount}
+            <Localized
+              id="moderate-navigation-comment-count"
+              $count={pendingCount}
+            >
+              {pendingCount}
+            </Localized>
           </Counter>
         )}
       </NavigationLink>
@@ -89,13 +103,24 @@ const Navigation: FunctionComponent<Props> = ({
         <Localized id="moderate-navigation-unmoderated">
           <span>Unmoderated</span>
         </Localized>
-        {unmoderatedCount !== undefined && (
+        {isNumber(unmoderatedCount) && (
           <Counter data-testid="moderate-navigation-unmoderated-count">
-            {unmoderatedCount}
+            <Localized
+              id="moderate-navigation-comment-count"
+              $count={unmoderatedCount}
+            >
+              {unmoderatedCount}
+            </Localized>
           </Counter>
         )}
       </NavigationLink>
       <NavigationLink to={moderationLinks[3]}>
+        <Icon>check_circle</Icon>
+        <Localized id="moderate-navigation-approved">
+          <span>Approved</span>
+        </Localized>
+      </NavigationLink>
+      <NavigationLink to={moderationLinks[4]}>
         <Icon>cancel</Icon>
         <Localized id="moderate-navigation-rejected">
           <span>Rejected</span>

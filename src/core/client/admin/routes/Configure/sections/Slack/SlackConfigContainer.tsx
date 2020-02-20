@@ -107,7 +107,7 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
             on how to create a Slack App see our documentation.
           </FormFieldDescription>
         </Localized>
-        <Button color="dark" onClick={onAddChannel}>
+        <Button iconLeft onClick={onAddChannel}>
           <ButtonIcon size="md" className={styles.icon}>
             add
           </ButtonIcon>

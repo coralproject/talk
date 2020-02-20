@@ -1,2 +1,2 @@
 export { default as publishChanges } from "./publishChanges";
-export { default as updateAllCounts } from "./updateAllCounts";
+export { default as updateAllCommentCounts } from "./updateAllCommentCounts";

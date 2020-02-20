@@ -14,6 +14,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   anchor?: boolean;
   href?: string;
   target?: string;
+  to?: string;
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -69,6 +70,7 @@ export class Button extends React.Component<Props> {
       classes,
       color,
       className,
+      children,
       size,
       fullWidth,
       disabled,
@@ -80,6 +82,7 @@ export class Button extends React.Component<Props> {
       iconRight,
       adornmentLeft,
       adornmentRight,
+      to,
       ...rest
     } = this.props;
 
@@ -118,9 +121,12 @@ export class Button extends React.Component<Props> {
         type={type}
         data-variant={variant}
         data-color={color}
+        to={to}
         data-active={active}
         {...rest}
-      />
+      >
+        {children}
+      </BaseButton>
     );
   }
 }

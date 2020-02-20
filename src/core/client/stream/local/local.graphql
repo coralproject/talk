@@ -12,7 +12,7 @@ enum TAB {
 enum PROFILE_TAB {
   MY_COMMENTS
   ACCOUNT
-  NOTIFICATIONS
+  PREFERENCES
 }
 
 enum COMMENTS_TAB {
@@ -65,6 +65,7 @@ type Local {
   storyID: String
   storyURL: String
   commentID: String
+  siteID: String
   commentsOrderBy: COMMENT_SORT!
   profileTab: PROFILE_TAB!
   commentsTab: COMMENTS_TAB!

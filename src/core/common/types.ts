@@ -60,3 +60,13 @@ export type DeepPartial<T> = T extends object
         : DeepPartial<T[P]>;
     }
   : T;
+
+/**
+ * FirstDeepPartial is like DeepPartial but applies only to the first parameters
+ * on the object.
+ */
+export type FirstDeepPartial<T> = T extends object
+  ? {
+      [P in keyof T]: DeepPartial<T[P]>;
+    }
+  : T;

@@ -2,7 +2,7 @@ import * as settings from "coral-server/models/settings";
 
 import { GQLSSOAuthIntegrationTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
-function getActiveSSOKey(keys: settings.SSOKey[]) {
+function getActiveSSOKey(keys: settings.Secret[]) {
   // Any key that has been rotated cannot be the active key.
   return keys.find(key => !key.rotatedAt);
 }

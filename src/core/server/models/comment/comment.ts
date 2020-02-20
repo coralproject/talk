@@ -33,11 +33,8 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { PUBLISHED_STATUSES } from "./constants";
-import {
-  CommentStatusCounts,
-  createEmptyCommentStatusCounts,
-  hasAncestors,
-} from "./helpers";
+import { CommentStatusCounts, createEmptyCommentStatusCounts } from "./counts";
+import { hasAncestors } from "./helpers";
 import { Revision } from "./revision";
 import { CommentTag } from "./tag";
 
@@ -77,6 +74,11 @@ export interface Comment extends TenantResource {
    * storyID stores the ID of the Story that this Comment was left on.
    */
   storyID: string;
+
+  /**
+   * siteID stores the ID of the Site that this Comment was left on.
+   */
+  siteID: string;
 
   /**
    * revisions stores all the revisions of the Comment body including the most
@@ -138,7 +140,7 @@ export type CreateCommentInput = Omit<
 > &
   Required<Pick<Revision, "body">> &
   Pick<Revision, "metadata"> &
-  Partial<Pick<Comment, "actionCounts">>;
+  Partial<Pick<Comment, "actionCounts" | "siteID">>;
 
 export async function createComment(
   mongo: Db,
