@@ -1,5 +1,6 @@
 import sinon from "sinon";
 
+import { ERROR_CODES } from "coral-common/errors";
 import { pureMerge } from "coral-common/utils";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
@@ -16,7 +17,6 @@ import {
 
 import create from "../create";
 import { settings, users } from "../fixtures";
-import { ERROR_CODES } from "coral-common/errors";
 
 const viewer = users.admins[0];
 
