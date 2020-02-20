@@ -13,7 +13,7 @@ it("renders correctly", () => {
     allStories: true,
     moderationQueues: {},
     story: {},
-    site: null,
+    siteID: null,
     query: "",
     routeParams: {},
     queueName: "",
