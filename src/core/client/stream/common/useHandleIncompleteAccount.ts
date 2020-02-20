@@ -10,7 +10,7 @@ import { SignOutMutation } from "coral-stream/mutations";
  * encounters a `USER_NOT_ENTITLED` during a query. It accepts
  * `data` from a `QueryRenderer`. Should only be used on Queries
  * that normally does not fail except when the account
- * is incomplete.
+ * is incomplete. Returns `true` if account was incomplete.
  */
 const useHandleIncompleteAccount = () => {
   const signOut = useMutation(SignOutMutation);
@@ -21,7 +21,9 @@ const useHandleIncompleteAccount = () => {
         data.error.code === ERROR_CODES.USER_NOT_ENTITLED
       ) {
         signOut();
+        return true;
       }
+      return false;
     },
     [signOut]
   );

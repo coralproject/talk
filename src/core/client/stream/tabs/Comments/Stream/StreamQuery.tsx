@@ -90,7 +90,9 @@ const StreamQuery: FunctionComponent<Props> = props => {
           storyURL,
         }}
         render={data => {
-          handleIncompleteAccount(data);
+          if (handleIncompleteAccount(data)) {
+            return null;
+          }
           return render(data, commentsTab);
         }}
       />
