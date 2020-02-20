@@ -20,6 +20,8 @@ const useHandleIncompleteAccount = () => {
         data.error instanceof InvalidRequestError &&
         data.error.code === ERROR_CODES.USER_NOT_ENTITLED
       ) {
+        // eslint-disable-next-line
+        console.log("Coral: User account is incomplete. Perform logout.")
         signOut();
         return true;
       }
