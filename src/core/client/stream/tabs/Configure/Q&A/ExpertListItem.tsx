@@ -35,7 +35,7 @@ const ExpertListItem: FunctionComponent<Props> = ({
         )}
       </div>
       <Button
-        variant="filled"
+        variant="outlined"
         color="error"
         onClick={onClick}
         className={styles.removeButton}
