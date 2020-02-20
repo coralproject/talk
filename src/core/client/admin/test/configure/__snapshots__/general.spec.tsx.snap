@@ -233,7 +233,7 @@ exports[`renders configure general 1`] = `
                         value="pl"
                       >
                         Polski
-                      </option>                      
+                      </option>
                     </select>
                     <span
                       aria-hidden={true}
