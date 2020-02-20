@@ -8,7 +8,7 @@ export interface SetDuplicateEmailInput {
 
 /**
  * SetDuplicateEmailMutation is used to set the duplicateEmail in localState.
- * If duplicateEmail is != null, then we will trigger account linking.
+ * It is used in the `LINK_ACCOUNT` view.
  */
 const SetDuplicateEmailMutation = createMutation(
   "setDuplicateEmail",
