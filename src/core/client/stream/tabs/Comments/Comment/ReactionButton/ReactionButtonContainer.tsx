@@ -81,11 +81,12 @@ class ReactionButtonContainer extends React.Component<Props> {
         onClick={this.handleClick}
         totalReactions={totalReactions}
         reacted={reacted}
-        label={this.props.isQA ? "Vote" : label}
-        labelActive={this.props.isQA ? "Voted" : labelActive}
+        label={label}
+        labelActive={labelActive}
         icon={icon}
         iconActive={iconActive}
         readOnly={readOnly}
+        isQA={this.props.isQA}
       />
     ) : null;
   }

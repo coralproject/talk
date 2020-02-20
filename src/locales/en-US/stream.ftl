@@ -196,6 +196,9 @@ qa-sortMenu-mostVoted = Most Voted
 qa-answered-tag = answered
 qa-expert-tag = expert
 
+qa-reaction-vote = Vote
+qa-reaction-voted = Voted
+
 qa-unansweredTab-removeAnsweredQuestions =
   Remove answered questions
 
