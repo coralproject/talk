@@ -31,6 +31,7 @@ class ModerateContainer extends React.Component<Props> {
       "reported",
       "pending",
       "unmoderated",
+      "approved",
       "rejected",
     ].find(name => {
       return this.props.match.location.pathname.includes(name);
@@ -40,8 +41,8 @@ class ModerateContainer extends React.Component<Props> {
         <Moderate
           moderationQueues={null}
           story={null}
-          site={null}
           settings={null}
+          siteID={null}
           query={this.props.data}
           routeParams={this.props.match.params}
           queueName={queueName || "default"}
@@ -56,10 +57,7 @@ class ModerateContainer extends React.Component<Props> {
       <Moderate
         moderationQueues={this.props.data.moderationQueues}
         story={this.props.data.story || null}
-        site={
-          this.props.data.site ||
-          (this.props.data.story ? this.props.data.story.site : null)
-        }
+        siteID={this.props.data.story ? this.props.data.story.site.id : null}
         routeParams={this.props.match.params}
         query={this.props.data}
         allStories={allStories}
@@ -78,7 +76,6 @@ const enhanced = withRouteConfig<Props>({
       $storyID: ID
       $includeStory: Boolean!
       $siteID: ID
-      $includeSite: Boolean!
     ) {
       settings {
         ...ModerateSearchBarContainer_settings
@@ -88,14 +85,7 @@ const enhanced = withRouteConfig<Props>({
         ...ModerateSearchBarContainer_story
         site {
           id
-          ...ModerateNavigationContainer_site
-          ...SiteSelectorSelected_site
         }
-      }
-      site(id: $siteID) @include(if: $includeSite) {
-        id
-        ...ModerateNavigationContainer_site
-        ...SiteSelectorSelected_site
       }
       moderationQueues(storyID: $storyID, siteID: $siteID) {
         ...ModerateNavigationContainer_moderationQueues
