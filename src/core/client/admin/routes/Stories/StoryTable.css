@@ -1,25 +1,31 @@
 $tableHeaderAltTextColor: var(--v2-colors-mono-100);
 
 .titleColumn {
-  width: 50%;
+  width: 60%;
 }
 .titleColumnNarrow {
-  width: 32.5%;
-}
-.authorColumn {
-  width: 17.5%;
-}
-.publishDateColumn {
-  width: 17.5%;
+  width: 42.5%;
 }
 .statusColumn {
-  width: 15%;
+  width: 14%;
 }
-.siteColumn {
-  width: 17.5%;
+.reportedCountColumn {
+  width: 9%;
+}
+.pendingCountColumn {
+  width: 9%;
+}
+.totalCountColumn {
+  width: 9%;
 }
 .clickToModerate {
   font-size: var(--v2-font-size-2);
   font-weight: var(--v2-font-weight-primary-semi-bold);
   color: $tableHeaderAltTextColor;
+}
+
+.reportedCountColumn,
+.pendingCountColumn,
+.totalCountColumn {
+  text-align: center;
 }

@@ -155,14 +155,19 @@ exports[`renders empty stories 1`] = `
               </span>
             </th>
             <th
-              className="TableCell-root StoryTable-authorColumn TableCell-header"
+              className="TableCell-root StoryTable-reportedCountColumn TableCell-header"
             >
-              Author
+              Reported
             </th>
             <th
-              className="TableCell-root StoryTable-publishDateColumn TableCell-header"
+              className="TableCell-root StoryTable-pendingCountColumn TableCell-header"
             >
-              Publish Date
+              Pending
+            </th>
+            <th
+              className="TableCell-root StoryTable-totalCountColumn TableCell-header"
+            >
+              Total
             </th>
             <th
               className="TableCell-root StoryTable-statusColumn TableCell-header"
@@ -180,23 +185,45 @@ exports[`renders empty stories 1`] = `
             <td
               className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
-              <a
-                className="TextLink-root"
-                href="/admin/moderate/stories/story-1"
-                onClick={[Function]}
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                Finally a Cure for Cancer
-              </a>
+                <p>
+                  <a
+                    className="TextLink-root"
+                    href="/admin/moderate/stories/story-1"
+                    onClick={[Function]}
+                  >
+                    Finally a Cure for Cancer
+                  </a>
+                </p>
+                <p
+                  className="StoryRow-meta"
+                >
+                  <span
+                    className="StoryRow-authorName"
+                  >
+                    Vin Hoa
+                  </span>
+                   
+                  11/29/2018, 4:01 PM
+                </p>
+              </div>
             </td>
             <td
-              className="TableCell-root StoryRow-authorColumn TableCell-body"
+              className="TableCell-root StoryRow-reportedCountColumn StoryRow-boldColumn TableCell-body"
             >
-              Vin Hoa
+              3
             </td>
             <td
-              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
+              className="TableCell-root StoryRow-pendingCountColumn StoryRow-boldColumn TableCell-body"
             >
-              11/29/2018, 4:01 PM
+              2
+            </td>
+            <td
+              className="TableCell-root StoryRow-totalCountColumn StoryRow-boldColumn TableCell-body"
+            >
+              5
             </td>
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"
@@ -251,23 +278,45 @@ exports[`renders empty stories 1`] = `
             <td
               className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
-              <a
-                className="TextLink-root"
-                href="/admin/moderate/stories/story-2"
-                onClick={[Function]}
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                First Colony on Mars
-              </a>
+                <p>
+                  <a
+                    className="TextLink-root"
+                    href="/admin/moderate/stories/story-2"
+                    onClick={[Function]}
+                  >
+                    First Colony on Mars
+                  </a>
+                </p>
+                <p
+                  className="StoryRow-meta"
+                >
+                  <span
+                    className="StoryRow-authorName"
+                  >
+                    Linh Nguyen
+                  </span>
+                   
+                  11/29/2018, 4:01 PM
+                </p>
+              </div>
             </td>
             <td
-              className="TableCell-root StoryRow-authorColumn TableCell-body"
+              className="TableCell-root StoryRow-reportedCountColumn StoryRow-boldColumn TableCell-body"
             >
-              Linh Nguyen
+              3
             </td>
             <td
-              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
+              className="TableCell-root StoryRow-pendingCountColumn StoryRow-boldColumn TableCell-body"
             >
-              11/29/2018, 4:01 PM
+              2
+            </td>
+            <td
+              className="TableCell-root StoryRow-totalCountColumn StoryRow-boldColumn TableCell-body"
+            >
+              5
             </td>
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"
@@ -478,14 +527,19 @@ exports[`renders stories 1`] = `
               </span>
             </th>
             <th
-              className="TableCell-root StoryTable-authorColumn TableCell-header"
+              className="TableCell-root StoryTable-reportedCountColumn TableCell-header"
             >
-              Author
+              Reported
             </th>
             <th
-              className="TableCell-root StoryTable-publishDateColumn TableCell-header"
+              className="TableCell-root StoryTable-pendingCountColumn TableCell-header"
             >
-              Publish Date
+              Pending
+            </th>
+            <th
+              className="TableCell-root StoryTable-totalCountColumn TableCell-header"
+            >
+              Total
             </th>
             <th
               className="TableCell-root StoryTable-statusColumn TableCell-header"
@@ -503,23 +557,45 @@ exports[`renders stories 1`] = `
             <td
               className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
-              <a
-                className="TextLink-root"
-                href="/admin/moderate/stories/story-1"
-                onClick={[Function]}
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                Finally a Cure for Cancer
-              </a>
+                <p>
+                  <a
+                    className="TextLink-root"
+                    href="/admin/moderate/stories/story-1"
+                    onClick={[Function]}
+                  >
+                    Finally a Cure for Cancer
+                  </a>
+                </p>
+                <p
+                  className="StoryRow-meta"
+                >
+                  <span
+                    className="StoryRow-authorName"
+                  >
+                    Vin Hoa
+                  </span>
+                   
+                  11/29/2018, 4:01 PM
+                </p>
+              </div>
             </td>
             <td
-              className="TableCell-root StoryRow-authorColumn TableCell-body"
+              className="TableCell-root StoryRow-reportedCountColumn StoryRow-boldColumn TableCell-body"
             >
-              Vin Hoa
+              3
             </td>
             <td
-              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
+              className="TableCell-root StoryRow-pendingCountColumn StoryRow-boldColumn TableCell-body"
             >
-              11/29/2018, 4:01 PM
+              2
+            </td>
+            <td
+              className="TableCell-root StoryRow-totalCountColumn StoryRow-boldColumn TableCell-body"
+            >
+              5
             </td>
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"
@@ -574,23 +650,45 @@ exports[`renders stories 1`] = `
             <td
               className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
-              <a
-                className="TextLink-root"
-                href="/admin/moderate/stories/story-2"
-                onClick={[Function]}
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
-                First Colony on Mars
-              </a>
+                <p>
+                  <a
+                    className="TextLink-root"
+                    href="/admin/moderate/stories/story-2"
+                    onClick={[Function]}
+                  >
+                    First Colony on Mars
+                  </a>
+                </p>
+                <p
+                  className="StoryRow-meta"
+                >
+                  <span
+                    className="StoryRow-authorName"
+                  >
+                    Linh Nguyen
+                  </span>
+                   
+                  11/29/2018, 4:01 PM
+                </p>
+              </div>
             </td>
             <td
-              className="TableCell-root StoryRow-authorColumn TableCell-body"
+              className="TableCell-root StoryRow-reportedCountColumn StoryRow-boldColumn TableCell-body"
             >
-              Linh Nguyen
+              3
             </td>
             <td
-              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
+              className="TableCell-root StoryRow-pendingCountColumn StoryRow-boldColumn TableCell-body"
             >
-              11/29/2018, 4:01 PM
+              2
+            </td>
+            <td
+              className="TableCell-root StoryRow-totalCountColumn StoryRow-boldColumn TableCell-body"
+            >
+              5
             </td>
             <td
               className="TableCell-root StoryRow-statusColumn TableCell-body"

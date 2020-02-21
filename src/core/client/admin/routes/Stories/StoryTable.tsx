@@ -1,5 +1,4 @@
 import { Localized } from "@fluent/react/compat";
-import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
@@ -38,11 +37,7 @@ const StoryTable: FunctionComponent<Props> = props => (
       <Table fullWidth>
         <TableHead>
           <TableRow>
-            <TableCell
-              className={cn(styles.titleColumn, {
-                [styles.titleColumnNarrow]: props.multisite,
-              })}
-            >
+            <TableCell className={styles.titleColumn}>
               <Localized id="stories-column-title">
                 <span>Title</span>
               </Localized>{" "}
@@ -55,18 +50,18 @@ const StoryTable: FunctionComponent<Props> = props => (
               </span>
             </TableCell>
 
-            <Localized id="stories-column-author">
-              <TableCell className={styles.authorColumn}>Author</TableCell>
-            </Localized>
-            {props.multisite && (
-              <Localized id="stories-column-site">
-                <TableCell className={styles.siteColumn}>Site</TableCell>
-              </Localized>
-            )}
-            <Localized id="stories-column-publishDate">
-              <TableCell className={styles.publishDateColumn}>
-                Publish Date
+            <Localized id="stories-column-reportedCount">
+              <TableCell className={styles.reportedCountColumn}>
+                Reported
               </TableCell>
+            </Localized>
+            <Localized id="stories-column-pendingCount">
+              <TableCell className={styles.pendingCountColumn}>
+                Pending
+              </TableCell>
+            </Localized>
+            <Localized id="stories-column-totalCount">
+              <TableCell className={styles.totalCountColumn}>Total</TableCell>
             </Localized>
             <Localized id="stories-column-status">
               <TableCell className={styles.statusColumn}>Status</TableCell>
