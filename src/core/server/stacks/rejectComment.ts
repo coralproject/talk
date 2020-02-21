@@ -48,6 +48,8 @@ const rejectComment = async (
     actionCounts: {},
   });
 
+  // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
+  // see CORL-935 in jira
   if (broker) {
     // Publish changes to the event publisher.
     await publishChanges(broker, {
