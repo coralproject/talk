@@ -5492,6 +5492,9 @@ input BanUserInput {
   """
   message: String!
 
+  """
+  whether or not to reject all the user's previous comments when banning them.
+  """
   rejectExistingComments: Boolean!
 }
 
