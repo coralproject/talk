@@ -2929,7 +2929,7 @@ type Query {
     status: USER_STATUS
   ): UsersConnection! @auth(roles: [ADMIN, MODERATOR])
 
-  site(id: ID): Site @auth(roles: [ADMIN, MODERATOR])
+  site(id: ID!): Site @auth(roles: [ADMIN, MODERATOR])
 
   sites(first: Int = 10 @constraint(max: 50), after: Cursor): SitesConnection!
     @auth(roles: [ADMIN, MODERATOR])
