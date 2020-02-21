@@ -9,7 +9,7 @@
 
 framework-shortNumber-1000 = 0.0k
 framework-shortNumber-10000 = 00k
-framework-shortNumber-100000 = 000k
+framework-shortNumber-100000 = 000tys
 framework-shortNumber-1000000 = 0.0M
 framework-shortNumber-10000000 = 00M
 framework-shortNumber-100000000 = 000M
@@ -34,37 +34,43 @@ framework-validation-notAWholeNumberGreaterThanOrEqual = Prosimy wprowadź liczb
 framework-validation-usernamesDoNotMatch = Loginy się nie zgadzają. Spróbuj jeszcze raz.
 framework-validation-deleteConfirmationInvalid = Niewłaściwe potwierdzenie. Spróbuj jeszcze raz.
 
-framework-timeago-just-now = Teraz
+framework-timeago-just-now = teraz
 
 framework-timeago-time =
   { $value } { $unit ->
     [second] { $value ->
-      [1] sekunda
-      *[other] sekund
+      [one] sekundę
+      [few] sekundy
+      *[many] sekund
     }
     [minute] { $value ->
-      [1] minuta
-      *[other] minut
+      [one] minutę
+      [few] minuty
+      *[many] minut
     }
     [hour] { $value ->
-      [1] godzina
-      *[other] godzin
+      [one] godzinę
+      [few] godziny
+      *[many] godzin
     }
     [day] { $value ->
-      [1] dzień
+      [one] dzień
       *[other] dni
     }
     [week] { $value ->
-      [1] tydzień
-      *[other] tygodni
+      [one] tydzień
+      [few] tygodnie
+      *[many] tygodni
     }
     [month] { $value ->
-      [1] miesiąc
-      *[other] miesięcy
+      [one] miesiąc
+      [few] miesiące
+      *[many] miesięcy
     }
     [year] { $value ->
-      [1] rok
-      *[other] lat
+      [one] rok
+      [few] lata
+      *[many] lat
     }
     *[other] nieznana jednostka
   }
@@ -105,24 +111,28 @@ framework-markdownEditor-markdownGuide = Przewodnik po Markdown
 framework-durationField-unit =
   { $unit ->
     [second] { $value ->
-      [1] Sekunda
-      *[other] Sekund
+      [1] sekunda
+      [few] sekundy
+      *[many] sekund
     }
     [minute] { $value ->
-      [1] Minuta
-      *[other] Minut
+      [one] minuta
+      [few] minuty
+      *[many] minut
     }
     [hour] { $value ->
-      [1] Godzina
-      *[other] Godzin
+      [one] godzina
+      [few] godziny
+      *[many] godzin
     }
     [day] { $value ->
-      [1] Dzień
-      *[other] Dni
+      [one] dzień
+      *[other] dni
     }
     [week] { $value ->
-      [1] Tydzień
-      *[other] Tygodni
+      [one] tydzień
+      [few] tygodnie
+      *[many] tygodni
     }
     *[other] nieznana jednostka
   }

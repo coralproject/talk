@@ -35,27 +35,26 @@ confirmEmail-youMayClose =
 
 download-landingPage-title = Pobierz swoją historię komentarzy
 download-landingPage-description =
-  Your comment history will be downloaded into a .zip file. After your
-  comment history is unzipped you will have a comma separated value (or .csv)
-  file that you can easily import into your favorite spreadsheet
-  application.
+  Archiwum Twoich komentarzy będzie dostępne jako plik .zip. Wewnątrz
+  tego pliku znajduje się plik z wartościami oddzielonymi przecinkiem (.csv), 
+  który możesz otworzyć w arkuszu kalkulacyjnym. 
 download-landingPage-contentsDescription =
-  For each of your comments the following information is included:
+  Dla każdego komentarza załączamy następujące dane:
 download-landingPage-contentsDate =
-  When you wrote the comment
+  Kiedy napisano komentarz
 download-landingPage-contentsUrl =
-  The permalink URL for the comment
+  Permalink do tego komentarza
 download-landingPage-contentsText =
-  The comment text
+  Treść komentarza
 download-landingPage-contentsStoryUrl =
-  The URL on the article or story where the comment appears
+  URL artykułu gdzie komentarz został zamieszczony
 download-landingPage-downloadComments =
-  Download My Comment History
-download-landingPage-sorry = Your download link is invalid.
+  Pobierz historię moich komentarzy
+download-landingPage-sorry = Ten link jest nieprawidłowy.
 
 ## Unsubscribe
 
-unsubscribe-oopsSorry = Oops Sorry!
-unsubscribe-successfullyUnsubscribed = You are now unsubscribed from all notifications
-unsubscribe-clickToConfirm = Click below to confirm that you want to unsubscribe from all notifications.
-unsubscribe-confirm = Confirm
+unsubscribe-oopsSorry = Mamy jakiś problem!
+unsubscribe-successfullyUnsubscribed = Wyłączono subskrypcję wszystkich powiadomień
+unsubscribe-clickToConfirm = Kliknij poniżej, żeby potwierdzić rezygnację ze wszystkich powiadomień.
+unsubscribe-confirm = Potwierdzam
