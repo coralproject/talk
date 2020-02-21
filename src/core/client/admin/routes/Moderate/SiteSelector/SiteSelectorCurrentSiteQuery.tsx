@@ -36,7 +36,6 @@ const enhanced: FunctionComponent<Props> = ({ siteID }) => {
           site(id: $siteID) {
             id
             name
-            # ...SiteSelectorSite_site
           }
         }
       `}
