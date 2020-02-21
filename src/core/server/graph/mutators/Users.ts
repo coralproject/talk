@@ -234,7 +234,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.user!,
       input.userID,
       input.message,
-      input.rejectExistingComments,
+      input.rejectExistingComments || false,
       ctx.now
     ),
   premodUser: async (input: GQLPremodUserInput) =>
