@@ -18,6 +18,7 @@ import { Config } from "coral-server/config";
 import CoralEventListenerBroker from "coral-server/events/publisher";
 import logger from "coral-server/logger";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
@@ -52,6 +53,7 @@ export interface AppOptions {
   tenantCache: TenantCache;
   migrationManager: MigrationManager;
   broker: CoralEventListenerBroker;
+  rejectorQueue: RejectorQueue;
 }
 
 /**
