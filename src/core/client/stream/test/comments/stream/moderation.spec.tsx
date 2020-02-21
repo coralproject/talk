@@ -229,6 +229,7 @@ it("ban user", async () => {
         banUser: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             userID: firstComment.author!.id,
+            rejectExistingComments: false,
           });
           return {
             user: pureMerge<typeof firstComment.author>(firstComment.author, {

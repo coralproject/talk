@@ -20,7 +20,7 @@ const rejectComment = async (
   mongo: Db,
   redis: AugmentedRedis,
   config: Config,
-  broker: CoralEventPublisherBroker,
+  broker: CoralEventPublisherBroker | null,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -48,12 +48,16 @@ const rejectComment = async (
     actionCounts: {},
   });
 
-  // Publish changes to the event publisher.
-  await publishChanges(broker, {
-    ...result,
-    ...counts,
-    moderatorID,
-  });
+  // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
+  // see CORL-935 in jira
+  if (broker) {
+    // Publish changes to the event publisher.
+    await publishChanges(broker, {
+      ...result,
+      ...counts,
+      moderatorID,
+    });
+  }
 
   // If there was a featured tag on this comment, remove it.
   if (hasTag(result.after, GQLTAG.FEATURED)) {

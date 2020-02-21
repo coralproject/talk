@@ -22,7 +22,7 @@ interface Props {
   username: string | null;
   open: boolean;
   onClose: () => void;
-  onConfirm: (message?: string) => void;
+  onConfirm: (rejectExistingComments: boolean, message?: string) => void;
   getMessage: GetMessage;
 }
 
@@ -44,8 +44,8 @@ const BanModal: FunctionComponent<Props> = ({
   }, [getMessage, username]);
 
   const onFormSubmit = useCallback(
-    ({ emailMessage }) => {
-      onConfirm(emailMessage);
+    ({ emailMessage, rejectExistingComments }) => {
+      onConfirm(rejectExistingComments, emailMessage);
     },
     [onConfirm]
   );
@@ -83,12 +83,22 @@ const BanModal: FunctionComponent<Props> = ({
             onSubmit={onFormSubmit}
             initialValues={{
               showMessage: false,
+              rejectExistingComments: false,
               emailMessage: getDefaultMessage,
             }}
           >
             {({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>
                 <HorizontalGutter spacing={3}>
+                  <Field type="checkbox" name="rejectExistingComments">
+                    {({ input }) => (
+                      <Localized id="community-banModal-reject-existing">
+                        <CheckBox {...input} id="banModal-rejectExisting">
+                          Reject all comments by this user
+                        </CheckBox>
+                      </Localized>
+                    )}
+                  </Field>
                   <Field type="checkbox" name="showMessage">
                     {({ input }) => (
                       <Localized id="community-banModal-customize">
