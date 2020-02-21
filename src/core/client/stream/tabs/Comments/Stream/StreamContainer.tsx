@@ -150,7 +150,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
         setLocal({ commentsOrderBy: "REACTION_DESC" });
       }
     }
-  }, [featuredCommentsCount, local.commentsTab, onChangeTab]);
+  }, [local, setLocal, props, featuredCommentsCount, onChangeTab]);
 
   return (
     <>
