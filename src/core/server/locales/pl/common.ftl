@@ -9,7 +9,8 @@ comment-count =
   <span class="{ $numberClass }">{ $number }</span>
   <span class="{ $textClass }">{ $number  ->
     [one] Komentarz
-    *[other] Komentarze
+    [few] Komentarze
+    *[many] Komentarzy
   }</span>
 
 staff-label = Redakcja

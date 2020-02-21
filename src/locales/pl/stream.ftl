@@ -21,7 +21,8 @@ general-tabBar-configure = Konfiguracja
 comment-count-text =
   { $count  ->
     [one] Komentarz
-    *[other] Komentarzy
+    [few] Komentarze
+    *[many] Komentarzy
   }
 
 ## Comments Tab
@@ -52,8 +53,9 @@ comments-replyList-showMoreReplies = Pokaż więcej odpowiedzi
 
 comments-viewNew =
   { $count ->
-    [1] View {$count} Nowy komentarz
-    *[other] Zobacz nowe komentarze ({$count})
+    [one] Zobacz {$count} nowy komentarz
+    [few] Zobacz {$count} nowe komentarze
+    *[many] Zobacz {$count} nowych komentarzy
   }
 comments-loadMore = Załaduj więcej
 
