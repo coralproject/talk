@@ -3,17 +3,12 @@ import { Db } from "mongodb";
 import now from "performance-now";
 
 import { Config } from "coral-server/config";
-// import { Publisher } from "coral-server/graph/subscriptions/publisher";
 import logger from "coral-server/logger";
 import {
   Comment,
   getLatestRevision,
-  retrieveStatusCommentConnection,
+  retrieveAllCommentsUserConnection,
 } from "coral-server/models/comment";
-import {
-  MODERATOR_STATUSES,
-  PUBLISHED_STATUSES,
-} from "coral-server/models/comment/constants";
 import { Connection } from "coral-server/models/helpers";
 import Task from "coral-server/queue/Task";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -43,19 +38,11 @@ function getBatch(
   authorID: string,
   connection?: Readonly<Connection<Readonly<Comment>>>
 ) {
-  return retrieveStatusCommentConnection(
-    mongo,
-    tenantID,
-    // Get all comments with a published or moderate status...
-    [...PUBLISHED_STATUSES, ...MODERATOR_STATUSES],
-    {
-      // Written by a specific author...
-      filter: { authorID },
-      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      first: 100,
-      after: connection ? connection.pageInfo.endCursor : undefined,
-    }
-  );
+  return retrieveAllCommentsUserConnection(mongo, tenantID, authorID, {
+    orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+    first: 100,
+    after: connection ? connection.pageInfo.endCursor : undefined,
+  });
 }
 
 const createJobProcessor = ({
@@ -78,7 +65,6 @@ const createJobProcessor = ({
   );
   // Mark the start time.
   const startTime = now();
-  log.info("starting to reject author comments");
   log.debug("starting to reject author comments");
   // Get the tenant.
   const tenant = await tenantCache.retrieveByID(tenantID);
