@@ -25,7 +25,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story }) => {
   const handleOnClick = useCallback(async () => {
     if (!waiting) {
       setWaiting(true);
-      if (story.settings.mode === "COMMENTS") {
+      if (story.settings.mode === GQLSTORY_MODE.COMMENTS) {
         updateStoryMode({ storyID: story.id, mode: GQLSTORY_MODE.QA });
       } else {
         updateStoryMode({ storyID: story.id, mode: GQLSTORY_MODE.COMMENTS });
@@ -34,7 +34,9 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story }) => {
     }
   }, [waiting, setWaiting, story, updateStoryMode]);
 
-  return story.settings.mode === "QA" ? (
+  const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+
+  return isQA ? (
     <>
       <DisableQA onClick={handleOnClick} disableButton={waiting} />
       <ExpertSelectionQuery storyID={story.id} />
