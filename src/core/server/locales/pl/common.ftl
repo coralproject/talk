@@ -1,9 +1,9 @@
 closeCommentingDefaultMessage = Komentarze dla tego artykułu są zamknięte.
 disableCommentingDefaultMessage = Komentarze dla tego artykułu są zamknięte.
 
-reaction-labelRespect = Szacunek
-reaction-labelActiveRespected = Szanowany
-reaction-sortLabelMostRespected = Najbardziej szanowane
+reaction-labelRespect = Polecam
+reaction-labelActiveRespected = Polecany
+reaction-sortLabelMostRespected = Najbardziej polecane
 
 comment-count =
   <span class="{ $numberClass }">{ $number }</span>

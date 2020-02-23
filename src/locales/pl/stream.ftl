@@ -29,6 +29,7 @@ comment-count-text =
 
 comments-allCommentsTab = Wszystkich komentarzy
 comments-featuredTab = Wyróżnione
+comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-featuredCommentTooltip-how = Jak komentarze zostają wyróżnione?
 comments-featuredCommentTooltip-handSelectedComments =
   Komentarze szczególnie warte przeczytania są wyróżniane przez naszą redakcję.
@@ -78,7 +79,7 @@ comments-rte-blockquote =
 
 comments-remainingCharacters = Możesz jeszcze napisać  { $remaining } znaków
 
-comments-postCommentFormFake-signInAndJoin = Zaloguj się i dołącz do rozmowy
+comments-postCommentFormFake-signInAndJoin = Zaloguj się i dołącz do rozmów
 
 comments-postCommentForm-rteLabel = Opublikuj komentarz
 
@@ -117,7 +118,7 @@ comments-conversationThread-showMoreOfThisConversation =
   Pokaż więcej w konwersacji
 
 comments-permalinkView-currentViewing = W tej chwili oglądasz
-comments-permalinkView-singleConversation = ROZMOWA
+comments-permalinkView-singleConversation = WĄTEK
 comments-inReplyTo = W odpowiedzi do <Username></Username>
 comments-replyTo = Odpowiadasz: <Username></Username>
 
@@ -190,6 +191,7 @@ comments-featured-replies = Replies
 profile-myCommentsTab = Moje komentarze
 profile-myCommentsTab-comments = Moje komentarze
 profile-accountTab = Konto
+profile-preferencesTab = Ustawienia
 
 accountSettings-manage-account = Zarządzaj swoim kontem
 
@@ -234,10 +236,10 @@ profile-account-changePassword-updated =
   Twoje hasło zostało zmienione
 profile-account-changePassword-password = Hasło
 
-profile-account-download-comments-title = Pobierz historię moich komentarzy
+profile-account-download-comments-title = Pobierz historię swoich komentarzy
 profile-account-download-comments-description =
   Dostaniesz email z linkiem do pobrania historii Twoich komentarzy.
-  Możesz pobrać komentarz tylko <strong>1 raz w ciągu 14 dni.</strong>
+  Możesz pobrać archiwum tylko <strong>1 raz w ciągu 14 dni.</strong>
 profile-account-download-comments-request =
   Pobierz historię komentarzy
 profile-account-download-comments-request-icon =
@@ -245,7 +247,7 @@ profile-account-download-comments-request-icon =
 profile-account-download-comments-recentRequest =
   Twoja ostatnia prośba: { $timeStamp }
 profile-account-download-comments-requested =
-  Prośba została wysłana. Następną prośbę możesz wysłać { framework-timeago-time }.
+  Prośba została wysłana. Następną prośbę możesz wysłać za { framework-timeago-time }.
 profile-account-download-comments-request-button = Wyślij
 
 ## Delete Account
@@ -254,15 +256,15 @@ profile-account-deleteAccount-title = Usuń moje konto
 profile-account-deleteAccount-description =
   Usunięcie konta spowoduje usunięcie profilu i wszystkich napisanych
   przez Ciebie komentarzy z naszej strony.
-profile-account-deleteAccount-requestDelete = Wyślij żądanie usunięcia konta
+profile-account-deleteAccount-requestDelete = Wyślij prośbę o usunięcie konta
 
 profile-account-deleteAccount-cancelDelete-description =
-  Wysyłałaś/eś już żądanie usunięcia konta. 
+  Wysłałaś/eś już prośbę o usunięcie konta. 
   Konto zostanie usunięte { $date }.
   Do tego czasu możesz jeszcze anulować ten proces.
 profile-account-deleteAccount-cancelDelete = Anuluj usunięcie konta
 
-profile-account-deleteAccount-request = Żądanie
+profile-account-deleteAccount-request = Poproszę
 profile-account-deleteAccount-cancel = Anuluj
 profile-account-deleteAccount-pages-deleteButton = Usuń moje konto
 profile-account-deleteAccount-pages-cancel = Anuluj
@@ -463,8 +465,8 @@ profile-changeEmail-please-verify-details =
   Musisz potwierdzić swoje konto, zanim będzie można się
   zalogować i otrzymywać powiadomienia. 
 profile-changeEmail-resend = Ponowna weryfikacja
-profile-changeEmail-heading = Zmień swój adres email
-profile-changeEmail-desc = Zmien email używany do logowania i otrzymywania powiadomień.
+profile-changeEmail-heading = Zmień email
+profile-changeEmail-desc = Zmień adres email używany do logowania i otrzymywania powiadomień.
 profile-changeEmail-current = Aktualny email
 profile-changeEmail-newEmail-label = Nowy adres email
 profile-changeEmail-password = Hasło
