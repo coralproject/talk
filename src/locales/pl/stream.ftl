@@ -247,7 +247,7 @@ profile-account-download-comments-request-icon =
 profile-account-download-comments-recentRequest =
   Twoja ostatnia prośba: { $timeStamp }
 profile-account-download-comments-requested =
-  Prośba została wysłana. Następną prośbę możesz wysłać { framework-timeago-time }.
+  Prośba została wysłana. Następną prośbę możesz wysłać za { framework-timeago-time }.
 profile-account-download-comments-request-button = Wyślij
 
 ## Delete Account
@@ -465,8 +465,8 @@ profile-changeEmail-please-verify-details =
   Musisz potwierdzić swoje konto, zanim będzie można się
   zalogować i otrzymywać powiadomienia. 
 profile-changeEmail-resend = Ponowna weryfikacja
-profile-changeEmail-heading = Zmień swój adres email
-profile-changeEmail-desc = Zmien email używany do logowania i otrzymywania powiadomień.
+profile-changeEmail-heading = Zmień email
+profile-changeEmail-desc = Zmień adres email używany do logowania i otrzymywania powiadomień.
 profile-changeEmail-current = Aktualny email
 profile-changeEmail-newEmail-label = Nowy adres email
 profile-changeEmail-password = Hasło
