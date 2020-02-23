@@ -23,7 +23,7 @@ general-confirmEmailAddressTextField =
 ## Sign In
 
 signIn-signInToJoinHeader =
-  <title>Zaloguj się</title><subtitle>żeby dołączyć do rozmowy<subtitle>
+  <title>Zaloguj się</title><subtitle>żeby dołączyć do rozmów<subtitle>
 
 signIn-signInWithEmail = Zaloguj się z emailem
 signIn-signInWithFacebook = Zaloguj się kontem Facebook

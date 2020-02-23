@@ -33,6 +33,7 @@ framework-validation-notAWholeNumberGreaterThan = Prosimy wprowadź liczbę wię
 framework-validation-notAWholeNumberGreaterThanOrEqual = Prosimy wprowadź liczbę większą lub równą { $x }
 framework-validation-usernamesDoNotMatch = Loginy się nie zgadzają. Spróbuj jeszcze raz.
 framework-validation-deleteConfirmationInvalid = Niewłaściwe potwierdzenie. Spróbuj jeszcze raz.
+framework-validation-invalidWebhookEndpointEventSelection = Wybierz przynajmniej jeden rodzaj.
 
 framework-timeago-just-now = teraz
 
