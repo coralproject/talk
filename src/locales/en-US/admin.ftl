@@ -833,6 +833,7 @@ community-banModal-consequence =
 community-banModal-cancel = Cancel
 community-banModal-banUser = Ban User
 community-banModal-customize = Customize ban email message
+community-banModal-reject-existing = Reject all comments by this user
 
 community-suspendModal-areYouSure = Suspend <strong>{ $username }</strong>?
 community-suspendModal-consequence =
@@ -916,6 +917,9 @@ stories-column-author = Author
 stories-column-publishDate = Publish Date
 stories-column-status = Status
 stories-column-clickToModerate = Click title to moderate story
+stories-column-reportedCount = Reported
+stories-column-pendingCount = Pending
+stories-column-totalCount = Total
 
 stories-status-popover =
   .description = A dropdown to change the story status

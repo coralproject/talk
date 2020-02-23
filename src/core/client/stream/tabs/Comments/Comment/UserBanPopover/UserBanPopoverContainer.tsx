@@ -38,6 +38,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
     banUser({
       userID: user.id,
       commentID: comment.id,
+      rejectExistingComments: false,
       message: getMessage(
         localeBundles,
         "common-banEmailTemplate",

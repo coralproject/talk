@@ -1,10 +1,16 @@
+import cn from "classnames";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { getModerationLink } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
-import { TableCell, TableRow, TextLink } from "coral-ui/components/v2";
+import {
+  HorizontalGutter,
+  TableCell,
+  TableRow,
+  TextLink,
+} from "coral-ui/components/v2";
 
 import StoryStatus from "./StoryStatus";
 
@@ -20,27 +26,51 @@ interface Props {
   siteName: string;
   siteID: string;
   multisite: boolean;
+  reportedCount: number | null;
+  pendingCount: number | null;
+  totalCount: number;
 }
 
 const UserRow: FunctionComponent<Props> = props => (
   <TableRow>
     <TableCell className={styles.titleColumn}>
-      <Link to={getModerationLink({ storyID: props.storyID })} as={TextLink}>
-        {props.title || <NotAvailable />}
-      </Link>
+      <HorizontalGutter>
+        <p>
+          <Link
+            to={getModerationLink({ storyID: props.storyID })}
+            as={TextLink}
+          >
+            {props.title || <NotAvailable />}
+          </Link>
+        </p>
+        {(props.author || props.publishDate) && (
+          <p className={styles.meta}>
+            <span className={styles.authorName}>{props.author}</span>{" "}
+            {props.publishDate}
+          </p>
+        )}
+      </HorizontalGutter>
     </TableCell>
-    <TableCell className={styles.authorColumn}>
-      {props.author || <NotAvailable />}
+    <TableCell
+      className={cn(styles.reportedCountColumn, {
+        [styles.boldColumn]: props.reportedCount && props.reportedCount > 0,
+      })}
+    >
+      {props.reportedCount}
     </TableCell>
-    {props.multisite && (
-      <TableCell className={styles.siteColumn}>
-        <Link to={getModerationLink({ siteID: props.siteID })} as={TextLink}>
-          {props.siteName}
-        </Link>
-      </TableCell>
-    )}
-    <TableCell className={styles.publishDateColumn}>
-      {props.publishDate || <NotAvailable />}
+    <TableCell
+      className={cn(styles.pendingCountColumn, {
+        [styles.boldColumn]: props.pendingCount && props.pendingCount > 0,
+      })}
+    >
+      {props.pendingCount}
+    </TableCell>
+    <TableCell
+      className={cn(styles.totalCountColumn, {
+        [styles.boldColumn]: props.totalCount && props.totalCount > 0,
+      })}
+    >
+      {props.totalCount}
     </TableCell>
     <TableCell className={styles.statusColumn}>
       <StoryStatus story={props.story} viewer={props.viewer} />

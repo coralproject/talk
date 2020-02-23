@@ -5,31 +5,29 @@ import PaginatedSelect from "coral-admin/components/PaginatedSelect";
 import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 
-import SiteSelectorSelected from "./SiteSelectorSelected";
+import SiteSelectorCurrentSiteQuery from "./SiteSelectorCurrentSiteQuery";
 import SiteSelectorSite from "./SiteSelectorSite";
 
 import styles from "./SiteSelector.css";
 
 interface Props {
   sites: Array<{ id: string } & PropTypesOf<typeof SiteSelectorSite>["site"]>;
-  site:
-    | { id: string } & PropTypesOf<typeof SiteSelectorSelected>["site"]
-    | null;
   queueName: string;
   onLoadMore: () => void;
   hasMore: boolean;
   disableLoadMore: boolean;
   loading: boolean;
+  siteID: string | null;
 }
 
 const SiteSelector: FunctionComponent<Props> = ({
   sites,
-  site,
   queueName,
   loading,
   onLoadMore,
   disableLoadMore,
   hasMore,
+  siteID,
 }) => {
   return (
     <PaginatedSelect
@@ -41,9 +39,9 @@ const SiteSelector: FunctionComponent<Props> = ({
       className={styles.button}
       selected={
         <>
-          {site && <SiteSelectorSelected site={site} />}
+          {siteID && <SiteSelectorCurrentSiteQuery siteID={siteID} />}
 
-          {!site && (
+          {!siteID && (
             <Localized id="site-selector-all-sites">
               <span className={styles.buttonText}>All sites</span>
             </Localized>
@@ -55,7 +53,7 @@ const SiteSelector: FunctionComponent<Props> = ({
         <SiteSelectorSite
           link={getModerationLink({ queue: queueName as QUEUE_NAME })}
           site={null}
-          active={!site}
+          active={!siteID}
         />
         {sites.map(s => (
           <SiteSelectorSite
@@ -65,7 +63,7 @@ const SiteSelector: FunctionComponent<Props> = ({
             })}
             key={s.id}
             site={s}
-            active={(site && site.id === s.id) || false}
+            active={(siteID && siteID === s.id) || false}
           />
         ))}
       </>

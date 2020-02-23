@@ -2929,7 +2929,7 @@ type Query {
     status: USER_STATUS
   ): UsersConnection! @auth(roles: [ADMIN, MODERATOR])
 
-  site(id: ID): Site @auth(roles: [ADMIN, MODERATOR])
+  site(id: ID!): Site @auth(roles: [ADMIN, MODERATOR])
 
   sites(first: Int = 10 @constraint(max: 50), after: Cursor): SitesConnection!
     @auth(roles: [ADMIN, MODERATOR])
@@ -5491,6 +5491,11 @@ input BanUserInput {
   message is sent to banned user via email.
   """
   message: String!
+
+  """
+  whether or not to reject all the user's previous comments when banning them.
+  """
+  rejectExistingComments: Boolean
 }
 
 type BanUserPayload {

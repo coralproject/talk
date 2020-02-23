@@ -191,9 +191,13 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   }, [comment]);
 
   const handleBanConfirm = useCallback(
-    async (message: string) => {
+    async (rejectExistingComments: boolean, message: string) => {
       if (comment.author) {
-        await banUser({ userID: comment.author.id, message });
+        await banUser({
+          userID: comment.author.id,
+          message,
+          rejectExistingComments,
+        });
       }
       setShowBanModal(false);
     },
