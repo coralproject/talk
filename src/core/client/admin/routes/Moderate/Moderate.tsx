@@ -26,15 +26,12 @@ interface RouteParams {
 interface Props {
   story: PropTypesOf<typeof ModerateNavigationContainer>["story"] &
     PropTypesOf<typeof ModerateSearchBarContainer>["story"];
-  site:
-    | { id: string } & PropTypesOf<typeof ModerateNavigationContainer>["site"] &
-        PropTypesOf<typeof SiteSelectorContainer>["site"]
-    | null;
   query: PropTypesOf<typeof SiteSelectorContainer>["query"];
   moderationQueues: PropTypesOf<
     typeof ModerateNavigationContainer
   >["moderationQueues"];
   allStories: boolean;
+  siteID: string | null;
   settings: PropTypesOf<typeof ModerateSearchBarContainer>["settings"] | null;
   children?: React.ReactNode;
   queueName: string;
@@ -44,13 +41,13 @@ interface Props {
 const Moderate: FunctionComponent<Props> = ({
   moderationQueues,
   story,
-  site,
   query,
   allStories,
   children,
   queueName,
   routeParams,
   settings,
+  siteID,
 }) => {
   const [showHotkeysModal, setShowHotkeysModal] = useState(false);
   const closeModal = useCallback(() => {
@@ -79,8 +76,8 @@ const Moderate: FunctionComponent<Props> = ({
         siteSelector={
           <SiteSelectorContainer
             queueName={queueName}
-            site={site}
             query={query}
+            siteID={routeParams.siteID || siteID || null}
           />
         }
       />
@@ -88,7 +85,7 @@ const Moderate: FunctionComponent<Props> = ({
         <ModerateNavigationContainer
           moderationQueues={moderationQueues}
           story={story}
-          site={story ? null : site}
+          siteID={routeParams.siteID || siteID || null}
         />
       </SubBar>
       <div className={styles.background} />

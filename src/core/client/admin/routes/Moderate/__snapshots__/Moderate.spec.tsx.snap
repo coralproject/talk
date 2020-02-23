@@ -16,7 +16,7 @@ exports[`renders correctly 1`] = `
       <Relay(SiteSelectorContainer)
         query=""
         queueName=""
-        site={null}
+        siteID={null}
       />
     }
     story={Object {}}
@@ -26,7 +26,7 @@ exports[`renders correctly 1`] = `
   >
     <Relay(ModerateNavigationContainer)
       moderationQueues={Object {}}
-      site={null}
+      siteID={null}
       story={Object {}}
     />
   </withPropsOnChange(SubBar)>

@@ -253,6 +253,7 @@ class Server {
     this.tasks.scraper.process();
     this.tasks.notifier.process();
     this.tasks.webhook.process();
+    this.tasks.rejector.process();
 
     // Start up the cron job processors.
     this.scheduledTasks = startScheduledTasks({
@@ -354,6 +355,7 @@ class Server {
       i18n: this.i18n,
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
+      rejectorQueue: this.tasks.rejector,
       disableClientRoutes,
       persistedQueryCache: this.persistedQueryCache,
       persistedQueriesRequired:

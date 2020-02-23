@@ -111,8 +111,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
   );
 
   const handleBanConfirm = useCallback(
-    message => {
-      banUser({ userID: user.id, message });
+    (rejectExistingComments, message) => {
+      banUser({ userID: user.id, message, rejectExistingComments });
       setShowBanned(false);
     },
     [user, setShowBanned]

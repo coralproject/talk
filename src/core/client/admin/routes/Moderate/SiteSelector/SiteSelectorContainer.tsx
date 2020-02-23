@@ -6,7 +6,6 @@ import {
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { PropTypesOf } from "coral-ui/types";
 
 import { SiteSelectorContainer_query as QueryData } from "coral-admin/__generated__/SiteSelectorContainer_query.graphql";
 import { SiteSelectorContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSelectorContainerPaginationQuery.graphql";
@@ -15,9 +14,9 @@ import SiteSelector from "./SiteSelector";
 
 interface Props {
   query: QueryData | null;
-  site: PropTypesOf<typeof SiteSelector>["site"] | null;
   relay: RelayPaginationProp;
   queueName: string;
+  siteID: string | null;
 }
 
 const SiteSelectorContainer: React.FunctionComponent<Props> = props => {
@@ -32,11 +31,11 @@ const SiteSelectorContainer: React.FunctionComponent<Props> = props => {
     <SiteSelector
       loading={!props.query || isRefetching}
       sites={sites}
-      site={props.site}
       onLoadMore={loadMore}
       hasMore={!isRefetching && props.relay.hasMore()}
       disableLoadMore={isLoadingMore}
       queueName={props.queueName}
+      siteID={props.siteID}
     />
   );
 };

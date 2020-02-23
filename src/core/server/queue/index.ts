@@ -1,15 +1,15 @@
 import Queue from "bull";
-import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
-import { createRedisClient } from "coral-server/services/redis";
+import { AugmentedRedis, createRedisClient } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
 
 import { createMailerTask, MailerQueue } from "./tasks/mailer";
 import { createNotifierTask, NotifierQueue } from "./tasks/notifier";
+import { createRejectorTask, RejectorQueue } from "./tasks/rejector";
 import { createScraperTask, ScraperQueue } from "./tasks/scraper";
 import { createWebhookTask, WebhookQueue } from "./tasks/webhook";
 
@@ -49,7 +49,7 @@ export interface QueueOptions {
   tenantCache: TenantCache;
   i18n: I18n;
   signingConfig: JWTSigningConfig;
-  redis: Redis;
+  redis: AugmentedRedis;
 }
 
 export interface TaskQueue {
@@ -57,6 +57,7 @@ export interface TaskQueue {
   scraper: ScraperQueue;
   notifier: NotifierQueue;
   webhook: WebhookQueue;
+  rejector: RejectorQueue;
 }
 
 export async function createQueue(options: QueueOptions): Promise<TaskQueue> {
@@ -73,11 +74,14 @@ export async function createQueue(options: QueueOptions): Promise<TaskQueue> {
   });
   const webhook = createWebhookTask(queueOptions, options);
 
+  const rejector = createRejectorTask(queueOptions, options);
+
   // Return the tasks + client.
   return {
     mailer,
     scraper,
     notifier,
     webhook,
+    rejector,
   };
 }
