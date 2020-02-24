@@ -4,7 +4,6 @@ import { approve } from "./approve";
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";
 import { detectLinks } from "./detectLinks";
-import { expert } from "./expert";
 import { linkify } from "./linkify";
 import { preModerate } from "./preModerate";
 import { premodUser } from "./preModerateUser";
@@ -15,8 +14,9 @@ import { repeatPost } from "./repeatPost";
 import { spam } from "./spam";
 import { staff } from "./staff";
 import { storyClosed } from "./storyClosed";
+import { tagExpertAnswers } from "./tagExpertAnswers";
+import { tagUnansweredQuestions } from "./tagUnansweredQuestions";
 import { toxic } from "./toxic";
-import { unanswered } from "./unanswered";
 import { wordList } from "./wordList";
 
 /**
@@ -30,9 +30,9 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   purify,
   repeatPost,
   wordList,
-  expert,
+  tagExpertAnswers,
   staff,
-  unanswered,
+  tagUnansweredQuestions,
   approve,
   toxic,
   recentCommentHistory,

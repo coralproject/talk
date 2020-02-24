@@ -8,13 +8,12 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const expert: IntermediateModerationPhase = ({
+export const tagExpertAnswers: IntermediateModerationPhase = ({
   author,
   now,
   story,
 }): IntermediatePhaseResult | void => {
   if (
-    author &&
     story.settings.mode === GQLSTORY_MODE.QA &&
     story.settings.expertIDs &&
     story.settings.expertIDs.some(id => id === author.id)
@@ -23,6 +22,10 @@ export const expert: IntermediateModerationPhase = ({
       tags: [
         {
           type: GQLTAG.EXPERT,
+          createdAt: now,
+        },
+        {
+          type: GQLTAG.FEATURED,
           createdAt: now,
         },
       ],

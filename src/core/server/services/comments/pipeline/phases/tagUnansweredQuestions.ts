@@ -8,7 +8,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const unanswered: IntermediateModerationPhase = ({
+export const tagUnansweredQuestions: IntermediateModerationPhase = ({
   comment,
   story,
   now,
@@ -24,22 +24,12 @@ export const unanswered: IntermediateModerationPhase = ({
     return;
   }
 
-  // If we have no experts, this user cannot
-  // be one and this must be a question.
-  if (!story.settings.expertIDs) {
-    return {
-      tags: [
-        {
-          type: GQLTAG.UNANSWERED,
-          createdAt: now,
-        },
-      ],
-    };
-  }
-
-  // If we have experts and the user is not one
-  // of them, this is an unanswered question.
-  if (!story.settings.expertIDs.some(id => id === comment.authorID)) {
+  // If we have no experts, or the current author is
+  // not an expert, then this is an UNANSWERED comment.
+  if (
+    !story.settings.expertIDs ||
+    story.settings.expertIDs.every(id => id !== comment.authorID)
+  ) {
     return {
       tags: [
         {

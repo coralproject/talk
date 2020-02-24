@@ -22,18 +22,18 @@ export const approve: IntermediateModerationPhase = ({
     tags: [],
   };
 
-  // If user is an expert and we are in Q&A mode
-  // approve and feature the comment
-  if (tags.some(tag => tag.type === GQLTAG.EXPERT)) {
-    result.status = GQLCOMMENT_STATUS.APPROVED;
-    result.tags.push({
-      type: GQLTAG.FEATURED,
-      createdAt: now,
-    });
-  }
-
-  // If user is tagged staff, approve their comment
-  if (tags.some(tag => tag.type === GQLTAG.STAFF)) {
+  // If the user is tagged STAFF or EXPERT then we approve
+  // their comment.
+  //
+  // STAFF: all staff comments are automatically approved.
+  //
+  // EXPERT: when in Q&A mode, all expert comments are
+  //   automatically approved. We will only see EXPERT
+  //   tags assigned when we are in Q&A mode, so we can
+  //   trust this simple tag type check.
+  if (
+    tags.some(tag => tag.type === GQLTAG.STAFF || tag.type === GQLTAG.EXPERT)
+  ) {
     result.status = GQLCOMMENT_STATUS.APPROVED;
   }
 
