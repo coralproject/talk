@@ -209,11 +209,8 @@ export default (ctx: Context) => ({
       orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       after,
       filter: {
-        tags: tag
-          ? {
-              $elemMatch: { type: tag },
-            }
-          : undefined,
+        // Ensure we filter by the requested tag
+        ...tagFilter(tag),
         // Only get Comments that are top level. If the client wants to load
         // another layer, they can request another nested connection.
         parentID: null,
