@@ -575,12 +575,6 @@ export async function addExpert(
   if (!story) {
     throw new StoryNotFoundError(storyID);
   }
-  if (
-    story.settings.expertIDs &&
-    story.settings.expertIDs.some(e => e === userID)
-  ) {
-    return story;
-  }
 
   const result = await collection(mongo).findOneAndUpdate(
     {
@@ -613,12 +607,6 @@ export async function removeExpert(
   const story = await collection(mongo).findOne({ tenantID, id: storyID });
   if (!story) {
     throw new StoryNotFoundError(storyID);
-  }
-  if (
-    story.settings.expertIDs &&
-    !story.settings.expertIDs.some(e => e === userID)
-  ) {
-    return story;
   }
 
   const result = await collection(mongo).findOneAndUpdate(
