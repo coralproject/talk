@@ -69,7 +69,7 @@ const primeCommentsFromConnection = (ctx: Context) => (
   if (!ctx.disableCaching) {
     // For each of the nodes, prime the comment loader.
     connection.nodes.forEach(comment => {
-      ctx.loaders.Comments.comment.prime(comment.id, comment);
+      ctx.loaders.Comments.visible.prime(comment.id, comment);
     });
   }
 
@@ -115,11 +115,19 @@ const mapVisibleComments = (user?: Pick<User, "role">) => (
 ): Array<Readonly<Comment> | null> => comments.map(mapVisibleComment(user));
 
 export default (ctx: Context) => ({
-  comment: new DataLoader<string, Readonly<Comment> | null>(
+  visible: new DataLoader<string, Readonly<Comment> | null>(
     (ids: string[]) =>
       retrieveManyComments(ctx.mongo, ctx.tenant.id, ids).then(
         mapVisibleComments(ctx.user)
       ),
+    {
+      // Disable caching for the DataLoader if the Context is designed to be
+      // long lived.
+      cache: !ctx.disableCaching,
+    }
+  ),
+  comment: new DataLoader<string, Readonly<Comment> | null>(
+    (ids: string[]) => retrieveManyComments(ctx.mongo, ctx.tenant.id, ids),
     {
       // Disable caching for the DataLoader if the Context is designed to be
       // long lived.
