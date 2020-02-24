@@ -59,7 +59,7 @@ const ExpertSearchList: FunctionComponent<Props> = ({
         />
       ))}
       {!loading && users.length === 0 && (
-        <div>
+        <div className={styles.noneFound}>
           <Localized id="configure-experts-search-none-found">
             No users were found with that email or username
           </Localized>
