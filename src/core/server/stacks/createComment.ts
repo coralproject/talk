@@ -57,6 +57,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { publishChanges, updateAllCommentCounts } from "./helpers";
+import approveComment from "./approveComment";
 
 export type CreateComment = Omit<
   CreateCommentInput,
@@ -65,10 +66,14 @@ export type CreateComment = Omit<
 
 const markCommentAsAnswered = async (
   mongo: Db,
+  redis: AugmentedRedis,
+  config: Config,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   comment: Readonly<Comment>,
   story: Story,
-  author: User
+  author: User,
+  now: Date
 ) => {
   // We only process this if we're in Q&A mode.
   if (story.settings.mode !== GQLSTORY_MODE.QA) {
@@ -94,6 +99,17 @@ const markCommentAsAnswered = async (
     // We need to mark this question as answered now.
     // We can now remove the unanswered tag.
     await removeTag(mongo, tenant, comment.parentID, GQLTAG.UNANSWERED);
+    await approveComment(
+      mongo,
+      redis,
+      config,
+      broker,
+      tenant,
+      comment.parentID,
+      comment.parentRevisionID,
+      author.id,
+      now
+    );
   }
 };
 
@@ -222,7 +238,17 @@ export default async function create(
   await Promise.all([
     updateUserLastCommentID(redis, tenant, author, comment.id),
     updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
-    markCommentAsAnswered(mongo, tenant, comment, story, author),
+    markCommentAsAnswered(
+      mongo,
+      redis,
+      config,
+      broker,
+      tenant,
+      comment,
+      story,
+      author,
+      now
+    ),
   ]);
 
   // Pull the revision out.
