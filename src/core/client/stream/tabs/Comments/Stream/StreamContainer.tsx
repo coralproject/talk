@@ -102,7 +102,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
       }
       setLocal({ commentsOrderBy: order.target.value as any });
       emitSetCommentsOrderByEvent({ orderBy: order.target.value });
-      localStorage.setItem(COMMENTS_ORDER_BY, order.target.value);
+      await localStorage.setItem(COMMENTS_ORDER_BY, order.target.value);
     },
     [setLocal, local.commentsOrderBy]
   );
