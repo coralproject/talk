@@ -56,8 +56,8 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { publishChanges, updateAllCommentCounts } from "./helpers";
 import approveComment from "./approveComment";
+import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 export type CreateComment = Omit<
   CreateCommentInput,
