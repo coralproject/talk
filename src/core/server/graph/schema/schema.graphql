@@ -2818,6 +2818,13 @@ type Story {
     first: Int = 20 @constraint(max: 50)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+
+    """
+    This is a workaround to allow filtering for current Q&A
+    functionality. This is used to filter on UNANSWERED to
+    populate its corresponding Unanswered questions tab. In
+    the future, we want a dedicated edge for unansweredComments.
+    """
     tag: TAG
   ): CommentsConnection!
 
