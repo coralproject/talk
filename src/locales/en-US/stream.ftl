@@ -199,8 +199,7 @@ qa-expert-tag = expert
 qa-reaction-vote = Vote
 qa-reaction-voted = Voted
 
-qa-unansweredTab-removeAnsweredQuestions =
-  Remove answered questions
+qa-unansweredTab-doneAnswering = Done
 
 ### Account Deletion Stream
 

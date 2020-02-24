@@ -436,14 +436,14 @@ export class CommentContainer extends Component<Props, State> {
             />
           )}
           {showRemoveAnswered && (
-            <Localized id="qa-unansweredTab-removeAnsweredQuestions">
+            <Localized id="qa-unansweredTab-doneAnswering">
               <Button
                 variant="filled"
                 color="regular"
                 className={styles.removeAnswered}
                 onClick={this.props.onRemoveAnswered}
               >
-                Remove answered questions
+                Done
               </Button>
             </Localized>
           )}
