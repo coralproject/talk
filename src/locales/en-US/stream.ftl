@@ -201,6 +201,8 @@ qa-reaction-voted = Voted
 
 qa-unansweredTab-doneAnswering = Done
 
+qa-expert-email = ({ $email })
+
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =

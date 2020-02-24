@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { Button, Flex } from "coral-ui/components";
@@ -28,9 +29,9 @@ const ExpertSearchItem: FunctionComponent<Props> = ({
           {username && <span className={styles.username}>{username}</span>}
           {email && (
             <span className={styles.email}>
-              {"("}
-              {email}
-              {")"}
+              <Localized id="qa-expert-email" $email={email}>
+                email
+              </Localized>
             </span>
           )}
         </div>
