@@ -16,7 +16,7 @@ interface UserItem {
 interface Props {
   isVisible: boolean;
   users: UserItem[];
-  onAdd: (id: string, username: string, email: string) => void;
+  onAdd: (id: string) => void;
 
   hasMore: boolean;
   loading: boolean;
@@ -34,8 +34,8 @@ const ExpertSearchList: FunctionComponent<Props> = ({
   onAdd,
 }) => {
   const onAddClick = useCallback(
-    (id: string, username: string, email: string) => {
-      onAdd(id, username, email);
+    (id: string) => {
+      onAdd(id);
     },
     [onAdd]
   );

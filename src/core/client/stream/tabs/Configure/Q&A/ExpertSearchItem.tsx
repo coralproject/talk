@@ -8,11 +8,7 @@ interface Props {
   id: string;
   username: string | null;
   email: string | null;
-  onClickAdd: (
-    id: string,
-    username: string | null,
-    email: string | null
-  ) => void;
+  onClickAdd: (id: string) => void;
 }
 
 const ExpertSearchItem: FunctionComponent<Props> = ({
@@ -22,8 +18,8 @@ const ExpertSearchItem: FunctionComponent<Props> = ({
   onClickAdd,
 }) => {
   const onClick = useCallback(() => {
-    onClickAdd(id, username, email);
-  }, [id, username, email, onClickAdd]);
+    onClickAdd(id);
+  }, [id, onClickAdd]);
 
   return (
     <Flex alignItems="center" key={id}>

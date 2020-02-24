@@ -109,12 +109,10 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   }, [onClickOutside]);
 
   const onAddExpert = useCallback(
-    (id: string, username: string | null, email: string | null) => {
+    (id: string) => {
       addExpertMutation({
         storyID,
         userID: id,
-        username: username ? username : "",
-        email: email ? email : "",
       });
       clearSearchFilter();
     },

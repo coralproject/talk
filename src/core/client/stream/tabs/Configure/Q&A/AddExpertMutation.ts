@@ -13,13 +13,7 @@ let clientMutationId = 0;
 
 const AddExpertMutation = createMutation(
   "addExpert",
-  (
-    environment: Environment,
-    input: MutationInput<AddExpertMutation> & {
-      username: string;
-      email: string;
-    }
-  ) =>
+  (environment: Environment, input: MutationInput<AddExpertMutation>) =>
     commitMutationPromiseNormalized<AddExpertMutation>(environment, {
       mutation: graphql`
         mutation AddExpertMutation($input: AddExpertInput!) {
