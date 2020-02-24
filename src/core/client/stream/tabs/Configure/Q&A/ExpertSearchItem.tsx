@@ -28,14 +28,16 @@ const ExpertSearchItem: FunctionComponent<Props> = ({
   return (
     <Flex alignItems="center" key={id}>
       <Button onClick={onClick} className={styles.button}>
-        {username && <span className={styles.username}>{username}</span>}
-        {email && (
-          <span className={styles.email}>
-            {"("}
-            {email}
-            {")"}
-          </span>
-        )}
+        <div className={styles.usernameEmail}>
+          {username && <span className={styles.username}>{username}</span>}
+          {email && (
+            <span className={styles.email}>
+              {"("}
+              {email}
+              {")"}
+            </span>
+          )}
+        </div>
       </Button>
     </Flex>
   );

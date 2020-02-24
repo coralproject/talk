@@ -3,9 +3,15 @@
   padding-bottom: var(--v2-spacing-1);
 }
 
-.username {
-  display: inline-block;
+.usernameEmail {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.username {
   color: var(--palette-text-dark);
   font-size: calc(16rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
@@ -17,8 +23,6 @@
 }
 
 .email {
-  display: inline-block;
-
   color: var(--palette-text-primary);
   font-size: calc(16rem / var(--rem-base));
   font-weight: var(--font-weight-regular);
