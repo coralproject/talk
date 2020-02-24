@@ -5,6 +5,7 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import { getExternalConfig } from "coral-framework/lib/externalConfig";
 import { createAndRetain, initLocalBaseState } from "coral-framework/lib/relay";
 
+import { COMMENTS_ORDER_BY } from "../constants";
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 
 /**
@@ -20,6 +21,10 @@ export default async function initLocalState(
     context,
     config ? config.accessToken : undefined
   );
+
+  const commentsOrderBy =
+    (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
+    "CREATED_AT_DESC";
 
   commitLocalUpdate(environment, s => {
     const root = s.getRoot();
@@ -40,7 +45,7 @@ export default async function initLocalState(
       localRecord.setValue(query.commentID, "commentID");
     }
     // Set sort
-    localRecord.setValue("CREATED_AT_DESC", "commentsOrderBy");
+    localRecord.setValue(commentsOrderBy, "commentsOrderBy");
 
     // Create authPopup Record
     const authPopupRecord = createAndRetain(
