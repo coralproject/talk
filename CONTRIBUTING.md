@@ -5,8 +5,7 @@ Welcome! We are very excited that you are interested in contributing to Coral.
 This document is a companion to help you approach contributing. If it does not
 do so, please [let us know how we can improve it](https://github.com/coralproject/talk/issues)!
 
-By contributing to this project you agree to the
-[Code of Conduct](CODE_OF_CONDUCT.md).
+By contributing to this project you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -15,7 +14,14 @@ By contributing to this project you agree to the
 - [What should I Contribute?](#what-should-i-contribute)
 - [Writing Code](#writing-code)
   - [When should I create an issue?](#when-should-i-create-an-issue)
-  - [What should I include?](#what-should-i-include)
+  - [What should I include in my issue?](#what-should-i-include-in-my-issue)
+  - [When should I create a pull request?](#when-should-i-create-a-pull-request)
+  - [What should I include in my pull request?](#what-should-i-include-in-my-pull-request)
+- [Reviewing pull requests](#reviewing-pull-requests)
+  - [Ensure contributions are linted and tested](#ensure-contributions-are-linted-and-tested)
+  - [Review the feature/fixes](#review-the-featurefixes)
+  - [Review architectural decisions](#review-architectural-decisions)
+  - [Verify localizations](#verify-localizations)
 - [Localization](#localization)
 - [Contributing To Our Docs](#contributing-to-our-docs)
 - [Understanding GraphQL Types](#understanding-graphql-types)
@@ -30,15 +36,16 @@ By contributing to this project you agree to the
 
 ## What should I Contribute?
 
-There are at least three ways to contribute to Coral:
+There are at least two ways to contribute to Coral:
 
-- Writing Code
-- Providing Translations
+- [Writing Code](#writing-code)
+- [Reviewing pull requests](#reviewing-pull-requests)
+- [Localization](#localization)
 
 ## Writing Code
 
-Conversation surrounding contributions begins in
-[issues](https://github.com/coralproject/talk/issues).
+Conversation surrounding contributions begins when you can create an issue
+describing your issue or suggestion.
 
 ### When should I create an issue?
 
@@ -48,7 +55,7 @@ into the Coral ecosystem.
 
 Please file issues if you would like to contribute to Coral.
 
-### What should I include?
+### What should I include in my issue?
 
 Coral has adopted an iterative, agile development philosophy. All contributions
 that make it into the Coral repository should start with a user story in this
@@ -58,8 +65,8 @@ form:
 
 This exercise does two things:
 
-- allows us to ground our technical choices in a clear, simple product need.
-- expresses that product need in a way that doesn't imply a specific technical
+- Allows us to ground our technical choices in a clear, simple product need.
+- Expresses that product need in a way that doesn't imply a specific technical
   solution allowing for debate as to the best way to solve the problem.
 
 Please feel free to provide as much detail as possible when filing the issue but
@@ -68,6 +75,72 @@ technical or design solutions.
 
 If you have a specific technical or design solution in mind, please submit it as
 the first comment on the thread.
+
+### When should I create a pull request?
+
+File a pull request if you've created an issue in our [issues](https://github.com/coralproject/talk/issues)
+page and have followed up with a contributor as to the best direction to
+contribute the change. This allows our team to review the proposed changes prior
+to time being spent if the team already has a roadmap for a particular feature.
+
+### What should I include in my pull request?
+
+When you create a pull request, the template will describe the required
+components needed for it to be reviewed by a member of the Coral team. You
+should end up filling out:
+
+- What does this PR (pull request) do?
+- How do I test this PR?
+
+You should describe what Github issue or ticket that the PR is associated with
+to assist the review process. If this PR is resolving a particular bug, a
+testing strategy should be described in the testing section. If this PR is
+contributing a new feature, a description should describe a scenario to test or
+verify the new functionality.
+
+## Reviewing pull requests
+
+Reviewing pull requests in Coral is generally completed by the core Coral team
+that is composed of developers employed by Vox Media Inc, but external reviews
+or suggestions are also welcomed.
+
+Our review process generally follows a few core principles:
+
+### Ensure contributions are linted and tested
+
+It is the job of CI linting and tests to notify of style issues within the
+codebase. If it is not possible for style issues to be encapsulated as a
+linting rule, it shouldn't be concretely enforced during the review process.
+This can ensure that code reviews contain more meaningful feedback tied to the
+contribution rather than nit-picking on stylistic choices.
+
+Reviewers must ensure that linting and tests pass in CI and locally prior to a
+review taking place. You can do this by running `npm run generate` followed by
+`npm run lint` and `npm run test`.
+
+### Review the feature/fixes
+
+Any new features added to Coral should be reviewed for bugs through a manual
+verification process to ensure that they function on your machine. If possible
+you should review any automated tests that were added (or not added) related to
+the feature.
+
+While the Coral team is not strict on test driven development (or TDD), any
+contributions that include tests are greatly appreciated, and preferred over
+those that do not.
+
+### Review architectural decisions
+
+Any substantial changes made to the codebase should be reviewed to ensure
+that they conform to the current way code/services are laid out.
+
+Architecture Decision Records (or [ADR](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions)) are now being used to describe architectural decisions and can be found in the `src/docs/architecture/decisions` directory
+
+### Verify localizations
+
+While we don't have any automated tools at the time of writing that will
+verify this in CI, any strings being added that are presented to the end user
+should be wrapped in localization components to support other languages.
 
 ## Localization
 
