@@ -7,7 +7,7 @@ In order to allow seamless connection to an existing authentication system,
 Coral utilizes the industry standard [JWT Token](https://jwt.io/) to connect. To
 learn more about how to create a JWT token, see [this introduction](https://jwt.io/introduction/).
 
-1. Visit: `https://{{ CORAL_DOMAIN_NAME }} /admin/configure/auth`
+1. Visit: `https://{% raw %}{{ CORAL_DOMAIN_NAME }}{% endraw %}/admin/configure/auth`
 2. Scroll to the `Login with Single Sign On` section
 3. Enable the Single Sign On Authentication Integration
 4. Enable `Allow Registration`
