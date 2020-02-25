@@ -5,11 +5,13 @@ import {
   forgotCheckHandler,
   forgotHandler,
   forgotResetHandler,
+  linkHandler,
   logoutHandler,
   signupHandler,
 } from "coral-server/app/handlers";
 import { noCacheMiddleware } from "coral-server/app/middleware/cacheHeaders";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
+import { loggedInMiddleware } from "coral-server/app/middleware/loggedIn";
 import {
   authenticate,
   wrapAuthn,
@@ -47,6 +49,15 @@ export function createNewAuthRouter(
   router.get("/local/forgot", forgotCheckHandler(app));
   router.put("/local/forgot", jsonMiddleware, forgotResetHandler(app));
   router.post("/local/forgot", jsonMiddleware, forgotHandler(app));
+
+  // Mount the link handler.
+  router.post(
+    "/link",
+    authenticate(passport),
+    loggedInMiddleware,
+    jsonMiddleware,
+    linkHandler(app)
+  );
 
   // Mount the logout handler.
   router.delete("/", authenticate(passport), logoutHandler(app));

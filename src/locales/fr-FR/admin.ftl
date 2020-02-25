@@ -59,7 +59,7 @@ login-signIn-passwordTextField =
   .placeholder = Mot de passe
 
 login-signIn-signInWithEmail = Connectez-vous en utilisant votre email
-login-signIn-orSeparator = ou
+login-orSeparator = ou
 login-signIn-forgot-password = Mot de passe oublié ?
 
 login-signInWithFacebook = Se connecter avec Facebook

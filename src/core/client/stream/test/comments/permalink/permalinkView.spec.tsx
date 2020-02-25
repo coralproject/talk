@@ -89,6 +89,9 @@ beforeEach(() => {
 });
 
 it("renders permalink view", async () => {
+  // axe checking takes a bit of time.
+  jest.setTimeout(10000);
+
   const tabPane = await waitForElement(() =>
     within(testRenderer.root).getByTestID("current-tab-pane")
   );

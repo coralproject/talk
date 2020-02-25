@@ -4,7 +4,12 @@ import { createMutation, LOCAL_ID } from "coral-framework/lib/relay";
 
 export interface SetAuthViewInput {
   // TODO: replace with generated typescript types.
-  view: "SIGN_IN" | "ADD_EMAIL_ADDRESS" | "CREATE_USERNAME" | "CREATE_PASSWORD";
+  view:
+    | "SIGN_IN"
+    | "ADD_EMAIL_ADDRESS"
+    | "CREATE_USERNAME"
+    | "CREATE_PASSWORD"
+    | "LINK_ACCOUNT";
 }
 
 const SetAuthViewMutation = createMutation(

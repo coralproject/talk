@@ -72,18 +72,18 @@ export default abstract class OAuth2Strategy<
   ) => {
     try {
       // Coral is defined at this point.
-      const tenant = req.coral!.tenant!;
-      const now = req.coral!.now;
+      const coral = req.coral!;
+      const tenant = coral.tenant!;
 
       // Get the integration.
       const integration = this.getIntegration(tenant.auth.integrations);
 
-      // Get the user.
+      // Find or create the user.
       const user = await this.findOrCreateUser(
         tenant,
         integration as Required<T>,
         profile,
-        now
+        coral.now
       );
       if (!user) {
         return done(null);

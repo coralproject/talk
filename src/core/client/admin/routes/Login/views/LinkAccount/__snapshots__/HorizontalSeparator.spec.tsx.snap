@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<ForwardRef(forwardRef)
+  alignItems="center"
+  className="HorizontalSeparator-root"
+  justifyContent="center"
+>
+  <hr
+    className="HorizontalSeparator-hr"
+  />
+  <div
+    className="HorizontalSeparator-text"
+  >
+    Or
+  </div>
+</ForwardRef(forwardRef)>
+`;

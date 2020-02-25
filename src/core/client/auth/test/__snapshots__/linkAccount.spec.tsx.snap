@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders link account view 1`] = `
+<div>
+  <div>
+    <div
+      data-testid="linkAccount-container"
+    >
+      <div
+        className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      >
+        <header>
+          <h1
+            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
+          >
+            Link Account
+          </h1>
+        </header>
+      </div>
+      <main
+        className="Main-root"
+        data-testid="linkAccount-main"
+      >
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+        >
+          <form
+            autoComplete="off"
+            onSubmit={[Function]}
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            >
+              <p
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              >
+                The email 
+                <strong>
+                  my@email.com
+                </strong>
+                 is
+already associated with an account. If you would like to
+link these enter your password.
+              </p>
+              <div
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <label
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  htmlFor="password"
+                >
+                  Password
+                </label>
+                <div
+                  className="PasswordField-fullWidth PasswordField-root"
+                >
+                  <div
+                    className="PasswordField-wrapper"
+                  >
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                      disabled={false}
+                      id="password"
+                      name="password"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="Password"
+                      spellCheck={false}
+                      type="password"
+                      value=""
+                    />
+                    <div
+                      className="PasswordField-icon"
+                      onClick={[Function]}
+                      onKeyUp={[Function]}
+                      role="button"
+                      tabIndex={0}
+                      title="Hide password"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm"
+                      >
+                        visibility
+                      </i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+                data-color="primary"
+                data-variant="filled"
+                disabled={false}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                Link Account
+              </button>
+            </div>
+          </form>
+          <div
+            className="Box-root Flex-root HorizontalSeparator-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+          >
+            <hr
+              className="HorizontalSeparator-hr"
+            />
+            <div
+              className="HorizontalSeparator-text"
+            >
+              Or
+            </div>
+          </div>
+          <button
+            className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular Button-variantFilled Button-fullWidth"
+            data-color="regular"
+            data-variant="filled"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="submit"
+          >
+            Use a different email address
+          </button>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+`;

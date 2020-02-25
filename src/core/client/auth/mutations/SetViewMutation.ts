@@ -8,7 +8,8 @@ export type View =
   | "FORGOT_PASSWORD"
   | "ADD_EMAIL_ADDRESS"
   | "CREATE_USERNAME"
-  | "CREATE_PASSWORD";
+  | "CREATE_PASSWORD"
+  | "LINK_ACCOUNT";
 
 export interface SetViewInput {
   // TODO: replace with generated typescript types.

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { parseQuery } from "coral-common/utils";
@@ -12,7 +13,10 @@ export default async function initLocalState(
   environment: Environment,
   context: CoralContext
 ) {
-  const { error = null, accessToken = null } = getParamsFromHashAndClearIt();
+  const {
+    error = null,
+    accessToken = null,
+  } = getParamsFromHashAndClearIt();
 
   await initLocalBaseState(environment, context, accessToken);
 
