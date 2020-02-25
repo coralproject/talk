@@ -110,6 +110,8 @@ sidebar:
               url: /v5/integrating/counts/
             - title: Slack
               url: /v5/integrating/slack/
+            - title: Event Tracking
+              url: /v5/integrating/events/
         - title: API
           children:
             - title: GraphQL Overview
