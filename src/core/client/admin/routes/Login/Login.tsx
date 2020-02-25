@@ -5,7 +5,7 @@ import { PropTypesOf } from "coral-framework/types";
 import AddEmailAddress from "./views/AddEmailAddress";
 import CreatePasswordContainer from "./views/CreatePassword";
 import CreateUsernameContainer from "./views/CreateUsername";
-import LinkAccount from "./views/LinkAccount";
+import LinkAccountContainer from "./views/LinkAccount";
 import SignInContainer from "./views/SignIn";
 
 export type View =
@@ -21,9 +21,14 @@ export type View =
 interface Props {
   view: View;
   auth: PropTypesOf<typeof SignInContainer>["auth"];
+  viewer: PropTypesOf<typeof LinkAccountContainer>["viewer"];
 }
 
-const renderView = (view: Props["view"], auth: Props["auth"]) => {
+const renderView = (
+  view: Props["view"],
+  auth: Props["auth"],
+  viewer: Props["viewer"]
+) => {
   switch (view) {
     case "SIGN_IN":
       return <SignInContainer auth={auth} />;
@@ -34,14 +39,14 @@ const renderView = (view: Props["view"], auth: Props["auth"]) => {
     case "ADD_EMAIL_ADDRESS":
       return <AddEmailAddress />;
     case "LINK_ACCOUNT":
-      return <LinkAccount />;
+      return <LinkAccountContainer viewer={viewer} />;
     default:
       throw new Error(`Unknown view ${view}`);
   }
 };
 
-const Login: FunctionComponent<Props> = ({ view, auth }) => (
-  <div>{renderView(view, auth)}</div>
+const Login: FunctionComponent<Props> = ({ view, auth, viewer }) => (
+  <div>{renderView(view, auth, viewer)}</div>
 );
 
 export default Login;

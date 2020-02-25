@@ -14,7 +14,12 @@ import {
   OnSubmit,
   ValidationMessage,
 } from "coral-framework/lib/form";
-import { graphql, useLocal, useMutation } from "coral-framework/lib/relay";
+import {
+  graphql,
+  useLocal,
+  useMutation,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import {
   Button,
@@ -26,7 +31,8 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import { LinkAccountLocal } from "coral-auth/__generated__/LinkAccountLocal.graphql";
+import { LinkAccountContainer_viewer } from "coral-auth/__generated__/LinkAccountContainer_viewer.graphql";
+import { LinkAccountContainerLocal } from "coral-auth/__generated__/LinkAccountContainerLocal.graphql";
 
 import LinkAccountMutation from "./LinkAccountMutation";
 
@@ -36,22 +42,28 @@ interface FormProps {
 
 interface FormErrorProps extends FormProps, FormError {}
 
-const LinkAccountContainer: FunctionComponent = () => {
-  const [local] = useLocal<LinkAccountLocal>(graphql`
-    fragment LinkAccountLocal on Local {
+interface Props {
+  viewer: LinkAccountContainer_viewer | null;
+}
+
+const LinkAccountContainer: FunctionComponent<Props> = props => {
+  const [local] = useLocal<LinkAccountContainerLocal>(graphql`
+    fragment LinkAccountContainerLocal on Local {
       duplicateEmail
     }
   `);
+  const duplicateEmail =
+    local.duplicateEmail || (props.viewer && props.viewer.duplicateEmail);
   const setView = useMutation(SetViewMutation);
   const linkAccount = useMutation(LinkAccountMutation);
   const onSubmit: OnSubmit<FormErrorProps> = useCallback(
     async (input, form) => {
-      if (!local.duplicateEmail) {
+      if (!duplicateEmail) {
         return { [FORM_ERROR]: "duplicate email not set" };
       }
       try {
         await linkAccount({
-          email: local.duplicateEmail,
+          email: duplicateEmail,
           password: input.password,
         });
         return;
@@ -82,13 +94,13 @@ const LinkAccountContainer: FunctionComponent = () => {
                 <HorizontalGutter size="oneAndAHalf">
                   <Localized
                     id="linkAccount-alreadyAssociated"
-                    $email={local.duplicateEmail}
+                    $email={duplicateEmail}
                     strong={<strong />}
                   >
                     <Typography variant="bodyCopy">
-                      The email <strong>{local.duplicateEmail}</strong> is
-                      already associated with an account. If you would like to
-                      link these enter your password.
+                      The email <strong>{duplicateEmail}</strong> is already
+                      associated with an account. If you would like to link
+                      these enter your password.
                     </Typography>
                   </Localized>
                   {submitError && (
@@ -153,4 +165,12 @@ const LinkAccountContainer: FunctionComponent = () => {
   );
 };
 
-export default LinkAccountContainer;
+const enhanced = withFragmentContainer<Props>({
+  viewer: graphql`
+    fragment LinkAccountContainer_viewer on User {
+      duplicateEmail
+    }
+  `,
+})(LinkAccountContainer);
+
+export default enhanced;

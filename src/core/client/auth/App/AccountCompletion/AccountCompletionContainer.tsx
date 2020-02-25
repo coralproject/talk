@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 
-import {
-  SetDuplicateEmailMutation,
-  SetViewMutation,
-} from "coral-auth/mutations";
+import { SetViewMutation } from "coral-auth/mutations";
 import {
   graphql,
   MutationProp,
@@ -24,7 +21,6 @@ import {
 interface Props {
   completeAccount: CompleteAccountMutation;
   setView: MutationProp<typeof SetViewMutation>;
-  setDuplicateEmail: MutationProp<typeof SetDuplicateEmailMutation>;
   local: Local;
   auth: AuthData;
   viewer: UserData | null;
@@ -36,17 +32,22 @@ function handleAccountCompletion(props: Props) {
     viewer,
     auth,
     setView,
-    setDuplicateEmail,
     completeAccount,
   } = props;
   if (viewer) {
     if (!viewer.email) {
-      if (duplicateEmail || viewer.duplicateEmail) {
+      // email not set yet.
+      if (
+        // duplicate email detected during the `ADD_EMAIL_ADDRESS` process.
+        duplicateEmail ||
+        // detected duplicate email usually coming from a social login.
+        viewer.duplicateEmail
+      ) {
+        // duplicateEmail detected.
         if (view !== "ADD_EMAIL_ADDRESS" && view !== "LINK_ACCOUNT") {
+          // `ADD_EMAIL_ADDRESS` view is allowed in case the viewer wants to change the email address.
+          // otherwise direct to the link account view.
           setView({ view: "LINK_ACCOUNT" });
-          if (!duplicateEmail) {
-            setDuplicateEmail({ duplicateEmail: viewer.duplicateEmail });
-          }
         }
       } else if (view !== "ADD_EMAIL_ADDRESS") {
         setView({ view: "ADD_EMAIL_ADDRESS" });
@@ -54,7 +55,9 @@ function handleAccountCompletion(props: Props) {
       return false;
     }
     if (!viewer.username) {
+      // username not set yet.
       if (view !== "CREATE_USERNAME") {
+        // direct to create username view.
         setView({ view: "CREATE_USERNAME" });
       }
       return false;
@@ -64,14 +67,20 @@ function handleAccountCompletion(props: Props) {
       auth.integrations.local.enabled &&
       auth.integrations.local.targetFilter.stream
     ) {
+      // password not set when local auth is enabled.
       if (view !== "CREATE_PASSWORD") {
+        // direct to create password view.
         setView({ view: "CREATE_PASSWORD" });
       }
       return false;
     }
+    // all set, complete account.
     completeAccount({ accessToken: accessToken! });
+
+    // account completed.
     return true;
   }
+  // account not completed yet.
   return false;
 }
 
@@ -139,10 +148,8 @@ const enhanced = withLocalStateContainer(
       }
     `,
   })(
-    withMutation(SetDuplicateEmailMutation)(
-      withMutation(SetViewMutation)(
-        withCompleteAccountMutation(AccountCompletionContainer)
-      )
+    withMutation(SetViewMutation)(
+      withCompleteAccountMutation(AccountCompletionContainer)
     )
   )
 );

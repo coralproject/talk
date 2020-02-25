@@ -89,6 +89,7 @@ beforeEach(() => {
 });
 
 it("renders permalink view", async () => {
+  jest.setTimeout(10000);
   const tabPane = await waitForElement(() =>
     within(testRenderer.root).getByTestID("current-tab-pane")
   );

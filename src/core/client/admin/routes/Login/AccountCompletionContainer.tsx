@@ -16,12 +16,10 @@ import { AccountCompletionContainerLocal as Local } from "coral-admin/__generate
 
 import CompleteAccountMutation from "./CompleteAccountMutation";
 import SetAuthViewMutation from "./SetAuthViewMutation";
-import SetDuplicateEmailMutation from "./SetDuplicateEmailMutation";
 
 type Props = {
   completeAccount: MutationProp<typeof CompleteAccountMutation>;
   setAuthView: MutationProp<typeof SetAuthViewMutation>;
-  setDuplicateEmail: MutationProp<typeof SetDuplicateEmailMutation>;
   local: Local;
   auth: AuthData;
   viewer: UserData | null;
@@ -34,42 +32,54 @@ function handleAccountCompletion(props: Props) {
     viewer,
     auth,
     setAuthView,
-    setDuplicateEmail,
   } = props;
   if (viewer) {
     if (!viewer.email) {
-      if (authDuplicateEmail || viewer.duplicateEmail) {
+      // email not set yet.
+      if (
+        // duplicate email detected during the `ADD_EMAIL_ADDRESS` process.
+        authDuplicateEmail ||
+        // detected duplicate email usually coming from a social login.
+        viewer.duplicateEmail
+      ) {
+        // Duplicate email detected.
         if (authView !== "ADD_EMAIL_ADDRESS" && authView !== "LINK_ACCOUNT") {
+          // `ADD_EMAIL_ADDRESS` view is allowed in case the viewer wants to change the email address.
+          // otherwise direct to the link account view.
           setAuthView({ view: "LINK_ACCOUNT" });
-          if (!authDuplicateEmail) {
-            setDuplicateEmail({ duplicateEmail: viewer.duplicateEmail });
-          }
         }
       } else if (authView !== "ADD_EMAIL_ADDRESS") {
         setAuthView({ view: "ADD_EMAIL_ADDRESS" });
       }
     } else if (!viewer.username) {
+      // username not set yet.
       if (authView !== "CREATE_USERNAME") {
+        // direct to create username view.
         setAuthView({ view: "CREATE_USERNAME" });
       }
     } else if (
+      // password not set when local auth is enabled.
       !viewer.profiles.some(p => p.__typename === "LocalProfile") &&
       auth.integrations.local.enabled &&
       (auth.integrations.local.targetFilter.admin ||
         auth.integrations.local.targetFilter.stream)
     ) {
       if (authView !== "CREATE_PASSWORD") {
+        // direct to create password view.
         setAuthView({ view: "CREATE_PASSWORD" });
       }
     } else {
+      // all set, complete account.
       props
         .completeAccount({ accessToken: props.local.accessToken! })
         .then(() => {
           props.router.replace(props.local.redirectPath || "/admin");
         });
+      // account completed.
       return true;
     }
   }
+  // account not completed yet.
   return false;
 }
 
@@ -142,12 +152,10 @@ const enhanced = withLocalStateContainer(
       }
     `,
   })(
-    withMutation(SetDuplicateEmailMutation)(
-      withMutation(SetAuthViewMutation)(
-        withMutation(SetRedirectPathMutation)(
-          withMutation(CompleteAccountMutation)(
-            withRouter(AccountCompletionContainer)
-          )
+    withMutation(SetAuthViewMutation)(
+      withMutation(SetRedirectPathMutation)(
+        withMutation(CompleteAccountMutation)(
+          withRouter(AccountCompletionContainer)
         )
       )
     )

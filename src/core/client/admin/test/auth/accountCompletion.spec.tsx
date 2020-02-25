@@ -11,7 +11,12 @@ import {
 } from "coral-framework/testHelpers";
 
 import create from "../create";
-import { emptyModerationQueues, settings, users } from "../fixtures";
+import {
+  emptyModerationQueues,
+  settings,
+  siteConnection,
+  users,
+} from "../fixtures";
 
 const viewer = users.admins[0];
 
@@ -26,6 +31,7 @@ async function createTestRenderer(
       resolvers: pureMerge(
         createResolversStub<GQLResolver>({
           Query: {
+            sites: () => siteConnection,
             settings: () => settings,
             viewer: () =>
               pureMerge<typeof viewer>(viewer, {

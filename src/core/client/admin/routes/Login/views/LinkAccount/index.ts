@@ -1,1 +1,4 @@
-export { default, default as LinkAccount } from "./LinkAccount";
+export {
+  default,
+  default as LinkAccountContainer,
+} from "./LinkAccountContainer";
