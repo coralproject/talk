@@ -32,7 +32,7 @@ type Local {
   redirectPath: String
   authView: View
   authError: String
-  # Set when duplicate email was found when adding email during auth.
+  # Duplicate email found when adding email during auth.
   authDuplicateEmail: String
   siteID: String
 }

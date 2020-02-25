@@ -14,7 +14,7 @@ type Local {
   accessTokenJTI: String
   view: View!
   error: String
-  # Set when duplicate email was found when adding email.
+  # Duplicate email found when adding email.
   duplicateEmail: String
 }
 
