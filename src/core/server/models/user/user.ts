@@ -9,6 +9,7 @@ import {
   ConfirmEmailTokenExpired,
   DuplicateEmailError,
   DuplicateUserError,
+  EmailAlreadySetError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
   PasswordResetTokenExpired,
@@ -409,6 +410,13 @@ export interface User extends TenantResource {
   emailVerified?: boolean;
 
   /**
+   * duplicateEmail is used to store the email address that was associated with
+   * the user account on creation that at the time was previously associated
+   * with another local account.
+   */
+  duplicateEmail?: string;
+
+  /**
    * profiles is the array of profiles assigned to the user. When a user deletes
    * their account, this is unset.
    */
@@ -492,6 +500,7 @@ export interface FindOrCreateUserInput {
   badges?: string[];
   ssoURL?: string;
   emailVerified?: boolean;
+  duplicateEmail?: string;
   role: GQLUSER_ROLE;
   profile: Profile;
 }
@@ -1059,6 +1068,9 @@ export async function setUserEmail(
       $set: {
         email,
       },
+      $unset: {
+        duplicateEmail: "",
+      },
     },
     {
       // False to return the updated document instead of the original
@@ -1074,7 +1086,7 @@ export async function setUserEmail(
     }
 
     if (user.email) {
-      throw new UsernameAlreadySetError();
+      throw new EmailAlreadySetError();
     }
 
     throw new Error("an unexpected error occurred");
@@ -2470,6 +2482,50 @@ export async function deleteModeratorNote(
     throw new UserNotFoundError(id);
   }
   return result.value;
+}
+
+export async function linkUsers(
+  mongo: Db,
+  tenantID: string,
+  sourceUserID: string,
+  destinationUserID: string
+) {
+  // Delete the old user from the database.
+  const source = await collection(mongo).findOneAndDelete({
+    id: sourceUserID,
+    tenantID,
+  });
+  if (!source.value) {
+    throw new UserNotFoundError(sourceUserID);
+  }
+
+  // If the source user doesn't have any profiles, we have nothing to do. We
+  // should abort.
+  if (!source.value.profiles) {
+    throw new Error(
+      "cannot link a user with no profiles, failed source authentication precondition"
+    );
+  }
+
+  // Add the new profile to the destination user.
+  const dest = await collection(mongo).findOneAndUpdate(
+    {
+      id: destinationUserID,
+      tenantID,
+    },
+    {
+      $push: {
+        profiles: {
+          $each: source.value.profiles,
+        },
+      },
+    }
+  );
+  if (!dest.value) {
+    throw new UserNotFoundError(destinationUserID);
+  }
+
+  return dest.value;
 }
 
 export const updateUserCommentCounts = (

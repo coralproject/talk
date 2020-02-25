@@ -4,6 +4,7 @@ import { RequestHandler } from "coral-server/types/express";
 
 export * from "./forgot";
 export * from "./signup";
+export * from "./link";
 
 export type LogoutOptions = Pick<AppOptions, "redis">;
 
