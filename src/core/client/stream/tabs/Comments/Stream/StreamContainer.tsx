@@ -54,10 +54,15 @@ interface Props {
   viewer: ViewerData | null;
 }
 
+interface TooltipTabProps extends PropTypesOf<typeof Tab> {
+  isQA?: boolean;
+}
+
 // Use a custom tab for featured comments, because we need to put the tooltip
 // button logically next to the tab as both are buttons and position them together
 // using absolute positioning.
-const TabWithFeaturedTooltip: FunctionComponent<PropTypesOf<typeof Tab>> = ({
+const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
+  isQA,
   ...props
 }) => (
   <div className={styles.featuredCommentsTabContainer}>
@@ -74,6 +79,7 @@ const TabWithFeaturedTooltip: FunctionComponent<PropTypesOf<typeof Tab>> = ({
     />
     <FeaturedCommentTooltip
       active={props.active}
+      isQA={isQA}
       className={cn(
         styles.featuredCommentsInfo,
         CLASSES.tabBarComments.featuredTooltip
@@ -207,7 +213,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
               className={cn(CLASSES.tabBarComments.$root, styles.tabBarRoot)}
             >
               {featuredCommentsCount > 0 && (
-                <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS">
+                <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS" isQA={isQA}>
                   <Flex spacing={1} alignItems="center">
                     {isQA ? (
                       <Localized id="qa-answeredTab">

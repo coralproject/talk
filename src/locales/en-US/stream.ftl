@@ -203,6 +203,12 @@ qa-unansweredTab-doneAnswering = Done
 
 qa-expert-email = ({ $email })
 
+qa-answeredTooltip-how = How is a question answered?
+qa-answeredTooltip-answeredComments =
+  Questions are answered by a Q&A expert.
+qa-answeredTooltip-toggleButton =
+  .aria-label = Toggle answered questions tooltip
+
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =
