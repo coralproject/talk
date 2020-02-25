@@ -32,6 +32,7 @@ class LoginRoute extends Component<Props> {
         <Login
           auth={this.props.data.settings.auth}
           view={this.props.local.authView!}
+          viewer={this.props.data.viewer}
         />
       </AccountCompletionContainer>
     );
@@ -43,6 +44,7 @@ const enhanced = withRouteConfig<LoginRouteQueryResponse>({
     query LoginRouteQuery {
       viewer {
         ...AccountCompletionContainer_viewer
+        ...LinkAccountContainer_viewer
       }
       settings {
         auth {

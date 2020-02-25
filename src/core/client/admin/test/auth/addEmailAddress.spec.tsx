@@ -1,4 +1,8 @@
+import sinon from "sinon";
+
+import { ERROR_CODES } from "coral-common/errors";
 import { pureMerge } from "coral-common/utils";
+import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {
   act,
@@ -228,4 +232,47 @@ it("successfully sets email", async () => {
 
   expect(toJSON(form)).toMatchSnapshot();
   expect(resolvers.Mutation!.setEmail!.called).toBe(true);
+});
+
+it("switch to link account", async () => {
+  const email = "hans@test.com";
+  const setEmail = sinon.stub().callsFake((_: any, data: any) => {
+    throw new InvalidRequestError({ code: ERROR_CODES.DUPLICATE_EMAIL });
+  });
+  const {
+    testRenderer,
+    form,
+    emailAddressField,
+    confirmEmailAddressField,
+  } = await createTestRenderer({
+    resolvers: {
+      Mutation: {
+        setEmail,
+      },
+    },
+    muteNetworkErrors: true,
+  });
+  const submitButton = form.find(
+    i => i.type === "button" && i.props.type === "submit"
+  );
+
+  act(() => emailAddressField.props.onChange({ target: { value: email } }));
+  act(() =>
+    confirmEmailAddressField.props.onChange({
+      target: { value: email },
+    })
+  );
+
+  act(() => {
+    form.props.onSubmit();
+  });
+  expect(emailAddressField.props.disabled).toBe(true);
+  expect(confirmEmailAddressField.props.disabled).toBe(true);
+  expect(submitButton.props.disabled).toBe(true);
+
+  await act(async () => {
+    await waitForElement(() =>
+      within(testRenderer.root).getByTestID("linkAccount-container")
+    );
+  });
 });

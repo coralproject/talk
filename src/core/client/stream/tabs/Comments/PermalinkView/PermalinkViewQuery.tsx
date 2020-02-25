@@ -8,6 +8,7 @@ import {
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
 import Spinner from "coral-stream/common/Spinner";
+import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { Delay } from "coral-ui/components";
 
 import { PermalinkViewQuery as QueryTypes } from "coral-stream/__generated__/PermalinkViewQuery.graphql";
@@ -50,6 +51,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
 const PermalinkViewQuery: FunctionComponent<Props> = ({
   local: { commentID, storyID, storyURL },
 }) => {
+  const handleIncompleteAccount = useHandleIncompleteAccount();
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -77,7 +79,12 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
         storyID,
         storyURL,
       }}
-      render={render}
+      render={data => {
+        if (handleIncompleteAccount(data)) {
+          return null;
+        }
+        return render(data);
+      }}
     />
   );
 };

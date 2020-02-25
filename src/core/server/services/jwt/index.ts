@@ -14,6 +14,7 @@ import {
   JWTRevokedError,
   TokenInvalidError,
 } from "coral-server/errors";
+import { Auth } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { Request } from "coral-server/types/express";
@@ -251,7 +252,9 @@ export type SigningTokenOptions = Pick<
 export const signTokenString = async (
   { algorithm, secret }: JWTSigningConfig,
   user: Pick<User, "id">,
-  tenant: Pick<Tenant, "id">,
+  tenant: Pick<Tenant, "id"> & {
+    auth: Pick<Auth, "sessionDuration">;
+  },
   options: SigningTokenOptions = {},
   now = new Date()
 ) =>
@@ -262,7 +265,7 @@ export const signTokenString = async (
     secret,
     {
       jwtid: uuid(),
-      expiresIn: DEFAULT_SESSION_DURATION,
+      expiresIn: tenant.auth.sessionDuration || DEFAULT_SESSION_DURATION,
       ...options,
       issuer: tenant.id,
       subject: user.id,

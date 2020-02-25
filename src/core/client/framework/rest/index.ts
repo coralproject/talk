@@ -6,3 +6,4 @@ export {
   default as forgotPassword,
   ForgotPasswordInput,
 } from "./forgotPassword";
+export { default as linkAccount, LinkAccountInput } from "./linkAccount";

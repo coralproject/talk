@@ -1,9 +1,11 @@
-import { get } from "lodash";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
+import { GQLResolver } from "coral-framework/schema";
 import {
   createAccessToken,
+  createResolversStub,
+  CreateTestRendererParams,
   wait,
   waitForElement,
   within,
@@ -16,40 +18,30 @@ import mockWindow from "./mockWindow";
 let windowMock: ReturnType<typeof mockWindow>;
 
 const accessToken = createAccessToken();
+const viewer = { id: "me", profiles: [] };
 
 async function createTestRenderer(
-  customResolver: any = {},
-  options: { muteNetworkErrors?: boolean; logNetwork?: boolean } = {}
+  params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const resolvers = {
-    ...customResolver,
-    Query: {
-      ...customResolver.Query,
-      settings: sinon
-        .stub()
-        .returns(pureMerge(settings, get(customResolver, "Query.settings"))),
-      viewer: sinon
-        .stub()
-        .returns(
-          pureMerge(
-            { id: "me", profiles: [] },
-            get(customResolver, "Query.viewer")
-          )
-        ),
-    },
-  };
-
   const { testRenderer, context } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: options.logNetwork,
-    muteNetworkErrors: options.muteNetworkErrors,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("CREATE_PASSWORD", "view");
       localRecord.setValue(accessToken, "accessToken");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
-
   return {
     context,
     testRenderer,
@@ -74,9 +66,12 @@ it("renders addEmailAddress view", async () => {
 
 it("renders createUsername view", async () => {
   const { root } = await createTestRenderer({
-    Query: {
-      viewer: {
-        email: "hans@test.com",
+    resolvers: {
+      Query: {
+        viewer: () =>
+          pureMerge(viewer, {
+            email: "hans@test.com",
+          }),
       },
     },
   });
@@ -87,10 +82,13 @@ it("renders createUsername view", async () => {
 
 it("renders createPassword view", async () => {
   const { root } = await createTestRenderer({
-    Query: {
-      viewer: {
-        email: "hans@test.com",
-        username: "hans",
+    resolvers: {
+      Query: {
+        viewer: () =>
+          pureMerge(viewer, {
+            email: "hans@test.com",
+            username: "hans",
+          }),
       },
     },
   });
@@ -99,21 +97,43 @@ it("renders createPassword view", async () => {
   );
 });
 
+it("renders account linking view", async () => {
+  const { root } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        viewer: () =>
+          pureMerge(viewer, {
+            email: "",
+            username: "hans",
+            duplicateEmail: "my@email.com",
+          }),
+      },
+    },
+  });
+  await waitForElement(() => within(root).getByTestID("linkAccount-container"));
+  within(root).getByText("my@email.com", { exact: false });
+});
+
 it("do not render createPassword view when local auth is disabled", async () => {
   await createTestRenderer({
-    Query: {
-      viewer: {
-        email: "hans@test.com",
-        username: "hans",
-      },
-      settings: {
-        auth: {
-          integrations: {
-            local: {
-              enabled: false,
+    resolvers: {
+      Query: {
+        viewer: () =>
+          pureMerge(viewer, {
+            email: "hans@test.com",
+            username: "hans",
+          }),
+
+        settings: () =>
+          pureMerge(settings, {
+            auth: {
+              integrations: {
+                local: {
+                  enabled: false,
+                },
+              },
             },
-          },
-        },
+          }),
       },
     },
   });
@@ -123,11 +143,14 @@ it("do not render createPassword view when local auth is disabled", async () => 
 
 it("send back access token", async () => {
   const { context } = await createTestRenderer({
-    Query: {
-      viewer: {
-        email: "hans@test.com",
-        username: "hans",
-        profiles: [{ __typename: "LocalProfile" }],
+    resolvers: {
+      Query: {
+        viewer: () =>
+          pureMerge(viewer, {
+            email: "hans@test.com",
+            username: "hans",
+            profiles: [{ __typename: "LocalProfile" }],
+          }),
       },
     },
   });
