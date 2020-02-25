@@ -24,6 +24,22 @@
   margin-left: var(--spacing-1);
 }
 
+.username {
+  margin-right: var(--spacing-1);
+}
+
+.timestamp {
+  margin-left: var(--spacing-2);
+}
+
 .replies {
   color: var(--palette-grey-main);
+}
+
+.repliesText {
+  margin: var(--spacing-2);
+}
+
+.repliesDivider {
+  margin: var(--spacing-2);
 }

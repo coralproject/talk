@@ -15,7 +15,7 @@ import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
-import { Box, Flex, Icon, TextLink } from "coral-ui/components";
+import { Flex, Icon, TextLink } from "coral-ui/components";
 
 import { AnsweredCommentContainer_comment as CommentData } from "coral-stream/__generated__/AnsweredCommentContainer_comment.graphql";
 import { AnsweredCommentContainer_settings as SettingsData } from "coral-stream/__generated__/AnsweredCommentContainer_settings.graphql";
@@ -82,24 +82,30 @@ const AnsweredCommentContainer: FunctionComponent<Props> = props => {
         >
           {comment.author && (
             <UsernameWithPopoverContainer
-              className={CLASSES.featuredComment.authorBar.username}
+              className={cn(
+                CLASSES.featuredComment.authorBar.username,
+                styles.username
+              )}
               comment={comment}
               viewer={viewer}
             />
           )}
-          <Box ml={1} container="span">
+          <Flex alignItems="flex-start" justifyContent="center">
             <UserTagsContainer
               className={CLASSES.featuredComment.authorBar.userTag}
               story={story}
               comment={comment}
               settings={settings}
             />
-          </Box>
-          <Box ml={2} clone>
-            <Timestamp className={CLASSES.featuredComment.authorBar.timestamp}>
+            <Timestamp
+              className={cn(
+                CLASSES.featuredComment.authorBar.timestamp,
+                styles.timestamp
+              )}
+            >
               {comment.createdAt}
             </Timestamp>
-          </Box>
+          </Flex>
         </Flex>
         <HTMLContent className={CLASSES.featuredComment.content}>
           {comment.body || ""}
@@ -127,11 +133,11 @@ const AnsweredCommentContainer: FunctionComponent<Props> = props => {
                 >
                   <Icon size="md">reply</Icon>
                   <Localized id="comments-featured-replies">
-                    <Box mx={1}>Replies</Box>
+                    <span className={styles.repliesText}>Replies</span>
                   </Localized>
-                  <Box>{comment.replyCount}</Box>
+                  <span>{comment.replyCount}</span>
                 </Flex>
-                <Box mx={2}>|</Box>
+                <span className={styles.repliesDivider}>|</span>
               </Flex>
             )}
             <div>
