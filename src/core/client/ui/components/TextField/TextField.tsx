@@ -4,10 +4,9 @@ import React, {
   ChangeEvent,
   EventHandler,
   FunctionComponent,
-  Ref,
 } from "react";
 
-import { withForwardRef, withStyles } from "coral-ui/hocs";
+import { withStyles } from "coral-ui/hocs";
 
 import styles from "./TextField.css";
 
@@ -79,8 +78,6 @@ export interface TextFieldProps {
   adornment?: React.ReactNode;
 
   variant?: "regular" | "seamlessAdornment";
-
-  forwardRef?: Ref<HTMLInputElement>;
 }
 
 const TextField: FunctionComponent<TextFieldProps> = props => {
@@ -94,7 +91,6 @@ const TextField: FunctionComponent<TextFieldProps> = props => {
     adornment,
     textAlignCenter,
     variant,
-    forwardRef,
     ...rest
   } = props;
 
@@ -119,7 +115,6 @@ const TextField: FunctionComponent<TextFieldProps> = props => {
         className={inputClassName}
         placeholder={placeholder}
         value={value}
-        ref={forwardRef}
         {...rest}
       />
       {adornment && <div className={styles.adornment}>{adornment}</div>}
@@ -133,5 +128,5 @@ TextField.defaultProps = {
   type: "text",
 } as Partial<TextFieldProps>;
 
-const enhanced = withForwardRef(withStyles(styles)(TextField));
+const enhanced = withStyles(styles)(TextField);
 export default enhanced;

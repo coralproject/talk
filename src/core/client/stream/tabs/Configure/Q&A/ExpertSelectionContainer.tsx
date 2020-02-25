@@ -61,7 +61,6 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   const users = computeUsers(query);
   const experts = computeExperts(query);
 
-  const searchFieldRef = React.createRef<HTMLInputElement>();
   const searchRootRef = React.createRef<HTMLDivElement>();
 
   const [loadMore, isLoadingMore] = useLoadMore(relay, 10);
@@ -81,11 +80,9 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
   const removeExpertMutation = useMutation(RemoveExpertMutation);
 
   const clearSearchFilter = useCallback(() => {
-    const searchInputNode: any = searchFieldRef.current;
-    searchInputNode.value = "";
     setTempSearchFilter("");
     setSearchFilter("");
-  }, [setSearchFilter, setTempSearchFilter, searchFieldRef]);
+  }, [setSearchFilter, setTempSearchFilter]);
 
   const onClickOutside = useCallback(
     (e: any) => {
@@ -188,9 +185,9 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
               onChange={onSearchTextChanged}
               onKeyPress={onSearchKeyPress}
               onKeyDown={onSearchKeyDown}
-              forwardRef={searchFieldRef}
               className={styles.searchField}
               variant="seamlessAdornment"
+              value={tempSearchFilter}
               adornment={
                 <Localized
                   id="configure-experts-filter-searchButton"

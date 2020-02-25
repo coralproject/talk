@@ -4,7 +4,6 @@ import React, {
   ChangeEvent,
   EventHandler,
   FunctionComponent,
-  Ref,
 } from "react";
 
 import { withStyles } from "coral-ui/hocs";
@@ -79,8 +78,6 @@ export interface TextFieldProps {
   adornment?: React.ReactNode;
 
   variant?: "regular" | "seamlessAdornment";
-
-  forwardRef?: Ref<HTMLInputElement>;
 }
 
 const TextField: FunctionComponent<TextFieldProps> = props => {
@@ -94,7 +91,6 @@ const TextField: FunctionComponent<TextFieldProps> = props => {
     adornment,
     textAlignCenter,
     variant,
-    forwardRef,
     ...rest
   } = props;
 
@@ -120,7 +116,6 @@ const TextField: FunctionComponent<TextFieldProps> = props => {
         className={inputClassName}
         placeholder={placeholder}
         value={value}
-        ref={forwardRef}
         {...rest}
       />
       {adornment && <div className={styles.adornment}>{adornment}</div>}
