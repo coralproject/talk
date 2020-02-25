@@ -7,7 +7,7 @@ In order to allow seamless connection to an existing authentication system,
 Coral utilizes the industry standard [JWT Token](https://jwt.io/) to connect. To
 learn more about how to create a JWT token, see [this introduction](https://jwt.io/introduction/).
 
-1. Visit: `https://{% raw %}{{ CORAL_DOMAIN_NAME }}{% endraw %}/admin/configure/auth`
+1. Visit: `https://{% raw %}{{ CORAL_DOMAIN_NAME }}{% endraw %} /admin/configure/auth`
 2. Scroll to the `Login with Single Sign On` section
 3. Enable the Single Sign On Authentication Integration
 4. Enable `Allow Registration`
@@ -45,7 +45,6 @@ You will then have to generate a JWT with the following claims:
   a user's subscription status.
 - `user.role` _(optional)_ - one of "COMMENTER", "STAFF", "MODERATOR", "ADMIN". Will create/update
   Coral user with this role.
-- `user.url` _(optional)_ - url for user account management, where a user will be able to perform account management tasks such as changing password or deleting data. If provided, user will be able to access this URL by clicking on the "account" tab from the stream.
 
 An example of the claims for this token would be:
 
