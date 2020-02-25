@@ -127,6 +127,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
   const unansweredCommentsCount = props.story.commentCounts.tags.UNANSWERED;
+  const isQA = Boolean(props.story.settings.mode === GQLSTORY_MODE.QA);
 
   // Emit comment count event.
   useCommentCountEvent(props.story.id, props.story.url, allCommentsCount);
@@ -197,7 +198,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
               orderBy={local.commentsOrderBy}
               onChange={onChangeOrder}
               reactionSortLabel={props.settings.reaction.sortLabel}
-              isQA={props.story.settings.mode === GQLSTORY_MODE.QA}
+              isQA={isQA}
             />
             <TabBar
               variant="secondary"
@@ -208,7 +209,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
               {featuredCommentsCount > 0 && (
                 <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS">
                   <Flex spacing={1} alignItems="center">
-                    {props.story.settings.mode === GQLSTORY_MODE.QA ? (
+                    {isQA ? (
                       <Localized id="qa-answeredTab">
                         <span>Answered</span>
                       </Localized>
@@ -237,7 +238,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                   </Flex>
                 </TabWithFeaturedTooltip>
               )}
-              {props.story.settings.mode === GQLSTORY_MODE.QA && (
+              {isQA && (
                 <Tab
                   tabID="UNANSWERED_COMMENTS"
                   className={cn(
@@ -274,7 +275,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                 )}
               >
                 <Flex alignItems="center" spacing={1}>
-                  {props.story.settings.mode === GQLSTORY_MODE.QA ? (
+                  {isQA ? (
                     <Localized id="qa-allCommentsTab">
                       <span>All</span>
                     </Localized>
@@ -302,7 +303,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             </TabBar>
           </Flex>
           <TabContent activeTab={local.commentsTab}>
-            {props.story.settings.mode === GQLSTORY_MODE.QA ? (
+            {isQA ? (
               <TabPane
                 className={CLASSES.featuredCommentsTabPane.$root}
                 tabID="FEATURED_COMMENTS"
@@ -317,7 +318,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                 <FeaturedComments />
               </TabPane>
             )}
-            {props.story.settings.mode === GQLSTORY_MODE.QA && (
+            {isQA && (
               <TabPane
                 className={CLASSES.allCommentsTabPane.$root}
                 tabID="UNANSWERED_COMMENTS"

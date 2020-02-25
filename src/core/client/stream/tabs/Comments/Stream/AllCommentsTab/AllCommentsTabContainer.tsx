@@ -15,7 +15,7 @@ import { GQLCOMMENT_SORT, GQLSTORY_MODE } from "coral-framework/schema";
 import { Omit, PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
-import { Box, Button, CallOut, HorizontalGutter } from "coral-ui/components";
+import { Box, Button, HorizontalGutter } from "coral-ui/components";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
@@ -29,6 +29,7 @@ import { ReplyListContainer } from "../../ReplyList";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentCreatedSubscription from "./CommentCreatedSubscription";
 import CommentReleasedSubscription from "./CommentReleasedSubscription";
+import NoComments from "./NoComments";
 
 import styles from "./AllCommentsTabContainer.css";
 
@@ -159,38 +160,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
         size="oneAndAHalf"
         className={styles.stream}
       >
-        {props.story.settings.mode === GQLSTORY_MODE.COMMENTS &&
-          comments.length <= 0 &&
-          props.story.isClosed && (
-            <Localized id="comments-noCommentsAtAll">
-              <CallOut fullWidth>There are no comments on this story.</CallOut>
-            </Localized>
-          )}
-        {props.story.settings.mode === GQLSTORY_MODE.COMMENTS &&
-          comments.length <= 0 &&
-          !props.story.isClosed && (
-            <Localized id="comments-noCommentsYet">
-              <CallOut fullWidth>
-                There are no comments yet. Why don't you write one?
-              </CallOut>
-            </Localized>
-          )}
-        {props.story.settings.mode === GQLSTORY_MODE.QA &&
-          comments.length <= 0 &&
-          props.story.isClosed && (
-            <Localized id="qa-noQuestionsAtAll">
-              <CallOut fullWidth>There are no questions on this story.</CallOut>
-            </Localized>
-          )}
-        {props.story.settings.mode === GQLSTORY_MODE.QA &&
-          comments.length <= 0 &&
-          !props.story.isClosed && (
-            <Localized id="qa-noQuestionsYet">
-              <CallOut fullWidth>
-                There are no questions yet. Why don't you ask one?
-              </CallOut>
-            </Localized>
-          )}
+        {comments.length <= 0 && (
+          <NoComments
+            mode={props.story.settings.mode}
+            isClosed={props.story.isClosed}
+          ></NoComments>
+        )}
         {comments.length > 0 &&
           !props.story.isClosed &&
           comments.map(comment => (
