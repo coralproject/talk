@@ -5,8 +5,7 @@ Welcome! We are very excited that you are interested in contributing to Coral.
 This document is a companion to help you approach contributing. If it does not
 do so, please [let us know how we can improve it](https://github.com/coralproject/talk/issues)!
 
-By contributing to this project you agree to the
-[Code of Conduct](CODE_OF_CONDUCT.md).
+By contributing to this project you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -15,30 +14,51 @@ By contributing to this project you agree to the
 - [What should I Contribute?](#what-should-i-contribute)
 - [Writing Code](#writing-code)
   - [When should I create an issue?](#when-should-i-create-an-issue)
-  - [What should I include?](#what-should-i-include)
+  - [What should I include in my issue?](#what-should-i-include-in-my-issue)
+  - [When should I create a pull request?](#when-should-i-create-a-pull-request)
+  - [What should I include in my pull request?](#what-should-i-include-in-my-pull-request)
+- [Reviewing pull requests](#reviewing-pull-requests)
+  - [Ensure contributions are linted and tested](#ensure-contributions-are-linted-and-tested)
+  - [Review the feature/fixes](#review-the-featurefixes)
+  - [Review architectural decisions](#review-architectural-decisions)
+  - [Verify localizations](#verify-localizations)
 - [Localization](#localization)
-- [Contributing To Our Docs](#contributing-to-our-docs)
-- [Understanding GraphQL Types](#understanding-graphql-types)
-  - [Custom Defined `type`'s:](#custom-defined-types)
-  - [`enum` Types](#enum-types)
-  - [Mutation Types](#mutation-types)
-  - [Access Permissions On Types](#access-permissions-on-types)
-  - [Arrays of Items](#arrays-of-items)
-  - [Commenting Types and Properties](#commenting-types-and-properties)
+- [Documentation](#documentation)
+- [Design Principles](#design-principles)
+  - [GraphQL](#graphql)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## What should I Contribute?
 
-There are at least three ways to contribute to Coral:
+There are at least three different ways to contribute to Coral:
 
-- Writing Code
-- Providing Translations
+- [Writing Code](#writing-code)
+- [Reviewing pull requests](#reviewing-pull-requests)
+- [Localization](#localization)
+- [Documentation](#documentation)
+
+Typically these take the form of creating a Pull Request for Coral, and
+submitting it to be reviewed by a member of our team and the greater Coral
+community.
+
+Working on your first Pull Request? You can learn how from this free video
+series:
+
+[How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
+
+If you decide to fix an issue, please be sure to check the comment thread in
+case somebody is already working on a fix. If nobody is working on it at the
+moment, please leave a comment stating that you intend to work on it so other
+people don’t accidentally duplicate your effort.
+
+If somebody claims an issue but doesn’t follow up for more than two weeks, it’s
+fine to take it over but you should still leave a comment.
 
 ## Writing Code
 
-Conversation surrounding contributions begins in
-[issues](https://github.com/coralproject/talk/issues).
+Conversation surrounding contributions begins when you can create an issue
+describing your issue or suggestion.
 
 ### When should I create an issue?
 
@@ -46,9 +66,7 @@ File an issue as soon as you have an idea of something you'd like to contribute.
 We would love to hear what you're thinking and help refine the idea to make it
 into the Coral ecosystem.
 
-Please file issues if you would like to contribute to Coral.
-
-### What should I include?
+### What should I include in my issue?
 
 Coral has adopted an iterative, agile development philosophy. All contributions
 that make it into the Coral repository should start with a user story in this
@@ -58,8 +76,8 @@ form:
 
 This exercise does two things:
 
-- allows us to ground our technical choices in a clear, simple product need.
-- expresses that product need in a way that doesn't imply a specific technical
+- Allows us to ground our technical choices in a clear, simple product need.
+- Expresses that product need in a way that doesn't imply a specific technical
   solution allowing for debate as to the best way to solve the problem.
 
 Please feel free to provide as much detail as possible when filing the issue but
@@ -68,6 +86,72 @@ technical or design solutions.
 
 If you have a specific technical or design solution in mind, please submit it as
 the first comment on the thread.
+
+### When should I create a pull request?
+
+File a pull request if you've created an issue in our [issues](https://github.com/coralproject/talk/issues)
+page and have heard back from a member or contributor to Coral. This allows our
+team to review the proposed changes prior to time being spent if the team
+already has the feature/fix in the road map.
+
+### What should I include in my pull request?
+
+When you create a pull request, the template will describe the required
+components needed for it to be reviewed by a member of the Coral team. You
+should end up filling out:
+
+- What does this PR (pull request) do?
+- How do I test this PR?
+
+You should describe what Github issue or ticket that the PR is associated with
+to assist the review process. If this PR is resolving a particular bug, a
+testing strategy should be described in the testing section. If this PR is
+contributing a new feature, a description should describe a scenario to test or
+verify the new functionality.
+
+## Reviewing pull requests
+
+Reviewing pull requests in Coral is generally completed by the core Coral team
+that is composed of developers employed by Vox Media Inc, but external reviews
+or suggestions are also welcomed.
+
+Our review process generally follows a few core principles:
+
+### Ensure contributions are linted and tested
+
+It is the job of CI linting and tests to notify of style issues within the
+codebase. If it is not possible for style issues to be encapsulated as a
+linting rule, it shouldn't be concretely enforced during the review process.
+This can ensure that code reviews contain more meaningful feedback tied to the
+contribution rather than nit-picking on stylistic choices.
+
+Reviewers must ensure that linting and tests pass in CI and locally prior to a
+review taking place. You can do this by running `npm run generate` followed by
+`npm run lint` and `npm run test`.
+
+### Review the feature/fixes
+
+Any new features added to Coral should be reviewed for bugs through a manual
+verification process to ensure that they function on your machine. If possible
+you should review any automated tests that were added (or not added) related to
+the feature.
+
+While the Coral team is not strict on test driven development (or TDD), any
+contributions that include tests are greatly appreciated, and preferred over
+those that do not.
+
+### Review architectural decisions
+
+Any substantial changes made to the codebase should be reviewed to ensure
+that they conform to the current way code/services are laid out.
+
+Architecture Decision Records (or [ADR](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions)) are now being used to describe architectural decisions and can be found in the `src/docs/architecture/decisions` directory.
+
+### Verify localizations
+
+While we don't have any automated tools at the time of writing that will
+verify this in CI, any strings being added that are presented to the end user
+should be wrapped in localization components to support other languages.
 
 ## Localization
 
@@ -90,32 +174,47 @@ also supports comments in specific languages. When the language is supported in
 Coral and supported by the Perspective API, the language should be added to the
 language map in `src/core/server/services/comments/pipeline/phases/toxic.ts`.
 
-## Contributing To Our Docs
+## Documentation
 
-Documentation that is publicly shown on [docs.coralproject.net](https://docs.coralproject.net/coral/) is stored under the `release/4` branch as it contains information for versions 4.0 onwards of Coral.
+Documentation that is publicly shown on
+[docs.coralproject.net](https://docs.coralproject.net/coral/) is stored under
+the `release/4` branch as it contains information for versions 4.0 onwards of
+Coral.
 
-It was originally created for v4 and continues to serve all later versions of the Coral codebase.
+To contribute new docs, you can either click the "Suggest Edits" in the top
+right of each page, or you can edit directly via source. We suggest that for
+individual fixes or contributions to the documentation.
 
-To contribute new docs:
-1. Pull down Coral's [talk repo](https://github.com/coralproject/talk)
-1. Switch to the [release/4](https://github.com/coralproject/talk/tree/release/4) branch
-1. Edit the docs located under the [docs](https://github.com/coralproject/talk/tree/release/4/docs) directory
-1. Make a new branch off of `release/4`
-1. Perform doc changes as needed
-1. Push up your branch to GitHub
-1. Request a PR via GitHub to merge your changes back into `release/4`
+If you want to contribute via source files, you can follow the procedure
+outlined below:
 
-## Understanding GraphQL Types
+1. Clone the Talk repository via `git clone https://github.com/coralproject/talk.git`
+2. Switch to the `release/4` branch via `git checkout release/4`
+3. Follow the procedure outlined on that branch's [CONTRIBUTING.md](https://github.com/coralproject/talk/blob/release/4/CONTRIBUTING.md#contributing-documentation) file for contributing documentation changes
+4. Create a pull request to merge your changes back into the `release/4` branch
 
-There are many GraphQL types in our `schema.graphql` that define the way we handle data in our API. We'll try to outline a few of them here with examples to help you understand their uses.
+## Design Principles
 
-### Custom Defined `type`'s:
+### GraphQL
 
-Similar to defining an interface or a struct definition, GraphQL has flexible types that can be used to define data types that are used for querying data from the API. This retrieval can happen directly via a query, or after executing an action using a mutation and querying its response result.
+Coral relies heavily on [GraphQL](https://graphql.org) as the query language for
+the API and the runtime on the server that powers resolving data from data
+sources. This heavily influences a lot of the decisions around how we create and
+consume it's API internally and how we expose it to others to interact with.
 
-An example of these types is the `Comment` and its nested `CommentRevision` type.
+There are many GraphQL types in our [`schema.graphql`](https://github.com/coralproject/talk/blob/master/src/core/server/graph/schema/schema.graphql)
+that define the way we handle data in our API. We'll try to outline a few of
+them here with examples to help you understand their uses.
 
-Comment:
+#### Types
+
+Similar to defining an interface or a _struct_ definition, GraphQL has flexible
+types that can be used to define data types that are used for querying data from
+the API. This retrieval can happen directly via a query, or after executing an
+action using a mutation and querying its response result.
+
+An example of these types is the `Comment` and its nested `CommentRevision`
+type:
 
 ```graphql
 """
@@ -153,14 +252,12 @@ type Comment {
   status represents the Comment's current status.
   """
   status: COMMENT_STATUS!
-
-  ...
 }
 ```
 
-Notice how the `Comment` type can nest more custom defined types. A `Comment` can have a current `CommentRevision` named `revision`. It also has a list of its historical `revisionHistory`.
-
-CommentRevision:
+Notice how the `Comment` type can nest more custom defined types. A `Comment`
+can have a current `CommentRevision` named `revision`. It also has a list of its
+historical `revisionHistory`:
 
 ```graphql
 type CommentRevision {
@@ -186,79 +283,72 @@ type CommentRevision {
   body text was deleted.
   """
   body: String
+}
 ```
 
-Another thing to note, see how `CommentRevision` is not only referenced by `revision` and `revisionHistory` on the `Comment` type. The `CommentRevision` also references back to its parent `Comment` via the `comment: Comment!` property.
+Another thing to note, see how `CommentRevision` is not only referenced by
+`revision` and `revisionHistory` on the `Comment` type. The `CommentRevision`
+also references back to its parent `Comment` via the `comment: Comment!`
+property. This is how defined types interact between each other in the GraphQL
+schema.
 
-This is how defined types interact between each other in the GraphQL schema.
-
-Our naming scheme is upper camel case (also known as Pascal Case) for these types:
+Our naming scheme is upper camel case (also known as Pascal Case) for these
+types:
 
 - Start with a capital letter
 - Following characters are lower case
 - Every new word in the type name begins with a new capital letter
+- Acronyms are always capitalized (with the only exception being the
+  `clientMutationId: String!` field in mutation input/payload types)
 
-### `enum` Types
+Some of the properties have an `!` beside their type (i.e `id: ID!`) which
+indicates that this property is required and is non-nullable. GraphQL will
+validate the input request for these properties and ensure they are provided
+during the GraphQL request.
 
-In the previous example with the `Comment` type. We also had a property called `status` which was of type `COMMENT_STATUS`.
+You can learn more about GraphQL types in their documentation:
 
-This is another kind of defined type, an `enum`. Most devs are familiar with enum's, but we have to cover them none-the-less.
+[Learn GraphQL: Schemas and Types](https://graphql.org/learn/schema/)
 
-COMMENT_STATUS:
+#### Enumeration Types
+
+In the previous example with the `Comment` type. We also had a property called
+`status` which was of type `COMMENT_STATUS`.
+
+This is another kind of defined type, an [Enumeration Type](https://graphql.org/learn/schema/#enumeration-types),
+also called _enums_.
 
 ```graphql
 enum COMMENT_STATUS {
-  """
-  The comment is not PREMOD, but was not applied a moderation status by a
-  moderator.
-  """
   NONE
-
-  """
-  The comment has been approved by a moderator.
-  """
   APPROVED
-
-  """
-  The comment has been rejected by a moderator.
-  """
   REJECTED
-
-  ...
+  PREMOD
+  SYSTEM_WITHHELD
 }
 ```
 
-Like all enum's this definition enumerates out typed, named values that are reusable for state elsewhere on other types.
+Like all enumeration types this definition enumerates out typed, named values
+that are reusable for state elsewhere on other types.
 
-Our naming scheme follows:
+Our naming scheme for enumeration types and values in those types as:
 
-- All capitals
+- All capital letters
 - Spaces delimited with underscores
 
-This is because they are treated as shared constant values across the schema. Rather than storing strings or int's to capture selected state, we prefer using enum's.
+This is because they are treated as shared constant values across the schema.
+Rather than storing strings or numbers to capture selected state, we prefer
+using enumeration types because they are much more stricter in terms of value.
 
-### Mutation Types
+You can learn more about GraphQL Enumeration types in their documentation:
+
+[Learn GraphQL: Enumeration Types](https://graphql.org/learn/schema/#enumeration-types)
+
+#### Mutation Types
 
 Mutations are a request to GraphQL to initiate an action which will result in a response. As such,they're broken up into an `Input` and `Payload` pair that matches a mutation's request and response pair.
 
 An example is the `CreateCommentInput` and `CreateCommentPayload`:
-
-CreateCommentInput:
-
-The input contains some parameters that allow us to execute the mutation. These are:
-
-- storyID: ID!
-  - The story we are submitting the comment to.
-- body
-  - The body of our comment.
-- nudge
-  - Whether we should return validation prompts to the user about improper comment language.
-- clientMutationId
-  - An identifier used by Relay, our front-end state cache to process the mutation request.
-
-Note: Some of the properties have an `!` beside their type (i.e `storyID: ID!`). This indicates that the property is required and cannot be null. GraphQL will validate the input request for these properties and ensure they are provided during the GraphQL request.
-
-Note: The `clientMutationId` is required on all mutation inputs and payload responses. It is used by Relay (our front end state cache) to process the requests efficiently. Just always use a required `String!` type for it and put it on all your inputs and payloads and you should be fine.
 
 ```graphql
 """
@@ -266,16 +356,16 @@ CreateCommentInput provides the input for the createComment Mutation.
 """
 input CreateCommentInput {
   """
+  storyID is the ID of the Story where we are creating a comment on.
+  """
+  storyID: ID!
+
+  """
   nudge when true will instead return an error related to recoverable moderation
   faults such as a toxic comment or spam comment to provide user feedback to
   nudge the user to correct the comment.
   """
   nudge: Boolean = false
-
-  """
-  storyID is the ID of the Story where we are creating a comment on.
-  """
-  storyID: ID!
 
   """
   body is the Comment body, the content of the Comment.
@@ -287,20 +377,7 @@ input CreateCommentInput {
   """
   clientMutationId: String!
 }
-```
 
-CreateCommentPayload:
-
-The returned response for a mutation is a what we call a Payload. This usually has a response that is the full data type of whatever was modified by the earlier called mutation action.
-
-We have a few props from the payload, let's have a look:
-
-- edge
-  - We return the full comment edge that was created by the previous input. This is done so that the mutation request can query whatever it needs to from the returned input to update state on the client.
-- clientMutationId
-  - An identifier used by Relay (our front-end client state cache) to process the mutation request.
-
-```graphql
 """
 CreateCommentPayload contains the created Comment after the createComment
 mutation.
@@ -318,17 +395,44 @@ type CreateCommentPayload {
 }
 ```
 
-### Access Permissions On Types
+The `CreateCommentInput` type contains some parameters that allow us to execute
+the mutation. These are:
 
-Sometimes, you only want specific users to be allowed to view certain information. For instance, we have roles that are defined in our schema so we can filter who can have access to what.
+- `storyID` - the story we are submitting the comment to.
+- `body` - the body of our comment.
+- `nudge` - whether we should return validation prompts to the user about
+  improper comment language.
+- `clientMutationId` - the identifier used by Relay to identify this mutation,
+  our front-end state cache to process the mutation request. This is the only
+  place in the code-base that we do not capitalize the acronym when written in
+  camel-case, this is unfortunately due to legacy reasons from within Relay.
 
-These roles are used with directives on our schema that GraphQL then enforces when trying to resolve requests a user makes. If the user has the specified role associated with their signed-in account, they are given access to the requested data.
+The returned response for a mutation is a what we call a Payload, in this case
+it's `CreateCommentPayload`. This usually has a response that is the full data
+type of whatever was modified by the earlier called mutation action. The
+properties on this type are:
 
-An example of this is the `revisionHistory` on the `Comment` type.
+- `edge` - we return the full comment edge that was created by the previous
+  input. This is done so that the mutation request can query whatever it needs
+  to from the returned input to update state on the client.
+- `clientMutationId` - an identifier used by Relay (our front-end client state
+  cache) to process the mutation request.
+
+#### Access Permissions On Types
+
+Sometimes, you only want specific users to be allowed to view certain
+information. For instance, we have roles that are defined in our schema so we
+can filter who can have access to what.
+
+These roles are used with directives on our schema that GraphQL then enforces
+when trying to resolve requests a user makes. If the user has the specified role
+associated with their signed-in account, they are given access to the requested
+data.
+
+An example of this is the `revisionHistory` on the `Comment` type:
 
 ```graphql
-  ...
-
+fragment on Comment {
   """
   revisionHistory stores the previous CommentRevision's, with the most recent
   edit last.
@@ -339,32 +443,43 @@ An example of this is the `revisionHistory` on the `Comment` type.
       userIDField: "author_id"
       permit: [SUSPENDED, BANNED, PENDING_DELETION]
     )
-
-  ...
+}
 ```
 
-Here we see an `@auth` directive.
+Here we see the `@auth` directive. It has documentation describing the various
+parameters allowed located in the [`schema.graphql`](https://github.com/coralproject/talk/blob/master/src/core/server/graph/schema/schema.graphql)
+file, we'll discuss below what this particular set of parameters can be read as:
 
-- The roles that are allowed to access this information are `MODERATOR` and `ADMIN`.
-- We let the directive know that the author of the comment is `author_id` from the `Comment` by defining the `userIDField`.
-- We permit returning comments where the author's status is `SUSPENDED`, `BANNED`, or `PENDING_DELETION`.
+- The roles that are allowed to access this information are `MODERATOR` and
+  `ADMIN` as defined by the `roles` argument.
+- We let the directive know that the author of the comment is `author_id` from
+  the `Comment` by defining the `userIDField`. It's a rule of thumb in Coral if
+  the Author created the document, they have permission to view it. A Comment
+  for example is authored by a user, with the underlying field associated with
+  the id of that author living on the `author_id` field. You can see how this
+  is related if you look at the resolver for the `Comment` type to see that it
+  is based off of the `Comment` interface from `src/core/server/models/comment`.
+- We permit returning comments when the author has the following conditions
+  associated with their account: `SUSPENDED`, `BANNED`, or `PENDING_DELETION`.
 
-These directives can be simpler, for example the `metadata` property on the `CommentRevision`.
+These directives can be simpler, for example the `metadata` property on the
+`CommentRevision`:
 
 ```graphql
-  ...
-
+fragment on CommentRevision {
   """
   metadata stores details on a CommentRevision.
   """
   metadata: CommentRevisionMetadata! @auth(roles: [ADMIN, MODERATOR])
-
-  ...
+}
 ```
 
-Here we see an auth directive with only roles defined. This is sufficient to make sure that the metadata property is only accessible to `ADMIN` and `MODERATOR` user roles.
+Here we see an auth directive with only roles defined. This is sufficient to
+make sure that the metadata property is only accessible to `ADMIN` and
+`MODERATOR` user roles.
 
-Note: Wondering how the user roles are defined? They're simply an `enum` that is also defined in the schema.
+Note: Wondering how the user roles are defined? They're simply an enumeration
+type that is also defined in the schema.
 
 ```graphql
 enum USER_ROLE {
@@ -375,25 +490,25 @@ enum USER_ROLE {
 }
 ```
 
-### Arrays of Items
+#### Arrays of Items
 
-Sometimes you don't want a singular property, your property is instead a collection of items.
+Sometimes you don't want a singular property, your property is instead a
+collection of items.
 
 The `revisionHistory` from the `Comment` is again useful as an example:
 
 ```graphql
-  ...
-
+fragment on Comment {
   """
   revisionHistory stores the previous CommentRevision's, with the most recent
   edit last.
   """
   revisionHistory: [CommentRevision!]!
-
-  ...
+}
 ```
 
-The interior type `CommentRevision` is required using the `!` and the outer array is also required using `!`.
+The interior type `CommentRevision` is required using the `!` and the outer
+array is also required using `!`.
 
 We do this for a couple of reasons:
 
@@ -402,9 +517,10 @@ We do this for a couple of reasons:
 - We want the array to always be defined, if empty, we return and empty array (i.e. `[]`).
   - This can be handled nicely in our resolvers. We simply check if the retrieved values is null or undefined and simply return an empty array in its stead.
 
-These little tweaks aren't necessary, but they ease the consumability of our API by making the results for arrays predictable and strongly typed.
+These little tweaks aren't necessary, but they ease the use of our API by making
+the results for arrays predictable and strongly typed.
 
-### Commenting Types and Properties
+#### Documenting
 
 As you may have noticed, there is quite a bit of documentation in the schema examples listed here.
 
@@ -413,21 +529,23 @@ We typically follow these two rules in commenting our GraphQL types:
 - Always comment the property within a type describing its purpose on its parent type
 
   i.e. `createdAt` on our `Setting` type:
+
   ```graphql
-  """
-  createdAt is the time that the Settings was created at.
-  """
-  createdAt: Time! @auth(roles: [ADMIN])
+  fragment on Setting {
+    """
+    createdAt is the time that the Settings was created at.
+    """
+    createdAt: Time! @auth(roles: [ADMIN])
+  }
   ```
 
 - Always comment the purpose of each type
 
   i.e. the `Comment` type:
+
   ```graphql
   """
   Comment is a comment left by a User on an Story or another Comment as a reply.
   """
-  type Comment {
-    ...
-  }
+  type Comment { }
   ```
