@@ -330,7 +330,7 @@ it("handle disabled commenting error", async () => {
 it("handle story closed error", async () => {
   await act(async () => {
     let returnStory = stories[0];
-    const { rte, form, testRenderer } = await createTestRenderer(
+    const { rte, form } = await createTestRenderer(
       {
         Mutation: {
           createCommentReply: sinon.stub().callsFake(() => {
@@ -352,8 +352,6 @@ it("handle story closed error", async () => {
     // Change the story that we return to be closed.
     returnStory = { ...stories[0], isClosed: true };
 
-    await waitForElement(() =>
-      within(testRenderer.root).getByText("Story is closed")
-    );
+    await waitForElement(() => within(form).getByText("Story is closed"));
   });
 });
