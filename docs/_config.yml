@@ -110,6 +110,8 @@ sidebar:
               url: /v5/integrating/counts/
             - title: Moderating via Slack
               url: /v5/integrating/slack/
+            - title: Event tracking
+              url: /v5/integrating/events/
             - title: SEO & iframes
               url: /v5/seo/
         - title: API
