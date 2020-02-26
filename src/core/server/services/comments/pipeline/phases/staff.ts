@@ -12,7 +12,13 @@ export const staff: IntermediateModerationPhase = ({
   author,
   now,
 }): IntermediatePhaseResult | void => {
-  if (author.role !== GQLUSER_ROLE.COMMENTER) {
+  const staffRoles = [
+    GQLUSER_ROLE.ADMIN,
+    GQLUSER_ROLE.MODERATOR,
+    GQLUSER_ROLE.STAFF,
+  ];
+
+  if (staffRoles.some(r => r === author.role)) {
     return {
       tags: [
         {

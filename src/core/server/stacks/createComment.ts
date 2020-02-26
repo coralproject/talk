@@ -34,7 +34,7 @@ import {
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { removeTag } from "coral-server/services/comments";
+import { addTag, removeTag } from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
@@ -71,6 +71,7 @@ const markCommentAsAnswered = async (
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   comment: Readonly<Comment>,
+  revisionID: string,
   story: Story,
   author: User,
   now: Date
@@ -93,11 +94,29 @@ const markCommentAsAnswered = async (
     return;
   }
 
-  // If we have experts and this reply is created by
-  // one of them, then this is an expert's answer.
-  if (story.settings.expertIDs.some(id => id === author.id)) {
-    // We need to mark this question as answered now.
-    // We can now remove the unanswered tag.
+  // - Comment must be a direct ancestor of a top level
+  //   comment (question) to be an answer. This will mean
+  //   we only have one ancestor in our ancestor list.
+  // - If we have experts and this reply is created by
+  //   one of them, then this is an expert's answer.
+  if (
+    comment.ancestorIDs.length === 1 &&
+    story.settings.expertIDs.some(id => id === author.id)
+  ) {
+    // Expert's answers are featured so they appear
+    // in the featured (answered) tab
+    await addTag(
+      mongo,
+      tenant,
+      comment.id,
+      revisionID,
+      author,
+      GQLTAG.FEATURED
+    );
+
+    // We need to mark the parent question as answered.
+    // - Remove the unanswered tag.
+    // - Approve it since an expert has replied to it.
     await removeTag(mongo, tenant, comment.parentID, GQLTAG.UNANSWERED);
     await approveComment(
       mongo,
@@ -234,6 +253,13 @@ export default async function create(
     now
   );
 
+  // Pull the revision out.
+  const revision = getLatestRevision(comment);
+  log = log.child(
+    { commentID: comment.id, status, revisionID: revision.id },
+    true
+  );
+
   // Updating some associated data.
   await Promise.all([
     updateUserLastCommentID(redis, tenant, author, comment.id),
@@ -245,19 +271,12 @@ export default async function create(
       broker,
       tenant,
       comment,
+      revision.id,
       story,
       author,
       now
     ),
   ]);
-
-  // Pull the revision out.
-  const revision = getLatestRevision(comment);
-
-  log = log.child(
-    { commentID: comment.id, status, revisionID: revision.id },
-    true
-  );
 
   log.trace("comment created");
 

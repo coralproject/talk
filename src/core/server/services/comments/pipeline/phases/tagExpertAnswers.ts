@@ -13,6 +13,9 @@ export const tagExpertAnswers: IntermediateModerationPhase = ({
   now,
   story,
 }): IntermediatePhaseResult | void => {
+  // - Only assign experts during Q&A mode.
+  // - Only assign experts if we have experts for this story.
+  // - Only assign expert if author is in expert list.
   if (
     story.settings.mode === GQLSTORY_MODE.QA &&
     story.settings.expertIDs &&
@@ -22,10 +25,6 @@ export const tagExpertAnswers: IntermediateModerationPhase = ({
       tags: [
         {
           type: GQLTAG.EXPERT,
-          createdAt: now,
-        },
-        {
-          type: GQLTAG.FEATURED,
           createdAt: now,
         },
       ],

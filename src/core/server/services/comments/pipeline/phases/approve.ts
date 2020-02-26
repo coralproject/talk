@@ -16,7 +16,6 @@ interface Result {
 
 export const approve: IntermediateModerationPhase = ({
   tags,
-  now,
 }): IntermediatePhaseResult | void => {
   const result: Result = {
     tags: [],

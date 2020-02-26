@@ -734,9 +734,6 @@ export async function updateCommentStatus(
       id,
       tenantID,
       "revisions.id": revisionID,
-      status: {
-        $ne: status,
-      },
     },
     {
       $set: { status },
