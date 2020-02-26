@@ -200,12 +200,17 @@ export default (ctx: Context) => ({
         "tags.type": tag,
       },
     }).then(primeCommentsFromConnection(ctx)),
-  forStory: (storyID: string, { first, orderBy, after }: StoryToCommentsArgs) =>
+  forStory: (
+    storyID: string,
+    { first, orderBy, after, tag }: StoryToCommentsArgs
+  ) =>
     retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
       first: defaultTo(first, 10),
       orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       after,
       filter: {
+        // Ensure we filter by the requested tag
+        ...tagFilter(tag),
         // Only get Comments that are top level. If the client wants to load
         // another layer, they can request another nested connection.
         parentID: null,

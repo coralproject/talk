@@ -22,6 +22,9 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       story: {
         url: "http://localhost/story",
         isClosed: false,
+        settings: {
+          mode: "COMMENTS",
+        },
       },
       comment: {
         id: "comment-id",
@@ -53,6 +56,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       setCommentID: noop as any,
       localReply: false,
       disableReplies: false,
+      onRemoveAnswered: undefined,
     },
     add
   );

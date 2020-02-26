@@ -6,6 +6,7 @@ import { Field, Form, FormSpy } from "react-final-form";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
+import { GQLSTORY_MODE } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
@@ -26,6 +27,12 @@ interface FormProps {
 
 interface FormSubmitProps extends FormProps, FormError {}
 
+interface StorySettings {
+  settings?: {
+    mode?: "COMMENTS" | "QA" | "%future added value" | null;
+  };
+}
+
 interface Props {
   onSubmit: OnSubmit<FormSubmitProps>;
   onChange?: (state: FormState<any>, form: FormApi) => void;
@@ -36,7 +43,7 @@ interface Props {
   disabledMessage?: React.ReactNode;
   submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
   showMessageBox?: boolean;
-  story: PropTypesOf<typeof MessageBoxContainer>["story"];
+  story: PropTypesOf<typeof MessageBoxContainer>["story"] & StorySettings;
 }
 
 const PostCommentForm: FunctionComponent<Props> = props => {
@@ -44,6 +51,8 @@ const PostCommentForm: FunctionComponent<Props> = props => {
   const onFocus = useCallback(() => {
     emitFocusEvent();
   }, [emitFocusEvent]);
+  const isQA =
+    props.story.settings && props.story.settings.mode === GQLSTORY_MODE.QA;
   return (
     <div className={CLASSES.createComment.$root}>
       {props.showMessageBox && (
@@ -70,16 +79,31 @@ const PostCommentForm: FunctionComponent<Props> = props => {
                 {({ input, meta }) => (
                   <>
                     <HorizontalGutter size="half">
-                      <Localized id="comments-postCommentForm-rteLabel">
-                        <AriaInfo
-                          component="label"
-                          htmlFor="comments-postCommentForm-field"
-                        >
-                          Post a comment
-                        </AriaInfo>
-                      </Localized>
+                      {isQA ? (
+                        <Localized id="qa-postQuestionForm-rteLabel">
+                          <AriaInfo
+                            component="label"
+                            htmlFor="comments-postCommentForm-field"
+                          >
+                            Post a question
+                          </AriaInfo>
+                        </Localized>
+                      ) : (
+                        <Localized id="comments-postCommentForm-rteLabel">
+                          <AriaInfo
+                            component="label"
+                            htmlFor="comments-postCommentForm-field"
+                          >
+                            Post a comment
+                          </AriaInfo>
+                        </Localized>
+                      )}
                       <Localized
-                        id="comments-postCommentForm-rte"
+                        id={
+                          isQA
+                            ? "qa-postQuestionForm-rte"
+                            : "comments-postCommentForm-rte"
+                        }
                         attrs={{ placeholder: true }}
                       >
                         <RTE

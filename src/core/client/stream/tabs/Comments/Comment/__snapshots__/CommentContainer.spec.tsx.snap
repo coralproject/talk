@@ -41,6 +41,7 @@ exports[`hide reply button 1`] = `
                     "tags": Array [],
                   }
                 }
+                isQA={false}
                 reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
@@ -58,6 +59,9 @@ exports[`hide reply button 1`] = `
                 story={
                   Object {
                     "isClosed": false,
+                    "settings": Object {
+                      "mode": "COMMENTS",
+                    },
                     "url": "http://localhost/story",
                   }
                 }
@@ -163,6 +167,15 @@ exports[`hide reply button 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+              }
+            }
+            story={
+              Object {
+                "isClosed": false,
+                "settings": Object {
+                  "mode": "COMMENTS",
+                },
+                "url": "http://localhost/story",
               }
             }
           />
@@ -239,6 +252,7 @@ exports[`renders body only 1`] = `
                     "tags": Array [],
                   }
                 }
+                isQA={false}
                 reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
@@ -263,6 +277,9 @@ exports[`renders body only 1`] = `
                 story={
                   Object {
                     "isClosed": false,
+                    "settings": Object {
+                      "mode": "COMMENTS",
+                    },
                     "url": "http://localhost/story",
                   }
                 }
@@ -370,6 +387,15 @@ exports[`renders body only 1`] = `
                 },
               }
             }
+            story={
+              Object {
+                "isClosed": false,
+                "settings": Object {
+                  "mode": "COMMENTS",
+                },
+                "url": "http://localhost/story",
+              }
+            }
           />
           <Relay(AuthorBadgesContainer)
             className="coral coral-userBadge coral-comment-userBadge"
@@ -444,6 +470,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "tags": Array [],
                   }
                 }
+                isQA={false}
                 reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
@@ -468,6 +495,9 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 story={
                   Object {
                     "isClosed": false,
+                    "settings": Object {
+                      "mode": "COMMENTS",
+                    },
                     "url": "http://localhost/story",
                   }
                 }
@@ -575,6 +605,15 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 },
               }
             }
+            story={
+              Object {
+                "isClosed": false,
+                "settings": Object {
+                  "mode": "COMMENTS",
+                },
+                "url": "http://localhost/story",
+              }
+            }
           />
           <Relay(AuthorBadgesContainer)
             className="coral coral-userBadge coral-comment-userBadge"
@@ -649,6 +688,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "tags": Array [],
                   }
                 }
+                isQA={false}
                 reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
@@ -673,6 +713,9 @@ exports[`renders disabled reply when story is closed 1`] = `
                 story={
                   Object {
                     "isClosed": true,
+                    "settings": Object {
+                      "mode": "COMMENTS",
+                    },
                     "url": "http://localhost/story",
                   }
                 }
@@ -780,6 +823,15 @@ exports[`renders disabled reply when story is closed 1`] = `
                 },
               }
             }
+            story={
+              Object {
+                "isClosed": true,
+                "settings": Object {
+                  "mode": "COMMENTS",
+                },
+                "url": "http://localhost/story",
+              }
+            }
           />
           <Relay(AuthorBadgesContainer)
             className="coral coral-userBadge coral-comment-userBadge"
@@ -858,6 +910,7 @@ exports[`renders in reply to 1`] = `
                     "tags": Array [],
                   }
                 }
+                isQA={false}
                 reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
@@ -882,6 +935,9 @@ exports[`renders in reply to 1`] = `
                 story={
                   Object {
                     "isClosed": false,
+                    "settings": Object {
+                      "mode": "COMMENTS",
+                    },
                     "url": "http://localhost/story",
                   }
                 }
@@ -1001,6 +1057,15 @@ exports[`renders in reply to 1`] = `
                 },
               }
             }
+            story={
+              Object {
+                "isClosed": false,
+                "settings": Object {
+                  "mode": "COMMENTS",
+                },
+                "url": "http://localhost/story",
+              }
+            }
           />
           <Relay(AuthorBadgesContainer)
             className="coral coral-userBadge coral-comment-userBadge"
@@ -1079,6 +1144,7 @@ exports[`renders username and body 1`] = `
                     "tags": Array [],
                   }
                 }
+                isQA={false}
                 reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
@@ -1103,6 +1169,9 @@ exports[`renders username and body 1`] = `
                 story={
                   Object {
                     "isClosed": false,
+                    "settings": Object {
+                      "mode": "COMMENTS",
+                    },
                     "url": "http://localhost/story",
                   }
                 }
@@ -1210,6 +1279,15 @@ exports[`renders username and body 1`] = `
                 },
               }
             }
+            story={
+              Object {
+                "isClosed": false,
+                "settings": Object {
+                  "mode": "COMMENTS",
+                },
+                "url": "http://localhost/story",
+              }
+            }
           />
           <Relay(AuthorBadgesContainer)
             className="coral coral-userBadge coral-comment-userBadge"
@@ -1293,6 +1371,7 @@ exports[`shows conversation link 1`] = `
                     "tags": Array [],
                   }
                 }
+                isQA={false}
                 reactedClassName="coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
@@ -1317,6 +1396,9 @@ exports[`shows conversation link 1`] = `
                 story={
                   Object {
                     "isClosed": false,
+                    "settings": Object {
+                      "mode": "COMMENTS",
+                    },
                     "url": "http://localhost/story",
                   }
                 }
@@ -1428,6 +1510,15 @@ exports[`shows conversation link 1`] = `
                 "disableCommenting": Object {
                   "enabled": false,
                 },
+              }
+            }
+            story={
+              Object {
+                "isClosed": false,
+                "settings": Object {
+                  "mode": "COMMENTS",
+                },
+                "url": "http://localhost/story",
               }
             }
           />

@@ -372,6 +372,18 @@ type WordList {
   suspect: [String!]!
 }
 
+enum STORY_MODE {
+  """
+  Coments is when a story is used for general commenting.
+  """
+  COMMENTS
+
+  """
+  QA is used for when the story is in Q&A mode.
+  """
+  QA
+}
+
 ################################################################################
 ## Moderation
 ################################################################################
@@ -2345,6 +2357,18 @@ enum TAG {
   FEATURED is used when a Comment is marked as such by a staff member.
   """
   FEATURED
+
+  """
+  EXPERT is used when an a Comment is written by a User that is assigned as
+  an expert on a story.
+  """
+  EXPERT
+
+  """
+  UNANSWERED is used when a Comment is written by a User and is unanswered
+  by an expert for that Comment's story.
+  """
+  UNANSWERED
 }
 
 """
@@ -2376,6 +2400,11 @@ type CommentTagCounts {
   FEATURED is the count of Comment's with the FEATURED tag.
   """
   FEATURED: Int!
+
+  """
+  UNANSWERED is the count of Comment's with the UNANSWERED tag.
+  """
+  UNANSWERED: Int!
 }
 
 """
@@ -2720,6 +2749,19 @@ type StorySettings {
   messageBox stores settings related to the Story Message Box.
   """
   messageBox: StoryMessageBox!
+
+  """
+  mode is whether the story stream is in commenting or Q&A mode.
+  This will determine the appearance of the stream and how it functions.
+  """
+  mode: STORY_MODE!
+
+  """
+  experts are used during Q&A mode to assign users to answer questions
+  on a Q&A stream. It is an optional parameter and is only used when
+  the story stream is in Q&A mode.
+  """
+  experts: [User!]!
 }
 
 """
@@ -2783,6 +2825,14 @@ type Story {
     first: Int = 20 @constraint(max: 50)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+
+    """
+    This is a workaround to allow filtering for current Q&A
+    functionality. This is used to filter on UNANSWERED to
+    populate its corresponding Unanswered questions tab. In
+    the future, we want a dedicated edge for unansweredComments.
+    """
+    tag: TAG
   ): CommentsConnection!
 
   """
@@ -5827,6 +5877,97 @@ type DisableFeatureFlagPayload {
   flags: [FEATURE_FLAG!]!
 }
 
+#########################
+# Add / Remove Expert
+#########################
+
+input AddExpertInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story to add the expert to.
+  """
+  storyID: ID!
+
+  """
+  userID is the user to add as an expert to the story.
+  """
+  userID: ID!
+}
+
+type AddExpertPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  story is the resultant story the expert was added to.
+  """
+  story: Story!
+}
+
+input RemoveExpertInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  storyID is the story to remove the expert from.
+  """
+  storyID: ID!
+
+  """
+  userID is the user to remove as an expert from the story.
+  """
+  userID: ID!
+}
+
+type RemoveExpertPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  story is the resultant story the expert was removed from.
+  """
+  story: Story!
+}
+
+input UpdateStoryModeInput {
+  """
+  storyID is the story id to enable Q&A on.
+  """
+  storyID: ID!
+
+  """
+  mode is the mode to set the story to.
+  """
+  mode: STORY_MODE!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateStoryModePayload {
+  """
+  story is the resultant story that Q&A was enabled on.
+  """
+  story: Story!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 ##################
 ## Mutation
 ##################
@@ -6199,10 +6340,16 @@ type Mutation {
     input: DisableFeatureFlagInput!
   ): DisableFeatureFlagPayload! @auth(roles: [ADMIN])
 
+  """
+  createAnnouncement creates a global announcement.
+  """
   createAnnouncement(
     input: CreateAnnouncementInput!
   ): CreateAnnouncementPayload! @auth(roles: [ADMIN])
 
+  """
+  deleteAnnouncement removes a global announcement.
+  """
   deleteAnnouncement(
     input: DeleteAnnouncementInput!
   ): DeleteAnnouncementPayload! @auth(roles: [ADMIN])
@@ -6253,6 +6400,26 @@ type Mutation {
   rotateWebhookEndpointSecret(
     input: RotateWebhookEndpointSecretInput!
   ): RotateWebhookEndpointSecretPayload! @auth(roles: [ADMIN])
+
+  """
+  updateStoryMode will set the story mode.
+  """
+  updateStoryMode(input: UpdateStoryModeInput!): UpdateStoryModePayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  addStoryExpert adds an expert to a story.
+  """
+  addStoryExpert(
+    input: AddExpertInput!
+  ): AddExpertPayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  removeStoryExpert removes an expert from a story.
+  """
+  removeStoryExpert(
+    input: RemoveExpertInput!
+  ): RemoveExpertPayload! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################

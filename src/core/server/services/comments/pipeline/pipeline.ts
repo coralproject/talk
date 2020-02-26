@@ -6,7 +6,7 @@ import { Config } from "coral-server/config";
 import { Logger } from "coral-server/logger";
 import { CreateActionInput } from "coral-server/models/action/comment";
 import {
-  EditCommentInput,
+  CreateCommentInput,
   RevisionMetadata,
 } from "coral-server/models/comment";
 import { CommentTag } from "coral-server/models/comment/tag";
@@ -40,7 +40,7 @@ export interface ModerationPhaseContextInput {
   log: Logger;
   story: Story;
   tenant: Tenant;
-  comment: RequireProperty<Partial<EditCommentInput>, "body">;
+  comment: RequireProperty<Partial<CreateCommentInput>, "body">;
   author: User;
   now: Date;
   action: "NEW" | "EDIT";
@@ -64,6 +64,7 @@ export type IntermediatePhaseResult = Partial<PhaseResult> | void;
 export interface IntermediateModerationPhaseContext
   extends ModerationPhaseContext {
   metadata: RevisionMetadata;
+  tags: CommentTag[];
 }
 
 export type IntermediateModerationPhase = (
@@ -103,6 +104,7 @@ export const compose = (
         ...context.comment,
         body: final.body,
       },
+      tags: final.tags,
       htmlStripped,
       metadata: final.metadata,
     });

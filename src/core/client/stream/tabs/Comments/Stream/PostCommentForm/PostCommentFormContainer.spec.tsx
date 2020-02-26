@@ -30,6 +30,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           messageBox: {
             enabled: false,
           },
+          mode: "COMMENTS",
         },
       },
       sessionStorage: createPromisifiedStorage(),

@@ -99,6 +99,7 @@ const ConversationThreadContainer: FunctionComponent<Props> = ({
               tags={
                 <UserTagsContainer
                   className={CLASSES.conversationThread.rootParent.userTag}
+                  story={story}
                   comment={rootParent}
                   settings={settings}
                 />
@@ -186,6 +187,7 @@ const enhanced = withContext(ctx => ({
           fragment ConversationThreadContainer_story on Story {
             ...CommentContainer_story
             ...LocalReplyListContainer_story
+            ...UserTagsContainer_story
           }
         `,
         settings: graphql`

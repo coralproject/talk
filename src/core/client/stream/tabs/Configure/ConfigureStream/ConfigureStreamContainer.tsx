@@ -36,6 +36,7 @@ class ConfigureStreamContainer extends React.Component<Props> {
         {({ onSubmit }) => (
           <ConfigureStream
             onSubmit={onSubmit}
+            storyID={this.props.story.id}
             storySettings={this.props.story.settings}
           />
         )}
