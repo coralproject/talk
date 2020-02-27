@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`get access token from url 1`] = `
+"{
+  \\"__id\\": \\"client:root.local\\",
+  \\"__typename\\": \\"Local\\",
+  \\"accessToken\\": \\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMWIyNjU5MS00ZTlhLTQzODgtYTdmZi1lMWJkYzVkOTdjY2UifQ==\\",
+  \\"accessTokenExp\\": null,
+  \\"accessTokenJTI\\": \\"31b26591-4e9a-4388-a7ff-e1bdc5d97cce\\",
+  \\"redirectPath\\": null,
+  \\"authView\\": \\"SIGN_IN\\",
+  \\"authError\\": null
+}"
+`;
+
+exports[`init local state 1`] = `
+"{
+  \\"client:root\\": {
+    \\"__id\\": \\"client:root\\",
+    \\"__typename\\": \\"__Root\\",
+    \\"local\\": {
+      \\"__ref\\": \\"client:root.local\\"
+    }
+  },
+  \\"client:root.local\\": {
+    \\"__id\\": \\"client:root.local\\",
+    \\"__typename\\": \\"Local\\",
+    \\"accessToken\\": \\"\\",
+    \\"accessTokenExp\\": null,
+    \\"accessTokenJTI\\": null,
+    \\"redirectPath\\": null,
+    \\"authView\\": \\"SIGN_IN\\",
+    \\"authError\\": null
+  }
+}"
+`;

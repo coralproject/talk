@@ -6,6 +6,7 @@ import { dotize } from "coral-common/utils/dotize";
 import {
   DuplicateStoryIDError,
   DuplicateStoryURLError,
+  StoryNotFoundError,
 } from "coral-server/errors";
 import {
   Connection,
@@ -18,6 +19,7 @@ import { TenantResource } from "coral-server/models/tenant";
 import { stories as collection } from "coral-server/services/mongodb/collections";
 
 import {
+  GQLSTORY_MODE,
   GQLStoryMetadata,
   GQLStorySettings,
 } from "coral-server/graph/schema/__generated__/types";
@@ -30,8 +32,26 @@ import {
 
 export * from "./helpers";
 
+export interface StreamModeSettings {
+  /**
+   * mode is whether the story stream is in commenting or Q&A mode.
+   * This will determine the appearance of the stream and how it functions.
+   * This is an optional parameter and if unset, defaults to commenting.
+   */
+  mode?: GQLSTORY_MODE;
+
+  /**
+   * experts are used during Q&A mode to assign users to answer questions
+   * on a Q&A stream. It is an optional parameter and is only used when
+   * the story stream is in Q&A mode.
+   */
+  expertIDs?: string[];
+}
+
 export type StorySettings = DeepPartial<
-  Pick<GQLStorySettings, "messageBox"> & GlobalModerationSettings
+  StreamModeSettings &
+    GlobalModerationSettings &
+    Pick<GQLStorySettings, "messageBox" | "mode" | "experts">
 >;
 
 export type StoryMetadata = GQLStoryMetadata;
@@ -544,3 +564,102 @@ export const updateStoryCounts = (
   id: string,
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
 ) => updateRelatedCommentCounts(collection(mongo), tenantID, id, commentCounts);
+
+export async function addExpert(
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  userID: string
+) {
+  const story = await collection(mongo).findOne({ tenantID, id: storyID });
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id: storyID,
+    },
+    {
+      $addToSet: {
+        "settings.expertIDs": userID,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.ok) {
+    throw new Error("unable to add expert to story");
+  }
+
+  return result.value || null;
+}
+
+export async function removeExpert(
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  userID: string
+) {
+  const story = await collection(mongo).findOne({ tenantID, id: storyID });
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id: storyID,
+    },
+    {
+      $pull: {
+        "settings.expertIDs": userID,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.ok) {
+    throw new Error("unable to remove expert from story");
+  }
+
+  return result.value || null;
+}
+
+export async function setStoryMode(
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  mode: GQLSTORY_MODE
+) {
+  const story = await collection(mongo).findOne({ tenantID, id: storyID });
+  if (!story) {
+    throw new StoryNotFoundError(storyID);
+  }
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id: storyID,
+    },
+    {
+      $set: {
+        "settings.mode": mode,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.ok) {
+    throw new Error("unable to enable Q&A on story");
+  }
+
+  return result.value || null;
+}

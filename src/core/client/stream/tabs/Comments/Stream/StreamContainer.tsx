@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import Counter from "coral-stream/common/Counter";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
@@ -33,6 +33,7 @@ import {
 
 import AllCommentsTab from "./AllCommentsTab";
 import AnnouncementContainer from "./Announcement";
+import AnsweredComments from "./AnsweredCommentsTab";
 import BannedInfo from "./BannedInfo";
 import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
 import StreamDeletionRequestCalloutContainer from "./DeleteAccount/StreamDeletionRequestCalloutContainer";
@@ -42,6 +43,7 @@ import { PostCommentFormContainer } from "./PostCommentForm";
 import SortMenu from "./SortMenu";
 import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
 import { SuspendedInfoContainer } from "./SuspendedInfo/index";
+import UnansweredCommentsTab from "./UnansweredCommentsTab";
 import useCommentCountEvent from "./useCommentCountEvent";
 
 import styles from "./StreamContainer.css";
@@ -52,10 +54,15 @@ interface Props {
   viewer: ViewerData | null;
 }
 
+interface TooltipTabProps extends PropTypesOf<typeof Tab> {
+  isQA?: boolean;
+}
+
 // Use a custom tab for featured comments, because we need to put the tooltip
 // button logically next to the tab as both are buttons and position them together
 // using absolute positioning.
-const TabWithFeaturedTooltip: FunctionComponent<PropTypesOf<typeof Tab>> = ({
+const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
+  isQA,
   ...props
 }) => (
   <div className={styles.featuredCommentsTabContainer}>
@@ -72,6 +79,7 @@ const TabWithFeaturedTooltip: FunctionComponent<PropTypesOf<typeof Tab>> = ({
     />
     <FeaturedCommentTooltip
       active={props.active}
+      isQA={isQA}
       className={cn(
         styles.featuredCommentsInfo,
         CLASSES.tabBarComments.featuredTooltip
@@ -124,6 +132,8 @@ export const StreamContainer: FunctionComponent<Props> = props => {
 
   const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
+  const unansweredCommentsCount = props.story.commentCounts.tags.UNANSWERED;
+  const isQA = Boolean(props.story.settings.mode === GQLSTORY_MODE.QA);
 
   // Emit comment count event.
   useCommentCountEvent(props.story.id, props.story.url, allCommentsCount);
@@ -140,8 +150,14 @@ export const StreamContainer: FunctionComponent<Props> = props => {
       } else {
         onChangeTab("FEATURED_COMMENTS", false);
       }
+
+      // If we are in Q&A mode, we default to most voted
+      // sorting by default
+      if (props.story.settings.mode === GQLSTORY_MODE.QA) {
+        setLocal({ commentsOrderBy: "REACTION_DESC" });
+      }
     }
-  }, [featuredCommentsCount, local.commentsTab, onChangeTab]);
+  }, [local, setLocal, props, featuredCommentsCount, onChangeTab]);
 
   return (
     <>
@@ -188,6 +204,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
               orderBy={local.commentsOrderBy}
               onChange={onChangeOrder}
               reactionSortLabel={props.settings.reaction.sortLabel}
+              isQA={isQA}
             />
             <TabBar
               variant="secondary"
@@ -196,11 +213,18 @@ export const StreamContainer: FunctionComponent<Props> = props => {
               className={cn(CLASSES.tabBarComments.$root, styles.tabBarRoot)}
             >
               {featuredCommentsCount > 0 && (
-                <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS">
+                <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS" isQA={isQA}>
                   <Flex spacing={1} alignItems="center">
-                    <Localized id="comments-featuredTab">
-                      <span>Featured</span>
-                    </Localized>
+                    {isQA ? (
+                      <Localized id="qa-answeredTab">
+                        <span>Answered</span>
+                      </Localized>
+                    ) : (
+                      <Localized id="comments-featuredTab">
+                        <span>Featured</span>
+                      </Localized>
+                    )}
+
                     <Counter
                       data-testid="comments-featuredCount"
                       size="sm"
@@ -220,6 +244,33 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                   </Flex>
                 </TabWithFeaturedTooltip>
               )}
+              {isQA && (
+                <Tab
+                  tabID="UNANSWERED_COMMENTS"
+                  className={cn(
+                    {
+                      [styles.fixedTab]: featuredCommentsCount > 0,
+                    },
+                    CLASSES.tabBarComments.allComments
+                  )}
+                >
+                  <Flex alignItems="center" spacing={1}>
+                    <Localized id="comments-unansweredCommentsTab">
+                      <span>Unanswered</span>
+                    </Localized>
+                    <Counter
+                      size="sm"
+                      color={
+                        local.commentsTab === "UNANSWERED_COMMENTS"
+                          ? "primary"
+                          : "grey"
+                      }
+                    >
+                      {unansweredCommentsCount}
+                    </Counter>
+                  </Flex>
+                </Tab>
+              )}
               <Tab
                 tabID="ALL_COMMENTS"
                 className={cn(
@@ -230,9 +281,16 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                 )}
               >
                 <Flex alignItems="center" spacing={1}>
-                  <Localized id="comments-allCommentsTab">
-                    <span>All Comments</span>
-                  </Localized>
+                  {isQA ? (
+                    <Localized id="qa-allCommentsTab">
+                      <span>All</span>
+                    </Localized>
+                  ) : (
+                    <Localized id="comments-allCommentsTab">
+                      <span>All Comments</span>
+                    </Localized>
+                  )}
+
                   <Counter
                     size="sm"
                     color={
@@ -251,12 +309,29 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             </TabBar>
           </Flex>
           <TabContent activeTab={local.commentsTab}>
-            <TabPane
-              className={CLASSES.featuredCommentsTabPane.$root}
-              tabID="FEATURED_COMMENTS"
-            >
-              <FeaturedComments />
-            </TabPane>
+            {isQA ? (
+              <TabPane
+                className={CLASSES.featuredCommentsTabPane.$root}
+                tabID="FEATURED_COMMENTS"
+              >
+                <AnsweredComments />
+              </TabPane>
+            ) : (
+              <TabPane
+                className={CLASSES.featuredCommentsTabPane.$root}
+                tabID="FEATURED_COMMENTS"
+              >
+                <FeaturedComments />
+              </TabPane>
+            )}
+            {isQA && (
+              <TabPane
+                className={CLASSES.allCommentsTabPane.$root}
+                tabID="UNANSWERED_COMMENTS"
+              >
+                <UnansweredCommentsTab />
+              </TabPane>
+            )}
             <TabPane
               className={CLASSES.allCommentsTabPane.$root}
               tabID="ALL_COMMENTS"
@@ -279,10 +354,14 @@ const enhanced = withFragmentContainer<Props>({
       ...CreateCommentMutation_story
       id
       url
+      settings {
+        mode
+      }
       commentCounts {
         totalPublished
         tags {
           FEATURED
+          UNANSWERED
         }
       }
     }

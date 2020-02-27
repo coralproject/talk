@@ -61,6 +61,7 @@ const enhanced = withLocalStateContainer(
       fragment AppContainer_viewer on User {
         ...AccountCompletionContainer_viewer
         ...ForgotPasswordContainer_viewer
+        ...LinkAccountContainer_viewer
       }
     `,
   })(AppContainer)

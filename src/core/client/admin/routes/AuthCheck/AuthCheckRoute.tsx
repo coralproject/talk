@@ -50,7 +50,7 @@ function createAuthCheckRoute(check: CheckParams) {
     }
 
     private shouldRedirectTo(props: Props = this.props) {
-      if (!props.data || props.data.viewer) {
+      if (!props.data || (props.data.viewer && props.data.viewer.email)) {
         return false;
       }
       return true;

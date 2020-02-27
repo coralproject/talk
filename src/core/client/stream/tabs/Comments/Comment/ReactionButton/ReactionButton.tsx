@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
 
@@ -17,6 +18,7 @@ interface ReactionButtonProps {
   readOnly?: boolean;
   className?: string;
   color?: typeof styles & ButtonProps["color"];
+  isQA?: boolean;
 }
 
 class ReactionButton extends React.Component<ReactionButtonProps> {
@@ -36,15 +38,29 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
         )}
       >
         <MatchMedia gtWidth="xs">
-          <Icon>
-            {reacted
-              ? this.props.iconActive
+          {this.props.isQA ? (
+            <Icon>arrow_upward</Icon>
+          ) : (
+            <Icon>
+              {reacted
                 ? this.props.iconActive
-                : this.props.icon
-              : this.props.icon}
-          </Icon>
+                  ? this.props.iconActive
+                  : this.props.icon
+                : this.props.icon}
+            </Icon>
+          )}
         </MatchMedia>
-        <span>{reacted ? this.props.labelActive : this.props.label}</span>
+        {this.props.isQA ? (
+          <span>
+            {reacted ? (
+              <Localized id="qa-reaction-voted">Voted</Localized>
+            ) : (
+              <Localized id="qa-reaction-vote">Vote</Localized>
+            )}
+          </span>
+        ) : (
+          <span>{reacted ? this.props.labelActive : this.props.label}</span>
+        )}
         {!!totalReactions && <span>{totalReactions}</span>}
       </Button>
     );

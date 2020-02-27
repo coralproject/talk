@@ -1,8 +1,12 @@
 import cn from "classnames";
-import React, { AllHTMLAttributes, ChangeEvent, EventHandler } from "react";
+import React, {
+  AllHTMLAttributes,
+  ChangeEvent,
+  EventHandler,
+  FunctionComponent,
+} from "react";
 
 import { withStyles } from "coral-ui/hocs";
-import { FunctionComponent } from "react";
 
 import styles from "./TextField.css";
 
@@ -60,6 +64,8 @@ export interface TextFieldProps {
    * onChange
    */
   onChange?: EventHandler<ChangeEvent<HTMLInputElement>>;
+  onKeyPress?: React.EventHandler<React.KeyboardEvent>;
+  onKeyDown?: React.EventHandler<React.KeyboardEvent>;
 
   disabled?: boolean;
 

@@ -168,6 +168,47 @@ comments-rejectedTombstone =
 
 comments-featuredTag = Featured
 
+### Q&A
+
+general-tabBar-qaTab = Q&A
+
+qa-answeredTab = Answered
+qa-allCommentsTab = All
+
+qa-noQuestionsAtAll =
+  There are no questions on this story.
+qa-noQuestionsYet =
+  There are no questions yet. Why don't you ask one?
+qa-viewNew =
+  { $count ->
+    [1] View {$count} New Question
+    *[other] View {$count} New Questions
+  }
+
+qa-postQuestionForm-rteLabel = Post a question
+qa-postQuestionForm-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+qa-postQuestionFormFake-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+
+qa-sortMenu-mostVoted = Most Voted
+
+qa-answered-tag = answered
+qa-expert-tag = expert
+
+qa-reaction-vote = Vote
+qa-reaction-voted = Voted
+
+qa-unansweredTab-doneAnswering = Done
+
+qa-expert-email = ({ $email })
+
+qa-answeredTooltip-how = How is a question answered?
+qa-answeredTooltip-answeredComments =
+  Questions are answered by a Q&A expert.
+qa-answeredTooltip-toggleButton =
+  .aria-label = Toggle answered questions tooltip
+
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =
@@ -397,6 +438,8 @@ profile-changeUsername-close = Close
 
 ## Comment Stream
 configure-stream-title = Configure this Comment Stream
+configure-stream-title-configureThisStream =
+  Configure this Stream
 configure-stream-apply = Apply
 
 configure-premod-title = Enable Pre-Moderation
@@ -443,6 +486,34 @@ configure-openStream-description =
 configure-openStream-openStream = Open Stream
 
 configure-moderateThisStream = Moderate this stream
+
+configure-enableQA-title = Switch to Q&A Format
+configure-enableQA-description =
+  The Q&A format allows community members to submit questions for chosen
+  experts to answer.
+configure-enableQA-enableQA = Switch to Q&A
+
+configure-disableQA-title = Configure this Q&A
+configure-disableQA-description =
+  The Q&A format allows community members to submit questions for chosen
+  experts to answer.
+configure-disableQA-disableQA = Switch to Comments
+
+configure-experts-title = Add an Expert
+configure-experts-filter-searchField =
+  .placeholder = Search by email or username
+  .aria-label = Search by email or username
+configure-experts-filter-searchButton =
+  .aria-label = Search
+configure-experts-filter-description =
+  Adds an Expert Badge to comments by registered users, only on this
+  page. New users must first sign up and open the comments on a page
+  to create their account.
+configure-experts-search-none-found = No users were found with that email or username
+configure-experts-remove-button = Remove
+configure-experts-load-more = Load More
+configure-experts-none-yet = There are currently no experts for this Q&A.
+configure-experts-assigned-title = Experts
 
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
 comments-tombstone-deleted =

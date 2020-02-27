@@ -28,7 +28,7 @@ interface Props {
 
 function handleAccountCompletion(props: Props) {
   const {
-    local: { view, accessToken },
+    local: { view, accessToken, duplicateEmail },
     viewer,
     auth,
     setView,
@@ -36,13 +36,28 @@ function handleAccountCompletion(props: Props) {
   } = props;
   if (viewer) {
     if (!viewer.email) {
-      if (view !== "ADD_EMAIL_ADDRESS") {
+      // email not set yet.
+      if (
+        // duplicate email detected during the `ADD_EMAIL_ADDRESS` process.
+        duplicateEmail ||
+        // detected duplicate email usually coming from a social login.
+        viewer.duplicateEmail
+      ) {
+        // duplicateEmail detected.
+        if (view !== "ADD_EMAIL_ADDRESS" && view !== "LINK_ACCOUNT") {
+          // `ADD_EMAIL_ADDRESS` view is allowed in case the viewer wants to change the email address.
+          // otherwise direct to the link account view.
+          setView({ view: "LINK_ACCOUNT" });
+        }
+      } else if (view !== "ADD_EMAIL_ADDRESS") {
         setView({ view: "ADD_EMAIL_ADDRESS" });
       }
       return false;
     }
     if (!viewer.username) {
+      // username not set yet.
       if (view !== "CREATE_USERNAME") {
+        // direct to create username view.
         setView({ view: "CREATE_USERNAME" });
       }
       return false;
@@ -52,14 +67,20 @@ function handleAccountCompletion(props: Props) {
       auth.integrations.local.enabled &&
       auth.integrations.local.targetFilter.stream
     ) {
+      // password not set when local auth is enabled.
       if (view !== "CREATE_PASSWORD") {
+        // direct to create password view.
         setView({ view: "CREATE_PASSWORD" });
       }
       return false;
     }
+    // all set, complete account.
     completeAccount({ accessToken: accessToken! });
+
+    // account completed.
     return true;
   }
+  // account not completed yet.
   return false;
 }
 
@@ -99,6 +120,7 @@ const enhanced = withLocalStateContainer(
     fragment AccountCompletionContainerLocal on Local {
       accessToken
       view
+      duplicateEmail
     }
   `
 )(
@@ -119,6 +141,7 @@ const enhanced = withLocalStateContainer(
       fragment AccountCompletionContainer_viewer on User {
         username
         email
+        duplicateEmail
         profiles {
           __typename
         }

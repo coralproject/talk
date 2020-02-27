@@ -68,13 +68,26 @@ forgotPassword-enterEmailAndGetALink =
   Enter your email address below and we will send you a link to
   reset your password.
 
-### Check Email
+# Check Email
 
 forgotPassword-checkEmail-checkEmailHeader = Check Your Email
 forgotPassword-checkEmail-receiveEmail =
   If there is an account associated with <email></email>,
   you will receive an email with a link to create a new password.
 forgotPassword-checkEmail-closeButton = Close
+
+## Link Account
+
+linkAccount-linkAccountHeader = Link Account
+linkAccount-alreadyAssociated =
+  The email <strong>{ $email }</strong> is
+  already associated with an account. If you would like to
+  link these enter your password.
+linkAccount-passwordLabel = Password
+linkAccount-passwordTextField =
+  .label = Password
+linkAccount-linkAccountButton = Link Account
+linkAccount-useDifferentEmail = Use a different email address
 
 ## Reset Password
 

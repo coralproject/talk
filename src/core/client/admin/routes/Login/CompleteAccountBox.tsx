@@ -9,7 +9,11 @@ interface Props {
   children: React.ReactNode;
 }
 
-const CompleteAccountBox: FunctionComponent<Props> = ({ title, children }) => {
+const CompleteAccountBox: FunctionComponent<Props> = ({
+  title,
+  children,
+  ...rest
+}) => {
   return (
     <div data-testid="completeAccountBox">
       <Flex justifyContent="center">
@@ -27,7 +31,9 @@ const CompleteAccountBox: FunctionComponent<Props> = ({ title, children }) => {
               {title}
             </Typography>
           </div>
-          <div className={styles.main}>{children}</div>
+          <div className={styles.main}>
+            <div {...rest}>{children}</div>
+          </div>
         </div>
       </Flex>
     </div>

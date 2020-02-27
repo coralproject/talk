@@ -3,7 +3,7 @@ import { Db } from "mongodb";
 
 import isNonNullArray from "coral-common/helpers/isNonNullArray";
 import { Config } from "coral-server/config";
-import { StoryURLInvalidError } from "coral-server/errors";
+import { StoryURLInvalidError, UserNotFoundError } from "coral-server/errors";
 import { StoryCreatedCoralEvent } from "coral-server/events";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import logger from "coral-server/logger";
@@ -20,6 +20,7 @@ import {
   removeStoryComments,
 } from "coral-server/models/comment";
 import {
+  addExpert,
   closeStory,
   createStory,
   CreateStoryInput,
@@ -28,10 +29,12 @@ import {
   findStory,
   FindStoryInput,
   openStory,
+  removeExpert,
   removeStories,
   removeStory,
   retrieveManyStories,
   retrieveStory,
+  setStoryMode,
   Story,
   updateStory,
   updateStoryCounts,
@@ -40,9 +43,12 @@ import {
   UpdateStorySettingsInput,
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
+import { retrieveUser } from "coral-server/models/user";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { findSiteByURL } from "coral-server/services/sites";
 import { scrape } from "coral-server/services/stories/scraper";
+
+import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
 
 export type FindStory = FindStoryInput;
 
@@ -366,4 +372,41 @@ export async function merge(
 
   // Return the story that had the other stories merged into.
   return destinationStory;
+}
+
+export async function addStoryExpert(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  userID: string
+) {
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  return addExpert(mongo, tenant.id, storyID, userID);
+}
+
+export async function removeStoryExpert(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  userID: string
+) {
+  const user = await retrieveUser(mongo, tenant.id, userID);
+  if (!user) {
+    throw new UserNotFoundError(userID);
+  }
+
+  return removeExpert(mongo, tenant.id, storyID, userID);
+}
+
+export async function updateStoryMode(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  mode: GQLSTORY_MODE
+) {
+  return setStoryMode(mongo, tenant.id, storyID, mode);
 }

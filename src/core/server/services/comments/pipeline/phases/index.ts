@@ -1,5 +1,6 @@
 import { IntermediateModerationPhase } from "coral-server/services/comments/pipeline";
 
+import { approve } from "./approve";
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";
 import { detectLinks } from "./detectLinks";
@@ -13,6 +14,8 @@ import { repeatPost } from "./repeatPost";
 import { spam } from "./spam";
 import { staff } from "./staff";
 import { storyClosed } from "./storyClosed";
+import { tagExpertAnswers } from "./tagExpertAnswers";
+import { tagUnansweredQuestions } from "./tagUnansweredQuestions";
 import { toxic } from "./toxic";
 import { wordList } from "./wordList";
 
@@ -27,7 +30,10 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   purify,
   repeatPost,
   wordList,
+  tagExpertAnswers,
   staff,
+  tagUnansweredQuestions,
+  approve,
   toxic,
   recentCommentHistory,
   spam,

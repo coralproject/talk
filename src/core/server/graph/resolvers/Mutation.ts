@@ -256,6 +256,18 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     site: await ctx.mutators.Sites.update(input),
     clientMutationId: input.clientMutationId,
   }),
+  updateStoryMode: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Stories.updateStoryMode(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  addStoryExpert: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Stories.addStoryExpert(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  removeStoryExpert: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Stories.removeStoryExpert(input),
+    clientMutationId: input.clientMutationId,
+  }),
   createWebhookEndpoint: async (
     source,
     { input: { clientMutationId, ...input } },

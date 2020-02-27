@@ -6,11 +6,13 @@ import { handleSuccessfulLogin } from "coral-server/app/middleware/passport";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
 import { IntegrationDisabled } from "coral-server/errors";
-import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+import { hasEnabledAuthIntegration } from "coral-server/models/tenant";
 import { LocalProfile, User } from "coral-server/models/user";
 import { create } from "coral-server/services/users";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 import { RequestHandler } from "coral-server/types/express";
+
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
 export interface SignupBody {
   username: string;
@@ -57,7 +59,7 @@ export const signupHandler = ({
       const now = req.coral!.now;
 
       // Check to ensure that the local integration has been enabled.
-      if (!tenant.auth.integrations.local.enabled) {
+      if (!hasEnabledAuthIntegration(tenant, "local")) {
         throw new IntegrationDisabled("local");
       }
 

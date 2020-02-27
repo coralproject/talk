@@ -1,8 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import { FORM_ERROR } from "final-form";
+import React, { FunctionComponent, useCallback } from "react";
 import { Form } from "react-final-form";
 
-import { FormError, OnSubmit } from "coral-framework/lib/form";
+import { InvalidRequestError } from "coral-framework/lib/errors";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,
@@ -11,29 +13,45 @@ import {
 } from "coral-ui/components";
 
 import CompleteAccountBox from "../../CompleteAccountBox";
+import SetAuthViewMutation from "../../SetAuthViewMutation";
+import SetDuplicateEmailMutation from "../../SetDuplicateEmailMutation";
 import ConfirmEmailField from "./ConfirmEmailField";
 import EmailField from "./EmailField";
+import SetEmailMutation from "./SetEmailMutation";
 
-interface FormProps {
-  email: string;
-}
-
-interface FormSubmitProps extends FormProps, FormError {}
-
-export interface AddEmailAddressForm {
-  onSubmit: OnSubmit<FormSubmitProps>;
-}
-
-const AddEmailAddress: FunctionComponent<AddEmailAddressForm> = props => {
+const AddEmailAddress: FunctionComponent = () => {
+  const setDuplicateEmail = useMutation(SetDuplicateEmailMutation);
+  const setEmail = useMutation(SetEmailMutation);
+  const setView = useMutation(SetAuthViewMutation);
+  const onSubmit = useCallback(
+    async (input: any) => {
+      try {
+        await setEmail({ email: input.email });
+        return;
+      } catch (error) {
+        if (error instanceof InvalidRequestError) {
+          if (error.code === "DUPLICATE_EMAIL") {
+            setDuplicateEmail({ duplicateEmail: input.email });
+            setView({ view: "LINK_ACCOUNT" });
+            return;
+          }
+          return error.invalidArgs;
+        }
+        return { [FORM_ERROR]: error.message };
+      }
+    },
+    [setEmail]
+  );
   return (
     <CompleteAccountBox
+      data-testid="addEmailAddress-container"
       title={
         <Localized id="addEmailAddress-addEmailAddressHeader">
           <span>Add Email Address</span>
         </Localized>
       }
     >
-      <Form onSubmit={props.onSubmit}>
+      <Form onSubmit={onSubmit}>
         {({ handleSubmit, submitting, submitError }) => (
           <form autoComplete="off" onSubmit={handleSubmit}>
             <HorizontalGutter size="oneAndAHalf">

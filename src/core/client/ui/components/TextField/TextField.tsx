@@ -64,6 +64,8 @@ export interface TextFieldProps {
    * onChange
    */
   onChange?: EventHandler<ChangeEvent<HTMLInputElement>>;
+  onKeyPress?: React.EventHandler<React.KeyboardEvent>;
+  onKeyDown?: React.EventHandler<React.KeyboardEvent>;
 
   disabled?: boolean;
 

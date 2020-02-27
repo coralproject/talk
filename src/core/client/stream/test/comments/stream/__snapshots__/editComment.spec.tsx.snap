@@ -61,6 +61,9 @@ exports[`cancel edit 1`] = `
                     </div>
                   </div>
                 </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                />
               </div>
               <div
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
@@ -875,6 +878,9 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     </div>
                   </div>
                 </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                />
               </div>
               <div
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
@@ -1119,6 +1125,9 @@ exports[`edit a comment: server response 1`] = `
                     </div>
                   </div>
                 </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                />
               </div>
               <div
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
@@ -1372,6 +1381,9 @@ exports[`shows expiry message: edit form closed 1`] = `
                     </div>
                   </div>
                 </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                />
               </div>
               <div
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"

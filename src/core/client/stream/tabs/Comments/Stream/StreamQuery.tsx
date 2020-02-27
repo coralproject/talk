@@ -8,6 +8,7 @@ import {
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
 import Spinner from "coral-stream/common/Spinner";
+import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { Delay, Flex } from "coral-ui/components";
 
 import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
@@ -67,6 +68,7 @@ const StreamQuery: FunctionComponent<Props> = props => {
   const {
     local: { storyID, storyURL, commentsTab },
   } = props;
+  const handleIncompleteAccount = useHandleIncompleteAccount();
   return (
     <>
       <QueryRenderer<QueryTypes>
@@ -88,6 +90,9 @@ const StreamQuery: FunctionComponent<Props> = props => {
           storyURL,
         }}
         render={data => {
+          if (handleIncompleteAccount(data)) {
+            return null;
+          }
           return render(data, commentsTab);
         }}
       />

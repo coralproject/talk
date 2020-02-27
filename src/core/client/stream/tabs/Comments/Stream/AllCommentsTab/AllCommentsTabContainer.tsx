@@ -11,11 +11,11 @@ import {
   useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLCOMMENT_SORT } from "coral-framework/schema";
+import { GQLCOMMENT_SORT, GQLSTORY_MODE } from "coral-framework/schema";
 import { Omit, PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
-import { Box, Button, CallOut, HorizontalGutter } from "coral-ui/components";
+import { Box, Button, HorizontalGutter } from "coral-ui/components";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
 import { AllCommentsTabContainer_story } from "coral-stream/__generated__/AllCommentsTabContainer_story.graphql";
@@ -29,6 +29,7 @@ import { ReplyListContainer } from "../../ReplyList";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentCreatedSubscription from "./CommentCreatedSubscription";
 import CommentReleasedSubscription from "./CommentReleasedSubscription";
+import NoComments from "./NoComments";
 
 import styles from "./AllCommentsTabContainer.css";
 
@@ -139,9 +140,15 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
             className={CLASSES.allCommentsTabPane.viewNewButton}
             fullWidth
           >
-            <Localized id="comments-viewNew" $count={viewNewCount}>
-              <span>View {viewNewCount} New Comments</span>
-            </Localized>
+            {props.story.settings.mode === GQLSTORY_MODE.QA ? (
+              <Localized id="qa-viewNew" $count={viewNewCount}>
+                <span>View {viewNewCount} New Questions</span>
+              </Localized>
+            ) : (
+              <Localized id="comments-viewNew" $count={viewNewCount}>
+                <span>View {viewNewCount} New Comments</span>
+              </Localized>
+            )}
           </Button>
         </Box>
       )}
@@ -153,17 +160,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
         size="oneAndAHalf"
         className={styles.stream}
       >
-        {comments.length <= 0 && props.story.isClosed && (
-          <Localized id="comments-noCommentsAtAll">
-            <CallOut fullWidth>There are no comments on this story.</CallOut>
-          </Localized>
-        )}
-        {comments.length <= 0 && !props.story.isClosed && (
-          <Localized id="comments-noCommentsYet">
-            <CallOut fullWidth>
-              There are no comments yet. Why don't you write one?
-            </CallOut>
-          </Localized>
+        {comments.length <= 0 && (
+          <NoComments
+            mode={props.story.settings.mode}
+            isClosed={props.story.isClosed}
+          ></NoComments>
         )}
         {comments.length > 0 &&
           !props.story.isClosed &&
@@ -235,6 +236,7 @@ const enhanced = withPaginationContainer<
           live {
             enabled
           }
+          mode
         }
         comments(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "Stream_comments") {

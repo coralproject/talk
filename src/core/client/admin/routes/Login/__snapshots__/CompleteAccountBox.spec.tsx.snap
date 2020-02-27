@@ -32,7 +32,9 @@ exports[`renders correctly 1`] = `
       <div
         className="CompleteAccountBox-main"
       >
-        content
+        <div>
+          content
+        </div>
       </div>
     </div>
   </ForwardRef(forwardRef)>

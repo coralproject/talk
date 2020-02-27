@@ -1,0 +1,45 @@
+.root {
+  margin-left: var(--v2-spacing-1);
+  margin-bottom: var(--v2-spacing-1);
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  max-width: 80%;
+}
+
+.usernameEmail {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.username {
+  color: var(--palette-text-dark);
+  font-size: calc(16rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: 1.375em;
+  letter-spacing: 0.0125em;
+
+  margin-right: var(--v2-spacing-1);
+}
+
+.email {
+  color: var(--palette-text-primary);
+  font-size: calc(16rem / var(--rem-base));
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-sans-serif);
+  line-height: 1.375em;
+  letter-spacing: 0.0125em;
+
+  margin-bottom: var(--v2-spacing-1);
+}
+
+.removeButton {
+  padding: var(--v2-spacing-1);
+}

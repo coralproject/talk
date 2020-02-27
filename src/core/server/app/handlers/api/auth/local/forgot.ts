@@ -4,6 +4,7 @@ import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
 import { IntegrationDisabled } from "coral-server/errors";
+import { hasEnabledAuthIntegration } from "coral-server/models/tenant";
 import { retrieveUserWithProfile } from "coral-server/models/user";
 import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import {
@@ -62,7 +63,7 @@ export const forgotHandler = ({
       const tenant = coral.tenant!;
 
       // Check to ensure that the local integration has been enabled.
-      if (!tenant.auth.integrations.local.enabled) {
+      if (!hasEnabledAuthIntegration(tenant, "local")) {
         throw new IntegrationDisabled("local");
       }
 
@@ -178,7 +179,7 @@ export const forgotResetHandler = ({
       const tenant = coral.tenant!;
 
       // Check to ensure that the local integration has been enabled.
-      if (!tenant.auth.integrations.local.enabled) {
+      if (!hasEnabledAuthIntegration(tenant, "local")) {
         throw new IntegrationDisabled("local");
       }
 
@@ -254,7 +255,7 @@ export const forgotCheckHandler = ({
       const tenant = coral.tenant!;
 
       // Check to ensure that the local integration has been enabled.
-      if (!tenant.auth.integrations.local.enabled) {
+      if (!hasEnabledAuthIntegration(tenant, "local")) {
         throw new IntegrationDisabled("local");
       }
 

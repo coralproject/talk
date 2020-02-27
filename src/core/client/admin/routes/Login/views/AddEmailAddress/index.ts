@@ -1,4 +1,1 @@
-export {
-  default,
-  default as AddEmailAddressContainer,
-} from "./AddEmailAddressContainer";
+export { default, default as AddEmailAddress } from "./AddEmailAddress";

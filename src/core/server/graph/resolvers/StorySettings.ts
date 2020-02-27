@@ -1,6 +1,9 @@
 import * as story from "coral-server/models/story";
 
-import { GQLStorySettingsTypeResolver } from "../schema/__generated__/types";
+import {
+  GQLSTORY_MODE,
+  GQLStorySettingsTypeResolver,
+} from "../schema/__generated__/types";
 
 export const StorySettings: GQLStorySettingsTypeResolver<
   story.StorySettings
@@ -17,5 +20,19 @@ export const StorySettings: GQLStorySettingsTypeResolver<
     return {
       enabled: false,
     };
+  },
+  mode: s => {
+    if (s.mode) {
+      return s.mode;
+    }
+
+    return GQLSTORY_MODE.COMMENTS;
+  },
+  experts: (s, input, ctx) => {
+    if (s.expertIDs) {
+      return ctx.loaders.Users.user.loadMany(s.expertIDs);
+    }
+
+    return [];
   },
 };

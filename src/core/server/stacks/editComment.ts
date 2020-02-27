@@ -111,7 +111,11 @@ export default async function edit(
     config,
     story,
     tenant,
-    comment: input,
+    comment: {
+      ...originalStaleComment,
+      ...input,
+      authorID: author.id,
+    },
     author,
     req,
     now,
