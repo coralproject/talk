@@ -6,6 +6,7 @@ import { graphql } from "react-relay";
 import {
   colorFromMeta,
   parseEmptyAsNull,
+  parseIntegerNullable,
   ValidationMessage,
 } from "coral-framework/lib/form";
 import {
@@ -88,6 +89,7 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
       <Field
         name="email.smtp.port"
         validate={composeValidatorsWhen(isEnabled, required)}
+        parse={parseIntegerNullable}
       >
         {({ input, meta }) => (
           <TextFieldWithValidation

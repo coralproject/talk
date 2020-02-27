@@ -558,7 +558,7 @@ community-userStatus-unknown = Ukendt
 community-userStatus-changeButton =
   .aria-label = Skift brugerstatus
 
-community-banModal-areYouSure = Er du sikker på, at du vil forbyde <strong>{ $username }</strong>?
+community-banModal-areYouSure = Er du sikker på, at du vil forbyde <username></username>?
 community-banModal-consequence =
   Når det er forbudt, vil denne bruger ikke længere være i stand til at kommentere, bruge reaktioner eller rapportere kommentarer.
 community-banModal-cancel = Afbestille

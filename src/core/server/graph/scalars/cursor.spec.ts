@@ -6,86 +6,119 @@ import Cursor from "./cursor";
 describe("parseLiteral", () => {
   it("parses a date from a string", () => {
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.STRING,
-        value: "2018-07-16T18:34:26.744Z",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.STRING,
+          value: "2018-07-16T18:34:26.744Z",
+        },
+        null
+      )
     ).toBeInstanceOf(Date);
 
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.STRING,
-        value: "this-should-fail",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.STRING,
+          value: "this-should-fail",
+        },
+        null
+      )
     ).toEqual(null);
 
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.STRING,
-        value: "",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.STRING,
+          value: "",
+        },
+        null
+      )
     ).toEqual(null);
   });
 
   it("parses a number from a string", () => {
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.STRING,
-        value: "20",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.STRING,
+          value: "20",
+        },
+        null
+      )
     ).toEqual(20);
 
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.STRING,
-        value: "0",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.STRING,
+          value: "0",
+        },
+        null
+      )
     ).toEqual(0);
 
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.STRING,
-        value: "null",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.STRING,
+          value: "null",
+        },
+        null
+      )
     ).toEqual(null);
 
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.STRING,
-        value: "0",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.STRING,
+          value: "0",
+        },
+        null
+      )
     ).toEqual(0);
   });
 
   it("parses a number from a number", () => {
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.INT,
-        value: "20",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.INT,
+          value: "20",
+        },
+        null
+      )
     ).toEqual(20);
 
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.INT,
-        value: "0",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.INT,
+          value: "0",
+        },
+        null
+      )
     ).toEqual(0);
 
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.INT,
-        value: "",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.INT,
+          value: "",
+        },
+        null
+      )
     ).toEqual(null);
   });
 
   it("does not parse unknown kinds", () => {
     expect(
-      Cursor.parseLiteral({
-        kind: Kind.FLOAT,
-        value: "0.0",
-      })
+      Cursor.parseLiteral(
+        {
+          kind: Kind.FLOAT,
+          value: "0.0",
+        },
+        null
+      )
     ).toEqual(null);
   });
 });
