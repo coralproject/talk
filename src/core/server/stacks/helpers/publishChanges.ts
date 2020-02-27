@@ -9,6 +9,8 @@ import {
   publishCommentReleased,
   publishCommentStatusChanges,
   publishModerationQueueChanges,
+  publishCommentReplyCreated,
+  publishCommentCreated,
 } from "coral-server/services/events";
 
 interface PublishChangesInput {
@@ -40,6 +42,18 @@ export default async function publishChanges(
 
     if (hasModeratorStatus(input.before) && hasPublishedStatus(input.after)) {
       publishCommentReleased(broker, input.after);
+    }
+  } else {
+    // This block is only hit if there is no before (if this is a new comment).
+
+    // If this is a reply, publish it.
+    if (input.after.parentID) {
+      publishCommentReplyCreated(broker, input.after);
+    }
+
+    // If this comment is visible (and not a reply), publish it.
+    if (!input.after.parentID && hasPublishedStatus(input.after)) {
+      publishCommentCreated(broker, input.after);
     }
   }
 }

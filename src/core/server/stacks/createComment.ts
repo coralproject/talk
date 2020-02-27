@@ -42,10 +42,6 @@ import {
   PhaseResult,
   processForModeration,
 } from "coral-server/services/comments/pipeline";
-import {
-  publishCommentCreated,
-  publishCommentReplyCreated,
-} from "coral-server/services/events";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
@@ -69,7 +65,6 @@ const markCommentAsAnswered = async (
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   comment: Readonly<Comment>,
-  revisionID: string,
   story: Story,
   author: User,
   now: Date
@@ -92,26 +87,12 @@ const markCommentAsAnswered = async (
     return;
   }
 
-  // - Comment must be a direct ancestor of a top level
-  //   comment (question) to be an answer. This will mean
-  //   we only have one ancestor in our ancestor list.
-  // - If we have experts and this reply is created by
-  //   one of them, then this is an expert's answer.
   if (
-    comment.ancestorIDs.length === 1 &&
-    story.settings.expertIDs.some(id => id === author.id)
+    // If we are the export on this story...
+    story.settings.expertIDs.some(id => id === author.id) &&
+    // And this is the first reply (depth of 1)...
+    comment.ancestorIDs.length === 1
   ) {
-    // Expert's answers are featured so they appear
-    // in the featured (answered) tab
-    await addTag(
-      mongo,
-      tenant,
-      comment.id,
-      revisionID,
-      author,
-      GQLTAG.FEATURED
-    );
-
     // We need to mark the parent question as answered.
     // - Remove the unanswered tag.
     // - Approve it since an expert has replied to it.
@@ -197,7 +178,7 @@ export default async function create(
       nudge,
       story,
       tenant,
-      comment: input,
+      comment: { ...input, ancestorIDs },
       author,
       req,
       now,
@@ -265,7 +246,6 @@ export default async function create(
       broker,
       tenant,
       comment,
-      revision.id,
       story,
       author,
       now
@@ -320,16 +300,6 @@ export default async function create(
     after: comment,
     commentRevisionID: revision.id,
   });
-
-  // If this is a reply, publish it.
-  if (input.parentID) {
-    publishCommentReplyCreated(broker, comment);
-  }
-
-  // If this comment is visible (and not a reply), publish it.
-  if (!input.parentID && hasPublishedStatus(comment)) {
-    publishCommentCreated(broker, comment);
-  }
 
   return comment;
 }
