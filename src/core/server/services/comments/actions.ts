@@ -120,6 +120,7 @@ async function addCommentAction(
       ...counts,
       before: oldComment,
       after: updatedComment,
+      commentRevisionID: input.commentRevisionID,
     });
 
     return updatedComment;
@@ -195,6 +196,7 @@ export async function removeCommentAction(
       ...counts,
       before: oldComment,
       after: updatedComment,
+      commentRevisionID,
     });
 
     return updatedComment;

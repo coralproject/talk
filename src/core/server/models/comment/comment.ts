@@ -152,7 +152,7 @@ export async function createComment(
   const { body, actionCounts = {}, metadata, ...rest } = input;
 
   // Generate the revision.
-  const revision: Revision = {
+  const revision: Readonly<Revision> = {
     id: uuid.v4(),
     body,
     actionCounts,
@@ -184,7 +184,7 @@ export async function createComment(
   // Insert it into the database.
   await collection(mongo).insertOne(comment);
 
-  return comment;
+  return { comment, revision };
 }
 
 /**
@@ -734,9 +734,6 @@ export async function updateCommentStatus(
       id,
       tenantID,
       "revisions.id": revisionID,
-      status: {
-        $ne: status,
-      },
     },
     {
       $set: { status },
@@ -926,12 +923,9 @@ export async function retrieveStoryCommentTagCounts(
   // Build up the $match query.
   const $match: FilterQuery<Comment> = {
     tenantID,
-    // We're filtering only for featured comments for now because that's all
-    // that is returned by the tag counts at the moment. If we ever extend this
-    // we should switch this out to something like
-    // `"tags.type": { $exists: true }` to ensure that we are using the
-    // specified index.
-    "tags.type": GQLTAG.FEATURED,
+    // ensure we are using the tags.type index, this
+    // currently includes FEATURED and UNANSWERED tags
+    "tags.type": { $exists: true },
     // Only show published comment's tag counts.
     status: { $in: PUBLISHED_STATUSES },
   };
@@ -986,6 +980,7 @@ export async function retrieveStoryCommentTagCounts(
       // missing/extra tags here.
       {
         [GQLTAG.FEATURED]: 0,
+        [GQLTAG.UNANSWERED]: 0,
       }
     );
   });

@@ -6,7 +6,7 @@ export const CommentModerationAction: GQLCommentModerationActionTypeResolver<
   actions.CommentModerationAction
 > = {
   revision: async (action, input, ctx) => {
-    const comment = await ctx.loaders.Comments.comment.load(action.commentID);
+    const comment = await ctx.loaders.Comments.visible.load(action.commentID);
     if (!comment) {
       return null;
     }

@@ -26,6 +26,7 @@ interface Props {
     | "%future added value";
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   reactionSortLabel: string;
+  isQA?: boolean;
 }
 
 const SortMenu: FunctionComponent<Props> = props => {
@@ -72,7 +73,13 @@ const SortMenu: FunctionComponent<Props> = props => {
             <Localized id="comments-sortMenu-mostReplies">
               <Option value="REPLIES_DESC">Most Replies</Option>
             </Localized>
-            <Option value="REACTION_DESC">{props.reactionSortLabel}</Option>
+            {props.isQA ? (
+              <Localized id="qa-sortMenu-mostVoted">
+                <Option value="REACTION_DESC">Most Voted</Option>
+              </Localized>
+            ) : (
+              <Option value="REACTION_DESC">{props.reactionSortLabel}</Option>
+            )}
           </SelectField>
         </Flex>
       )}

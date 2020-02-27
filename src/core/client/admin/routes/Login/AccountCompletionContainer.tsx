@@ -28,38 +28,58 @@ type Props = {
 
 function handleAccountCompletion(props: Props) {
   const {
-    local: { authView },
+    local: { authView, authDuplicateEmail },
     viewer,
     auth,
     setAuthView,
   } = props;
   if (viewer) {
     if (!viewer.email) {
-      if (authView !== "ADD_EMAIL_ADDRESS") {
+      // email not set yet.
+      if (
+        // duplicate email detected during the `ADD_EMAIL_ADDRESS` process.
+        authDuplicateEmail ||
+        // detected duplicate email usually coming from a social login.
+        viewer.duplicateEmail
+      ) {
+        // Duplicate email detected.
+        if (authView !== "ADD_EMAIL_ADDRESS" && authView !== "LINK_ACCOUNT") {
+          // `ADD_EMAIL_ADDRESS` view is allowed in case the viewer wants to change the email address.
+          // otherwise direct to the link account view.
+          setAuthView({ view: "LINK_ACCOUNT" });
+        }
+      } else if (authView !== "ADD_EMAIL_ADDRESS") {
         setAuthView({ view: "ADD_EMAIL_ADDRESS" });
       }
     } else if (!viewer.username) {
+      // username not set yet.
       if (authView !== "CREATE_USERNAME") {
+        // direct to create username view.
         setAuthView({ view: "CREATE_USERNAME" });
       }
     } else if (
+      // password not set when local auth is enabled.
       !viewer.profiles.some(p => p.__typename === "LocalProfile") &&
       auth.integrations.local.enabled &&
       (auth.integrations.local.targetFilter.admin ||
         auth.integrations.local.targetFilter.stream)
     ) {
       if (authView !== "CREATE_PASSWORD") {
+        // direct to create password view.
         setAuthView({ view: "CREATE_PASSWORD" });
       }
     } else {
+      // all set, complete account.
       props
         .completeAccount({ accessToken: props.local.accessToken! })
         .then(() => {
           props.router.replace(props.local.redirectPath || "/admin");
         });
+      // account completed.
       return true;
     }
   }
+  // account not completed yet.
   return false;
 }
 
@@ -102,6 +122,7 @@ const enhanced = withLocalStateContainer(
     fragment AccountCompletionContainerLocal on Local {
       accessToken
       authView
+      authDuplicateEmail
       redirectPath
     }
   `
@@ -124,6 +145,7 @@ const enhanced = withLocalStateContainer(
       fragment AccountCompletionContainer_viewer on User {
         username
         email
+        duplicateEmail
         profiles {
           __typename
         }

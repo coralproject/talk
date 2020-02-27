@@ -10,6 +10,7 @@ import {
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
 import Spinner from "coral-stream/common/Spinner";
+import useHandleIncompleteAccount from "coral-stream/common/useHandleIncompleteAccount";
 import { CallOut, Delay } from "coral-ui/components";
 
 import { ProfileQuery as QueryTypes } from "coral-stream/__generated__/ProfileQuery.graphql";
@@ -79,28 +80,36 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
 
 const ProfileQuery: FunctionComponent<Props> = ({
   local: { storyID, storyURL },
-}) => (
-  <QueryRenderer<QueryTypes>
-    query={graphql`
-      query ProfileQuery($storyID: ID, $storyURL: String) {
-        story: stream(id: $storyID, url: $storyURL) {
-          ...ProfileContainer_story
+}) => {
+  const handleIncompleteAccount = useHandleIncompleteAccount();
+  return (
+    <QueryRenderer<QueryTypes>
+      query={graphql`
+        query ProfileQuery($storyID: ID, $storyURL: String) {
+          story: stream(id: $storyID, url: $storyURL) {
+            ...ProfileContainer_story
+          }
+          viewer {
+            ...ProfileContainer_viewer
+          }
+          settings {
+            ...ProfileContainer_settings
+          }
         }
-        viewer {
-          ...ProfileContainer_viewer
+      `}
+      variables={{
+        storyID,
+        storyURL,
+      }}
+      render={data => {
+        if (handleIncompleteAccount(data)) {
+          return null;
         }
-        settings {
-          ...ProfileContainer_settings
-        }
-      }
-    `}
-    variables={{
-      storyID,
-      storyURL,
-    }}
-    render={render}
-  />
-);
+        return render(data);
+      }}
+    />
+  );
+};
 
 const enhanced = withLocalStateContainer(
   graphql`

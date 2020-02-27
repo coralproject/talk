@@ -40,7 +40,7 @@ export const maybeLoadOnlyID = (
 
   // We want more than the ID! Get the comment!
   // TODO: (wyattjoh) if the parent and the parents (containing the parent) are requested, the parent comment is retrieved from the database twice. Investigate ways of reducing i/o.
-  return ctx.loaders.Comments.comment.load(id);
+  return ctx.loaders.Comments.visible.load(id);
 };
 
 export const Comment: GQLCommentTypeResolver<comment.Comment> = {
@@ -77,7 +77,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       return 0;
     }
 
-    const children = await ctx.loaders.Comments.comment.loadMany(childIDs);
+    const children = await ctx.loaders.Comments.visible.loadMany(childIDs);
     return children.reduce(
       (sum: any, c: any) => (c && hasPublishedStatus(c) ? sum + 1 : sum),
       0

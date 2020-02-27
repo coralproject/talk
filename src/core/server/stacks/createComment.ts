@@ -16,22 +16,24 @@ import {
   filterDuplicateActions,
 } from "coral-server/models/action/comment";
 import {
+  Comment,
   createComment,
   CreateCommentInput,
   pushChildCommentIDOntoParent,
   retrieveComment,
 } from "coral-server/models/comment";
 import {
-  getLatestRevision,
   hasAncestors,
   hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
 import {
   retrieveStory,
+  Story,
   updateStoryLastCommentedAt,
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { removeTag } from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
@@ -40,20 +42,73 @@ import {
   PhaseResult,
   processForModeration,
 } from "coral-server/services/comments/pipeline";
-import {
-  publishCommentCreated,
-  publishCommentReplyCreated,
-} from "coral-server/services/events";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
+import {
+  GQLSTORY_MODE,
+  GQLTAG,
+} from "coral-server/graph/schema/__generated__/types";
+
+import approveComment from "./approveComment";
 import { publishChanges, updateAllCommentCounts } from "./helpers";
 
 export type CreateComment = Omit<
   CreateCommentInput,
   "status" | "metadata" | "ancestorIDs" | "actionCounts" | "tags" | "siteID"
 >;
+
+const markCommentAsAnswered = async (
+  mongo: Db,
+  redis: AugmentedRedis,
+  broker: CoralEventPublisherBroker,
+  tenant: Tenant,
+  comment: Readonly<Comment>,
+  story: Story,
+  author: User,
+  now: Date
+) => {
+  // We only process this if we're in Q&A mode.
+  if (story.settings.mode !== GQLSTORY_MODE.QA) {
+    return;
+  }
+
+  // Answers are always a reply to another comment.
+  // If we have a parentID and a parentRevisionID, then
+  // we have a parent, which means we are replying.
+  if (!comment.parentID || !comment.parentRevisionID) {
+    return;
+  }
+
+  // If we have no experts, there cannot be anyone
+  // providing expert answers.
+  if (!story.settings.expertIDs) {
+    return;
+  }
+
+  if (
+    // If we are the export on this story...
+    story.settings.expertIDs.some(id => id === author.id) &&
+    // And this is the first reply (depth of 1)...
+    comment.ancestorIDs.length === 1
+  ) {
+    // We need to mark the parent question as answered.
+    // - Remove the unanswered tag.
+    // - Approve it since an expert has replied to it.
+    await removeTag(mongo, tenant, comment.parentID, GQLTAG.UNANSWERED);
+    await approveComment(
+      mongo,
+      redis,
+      broker,
+      tenant,
+      comment.parentID,
+      comment.parentRevisionID,
+      author.id,
+      now
+    );
+  }
+};
 
 export default async function create(
   mongo: Db,
@@ -123,7 +178,7 @@ export default async function create(
       nudge,
       story,
       tenant,
-      comment: input,
+      comment: { ...input, ancestorIDs },
       author,
       req,
       now,
@@ -160,7 +215,7 @@ export default async function create(
   }
 
   // Create the comment!
-  const comment = await createComment(
+  const { comment, revision } = await createComment(
     mongo,
     tenant.id,
     {
@@ -176,19 +231,26 @@ export default async function create(
     now
   );
 
-  // Updating some associated data.
-  await Promise.all([
-    updateUserLastCommentID(redis, tenant, author, comment.id),
-    updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
-  ]);
-
-  // Pull the revision out.
-  const revision = getLatestRevision(comment);
-
   log = log.child(
     { commentID: comment.id, status, revisionID: revision.id },
     true
   );
+
+  // Updating some associated data.
+  await Promise.all([
+    updateUserLastCommentID(redis, tenant, author, comment.id),
+    updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
+    markCommentAsAnswered(
+      mongo,
+      redis,
+      broker,
+      tenant,
+      comment,
+      story,
+      author,
+      now
+    ),
+  ]);
 
   log.trace("comment created");
 
@@ -236,17 +298,8 @@ export default async function create(
   await publishChanges(broker, {
     ...counts,
     after: comment,
+    commentRevisionID: revision.id,
   });
-
-  // If this is a reply, publish it.
-  if (input.parentID) {
-    publishCommentReplyCreated(broker, comment);
-  }
-
-  // If this comment is visible (and not a reply), publish it.
-  if (!input.parentID && hasPublishedStatus(comment)) {
-    publishCommentCreated(broker, comment);
-  }
 
   return comment;
 }

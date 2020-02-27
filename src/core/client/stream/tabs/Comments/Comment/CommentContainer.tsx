@@ -8,7 +8,7 @@ import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { withContext } from "coral-framework/lib/bootstrap";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import {
@@ -23,7 +23,7 @@ import {
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
-import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
+import { Button, Flex, HorizontalGutter, Icon, Tag } from "coral-ui/components";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -47,6 +47,8 @@ import ShowConversationLink from "./ShowConversationLink";
 import { UsernameWithPopoverContainer } from "./Username";
 import UserTagsContainer from "./UserTagsContainer";
 
+import styles from "./CommentContainer.css";
+
 interface Props {
   viewer: ViewerData | null;
   comment: CommentData;
@@ -67,6 +69,11 @@ interface Props {
   showConversationLink?: boolean;
   highlight?: boolean;
   className?: string;
+
+  hideAnsweredTag?: boolean;
+  hideReportButton?: boolean;
+  hideModerationCarat?: boolean;
+  onRemoveAnswered?: () => void;
 }
 
 interface State {
@@ -192,14 +199,40 @@ export class CommentContainer extends Component<Props, State> {
       highlight,
       viewer,
       className,
+      hideAnsweredTag,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     const hasFeaturedTag = Boolean(
       comment.tags.find(t => t.code === GQLTAG.FEATURED)
     );
+    // We are in a Q&A if the story mode is set to QA.
+    const isQA = Boolean(story.settings.mode === GQLSTORY_MODE.QA);
+    // Author is expert if comment is tagged Expert and the
+    // story mode is Q&A.
+    const authorIsExpert =
+      isQA && comment.tags.find(t => t.code === GQLTAG.EXPERT);
+    // Only show a button to clear removed answers if
+    // this comment is by an expert, reply to a top level
+    // comment (question) with an answer
+    const showRemoveAnswered = Boolean(
+      !comment.deleted &&
+        isQA &&
+        authorIsExpert &&
+        indentLevel === 1 &&
+        this.props.onRemoveAnswered
+    );
+    // When we're in Q&A and we are not un-answered (answered)
+    // and we're a top level comment (no parent), then we
+    // are an answered question
+    const hasAnsweredTag = Boolean(
+      !hideAnsweredTag &&
+        isQA &&
+        comment.tags.every(t => t.code !== GQLTAG.UNANSWERED) &&
+        !comment.parent
+    );
     const commentTags = (
       <>
-        {hasFeaturedTag && (
+        {hasFeaturedTag && !isQA && (
           <Tag
             className={CLASSES.comment.topBar.commentTag}
             color="primary"
@@ -208,6 +241,16 @@ export class CommentContainer extends Component<Props, State> {
             <Localized id="comments-featuredTag">
               <span>Featured</span>
             </Localized>
+          </Tag>
+        )}
+        {hasAnsweredTag && isQA && (
+          <Tag variant="regular" color="primary" className={styles.answeredTag}>
+            <Flex alignItems="center">
+              <Icon size="xs" className={styles.tagIcon}>
+                check
+              </Icon>
+              <Localized id="qa-answered-tag">answered</Localized>
+            </Flex>
           </Tag>
         )}
       </>
@@ -224,7 +267,9 @@ export class CommentContainer extends Component<Props, State> {
       this.props.viewer && this.props.viewer.scheduledDeletionDate
     );
     const showCaret =
-      this.props.viewer && can(this.props.viewer, Ability.MODERATE);
+      this.props.viewer &&
+      can(this.props.viewer, Ability.MODERATE) &&
+      !this.props.hideModerationCarat;
     if (showEditDialog) {
       return (
         <div data-testid={`comment-${comment.id}`}>
@@ -277,6 +322,7 @@ export class CommentContainer extends Component<Props, State> {
                     />
                     <UserTagsContainer
                       className={CLASSES.comment.topBar.userTag}
+                      story={story}
                       comment={comment}
                       settings={settings}
                     />
@@ -327,6 +373,7 @@ export class CommentContainer extends Component<Props, State> {
                         reactedClassName={
                           CLASSES.comment.actionBar.reactedButton
                         }
+                        isQA={story.settings.mode === GQLSTORY_MODE.QA}
                       />
                       {!disableReplies &&
                         !banned &&
@@ -350,16 +397,18 @@ export class CommentContainer extends Component<Props, State> {
                       />
                     </ButtonsBar>
                     <ButtonsBar>
-                      {!banned && !suspended && (
-                        <ReportButtonContainer
-                          comment={comment}
-                          viewer={viewer}
-                          className={CLASSES.comment.actionBar.reportButton}
-                          reportedClassName={
-                            CLASSES.comment.actionBar.reportedButton
-                          }
-                        />
-                      )}
+                      {!banned &&
+                        !suspended &&
+                        !this.props.hideReportButton && (
+                          <ReportButtonContainer
+                            comment={comment}
+                            viewer={viewer}
+                            className={CLASSES.comment.actionBar.reportButton}
+                            reportedClassName={
+                              CLASSES.comment.actionBar.reportedButton
+                            }
+                          />
+                        )}
                     </ButtonsBar>
                   </Flex>
                   {showConversationLink && (
@@ -385,6 +434,18 @@ export class CommentContainer extends Component<Props, State> {
               onClose={this.closeReplyDialog}
               localReply={localReply}
             />
+          )}
+          {showRemoveAnswered && (
+            <Localized id="qa-unansweredTab-doneAnswering">
+              <Button
+                variant="filled"
+                color="regular"
+                className={styles.removeAnswered}
+                onClick={this.props.onRemoveAnswered}
+              >
+                Done
+              </Button>
+            </Localized>
           )}
         </HorizontalGutter>
       </div>
@@ -418,10 +479,14 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
           fragment CommentContainer_story on Story {
             url
             isClosed
+            settings {
+              mode
+            }
             ...CaretContainer_story
             ...ReplyCommentFormContainer_story
             ...PermalinkButtonContainer_story
             ...EditCommentFormContainer_story
+            ...UserTagsContainer_story
           }
         `,
         comment: graphql`

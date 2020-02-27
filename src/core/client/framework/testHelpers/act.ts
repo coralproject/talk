@@ -6,7 +6,10 @@ export default function act<T>(callback: () => T): T {
   let callbackResult: T;
   const actResult = TestRenderer.act(() => {
     callbackResult = callback();
-    return callbackResult as any;
+    if (isPromiseLike(callbackResult!)) {
+      return callbackResult as any;
+    }
+    return;
   });
   if (isPromiseLike(callbackResult!)) {
     // Return it this way, to preserve warnings that React emits.

@@ -5,6 +5,7 @@ enum View {
   CREATE_USERNAME
   CREATE_PASSWORD
   ADD_EMAIL_ADDRESS
+  LINK_ACCOUNT
 }
 
 type Local {
@@ -13,6 +14,8 @@ type Local {
   accessTokenJTI: String
   view: View!
   error: String
+  # Duplicate email found when adding email.
+  duplicateEmail: String
 }
 
 extend type Query {

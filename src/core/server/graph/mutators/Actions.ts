@@ -11,7 +11,6 @@ export const Actions = (ctx: GraphContext) => ({
     approveComment(
       ctx.mongo,
       ctx.redis,
-      ctx.config,
       ctx.broker,
       ctx.tenant,
       input.commentID,
@@ -23,7 +22,6 @@ export const Actions = (ctx: GraphContext) => ({
     rejectComment(
       ctx.mongo,
       ctx.redis,
-      ctx.config,
       ctx.broker,
       ctx.tenant,
       input.commentID,

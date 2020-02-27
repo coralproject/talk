@@ -71,6 +71,9 @@ exports[`renders app with comment stream 1`] = `
                         </div>
                       </div>
                     </div>
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    />
                   </div>
                   <div
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
@@ -282,6 +285,9 @@ exports[`renders app with comment stream 1`] = `
                         </div>
                       </div>
                     </div>
+                    <div
+                      className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                    />
                   </div>
                   <div
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
