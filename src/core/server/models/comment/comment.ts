@@ -152,7 +152,7 @@ export async function createComment(
   const { body, actionCounts = {}, metadata, ...rest } = input;
 
   // Generate the revision.
-  const revision: Revision = {
+  const revision: Readonly<Revision> = {
     id: uuid.v4(),
     body,
     actionCounts,
@@ -184,7 +184,7 @@ export async function createComment(
   // Insert it into the database.
   await collection(mongo).insertOne(comment);
 
-  return comment;
+  return { comment, revision };
 }
 
 /**
@@ -734,9 +734,6 @@ export async function updateCommentStatus(
       id,
       tenantID,
       "revisions.id": revisionID,
-      status: {
-        $ne: status,
-      },
     },
     {
       $set: { status },

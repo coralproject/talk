@@ -2,7 +2,6 @@ import Queue, { Job } from "bull";
 import { Db } from "mongodb";
 import now from "performance-now";
 
-import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import {
   Comment,
@@ -22,7 +21,6 @@ const JOB_NAME = "rejector";
 export interface RejectorProcessorOptions {
   mongo: Db;
   redis: AugmentedRedis;
-  config: Config;
   tenantCache: TenantCache;
 }
 
@@ -49,7 +47,6 @@ const createJobProcessor = ({
   mongo,
   redis,
   tenantCache,
-  config,
 }: RejectorProcessorOptions) => async (job: Job<RejectorData>) => {
   // Pull out the job data.
   const { authorID, moderatorID, tenantID } = job.data;
@@ -85,7 +82,6 @@ const createJobProcessor = ({
         await rejectComment(
           mongo,
           redis,
-          config,
           null,
           tenant,
           comment.id,

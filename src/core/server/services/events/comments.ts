@@ -24,6 +24,7 @@ export async function publishCommentStatusChanges(
   oldStatus: GQLCOMMENT_STATUS,
   newStatus: GQLCOMMENT_STATUS,
   commentID: string,
+  commentRevisionID: string,
   moderatorID: string | null
 ) {
   if (oldStatus !== newStatus) {
@@ -31,6 +32,7 @@ export async function publishCommentStatusChanges(
       newStatus,
       oldStatus,
       commentID,
+      commentRevisionID,
       moderatorID,
     });
   }

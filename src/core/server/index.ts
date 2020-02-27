@@ -37,10 +37,13 @@ import {
 } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
 
-import { NotifierCoralEventListener } from "./events/listeners/notifier";
-import { SlackCoralEventListener } from "./events/listeners/slack";
-import { SubscriptionCoralEventListener } from "./events/listeners/subscription";
-import { WebhookCoralEventListener } from "./events/listeners/webhook";
+import {
+  NotifierCoralEventListener,
+  PerspectiveCoralEventListener,
+  SlackCoralEventListener,
+  SubscriptionCoralEventListener,
+  WebhookCoralEventListener,
+} from "./events/listeners";
 import CoralEventListenerBroker from "./events/publisher";
 import { isInstalled } from "./services/tenant";
 
@@ -219,6 +222,7 @@ class Server {
     this.broker.register(new SlackCoralEventListener());
     this.broker.register(new SubscriptionCoralEventListener());
     this.broker.register(new WebhookCoralEventListener(this.tasks.webhook));
+    this.broker.register(new PerspectiveCoralEventListener());
 
     // Setup the metrics collectors.
     collectDefaultMetrics({ timeout: 5000 });

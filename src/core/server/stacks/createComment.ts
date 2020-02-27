@@ -23,7 +23,6 @@ import {
   retrieveComment,
 } from "coral-server/models/comment";
 import {
-  getLatestRevision,
   hasAncestors,
   hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
@@ -43,10 +42,6 @@ import {
   PhaseResult,
   processForModeration,
 } from "coral-server/services/comments/pipeline";
-import {
-  publishCommentCreated,
-  publishCommentReplyCreated,
-} from "coral-server/services/events";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
@@ -67,7 +62,6 @@ export type CreateComment = Omit<
 const markCommentAsAnswered = async (
   mongo: Db,
   redis: AugmentedRedis,
-  config: Config,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   comment: Readonly<Comment>,
@@ -93,16 +87,19 @@ const markCommentAsAnswered = async (
     return;
   }
 
-  // If we have experts and this reply is created by
-  // one of them, then this is an expert's answer.
-  if (story.settings.expertIDs.some(id => id === author.id)) {
-    // We need to mark this question as answered now.
-    // We can now remove the unanswered tag.
+  if (
+    // If we are the export on this story...
+    story.settings.expertIDs.some(id => id === author.id) &&
+    // And this is the first reply (depth of 1)...
+    comment.ancestorIDs.length === 1
+  ) {
+    // We need to mark the parent question as answered.
+    // - Remove the unanswered tag.
+    // - Approve it since an expert has replied to it.
     await removeTag(mongo, tenant, comment.parentID, GQLTAG.UNANSWERED);
     await approveComment(
       mongo,
       redis,
-      config,
       broker,
       tenant,
       comment.parentID,
@@ -181,7 +178,7 @@ export default async function create(
       nudge,
       story,
       tenant,
-      comment: input,
+      comment: { ...input, ancestorIDs },
       author,
       req,
       now,
@@ -218,7 +215,7 @@ export default async function create(
   }
 
   // Create the comment!
-  const comment = await createComment(
+  const { comment, revision } = await createComment(
     mongo,
     tenant.id,
     {
@@ -234,6 +231,11 @@ export default async function create(
     now
   );
 
+  log = log.child(
+    { commentID: comment.id, status, revisionID: revision.id },
+    true
+  );
+
   // Updating some associated data.
   await Promise.all([
     updateUserLastCommentID(redis, tenant, author, comment.id),
@@ -241,7 +243,6 @@ export default async function create(
     markCommentAsAnswered(
       mongo,
       redis,
-      config,
       broker,
       tenant,
       comment,
@@ -250,14 +251,6 @@ export default async function create(
       now
     ),
   ]);
-
-  // Pull the revision out.
-  const revision = getLatestRevision(comment);
-
-  log = log.child(
-    { commentID: comment.id, status, revisionID: revision.id },
-    true
-  );
 
   log.trace("comment created");
 
@@ -305,17 +298,8 @@ export default async function create(
   await publishChanges(broker, {
     ...counts,
     after: comment,
+    commentRevisionID: revision.id,
   });
-
-  // If this is a reply, publish it.
-  if (input.parentID) {
-    publishCommentReplyCreated(broker, comment);
-  }
-
-  // If this comment is visible (and not a reply), publish it.
-  if (!input.parentID && hasPublishedStatus(comment)) {
-    publishCommentCreated(broker, comment);
-  }
 
   return comment;
 }
