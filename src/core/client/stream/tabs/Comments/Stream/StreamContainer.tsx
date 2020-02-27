@@ -255,7 +255,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                   )}
                 >
                   <Flex alignItems="center" spacing={1}>
-                    <Localized id="comments-unansweredCommentsTab">
+                    <Localized id="qa-unansweredTab">
                       <span>Unanswered</span>
                     </Localized>
                     <Counter
