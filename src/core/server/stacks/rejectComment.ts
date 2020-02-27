@@ -1,12 +1,10 @@
 import { Db } from "mongodb";
 
-import { Config } from "coral-server/config";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { hasTag } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
-import { notifyPerspectiveModerationDecision } from "coral-server/services/perspective";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
@@ -19,7 +17,6 @@ import { publishChanges, updateAllCommentCounts } from "./helpers";
 const rejectComment = async (
   mongo: Db,
   redis: AugmentedRedis,
-  config: Config,
   broker: CoralEventPublisherBroker | null,
   tenant: Tenant,
   commentID: string,
@@ -56,6 +53,7 @@ const rejectComment = async (
       ...result,
       ...counts,
       moderatorID,
+      commentRevisionID,
     });
   }
 
@@ -63,18 +61,6 @@ const rejectComment = async (
   if (hasTag(result.after, GQLTAG.FEATURED)) {
     return removeTag(mongo, tenant, result.after.id, GQLTAG.FEATURED);
   }
-
-  // We don't want to await on this so that
-  // we don't hold up the moderation flow and response
-  notifyPerspectiveModerationDecision(
-    mongo,
-    tenant,
-    config,
-    tenant.integrations.perspective,
-    result.after,
-    commentRevisionID,
-    GQLCOMMENT_STATUS.REJECTED
-  );
 
   // Return the resulting comment.
   return result.after;

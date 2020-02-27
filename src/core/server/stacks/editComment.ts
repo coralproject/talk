@@ -195,6 +195,7 @@ export default async function edit(
   await publishChanges(broker, {
     ...result,
     ...counts,
+    commentRevisionID: result.revision.id,
   });
 
   // Return the resulting comment.
