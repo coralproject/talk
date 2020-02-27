@@ -1,4 +1,4 @@
-import { DocumentNode, ExecutionArgs, GraphQLError } from "graphql";
+import { DocumentNode, ExecutionArgs, GraphQLFormattedError } from "graphql";
 import {
   EndHandler,
   GraphQLExtension,
@@ -10,7 +10,7 @@ import GraphContext from "coral-server/graph/context";
 
 import { getOperationMetadata, getPersistedQueryMetadata } from "./helpers";
 
-export function logError(ctx: GraphContext, err: GraphQLError) {
+export function logError(ctx: GraphContext, err: GraphQLFormattedError) {
   ctx.logger.error({ err }, "graphql query error");
 }
 

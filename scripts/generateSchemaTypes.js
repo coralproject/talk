@@ -47,7 +47,7 @@ async function main() {
     }
 
     // Create the types for this file.
-    const types = await generateTSTypesAsString(schema, {
+    const types = await generateTSTypesAsString(schema, file.fileName, {
       tabSpaces: 2,
       typePrefix: "GQL",
       strictNulls: false,
