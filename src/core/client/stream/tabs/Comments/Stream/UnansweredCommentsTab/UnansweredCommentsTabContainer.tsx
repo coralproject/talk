@@ -173,7 +173,6 @@ export const UnansweredCommentsTabContainer: FunctionComponent<
           </Localized>
         )}
         {comments.length > 0 &&
-          !props.story.isClosed &&
           comments.map(comment => (
             <IgnoredTombstoneOrHideContainer
               key={comment.id}

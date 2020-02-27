@@ -167,7 +167,6 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
           ></NoComments>
         )}
         {comments.length > 0 &&
-          !props.story.isClosed &&
           comments.map(comment => (
             <IgnoredTombstoneOrHideContainer
               key={comment.id}
