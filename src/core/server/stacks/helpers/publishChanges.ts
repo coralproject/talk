@@ -16,6 +16,7 @@ interface PublishChangesInput {
   after: Readonly<Comment>;
   moderationQueue: CommentModerationQueueCounts;
   moderatorID?: string;
+  commentRevisionID: string;
 }
 
 export default async function publishChanges(
@@ -33,6 +34,7 @@ export default async function publishChanges(
       input.before.status,
       input.after.status,
       input.after.id,
+      input.commentRevisionID,
       input.moderatorID || null
     );
 

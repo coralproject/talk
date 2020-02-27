@@ -23,7 +23,6 @@ import {
   retrieveComment,
 } from "coral-server/models/comment";
 import {
-  getLatestRevision,
   hasAncestors,
   hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
@@ -67,7 +66,6 @@ export type CreateComment = Omit<
 const markCommentAsAnswered = async (
   mongo: Db,
   redis: AugmentedRedis,
-  config: Config,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   comment: Readonly<Comment>,
@@ -121,7 +119,6 @@ const markCommentAsAnswered = async (
     await approveComment(
       mongo,
       redis,
-      config,
       broker,
       tenant,
       comment.parentID,
@@ -237,7 +234,7 @@ export default async function create(
   }
 
   // Create the comment!
-  const comment = await createComment(
+  const { comment, revision } = await createComment(
     mongo,
     tenant.id,
     {
@@ -253,8 +250,6 @@ export default async function create(
     now
   );
 
-  // Pull the revision out.
-  const revision = getLatestRevision(comment);
   log = log.child(
     { commentID: comment.id, status, revisionID: revision.id },
     true
@@ -267,7 +262,6 @@ export default async function create(
     markCommentAsAnswered(
       mongo,
       redis,
-      config,
       broker,
       tenant,
       comment,
@@ -324,6 +318,7 @@ export default async function create(
   await publishChanges(broker, {
     ...counts,
     after: comment,
+    commentRevisionID: revision.id,
   });
 
   // If this is a reply, publish it.

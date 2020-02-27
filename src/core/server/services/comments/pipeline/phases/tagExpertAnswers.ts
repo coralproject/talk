@@ -13,14 +13,15 @@ export const tagExpertAnswers: IntermediateModerationPhase = ({
   now,
   story,
 }): IntermediatePhaseResult | void => {
-  // - Only assign experts during Q&A mode.
-  // - Only assign experts if we have experts for this story.
-  // - Only assign expert if author is in expert list.
   if (
+    // If we're in Q&A mode...
     story.settings.mode === GQLSTORY_MODE.QA &&
+    // And we have experts for this story...
     story.settings.expertIDs &&
+    // And the author is in expert list...
     story.settings.expertIDs.some(id => id === author.id)
   ) {
+    // Assign this comment an expert tag!
     return {
       tags: [
         {
