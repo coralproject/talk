@@ -6,11 +6,11 @@ import {
   hasPublishedStatus,
 } from "coral-server/models/comment";
 import {
+  publishCommentCreated,
   publishCommentReleased,
+  publishCommentReplyCreated,
   publishCommentStatusChanges,
   publishModerationQueueChanges,
-  publishCommentReplyCreated,
-  publishCommentCreated,
 } from "coral-server/services/events";
 
 interface PublishChangesInput {

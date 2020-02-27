@@ -33,7 +33,7 @@ import {
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { addTag, removeTag } from "coral-server/services/comments";
+import { removeTag } from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
