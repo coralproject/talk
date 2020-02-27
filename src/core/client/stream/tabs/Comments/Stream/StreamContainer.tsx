@@ -3,12 +3,14 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import Counter from "coral-stream/common/Counter";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
+import { COMMENTS_ORDER_BY } from "coral-stream/constants";
 import {
   SetCommentsOrderByEvent,
   SetCommentsTabEvent,
@@ -91,6 +93,7 @@ const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
 export const StreamContainer: FunctionComponent<Props> = props => {
   const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
   const emitSetCommentsOrderByEvent = useViewerEvent(SetCommentsOrderByEvent);
+  const { localStorage } = useCoralContext();
   const [local, setLocal] = useLocal<StreamContainerLocal>(
     graphql`
       fragment StreamContainerLocal on Local {
@@ -101,12 +104,13 @@ export const StreamContainer: FunctionComponent<Props> = props => {
     `
   );
   const onChangeOrder = useCallback(
-    (order: React.ChangeEvent<HTMLSelectElement>) => {
+    async (order: React.ChangeEvent<HTMLSelectElement>) => {
       if (local.commentsOrderBy === order.target.value) {
         return;
       }
       setLocal({ commentsOrderBy: order.target.value as any });
       emitSetCommentsOrderByEvent({ orderBy: order.target.value });
+      await localStorage.setItem(COMMENTS_ORDER_BY, order.target.value);
     },
     [setLocal, local.commentsOrderBy]
   );
