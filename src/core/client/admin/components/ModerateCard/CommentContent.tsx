@@ -1,7 +1,7 @@
 import cn from "classnames";
-import { memoize } from "lodash";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 
+import { getPhrasesRegExp, GetPhrasesRegExpOptions } from "coral-admin/helpers";
 import { createPurify } from "coral-common/utils/purify";
 
 import styles from "./CommentContent.css";
@@ -14,8 +14,7 @@ const purify = createPurify(window, false);
 interface Props {
   className?: string;
   children: string | React.ReactElement;
-  suspectWords: ReadonlyArray<string>;
-  bannedWords: ReadonlyArray<string>;
+  phrases: GetPhrasesRegExpOptions;
 }
 
 function escapeHTML(unsafe: string) {
@@ -27,50 +26,11 @@ function escapeHTML(unsafe: string) {
     .replace(/'/g, "&#039;");
 }
 
-function escapeRegExp(str: string) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
-}
-
-// generate a regulare expression that catches the `phrases`.
-function generateRegExp(phrases: ReadonlyArray<string>) {
-  const inner = phrases
-    .map(phrase =>
-      phrase
-        .split(/\s+/)
-        .map(word => escapeRegExp(word))
-        .join('[\\s"?!.]+')
-    )
-    .join("|");
-
-  const pattern = `(^|[^\\w])(${inner})(?=[^\\w]|$)`;
-  try {
-    return new RegExp(pattern, "iu");
-  } catch (_err) {
-    // IE does not support unicode support, so we'll create one without.
-    return new RegExp(pattern, "i");
-  }
-}
-
-// Generate a regular expression detecting `suspectWords` and `bannedWords` phrases.
-function getPhrasesRegexp(
-  suspectWords: ReadonlyArray<string>,
-  bannedWords: ReadonlyArray<string>
-) {
-  return generateRegExp([...suspectWords, ...bannedWords]);
-}
-
-// Memoized version as arguments rarely change.
-const getPhrasesRegexpMemoized = memoize(getPhrasesRegexp);
-
-// markPhrasesHTML looks for `supsectWords` and `bannedWords` inside `text` and highlights them by returning
-// a HTML string.
-function markPhrasesHTML(
-  text: string,
-  suspectWords: ReadonlyArray<string>,
-  bannedWords: ReadonlyArray<string>
-) {
-  const regexp = getPhrasesRegexpMemoized(suspectWords, bannedWords);
-  const tokens = text.split(regexp);
+// markPhrasesHTML looks for `supsect` and `banned` words inside `text` given
+// the settings applied for the locale and highlights them by returning an HTML
+// string.
+function markPhrasesHTML(text: string, expression: RegExp) {
+  const tokens = text.split(expression);
   if (tokens.length === 1) {
     return text;
   }
@@ -87,45 +47,42 @@ function markPhrasesHTML(
 
 // markHTMLNode manipulates the node by looking for #text nodes and adding markers
 // for `supsectWords` and `bannedWords`.
-function markHTMLNode(
-  parentNode: Node,
-  suspectWords: ReadonlyArray<string>,
-  bannedWords: ReadonlyArray<string>
-) {
+function markHTMLNode(parentNode: Node, expression: RegExp) {
   parentNode.childNodes.forEach(node => {
     if (node.nodeName === "#text") {
-      const newContent = markPhrasesHTML(
-        node.textContent!,
-        suspectWords,
-        bannedWords
-      );
+      const newContent = markPhrasesHTML(node.textContent!, expression);
       if (newContent !== node.textContent) {
         const newNode = document.createElement("span");
         newNode.innerHTML = newContent;
         parentNode.replaceChild(newNode, node);
       }
     } else {
-      markHTMLNode(node, suspectWords, bannedWords);
+      markHTMLNode(node, expression);
     }
   });
 }
 
 const CommentContent: FunctionComponent<Props> = ({
-  suspectWords,
-  bannedWords,
+  phrases,
   className,
   children,
 }) => {
+  // Cache the expression used via memo. This will reduce duplicate renders of
+  // this comment content when the children change but the phrase configuration
+  // does not change. The regExp is already cached on a deeper level
+  // automatically, this is just lessening that impact further.
+  const expression = useMemo(() => getPhrasesRegExp(phrases), [phrases]);
+
   if (typeof children === "string") {
     // We create a Shadow DOM Tree with the HTML body content and
     // use it as a parser.
     const node = document.createElement("div");
     node.innerHTML = purify.sanitize(children);
 
-    if (suspectWords.length || bannedWords.length) {
+    if (expression) {
       // Then we traverse it recursively and manipulate it to highlight suspect words
       // and banned words.
-      markHTMLNode(node, suspectWords, bannedWords);
+      markHTMLNode(node, expression);
     }
 
     // Finally we render the content of the Shadow DOM Tree

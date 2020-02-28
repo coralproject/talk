@@ -222,8 +222,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           status={getStatus(comment)}
           featured={isFeatured(comment)}
           viewContextHref={comment.permalink}
-          suspectWords={settings.wordList.suspect}
-          bannedWords={settings.wordList.banned}
+          phrases={settings}
           onApprove={handleApprove}
           onReject={handleReject}
           onFeature={onFeature}
@@ -319,6 +318,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment ModerateCardContainer_settings on Settings {
+      locale
       wordList {
         banned
         suspect

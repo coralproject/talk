@@ -1,5 +1,5 @@
 import { Redis } from "ioredis";
-import { isUndefined } from "lodash";
+import { isUndefined, lowerCase, uniqBy } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import { URL } from "url";
@@ -45,11 +45,11 @@ function cleanWordList(
   list: GQLSettingsWordListInput
 ): GQLSettingsWordListInput {
   if (list.banned) {
-    list.banned = list.banned.filter(Boolean);
+    list.banned = uniqBy(list.banned.filter(Boolean), lowerCase) as string[];
   }
 
   if (list.suspect) {
-    list.suspect = list.suspect.filter(Boolean);
+    list.suspect = uniqBy(list.suspect.filter(Boolean), lowerCase) as string[];
   }
 
   return list;

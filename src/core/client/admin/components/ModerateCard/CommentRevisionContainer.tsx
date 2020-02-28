@@ -30,10 +30,7 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({
         .map(c => (
           <div key={c.id}>
             <Timestamp>{c.createdAt}</Timestamp>
-            <CommentContent
-              suspectWords={settings.wordList.suspect}
-              bannedWords={settings.wordList.banned}
-            >
+            <CommentContent phrases={settings}>
               {c.body ? c.body : ""}
             </CommentContent>
           </div>
@@ -57,6 +54,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment CommentRevisionContainer_settings on Settings {
+      locale
       wordList {
         banned
         suspect

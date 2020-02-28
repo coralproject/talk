@@ -47,16 +47,19 @@ exports[`renders approved correctly 1`] = `
         className="ModerateCard-contentArea"
       >
         <CommentContent
-          bannedWords={
-            Array [
-              "banned",
-            ]
-          }
           className="ModerateCard-content"
-          suspectWords={
-            Array [
-              "suspect",
-            ]
+          phrases={
+            Object {
+              "locale": "en-US",
+              "wordList": Object {
+                "banned": Array [
+                  "banned",
+                ],
+                "suspect": Array [
+                  "suspect",
+                ],
+              },
+            }
           }
         >
           content
@@ -177,16 +180,19 @@ exports[`renders correctly 1`] = `
         className="ModerateCard-contentArea"
       >
         <CommentContent
-          bannedWords={
-            Array [
-              "banned",
-            ]
-          }
           className="ModerateCard-content"
-          suspectWords={
-            Array [
-              "suspect",
-            ]
+          phrases={
+            Object {
+              "locale": "en-US",
+              "wordList": Object {
+                "banned": Array [
+                  "banned",
+                ],
+                "suspect": Array [
+                  "suspect",
+                ],
+              },
+            }
           }
         >
           content
@@ -307,16 +313,19 @@ exports[`renders dangling correctly 1`] = `
         className="ModerateCard-contentArea"
       >
         <CommentContent
-          bannedWords={
-            Array [
-              "banned",
-            ]
-          }
           className="ModerateCard-content"
-          suspectWords={
-            Array [
-              "suspect",
-            ]
+          phrases={
+            Object {
+              "locale": "en-US",
+              "wordList": Object {
+                "banned": Array [
+                  "banned",
+                ],
+                "suspect": Array [
+                  "suspect",
+                ],
+              },
+            }
           }
         >
           content
@@ -437,16 +446,19 @@ exports[`renders rejected correctly 1`] = `
         className="ModerateCard-contentArea"
       >
         <CommentContent
-          bannedWords={
-            Array [
-              "banned",
-            ]
-          }
           className="ModerateCard-content"
-          suspectWords={
-            Array [
-              "suspect",
-            ]
+          phrases={
+            Object {
+              "locale": "en-US",
+              "wordList": Object {
+                "banned": Array [
+                  "banned",
+                ],
+                "suspect": Array [
+                  "suspect",
+                ],
+              },
+            }
           }
         >
           content
@@ -576,16 +588,19 @@ exports[`renders reply correctly 1`] = `
         className="ModerateCard-contentArea"
       >
         <CommentContent
-          bannedWords={
-            Array [
-              "banned",
-            ]
-          }
           className="ModerateCard-content"
-          suspectWords={
-            Array [
-              "suspect",
-            ]
+          phrases={
+            Object {
+              "locale": "en-US",
+              "wordList": Object {
+                "banned": Array [
+                  "banned",
+                ],
+                "suspect": Array [
+                  "suspect",
+                ],
+              },
+            }
           }
         >
           content
@@ -706,16 +721,19 @@ exports[`renders story info 1`] = `
         className="ModerateCard-contentArea"
       >
         <CommentContent
-          bannedWords={
-            Array [
-              "banned",
-            ]
-          }
           className="ModerateCard-content"
-          suspectWords={
-            Array [
-              "suspect",
-            ]
+          phrases={
+            Object {
+              "locale": "en-US",
+              "wordList": Object {
+                "banned": Array [
+                  "banned",
+                ],
+                "suspect": Array [
+                  "suspect",
+                ],
+              },
+            }
           }
         >
           content
@@ -874,16 +892,19 @@ exports[`renders tombstoned when comment is deleted 1`] = `
         className="ModerateCard-contentArea"
       >
         <CommentContent
-          bannedWords={
-            Array [
-              "banned",
-            ]
-          }
           className="ModerateCard-content"
-          suspectWords={
-            Array [
-              "suspect",
-            ]
+          phrases={
+            Object {
+              "locale": "en-US",
+              "wordList": Object {
+                "banned": Array [
+                  "banned",
+                ],
+                "suspect": Array [
+                  "suspect",
+                ],
+              },
+            }
           }
         >
           <Localized
