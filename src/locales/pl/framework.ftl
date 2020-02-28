@@ -7,21 +7,21 @@
 # Implementation based on unicode Short Number patterns
 # http://cldr.unicode.org/translation/number-patterns#TOC-Short-Numbers
 
-framework-shortNumber-1000 = 0.0k
-framework-shortNumber-10000 = 00k
+framework-shortNumber-1000 = 0,0tys
+framework-shortNumber-10000 = 00tys
 framework-shortNumber-100000 = 000tys
-framework-shortNumber-1000000 = 0.0M
+framework-shortNumber-1000000 = 0,0M
 framework-shortNumber-10000000 = 00M
 framework-shortNumber-100000000 = 000M
-framework-shortNumber-1000000000 = 0.0B
+framework-shortNumber-1000000000 = 0,0mld
 
 ## Validation
 
 framework-validation-required = To pole jest wymagane.
 framework-validation-tooShort = Wprowadź przynajmniej {$minLength} znaków.
-framework-validation-tooLong = Wprowadź nie więcej niż {$maxLength} znaków.
+framework-validation-tooLong = Wprowadź nie więcej znaków niż {$maxLength}.
 framework-validation-usernameTooShort = Login musi mieć przynajmniej {$minLength} znaków.
-framework-validation-usernameTooLong = Login może mieć nie więcej niż {$maxLength} znaków.
+framework-validation-usernameTooLong = Login może mieć nie więcej znaków niż {$maxLength}.
 framework-validation-invalidCharacters = Niedozwolone znaki.
 framework-validation-invalidEmail = Podaj prawidłowy adres email.
 framework-validation-passwordTooShort = Hasło musi mieć przynajmniej {$minLength} znaków.
