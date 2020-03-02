@@ -5,9 +5,11 @@ import { graphql } from "react-relay";
 import { PropTypesOf } from "coral-framework/types";
 
 import Header from "../../Header";
+import HorizontalRule from "../../HorizontalRule";
 import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
 import RegistrationField from "./RegistrationField";
 import SSOKeyFieldContainer from "./SSOKeyFieldContainer";
+import SSOKeyRotationQuery from "./SSOKeyRotation/SSOKeyRotationQuery";
 import TargetFilterField from "./TargetFilterField";
 
 // eslint-disable-next-line no-unused-expressions
@@ -44,6 +46,8 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled, sso }) => (
   >
     {disabledInside => (
       <>
+        <SSOKeyRotationQuery></SSOKeyRotationQuery>
+        <HorizontalRule></HorizontalRule>
         <SSOKeyFieldContainer sso={sso} disabled={disabledInside} />
         <TargetFilterField
           label={

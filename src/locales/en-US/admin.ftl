@@ -427,6 +427,24 @@ configure-auth-sso-regenerateAt = KEY GENERATED AT:
 configure-auth-sso-regenerateHonoredWarning =
   When regenerating a key, tokens signed with the previous key will be honored for 30 days.
 
+configure-auth-sso-rotate-keys = Keys
+configure-auth-sso-rotate-keyID = Key ID
+configure-auth-sso-rotate-secret = Secret
+configure-auth-sso-rotate-copySecret =
+  .alt = Copy Secret
+
+configure-auth-sso-rotate-date =
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+configure-auth-sso-rotate-activeSince = Active Since
+configure-auth-sso-rotate-inactiveAt = Inactive At
+configure-auth-sso-rotate-inactiveSince = Inactive Since
+
+configure-auth-sso-rotate-status = Status
+configure-auth-sso-rotate-statusActive = Active
+configure-auth-sso-rotate-statusExpiring = Expiring
+configure-auth-sso-rotate-statusExpired = Expired
+configure-auth-sso-rotate-statusUnknown = Unknown
+
 configure-auth-local-loginWith = Login with email authentication
 configure-auth-local-useLoginOn = Use email authentication login on
 
