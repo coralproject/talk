@@ -145,6 +145,7 @@ const enhanced = withFragmentContainer<Props>({
             pendingComments
             featuredComments
             allComments
+            staffComments
           }
         }
       }

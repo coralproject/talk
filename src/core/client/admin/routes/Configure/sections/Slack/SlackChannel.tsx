@@ -172,6 +172,24 @@ const SlackChannel: FunctionComponent<Props> = ({
                   )}
                 </Field>
                 <Field
+                  name={`${channel}.triggers.staffComments`}
+                  type="checkbox"
+                  parse={parseBool}
+                >
+                  {({ input }) => (
+                    <CheckBox
+                      id={`configure-slack-channel-triggers-staffComments-${input.name}`}
+                      disabled={disabled || !channelEnabled}
+                      className={styles.trigger}
+                      {...input}
+                    >
+                      <Localized id="configure-slack-channel-triggers-staffComments">
+                        Staff Comments
+                      </Localized>
+                    </CheckBox>
+                  )}
+                </Field>
+                <Field
                   name={`${channel}.triggers.reportedComments`}
                   type="checkbox"
                   parse={parseBool}
