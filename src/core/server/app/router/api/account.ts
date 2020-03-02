@@ -1,5 +1,4 @@
 import bodyParser from "body-parser";
-import express from "express";
 
 import { AppOptions } from "coral-server/app";
 import {
@@ -17,11 +16,13 @@ import { jsonMiddleware } from "coral-server/app/middleware/json";
 import { authenticate } from "coral-server/app/middleware/passport";
 import { RouterOptions } from "coral-server/app/router/types";
 
+import { createAPIRouter } from "./helpers";
+
 export function createNewAccountRouter(
   app: AppOptions,
   { passport }: Pick<RouterOptions, "passport">
 ) {
-  const router = express.Router();
+  const router = createAPIRouter();
 
   router.post(
     "/confirm",
