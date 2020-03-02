@@ -48,7 +48,10 @@ export function logQuery(
     if (!ctx || !ctx.logger) {
       // Catch the context and log it out, we need to know what is
       // going on here
-      logger.warn({ ctx }, "unable to find logger on GraphContext");
+      logger.warn(
+        { ctx: Boolean(ctx) },
+        "unable to find logger on GraphContext"
+      );
 
       // Continue to log the query.
       // We don't want to lose the precious metrics.
@@ -66,8 +69,10 @@ export function logQuery(
     // If while compositing this log data we fail for other
     // reasons, let's catch that to prevent other errors from
     // occurring and log everything we can.
-    logger.error({ ctx, document }, "unable to log graphQL query");
-    logger.error(err);
+    logger.error(
+      { err, ctx: Boolean(ctx), document: Boolean(document) },
+      "unable to log GraphQL query"
+    );
   }
 }
 
