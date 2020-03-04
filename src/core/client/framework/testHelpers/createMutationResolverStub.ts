@@ -40,7 +40,9 @@ export default function createMutationResolverStub<
     expectAndFail(lastClientMutationIds).not.toContain(clientMutationId);
     lastClientMutationIds.push(clientMutationId);
     const result = callback({
-      variables: omit(data.input, "clientMutationId"),
+      // TODO: Remove this exception, linting error shouldn't be there.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      variables: omit(data.input, "clientMutationId") as any,
       callCount: callCount++,
       typecheck: identity,
     });
