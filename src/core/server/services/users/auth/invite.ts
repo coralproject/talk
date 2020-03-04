@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { isNull, uniq } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
@@ -52,12 +52,12 @@ export interface InviteToken extends Required<StandardClaims> {
 }
 
 const InviteTokenSchema = StandardClaimsSchema.keys({
-  aud: Joi.string().only("invite"),
+  aud: Joi.string().valid("invite"),
   email: Joi.string().email(),
 });
 
 export function validateInviteToken(token: InviteToken | object): Error | null {
-  const { error } = Joi.validate(token, InviteTokenSchema, {
+  const { error } = InviteTokenSchema.validate(token, {
     presence: "required",
   });
   return error || null;

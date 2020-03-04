@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
@@ -24,13 +24,13 @@ export interface UnsubscribeToken extends Required<StandardClaims> {
 }
 
 const UnsubscribeTokenSchema = StandardClaimsSchema.keys({
-  aud: Joi.string().only("unsubscribe"),
+  aud: Joi.string().valid("unsubscribe"),
 });
 
 export function validateUnsubscribeToken(
   token: UnsubscribeToken | object
 ): Error | null {
-  const { error } = Joi.validate(token, UnsubscribeTokenSchema, {
+  const { error } = UnsubscribeTokenSchema.validate(token, {
     presence: "required",
   });
   return error || null;

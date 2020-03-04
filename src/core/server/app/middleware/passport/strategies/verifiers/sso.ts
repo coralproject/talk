@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { isNil } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
@@ -52,31 +52,33 @@ export interface SSOToken {
 }
 
 export function isSSOToken(token: SSOToken | object): token is SSOToken {
-  const { error } = Joi.validate(token, SSOTokenSchema, { allowUnknown: true });
+  const { error } = SSOTokenSchema.validate(token, { allowUnknown: true });
   return isNil(error);
 }
 
-export const SSOUserProfileSchema = Joi.object()
-  .keys({
-    id: Joi.string().required(),
-    email: Joi.string()
-      .lowercase()
-      .required(),
-    username: Joi.string().required(),
-    badges: Joi.array().items(Joi.string()),
-    role: Joi.string().only(Object.values(GQLUSER_ROLE)),
-    url: Joi.string().uri(),
-  })
-  .optionalKeys(["badges", "role", "url"]);
+export const SSOUserProfileSchema = Joi.object().keys({
+  id: Joi.string().required(),
+  email: Joi.string()
+    .lowercase()
+    .required(),
+  username: Joi.string().required(),
+  badges: Joi.array()
+    .items(Joi.string())
+    .optional(),
+  role: Joi.string()
+    .valid(...Object.values(GQLUSER_ROLE))
+    .optional(),
+  url: Joi.string()
+    .uri()
+    .optional(),
+});
 
-export const SSOTokenSchema = Joi.object()
-  .keys({
-    jti: Joi.string().default(undefined),
-    exp: Joi.number().default(undefined),
-    iat: Joi.number().default(undefined),
-    user: SSOUserProfileSchema.required(),
-  })
-  .optionalKeys(["jti", "exp", "iat"]);
+export const SSOTokenSchema = Joi.object().keys({
+  jti: Joi.string().optional(),
+  exp: Joi.number().optional(),
+  iat: Joi.number().optional(),
+  user: SSOUserProfileSchema.required(),
+});
 
 export async function findOrCreateSSOUser(
   mongo: Db,

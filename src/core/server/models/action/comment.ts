@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { camelCase, isEqual, omit, pick, uniqWith } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
@@ -135,7 +135,7 @@ export interface CommentAction extends TenantResource {
   metadata?: Record<string, any>;
 }
 
-const ActionSchema = [
+const ActionSchema = Joi.compile([
   // Flags
   {
     actionType: ACTION_TYPE.FLAG,
@@ -151,7 +151,7 @@ const ActionSchema = [
   {
     actionType: ACTION_TYPE.REACTION,
   },
-];
+]);
 
 /**
  * validateAction is used to validate that a specific action conforms to the
@@ -160,11 +160,10 @@ const ActionSchema = [
 export function validateAction(
   action: Pick<CommentAction, "actionType" | "reason">
 ) {
-  const { error } = Joi.validate(
+  const { error } = ActionSchema.validate(
     // In typescript, this isn't an issue, but when this is transpiled to
     // javascript, it will contain additional elements.
     pick(action, ["actionType", "reason"]),
-    ActionSchema,
     {
       presence: "required",
       abortEarly: false,

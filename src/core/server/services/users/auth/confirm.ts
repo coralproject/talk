@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
@@ -44,7 +44,7 @@ export interface ConfirmToken extends Required<StandardClaims> {
 }
 
 const ConfirmTokenSchema = StandardClaimsSchema.keys({
-  aud: Joi.string().only("confirm"),
+  aud: Joi.string().valid("confirm"),
   email: Joi.string().email(),
   evid: Joi.string(),
 });
@@ -52,7 +52,7 @@ const ConfirmTokenSchema = StandardClaimsSchema.keys({
 export function validateConfirmToken(
   token: ConfirmToken | object
 ): Error | null {
-  const { error } = Joi.validate(token, ConfirmTokenSchema, {
+  const { error } = ConfirmTokenSchema.validate(token, {
     presence: "required",
   });
   return error || null;

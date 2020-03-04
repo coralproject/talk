@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import uuid from "uuid/v4";
 
 import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";
@@ -99,23 +99,22 @@ export interface TenantInstallBody {
 }
 
 const TenantInstallBodySchema = Joi.object().keys({
-  tenant: Joi.object()
-    .keys({
-      organization: Joi.object().keys({
-        name: Joi.string().trim(),
-        url: Joi.string()
-          .trim()
-          .uri(),
-        contactEmail: Joi.string()
-          .trim()
-          .lowercase()
-          .email(),
-      }),
-      locale: Joi.string()
-        .default(null)
-        .valid(LOCALES),
-    })
-    .optionalKeys("locale"),
+  tenant: Joi.object().keys({
+    organization: Joi.object().keys({
+      name: Joi.string().trim(),
+      url: Joi.string()
+        .trim()
+        .uri(),
+      contactEmail: Joi.string()
+        .trim()
+        .lowercase()
+        .email(),
+    }),
+    locale: Joi.string()
+      .default(null)
+      .valid(...LOCALES)
+      .optional(),
+  }),
   site: Joi.object().keys({
     name: Joi.string().trim(),
     allowedOrigins: Joi.array().items(

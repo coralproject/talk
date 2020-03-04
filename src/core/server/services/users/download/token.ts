@@ -1,5 +1,5 @@
+import Joi from "@hapi/joi";
 import { Redis } from "ioredis";
-import Joi from "joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
@@ -25,7 +25,7 @@ interface DownloadToken extends Required<StandardClaims> {
 }
 
 const DownloadTokenSchema = StandardClaimsSchema.keys({
-  aud: Joi.string().only("download"),
+  aud: Joi.string().valid("download"),
 });
 
 export async function generateDownloadToken(
@@ -99,7 +99,7 @@ export async function generateAdminDownloadLink(
 export function validateDownloadToken(
   token: DownloadToken | object
 ): Error | null {
-  const { error } = Joi.validate(token, DownloadTokenSchema, {
+  const { error } = DownloadTokenSchema.validate(token, {
     presence: "required",
   });
   return error || null;

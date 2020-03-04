@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import { isNil } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
@@ -43,12 +43,12 @@ export interface ResetToken extends Required<StandardClaims> {
 }
 
 const ResetTokenSchema = StandardClaimsSchema.keys({
-  aud: Joi.string().only("reset"),
+  aud: Joi.string().valid("reset"),
   rid: Joi.string(),
 });
 
 export function isResetToken(token: ResetToken | object): token is ResetToken {
-  const { error } = Joi.validate(token, ResetTokenSchema, {
+  const { error } = ResetTokenSchema.validate(token, {
     presence: "required",
   });
   return isNil(error);

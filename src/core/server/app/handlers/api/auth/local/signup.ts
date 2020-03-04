@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 import uuid from "uuid/v4";
 
 import { AppOptions } from "coral-server/app";
