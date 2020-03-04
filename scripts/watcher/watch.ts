@@ -71,7 +71,7 @@ function filterOnly(
     throw new Error(`Watcher Configuration or Set for ${unknown} not found`);
   }
   return pickBy(watchers, (value, key) => {
-    if (resolved.indexOf(key) === -1) {
+    if (!resolved.includes(key)) {
       // eslint-disable-next-line no-console
       console.log(chalk.grey(`Disabled watcher "${key}"`));
       return false;
