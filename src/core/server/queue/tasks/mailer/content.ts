@@ -33,7 +33,7 @@ function render(env: Environment, { name, context }: EmailTemplate) {
           return reject(err);
         }
 
-        return resolve(html);
+        return resolve(html!);
       }
     )
   );

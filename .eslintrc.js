@@ -84,7 +84,7 @@ const typescriptOverrides = {
 let typescriptTypeCheckingOverrides = {
   files: ["*.ts", "*.tsx"],
   parserOptions: {
-    project: ["tsconfig.json", "./src/tsconfig.json", "./src/core/client/tsconfig.json"],
+    project: ["./tsconfig.json", "./src/tsconfig.json", "./src/core/client/tsconfig.json"],
     // TODO: (cvle) this is a workaround, see: https://github.com/typescript-eslint/typescript-eslint/issues/1091.
     createDefaultProgram: true,
   },
@@ -107,6 +107,7 @@ let typescriptTypeCheckingOverrides = {
       "@typescript-eslint/require-await": "off",
       "@typescript-eslint/no-misused-promises": "off",
       "@typescript-eslint/unbound-method": "off", // 10.10.19: (cvle) seems to give false positive.
+      "@typescript-eslint/no-empty-function": "off",
     }
   ),
 };
