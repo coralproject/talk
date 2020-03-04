@@ -97,7 +97,7 @@
     "graphql-tools": "^4.0.7",
     "helmet": "^3.21.2",
     "html-minifier": "^4.0.0",
-    "html-to-text": "^4.0.0",
+    "html-to-text": "^5.1.1",
     "ioredis": "^4.9.0",
     "joi": "^13.4.0",
     "jsdom": "^15.0.0",
