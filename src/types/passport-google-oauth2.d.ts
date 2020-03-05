@@ -26,7 +26,7 @@ declare module "passport-google-oauth2" {
     done: (error: any, user?: any, info?: any) => void
   ) => void;
 
-  export class Strategy extends passport.Strategy {
+  export class Strategy implements passport.Strategy {
     constructor(
       options: StrategyOptionWithRequest,
       verify: VerifyFunctionWithRequest
