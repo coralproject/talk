@@ -4,12 +4,12 @@ exports[`renders correctly 1`] = `
 <li
   className="customClassName"
 >
-  <ForwardRef(render)
+  <Link
     activeClassName="Link-linkActive"
     className="Link-link"
     to="/admin"
   >
     child
-  </ForwardRef(render)>
+  </Link>
 </li>
 `;

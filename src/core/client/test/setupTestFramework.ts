@@ -21,3 +21,8 @@ process.on("unhandledRejection", err => {
 });
 
 expect.extend(toHaveNoViolations);
+
+// axe checking takes a bit of time.
+beforeEach(() => {
+  jest.setTimeout(20000);
+});

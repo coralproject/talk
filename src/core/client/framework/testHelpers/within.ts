@@ -78,7 +78,15 @@ export default function within(container: ReactTestInstance) {
      * Example use:
      * `expect(await within(container).axe()).toHaveNoViolations();`
      */
-    axe: () => axe(toHTML(container)),
+    axe: () =>
+      axe(toHTML(container), {
+        rules: {
+          region: {
+            // Only check for landmarks if we are checking at the root level.
+            enabled: container.parent === null,
+          },
+        },
+      }),
     /** Output the html representation of the container */
     // eslint-disable-next-line no-console
     debug: () => console.log(toHTML(container, { pretty: true })),
