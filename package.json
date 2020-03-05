@@ -239,9 +239,7 @@
     "@typescript-eslint/eslint-plugin": "^2.22.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.22.0",
     "@typescript-eslint/parser": "^2.22.0",
-    "acorn": "^6.1.1",
-    "ansi-styles": "^3.2.0",
-    "autoprefixer": "^9.5.1",
+    "autoprefixer": "^9.7.4",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
@@ -415,5 +413,11 @@
     "rules": [
       "types-are-capitalized"
     ]
-  }
+  },
+  "browsers": [
+    ">1%",
+    "last 4 versions",
+    "Firefox ESR",
+    "not ie < 10"
+  ]
 }
