@@ -21,8 +21,9 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   globals: {
     "ts-jest": {
-      useBabelrc: true,
-      tsConfigFile: path.resolve(__dirname, "../../src/tsconfig.json"),
+      babelConfig: true,
+      tsConfig: path.resolve(__dirname, "../../src/tsconfig.json"),
     },
   },
+  preset: "ts-jest",
 };

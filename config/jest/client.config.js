@@ -40,11 +40,9 @@ module.exports = {
   snapshotSerializers: ["enzyme-to-json/serializer"],
   globals: {
     "ts-jest": {
-      useBabelrc: true,
-      tsConfigFile: path.resolve(
-        __dirname,
-        "../../src/core/client/tsconfig.json"
-      ),
+      babelConfig: true,
+      tsConfig: path.resolve(__dirname, "../../src/core/client/tsconfig.json"),
     },
   },
+  preset: "ts-jest/presets/js-with-babel",
 };
