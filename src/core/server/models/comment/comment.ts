@@ -1,7 +1,7 @@
 import { isEmpty } from "lodash";
 import { Db } from "mongodb";
 import performanceNow from "performance-now";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { Omit, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
@@ -153,7 +153,7 @@ export async function createComment(
 
   // Generate the revision.
   const revision: Revision = {
-    id: uuid.v4(),
+    id: uuid(),
     body,
     actionCounts,
     metadata,
@@ -163,7 +163,7 @@ export async function createComment(
   // default are the properties set by the application when a new comment is
   // created.
   const defaults: Sub<Comment, CreateCommentInput> = {
-    id: uuid.v4(),
+    id: uuid(),
     tenantID,
     childIDs: [],
     childCount: 0,
@@ -296,7 +296,7 @@ export async function editComment(
 
   // Generate the revision.
   const revision: Revision = {
-    id: uuid.v4(),
+    id: uuid(),
     body,
     actionCounts,
     metadata,

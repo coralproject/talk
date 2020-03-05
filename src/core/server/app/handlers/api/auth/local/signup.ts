@@ -1,5 +1,5 @@
 import Joi from "@hapi/joi";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 import { AppOptions } from "coral-server/app";
 import { handleSuccessfulLogin } from "coral-server/app/middleware/passport";

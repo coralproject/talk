@@ -1,7 +1,7 @@
 import Joi from "@hapi/joi";
 import { camelCase, isEqual, omit, pick, uniqWith } from "lodash";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { Omit, Sub } from "coral-common/types";
 import {
@@ -209,7 +209,7 @@ export async function createAction(
   const { metadata, additionalDetails, ...rest } = input;
 
   // Create a new ID for the action.
-  const id = uuid.v4();
+  const id = uuid();
 
   // defaults are the properties set by the application when a new action is
   // created.

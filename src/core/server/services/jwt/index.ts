@@ -5,7 +5,7 @@ import { Redis } from "ioredis";
 import jwt, { KeyFunction, SignOptions, VerifyOptions } from "jsonwebtoken";
 import { DateTime } from "luxon";
 import { Bearer, BearerOptions } from "permit";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
 import { Omit } from "coral-common/types";

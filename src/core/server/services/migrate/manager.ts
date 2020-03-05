@@ -3,7 +3,7 @@ import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import path from "path";
 import now from "performance-now";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import logger from "coral-server/logger";
 import {
@@ -37,7 +37,7 @@ export default class Manager {
   private ran = false;
 
   constructor({ tenantCache, i18n }: ManagerOptions) {
-    this.clientID = uuid.v4();
+    this.clientID = uuid();
     this.migrations = [];
     this.tenantCache = tenantCache;
 

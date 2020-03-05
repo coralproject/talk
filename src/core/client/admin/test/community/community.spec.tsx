@@ -1,5 +1,5 @@
 import TestRenderer from "react-test-renderer";
-import uuid from "uuid/v1";
+import { v1 as uuid } from "uuid";
 
 import { pureMerge } from "coral-common/utils";
 import {

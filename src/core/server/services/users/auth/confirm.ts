@@ -2,7 +2,7 @@ import Joi from "@hapi/joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
@@ -91,7 +91,7 @@ export async function generateConfirmURL(
 
   // Generate a token with this new reset ID.
   const confirmToken: ConfirmToken = {
-    jti: uuid.v4(),
+    jti: uuid(),
     iss: tenant.id,
     sub: id,
     exp: expiresAt,

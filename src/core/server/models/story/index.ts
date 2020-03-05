@@ -1,5 +1,5 @@
 import { Db, MongoError } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { DeepPartial, FirstDeepPartial, Omit } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
@@ -121,7 +121,7 @@ export interface UpsertStoryResult {
 export async function upsertStory(
   mongo: Db,
   tenantID: string,
-  { id = uuid.v4(), url, siteID }: UpsertStoryInput,
+  { id = uuid(), url, siteID }: UpsertStoryInput,
   now = new Date()
 ): Promise<UpsertStoryResult> {
   // Create the story, optionally sourcing the id from the input, additionally

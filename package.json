@@ -137,7 +137,7 @@
     "throng": "^4.0.0",
     "tsscmp": "^1.0.6",
     "url-regex": "^5.0.0",
-    "uuid": "^3.3.3",
+    "uuid": "^7.0.2",
     "verror": "^1.10.0"
   },
   "devDependencies": {
@@ -229,7 +229,7 @@
     "@types/stack-trace": "0.0.29",
     "@types/stack-utils": "^1.0.1",
     "@types/throng": "^4.0.2",
-    "@types/uuid": "^3.4.4",
+    "@types/uuid": "^7.0.0",
     "@types/verror": "^1.10.3",
     "@types/vinyl": "^2.0.2",
     "@types/webpack": "^4.4.31",

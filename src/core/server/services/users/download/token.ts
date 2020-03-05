@@ -3,7 +3,7 @@ import { Redis } from "ioredis";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
@@ -40,7 +40,7 @@ export async function generateDownloadToken(
   const expiresAt = Math.round(nowDate.plus({ weeks: 2 }).toSeconds());
 
   const downloadToken: DownloadToken = {
-    jti: uuid.v4(),
+    jti: uuid(),
     iss: tenant.id,
     sub: userID,
     exp: expiresAt,

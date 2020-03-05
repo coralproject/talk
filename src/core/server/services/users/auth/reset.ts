@@ -2,7 +2,7 @@ import Joi from "@hapi/joi";
 import { isNil } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import {
   LocalProfileNotSetError,
@@ -89,7 +89,7 @@ export async function generateResetURL(
 
   // Generate a token with this new reset ID.
   const resetToken: ResetToken = {
-    jti: uuid.v4(),
+    jti: uuid(),
     iss: tenant.id,
     sub: user.id,
     exp: expiresAt,

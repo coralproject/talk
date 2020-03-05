@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { DateTime, DurationObject } from "luxon";
 import { Db, MongoError } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { DeepPartial, Omit, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
@@ -514,7 +514,7 @@ export interface FindOrCreateUserInput {
  */
 async function findOrCreateUserInput(
   tenantID: string,
-  { id = uuid.v4(), profile, ...input }: FindOrCreateUserInput,
+  { id = uuid(), profile, ...input }: FindOrCreateUserInput,
   now: Date
 ): Promise<Readonly<User>> {
   // default are the properties set by the application when a new user is
@@ -549,7 +549,7 @@ async function findOrCreateUserInput(
   if (input.username) {
     // Add the username history to the user.
     defaults.status.username.history.push({
-      id: uuid.v4(),
+      id: uuid(),
       username: input.username,
       createdBy: id,
       createdAt: now,
@@ -1287,7 +1287,7 @@ export async function createUserToken(
 ) {
   // Create the Token that we'll be adding to the User.
   const token: Readonly<Token> = {
-    id: uuid.v4(),
+    id: uuid(),
     name,
     createdAt: now,
   };
@@ -1897,7 +1897,7 @@ export async function createOrRetrieveUserPasswordResetID(
   id: string
 ): Promise<string> {
   // Create the ID.
-  const resetID = uuid.v4();
+  const resetID = uuid();
 
   // Associate the resetID with the user.
   const result = await collection(mongo).findOneAndUpdate(
@@ -1952,7 +1952,7 @@ export async function createOrRetrieveUserEmailVerificationID(
   id: string
 ): Promise<string> {
   // Create the ID.
-  const emailVerificationID = uuid.v4();
+  const emailVerificationID = uuid();
 
   // Associate the resetID with the user.
   const result = await collection(mongo).findOneAndUpdate(

@@ -2,7 +2,7 @@ import Joi from "@hapi/joi";
 import { isNull, uniq } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { constructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
@@ -85,7 +85,7 @@ export async function generateInviteURL(
 
   // Generate a token.
   const inviteToken: InviteToken = {
-    jti: uuid.v4(),
+    jti: uuid(),
     iss: tenant.id,
     sub: id,
     exp: Math.round(DateTime.fromJSDate(user.expiresAt).toSeconds()),
@@ -308,7 +308,7 @@ export async function redeem(
     id: email,
     type: "local",
     password,
-    passwordID: uuid.v4(),
+    passwordID: uuid(),
   };
 
   // Create the new user based on the invite.

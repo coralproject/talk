@@ -1,5 +1,5 @@
 import Joi from "@hapi/joi";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";
 import { Omit } from "coral-common/types";

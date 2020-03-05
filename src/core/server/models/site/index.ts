@@ -1,6 +1,6 @@
 import { identity, isNumber } from "lodash";
 import { Db, MongoError } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { FirstDeepPartial, Omit } from "coral-common/types";
 import { getOrigin } from "coral-server/app/url";
@@ -49,7 +49,7 @@ export async function createSite(
 ): Promise<Readonly<Site>> {
   const site: Site = {
     ...input,
-    id: uuid.v4(),
+    id: uuid(),
     commentCounts: createEmptyRelatedCommentCounts(),
     createdAt: now,
   };

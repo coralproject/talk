@@ -1,7 +1,7 @@
 import { isEmpty } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 
 import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
@@ -145,7 +145,7 @@ export async function createTenant(
 
   const defaults: Sub<Tenant, CreateTenantInput> = {
     // Create a new ID.
-    id: uuid.v4(),
+    id: uuid(),
 
     // Default to post moderation.
     moderation: GQLMODERATION_MODE.POST,
@@ -476,7 +476,7 @@ export async function createTenantAnnouncement(
   now = new Date()
 ) {
   const announcement = {
-    id: uuid.v4(),
+    id: uuid(),
     ...input,
     createdAt: now,
   };
