@@ -1,9 +1,9 @@
-import bowser from "bowser";
 import React from "react";
 import ReactDOM from "react-dom";
 
 import { parseQuery } from "coral-common/utils";
-import { areWeInIframe } from "coral-framework/utils";
+import { getBrowserInfo } from "../lib/browserInfo";
+import { areWeInIframe } from "../utils";
 
 function extractQuery(href: string) {
   const query = href.split("?")[1];
@@ -25,7 +25,7 @@ function extractQuery(href: string) {
 export default async function potentiallyInjectAxe(
   href = window.location.href
 ) {
-  if (process.env.NODE_ENV !== "development" || bowser.mobile) {
+  if (process.env.NODE_ENV !== "development" || getBrowserInfo().mobile) {
     // Only in development and skip mobile as it doesn't work there.
     return;
   }

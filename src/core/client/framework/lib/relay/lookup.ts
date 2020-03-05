@@ -1,5 +1,6 @@
-import bowser from "bowser";
 import { Environment } from "relay-runtime";
+
+import { getBrowserInfo } from "../browserInfo";
 
 /**
  * RecordSourceProxy has the same shape as the underlying Schema Type, but
@@ -55,7 +56,7 @@ const createProxy = <T = any>(
   // IE11 does not have Proxy support and the polyfill only supports
   // a subset of features under special circumstances.
   // https://github.com/GoogleChrome/proxy-polyfill
-  if (bowser.msie) {
+  if (getBrowserInfo().msie) {
     target = recordSource;
     delete proxy.ownKeys;
     delete proxy.getOwnPropertyDescriptor;

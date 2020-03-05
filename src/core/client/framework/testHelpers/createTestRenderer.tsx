@@ -100,7 +100,11 @@ export default function createTestRenderer<
     sessionStorage: createPromisifiedStorage(),
     rest: new RestClient("http://localhost/api"),
     postMessage: new PostMessageService(),
-    browserInfo: params.browserInfo || { ios: false },
+    browserInfo: params.browserInfo || {
+      ios: false,
+      mobile: false,
+      msie: false,
+    },
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
     clearSession: sinon.stub(),
