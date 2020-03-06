@@ -1,15 +1,15 @@
 ---
-title: Installing Version 5
+title: Installing Coral
 permalink: /
 ---
 
 Online comments are broken. Our open-source commenting platform, Coral, reimagines
 moderation, comment display, and conversation. Use Coral to add smarter, safer discussions to your site without giving away your data.
 
-More than 100 newsrooms in 14 countries trust Coral to power their on-site communities, including The Washington Post, The Wall Street Journal, and Der Spiegel. [Read more about Coral here](https://coralproject.net/).
+More than 130 newsrooms in 16 countries trust Coral to power their on-site communities, including The Washington Post, The Wall Street Journal, and Der Spiegel. [Read more about Coral here](https://coralproject.net/).
 
 <div class="callout">
-  We offer hosting and support packages for Coral, as well as exclusive, customer-only resources. [Contact us for more information.](https://coralproject.net/pricing/)
+  We offer hosting and support packages for Coral, as well as exclusive, customer-only features. [Contact us for more information.](https://coralproject.net/pricing/)
 </div>
 
 Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
