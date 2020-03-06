@@ -431,7 +431,7 @@ configure-auth-sso-rotate-keys = Keys
 configure-auth-sso-rotate-keyID = Key ID
 configure-auth-sso-rotate-secret = Secret
 configure-auth-sso-rotate-copySecret =
-  .alt = Copy Secret
+  .aria-label = Copy Secret
 
 configure-auth-sso-rotate-date =
   { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
@@ -444,6 +444,18 @@ configure-auth-sso-rotate-statusActive = Active
 configure-auth-sso-rotate-statusExpiring = Expiring
 configure-auth-sso-rotate-statusExpired = Expired
 configure-auth-sso-rotate-statusUnknown = Unknown
+
+configure-auth-sso-rotate-rotate = Rotate
+configure-auth-sso-rotate-deactivateNow = Deactivate Now
+configure-auth-sso-rotate-delete = Delete
+
+configure-auth-sso-rotate-now = Now
+configure-auth-sso-rotate-10Seconds = 10 seconds from now
+configure-auth-sso-rotate-1day = 1 day from now
+configure-auth-sso-rotate-1week = 1 week from now
+configure-auth-sso-rotate-30days = 30 days from now
+configure-auth-sso-rotate-dropdown-description =
+  .description = A dropdown to rotate the SSO key
 
 configure-auth-local-loginWith = Login with email authentication
 configure-auth-local-useLoginOn = Use email authentication login on

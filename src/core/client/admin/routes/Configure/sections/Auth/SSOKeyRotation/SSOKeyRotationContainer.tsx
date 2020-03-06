@@ -13,19 +13,38 @@ interface Props {
   disabled?: boolean;
 }
 
+interface Key {
+  readonly kid: string;
+  readonly secret: string;
+  readonly createdAt: string;
+  readonly lastUsedAt: string | null;
+  readonly rotatedAt: string | null;
+  readonly inactiveAt: string | null;
+}
+
 function getStatus(dates: SSOKeyDates) {
-  if (dates.inactiveAt) {
-    return SSOKeyStatus.EXPIRED;
-  }
   if (
-    dates.lastUsedAt &&
+    dates.inactiveAt &&
     dates.rotatedAt &&
-    new Date(dates.lastUsedAt) < new Date(dates.rotatedAt)
+    new Date(dates.inactiveAt) > new Date()
   ) {
     return SSOKeyStatus.EXPIRING;
   }
 
+  if (dates.inactiveAt && new Date(dates.inactiveAt) <= new Date()) {
+    return SSOKeyStatus.EXPIRED;
+  }
+
   return SSOKeyStatus.ACTIVE;
+}
+
+function sortByDate(items: Key[]) {
+  return items.sort((a: Key, b: Key) => {
+    const aDate = new Date(a.createdAt);
+    const bDate = new Date(b.createdAt);
+
+    return bDate.getTime() - aDate.getTime();
+  });
 }
 
 const SSOKeyRotationContainer: FunctionComponent<Props> = ({
@@ -45,7 +64,18 @@ const SSOKeyRotationContainer: FunctionComponent<Props> = ({
       <Localized id="configure-auth-sso-rotate-keys">
         <Label htmlFor="configure-auth-sso-rotate-keys">Keys</Label>
       </Localized>
-      {keys.map(key => {
+      {sortByDate(
+        keys.map(k => {
+          return {
+            kid: k.kid,
+            secret: k.secret,
+            createdAt: k.createdAt,
+            lastUsedAt: k.lastUsedAt,
+            rotatedAt: k.rotatedAt,
+            inactiveAt: k.inactiveAt,
+          };
+        })
+      ).map(key => {
         return (
           <SSOKeyCard
             key={key.kid}

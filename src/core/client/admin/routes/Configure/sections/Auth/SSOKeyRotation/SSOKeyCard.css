@@ -32,6 +32,13 @@
 .expiring {
   background-color: var(--v2-colors-yellow-500);
   color: var(--v2-colors-mono-500);
+
+  padding-top: var(--v2-spacing-1);
+  padding-bottom: var(--v2-spacing-1);
+}
+
+.icon {
+  padding-right: var(--v2-spacing-1);
 }
 
 .expired {
@@ -49,4 +56,8 @@
 .secretSection {
   flex-grow: 1;
   min-width: 50px;
+}
+
+.action {
+  margin-right: var(--v2-spacing-1)
 }
