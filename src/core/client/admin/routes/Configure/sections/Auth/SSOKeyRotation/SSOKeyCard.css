@@ -43,7 +43,10 @@
 
 .expired {
   background-color: var(--v2-colors-red-500);
-  color: var(--v2-colors-pure-white);;
+  color: var(--v2-colors-pure-white);
+
+  padding-top: var(--v2-spacing-1);
+  padding-bottom: var(--v2-spacing-1);
 }
 
 .date {

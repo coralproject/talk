@@ -17,6 +17,8 @@ import {
   PasswordField,
   Popover,
   TextField,
+  Tooltip,
+  TooltipButton,
 } from "coral-ui/components/v2";
 
 import RotateSSOKeyMutation from "./RotateSSOKey";
@@ -61,23 +63,73 @@ function getStatusField(status: SSOKeyStatus) {
   }
   if (status === SSOKeyStatus.EXPIRING) {
     return (
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        className={cn(styles.status, styles.expiring)}
-      >
-        <Icon className={styles.icon}>alarm</Icon>
-        <Localized id="configure-auth-sso-rotate-statusExpiring">
-          <span>Expiring</span>
-        </Localized>
+      <Flex alignItems="center" justifyContent="center">
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          className={cn(styles.status, styles.expiring)}
+        >
+          <Icon className={styles.icon}>alarm</Icon>
+          <Localized id="configure-auth-sso-rotate-statusExpiring">
+            <span>Expiring</span>
+          </Localized>
+        </Flex>
+        <Tooltip
+          id="configure-auth-sso-rotate-expiringTooltip"
+          title=""
+          body={
+            <Localized id="configure-auth-sso-rotate-expiringTooltip">
+              <span>
+                An SSO key is expiring when it is scheduled for rotation.
+              </span>
+            </Localized>
+          }
+          button={({ toggleVisibility, ref, visible }) => (
+            <Localized
+              id="configure-auth-sso-rotate-expiringTooltip-toggleButton"
+              attrs={{ "aria-label": true }}
+            >
+              <TooltipButton
+                active
+                aria-label="Toggle expiring tooltip visibility"
+                toggleVisibility={toggleVisibility}
+                ref={ref}
+              />
+            </Localized>
+          )}
+        />
       </Flex>
     );
   }
   if (status === SSOKeyStatus.EXPIRED) {
     return (
-      <Localized id="configure-auth-sso-rotate-statusExpired">
-        <span className={cn(styles.status, styles.expired)}>Expired</span>
-      </Localized>
+      <Flex alignItems="center" justifyContent="center">
+        <Localized id="configure-auth-sso-rotate-statusExpired">
+          <span className={cn(styles.status, styles.expired)}>Expired</span>
+        </Localized>
+        <Tooltip
+          id="configure-auth-sso-rotate-expiredTooltip"
+          title=""
+          body={
+            <Localized id="configure-auth-sso-rotate-expiredTooltip">
+              <span>An SSO key is expired when it has rotated out of use.</span>
+            </Localized>
+          }
+          button={({ toggleVisibility, ref, visible }) => (
+            <Localized
+              id="configure-auth-sso-rotate-expiredTooltip-toggleButton"
+              attrs={{ "aria-label": true }}
+            >
+              <TooltipButton
+                active
+                aria-label="Toggle expired tooltip visibility"
+                toggleVisibility={toggleVisibility}
+                ref={ref}
+              />
+            </Localized>
+          )}
+        />
+      </Flex>
     );
   }
 
@@ -146,16 +198,22 @@ function getDateField(status: SSOKeyStatus, dates: SSOKeyDates) {
             <Label>Inactive Since</Label>
           </Localized>
         </div>
-        <Localized
-          id="configure-auth-sso-rotate-date"
-          $date={
-            dates.inactiveAt
-              ? new Date(dates.inactiveAt)
-              : new Date(dates.createdAt)
-          }
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          className={styles.date}
         >
-          <span className={styles.date}>{dates.inactiveAt}</span>
-        </Localized>
+          <Localized
+            id="configure-auth-sso-rotate-date"
+            $date={
+              dates.inactiveAt
+                ? new Date(dates.inactiveAt)
+                : new Date(dates.createdAt)
+            }
+          >
+            {dates.inactiveAt}
+          </Localized>
+        </Flex>
       </>
     );
   }
@@ -163,7 +221,7 @@ function getDateField(status: SSOKeyStatus, dates: SSOKeyDates) {
   return null;
 }
 
-function getTranslation(r: string) {
+function getTranslationForRotationOption(r: string) {
   switch (r) {
     case RotateOptions.NOW: {
       return <Localized id="configure-auth-sso-rotate-now">Now</Localized>;
@@ -226,7 +284,7 @@ function getActionButton(
                       toggleVisibility();
                     }}
                   >
-                    {getTranslation(r)}
+                    {getTranslationForRotationOption(r)}
                   </DropdownButton>
                 ))}
               </Dropdown>

@@ -445,6 +445,15 @@ configure-auth-sso-rotate-statusExpiring = Expiring
 configure-auth-sso-rotate-statusExpired = Expired
 configure-auth-sso-rotate-statusUnknown = Unknown
 
+configure-auth-sso-rotate-expiringTooltip =
+  An SSO key is expiring when it is scheduled for rotation.
+configure-auth-sso-rotate-expiringTooltip-toggleButton =
+  .aria-label = Toggle expiring tooltip visibility
+configure-auth-sso-rotate-expiredTooltip =
+  An SSO key is expired when it has rotated out of use.
+configure-auth-sso-rotate-expiredTooltip-toggleButton =
+  Toggle expired tooltip visibility
+
 configure-auth-sso-rotate-rotate = Rotate
 configure-auth-sso-rotate-deactivateNow = Deactivate Now
 configure-auth-sso-rotate-delete = Delete
