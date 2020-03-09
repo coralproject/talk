@@ -427,6 +427,12 @@ configure-auth-sso-regenerateAt = KEY GENERATED AT:
 configure-auth-sso-regenerateHonoredWarning =
   When regenerating a key, tokens signed with the previous key will be honored for 30 days.
 
+configure-auth-sso-description =
+  To enable integration with your existing authentication system,
+  you will need to create a JWT Token to connect. You can learn
+  more about creating a JWT Token with <IntroLink>this introduction</IntroLink>. See our
+  <DocLink>documentation</DocLink> for additional information on single sign on.
+
 configure-auth-sso-rotate-keys = Keys
 configure-auth-sso-rotate-keyID = Key ID
 configure-auth-sso-rotate-secret = Secret
