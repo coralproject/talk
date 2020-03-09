@@ -450,7 +450,7 @@ configure-auth-sso-rotate-expiringTooltip =
 configure-auth-sso-rotate-expiringTooltip-toggleButton =
   .aria-label = Toggle expiring tooltip visibility
 configure-auth-sso-rotate-expiredTooltip =
-  An SSO key is expired when it has rotated out of use.
+  An SSO key is expired when it has been rotated out of use.
 configure-auth-sso-rotate-expiredTooltip-toggleButton =
   Toggle expired tooltip visibility
 

@@ -114,7 +114,9 @@ function getStatusField(status: SSOKeyStatus) {
           title=""
           body={
             <Localized id="configure-auth-sso-rotate-expiredTooltip">
-              <span>An SSO key is expired when it has rotated out of use.</span>
+              <span>
+                An SSO key is expired when it has been rotated out of use.
+              </span>
             </Localized>
           }
           button={({ toggleVisibility, ref, visible }) => (
