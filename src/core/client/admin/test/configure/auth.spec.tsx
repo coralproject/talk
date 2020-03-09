@@ -57,11 +57,13 @@ it("renders configure auth", async () => {
   expect(within(configureContainer).toJSON()).toMatchSnapshot();
 });
 
-it("regenerate sso key", async () => {
+it("rotate sso key", async () => {
+  const keys = settingsWithEmptyAuth.auth.integrations.sso.keys;
+
   const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
-        regenerateSSOKey: () => {
+        rotateSSOKey: () => {
           return {
             settings: pureMerge<typeof settingsWithEmptyAuth>(
               settingsWithEmptyAuth,
@@ -69,6 +71,18 @@ it("regenerate sso key", async () => {
                 auth: {
                   integrations: {
                     sso: {
+                      keys: [
+                        {
+                          ...keys[0],
+                          inactiveAt: "2020-01-01T1:45:00:000Z",
+                          rotatedAt: "2020-01-01T1:45:00:000Z",
+                        },
+                        {
+                          kid: "kid-02",
+                          secret: "new-seceret",
+                          createdAt: "2020-01-01T1:45:00.000Z",
+                        },
+                      ],
                       key: "==GENERATED_KEY==",
                       keyGeneratedAt: "2018-11-12T23:26:06.239Z",
                     },
@@ -90,15 +104,21 @@ it("regenerate sso key", async () => {
 
   act(() => {
     within(container)
-      .getByText("Regenerate", { selector: "button" })
+      .getByText("Rotate", { selector: "button" })
       .props.onClick();
   });
 
-  await wait(() =>
-    expect(within(container).getByLabelText("Key").props.value).toBe(
-      "==GENERATED_KEY=="
-    )
-  );
+  const rotateNow = await waitForElement(() => {
+    return within(container).getByText("Now", { selector: "button" });
+  });
+
+  act(() => {
+    rotateNow.props.onClick();
+  });
+
+  await waitForElement(() => {
+    return within(container).getByText("EXPIRED", { exact: false });
+  });
 });
 
 it("prevents admin lock out", async () => {

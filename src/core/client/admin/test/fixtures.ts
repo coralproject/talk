@@ -202,6 +202,16 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
             stream: true,
           },
           key: "",
+          keys: [
+            {
+              kid: "kid-01",
+              secret: "secret",
+              createdAt: "2020-01-01T1:00:00.000Z",
+              lastUsedAt: undefined,
+              rotatedAt: undefined,
+              inactiveAt: undefined,
+            },
+          ],
           keyGeneratedAt: null,
         },
         google: {
