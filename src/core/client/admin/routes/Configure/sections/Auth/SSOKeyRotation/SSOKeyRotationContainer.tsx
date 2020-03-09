@@ -40,8 +40,23 @@ function getStatus(dates: SSOKeyDates) {
 
 function sortByDate(items: Key[]) {
   return items.sort((a: Key, b: Key) => {
-    const aDate = new Date(a.createdAt);
-    const bDate = new Date(b.createdAt);
+    // Both active, sort on createdAt date.
+    if (!a.inactiveAt && !b.inactiveAt) {
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    }
+    // A is active, B is not, A comes before B.
+    if (!a.inactiveAt && b.inactiveAt) {
+      return -1;
+    }
+    // B is active, A is not, B comes before A.
+    if (a.inactiveAt && !b.inactiveAt) {
+      return 1;
+    }
+
+    // Sort primarily on inactiveAt, fall back to createdAt if
+    // for some reason it's not available.
+    const aDate = a.inactiveAt ? new Date(a.inactiveAt) : new Date(a.createdAt);
+    const bDate = b.inactiveAt ? new Date(b.inactiveAt) : new Date(b.createdAt);
 
     return bDate.getTime() - aDate.getTime();
   });
