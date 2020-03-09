@@ -13,49 +13,6 @@
   margin-right: var(--v2-spacing-3);
 }
 
-.status {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-reset);
-
-  border-radius: 2px;
-  padding-left: var(--v2-spacing-1);
-  padding-right: var(--v2-spacing-1);
-}
-
-.active {
-  background-color: var(--v2-colors-green-500);
-  color: var(--v2-colors-pure-white);
-}
-
-.expiring {
-  background-color: var(--v2-colors-yellow-500);
-  color: var(--v2-colors-mono-500);
-
-  padding-top: var(--v2-spacing-1);
-  padding-bottom: var(--v2-spacing-1);
-}
-
-.icon {
-  padding-right: var(--v2-spacing-1);
-}
-
-.expired {
-  background-color: var(--v2-colors-red-500);
-  color: var(--v2-colors-pure-white);
-
-  padding-top: var(--v2-spacing-1);
-  padding-bottom: var(--v2-spacing-1);
-}
-
-.date {
-  font-family: var(--v2-font-family-primary);
-  font-weight: var(--v2-font-weight-primary-regular);
-  font-size: var(--v2-font-size-2);
-  line-height: var(--v2-line-height-reset);
-}
-
 .secretSection {
   flex-grow: 1;
   min-width: 50px;

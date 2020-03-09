@@ -6,7 +6,8 @@ import { Label } from "coral-ui/components/v2";
 
 import { SSOKeyRotationContainer_settings } from "coral-admin/__generated__/SSOKeyRotationContainer_settings.graphql";
 
-import SSOKeyCard, { SSOKeyDates, SSOKeyStatus } from "./SSOKeyCard";
+import SSOKeyCard, { SSOKeyDates } from "./SSOKeyCard";
+import { SSOKeyStatus } from "./StatusField";
 
 interface Props {
   settings: SSOKeyRotationContainer_settings;

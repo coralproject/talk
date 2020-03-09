@@ -1,0 +1,10 @@
+.label {
+  padding-bottom: var(--v2-spacing-2);
+}
+
+.date {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-reset);
+}
