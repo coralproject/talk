@@ -406,14 +406,16 @@ const SSOKeyCard: FunctionComponent<Props> = ({
                 fullWidth
               />
               <CopyToClipboard text={secret}>
-                <Localized
-                  id="configure-auth-sso-rotate-copySecret"
-                  attrs={{ "aria-label": true }}
-                >
-                  <Button color="mono" variant="flat" aria-label="Copy Secret">
-                    <Icon size="md">content_copy</Icon>
-                  </Button>
-                </Localized>
+                <Button color="mono" variant="flat">
+                  <Localized
+                    id="configure-auth-sso-rotate-copySecret"
+                    attrs={{ "aria-label": true }}
+                  >
+                    <Icon size="md" aria-label="Copy Secret">
+                      content_copy
+                    </Icon>
+                  </Localized>
+                </Button>
               </CopyToClipboard>
             </Flex>
           </div>
