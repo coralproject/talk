@@ -21,7 +21,9 @@ import {
   TooltipButton,
 } from "coral-ui/components/v2";
 
-import RotateSSOKeyMutation from "./RotateSSOKey";
+import DeactivateSSOKeyMutation from "./DeactivateSSOKeyMutation";
+import DeleteSSOKeyMutation from "./DeleteSSOKeyMutation";
+import RotateSSOKeyMutation from "./RotateSSOKeyMutation";
 
 import styles from "./SSOKeyCard.css";
 
@@ -261,7 +263,9 @@ function getTranslationForRotationOption(r: string) {
 
 function getActionButton(
   status: SSOKeyStatus,
-  onChangeStatus: (rotation: string) => void
+  onRotateKey: (rotation: string) => void,
+  onDeactivateKey: () => void,
+  onDelete: () => void
 ) {
   if (status === SSOKeyStatus.ACTIVE) {
     return (
@@ -280,7 +284,7 @@ function getActionButton(
                   <DropdownButton
                     key={r}
                     onClick={() => {
-                      onChangeStatus(r);
+                      onRotateKey(r);
                       toggleVisibility();
                     }}
                   >
@@ -306,14 +310,18 @@ function getActionButton(
   if (status === SSOKeyStatus.EXPIRING) {
     return (
       <Localized id="configure-auth-sso-rotate-deactivateNow">
-        <Button color="alert">Deactivate Now</Button>
+        <Button color="alert" onClick={onDeactivateKey}>
+          Deactivate Now
+        </Button>
       </Localized>
     );
   }
   if (status === SSOKeyStatus.EXPIRED) {
     return (
       <Localized id="configure-auth-sso-rotate-delete">
-        <Button color="alert">Delete</Button>
+        <Button color="alert" onClick={onDelete}>
+          Delete
+        </Button>
       </Localized>
     );
   }
@@ -328,28 +336,43 @@ const SSOKeyCard: FunctionComponent<Props> = ({
   dates,
 }) => {
   const rotateSSOKey = useMutation(RotateSSOKeyMutation);
-  const onRotate = useCallback((rotation: string) => {
-    window.console.log(rotation);
-    switch (rotation) {
-      case RotateOptions.NOW:
-        rotateSSOKey({ inactiveIn: 0 });
-        break;
-      case RotateOptions.IN10SECONDS:
-        rotateSSOKey({ inactiveIn: 10 });
-        break;
-      case RotateOptions.IN1DAY:
-        rotateSSOKey({ inactiveIn: 24 * 60 * 60 });
-        break;
-      case RotateOptions.IN1WEEK:
-        rotateSSOKey({ inactiveIn: 7 * 24 * 60 * 60 });
-        break;
-      case RotateOptions.IN30DAYS:
-        rotateSSOKey({ inactiveIn: 30 * 24 * 60 * 60 });
-        break;
-      default:
-        rotateSSOKey({ inactiveIn: 0 });
-    }
-  }, []);
+  const deactivateSSOKey = useMutation(DeactivateSSOKeyMutation);
+  const deleteSSOKey = useMutation(DeleteSSOKeyMutation);
+
+  const onRotate = useCallback(
+    (rotation: string) => {
+      switch (rotation) {
+        case RotateOptions.NOW:
+          rotateSSOKey({ inactiveIn: 0 });
+          break;
+        case RotateOptions.IN10SECONDS:
+          rotateSSOKey({ inactiveIn: 10 });
+          break;
+        case RotateOptions.IN1DAY:
+          rotateSSOKey({ inactiveIn: 24 * 60 * 60 });
+          break;
+        case RotateOptions.IN1WEEK:
+          rotateSSOKey({ inactiveIn: 7 * 24 * 60 * 60 });
+          break;
+        case RotateOptions.IN30DAYS:
+          rotateSSOKey({ inactiveIn: 30 * 24 * 60 * 60 });
+          break;
+        default:
+          rotateSSOKey({ inactiveIn: 0 });
+      }
+    },
+    [rotateSSOKey]
+  );
+  const onDeactivate = useCallback(() => {
+    deactivateSSOKey({
+      kid: id,
+    });
+  }, [deactivateSSOKey, id]);
+  const onDelete = useCallback(() => {
+    deleteSSOKey({
+      kid: id,
+    });
+  }, [deleteSSOKey, id]);
 
   return (
     <Card>
@@ -405,7 +428,7 @@ const SSOKeyCard: FunctionComponent<Props> = ({
             </div>
             <div>{getDateField(status, dates)}</div>
           </Flex>
-          {getActionButton(status, onRotate)}
+          {getActionButton(status, onRotate, onDeactivate, onDelete)}
         </Flex>
       </HorizontalGutter>
     </Card>
