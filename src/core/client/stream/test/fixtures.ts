@@ -109,6 +109,7 @@ export const settings = createFixture<GQLSettings>({
     deleteAccount: true,
   },
   multisite: false,
+  featureFlags: [],
 });
 
 export const site = createFixture<GQLSite>({
