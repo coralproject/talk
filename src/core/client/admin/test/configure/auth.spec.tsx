@@ -9,6 +9,7 @@ import {
   CreateTestRendererParams,
   findParentWithType,
   replaceHistoryLocation,
+  toJSON,
   wait,
   waitForElement,
   within,
@@ -58,8 +59,6 @@ it("renders configure auth", async () => {
 });
 
 it("rotate sso key", async () => {
-  const keys = settingsWithEmptyAuth.auth.integrations.sso.keys;
-
   const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
@@ -71,20 +70,22 @@ it("rotate sso key", async () => {
                 auth: {
                   integrations: {
                     sso: {
+                      enabled: true,
                       keys: [
                         {
-                          ...keys[0],
-                          inactiveAt: "2020-01-01T1:45:00:000Z",
-                          rotatedAt: "2020-01-01T1:45:00:000Z",
+                          kid: "kid-01",
+                          secret: "secret",
+                          createdAt: "2015-01-01T00:00:00.000Z",
+                          lastUsedAt: "2016-01-01T01:45:00.000Z",
+                          rotatedAt: "2016-01-01T01:45:00.000Z",
+                          inactiveAt: "2016-01-01T01:45:00.000Z",
                         },
                         {
                           kid: "kid-02",
-                          secret: "new-seceret",
-                          createdAt: "2020-01-01T1:45:00.000Z",
+                          secret: "new-secret",
+                          createdAt: "2019-01-01T01:45:00.000Z",
                         },
                       ],
-                      key: "==GENERATED_KEY==",
-                      keyGeneratedAt: "2018-11-12T23:26:06.239Z",
                     },
                   },
                 },
@@ -116,8 +117,27 @@ it("rotate sso key", async () => {
     rotateNow.props.onClick();
   });
 
-  await waitForElement(() => {
-    return within(container).getByText("EXPIRED", { exact: false });
+  await wait(() => {
+    // Check that we have two SSO Keys that match
+    // our expected key IDs
+    const keyIDs = within(container).getAllByTestID("SSO-Key-ID");
+    const hasOldKey = keyIDs.some(k => k.props.value === "kid-01");
+    const hasNewKey = keyIDs.some(k => k.props.value === "kid-02");
+    expect(hasNewKey).toBe(true);
+    expect(hasOldKey).toBe(true);
+
+    const statuses = within(container).getAllByTestID("SSO-Key-Status");
+    expect(statuses.length).toBe(2);
+    const firstStatus: any = toJSON(statuses[0]);
+    const firstStatusIsActive = firstStatus.children.some(
+      (s: string) => s === "Active"
+    );
+    expect(firstStatusIsActive).toBe(true);
+    const secondStatus: any = toJSON(statuses[1]);
+    const secondStatusIsActive = secondStatus.children.some(
+      (s: string) => s === "Active"
+    );
+    expect(secondStatusIsActive).toBe(false);
   });
 });
 

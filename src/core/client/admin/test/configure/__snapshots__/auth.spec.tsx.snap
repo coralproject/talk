@@ -1300,6 +1300,7 @@ more about creating a JWT Token with
                           >
                             <input
                               className="TextField-input TextField-colorRegular"
+                              data-testid="SSO-Key-ID"
                               placeholder=""
                               readOnly={true}
                               type="text"
@@ -1402,6 +1403,7 @@ more about creating a JWT Token with
                             </div>
                             <span
                               className="StatusField-status StatusField-active"
+                              data-testid="SSO-Key-Status"
                             >
                               Active
                             </span>
@@ -1419,7 +1421,7 @@ more about creating a JWT Token with
                             <span
                               className="DateField-date"
                             >
-                              {DATETIME()}
+                              1/1/2020, 1:00 AM
                             </span>
                           </div>
                         </div>

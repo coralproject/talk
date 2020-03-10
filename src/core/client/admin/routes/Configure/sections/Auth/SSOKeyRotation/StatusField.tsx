@@ -20,7 +20,12 @@ const StatusField: FunctionComponent<Props> = ({ status }) => {
   if (status === SSOKeyStatus.ACTIVE) {
     return (
       <Localized id="configure-auth-sso-rotate-statusActive">
-        <span className={cn(styles.status, styles.active)}>Active</span>
+        <span
+          className={cn(styles.status, styles.active)}
+          data-testid="SSO-Key-Status"
+        >
+          Active
+        </span>
       </Localized>
     );
   }
@@ -34,7 +39,7 @@ const StatusField: FunctionComponent<Props> = ({ status }) => {
         >
           <Icon className={styles.icon}>alarm</Icon>
           <Localized id="configure-auth-sso-rotate-statusExpiring">
-            <span>Expiring</span>
+            <span data-testid="SSO-Key-Status">Expiring</span>
           </Localized>
         </Flex>
         <Tooltip
@@ -68,7 +73,12 @@ const StatusField: FunctionComponent<Props> = ({ status }) => {
     return (
       <Flex alignItems="center" justifyContent="center">
         <Localized id="configure-auth-sso-rotate-statusExpired">
-          <span className={cn(styles.status, styles.expired)}>Expired</span>
+          <span
+            className={cn(styles.status, styles.expired)}
+            data-testid="SSO-Key-Status"
+          >
+            Expired
+          </span>
         </Localized>
         <Tooltip
           id="configure-auth-sso-rotate-expiredTooltip"
@@ -100,7 +110,7 @@ const StatusField: FunctionComponent<Props> = ({ status }) => {
 
   return (
     <Localized id="configure-auth-sso-rotate-statusUnknown">
-      <span>Unknown</span>
+      <span data-testid="SSO-Key-Status">Unknown</span>
     </Localized>
   );
 };

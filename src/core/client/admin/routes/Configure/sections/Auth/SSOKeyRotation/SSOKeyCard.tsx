@@ -124,7 +124,7 @@ const SSOKeyCard: FunctionComponent<Props> = ({
                 <Label>Key ID</Label>
               </Localized>
             </div>
-            <TextField value={id} readOnly fullWidth />
+            <TextField value={id} readOnly fullWidth data-testid="SSO-Key-ID" />
           </div>
           <div className={styles.secretSection}>
             <div className={styles.label}>
