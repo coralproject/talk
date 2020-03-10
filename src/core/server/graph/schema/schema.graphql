@@ -341,6 +341,11 @@ enum FEATURE_FLAG {
   toxic comments.
   """
   DISABLE_WARN_USER_OF_TOXIC_COMMENT
+
+  """
+  ENABLE_QA when enabled will turn off Q&A features client side.
+  """
+  ENABLE_QA
 }
 
 # The moderation mode of the site.
@@ -1481,7 +1486,7 @@ type Settings {
   """
   featureFlags provides the enabled feature flags.
   """
-  featureFlags: [FEATURE_FLAG!]! @auth(roles: [ADMIN])
+  featureFlags: [FEATURE_FLAG!]! @auth(roles: [ADMIN, MODERATOR])
 
   """
   createdAt is the time that the Settings was created at.

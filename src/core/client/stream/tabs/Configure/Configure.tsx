@@ -13,7 +13,8 @@ import { QAConfigContainer } from "./Q&A";
 export interface Props {
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
-    PropTypesOf<typeof ModerateStreamContainer>["settings"];
+    PropTypesOf<typeof ModerateStreamContainer>["settings"] &
+    PropTypesOf<typeof QAConfigContainer>["settings"];
   story: PropTypesOf<typeof ConfigureStreamContainer>["story"] &
     PropTypesOf<typeof OpenOrCloseStreamContainer>["story"] &
     PropTypesOf<typeof ModerateStreamContainer>["story"] &
@@ -31,8 +32,7 @@ const Configure: FunctionComponent<Props> = props => {
         />
         <HorizontalRule />
         <ConfigureStreamContainer story={props.story} />
-        <HorizontalRule />
-        <QAConfigContainer story={props.story} />
+        <QAConfigContainer story={props.story} settings={props.settings} />
         <HorizontalRule />
         <OpenOrCloseStreamContainer story={props.story} />
       </HorizontalGutter>
