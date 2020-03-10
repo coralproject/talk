@@ -16,9 +16,13 @@ import styles from "./RotationDropdown.css";
 
 interface Props {
   onRotateKey: (rotation: string) => void;
+  disabled?: boolean;
 }
 
-const RotationDropDown: FunctionComponent<Props> = ({ onRotateKey }) => {
+const RotationDropDown: FunctionComponent<Props> = ({
+  onRotateKey,
+  disabled,
+}) => {
   return (
     <Localized
       id="configure-auth-sso-rotate-dropdown-description"
@@ -38,6 +42,7 @@ const RotationDropDown: FunctionComponent<Props> = ({ onRotateKey }) => {
                     onRotateKey(opt);
                     toggleVisibility();
                   }}
+                  disabled={disabled}
                 >
                   <RotateOption value={opt}></RotateOption>
                 </DropdownButton>
@@ -47,7 +52,12 @@ const RotationDropDown: FunctionComponent<Props> = ({ onRotateKey }) => {
         )}
       >
         {({ toggleVisibility, ref, visible }) => (
-          <Button onClick={toggleVisibility} ref={ref} color="regular">
+          <Button
+            onClick={toggleVisibility}
+            ref={ref}
+            color="regular"
+            disabled={disabled}
+          >
             <Localized id="configure-auth-sso-rotate-rotate">
               <span className={styles.rotate}>Rotate</span>
             </Localized>

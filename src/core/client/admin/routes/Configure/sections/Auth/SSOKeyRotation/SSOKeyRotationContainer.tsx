@@ -99,6 +99,7 @@ const SSOKeyRotationContainer: FunctionComponent<Props> = ({
             secret={key.secret}
             status={getStatus(key)}
             dates={key}
+            disabled={disabled}
           />
         );
       })}

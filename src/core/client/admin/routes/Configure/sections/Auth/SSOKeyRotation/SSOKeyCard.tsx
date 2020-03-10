@@ -36,21 +36,24 @@ interface Props {
   secret: string;
   status: SSOKeyStatus;
   dates: SSOKeyDates;
+  disabled?: boolean;
 }
 
 function createActionButton(
   status: SSOKeyStatus,
   onRotateKey: (rotation: string) => void,
   onDeactivateKey: () => void,
-  onDelete: () => void
+  onDelete: () => void,
+  disabled?: boolean
 ) {
+  window.console.log(disabled);
   if (status === SSOKeyStatus.ACTIVE) {
-    return <RotationDropDown onRotateKey={onRotateKey} />;
+    return <RotationDropDown onRotateKey={onRotateKey} disabled={disabled} />;
   }
   if (status === SSOKeyStatus.EXPIRING) {
     return (
       <Localized id="configure-auth-sso-rotate-deactivateNow">
-        <Button color="alert" onClick={onDeactivateKey}>
+        <Button color="alert" onClick={onDeactivateKey} disabled={disabled}>
           Deactivate Now
         </Button>
       </Localized>
@@ -59,7 +62,7 @@ function createActionButton(
   if (status === SSOKeyStatus.EXPIRED) {
     return (
       <Localized id="configure-auth-sso-rotate-delete">
-        <Button color="alert" onClick={onDelete}>
+        <Button color="alert" onClick={onDelete} disabled={disabled}>
           Delete
         </Button>
       </Localized>
@@ -74,6 +77,7 @@ const SSOKeyCard: FunctionComponent<Props> = ({
   secret,
   status,
   dates,
+  disabled,
 }) => {
   const rotateSSOKey = useMutation(RotateSSOKeyMutation);
   const deactivateSSOKey = useMutation(DeactivateSSOKeyMutation);
@@ -172,7 +176,13 @@ const SSOKeyCard: FunctionComponent<Props> = ({
               <DateField status={status} dates={dates} />
             </div>
           </Flex>
-          {createActionButton(status, onRotate, onDeactivate, onDelete)}
+          {createActionButton(
+            status,
+            onRotate,
+            onDeactivate,
+            onDelete,
+            disabled
+          )}
         </Flex>
       </HorizontalGutter>
     </Card>

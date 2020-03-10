@@ -60,7 +60,7 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled }) => (
             for additional information on single sign on.
           </FormFieldDescription>
         </Localized>
-        <SSOKeyRotationQuery></SSOKeyRotationQuery>
+        <SSOKeyRotationQuery disabled={disabledInside}></SSOKeyRotationQuery>
         <TargetFilterField
           label={
             <Localized id="configure-auth-sso-useLoginOn">

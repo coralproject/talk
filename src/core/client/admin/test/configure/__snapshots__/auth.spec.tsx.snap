@@ -1429,9 +1429,10 @@ more about creating a JWT Token with
                           className="Popover-root"
                         >
                           <button
-                            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase"
+                            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular Button-uppercase Button-disabled"
                             data-color="regular"
                             data-variant="regular"
+                            disabled={true}
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}

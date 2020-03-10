@@ -11,7 +11,11 @@ import { SSOKeyRotationQuery as QueryTypes } from "coral-admin/__generated__/SSO
 
 import SSOKeyRotationContainer from "./SSOKeyRotationContainer";
 
-const SSOKeyRotationQuery: FunctionComponent = () => {
+interface Props {
+  disabled?: boolean;
+}
+
+const SSOKeyRotationQuery: FunctionComponent<Props> = ({ disabled }) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -36,7 +40,12 @@ const SSOKeyRotationQuery: FunctionComponent = () => {
           return <Spinner />;
         }
 
-        return <SSOKeyRotationContainer settings={props.settings} />;
+        return (
+          <SSOKeyRotationContainer
+            settings={props.settings}
+            disabled={disabled}
+          />
+        );
       }}
     />
   );
