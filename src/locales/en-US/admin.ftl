@@ -465,7 +465,7 @@ configure-auth-sso-rotate-deactivateNow = Deactivate Now
 configure-auth-sso-rotate-delete = Delete
 
 configure-auth-sso-rotate-now = Now
-configure-auth-sso-rotate-10Seconds = 10 seconds from now
+configure-auth-sso-rotate-10seconds = 10 seconds from now
 configure-auth-sso-rotate-1day = 1 day from now
 configure-auth-sso-rotate-1week = 1 week from now
 configure-auth-sso-rotate-30days = 30 days from now
