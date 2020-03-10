@@ -44,6 +44,7 @@ const enhanced = withFragmentContainer<ConfigureContainerProps>({
     fragment ConfigureContainer_settings on Settings {
       ...UserBoxContainer_settings
       ...ModerateStreamContainer_settings
+      ...QAConfigContainer_settings
     }
   `,
 })(StreamContainer);
