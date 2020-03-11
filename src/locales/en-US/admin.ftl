@@ -946,7 +946,7 @@ stories-column-status = Status
 stories-column-clickToModerate = Click title to moderate story
 stories-column-reportedCount = Reported
 stories-column-pendingCount = Pending
-stories-column-totalCount = Total
+stories-column-publishedCount = Published
 
 stories-status-popover =
   .description = A dropdown to change the story status
