@@ -6,6 +6,33 @@ exports[`displays a list of webhook endpoints that have been configured 1`] = `
   data-testid="webhooks-container"
 >
   <div
+    className="CallOut-root CallOut-colorPrimary CallOut-fullWidth"
+  >
+    <div
+      className="CallOut-inner"
+    >
+      <div
+        className="Box-root Flex-root Flex-flex"
+      >
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-md ExperimentalCallOut-icon"
+        >
+          code
+        </i>
+        <span
+          className="ExperimentalCallOut-title"
+        >
+          Experimental Feature
+        </span>
+      </div>
+      <span>
+        The webhook feature is currently in active development. Events may be
+added or removed. Ensure you check the release notes for updates.
+      </span>
+    </div>
+  </div>
+  <div
     className="Box-root ConfigBox-root"
   >
     <div
@@ -35,7 +62,7 @@ Coral. These events will be JSON encoded and signed. To learn more
 about webhook signing, visit our 
           <a
             className="ExternalLink-root"
-            href="https://docs.coralproject.net/coral/v5/integrating/webhooks/"
+            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -207,6 +234,33 @@ exports[`goes to add new webhook endpoint when clicking add 1`] = `
   data-testid="webhooks-container"
 >
   <div
+    className="CallOut-root CallOut-colorPrimary CallOut-fullWidth"
+  >
+    <div
+      className="CallOut-inner"
+    >
+      <div
+        className="Box-root Flex-root Flex-flex"
+      >
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-md ExperimentalCallOut-icon"
+        >
+          code
+        </i>
+        <span
+          className="ExperimentalCallOut-title"
+        >
+          Experimental Feature
+        </span>
+      </div>
+      <span>
+        The webhook feature is currently in active development. Events may be
+added or removed. Ensure you check the release notes for updates.
+      </span>
+    </div>
+  </div>
+  <div
     className="Box-root ConfigBox-root"
   >
     <div
@@ -236,7 +290,7 @@ Coral. These events will be JSON encoded and signed. To learn more
 about webhook signing, visit our 
           <a
             className="ExternalLink-root"
-            href="https://docs.coralproject.net/coral/v5/integrating/webhooks/"
+            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -292,6 +346,33 @@ exports[`goes to the webhook endpoint configuration page when selected 1`] = `
   data-testid="webhooks-container"
 >
   <div
+    className="CallOut-root CallOut-colorPrimary CallOut-fullWidth"
+  >
+    <div
+      className="CallOut-inner"
+    >
+      <div
+        className="Box-root Flex-root Flex-flex"
+      >
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-md ExperimentalCallOut-icon"
+        >
+          code
+        </i>
+        <span
+          className="ExperimentalCallOut-title"
+        >
+          Experimental Feature
+        </span>
+      </div>
+      <span>
+        The webhook feature is currently in active development. Events may be
+added or removed. Ensure you check the release notes for updates.
+      </span>
+    </div>
+  </div>
+  <div
     className="Box-root ConfigBox-root"
   >
     <div
@@ -321,7 +402,7 @@ Coral. These events will be JSON encoded and signed. To learn more
 about webhook signing, visit our 
           <a
             className="ExternalLink-root"
-            href="https://docs.coralproject.net/coral/v5/integrating/webhooks/"
+            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -445,6 +526,33 @@ exports[`renders webhooks 1`] = `
   data-testid="webhooks-container"
 >
   <div
+    className="CallOut-root CallOut-colorPrimary CallOut-fullWidth"
+  >
+    <div
+      className="CallOut-inner"
+    >
+      <div
+        className="Box-root Flex-root Flex-flex"
+      >
+        <i
+          aria-hidden="true"
+          className="Icon-root Icon-md ExperimentalCallOut-icon"
+        >
+          code
+        </i>
+        <span
+          className="ExperimentalCallOut-title"
+        >
+          Experimental Feature
+        </span>
+      </div>
+      <span>
+        The webhook feature is currently in active development. Events may be
+added or removed. Ensure you check the release notes for updates.
+      </span>
+    </div>
+  </div>
+  <div
     className="Box-root ConfigBox-root"
   >
     <div
@@ -474,7 +582,7 @@ Coral. These events will be JSON encoded and signed. To learn more
 about webhook signing, visit our 
           <a
             className="ExternalLink-root"
-            href="https://docs.coralproject.net/coral/v5/integrating/webhooks/"
+            href="https://github.com/coralproject/talk/blob/master/WEBHOOKS.md"
             rel="noopener noreferrer"
             target="_blank"
           >
