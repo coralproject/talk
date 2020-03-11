@@ -82,10 +82,6 @@ export default function createWebpackConfig(
 
   const styleLoader = {
     loader: require.resolve("style-loader"),
-    options: {
-      sourceMap: !disableSourcemaps,
-      hmr: watch,
-    },
   };
 
   const localesOptions = {
@@ -367,9 +363,10 @@ export default function createWebpackConfig(
                 {
                   loader: require.resolve("css-loader"),
                   options: {
-                    modules: true,
+                    modules: {
+                      localIdentName: "[name]-[local]-[contenthash]",
+                    },
                     importLoaders: 2,
-                    localIdentName: "[name]-[local]-[contenthash]",
                     sourceMap: !disableSourcemaps,
                   },
                 },
@@ -471,9 +468,10 @@ export default function createWebpackConfig(
                 {
                   loader: require.resolve("css-loader"),
                   options: {
-                    modules: true,
+                    modules: {
+                      localIdentName: "[name]-[local]-[hash:base64:5]",
+                    },
                     importLoaders: 1,
-                    localIdentName: "[name]-[local]-[hash:base64:5]",
                     sourceMap: !disableSourcemaps,
                   },
                 },

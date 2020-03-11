@@ -3,7 +3,7 @@
 }
 
 .keyGenerated {
-  composes: button from "coral-ui/shared/typography.css";
+  composes: button from "~coral-ui/shared/typography.css";
   color: var(--palette-text-secondary);
   flex-shrink: 0;
 }

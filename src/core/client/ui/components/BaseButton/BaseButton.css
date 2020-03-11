@@ -1,5 +1,5 @@
 .root {
-  composes: buttonReset from "coral-ui/shared/buttonReset.css";
+  composes: buttonReset from "~coral-ui/shared/buttonReset.css";
 }
 
 .keyboardFocus {

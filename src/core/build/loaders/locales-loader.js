@@ -90,13 +90,13 @@ function generateTarget(target, context) {
         file => `
       contents.push(require(${JSON.stringify(
         path.join(getLocalePath(locale), file).replace(/\\/g, "/")
-      )}));
+      )}).default);
     `
       )
       .join("\n")}
       contents = contents.concat(suffixes.map(function(suffix) { return require("${path
         .join(getLocalePath(locale), target)
-        .replace(/\\/g, "/")}" + suffix); }));
+        .replace(/\\/g, "/")}" + suffix).default; }));
       ret.bundled[${JSON.stringify(locale)}] = contents.join("\\n");
     }
   `

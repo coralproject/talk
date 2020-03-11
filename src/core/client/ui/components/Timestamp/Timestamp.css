@@ -3,5 +3,5 @@
 }
 
 .text {
-  composes: timestamp from "coral-ui/shared/typography.css";
+  composes: timestamp from "~coral-ui/shared/typography.css";
 }

@@ -1,4 +1,4 @@
 .root {
-  composes: root from "coral-stream/shared/htmlContent.css";
+  composes: root from "~coral-stream/shared/htmlContent.css";
   color: var(--palette-text-light);
 }
