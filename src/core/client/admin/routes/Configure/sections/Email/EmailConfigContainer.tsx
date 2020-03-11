@@ -14,6 +14,7 @@ import { GQLSettings } from "coral-framework/schema";
 import { useMutation } from "coral-framework/lib/relay";
 
 import { EmailConfigContainer_email } from "coral-admin/__generated__/EmailConfigContainer_email.graphql";
+import { EmailConfigContainer_viewer } from "coral-admin/__generated__/EmailConfigContainer_viewer.graphql";
 import TestSMTPMutation from "./TestSMTPMutation";
 import Header from "../../Header";
 import ConfigBoxWithToggleField from "../Auth/ConfigBoxWithToggleField";
@@ -23,6 +24,7 @@ import SMTP from "./SMTP";
 interface Props {
   submitting: boolean;
   email: EmailConfigContainer_email;
+  viewer: EmailConfigContainer_viewer | null;
 }
 
 export type FormProps = DeepNullable<Pick<GQLSettings, "email">>;
@@ -30,19 +32,23 @@ export type FormProps = DeepNullable<Pick<GQLSettings, "email">>;
 const EmailConfigContainer: React.FunctionComponent<Props> = ({
   email,
   submitting,
+  viewer,
 }) => {
   const form = useForm();
   const [loading, setLoading] = useState(false);
   const { setMessage, clearMessage } = useNotification();
   const sendTest = useMutation(TestSMTPMutation);
   const sendTestEmail = useCallback(async () => {
+    if (!viewer) {
+      return;
+    }
     setLoading(true);
     await sendTest();
     setLoading(false);
     setMessage(
-      <Localized id="configure-smtp-test-success" $email="test.com">
+      <Localized id="configure-smtp-test-success" $email={viewer.email}>
         <AppNotification icon="check_circle_outline" onClose={clearMessage}>
-          Test email has been sent to test.com
+          Test email has been sent to {viewer.email}
         </AppNotification>
       </Localized>,
       3000
@@ -97,6 +103,11 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
 };
 
 const enhanced = withFragmentContainer<Props>({
+  viewer: graphql`
+    fragment EmailConfigContainer_viewer on User {
+      email
+    }
+  `,
   email: graphql`
     fragment EmailConfigContainer_email on EmailConfiguration {
       enabled
