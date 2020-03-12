@@ -74,6 +74,7 @@ it("renders rejected queue with comments", async () => {
             first: 5,
             status: "REJECTED",
             storyID: null,
+            siteID: null,
           });
           return {
             edges: [
@@ -112,6 +113,7 @@ it("shows a moderate story", async () => {
             first: 5,
             status: "REJECTED",
             storyID: null,
+            siteID: null,
           });
           return {
             edges: [
@@ -155,6 +157,7 @@ it("renders rejected queue with comments and load more", async () => {
                 first: 5,
                 status: GQLCOMMENT_STATUS.REJECTED,
                 storyID: null,
+                siteID: null,
               });
               return {
                 edges: [
@@ -178,6 +181,7 @@ it("renders rejected queue with comments and load more", async () => {
                 after: rejectedComments[1].createdAt,
                 status: GQLCOMMENT_STATUS.REJECTED,
                 storyID: null,
+                siteID: null,
               });
               return {
                 edges: [
@@ -269,6 +273,7 @@ it("approves comment in rejected queue", async () => {
             first: 5,
             status: "REJECTED",
             storyID: null,
+            siteID: null,
           });
           return {
             edges: [
