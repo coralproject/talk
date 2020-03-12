@@ -14,9 +14,9 @@ import {
   regenerateSSOKey,
   rotateSSOKey,
   rotateWebhookEndpointSecret,
+  sendSMTPTest,
   update,
   updateWebhookEndpoint,
-  sendSMTPTest,
 } from "coral-server/services/tenant";
 
 import {
