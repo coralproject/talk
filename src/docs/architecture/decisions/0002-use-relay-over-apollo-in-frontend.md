@@ -8,7 +8,7 @@ Accepted
 
 ## Context and Problem Statement
 
-In v4 we started using Apollo due to its appealing promises that it is has better docs, easier to begin, and does not enforce strict patterns like Relay does. Apollo was first used in a naive way where each component that requires data would execute it's own query resulting in a large number of queries and round trips which performed badly.
+In v4 we started using Apollo due to its appealing promises that it has better docs, is easier to begin, and does not enforce strict patterns like Relay does. Apollo was first used in a naive way where each component that requires data would execute it's own query resulting in a large number of queries and round trips which performed badly.
 
 We then transitioned to use Fat Queries that utilize fragments to compose a big query whose data response would then be distributed manually to the components that needed the data (Colocation).
 
