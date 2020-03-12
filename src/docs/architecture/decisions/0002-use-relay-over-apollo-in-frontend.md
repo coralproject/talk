@@ -1,4 +1,4 @@
-# 1. Use Relay over Apollo in FrontEnd
+# 2. Use Relay over Apollo in FrontEnd
 
 Date: 2018-06
 
