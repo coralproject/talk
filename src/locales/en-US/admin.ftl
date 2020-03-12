@@ -136,6 +136,8 @@ linkAccount-useDifferentEmail = Use a different email address
 
 ## Configure
 
+configure-experimentalFeature = Experimental Feature
+
 configure-unsavedInputWarning =
   You have unsaved changes. Are you sure you want to continue?
 
@@ -157,6 +159,9 @@ configure-radioButton-allow = Allow
 configure-radioButton-dontAllow = Don't allow
 
 ### Webhooks
+configure-webhooks-experimentalFeature =
+  The webhook feature is currently in active development. Events may be
+  added or removed. Please <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
 configure-webhooks-webhookEndpointNotFound = Webhook endpoint not found
 configure-webhooks-header-title = Configure webhook endpoint
 configure-webhooks-description =
