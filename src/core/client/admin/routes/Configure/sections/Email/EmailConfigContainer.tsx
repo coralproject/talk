@@ -1,25 +1,26 @@
 import { Localized } from "@fluent/react/compat";
-import React, { useMemo, useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { useNotification } from "coral-admin/App/GlobalNotification";
 import { DeepNullable } from "coral-common/types";
-import { AppNotification, Button, Flex } from "coral-ui/components/v2";
 import {
   purgeMetadata,
+  useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLSettings } from "coral-framework/schema";
-import { useMutation } from "coral-framework/lib/relay";
+import { AppNotification, Button, CallOut, Flex } from "coral-ui/components/v2";
 
 import { EmailConfigContainer_email } from "coral-admin/__generated__/EmailConfigContainer_email.graphql";
 import { EmailConfigContainer_viewer } from "coral-admin/__generated__/EmailConfigContainer_viewer.graphql";
-import TestSMTPMutation from "./TestSMTPMutation";
+
 import Header from "../../Header";
 import ConfigBoxWithToggleField from "../Auth/ConfigBoxWithToggleField";
 import From from "./From";
 import SMTP from "./SMTP";
+import TestSMTPMutation from "./TestSMTPMutation";
 
 interface Props {
   submitting: boolean;
@@ -36,6 +37,7 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
 }) => {
   const form = useForm();
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState<null | string>(null);
   const { setMessage, clearMessage } = useNotification();
   const sendTest = useMutation(TestSMTPMutation);
   const sendTestEmail = useCallback(async () => {
@@ -43,16 +45,21 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
       return;
     }
     setLoading(true);
-    await sendTest();
-    setLoading(false);
-    setMessage(
-      <Localized id="configure-smtp-test-success" $email={viewer.email}>
-        <AppNotification icon="check_circle_outline" onClose={clearMessage}>
-          Test email has been sent to {viewer.email}
-        </AppNotification>
-      </Localized>,
-      3000
-    );
+    setSubmitError(null);
+    try {
+      await sendTest();
+      setLoading(false);
+      setMessage(
+        <Localized id="configure-smtp-test-success" $email={viewer.email}>
+          <AppNotification icon="check_circle_outline" onClose={clearMessage}>
+            Test email has been sent to {viewer.email}
+          </AppNotification>
+        </Localized>,
+        3000
+      );
+    } catch (error) {
+      setSubmitError(error.message);
+    }
   }, []);
   useMemo(() => {
     let values: any = { email };
@@ -94,6 +101,11 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
               Send test email
             </Button>
           </Flex>
+          {submitError && (
+            <CallOut fullWidth color="error">
+              {submitError}
+            </CallOut>
+          )}
           <From disabled={disabledInside} />
           <SMTP disabled={disabledInside} />
         </>

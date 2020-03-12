@@ -508,7 +508,7 @@ export async function sendSMTPTest(
 ) {
   if (user.email) {
     if (!tenant.email.enabled) {
-      throw new Error("Must enable email");
+      throw new Error("Email not enabled");
     }
     await mailer.add({
       tenantID: tenant.id,
