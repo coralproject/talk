@@ -26,6 +26,7 @@ const SearchStoryFetch = createFetch(
                 id
                 site {
                   name
+                  id
                 }
                 metadata {
                   title
