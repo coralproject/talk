@@ -12,7 +12,7 @@ In v4 we started using Apollo due to its appealing promises that it has better d
 
 We then transitioned to use Fat Queries that utilize fragments to compose a big query whose data response would then be distributed manually to the components that needed the data (Colocation).
 
-Huge effort and complexity needed to be introduced to support this, as Apollo provided limited to no support for this use case. The lack of documentation is hindering quality contributions from the community.
+Huge effort and complexity needed to be introduced to support this, as Apollo provided limited to no support for this use case. The lack of documentation of our home grown graphql framework is hindering quality contributions from the community.
 
 It also revealed large performance issues inside Apollo that required an elaborate fork to fix.
 
