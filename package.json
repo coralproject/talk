@@ -258,7 +258,7 @@
     "core-js": "^3.6.4",
     "cross-spawn": "^7.0.1",
     "css-loader": "^3.4.2",
-    "css-vars-ponyfill": "^2.1.2",
+    "css-vars-ponyfill": "^2.2.1",
     "del": "^5.1.0",
     "doctoc": "^1.4.0",
     "docz": "^0.13.7",
