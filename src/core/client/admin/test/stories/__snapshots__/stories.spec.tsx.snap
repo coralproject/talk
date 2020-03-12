@@ -167,7 +167,7 @@ exports[`renders empty stories 1`] = `
             <th
               className="TableCell-root StoryTable-totalCountColumn TableCell-header"
             >
-              Total
+              Published
             </th>
             <th
               className="TableCell-root StoryTable-statusColumn TableCell-header"
@@ -539,7 +539,7 @@ exports[`renders stories 1`] = `
             <th
               className="TableCell-root StoryTable-totalCountColumn TableCell-header"
             >
-              Total
+              Published
             </th>
             <th
               className="TableCell-root StoryTable-statusColumn TableCell-header"

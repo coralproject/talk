@@ -22,10 +22,24 @@
     border-color: var(--v2-palette-primary-main);
     color: var(--v2-palette-primary-main);
   }
+
+  &:disabled {
+    cursor: default;
+
+    background-color: transparent;
+    border-color: var(--v2-colors-grey-300);
+    color: var(--v2-colors-grey-300);
+  }
 }
 
 .invert {
   background-color: var(--v2-palette-primary-main);
   border-color: var(--v2-palette-primary-main);
   color: var(--v2-palette-text-light);
+
+  &:disabled {
+    color: var(--v2-colors-pure-white);
+    border-color: var(--v2-colors-grey-300);
+    background-color: var(--v2-colors-grey-300);
+  }
 }

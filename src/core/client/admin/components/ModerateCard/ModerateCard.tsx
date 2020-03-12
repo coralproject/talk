@@ -74,6 +74,7 @@ interface Props {
   selectPrev?: () => void;
   selectNext?: () => void;
   onBan: () => void;
+  isQA?: boolean;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -108,6 +109,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   selectNext,
   selectPrev,
   onBan,
+  isQA,
 }) => {
   const div = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -206,7 +208,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               <FeatureButton
                 featured={featured}
                 onClick={onFeature}
-                enabled={!deleted}
+                enabled={!deleted && !isQA}
               />
             </Flex>
             {inReplyTo && inReplyTo.username && (
