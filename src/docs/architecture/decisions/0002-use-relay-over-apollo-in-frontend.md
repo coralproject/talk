@@ -61,4 +61,3 @@ At that time the only viable alternative to Apollo is Relay. In fact all the sol
 
 * Supporting a plugin architecture becomes much more difficult but not impossible.
 * To use advanced features in Relay, we have to adhere to some conventions when structuring the schema. It's not a big issue however as our experience in v4 with Apollo has mostly led to the same or similar conventions.
-* To use Relay we have to precompile GraphQL queries.
