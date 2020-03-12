@@ -384,6 +384,7 @@ configure-email-smtpAuthenticationLabel = SMTP authentication
 configure-email-smtpCredentialsHeader = Email credentials
 configure-email-smtpUsernameLabel = Username
 configure-email-smtpPasswordLabel = Password
+configure-email-send-test = Send test email
 
 ### Authentication
 

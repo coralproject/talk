@@ -94,12 +94,14 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
       {disabledInside => (
         <>
           <Flex justifyContent="flex-end">
-            <Button
-              disabled={disabledInside || loading || !email.enabled}
-              onClick={sendTestEmail}
-            >
-              Send test email
-            </Button>
+            <Localized id="configure-email-send-test">
+              <Button
+                disabled={disabledInside || loading || !email.enabled}
+                onClick={sendTestEmail}
+              >
+                Send test email
+              </Button>
+            </Localized>
           </Flex>
           {submitError && (
             <CallOut fullWidth color="error">
