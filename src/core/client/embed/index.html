@@ -23,7 +23,11 @@
     <script>
       const CoralStreamEmbed = Coral.createStreamEmbed({
         id: "coralStreamEmbed",
-
+events: function(events) {
+  events.onAny(function(eventName, data) {
+    console.log(eventName, data);
+  });
+},
         /**
          *
          *  You can listen to events using the example below.
