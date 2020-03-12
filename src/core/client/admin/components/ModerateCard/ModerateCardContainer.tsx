@@ -15,7 +15,7 @@ import {
   withFragmentContainer,
   withMutation,
 } from "coral-framework/lib/relay";
-import { GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 
 import {
   COMMENT_STATUS,
@@ -252,6 +252,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           hideUsername={hideUsername}
           deleted={comment.deleted ? comment.deleted : false}
           edited={comment.editing.edited}
+          isQA={comment.story.settings.mode === GQLSTORY_MODE.QA}
         />
       </FadeInTransition>
       <BanModal
@@ -303,6 +304,9 @@ const enhanced = withFragmentContainer<Props>({
         metadata {
           title
         }
+        settings {
+          mode
+        }
       }
       site {
         id
@@ -324,6 +328,7 @@ const enhanced = withFragmentContainer<Props>({
         suspect
       }
       multisite
+      featureFlags
       ...MarkersContainer_settings
     }
   `,
