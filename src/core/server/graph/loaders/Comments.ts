@@ -138,6 +138,7 @@ export default (ctx: Context) => ({
     first,
     after,
     storyID,
+    siteID,
     status,
     tag,
     query,
@@ -151,6 +152,7 @@ export default (ctx: Context) => ({
           ...queryFilter(query),
           ...tagFilter(tag),
           storyID,
+          siteID,
           status,
         },
         isNil
