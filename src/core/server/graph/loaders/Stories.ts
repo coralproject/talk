@@ -1,8 +1,10 @@
 import DataLoader from "dataloader";
 import { defaultTo } from "lodash";
+import { DateTime } from "luxon";
 
 import GraphContext from "coral-server/graph/context";
 import { Connection } from "coral-server/models/helpers";
+import { CloseCommenting } from "coral-server/models/settings";
 import {
   retrieveActiveStories,
   retrieveManyStories,
@@ -26,16 +28,89 @@ import {
 import { createManyBatchLoadFn } from "./util";
 
 const statusFilter = (
-  status?: GQLSTORY_STATUS
+  close: CloseCommenting,
+  status?: GQLSTORY_STATUS,
+  now = new Date()
 ): StoryConnectionInput["filter"] => {
   switch (status) {
     case GQLSTORY_STATUS.OPEN:
+      if (close.auto) {
+        // Automatic story closing has been enabled. Stories will be considered
+        // open if they have a ${closedAt} date in the future, if they've been
+        // forced open (where ${closedAt} is set to false), or they haven't been
+        // closed and their ${createdAt} date is after ${now - close.timeout}.
+
+        // Calculate the cutoff time for createdAt.
+        const consideredClosedAt = DateTime.fromJSDate(now)
+          .plus({
+            seconds: -close.timeout,
+          })
+          .toJSDate();
+
+        return {
+          $or: [
+            // The story will be open if the close date is in the future...
+            {
+              closedAt: { $gt: now },
+            },
+            // Or the story has been forced open by setting closedAt to false...
+            {
+              closedAt: false,
+            },
+            // Or the closed at date isn't set and the createdAt date is after
+            // the cutoff date.
+            {
+              closedAt: null,
+              createdAt: { $gt: consideredClosedAt },
+            },
+          ],
+        };
+      }
+
+      // Automatic story closing is not enabled. Stories will be considered open
+      // if they do not have a ${closedAt}, it has been forced open (where
+      // ${closedAt} is set to false), or the ${closedAt} date is in the future.
       return {
-        closedAt: { $in: [null, false] },
+        $or: [
+          // A story is open if the closedAt date is in the future...
+          { closedAt: { $gt: now } },
+          // Or the closedAt date is not set.
+          { closedAt: { $in: [null, false] } },
+        ],
       };
     case GQLSTORY_STATUS.CLOSED:
+      if (close.auto) {
+        // Automatic story closing has been enabled. Stories will be considered
+        // closed if they have a ${closedAt} date before the current date or
+        // they do not have a ${closedAt} date set and the ${createdAt} date is
+        // before ${now - close.timeout} (implying that it's close window is
+        // up).
+
+        // Calculate the cutoff time for createdAt.
+        const consideredClosedAt = DateTime.fromJSDate(now)
+          .plus({
+            seconds: -close.timeout,
+          })
+          .toJSDate();
+
+        return {
+          $or: [
+            // The story will be closed if the closedAt date is in the past...
+            { closedAt: { $lte: now } },
+            // Or the closedAt date isn't set and the createdAt date is before
+            // the cutoff date.
+            {
+              closedAt: null,
+              createdAt: { $lte: consideredClosedAt },
+            },
+          ],
+        };
+      }
+
+      // Automatic story closing is not enabled. Stories will be considered
+      // closed if the ${closedAt} date is before ${now}.
       return {
-        closedAt: { $lte: new Date() },
+        closedAt: { $lte: now },
       };
     default:
       return {};
@@ -126,7 +201,7 @@ export default (ctx: GraphContext) => ({
         // Merge the site filter into the connection filter.
         ...siteFilter(siteID),
         // Merge the status filter into the connection filter.
-        ...statusFilter(status),
+        ...statusFilter(ctx.tenant.closeCommenting, status, ctx.now),
         // Merge the query filters into the query.
         ...queryFilter(query),
       },
