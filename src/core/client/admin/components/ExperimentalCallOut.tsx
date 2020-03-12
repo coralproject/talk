@@ -9,7 +9,7 @@ const ExperimentalCallOut: FunctionComponent = ({ children }) => (
   <CallOut color="primary" fullWidth>
     <Flex>
       <Icon size="md" className={styles.icon}>
-        code
+        new_releases
       </Icon>
       <Localized id="configure-experimentalFeature">
         <span className={styles.title}>Experimental Feature</span>

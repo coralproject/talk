@@ -161,7 +161,7 @@ configure-radioButton-dontAllow = Don't allow
 ### Webhooks
 configure-webhooks-experimentalFeature =
   The webhook feature is currently in active development. Events may be
-  added or removed. Ensure you check the release notes for updates.
+  added or removed. Please <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
 configure-webhooks-webhookEndpointNotFound = Webhook endpoint not found
 configure-webhooks-header-title = Configure webhook endpoint
 configure-webhooks-description =

@@ -18,7 +18,7 @@ exports[`displays a list of webhook endpoints that have been configured 1`] = `
           aria-hidden="true"
           className="Icon-root Icon-md ExperimentalCallOut-icon"
         >
-          code
+          new_releases
         </i>
         <span
           className="ExperimentalCallOut-title"
@@ -28,7 +28,16 @@ exports[`displays a list of webhook endpoints that have been configured 1`] = `
       </div>
       <span>
         The webhook feature is currently in active development. Events may be
-added or removed. Ensure you check the release notes for updates.
+added or removed. Please 
+        <a
+          className="ExternalLink-root"
+          href="https://coralproject.net/contact/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          contact us with any feedback or requests
+        </a>
+        .
       </span>
     </div>
   </div>
@@ -246,7 +255,7 @@ exports[`goes to add new webhook endpoint when clicking add 1`] = `
           aria-hidden="true"
           className="Icon-root Icon-md ExperimentalCallOut-icon"
         >
-          code
+          new_releases
         </i>
         <span
           className="ExperimentalCallOut-title"
@@ -256,7 +265,16 @@ exports[`goes to add new webhook endpoint when clicking add 1`] = `
       </div>
       <span>
         The webhook feature is currently in active development. Events may be
-added or removed. Ensure you check the release notes for updates.
+added or removed. Please 
+        <a
+          className="ExternalLink-root"
+          href="https://coralproject.net/contact/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          contact us with any feedback or requests
+        </a>
+        .
       </span>
     </div>
   </div>
@@ -358,7 +376,7 @@ exports[`goes to the webhook endpoint configuration page when selected 1`] = `
           aria-hidden="true"
           className="Icon-root Icon-md ExperimentalCallOut-icon"
         >
-          code
+          new_releases
         </i>
         <span
           className="ExperimentalCallOut-title"
@@ -368,7 +386,16 @@ exports[`goes to the webhook endpoint configuration page when selected 1`] = `
       </div>
       <span>
         The webhook feature is currently in active development. Events may be
-added or removed. Ensure you check the release notes for updates.
+added or removed. Please 
+        <a
+          className="ExternalLink-root"
+          href="https://coralproject.net/contact/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          contact us with any feedback or requests
+        </a>
+        .
       </span>
     </div>
   </div>
@@ -538,7 +565,7 @@ exports[`renders webhooks 1`] = `
           aria-hidden="true"
           className="Icon-root Icon-md ExperimentalCallOut-icon"
         >
-          code
+          new_releases
         </i>
         <span
           className="ExperimentalCallOut-title"
@@ -548,7 +575,16 @@ exports[`renders webhooks 1`] = `
       </div>
       <span>
         The webhook feature is currently in active development. Events may be
-added or removed. Ensure you check the release notes for updates.
+added or removed. Please 
+        <a
+          className="ExternalLink-root"
+          href="https://coralproject.net/contact/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          contact us with any feedback or requests
+        </a>
+        .
       </span>
     </div>
   </div>
