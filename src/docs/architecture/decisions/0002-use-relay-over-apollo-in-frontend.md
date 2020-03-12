@@ -16,7 +16,7 @@ Huge effort and complexity needed to be introduced to support this, as Apollo pr
 
 It also revealed large performance issues inside Apollo that required an elaborate fork to fix.
 
-Apollo is moving in a different direction, preventing us upgrading apollo itself.
+Apollo is moving in a different direction, preventing us from upgrading apollo itself.
 
 It is very easy to deteriorate performance, introduce bugs and break maintainability due to lack of proper Colocation support and prevention of misuse from the framework.
 
