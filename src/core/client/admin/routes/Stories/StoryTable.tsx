@@ -60,8 +60,10 @@ const StoryTable: FunctionComponent<Props> = props => (
                 Pending
               </TableCell>
             </Localized>
-            <Localized id="stories-column-totalCount">
-              <TableCell className={styles.totalCountColumn}>Total</TableCell>
+            <Localized id="stories-column-publishedCount">
+              <TableCell className={styles.totalCountColumn}>
+                Published
+              </TableCell>
             </Localized>
             <Localized id="stories-column-status">
               <TableCell className={styles.statusColumn}>Status</TableCell>

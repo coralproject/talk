@@ -17,6 +17,7 @@ import {
   GQLSitesConnection,
   GQLStoriesConnection,
   GQLStory,
+  GQLSTORY_MODE,
   GQLSTORY_STATUS,
   GQLTAG,
   GQLUser,
@@ -176,6 +177,7 @@ export const settings = createFixture<GQLSettings>({
     channels: [],
   },
   multisite: false,
+  featureFlags: [],
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
@@ -506,6 +508,9 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     site: sites[0],
+    settings: {
+      mode: GQLSTORY_MODE.COMMENTS,
+    },
   },
   {
     id: "story-2",
@@ -533,6 +538,9 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     site: sites[1],
+    settings: {
+      mode: GQLSTORY_MODE.COMMENTS,
+    },
   },
   {
     id: "story-3",
@@ -560,6 +568,9 @@ export const stories = createFixtures<GQLStory>([
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
     site: sites[1],
+    settings: {
+      mode: GQLSTORY_MODE.COMMENTS,
+    },
   },
 ]);
 
