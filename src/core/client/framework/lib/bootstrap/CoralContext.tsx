@@ -13,8 +13,8 @@ import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import { TransitionControlData } from "coral-framework/testHelpers";
-import { UIContext } from "coral-ui/components";
 import { ClickFarAwayRegister } from "coral-ui/components/ClickOutside";
+import { UIContext } from "coral-ui/components/v2";
 
 export interface CoralContext {
   /** relayEnvironment for our relay framework. */

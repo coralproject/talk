@@ -1,3 +1,4 @@
+export { default as AbsoluteTime } from "./AbsoluteTime";
 export { default as AriaInfo } from "./AriaInfo";
 export {
   AppBar,
@@ -9,7 +10,11 @@ export {
 } from "./AppBar";
 export { default as Backdrop } from "./Backdrop";
 export { default as BaseButton } from "./BaseButton";
-export { default as UIContext, UIContextProps } from "./UIContext";
+export {
+  default as UIContext,
+  UIContextProps,
+  useUIContext,
+} from "./UIContext";
 export { default as ClickOutside } from "./ClickOutside";
 export { default as Box } from "./Box";
 export { default as Button } from "./Button";
