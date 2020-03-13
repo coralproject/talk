@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { Ref } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Button, Icon, MatchMedia } from "coral-ui/components";
+import { Button, Icon, MatchMedia } from "coral-ui/components/v2";
 import { withForwardRef } from "coral-ui/hocs";
 
 import styles from "./ReportButton.css";
@@ -31,14 +31,14 @@ class ReportButton extends React.Component<Props> {
         classes={
           (reported &&
             !active && {
-              variantGhost: styles.variantGhost,
-              colorRegular: styles.colorRegular,
+              variantText: styles.variantText,
+              colorMono: styles.colorMono,
             }) ||
           {}
         }
-        variant="textUnderlined"
-        size="small"
-        color="error"
+        variant="text"
+        size="regular"
+        color="mono"
         ref={ref}
       >
         <MatchMedia gtWidth="xs">

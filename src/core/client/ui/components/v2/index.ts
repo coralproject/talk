@@ -33,6 +33,7 @@ export {
 export { default as DurationField, DURATION_UNIT } from "./DurationField";
 export { default as FieldSet } from "./FieldSet";
 export { default as Flex } from "./Flex";
+export { default as MatchMedia } from "./MatchMedia";
 export { default as FormField } from "./FormField";
 export { default as FormFieldDescription } from "./FormFieldDescription";
 export { default as FormFieldHeader } from "./FormFieldHeader";

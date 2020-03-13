@@ -2,8 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
 
-import { Button, Icon, MatchMedia } from "coral-ui/components";
-import { ButtonProps } from "coral-ui/components/Button";
+import { Button, Icon, MatchMedia } from "coral-ui/components/v2";
+import { ButtonProps } from "coral-ui/components/v2/Button";
 
 import styles from "./ReactionButton.css";
 
@@ -26,11 +26,11 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
     const { totalReactions, reacted, readOnly, className } = this.props;
     return (
       <Button
-        variant="textUnderlined"
-        size="small"
+        variant="text"
+        size="regular"
         onClick={this.props.onClick}
         disabled={readOnly}
-        color="primary"
+        color="mono"
         className={cn(
           { [styles.readOnly]: readOnly },
           className,

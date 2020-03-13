@@ -1,6 +1,5 @@
-.variantGhost {
-  &.colorRegular {
-    color: var(--palette-error-main);
-    opacity: 1;
+.variantText {
+  &:disabled {
+    color: var(--v2-palette-error-main);
   }
 }

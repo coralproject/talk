@@ -2,7 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { BaseButton, Icon } from "coral-ui/components";
+import { BaseButton, Icon } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
 import ReportCommentFormContainer from "./ReportCommentFormContainer";

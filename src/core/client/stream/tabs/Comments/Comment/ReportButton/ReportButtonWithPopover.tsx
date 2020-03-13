@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React from "react";
 
-import { ClickOutside, Popover } from "coral-ui/components";
+import { ClickOutside, Popover } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
 import ReportPopover from "../ReportPopover";

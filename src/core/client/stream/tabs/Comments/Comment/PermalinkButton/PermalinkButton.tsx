@@ -7,7 +7,7 @@ import {
   Icon,
   MatchMedia,
   Popover,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import PermalinkPopover from "./PermalinkPopover";
 
@@ -43,10 +43,10 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
             onClick={toggleVisibility}
             aria-controls={popoverID}
             ref={ref}
-            variant="textUnderlined"
+            variant="text"
             active={visible}
-            size="small"
-            color="primary"
+            size="regular"
+            color="mono"
             className={className}
           >
             <MatchMedia gtWidth="xs">
