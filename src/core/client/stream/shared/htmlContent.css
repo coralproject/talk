@@ -1,22 +1,27 @@
 .root {
-  composes: bodyCopy from "coral-ui/shared/typography.css";
-  color: var(--palette-text-dark);
+  font-family: var(--v2-font-family-primary);
+  font-style: normal;
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: 1.45rem;
+  color: var(--v2-colors-mono-500);
+
   overflow-wrap: break-word;
 
   & * bold,
   & * strong {
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--v2-font-weight-primary-semi-bold);
   }
   & * italic,
   & * em {
     font-style: italic;
   }
   blockquote {
-    background-color: var(--palette-grey-lightest);
+    background-color: var(--v2-colors-grey-200);
     padding: var(--mini-unit);
     margin: calc(2 * var(--mini-unit)) 0 calc(2 * var(--mini-unit))
       var(--mini-unit);
-    border-radius: var(--round-corners);
+    border-radius: var(--v2-round-corners);
     &::after {
       content: none;
     }
@@ -25,9 +30,9 @@
     }
   }
   a {
-    color: var(--palette-primary-main);
+    color: var(--v2-palette-primary-main);
     &:hover {
-      color: var(--palette-primary-dark);
+      color: var(--v2-palette-primary-darkest);
     }
   }
 }
