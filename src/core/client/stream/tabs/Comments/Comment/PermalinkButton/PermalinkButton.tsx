@@ -49,12 +49,12 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
             color="mono"
             className={className}
           >
+            <Icon>share</Icon>
             <MatchMedia gtWidth="xs">
-              <Icon>share</Icon>
+              <Localized id="comments-permalinkButton-share">
+                <span>Share</span>
+              </Localized>
             </MatchMedia>
-            <Localized id="comments-permalinkButton-share">
-              <span>Share</span>
-            </Localized>
           </Button>
         )}
       </Popover>

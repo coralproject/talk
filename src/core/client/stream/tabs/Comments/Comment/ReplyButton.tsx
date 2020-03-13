@@ -22,12 +22,12 @@ const ReplyButton: FunctionComponent<Props> = props => (
     active={props.active}
     disabled={props.disabled}
   >
+    <Icon>reply</Icon>
     <MatchMedia gtWidth="xs">
-      <Icon>reply</Icon>
+      <Localized id="comments-replyButton-reply">
+        <span>Reply</span>
+      </Localized>
     </MatchMedia>
-    <Localized id="comments-replyButton-reply">
-      <span>Reply</span>
-    </Localized>
   </Button>
 );
 

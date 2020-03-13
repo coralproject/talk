@@ -36,3 +36,11 @@ $commenterActionEditColorActive: var(--v2-colors-stream-blue-300);
 .editIcon {
   margin-right: var(--v2-spacing-1);
 }
+
+.actionBar {
+  min-width: 150px;
+}
+
+.actionButton {
+  padding-right: var(--v2-spacing-1);
+}

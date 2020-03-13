@@ -32,7 +32,6 @@ class ReportButton extends React.Component<Props> {
           (reported &&
             !active && {
               variantText: styles.variantText,
-              colorMono: styles.colorMono,
             }) ||
           {}
         }
@@ -41,19 +40,19 @@ class ReportButton extends React.Component<Props> {
         color="mono"
         ref={ref}
       >
+        <Icon>flag</Icon>
         <MatchMedia gtWidth="xs">
-          <Icon>flag</Icon>
+          {!reported && (
+            <Localized id="comments-reportButton-report">
+              <span>Report</span>
+            </Localized>
+          )}
+          {reported && (
+            <Localized id="comments-reportButton-reported">
+              <span>Reported</span>
+            </Localized>
+          )}
         </MatchMedia>
-        {!reported && (
-          <Localized id="comments-reportButton-report">
-            <span>Report</span>
-          </Localized>
-        )}
-        {reported && (
-          <Localized id="comments-reportButton-reported">
-            <span>Reported</span>
-          </Localized>
-        )}
       </Button>
     );
   }

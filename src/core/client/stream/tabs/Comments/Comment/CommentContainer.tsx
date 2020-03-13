@@ -376,16 +376,20 @@ export class CommentContainer extends Component<Props, State> {
                     justifyContent="space-between"
                     className={CLASSES.comment.actionBar.$root}
                   >
-                    <ButtonsBar>
+                    <ButtonsBar className={styles.actionBar}>
                       <ReactionButtonContainer
                         comment={comment}
                         settings={settings}
                         viewer={viewer}
                         readOnly={banned || suspended}
-                        className={CLASSES.comment.actionBar.reactButton}
-                        reactedClassName={
+                        className={cn(
+                          styles.actionButton,
+                          CLASSES.comment.actionBar.reactButton
+                        )}
+                        reactedClassName={cn(
+                          styles.actionButton,
                           CLASSES.comment.actionBar.reactedButton
-                        }
+                        )}
                         isQA={story.settings.mode === GQLSTORY_MODE.QA}
                       />
                       {!disableReplies &&
@@ -400,13 +404,19 @@ export class CommentContainer extends Component<Props, State> {
                               settings.disableCommenting.enabled ||
                               story.isClosed
                             }
-                            className={CLASSES.comment.actionBar.replyButton}
+                            className={cn(
+                              styles.actionButton,
+                              CLASSES.comment.actionBar.replyButton
+                            )}
                           />
                         )}
                       <PermalinkButtonContainer
                         story={story}
                         commentID={comment.id}
-                        className={CLASSES.comment.actionBar.shareButton}
+                        className={cn(
+                          styles.actionButton,
+                          CLASSES.comment.actionBar.shareButton
+                        )}
                       />
                     </ButtonsBar>
                     <ButtonsBar>

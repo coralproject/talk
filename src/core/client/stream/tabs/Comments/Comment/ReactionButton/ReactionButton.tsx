@@ -37,30 +37,31 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
           styles.button
         )}
       >
+        {this.props.isQA ? (
+          <Icon>arrow_upward</Icon>
+        ) : (
+          <Icon>
+            {reacted
+              ? this.props.iconActive
+                ? this.props.iconActive
+                : this.props.icon
+              : this.props.icon}
+          </Icon>
+        )}
         <MatchMedia gtWidth="xs">
           {this.props.isQA ? (
-            <Icon>arrow_upward</Icon>
+            <span>
+              {reacted ? (
+                <Localized id="qa-reaction-voted">Voted</Localized>
+              ) : (
+                <Localized id="qa-reaction-vote">Vote</Localized>
+              )}
+            </span>
           ) : (
-            <Icon>
-              {reacted
-                ? this.props.iconActive
-                  ? this.props.iconActive
-                  : this.props.icon
-                : this.props.icon}
-            </Icon>
+            <span>{reacted ? this.props.labelActive : this.props.label}</span>
           )}
         </MatchMedia>
-        {this.props.isQA ? (
-          <span>
-            {reacted ? (
-              <Localized id="qa-reaction-voted">Voted</Localized>
-            ) : (
-              <Localized id="qa-reaction-vote">Vote</Localized>
-            )}
-          </span>
-        ) : (
-          <span>{reacted ? this.props.labelActive : this.props.label}</span>
-        )}
+
         {!!totalReactions && <span>{totalReactions}</span>}
       </Button>
     );
