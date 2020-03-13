@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { Tag } from "coral-ui/components";
+import { Tag } from "coral-ui/components/v2";
 
 import { AuthorBadgesContainer_comment as CommentData } from "coral-stream/__generated__/AuthorBadgesContainer_comment.graphql";
 
