@@ -155,6 +155,11 @@ const generateCookieOptions = (
   path: "/api",
   httpOnly: true,
   secure: req.secure,
+  // Chrome will ignore `SameSite: None` when not used in a secure context
+  // anyways, so don't bother setting `None` when we're not secure. The only
+  // time we aren't behind HTTPS is when we're testing/in development where the
+  // the setting for `SameSite: Lax` would be OK.
+  sameSite: req.secure ? "None" : "Lax",
   expires: expiresIn,
 });
 
