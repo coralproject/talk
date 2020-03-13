@@ -28,13 +28,13 @@ import {
 import { createManyBatchLoadFn } from "./util";
 
 const statusFilter = (
-  close: CloseCommenting,
+  closeCommenting: CloseCommenting,
   status?: GQLSTORY_STATUS,
   now = new Date()
 ): StoryConnectionInput["filter"] => {
   switch (status) {
     case GQLSTORY_STATUS.OPEN:
-      if (close.auto) {
+      if (closeCommenting.auto) {
         // Automatic story closing has been enabled. Stories will be considered
         // open if they have a ${closedAt} date in the future, if they've been
         // forced open (where ${closedAt} is set to false), or they haven't been
@@ -43,7 +43,7 @@ const statusFilter = (
         // Calculate the cutoff time for createdAt.
         const consideredClosedAt = DateTime.fromJSDate(now)
           .plus({
-            seconds: -close.timeout,
+            seconds: -closeCommenting.timeout,
           })
           .toJSDate();
 
@@ -79,7 +79,7 @@ const statusFilter = (
         ],
       };
     case GQLSTORY_STATUS.CLOSED:
-      if (close.auto) {
+      if (closeCommenting.auto) {
         // Automatic story closing has been enabled. Stories will be considered
         // closed if they have a ${closedAt} date before the current date or
         // they do not have a ${closedAt} date set and the ${createdAt} date is
@@ -89,7 +89,7 @@ const statusFilter = (
         // Calculate the cutoff time for createdAt.
         const consideredClosedAt = DateTime.fromJSDate(now)
           .plus({
-            seconds: -close.timeout,
+            seconds: -closeCommenting.timeout,
           })
           .toJSDate();
 
