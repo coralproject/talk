@@ -30,7 +30,7 @@ Try a test version of Coral by running it via a Heroku App:
 You can install Coral using Docker or via Source. We recommend Docker, as it
 provides the easiest deployment solution going forward, as all the dependencies
 are baked and shipped with the provided
-[coralproject/talk:5](https://hub.docker.com/r/coralproject/talk) image.
+[coralproject/talk:6](https://hub.docker.com/r/coralproject/talk) image.
 
 ### Docker
 
@@ -50,7 +50,7 @@ cat > docker-compose.yml <<EOF
 version: "2"
 services:
   talk:
-    image: coralproject/talk:5
+    image: coralproject/talk:6
     restart: always
     ports:
       - "127.0.0.1:3000:5000"
