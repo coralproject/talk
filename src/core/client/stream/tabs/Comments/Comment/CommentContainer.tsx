@@ -23,7 +23,13 @@ import {
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
-import { Button, Flex, HorizontalGutter, Icon, Tag } from "coral-ui/components";
+import {
+  Button,
+  Flex,
+  HorizontalGutter,
+  Icon,
+  Tag,
+} from "coral-ui/components/v2";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -337,16 +343,23 @@ export class CommentContainer extends Component<Props, State> {
                 <Flex alignItems="center" itemGutter>
                   {commentTags}
                   {editable && (
-                    <Localized id="comments-commentContainer-editButton">
-                      <Button
-                        color="primary"
-                        variant="underlined"
-                        onClick={this.openEditDialog}
-                        className={CLASSES.comment.topBar.editButton}
+                    <Button
+                      color="regular"
+                      variant="text"
+                      onClick={this.openEditDialog}
+                      className={CLASSES.comment.topBar.editButton}
+                    >
+                      <Flex
+                        alignItems="center"
+                        justifyContent="center"
+                        className={styles.editButton}
                       >
-                        Edit
-                      </Button>
-                    </Localized>
+                        <Icon className={styles.editIcon}>edit</Icon>
+                        <Localized id="comments-commentContainer-editButton">
+                          Edit
+                        </Localized>
+                      </Flex>
+                    </Button>
                   )}
                   {showCaret && (
                     <CaretContainer
@@ -438,7 +451,7 @@ export class CommentContainer extends Component<Props, State> {
           {showRemoveAnswered && (
             <Localized id="qa-unansweredTab-doneAnswering">
               <Button
-                variant="filled"
+                variant="regular"
                 color="regular"
                 className={styles.removeAnswered}
                 onClick={this.props.onRemoveAnswered}
