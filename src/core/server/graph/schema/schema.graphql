@@ -2944,6 +2944,7 @@ type Query {
     first: Int = 10 @constraint(max: 50)
     after: Cursor
     storyID: ID
+    siteID: ID
     status: COMMENT_STATUS
     tag: TAG
     query: String
@@ -6415,16 +6416,14 @@ type Mutation {
   """
   addStoryExpert adds an expert to a story.
   """
-  addStoryExpert(
-    input: AddExpertInput!
-  ): AddExpertPayload! @auth(roles: [ADMIN, MODERATOR])
+  addStoryExpert(input: AddExpertInput!): AddExpertPayload!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   removeStoryExpert removes an expert from a story.
   """
-  removeStoryExpert(
-    input: RemoveExpertInput!
-  ): RemoveExpertPayload! @auth(roles: [ADMIN, MODERATOR])
+  removeStoryExpert(input: RemoveExpertInput!): RemoveExpertPayload!
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ##################

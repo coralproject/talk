@@ -17,6 +17,7 @@ interface RejectedQueueRouteProps {
   query: RejectedQueueRoute_query;
   relay: RelayPaginationProp;
   storyID?: string;
+  siteID?: string;
 }
 
 // TODO: use generated types
@@ -87,10 +88,12 @@ const enhanced = (withPaginationContainer<
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
           storyID: { type: "ID" }
+          siteID: { type: "ID" }
         ) {
         comments(
           status: REJECTED
           storyID: $storyID
+          siteID: $siteID
           first: $count
           after: $cursor
         ) @connection(key: "RejectedQueue_comments") {
@@ -134,11 +137,17 @@ const enhanced = (withPaginationContainer<
       # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
       query RejectedQueueRoutePaginationQuery(
         $storyID: ID
+        $siteID: ID
         $count: Int!
         $cursor: Cursor
       ) {
         ...RejectedQueueRoute_query
-          @arguments(storyID: $storyID, count: $count, cursor: $cursor)
+          @arguments(
+            storyID: $storyID
+            siteID: $siteID
+            count: $count
+            cursor: $cursor
+          )
       }
     `,
   }
@@ -147,14 +156,20 @@ const enhanced = (withPaginationContainer<
 enhanced.routeConfig = {
   Component: enhanced,
   query: graphql`
-    query RejectedQueueRouteQuery($storyID: ID) {
-      ...RejectedQueueRoute_query @arguments(storyID: $storyID)
+    query RejectedQueueRouteQuery($storyID: ID, $siteID: ID) {
+      ...RejectedQueueRoute_query @arguments(storyID: $storyID, siteID: $siteID)
     }
   `,
   cacheConfig: { force: true },
   render: function RejectedRouteRender({ Component, props, match }) {
     if (Component && props) {
-      return <Component query={props} storyID={match.params.storyID} />;
+      return (
+        <Component
+          query={props}
+          storyID={match.params.storyID}
+          siteID={match.params.siteID}
+        />
+      );
     }
     return <LoadingQueue />;
   },
