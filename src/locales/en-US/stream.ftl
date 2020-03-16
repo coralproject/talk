@@ -199,6 +199,10 @@ qa-expert-tag = expert
 
 qa-reaction-vote = Vote
 qa-reaction-voted = Voted
+qa-reaction-aria-vote =
+  .aria-label = Vote
+qa-reaction-voted =
+  .aria-label = Voted
 
 qa-unansweredTab-doneAnswering = Done
 
