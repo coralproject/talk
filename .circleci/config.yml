@@ -167,7 +167,6 @@ filter_develop: &filter_develop
         - next
 
 workflows:
-  version: 2
   build-test:
     jobs:
       - docker_tests:
