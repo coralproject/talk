@@ -39,23 +39,28 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
         )}
       >
         {({ toggleVisibility, ref, visible }) => (
-          <Button
-            onClick={toggleVisibility}
-            aria-controls={popoverID}
-            ref={ref}
-            variant="text"
-            active={visible}
-            size="regular"
-            color="mono"
-            className={className}
+          <Localized
+            id="comments-permalinkButton"
+            attrs={{ "aria-label": true }}
           >
-            <Icon>share</Icon>
-            <MatchMedia gtWidth="xs">
-              <Localized id="comments-permalinkButton-share">
-                <span>Share</span>
-              </Localized>
-            </MatchMedia>
-          </Button>
+            <Button
+              onClick={toggleVisibility}
+              aria-controls={popoverID}
+              ref={ref}
+              variant="text"
+              active={visible}
+              size="regular"
+              color="mono"
+              className={className}
+            >
+              <Icon>share</Icon>
+              <MatchMedia gtWidth="xs">
+                <Localized id="comments-permalinkButton-share">
+                  <span>Share</span>
+                </Localized>
+              </MatchMedia>
+            </Button>
+          </Localized>
         )}
       </Popover>
     </Localized>

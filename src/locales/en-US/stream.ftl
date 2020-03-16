@@ -63,6 +63,8 @@ comments-permalinkPopover =
 comments-permalinkPopover-permalinkToComment =
   .aria-label = Permalink to comment
 comments-permalinkButton-share = Share
+comments-permalinkButton =
+  .aria-label = Share
 comments-permalinkView-viewFullDiscussion = View Full Discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
@@ -91,6 +93,8 @@ comments-postCommentForm-userScheduledForDeletion-warning =
   Commenting is disabled when your account is scheduled for deletion.
 
 comments-replyButton-reply = Reply
+comments-replyButton =
+  .aria-label = Reply
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 

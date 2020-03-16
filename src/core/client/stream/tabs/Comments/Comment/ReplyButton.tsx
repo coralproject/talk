@@ -12,23 +12,25 @@ interface Props {
 }
 
 const ReplyButton: FunctionComponent<Props> = props => (
-  <Button
-    className={props.className}
-    id={props.id}
-    onClick={props.onClick}
-    variant="text"
-    color="mono"
-    size="regular"
-    active={props.active}
-    disabled={props.disabled}
-  >
-    <Icon>reply</Icon>
-    <MatchMedia gtWidth="xs">
-      <Localized id="comments-replyButton-reply">
-        <span>Reply</span>
-      </Localized>
-    </MatchMedia>
-  </Button>
+  <Localized id="comments-replyButton" attrs={{ "aria-label": true }}>
+    <Button
+      className={props.className}
+      id={props.id}
+      onClick={props.onClick}
+      variant="text"
+      color="mono"
+      size="regular"
+      active={props.active}
+      disabled={props.disabled}
+    >
+      <Icon>reply</Icon>
+      <MatchMedia gtWidth="xs">
+        <Localized id="comments-replyButton-reply">
+          <span>Reply</span>
+        </Localized>
+      </MatchMedia>
+    </Button>
+  </Localized>
 );
 
 export default ReplyButton;
