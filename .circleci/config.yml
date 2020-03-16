@@ -13,7 +13,7 @@ job_defaults: &job_defaults
   environment:
     <<: *job_environment
 
-version: 2
+version: 2.1
 jobs:
   # npm_dependencies will install the dependencies used by all other steps.
   npm_dependencies:
