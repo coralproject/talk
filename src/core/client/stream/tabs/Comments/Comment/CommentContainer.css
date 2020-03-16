@@ -42,5 +42,5 @@ $commenterActionEditColorActive: var(--v2-colors-stream-blue-300);
 }
 
 .actionButton {
-  padding-right: var(--v2-spacing-1);
+  padding: var(--v2-spacing-1);
 }
