@@ -4,6 +4,7 @@ import { Flex } from "coral-ui/components/v2";
 
 interface Props {
   className?: string;
+  children?: any;
 }
 
 const ButtonsBar: FunctionComponent<Props> = ({ className, children }) => {
