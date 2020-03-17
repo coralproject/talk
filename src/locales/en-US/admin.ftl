@@ -1046,6 +1046,8 @@ configure-advanced-stories-custom-user-agent-detail =
   scrape request.
 
 commentAuthor-status-banned = Banned
+commentAuthor-status-premod = Pre-mod
+commentAuthor-status-suspended = Suspended
 
 hotkeysModal-title = Keyboard shortcuts
 hotkeysModal-navigation-shortcuts = Navigation shortcuts
