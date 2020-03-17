@@ -78,7 +78,7 @@ sidebar:
     - title: Docker
       url: https://hub.docker.com/r/coralproject/talk/
   side:
-    - title: Version 5
+    - title: Version 5+
       children:
         - title: Getting started
           children:
@@ -222,6 +222,8 @@ sidebar:
               url: /migration/4.1/
             - title: Migrating to v5.0.0
               url: /migration/5.0/
+            - title: Migrating to v6.0.0
+              url: /migration/6.0/
     - title: FAQ & Troubleshooting
       children:
         - children:
