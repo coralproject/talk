@@ -62,7 +62,7 @@ async function createTestRenderer(
 
   // Open edit form.
   within(comment)
-    .getByText("Edit")
+    .getByTestID("comment-edit-button")
     .props.onClick();
 
   const rte = await waitForElement(

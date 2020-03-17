@@ -96,7 +96,7 @@ it("edit a comment", async () => {
   // Open edit form.
   act(() =>
     within(comment)
-      .getByText("Edit")
+      .getByTestID("comment-edit-button")
       .props.onClick()
   );
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
@@ -140,7 +140,7 @@ it("edit a comment and handle non-published comment state", async () => {
   // Open edit form.
   act(() =>
     within(comment)
-      .getByText("Edit")
+      .getByTestID("comment-edit-button")
       .props.onClick()
   );
 
@@ -194,7 +194,7 @@ it("cancel edit", async () => {
   // Open edit form.
   act(() =>
     within(comment)
-      .getByText("Edit")
+      .getByTestID("comment-edit-button")
       .props.onClick()
   );
 
@@ -220,7 +220,7 @@ it("shows expiry message", async () => {
   // Open edit form.
   act(() =>
     within(comment)
-      .getByText("Edit")
+      .getByTestID("comment-edit-button")
       .props.onClick()
   );
 
@@ -258,7 +258,7 @@ it("edit a comment and handle server error", async () => {
   // Open edit form.
   act(() =>
     within(comment)
-      .getByText("Edit")
+      .getByTestID("comment-edit-button")
       .props.onClick()
   );
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");

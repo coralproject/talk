@@ -22,6 +22,7 @@ const ReplyButton: FunctionComponent<Props> = props => (
       size="regular"
       active={props.active}
       disabled={props.disabled}
+      data-testid="comment-reply-button"
     >
       <Icon>reply</Icon>
       <MatchMedia gtWidth="xs">

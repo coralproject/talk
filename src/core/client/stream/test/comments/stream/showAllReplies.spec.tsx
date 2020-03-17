@@ -111,8 +111,9 @@ it("show all replies", async () => {
   );
 
   // Get amount of comments before.
-  const commentsBefore = within(commentReplyList).getAllByTestID(/^comment-/)
-    .length;
+  const commentsBefore = within(commentReplyList).getAllByTestID(
+    /^comment[-]comment[-]/
+  ).length;
 
   await act(async () => {
     within(commentReplyList)
@@ -124,7 +125,7 @@ it("show all replies", async () => {
     );
   });
 
-  expect(within(commentReplyList).getAllByTestID(/^comment-/).length).toBe(
-    commentsBefore + 1
-  );
+  expect(
+    within(commentReplyList).getAllByTestID(/^comment[-]comment[-]/).length
+  ).toBe(commentsBefore + 1);
 });

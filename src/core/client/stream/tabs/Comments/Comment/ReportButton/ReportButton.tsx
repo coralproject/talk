@@ -24,36 +24,46 @@ class ReportButton extends React.Component<Props> {
       ...rest
     } = this.props;
     return (
-      <Button
-        {...rest}
-        active={active}
-        disabled={!active && reported}
-        classes={
-          (reported &&
-            !active && {
-              variantText: styles.variantText,
-            }) ||
-          {}
+      <Localized
+        id={
+          reported
+            ? "comments-reportButton-aria-reported"
+            : "comments-reportButton-aria-report"
         }
-        variant="text"
-        size="regular"
-        color="mono"
-        ref={ref}
+        attrs={{ "aria-label": true }}
       >
-        <Icon>flag</Icon>
-        <MatchMedia gtWidth="xs">
-          {!reported && (
-            <Localized id="comments-reportButton-report">
-              <span>Report</span>
-            </Localized>
-          )}
-          {reported && (
-            <Localized id="comments-reportButton-reported">
-              <span>Reported</span>
-            </Localized>
-          )}
-        </MatchMedia>
-      </Button>
+        <Button
+          {...rest}
+          active={active}
+          disabled={!active && reported}
+          classes={
+            (reported &&
+              !active && {
+                variantText: styles.variantText,
+              }) ||
+            {}
+          }
+          variant="text"
+          size="regular"
+          color="mono"
+          ref={ref}
+          data-testid="comment-report-button"
+        >
+          <Icon>flag</Icon>
+          <MatchMedia gtWidth="xs">
+            {!reported && (
+              <Localized id="comments-reportButton-report">
+                <span>Report</span>
+              </Localized>
+            )}
+            {reported && (
+              <Localized id="comments-reportButton-reported">
+                <span>Reported</span>
+              </Localized>
+            )}
+          </MatchMedia>
+        </Button>
+      </Localized>
     );
   }
 }

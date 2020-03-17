@@ -348,6 +348,7 @@ export class CommentContainer extends Component<Props, State> {
                       variant="text"
                       onClick={this.openEditDialog}
                       className={CLASSES.comment.topBar.editButton}
+                      data-testid="comment-edit-button"
                     >
                       <Flex
                         alignItems="center"

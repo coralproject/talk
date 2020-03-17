@@ -2,9 +2,11 @@
 
 exports[`create and remove reaction: Respected 1`] = `
 <button
-  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton coral-reactedButton coral-comment-reactedButton ReactionButton-button"
-  data-color="primary"
-  data-variant="textUnderlined"
+  aria-label="Respected"
+  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton ReactionButton-button"
+  data-color="mono"
+  data-testid="comment-reaction-button"
+  data-variant="text"
   disabled={false}
   onBlur={[Function]}
   onClick={[Function]}
@@ -14,10 +16,15 @@ exports[`create and remove reaction: Respected 1`] = `
   onTouchEnd={[Function]}
   type="button"
 >
-  <span>
-    Respected
-  </span>
-  <span>
+  <i
+    aria-hidden="true"
+    className="Icon-root Icon-sm ReactionButton-reacted"
+  >
+    thumb_up
+  </i>
+  <span
+    className="ReactionButton-reacted"
+  >
     1
   </span>
 </button>
@@ -25,9 +32,11 @@ exports[`create and remove reaction: Respected 1`] = `
 
 exports[`create and remove reaction: Unrespected 1`] = `
 <button
-  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-comment-reactButton ReactionButton-button"
-  data-color="primary"
-  data-variant="textUnderlined"
+  aria-label="Respect"
+  className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton ReactionButton-button"
+  data-color="mono"
+  data-testid="comment-reaction-button"
+  data-variant="text"
   disabled={false}
   onBlur={[Function]}
   onClick={[Function]}
@@ -37,8 +46,11 @@ exports[`create and remove reaction: Unrespected 1`] = `
   onTouchEnd={[Function]}
   type="button"
 >
-  <span>
-    Respect
-  </span>
+  <i
+    aria-hidden="true"
+    className="Icon-root Icon-sm"
+  >
+    thumb_up
+  </i>
 </button>
 `;

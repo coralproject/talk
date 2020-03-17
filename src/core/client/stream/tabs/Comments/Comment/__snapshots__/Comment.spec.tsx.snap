@@ -25,7 +25,7 @@ exports[`renders username and body 1`] = `
         itemGutter={true}
       >
         <TimeStamp
-          className="coral coral-timestamp coral-comment-timestamp"
+          className="Comment-timestamp coral coral-timestamp coral-comment-timestamp"
         >
           1995-12-17T03:24:00.000Z
         </TimeStamp>

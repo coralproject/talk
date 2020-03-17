@@ -85,16 +85,10 @@ it("disables comment stream", async () => {
   within(tabPane).getAllByText("Your account has been banned", {
     exact: false,
   });
+  expect(within(tabPane).queryByTestID("comment-reply-button")).toBeNull();
+  expect(within(tabPane).queryByTestID("comment-report-button")).toBeNull();
+  expect(within(tabPane).queryByTestID("comment-edit-button")).toBeNull();
   expect(
-    within(tabPane).queryByText("Reply", { selector: "button" })
-  ).toBeNull();
-  expect(
-    within(tabPane).queryByText("Report", { selector: "button" })
-  ).toBeNull();
-  expect(
-    within(tabPane).queryByText("Edit", { selector: "button" })
-  ).toBeNull();
-  expect(
-    within(tabPane).getByText("Respect", { selector: "button" }).props.disabled
+    within(tabPane).getByTestID("comment-reaction-button").props.disabled
   ).toBe(true);
 });

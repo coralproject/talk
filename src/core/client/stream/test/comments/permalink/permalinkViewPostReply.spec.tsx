@@ -74,7 +74,7 @@ const createTestRenderer = async (
 
   // Open reply form.
   within(comment)
-    .getByText("Reply", { selector: "button" })
+    .getByTestID("comment-reply-button")
     .props.onClick();
 
   const rte = await waitForElement(

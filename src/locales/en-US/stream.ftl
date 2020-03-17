@@ -126,6 +126,10 @@ comments-replyTo = Replying to: <Username></Username>
 
 comments-reportButton-report = Report
 comments-reportButton-reported = Reported
+comments-reportButton-aria-report =
+  .aria-label = Report
+comments-reportButton-aria-reported =
+  .aria-label = Reported
 
 comments-sortMenu-sortBy = Sort By
 comments-sortMenu-newest = Newest
