@@ -271,9 +271,9 @@ exports[`post a reply: open reply form 1`] = `
               </div>
             </div>
             <a
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-comment-readMoreOfConveration"
-              data-color="primary"
-              data-variant="underlined"
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular ShowConversationLink-colorRegular Button-variantTextUnderlined Button-uppercase ShowConversationLink-conversationLink coral coral-comment-readMoreOfConveration"
+              data-color="regular"
+              data-variant="textUnderlined"
               href="http://localhost/stories/story-with-replies?commentID=comment-with-deepest-replies-3"
               id="comments-commentContainer-showConversation-comment-with-deepest-replies-3"
               onBlur={[Function]}
@@ -1855,9 +1855,9 @@ exports[`renders comment stream 1`] = `
                               </div>
                             </div>
                             <a
-                              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined coral coral-comment-readMoreOfConveration"
-                              data-color="primary"
-                              data-variant="underlined"
+                              className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular ShowConversationLink-colorRegular Button-variantTextUnderlined Button-uppercase ShowConversationLink-conversationLink coral coral-comment-readMoreOfConveration"
+                              data-color="regular"
+                              data-variant="textUnderlined"
                               href="http://localhost/stories/story-with-replies?commentID=comment-with-deepest-replies-3"
                               id="comments-commentContainer-showConversation-comment-with-deepest-replies-3"
                               onBlur={[Function]}
