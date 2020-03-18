@@ -20,6 +20,7 @@ import {
 
 import { baseComment, commenters, settings, stories } from "../../fixtures";
 import create from "./create";
+import { timeout } from "coral-common/utils";
 
 async function createTestRenderer(
   resolver: any,
@@ -252,6 +253,7 @@ it("handle moderation nudge error", async () => {
     // Look for internal error being displayed.
     await waitForElement(() => within(form).getByText("TOXIC_COMMENT"));
 
+    await timeout(100);
     // Try again, now nudging should be disabled.
     form.props.onSubmit();
 

@@ -171,6 +171,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
     } else {
       this.props.sessionStorage.removeItem(contextKey);
     }
+
     // Reset errors whenever user clears the form.
     if (state.touched && state.touched.body && !state.values.body) {
       form.reset({});
