@@ -20,6 +20,7 @@ const failPatterns: PatternMap = {
  * messages before they reach the console.
  */
 const mutePatterns: PatternMap = {
+  "React.createFactory() is deprecated": /React.createFactory\(\) is deprecated/g,
   "False validateMutation warnings (https://github.com/facebook/relay/pull/2760)": /`optimisticResponse`.*contains an unused field .*\.\d+/g,
   "ComponentWillReceiveProps has been renamed, and is not recommended for use": /componentWillReceiveProps has been renamed, and is not recommended for use/g,
 };
