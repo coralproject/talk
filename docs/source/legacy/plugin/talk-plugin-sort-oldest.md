@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-sort-oldest/README.md
+../../../../plugins/talk-plugin-sort-oldest/README.md

@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-moderation-actions/README.md
+../../../../plugins/talk-plugin-moderation-actions/README.md

@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-notifications-digest-daily/README.md
+../../../../plugins/talk-plugin-notifications-digest-daily/README.md

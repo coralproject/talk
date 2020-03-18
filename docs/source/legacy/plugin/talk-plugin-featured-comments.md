@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-featured-comments/README.md
+../../../../plugins/talk-plugin-featured-comments/README.md

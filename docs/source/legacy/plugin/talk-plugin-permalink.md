@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-permalink/README.md
+../../../../plugins/talk-plugin-permalink/README.md

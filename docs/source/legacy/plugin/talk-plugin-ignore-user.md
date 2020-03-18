@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-ignore-user/README.md
+../../../../plugins/talk-plugin-ignore-user/README.md

@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-akismet/README.md
+../../../../plugins/talk-plugin-akismet/README.md

@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-member-since/README.md
+../../../../plugins/talk-plugin-member-since/README.md

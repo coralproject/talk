@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-notifications/README.md
+../../../../plugins/talk-plugin-notifications/README.md
