@@ -13,9 +13,7 @@ export interface UserBoxAuthenticatedProps {
   showLogoutButton?: boolean;
 }
 
-const UserBoxAuthenticated: FunctionComponent<
-  UserBoxAuthenticatedProps
-> = props => {
+const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = props => {
   const Username = () => (
     <Typography variant="heading3" container="span">
       {props.username}

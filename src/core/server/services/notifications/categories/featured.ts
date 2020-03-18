@@ -7,9 +7,7 @@ import { hasPublishedStatus } from "coral-server/models/comment";
 import { getStoryTitle, getURLWithCommentID } from "coral-server/models/story";
 import { NotificationCategory } from "./category";
 
-export const featured: NotificationCategory<
-  CommentFeaturedCoralEventPayload
-> = {
+export const featured: NotificationCategory<CommentFeaturedCoralEventPayload> = {
   name: "featured",
   process: async (ctx, input) => {
     // Get the comment that was featured.

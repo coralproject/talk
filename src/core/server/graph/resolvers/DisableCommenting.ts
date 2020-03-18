@@ -2,9 +2,7 @@ import { GQLDisableCommentingTypeResolver } from "coral-server/graph/schema/__ge
 import * as settings from "coral-server/models/settings";
 import { translate } from "coral-server/services/i18n";
 
-export const DisableCommenting: GQLDisableCommentingTypeResolver<
-  settings.DisableCommenting
-> = {
+export const DisableCommenting: GQLDisableCommentingTypeResolver<settings.DisableCommenting> = {
   message: (disableCommenting, input, ctx) => {
     if (disableCommenting.message) {
       return disableCommenting.message;

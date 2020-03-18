@@ -5,9 +5,7 @@ import {
 
 const disabled = { enabled: false };
 
-export const AuthIntegrations: GQLAuthIntegrationsTypeResolver<
-  GQLAuthIntegrations
-> = {
+export const AuthIntegrations: GQLAuthIntegrationsTypeResolver<GQLAuthIntegrations> = {
   local: auth => auth.local || disabled,
   sso: auth => auth.sso || disabled,
   oidc: auth => auth.oidc || disabled,

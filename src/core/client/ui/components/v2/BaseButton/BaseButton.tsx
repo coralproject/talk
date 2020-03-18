@@ -66,10 +66,12 @@ const BaseButton: FunctionComponent<Props> = ({
   type,
   ...rest
 }) => {
-  let Element: React.ComponentType<
-    React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement> &
-      React.ClassAttributes<HTMLButtonElement | HTMLAnchorElement>
-  > = "button" as any;
+  let Element: React.ComponentType<React.ButtonHTMLAttributes<
+    HTMLButtonElement | HTMLAnchorElement
+  > &
+    React.ClassAttributes<
+      HTMLButtonElement | HTMLAnchorElement
+    >> = "button" as any;
 
   if (rest.to) {
     Element = Link as any;

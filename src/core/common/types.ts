@@ -24,25 +24,23 @@ export type Nullable<T> = { [P in keyof T]: T[P] | null };
 
 export type DeepWritableObject<T> = T extends object
   ? {
-      -readonly [P in keyof T]: T[P] extends (Array<infer U> | undefined)
+      -readonly [P in keyof T]: T[P] extends Array<infer U> | undefined
         ? Array<DeepWritableObject<U>>
-        : T[P] extends (ReadonlyArray<infer V> | undefined)
+        : T[P] extends ReadonlyArray<infer V> | undefined
         ? ReadonlyArray<DeepWritableObject<V>>
         : DeepWritableObject<T[P]>;
     }
   : T;
 
-export type DeepWritable<T> = T extends (
-  | Array<infer U>
-  | ReadonlyArray<infer U>)
+export type DeepWritable<T> = T extends Array<infer U> | ReadonlyArray<infer U>
   ? Array<DeepWritableObject<U>>
   : DeepWritableObject<T>;
 
 export type DeepNullable<T> = T extends object
   ? {
-      [P in keyof T]: T[P] extends (Array<infer U> | undefined)
+      [P in keyof T]: T[P] extends Array<infer U> | undefined
         ? Array<DeepNullable<U>>
-        : T[P] extends (ReadonlyArray<infer V> | undefined)
+        : T[P] extends ReadonlyArray<infer V> | undefined
         ? ReadonlyArray<DeepNullable<V>>
         : DeepNullable<T[P]>;
     }
@@ -53,9 +51,9 @@ export type DeepNullable<T> = T extends object
  */
 export type DeepPartial<T> = T extends object
   ? {
-      [P in keyof T]?: T[P] extends (Array<infer U> | undefined)
+      [P in keyof T]?: T[P] extends Array<infer U> | undefined
         ? Array<DeepPartial<U>>
-        : T[P] extends (ReadonlyArray<infer V> | undefined)
+        : T[P] extends ReadonlyArray<infer V> | undefined
         ? ReadonlyArray<DeepPartial<V>>
         : DeepPartial<T[P]>;
     }

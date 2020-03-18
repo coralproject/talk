@@ -122,7 +122,9 @@ it("prevents admin lock out", async () => {
   await waitForElement(() =>
     within(testRenderer.root).getByText(
       "Please enable at least one authentication integration",
-      { exact: false }
+      {
+        exact: false,
+      }
     )
   );
 });

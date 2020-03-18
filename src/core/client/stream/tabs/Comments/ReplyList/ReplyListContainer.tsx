@@ -202,9 +202,9 @@ function createReplyListContainer(
 /**
  * LastReplyList uses the LocalReplyListContainer.
  */
-const LastReplyList: FunctionComponent<
-  PropTypesOf<typeof LocalReplyListContainer>
-> = props => <LocalReplyListContainer {...props} indentLevel={3} />;
+const LastReplyList: FunctionComponent<PropTypesOf<
+  typeof LocalReplyListContainer
+>> = props => <LocalReplyListContainer {...props} indentLevel={3} />;
 
 const ReplyListContainer3 = createReplyListContainer(
   3,

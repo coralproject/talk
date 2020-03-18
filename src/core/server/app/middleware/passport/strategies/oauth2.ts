@@ -119,9 +119,10 @@ export default abstract class OAuth2Strategy<
 
       let strategy = this.cache.get(tenant.id);
       if (!strategy) {
-        strategy = this.createStrategy(tenant, integration as Required<
-          T
-        >) as StrategyCreated<U>;
+        strategy = this.createStrategy(
+          tenant,
+          integration as Required<T>
+        ) as StrategyCreated<U>;
 
         // Augment the strategy with the request method bindings.
         strategy.error = this.error.bind(this);

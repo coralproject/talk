@@ -22,9 +22,7 @@ export {
   commitMutationPromiseNormalized,
 } from "./commitMutationPromise";
 export { graphql } from "react-relay";
-export {
-  default as commitLocalUpdatePromisified,
-} from "./commitLocalUpdatePromisified";
+export { default as commitLocalUpdatePromisified } from "./commitLocalUpdatePromisified";
 export {
   initLocalBaseState,
   setAccessTokenInLocalState,

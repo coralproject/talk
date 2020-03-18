@@ -136,10 +136,9 @@ it("change site wide commenting", async () => {
     resolvers,
   });
 
-  const sitewideCommentingContainer = within(generalContainer).getAllByText(
-    "Sitewide commenting",
-    { selector: "fieldset" }
-  )[0];
+  const sitewideCommentingContainer = within(
+    generalContainer
+  ).getAllByText("Sitewide commenting", { selector: "fieldset" })[0];
 
   const offField = within(sitewideCommentingContainer).getByLabelText(
     "Off - Comment streams closed for new comments"
@@ -201,10 +200,9 @@ it("change community guidlines", async () => {
     resolvers,
   });
 
-  const guidelinesContainer = within(generalContainer).getAllByText(
-    "Community guidelines summary",
-    { selector: "fieldset" }
-  )[0];
+  const guidelinesContainer = within(
+    generalContainer
+  ).getAllByText("Community guidelines summary", { selector: "fieldset" })[0];
 
   const onField = within(guidelinesContainer).getByLabelText("On");
   const contentField = within(guidelinesContainer).getByLabelText(
@@ -304,10 +302,9 @@ it("change comment editing time", async () => {
     saveChangesButton,
   } = await createTestRenderer({ resolvers });
 
-  const durationFieldset = within(generalContainer).getByText(
-    "Comment edit timeframe",
-    { selector: "fieldset" }
-  );
+  const durationFieldset = within(
+    generalContainer
+  ).getByText("Comment edit timeframe", { selector: "fieldset" });
   const valueField = within(durationFieldset).getByLabelText("value");
   const unitField = within(durationFieldset).getByLabelText("unit");
   const hoursOption = within(unitField).getByText(/Hours?/);
@@ -381,10 +378,9 @@ it("change comment length limitations", async () => {
     resolvers,
   });
 
-  const commentLengthContainer = within(generalContainer).getByText(
-    "Comment length",
-    { selector: "fieldset" }
-  );
+  const commentLengthContainer = within(
+    generalContainer
+  ).getByText("Comment length", { selector: "fieldset" });
   const onField = within(commentLengthContainer).getByLabelText("On");
   const minField = within(commentLengthContainer).getByLabelText(
     "Minimum comment length"
@@ -473,15 +469,13 @@ it("change closing comment streams", async () => {
     saveChangesButton,
   } = await createTestRenderer({ resolvers });
 
-  const closingCommentStreamsContainer = within(generalContainer).getByText(
-    "Closing comment streams",
-    { selector: "fieldset" }
-  );
+  const closingCommentStreamsContainer = within(
+    generalContainer
+  ).getByText("Closing comment streams", { selector: "fieldset" });
   const onField = within(closingCommentStreamsContainer).getByLabelText("On");
-  const durationFieldset = within(closingCommentStreamsContainer).getByText(
-    "Close comments after",
-    { selector: "fieldset" }
-  );
+  const durationFieldset = within(
+    closingCommentStreamsContainer
+  ).getByText("Close comments after", { selector: "fieldset" });
   const valueField = within(durationFieldset).getByLabelText("value");
   const unitField = within(durationFieldset).getByLabelText("unit");
   const daysOption = within(unitField).getByText(/Days?/);

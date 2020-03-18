@@ -134,9 +134,7 @@ export const moderationQueuesResolver: QueryToModerationQueuesResolver = async (
   return sharedModerationInputResolver(source, args, ctx);
 };
 
-export const ModerationQueues: GQLModerationQueuesTypeResolver<
-  ModerationQueuesInput
-> = {
+export const ModerationQueues: GQLModerationQueuesTypeResolver<ModerationQueuesInput> = {
   unmoderated: mergeModerationInputFilters(
     {
       status: { $in: UNMODERATED_STATUSES },

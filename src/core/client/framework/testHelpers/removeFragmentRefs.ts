@@ -9,7 +9,7 @@ export type OmitFragments<T> = Pick<
 >;
 
 export type NoFragmentRefs<T> = T extends object
-  ? T extends ((...args: any[]) => any)
+  ? T extends (...args: any[]) => any
     ? T
     : T extends ReadonlyArray<infer U>
     ? ReadonlyArray<NoFragmentRefs2<U>> // TODO: (cvle) this should normally reference itself but it complains about a circular reference.
@@ -18,7 +18,7 @@ export type NoFragmentRefs<T> = T extends object
 
 // TODO: (cvle) these NoFragmentRefX are a workaround for above issue
 export type NoFragmentRefs2<T> = T extends object
-  ? T extends ((...args: any[]) => any)
+  ? T extends (...args: any[]) => any
     ? T
     : T extends ReadonlyArray<infer U>
     ? ReadonlyArray<NoFragmentRefs3<U>>
@@ -26,7 +26,7 @@ export type NoFragmentRefs2<T> = T extends object
   : T;
 
 export type NoFragmentRefs3<T> = T extends object
-  ? T extends ((...args: any[]) => any)
+  ? T extends (...args: any[]) => any
     ? T
     : T extends ReadonlyArray<infer U>
     ? ReadonlyArray<NoFragmentRefs4<U>>
@@ -34,7 +34,7 @@ export type NoFragmentRefs3<T> = T extends object
   : T;
 
 export type NoFragmentRefs4<T> = T extends object
-  ? T extends ((...args: any[]) => any)
+  ? T extends (...args: any[]) => any
     ? T
     : { [P in keyof OmitFragments<T>]: NoFragmentRefs<T[P]> }
   : T;

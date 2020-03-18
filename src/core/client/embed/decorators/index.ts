@@ -6,6 +6,4 @@ export { default as withEventEmitter } from "./withEventEmitter";
 export { default as withPymStorage } from "./withPymStorage";
 export { default as withConfig } from "./withConfig";
 export { default as withLiveCommentCount } from "./withLiveCommentCount";
-export {
-  default as withIOSSafariWidthWorkaround,
-} from "./withIOSSafariWidthWorkaround";
+export { default as withIOSSafariWidthWorkaround } from "./withIOSSafariWidthWorkaround";

@@ -25,8 +25,8 @@ export interface PermalinkViewProps {
   story: PropTypesOf<typeof ConversationThreadContainer>["story"] &
     PropTypesOf<typeof ReplyListContainer>["story"];
   comment:
-    | PropTypesOf<typeof ConversationThreadContainer>["comment"] &
-        PropTypesOf<typeof ReplyListContainer>["comment"]
+    | (PropTypesOf<typeof ConversationThreadContainer>["comment"] &
+        PropTypesOf<typeof ReplyListContainer>["comment"])
     | null;
   settings: PropTypesOf<typeof ConversationThreadContainer>["settings"] &
     PropTypesOf<typeof ReplyListContainer>["settings"] &

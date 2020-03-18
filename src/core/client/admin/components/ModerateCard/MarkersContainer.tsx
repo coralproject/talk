@@ -26,9 +26,9 @@ function hasDetails(c: MarkersContainer_comment) {
 }
 
 let keyCounter = 0;
-const markers: Array<
-  (c: MarkersContainer_comment) => React.ReactElement<any> | null
-> = [
+const markers: Array<(
+  c: MarkersContainer_comment
+) => React.ReactElement<any> | null> = [
   c =>
     (c.status === "PREMOD" && (
       <Localized id="moderate-marker-preMod" key={keyCounter++}>

@@ -49,9 +49,7 @@ graphql`
   }
 `;
 
-export const UnansweredCommentsTabContainer: FunctionComponent<
-  Props
-> = props => {
+export const UnansweredCommentsTabContainer: FunctionComponent<Props> = props => {
   const [{ commentsOrderBy }] = useLocal<UnansweredCommentsTabContainerLocal>(
     graphql`
       fragment UnansweredCommentsTabContainerLocal on Local {

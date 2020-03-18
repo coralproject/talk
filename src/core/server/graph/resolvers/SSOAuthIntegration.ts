@@ -7,9 +7,7 @@ function getActiveSSOKey(keys: settings.Secret[]) {
   return keys.find(key => !key.rotatedAt);
 }
 
-export const SSOAuthIntegration: GQLSSOAuthIntegrationTypeResolver<
-  settings.SSOAuthIntegration
-> = {
+export const SSOAuthIntegration: GQLSSOAuthIntegrationTypeResolver<settings.SSOAuthIntegration> = {
   key: ({ keys }) => {
     const key = getActiveSSOKey(keys);
     if (key) {

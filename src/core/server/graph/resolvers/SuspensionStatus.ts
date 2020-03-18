@@ -5,9 +5,9 @@ export type SuspensionStatusInput = user.ConsolidatedSuspensionStatus & {
   userID: string;
 };
 
-export const SuspensionStatus: Required<
-  GQLSuspensionStatusTypeResolver<SuspensionStatusInput>
-> = {
+export const SuspensionStatus: Required<GQLSuspensionStatusTypeResolver<
+  SuspensionStatusInput
+>> = {
   active: ({ active }) => active,
   until: ({ until }) => until,
   history: ({ history, userID }) =>

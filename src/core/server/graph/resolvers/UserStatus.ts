@@ -13,9 +13,9 @@ export type UserStatusInput = user.UserStatus & {
   userID: string;
 };
 
-export const UserStatus: Required<
-  GQLUserStatusTypeResolver<UserStatusInput>
-> = {
+export const UserStatus: Required<GQLUserStatusTypeResolver<
+  UserStatusInput
+>> = {
   current: (status, input, ctx) => {
     const consolidatedStatus = user.consolidateUserStatus(status, ctx.now);
     const statuses: GQLUSER_STATUS[] = [];

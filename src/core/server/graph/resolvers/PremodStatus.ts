@@ -5,9 +5,9 @@ export type PremodStatusInput = user.ConsolidatedPremodStatus & {
   userID: string;
 };
 
-export const PremodStatus: Required<
-  GQLPremodStatusTypeResolver<PremodStatusInput>
-> = {
+export const PremodStatus: Required<GQLPremodStatusTypeResolver<
+  PremodStatusInput
+>> = {
   active: ({ active }) => active,
   history: ({ history, userID }) =>
     history.map(status => ({ ...status, userID })),

@@ -1,9 +1,9 @@
 import { GQLSuspensionStatusHistoryTypeResolver } from "coral-server/graph/schema/__generated__/types";
 import * as user from "coral-server/models/user";
 
-export const SuspensionStatusHistory: Required<
-  GQLSuspensionStatusHistoryTypeResolver<user.SuspensionStatusHistory>
-> = {
+export const SuspensionStatusHistory: Required<GQLSuspensionStatusHistoryTypeResolver<
+  user.SuspensionStatusHistory
+>> = {
   active: ({ from }, input, ctx) =>
     from.start <= ctx.now && from.finish > ctx.now,
   from: ({ from }) => from,

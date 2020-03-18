@@ -36,8 +36,8 @@ export interface Resolvers<Q extends Resolver<any, any> = any, M = any> {
 }
 
 export interface TestResolvers<T extends Resolvers = any> {
-  Query?: { [P in keyof Required<T>["Query"]]: (() => any) };
-  Mutation?: { [P in keyof Required<T>["Mutation"]]: (() => any) };
+  Query?: { [P in keyof Required<T>["Query"]]: () => any };
+  Mutation?: { [P in keyof Required<T>["Mutation"]]: () => any };
 }
 
 function createNodeMock(element: React.ReactElement<any>) {

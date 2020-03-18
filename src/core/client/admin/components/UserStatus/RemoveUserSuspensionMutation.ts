@@ -19,9 +19,7 @@ const RemoveUserSuspensionMutation = createMutation(
   "removeUserSuspension",
   (environment: Environment, input: MutationInput<MutationTypes>) => {
     const user = lookup<GQLUser>(environment, input.userID)!;
-    let newHistory: DeepWritable<
-      MutationTypes["response"]["removeUserSuspension"]["user"]["status"]["suspension"]["history"]
-    > = [];
+    let newHistory: DeepWritable<MutationTypes["response"]["removeUserSuspension"]["user"]["status"]["suspension"]["history"]> = [];
     if (user.status.suspension.history) {
       newHistory = user.status.suspension.history.map(h =>
         pick(h, [

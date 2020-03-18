@@ -28,18 +28,15 @@ export class NotifierCoralEventListener
    * events are the events that this listener handles. These are parsed from the
    * notification categories.
    */
-  public readonly events = categories.reduce(
-    (events, category) => {
-      for (const event of category.events) {
-        if (!events.includes(event)) {
-          events.push(event);
-        }
+  public readonly events = categories.reduce((events, category) => {
+    for (const event of category.events) {
+      if (!events.includes(event)) {
+        events.push(event);
       }
+    }
 
-      return events;
-    },
-    [] as CoralEventType[]
-  );
+    return events;
+  }, [] as CoralEventType[]);
 
   public initialize: CoralEventPublisherFactory<
     NotifierCoralEventListenerPayloads

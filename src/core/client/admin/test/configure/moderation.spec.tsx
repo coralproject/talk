@@ -82,7 +82,9 @@ it("change site wide pre-moderation", async () => {
 
   const preModerationContainer = within(moderationContainer).getAllByText(
     "Pre-moderate all comments sitewide",
-    { selector: "fieldset" }
+    {
+      selector: "fieldset",
+    }
   )[0];
 
   const onField = within(preModerationContainer).getByLabelText("On");
@@ -127,7 +129,9 @@ it("change site wide link pre-moderation", async () => {
 
   const preModerationContainer = within(moderationContainer).getAllByText(
     "Pre-moderate comments containing links sitewide",
-    { selector: "fieldset" }
+    {
+      selector: "fieldset",
+    }
   )[0];
 
   const onField = within(preModerationContainer).getByLabelText("On");
