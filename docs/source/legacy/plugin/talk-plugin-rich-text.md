@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-rich-text/README.md
+../../../../plugins/talk-plugin-rich-text/README.md

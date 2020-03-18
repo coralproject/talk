@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-local-auth/README.md
+../../../../plugins/talk-plugin-local-auth/README.md

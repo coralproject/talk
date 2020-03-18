@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-offtopic/README.md
+../../../../plugins/talk-plugin-offtopic/README.md

@@ -1,1 +1,1 @@
-../../../plugins/talk-plugin-deep-reply-count/README.md
+../../../../plugins/talk-plugin-deep-reply-count/README.md
