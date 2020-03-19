@@ -26,10 +26,19 @@ export function getStoryTitle(story: Pick<Story, "metadata" | "url">) {
     : story.url;
 }
 
+export function isStoryClosed(
+  tenant: Pick<Tenant, "closeCommenting">,
+  story: Pick<Story, "closedAt" | "createdAt">,
+  now = new Date()
+) {
+  const closedAt = getStoryClosedAt(tenant, story);
+  return closedAt && closedAt <= now;
+}
+
 export function getStoryClosedAt(
   tenant: Pick<Tenant, "closeCommenting">,
   story: Pick<Story, "closedAt" | "createdAt">
-): Story["closedAt"] {
+): Date | null {
   // Try to get the closedAt time from the story.
   if (story.closedAt) {
     return story.closedAt;
@@ -37,7 +46,7 @@ export function getStoryClosedAt(
 
   // Check to see if the story has been forced open again.
   if (story.closedAt === false) {
-    return false;
+    return null;
   }
 
   // If the story hasn't already been closed, then check to see if the Tenant
@@ -50,5 +59,5 @@ export function getStoryClosedAt(
       .toJSDate();
   }
 
-  return;
+  return null;
 }
