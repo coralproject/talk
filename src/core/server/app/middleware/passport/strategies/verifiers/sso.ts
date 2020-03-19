@@ -10,28 +10,28 @@ import logger from "coral-server/logger";
 import { Secret, SSOAuthIntegration } from "coral-server/models/settings";
 import {
   Tenant,
-  updateLastUsedAtTenantSSOKey,
+  updateLastUsedAtTenantSSOKey
 } from "coral-server/models/tenant";
 import {
   retrieveUserWithProfile,
   SSOProfile,
-  updateUserFromSSO,
+  updateUserFromSSO
 } from "coral-server/models/user";
 import {
   getSSOProfile,
-  needsSSOUpdate,
+  needsSSOUpdate
 } from "coral-server/models/user/helpers";
 import {
   isJWTRevoked,
   SymmetricSigningAlgorithm,
-  verifyJWT,
+  verifyJWT
 } from "coral-server/services/jwt";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { findOrCreate } from "coral-server/services/users";
 
 import {
   GQLSSOAuthIntegration,
-  GQLUSER_ROLE,
+  GQLUSER_ROLE
 } from "coral-server/graph/schema/__generated__/types";
 
 import { Verifier } from "../jwt";
@@ -63,20 +63,26 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
 
 export const SSOUserProfileSchema = Joi.object().keys({
   id: Joi.string().required(),
-  email: Joi.string().lowercase().required(),
+  email: Joi.string()
+    .lowercase()
+    .required(),
   username: Joi.string().required(),
-  badges: Joi.array().items(Joi.string()).optional(),
+  badges: Joi.array()
+    .items(Joi.string())
+    .optional(),
   role: Joi.string()
     .valid(...Object.values(GQLUSER_ROLE))
     .optional(),
-  url: Joi.string().uri().optional(),
+  url: Joi.string()
+    .uri()
+    .optional()
 });
 
 export const SSOTokenSchema = Joi.object().keys({
   jti: Joi.string().optional(),
   exp: Joi.number().optional(),
   iat: Joi.number().optional(),
-  user: SSOUserProfileSchema.required(),
+  user: SSOUserProfileSchema.required()
 });
 
 export async function findOrCreateSSOUser(
@@ -95,7 +101,7 @@ export async function findOrCreateSSOUser(
     jti,
     exp,
     user: { id, email, username, badges, role, url },
-    iat,
+    iat
   } = decodedToken;
 
   // If the token has a JTI and EXP claim, then it can be logged out. Check to
@@ -110,7 +116,7 @@ export async function findOrCreateSSOUser(
   // Try to lookup user given their id provided in the `sub` claim.
   let user = await retrieveUserWithProfile(mongo, tenant.id, {
     type: "sso",
-    id,
+    id
   });
 
   if (!user) {
@@ -124,7 +130,7 @@ export async function findOrCreateSSOUser(
     const profile: SSOProfile = {
       type: "sso",
       id,
-      lastIssuedAt,
+      lastIssuedAt
     };
 
     // Create the new user, as one didn't exist before!
@@ -139,7 +145,7 @@ export async function findOrCreateSSOUser(
         badges,
         email,
         emailVerified: true,
-        profile,
+        profile
       },
       { skipUsernameValidation: true },
       now
@@ -192,7 +198,7 @@ export function getRelevantSSOKeys(
   kid?: string
 ): Secret[] {
   // Collect all the current valid keys.
-  const keys = integration.keys.filter((k) => {
+  const keys = integration.signingSecrets.filter(k => {
     if (k.inactiveAt && now >= k.inactiveAt) {
       return false;
     }
@@ -211,7 +217,7 @@ export function getRelevantSSOKeys(
     // The token has a kid, so if we have a matching token, we should use it. If
     // we don't have a matching kid, we can't possibly verify it, so throw an
     // error.
-    const key = keys.find((k) => k.kid === kid);
+    const key = keys.find(k => k.kid === kid);
     if (!key) {
       throw new TokenInvalidError(
         tokenString,
@@ -259,12 +265,6 @@ export class SSOVerifier implements Verifier<SSOToken> {
       throw new IntegrationDisabled("sso");
     }
 
-    // check to see if there is at least one key associated with this
-    // integration.
-    if (integration.keys.length === 0) {
-      throw new Error("integration key does not exist");
-    }
-
     // Get the valid configurations for the given token and integration pair.
     const keys = getRelevantSSOKeys(integration, tokenString, now, kid);
     if (keys.length === 0) {
@@ -287,7 +287,7 @@ export class SSOVerifier implements Verifier<SSOToken> {
           {
             // TODO: (wyattjoh) investigate replacing algorithm.
             algorithm: SymmetricSigningAlgorithm.HS256,
-            secret: key.secret,
+            secret: key.secret
           },
           now
         );

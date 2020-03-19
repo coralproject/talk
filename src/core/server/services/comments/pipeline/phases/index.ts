@@ -4,6 +4,7 @@ import { approve } from "./approve";
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";
 import { detectLinks } from "./detectLinks";
+import { external } from "./external";
 import { linkify } from "./linkify";
 import { preModerate } from "./preModerate";
 import { premodUser } from "./preModerateUser";
@@ -41,4 +42,5 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   preModerate,
   premodUser,
   premodNewCommenter,
+  external,
 ];

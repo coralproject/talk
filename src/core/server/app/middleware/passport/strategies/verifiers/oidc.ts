@@ -2,10 +2,10 @@ import jwks, { JwksClient } from "jwks-rsa";
 import { Db } from "mongodb";
 
 import { AppOptions } from "coral-server/app";
-import { Tenant } from "coral-server/models/tenant";
-import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
-
 import logger from "coral-server/logger";
+import { Tenant } from "coral-server/models/tenant";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
+
 import { Verifier } from "../jwt";
 import {
   findOrCreateOIDCUserWithToken,

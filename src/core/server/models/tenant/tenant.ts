@@ -1,4 +1,3 @@
-import { Redis } from "ioredis";
 import { isEmpty } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
@@ -10,7 +9,11 @@ import TIME from "coral-common/time";
 import { DeepPartial, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
-import logger from "coral-server/logger";
+import {
+  generateSecret,
+  Settings,
+  SigningSecretResource
+} from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
@@ -19,15 +22,12 @@ import {
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
   GQLSettings,
-  GQLWEBHOOK_EVENT_NAME,
+  GQLWEBHOOK_EVENT_NAME
 } from "coral-server/graph/schema/__generated__/types";
 
-import { Secret, Settings } from "../settings";
 import {
-  generateSecret,
   getDefaultReactionConfiguration,
-  getDefaultStaffConfiguration,
-  getWebhookEndpoint,
+  getDefaultStaffConfiguration
 } from "./helpers";
 
 /**
@@ -42,7 +42,7 @@ export interface TenantResource {
   readonly tenantID: string;
 }
 
-export interface Endpoint {
+export interface Endpoint extends SigningSecretResource {
   /**
    * id is the unique identifier for this specific endpoint.
    */
@@ -57,11 +57,6 @@ export interface Endpoint {
    * url is the URL that we will POST event data to.
    */
   url: string;
-
-  /**
-   * signingSecret is the secret used to sign the events sent out.
-   */
-  signingSecrets: Secret[];
 
   /**
    * all when true indicates that all events should trigger.
@@ -153,31 +148,31 @@ export async function createTenant(
 
     // Default to enabled.
     live: {
-      enabled: true,
+      enabled: true
     },
 
     communityGuidelines: {
       enabled: false,
-      content: "",
+      content: ""
     },
     premodLinksEnable: false,
     closeCommenting: {
       auto: false,
-      timeout: 2 * TIME.WEEK,
+      timeout: 2 * TIME.WEEK
     },
     disableCommenting: {
-      enabled: false,
+      enabled: false
     },
     editCommentWindowLength: 30 * TIME.SECOND,
     webhooks: {
-      endpoints: [],
+      endpoints: []
     },
     charCount: {
-      enabled: false,
+      enabled: false
     },
     wordList: {
       suspect: [],
-      banned: [],
+      banned: []
     },
     auth: {
       sessionDuration: DEFAULT_SESSION_DURATION,
@@ -187,93 +182,93 @@ export async function createTenant(
           allowRegistration: true,
           targetFilter: {
             admin: true,
-            stream: true,
-          },
+            stream: true
+          }
         },
         sso: {
           enabled: false,
           allowRegistration: false,
           targetFilter: {
             admin: true,
-            stream: true,
+            stream: true
           },
           // TODO: [CORL-754] (wyattjoh) remove this in favor of generating this when needed
-          keys: [generateSecret("ssosec", now)],
+          signingSecrets: [generateSecret("ssosec", now)]
         },
         oidc: {
           enabled: false,
           allowRegistration: false,
           targetFilter: {
             admin: true,
-            stream: true,
-          },
+            stream: true
+          }
         },
         google: {
           enabled: false,
           allowRegistration: false,
           targetFilter: {
             admin: true,
-            stream: true,
-          },
+            stream: true
+          }
         },
         facebook: {
           enabled: false,
           allowRegistration: false,
           targetFilter: {
             admin: true,
-            stream: true,
-          },
-        },
-      },
+            stream: true
+          }
+        }
+      }
     },
     email: {
       enabled: false,
-      smtp: {},
+      smtp: {}
     },
     recentCommentHistory: {
       enabled: false,
       timeFrame: 7 * TIME.DAY,
       // Rejection rate defaulting to 30%, once exceeded, comments will be
       // pre-moderated.
-      triggerRejectionRate: 0.3,
+      triggerRejectionRate: 0.3
     },
     integrations: {
       akismet: {
-        enabled: false,
+        enabled: false
       },
       perspective: {
         enabled: false,
         doNotStore: true,
-        sendFeedback: false,
-      },
+        sendFeedback: false
+      }
     },
     reaction: getDefaultReactionConfiguration(bundle),
     staff: getDefaultStaffConfiguration(bundle),
     stories: {
       scraping: {
-        enabled: true,
+        enabled: true
       },
-      disableLazy: false,
+      disableLazy: false
     },
     accountFeatures: {
       changeUsername: false,
       deleteAccount: false,
-      downloadComments: false,
+      downloadComments: false
     },
     newCommenters: {
       premodEnabled: false,
-      approvedCommentsThreshold: 2,
+      approvedCommentsThreshold: 2
     },
     createdAt: now,
     slack: {
-      channels: [],
-    },
+      channels: []
+    }
   };
 
   // Create the new Tenant by merging it together with the defaults.
   const tenant: Readonly<Tenant> = {
     ...defaults,
-    ...input,
+    ...input
   };
 
   // Insert the Tenant into the database.
@@ -296,13 +291,13 @@ export async function retrieveManyTenants(
 ) {
   const cursor = collection(mongo).find({
     id: {
-      $in: ids,
-    },
+      $in: ids
+    }
   });
 
   const tenants = await cursor.toArray();
 
-  return ids.map((id) => tenants.find((tenant) => tenant.id === id) || null);
+  return ids.map(id => tenants.find(tenant => tenant.id === id) || null);
 }
 
 export async function retrieveManyTenantsByDomain(
@@ -311,23 +306,27 @@ export async function retrieveManyTenantsByDomain(
 ) {
   const cursor = collection(mongo).find({
     domain: {
-      $in: domains,
-    },
+      $in: domains
+    }
   });
 
   const tenants = await cursor.toArray();
 
   return domains.map(
-    (domain) => tenants.find((tenant) => tenant.domain === domain) || null
+    domain => tenants.find(tenant => tenant.domain === domain) || null
   );
 }
 
 export async function retrieveAllTenants(mongo: Db) {
-  return collection(mongo).find({}).toArray();
+  return collection(mongo)
+    .find({})
+    .toArray();
 }
 
 export async function countTenants(mongo: Db) {
-  return collection(mongo).find({}).count();
+  return collection(mongo)
+    .find({})
+    .count();
 }
 
 export type UpdateTenantInput = Omit<DeepPartial<Tenant>, "id" | "domain">;
@@ -353,60 +352,7 @@ export async function updateTenant(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
-    }
-  );
-
-  return result.value || null;
-}
-
-/**
- * regenerateTenantSSOKey will regenerate the SSO key used for Single Sing-On
- * for the specified Tenant. All existing user sessions signed with the old
- * secret will be invalidated.
- */
-export async function createTenantSSOKey(mongo: Db, id: string, now: Date) {
-  // Construct the new key.
-  const key = generateSecret("ssosec", now);
-
-  // Update the Tenant with this new key.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $push: {
-        "auth.integrations.sso.keys": key,
-      },
-    },
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
-  );
-
-  return result.value || null;
-}
-
-export async function deactivateTenantSSOKey(
-  mongo: Db,
-  id: string,
-  kid: string,
-  inactiveAt: Date,
-  now: Date
-) {
-  // Update the tenant.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $set: {
-        "auth.integrations.sso.keys.$[keys].inactiveAt": inactiveAt,
-        "auth.integrations.sso.keys.$[keys].rotatedAt": now,
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-      // Add an ArrayFilter to only update one of the keys.
-      arrayFilters: [{ "keys.kid": kid }],
+      returnOriginal: false
     }
   );
 
@@ -424,13 +370,13 @@ export async function enableTenantFeatureFlag(
     {
       // Add the flag to the set of enabled flags.
       $addToSet: {
-        featureFlags: flag,
-      },
+        featureFlags: flag
+      }
     },
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnOriginal: false
     }
   );
 
@@ -448,13 +394,13 @@ export async function disableTenantFeatureFlag(
     {
       // Pull the flag from the set of enabled flags.
       $pull: {
-        featureFlags: flag,
-      },
+        featureFlags: flag
+      }
     },
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnOriginal: false
     }
   );
 
@@ -466,13 +412,13 @@ export async function deleteTenantSSOKey(mongo: Db, id: string, kid: string) {
     { id },
     {
       $pull: {
-        "auth.integrations.sso.keys": { kid },
-      },
+        "auth.integrations.sso.keys": { kid }
+      }
     },
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnOriginal: false
     }
   );
 
@@ -493,18 +439,18 @@ export async function createTenantAnnouncement(
   const announcement = {
     id: uuid(),
     ...input,
-    createdAt: now,
+    createdAt: now
   };
 
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     {
       $set: {
-        announcement,
-      },
+        announcement
+      }
     },
     {
-      returnOriginal: false,
+      returnOriginal: false
     }
   );
   return result.value;
@@ -515,11 +461,11 @@ export async function deleteTenantAnnouncement(mongo: Db, id: string) {
     { id },
     {
       $unset: {
-        announcement: "",
-      },
+        announcement: ""
+      }
     },
     {
-      returnOriginal: false,
+      returnOriginal: false
     }
   );
   return result.value;
@@ -537,311 +483,8 @@ export function retrieveAnnouncementIfEnabled(
   if (isBeforeDate(disableAt)) {
     return {
       ...announcement,
-      disableAt,
+      disableAt
     };
   }
   return null;
-}
-
-export async function rollTenantWebhookEndpointSecret(
-  mongo: Db,
-  id: string,
-  endpointID: string,
-  inactiveAt: Date,
-  now: Date
-) {
-  // Create the new secret.
-  const secret = generateSecret("whsec", now);
-
-  // Update the Tenant with this new secret.
-  let result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $push: { "webhooks.endpoints.$[endpoint].signingSecrets": secret },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-      arrayFilters: [
-        // Select the endpoint we're updating.
-        { "endpoint.id": endpointID },
-      ],
-    }
-  );
-  if (!result.value) {
-    return null;
-  }
-
-  // Grab the endpoint we just modified.
-  const endpoint = getWebhookEndpoint(result.value, endpointID);
-  if (!endpoint) {
-    return null;
-  }
-
-  // Get the secrets we need to deactivate...
-  const secretKIDsToDeprecate = endpoint.signingSecrets
-    // By excluding the last one (the one we just pushed)...
-    .splice(0, endpoint.signingSecrets.length - 1)
-    // And only finding keys that have not been rotated yet.
-    .filter((s) => !s.rotatedAt)
-    // And get their kid's.
-    .map((s) => s.kid);
-  if (secretKIDsToDeprecate.length > 0) {
-    logger.trace(
-      { kids: secretKIDsToDeprecate },
-      "deprecating old signingSecrets"
-    );
-
-    // Deactivate the old keys.
-    result = await collection(mongo).findOneAndUpdate(
-      { id },
-      {
-        $set: {
-          "webhooks.endpoints.$[endpoint].signingSecrets.$[signingSecret].inactiveAt": inactiveAt,
-          "webhooks.endpoints.$[endpoint].signingSecrets.$[signingSecret].rotatedAt": now,
-        },
-      },
-      {
-        arrayFilters: [
-          // Select the endpoint we're updating.
-          { "endpoint.id": endpointID },
-          // Select any signing secrets with the given ids.
-          { "signingSecret.kid": { $in: secretKIDsToDeprecate } },
-        ],
-      }
-    );
-  }
-
-  return result.value;
-}
-
-export interface CreateTenantWebhookEndpointInput {
-  url: string;
-  all: boolean;
-  events: GQLWEBHOOK_EVENT_NAME[];
-}
-
-export async function createTenantWebhookEndpoint(
-  mongo: Db,
-  id: string,
-  input: CreateTenantWebhookEndpointInput,
-  now: Date
-) {
-  // Create the new endpoint.
-  const endpoint: Endpoint = {
-    ...input,
-    id: uuid(),
-    enabled: true,
-    signingSecrets: [generateSecret("whsec", now)],
-    createdAt: now,
-  };
-
-  // Update the Tenant with this new endpoint.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    { $push: { "webhooks.endpoints": endpoint } },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    const tenant = await retrieveTenant(mongo, id);
-    if (!tenant) {
-      return {
-        endpoint: null,
-        tenant: null,
-      };
-    }
-
-    throw new Error("update failed for an unexpected reason");
-  }
-
-  return {
-    endpoint,
-    tenant: result.value,
-  };
-}
-
-export interface UpdateTenantWebhookEndpointInput {
-  enabled?: boolean;
-  url?: string;
-  all?: boolean;
-  events?: GQLWEBHOOK_EVENT_NAME[];
-}
-
-export async function updateTenantWebhookEndpoint(
-  mongo: Db,
-  id: string,
-  endpointID: string,
-  update: UpdateTenantWebhookEndpointInput
-) {
-  const $set = dotize(
-    { "webhooks.endpoints.$[endpoint]": update },
-    { embedArrays: true }
-  );
-
-  // Check to see if there is any updates that will be made.
-  if (isEmpty($set)) {
-    // No updates need to be made, abort here and just return the tenant.
-    return retrieveTenant(mongo, id);
-  }
-
-  // Perform the actual update operation.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    { $set },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-      arrayFilters: [{ "endpoint.id": endpointID }],
-    }
-  );
-  if (!result.value) {
-    const tenant = await retrieveTenant(mongo, id);
-    if (!tenant) {
-      return null;
-    }
-
-    const endpoint = getWebhookEndpoint(tenant, endpointID);
-    if (!endpoint) {
-      throw new Error(
-        `endpoint not found with id: ${endpointID} on tenant: ${id}`
-      );
-    }
-
-    throw new Error("update failed for an unexpected reason");
-  }
-
-  return result.value;
-}
-
-export async function deleteEndpointSecrets(
-  mongo: Db,
-  id: string,
-  endpointID: string,
-  kids: string[]
-) {
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $pull: {
-        "webhooks.endpoints.$[endpoint].signingSecrets": { kid: { $in: kids } },
-      },
-    },
-    { returnOriginal: false, arrayFilters: [{ "endpoint.id": endpointID }] }
-  );
-  if (!result.value) {
-    const tenant = await retrieveTenant(mongo, id);
-    if (!tenant) {
-      return null;
-    }
-
-    const endpoint = getWebhookEndpoint(tenant, endpointID);
-    if (!endpoint) {
-      throw new Error(
-        `endpoint not found with id: ${endpointID} on tenant: ${id}`
-      );
-    }
-
-    throw new Error("update failed for an unexpected reason");
-  }
-
-  return result.value;
-}
-
-export async function deleteTenantWebhookEndpoint(
-  mongo: Db,
-  id: string,
-  endpointID: string
-) {
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $pull: {
-        "webhooks.endpoints": { id: endpointID },
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    const tenant = await retrieveTenant(mongo, id);
-    if (!tenant) {
-      return null;
-    }
-
-    throw new Error("update failed for an unexpected reason");
-  }
-
-  return result.value;
-}
-
-function lastUsedAtTenantSSOKey(id: string): string {
-  return `${id}:lastUsedSSOKey`;
-}
-
-/**
- * updateLastUsedAtTenantSSOKey will update the time stamp that the SSO key was
- * last used at.
- *
- * @param redis the Redis connection to use to update the timestamp on
- * @param id the ID of the Tenant
- * @param kid the kid of the token that was used
- * @param when the date that the token was last used at
- */
-export async function updateLastUsedAtTenantSSOKey(
-  redis: Redis,
-  id: string,
-  kid: string,
-  when: Date
-) {
-  await redis.hset(lastUsedAtTenantSSOKey(id), kid, when.toISOString());
-}
-
-/**
- *
- * @param redis the Redis connection to use to remove the last used on.
- * @param id the ID of the Tenant
- * @param kid the kid of the token that is being deleted
- */
-export async function deleteLastUsedAtTenantSSOKey(
-  redis: Redis,
-  id: string,
-  kid: string
-) {
-  await redis.hdel(lastUsedAtTenantSSOKey(id), kid);
-}
-
-/**
- * retrieveLastUsedAtTenantSSOKeys will get the dates that the requested sso
- * keys were last used on.
- *
- * @param redis the Redis connection to use to update the timestamp on
- * @param id the ID of the Tenant
- * @param kids the kids of the tokens that we want to know when they were last used
- */
-export async function retrieveLastUsedAtTenantSSOKeys(
-  redis: Redis,
-  id: string,
-  kids: string[]
-) {
-  const results: Array<string | null> = await redis.hmget(
-    lastUsedAtTenantSSOKey(id),
-    ...kids
-  );
-
-  return results.map((lastUsedAt) => {
-    if (!lastUsedAt) {
-      return null;
-    }
-
-    return new Date(lastUsedAt);
-  });
 }

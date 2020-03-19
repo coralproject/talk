@@ -551,23 +551,23 @@ type SSOAuthIntegration {
   targetFilter: AuthenticationTargetFilter!
 
   """
-  keys are the different SSOKey's used by this Tenant.
+  signingSecrets are the different SSOKey's used by this Tenant.
   """
-  keys: [Secret!]! @auth(roles: [ADMIN])
+  signingSecrets: [Secret!]! @auth(roles: [ADMIN])
 
   """
   key is the secret that is used to sign tokens.
   """
   key: String
     @auth(roles: [ADMIN])
-    @deprecated(reason: "field is deprecated in favour of `keys`")
+    @deprecated(reason: "field is deprecated in favour of `signingSecrets`")
 
   """
   keyGeneratedAt is the Time that the key was effective from.
   """
   keyGeneratedAt: Time
     @auth(roles: [ADMIN])
-    @deprecated(reason: "field is deprecated in favour of `keys`")
+    @deprecated(reason: "field is deprecated in favour of `signingSecrets`")
 }
 
 ##########################
@@ -908,6 +908,67 @@ type PerspectiveExternalIntegration {
   sendFeedback: Boolean @auth(roles: [ADMIN])
 }
 
+"""
+COMMENT_BODY_FORMAT describes the various formats that a comment body can be
+provided in.
+"""
+enum COMMENT_BODY_FORMAT {
+  """
+  HTML describes the format of the comment body using HTML.
+  """
+  HTML
+
+  """
+  PLAIN_TEXT describes the format of the comment body with the HTML stripped.
+  """
+  PLAIN_TEXT
+}
+
+"""
+ExternalModerationPhase describes a phase use in the moderation pipeline that
+calls out to an external resource as defined by the provided URL.
+"""
+type ExternalModerationPhase {
+  """
+  id identifies this particular External Moderation Phase.
+  """
+  id: ID!
+
+  """
+  enabled when true, will use this phase in the moderation pipeline.
+  """
+  enabled: Boolean!
+
+  """
+  url is the actual URL that should be called.
+  """
+  url: String!
+
+  """
+  format is the format of the comment body sent.
+  """
+  format: COMMENT_BODY_FORMAT!
+
+  """
+  timeout is the number of milliseconds that this moderation is maximum expected
+  to take before it is skipped.
+  """
+  timeout: Int!
+
+  """
+  signingSecret is the secret used to sign outgoing requests to the url during
+  the moderation pipeline.
+  """
+  signingSecret: Secret!
+}
+
+type CustomExternalIntegration {
+  """
+  phases is all the external moderation phases for this Tenant.
+  """
+  phases: [ExternalModerationPhase!]!
+}
+
 type ExternalIntegrations {
   """
   akismet provides integration with the Akismet Spam detection service.
@@ -919,6 +980,12 @@ type ExternalIntegrations {
   platform.
   """
   perspective: PerspectiveExternalIntegration!
+
+  """
+  custom provides integration details for custom moderation phases that can be
+  used in the moderation pipeline.
+  """
+  custom: CustomExternalIntegration
 }
 
 ################################################################################

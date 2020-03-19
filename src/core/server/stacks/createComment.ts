@@ -23,6 +23,7 @@ import {
   retrieveComment,
 } from "coral-server/models/comment";
 import {
+  getDepth,
   hasAncestors,
   hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
@@ -91,7 +92,7 @@ const markCommentAsAnswered = async (
     // If we are the export on this story...
     story.settings.expertIDs.some((id) => id === author.id) &&
     // And this is the first reply (depth of 1)...
-    comment.ancestorIDs.length === 1
+    getDepth(comment) === 1
   ) {
     // We need to mark the parent question as answered.
     // - Remove the unanswered tag.
@@ -221,7 +222,8 @@ export default async function create(
     {
       ...input,
       siteID: story.siteID,
-      tags,
+      // Remap the tags to include the createdAt.
+      tags: tags.map(tag => ({ type: tag, createdAt: now })),
       body,
       status,
       ancestorIDs,
@@ -277,10 +279,11 @@ export default async function create(
           ...action,
           commentID: comment.id,
           commentRevisionID: revision.id,
-
-          // Store the Story ID on the action.
           storyID: story.id,
           siteID: story.siteID,
+
+          // All these actions are created by the system.
+          userID: null,
         })
       ),
       now

@@ -31,12 +31,7 @@ export const tagUnansweredQuestions: IntermediateModerationPhase = ({
     story.settings.expertIDs.every((id) => id !== comment.authorID)
   ) {
     return {
-      tags: [
-        {
-          type: GQLTAG.UNANSWERED,
-          createdAt: now,
-        },
-      ],
+      tags: [GQLTAG.UNANSWERED],
     };
   }
 };

@@ -1,6 +1,8 @@
 import {
+  GQLAkismetExternalIntegration,
   GQLAuth,
   GQLAuthenticationTargetFilter,
+  GQLCOMMENT_BODY_FORMAT,
   GQLEmailConfiguration,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
@@ -8,10 +10,11 @@ import {
   GQLLocalAuthIntegration,
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
+  GQLPerspectiveExternalIntegration,
   GQLSettings,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { Secret } from "./secret";
+import { SigningSecretResource } from "./secret";
 
 export type LiveConfiguration = Omit<GQLLiveConfiguration, "configurable">;
 
@@ -38,11 +41,10 @@ export type FacebookAuthIntegration = Omit<
   "callbackURL" | "redirectURL"
 >;
 
-export interface SSOAuthIntegration {
+export interface SSOAuthIntegration extends SigningSecretResource {
   enabled: boolean;
   allowRegistration: boolean;
   targetFilter: GQLAuthenticationTargetFilter;
-  keys: Secret[];
 }
 
 /**
@@ -85,6 +87,65 @@ export type Auth = Omit<GQLAuth, "integrations"> & {
   integrations: AuthIntegrations;
 };
 
+export interface ExternalModerationPhase extends SigningSecretResource {
+  /**
+   * id identifies this particular External Moderation Phase.
+   */
+  id: string;
+
+  /**
+   * enabled when true, will use this phase in the moderation pipeline.
+   */
+  enabled: boolean;
+
+  /**
+   * url is the actual URL that should be called.
+   */
+  url: string;
+
+  /**
+   * format is the format of the comment body sent.
+   */
+  format: GQLCOMMENT_BODY_FORMAT;
+
+  /**
+   * timeout is the number of milliseconds that this moderation is maximum
+   * expected to take before it is skipped.
+   */
+  timeout: number;
+
+  /**
+   * createdAt is the date that this External Moderation Phase was created at.
+   */
+  createdAt: Date;
+}
+
+export interface CustomExternalIntegration {
+  /**
+   * phases is all the external moderation phases for this Tenant.
+   */
+  phases: ExternalModerationPhase[];
+}
+
+export interface ExternalIntegrations {
+  /**
+   * akismet provides integration with the Akismet Spam detection service.
+   */
+  akismet: GQLAkismetExternalIntegration;
+
+  /**
+   * perspective provides integration with the Perspective API comment analysis
+   * platform.
+   */
+  perspective: GQLPerspectiveExternalIntegration;
+
+  /**
+   * custom provides integration details for custom moderation phases that can be
+   * used in the moderation pipeline.
+   */
+  custom?: CustomExternalIntegration;
+}
+
 /**
  * CloseCommenting contains settings related to the automatic closing of commenting on
  * Stories.
@@ -108,7 +169,6 @@ export type Settings = GlobalModerationSettings &
     | "email"
     | "recentCommentHistory"
     | "wordList"
-    | "integrations"
     | "reaction"
     | "staff"
     | "editCommentWindowLength"
@@ -145,6 +205,11 @@ export type Settings = GlobalModerationSettings &
      * AccountFeatures are features enabled for commenter accounts
      */
     accountFeatures: AccountFeatures;
+
+    /**
+     * integrations contains all the external integrations that can be enabled.
+     */
+    integrations: ExternalIntegrations;
 
     /**
      * newCommenters is the configuration for how new commenters comments are treated.

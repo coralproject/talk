@@ -5,6 +5,7 @@ import fetch, { RequestInit, Response } from "node-fetch";
 import { URL } from "url";
 
 import { version } from "coral-common/version";
+import { generateSignatures, Secret } from "coral-server/models/settings";
 
 import abortAfter from "./abortAfter";
 
@@ -26,6 +27,27 @@ export type FetchOptions = RequestInit & {
    */
   timeout?: number;
 };
+
+export function generateFetchOptions(
+  signingSecrets: Secret[],
+  data: object,
+  now: Date
+): FetchOptions {
+  // Serialize the body and signature to include in the request.
+  const body = JSON.stringify(data, null, 2);
+  const signature = generateSignatures(signingSecrets, body, now);
+
+  const headers: Record<string, any> = {
+    "Content-Type": "application/json",
+    "X-Coral-Signature": signature,
+  };
+
+  return {
+    method: "POST",
+    headers,
+    body,
+  };
+}
 
 export const createFetch = ({ name }: CreateFetchOptions): Fetch => {
   // Create HTTP agents to improve connection performance.

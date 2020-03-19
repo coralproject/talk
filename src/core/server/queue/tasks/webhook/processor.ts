@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
@@ -6,19 +5,15 @@ import { Config } from "coral-server/config";
 import { CoralEventPayload } from "coral-server/events/event";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
-import {
-  filterActiveSecrets,
-  filterExpiredSecrets,
-} from "coral-server/models/settings";
+import { filterExpiredSecrets } from "coral-server/models/settings";
 import {
   deleteEndpointSecrets,
-  Endpoint,
   getWebhookEndpoint,
 } from "coral-server/models/tenant";
 import { JobProcessor } from "coral-server/queue/Task";
-import { createFetch, FetchOptions } from "coral-server/services/fetch";
+import { createFetch, generateFetchOptions } from "coral-server/services/fetch";
 import { disableWebhookEndpoint } from "coral-server/services/tenant";
-import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 export const JOB_NAME = "webhook";
 
@@ -82,7 +77,7 @@ export function generateSignatures(
     .join(",");
 }
 
-type CoralWebhookEventPayload = CoralEventPayload & {
+interface CoralWebhookEventPayload extends CoralEventPayload {
   /**
    * tenantID is the ID of the Tenant that this event originated at.
    */
@@ -92,28 +87,6 @@ type CoralWebhookEventPayload = CoralEventPayload & {
    * tenantDomain is the domain that is associated with this Tenant that this event originated at.
    */
   readonly tenantDomain: string;
-};
-
-export function generateFetchOptions(
-  endpoint: Pick<Endpoint, "signingSecrets">,
-  data: CoralWebhookEventPayload,
-  now: Date
-): FetchOptions {
-  // Serialize the body and signature to include in the request.
-  const body = JSON.stringify(data, null, 2);
-  const signature = generateSignatures(endpoint, body, now);
-
-  const headers: Record<string, any> = {
-    "Content-Type": "application/json",
-    "X-Coral-Event": data.type,
-    "X-Coral-Signature": signature,
-  };
-
-  return {
-    method: "POST",
-    headers,
-    body,
-  };
 }
 
 export function createJobProcessor({
@@ -162,12 +135,21 @@ export function createJobProcessor({
     // Get the current date.
     const now = new Date();
 
+    // Generate the payload.
+    const payload: CoralWebhookEventPayload = {
+      ...event,
+      tenantID,
+      tenantDomain: tenant.domain,
+    };
+
     // Get the fetch options.
-    const options = generateFetchOptions(
-      endpoint,
-      { ...event, tenantID, tenantDomain: tenant.domain },
-      now
-    );
+    const options = generateFetchOptions(endpoint.signingSecrets, payload, now);
+
+    // Add the X-Coral-Event header.
+    options.headers = {
+      ...options.headers,
+      "X-Coral-Event": event.type,
+    };
 
     // Send the request.
     const timer = createTimer();

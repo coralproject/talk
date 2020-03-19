@@ -91,7 +91,7 @@ class Scraper {
   ) {
     const log = this.log.child({ storyURL: url }, true);
 
-    const options: FetchOptions = { timeout };
+    const options: FetchOptions = { method: "GET", timeout };
     if (customUserAgent) {
       options.headers = {
         ...options.headers,

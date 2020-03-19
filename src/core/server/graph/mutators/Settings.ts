@@ -54,16 +54,16 @@ export const Settings = ({
     regenerateSSOKey(mongo, redis, tenantCache, tenant, now),
   rotateSSOKey: ({ inactiveIn }: GQLRotateSSOKeyInput) =>
     rotateSSOKey(mongo, redis, tenantCache, tenant, inactiveIn, now),
-  deactivateSSOKey: ({ kid }: GQLDeactivateSSOKeyInput) =>
-    deactivateSSOKey(mongo, redis, tenantCache, tenant, kid, now),
   deleteSSOKey: ({ kid }: GQLDeleteSSOKeyInput) =>
     deleteSSOKey(mongo, redis, tenantCache, tenant, kid),
+  deactivateSSOKey: ({ kid }: GQLDeactivateSSOKeyInput) =>
+    deactivateSSOKey(mongo, redis, tenantCache, tenant, kid, now),
   enableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
     enableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
   disableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
     disableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
   createAnnouncement: (input: GQLCreateAnnouncementInput) =>
-    createAnnouncement(mongo, redis, tenantCache, tenant, input, now),
+    createAnnouncement(mongo, redis, tenantCache, tenant, input),
   deleteAnnouncement: () =>
     deleteAnnouncement(mongo, redis, tenantCache, tenant),
   createWebhookEndpoint: (

@@ -3,14 +3,14 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import {
-  createTenantSSOKey,
   deactivateTenantSSOKey,
   deleteLastUsedAtTenantSSOKey,
   deleteTenantSSOKey,
-  Tenant,
+  rollTenantSSOSecret,
+  Tenant
 } from "coral-server/models/tenant";
 
-import TenantCache from "./cache";
+import { TenantCache } from "./cache";
 
 /**
  * regenerateSSOKey will regenerate the Single Sign-On key for the specified
@@ -35,35 +35,16 @@ export async function rotateSSOKey(
   inactiveIn: number,
   now: Date
 ) {
-  // Deprecate the old Tenant SSO key if it exists.
-  if (tenant.auth.integrations.sso.keys.length > 0) {
-    // Get the old keys that are not deprecated.
-    const keysToDeprecate = tenant.auth.integrations.sso.keys.filter((key) => {
-      return !key.rotatedAt;
-    });
+  const inactiveAt = DateTime.fromJSDate(now)
+    .plus({ seconds: inactiveIn })
+    .toJSDate();
 
-    // Check to see if there are keys to deprecate.
-    if (keysToDeprecate.length > 0) {
-      const deprecateAt = DateTime.fromJSDate(now)
-        .plus({ seconds: inactiveIn })
-        .toJSDate();
-
-      // Deprecate all the keys that are associated on the tenant that haven't
-      // been done.
-      for (const key of keysToDeprecate) {
-        await deactivateTenantSSOKey(
-          mongo,
-          tenant.id,
-          key.kid,
-          deprecateAt,
-          now
-        );
-      }
-    }
-  }
-
-  // Create the new SSOKey.
-  const updatedTenant = await createTenantSSOKey(mongo, tenant.id, now);
+  const updatedTenant = await rollTenantSSOSecret(
+    mongo,
+    tenant.id,
+    inactiveAt,
+    now
+  );
   if (!updatedTenant) {
     return null;
   }
@@ -82,7 +63,9 @@ export async function deactivateSSOKey(
   kid: string,
   now: Date
 ) {
-  const key = tenant.auth.integrations.sso.keys.find((k) => k.kid === kid);
+  const key = tenant.auth.integrations.sso.signingSecrets.find(
+    k => k.kid === kid
+  );
   if (!key) {
     throw new Error("specified kid not found on tenant");
   }
@@ -112,7 +95,9 @@ export async function deleteSSOKey(
   tenant: Tenant,
   kid: string
 ) {
-  const key = tenant.auth.integrations.sso.keys.find((k) => k.kid === kid);
+  const key = tenant.auth.integrations.sso.signingSecrets.find(
+    k => k.kid === kid
+  );
   if (!key) {
     throw new Error("specified kid not found on tenant");
   }

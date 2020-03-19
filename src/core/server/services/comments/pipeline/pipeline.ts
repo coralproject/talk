@@ -7,30 +7,46 @@ import { Logger } from "coral-server/logger";
 import { CreateActionInput } from "coral-server/models/action/comment";
 import {
   CreateCommentInput,
-  RevisionMetadata,
+  RevisionMetadata
 } from "coral-server/models/comment";
-import { CommentTag } from "coral-server/models/comment/tag";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLTAG
+} from "coral-server/graph/schema/__generated__/types";
 
+import { mergePhaseResult } from "./helpers";
 import { moderationPhases } from "./phases";
 
 export type ModerationAction = Omit<
   CreateActionInput,
-  "commentID" | "commentRevisionID" | "storyID" | "siteID"
+  "commentID" | "commentRevisionID" | "storyID" | "siteID" | "userID"
 >;
 
 export interface PhaseResult {
   actions: ModerationAction[];
   status: GQLCOMMENT_STATUS;
+
+  /**
+   * metadata should be added to the comment revision when it is created/edited.
+   */
   metadata: RevisionMetadata;
+
+  /**
+   * body when returned should replace the comment body as it is currently.
+   */
   body: string;
-  tags: CommentTag[];
+
+  /**
+   * tags should be added to the comment when it is created. Tags are not added
+   * when a comment is edited.
+   */
+  tags: GQLTAG[];
 }
 
 export interface ModerationPhaseContextInput {
@@ -64,7 +80,7 @@ export type IntermediatePhaseResult = Partial<PhaseResult> | void;
 export interface IntermediateModerationPhaseContext
   extends ModerationPhaseContext {
   metadata: RevisionMetadata;
-  tags: CommentTag[];
+  tags: GQLTAG[];
 }
 
 export type IntermediateModerationPhase = (
@@ -77,7 +93,7 @@ export type IntermediateModerationPhase = (
  */
 export const compose = (
   phases: IntermediateModerationPhase[]
-): RootModerationPhase => async (context) => {
+): RootModerationPhase => async context => {
   const final: PhaseResult = {
     status: GQLCOMMENT_STATUS.NONE,
     body: context.comment.body,
@@ -87,9 +103,9 @@ export const compose = (
       ...(context.comment.metadata || {}),
 
       // Add the nudge to the comment metadata.
-      nudge: context.nudge,
+      nudge: context.nudge
     },
-    tags: [],
+    tags: []
   };
 
   // Strip the tags from the comment body so that filters that can't process
@@ -102,53 +118,17 @@ export const compose = (
       ...context,
       comment: {
         ...context.comment,
-        body: final.body,
+        body: final.body
       },
       tags: final.tags,
       htmlStripped,
-      metadata: final.metadata,
+      metadata: final.metadata
     });
     if (result) {
-      // If this result contained actions, then we should push it into the
-      // other actions.
-      const { actions } = result;
-      if (actions) {
-        final.actions.push(...actions);
-      }
-
-      // If this result contained metadata, then we should merge it into the
-      // other metadata.
-      const { metadata } = result;
-      if (metadata) {
-        final.metadata = {
-          ...final.metadata,
-          ...metadata,
-        };
-      }
-
-      // If the result modified the comment body, we should replace it.
-      const { body } = result;
-      if (body) {
-        final.body = body;
-      }
-
-      // If the result added any tags, we should push it into the existing tags.
-      const { tags } = result;
-      if (tags && tags.length > 0) {
-        final.tags.push(
-          // Only push in tags that we haven't already added.
-          ...tags.filter(
-            ({ type }) => !final.tags.some((tag) => tag.type === type)
-          )
-        );
-      }
-
-      // If this result contained a status, then we've finished resolving
-      // phases!
-      const { status } = result;
-      if (status) {
-        final.status = status;
-        break;
+      // Merge the results in. If we're finished, break now!
+      const finished = mergePhaseResult(result, final);
+      if (finished) {
+        return final;
       }
     }
   }

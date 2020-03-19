@@ -1,4 +1,4 @@
-import TenantCache from "coral-server/services/tenant/cache";
+import TenantCache from "./cache";
 
 export type DeconstructionFn<T> = (tenantID: string, value: T) => Promise<void>;
 
@@ -8,7 +8,7 @@ export type DeconstructionFn<T> = (tenantID: string, value: T) => Promise<void>;
  * tenants are enabled, this acts as a map to store entries, and will
  * automatically invalidate tenants that have been updated.
  */
-export class TenantCacheAdapter<T> {
+export default class TenantCacheAdapter<T> {
   private readonly cache = new Map<string, T>();
   private readonly tenantCache: TenantCache;
 
