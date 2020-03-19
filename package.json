@@ -232,9 +232,9 @@
     "@types/webpack-bundle-analyzer": "^2.13.3",
     "@types/webpack-dev-server": "^3.10.0",
     "@types/ws": "^5.1.2",
-    "@typescript-eslint/eslint-plugin": "^2.22.0",
-    "@typescript-eslint/eslint-plugin-tslint": "^2.22.0",
-    "@typescript-eslint/parser": "^2.22.0",
+    "@typescript-eslint/eslint-plugin": "2.23.0",
+    "@typescript-eslint/eslint-plugin-tslint": "2.23.0",
+    "@typescript-eslint/parser": "2.23.0",
     "autoprefixer": "^9.7.4",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^25.1.0",
@@ -263,12 +263,12 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.4.4",
-    "eslint": "^6.5.1",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-jsdoc": "^15.9.7",
+    "eslint-plugin-jsdoc": "^22.1.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.15.1",
+    "eslint-plugin-react": "^7.19.0",
     "eventemitter2": "^6.0.0",
     "farce": "^0.2.8",
     "final-form": "4.18.6",
@@ -376,8 +376,12 @@
     "whatwg-fetch": "^3.0.0"
   },
   "dependencies-pins-documentation": {
+    "typescript-eslint@2.23.0": [
+      "Newer versions has problems only work with typescript >3.8.",
+      "Update when typescript has been upgraded."
+    ],
     "wait-for-expect@1.x.x": [
-      "Major version change breaks the use of jest fake timers"
+      "Newer versions breaks the use of jest fake timers"
     ],
     "consolidate@14.0.0": [
       "Newer versions has problems with using nunjucks.",
