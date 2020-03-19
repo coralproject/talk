@@ -100,7 +100,7 @@
     "html-minifier": "^4.0.0",
     "html-to-text": "^5.1.1",
     "ioredis": "^4.16.0",
-    "jsdom": "^16.2.0",
+    "jsdom": "^16.2.1",
     "jsonwebtoken": "^8.5.1",
     "juice": "^6.0.0",
     "jwks-rsa": "^1.7.0",
@@ -376,6 +376,9 @@
     "whatwg-fetch": "^3.0.0"
   },
   "dependencies-pins-documentation": {
+    "@types/jsdom@12.2.4": [
+      "Update when typescript has been upgraded."
+    ],
     "typescript-eslint@2.23.0": [
       "Newer versions has problems only work with typescript >3.8.",
       "Update when typescript has been upgraded."
