@@ -37,6 +37,7 @@ import { Profile } from "./Profile";
 import { Query } from "./Query";
 import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
+import { Secret } from "./Secret";
 import { Settings } from "./Settings";
 import { SlackConfiguration } from "./SlackConfiguration";
 import { SSOAuthIntegration } from "./SSOAuthIntegration";
@@ -89,6 +90,7 @@ const Resolvers: GQLResolver = {
   RecentCommentHistory,
   RejectCommentPayload,
   SSOAuthIntegration,
+  Secret,
   Story,
   StorySettings,
   Subscription,
