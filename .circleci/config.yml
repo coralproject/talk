@@ -69,6 +69,9 @@ jobs:
           command: |
             npm run doctoc
             git diff --exit-code
+      - run:
+          name: Lint Versions
+          command: npx @coralproject/package-version-lint
 
   # unit_tests will run the unit tests.
   unit_tests:
@@ -141,6 +144,9 @@ jobs:
     <<: *job_defaults
     steps:
       - checkout
+      - run:
+          name: Verify release version
+          command: npx @coralproject/package-version-lint --expect ${CIRCLE_TAG/#v}
       - setup_remote_docker
       - deploy:
           name: Deploy the code
