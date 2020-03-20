@@ -15,9 +15,9 @@ import {
 } from "coral-ui/components/v2";
 
 import DateField from "./DateField";
-import DeactivateSSOKeyMutation from "./DeactivateSSOKeyMutation";
-import DeleteSSOKeyMutation from "./DeleteSSOKeyMutation";
-import RotateSSOKeyMutation from "./RotateSSOKeyMutation";
+import DeactivateSSOSigningSecretMutation from "./DeactivateSSOSigningSecretMutation";
+import DeleteSSOSigningSecretMutation from "./DeleteSSOSigningSecretMutation";
+import RotateSSOSigningSecretMutation from "./RotateSSOSigningSecretMutation";
 import RotationDropDown from "./RotationDropdown";
 import { RotateOptions } from "./RotationOption";
 import StatusField, { SSOKeyStatus } from "./StatusField";
@@ -77,41 +77,43 @@ const SSOKeyCard: FunctionComponent<Props> = ({
   dates,
   disabled,
 }) => {
-  const rotateSSOKey = useMutation(RotateSSOKeyMutation);
-  const deactivateSSOKey = useMutation(DeactivateSSOKeyMutation);
-  const deleteSSOKey = useMutation(DeleteSSOKeyMutation);
+  const rotateSSOSigningSecret = useMutation(RotateSSOSigningSecretMutation);
+  const deactivateSSOSigningSecret = useMutation(
+    DeactivateSSOSigningSecretMutation
+  );
+  const deleteSSOSigningSecret = useMutation(DeleteSSOSigningSecretMutation);
 
   const onRotate = useCallback(
     (rotation: string) => {
       switch (rotation) {
         case RotateOptions.NOW:
-          rotateSSOKey({ inactiveIn: 0 });
+          rotateSSOSigningSecret({ inactiveIn: 0 });
           break;
         case RotateOptions.IN1DAY:
-          rotateSSOKey({ inactiveIn: 24 * 60 * 60 });
+          rotateSSOSigningSecret({ inactiveIn: 24 * 60 * 60 });
           break;
         case RotateOptions.IN1WEEK:
-          rotateSSOKey({ inactiveIn: 7 * 24 * 60 * 60 });
+          rotateSSOSigningSecret({ inactiveIn: 7 * 24 * 60 * 60 });
           break;
         case RotateOptions.IN30DAYS:
-          rotateSSOKey({ inactiveIn: 30 * 24 * 60 * 60 });
+          rotateSSOSigningSecret({ inactiveIn: 30 * 24 * 60 * 60 });
           break;
         default:
-          rotateSSOKey({ inactiveIn: 0 });
+          rotateSSOSigningSecret({ inactiveIn: 0 });
       }
     },
-    [rotateSSOKey]
+    [rotateSSOSigningSecret]
   );
   const onDeactivate = useCallback(() => {
-    deactivateSSOKey({
+    deactivateSSOSigningSecret({
       kid: id,
     });
-  }, [deactivateSSOKey, id]);
+  }, [deactivateSSOSigningSecret, id]);
   const onDelete = useCallback(() => {
-    deleteSSOKey({
+    deleteSSOSigningSecret({
       kid: id,
     });
-  }, [deleteSSOKey, id]);
+  }, [deleteSSOSigningSecret, id]);
 
   return (
     <Card>

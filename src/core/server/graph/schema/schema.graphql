@@ -495,7 +495,7 @@ type LocalAuthIntegration {
 ## SSOAuthIntegration
 ##########################
 
-type Secret {
+type SigningSecret {
   """
   kid is the identifier for the key used when verifying tokens issued by the
   provider.
@@ -551,9 +551,9 @@ type SSOAuthIntegration {
   targetFilter: AuthenticationTargetFilter!
 
   """
-  signingSecrets are the different SSOKey's used by this Tenant.
+  signingSecrets are the different SigningSecret's used by this Tenant.
   """
-  signingSecrets: [Secret!]! @auth(roles: [ADMIN])
+  signingSecrets: [SigningSecret!]! @auth(roles: [ADMIN])
 
   """
   key is the secret that is used to sign tokens.
@@ -959,7 +959,7 @@ type ExternalModerationPhase {
   signingSecret is the secret used to sign outgoing requests to the url during
   the moderation pipeline.
   """
-  signingSecret: Secret!
+  signingSecret: SigningSecret!
 }
 
 type CustomExternalIntegration {
@@ -1385,7 +1385,7 @@ type WebhookEndpoint {
   """
   signingSecret is the current secret used to sign the events sent out.
   """
-  signingSecret: Secret!
+  signingSecret: SigningSecret!
 
   """
   deliveries store the deliveries for each event sent for the last 50 events.
@@ -4436,7 +4436,7 @@ input RegenerateSSOKeyInput {
 
 type RegenerateSSOKeyPayload {
   """
-  settings is the Settings that the SSO key was regenerated on.
+  settings is the Settings that the SSO secret was regenerated on.
   """
   settings: Settings
 
@@ -5225,10 +5225,10 @@ type UpdateWebhookEndpointPayload {
 }
 
 ##################
-# rotateWebhookEndpointSecret
+# rotateWebhookEndpointSigningSecret
 ##################
 
-input RotateWebhookEndpointSecretInput {
+input RotateWebhookEndpointSigningSecretInput {
   """
   clientMutationId is required for Relay support.
   """
@@ -5246,7 +5246,7 @@ input RotateWebhookEndpointSecretInput {
   inactiveIn: Int!
 }
 
-type RotateWebhookEndpointSecretPayload {
+type RotateWebhookEndpointSigningSecretPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -6068,87 +6068,87 @@ type EnableFeatureFlagPayload {
 }
 
 #########################
-## rotateSSOKey
+## rotateSSOSigningSecret
 #########################
 
-input RotateSSOKeyInput {
+input RotateSSOSigningSecretInput {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  inactiveIn is the number of seconds that the current active SSOKey should be
-  kept active (allow signed tokens signed with this secret) before rejecting
-  them.
+  inactiveIn is the number of seconds that the current active SigningSecret
+  should be kept active (allow signed tokens signed with this secret) before
+  rejecting them.
   """
   inactiveIn: Int!
 }
 
-type RotateSSOKeyPayload {
+type RotateSSOSigningSecretPayload {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  settings is the Settings that the SSO key was regenerated on.
+  settings is the Settings that the SSO secret was regenerated on.
   """
   settings: Settings
 }
 
 #########################
-## deactivateSSOKey
+## deactivateSSOSigningSecret
 #########################
 
-input DeactivateSSOKeyInput {
+input DeactivateSSOSigningSecretInput {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  kid is the ID of the SSOKey being deactivated.
+  kid is the ID of the SigningSecret being deactivated.
   """
   kid: ID!
 }
 
-type DeactivateSSOKeyPayload {
+type DeactivateSSOSigningSecretPayload {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  settings is the Settings that the SSO key was regenerated on.
+  settings is the Settings that the SSO secret was regenerated on.
   """
   settings: Settings
 }
 
 #########################
-## deleteSSOKey
+## deleteSSOSigningSecret
 #########################
 
-input DeleteSSOKeyInput {
+input DeleteSSOSigningSecretInput {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  kid is the ID of the SSOKey being deleted.
+  kid is the ID of the SigningSecret being deleted.
   """
   kid: ID!
 }
 
-type DeleteSSOKeyPayload {
+type DeleteSSOSigningSecretPayload {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
 
   """
-  settings is the Settings that the SSO key was regenerated on.
+  settings is the Settings that the SSO secret was regenerated on.
   """
   settings: Settings
 }
@@ -6416,30 +6416,33 @@ type Mutation {
     @auth(roles: [ADMIN])
 
   """
-  regenerateSSOKey will regenerate the SSO key used to sign secrets. This will
+  regenerateSSOKey will regenerate the SSO secret used to sign secrets. This will
   invalidate any existing user sessions.
   """
   regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload!
     @auth(roles: [ADMIN])
-    @deprecated(reason: "deprecated in favour of `rotateSSOKey`")
+    @deprecated(reason: "deprecated in favour of `rotateSSOSigningSecret`")
 
   """
-  rotateSSOKey can be used to rotate a given active SSOKey.
+  rotateSSOSigningSecret can be used to rotate a given active SigningSecret.
   """
-  rotateSSOKey(input: RotateSSOKeyInput!): RotateSSOKeyPayload!
-    @auth(roles: [ADMIN])
+  rotateSSOSigningSecret(
+    input: RotateSSOSigningSecretInput!
+  ): RotateSSOSigningSecretPayload! @auth(roles: [ADMIN])
 
   """
-  deactivateSSOKey will deactivate a given deactivated SSOKey.
+  deactivateSSOSigningSecret will deactivate a given deactivated SigningSecret.
   """
-  deactivateSSOKey(input: DeactivateSSOKeyInput!): DeactivateSSOKeyPayload!
-    @auth(roles: [ADMIN])
+  deactivateSSOSigningSecret(
+    input: DeactivateSSOSigningSecretInput!
+  ): DeactivateSSOSigningSecretPayload! @auth(roles: [ADMIN])
 
   """
-  deleteSSOKey will delete a given inactive SSOKey.
+  deleteSSOSigningSecret will delete a given inactive SigningSecret.
   """
-  deleteSSOKey(input: DeleteSSOKeyInput!): DeleteSSOKeyPayload!
-    @auth(roles: [ADMIN])
+  deleteSSOSigningSecret(
+    input: DeleteSSOSigningSecretInput!
+  ): DeleteSSOSigningSecretPayload! @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in
@@ -6829,11 +6832,11 @@ type Mutation {
   ): DeleteWebhookEndpointPayload! @auth(roles: [ADMIN])
 
   """
-  rotateWebhookEndpointSecret will roll the current active secret to a new key.
+  rotateWebhookEndpointSigningSecret will roll the current active secret to a new key.
   """
-  rotateWebhookEndpointSecret(
-    input: RotateWebhookEndpointSecretInput!
-  ): RotateWebhookEndpointSecretPayload! @auth(roles: [ADMIN])
+  rotateWebhookEndpointSigningSecret(
+    input: RotateWebhookEndpointSigningSecretInput!
+  ): RotateWebhookEndpointSigningSecretPayload! @auth(roles: [ADMIN])
 
   """
   updateStoryMode will set the story mode.

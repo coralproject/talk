@@ -232,7 +232,7 @@ export async function deleteWebhookEndpoint(
   return endpoint;
 }
 
-export async function rotateWebhookEndpointSecret(
+export async function rotateWebhookEndpointSigningSecret(
   mongo: Db,
   redis: Redis,
   cache: TenantCache,

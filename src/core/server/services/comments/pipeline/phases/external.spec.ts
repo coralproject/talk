@@ -97,10 +97,8 @@ describe("validateResponse", () => {
     });
   });
   it("disallows incorrect tag types in the tags from the response", () => {
-    expect(validateResponse({ tags: ["NOT_REAL"] })).toEqual({
-      tags: [],
-    });
-    expect(validateResponse({ tags: [""] })).toEqual({ tags: [] });
+    expect(() => validateResponse({ tags: ["NOT_REAL"] })).toThrow();
+    expect(() => validateResponse({ tags: [""] })).toThrow();
   });
   it("disallows incorrect values in the status response", () => {
     expect(() => validateResponse({ status: "fail" })).toThrow();

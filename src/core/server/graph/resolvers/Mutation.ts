@@ -79,16 +79,16 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     settings: await ctx.mutators.Settings.regenerateSSOKey(),
     clientMutationId: input.clientMutationId,
   }),
-  rotateSSOKey: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.rotateSSOKey(input),
+  rotateSSOSigningSecret: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.rotateSSOSigningSecret(input),
     clientMutationId: input.clientMutationId,
   }),
-  deactivateSSOKey: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.deactivateSSOKey(input),
+  deactivateSSOSigningSecret: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.deactivateSSOSigningSecret(input),
     clientMutationId: input.clientMutationId,
   }),
-  deleteSSOKey: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.deleteSSOKey(input),
+  deleteSSOSigningSecret: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.deleteSSOSigningSecret(input),
     clientMutationId: input.clientMutationId,
   }),
   createStory: async (source, { input }, ctx) => ({
@@ -319,12 +319,14 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     endpoint: await ctx.mutators.Settings.deleteWebhookEndpoint(input),
     clientMutationId,
   }),
-  rotateWebhookEndpointSecret: async (
+  rotateWebhookEndpointSigningSecret: async (
     source,
     { input: { clientMutationId, ...input } },
     ctx
   ) => ({
-    endpoint: await ctx.mutators.Settings.rotateWebhookEndpointSecret(input),
+    endpoint: await ctx.mutators.Settings.rotateWebhookEndpointSigningSecret(
+      input
+    ),
     clientMutationId,
   }),
   testSMTP: async (source, { input: { clientMutationId } }, ctx) => {

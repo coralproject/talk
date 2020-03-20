@@ -196,8 +196,8 @@ export async function deleteTenantWebhookEndpoint(
   return result.value;
 }
 
-function lastUsedAtTenantSSOKey(id: string): string {
-  return `${id}:lastUsedSSOKey`;
+function lastUsedAtTenantSSOSigningSecret(id: string): string {
+  return `${id}:lastUsedSSOSigningSecret`;
 }
 
 /**
@@ -209,13 +209,17 @@ function lastUsedAtTenantSSOKey(id: string): string {
  * @param kid the kid of the token that was used
  * @param when the date that the token was last used at
  */
-export async function updateLastUsedAtTenantSSOKey(
+export async function updateLastUsedAtTenantSSOSigningSecret(
   redis: Redis,
   id: string,
   kid: string,
   when: Date
 ) {
-  await redis.hset(lastUsedAtTenantSSOKey(id), kid, when.toISOString());
+  await redis.hset(
+    lastUsedAtTenantSSOSigningSecret(id),
+    kid,
+    when.toISOString()
+  );
 }
 
 /**
@@ -224,12 +228,12 @@ export async function updateLastUsedAtTenantSSOKey(
  * @param id the ID of the Tenant
  * @param kid the kid of the token that is being deleted
  */
-export async function deleteLastUsedAtTenantSSOKey(
+export async function deleteLastUsedAtTenantSSOSigningSecret(
   redis: Redis,
   id: string,
   kid: string
 ) {
-  await redis.hdel(lastUsedAtTenantSSOKey(id), kid);
+  await redis.hdel(lastUsedAtTenantSSOSigningSecret(id), kid);
 }
 
 /**
@@ -240,13 +244,13 @@ export async function deleteLastUsedAtTenantSSOKey(
  * @param id the ID of the Tenant
  * @param kids the kids of the tokens that we want to know when they were last used
  */
-export async function retrieveLastUsedAtTenantSSOKeys(
+export async function retrieveLastUsedAtTenantSSOSigningSecrets(
   redis: Redis,
   id: string,
   kids: string[]
 ) {
   const results: Array<string | null> = await redis.hmget(
-    lastUsedAtTenantSSOKey(id),
+    lastUsedAtTenantSSOSigningSecret(id),
     ...kids
   );
 

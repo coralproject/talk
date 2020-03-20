@@ -15,15 +15,6 @@ interface Props {
   disabled?: boolean;
 }
 
-interface Key {
-  readonly kid: string;
-  readonly secret: string;
-  readonly createdAt: string;
-  readonly lastUsedAt: string | null;
-  readonly rotatedAt: string | null;
-  readonly inactiveAt: string | null;
-}
-
 function getStatus(dates: SSOKeyDates) {
   if (
     dates.inactiveAt &&
@@ -47,17 +38,17 @@ const SSOKeyRotationContainer: FunctionComponent<Props> = ({
   const {
     auth: {
       integrations: {
-        sso: { keys },
+        sso: { signingSecrets },
       },
     },
   } = settings;
 
-  const sortedKeys = useMemo(
+  const sortedSigningSecrets = useMemo(
     () =>
-      keys
+      signingSecrets
         // Copy this map because we don't want to modify the underlying copy.
         .map((key) => key)
-        .sort((a: Key, b: Key) => {
+        .sort((a, b) => {
           // Both active, sort on createdAt date.
           if (!a.inactiveAt && !b.inactiveAt) {
             return (
@@ -84,7 +75,7 @@ const SSOKeyRotationContainer: FunctionComponent<Props> = ({
 
           return bDate.getTime() - aDate.getTime();
         }),
-    [keys]
+    [signingSecrets]
   );
 
   return (
@@ -92,7 +83,7 @@ const SSOKeyRotationContainer: FunctionComponent<Props> = ({
       <Localized id="configure-auth-sso-rotate-keys">
         <Label htmlFor="configure-auth-sso-rotate-keys">Keys</Label>
       </Localized>
-      {sortedKeys.map((key) => (
+      {sortedSigningSecrets.map((key) => (
         <SSOKeyCard
           key={key.kid}
           id={key.kid}
@@ -113,7 +104,7 @@ const enhanced = withFragmentContainer<Props>({
         integrations {
           sso {
             enabled
-            keys {
+            signingSecrets {
               kid
               secret
               createdAt

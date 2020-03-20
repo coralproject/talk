@@ -4,7 +4,7 @@ import { Db } from "mongodb";
 
 import {
   deactivateTenantSSOKey,
-  deleteLastUsedAtTenantSSOKey,
+  deleteLastUsedAtTenantSSOSigningSecret,
   deleteTenantSSOKey,
   rollTenantSSOSecret,
   Tenant
@@ -24,10 +24,17 @@ export async function regenerateSSOKey(
   now: Date
 ) {
   // Regeneration is the same as rotating but with a specific 30 day window.
-  return rotateSSOKey(mongo, redis, cache, tenant, 30 * 24 * 60 * 60, now);
+  return rotateSSOSigningSecret(
+    mongo,
+    redis,
+    cache,
+    tenant,
+    30 * 24 * 60 * 60,
+    now
+  );
 }
 
-export async function rotateSSOKey(
+export async function rotateSSOSigningSecret(
   mongo: Db,
   redis: Redis,
   cache: TenantCache,
@@ -55,7 +62,7 @@ export async function rotateSSOKey(
   return updatedTenant;
 }
 
-export async function deactivateSSOKey(
+export async function deactivateSSOSigningSecret(
   mongo: Db,
   redis: Redis,
   cache: TenantCache,
@@ -88,7 +95,7 @@ export async function deactivateSSOKey(
   return updatedTenant;
 }
 
-export async function deleteSSOKey(
+export async function deleteSSOSigningSecret(
   mongo: Db,
   redis: Redis,
   cache: TenantCache,
@@ -109,7 +116,7 @@ export async function deleteSSOKey(
   }
 
   // Remove the last used date entry from the Redis hash.
-  await deleteLastUsedAtTenantSSOKey(redis, tenant.id, kid);
+  await deleteLastUsedAtTenantSSOSigningSecret(redis, tenant.id, kid);
 
   // Update the tenant cache.
   await cache.update(redis, updatedTenant);
