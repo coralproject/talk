@@ -5990,6 +5990,34 @@ type DeactivateSSOKeyPayload {
 }
 
 #########################
+## deleteSSOKey
+#########################
+
+input DeleteSSOKeyInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  kid is the ID of the SSOKey being deleted.
+  """
+  kid: ID!
+}
+
+type DeleteSSOKeyPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the SSO key was regenerated on.
+  """
+  settings: Settings
+}
+
+#########################
 # disableFeatureFlag
 #########################
 
@@ -6081,34 +6109,6 @@ type RemoveStoryExpertPayload {
   story is the resultant story the expert was removed from.
   """
   story: Story!
-}
-
-#########################
-## deleteSSOKey
-#########################
-
-input DeleteSSOKeyInput {
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-
-  """
-  kid is the ID of the SSOKey being deleted.
-  """
-  kid: ID!
-}
-
-type DeleteSSOKeyPayload {
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-
-  """
-  settings is the Settings that the SSO key was regenerated on.
-  """
-  settings: Settings
 }
 
 #########################
