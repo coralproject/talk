@@ -45,9 +45,6 @@ const RotateSSOKeyMutation = createMutation(
           clientMutationId: clientMutationId.toString(),
         },
       },
-      updater: store => {
-        window.console.log(store);
-      },
     });
   }
 );

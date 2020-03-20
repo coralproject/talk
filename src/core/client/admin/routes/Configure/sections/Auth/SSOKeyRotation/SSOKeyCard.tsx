@@ -46,7 +46,6 @@ function createActionButton(
   onDelete: () => void,
   disabled?: boolean
 ) {
-  window.console.log(disabled);
   if (status === SSOKeyStatus.ACTIVE) {
     return <RotationDropDown onRotateKey={onRotateKey} disabled={disabled} />;
   }
