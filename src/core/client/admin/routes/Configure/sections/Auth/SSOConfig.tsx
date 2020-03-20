@@ -8,7 +8,7 @@ import { FormFieldDescription } from "coral-ui/components/v2";
 import Header from "../../Header";
 import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
 import RegistrationField from "./RegistrationField";
-import SSOKeyRotationQuery from "./SSOKeyRotation/SSOKeyRotationQuery";
+import SSOSigningSecretRotationQuery from "./SSOSigningSecretRotation/SSOSigningSecretRotationQuery";
 import TargetFilterField from "./TargetFilterField";
 
 // eslint-disable-next-line no-unused-expressions
@@ -60,7 +60,9 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled }) => (
             for additional information on single sign on.
           </FormFieldDescription>
         </Localized>
-        <SSOKeyRotationQuery disabled={disabledInside}></SSOKeyRotationQuery>
+        <SSOSigningSecretRotationQuery
+          disabled={disabledInside}
+        ></SSOSigningSecretRotationQuery>
         <TargetFilterField
           label={
             <Localized id="configure-auth-sso-useLoginOn">

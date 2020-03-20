@@ -3,11 +3,11 @@ import React, { FunctionComponent } from "react";
 
 import { Flex, Label } from "coral-ui/components/v2";
 
-import { SSOKeyStatus } from "./StatusField";
+import { SSOSigningSecretStatus } from "./StatusField";
 
 import styles from "./DateField.css";
 
-export interface SSOKeyDates {
+export interface SSOSigningSecretDates {
   readonly createdAt: string;
   readonly lastUsedAt: string | null;
   readonly rotatedAt: string | null;
@@ -15,13 +15,13 @@ export interface SSOKeyDates {
 }
 
 interface Props {
-  status: SSOKeyStatus;
-  dates: SSOKeyDates;
+  status: SSOSigningSecretStatus;
+  dates: SSOSigningSecretDates;
 }
 
 const DateField: FunctionComponent<Props> = ({ status, dates }) => {
   switch (status) {
-    case SSOKeyStatus.ACTIVE:
+    case SSOSigningSecretStatus.ACTIVE:
       return (
         <>
           <div className={styles.label}>
@@ -37,7 +37,7 @@ const DateField: FunctionComponent<Props> = ({ status, dates }) => {
           </Localized>
         </>
       );
-    case SSOKeyStatus.EXPIRING:
+    case SSOSigningSecretStatus.EXPIRING:
       return (
         <>
           <div className={styles.label}>
@@ -63,7 +63,7 @@ const DateField: FunctionComponent<Props> = ({ status, dates }) => {
           </Flex>
         </>
       );
-    case SSOKeyStatus.EXPIRED:
+    case SSOSigningSecretStatus.EXPIRED:
       return (
         <>
           <div className={styles.label}>

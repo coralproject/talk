@@ -1,15 +1,15 @@
 import { Db } from "mongodb";
 
-import { generateSecret, rollSecret } from "coral-server/models/settings";
+import { rotateSigningSecret } from "coral-server/models/settings";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
-export async function rollTenantSSOSecret(
+export async function rotateTenantSSOSigningSecret(
   mongo: Db,
   id: string,
   inactiveAt: Date,
   now: Date
 ) {
-  return rollSecret({
+  return rotateSigningSecret({
     collection: collection(mongo),
     filter: { id },
     path: "auth.integrations.sso",
@@ -19,27 +19,7 @@ export async function rollTenantSSOSecret(
   });
 }
 
-export async function createTenantSSOKey(mongo: Db, id: string, now: Date) {
-  // Construct the new key.
-  const key = generateSecret("ssosec", now);
-
-  // Update the Tenant with this new key.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $push: {
-        "auth.integrations.sso.keys": key,
-      },
-    },
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
-  );
-
-  return result.value || null;
-}
-
-export async function deactivateTenantSSOKey(
+export async function deactivateTenantSSOSigningSecret(
   mongo: Db,
   id: string,
   kid: string,
@@ -61,6 +41,29 @@ export async function deactivateTenantSSOKey(
       returnOriginal: false,
       // Add an ArrayFilter to only update one of the keys.
       arrayFilters: [{ "keys.kid": kid }],
+    }
+  );
+
+  return result.value || null;
+}
+
+export async function deleteTenantSSOSigningSecret(
+  mongo: Db,
+  id: string,
+  kid: string
+) {
+  // Update the tenant.
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $pull: {
+        "auth.integrations.sso.keys": { kid },
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
     }
   );
 

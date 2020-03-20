@@ -50,6 +50,7 @@ export const Settings = ({
     input: WithoutMutationID<GQLUpdateSettingsInput>
   ): Promise<Tenant | null> =>
     update(mongo, redis, tenantCache, config, tenant, input.settings),
+  // DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
   regenerateSSOKey: (): Promise<Tenant | null> =>
     regenerateSSOKey(mongo, redis, tenantCache, tenant, now),
   rotateSSOSigningSecret: ({ inactiveIn }: GQLRotateSSOSigningSecretInput) =>

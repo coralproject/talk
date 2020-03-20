@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from "@hapi/joi";
 
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { ExternalModerationPhase } from "coral-server/models/settings";
@@ -37,30 +37,30 @@ interface ExternalModerationPhaseRequest {
 
 type ExternalModerationPhaseResponse = Partial<PhaseResult>;
 
-const ExternalModerationPhaseResponseSchema = Joi.object()
-  .keys({
-    body: Joi.string(),
-    actions: Joi.array().items(
-      Joi.object().keys({
-        actionType: Joi.string()
-          .only(ACTION_TYPE.FLAG)
-          .required(),
-        reason: Joi.string()
-          .only(Object.keys(GQLCOMMENT_FLAG_DETECTED_REASON))
-          .required(),
-        additionalDetails: Joi.string(),
-        metadata: Joi.object(),
-      })
-    ),
-    status: Joi.string().only(Object.keys(GQLCOMMENT_STATUS)),
-    metadata: Joi.object(),
-    tags: Joi.array().items(
-      Joi.string()
-        .only(Object.keys(GQLTAG))
-        .required()
-    ),
-  })
-  .optionalKeys(["body", "actions", "status", "metadata", "tags"]);
+const ExternalModerationPhaseResponseSchema = Joi.object().keys({
+  body: Joi.string(),
+  actions: Joi.array().items(
+    Joi.object().keys({
+      actionType: Joi.string().only().allow(ACTION_TYPE.FLAG).required(),
+      reason: Joi.string()
+        .only()
+        .allow(...Object.keys(GQLCOMMENT_FLAG_DETECTED_REASON))
+        .required(),
+      additionalDetails: Joi.string(),
+      metadata: Joi.object(),
+    })
+  ),
+  status: Joi.string()
+    .only()
+    .allow(...Object.keys(GQLCOMMENT_STATUS)),
+  metadata: Joi.object(),
+  tags: Joi.array().items(
+    Joi.string()
+      .only()
+      .allow(...Object.keys(GQLTAG))
+      .required()
+  ),
+});
 
 /**
  * validate will validate the `ExternalModerationPhaseResponse`.
@@ -169,7 +169,7 @@ async function usePhase(
   return validateResponse(body);
 }
 
-export const external: IntermediateModerationPhase = async ctx => {
+export const external: IntermediateModerationPhase = async (ctx) => {
   // Check to see if any custom moderation phases have been defined, if there is
   // none, exit now.
   if (
@@ -181,7 +181,7 @@ export const external: IntermediateModerationPhase = async ctx => {
 
   // Get the enabled phases.
   const phases = ctx.tenant.integrations.custom.phases.filter(
-    phase => phase.enabled
+    (phase) => phase.enabled
   );
   if (phases.length === 0) {
     return;

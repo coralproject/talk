@@ -28,7 +28,7 @@ export function mergePhaseResult(
     final.tags = [
       ...tags,
       // Only push in tags that we haven't already added.
-      ...result.tags.filter(tag => !tags.includes(tag)),
+      ...result.tags.filter((tag) => !tags.includes(tag)),
     ];
   }
 

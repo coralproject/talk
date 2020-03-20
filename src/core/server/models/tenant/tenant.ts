@@ -10,9 +10,9 @@ import { DeepPartial, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
 import {
-  generateSecret,
+  generateSigningSecret,
   Settings,
-  SigningSecretResource
+  SigningSecretResource,
 } from "coral-server/models/settings";
 import { I18n } from "coral-server/services/i18n";
 import { tenants as collection } from "coral-server/services/mongodb/collections";
@@ -22,12 +22,12 @@ import {
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
   GQLSettings,
-  GQLWEBHOOK_EVENT_NAME
+  GQLWEBHOOK_EVENT_NAME,
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
   getDefaultReactionConfiguration,
-  getDefaultStaffConfiguration
+  getDefaultStaffConfiguration,
 } from "./helpers";
 
 /**
@@ -148,31 +148,31 @@ export async function createTenant(
 
     // Default to enabled.
     live: {
-      enabled: true
+      enabled: true,
     },
 
     communityGuidelines: {
       enabled: false,
-      content: ""
+      content: "",
     },
     premodLinksEnable: false,
     closeCommenting: {
       auto: false,
-      timeout: 2 * TIME.WEEK
+      timeout: 2 * TIME.WEEK,
     },
     disableCommenting: {
-      enabled: false
+      enabled: false,
     },
     editCommentWindowLength: 30 * TIME.SECOND,
     webhooks: {
-      endpoints: []
+      endpoints: [],
     },
     charCount: {
-      enabled: false
+      enabled: false,
     },
     wordList: {
       suspect: [],
-      banned: []
+      banned: [],
     },
     auth: {
       sessionDuration: DEFAULT_SESSION_DURATION,
@@ -182,93 +182,93 @@ export async function createTenant(
           allowRegistration: true,
           targetFilter: {
             admin: true,
-            stream: true
-          }
+            stream: true,
+          },
         },
         sso: {
           enabled: false,
           allowRegistration: false,
           targetFilter: {
             admin: true,
-            stream: true
+            stream: true,
           },
           // TODO: [CORL-754] (wyattjoh) remove this in favor of generating this when needed
-          signingSecrets: [generateSecret("ssosec", now)]
+          signingSecrets: [generateSigningSecret("ssosec", now)],
         },
         oidc: {
           enabled: false,
           allowRegistration: false,
           targetFilter: {
             admin: true,
-            stream: true
-          }
+            stream: true,
+          },
         },
         google: {
           enabled: false,
           allowRegistration: false,
           targetFilter: {
             admin: true,
-            stream: true
-          }
+            stream: true,
+          },
         },
         facebook: {
           enabled: false,
           allowRegistration: false,
           targetFilter: {
             admin: true,
-            stream: true
-          }
-        }
-      }
+            stream: true,
+          },
+        },
+      },
     },
     email: {
       enabled: false,
-      smtp: {}
+      smtp: {},
     },
     recentCommentHistory: {
       enabled: false,
       timeFrame: 7 * TIME.DAY,
       // Rejection rate defaulting to 30%, once exceeded, comments will be
       // pre-moderated.
-      triggerRejectionRate: 0.3
+      triggerRejectionRate: 0.3,
     },
     integrations: {
       akismet: {
-        enabled: false
+        enabled: false,
       },
       perspective: {
         enabled: false,
         doNotStore: true,
-        sendFeedback: false
-      }
+        sendFeedback: false,
+      },
     },
     reaction: getDefaultReactionConfiguration(bundle),
     staff: getDefaultStaffConfiguration(bundle),
     stories: {
       scraping: {
-        enabled: true
+        enabled: true,
       },
-      disableLazy: false
+      disableLazy: false,
     },
     accountFeatures: {
       changeUsername: false,
       deleteAccount: false,
-      downloadComments: false
+      downloadComments: false,
     },
     newCommenters: {
       premodEnabled: false,
-      approvedCommentsThreshold: 2
+      approvedCommentsThreshold: 2,
     },
     createdAt: now,
     slack: {
-      channels: []
-    }
+      channels: [],
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.
   const tenant: Readonly<Tenant> = {
     ...defaults,
-    ...input
+    ...input,
   };
 
   // Insert the Tenant into the database.
@@ -291,13 +291,13 @@ export async function retrieveManyTenants(
 ) {
   const cursor = collection(mongo).find({
     id: {
-      $in: ids
-    }
+      $in: ids,
+    },
   });
 
   const tenants = await cursor.toArray();
 
-  return ids.map(id => tenants.find(tenant => tenant.id === id) || null);
+  return ids.map((id) => tenants.find((tenant) => tenant.id === id) || null);
 }
 
 export async function retrieveManyTenantsByDomain(
@@ -306,27 +306,23 @@ export async function retrieveManyTenantsByDomain(
 ) {
   const cursor = collection(mongo).find({
     domain: {
-      $in: domains
-    }
+      $in: domains,
+    },
   });
 
   const tenants = await cursor.toArray();
 
   return domains.map(
-    domain => tenants.find(tenant => tenant.domain === domain) || null
+    (domain) => tenants.find((tenant) => tenant.domain === domain) || null
   );
 }
 
 export async function retrieveAllTenants(mongo: Db) {
-  return collection(mongo)
-    .find({})
-    .toArray();
+  return collection(mongo).find({}).toArray();
 }
 
 export async function countTenants(mongo: Db) {
-  return collection(mongo)
-    .find({})
-    .count();
+  return collection(mongo).find({}).count();
 }
 
 export type UpdateTenantInput = Omit<DeepPartial<Tenant>, "id" | "domain">;
@@ -352,7 +348,7 @@ export async function updateTenant(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false
+      returnOriginal: false,
     }
   );
 
@@ -370,13 +366,13 @@ export async function enableTenantFeatureFlag(
     {
       // Add the flag to the set of enabled flags.
       $addToSet: {
-        featureFlags: flag
-      }
+        featureFlags: flag,
+      },
     },
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false
+      returnOriginal: false,
     }
   );
 
@@ -394,31 +390,13 @@ export async function disableTenantFeatureFlag(
     {
       // Pull the flag from the set of enabled flags.
       $pull: {
-        featureFlags: flag
-      }
+        featureFlags: flag,
+      },
     },
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false
-    }
-  );
-
-  return result.value || null;
-}
-export async function deleteTenantSSOKey(mongo: Db, id: string, kid: string) {
-  // Update the tenant.
-  const result = await collection(mongo).findOneAndUpdate(
-    { id },
-    {
-      $pull: {
-        "auth.integrations.sso.keys": { kid }
-      }
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false
+      returnOriginal: false,
     }
   );
 
@@ -439,18 +417,18 @@ export async function createTenantAnnouncement(
   const announcement = {
     id: uuid(),
     ...input,
-    createdAt: now
+    createdAt: now,
   };
 
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     {
       $set: {
-        announcement
-      }
+        announcement,
+      },
     },
     {
-      returnOriginal: false
+      returnOriginal: false,
     }
   );
   return result.value;
@@ -461,11 +439,11 @@ export async function deleteTenantAnnouncement(mongo: Db, id: string) {
     { id },
     {
       $unset: {
-        announcement: ""
-      }
+        announcement: "",
+      },
     },
     {
-      returnOriginal: false
+      returnOriginal: false,
     }
   );
   return result.value;
@@ -483,7 +461,7 @@ export function retrieveAnnouncementIfEnabled(
   if (isBeforeDate(disableAt)) {
     return {
       ...announcement,
-      disableAt
+      disableAt,
     };
   }
   return null;

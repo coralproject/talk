@@ -2,16 +2,16 @@ import { Db } from "mongodb";
 
 import { tenants as collection } from "coral-server/services/mongodb/collections";
 
-import { rollSecret } from "../settings";
+import { rotateSigningSecret } from "../settings";
 
-export async function rollExternalModerationPhaseSecret(
+export async function rotateExternalModerationPhaseSigningSecret(
   mongo: Db,
   id: string,
   phaseID: string,
   inactiveAt: Date,
   now: Date
 ) {
-  return rollSecret({
+  return rotateSigningSecret({
     collection: collection(mongo),
     filter: { id },
     path: "integrations.external.phases",

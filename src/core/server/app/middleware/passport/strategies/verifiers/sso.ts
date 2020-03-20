@@ -7,7 +7,11 @@ import { Db } from "mongodb";
 import { validate } from "coral-server/app/request/body";
 import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
 import logger from "coral-server/logger";
-import { Secret, SSOAuthIntegration } from "coral-server/models/settings";
+import {
+  filterActiveSigningSecrets,
+  SigningSecret,
+  SSOAuthIntegration,
+} from "coral-server/models/settings";
 import {
   Tenant,
   updateLastUsedAtTenantSSOSigningSecret,
@@ -185,23 +189,18 @@ export interface SSOVerifierOptions {
   redis: AugmentedRedis;
 }
 
-export function getRelevantSSOKeys(
+export function getRelevantSSOSigningSecrets(
   integration: SSOAuthIntegration,
   tokenString: string,
   now: Date,
   kid?: string
-): Secret[] {
+): SigningSecret[] {
   // Collect all the current valid keys.
-  const keys = integration.signingSecrets.filter((k) => {
-    if (k.inactiveAt && now >= k.inactiveAt) {
-      return false;
-    }
-
-    return k;
-  });
-
-  // If there is only one key, that's all we can use!
+  const keys = integration.signingSecrets.filter(
+    filterActiveSigningSecrets(now)
+  );
   if (keys.length === 1) {
+    // There is only one key, that's all we can use!
     return keys;
   }
 
@@ -260,7 +259,12 @@ export class SSOVerifier implements Verifier<SSOToken> {
     }
 
     // Get the valid configurations for the given token and integration pair.
-    const keys = getRelevantSSOKeys(integration, tokenString, now, kid);
+    const keys = getRelevantSSOSigningSecrets(
+      integration,
+      tokenString,
+      now,
+      kid
+    );
     if (keys.length === 0) {
       throw new TokenInvalidError(
         tokenString,

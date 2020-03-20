@@ -6418,6 +6418,8 @@ type Mutation {
   """
   regenerateSSOKey will regenerate the SSO secret used to sign secrets. This will
   invalidate any existing user sessions.
+
+  DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
   """
   regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload!
     @auth(roles: [ADMIN])

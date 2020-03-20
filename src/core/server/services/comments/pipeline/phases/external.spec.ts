@@ -79,22 +79,18 @@ describe("validateResponse", () => {
     expect(() => validateResponse({ metadata: ["2"] })).toThrow();
   });
   it("disallows incorrect reasons in the actions from the response", () => {
-    expect(
+    expect(() =>
       validateResponse({
         actions: [{ actionType: "FLAG", reason: "COMMENT_DETECTED_NOT_REAL" }],
       })
-    ).toEqual({
-      actions: [],
-    });
-    expect(
+    ).toThrow();
+    expect(() =>
       validateResponse({
         actions: [
           { actionType: "ALSO_NOT_REAL", reason: "COMMENT_DETECTED_NOT_REAL" },
         ],
       })
-    ).toEqual({
-      actions: [],
-    });
+    ).toThrow();
   });
   it("disallows incorrect tag types in the tags from the response", () => {
     expect(() => validateResponse({ tags: ["NOT_REAL"] })).toThrow();

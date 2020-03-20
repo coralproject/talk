@@ -223,7 +223,7 @@ export default async function create(
       ...input,
       siteID: story.siteID,
       // Remap the tags to include the createdAt.
-      tags: tags.map(tag => ({ type: tag, createdAt: now })),
+      tags: tags.map((tag) => ({ type: tag, createdAt: now })),
       body,
       status,
       ancestorIDs,

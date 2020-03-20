@@ -14,7 +14,7 @@ import {
   GQLSettings,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { SigningSecretResource } from "./secret";
+import { SigningSecretResource } from "./signingSecret";
 
 export type LiveConfiguration = Omit<GQLLiveConfiguration, "configurable">;
 

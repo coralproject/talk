@@ -7,7 +7,7 @@ import { Logger } from "coral-server/logger";
 import { CreateActionInput } from "coral-server/models/action/comment";
 import {
   CreateCommentInput,
-  RevisionMetadata
+  RevisionMetadata,
 } from "coral-server/models/comment";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
@@ -17,7 +17,7 @@ import { Request } from "coral-server/types/express";
 
 import {
   GQLCOMMENT_STATUS,
-  GQLTAG
+  GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { mergePhaseResult } from "./helpers";
@@ -93,7 +93,7 @@ export type IntermediateModerationPhase = (
  */
 export const compose = (
   phases: IntermediateModerationPhase[]
-): RootModerationPhase => async context => {
+): RootModerationPhase => async (context) => {
   const final: PhaseResult = {
     status: GQLCOMMENT_STATUS.NONE,
     body: context.comment.body,
@@ -103,9 +103,9 @@ export const compose = (
       ...(context.comment.metadata || {}),
 
       // Add the nudge to the comment metadata.
-      nudge: context.nudge
+      nudge: context.nudge,
     },
-    tags: []
+    tags: [],
   };
 
   // Strip the tags from the comment body so that filters that can't process
@@ -118,11 +118,11 @@ export const compose = (
       ...context,
       comment: {
         ...context.comment,
-        body: final.body
+        body: final.body,
       },
       tags: final.tags,
       htmlStripped,
-      metadata: final.metadata
+      metadata: final.metadata,
     });
     if (result) {
       // Merge the results in. If we're finished, break now!

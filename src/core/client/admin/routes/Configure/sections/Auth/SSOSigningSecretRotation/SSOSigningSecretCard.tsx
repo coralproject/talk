@@ -20,11 +20,11 @@ import DeleteSSOSigningSecretMutation from "./DeleteSSOSigningSecretMutation";
 import RotateSSOSigningSecretMutation from "./RotateSSOSigningSecretMutation";
 import RotationDropDown from "./RotationDropdown";
 import { RotateOptions } from "./RotationOption";
-import StatusField, { SSOKeyStatus } from "./StatusField";
+import StatusField, { SSOSigningSecretStatus } from "./StatusField";
 
-import styles from "./SSOKeyCard.css";
+import styles from "./SSOSigningSecretCard.css";
 
-export interface SSOKeyDates {
+export interface SSOSigningSecretDates {
   readonly createdAt: string;
   readonly lastUsedAt: string | null;
   readonly rotatedAt: string | null;
@@ -34,22 +34,22 @@ export interface SSOKeyDates {
 interface Props {
   id: string;
   secret: string;
-  status: SSOKeyStatus;
-  dates: SSOKeyDates;
+  status: SSOSigningSecretStatus;
+  dates: SSOSigningSecretDates;
   disabled?: boolean;
 }
 
 function createActionButton(
-  status: SSOKeyStatus,
+  status: SSOSigningSecretStatus,
   onRotateKey: (rotation: string) => void,
   onDeactivateKey: () => void,
   onDelete: () => void,
   disabled?: boolean
 ) {
   switch (status) {
-    case SSOKeyStatus.ACTIVE:
+    case SSOSigningSecretStatus.ACTIVE:
       return <RotationDropDown onRotateKey={onRotateKey} disabled={disabled} />;
-    case SSOKeyStatus.EXPIRING:
+    case SSOSigningSecretStatus.EXPIRING:
       return (
         <Localized id="configure-auth-sso-rotate-deactivateNow">
           <Button color="alert" onClick={onDeactivateKey} disabled={disabled}>
@@ -57,7 +57,7 @@ function createActionButton(
           </Button>
         </Localized>
       );
-    case SSOKeyStatus.EXPIRED:
+    case SSOSigningSecretStatus.EXPIRED:
       return (
         <Localized id="configure-auth-sso-rotate-delete">
           <Button color="alert" onClick={onDelete} disabled={disabled}>
@@ -70,7 +70,7 @@ function createActionButton(
   }
 }
 
-const SSOKeyCard: FunctionComponent<Props> = ({
+const SSOSigningSecretCard: FunctionComponent<Props> = ({
   id,
   secret,
   status,
@@ -186,4 +186,4 @@ const SSOKeyCard: FunctionComponent<Props> = ({
   );
 };
 
-export default SSOKeyCard;
+export default SSOSigningSecretCard;

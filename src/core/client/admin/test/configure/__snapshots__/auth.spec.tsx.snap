@@ -1284,10 +1284,10 @@ more about creating a JWT Token with
                         className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignCenter"
                       >
                         <div
-                          className="SSOKeyCard-keySection"
+                          className="SSOSigningSecretCard-keySection"
                         >
                           <div
-                            className="SSOKeyCard-label"
+                            className="SSOSigningSecretCard-label"
                           >
                             <label
                               className="Label-root"
@@ -1309,10 +1309,10 @@ more about creating a JWT Token with
                           </div>
                         </div>
                         <div
-                          className="SSOKeyCard-secretSection"
+                          className="SSOSigningSecretCard-secretSection"
                         >
                           <div
-                            className="SSOKeyCard-label"
+                            className="SSOSigningSecretCard-label"
                           >
                             <label
                               className="Label-root"
@@ -1390,10 +1390,10 @@ more about creating a JWT Token with
                           className="Box-root Flex-root Flex-flex Flex-justifyFlexStart Flex-alignCenter"
                         >
                           <div
-                            className="SSOKeyCard-statusSection"
+                            className="SSOSigningSecretCard-statusSection"
                           >
                             <div
-                              className="SSOKeyCard-label"
+                              className="SSOSigningSecretCard-label"
                             >
                               <label
                                 className="Label-root"

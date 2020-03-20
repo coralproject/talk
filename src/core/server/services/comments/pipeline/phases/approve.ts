@@ -1,15 +1,15 @@
 import {
   IntermediateModerationPhase,
-  IntermediatePhaseResult
+  IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
 
 import {
   GQLCOMMENT_STATUS,
-  GQLTAG
+  GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
 export const approve: IntermediateModerationPhase = ({
-  tags
+  tags,
 }): IntermediatePhaseResult | void => {
   // If the user is tagged STAFF or EXPERT then we approve
   // their comment.
@@ -22,7 +22,7 @@ export const approve: IntermediateModerationPhase = ({
   //   trust this simple tag type check.
   if (tags.includes(GQLTAG.STAFF) || tags.includes(GQLTAG.EXPERT)) {
     return {
-      status: GQLCOMMENT_STATUS.APPROVED
+      status: GQLCOMMENT_STATUS.APPROVED,
     };
   }
 };

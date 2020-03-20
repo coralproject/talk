@@ -5,7 +5,10 @@ import fetch, { RequestInit, Response } from "node-fetch";
 import { URL } from "url";
 
 import { version } from "coral-common/version";
-import { generateSignatures, Secret } from "coral-server/models/settings";
+import {
+  generateSignatures,
+  SigningSecret,
+} from "coral-server/models/settings";
 
 import abortAfter from "./abortAfter";
 
@@ -29,7 +32,7 @@ export type FetchOptions = RequestInit & {
 };
 
 export function generateFetchOptions(
-  signingSecrets: Secret[],
+  signingSecrets: SigningSecret[],
   data: object,
   now: Date
 ): FetchOptions {

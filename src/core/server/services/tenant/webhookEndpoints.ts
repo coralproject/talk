@@ -8,7 +8,7 @@ import {
   CreateTenantWebhookEndpointInput,
   deleteTenantWebhookEndpoint,
   getWebhookEndpoint,
-  rollTenantWebhookEndpointSecret,
+  rotateTenantWebhookEndpointSigningSecret,
   Tenant,
   updateTenantWebhookEndpoint,
   UpdateTenantWebhookEndpointInput,
@@ -247,7 +247,7 @@ export async function rotateWebhookEndpointSigningSecret(
     .toJSDate();
 
   // Rotate the secrets.
-  const updatedTenant = await rollTenantWebhookEndpointSecret(
+  const updatedTenant = await rotateTenantWebhookEndpointSigningSecret(
     mongo,
     tenant.id,
     endpointID,

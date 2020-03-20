@@ -5,33 +5,35 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { Label } from "coral-ui/components/v2";
 
-import { SSOKeyRotationContainer_settings } from "coral-admin/__generated__/SSOKeyRotationContainer_settings.graphql";
+import { SSOSigningSecretRotationContainer_settings } from "coral-admin/__generated__/SSOSigningSecretRotationContainer_settings.graphql";
 
-import SSOKeyCard, { SSOKeyDates } from "./SSOKeyCard";
-import { SSOKeyStatus } from "./StatusField";
+import SSOSigningSecretCard, {
+  SSOSigningSecretDates,
+} from "./SSOSigningSecretCard";
+import { SSOSigningSecretStatus } from "./StatusField";
 
 interface Props {
-  settings: SSOKeyRotationContainer_settings;
+  settings: SSOSigningSecretRotationContainer_settings;
   disabled?: boolean;
 }
 
-function getStatus(dates: SSOKeyDates) {
+function getStatus(dates: SSOSigningSecretDates) {
   if (
     dates.inactiveAt &&
     dates.rotatedAt &&
     new Date(dates.inactiveAt) > new Date()
   ) {
-    return SSOKeyStatus.EXPIRING;
+    return SSOSigningSecretStatus.EXPIRING;
   }
 
   if (dates.inactiveAt && new Date(dates.inactiveAt) <= new Date()) {
-    return SSOKeyStatus.EXPIRED;
+    return SSOSigningSecretStatus.EXPIRED;
   }
 
-  return SSOKeyStatus.ACTIVE;
+  return SSOSigningSecretStatus.ACTIVE;
 }
 
-const SSOKeyRotationContainer: FunctionComponent<Props> = ({
+const SSOSigningSecretRotationContainer: FunctionComponent<Props> = ({
   disabled,
   settings,
 }) => {
@@ -84,7 +86,7 @@ const SSOKeyRotationContainer: FunctionComponent<Props> = ({
         <Label htmlFor="configure-auth-sso-rotate-keys">Keys</Label>
       </Localized>
       {sortedSigningSecrets.map((key) => (
-        <SSOKeyCard
+        <SSOSigningSecretCard
           key={key.kid}
           id={key.kid}
           secret={key.secret}
@@ -99,7 +101,7 @@ const SSOKeyRotationContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
-    fragment SSOKeyRotationContainer_settings on Settings {
+    fragment SSOSigningSecretRotationContainer_settings on Settings {
       auth {
         integrations {
           sso {
@@ -117,6 +119,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(SSOKeyRotationContainer);
+})(SSOSigningSecretRotationContainer);
 
 export default enhanced;

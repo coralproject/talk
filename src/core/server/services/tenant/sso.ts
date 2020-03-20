@@ -3,11 +3,11 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import {
-  deactivateTenantSSOKey,
+  deactivateTenantSSOSigningSecret,
   deleteLastUsedAtTenantSSOSigningSecret,
-  deleteTenantSSOKey,
-  rollTenantSSOSecret,
-  Tenant
+  deleteTenantSSOSigningSecret,
+  rotateTenantSSOSigningSecret,
+  Tenant,
 } from "coral-server/models/tenant";
 
 import { TenantCache } from "./cache";
@@ -15,6 +15,8 @@ import { TenantCache } from "./cache";
 /**
  * regenerateSSOKey will regenerate the Single Sign-On key for the specified
  * Tenant and notify all other Tenant's connected that the Tenant was updated.
+ *
+ * DEPRECATED: deprecated in favour of `rotateSSOSigningSecret`, remove in 6.2.0.
  */
 export async function regenerateSSOKey(
   mongo: Db,
@@ -46,7 +48,7 @@ export async function rotateSSOSigningSecret(
     .plus({ seconds: inactiveIn })
     .toJSDate();
 
-  const updatedTenant = await rollTenantSSOSecret(
+  const updatedTenant = await rotateTenantSSOSigningSecret(
     mongo,
     tenant.id,
     inactiveAt,
@@ -71,14 +73,14 @@ export async function deactivateSSOSigningSecret(
   now: Date
 ) {
   const key = tenant.auth.integrations.sso.signingSecrets.find(
-    k => k.kid === kid
+    (k) => k.kid === kid
   );
   if (!key) {
     throw new Error("specified kid not found on tenant");
   }
 
   // Deactivate the sso key now.
-  const updatedTenant = await deactivateTenantSSOKey(
+  const updatedTenant = await deactivateTenantSSOSigningSecret(
     mongo,
     tenant.id,
     kid,
@@ -103,14 +105,18 @@ export async function deleteSSOSigningSecret(
   kid: string
 ) {
   const key = tenant.auth.integrations.sso.signingSecrets.find(
-    k => k.kid === kid
+    (k) => k.kid === kid
   );
   if (!key) {
     throw new Error("specified kid not found on tenant");
   }
 
   // Deactivate the sso key now.
-  const updatedTenant = await deleteTenantSSOKey(mongo, tenant.id, kid);
+  const updatedTenant = await deleteTenantSSOSigningSecret(
+    mongo,
+    tenant.id,
+    kid
+  );
   if (!updatedTenant) {
     return null;
   }

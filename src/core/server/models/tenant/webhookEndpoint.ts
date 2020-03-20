@@ -8,18 +8,18 @@ import { tenants as collection } from "coral-server/services/mongodb/collections
 
 import { GQLWEBHOOK_EVENT_NAME } from "coral-server/graph/schema/__generated__/types";
 
-import { generateSecret, rollSecret } from "../settings";
+import { generateSigningSecret, rotateSigningSecret } from "../settings";
 import { getWebhookEndpoint } from "./helpers";
 import { Endpoint, retrieveTenant } from "./tenant";
 
-export async function rollTenantWebhookEndpointSecret(
+export async function rotateTenantWebhookEndpointSigningSecret(
   mongo: Db,
   id: string,
   endpointID: string,
   inactiveAt: Date,
   now: Date
 ) {
-  return rollSecret({
+  return rotateSigningSecret({
     collection: collection(mongo),
     filter: { id },
     path: "webhooks.endpoints",
@@ -29,6 +29,7 @@ export async function rollTenantWebhookEndpointSecret(
     now,
   });
 }
+
 export interface CreateTenantWebhookEndpointInput {
   url: string;
   all: boolean;
@@ -46,7 +47,7 @@ export async function createTenantWebhookEndpoint(
     ...input,
     id: uuid(),
     enabled: true,
-    signingSecrets: [generateSecret("whsec", now)],
+    signingSecrets: [generateSigningSecret("whsec", now)],
     createdAt: now,
   };
 
@@ -132,7 +133,7 @@ export async function updateTenantWebhookEndpoint(
   return result.value;
 }
 
-export async function deleteEndpointSecrets(
+export async function deleteTenantWebhookEndpointSigningSecrets(
   mongo: Db,
   id: string,
   endpointID: string,
@@ -201,8 +202,8 @@ function lastUsedAtTenantSSOSigningSecret(id: string): string {
 }
 
 /**
- * updateLastUsedAtTenantSSOKey will update the time stamp that the SSO key was
- * last used at.
+ * updateLastUsedAtTenantSSOSigningSecret will update the time stamp that the
+ * SSO key was last used at.
  *
  * @param redis the Redis connection to use to update the timestamp on
  * @param id the ID of the Tenant
@@ -237,8 +238,8 @@ export async function deleteLastUsedAtTenantSSOSigningSecret(
 }
 
 /**
- * retrieveLastUsedAtTenantSSOKeys will get the dates that the requested sso
- * keys were last used on.
+ * retrieveLastUsedAtTenantSSOSigningSecrets will get the dates that the
+ * requested sso keys were last used on.
  *
  * @param redis the Redis connection to use to update the timestamp on
  * @param id the ID of the Tenant
@@ -254,7 +255,7 @@ export async function retrieveLastUsedAtTenantSSOSigningSecrets(
     ...kids
   );
 
-  return results.map(lastUsedAt => {
+  return results.map((lastUsedAt) => {
     if (!lastUsedAt) {
       return null;
     }

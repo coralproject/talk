@@ -4,9 +4,9 @@ import { Collection, FindOneAndUpdateOption, UpdateQuery } from "mongodb";
 import logger from "coral-server/logger";
 import { FilterQuery } from "coral-server/models/helpers";
 
-import { filterFreshSecrets, generateSecret } from "./helpers";
+import { filterFreshSigningSecrets, generateSigningSecret } from "./helpers";
 
-export interface Secret {
+export interface SigningSecret {
   /**
    * kid is the identifier for the key used when verifying tokens issued by the
    * provider.
@@ -42,14 +42,14 @@ export interface SigningSecretResource {
   /**
    * signingSecrets are secrets used for signing and verification.
    */
-  signingSecrets: Secret[];
+  signingSecrets: SigningSecret[];
 }
 
 interface SigningSecretResourceNode extends SigningSecretResource {
   id: string;
 }
 
-interface RollSecretOptions<T extends {}> {
+interface RotateSigningSecretOptions<T extends {}> {
   /**
    * collection is the database collection that the document exists in.
    */
@@ -96,25 +96,25 @@ interface RollSecretOptions<T extends {}> {
  *
  * @param signingSecrets the keys returned by the query operation
  */
-const getSecretKIDsToDeprecate = (signingSecrets: Secret[]) =>
+const getSecretKIDsToDeprecate = (signingSecrets: SigningSecret[]) =>
   signingSecrets
     // By excluding the last one (the one we just pushed)...
     .splice(0, signingSecrets.length - 1)
     // And only finding keys that have not been rotated yet.
-    .filter(filterFreshSecrets())
+    .filter(filterFreshSigningSecrets())
     // And get their kid's.
-    .map(s => s.kid);
+    .map((s) => s.kid);
 
-async function pushNewSecret<T extends {}>({
+async function pushNewSigningSecret<T extends {}>({
   collection,
   filter,
   path,
   prefix,
   id,
   now,
-}: RollSecretOptions<T>) {
+}: RotateSigningSecretOptions<T>) {
   // Create the new secret.
-  const secret = generateSecret(prefix, now);
+  const secret = generateSigningSecret(prefix, now);
 
   // Generate the update for the operation.
   let update: UpdateQuery<T>;
@@ -155,7 +155,7 @@ async function pushNewSecret<T extends {}>({
 }
 
 function getResourceFromDoc<T extends {}>(
-  { id, path }: Pick<RollSecretOptions<T>, "id" | "path">,
+  { id, path }: Pick<RotateSigningSecretOptions<T>, "id" | "path">,
   doc: T
 ) {
   if (id) {
@@ -170,7 +170,7 @@ function getResourceFromDoc<T extends {}>(
     }
 
     // Get the specific resource from the array.
-    const resource = resources.find(r => r.id === id);
+    const resource = resources.find((r) => r.id === id);
     if (!resource) {
       return null;
     }
@@ -191,7 +191,7 @@ function getResourceFromDoc<T extends {}>(
   return resource;
 }
 
-async function deprecateOldSecrets<T extends {}>(
+async function deprecateOldSigningSecrets<T extends {}>(
   {
     collection,
     path,
@@ -200,7 +200,7 @@ async function deprecateOldSecrets<T extends {}>(
     id,
     now,
   }: Pick<
-    RollSecretOptions<T>,
+    RotateSigningSecretOptions<T>,
     "collection" | "path" | "inactiveAt" | "filter" | "id" | "now"
   >,
   doc: Readonly<T>
@@ -268,18 +268,20 @@ async function deprecateOldSecrets<T extends {}>(
   return result.value;
 }
 
-export async function rollSecret<T extends {}>(options: RollSecretOptions<T>) {
+export async function rotateSigningSecret<T extends {}>(
+  options: RotateSigningSecretOptions<T>
+) {
   // Push the new secret into the resource and return it.
-  let document = await pushNewSecret(options);
-  if (!document) {
+  let doc = await pushNewSigningSecret(options);
+  if (!doc) {
     return null;
   }
 
   // Deprecate any old secrets on the document.
-  document = await deprecateOldSecrets(options, document);
-  if (!document) {
+  doc = await deprecateOldSigningSecrets(options, doc);
+  if (!doc) {
     return null;
   }
 
-  return document;
+  return doc;
 }

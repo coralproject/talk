@@ -6,19 +6,19 @@ import { Flex, Icon, Tooltip, TooltipButton } from "coral-ui/components/v2";
 
 import styles from "./StatusField.css";
 
-export enum SSOKeyStatus {
+export enum SSOSigningSecretStatus {
   EXPIRED,
   EXPIRING,
   ACTIVE,
 }
 
 interface Props {
-  status: SSOKeyStatus;
+  status: SSOSigningSecretStatus;
 }
 
 const StatusField: FunctionComponent<Props> = ({ status }) => {
   switch (status) {
-    case SSOKeyStatus.ACTIVE:
+    case SSOSigningSecretStatus.ACTIVE:
       return (
         <Localized id="configure-auth-sso-rotate-statusActive">
           <span
@@ -29,7 +29,7 @@ const StatusField: FunctionComponent<Props> = ({ status }) => {
           </span>
         </Localized>
       );
-    case SSOKeyStatus.EXPIRING:
+    case SSOSigningSecretStatus.EXPIRING:
       return (
         <Flex alignItems="center" justifyContent="center">
           <Flex
@@ -68,7 +68,7 @@ const StatusField: FunctionComponent<Props> = ({ status }) => {
           />
         </Flex>
       );
-    case SSOKeyStatus.EXPIRED:
+    case SSOSigningSecretStatus.EXPIRED:
       return (
         <Flex alignItems="center" justifyContent="center">
           <Localized id="configure-auth-sso-rotate-statusExpired">
