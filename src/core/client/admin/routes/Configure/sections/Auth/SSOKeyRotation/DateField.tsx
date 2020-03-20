@@ -20,84 +20,78 @@ interface Props {
 }
 
 const DateField: FunctionComponent<Props> = ({ status, dates }) => {
-  // Active
-  if (status === SSOKeyStatus.ACTIVE) {
-    return (
-      <>
-        <div className={styles.label}>
-          <Localized id="configure-auth-sso-rotate-activeSince">
-            <Label>Active Since</Label>
-          </Localized>
-        </div>
-        <Localized
-          id="configure-auth-sso-rotate-date"
-          $date={new Date(dates.createdAt)}
-        >
-          <span className={styles.date}>{dates.createdAt}</span>
-        </Localized>
-      </>
-    );
-  }
-
-  // Expiring
-  if (status === SSOKeyStatus.EXPIRING) {
-    return (
-      <>
-        <div className={styles.label}>
-          <Localized id="configure-auth-sso-rotate-inactiveAt">
-            <Label>Inactive At</Label>
-          </Localized>
-        </div>
-        <Flex
-          alignItems="center"
-          justifyContent="center"
-          className={styles.date}
-        >
+  switch (status) {
+    case SSOKeyStatus.ACTIVE:
+      return (
+        <>
+          <div className={styles.label}>
+            <Localized id="configure-auth-sso-rotate-activeSince">
+              <Label>Active Since</Label>
+            </Localized>
+          </div>
           <Localized
             id="configure-auth-sso-rotate-date"
-            $date={
-              dates.inactiveAt
-                ? new Date(dates.inactiveAt)
-                : new Date(dates.createdAt)
-            }
+            $date={new Date(dates.createdAt)}
           >
-            {dates.inactiveAt}
+            <span className={styles.date}>{dates.createdAt}</span>
           </Localized>
-        </Flex>
-      </>
-    );
-  }
-
-  // Expired
-  if (status === SSOKeyStatus.EXPIRED) {
-    return (
-      <>
-        <div className={styles.label}>
-          <Localized id="configure-auth-sso-rotate-inactiveSince">
-            <Label>Inactive Since</Label>
-          </Localized>
-        </div>
-        <Flex
-          alignItems="center"
-          justifyContent="center"
-          className={styles.date}
-        >
-          <Localized
-            id="configure-auth-sso-rotate-date"
-            $date={
-              dates.inactiveAt
-                ? new Date(dates.inactiveAt)
-                : new Date(dates.createdAt)
-            }
+        </>
+      );
+    case SSOKeyStatus.EXPIRING:
+      return (
+        <>
+          <div className={styles.label}>
+            <Localized id="configure-auth-sso-rotate-inactiveAt">
+              <Label>Inactive At</Label>
+            </Localized>
+          </div>
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            className={styles.date}
           >
-            {dates.inactiveAt}
-          </Localized>
-        </Flex>
-      </>
-    );
+            <Localized
+              id="configure-auth-sso-rotate-date"
+              $date={
+                dates.inactiveAt
+                  ? new Date(dates.inactiveAt)
+                  : new Date(dates.createdAt)
+              }
+            >
+              {dates.inactiveAt}
+            </Localized>
+          </Flex>
+        </>
+      );
+    case SSOKeyStatus.EXPIRED:
+      return (
+        <>
+          <div className={styles.label}>
+            <Localized id="configure-auth-sso-rotate-inactiveSince">
+              <Label>Inactive Since</Label>
+            </Localized>
+          </div>
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            className={styles.date}
+          >
+            <Localized
+              id="configure-auth-sso-rotate-date"
+              $date={
+                dates.inactiveAt
+                  ? new Date(dates.inactiveAt)
+                  : new Date(dates.createdAt)
+              }
+            >
+              {dates.inactiveAt}
+            </Localized>
+          </Flex>
+        </>
+      );
+    default:
+      return null;
   }
-
-  return null;
 };
 
 export default DateField;
