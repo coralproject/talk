@@ -36,13 +36,13 @@
   justify-content: baseline;
   align-items: center;
   color: var(--v2-palette-grey-main);
-  margin-right: var(--spacing-2);
+  margin-right: var(--v2-spacing-2);
 }
 .iconAfter {
   display: flex;
   align-items: center;
   justify-content: baseline;
-  margin-left: var(--spacing-2);
+  margin-left: var(--v2-spacing-2);
   text-decoration: unset;
 }
 .iconOpenInNew {

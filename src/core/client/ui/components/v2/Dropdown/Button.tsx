@@ -4,10 +4,10 @@ import React, { FunctionComponent } from "react";
 import { Omit } from "coral-framework/types";
 import { withStyles } from "coral-ui/hocs";
 
-import BaseButton, { BaseButtonProps } from "coral-ui/components/BaseButton";
-import Icon from "coral-ui/components/Icon";
+import BaseButton, { BaseButtonProps } from "coral-ui/components/v2/BaseButton";
+import Icon from "coral-ui/components/v2/Icon";
 
-import { Flex } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
 import styles from "./Button.css";
 
 interface Props extends Omit<BaseButtonProps, "ref"> {
