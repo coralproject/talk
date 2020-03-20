@@ -87,9 +87,6 @@ const SSOKeyCard: FunctionComponent<Props> = ({
         case RotateOptions.NOW:
           rotateSSOKey({ inactiveIn: 0 });
           break;
-        case RotateOptions.IN10SECONDS:
-          rotateSSOKey({ inactiveIn: 10 });
-          break;
         case RotateOptions.IN1DAY:
           rotateSSOKey({ inactiveIn: 24 * 60 * 60 });
           break;
