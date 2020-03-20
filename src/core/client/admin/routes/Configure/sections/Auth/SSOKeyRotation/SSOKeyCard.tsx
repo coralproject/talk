@@ -46,29 +46,28 @@ function createActionButton(
   onDelete: () => void,
   disabled?: boolean
 ) {
-  if (status === SSOKeyStatus.ACTIVE) {
-    return <RotationDropDown onRotateKey={onRotateKey} disabled={disabled} />;
+  switch (status) {
+    case SSOKeyStatus.ACTIVE:
+      return <RotationDropDown onRotateKey={onRotateKey} disabled={disabled} />;
+    case SSOKeyStatus.EXPIRING:
+      return (
+        <Localized id="configure-auth-sso-rotate-deactivateNow">
+          <Button color="alert" onClick={onDeactivateKey} disabled={disabled}>
+            Deactivate Now
+          </Button>
+        </Localized>
+      );
+    case SSOKeyStatus.EXPIRED:
+      return (
+        <Localized id="configure-auth-sso-rotate-delete">
+          <Button color="alert" onClick={onDelete} disabled={disabled}>
+            Delete
+          </Button>
+        </Localized>
+      );
+    default:
+      return null;
   }
-  if (status === SSOKeyStatus.EXPIRING) {
-    return (
-      <Localized id="configure-auth-sso-rotate-deactivateNow">
-        <Button color="alert" onClick={onDeactivateKey} disabled={disabled}>
-          Deactivate Now
-        </Button>
-      </Localized>
-    );
-  }
-  if (status === SSOKeyStatus.EXPIRED) {
-    return (
-      <Localized id="configure-auth-sso-rotate-delete">
-        <Button color="alert" onClick={onDelete} disabled={disabled}>
-          Delete
-        </Button>
-      </Localized>
-    );
-  }
-
-  return null;
 }
 
 const SSOKeyCard: FunctionComponent<Props> = ({
