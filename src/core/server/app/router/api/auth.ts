@@ -19,6 +19,8 @@ import {
 } from "coral-server/app/middleware/passport";
 import { RouterOptions } from "coral-server/app/router/types";
 
+import { createAPIRouter } from "./helpers";
+
 function wrapPath(
   app: AppOptions,
   { passport }: Pick<RouterOptions, "passport">,
@@ -36,7 +38,7 @@ export function createNewAuthRouter(
   app: AppOptions,
   { passport }: Pick<RouterOptions, "passport">
 ) {
-  const router = express.Router();
+  const router = createAPIRouter();
 
   // Mount the Local Authentication handlers.
   router.post(

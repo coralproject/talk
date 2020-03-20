@@ -15,7 +15,7 @@ import {
   withFragmentContainer,
   withMutation,
 } from "coral-framework/lib/relay";
-import { GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 
 import {
   COMMENT_STATUS,
@@ -222,8 +222,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           status={getStatus(comment)}
           featured={isFeatured(comment)}
           viewContextHref={comment.permalink}
-          suspectWords={settings.wordList.suspect}
-          bannedWords={settings.wordList.banned}
+          phrases={settings}
           onApprove={handleApprove}
           onReject={handleReject}
           onFeature={onFeature}
@@ -253,6 +252,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           hideUsername={hideUsername}
           deleted={comment.deleted ? comment.deleted : false}
           edited={comment.editing.edited}
+          isQA={comment.story.settings.mode === GQLSTORY_MODE.QA}
         />
       </FadeInTransition>
       <BanModal
@@ -304,6 +304,9 @@ const enhanced = withFragmentContainer<Props>({
         metadata {
           title
         }
+        settings {
+          mode
+        }
       }
       site {
         id
@@ -319,11 +322,13 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment ModerateCardContainer_settings on Settings {
+      locale
       wordList {
         banned
         suspect
       }
       multisite
+      featureFlags
       ...MarkersContainer_settings
     }
   `,

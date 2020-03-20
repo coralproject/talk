@@ -1,5 +1,5 @@
 import { StoryClosedError } from "coral-server/errors";
-import { getStoryClosedAt } from "coral-server/models/story";
+import { isStoryClosed } from "coral-server/models/story";
 import {
   IntermediatePhaseResult,
   ModerationPhaseContext,
@@ -14,8 +14,7 @@ export const storyClosed = ({
   ModerationPhaseContext,
   "story" | "tenant" | "now"
 >): IntermediatePhaseResult | void => {
-  const closedAt = getStoryClosedAt(tenant, story);
-  if (closedAt && closedAt <= now) {
+  if (isStoryClosed(tenant, story, now)) {
     throw new StoryClosedError();
   }
 };

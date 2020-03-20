@@ -18,12 +18,7 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
 
   // Attach the API router.
-  router.use(
-    "/api",
-    noCacheMiddleware,
-    cookies(),
-    createAPIRouter(app, options)
-  );
+  router.use("/api", cookies(), createAPIRouter(app, options));
 
   // Attach the GraphiQL if enabled.
   if (app.config.get("enable_graphiql")) {

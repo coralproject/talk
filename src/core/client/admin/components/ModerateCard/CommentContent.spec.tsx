@@ -7,8 +7,13 @@ import CommentContent from "./CommentContent";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof CommentContent> = {
-    suspectWords: ["worse"],
-    bannedWords: ["bad"],
+    phrases: {
+      locale: "en-US",
+      wordList: {
+        suspect: ["worse"],
+        banned: ["bad"],
+      },
+    },
     className: "custom",
     children: "Hello <b>Bob</b>, you bad guy",
   };
@@ -19,8 +24,13 @@ it("renders correctly", () => {
 
 it("renders empty words correctly", () => {
   const props: PropTypesOf<typeof CommentContent> = {
-    suspectWords: [],
-    bannedWords: [],
+    phrases: {
+      locale: "en-US",
+      wordList: {
+        suspect: [],
+        banned: [],
+      },
+    },
     className: "custom",
     children: "Hello <b>Bob</b>, you bad guy",
   };

@@ -10,6 +10,7 @@ import React, {
 } from "react";
 
 import { HOTKEYS } from "coral-admin/constants";
+import { GetPhrasesRegExpOptions } from "coral-admin/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import {
   BaseButton,
@@ -48,8 +49,7 @@ interface Props {
   featured: boolean;
   moderatedBy: React.ReactNode | null;
   viewContextHref: string;
-  suspectWords: ReadonlyArray<string>;
-  bannedWords: ReadonlyArray<string>;
+  phrases: GetPhrasesRegExpOptions;
   showStory: boolean;
   storyTitle?: React.ReactNode;
   storyHref?: string;
@@ -74,6 +74,7 @@ interface Props {
   selectPrev?: () => void;
   selectNext?: () => void;
   onBan: () => void;
+  isQA?: boolean;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -87,8 +88,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   viewContextHref,
   status,
   featured,
-  suspectWords,
-  bannedWords,
+  phrases,
   onApprove,
   onReject,
   onFeature,
@@ -109,6 +109,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   selectNext,
   selectPrev,
   onBan,
+  isQA,
 }) => {
   const div = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -207,7 +208,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               <FeatureButton
                 featured={featured}
                 onClick={onFeature}
-                enabled={!deleted}
+                enabled={!deleted && !isQA}
               />
             </Flex>
             {inReplyTo && inReplyTo.username && (
@@ -219,11 +220,7 @@ const ModerateCard: FunctionComponent<Props> = ({
             )}
           </div>
           <div className={styles.contentArea}>
-            <CommentContent
-              suspectWords={suspectWords}
-              bannedWords={bannedWords}
-              className={styles.content}
-            >
+            <CommentContent phrases={phrases} className={styles.content}>
               {commentBody}
             </CommentContent>
             <div className={styles.viewContext}>
