@@ -12,17 +12,15 @@ import { Db } from "mongodb";
 import { createTransport } from "nodemailer";
 import { Options } from "nodemailer/lib/smtp-connection";
 
-import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import { LanguageCode } from "coral-common/helpers";
 import { Config } from "coral-server/config";
-import { InternalError } from "coral-server/errors";
+import { WrappedInternalError } from "coral-server/errors";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
-import {
-  TenantCache,
-  TenantCacheAdapter,
-} from "coral-server/services/tenant/cache";
+import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
 
 export const JOB_NAME = "mailer";
 
@@ -256,7 +254,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
         data
       );
     } catch (e) {
-      throw new InternalError(e, "could not translate the message");
+      throw new WrappedInternalError(e, "could not translate the message");
     }
 
     log.trace(
@@ -286,7 +284,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
         // Create the transport based on the smtp uri.
         transport = createTransport(opts);
       } catch (e) {
-        throw new InternalError(e, "could not create email transport");
+        throw new WrappedInternalError(e, "could not create email transport");
       }
 
       // Set the transport back into the cache.
@@ -305,7 +303,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
       // Send the mail message.
       await transport.sendMail(message);
     } catch (e) {
-      throw new InternalError(e, "could not send email");
+      throw new WrappedInternalError(e, "could not send email");
     }
 
     log.debug({ responseTime: messageSendTimer() }, "sent the email");
