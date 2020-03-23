@@ -65,6 +65,13 @@ rate enforces a rate limit on requests made by the user.
 """
 directive @rate(max: Int = 1, seconds: Int!, key: String) on FIELD_DEFINITION
 
+"""
+deprecated indicates that a field should not be used in the future.
+"""
+directive @deprecated(
+  reason: String = "No longer supported"
+) on FIELD_DEFINITION | ENUM_VALUE
+
 ################################################################################
 ## Custom Scalar Types
 ################################################################################
@@ -483,6 +490,40 @@ type LocalAuthIntegration {
 ## SSOAuthIntegration
 ##########################
 
+type Secret {
+  """
+  kid is the identifier for the key used when verifying tokens issued by the
+  provider.
+  """
+  kid: String!
+
+  """
+  secret is the actual underlying secret used to verify the tokens with.
+  """
+  secret: String!
+
+  """
+  createdAt is the date that the key was created at.
+  """
+  createdAt: Time!
+
+  """
+  lastUsedAt is the time that the
+  """
+  lastUsedAt: Time
+
+  """
+  rotatedAt is the time that the token was rotated out.
+  """
+  rotatedAt: Time
+
+  """
+  inactiveAt is the date that the token can no longer be used to validate
+  tokens.
+  """
+  inactiveAt: Time
+}
+
 """
 SSOAuthIntegration is an AuthIntegration that provides a secret to the admins
 of a tenant, where they can sign a SSO payload with it to provide to the
@@ -505,14 +546,23 @@ type SSOAuthIntegration {
   targetFilter: AuthenticationTargetFilter!
 
   """
+  keys are the different SSOKey's used by this Tenant.
+  """
+  keys: [Secret!]! @auth(roles: [ADMIN])
+
+  """
   key is the secret that is used to sign tokens.
   """
-  key: String @auth(roles: [ADMIN])
+  key: String
+    @auth(roles: [ADMIN])
+    @deprecated(reason: "field is deprecated in favour of `keys`")
 
   """
   keyGeneratedAt is the Time that the key was effective from.
   """
-  keyGeneratedAt: Time @auth(roles: [ADMIN])
+  keyGeneratedAt: Time
+    @auth(roles: [ADMIN])
+    @deprecated(reason: "field is deprecated in favour of `keys`")
 }
 
 ##########################
@@ -1234,21 +1284,6 @@ enum WEBHOOK_EVENT_NAME {
   STORY_CREATED
 }
 
-"""
-TODO: merge with SSOKey with PR #2732
-"""
-type Secret {
-  """
-  secret is the actual underlying secret used to verify the tokens with.
-  """
-  secret: String!
-
-  """
-  createdAt is the date that the key was created at.
-  """
-  createdAt: Time!
-}
-
 type WebhookEndpoint {
   """
   id is the unique identifier for this specific endpoint.
@@ -1340,6 +1375,28 @@ type Announcement {
   content is the content displayed for the announcement.
   """
   content: String!
+}
+
+type Site {
+  """
+  id is the identifier of the Site.
+  """
+  id: ID!
+
+  """
+  name is the name of the Site.
+  """
+  name: String!
+
+  """
+  allowedOrigins are the allowed origins for embeds.
+  """
+  allowedOrigins: [String!]!
+
+  """
+  createdAt is when the site was created.
+  """
+  createdAt: Time!
 }
 
 """
@@ -5856,6 +5913,92 @@ type EnableFeatureFlagPayload {
 }
 
 #########################
+## rotateSSOKey
+#########################
+
+input RotateSSOKeyInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  inactiveIn is the number of seconds that the current active SSOKey should be
+  kept active (allow signed tokens signed with this secret) before rejecting
+  them.
+  """
+  inactiveIn: Int!
+}
+
+type RotateSSOKeyPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the SSO key was regenerated on.
+  """
+  settings: Settings
+}
+
+#########################
+## deactivateSSOKey
+#########################
+
+input DeactivateSSOKeyInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  kid is the ID of the SSOKey being deactivated.
+  """
+  kid: ID!
+}
+
+type DeactivateSSOKeyPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the SSO key was regenerated on.
+  """
+  settings: Settings
+}
+
+#########################
+## deleteSSOKey
+#########################
+
+input DeleteSSOKeyInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  kid is the ID of the SSOKey being deleted.
+  """
+  kid: ID!
+}
+
+type DeleteSSOKeyPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the SSO key was regenerated on.
+  """
+  settings: Settings
+}
+
+#########################
 # disableFeatureFlag
 #########################
 
@@ -5884,10 +6027,10 @@ type DisableFeatureFlagPayload {
 }
 
 #########################
-# Add / Remove Expert
+# addStoryExpert
 #########################
 
-input AddExpertInput {
+input AddStoryExpertInput {
   """
   clientMutationId is required for Relay support.
   """
@@ -5904,7 +6047,7 @@ input AddExpertInput {
   userID: ID!
 }
 
-type AddExpertPayload {
+type AddStoryExpertPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -5916,7 +6059,11 @@ type AddExpertPayload {
   story: Story!
 }
 
-input RemoveExpertInput {
+#########################
+# removeStoryExpert
+#########################
+
+input RemoveStoryExpertInput {
   """
   clientMutationId is required for Relay support.
   """
@@ -5933,7 +6080,7 @@ input RemoveExpertInput {
   userID: ID!
 }
 
-type RemoveExpertPayload {
+type RemoveStoryExpertPayload {
   """
   clientMutationId is required for Relay support.
   """
@@ -5944,6 +6091,10 @@ type RemoveExpertPayload {
   """
   story: Story!
 }
+
+#########################
+## updateStoryMode
+#########################
 
 input UpdateStoryModeInput {
   """
@@ -5964,14 +6115,109 @@ input UpdateStoryModeInput {
 
 type UpdateStoryModePayload {
   """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
   story is the resultant story that Q&A was enabled on.
   """
   story: Story!
+}
 
+##################
+## createSite
+##################
+
+input CreateSite {
+  """
+  name is the name of the Site.
+  """
+  name: String!
+
+  """
+  allowedOrigins are the allowed origins for embeds.
+  """
+  allowedOrigins: [String!]!
+}
+
+input CreateSiteInput {
   """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  site is the input for the Site to create.
+  """
+  site: CreateSite!
+}
+
+type CreateSitePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  site is the Site that was newly created.
+  """
+  site: Site!
+}
+
+##################
+## updateSite
+##################
+
+input UpdateSite {
+  """
+  name is the name of the Site.
+  """
+  name: String
+
+  """
+  url is the Site URL, seen in email communications.
+  """
+  url: String
+
+  """
+  contactEmail is the contact email for the Site, seen in email communications.
+  """
+  contactEmail: String
+
+  """
+  allowedOrigins are the allowed origins for embeds.
+  """
+  allowedOrigins: [String!]
+}
+
+input UpdateSiteInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the Site to update.
+  """
+  id: ID!
+
+  """
+  site is the updates for the Site.
+  """
+  site: UpdateSite!
+}
+
+type UpdateSitePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  site is the newly updated Site.
+  """
+  site: Site!
 }
 
 ##################
@@ -6011,6 +6257,25 @@ type Mutation {
   invalidate any existing user sessions.
   """
   regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload!
+    @auth(roles: [ADMIN])
+    @deprecated(reason: "deprecated in favour of `rotateSSOKey`")
+
+  """
+  rotateSSOKey can be used to rotate a given active SSOKey.
+  """
+  rotateSSOKey(input: RotateSSOKeyInput!): RotateSSOKeyPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  deactivateSSOKey will deactivate a given deactivated SSOKey.
+  """
+  deactivateSSOKey(input: DeactivateSSOKeyInput!): DeactivateSSOKeyPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  deleteSSOKey will delete a given inactive SSOKey.
+  """
+  deleteSSOKey(input: DeleteSSOKeyInput!): DeleteSSOKeyPayload!
     @auth(roles: [ADMIN])
 
   """
@@ -6416,13 +6681,13 @@ type Mutation {
   """
   addStoryExpert adds an expert to a story.
   """
-  addStoryExpert(input: AddExpertInput!): AddExpertPayload!
+  addStoryExpert(input: AddStoryExpertInput!): AddStoryExpertPayload!
     @auth(roles: [ADMIN, MODERATOR])
 
   """
   removeStoryExpert removes an expert from a story.
   """
-  removeStoryExpert(input: RemoveExpertInput!): RemoveExpertPayload!
+  removeStoryExpert(input: RemoveStoryExpertInput!): RemoveStoryExpertPayload!
     @auth(roles: [ADMIN, MODERATOR])
 }
 
@@ -6607,81 +6872,4 @@ type Subscription {
   """
   commentFeatured(storyID: ID!): CommentFeaturedPayload!
     @auth(roles: [MODERATOR, ADMIN])
-}
-
-type Site {
-  """
-  id is the identifier of the Site.
-  """
-  id: ID!
-
-  """
-  name is the name of the Site.
-  """
-  name: String!
-
-  """
-  allowedOrigins are the allowed origins for embeds.
-  """
-  allowedOrigins: [String!]!
-
-  """
-  createdAt is when the site was created.
-  """
-  createdAt: Time!
-}
-
-input CreateSite {
-  """
-  name is the name of the Site.
-  """
-  name: String!
-
-  """
-  allowedOrigins are the allowed origins for embeds.
-  """
-  allowedOrigins: [String!]!
-}
-
-input UpdateSite {
-  """
-  name is the name of the Site.
-  """
-  name: String
-
-  """
-  url is the Site URL, seen in email communications.
-  """
-  url: String
-
-  """
-  contactEmail is the contact email for the Site, seen in email communications.
-  """
-  contactEmail: String
-
-  """
-  allowedOrigins are the allowed origins for embeds.
-  """
-  allowedOrigins: [String!]
-}
-
-input CreateSiteInput {
-  clientMutationId: String!
-  site: CreateSite!
-}
-
-type CreateSitePayload {
-  clientMutationId: String!
-  site: Site!
-}
-
-input UpdateSiteInput {
-  clientMutationId: String!
-  site: UpdateSite!
-  id: ID!
-}
-
-type UpdateSitePayload {
-  clientMutationId: String!
-  site: Site!
 }

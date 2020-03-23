@@ -19,12 +19,12 @@ import {
 import { scrape } from "coral-server/services/stories/scraper";
 
 import {
-  GQLAddExpertInput,
+  GQLAddStoryExpertInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
   GQLMergeStoriesInput,
   GQLOpenStoryInput,
-  GQLRemoveExpertInput,
+  GQLRemoveStoryExpertInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
   GQLUpdateStoryInput,
@@ -78,8 +78,8 @@ export const Stories = (ctx: GraphContext) => ({
     scrape(ctx.mongo, ctx.config, ctx.tenant.id, input.id),
   updateStoryMode: async (input: GQLUpdateStoryModeInput) =>
     updateStoryMode(ctx.mongo, ctx.tenant, input.storyID, input.mode),
-  addStoryExpert: async (input: GQLAddExpertInput) =>
+  addStoryExpert: async (input: GQLAddStoryExpertInput) =>
     addStoryExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID),
-  removeStoryExpert: async (input: GQLRemoveExpertInput) =>
+  removeStoryExpert: async (input: GQLRemoveStoryExpertInput) =>
     removeStoryExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID),
 });

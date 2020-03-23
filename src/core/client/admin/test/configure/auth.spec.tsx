@@ -9,6 +9,7 @@ import {
   CreateTestRendererParams,
   findParentWithType,
   replaceHistoryLocation,
+  toJSON,
   wait,
   waitForElement,
   within,
@@ -57,11 +58,11 @@ it("renders configure auth", async () => {
   expect(within(configureContainer).toJSON()).toMatchSnapshot();
 });
 
-it("regenerate sso key", async () => {
+it("rotate sso key", async () => {
   const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
-        regenerateSSOKey: () => {
+        rotateSSOKey: () => {
           return {
             settings: pureMerge<typeof settingsWithEmptyAuth>(
               settingsWithEmptyAuth,
@@ -69,8 +70,22 @@ it("regenerate sso key", async () => {
                 auth: {
                   integrations: {
                     sso: {
-                      key: "==GENERATED_KEY==",
-                      keyGeneratedAt: "2018-11-12T23:26:06.239Z",
+                      enabled: true,
+                      keys: [
+                        {
+                          kid: "kid-01",
+                          secret: "secret",
+                          createdAt: "2015-01-01T00:00:00.000Z",
+                          lastUsedAt: "2016-01-01T01:45:00.000Z",
+                          rotatedAt: "2016-01-01T01:45:00.000Z",
+                          inactiveAt: "2016-01-01T01:45:00.000Z",
+                        },
+                        {
+                          kid: "kid-02",
+                          secret: "new-secret",
+                          createdAt: "2019-01-01T01:45:00.000Z",
+                        },
+                      ],
                     },
                   },
                 },
@@ -90,15 +105,40 @@ it("regenerate sso key", async () => {
 
   act(() => {
     within(container)
-      .getByText("Regenerate", { selector: "button" })
+      .getByText("Rotate", { selector: "button" })
       .props.onClick();
   });
 
-  await wait(() =>
-    expect(within(container).getByLabelText("Key").props.value).toBe(
-      "==GENERATED_KEY=="
-    )
-  );
+  const rotateNow = await waitForElement(() => {
+    return within(container).getByText("Now", { selector: "button" });
+  });
+
+  act(() => {
+    rotateNow.props.onClick();
+  });
+
+  await wait(() => {
+    // Check that we have two SSO Keys that match
+    // our expected key IDs
+    const keyIDs = within(container).getAllByTestID("SSO-Key-ID");
+    const hasOldKey = keyIDs.some(k => k.props.value === "kid-01");
+    const hasNewKey = keyIDs.some(k => k.props.value === "kid-02");
+    expect(hasNewKey).toBe(true);
+    expect(hasOldKey).toBe(true);
+
+    const statuses = within(container).getAllByTestID("SSO-Key-Status");
+    expect(statuses.length).toBe(2);
+    const firstStatus: any = toJSON(statuses[0]);
+    const firstStatusIsActive = firstStatus.children.some(
+      (s: string) => s === "Active"
+    );
+    expect(firstStatusIsActive).toBe(true);
+    const secondStatus: any = toJSON(statuses[1]);
+    const secondStatusIsActive = secondStatus.children.some(
+      (s: string) => s === "Active"
+    );
+    expect(secondStatusIsActive).toBe(false);
+  });
 });
 
 it("prevents admin lock out", async () => {

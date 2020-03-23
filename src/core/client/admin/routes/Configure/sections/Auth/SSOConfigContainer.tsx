@@ -16,17 +16,13 @@ const SSOConfigContainer: React.FunctionComponent<Props> = ({
   disabled,
   auth,
 }) => {
-  return <SSOConfig disabled={disabled} sso={auth.integrations.sso} />;
+  return <SSOConfig disabled={disabled} />;
 };
 
 const enhanced = withFragmentContainer<Props>({
   auth: graphql`
     fragment SSOConfigContainer_auth on Auth {
-      integrations {
-        sso {
-          ...SSOKeyFieldContainer_sso
-        }
-      }
+      ...SSOConfig_formValues
     }
   `,
 })(SSOConfigContainer);
