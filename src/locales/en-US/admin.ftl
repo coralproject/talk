@@ -427,6 +427,51 @@ configure-auth-sso-regenerateAt = KEY GENERATED AT:
 configure-auth-sso-regenerateHonoredWarning =
   When regenerating a key, tokens signed with the previous key will be honored for 30 days.
 
+configure-auth-sso-description =
+  To enable integration with your existing authentication system,
+  you will need to create a JWT Token to connect. You can learn
+  more about creating a JWT Token with <IntroLink>this introduction</IntroLink>. See our
+  <DocLink>documentation</DocLink> for additional information on single sign on.
+
+configure-auth-sso-rotate-keys = Keys
+configure-auth-sso-rotate-keyID = Key ID
+configure-auth-sso-rotate-secret = Secret
+configure-auth-sso-rotate-copySecret =
+  .aria-label = Copy Secret
+
+configure-auth-sso-rotate-date =
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+configure-auth-sso-rotate-activeSince = Active Since
+configure-auth-sso-rotate-inactiveAt = Inactive At
+configure-auth-sso-rotate-inactiveSince = Inactive Since
+
+configure-auth-sso-rotate-status = Status
+configure-auth-sso-rotate-statusActive = Active
+configure-auth-sso-rotate-statusExpiring = Expiring
+configure-auth-sso-rotate-statusExpired = Expired
+configure-auth-sso-rotate-statusUnknown = Unknown
+
+configure-auth-sso-rotate-expiringTooltip =
+  An SSO key is expiring when it is scheduled for rotation.
+configure-auth-sso-rotate-expiringTooltip-toggleButton =
+  .aria-label = Toggle expiring tooltip visibility
+configure-auth-sso-rotate-expiredTooltip =
+  An SSO key is expired when it has been rotated out of use.
+configure-auth-sso-rotate-expiredTooltip-toggleButton =
+  Toggle expired tooltip visibility
+
+configure-auth-sso-rotate-rotate = Rotate
+configure-auth-sso-rotate-deactivateNow = Deactivate Now
+configure-auth-sso-rotate-delete = Delete
+
+configure-auth-sso-rotate-now = Now
+configure-auth-sso-rotate-10seconds = 10 seconds from now
+configure-auth-sso-rotate-1day = 1 day from now
+configure-auth-sso-rotate-1week = 1 week from now
+configure-auth-sso-rotate-30days = 30 days from now
+configure-auth-sso-rotate-dropdown-description =
+  .description = A dropdown to rotate the SSO key
+
 configure-auth-local-loginWith = Login with email authentication
 configure-auth-local-useLoginOn = Use email authentication login on
 
