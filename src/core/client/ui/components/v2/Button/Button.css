@@ -31,20 +31,24 @@ $button-regular-mono-background: var(--v2-colors-grey-500);
 $button-regular-alert-background: var(--v2-colors-red-500);
 $button-regular-alt-background: var(--v2-colors-green-500);
 $button-regular-dark-background: var(--v2-colors-blue-500);
+$button-regular-stream-background: var(--v2-colors-stream-blue-500);
 
 $button-regular-regular-background-hover: var(--v2-colors-teal-700);
 $button-regular-mono-background-hover: var(--v2-colors-grey-600);
 $button-regular-alert-background-hover: var(--v2-colors-red-600);
 $button-regular-alt-background-hover: var(--v2-colors-green-600);
 $button-regular-dark-background-hover: var(--v2-colors-blue-600);
+$button-regular-stream-background-hover: var(--v2-colors-stream-blue-600);
 
 $button-regular-regular-background-active: var(--v2-colors-teal-800);
 $button-regular-mono-background-active: var(--v2-colors-grey-700);
 $button-regular-alert-background-active: var(--v2-colors-red-700);
 $button-regular-alt-background-active: var(--v2-colors-green-700);
 $button-regular-dark-background-active: var(--v2-colors-blue-700);
+$button-regular-stream-background-active: var(--v2-colors-stream-blue-700);
 
 $button-regular-background-disabled: var(--v2-colors-grey-300);
+$button-regular-stream-background-disabled: var(--v2-colors-stream-blue-200);
 
 /* outline button */
 $button-outline-background: var(--v2-colors-pure-white);
@@ -196,7 +200,24 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
 
   &:disabled,
   &.disabled {
-    background-color: $button-regular-background-disabled;
+    &.colorRegular {
+      background-color: $button-regular-background-disabled;
+    }
+    &.colorStream {
+      background-color: $button-regular-stream-background-disabled;
+    }
+    &.colorMono {
+      background-color: $button-regular-background-disabled;
+    }
+    &.colorAlert {
+      background-color: $button-regular-background-disabled;
+    }
+    &.colorAlt {
+      background-color: $button-regular-background-disabled;
+    }
+    &.colorMono {
+      background-color: $button-regular-background-disabled;
+    }
   }
 
   &:not(.disabled),
@@ -210,6 +231,18 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
       &:active,
       &.active {
         background-color: $button-regular-regular-background-active;
+      }
+    }
+
+    &.colorStream {
+      background-color: $button-regular-stream-background;
+      &:hover,
+      &.mouseHover {
+        background-color: $button-regular-stream-background-hover;
+      }
+      &:active,
+      &.active {
+        background-color: $button-regular-stream-background-active;
       }
     }
 

@@ -17,7 +17,7 @@ import {
   Message,
   MessageIcon,
   RelativeTime,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import { getCommentBodyValidators, normalizeRTEHTML } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
@@ -152,7 +152,7 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
                     {props.expired ? (
                       <Localized id="comments-editCommentForm-close">
                         <Button
-                          variant="outlined"
+                          variant="outline"
                           disabled={submitting}
                           onClick={props.onClose}
                           className={CLASSES.editComment.close}
@@ -166,7 +166,8 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
                           <>
                             <Localized id="comments-editCommentForm-cancel">
                               <Button
-                                variant="outlined"
+                                color="mono"
+                                variant="outline"
                                 disabled={submitting}
                                 onClick={props.onCancel}
                                 fullWidth={matches}
@@ -177,8 +178,8 @@ const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
                             </Localized>
                             <Localized id="comments-editCommentForm-saveChanges">
                               <Button
-                                color="primary"
-                                variant="filled"
+                                color="stream"
+                                variant="regular"
                                 disabled={
                                   submitting || !input.value || pristine
                                 }

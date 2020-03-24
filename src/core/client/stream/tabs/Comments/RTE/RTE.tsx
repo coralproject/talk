@@ -42,6 +42,11 @@ export interface RTEProps {
   className?: string;
 
   /**
+   * className for the container.
+   */
+  containerClassName?: string;
+
+  /**
    * className for the content area.
    */
   contentClassName?: string;
@@ -55,6 +60,7 @@ export interface RTEProps {
    * className for the toolbar.
    */
   toolbarClassName?: string;
+
   /*
    * If set renders a full width button
    */
@@ -108,6 +114,7 @@ const RTE: FunctionComponent<RTEProps> = props => {
     disabled,
     defaultValue,
     forwardRef,
+    containerClassName,
     contentClassName,
     placeholderClassName,
     toolbarClassName,
@@ -134,6 +141,10 @@ const RTE: FunctionComponent<RTEProps> = props => {
           CLASSES.rte.toolbar,
           toolbarClassName,
           styles.toolbar
+        )}
+        contentContainerClassName={cn(
+          CLASSES.rte.container,
+          containerClassName
         )}
         onChange={onChange}
         value={value || defaultValue}

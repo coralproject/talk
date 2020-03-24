@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Flex, Icon, Typography } from "coral-ui/components";
+import { Flex, Icon } from "coral-ui/components/v2";
 
 import styles from "./ReplyTo.css";
 
@@ -13,16 +13,14 @@ interface Props {
 
 const ReplyTo: FunctionComponent<Props> = ({ username }) => {
   const Username = () => (
-    <Typography
-      variant="heading4"
-      container="span"
+    <span
       className={cn(
         styles.username,
         CLASSES.createReplyComment.replyTo.username
       )}
     >
       {username}
-    </Typography>
+    </span>
   );
 
   return (
@@ -31,13 +29,12 @@ const ReplyTo: FunctionComponent<Props> = ({ username }) => {
       className={cn(styles.root, CLASSES.createReplyComment.replyTo.$root)}
     >
       <Icon>reply</Icon>{" "}
-      <Localized id="comments-replyTo" Username={<Username />}>
-        <Typography
-          container="span"
+      <Localized id="comments-replyingTo" Username={<Username />}>
+        <span
           className={cn(styles.text, CLASSES.createReplyComment.replyTo.text)}
         >
-          {"Replying to: <Username></Username>"}
-        </Typography>
+          {"Replying to <Username></Username>"}
+        </span>
       </Localized>
     </Flex>
   );

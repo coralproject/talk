@@ -22,12 +22,14 @@ import {
   Flex,
   HorizontalGutter,
   MatchMedia,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import { getCommentBodyValidators, normalizeRTEHTML } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTE from "../../RTE";
 import ReplyTo from "./ReplyTo";
+
+import styles from "./ReplyCommentForm.css";
 
 interface FormProps {
   body: string;
@@ -98,6 +100,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
                           placeholder="Write a reply"
                           forwardRef={props.rteRef}
                           disabled={submitting || props.disabled}
+                          contentClassName={styles.rteContent}
                         />
                       </Localized>
                     </div>
@@ -143,7 +146,8 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
                       >
                         <Localized id="comments-replyCommentForm-cancel">
                           <Button
-                            variant="outlined"
+                            color="mono"
+                            variant="outline"
                             disabled={submitting}
                             onClick={props.onCancel}
                             className={CLASSES.createReplyComment.cancel}
@@ -154,8 +158,8 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
                         </Localized>
                         <Localized id="comments-replyCommentForm-submit">
                           <Button
-                            color="primary"
-                            variant="filled"
+                            color="stream"
+                            variant="regular"
                             disabled={
                               submitting || !input.value || props.disabled
                             }

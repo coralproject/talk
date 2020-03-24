@@ -11,14 +11,13 @@ exports[`renders correctly 1`] = `
    
   <Localized
     Username={<Username />}
-    id="comments-replyTo"
+    id="comments-replyingTo"
   >
-    <ForwardRef(forwardRef)
+    <span
       className="ReplyTo-text coral coral-createReplyComment-replyToText"
-      container="span"
     >
-      Replying to: &lt;Username&gt;&lt;/Username&gt;
-    </ForwardRef(forwardRef)>
+      Replying to &lt;Username&gt;&lt;/Username&gt;
+    </span>
   </Localized>
 </ForwardRef(forwardRef)>
 `;
