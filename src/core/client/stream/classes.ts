@@ -36,7 +36,7 @@ const CLASSES = {
   rte: {
     $root: "coral coral-rte",
     content: "coral coral-rte-content",
-    placeholder: "coral coral-rte-placholder",
+    placeholder: "coral coral-rte-placeholder",
     toolbar: "coral coral-rte-toolbar",
   },
 
@@ -122,6 +122,7 @@ const CLASSES = {
     notifications:
       "coral coral-tabBarSecondary-tab coral-tabBarMyProfile-notifications",
 
+    active: "coral-tabBarSecondary-tab-active",
     /**
      * settings is the button for the "Settings" tab.
      */
@@ -311,6 +312,9 @@ const CLASSES = {
        */
       commentTag: "coral coral-commentTag coral-comment-commentTag",
 
+      featuredTag:
+        "coral coral-commentTag coral-comment-commentTag coral-featuredTag coral-comment-featuredTag",
+
       /**
        * caretButton can be used to target the caret that opens the moderation dropdown.
        */
@@ -473,6 +477,11 @@ const CLASSES = {
        * replies indicates the amount of replies this comment has.
        */
       replies: "coral coral-featuredComment-replies",
+
+      /**
+       * replies indicates the amount of replies this comment has.
+       */
+      repliesDivider: "coral coral-featuredComment-replies-divider",
 
       /**
        * reactButton is the reaction button.
@@ -745,6 +754,7 @@ const CLASSES = {
     replies: "coral coral-myComment-replies",
     reactions: "coral coral-myComment-reactions",
     viewConversationButton: "coral coral-myComment-viewConversationButton",
+    commentOn: "coral coral-myComment-commentOn",
   },
 
   /**
