@@ -41,7 +41,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
 
   const hasMore = relay.hasMore();
   const comments = user
-    ? user.rejectedComments.edges.map(edge => edge.node)
+    ? user.rejectedComments.edges.map((edge) => edge.node)
     : [];
 
   if (comments.length === 0) {
@@ -65,7 +65,7 @@ const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
             comment={c}
             viewer={viewer}
             settings={settings}
-            danglingLogic={status => false}
+            danglingLogic={(status) => false}
             hideUsername
             showStoryInfo
             mini

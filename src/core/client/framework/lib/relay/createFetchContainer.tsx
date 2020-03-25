@@ -26,7 +26,7 @@ function createFetchContainer<T extends string, V, R>(
   ) => Promise<R>
 ): InferableComponentEnhancer<{ [P in T]: (variables: V) => Promise<R> }> {
   return compose(
-    withContext(context => ({ context })),
+    withContext((context) => ({ context })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class CreateFetchContainer extends React.Component<any> {
         public static displayName = wrapDisplayName(

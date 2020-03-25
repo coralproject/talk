@@ -50,7 +50,7 @@ graphql`
   }
 `;
 
-export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
+export const AllCommentsTabContainer: FunctionComponent<Props> = (props) => {
   const [{ commentsOrderBy }] = useLocal<AllCommentsTabContainerLocal>(
     graphql`
       fragment AllCommentsTabContainerLocal on Local {
@@ -124,7 +124,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
     props.story.id,
     viewMore,
   ]);
-  const comments = props.story.comments.edges.map(edge => edge.node);
+  const comments = props.story.comments.edges.map((edge) => edge.node);
   const viewNewCount =
     (props.story.comments.viewNewEdges &&
       props.story.comments.viewNewEdges.length) ||
@@ -168,7 +168,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
         )}
         {comments.length > 0 &&
           !props.story.isClosed &&
-          comments.map(comment => (
+          comments.map((comment) => (
             <IgnoredTombstoneOrHideContainer
               key={comment.id}
               viewer={props.viewer}

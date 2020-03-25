@@ -22,9 +22,9 @@ export interface TransitionControlData {
   history: Location[];
 }
 
-const TransitionControl: React.FunctionComponent<Props> = props => {
+const TransitionControl: React.FunctionComponent<Props> = (props) => {
   useEffect(() => {
-    return props.router.addTransitionHook(location => {
+    return props.router.addTransitionHook((location) => {
       if (props.transitionControl) {
         props.transitionControl.history.push(location);
         if (!props.transitionControl.allowTransition) {

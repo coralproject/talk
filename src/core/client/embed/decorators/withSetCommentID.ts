@@ -7,7 +7,7 @@ function getCurrentCommentID() {
   return parseQuery(location.search).commentID;
 }
 
-const withSetCommentID: Decorator = pym => {
+const withSetCommentID: Decorator = (pym) => {
   // Add the permalink comment id to the query.
   pym.onMessage("setCommentID", (id: string) => {
     const search = stringifyQuery({

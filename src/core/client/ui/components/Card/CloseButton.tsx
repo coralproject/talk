@@ -19,7 +19,7 @@ export interface CloseButtonProps
   forwardRef?: Ref<HTMLButtonElement>;
 }
 
-const CloseButton: FunctionComponent<CloseButtonProps> = props => {
+const CloseButton: FunctionComponent<CloseButtonProps> = (props) => {
   const {
     classes: { icon: iconClassName, ...restClasses },
     forwardRef,

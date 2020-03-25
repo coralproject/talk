@@ -31,7 +31,7 @@ const ChangeStatusModal: FunctionComponent<Props> = ({
 }) => {
   return (
     <Modal {...rest} onClose={onClose}>
-      {renderProps => (
+      {(renderProps) => (
         <Card className={styles.root}>
           <Flex justifyContent="flex-end">
             <CardCloseButton

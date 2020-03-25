@@ -24,7 +24,7 @@ describe("containsMatchingPhrase", () => {
       "How To do bad things!",
       "This stuff is $hit!",
       "That's a p**ch!",
-    ].forEach(word => {
+    ].forEach((word) => {
       expect(containsMatchingPhrase(phrases, word)).toEqual(true);
     });
   });
@@ -38,7 +38,7 @@ describe("containsMatchingPhrase", () => {
       "i have $100 dollars.",
       "I have bad $ hit lling",
       "That's a p***ch!",
-    ].forEach(word => {
+    ].forEach((word) => {
       expect(containsMatchingPhrase(phrases, word)).toEqual(false);
     });
   });
@@ -59,7 +59,7 @@ describe("containsMatchingPhraseMemoized", () => {
       "this is for cookies 7",
       "this is for cookies 8",
       "this is for cookies 9",
-    ].forEach(word => {
+    ].forEach((word) => {
       expect(containsMatchingPhraseMemoized(phrases, word)).toEqual(true);
     });
   });

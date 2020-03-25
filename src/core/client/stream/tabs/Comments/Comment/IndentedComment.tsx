@@ -14,7 +14,7 @@ export interface IndentedCommentProps
   blur?: boolean;
 }
 
-const IndentedComment: FunctionComponent<IndentedCommentProps> = props => {
+const IndentedComment: FunctionComponent<IndentedCommentProps> = (props) => {
   const { indentLevel, ...rest } = props;
   const CommentElement = <Comment {...rest} />;
   const CommentwithIndent = (

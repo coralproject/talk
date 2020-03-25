@@ -79,7 +79,7 @@ const PermalinkViewQuery: FunctionComponent<Props> = ({
         storyID,
         storyURL,
       }}
-      render={data => {
+      render={(data) => {
         if (handleIncompleteAccount(data)) {
           return null;
         }

@@ -19,8 +19,8 @@ beforeEach(() => {
     parentCount: 2,
     rootParent: commentsFromStaff[0],
     parents: createSinonStub(
-      s => s.throws(),
-      s =>
+      (s) => s.throws(),
+      (s) =>
         s.withArgs({ last: 0 }).returns({
           pageInfo: {
             startCursor: "0",
@@ -28,7 +28,7 @@ beforeEach(() => {
           },
           edges: [],
         }),
-      s =>
+      (s) =>
         s.withArgs({ last: 5, before: "0" }).returns({
           pageInfo: {
             startCursor: "2",
@@ -66,12 +66,13 @@ beforeEach(() => {
   const resolvers = {
     Query: {
       comment: createSinonStub(
-        s => s.throws(),
-        s => s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
+        (s) => s.throws(),
+        (s) =>
+          s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
       ),
       story: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: storyStub.id, url: null })
             .returns(storyStub)
@@ -84,7 +85,7 @@ beforeEach(() => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(storyStub.id, "storyID");
       localRecord.setValue(commentStub.id, "commentID");
     },

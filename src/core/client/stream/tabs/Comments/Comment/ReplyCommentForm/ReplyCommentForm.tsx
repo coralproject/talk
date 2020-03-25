@@ -48,7 +48,7 @@ export interface ReplyCommentFormProps {
   disabledMessage?: React.ReactNode;
 }
 
-const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
+const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = (props) => {
   const inputID = `comments-replyCommentForm-rte-${props.id}`;
   const emitFocusEvent = useViewerEvent(ReplyCommentFocusEvent);
   const onFocus = useCallback(() => {
@@ -64,7 +64,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
           id={`comments-replyCommentForm-form-${props.id}`}
         >
           <FormSpy
-            onChange={state => props.onChange && props.onChange(state, form)}
+            onChange={(state) => props.onChange && props.onChange(state, form)}
           />
           <HorizontalGutter>
             <Field
@@ -135,7 +135,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
                   </HorizontalGutter>
 
                   <MatchMedia ltWidth="sm">
-                    {matches => (
+                    {(matches) => (
                       <Flex
                         direction="row"
                         justifyContent="flex-end"

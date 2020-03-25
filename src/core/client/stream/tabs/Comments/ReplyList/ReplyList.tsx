@@ -38,14 +38,14 @@ export interface ReplyListProps {
   onRemoveAnswered?: () => void;
 }
 
-const ReplyList: FunctionComponent<ReplyListProps> = props => {
+const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
   return (
     <HorizontalGutter
       id={`coral-comments-replyList-log--${props.comment.id}`}
       data-testid={`commentReplyList-${props.comment.id}`}
       role="log"
     >
-      {props.comments.map(comment => (
+      {props.comments.map((comment) => (
         <FadeInTransition
           key={comment.id}
           active={Boolean(comment.enteredLive)}

@@ -11,7 +11,7 @@ interface Props {
   onClose: () => void;
 }
 
-const Announcement: FunctionComponent<Props> = props => {
+const Announcement: FunctionComponent<Props> = (props) => {
   return (
     <div className={cn(styles.root, CLASSES.announcement)}>
       <Flex justifyContent="space-between" alignItems="center">

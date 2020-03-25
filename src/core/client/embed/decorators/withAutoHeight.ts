@@ -1,6 +1,6 @@
 import { Decorator } from "./types";
 
-const withAutoHeight: Decorator = pym => {
+const withAutoHeight: Decorator = (pym) => {
   // Resize parent iframe height when child height changes
   let cachedHeight: string;
   pym.onMessage("height", (height: string) => {

@@ -15,7 +15,9 @@ interface ContentProps {
   isQA?: boolean;
 }
 
-const FeaturedCommentTooltipContent: FunctionComponent<ContentProps> = props => {
+const FeaturedCommentTooltipContent: FunctionComponent<ContentProps> = (
+  props
+) => {
   const emitShowTooltipEvent = useViewerEvent(ShowFeaturedCommentTooltipEvent);
   useEffect(() => {
     emitShowTooltipEvent();
@@ -36,7 +38,9 @@ const FeaturedCommentTooltipContent: FunctionComponent<ContentProps> = props => 
   );
 };
 
-export const FeaturedCommentTooltip: FunctionComponent<TooltipProps> = props => {
+export const FeaturedCommentTooltip: FunctionComponent<TooltipProps> = (
+  props
+) => {
   if (props.isQA) {
     return (
       <Tooltip

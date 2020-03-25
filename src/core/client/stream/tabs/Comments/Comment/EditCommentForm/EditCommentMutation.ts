@@ -74,7 +74,7 @@ async function commit(
             clientMutationId: (clientMutationId++).toString(),
           },
         },
-        updater: store => {
+        updater: (store) => {
           store.get(input.commentID)!.setValue("EDIT", "lastViewerAction");
         },
       }

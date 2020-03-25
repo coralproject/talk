@@ -20,7 +20,7 @@ interface Props {
   variant?: "regular" | "filled";
 }
 
-const Marker: FunctionComponent<Props> = props => {
+const Marker: FunctionComponent<Props> = (props) => {
   const { className, children, classes, color, variant, ...rest } = props;
 
   const rootClassName = cn(classes.root, className, {

@@ -65,7 +65,7 @@ function getStatus(comment: ModerateCardContainer_comment) {
 }
 
 function isFeatured(comment: ModerateCardContainer_comment) {
-  return comment.tags.some(t => t.code === GQLTAG.FEATURED);
+  return comment.tags.some((t) => t.code === GQLTAG.FEATURED);
 }
 
 const ModerateCardContainer: FunctionComponent<Props> = ({

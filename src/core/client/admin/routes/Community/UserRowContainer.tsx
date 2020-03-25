@@ -17,7 +17,7 @@ interface Props {
   onUsernameClicked?: (userID: string) => void;
 }
 
-const UserRowContainer: FunctionComponent<Props> = props => {
+const UserRowContainer: FunctionComponent<Props> = (props) => {
   const { locales } = useCoralContext();
   return (
     <UserRow

@@ -70,10 +70,7 @@ const createProxy = <T = any>(
  * for easy traversing through the Relay Cache.
  */
 export default function lookup<T = any>(environment: Environment, id: string) {
-  const recordSource = environment
-    .getStore()
-    .getSource()
-    .get(id);
+  const recordSource = environment.getStore().getSource().get(id);
   if (!recordSource) {
     return null;
   }

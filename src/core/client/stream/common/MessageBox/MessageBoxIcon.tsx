@@ -22,7 +22,7 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
   forwardRef?: Ref<HTMLSpanElement>;
 }
 
-export const MessageBoxIcon: FunctionComponent<Props> = props => {
+export const MessageBoxIcon: FunctionComponent<Props> = (props) => {
   const { classes, className, forwardRef, ...rest } = props;
   const rootClassName = cn(classes.root, className);
   return <Icon className={rootClassName} {...rest} ref={forwardRef} />;

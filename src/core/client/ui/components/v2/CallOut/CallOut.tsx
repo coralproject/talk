@@ -33,7 +33,7 @@ export interface CallOutProps {
   borderless?: boolean;
 }
 
-const CallOut: FunctionComponent<CallOutProps> = props => {
+const CallOut: FunctionComponent<CallOutProps> = (props) => {
   const {
     borderless,
     className,

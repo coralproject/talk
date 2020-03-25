@@ -22,7 +22,7 @@ const createTestRenderer = async (resolver: any = {}) => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(stories[0].id, "storyID");
     },
   });
@@ -33,7 +33,7 @@ const createTestRenderer = async (resolver: any = {}) => {
 
 it("renders app with comment stream", async () => {
   let changedSort = false;
-  const commentsQueryStub = createSinonStub(s =>
+  const commentsQueryStub = createSinonStub((s) =>
     s.callsFake((input: any) => {
       if (!changedSort) {
         expectAndFail(input).toMatchObject({
@@ -49,7 +49,7 @@ it("renders app with comment stream", async () => {
       return stories[1].comments;
     })
   );
-  const storyQueryStub = createSinonStub(s =>
+  const storyQueryStub = createSinonStub((s) =>
     s.callsFake((_: any, input: any) => {
       expectAndFail(input.id).toEqual("story-1");
       expectAndFail(input.url).toBeFalsy();

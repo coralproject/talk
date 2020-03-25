@@ -19,9 +19,9 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
-const SiteFilterContainer: React.FunctionComponent<Props> = props => {
+const SiteFilterContainer: React.FunctionComponent<Props> = (props) => {
   const sites = props.query
-    ? props.query.sites.edges.map(edge => edge.node)
+    ? props.query.sites.edges.map((edge) => edge.node)
     : [];
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [, isRefetching] = useRefetch<

@@ -36,7 +36,7 @@ export interface HistoryCommentProps {
   onGotoConversation: (e: React.MouseEvent) => void;
 }
 
-const HistoryComment: FunctionComponent<HistoryCommentProps> = props => {
+const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
   return (
     <HorizontalGutter
       className={cn(styles.root, CLASSES.myComment.$root)}

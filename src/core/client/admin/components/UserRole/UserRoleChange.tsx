@@ -21,7 +21,7 @@ interface Props {
   role: GQLUSER_ROLE_RL;
 }
 
-const UserRoleChange: FunctionComponent<Props> = props => (
+const UserRoleChange: FunctionComponent<Props> = (props) => (
   <Localized id="community-role-popover" attrs={{ description: true }}>
     <Popover
       id="community-roleChange"

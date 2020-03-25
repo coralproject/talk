@@ -68,7 +68,7 @@ export default function createSubscriptionHandler(): SubscriptionHandler {
   const handler: SubscriptionHandler = {
     subscriptions,
     dispatch: (field, callback) => {
-      subscriptions.forEach(s => {
+      subscriptions.forEach((s) => {
         if (s.field === field) {
           const data = callback(s.variables);
           if (data) {
@@ -77,12 +77,12 @@ export default function createSubscriptionHandler(): SubscriptionHandler {
         }
       });
     },
-    has: field => subscriptions.some(s => s.field === field),
-    add: s => {
+    has: (field) => subscriptions.some((s) => s.field === field),
+    add: (s) => {
       subscriptions.push(s);
     },
-    remove: s => {
-      const index = subscriptions.findIndex(x => x === s);
+    remove: (s) => {
+      const index = subscriptions.findIndex((x) => x === s);
       if (index !== -1) {
         subscriptions.splice(index, 1);
       }

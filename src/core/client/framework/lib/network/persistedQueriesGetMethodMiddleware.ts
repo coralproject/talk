@@ -16,7 +16,9 @@ function queriesAreEmpty(req: RelayRequestAny): boolean {
  * The request data will be encoded in base64url and set in the GET query string under
  * the variable "d=".
  */
-const persistedQueriesGetMethodMiddleware: Middleware = next => async req => {
+const persistedQueriesGetMethodMiddleware: Middleware = (next) => async (
+  req
+) => {
   if (queriesAreEmpty(req) && !hasMutations(req)) {
     // Pull the body out (serializing it) and delete it off of the original
     // fetch options.

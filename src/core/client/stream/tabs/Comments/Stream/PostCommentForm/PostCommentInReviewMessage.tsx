@@ -10,7 +10,9 @@ export interface PostCommentInReviewProps {
   onDismiss: () => void;
 }
 
-const PostCommentInReview: FunctionComponent<PostCommentInReviewProps> = props => {
+const PostCommentInReview: FunctionComponent<PostCommentInReviewProps> = (
+  props
+) => {
   return (
     <Message
       color="primary"

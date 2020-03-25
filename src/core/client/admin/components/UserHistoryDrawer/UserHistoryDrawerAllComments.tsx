@@ -40,7 +40,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
   }, [loadMore]);
 
   const hasMore = relay.hasMore();
-  const comments = user ? user.allComments.edges.map(edge => edge.node) : [];
+  const comments = user ? user.allComments.edges.map((edge) => edge.node) : [];
 
   if (comments.length === 0) {
     return (
@@ -63,7 +63,7 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
             comment={c}
             viewer={viewer}
             settings={settings}
-            danglingLogic={status => false}
+            danglingLogic={(status) => false}
             hideUsername
             showStoryInfo
             mini

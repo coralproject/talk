@@ -14,7 +14,7 @@ export interface RootParentProps {
   tags: React.ReactNode;
 }
 
-const RootParent: FunctionComponent<RootParentProps> = props => {
+const RootParent: FunctionComponent<RootParentProps> = (props) => {
   return (
     <Flex
       className={CLASSES.conversationThread.rootParent.$root}

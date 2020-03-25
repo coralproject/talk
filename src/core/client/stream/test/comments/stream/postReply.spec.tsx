@@ -40,7 +40,7 @@ async function createTestRenderer(
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(stories[0].id, "storyID");
     },
   });
@@ -180,11 +180,7 @@ it("post a reply and handle non-visible comment state", async () => {
       within(comment).getByText("will be reviewed", { exact: false })
     );
   });
-  act(() =>
-    within(comment)
-      .getByText("Dismiss")
-      .props.onClick()
-  );
+  act(() => within(comment).getByText("Dismiss").props.onClick());
   expect(
     within(comment).queryByText("will be reviewed", { exact: false })
   ).toBeNull();
@@ -220,7 +216,7 @@ it("handle moderation nudge error", async () => {
     {
       Mutation: {
         createCommentReply: createSinonStub(
-          s =>
+          (s) =>
             s.onFirstCall().callsFake((_, data) => {
               expectAndFail(data).toMatchObject({
                 input: {
@@ -236,7 +232,7 @@ it("handle moderation nudge error", async () => {
                 code: ERROR_CODES.TOXIC_COMMENT,
               });
             }),
-          s =>
+          (s) =>
             s.onSecondCall().callsFake((_, data) => {
               expectAndFail(data).toMatchObject({
                 input: {

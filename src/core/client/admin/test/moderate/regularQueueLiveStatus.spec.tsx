@@ -98,7 +98,7 @@ it("update comment status live", async () => {
 
   subscriptionHandler.dispatch<
     SubscriptionToCommentLeftModerationQueueResolver
-  >("commentLeftModerationQueue", variables => {
+  >("commentLeftModerationQueue", (variables) => {
     if (
       variables.storyID !== null ||
       variables.queue !== GQLMODERATION_QUEUE.REPORTED

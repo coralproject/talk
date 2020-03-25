@@ -18,7 +18,9 @@ export interface ValidationMessageProps {
   fullWidth?: boolean;
 }
 
-const ValidationMessage: FunctionComponent<ValidationMessageProps> = props => {
+const ValidationMessage: FunctionComponent<ValidationMessageProps> = (
+  props
+) => {
   const { className, fullWidth, children, ...rest } = props;
 
   return (

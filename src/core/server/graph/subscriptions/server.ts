@@ -195,7 +195,7 @@ export function formatResponse(
     if (value.errors && value.errors.length > 0) {
       return {
         ...value,
-        errors: value.errors.map(err => {
+        errors: value.errors.map((err) => {
           const enriched = enrichError(context, err);
 
           // Log the error out.

@@ -13,7 +13,7 @@ export interface SetDuplicateEmailInput {
 const SetDuplicateEmailMutation = createMutation(
   "setDuplicateEmail",
   async (environment: Environment, input: SetDuplicateEmailInput) => {
-    return commitLocalUpdate(environment, store => {
+    return commitLocalUpdate(environment, (store) => {
       const record = store.get(LOCAL_ID)!;
       record.setValue(input.duplicateEmail, "authDuplicateEmail");
     });

@@ -51,7 +51,7 @@ const CommentReplyCreatedSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         const rootField = store.getRootField("commentReplyCreated");
         if (!rootField) {
           return;

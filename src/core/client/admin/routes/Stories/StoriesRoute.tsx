@@ -14,7 +14,7 @@ interface Props {
   initialSearchFilter?: string;
 }
 
-const StoriesRoute: FunctionComponent<Props> = props => {
+const StoriesRoute: FunctionComponent<Props> = (props) => {
   return (
     <Stories
       query={props.data}

@@ -34,7 +34,7 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<InjectedProps> = h
       document.removeEventListener("mousedown", this.handleMouseDown);
     }
 
-    private handleFocus: React.EventHandler<FocusEvent<any>> = event => {
+    private handleFocus: React.EventHandler<FocusEvent<any>> = (event) => {
       if (this.props.onFocus) {
         this.props.onFocus(event);
       }
@@ -44,7 +44,7 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<InjectedProps> = h
       }
     };
 
-    private handleBlur: React.EventHandler<FocusEvent<any>> = event => {
+    private handleBlur: React.EventHandler<FocusEvent<any>> = (event) => {
       if (this.props.onBlur) {
         this.props.onBlur(event);
       }

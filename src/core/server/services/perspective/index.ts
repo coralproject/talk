@@ -84,7 +84,7 @@ export async function notifyPerspectiveModerationDecision(
     return;
   }
 
-  const revision = comment.revisions.find(c => c.id === commentRevisionID);
+  const revision = comment.revisions.find((c) => c.id === commentRevisionID);
   if (!revision) {
     logger.warn(
       { commentID: comment.id, commentRevisionID },

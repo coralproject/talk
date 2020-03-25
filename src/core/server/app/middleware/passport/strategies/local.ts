@@ -27,10 +27,7 @@ const verifyFactory = (
     // Validate that the email address and password are reasonable.
     const email = Joi.attempt(
       emailInput,
-      Joi.string()
-        .trim()
-        .lowercase()
-        .email()
+      Joi.string().trim().lowercase().email()
     );
     const password = Joi.attempt(passwordInput, Joi.string());
 

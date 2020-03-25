@@ -42,7 +42,7 @@ interface Props {
 const danglingLogic = (status: string) =>
   ["APPROVED", "REJECTED"].includes(status);
 
-export const QueueRoute: FunctionComponent<Props> = props => {
+export const QueueRoute: FunctionComponent<Props> = (props) => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const subscribeToQueueCommentEntered = useSubscription(
     QueueCommentEnteredSubscription
@@ -81,7 +81,7 @@ export const QueueRoute: FunctionComponent<Props> = props => {
   if (props.isLoading) {
     return <LoadingQueue />;
   }
-  const comments = props.queue!.comments.edges.map(edge => edge.node);
+  const comments = props.queue!.comments.edges.map((edge) => edge.node);
   const viewNewCount =
     (props.queue!.comments.viewNewEdges &&
       props.queue!.comments.viewNewEdges.length) ||

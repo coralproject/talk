@@ -45,7 +45,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       <TabBar
         variant="default"
         activeTab={activeTab}
-        onTabClick={id => setActiveTab(id as DetailsTabs)}
+        onTabClick={(id) => setActiveTab(id as DetailsTabs)}
       >
         {hasDetails && (
           <Tab tabID="DETAILS" classes={styles}>

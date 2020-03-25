@@ -11,7 +11,7 @@ interface Props {
   onClick?: React.EventHandler<React.MouseEvent>;
 }
 
-const GoToCommentLink: FunctionComponent<Props> = props => {
+const GoToCommentLink: FunctionComponent<Props> = (props) => {
   return (
     <Link
       as={TextLink}

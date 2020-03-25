@@ -10,5 +10,5 @@ export const PremodStatus: Required<GQLPremodStatusTypeResolver<
 >> = {
   active: ({ active }) => active,
   history: ({ history, userID }) =>
-    history.map(status => ({ ...status, userID })),
+    history.map((status) => ({ ...status, userID })),
 };

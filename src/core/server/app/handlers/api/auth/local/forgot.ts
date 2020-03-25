@@ -20,10 +20,7 @@ export interface ForgotBody {
 }
 
 export const ForgotBodySchema = Joi.object().keys({
-  email: Joi.string()
-    .trim()
-    .lowercase()
-    .email(),
+  email: Joi.string().trim().lowercase().email(),
 });
 
 export type ForgotOptions = Pick<

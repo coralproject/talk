@@ -37,7 +37,7 @@ interface Props extends Omit<PropTypesOf<typeof Box>, "ref"> {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;
 }
 
-const HorizontalGutter: FunctionComponent<Props> = props => {
+const HorizontalGutter: FunctionComponent<Props> = (props) => {
   const {
     classes,
     className,

@@ -8,7 +8,7 @@ export interface BarProps {
   children: React.ReactNode;
 }
 
-const Bar: FunctionComponent<BarProps> = props => (
+const Bar: FunctionComponent<BarProps> = (props) => (
   <Flex className={styles.root} alignItems="center" justifyContent="center">
     <header>{props.children}</header>
   </Flex>

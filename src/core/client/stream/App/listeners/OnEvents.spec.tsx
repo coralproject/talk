@@ -16,8 +16,8 @@ it("Broadcasts events to pym", () => {
 
   const pym = {
     sendMessage: createSinonStub(
-      s => s.throws(),
-      s =>
+      (s) => s.throws(),
+      (s) =>
         s.withArgs("event", JSON.stringify({ eventName, value })).returns(null)
     ),
   };

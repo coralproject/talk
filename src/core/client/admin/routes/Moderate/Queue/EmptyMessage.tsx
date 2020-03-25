@@ -8,7 +8,7 @@ import styles from "./EmptyMessage.css";
 
 type Props = PropTypesOf<typeof Card>;
 
-const EmptyMessage: FunctionComponent<Props> = props => (
+const EmptyMessage: FunctionComponent<Props> = (props) => (
   <Card {...props} className={cn(props.className, styles.root)} />
 );
 

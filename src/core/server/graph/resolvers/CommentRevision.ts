@@ -10,11 +10,11 @@ export interface WrappedCommentRevision {
 export const CommentRevision: Required<GQLCommentRevisionTypeResolver<
   WrappedCommentRevision
 >> = {
-  id: w => w.revision.id,
-  comment: w => w.comment,
-  actionCounts: w => decodeActionCounts(w.revision.actionCounts),
-  body: w => w.revision.body,
+  id: (w) => w.revision.id,
+  comment: (w) => w.comment,
+  actionCounts: (w) => decodeActionCounts(w.revision.actionCounts),
+  body: (w) => w.revision.body,
   // Defaults to an empty object if not set on the revision.
-  metadata: w => w.revision.metadata || {},
-  createdAt: w => w.revision.createdAt,
+  metadata: (w) => w.revision.metadata || {},
+  createdAt: (w) => w.revision.createdAt,
 };

@@ -78,7 +78,7 @@ export function generateSignatures(
   return endpoint.signingSecrets
     .filter(filterActiveSecrets(now))
     .map(({ secret }) => generateSignature(secret, body))
-    .map(signature => `sha256=${signature}`)
+    .map((signature) => `sha256=${signature}`)
     .join(",");
 }
 
@@ -112,7 +112,7 @@ export function createJobProcessor({
   // Create the fetcher that will orchestrate sending the actual webhooks.
   const fetch = createFetch({ name: "Webhook" });
 
-  return async job => {
+  return async (job) => {
     const { tenantID, endpointID, contextID, event } = job.data;
 
     const log = logger.child(
@@ -242,7 +242,7 @@ export function createJobProcessor({
           mongo,
           tenantID,
           endpoint.id,
-          expiredSigningSecrets.map(s => s.kid)
+          expiredSigningSecrets.map((s) => s.kid)
         )
           .then(() => {
             log.info(
@@ -250,7 +250,7 @@ export function createJobProcessor({
               "removed expired secrets from endpoint"
             );
           })
-          .catch(err => {
+          .catch((err) => {
             log.error(
               { err },
               "an error occurred when trying to remove expired secrets"

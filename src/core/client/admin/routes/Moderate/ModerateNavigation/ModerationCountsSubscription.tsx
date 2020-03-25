@@ -26,7 +26,7 @@ const ModerationCountsSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         let queue: string;
         let change: number;
 

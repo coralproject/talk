@@ -27,14 +27,14 @@ const forkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpack
 const isInteractive = false;
 
 function prepareUrls(protocol, host, port) {
-  const formatUrl = hostname =>
+  const formatUrl = (hostname) =>
     url.format({
       protocol,
       hostname,
       port,
       pathname: "/",
     });
-  const prettyPrintUrl = hostname =>
+  const prettyPrintUrl = (hostname) =>
     url.format({
       protocol,
       hostname,
@@ -144,12 +144,12 @@ function createCompiler({
   const tsMessagesPromises = [];
 
   if (useTypeScript) {
-    compiler.compilers.forEach(singleCompiler => {
+    compiler.compilers.forEach((singleCompiler) => {
       let tsMessagesPromise;
       let tsMessagesResolver;
       singleCompiler.hooks.beforeCompile.tap("beforeCompile", () => {
-        tsMessagesPromise = new Promise(resolve => {
-          tsMessagesResolver = msgs => resolve(msgs);
+        tsMessagesPromise = new Promise((resolve) => {
+          tsMessagesResolver = (msgs) => resolve(msgs);
         });
         tsMessagesPromises.push(tsMessagesPromise);
       });
@@ -170,13 +170,15 @@ function createCompiler({
         (diagnostics, lints) => {
           console.log("RECEIVED");
           const allMsgs = [...diagnostics, ...lints];
-          const format = message =>
+          const format = (message) =>
             `${message.file}\n${typescriptFormatter(message, true)}`;
 
           tsMessagesResolver({
-            errors: allMsgs.filter(msg => msg.severity === "error").map(format),
+            errors: allMsgs
+              .filter((msg) => msg.severity === "error")
+              .map(format),
             warnings: allMsgs
-              .filter(msg => msg.severity === "warning")
+              .filter((msg) => msg.severity === "warning")
               .map(format),
           });
         }
@@ -186,7 +188,7 @@ function createCompiler({
 
   // "done" event fires when Webpack has finished recompiling the bundle.
   // Whether or not you have warnings or errors, you will get this event.
-  compiler.hooks.done.tap("done", async stats => {
+  compiler.hooks.done.tap("done", async (stats) => {
     if (isInteractive) {
       clearConsole();
     }
@@ -203,7 +205,7 @@ function createCompiler({
       ...config.stats,
     };
     if (Array.isArray(config)) {
-      statOptions.children = config.map(c => c.stats || {});
+      statOptions.children = config.map((c) => c.stats || {});
     }
     const statsData = stats.toJson(statOptions);
 
@@ -220,7 +222,7 @@ function createCompiler({
       const results = await Promise.all(tsMessagesPromises);
       clearTimeout(delayedMsg);
 
-      results.forEach(msgs => {
+      results.forEach((msgs) => {
         statsData.errors.push(...msgs.errors);
         statsData.warnings.push(...msgs.warnings);
 

@@ -87,7 +87,7 @@ export function withMutation<N extends string, I, R>(
   mutation: Mutation<N, I, R>
 ): InferableComponentEnhancer<{ [P in N]: MutationProp<typeof mutation> }> {
   return compose(
-    withContext(context => ({ context })),
+    withContext((context) => ({ context })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class WithMutation extends React.Component<{
         context: CoralContext;

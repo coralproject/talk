@@ -24,7 +24,7 @@ const createQueueOptions = async (
     // Here, we are reusing the clients based on the requested types. This way,
     // any time we need a specific client, we get to use one of the ones that
     // already have been created.
-    createClient: type => {
+    createClient: (type) => {
       switch (type) {
         case "subscriber":
           return subscriber;

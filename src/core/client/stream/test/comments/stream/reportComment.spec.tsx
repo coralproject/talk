@@ -63,7 +63,7 @@ function createTestRenderer(
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(stories[0].id, "storyID");
     },
   });
@@ -165,9 +165,7 @@ it("report comment as offensive", async () => {
   );
 
   act(() => {
-    within(popover)
-      .getByType("form")
-      .props.onSubmit({});
+    within(popover).getByType("form").props.onSubmit({});
   });
 
   await act(async () => {
@@ -181,9 +179,7 @@ it("report comment as offensive", async () => {
     selector: "button",
   });
   expect(reportedButton.props.disabled).toBe(false);
-  within(comment)
-    .getByText("Dismiss")
-    .props.onClick();
+  within(comment).getByText("Dismiss").props.onClick();
   expect(reportedButton.props.disabled).toBe(true);
   expect(resolvers.Mutation.createCommentFlag.called).toBe(true);
 });
@@ -220,9 +216,7 @@ it("dont agree with comment", async () => {
   );
 
   act(() => {
-    within(popover)
-      .getByType("form")
-      .props.onSubmit({});
+    within(popover).getByType("form").props.onSubmit({});
   });
 
   await act(async () => {
@@ -232,9 +226,7 @@ it("dont agree with comment", async () => {
   });
 
   act(() =>
-    within(popover)
-      .getByText("Dismiss", { exact: false })
-      .props.onClick({})
+    within(popover).getByText("Dismiss", { exact: false }).props.onClick({})
   );
 
   await wait(() =>
@@ -283,9 +275,7 @@ it("report comment as offensive and handle server error", async () => {
   );
 
   act(() => {
-    within(popover)
-      .getByType("form")
-      .props.onSubmit({});
+    within(popover).getByType("form").props.onSubmit({});
   });
 
   // Look for internal error being displayed.

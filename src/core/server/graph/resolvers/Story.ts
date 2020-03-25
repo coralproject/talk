@@ -25,7 +25,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     isStoryClosed(s, ctx) ? GQLSTORY_STATUS.CLOSED : GQLSTORY_STATUS.OPEN,
   isClosed: (s, input, ctx) => isStoryClosed(s, ctx),
   closedAt: (s, input, ctx) => story.getStoryClosedAt(ctx.tenant, s) || null,
-  commentActionCounts: s => decodeActionCounts(s.commentCounts.action),
+  commentActionCounts: (s) => decodeActionCounts(s.commentCounts.action),
   commentCounts: (s): CommentCountsInput => s,
   // Merge tenant settings into the story settings so we can easily inherit the
   // options if they exist.

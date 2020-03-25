@@ -42,8 +42,8 @@ function createFluentBundle(
   const bundle = new FluentBundle("en-US", { functions, useIsolating: false });
   const files = fs.readdirSync(pathToLocale);
   const prefixes = commonPrefixes.concat(target);
-  files.forEach(f => {
-    prefixes.forEach(prefix => {
+  files.forEach((f) => {
+    prefixes.forEach((prefix) => {
       if (f.startsWith(prefix)) {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         bundle.addResource(

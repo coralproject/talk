@@ -8,7 +8,7 @@ interface Props extends Omit<PropTypesOf<typeof SelectField>, "ref"> {
   value: LanguageCode;
 }
 
-const LocaleField: FunctionComponent<Props> = props => {
+const LocaleField: FunctionComponent<Props> = (props) => {
   return (
     <SelectField {...props}>
       {Object.keys(LOCALES_MAP).map((lang: LanguageCode) => {

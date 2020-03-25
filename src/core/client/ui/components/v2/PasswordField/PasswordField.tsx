@@ -95,7 +95,7 @@ class PasswordField extends Component<PasswordFieldProps, State> {
   };
 
   private toggleVisibility = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       reveal: !state.reveal,
     }));
   };

@@ -8,7 +8,7 @@ interface Props {
   icon?: React.ReactNode;
 }
 
-const ListItem: FunctionComponent<Props> = props => (
+const ListItem: FunctionComponent<Props> = (props) => (
   <li className={styles.root}>
     <div className={styles.leftCol}>{props.icon}</div>
     <div>{props.children}</div>

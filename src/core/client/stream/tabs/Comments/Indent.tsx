@@ -29,7 +29,7 @@ function getLevelClassName(level = 0) {
   return cn(levels[level], CLASSES.comment.indent[level]);
 }
 
-const Indent: FunctionComponent<IndentProps> = props => {
+const Indent: FunctionComponent<IndentProps> = (props) => {
   return (
     <div className={cn(props.className, styles.root)}>
       <div

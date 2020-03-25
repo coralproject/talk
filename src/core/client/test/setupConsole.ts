@@ -34,10 +34,10 @@ const originalLog = global.console.log;
 
 function getMatchingPatterns(patterns: PatternMap, args: any[]) {
   const str = args
-    .map(a => (typeof a === "string" ? a : JSON.stringify(a)))
+    .map((a) => (typeof a === "string" ? a : JSON.stringify(a)))
     .join(" ");
   const matchedPatterns: string[] = [];
-  Object.keys(patterns).forEach(k => {
+  Object.keys(patterns).forEach((k) => {
     const matching =
       typeof patterns[k] === "string"
         ? str.includes(patterns[k] as string)

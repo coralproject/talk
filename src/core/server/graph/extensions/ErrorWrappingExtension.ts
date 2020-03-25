@@ -110,7 +110,7 @@ export class ErrorWrappingExtension implements GraphQLExtension<GraphContext> {
         ...o,
         graphqlResponse: {
           ...o.graphqlResponse,
-          errors: o.graphqlResponse.errors.map(err =>
+          errors: o.graphqlResponse.errors.map((err) =>
             enrichError(o.context, err)
           ),
         },

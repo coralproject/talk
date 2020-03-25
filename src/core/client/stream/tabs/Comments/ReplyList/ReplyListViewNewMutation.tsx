@@ -18,7 +18,7 @@ const QueueViewNewMutation = createMutation(
     input: ReplyListViewNewInput,
     { eventEmitter }: CoralContext
   ) => {
-    await commitLocalUpdatePromisified(environment, async store => {
+    await commitLocalUpdatePromisified(environment, async (store) => {
       const parentProxy = store.get(input.commentID);
       if (!parentProxy) {
         return;
@@ -39,7 +39,7 @@ const QueueViewNewMutation = createMutation(
       if (!viewNewEdges || viewNewEdges.length === 0) {
         return;
       }
-      viewNewEdges.forEach(edge => {
+      viewNewEdges.forEach((edge) => {
         ConnectionHandler.insertEdgeAfter(connection, edge);
       });
       connection.setLinkedRecords([], "viewNewEdges");

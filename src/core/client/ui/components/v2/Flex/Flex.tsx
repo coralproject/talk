@@ -39,7 +39,7 @@ interface Props extends Omit<PropTypesOf<typeof Box>, "ref"> {
   forwardRef?: Ref<HTMLDivElement>;
 }
 
-const Flex: FunctionComponent<Props> = props => {
+const Flex: FunctionComponent<Props> = (props) => {
   const {
     classes,
     className,
@@ -88,7 +88,7 @@ const Flex: FunctionComponent<Props> = props => {
   // text nodes can't be modified with css, so replace them with spans.
   // Readd spaces at the beginning or end of text nodes because
   // flex removes it.
-  const content = React.Children.map(children, child => {
+  const content = React.Children.map(children, (child) => {
     if (typeof child === "string") {
       return <span>{child.replace(/^ +| +$/g, "\xa0")}</span>;
     }

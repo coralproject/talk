@@ -58,19 +58,13 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
 
 export const SSOUserProfileSchema = Joi.object().keys({
   id: Joi.string().required(),
-  email: Joi.string()
-    .lowercase()
-    .required(),
+  email: Joi.string().lowercase().required(),
   username: Joi.string().required(),
-  badges: Joi.array()
-    .items(Joi.string())
-    .optional(),
+  badges: Joi.array().items(Joi.string()).optional(),
   role: Joi.string()
     .valid(...Object.values(GQLUSER_ROLE))
     .optional(),
-  url: Joi.string()
-    .uri()
-    .optional(),
+  url: Joi.string().uri().optional(),
 });
 
 export const SSOTokenSchema = Joi.object().keys({
@@ -177,7 +171,7 @@ export function getRelevantSSOKeys(
   kid?: string
 ): Secret[] {
   // Collect all the current valid keys.
-  const keys = integration.keys.filter(k => {
+  const keys = integration.keys.filter((k) => {
     if (k.inactiveAt && now >= k.inactiveAt) {
       return false;
     }
@@ -196,7 +190,7 @@ export function getRelevantSSOKeys(
     // The token has a kid, so if we have a matching token, we should use it. If
     // we don't have a matching kid, we can't possibly verify it, so throw an
     // error.
-    const key = keys.find(k => k.kid === kid);
+    const key = keys.find((k) => k.kid === kid);
     if (!key) {
       throw new TokenInvalidError(
         tokenString,

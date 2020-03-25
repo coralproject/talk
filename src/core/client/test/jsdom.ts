@@ -9,7 +9,7 @@ const { window } = jsdom;
 
 function copyProps(src: any, target: any) {
   const props = Object.getOwnPropertyNames(src)
-    .filter(prop => typeof target[prop] === "undefined")
+    .filter((prop) => typeof target[prop] === "undefined")
     .reduce(
       (result, prop) => ({
         ...result,
@@ -28,11 +28,9 @@ global.navigator = {
 
 copyProps(window, global);
 
-/* eslint-disable @typescript-eslint/no-empty-function */
 global.window.getSelection = () =>
   ({
     addRange() {},
     removeAllRanges() {},
   } as any);
 global.window.resizeTo = () => {};
-/* eslint-enable @typescript-eslint/no-empty-function */

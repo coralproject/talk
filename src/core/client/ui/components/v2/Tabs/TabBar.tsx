@@ -32,7 +32,7 @@ export interface TabBarProps {
   onTabClick?: (tabID: string) => void;
 }
 
-const TabBar: FunctionComponent<TabBarProps> = props => {
+const TabBar: FunctionComponent<TabBarProps> = (props) => {
   const {
     className,
     classes,

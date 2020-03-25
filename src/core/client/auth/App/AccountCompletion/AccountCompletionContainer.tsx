@@ -63,7 +63,7 @@ function handleAccountCompletion(props: Props) {
       return false;
     }
     if (
-      !viewer.profiles.some(p => p.__typename === "LocalProfile") &&
+      !viewer.profiles.some((p) => p.__typename === "LocalProfile") &&
       auth.integrations.local.enabled &&
       auth.integrations.local.targetFilter.stream
     ) {

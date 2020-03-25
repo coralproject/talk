@@ -9,7 +9,7 @@ export interface Props extends Omit<PropTypesOf<typeof CheckBox>, "children"> {
   children?: React.ReactNode;
 }
 
-const WidthLimitedDescription: FunctionComponent<Props> = props => {
+const WidthLimitedDescription: FunctionComponent<Props> = (props) => {
   return (
     <Typography variant="detail" color="textSecondary" className={styles.root}>
       {props.children}

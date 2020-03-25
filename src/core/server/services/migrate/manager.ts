@@ -125,7 +125,7 @@ export default class Manager {
       }
     }
 
-    return this.migrations.filter(migration => {
+    return this.migrations.filter((migration) => {
       // Find the record based on the migration.
       const record = records.find(({ id }) => migration.id === id);
       if (record) {

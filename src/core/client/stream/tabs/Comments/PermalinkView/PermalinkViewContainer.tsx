@@ -66,7 +66,7 @@ class PermalinkViewContainer extends React.Component<
   }
 }
 
-const enhanced = withContext(ctx => ({
+const enhanced = withContext((ctx) => ({
   pym: ctx.pym,
   eventEmitter: ctx.eventEmitter,
 }))(

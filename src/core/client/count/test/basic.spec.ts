@@ -26,7 +26,7 @@ beforeEach(async () => {
     {},
   ];
 
-  tags.forEach(attrs => {
+  tags.forEach((attrs) => {
     const element = document.createElement("span");
     element.className = "coral-count";
     Object.assign(element.dataset, attrs);

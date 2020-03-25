@@ -59,7 +59,7 @@ function handleAccountCompletion(props: Props) {
       }
     } else if (
       // password not set when local auth is enabled.
-      !viewer.profiles.some(p => p.__typename === "LocalProfile") &&
+      !viewer.profiles.some((p) => p.__typename === "LocalProfile") &&
       auth.integrations.local.enabled &&
       (auth.integrations.local.targetFilter.admin ||
         auth.integrations.local.targetFilter.stream)

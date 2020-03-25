@@ -15,7 +15,7 @@ export interface SetAuthViewInput {
 const SetAuthViewMutation = createMutation(
   "setAuthView",
   (environment: Environment, input: SetAuthViewInput) =>
-    commitLocalUpdate(environment, store => {
+    commitLocalUpdate(environment, (store) => {
       const record = store.get(LOCAL_ID)!;
       record.setValue(input.view, "authView");
     })

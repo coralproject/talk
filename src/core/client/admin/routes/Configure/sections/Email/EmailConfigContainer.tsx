@@ -59,7 +59,7 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
       }
       name="email.enabled"
     >
-      {disabledInside => (
+      {(disabledInside) => (
         <>
           <From disabled={disabledInside} />
           <SMTP disabled={disabledInside} />

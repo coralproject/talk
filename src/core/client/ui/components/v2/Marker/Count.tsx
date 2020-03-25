@@ -14,7 +14,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Count: FunctionComponent<Props> = props => {
+const Count: FunctionComponent<Props> = (props) => {
   const { className, children, classes, ...rest } = props;
   const rootClassName = cn(classes.root, className);
 

@@ -91,7 +91,7 @@ const UserDrawerNotesContainer: FunctionComponent<Props> = ({
             .concat()
             .reverse()
             .map(
-              note =>
+              (note) =>
                 note && (
                   <ModeratorNote
                     key={note.id}

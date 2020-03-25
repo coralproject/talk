@@ -21,7 +21,7 @@ const SetRedirectPathMutation = createMutation(
       await localStorage.setItem(REDIRECT_PATH_KEY, input.path);
     }
 
-    return commitLocalUpdate(environment, store => {
+    return commitLocalUpdate(environment, (store) => {
       const record = store.get(LOCAL_ID)!;
       record.setValue(input.path, "redirectPath");
     });

@@ -77,7 +77,7 @@ export type IntermediateModerationPhase = (
  */
 export const compose = (
   phases: IntermediateModerationPhase[]
-): RootModerationPhase => async context => {
+): RootModerationPhase => async (context) => {
   const final: PhaseResult = {
     status: GQLCOMMENT_STATUS.NONE,
     body: context.comment.body,
@@ -138,7 +138,7 @@ export const compose = (
         final.tags.push(
           // Only push in tags that we haven't already added.
           ...tags.filter(
-            ({ type }) => !final.tags.some(tag => tag.type === type)
+            ({ type }) => !final.tags.some((tag) => tag.type === type)
           )
         );
       }

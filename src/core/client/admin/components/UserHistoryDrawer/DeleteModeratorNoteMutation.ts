@@ -23,7 +23,7 @@ const DeleteModeratorNoteMutation = createMutation(
     { uuidGenerator }: CoralContext
   ) => {
     const notes =
-      lookup<GQLUser>(environment, input.userID)!.moderatorNotes.map(note => {
+      lookup<GQLUser>(environment, input.userID)!.moderatorNotes.map((note) => {
         const createdBy = pick(note.createdBy, ["username", "id"]);
         return {
           ...pick(note, ["id", "body", "createdAt"]),
@@ -62,7 +62,7 @@ const DeleteModeratorNoteMutation = createMutation(
         deleteModeratorNote: {
           user: {
             id: input.userID,
-            moderatorNotes: notes.filter(note => note.id !== input.id),
+            moderatorNotes: notes.filter((note) => note.id !== input.id),
           },
           clientMutationId: (clientMutationId++).toString(),
         },

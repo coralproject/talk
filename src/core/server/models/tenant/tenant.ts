@@ -301,7 +301,7 @@ export async function retrieveManyTenants(
 
   const tenants = await cursor.toArray();
 
-  return ids.map(id => tenants.find(tenant => tenant.id === id) || null);
+  return ids.map((id) => tenants.find((tenant) => tenant.id === id) || null);
 }
 
 export async function retrieveManyTenantsByDomain(
@@ -317,20 +317,16 @@ export async function retrieveManyTenantsByDomain(
   const tenants = await cursor.toArray();
 
   return domains.map(
-    domain => tenants.find(tenant => tenant.domain === domain) || null
+    (domain) => tenants.find((tenant) => tenant.domain === domain) || null
   );
 }
 
 export async function retrieveAllTenants(mongo: Db) {
-  return collection(mongo)
-    .find({})
-    .toArray();
+  return collection(mongo).find({}).toArray();
 }
 
 export async function countTenants(mongo: Db) {
-  return collection(mongo)
-    .find({})
-    .count();
+  return collection(mongo).find({}).count();
 }
 
 export type UpdateTenantInput = Omit<DeepPartial<Tenant>, "id" | "domain">;
@@ -569,9 +565,9 @@ export async function rollTenantWebhookEndpointSecret(
     // By excluding the last one (the one we just pushed)...
     .splice(0, endpoint.signingSecrets.length - 1)
     // And only finding keys that have not been rotated yet.
-    .filter(s => !s.rotatedAt)
+    .filter((s) => !s.rotatedAt)
     // And get their kid's.
-    .map(s => s.kid);
+    .map((s) => s.kid);
   if (secretKIDsToDeprecate.length > 0) {
     logger.trace(
       { kids: secretKIDsToDeprecate },

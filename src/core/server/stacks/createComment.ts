@@ -95,7 +95,7 @@ const markCommentAsAnswered = async (
 
   // If we have experts and this reply is created by
   // one of them, then this is an expert's answer.
-  if (story.settings.expertIDs.some(id => id === author.id)) {
+  if (story.settings.expertIDs.some((id) => id === author.id)) {
     // We need to mark this question as answered now.
     // We can now remove the unanswered tag.
     await removeTag(mongo, tenant, comment.parentID, GQLTAG.UNANSWERED);

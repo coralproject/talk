@@ -9,7 +9,7 @@ interface Props {
   showConfigure: boolean;
 }
 
-const Navigation: FunctionComponent<Props> = props => (
+const Navigation: FunctionComponent<Props> = (props) => (
   <AppBarNavigation>
     <Localized id="navigation-moderate">
       <NavigationLink to="/admin/moderate">Moderate</NavigationLink>

@@ -21,7 +21,7 @@ export default async function initLocalState(
     config ? config.accessToken : undefined
   );
 
-  commitLocalUpdate(environment, s => {
+  commitLocalUpdate(environment, (s) => {
     const root = s.getRoot();
     const localRecord = root.getLinkedRecord("local")!;
 

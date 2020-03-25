@@ -64,7 +64,7 @@ const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   const hide = Boolean(
     comment.author &&
       viewer &&
-      viewer.ignoredUsers.some(u => Boolean(u.id === comment.author!.id))
+      viewer.ignoredUsers.some((u) => Boolean(u.id === comment.author!.id))
   );
   const tombstone = useTombstone(hide);
 

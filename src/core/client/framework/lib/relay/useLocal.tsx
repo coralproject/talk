@@ -41,8 +41,8 @@ function applySimplified(
   data: any
 ) {
   const keys = Object.keys(data);
-  keys.forEach(k => {
-    const field = selections.find(s => s.alias === k || s.name === k);
+  keys.forEach((k) => {
+    const field = selections.find((s) => s.alias === k || s.name === k);
     if (!field) {
       throw new Error(`Field '${k}' not found in selection`);
     }
@@ -104,7 +104,7 @@ function useLocal<T>(
   );
   const localUpdate = useCallback(
     (update: LocalUpdater<T>) => {
-      commitLocalUpdate(relayEnvironment, store => {
+      commitLocalUpdate(relayEnvironment, (store) => {
         const record = store.get(LOCAL_ID)!;
         if (isAdvancedUpdater(update)) {
           update(record);
@@ -120,7 +120,7 @@ function useLocal<T>(
 
   useEffect(() => {
     const snapshot = relayEnvironment.lookup(selector);
-    const subscription = relayEnvironment.subscribe(snapshot, update =>
+    const subscription = relayEnvironment.subscribe(snapshot, (update) =>
       setLocal(update.data as any)
     );
     if (!firstRun) {

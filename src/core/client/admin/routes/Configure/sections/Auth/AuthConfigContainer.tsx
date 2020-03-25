@@ -70,7 +70,7 @@ class AuthConfigContainer extends React.Component<Props> {
       data.auth.integrations.oidc,
     ];
     if (
-      !integrations.some(integration =>
+      !integrations.some((integration) =>
         Boolean(integration.enabled && integration.targetFilter.admin)
       )
     ) {
@@ -85,7 +85,7 @@ class AuthConfigContainer extends React.Component<Props> {
         ),
       });
     } else if (
-      !integrations.some(integration =>
+      !integrations.some((integration) =>
         Boolean(integration.enabled && integration.targetFilter.stream)
       )
     ) {
@@ -139,7 +139,7 @@ const enhanced = withForm(
       }
     `,
   })(
-    withSubmitHookContext(addSubmitHook => ({ addSubmitHook }))(
+    withSubmitHookContext((addSubmitHook) => ({ addSubmitHook }))(
       withContext(({ localeBundles }) => ({ localeBundles }))(
         AuthConfigContainer
       )

@@ -24,8 +24,8 @@ beforeEach(() => {
       settings: sinon.stub().returns(settings),
       viewer: sinon.stub().returns(commenters[0]),
       stream: createSinonStub(
-        s => s.throws(),
-        s =>
+        (s) => s.throws(),
+        (s) =>
           s
             .withArgs(undefined, { id: storyWithDeepestReplies.id, url: null })
             .returns(storyWithDeepestReplies)
@@ -59,7 +59,7 @@ beforeEach(() => {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(storyWithDeepestReplies.id, "storyID");
     },
   }));

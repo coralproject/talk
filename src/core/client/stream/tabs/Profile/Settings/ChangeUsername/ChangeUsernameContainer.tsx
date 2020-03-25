@@ -92,7 +92,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       return false;
     }
     if (
-      !viewer.profiles.find(profile => profile.__typename === "LocalProfile")
+      !viewer.profiles.find((profile) => profile.__typename === "LocalProfile")
     ) {
       return false;
     }

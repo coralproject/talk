@@ -34,10 +34,10 @@ function escapeRegExp(str: string) {
 // generate a regulare expression that catches the `phrases`.
 function generateRegExp(phrases: ReadonlyArray<string>) {
   const inner = phrases
-    .map(phrase =>
+    .map((phrase) =>
       phrase
         .split(/\s+/)
-        .map(word => escapeRegExp(word))
+        .map((word) => escapeRegExp(word))
         .join('[\\s"?!.]+')
     )
     .join("|");
@@ -92,7 +92,7 @@ function markHTMLNode(
   suspectWords: ReadonlyArray<string>,
   bannedWords: ReadonlyArray<string>
 ) {
-  parentNode.childNodes.forEach(node => {
+  parentNode.childNodes.forEach((node) => {
     if (node.nodeName === "#text") {
       const newContent = markPhrasesHTML(
         node.textContent!,

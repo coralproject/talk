@@ -91,9 +91,7 @@ it("change language", async () => {
 
   // Send form
   await act(async () => {
-    await within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    await within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -155,9 +153,7 @@ it("change site wide commenting", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -219,9 +215,7 @@ it("change community guidlines", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -267,9 +261,7 @@ it("change closed stream message", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -314,9 +306,7 @@ it("change comment editing time", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   expect(
@@ -339,9 +329,7 @@ it("change comment editing time", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -396,9 +384,7 @@ it("change comment length limitations", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   expect(
@@ -429,9 +415,7 @@ it("change comment length limitations", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -486,9 +470,7 @@ it("change closing comment streams", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   expect(
@@ -505,9 +487,7 @@ it("change closing comment streams", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Submit button and text field should be disabled.
@@ -548,9 +528,7 @@ it("handle server error", async () => {
 
   // Send form
   act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit();
+    within(configureContainer).getByType("form").props.onSubmit();
   });
 
   // Look for internal error being displayed.

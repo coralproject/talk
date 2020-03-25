@@ -51,7 +51,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
   );
 };
 
-const AllCommentsTabQuery: FunctionComponent<Props> = props => {
+const AllCommentsTabQuery: FunctionComponent<Props> = (props) => {
   const {
     local: { storyID, storyURL, commentsOrderBy },
   } = props;
@@ -80,7 +80,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = props => {
         storyURL,
         commentsOrderBy,
       }}
-      render={data => (props.preload ? null : render(data))}
+      render={(data) => (props.preload ? null : render(data))}
     />
   );
 };

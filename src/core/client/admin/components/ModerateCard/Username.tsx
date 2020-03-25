@@ -8,7 +8,7 @@ export interface UsernameProps {
   children: string;
 }
 
-const Username: FunctionComponent<UsernameProps> = props => {
+const Username: FunctionComponent<UsernameProps> = (props) => {
   return (
     <span className={cn(props.className, styles.root)}>{props.children}</span>
   );

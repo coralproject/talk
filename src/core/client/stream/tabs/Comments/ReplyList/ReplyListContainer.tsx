@@ -59,7 +59,7 @@ type FragmentVariables = Omit<
   "commentID"
 >;
 
-export const ReplyListContainer: React.FunctionComponent<Props> = props => {
+export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);
   const beginShowAllEvent = useViewerNetworkEvent(ShowAllRepliesEvent);
   const showAllAndEmit = useCallback(async () => {
@@ -124,7 +124,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = props => {
     // Comment is not visible after a viewer action, so don't render it anymore.
     props.comment.lastViewerAction && !isPublished(props.comment.status)
       ? []
-      : props.comment.replies.edges.map(edge => ({
+      : props.comment.replies.edges.map((edge) => ({
           ...edge.node,
           replyListElement: props.ReplyListComponent && (
             <props.ReplyListComponent
@@ -204,7 +204,7 @@ function createReplyListContainer(
  */
 const LastReplyList: FunctionComponent<PropTypesOf<
   typeof LocalReplyListContainer
->> = props => <LocalReplyListContainer {...props} indentLevel={3} />;
+>> = (props) => <LocalReplyListContainer {...props} indentLevel={3} />;
 
 const ReplyListContainer3 = createReplyListContainer(
   3,

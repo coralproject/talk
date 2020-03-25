@@ -23,7 +23,7 @@ export interface CreatePasswordForm {
   onSubmit: OnSubmit<FormSubmitProps>;
 }
 
-const CreatePassword: FunctionComponent<CreatePasswordForm> = props => {
+const CreatePassword: FunctionComponent<CreatePasswordForm> = (props) => {
   return (
     <CompleteAccountBox
       title={

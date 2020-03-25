@@ -66,13 +66,13 @@ if (require.main === module) {
   // Only run the main module on file load if this is the main module (we're
   // executing this file directly).
   main()
-    .then(files => {
+    .then((files) => {
       for (const { fileName } of files) {
         // eslint-disable-next-line no-console
         console.log(`Generated ${fileName}`);
       }
     })
-    .catch(err => {
+    .catch((err) => {
       // eslint-disable-next-line no-console
       console.error(err);
     });

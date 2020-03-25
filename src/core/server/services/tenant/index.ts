@@ -163,7 +163,7 @@ export async function regenerateSSOKey(
   // Deprecate the old Tenant SSO key if it exists.
   if (tenant.auth.integrations.sso.keys.length > 0) {
     // Get the old keys that are not deprecated.
-    const keysToDeprecate = tenant.auth.integrations.sso.keys.filter(key => {
+    const keysToDeprecate = tenant.auth.integrations.sso.keys.filter((key) => {
       return !key.rotatedAt;
     });
 

@@ -78,7 +78,7 @@ it("relays esc events", () => {
       { createNodeMock }
     );
   });
-  const el = testRenderer!.root.find(i => i.props.onKeyDown);
+  const el = testRenderer!.root.find((i) => i.props.onKeyDown);
   el.props.onKeyDown(escEvent);
   el.props.onKeyDown(otherEvent);
   TestRenderer.act(() => {

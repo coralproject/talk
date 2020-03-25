@@ -8,7 +8,7 @@ interface Props {
   children: string;
 }
 
-const HorizontalSeparator: FunctionComponent<Props> = props => (
+const HorizontalSeparator: FunctionComponent<Props> = (props) => (
   <Flex className={styles.root} alignItems="center" justifyContent="center">
     <hr className={styles.hr} />
     <div className={styles.text}>{props.children}</div>

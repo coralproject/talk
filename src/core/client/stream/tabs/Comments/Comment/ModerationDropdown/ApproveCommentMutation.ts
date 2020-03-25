@@ -54,7 +54,7 @@ const ApproveCommentMutation = createMutation(
               clientMutationId: (clientMutationId++).toString(),
             },
           },
-          updater: store => {
+          updater: (store) => {
             store.get(input.commentID)!.setValue("APPROVE", "lastViewerAction");
           },
         }

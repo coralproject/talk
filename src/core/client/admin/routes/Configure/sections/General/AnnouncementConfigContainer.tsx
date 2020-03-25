@@ -38,7 +38,7 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
   const onClose = useCallback(() => {
     setShowForm(false);
   }, [showForm]);
-  const onCreate = useCallback(values => {
+  const onCreate = useCallback((values) => {
     try {
       setSubmitError(null);
       createAnnouncement(values);

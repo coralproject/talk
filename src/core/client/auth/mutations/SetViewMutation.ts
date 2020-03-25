@@ -20,7 +20,7 @@ export interface SetViewInput {
 const SetViewMutation = createMutation(
   "setView",
   (environment: Environment, input: SetViewInput) => {
-    return commitLocalUpdate(environment, store => {
+    return commitLocalUpdate(environment, (store) => {
       const record = store.get(LOCAL_ID)!;
 
       if (input.history) {

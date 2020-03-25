@@ -55,7 +55,7 @@ export const reply: NotificationCategory<Payloads> = {
 
     // Check to see if this user is ignoring the user who replied to their
     // comment.
-    if (parentAuthor.ignoredUsers.some(user => user.id === author.id)) {
+    if (parentAuthor.ignoredUsers.some((user) => user.id === author.id)) {
       return null;
     }
 

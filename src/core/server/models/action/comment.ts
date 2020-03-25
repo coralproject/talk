@@ -273,7 +273,7 @@ export async function createActions(
 ): Promise<CreateActionResultObject[]> {
   // TODO: (wyattjoh) replace with a batch write.
   return Promise.all(
-    inputs.map(input => createAction(mongo, tenantID, input, now))
+    inputs.map((input) => createAction(mongo, tenantID, input, now))
   );
 }
 
@@ -290,7 +290,7 @@ async function retrieveConnection(
   }
 
   // Return a connection.
-  return resolveConnection(query, input, action => action.createdAt);
+  return resolveConnection(query, input, (action) => action.createdAt);
 }
 
 export async function retrieveCommentActionConnection(
@@ -354,8 +354,10 @@ export async function retrieveManyUserActionPresence(
   // For each of the actions returned by the query, group the actions by the
   // item id. Then compute the action presence for each of the actions.
   return commentIDs
-    .map(commentID => actions.filter(action => action.commentID === commentID))
-    .map(itemActions =>
+    .map((commentID) =>
+      actions.filter((action) => action.commentID === commentID)
+    )
+    .map((itemActions) =>
       itemActions.reduce(
         (actionPresence, { actionType }) => ({
           ...actionPresence,

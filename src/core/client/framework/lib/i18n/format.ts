@@ -16,7 +16,7 @@ export default function format(
     if (process.env.NODE_ENV !== "production" && errors.length > 0) {
       window.console.warn(
         `Translation ${key} encountered an error: ${errors
-          .map(err => err.message)
+          .map((err) => err.message)
           .join(", ")}`
       );
     }

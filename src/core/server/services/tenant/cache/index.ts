@@ -98,16 +98,16 @@ export default class TenantCache {
 
     // Configure the data loaders.
     this.tenantsByID = new DataLoader(
-      async ids => {
+      async (ids) => {
         logger.debug({ ids: ids.length }, "now loading tenants");
         const tenants = await retrieveManyTenants(this.mongo, ids);
         logger.debug(
-          { tenants: tenants.filter(t => t !== null).length },
+          { tenants: tenants.filter((t) => t !== null).length },
           "loaded tenants"
         );
 
         tenants
-          .filter(t => t !== null)
+          .filter((t) => t !== null)
           .forEach((t: Readonly<Tenant>) => this.tenantCountCache.add(t.id));
 
         return tenants;
@@ -118,16 +118,16 @@ export default class TenantCache {
     );
 
     this.tenantsByDomain = new DataLoader(
-      async domains => {
+      async (domains) => {
         logger.debug({ domains: domains.length }, "now loading tenants");
         const tenants = await retrieveManyTenantsByDomain(this.mongo, domains);
         logger.debug(
-          { tenants: tenants.filter(t => t !== null).length },
+          { tenants: tenants.filter((t) => t !== null).length },
           "loaded tenants"
         );
 
         tenants
-          .filter(t => t !== null)
+          .filter((t) => t !== null)
           .forEach((t: Readonly<Tenant>) => this.tenantCountCache.add(t.id));
 
         return tenants;
@@ -181,7 +181,7 @@ export default class TenantCache {
     this.tenantCountCache.clear();
 
     // Prime the cache with each of these tenants.
-    tenants.forEach(tenant => {
+    tenants.forEach((tenant) => {
       this.tenantsByID.prime(tenant.id, tenant);
       this.tenantsByDomain.prime(tenant.domain, tenant);
       this.tenantCountCache.add(tenant.id);

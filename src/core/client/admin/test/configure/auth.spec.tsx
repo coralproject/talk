@@ -83,9 +83,7 @@ it("regenerate sso key", async () => {
   });
   const container = within(testRenderer.root).getByTestID("configure-auth-sso");
   act(() => {
-    within(container)
-      .getByLabelText("Enabled")
-      .props.onChange({});
+    within(container).getByLabelText("Enabled").props.onChange({});
   });
 
   act(() => {
@@ -110,9 +108,7 @@ it("prevents admin lock out", async () => {
 
   // Let's disable local auth.
   act(() => {
-    within(container)
-      .getByLabelText("Enabled")
-      .props.onChange();
+    within(container).getByLabelText("Enabled").props.onChange();
   });
 
   // Send form

@@ -11,7 +11,7 @@ interface Props {
   children: React.ReactElement;
 }
 
-const SitesRoute: FunctionComponent<Props> = props => {
+const SitesRoute: FunctionComponent<Props> = (props) => {
   return (
     <MainLayout>
       <Layout>

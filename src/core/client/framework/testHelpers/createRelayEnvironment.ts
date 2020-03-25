@@ -75,9 +75,9 @@ function createFetch({
       rootValue,
       contextValue,
       variables
-    ).then(payload => {
+    ).then((payload) => {
       if (payload.errors) {
-        payload.errors.forEach(e => {
+        payload.errors.forEach((e) => {
           // Throw our custom errors directly.
           if (
             e.originalError instanceof InvalidRequestError ||
@@ -173,7 +173,7 @@ export default function createRelayEnvironment(
     store: new Store(params.source || new RecordSource()),
   });
   if (params.initLocalState !== false) {
-    commitLocalUpdate(environment, sourceProxy => {
+    commitLocalUpdate(environment, (sourceProxy) => {
       const root = sourceProxy.getRoot();
       const localRecord = createAndRetain(
         environment,

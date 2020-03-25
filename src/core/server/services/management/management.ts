@@ -19,7 +19,7 @@ export interface InstallationToken
 
 const InstallationTokenSchema = StandardClaimsSchema.keys({
   aud: Joi.string().valid("installation"),
-}).fork(["iat", "exp", "sub", "aud"], s => s.required());
+}).fork(["iat", "exp", "sub", "aud"], (s) => s.required());
 
 export function validateInstallationToken(
   token: InstallationToken | object

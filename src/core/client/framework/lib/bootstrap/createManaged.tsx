@@ -178,7 +178,7 @@ function createManagedCoralContextProvider(
 
       // Set next access token.
       if (nextAccessToken) {
-        await commitLocalUpdatePromisified(newEnvironment, async store => {
+        await commitLocalUpdatePromisified(newEnvironment, async (store) => {
           setAccessTokenInLocalState(nextAccessToken, store);
         });
       }
@@ -265,7 +265,7 @@ export default async function createManaged({
   // Listen for outside clicks.
   let registerClickFarAway: ClickFarAwayRegister | undefined;
   if (pym) {
-    registerClickFarAway = cb => {
+    registerClickFarAway = (cb) => {
       pym.onMessage("click", cb);
       // Return unlisten callback.
       return () => {

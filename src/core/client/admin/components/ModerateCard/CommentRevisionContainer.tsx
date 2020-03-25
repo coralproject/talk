@@ -22,12 +22,12 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({
       {comment.revisionHistory
         .concat()
         .reverse()
-        .filter(c =>
+        .filter((c) =>
           comment && comment.revision && comment.revision.id
             ? comment.revision.id !== c.id
             : true
         )
-        .map(c => (
+        .map((c) => (
           <div key={c.id}>
             <Timestamp>{c.createdAt}</Timestamp>
             <CommentContent

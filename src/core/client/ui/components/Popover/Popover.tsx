@@ -139,7 +139,7 @@ class Popover extends React.Component<PopoverProps> {
       <div className={cn(classes.root, className)} {...rest}>
         <Manager>
           <Reference>
-            {props =>
+            {(props) =>
               children({
                 ref: props.ref,
                 toggleVisibility: this.toggleVisibility,
@@ -153,7 +153,7 @@ class Popover extends React.Component<PopoverProps> {
             positionFixed={positionFixed}
             modifiers={modifiers}
           >
-            {props => (
+            {(props) => (
               <div
                 id={id}
                 role="dialog"

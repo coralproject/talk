@@ -69,7 +69,7 @@ export function createViewerNetworkEvent<
     begin: ((eventEmitter, data) => {
       const ms = Date.now();
       return {
-        success: (success => {
+        success: ((success) => {
           const final: any = {
             ...data,
             rtt: Date.now() - ms,
@@ -79,7 +79,7 @@ export function createViewerNetworkEvent<
           }
           eventEmitter.emit(`${name}.success`, final);
         }) as ViewerNetworkEventStarted<T>["success"],
-        error: (error => {
+        error: ((error) => {
           const final: any = {
             ...data,
             rtt: Date.now() - ms,

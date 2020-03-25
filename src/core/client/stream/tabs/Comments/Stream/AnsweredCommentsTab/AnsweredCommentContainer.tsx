@@ -36,7 +36,7 @@ interface Props {
   setCommentID: SetCommentIDMutation;
 }
 
-const AnsweredCommentContainer: FunctionComponent<Props> = props => {
+const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
   const { comment, settings, story, viewer, setCommentID } = props;
   const banned = Boolean(
     viewer && viewer.status.current.includes(GQLUSER_STATUS.BANNED)

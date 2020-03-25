@@ -134,5 +134,5 @@ async function retrieveConnection(
   }
 
   // Return a connection.
-  return resolveConnection(query, input, a => a.createdAt);
+  return resolveConnection(query, input, (a) => a.createdAt);
 }

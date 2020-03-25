@@ -14,7 +14,7 @@ interface Props extends Omit<PropTypesOf<typeof HorizontalGutter>, "ref"> {
   className?: string;
 }
 
-const FormFieldFooter: FunctionComponent<Props> = props => {
+const FormFieldFooter: FunctionComponent<Props> = (props) => {
   const { classes, className, children, ...rest } = props;
 
   return (

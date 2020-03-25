@@ -41,7 +41,7 @@ const IgnoreUserMutation = createMutation(
               clientMutationId: (clientMutationId++).toString(),
             },
           },
-          updater: store => {
+          updater: (store) => {
             const viewer = getViewer(environment)!;
             const viewerProxy = store.get(viewer.id)!;
             const ignoredUserRecords = viewerProxy.getLinkedRecords(

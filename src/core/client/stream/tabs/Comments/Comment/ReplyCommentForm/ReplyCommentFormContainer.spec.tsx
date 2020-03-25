@@ -124,10 +124,7 @@ it("creates a comment", async () => {
   const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
   await timeout();
   wrapper.update();
-  wrapper
-    .first()
-    .props()
-    .onSubmit(input, form);
+  wrapper.first().props().onSubmit(input, form);
   expect(
     createCommentStub.calledWith({
       storyID,
@@ -155,7 +152,7 @@ it("closes on cancel", async () => {
   const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
   await timeout();
   wrapper.update();
-  wrapper.findWhere(w => !!w.prop("onCancel")).prop("onCancel")();
+  wrapper.findWhere((w) => !!w.prop("onCancel")).prop("onCancel")();
 
   // Calls close.
   expect(onCloseStub.calledOnce).toBe(true);
@@ -178,7 +175,7 @@ it("autofocuses", async () => {
   await timeout();
   wrapper.update();
   wrapper
-    .findWhere(n => n.prop("rteRef"))
+    .findWhere((n) => n.prop("rteRef"))
     .props()
     .rteRef(rte);
   await wait(() => expect(focusStub.calledOnce).toBe(true));

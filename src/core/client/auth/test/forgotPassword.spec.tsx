@@ -139,9 +139,7 @@ it("submits form successfully", async () => {
   );
 
   act(() => {
-    within(testRenderer.root)
-      .getByText("Close")
-      .props.onClick();
+    within(testRenderer.root).getByText("Close").props.onClick();
   });
 
   restMock.verify();

@@ -56,7 +56,7 @@ const QueueSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         handleCommentEnteredModerationQueue(
           store,
           variables.queue,

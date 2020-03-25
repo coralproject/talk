@@ -132,7 +132,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
 
   const canChangeEmail = useMemo(() => {
     if (
-      !viewer.profiles.find(profile => profile.__typename === "LocalProfile")
+      !viewer.profiles.find((profile) => profile.__typename === "LocalProfile")
     ) {
       return false;
     }

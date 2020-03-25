@@ -22,7 +22,7 @@ interface Props {
   disabled: boolean;
 }
 
-const LocaleConfig: React.FunctionComponent<Props> = props => {
+const LocaleConfig: React.FunctionComponent<Props> = (props) => {
   return (
     <ConfigBox
       title={

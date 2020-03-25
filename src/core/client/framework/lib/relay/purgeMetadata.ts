@@ -16,8 +16,8 @@ export default function purgeMetadata<T>(data: T): T {
       }
       const result: any = {};
       Object.keys(data)
-        .filter(k => !startsWith(k, "__"))
-        .forEach(k => {
+        .filter((k) => !startsWith(k, "__"))
+        .forEach((k) => {
           result[k] = purgeMetadata((data as any)[k]);
         });
       return result;

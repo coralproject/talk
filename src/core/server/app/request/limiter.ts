@@ -40,8 +40,9 @@ export class Limiter {
   }
 
   private key(key: string, resource?: string, operation?: string): string {
-    return `limiter[${this.prefix}][${resource || this.resource}][${operation ||
-      this.operation}][${key}]`;
+    return `limiter[${this.prefix}][${resource || this.resource}][${
+      operation || this.operation
+    }][${key}]`;
   }
 
   public async test(

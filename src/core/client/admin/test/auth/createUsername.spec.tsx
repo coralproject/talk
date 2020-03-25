@@ -107,7 +107,7 @@ it("shows server error", async () => {
     muteNetworkErrors: true,
   });
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => usernameField.props.onChange({ target: { value: username } }));
@@ -148,7 +148,7 @@ it("successfully sets username", async () => {
     resolvers,
   });
   const submitButton = form.find(
-    i => i.type === "button" && i.props.type === "submit"
+    (i) => i.type === "button" && i.props.type === "submit"
   );
 
   act(() => usernameField.props.onChange({ target: { value: username } }));

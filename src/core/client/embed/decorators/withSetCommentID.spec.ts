@@ -51,10 +51,7 @@ it("should send commentID over pym when history changes", () => {
   );
   const fakePym = {
     onMessage: sinon.stub(),
-    sendMessage: sinon
-      .mock()
-      .once()
-      .withArgs("setCommentID", "comment-id"),
+    sendMessage: sinon.mock().once().withArgs("setCommentID", "comment-id"),
   };
   const cleanup = withSetCommentID(fakePym as any) as CleanupCallback;
   simulant.fire(window as any, "popstate");

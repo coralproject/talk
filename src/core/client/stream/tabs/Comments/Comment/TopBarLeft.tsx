@@ -8,11 +8,11 @@ export interface TopBarLeftProps {
   children: React.ReactNode;
 }
 
-const TopBarLeft: FunctionComponent<TopBarLeftProps> = props => {
+const TopBarLeft: FunctionComponent<TopBarLeftProps> = (props) => {
   const rootClassName = cn(props.className);
   return (
     <MatchMedia gtWidth="xs">
-      {matches => (
+      {(matches) => (
         <Flex
           className={rootClassName}
           alignItems={matches ? "flex-end" : "baseline"}

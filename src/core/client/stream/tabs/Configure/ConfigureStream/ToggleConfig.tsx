@@ -10,7 +10,7 @@ export interface Props extends Omit<PropTypesOf<typeof CheckBox>, "children"> {
   children?: React.ReactNode;
 }
 
-const ToggleConfig: FunctionComponent<Props> = props => {
+const ToggleConfig: FunctionComponent<Props> = (props) => {
   const { title, children, ...rest } = props;
   return (
     <div>

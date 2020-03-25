@@ -15,10 +15,10 @@ export function escapeRegExp(str: string) {
  */
 export function generateRegExp(phrases: string[]) {
   const inner = phrases
-    .map(phrase =>
+    .map((phrase) =>
       phrase
         .split(/\s+/)
-        .map(word => escapeRegExp(word))
+        .map((word) => escapeRegExp(word))
         .join('[\\s"?!.]+')
     )
     .join("|");

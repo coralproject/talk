@@ -62,7 +62,7 @@ const GoogleConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
     disabled={disabled}
     data-testid="configure-auth-google"
   >
-    {disabledInside => (
+    {(disabledInside) => (
       <>
         <Localized
           id="configure-auth-google-toEnableIntegration"

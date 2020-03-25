@@ -16,7 +16,7 @@ type Props = SingleModerateRouteQueryResponse;
 
 const danglingLogic = () => false;
 
-const SingleModerateRoute: FunctionComponent<Props> = props => {
+const SingleModerateRoute: FunctionComponent<Props> = (props) => {
   const subscribeToSingleModerate = useSubscription(SingleModerateSubscription);
   useEffect(() => {
     if (!props.comment) {

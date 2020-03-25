@@ -26,14 +26,14 @@ const withMouseHover: DefaultingInferableComponentEnhancer<InjectedProps> = hois
       mouseHover: false,
     };
 
-    private handleTouchEnd: React.EventHandler<TouchEvent<any>> = event => {
+    private handleTouchEnd: React.EventHandler<TouchEvent<any>> = (event) => {
       if (this.props.onTouchEnd) {
         this.props.onTouchEnd(event);
       }
       this.lastTouchEndTime = new Date().getTime();
     };
 
-    private handleMouseOver: React.EventHandler<MouseEvent<any>> = event => {
+    private handleMouseOver: React.EventHandler<MouseEvent<any>> = (event) => {
       if (this.props.onMouseOver) {
         this.props.onMouseOver(event);
       }
@@ -43,7 +43,7 @@ const withMouseHover: DefaultingInferableComponentEnhancer<InjectedProps> = hois
       }
     };
 
-    private handleMouseOut: React.EventHandler<MouseEvent<any>> = event => {
+    private handleMouseOut: React.EventHandler<MouseEvent<any>> = (event) => {
       if (this.props.onMouseOut) {
         this.props.onMouseOut(event);
       }

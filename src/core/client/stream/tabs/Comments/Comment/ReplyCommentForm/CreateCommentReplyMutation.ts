@@ -245,7 +245,7 @@ async function commit(
           },
           // TODO: (cvle) fix types.
         } as any,
-        optimisticUpdater: store => {
+        optimisticUpdater: (store) => {
           // Skip optimistic update if comment is probably premoderated.
           if (expectPremoderation) {
             return;
@@ -253,7 +253,7 @@ async function commit(
           sharedUpdater(environment, store, input);
           store.get(id)!.setValue(true, "pending");
         },
-        updater: store => {
+        updater: (store) => {
           sharedUpdater(environment, store, input);
         },
       }

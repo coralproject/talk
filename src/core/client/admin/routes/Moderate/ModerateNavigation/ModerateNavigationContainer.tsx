@@ -20,7 +20,7 @@ interface Props {
   siteID: string | null;
 }
 
-const ModerateNavigationContainer: React.FunctionComponent<Props> = props => {
+const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
   const subscribeToCommentEntered = useSubscription(
     ModerateCountsCommentEnteredSubscription
   );

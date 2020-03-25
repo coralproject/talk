@@ -40,7 +40,7 @@ export class NotifierCoralEventListener
 
   public initialize: CoralEventPublisherFactory<
     NotifierCoralEventListenerPayloads
-  > = ({ tenant: { id } }) => async input => {
+  > = ({ tenant: { id } }) => async (input) => {
     await this.queue.add({ tenantID: id, input });
   };
 }

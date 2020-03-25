@@ -121,7 +121,7 @@ export function nodesToEdges<T>(
 }
 
 export function doesNotContainNull<T>(items: Array<T | null>): items is T[] {
-  return items.every(item => Boolean(item));
+  return items.every((item) => Boolean(item));
 }
 
 /**
@@ -145,7 +145,7 @@ export async function resolveConnection<T>(
   query.first(input.first + 1);
 
   // Get the nodes.
-  const nodes = await query.exec().then(cursor => cursor.toArray());
+  const nodes = await query.exec().then((cursor) => cursor.toArray());
 
   // Convert the nodes to edges (which will include the extra edge we don't need
   // if there is more results).

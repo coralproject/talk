@@ -51,7 +51,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
   );
 };
 
-const UnansweredCommentsTabQuery: FunctionComponent<Props> = props => {
+const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
   const {
     local: { storyID, storyURL, commentsOrderBy },
   } = props;
@@ -81,7 +81,7 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = props => {
         storyURL,
         commentsOrderBy,
       }}
-      render={data => (props.preload ? null : render(data))}
+      render={(data) => (props.preload ? null : render(data))}
     />
   );
 };

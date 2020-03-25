@@ -11,7 +11,7 @@ export interface PymControlConfig {
 
 export type PymControlFactory = (config: PymControlConfig) => PymControl;
 
-export const defaultPymControlFactory: PymControlFactory = config =>
+export const defaultPymControlFactory: PymControlFactory = (config) =>
   new PymControl(config);
 
 export default class PymControl {
@@ -28,8 +28,8 @@ export default class PymControl {
     });
 
     this.cleanups = decorators
-      .map(enhance => enhance(this.pym))
-      .filter(cb => cb) as CleanupCallback[];
+      .map((enhance) => enhance(this.pym))
+      .filter((cb) => cb) as CleanupCallback[];
   }
 
   public sendMessage(id: string, raw?: string) {
@@ -37,7 +37,7 @@ export default class PymControl {
   }
 
   public remove() {
-    this.cleanups.forEach(cb => cb());
+    this.cleanups.forEach((cb) => cb());
     this.cleanups = [];
 
     // Remove the pym parent.

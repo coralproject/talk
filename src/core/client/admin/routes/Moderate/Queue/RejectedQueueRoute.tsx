@@ -32,7 +32,7 @@ export class RejectedQueueRoute extends React.Component<
   };
 
   public render() {
-    const comments = this.props.query.comments.edges.map(edge => edge.node);
+    const comments = this.props.query.comments.edges.map((edge) => edge.node);
     return (
       <IntersectionProvider>
         <Queue
@@ -61,7 +61,7 @@ export class RejectedQueueRoute extends React.Component<
     this.setState({ disableLoadMore: true });
     this.props.relay.loadMore(
       10, // Fetch the next 10 feed items
-      error => {
+      (error) => {
         this.setState({ disableLoadMore: false });
         if (error) {
           // eslint-disable-next-line no-console

@@ -19,13 +19,13 @@ interface Props {
   onClosePopover: () => void;
 }
 
-const DecisionHistory: FunctionComponent<Props> = props => (
+const DecisionHistory: FunctionComponent<Props> = (props) => (
   <div data-testid="decisionHistory-container">
     <Title />
     <Main>
       <DecisionList>
         {props.actions.length === 0 && <Empty />}
-        {props.actions.map(action => (
+        {props.actions.map((action) => (
           <DecisionHistoryItemContainer
             key={action.id}
             action={action}

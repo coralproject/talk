@@ -47,7 +47,7 @@ export function commitMutationPromise<T extends OperationType>(
         }
         resolve(extractPayload(response));
       },
-      onError: error => {
+      onError: (error) => {
         reject(error);
       },
     });

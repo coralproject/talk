@@ -31,7 +31,7 @@ class PrefixedStorage implements Storage {
         toBeDeleted.push(key);
       }
     }
-    toBeDeleted.forEach(key => this.storage.removeItem(key));
+    toBeDeleted.forEach((key) => this.storage.removeItem(key));
   }
 
   public key(n: number) {

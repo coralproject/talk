@@ -31,7 +31,7 @@ interface Props {
   totalCount: number;
 }
 
-const UserRow: FunctionComponent<Props> = props => (
+const UserRow: FunctionComponent<Props> = (props) => (
   <TableRow>
     <TableCell className={styles.titleColumn}>
       <HorizontalGutter>

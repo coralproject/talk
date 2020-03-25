@@ -27,7 +27,7 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
   forwardRef?: Ref<HTMLSpanElement>;
 }
 
-const Icon: FunctionComponent<Props> = props => {
+const Icon: FunctionComponent<Props> = (props) => {
   const { classes, className, size, color, forwardRef, ...rest } = props;
 
   const rootClassName = cn(

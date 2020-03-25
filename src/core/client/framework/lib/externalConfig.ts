@@ -10,9 +10,9 @@ export function getExternalConfig(
   pym?: PymChild
 ): Promise<ExternalConfig> | null {
   if (pym && areWeInIframe()) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       pym.sendMessage("getConfig", "");
-      pym.onMessage("config", raw => {
+      pym.onMessage("config", (raw) => {
         resolve(JSON.parse(raw) as ExternalConfig);
       });
     });

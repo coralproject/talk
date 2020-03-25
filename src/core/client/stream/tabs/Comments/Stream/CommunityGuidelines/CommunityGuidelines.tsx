@@ -8,7 +8,7 @@ interface Props {
   children: string;
 }
 
-const CommunityGuidelines: FunctionComponent<Props> = props => {
+const CommunityGuidelines: FunctionComponent<Props> = (props) => {
   return (
     <CallOut color="primary" fullWidth className={CLASSES.guidelines}>
       <Markdown>{props.children}</Markdown>

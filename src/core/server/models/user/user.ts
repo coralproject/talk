@@ -679,7 +679,7 @@ export async function retrieveManyUsers(
 
   const users = await cursor.toArray();
 
-  return ids.map(id => users.find(user => user.id === id) || null);
+  return ids.map((id) => users.find((user) => user.id === id) || null);
 }
 
 export async function retrieveUserWithProfile(
@@ -1345,7 +1345,7 @@ export async function deactivateUserToken(
     }
 
     // Check to see if the User had that Token in the first place.
-    if (!user.tokens.find(t => t.id === id)) {
+    if (!user.tokens.find((t) => t.id === id)) {
       throw new TokenNotFoundError();
     }
 
@@ -1354,12 +1354,12 @@ export async function deactivateUserToken(
 
   // We have to typecast here because we know at this point that the record does
   // contain the Token.
-  const token: Token = result.value.tokens.find(t => t.id === id) as Token;
+  const token: Token = result.value.tokens.find((t) => t.id === id) as Token;
 
   // Mutate the user in order to remove the Token from the list of Token's.
   const updatedUser: Readonly<User> = {
     ...result.value,
-    tokens: result.value.tokens.filter(t => t.id !== id),
+    tokens: result.value.tokens.filter((t) => t.id !== id),
   };
 
   return {
@@ -1397,7 +1397,7 @@ async function retrieveConnection(
   }
 
   // Return a connection.
-  return resolveConnection(query, input, user => user.createdAt);
+  return resolveConnection(query, input, (user) => user.createdAt);
 }
 
 /**
@@ -2155,7 +2155,7 @@ export async function ignoreUser(
     // TODO: extract function
     if (
       user.ignoredUsers &&
-      user.ignoredUsers.some(u => u.id === ignoreUserID)
+      user.ignoredUsers.some((u) => u.id === ignoreUserID)
     ) {
       // TODO: improve error
       throw new Error("user already ignored");
@@ -2198,7 +2198,7 @@ export async function removeUserIgnore(
     // TODO: extract function
     if (
       user.ignoredUsers &&
-      user.ignoredUsers.every(u => u.id !== ignoreUserID)
+      user.ignoredUsers.every((u) => u.id !== ignoreUserID)
     ) {
       // TODO: improve error
       throw new Error("user already not ignored");
@@ -2298,7 +2298,7 @@ export async function insertUserNotificationDigests(
   now: Date
 ) {
   // Form the templates into digests to be sent.
-  const digests: Digest[] = templates.map(template => ({
+  const digests: Digest[] = templates.map((template) => ({
     template,
     createdAt: now,
   }));

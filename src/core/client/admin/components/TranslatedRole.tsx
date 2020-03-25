@@ -19,7 +19,7 @@ function createElement(
   }
 }
 
-const TranslatedRole: React.FunctionComponent<Props> = props => {
+const TranslatedRole: React.FunctionComponent<Props> = (props) => {
   switch (props.children) {
     case GQLUSER_ROLE.COMMENTER:
       return (

@@ -28,7 +28,7 @@ const SingleModerateSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         const commentID = store
           .getRootField("commentStatusUpdated")!
           .getLinkedRecord("comment")!

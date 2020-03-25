@@ -70,7 +70,7 @@ interface Props extends HTMLAttributes<any> {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;
 }
 
-const Box: FunctionComponent<Props> = props => {
+const Box: FunctionComponent<Props> = (props) => {
   const {
     clone,
     classes,

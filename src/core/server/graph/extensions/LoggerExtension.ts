@@ -67,7 +67,7 @@ export class LoggerExtension implements GraphQLExtension<GraphContext> {
     context: GraphContext;
   }): void {
     if (response.graphqlResponse.errors) {
-      response.graphqlResponse.errors.forEach(err =>
+      response.graphqlResponse.errors.forEach((err) =>
         logError(response.context, err)
       );
     }

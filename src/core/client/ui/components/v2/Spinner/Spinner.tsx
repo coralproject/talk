@@ -33,7 +33,7 @@ function calculateSize(size: Size): number {
   }
 }
 
-const Spinner: FunctionComponent<SpinnerProps> = props => {
+const Spinner: FunctionComponent<SpinnerProps> = (props) => {
   const { className, classes } = props;
 
   const rootClassName = cn(classes.spinner, className);

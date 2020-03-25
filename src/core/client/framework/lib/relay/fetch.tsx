@@ -87,7 +87,7 @@ export function withFetch<N extends string, V, R>(
   fetch: Fetch<N, V, R>
 ): InferableComponentEnhancer<{ [P in N]: FetchProp<typeof fetch> }> {
   return compose(
-    withContext(context => ({ context })),
+    withContext((context) => ({ context })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class WithFetch extends React.Component<{
         context: CoralContext;

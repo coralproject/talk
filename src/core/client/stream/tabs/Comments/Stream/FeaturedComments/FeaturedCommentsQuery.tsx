@@ -60,7 +60,7 @@ export const render = (data: QueryRenderData<QueryTypes>) => {
   );
 };
 
-const FeaturedCommentsQuery: FunctionComponent<Props> = props => {
+const FeaturedCommentsQuery: FunctionComponent<Props> = (props) => {
   const {
     local: { storyID, storyURL, commentsOrderBy },
   } = props;
@@ -89,7 +89,7 @@ const FeaturedCommentsQuery: FunctionComponent<Props> = props => {
         storyURL,
         commentsOrderBy,
       }}
-      render={data => (props.preload ? null : render(data))}
+      render={(data) => (props.preload ? null : render(data))}
     />
   );
 };

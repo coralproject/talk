@@ -91,7 +91,7 @@ const processNotificationDigesting = (
 
       // Group the digests.
       const digests = user.digests.reduce((acc, entry) => {
-        const digest = acc.find(d => d.template === entry.template.name);
+        const digest = acc.find((d) => d.template === entry.template.name);
         if (digest) {
           digest.contexts.push(entry.template.context);
         } else {

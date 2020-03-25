@@ -17,7 +17,7 @@ interface Props {
   data: AddSiteRouteQueryResponse | null;
 }
 
-const AddSiteRoute: FunctionComponent<Props> = props => {
+const AddSiteRoute: FunctionComponent<Props> = (props) => {
   const { router } = useRouter();
   const { setMessage, clearMessage } = useNotification();
   const onSiteCreate = useCallback(

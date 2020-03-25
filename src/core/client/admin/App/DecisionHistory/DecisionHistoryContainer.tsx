@@ -23,7 +23,7 @@ export class DecisionHistoryContainer extends React.Component<
 
   public render() {
     const actions = this.props.viewer.commentModerationActionHistory.edges.map(
-      edge => edge.node
+      (edge) => edge.node
     );
     return (
       <DecisionHistory
@@ -43,7 +43,7 @@ export class DecisionHistoryContainer extends React.Component<
     this.setState({ disableLoadMore: true });
     this.props.relay.loadMore(
       10, // Fetch the next 10 feed items
-      error => {
+      (error) => {
         this.setState({ disableLoadMore: false });
         if (error) {
           // eslint-disable-next-line no-console

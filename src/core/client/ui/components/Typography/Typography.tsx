@@ -100,7 +100,7 @@ interface Props extends Omit<PropTypesOf<typeof Box>, "ref"> {
   forwardRef?: PropTypesOf<typeof Box>["ref"];
 }
 
-const Typography: FunctionComponent<Props> = props => {
+const Typography: FunctionComponent<Props> = (props) => {
   const {
     align,
     classes,

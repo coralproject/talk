@@ -138,7 +138,7 @@ class MarkdownEditor extends Component<Props> {
   public textarea: HTMLTextAreaElement | null = null;
   public editor: SimpleMDE | null = null;
 
-  public onRef: Ref<HTMLTextAreaElement> = ref => (this.textarea = ref);
+  public onRef: Ref<HTMLTextAreaElement> = (ref) => (this.textarea = ref);
 
   public componentDidMount() {
     this.editor = new SimpleMDE({

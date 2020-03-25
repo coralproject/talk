@@ -29,7 +29,7 @@ interface Props {
   bordered?: boolean;
 }
 
-const UserStatusChangeContainer: FunctionComponent<Props> = props => {
+const UserStatusChangeContainer: FunctionComponent<Props> = (props) => {
   const { user, settings, fullWidth, bordered } = props;
   const banUser = useMutation(BanUserMutation);
   const suspendUser = useMutation(SuspendUserMutation);

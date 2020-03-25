@@ -33,7 +33,7 @@ export type CreateSiteInput = Omit<Site, "id" | "commentCounts" | "createdAt">;
 export type SiteConnectionInput = ConnectionInput<Site>;
 
 export function getURLOrigins(urls: ReadonlyArray<string>) {
-  return urls.map(url => getOrigin(url)).filter(identity) as string[];
+  return urls.map((url) => getOrigin(url)).filter(identity) as string[];
 }
 
 /**
@@ -92,7 +92,7 @@ export async function retrieveManySites(
   });
   const sites = await cursor.toArray();
 
-  return ids.map(id => sites.find(site => site.id === id) || null);
+  return ids.map((id) => sites.find((site) => site.id === id) || null);
 }
 
 export async function retrieveSiteByOrigin(

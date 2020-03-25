@@ -168,7 +168,7 @@ export const Comments = (ctx: GraphContext) => ({
       GQLTAG.FEATURED,
       ctx.now
     )
-      .then(comment =>
+      .then((comment) =>
         comment.status !== GQLCOMMENT_STATUS.APPROVED
           ? approveComment(
               ctx.mongo,
@@ -183,7 +183,7 @@ export const Comments = (ctx: GraphContext) => ({
             )
           : comment
       )
-      .then(comment => {
+      .then((comment) => {
         // Publish that the comment was featured.
         publishCommentFeatured(ctx.broker, comment);
 

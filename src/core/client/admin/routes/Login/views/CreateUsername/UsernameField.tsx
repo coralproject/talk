@@ -19,7 +19,7 @@ interface Props {
   disabled: boolean;
 }
 
-const CreateUsernameField: FunctionComponent<Props> = props => (
+const CreateUsernameField: FunctionComponent<Props> = (props) => (
   <Field
     name="username"
     validate={composeValidators(required, validateUsername)}

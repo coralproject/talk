@@ -53,6 +53,6 @@ export function isURLPermitted(
   // is required with the target url scheme. Return if at least one match is
   // found within the Tenant domains.
   return domains
-    .map(domain => getOrigin(prefixSchemeIfRequired(originSecure, domain)))
-    .some(origin => origin === targetOrigin);
+    .map((domain) => getOrigin(prefixSchemeIfRequired(originSecure, domain)))
+    .some((origin) => origin === targetOrigin);
 }

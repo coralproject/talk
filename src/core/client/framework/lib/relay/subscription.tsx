@@ -93,7 +93,7 @@ export function withSubscription<N extends string, V, R>(
 export function combineDisposables(...disposables: Disposable[]): Disposable {
   return {
     dispose: () => {
-      disposables.forEach(d => d.dispose());
+      disposables.forEach((d) => d.dispose());
     },
   };
 }

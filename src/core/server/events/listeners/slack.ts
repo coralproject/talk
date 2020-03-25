@@ -153,7 +153,7 @@ export class SlackCoralEventListener
 
   public initialize: CoralEventPublisherFactory<
     SlackCoralEventListenerPayloads
-  > = ctx => async payload => {
+  > = (ctx) => async (payload) => {
     const {
       tenant: { id: tenantID, slack },
     } = ctx;
@@ -164,7 +164,7 @@ export class SlackCoralEventListener
       // Or there are no slack channels,
       slack.channels.length === 0 ||
       // Or each channel isn't enabled or configured right.
-      slack.channels.every(c => !c.enabled || !c.hookURL)
+      slack.channels.every((c) => !c.enabled || !c.hookURL)
     ) {
       // Exit out then.
       return;

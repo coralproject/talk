@@ -12,7 +12,7 @@ interface Props {
   viewer: PreferencesContainer_viewer;
 }
 
-const PreferencesContainer: FunctionComponent<Props> = props => {
+const PreferencesContainer: FunctionComponent<Props> = (props) => {
   return (
     <HorizontalGutter spacing={4}>
       <NotificationSettingsContainer viewer={props.viewer} />

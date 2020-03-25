@@ -15,7 +15,7 @@ export interface Props {
   mode: "%future added value" | "COMMENTS" | "QA" | null;
 }
 
-const AppTabBar: FunctionComponent<Props> = props => {
+const AppTabBar: FunctionComponent<Props> = (props) => {
   return (
     <TabBar
       className={CLASSES.tabBar.$root}
@@ -43,7 +43,7 @@ const AppTabBar: FunctionComponent<Props> = props => {
       {props.showConfigureTab && (
         <Tab className={CLASSES.tabBar.configure} tabID="CONFIGURE">
           <MatchMedia gteWidth="sm">
-            {matches =>
+            {(matches) =>
               matches ? (
                 <Localized id="general-tabBar-configure">
                   <span>Configure</span>

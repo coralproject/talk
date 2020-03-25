@@ -15,7 +15,7 @@ export function denormalizeComment(
   const replyEdges =
     (comment.replies &&
       comment.replies.edges &&
-      comment.replies.edges.map(edge => ({
+      comment.replies.edges.map((edge) => ({
         ...edge,
         node:
           edge.node &&
@@ -44,7 +44,7 @@ export function denormalizeComment(
 }
 
 export function denormalizeComments(commentList: Array<Fixture<GQLComment>>) {
-  return commentList.map(c => denormalizeComment(c));
+  return commentList.map((c) => denormalizeComment(c));
 }
 
 export function denormalizeStory(story: Fixture<GQLStory>) {
@@ -67,7 +67,7 @@ export function denormalizeStory(story: Fixture<GQLStory>) {
   }
 
   const featuredCommentsCount = commentEdges.filter(
-    e =>
+    (e) =>
       e.node.tags && e.node.tags.some((t: GQLTag) => t.code === GQLTAG.FEATURED)
   ).length;
   return createFixture<GQLStory>({
@@ -85,5 +85,5 @@ export function denormalizeStory(story: Fixture<GQLStory>) {
 }
 
 export function denormalizeStories(storyList: Array<Fixture<GQLStory>>) {
-  return storyList.map(a => denormalizeStory(a));
+  return storyList.map((a) => denormalizeStory(a));
 }

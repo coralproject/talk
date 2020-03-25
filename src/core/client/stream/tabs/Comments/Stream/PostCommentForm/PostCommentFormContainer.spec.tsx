@@ -121,10 +121,7 @@ it("creates a comment", async () => {
   const createCommentStub = sinon.stub().returns({ edge: { node: {} } });
   const form = { initialize: noop };
   const formMock = sinon.mock(form);
-  formMock
-    .expects("initialize")
-    .withArgs({})
-    .once();
+  formMock.expects("initialize").withArgs({}).once();
 
   const props = createDefaultProps({
     createComment: createCommentStub,
@@ -146,10 +143,7 @@ it("creates a comment", async () => {
     wrapper.update();
   });
   act(() => {
-    wrapper
-      .first()
-      .props()
-      .onSubmit(input, form);
+    wrapper.first().props().onSubmit(input, form);
   });
 
   await act(async () => {

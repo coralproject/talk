@@ -57,7 +57,7 @@ const FeatureCommentMutation = createMutation(
         },
         storyID: input.storyID,
       },
-      optimisticUpdater: store => {
+      optimisticUpdater: (store) => {
         const comment = store.get(input.commentID)!;
         const tags = comment.getLinkedRecords("tags");
         if (tags) {
@@ -67,14 +67,14 @@ const FeatureCommentMutation = createMutation(
           comment.setValue(GQLCOMMENT_STATUS.APPROVED, "status");
         }
       },
-      updater: store => {
+      updater: (store) => {
         const connections = [
           getQueueConnection(store, "PENDING", input.storyID),
           getQueueConnection(store, "REPORTED", input.storyID),
           getQueueConnection(store, "UNMODERATED", input.storyID),
           getQueueConnection(store, "REJECTED", input.storyID),
-        ].filter(c => c);
-        connections.forEach(con =>
+        ].filter((c) => c);
+        connections.forEach((con) =>
           ConnectionHandler.deleteNode(con!, input.commentID)
         );
       },

@@ -41,9 +41,7 @@ describe("storyClosed", () => {
     expect(
       storyClosed({
         story: {
-          closedAt: DateTime.fromJSDate(now)
-            .plus(60000)
-            .toJSDate(),
+          closedAt: DateTime.fromJSDate(now).plus(60000).toJSDate(),
         } as ModerationPhaseContext["story"],
         tenant: {
           closeCommenting: { auto: true },

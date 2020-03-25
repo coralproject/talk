@@ -48,7 +48,7 @@ const withInView: DefaultingInferableComponentEnhancer<InjectedProps> = hoistSta
             if (this.state.inView === undefined) {
               this.setState({ inView: intersectionRatio > 0 });
             } else {
-              this.setState(s => ({
+              this.setState((s) => ({
                 inView: !s.inView,
               }));
             }

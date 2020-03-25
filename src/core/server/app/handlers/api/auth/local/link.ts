@@ -14,10 +14,7 @@ export interface LinkBody {
 }
 
 export const LinkBodySchema = Joi.object().keys({
-  email: Joi.string()
-    .trim()
-    .lowercase()
-    .email(),
+  email: Joi.string().trim().lowercase().email(),
   password: Joi.string(),
 });
 

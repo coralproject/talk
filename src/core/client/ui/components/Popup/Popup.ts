@@ -102,24 +102,24 @@ export default class Popup extends Component<PopupProps> {
     if (!this.ref) {
       return;
     }
-    this.ref.onload = e => {
+    this.ref.onload = (e) => {
       if (this.detectCloseInterval) {
         clearInterval(this.detectCloseInterval);
       }
       this.onLoad(e);
     };
 
-    this.ref.onfocus = e => {
+    this.ref.onfocus = (e) => {
       this.onFocus(e);
     };
 
-    this.ref.onblur = e => {
+    this.ref.onblur = (e) => {
       this.onBlur(e);
     };
 
     // Use `onunload` instead of `onbeforeunload` which is not supported in iOS
     // Safari.
-    this.ref.onunload = e => {
+    this.ref.onunload = (e) => {
       this.onUnload(e);
 
       if (this.resetCallbackInterval) {

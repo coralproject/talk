@@ -23,7 +23,7 @@ export interface CreateUsernameForm {
   onSubmit: OnSubmit<FormSubmitProps>;
 }
 
-const CreateUsername: FunctionComponent<CreateUsernameForm> = props => {
+const CreateUsername: FunctionComponent<CreateUsernameForm> = (props) => {
   return (
     <CompleteAccountBox
       title={

@@ -4,10 +4,7 @@ import withEventEmitter from "./withEventEmitter";
 
 it("should emit events from pym to eventEmitter", () => {
   const eventEmitterMock = {
-    emit: sinon
-      .mock()
-      .once()
-      .withArgs("eventName", "value"),
+    emit: sinon.mock().once().withArgs("eventName", "value"),
   };
   const fakePym = {
     onMessage: (type: string, callback: (raw: string) => void) => {
@@ -24,10 +21,7 @@ it("should emit events from pym to eventEmitter", () => {
 
 it("should emit ready event from pym to eventEmitter", () => {
   const eventEmitterMock = {
-    emit: sinon
-      .mock()
-      .once()
-      .withArgs("ready"),
+    emit: sinon.mock().once().withArgs("ready"),
   };
   const fakePym = {
     onMessage: (type: string, callback: () => void) => {

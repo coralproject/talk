@@ -88,7 +88,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
       name="auth.integrations.oidc.enabled"
       disabled={disabled}
     >
-      {disabledInside => (
+      {(disabledInside) => (
         <>
           <Localized id="configure-auth-oidc-toLearnMore" Link={<OIDCLink />}>
             <FormFieldDescription>

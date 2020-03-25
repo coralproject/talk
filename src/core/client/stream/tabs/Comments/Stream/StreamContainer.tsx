@@ -88,7 +88,7 @@ const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
   </div>
 );
 
-export const StreamContainer: FunctionComponent<Props> = props => {
+export const StreamContainer: FunctionComponent<Props> = (props) => {
   const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
   const emitSetCommentsOrderByEvent = useViewerEvent(SetCommentsOrderByEvent);
   const [local, setLocal] = useLocal<StreamContainerLocal>(

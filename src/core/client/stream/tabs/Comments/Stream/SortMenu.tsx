@@ -29,14 +29,14 @@ interface Props {
   isQA?: boolean;
 }
 
-const SortMenu: FunctionComponent<Props> = props => {
+const SortMenu: FunctionComponent<Props> = (props) => {
   const emitOpenSortMenuEvent = useViewerEvent(OpenSortMenuEvent);
   const onClickSelectField = useCallback(() => emitOpenSortMenuEvent(), [
     emitOpenSortMenuEvent,
   ]);
   return (
     <MatchMedia ltWidth="sm">
-      {matches => (
+      {(matches) => (
         <Flex
           className={cn(props.className, CLASSES.sortMenu)}
           justifyContent="flex-end"

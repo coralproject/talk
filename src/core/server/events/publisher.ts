@@ -89,7 +89,7 @@ export class CoralEventPublisherBroker {
     const publishers = this.registry.get(payload.type)!;
 
     // Begin resolving these publishers.
-    return Promise.all(publishers.map(publisher => publisher(payload)));
+    return Promise.all(publishers.map((publisher) => publisher(payload)));
   };
 }
 

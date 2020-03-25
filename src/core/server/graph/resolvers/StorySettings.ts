@@ -6,11 +6,11 @@ import {
 } from "../schema/__generated__/types";
 
 export const StorySettings: GQLStorySettingsTypeResolver<story.StorySettings> = {
-  live: s => s.live || {},
+  live: (s) => s.live || {},
   moderation: (s, input, ctx) => s.moderation || ctx.tenant.moderation,
   premodLinksEnable: (s, input, ctx) =>
     s.premodLinksEnable || ctx.tenant.premodLinksEnable,
-  messageBox: s => {
+  messageBox: (s) => {
     if (s.messageBox) {
       return s.messageBox;
     }
@@ -19,7 +19,7 @@ export const StorySettings: GQLStorySettingsTypeResolver<story.StorySettings> = 
       enabled: false,
     };
   },
-  mode: s => {
+  mode: (s) => {
     if (s.mode) {
       return s.mode;
     }

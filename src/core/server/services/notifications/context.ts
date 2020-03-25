@@ -61,7 +61,7 @@ export default class NotificationContext {
   public readonly users: DataLoader<
     string,
     Readonly<User> | null
-  > = new DataLoader(userIDs =>
+  > = new DataLoader((userIDs) =>
     retrieveManyUsers(this.mongo, this.tenant.id, userIDs)
   );
 
@@ -71,7 +71,7 @@ export default class NotificationContext {
   public readonly comments: DataLoader<
     string,
     Readonly<Comment> | null
-  > = new DataLoader(commentIDs =>
+  > = new DataLoader((commentIDs) =>
     retrieveManyComments(this.mongo, this.tenant.id, commentIDs)
   );
 
@@ -81,7 +81,7 @@ export default class NotificationContext {
   public readonly stories: DataLoader<
     string,
     Readonly<Story> | null
-  > = new DataLoader(storyIDs =>
+  > = new DataLoader((storyIDs) =>
     retrieveManyStories(this.mongo, this.tenant.id, storyIDs)
   );
 

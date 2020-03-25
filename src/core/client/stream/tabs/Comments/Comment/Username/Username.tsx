@@ -10,7 +10,7 @@ interface Props {
   className?: string;
 }
 
-const Username: FunctionComponent<Props> = props => {
+const Username: FunctionComponent<Props> = (props) => {
   return (
     <Typography
       variant={"heading3"}

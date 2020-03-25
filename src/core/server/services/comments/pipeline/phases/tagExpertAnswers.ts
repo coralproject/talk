@@ -16,7 +16,7 @@ export const tagExpertAnswers: IntermediateModerationPhase = ({
   if (
     story.settings.mode === GQLSTORY_MODE.QA &&
     story.settings.expertIDs &&
-    story.settings.expertIDs.some(id => id === author.id)
+    story.settings.expertIDs.some((id) => id === author.id)
   ) {
     return {
       tags: [

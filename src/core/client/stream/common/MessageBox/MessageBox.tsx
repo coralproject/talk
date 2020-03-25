@@ -20,7 +20,7 @@ interface Props {
   classes: typeof styles;
 }
 
-const MessageBox: FunctionComponent<Props> = props => {
+const MessageBox: FunctionComponent<Props> = (props) => {
   const { className, classes, children, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);

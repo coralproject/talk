@@ -97,7 +97,7 @@ const features = [
   </Localized>,
 ];
 
-const RTE: FunctionComponent<RTEProps> = props => {
+const RTE: FunctionComponent<RTEProps> = (props) => {
   const {
     className,
     fullWidth,

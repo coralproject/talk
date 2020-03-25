@@ -71,7 +71,7 @@ const CommentReleasedSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         if (variables.orderBy === GQLCOMMENT_SORT.CREATED_AT_DESC) {
           updateForNewestFirst(store, variables.storyID);
           return;

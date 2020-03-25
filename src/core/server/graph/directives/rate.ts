@@ -51,15 +51,9 @@ const rate: DirectiveResolverFn<
   const key = `${tenant.id}:rl:${user.id}:${info.operation.operation}.${resource}`;
 
   // Perform the rate limiting check.
-  const [[, tries]] = await redis
-    .multi()
-    .incr(key)
-    .expire(key, seconds)
-    .exec();
+  const [[, tries]] = await redis.multi().incr(key).expire(key, seconds).exec();
   if (tries && tries > max) {
-    const resetsAt = DateTime.fromJSDate(now)
-      .plus({ seconds })
-      .toJSDate();
+    const resetsAt = DateTime.fromJSDate(now).plus({ seconds }).toJSDate();
     throw new RateLimitExceeded(key, max, resetsAt, tries);
   }
 

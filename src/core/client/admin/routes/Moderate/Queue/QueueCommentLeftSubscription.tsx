@@ -32,7 +32,7 @@ function handleCommentLeftModerationQueue(
     const linked = connection.getLinkedRecords("viewNewEdges") || [];
     connection.setLinkedRecords(
       linked.filter(
-        r => r!.getLinkedRecord("node")!.getValue("id") !== commentID
+        (r) => r!.getLinkedRecord("node")!.getValue("id") !== commentID
       ),
       "viewNewEdges"
     );
@@ -62,7 +62,7 @@ const QueueSubscription = createSubscription(
         }
       `,
       variables,
-      updater: store => {
+      updater: (store) => {
         handleCommentLeftModerationQueue(
           store,
           variables.queue,

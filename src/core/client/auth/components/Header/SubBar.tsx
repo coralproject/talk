@@ -8,7 +8,7 @@ export interface SubBarProps {
   children: React.ReactNode;
 }
 
-const SubBar: FunctionComponent<SubBarProps> = props => (
+const SubBar: FunctionComponent<SubBarProps> = (props) => (
   <Flex className={styles.root} alignItems="center" justifyContent="center">
     <nav>{props.children}</nav>
   </Flex>

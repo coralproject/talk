@@ -255,8 +255,8 @@ export async function invite(
     });
   }
 
-  return emails.map(email => {
-    const result = payloads.find(payload => payload.email === email);
+  return emails.map((email) => {
+    const result = payloads.find((payload) => payload.email === email);
     if (!result) {
       return null;
     }

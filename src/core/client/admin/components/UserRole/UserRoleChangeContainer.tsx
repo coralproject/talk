@@ -21,7 +21,7 @@ interface Props {
   user: UserRoleChangeContainer_user;
 }
 
-const UserRoleChangeContainer: FunctionComponent<Props> = props => {
+const UserRoleChangeContainer: FunctionComponent<Props> = (props) => {
   const updateUserRole = useMutation(UpdateUserRoleMutation);
   const handleOnChangeRole = useCallback(
     (role: GQLUSER_ROLE_RL) => {

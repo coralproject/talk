@@ -211,9 +211,7 @@ it("change story status", async () => {
     changeStatusButton.props.onClick();
   });
   act(() => {
-    within(popup)
-      .getByText("Closed", { selector: "button" })
-      .props.onClick();
+    within(popup).getByText("Closed", { selector: "button" }).props.onClick();
   });
 
   within(storyRow).getByText("Closed");
@@ -225,9 +223,7 @@ it("change story status", async () => {
   });
 
   act(() => {
-    within(popup)
-      .getByText("Open", { selector: "button" })
-      .props.onClick();
+    within(popup).getByText("Open", { selector: "button" }).props.onClick();
   });
 
   within(storyRow).getByText("Open");

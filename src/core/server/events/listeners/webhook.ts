@@ -22,7 +22,7 @@ export class WebhookCoralEventListener
 
   public initialize: CoralEventPublisherFactory<
     WebhookCoralEventListenerPayloads
-  > = ({ id: contextID, tenant }) => async event => {
+  > = ({ id: contextID, tenant }) => async (event) => {
     const log = logger.child(
       {
         tenantID: tenant.id,
@@ -33,7 +33,7 @@ export class WebhookCoralEventListener
     );
 
     // Based on the incoming event, determine which endpoints we should send.
-    const endpoints = tenant.webhooks.endpoints.filter(endpoint => {
+    const endpoints = tenant.webhooks.endpoints.filter((endpoint) => {
       // If the endpoint is disabled, don't include it.
       if (!endpoint.enabled) {
         return false;
@@ -72,7 +72,7 @@ export class WebhookCoralEventListener
     // For each of these endpoints that need a delivery of these notifications,
     // queue up the job that will send it.
     await Promise.all(
-      endpoints.map(endpoint =>
+      endpoints.map((endpoint) =>
         this.queue.add({
           tenantID: tenant.id,
           contextID,

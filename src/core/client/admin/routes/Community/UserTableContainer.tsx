@@ -21,9 +21,9 @@ interface Props {
   relay: RelayPaginationProp;
 }
 
-const UserTableContainer: FunctionComponent<Props> = props => {
+const UserTableContainer: FunctionComponent<Props> = (props) => {
   const users = props.query
-    ? props.query.users.edges.map(edge => edge.node)
+    ? props.query.users.edges.map((edge) => edge.node)
     : [];
 
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);

@@ -11,5 +11,5 @@ export const SuspensionStatus: Required<GQLSuspensionStatusTypeResolver<
   active: ({ active }) => active,
   until: ({ until }) => until,
   history: ({ history, userID }) =>
-    history.map(status => ({ ...status, userID })),
+    history.map((status) => ({ ...status, userID })),
 };

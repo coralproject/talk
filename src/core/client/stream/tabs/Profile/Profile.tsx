@@ -36,7 +36,7 @@ export interface ProfileProps {
     PropTypesOf<typeof MyCommentsContainer>["settings"];
 }
 
-const Profile: FunctionComponent<ProfileProps> = props => {
+const Profile: FunctionComponent<ProfileProps> = (props) => {
   const emitSetProfileTabEvent = useViewerEvent(SetProfileTabEvent);
   const [local, setLocal] = useLocal<ProfileLocal>(graphql`
     fragment ProfileLocal on Local {

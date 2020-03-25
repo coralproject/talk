@@ -93,7 +93,7 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
         </FormFieldDescription>
       </Localized>
       <ListGroup className={styles.list}>
-        {settings.webhookEvents.map(event => {
+        {settings.webhookEvents.map((event) => {
           const selectedIndex = events.value.indexOf(event);
           return (
             <ListGroupRow key={event}>

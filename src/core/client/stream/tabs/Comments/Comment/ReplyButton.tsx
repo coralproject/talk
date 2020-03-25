@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-const ReplyButton: FunctionComponent<Props> = props => (
+const ReplyButton: FunctionComponent<Props> = (props) => (
   <Button
     className={props.className}
     id={props.id}

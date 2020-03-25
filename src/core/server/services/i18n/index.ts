@@ -12,7 +12,7 @@ import logger from "coral-server/logger";
  * @param locale the string that is being tested if it's a `LanguageCode`
  */
 function isLanguageCode(locale: string): locale is LanguageCode {
-  return LOCALES.some(code => code === locale);
+  return LOCALES.some((code) => code === locale);
 }
 
 // pathsToLocales is the paths where to find the locales.

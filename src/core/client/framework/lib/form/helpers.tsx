@@ -85,7 +85,7 @@ export const parseStringList = (v: string) => {
   if (v === "") {
     return [];
   }
-  return v.split(",").map(x => x.trim());
+  return v.split(",").map((x) => x.trim());
 };
 
 export const formatStringList = (v: string[] | null) => {

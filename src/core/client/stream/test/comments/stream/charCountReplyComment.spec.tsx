@@ -43,7 +43,7 @@ async function createTestRenderer(
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: localRecord => {
+    initLocalState: (localRecord) => {
       localRecord.setValue(stories[0].id, "storyID");
     },
   });
@@ -53,9 +53,7 @@ async function createTestRenderer(
   );
 
   // Open reply form.
-  within(comment)
-    .getByText("Reply", { selector: "button" })
-    .props.onClick();
+  within(comment).getByText("Reply", { selector: "button" }).props.onClick();
 
   const rte = await waitForElement(
     () =>

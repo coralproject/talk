@@ -44,23 +44,13 @@ export const configSchema = Joi.object({
   watchers: Joi.object().pattern(
     /.*/,
     Joi.object({
-      paths: Joi.array()
-        .items(Joi.string())
-        .unique(),
-      ignore: Joi.array()
-        .items(Joi.string())
-        .unique()
-        .optional(),
+      paths: Joi.array().items(Joi.string()).unique(),
+      ignore: Joi.array().items(Joi.string()).unique().optional(),
       executor: Joi.object(),
     })
   ),
   defaultSet: Joi.string().optional(),
   sets: Joi.object()
-    .pattern(
-      /.*/,
-      Joi.array()
-        .items(Joi.string())
-        .unique()
-    )
+    .pattern(/.*/, Joi.array().items(Joi.string()).unique())
     .optional(),
 }).with("defaultSet", "sets");

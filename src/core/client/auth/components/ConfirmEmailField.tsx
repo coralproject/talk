@@ -14,7 +14,7 @@ interface Props {
   disabled: boolean;
 }
 
-const ConfirmEmailField: FunctionComponent<Props> = props => (
+const ConfirmEmailField: FunctionComponent<Props> = (props) => (
   <Field
     name="confirmEmail"
     validate={composeValidators(required, validateEqualEmails)}

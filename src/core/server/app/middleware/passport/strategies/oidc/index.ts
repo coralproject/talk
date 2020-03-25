@@ -74,7 +74,7 @@ export const OIDCIDTokenSchema = Joi.object()
       "nickname",
       "preferred_username",
     ],
-    s => s.optional()
+    (s) => s.optional()
   );
 
 export interface StrategyItem {

@@ -88,5 +88,5 @@ export function getWebhookEndpoint(
   tenant: Pick<Tenant, "webhooks">,
   endpointID: string
 ) {
-  return tenant.webhooks.endpoints.find(e => e.id === endpointID) || null;
+  return tenant.webhooks.endpoints.find((e) => e.id === endpointID) || null;
 }

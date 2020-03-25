@@ -9,7 +9,7 @@ type Props = Omit<
   "showPasswordTitle" | "hidePasswordTitle"
 >;
 
-const PasswordField: FunctionComponent<Props> = props => (
+const PasswordField: FunctionComponent<Props> = (props) => (
   <Localized
     id="framework-passwordField"
     attrs={{ showPasswordTitle: true, hidePasswordTitle: true }}

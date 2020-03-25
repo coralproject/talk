@@ -42,7 +42,7 @@ const SSOConfig: FunctionComponent<Props> = ({ disabled, sso }) => (
     disabled={disabled}
     data-testid="configure-auth-sso"
   >
-    {disabledInside => (
+    {(disabledInside) => (
       <>
         <SSOKeyFieldContainer sso={sso} disabled={disabledInside} />
         <TargetFilterField

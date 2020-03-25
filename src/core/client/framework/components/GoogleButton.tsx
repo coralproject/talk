@@ -25,7 +25,7 @@ const googleIcon = (
   </svg>
 );
 
-const GoogleButton: FunctionComponent<Props> = props => (
+const GoogleButton: FunctionComponent<Props> = (props) => (
   <Button
     classes={styles}
     variant="regular"

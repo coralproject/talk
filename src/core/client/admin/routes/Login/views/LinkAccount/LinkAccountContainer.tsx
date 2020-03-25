@@ -44,7 +44,7 @@ interface Props {
   viewer: LinkAccountContainer_viewer | null;
 }
 
-const LinkAccountContainer: FunctionComponent<Props> = props => {
+const LinkAccountContainer: FunctionComponent<Props> = (props) => {
   const [local] = useLocal<LinkAccountContainerLocal>(graphql`
     fragment LinkAccountContainerLocal on Local {
       authDuplicateEmail

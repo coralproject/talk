@@ -19,7 +19,7 @@ export interface TimestampProps {
   onClick?: EventHandler<MouseEvent>;
 }
 
-const Timestamp: FunctionComponent<TimestampProps> = props => {
+const Timestamp: FunctionComponent<TimestampProps> = (props) => {
   const [showAbsolute, setShowAbsolute] = useState(false);
   const handleOnClick = useCallback(
     (event: MouseEvent) => {
