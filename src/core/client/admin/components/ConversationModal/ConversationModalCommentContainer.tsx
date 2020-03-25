@@ -13,6 +13,7 @@ import {
 import ConversationModalRepliesQuery from "./ConversationModalRepliesQuery";
 
 import { ConversationModalCommentContainer_comment } from "coral-admin/__generated__/ConversationModalCommentContainer_comment.graphql";
+import { ConversationModalCommentContainer_settings } from "coral-admin/__generated__/ConversationModalCommentContainer_settings.graphql";
 
 import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
 import { Circle, Line } from "../Timeline";
@@ -25,6 +26,7 @@ interface Props {
   onUsernameClick: (id?: string) => void;
   isParent?: boolean;
   isReply?: boolean;
+  settings: ConversationModalCommentContainer_settings;
 }
 
 const ConversationModalCommentContainer: FunctionComponent<Props> = ({
@@ -33,6 +35,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
   isParent,
   isReply,
   onUsernameClick,
+  settings,
 }) => {
   const commentAuthorClick = useCallback(() => {
     if (comment.author) {
@@ -88,11 +91,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
 
           <div>
             {comment.body && (
-              <CommentContent
-                className={styles.commentText}
-                suspectWords={[]}
-                bannedWords={[]}
-              >
+              <CommentContent className={styles.commentText} phrases={settings}>
                 {comment.body}
               </CommentContent>
             )}
@@ -126,6 +125,18 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment ConversationModalCommentContainer_settings on Settings {
+      locale
+      wordList {
+        banned
+        suspect
+      }
+      multisite
+      featureFlags
+      ...MarkersContainer_settings
+    }
+  `,
   comment: graphql`
     fragment ConversationModalCommentContainer_comment on Comment {
       id

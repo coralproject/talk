@@ -14,6 +14,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { ConversationModalContainer_comment } from "coral-admin/__generated__/ConversationModalContainer_comment.graphql";
+import { ConversationModalContainer_settings } from "coral-admin/__generated__/ConversationModalContainer_settings.graphql";
 import { ConversationModalContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalContainerPaginationQuery.graphql";
 
 import { Circle } from "../Timeline";
@@ -24,6 +25,7 @@ import styles from "./ConversationModalContainer.css";
 interface Props {
   relay: RelayPaginationProp;
   comment: ConversationModalContainer_comment;
+  settings: ConversationModalContainer_settings;
   onClose: () => void;
   onUsernameClicked: (id?: string) => void;
 }
@@ -31,6 +33,7 @@ interface Props {
 const ConversationModalContainer: FunctionComponent<Props> = ({
   comment,
   relay,
+  settings,
   onUsernameClicked,
 }) => {
   const [loadMore] = useLoadMore(relay, 5);
@@ -63,11 +66,13 @@ const ConversationModalContainer: FunctionComponent<Props> = ({
           isParent={true}
           comment={parent}
           onUsernameClick={onUsernameClicked}
+          settings={settings}
           isHighlighted={false}
         />
       ))}
       <ConversationModalComment
         comment={comment}
+        settings={settings}
         onUsernameClick={onUsernameClicked}
         isHighlighted={true}
       />
@@ -84,6 +89,11 @@ const enhanced = withPaginationContainer<
   FragmentVariables
 >(
   {
+    settings: graphql`
+      fragment ConversationModalContainer_settings on Settings {
+        ...ConversationModalCommentContainer_settings
+      }
+    `,
     comment: graphql`
       fragment ConversationModalContainer_comment on Comment
         @argumentDefinitions(

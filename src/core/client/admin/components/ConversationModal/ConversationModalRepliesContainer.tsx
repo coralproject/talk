@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
@@ -10,6 +10,7 @@ import { Omit } from "coral-framework/types";
 import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
 import { ConversationModalRepliesContainer_comment } from "coral-admin/__generated__/ConversationModalRepliesContainer_comment.graphql";
+import { ConversationModalRepliesContainer_settings } from "coral-admin/__generated__/ConversationModalRepliesContainer_settings.graphql";
 import { ConversationModalRepliesContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalRepliesContainerPaginationQuery.graphql";
 import ConversationModalCommentContainer from "./ConversationModalCommentContainer";
 
@@ -18,6 +19,7 @@ import styles from "./ConversationModalRepliesContainer.css";
 interface Props {
   relay: RelayPaginationProp;
   comment: ConversationModalRepliesContainer_comment;
+  settings: ConversationModalRepliesContainer_settings;
   onClose: () => void;
   onUsernameClicked: (id?: string) => void;
 }
@@ -25,38 +27,47 @@ interface Props {
 const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
   comment,
   relay,
+  settings,
   onUsernameClicked,
 }) => {
   const [loadMore] = useLoadMore(relay, 5);
   const replies = comment.replies.edges.map(edge => edge.node);
+  const [showReplies, setShowReplies] = useState(false);
+  const onShowReplies = useCallback(() => {
+    setShowReplies(true);
+  }, []);
   return (
     <HorizontalGutter>
-      {replies.map(reply => (
-        <div key={reply.id} className={styles.comment}>
-          <ConversationModalCommentContainer
-            key={reply.id}
-            comment={reply}
-            isHighlighted={false}
-            isReply={true}
-            onUsernameClick={onUsernameClicked}
-          />
-        </div>
-      ))}
+      {showReplies &&
+        replies.map(reply => (
+          <div key={reply.id} className={styles.comment}>
+            <ConversationModalCommentContainer
+              key={reply.id}
+              settings={settings}
+              comment={reply}
+              isHighlighted={false}
+              isReply={true}
+              onUsernameClick={onUsernameClicked}
+            />
+          </div>
+        ))}
       <div className={styles.footer}>
-        {replies.length === 0 && comment.replyCount > 0 && (
+        {!showReplies && comment.replyCount > 0 && (
           <Localized id="conversation-modal-replies-show">
-            <Button variant="outline" fullWidth onClick={loadMore}>
+            <Button variant="outline" fullWidth onClick={onShowReplies}>
               Show replies
             </Button>
           </Localized>
         )}
-        {comment.replyCount > replies.length && replies.length > 0 && (
-          <Localized id="conversation-modal-replies-show-more">
-            <Button variant="outline" fullWidth onClick={loadMore}>
-              Show more replies
-            </Button>
-          </Localized>
-        )}
+        {showReplies &&
+          comment.replyCount > replies.length &&
+          replies.length > 0 && (
+            <Localized id="conversation-modal-replies-show-more">
+              <Button variant="outline" fullWidth onClick={loadMore}>
+                Show more replies
+              </Button>
+            </Localized>
+          )}
       </div>
     </HorizontalGutter>
   );
@@ -74,10 +85,15 @@ const enhanced = withPaginationContainer<
   FragmentVariables
 >(
   {
+    settings: graphql`
+      fragment ConversationModalRepliesContainer_settings on Settings {
+        ...ConversationModalCommentContainer_settings
+      }
+    `,
     comment: graphql`
       fragment ConversationModalRepliesContainer_comment on Comment
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 0 }
+          count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
