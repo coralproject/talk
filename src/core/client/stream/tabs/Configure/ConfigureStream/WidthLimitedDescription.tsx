@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Omit, PropTypesOf } from "coral-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 import { CheckBox, Typography } from "coral-ui/components";
 
 import styles from "./WidthLimitedDescription.css";

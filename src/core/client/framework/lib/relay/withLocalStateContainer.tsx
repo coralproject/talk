@@ -108,9 +108,9 @@ function withLocalStateContainer(
           return <BaseComponent {...rest} local={this.state.data} />;
         }
       }
-      return LocalStateContainer as React.ComponentType<any>;
+      return LocalStateContainer as React.ComponentClass<any>;
     })
-  );
+  ) as any;
 }
 
 export default withLocalStateContainer;

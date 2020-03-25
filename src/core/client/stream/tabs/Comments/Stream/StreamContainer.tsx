@@ -54,7 +54,7 @@ interface Props {
   viewer: ViewerData | null;
 }
 
-interface TooltipTabProps extends PropTypesOf<typeof Tab> {
+interface TooltipTabProps extends Omit<PropTypesOf<typeof Tab>, "ref"> {
   isQA?: boolean;
 }
 

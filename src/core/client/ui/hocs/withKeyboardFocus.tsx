@@ -67,7 +67,7 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<InjectedProps> = h
     }
   }
 
-  return WithKeyboardFocus as React.ComponentType<any>;
+  return WithKeyboardFocus as React.ComponentClass<any>;
 });
 
 export default withKeyboardFocus;

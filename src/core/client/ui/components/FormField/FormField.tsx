@@ -2,7 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent, ReactNode } from "react";
 
 import { withStyles } from "coral-ui/hocs";
-import { Omit, PropTypesOf } from "coral-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 import HorizontalGutter from "../HorizontalGutter";
 

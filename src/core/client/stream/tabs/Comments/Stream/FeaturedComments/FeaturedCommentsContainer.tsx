@@ -7,7 +7,7 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { Omit, PropTypesOf } from "coral-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreFeaturedCommentsEvent } from "coral-stream/events";
 import { Button, HorizontalGutter } from "coral-ui/components";

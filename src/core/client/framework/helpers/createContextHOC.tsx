@@ -27,7 +27,7 @@ function createContextHOC<Context>(
           </Consumer>
         );
         Component.displayName = wrapDisplayName(WrappedComponent, displayName);
-        return Component;
+        return Component as any;
       }
     );
   };

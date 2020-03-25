@@ -1,7 +1,5 @@
-import { identity, omit } from "lodash";
+import { omit } from "lodash";
 import sinon from "sinon";
-
-import { Omit } from "coral-framework/types";
 
 import { Fixture } from "./createFixture";
 import { Resolver } from "./createTestRenderer";
@@ -22,7 +20,6 @@ export type MutationResolverCallback<T extends Resolver<any, any>> = (data: {
       : never
     : never;
   callCount: number;
-  typecheck: (data: MutationResultVariations<T>) => MutationResultVariations<T>;
 }) => MutationResultVariations<T>;
 
 /**
@@ -44,7 +41,6 @@ export default function createMutationResolverStub<
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       variables: omit(data.input, "clientMutationId") as any,
       callCount: callCount++,
-      typecheck: identity,
     });
     expectAndFail(result.clientMutationId).toBeUndefined();
     result.clientMutationId = clientMutationId;

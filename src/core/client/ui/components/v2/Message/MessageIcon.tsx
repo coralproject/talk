@@ -3,7 +3,6 @@ import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 
 import Icon, { IconProps } from "coral-ui/components/Icon";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
-import { Omit } from "coral-ui/types";
 
 import styles from "./MessageIcon.css";
 

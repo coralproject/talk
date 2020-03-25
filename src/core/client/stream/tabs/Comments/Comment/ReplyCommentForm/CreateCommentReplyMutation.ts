@@ -134,6 +134,7 @@ const mutation = graphql`
         cursor
         node {
           ...AllCommentsTabContainer_comment @relay(mask: false)
+          id
           status
           parent {
             id
@@ -242,7 +243,8 @@ async function commit(
             },
             clientMutationId: (clientMutationId++).toString(),
           },
-        },
+          // TODO: (cvle) fix types.
+        } as any,
         optimisticUpdater: store => {
           // Skip optimistic update if comment is probably premoderated.
           if (expectPremoderation) {

@@ -8,7 +8,7 @@ import {
   TOXICITY_THRESHOLD_DEFAULT,
 } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers";
-import { Omit } from "coral-common/types";
+
 import { ToxicCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { hasFeatureFlag } from "coral-server/models/tenant";

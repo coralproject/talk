@@ -1,4 +1,3 @@
-import { identity } from "lodash";
 import sinon from "sinon";
 
 import { Fixture } from "./createFixture";
@@ -12,7 +11,6 @@ export type QueryResultVariations<
 export type QueryResolverCallback<T extends Resolver<any, any>> = (data: {
   variables: T extends Resolver<infer V, any> ? V : never;
   callCount: number;
-  typecheck: (data: QueryResultVariations<T>) => QueryResultVariations<T>;
 }) => QueryResultVariations<T>;
 
 /**
@@ -27,7 +25,6 @@ export default function createQueryResolverStub<T extends Resolver<any, any>>(
     return callback({
       variables: variables || fallback,
       callCount: callCount++,
-      typecheck: identity,
     });
   });
 }

@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 
 import { ERROR_TYPES } from "coral-common/errors";
-import { Omit } from "coral-common/types";
+
 import { Config } from "coral-server/config";
 import {
   CommentNotFoundError,

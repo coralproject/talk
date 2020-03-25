@@ -2,7 +2,7 @@ import { identity, isNumber } from "lodash";
 import { Db, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
-import { FirstDeepPartial, Omit } from "coral-common/types";
+import { FirstDeepPartial } from "coral-common/types";
 import { getOrigin } from "coral-server/app/url";
 import { DuplicateSiteAllowedOriginError } from "coral-server/errors";
 import {

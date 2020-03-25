@@ -37,6 +37,7 @@ const DeleteModeratorNoteMutation = createMutation(
         ) {
           deleteModeratorNote(input: $input) {
             user {
+              id
               moderatorNotes {
                 id
                 body

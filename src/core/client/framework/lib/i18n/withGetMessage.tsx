@@ -50,7 +50,7 @@ const withGetMessage: DefaultingInferableComponentEnhancer<InjectedProps> = hois
   const enhanced = withContext(({ localeBundles }) => ({ localeBundles }))(
     WithGetMessage
   );
-  return enhanced as React.ComponentType<any>;
+  return enhanced as React.ComponentClass<any>;
 });
 
 export default withGetMessage;

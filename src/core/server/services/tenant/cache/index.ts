@@ -4,7 +4,6 @@ import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
-import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 import {

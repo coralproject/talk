@@ -61,6 +61,7 @@ const typescriptOverrides = {
       "@typescript-eslint/no-namespace": "error",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-parameter-properties": "off",
+      "@typescript-eslint/no-unnecessary-type-assertion": "off", // TODO: turn on when using strict mode.
       "@typescript-eslint/no-unused-vars": ["error", {"args": "none", "ignoreRestSiblings": true}],
       "@typescript-eslint/no-use-before-define": "off", // TODO: (cvle) Should be on?
       "@typescript-eslint/no-use-before-declare": "off",

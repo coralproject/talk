@@ -1,7 +1,7 @@
 import { Db, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
-import { DeepPartial, FirstDeepPartial, Omit } from "coral-common/types";
+import { DeepPartial, FirstDeepPartial } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import {
   DuplicateStoryIDError,

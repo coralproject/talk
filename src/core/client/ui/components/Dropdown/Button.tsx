@@ -1,7 +1,6 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Omit } from "coral-framework/types";
 import { withStyles } from "coral-ui/hocs";
 
 import { Flex } from "../";

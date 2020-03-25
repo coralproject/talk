@@ -5,7 +5,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { Button } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
-interface Props extends PropTypesOf<typeof Button> {
+interface Props extends Omit<PropTypesOf<typeof Button>, "ref"> {
   text: string;
 }
 

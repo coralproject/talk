@@ -1,8 +1,8 @@
 declare module "found-relay" {
-  import { Resolver } from "found";
+  import { Resolver as FoundResolver } from "found";
   import { Environment } from "relay-runtime";
-  export class Resolver implements Resolver {
+  export class Resolver implements FoundResolver {
     constructor(relayEnvironment: Environment);
-    public resolveElements: Resolver["resolveElements"];
+    public resolveElements: FoundResolver["resolveElements"];
   }
 }

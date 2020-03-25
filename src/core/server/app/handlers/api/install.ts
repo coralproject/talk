@@ -2,7 +2,7 @@ import Joi from "@hapi/joi";
 import { v4 as uuid } from "uuid";
 
 import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";
-import { Omit } from "coral-common/types";
+
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";

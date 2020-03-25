@@ -3,7 +3,7 @@ import { camelCase, isEqual, omit, pick, uniqWith } from "lodash";
 import { Db } from "mongodb";
 import { v4 as uuid } from "uuid";
 
-import { Omit, Sub } from "coral-common/types";
+import { Sub } from "coral-common/types";
 import {
   GQLActionPresence,
   GQLCOMMENT_FLAG_DETECTED_REASON,

@@ -1,5 +1,3 @@
-import { Omit } from "coral-common/types";
-
 /**
  * validateMaximumLength will limit the value of an optional string to the
  * specified amount, otherwise will throw an error.

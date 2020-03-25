@@ -8,7 +8,7 @@ import { Bearer, BearerOptions } from "permit";
 import { v4 as uuid } from "uuid";
 
 import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
-import { Omit } from "coral-common/types";
+
 import {
   AuthenticationError,
   JWTRevokedError,

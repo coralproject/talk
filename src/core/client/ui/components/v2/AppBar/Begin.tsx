@@ -7,7 +7,7 @@ import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./Begin.css";
 
-interface Props extends PropTypesOf<typeof Flex> {
+interface Props extends Omit<PropTypesOf<typeof Flex>, "ref"> {
   children?: React.ReactNode;
   className?: string;
   classes: typeof styles;

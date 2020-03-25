@@ -100,7 +100,7 @@ function useLocal<T>(
   };
   const { relayEnvironment } = useCoralContext();
   const [local, setLocal] = useState<T>(
-    () => relayEnvironment.lookup(selector).data as T
+    () => relayEnvironment.lookup(selector).data as any
   );
   const localUpdate = useCallback(
     (update: LocalUpdater<T>) => {
@@ -121,10 +121,10 @@ function useLocal<T>(
   useEffect(() => {
     const snapshot = relayEnvironment.lookup(selector);
     const subscription = relayEnvironment.subscribe(snapshot, update =>
-      setLocal(update.data as T)
+      setLocal(update.data as any)
     );
     if (!firstRun) {
-      setLocal(snapshot.data as T);
+      setLocal(snapshot.data as any);
     }
     firstRun.current = false;
     return () => {

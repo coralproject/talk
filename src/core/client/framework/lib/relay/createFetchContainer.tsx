@@ -50,9 +50,9 @@ function createFetchContainer<T extends string, V, R>(
           return <BaseComponent {...rest} {...inject} />;
         }
       }
-      return CreateFetchContainer as React.ComponentType<any>;
+      return CreateFetchContainer as React.ComponentClass<any>;
     })
-  );
+  ) as any;
 }
 
 export default createFetchContainer;

@@ -77,7 +77,7 @@ const withInView: DefaultingInferableComponentEnhancer<InjectedProps> = hoistSta
   const enhanced = withIntersectionContext(({ observe }) => ({ observe }))(
     WithInView
   );
-  return enhanced as React.ComponentType<any>;
+  return enhanced as React.ComponentClass<any>;
 });
 
 export default withInView;

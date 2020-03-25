@@ -1,7 +1,6 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
-import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
 import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";

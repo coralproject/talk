@@ -3,7 +3,7 @@ import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 
 import Icon, { IconProps } from "coral-ui/components/v2/Icon";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
-import { Omit, PropTypesOf } from "coral-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./ButtonIcon.css";
 

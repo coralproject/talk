@@ -38,11 +38,13 @@ const RejectCommentMutation = createMutation(
             mutation RejectCommentMutation($input: RejectCommentInput!) {
               rejectComment(input: $input) {
                 comment {
+                  id
                   status
                   tags {
                     code
                   }
                   story {
+                    id
                     commentCounts {
                       tags {
                         FEATURED

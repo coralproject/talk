@@ -224,7 +224,8 @@ async function commit(
             },
             clientMutationId: (clientMutationId++).toString(),
           },
-        },
+          // TODO: (cvle) fix types.
+        } as any,
         optimisticUpdater: store => {
           // Skip optimistic update if comment is probably premoderated.
           if (expectPremoderation) {

@@ -63,7 +63,7 @@ const withMouseHover: DefaultingInferableComponentEnhancer<InjectedProps> = hois
     }
   }
 
-  return WithMouseHover as React.ComponentType<any>;
+  return WithMouseHover as React.ComponentClass<any>;
 });
 
 export default withMouseHover;

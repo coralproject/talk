@@ -55,9 +55,9 @@ function createMutationContainer<T extends string, I, R>(
           return <BaseComponent {...rest} {...inject} />;
         }
       }
-      return CreateMutationContainer as React.ComponentType<any>;
+      return CreateMutationContainer as React.ComponentClass<any>;
     })
-  );
+  ) as any;
 }
 
 export default createMutationContainer;

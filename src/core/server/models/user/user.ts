@@ -3,7 +3,7 @@ import { DateTime, DurationObject } from "luxon";
 import { Db, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
-import { DeepPartial, Omit, Sub } from "coral-common/types";
+import { DeepPartial, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import {
   ConfirmEmailTokenExpired,

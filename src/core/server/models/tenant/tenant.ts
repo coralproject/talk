@@ -6,7 +6,7 @@ import { v4 as uuid } from "uuid";
 import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import TIME from "coral-common/time";
-import { DeepPartial, Omit, Sub } from "coral-common/types";
+import { DeepPartial, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
 import logger from "coral-server/logger";

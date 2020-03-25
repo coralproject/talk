@@ -3,7 +3,7 @@ import { Db } from "mongodb";
 import performanceNow from "performance-now";
 import { v4 as uuid } from "uuid";
 
-import { Omit, Sub } from "coral-common/types";
+import { Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
 import { CommentNotFoundError } from "coral-server/errors";
 import logger from "coral-server/logger";

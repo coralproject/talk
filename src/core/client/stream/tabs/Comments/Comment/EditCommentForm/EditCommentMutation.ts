@@ -21,6 +21,7 @@ const mutation = graphql`
   mutation EditCommentMutation($input: EditCommentInput!) {
     editComment(input: $input) {
       comment {
+        id
         body
         status
         revision {

@@ -7,7 +7,7 @@ import { BaseButton, Icon } from "coral-ui/components/v2";
 
 import styles from "./ApproveButton.css";
 
-interface Props extends PropTypesOf<typeof BaseButton> {
+interface Props extends Omit<PropTypesOf<typeof BaseButton>, "ref"> {
   invert?: boolean;
 }
 

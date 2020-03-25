@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 import striptags from "striptags";
 
-import { Omit, Promiseable, RequireProperty } from "coral-common/types";
+import { Promiseable, RequireProperty } from "coral-common/types";
 import { Config } from "coral-server/config";
 import { Logger } from "coral-server/logger";
 import { CreateActionInput } from "coral-server/models/action/comment";

@@ -32,6 +32,7 @@ const ApproveCommentMutation = createMutation(
             mutation ApproveCommentMutation($input: ApproveCommentInput!) {
               approveComment(input: $input) {
                 comment {
+                  id
                   status
                 }
                 clientMutationId

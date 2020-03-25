@@ -17,7 +17,7 @@ const withForm: InferableComponentEnhancer<FormProps> = hoistStatics<any>(
       return <WrappedComponent {...props} form={form} />;
     };
     Component.displayName = wrapDisplayName(WrappedComponent, "withForm");
-    return Component;
+    return Component as any;
   }
 );
 

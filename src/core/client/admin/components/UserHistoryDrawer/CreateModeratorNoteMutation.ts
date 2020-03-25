@@ -40,6 +40,7 @@ const CreateModeratorNoteMutation = createMutation(
         ) {
           createModeratorNote(input: $input) {
             user {
+              id
               moderatorNotes {
                 id
                 body

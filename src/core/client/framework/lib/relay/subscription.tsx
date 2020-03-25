@@ -76,13 +76,13 @@ export function withSubscription<N extends string, V, R>(
   return (BaseComponent: React.ComponentType<any>) => {
     {
       const sub = useSubscription(subscription);
-      return function WithSubscription(props) {
+      return function WithSubscription(props: any) {
         const finalProps = {
           ...props,
           [subscription.name]: sub,
         };
         return <BaseComponent {...finalProps} />;
-      };
+      } as any;
     }
   };
 }

@@ -12,7 +12,7 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLSTORY_MODE } from "coral-framework/schema";
-import { Omit, PropTypesOf } from "coral-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import { LoadMoreAllCommentsEvent } from "coral-stream/events";
 import { Box, Button, HorizontalGutter } from "coral-ui/components";
