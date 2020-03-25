@@ -15,8 +15,15 @@ const DefaultWordListRule: WordListRule = {
   whitespace: "\\s+",
 };
 
+const BrazilianPortugueseWordListRule: WordListRule = {
+  split: "[^a-zÀ-ÿ]",
+  punctuation: '[\\s"?!.]+',
+  whitespace: "\\s+",
+};
+
 const WordListRules: DeepPartial<Record<LanguageCode, WordListRule>> = {
   "en-US": DefaultWordListRule,
+  "pt-BR": BrazilianPortugueseWordListRule,
 };
 
 /**
