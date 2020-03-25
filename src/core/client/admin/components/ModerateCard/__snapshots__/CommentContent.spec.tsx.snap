@@ -11,6 +11,19 @@ exports[`renders correctly 1`] = `
 />
 `;
 
+exports[`renders correctly even if it has consecutive banned words on comments 1`] = `
+<div
+  className="custom CommentContent-root"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "<span>This is a very long comment with <mark>bad</mark> words. Let's try <mark>bad</mark> and <mark>bad</mark>. Now <mark>bad</mark> <mark>bad</mark>.
+<mark>Bad</mark> <mark>BAD</mark> <mark>bad</mark>.
+</span>",
+    }
+  }
+/>
+`;
+
 exports[`renders empty words correctly 1`] = `
 <div
   className="custom CommentContent-root"

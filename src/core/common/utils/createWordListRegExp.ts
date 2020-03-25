@@ -65,7 +65,7 @@ export default function createWordListRegExp(
     .join("|");
 
   // Wrap the pattern in split rules.
-  const pattern = `(^|${rule.split})(${words})($|${rule.split})`;
+  const pattern = `(?<=^|${rule.split})(${words})(?=$|${rule.split})`;
 
   try {
     return new RegExp(pattern, "iu");
