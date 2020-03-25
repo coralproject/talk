@@ -63,6 +63,8 @@ const CLASSES = {
      * configure is the button for the "Configure" tab.
      */
     configure: "coral coral-tabBar-tab coral-tabBar-configure",
+
+    activeTab: "coral-tabBar-tab-active",
   },
 
   /**
@@ -89,6 +91,8 @@ const CLASSES = {
      * featuredTooltip is the tooltip next to the featured tab.
      */
     featuredTooltip: "coral coral-tabBarComments-featuredTooltip",
+
+    activeTab: "coral-tabBarSecondary-tab-active",
   },
 
   /**
