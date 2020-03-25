@@ -97,9 +97,10 @@ let typescriptTypeCheckingOverrides = {
         "rules": {
           "ordered-imports": {
             "options": {
-              "import-sources-order": "case-insensitive",
+              // Legacy sorting until this is fixed: https://github.com/SoominHan/import-sorter/issues/60
+              "import-sources-order": "case-insensitive-legacy",
               "module-source-path": "full",
-              "named-imports-order": "case-insensitive",
+              "named-imports-order": "case-insensitive-legacy",
             },
           },
         },

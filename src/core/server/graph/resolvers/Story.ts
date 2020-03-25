@@ -1,12 +1,13 @@
 import { defaultsDeep } from "lodash";
 
+import { decodeActionCounts } from "coral-server/models/action/comment";
+import * as story from "coral-server/models/story";
+
 import {
   GQLSTORY_STATUS,
   GQLStoryTypeResolver,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
-import { decodeActionCounts } from "coral-server/models/action/comment";
-import * as story from "coral-server/models/story";
 
 import GraphContext from "../context";
 import { CommentCountsInput } from "./CommentCounts";
