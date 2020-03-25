@@ -3,7 +3,7 @@ import { JSDOM } from "jsdom";
 import { createPurify, sanitizeCommentBody } from "./purify";
 
 const window = new JSDOM("", {}).window;
-const DOMPurify = createPurify(window);
+const DOMPurify = createPurify(window as any);
 
 it("sanitizes out tags not allowed", () => {
   expect(

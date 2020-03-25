@@ -8,7 +8,7 @@ import {
 
 // Initializing JSDOM and DOMPurify
 const window = new JSDOM("", {}).window;
-const DOMPurify = createPurify(window);
+const DOMPurify = createPurify(window as any);
 
 export const purify: IntermediateModerationPhase = async ({
   comment,
