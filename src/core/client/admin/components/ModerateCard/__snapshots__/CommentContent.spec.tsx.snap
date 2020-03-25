@@ -11,12 +11,34 @@ exports[`renders correctly 1`] = `
 />
 `;
 
+exports[`renders correctly in Brazilian Portuguese: it doesn't treat accented characters as word separators 1`] = `
+<div
+  className="custom CommentContent-root"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "<span>O biólogo analisou o caso.<mark>bi</mark> Mas não foi ao evento biánual</span>",
+    }
+  }
+/>
+`;
+
 exports[`renders empty words correctly 1`] = `
 <div
   className="custom CommentContent-root"
   dangerouslySetInnerHTML={
     Object {
       "__html": "Hello <b>Bob</b>, you bad guy",
+    }
+  }
+/>
+`;
+
+exports[`renders empty words correctly in Brazilian Portuguese 1`] = `
+<div
+  className="custom CommentContent-root"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "Olá <b>Bob</b>, você é um cara mau",
     }
   }
 />
