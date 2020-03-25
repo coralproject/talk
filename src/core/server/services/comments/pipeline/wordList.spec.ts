@@ -80,3 +80,59 @@ describe("en-US", () => {
     });
   });
 });
+
+describe("pt-BR", () => {
+  const list = new WordList();
+  const options: Options = {
+    id: "tenant_1",
+    locale: "pt-BR",
+    wordList: {
+      banned: ["bi", "outro", "café", "m e r d a", "Como fazer coisas ruins"],
+      suspect: [],
+    },
+  };
+
+  describe("containsMatchingPhrase", () => {
+    it("does match on a word in the list (considering Brazilian Portuguese accented characters not to be word separators)", () => {
+      [
+        "biólogo se soletra com: bi ",
+        "m.e.r.d.a",
+        "não tomo café pois faz mal",
+        "Como fazer coisas ruins",
+      ].forEach(word => {
+        expect(list.test(options, "banned", word)).toEqual(true);
+      });
+    });
+
+    it("does not match on a word not in the list", () => {
+      [
+        "O biólogo recomenda este artigo",
+        "cafe",
+        "Ser banido é uma merda",
+      ].forEach(word => {
+        expect(list.test(options, "banned", word)).toEqual(false);
+      });
+    });
+
+    it("allows an empty list", () => {
+      expect(list.test(options, "banned", "test")).toEqual(false);
+    });
+  });
+
+  describe("containsMatchingPhraseMemoized", () => {
+    it("return true for all cases after memoizing the first result", () => {
+      [
+        "bi 1",
+        "bi 2",
+        "bi 4",
+        "bi 5",
+        "this is for bi 6",
+        "this is for bi 7",
+        "this is for bi 8",
+        "this is for bi 9",
+      ].forEach(word => {
+        expect(list.test(options, "banned", word)).toEqual(true);
+      });
+    });
+  });
+});
