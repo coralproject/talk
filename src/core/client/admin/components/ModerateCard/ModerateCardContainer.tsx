@@ -46,6 +46,7 @@ interface Props {
   mini?: boolean;
   hideUsername?: boolean;
   onUsernameClicked?: (userID: string) => void;
+  onConversationClicked?: (commentID: string) => void;
   onSetSelected?: () => void;
   selected?: boolean;
   selectPrev?: () => void;
@@ -86,6 +87,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   selectPrev,
   selectNext,
   onUsernameClicked: usernameClicked,
+  onConversationClicked: conversationClicked,
   onSetSelected: setSelected,
   banUser,
   loadNext,
@@ -160,6 +162,16 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     [usernameClicked, comment]
   );
 
+  const onConversationClicked = useCallback(
+    (id?: string) => {
+      if (!conversationClicked) {
+        return;
+      }
+      conversationClicked(id || comment.id);
+    },
+    [conversationClicked, comment]
+  );
+
   const handleModerateStory = useCallback(
     (e: React.MouseEvent) => {
       router.push(getModerationLink({ storyID: comment.story.id }));
@@ -227,6 +239,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onReject={handleReject}
           onFeature={onFeature}
           onUsernameClick={onUsernameClicked}
+          onConversationClick={onConversationClicked}
           selected={selected}
           selectPrev={selectPrev}
           selectNext={selectNext}
