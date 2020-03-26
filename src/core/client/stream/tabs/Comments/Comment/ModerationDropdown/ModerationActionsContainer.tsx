@@ -8,7 +8,7 @@ import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { GotoModerationEvent } from "coral-stream/events";
-import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components";
+import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components/v2";
 
 import { ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
 import { ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
@@ -101,6 +101,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
               </Icon>
             }
             className={cn(
+              styles.label,
               styles.featured,
               CLASSES.moderationDropdown.unfeatureButton
             )}
@@ -113,7 +114,10 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       ) : (
         <Localized id="comments-moderationDropdown-feature">
           <DropdownButton
-            className={CLASSES.moderationDropdown.featureButton}
+            className={cn(
+              styles.label,
+              CLASSES.moderationDropdown.featureButton
+            )}
             icon={<Icon size="md">star_border</Icon>}
             onClick={onFeature}
             disabled={isQA}
@@ -134,6 +138,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
               </Icon>
             }
             className={cn(
+              styles.label,
               styles.approved,
               CLASSES.moderationDropdown.approvedButton
             )}
@@ -145,7 +150,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       ) : (
         <Localized id="comments-moderationDropdown-approve">
           <DropdownButton
-            className={CLASSES.moderationDropdown.approveButton}
+            className={(styles.label, CLASSES.moderationDropdown.approveButton)}
             icon={
               <Icon size="md" className={styles.approveIcon}>
                 check
@@ -169,6 +174,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
               </Icon>
             }
             className={cn(
+              styles.label,
               styles.rejected,
               CLASSES.moderationDropdown.rejectedButton
             )}
@@ -186,7 +192,10 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
               </Icon>
             }
             onClick={onReject}
-            className={CLASSES.moderationDropdown.rejectButton}
+            className={cn(
+              styles.label,
+              CLASSES.moderationDropdown.rejectButton
+            )}
           >
             Reject
           </DropdownButton>

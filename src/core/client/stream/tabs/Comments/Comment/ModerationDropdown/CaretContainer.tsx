@@ -5,7 +5,12 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Button, ClickOutside, Icon, Popover } from "coral-ui/components";
+import {
+  BaseButton,
+  ClickOutside,
+  Icon,
+  Popover,
+} from "coral-ui/components/v2";
 
 import { CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
 import { CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
@@ -49,18 +54,19 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
             id="comments-moderationDropdown-caretButton"
             attrs={{ "aria-label": true }}
           >
-            <Button
-              variant="ghost"
-              size="small"
-              className={cn(styles.root, CLASSES.comment.topBar.caretButton)}
+            <BaseButton
+              className={cn(
+                styles.root,
+                CLASSES.comment.topBar.caretButton,
+                visible ? [styles.active] : []
+              )}
               onClick={toggleVisibility}
               aria-controls={popoverID}
-              active={visible}
               ref={ref}
               aria-label="Moderate"
             >
               <Icon>{visible ? "expand_less" : "expand_more"}</Icon>
-            </Button>
+            </BaseButton>
           </Localized>
         )}
       </Popover>
