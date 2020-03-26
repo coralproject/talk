@@ -1,10 +1,7 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { graphql } from "react-relay";
 
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 
 import { UserStatusChangeContainer_settings as SettingsData } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";

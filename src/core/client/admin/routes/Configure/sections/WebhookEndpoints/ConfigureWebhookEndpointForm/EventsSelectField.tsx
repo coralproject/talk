@@ -1,10 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { useField } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { ValidationMessage } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { validateWebhookEventSelection } from "coral-framework/lib/validation";
 import { Typography } from "coral-ui/components";
 import {

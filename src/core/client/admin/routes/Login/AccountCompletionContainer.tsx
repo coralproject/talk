@@ -1,9 +1,9 @@
 import { RouterState, withRouter } from "found";
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
 import { SetRedirectPathMutation } from "coral-admin/mutations";
 import {
-  graphql,
   MutationProp,
   withFragmentContainer,
   withLocalStateContainer,

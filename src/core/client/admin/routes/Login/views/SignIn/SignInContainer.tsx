@@ -1,8 +1,8 @@
 import { RouteProps } from "found";
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
 import {
-  graphql,
   MutationProp,
   withFragmentContainer,
   withLocalStateContainer,

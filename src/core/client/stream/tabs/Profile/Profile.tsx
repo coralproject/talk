@@ -1,8 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
+import { graphql } from "react-relay";
 
 import { useViewerEvent } from "coral-framework/lib/events";
-import { graphql, useLocal } from "coral-framework/lib/relay";
+import { useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";

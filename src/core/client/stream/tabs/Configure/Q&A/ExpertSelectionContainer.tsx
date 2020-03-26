@@ -5,10 +5,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { RelayPaginationProp } from "react-relay";
+import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
-  graphql,
   useLoadMore,
   useMutation,
   useRefetch,

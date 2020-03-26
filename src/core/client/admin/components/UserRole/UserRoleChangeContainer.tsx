@@ -1,11 +1,8 @@
 import React, { FunctionComponent, useCallback } from "react";
+import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE_RL } from "coral-framework/schema";
 
 import { UserRoleChangeContainer_user } from "coral-admin/__generated__/UserRoleChangeContainer_user.graphql";

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, QueryRenderer } from "coral-framework/lib/relay";
+import { QueryRenderer } from "coral-framework/lib/relay";
 
 import { AppQuery as QueryTypes } from "coral-auth/__generated__/AppQuery.graphql";
 

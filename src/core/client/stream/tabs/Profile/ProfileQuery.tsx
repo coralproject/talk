@@ -1,10 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import { once } from "lodash";
 import React, { FunctionComponent, Suspense } from "react";
+import { graphql } from "react-relay";
 
 import { polyfillCSSVarsForIE11 } from "coral-framework/helpers";
 import {
-  graphql,
   QueryRenderData,
   QueryRenderer,
   withLocalStateContainer,

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
 import { SetViewMutation } from "coral-auth/mutations";
 import {
-  graphql,
   MutationProp,
   withFragmentContainer,
   withLocalStateContainer,

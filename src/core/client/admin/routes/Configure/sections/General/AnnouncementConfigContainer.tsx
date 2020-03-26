@@ -1,11 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { graphql } from "react-relay";
 
-import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,

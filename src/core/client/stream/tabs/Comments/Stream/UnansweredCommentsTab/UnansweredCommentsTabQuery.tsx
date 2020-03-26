@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import {
-  graphql,
   QueryRenderData,
   QueryRenderer,
   withLocalStateContainer,
@@ -62,7 +62,6 @@ const UnansweredCommentsTabQuery: FunctionComponent<Props> = (props) => {
           $storyID: ID
           $storyURL: String
           $commentsOrderBy: COMMENT_SORT
-          $tag: TAG
         ) {
           viewer {
             ...UnansweredCommentsTabContainer_viewer

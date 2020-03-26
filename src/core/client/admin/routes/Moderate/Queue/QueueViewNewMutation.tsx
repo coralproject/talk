@@ -31,7 +31,7 @@ const QueueViewNewMutation = createMutation(
         return;
       }
       viewNewEdges.forEach((edge) => {
-        ConnectionHandler.insertEdgeBefore(connection, edge!);
+        ConnectionHandler.insertEdgeBefore(connection, edge);
       });
       connection.setLinkedRecords([], "viewNewEdges");
     });

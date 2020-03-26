@@ -1,6 +1,7 @@
 import React from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   SignOutMutation,
   withSignOutMutation,

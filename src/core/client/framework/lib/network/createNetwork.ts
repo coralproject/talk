@@ -3,9 +3,9 @@ import {
   cacheMiddleware,
   RelayNetworkLayer,
   retryMiddleware,
-  SubscribeFunction,
   urlMiddleware,
 } from "react-relay-network-modern/es";
+import { GraphQLResponse, Observable, SubscribeFunction } from "relay-runtime";
 
 import TIME from "coral-common/time";
 import getLocationOrigin from "coral-framework/utils/getLocationOrigin";
@@ -22,18 +22,22 @@ const graphqlURL = `${getLocationOrigin()}/api/graphql`;
 function createSubscriptionFunction(
   subscriptionClient: ManagedSubscriptionClient
 ): SubscribeFunction {
-  const fn: SubscribeFunction = (
-    operation,
-    variables,
-    cacheConfig,
-    observer
-  ) => {
-    return subscriptionClient.subscribe(
-      operation,
-      variables,
-      cacheConfig,
-      observer
-    );
+  const fn: SubscribeFunction = (operation, variables, cacheConfig) => {
+    return Observable.create<GraphQLResponse>((sink) => {
+      subscriptionClient.subscribe(
+        operation as any,
+        variables,
+        {
+          force: cacheConfig.force === null ? undefined : cacheConfig.force,
+          poll: cacheConfig.poll === null ? undefined : cacheConfig.poll,
+        },
+        {
+          onNext: sink.next,
+          onError: sink.error,
+          onCompleted: sink.complete,
+        }
+      );
+    });
   };
   return fn;
 }
@@ -71,6 +75,7 @@ export default function createNetwork(
       clientIDMiddleware(clientID),
       persistedQueriesGetMethodMiddleware,
     ],
-    { subscribeFn: createSubscriptionFunction(subscriptionClient) }
+    // TODO: (cvle) Typing mismatch between Relay and react-relay-network-modern.
+    { subscribeFn: createSubscriptionFunction(subscriptionClient) as any }
   );
 }

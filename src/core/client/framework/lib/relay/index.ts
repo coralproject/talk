@@ -21,7 +21,6 @@ export {
   commitMutationPromise,
   commitMutationPromiseNormalized,
 } from "./commitMutationPromise";
-export { graphql } from "react-relay";
 export { default as commitLocalUpdatePromisified } from "./commitLocalUpdatePromisified";
 export {
   initLocalBaseState,
@@ -48,5 +47,6 @@ export {
   SubscriptionVariables,
   withSubscription,
   combineDisposables,
+  requestSubscription,
 } from "./subscription";
 export { default as purgeMetadata } from "./purgeMetadata";

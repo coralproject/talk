@@ -2,10 +2,11 @@ import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { FieldArray } from "react-final-form-arrays";
+import { graphql } from "react-relay";
 
 import { pureMerge } from "coral-common/utils";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   Button,
   ButtonIcon,

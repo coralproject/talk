@@ -1,5 +1,6 @@
 import { RouteMatch, RouteProps } from "found";
 import React from "react";
+import { resolveModule } from "../relay/helpers";
 
 type RouteConfig<Props = any, QueryResponse = undefined> = Partial<
   Pick<RouteProps, "query" | "getQuery">
@@ -31,6 +32,12 @@ function withRouteConfig<
     (component as any).routeConfig = {
       ...config,
       Component: component,
+      query: config.query ? resolveModule(config.query) : undefined,
+      getQuery: config.getQuery
+        ? (...args: any[]) => {
+            return resolveModule(config.getQuery(...args));
+          }
+        : undefined,
       render: function WitRouteConfig({
         error,
         props: data,

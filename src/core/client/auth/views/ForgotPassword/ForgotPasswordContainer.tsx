@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { ForgotPasswordContainer_viewer } from "coral-auth/__generated__/ForgotPasswordContainer_viewer.graphql";
 

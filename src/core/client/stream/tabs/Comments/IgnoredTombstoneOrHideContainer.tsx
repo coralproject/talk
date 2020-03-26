@@ -5,9 +5,10 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { graphql } from "react-relay";
 
 import { usePrevious } from "coral-framework/hooks";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { CallOut } from "coral-ui/components";
 

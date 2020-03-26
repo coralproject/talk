@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import { graphql } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
 import {
-  graphql,
   MutationProp,
   withFragmentContainer,
   withLocalStateContainer,

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { InviteCompleteFormContainer_settings } from "coral-admin/__generated__/InviteCompleteFormContainer_settings.graphql";
 

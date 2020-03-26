@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
+import { graphql } from "react-relay";
 
 import {
   colorFromMeta,
@@ -10,7 +11,6 @@ import {
   ValidationMessage,
 } from "coral-framework/lib/form";
 import {
-  graphql,
   useLocal,
   useMutation,
   withFragmentContainer,

@@ -1,8 +1,14 @@
 import React, { useCallback } from "react";
 import { InferableComponentEnhancer } from "recompose";
-import { Disposable, Environment } from "relay-runtime";
+import {
+  Disposable,
+  Environment,
+  GraphQLSubscriptionConfig,
+  requestSubscription as requestSubscriptionRelay,
+} from "relay-runtime";
 
 import { CoralContext, useCoralContext } from "../bootstrap";
+import { resolveModule } from "./helpers";
 
 export type SubscriptionVariables<
   T extends { variables: any }
@@ -38,6 +44,17 @@ export function createSubscription<N extends string, V>(
     name,
     subscribe,
   };
+}
+
+export function requestSubscription<TSubscriptionPayload>(
+  environment: Environment,
+  // tslint:disable-next-line no-unnecessary-generics
+  config: GraphQLSubscriptionConfig<TSubscriptionPayload>
+): Disposable {
+  return requestSubscriptionRelay(environment, {
+    ...config,
+    subscription: resolveModule(config.subscription),
+  });
 }
 
 /**

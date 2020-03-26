@@ -1,9 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
 
 import ConfigBox from "coral-admin/routes/Configure/ConfigBox";
 import Header from "coral-admin/routes/Configure/Header";
-import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { ConfigureWebhookEndpointContainer_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointContainer_settings.graphql";

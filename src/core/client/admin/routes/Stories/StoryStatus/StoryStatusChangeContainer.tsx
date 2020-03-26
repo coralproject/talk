@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useCallback } from "react";
+import { graphql } from "react-relay";
 
 import { Ability, can } from "coral-admin/permissions";
 import {
-  graphql,
   MutationProp,
   withFragmentContainer,
   withMutation,

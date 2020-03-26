@@ -20,10 +20,10 @@ const failPatterns: PatternMap = {
  * messages before they reach the console.
  */
 const mutePatterns: PatternMap = {
-  "Update a component from inside the function body": /Warning: Cannot update a component from inside the function body/g,
-  "React.createFactory() is deprecated": /React.createFactory\(\) is deprecated/g,
-  "False validateMutation warnings (https://github.com/facebook/relay/pull/2760)": /`optimisticResponse`.*contains an unused field .*\.\d+/g,
-  "ComponentWillReceiveProps has been renamed, and is not recommended for use": /componentWillReceiveProps has been renamed, and is not recommended for use/g,
+  "ReactFinalForm - Update a component while rendering another": /Cannot update a component.*while rendering a different component.*Field/,
+  "ReactFinalForm - Update a component from inside the function body (https://github.com/final-form/react-final-form/issues/751)": /Warning: Cannot update a component from inside the function body/g,
+  "Recompose - React.createFactory() is deprecated (https://github.com/acdlite/recompose/pull/795)": /React.createFactory\(\) is deprecated/g,
+  "RTE - ComponentWillReceiveProps has been renamed, and is not recommended for use (https://github.com/coralproject/rte)": /componentWillReceiveProps has been renamed, and is not recommended for use.*RTE/gs,
 };
 
 let matchedFail: string[] = [];

@@ -5,6 +5,7 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { withPaginationContainer } from "coral-framework/lib/relay";
+import { resolveModule } from "coral-framework/lib/relay/helpers";
 
 import { RejectedQueueRoute_query } from "coral-admin/__generated__/RejectedQueueRoute_query.graphql";
 import { RejectedQueueRoutePaginationQueryVariables } from "coral-admin/__generated__/RejectedQueueRoutePaginationQuery.graphql";
@@ -146,11 +147,11 @@ const enhanced = (withPaginationContainer<
 
 enhanced.routeConfig = {
   Component: enhanced,
-  query: graphql`
+  query: resolveModule(graphql`
     query RejectedQueueRouteQuery($storyID: ID) {
       ...RejectedQueueRoute_query @arguments(storyID: $storyID)
     }
-  `,
+  `),
   cacheConfig: { force: true },
   render: function RejectedRouteRender({ Component, props, match }) {
     if (Component && props) {
