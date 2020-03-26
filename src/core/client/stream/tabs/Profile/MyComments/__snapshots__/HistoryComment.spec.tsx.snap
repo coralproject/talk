@@ -11,20 +11,17 @@ exports[`renders correctly 1`] = `
     <Localized
       id="profile-historyComment-comment-on"
     >
-      <ForwardRef(forwardRef)
+      <span
         className="HistoryComment-commentOn"
-        variant="detail"
       >
         Comment on:
-      </ForwardRef(forwardRef)>
+      </span>
     </Localized>
-    <ForwardRef(forwardRef)
-      className="coral coral-myComment-story"
-      color="textDark"
-      variant="heading4"
+    <div
+      className="HistoryComment-storyTitle coral coral-myComment-story"
     >
       Story Title
-    </ForwardRef(forwardRef)>
+    </div>
   </div>
   <div>
     <TimeStamp
@@ -32,19 +29,19 @@ exports[`renders correctly 1`] = `
     >
       2018-07-06T18:24:00.000Z
     </TimeStamp>
-    <ForwardRef(forwardRef)
-      container="div"
-      variant="bodyCopy"
+    <div
+      className="HistoryComment-content"
     >
       <HTMLContent
         className="coral coral-myComment-content"
       >
         Hello World
       </HTMLContent>
-    </ForwardRef(forwardRef)>
+    </div>
   </div>
   <ForwardRef(forwardRef)
     alignItems="center"
+    className="HistoryComment-footer"
     direction="row"
     itemGutter="double"
   >
@@ -65,18 +62,42 @@ exports[`renders correctly 1`] = `
         </span>
       </Localized>
     </div>
-    <Localized
-      id="profile-historyComment-viewConversation"
+    <ForwardRef(forwardRef)
+      className="HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
+      classes={
+        Object {
+          "active": "HistoryComment-active",
+          "colorRegular": "HistoryComment-colorRegular",
+          "disabled": undefined,
+          "mouseHover": "HistoryComment-mouseHover",
+          "sizeRegular": "HistoryComment-sizeRegular",
+          "variantTextUnderlined": "HistoryComment-variantTextUnderlined",
+        }
+      }
+      color="regular"
+      href="http://localhost/conversation"
+      onClick={[Function]}
+      size="regular"
+      target="_parent"
+      uppercase={false}
+      variant="textUnderlined"
     >
-      <withPropsOnChange(TextLinkProps)
-        className="HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
-        href="http://localhost/conversation"
-        onClick={[Function]}
-        target="_parent"
+      <ForwardRef(forwardRef)
+        justifyContent="center"
       >
-        View Conversation
-      </withPropsOnChange(TextLinkProps)>
-    </Localized>
+        <ForwardRef(forwardRef)
+          className="HistoryComment-viewConversationIcon"
+          size="sm"
+        >
+          open_in_new
+        </ForwardRef(forwardRef)>
+        <Localized
+          id="profile-historyComment-viewConversation"
+        >
+          View Conversation
+        </Localized>
+      </ForwardRef(forwardRef)>
+    </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
 </ForwardRef(forwardRef)>
 `;

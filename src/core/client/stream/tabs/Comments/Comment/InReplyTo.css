@@ -1,7 +1,24 @@
+$commentsInReplyToUsernameColor: var(--v2-colors-mono-500);
+$commentsInReplyToLabelColor: var(--v2-colors-mono-100);
+$commentsInReplyToIconColor: var(--v2-colors-mono-100);
+
 .icon {
-  color: var(--palette-text-dark);
+  color: $commentsInReplyToIconColor;
 }
 
-.username {}
+.username {
+  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-3);
 
-.inReplyTo {}
+  color: $commentsInReplyToUsernameColor;
+}
+
+.inReplyTo {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-2);
+  color: $commentsInReplyToLabelColor;
+}

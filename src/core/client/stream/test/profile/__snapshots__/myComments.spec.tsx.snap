@@ -10,19 +10,17 @@ exports[`renders profile 1`] = `
     className="Box-root HorizontalGutter-root HistoryComment-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-0"
   >
-    <div
-      className="coral coral-myComment-commentOn"
-    >
-      <p
-        className="Box-root Typography-root Typography-detail Typography-colorTextPrimary HistoryComment-commentOn"
+    <div>
+      <span
+        className="HistoryComment-commentOn"
       >
         Comment on:
-      </p>
-      <h1
-        className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-myComment-story"
+      </span>
+      <div
+        className="HistoryComment-storyTitle coral coral-myComment-story"
       >
         title
-      </h1>
+      </div>
     </div>
     <div>
       <button
@@ -44,7 +42,7 @@ exports[`renders profile 1`] = `
         </time>
       </button>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        className="HistoryComment-content"
       >
         <div
           className="HTMLContent-root coral coral-myComment-content"
@@ -57,35 +55,51 @@ exports[`renders profile 1`] = `
       </div>
     </div>
     <div
-      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-alignCenter Flex-directionRow gutter"
+      className="Box-root Flex-root HistoryComment-footer Flex-flex Flex-doubleItemGutter Flex-alignCenter Flex-directionRow gutter"
     >
-      <a
-        className="TextLink-root HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
+      <button
+        className="BaseButton-root Button-root Button-sizeRegular HistoryComment-sizeRegular Button-colorRegular HistoryComment-colorRegular Button-variantTextUnderlined HistoryComment-variantTextUnderlined HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
+        data-color="regular"
+        data-variant="textUnderlined"
         href="http://localhost/stories/story-1?commentID=comment-0"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
         target="_parent"
+        type="button"
       >
-        View Conversation
-      </a>
+        <div
+          className="Box-root Flex-root Flex-flex Flex-justifyCenter"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm HistoryComment-viewConversationIcon"
+          >
+            open_in_new
+          </i>
+          View Conversation
+        </div>
+      </button>
     </div>
   </div>
   <div
     className="Box-root HorizontalGutter-root HistoryComment-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-1"
   >
-    <div
-      className="coral coral-myComment-commentOn"
-    >
-      <p
-        className="Box-root Typography-root Typography-detail Typography-colorTextPrimary HistoryComment-commentOn"
+    <div>
+      <span
+        className="HistoryComment-commentOn"
       >
         Comment on:
-      </p>
-      <h1
-        className="Box-root Typography-root Typography-heading4 Typography-colorTextDark coral coral-myComment-story"
+      </span>
+      <div
+        className="HistoryComment-storyTitle coral coral-myComment-story"
       >
         title
-      </h1>
+      </div>
     </div>
     <div>
       <button
@@ -107,7 +121,7 @@ exports[`renders profile 1`] = `
         </time>
       </button>
       <div
-        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        className="HistoryComment-content"
       >
         <div
           className="HTMLContent-root coral coral-myComment-content"
@@ -120,23 +134,41 @@ exports[`renders profile 1`] = `
       </div>
     </div>
     <div
-      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-alignCenter Flex-directionRow gutter"
+      className="Box-root Flex-root HistoryComment-footer Flex-flex Flex-doubleItemGutter Flex-alignCenter Flex-directionRow gutter"
     >
-      <a
-        className="TextLink-root HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
+      <button
+        className="BaseButton-root Button-root Button-sizeRegular HistoryComment-sizeRegular Button-colorRegular HistoryComment-colorRegular Button-variantTextUnderlined HistoryComment-variantTextUnderlined HistoryComment-viewConversation coral coral-myComment-viewConversationButton"
+        data-color="regular"
+        data-variant="textUnderlined"
         href="http://localhost/stories/story-1?commentID=comment-1"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
         target="_parent"
+        type="button"
       >
-        View Conversation
-      </a>
+        <div
+          className="Box-root Flex-root Flex-flex Flex-justifyCenter"
+        >
+          <i
+            aria-hidden="true"
+            className="Icon-root Icon-sm HistoryComment-viewConversationIcon"
+          >
+            open_in_new
+          </i>
+          View Conversation
+        </div>
+      </button>
     </div>
   </div>
   <button
     aria-controls="coral-profile-commentHistory-log"
-    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlineFilled Button-fullWidth coral coral-loadMoreButton coral-myComments-loadMoreButton"
+    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular CommentHistory-colorRegular Button-variantOutline CommentHistory-loadMore Button-uppercase Button-fullWidth coral coral-loadMoreButton coral-myComments-loadMoreButton"
     data-color="regular"
-    data-variant="outlineFilled"
+    data-variant="outline"
     disabled={false}
     id="coral-profile-commentHistory-loadMore"
     onBlur={[Function]}

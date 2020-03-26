@@ -3,13 +3,7 @@ import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import {
-  Button,
-  Flex,
-  HorizontalGutter,
-  Icon,
-  Typography,
-} from "coral-ui/components";
+import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
 
 import HistoryCommentContainer from "./HistoryCommentContainer";
 
@@ -43,12 +37,14 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
             <Icon size="xl">chat_bubble_outline</Icon>
           </div>
           <Localized id="profile-commentHistory-empty">
-            <Typography gutterBottom variant="heading2">
+            <span className={styles.emptyHistoryHeader}>
               You have not written any comments
-            </Typography>
+            </span>
           </Localized>
           <Localized id="profile-commentHistory-empty-subheading">
-            <Typography>A history of your comments will appear here</Typography>
+            <span className={styles.emptyHistorySubHeader}>
+              A history of your comments will appear here
+            </span>
           </Localized>
         </Flex>
       )}
@@ -65,11 +61,19 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
           <Button
             id={"coral-profile-commentHistory-loadMore"}
             onClick={props.onLoadMore}
-            variant="outlineFilled"
+            variant="outline"
+            color="regular"
             fullWidth
             disabled={props.disableLoadMore}
             aria-controls="coral-profile-commentHistory-log"
             className={CLASSES.myCommentsTabPane.loadMoreButton}
+            classes={{
+              variantOutline: styles.loadMore,
+              disabled: styles.disabled,
+              mouseHover: styles.mouseHover,
+              active: styles.active,
+              colorRegular: styles.colorRegular,
+            }}
           >
             Load More
           </Button>

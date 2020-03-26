@@ -119,11 +119,11 @@ exports[`renders reply list 1`] = `
                      
                   </span>
                   <span
-                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                    className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                   >
                     In reply to 
                     <span
-                      className="Box-root Typography-root Typography-heading4 Typography-colorTextDark InReplyTo-username coral coral-comment-inReplyToUsername"
+                      className="InReplyTo-username coral coral-comment-inReplyToUsername"
                     >
                       Markus
                     </span>
@@ -384,11 +384,11 @@ exports[`renders reply list 1`] = `
                          
                       </span>
                       <span
-                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                        className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                       >
                         In reply to 
                         <span
-                          className="Box-root Typography-root Typography-heading4 Typography-colorTextDark InReplyTo-username coral coral-comment-inReplyToUsername"
+                          className="InReplyTo-username coral coral-comment-inReplyToUsername"
                         >
                           Markus
                         </span>
@@ -644,11 +644,11 @@ exports[`renders reply list 1`] = `
                          
                       </span>
                       <span
-                        className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                        className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                       >
                         In reply to 
                         <span
-                          className="Box-root Typography-root Typography-heading4 Typography-colorTextDark InReplyTo-username coral coral-comment-inReplyToUsername"
+                          className="InReplyTo-username coral coral-comment-inReplyToUsername"
                         >
                           Markus
                         </span>
@@ -906,11 +906,11 @@ exports[`renders reply list 1`] = `
                      
                   </span>
                   <span
-                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo coral coral-comment-inReplyToText"
+                    className="InReplyTo-inReplyTo coral coral-comment-inReplyToText"
                   >
                     In reply to 
                     <span
-                      className="Box-root Typography-root Typography-heading4 Typography-colorTextDark InReplyTo-username coral coral-comment-inReplyToUsername"
+                      className="InReplyTo-username coral coral-comment-inReplyToUsername"
                     >
                       Markus
                     </span>
