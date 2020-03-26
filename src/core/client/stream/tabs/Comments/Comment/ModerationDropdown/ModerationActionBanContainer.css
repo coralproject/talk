@@ -1,16 +1,27 @@
+$commentsModerationBannedColor: var(--v2-colors-red-500);
+$commentsModerationLabelColor: var(--v2-colors-mono-500);
+
+.label {
+  color: $commentsModerationLabelColor;
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+}
+
 .banned {
   &:disabled {
     opacity: 1.0;
   }
-  color: var(--palette-error-dark);
-  font-weight: var(--font-weight-bold);
+  color: $commentsModerationBannedColor;
+  font-weight: var(--v2-font-weight-primary-bold);
 }
+
 .banIcon {
   width: 18px;
   height: 14px;
   text-align: center;
   line-height: 12px;
 }
+
 .spinner {
   height: 14px;
 }

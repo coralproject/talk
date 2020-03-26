@@ -7,7 +7,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Box, Button, Flex, Typography } from "coral-ui/components";
+import { Box, Button, Flex } from "coral-ui/components/v2";
 
 import { UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
 import { UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
@@ -59,22 +59,25 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   return (
     <Box className={cn(styles.root, CLASSES.banUserPopover.$root)} p={3}>
       <Localized id="comments-userBanPopover-title" $username={user.username}>
-        <Typography variant="heading3" mb={2}>
-          Ban {user.username}?
-        </Typography>
+        <div className={styles.title}>Ban {user.username}?</div>
       </Localized>
       <Localized id="comments-userBanPopover-description">
-        <Typography variant="detail" mb={3}>
+        <span className={styles.description}>
           Once banned, this user will no longer be able to comment, use
           reactions, or report comments.
-        </Typography>
+        </span>
       </Localized>
-      <Flex justifyContent="flex-end" itemGutter="half">
+      <Flex
+        justifyContent="flex-end"
+        itemGutter="half"
+        className={styles.actions}
+      >
         <Localized id="comments-userBanPopover-cancel">
           <Button
             className={CLASSES.banUserPopover.cancelButton}
-            variant="outlined"
-            size="small"
+            variant="outline"
+            size="regular"
+            color="mono"
             onClick={onDismiss}
           >
             Cancel
@@ -83,8 +86,9 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         <Localized id="comments-userBanPopover-ban">
           <Button
             className={CLASSES.banUserPopover.banButton}
-            variant="filled"
-            size="small"
+            variant="regular"
+            size="regular"
+            color="alert"
             onClick={onBan}
           >
             Ban

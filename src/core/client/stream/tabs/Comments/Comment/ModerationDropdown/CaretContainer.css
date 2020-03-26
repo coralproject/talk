@@ -1,3 +1,13 @@
+$commentsModerationCaretColor: var(--v2-colors-pure-white);
+$commentsModerationCaretBorderColor: var(--v2-colors-grey-500);
+$commentsModerationCaretBackground: var(--v2-colors-grey-500);
+
 .root {
   padding: 2px 4px;
+}
+
+.active {
+  border-radius: 1px;
+  color: $commentsModerationCaretColor;
+  background-color: $commentsModerationCaretBackground;
 }

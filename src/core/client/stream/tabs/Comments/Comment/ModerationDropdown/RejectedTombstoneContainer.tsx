@@ -1,12 +1,15 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { CallOut, TextLink } from "coral-ui/components";
+import { CallOut, TextLink } from "coral-ui/components/v2";
 
 import { RejectedTombstoneContainer_comment as CommentData } from "coral-stream/__generated__/RejectedTombstoneContainer_comment.graphql";
+
+import styles from "./RejectedTombstoneContainer.css";
 
 interface Props {
   comment: CommentData;
@@ -16,7 +19,10 @@ const RejectedTombstoneContainer: FunctionComponent<Props> = ({ comment }) => {
   const Link = useMemo<React.FunctionComponent>(
     () => ({ children }) => (
       <TextLink
-        className={CLASSES.rejectedTombstone.goToModerateButton}
+        className={cn(
+          styles.link,
+          CLASSES.rejectedTombstone.goToModerateButton
+        )}
         href={`/admin/moderate/comment/${comment.id}`}
         target="_blank"
       >
@@ -27,15 +33,15 @@ const RejectedTombstoneContainer: FunctionComponent<Props> = ({ comment }) => {
   );
   return (
     <CallOut
-      className={CLASSES.rejectedTombstone.$root}
-      color="primary"
+      className={cn(styles.root, CLASSES.rejectedTombstone.$root)}
+      color="regular"
       fullWidth
     >
       <Localized id="comments-rejectedTombstone" TextLink={<Link />}>
-        <div>
+        <span>
           You have rejected this comment.{" "}
           <Link>Go to Moderate to review this decision.</Link>
-        </div>
+        </span>
       </Localized>
     </CallOut>
   );
