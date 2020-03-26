@@ -1,6 +1,14 @@
+$commentsRTEBorder: var(--v2-colors-grey-300);
+$commentsRTEContentBackground: var(--v2-colors-pure-white);
+$commentsRTEPlaceholder: var(--v2-colors-grey-400);
+
 .content {
   composes: root from "~coral-stream/shared/htmlContent.css";
-  border: 1px solid var(--palette-grey-main);
+
+  border: 1px solid $commentsRTEBorder;
+  border-bottom-width: 0px;
+  border-top-left-radius: var(--v2-round-corners);
+  border-top-right-radius: var(--v2-round-corners);
 
   & :global(.coral-rte-spoiler) {
     background-color: black;
@@ -11,14 +19,25 @@
 }
 
 .toolbar {
-  background-color: var(--palette-common-white);
-  border: 1px solid var(--palette-grey-main);
+  background-color: $commentsRTEContentBackground;
+  border: 1px solid $commentsRTEBorder;
+
+  border-top-width: 0px;
+  border-bottom-left-radius: var(--v2-round-corners);
+  border-bottom-right-radius: var(--v2-round-corners);
 }
 .toolbarHidden {
   display: none;
 }
 
 .placeholder {
-  composes: placeholder from "~coral-ui/shared/typography.css";
   margin: 10px 0 0 calc(10px);
+
+  border-radius: var(--v2-rounded-corners);
+
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-6);
+  color: $commentsRTEPlaceholder;
 }

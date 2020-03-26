@@ -311,7 +311,7 @@ exports[`renders message box when logged in 1`] = `
             </label>
             <div>
               <div
-                className="$root content placeholder toolbar"
+                className="$root content placeholder toolbar container"
                 onBlur={[Function]}
                 onFocus={[Function]}
               >
@@ -397,9 +397,9 @@ exports[`renders message box when logged in 1`] = `
             className="Box-root Flex-root Flex-flex Flex-alignFlexEnd Flex-directionColumn"
           >
             <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled coral coral-createComment-submit"
-              data-color="primary"
-              data-variant="filled"
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorStream Button-variantRegular Button-uppercase Button-disabled coral coral-createComment-submit"
+              data-color="stream"
+              data-variant="regular"
               disabled={true}
               onBlur={[Function]}
               onFocus={[Function]}
@@ -617,7 +617,7 @@ exports[`renders message box when not logged in 1`] = `
         <div>
           <div>
             <div
-              className="$root content placeholder toolbar"
+              className="$root content placeholder toolbar container"
               onBlur={[Function]}
               onFocus={[Function]}
             >

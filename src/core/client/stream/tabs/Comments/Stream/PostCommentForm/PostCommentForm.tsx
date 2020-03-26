@@ -11,7 +11,12 @@ import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import ValidationMessage from "coral-stream/common/ValidationMessage";
 import { CreateCommentFocusEvent } from "coral-stream/events";
-import { AriaInfo, Button, Flex, HorizontalGutter } from "coral-ui/components";
+import {
+  AriaInfo,
+  Button,
+  Flex,
+  HorizontalGutter,
+} from "coral-ui/components/v2";
 
 import {
   getCommentBodyValidators,
@@ -165,8 +170,8 @@ const PostCommentForm: FunctionComponent<Props> = (props) => {
                     <Flex direction="column" alignItems="flex-end">
                       <Localized id="comments-postCommentForm-submit">
                         <Button
-                          color="primary"
-                          variant="filled"
+                          color="stream"
+                          variant="regular"
                           className={CLASSES.createComment.submit}
                           disabled={
                             submitting ||

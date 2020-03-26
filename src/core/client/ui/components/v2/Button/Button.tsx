@@ -25,7 +25,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   size?: "regular" | "large";
 
   /** Color of the button */
-  color?: "regular" | "alert" | "mono" | "alt" | "dark";
+  color?: "regular" | "alert" | "mono" | "alt" | "dark" | "stream";
 
   /** Variant of the button */
   variant?:
@@ -106,6 +106,7 @@ export class Button extends React.Component<Props> {
         [classes.colorAlt]: color === "alt",
         [classes.colorMono]: color === "mono",
         [classes.colorDark]: color === "dark",
+        [classes.colorStream]: color === "stream",
         [classes.variantRegular]: variant === "regular",
         [classes.variantFlat]: variant === "flat",
         [classes.variantOutline]: variant === "outline",
