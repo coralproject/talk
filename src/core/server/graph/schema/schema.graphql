@@ -353,6 +353,11 @@ enum FEATURE_FLAG {
   ENABLE_QA when enabled will turn off Q&A features client side.
   """
   ENABLE_QA
+
+  """
+  DEFAULT_QA_STORY_MODE will set the story mode to QA by default.
+  """
+  DEFAULT_QA_STORY_MODE
 }
 
 # The moderation mode of the site.

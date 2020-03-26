@@ -1,6 +1,8 @@
 import * as story from "coral-server/models/story";
+import { hasFeatureFlag } from "coral-server/models/tenant";
 
 import {
+  GQLFEATURE_FLAG,
   GQLSTORY_MODE,
   GQLStorySettingsTypeResolver,
 } from "../schema/__generated__/types";
@@ -21,9 +23,15 @@ export const StorySettings: GQLStorySettingsTypeResolver<
       enabled: false,
     };
   },
-  mode: s => {
+  // FEATURE_FLAG:ENABLE_QA
+  mode: (s, input, ctx) => {
     if (s.mode) {
       return s.mode;
+    }
+
+    // FEATURE_FLAG:DEFAULT_QA_STORY_MODE
+    if (hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.DEFAULT_QA_STORY_MODE)) {
+      return GQLSTORY_MODE.QA;
     }
 
     return GQLSTORY_MODE.COMMENTS;
