@@ -1257,9 +1257,11 @@ each other's comments.
                       Preview
                     </p>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
-                      data-color="primary"
-                      data-variant="textUnderlined"
+                      aria-label="Reaction"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
+                      data-color="mono"
+                      data-testid="comment-reaction-button"
+                      data-variant="text"
                       disabled={true}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1269,9 +1271,12 @@ each other's comments.
                       onTouchEnd={[Function]}
                       type="button"
                     >
-                      <span>
-                        Reaction
-                      </span>
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm"
+                      >
+                        icon
+                      </i>
                     </button>
                   </div>
                 </div>
@@ -1316,9 +1321,11 @@ each other's comments.
                       Preview
                     </p>
                     <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
-                      data-color="primary"
-                      data-variant="textUnderlined"
+                      aria-label="reacted"
+                      className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase Button-disabled ReactionButton-readOnly ReactionConfig-reactionButton ReactionButton-button"
+                      data-color="mono"
+                      data-testid="comment-reaction-button"
+                      data-variant="text"
                       disabled={true}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1328,9 +1335,12 @@ each other's comments.
                       onTouchEnd={[Function]}
                       type="button"
                     >
-                      <span>
-                        reacted
-                      </span>
+                      <i
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm ReactionButton-reacted"
+                      >
+                        icon
+                      </i>
                     </button>
                   </div>
                 </div>

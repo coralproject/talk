@@ -5,6 +5,7 @@ exports[`renders correctly 1`] = `
   alignItems="center"
   direction="row"
   itemGutter="half"
+  justifyContent="space-between"
 >
   children
 </ForwardRef(forwardRef)>

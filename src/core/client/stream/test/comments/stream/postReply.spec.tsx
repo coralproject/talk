@@ -50,9 +50,7 @@ async function createTestRenderer(
   );
 
   // Open reply form.
-  const replyButton = within(comment).getByText("Reply", {
-    selector: "button",
-  });
+  const replyButton = within(comment).getByTestID("comment-reply-button");
 
   act(() => replyButton.props.onClick());
 

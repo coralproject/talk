@@ -94,7 +94,7 @@ it("edit a comment", async () => {
   );
 
   // Open edit form.
-  act(() => within(comment).getByText("Edit").props.onClick());
+  act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
   expect(await within(comment).axe()).toHaveNoViolations();
 
@@ -135,7 +135,7 @@ it("edit a comment and handle non-published comment state", async () => {
   );
 
   // Open edit form.
-  act(() => within(comment).getByText("Edit").props.onClick());
+  act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
 
   act(() =>
     testRenderer.root
@@ -181,7 +181,7 @@ it("cancel edit", async () => {
   );
 
   // Open edit form.
-  act(() => within(comment).getByText("Edit").props.onClick());
+  act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
 
   // Cancel edit form.
   act(() => within(comment).getByText("Cancel").props.onClick());
@@ -199,7 +199,7 @@ it("shows expiry message", async () => {
   jest.useFakeTimers();
 
   // Open edit form.
-  act(() => within(comment).getByText("Edit").props.onClick());
+  act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
 
   timekeeper.reset();
   jest.runOnlyPendingTimers();
@@ -229,7 +229,7 @@ it("edit a comment and handle server error", async () => {
   );
 
   // Open edit form.
-  act(() => within(comment).getByText("Edit").props.onClick());
+  act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
 
   act(() =>

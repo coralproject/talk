@@ -45,7 +45,9 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
             {props.userTags}
           </Flex>
           <Flex direction="row" alignItems="baseline" itemGutter>
-            <Timestamp className={CLASSES.comment.topBar.timestamp}>
+            <Timestamp
+              className={cn(styles.timestamp, CLASSES.comment.topBar.timestamp)}
+            >
               {props.createdAt}
             </Timestamp>
             {props.showEditedMarker && (

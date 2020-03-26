@@ -28,7 +28,13 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   color?: "regular" | "alert" | "mono" | "alt" | "dark";
 
   /** Variant of the button */
-  variant?: "regular" | "flat" | "outline" | "text";
+  variant?:
+    | "regular"
+    | "flat"
+    | "outline"
+    | "text"
+    | "underlined"
+    | "textUnderlined";
 
   /* button is attached to the LEFT of an input element */
   adornmentLeft?: boolean;
@@ -104,6 +110,8 @@ export class Button extends React.Component<Props> {
         [classes.variantFlat]: variant === "flat",
         [classes.variantOutline]: variant === "outline",
         [classes.variantText]: variant === "text",
+        [classes.variantUnderlined]: variant === "underlined",
+        [classes.variantTextUnderlined]: variant === "textUnderlined",
         [classes.uppercase]: uppercase,
         [classes.fullWidth]: fullWidth,
         [classes.active]: active,

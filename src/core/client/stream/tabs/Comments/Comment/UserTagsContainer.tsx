@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLSTORY_MODE } from "coral-framework/schema";
-import { Flex, Icon, Tag } from "coral-ui/components";
+import { Flex, Icon, Tag } from "coral-ui/components/v2";
 
 import { UserTagsContainer_comment } from "coral-stream/__generated__/UserTagsContainer_comment.graphql";
 import { UserTagsContainer_settings } from "coral-stream/__generated__/UserTagsContainer_settings.graphql";

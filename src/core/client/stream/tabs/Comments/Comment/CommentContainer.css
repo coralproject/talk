@@ -1,3 +1,6 @@
+$commenterActionEditColor: var(--v2-colors-stream-blue-500);
+$commenterActionEditColorActive: var(--v2-colors-stream-blue-300);
+
 .tagIcon {
   margin-right: var(--v2-spacing-1);
 }
@@ -16,4 +19,28 @@
 
 .removeAnswered {
   width: 100%;
+}
+
+.editButton {
+  color: $commenterActionEditColor;
+  &:hover,
+  &.mouseHover {
+    color: $commenterActionEditColorActive;
+  }
+  &:active,
+  &.active {
+    color: $commenterActionEditColorActive;
+  }
+}
+
+.editIcon {
+  margin-right: var(--v2-spacing-1);
+}
+
+.actionBar {
+  min-width: 150px;
+}
+
+.actionButton {
+  padding: var(--v2-spacing-1);
 }

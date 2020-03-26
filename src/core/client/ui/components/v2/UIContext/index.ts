@@ -1,1 +1,1 @@
-export { default, UIContextProps } from "./UIContext";
+export { default, UIContextProps, useUIContext } from "./UIContext";
