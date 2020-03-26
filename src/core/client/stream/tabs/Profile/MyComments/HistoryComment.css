@@ -1,41 +1,126 @@
+$commentsHistoryCommentOnLabelColor: var(--v2-colors-mono-100);
+$commentsHistoryStoryTitleColor: var(--v2-colors-mono-500);
+$commentsHistoryDividerColor: var(--v2-colors-grey-200);
+
+$commentsHistoryReactionsColor: var(--v2-colors-mono-900);
+
+$commentsHistoryViewConversationColor: var(--v2-colors-stream-blue-500);
+$commentsHistoryViewConversationHoverColor: var(--v2-colors-stream-blue-300);
+$commentsHistoryViewConversationActiveColor: var(--v2-colors-stream-blue-200);
+
 .root:not(:first-child) {
   border-top: 1px solid var(--palette-divider);
   padding-top: var(--spacing-3)
 }
 
 .icon {
-  color: var(--palette-text-primary);
+  color: $commentsHistoryReactionsColor;
   margin-right: calc(0.5 * var(--mini-unit));
 }
 
 .replies {
-  composes: button from "~coral-ui/shared/typography.css";
-  color: var(--palette-text-primary);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-2);
+  color: $commentsHistoryReactionsColor;
+
   display: inline-flex;
   align-items: center;
 }
 
 .reactions {
-  composes: button from "~coral-ui/shared/typography.css";
-  color: var(--palette-text-primary);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-2);
+  color: $commentsHistoryReactionsColor;
+
   display: inline-flex;
   align-items: center;
 }
 
-.viewConversation {
-  composes: button from "~coral-ui/shared/typography.css";
+.viewConversation {}
+
+.viewConversationIcon {
+  padding-right: var(--v2-spacing-1);
+}
+
+.sizeRegular {
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-2);
+
+  &:not(.variantText) {
+    padding: 0px 0px;
+    &.iconLeft,
+    &.iconRight {
+      padding-left: var(--v2-spacing-1);
+      padding-right: var(--v2-spacing-1);
+    }
+  }
+}
+
+.variantTextUnderlined {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+
+  text-decoration: underline;
+
+  &.colorRegular {
+    color: $commentsHistoryViewConversationColor;
+  }
+
+  &:not(.disabled) {
+    &.colorRegular {
+      &.mouseHover {
+        color: $commentsHistoryViewConversationHoverColor;
+        & > span {
+          text-decoration: underline;
+        }
+      }
+      &.active,
+      &:active {
+        color: $commentsHistoryViewConversationActiveColor;
+      }
+    }
+  }
 }
 
 .container {
-  border-bottom: 1px solid var(--palette-divider);
-  padding-bottom: var(--spacing-3)
+  border-bottom: 1px solid $commentsHistoryDividerColor;
+  padding-bottom: var(--v2-spacing-3)
 }
 
 .commentOn {
-  font-weight: var(--font-weight-medium);
   margin-bottom: 0;
+
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-1);
+  line-height: var(--v2-line-height-3);
+  color: $commentsHistoryCommentOnLabelColor;
+}
+
+.storyTitle {
+  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-4);
+  color: $commentsHistoryStoryTitleColor;
 }
 
 .subBar {
   margin-bottom: calc(0.5 * var(--mini-unit));
+}
+
+.content {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-6);
+  color: #353F44;
+}
+
+.footer {
+  padding-top: var(--v2-spacing-1);
 }

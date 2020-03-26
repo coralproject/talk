@@ -1,7 +1,68 @@
+$commentsEmptyHistoryHeaderColor: var(--v2-colors-mono-500);
+
 .emptyHistoryIcon {
-  margin: 0 0 var(--spacing-3) 0;
+  margin: 0 0 var(--v2-spacing-3) 0;
+  color: $commentsEmptyHistoryHeaderColor;
 }
 
 .emptyHistory {
-  padding: var(--spacing-2) 0 0 0 !important;
+  padding: var(--v2-spacing-2) 0 0 0 !important;
+}
+
+.emptyHistoryHeader {
+  font-family: var(--v2-font-family-secondary);
+  font-weight: var(--v2-font-weight-secondary-bold);
+  font-size: var(--v2-font-size-5);
+  line-height: var(--v2-line-height-6);
+  color: $commentsEmptyHistoryHeaderColor;
+}
+
+.emptyHistorySubHeader {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: 1.375rem;
+  color: $commentsEmptyHistoryHeaderColor;
+}
+
+.loadMore {
+  background-color: var(--v2-colors-pure-white);
+
+  &:disabled,
+  &.disabled {
+    color: var(--v2-colors-pure-white);
+    background-color: var(--v2-colors-grey-300);
+  }
+
+  &:not(.disabled),
+  &:not(:disabled),
+  &:not(.mouseHover),
+  &:not(:hover),
+  &:not(.active),
+  &:not(:active) {
+    &.colorRegular {
+      color: var(--v2-colors-stream-blue-500);
+      border-color: var(--v2-colors-stream-blue-500);
+    }
+  }
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    &.mouseHover,
+    &:hover {
+      color: var(--v2-colors-pure-white);
+      &.colorRegular {
+        background-color: var(--v2-colors-stream-blue-500);
+      }
+    }
+
+    &.active,
+    &:active {
+      color: var(--v2-colors-pure-white);
+      &.colorRegular {
+        background-color: var(--v2-colors-stream-blue-800);
+        border-color: var(--v2-colors-stream-blue-800);
+      }
+    }
+  }
 }
