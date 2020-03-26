@@ -15,26 +15,6 @@ $moderateCardLinkTextColor: var(--v2-colors-teal-700);
   margin-bottom: var(--v2-spacing-4);
 }
 
-.usernameButton {
-  margin-right: var(--mini-unit);
-  padding: var(--spacing-1);
-  margin-left: calc(-1 * var(--v2-spacing-1));
-
-  line-height: var(--v2-line-height-reset);
-
-  &:hover {
-    background-color: $moderateCardUsernameBackgroundHover;
-    border-radius: var(--v2-round-corners);
-    border-style: none;
-  }
-
-  &:active {
-    background-color: $moderateCardUsernameBackgroundHover;
-    border-radius: var(--v2-round-corners);
-    border-style: none;
-  }
-}
-
 .inReplyTo {
 }
 

@@ -5,9 +5,9 @@ how moderation, comment display, and conversation function, creating the
 opportunity for safer, smarter discussions around your work.
 [Read more about Coral here](https://coralproject.net/talk).
 
-Built with <3 by The Coral Project, a part of [Vox Media](https://product.voxmedia.com/).
+Built with <3 by the Coral team, a part of [Vox Media](https://product.voxmedia.com/).
 
-Preview Coral easily by running Coral via a Heroku App:
+Preview Coral easily by running it via a Heroku App:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk)
 
@@ -28,13 +28,11 @@ You can get started with Coral using our [Documentation](https://docs.coralproje
 
 ## Pre-Launch Guide
 
-You’ve installed Talk on your server, and you’re preparing to launch it on your site. The real community work starts now, before you go live. You have a unique opportunity pre-launch to set your community up for success. Read our [Talk Community Guide](https://coralproject.net/blog/youve-installed-talk-now-what/).
+You’ve installed Coral on your server, and you’re preparing to launch it on your site. The real community work starts now, before you go live. You have a unique opportunity pre-launch to set your community up for success. Read our [Community Guides](https://guides.coralproject.net/start-here/) to learn more.
 
 ## More Resources
 
-- [Our Blog](https://coralproject.net/blog)
-- [Community Guides for Journalism](https://guides.coralproject.net/)
-- [More About Us](https://coralproject.net/)
+- [Learn more about Coral and sign up for a webinar](https://coralproject.net/)
 
 ## License
 
