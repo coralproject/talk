@@ -38,6 +38,7 @@ const CLASSES = {
     content: "coral coral-rte-content",
     placeholder: "coral coral-rte-placeholder",
     toolbar: "coral coral-rte-toolbar",
+    container: "coral coral-rte-container",
   },
 
   /**

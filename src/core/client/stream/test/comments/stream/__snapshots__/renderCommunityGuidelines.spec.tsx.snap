@@ -69,7 +69,7 @@ exports[`renders comment stream with community guidelines 1`] = `
         <div>
           <div>
             <div
-              className="$root content placeholder toolbar"
+              className="$root content placeholder toolbar container"
               onBlur={[Function]}
               onFocus={[Function]}
             >
