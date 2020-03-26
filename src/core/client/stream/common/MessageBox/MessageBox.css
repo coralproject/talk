@@ -1,12 +1,18 @@
+$commentsMessageBoxBackground: var(--v2-colors-grey-700);
+
+
 .root {
-  display: flex;
   position: relative;
+
+  display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: var(--spacing-3);
+
+  padding: var(--v2-spacing-3);
   box-sizing: border-box;
   width: 100%;
-  background-color: var(--palette-text-primary);
-  border-top-right-radius: 1px;
-  border-top-left-radius: 1px;
+
+  background-color: $commentsMessageBoxBackground;
+  border-top-right-radius: var(--v2-round-corners);
+  border-top-left-radius: var(--v2-round-corners);
 }
