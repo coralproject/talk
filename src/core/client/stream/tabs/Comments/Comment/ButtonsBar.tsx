@@ -1,11 +1,22 @@
 import React, { FunctionComponent } from "react";
 
-import { Flex } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
 
-const ButtonsBar: FunctionComponent = (props) => {
+interface Props {
+  className?: string;
+  children?: any;
+}
+
+const ButtonsBar: FunctionComponent<Props> = ({ className, children }) => {
   return (
-    <Flex direction="row" itemGutter="half" alignItems="center">
-      {props.children}
+    <Flex
+      direction="row"
+      itemGutter="half"
+      alignItems="center"
+      justifyContent="space-between"
+      className={className}
+    >
+      {children}
     </Flex>
   );
 };

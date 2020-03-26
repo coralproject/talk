@@ -63,6 +63,8 @@ comments-permalinkPopover =
 comments-permalinkPopover-permalinkToComment =
   .aria-label = Permalink to comment
 comments-permalinkButton-share = Share
+comments-permalinkButton =
+  .aria-label = Share
 comments-permalinkView-viewFullDiscussion = View Full Discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
@@ -91,6 +93,8 @@ comments-postCommentForm-userScheduledForDeletion-warning =
   Commenting is disabled when your account is scheduled for deletion.
 
 comments-replyButton-reply = Reply
+comments-replyButton =
+  .aria-label = Reply
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
@@ -122,6 +126,10 @@ comments-replyTo = Replying to: <Username></Username>
 
 comments-reportButton-report = Report
 comments-reportButton-reported = Reported
+comments-reportButton-aria-report =
+  .aria-label = Report
+comments-reportButton-aria-reported =
+  .aria-label = Reported
 
 comments-sortMenu-sortBy = Sort By
 comments-sortMenu-newest = Newest
@@ -199,6 +207,10 @@ qa-expert-tag = expert
 
 qa-reaction-vote = Vote
 qa-reaction-voted = Voted
+qa-reaction-aria-vote =
+  .aria-label = Vote
+qa-reaction-voted =
+  .aria-label = Voted
 
 qa-unansweredTab-doneAnswering = Done
 

@@ -85,7 +85,7 @@ it("post a reply", async () => {
   // Open reply form.
   act(() =>
     within(deepestReply)
-      .getByText("Reply", { selector: "button" })
+      .getByTestID("comment-reply-button")
       .props.onClick()
   );
 

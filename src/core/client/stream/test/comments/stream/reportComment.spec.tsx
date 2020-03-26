@@ -76,7 +76,7 @@ it("render popup", async () => {
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
-  const button = within(comment).getByText("Report", { selector: "button" });
+  const button = within(comment).getByTestID("comment-report-button");
   act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
@@ -92,7 +92,7 @@ it("close popup", async () => {
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
-  const button = within(comment).getByText("Report", { selector: "button" });
+  const button = within(comment).getByTestID("comment-report-button");
   act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
@@ -113,7 +113,7 @@ it("render popup expanded", async () => {
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
-  const button = within(comment).getByText("Report", { selector: "button" });
+  const button = within(comment).getByTestID("comment-report-button");
   act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
@@ -139,7 +139,7 @@ it("report comment as offensive", async () => {
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
-  const button = within(comment).getByText("Report", { selector: "button" });
+  const button = within(comment).getByTestID("comment-report-button");
   act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
@@ -175,9 +175,7 @@ it("report comment as offensive", async () => {
   });
   expect(within(popover).toJSON()).toMatchSnapshot();
 
-  const reportedButton = within(comment).getByText("Reported", {
-    selector: "button",
-  });
+  const reportedButton = within(comment).getByTestID("comment-report-button");
   expect(reportedButton.props.disabled).toBe(false);
   within(comment).getByText("Dismiss").props.onClick();
   expect(reportedButton.props.disabled).toBe(true);
@@ -190,7 +188,7 @@ it("dont agree with comment", async () => {
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
-  const button = within(comment).getByText("Report", { selector: "button" });
+  const button = within(comment).getByTestID("comment-report-button");
   act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(
@@ -235,9 +233,7 @@ it("dont agree with comment", async () => {
     ).toBeNull()
   );
 
-  const reportedButton = within(comment).getByText("Reported", {
-    selector: "button",
-  });
+  const reportedButton = within(comment).getByTestID("comment-report-button");
   expect(reportedButton.props.disabled).toBe(true);
   expect(resolvers.Mutation.createCommentDontAgree.called).toBe(true);
 });
@@ -257,7 +253,7 @@ it("report comment as offensive and handle server error", async () => {
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
-  const button = within(comment).getByText("Report", { selector: "button" });
+  const button = within(comment).getByTestID("comment-report-button");
   act(() => button.props.onClick());
 
   const popover = within(testRenderer.root).getByID(

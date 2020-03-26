@@ -403,7 +403,7 @@ exports[`renders comment stream 1`] = `
                       type="button"
                     >
                       <span
-                        className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
+                        className="Username-root"
                       >
                         Markus
                       </span>
@@ -456,9 +456,11 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
                 >
                   <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
-                    data-color="primary"
-                    data-variant="textUnderlined"
+                    aria-label="Respect"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
+                    data-color="mono"
+                    data-testid="comment-reaction-button"
+                    data-variant="text"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -468,9 +470,12 @@ exports[`renders comment stream 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    <span>
-                      Respect
-                    </span>
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      thumb_up
+                    </i>
                   </button>
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignCenter"
@@ -524,7 +529,7 @@ exports[`renders comment stream 1`] = `
                       type="button"
                     >
                       <span
-                        className="Box-root Typography-root Typography-heading3 Typography-colorTextDark Username-root"
+                        className="Username-root"
                       >
                         Lukas
                       </span>
@@ -577,9 +582,11 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
                 >
                   <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantTextUnderlined coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
-                    data-color="primary"
-                    data-variant="textUnderlined"
+                    aria-label="Respect"
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorMono Button-variantText Button-uppercase coral coral-reactButton coral-featuredComment-reactButton ReactionButton-button"
+                    data-color="mono"
+                    data-testid="comment-reaction-button"
+                    data-variant="text"
                     disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -589,9 +596,12 @@ exports[`renders comment stream 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    <span>
-                      Respect
-                    </span>
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      thumb_up
+                    </i>
                   </button>
                   <div
                     className="Box-root Flex-root Flex-flex Flex-alignCenter"

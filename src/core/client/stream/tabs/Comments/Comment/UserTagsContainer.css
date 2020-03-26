@@ -4,4 +4,5 @@
 
 .tag {
   margin-right: var(--v2-spacing-1);
+  font-weight: var(--v2-font-weight-primary-bold);
 }

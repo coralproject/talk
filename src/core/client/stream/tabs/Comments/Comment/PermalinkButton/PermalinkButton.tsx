@@ -7,7 +7,7 @@ import {
   Icon,
   MatchMedia,
   Popover,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import PermalinkPopover from "./PermalinkPopover";
 
@@ -39,23 +39,28 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
         )}
       >
         {({ toggleVisibility, ref, visible }) => (
-          <Button
-            onClick={toggleVisibility}
-            aria-controls={popoverID}
-            ref={ref}
-            variant="textUnderlined"
-            active={visible}
-            size="small"
-            color="primary"
-            className={className}
+          <Localized
+            id="comments-permalinkButton"
+            attrs={{ "aria-label": true }}
           >
-            <MatchMedia gtWidth="xs">
+            <Button
+              onClick={toggleVisibility}
+              aria-controls={popoverID}
+              ref={ref}
+              variant="text"
+              active={visible}
+              size="regular"
+              color="mono"
+              className={className}
+            >
               <Icon>share</Icon>
-            </MatchMedia>
-            <Localized id="comments-permalinkButton-share">
-              <span>Share</span>
-            </Localized>
-          </Button>
+              <MatchMedia gtWidth="xs">
+                <Localized id="comments-permalinkButton-share">
+                  <span>Share</span>
+                </Localized>
+              </MatchMedia>
+            </Button>
+          </Localized>
         )}
       </Popover>
     </Localized>

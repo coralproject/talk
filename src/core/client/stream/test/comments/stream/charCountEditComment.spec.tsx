@@ -10,7 +10,7 @@ import {
   createResolversStub,
   findParentWithType,
   waitForElement,
-  within,
+  within
 } from "coral-framework/testHelpers";
 
 import { commenters, settings, stories } from "../../fixtures";
@@ -28,8 +28,8 @@ const settingsWithCharCount = {
   charCount: {
     enabled: true,
     min: 3,
-    max: 10,
-  },
+    max: 10
+  }
 };
 
 async function createTestRenderer(
@@ -42,8 +42,8 @@ async function createTestRenderer(
       settings: sinon.stub().returns(settingsWithCharCount),
       viewer: sinon.stub().returns(commenters[0]),
       stream: sinon.stub().returns(stories[0]),
-      ...resolver.Query,
-    },
+      ...resolver.Query
+    }
   };
 
   const { testRenderer, context } = create({
@@ -51,9 +51,9 @@ async function createTestRenderer(
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: (localRecord) => {
+    initLocalState: localRecord => {
       localRecord.setValue(stories[0].id, "storyID");
-    },
+    }
   });
 
   const comment = await waitForElement(() =>
@@ -61,7 +61,9 @@ async function createTestRenderer(
   );
 
   // Open edit form.
-  within(comment).getByText("Edit").props.onClick();
+  within(comment)
+    .getByTestID("comment-edit-button")
+    .props.onClick();
 
   const rte = await waitForElement(
     () =>
@@ -80,7 +82,7 @@ async function createTestRenderer(
     context,
     comment,
     rte,
-    form,
+    form
   };
 }
 
@@ -120,7 +122,7 @@ it("show remaining characters", async () => {
 it("update from server upon specific char count error", async () => {
   for (const errorCode of [
     ERROR_CODES.COMMENT_BODY_EXCEEDS_MAX_LENGTH,
-    ERROR_CODES.COMMENT_BODY_TOO_SHORT,
+    ERROR_CODES.COMMENT_BODY_TOO_SHORT
   ]) {
     let createCommentCalled = false;
     const { rte, form } = await createTestRenderer(
@@ -130,9 +132,9 @@ it("update from server upon specific char count error", async () => {
             createCommentCalled = true;
             throw new InvalidRequestError({
               code: errorCode,
-              param: "input.body",
+              param: "input.body"
             });
-          },
+          }
         },
         Query: {
           settings: () => {
@@ -144,11 +146,11 @@ it("update from server upon specific char count error", async () => {
               charCount: {
                 enabled: true,
                 min: 3,
-                max: 5,
-              },
+                max: 5
+              }
             };
-          },
-        },
+          }
+        }
       }),
       { muteNetworkErrors: true }
     );

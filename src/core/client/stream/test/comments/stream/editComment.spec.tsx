@@ -7,14 +7,14 @@ import {
   act,
   createSinonStub,
   waitForElement,
-  within,
+  within
 } from "coral-framework/testHelpers";
 
 import {
   commenters,
   commentWithReplies,
   settings,
-  storyWithReplies,
+  storyWithReplies
 } from "../../fixtures";
 import create from "./create";
 
@@ -25,22 +25,22 @@ function createTestRenderer(
   const resolvers = {
     Query: {
       stream: createSinonStub(
-        (s) => s.throws(),
-        (s) =>
+        s => s.throws(),
+        s =>
           s
             .withArgs(undefined, { id: storyWithReplies.id, url: null })
             .returns(storyWithReplies)
       ),
       viewer: sinon.stub().returns(commenters[0]),
-      settings: sinon.stub().returns(settings),
+      settings: sinon.stub().returns(settings)
     },
     Mutation: {
       editComment: sinon.stub().callsFake((_, data) => {
         expectAndFail(data).toMatchObject({
           input: {
             commentID: commentWithReplies.id,
-            body: "Edited!",
-          },
+            body: "Edited!"
+          }
         });
 
         return {
@@ -50,17 +50,17 @@ function createTestRenderer(
             body: "Edited! (from server)",
             status: options.status ? options.status : commentWithReplies.status,
             editing: {
-              edited: true,
+              edited: true
             },
             revision: {
-              id: commentWithReplies.revision!.id,
-            },
+              id: commentWithReplies.revision!.id
+            }
           },
-          clientMutationId: data.input.clientMutationId,
+          clientMutationId: data.input.clientMutationId
         };
-      }),
+      })
     },
-    ...resolver,
+    ...resolver
   };
 
   const { testRenderer } = create({
@@ -68,9 +68,9 @@ function createTestRenderer(
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
-    initLocalState: (localRecord) => {
+    initLocalState: localRecord => {
       localRecord.setValue(storyWithReplies.id, "storyID");
-    },
+    }
   });
   return testRenderer;
 }
@@ -94,20 +94,26 @@ it("edit a comment", async () => {
   );
 
   // Open edit form.
-  act(() => within(comment).getByText("Edit").props.onClick());
+  act(() =>
+    within(comment)
+      .getByTestID("comment-edit-button")
+      .props.onClick()
+  );
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
   expect(await within(comment).axe()).toHaveNoViolations();
 
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`
       })
       .props.onChange({ html: "Edited!" })
   );
 
   act(() => {
-    within(comment).getByType("form").props.onSubmit();
+    within(comment)
+      .getByType("form")
+      .props.onSubmit();
   });
 
   // Test optimistic response.
@@ -132,25 +138,33 @@ it("edit a comment and handle non-published comment state", async () => {
   );
 
   // Open edit form.
-  act(() => within(comment).getByText("Edit").props.onClick());
+  act(() =>
+    within(comment)
+      .getByTestID("comment-edit-button")
+      .props.onClick()
+  );
 
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`
       })
       .props.onChange({ html: "Edited!" })
   );
 
   act(() => {
-    within(comment).getByType("form").props.onSubmit();
+    within(comment)
+      .getByType("form")
+      .props.onSubmit();
   });
 
   // Test after server response.
   await waitForElement(() =>
     within(comment).getByText("will be reviewed", { exact: false })
   );
-  within(comment).getByText("Dismiss").props.onClick();
+  within(comment)
+    .getByText("Dismiss")
+    .props.onClick();
   expect(
     within(testRenderer.root).queryByText("will be reviewed", { exact: false })
   ).toBeNull();
@@ -178,10 +192,18 @@ it("cancel edit", async () => {
   );
 
   // Open edit form.
-  act(() => within(comment).getByText("Edit").props.onClick());
+  act(() =>
+    within(comment)
+      .getByTestID("comment-edit-button")
+      .props.onClick()
+  );
 
   // Cancel edit form.
-  act(() => within(comment).getByText("Cancel").props.onClick());
+  act(() =>
+    within(comment)
+      .getByText("Cancel")
+      .props.onClick()
+  );
 
   expect(within(comment).toJSON()).toMatchSnapshot();
 });
@@ -196,7 +218,11 @@ it("shows expiry message", async () => {
   jest.useFakeTimers();
 
   // Open edit form.
-  act(() => within(comment).getByText("Edit").props.onClick());
+  act(() =>
+    within(comment)
+      .getByTestID("comment-edit-button")
+      .props.onClick()
+  );
 
   timekeeper.reset();
   jest.runOnlyPendingTimers();
@@ -205,7 +231,11 @@ it("shows expiry message", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("edit time expired");
 
   // Close edit form.
-  act(() => within(comment).getByText("Close").props.onClick());
+  act(() =>
+    within(comment)
+      .getByText("Close")
+      .props.onClick()
+  );
   expect(within(comment).toJSON()).toMatchSnapshot("edit form closed");
 });
 
@@ -215,8 +245,8 @@ it("edit a comment and handle server error", async () => {
       Mutation: {
         editComment: sinon.stub().callsFake(() => {
           throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
-        }),
-      },
+        })
+      }
     },
     { muteNetworkErrors: true }
   );
@@ -226,19 +256,25 @@ it("edit a comment and handle server error", async () => {
   );
 
   // Open edit form.
-  act(() => within(comment).getByText("Edit").props.onClick());
+  act(() =>
+    within(comment)
+      .getByTestID("comment-edit-button")
+      .props.onClick()
+  );
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
 
   act(() =>
     testRenderer.root
       .findByProps({
-        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+        inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`
       })
       .props.onChange({ html: "Edited!" })
   );
 
   act(() => {
-    within(comment).getByType("form").props.onSubmit();
+    within(comment)
+      .getByType("form")
+      .props.onSubmit();
   });
 
   // Look for internal error being displayed.

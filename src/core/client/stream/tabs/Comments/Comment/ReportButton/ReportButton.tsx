@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { Ref } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Button, Icon, MatchMedia } from "coral-ui/components";
+import { Button, Icon, MatchMedia } from "coral-ui/components/v2";
 import { withForwardRef } from "coral-ui/hocs";
 
 import styles from "./ReportButton.css";
@@ -24,37 +24,46 @@ class ReportButton extends React.Component<Props> {
       ...rest
     } = this.props;
     return (
-      <Button
-        {...rest}
-        active={active}
-        disabled={!active && reported}
-        classes={
-          (reported &&
-            !active && {
-              variantGhost: styles.variantGhost,
-              colorRegular: styles.colorRegular,
-            }) ||
-          {}
+      <Localized
+        id={
+          reported
+            ? "comments-reportButton-aria-reported"
+            : "comments-reportButton-aria-report"
         }
-        variant="textUnderlined"
-        size="small"
-        color="error"
-        ref={ref}
+        attrs={{ "aria-label": true }}
       >
-        <MatchMedia gtWidth="xs">
+        <Button
+          {...rest}
+          active={active}
+          disabled={!active && reported}
+          classes={
+            (reported &&
+              !active && {
+                variantText: styles.variantText,
+              }) ||
+            {}
+          }
+          variant="text"
+          size="regular"
+          color="mono"
+          ref={ref}
+          data-testid="comment-report-button"
+        >
           <Icon>flag</Icon>
-        </MatchMedia>
-        {!reported && (
-          <Localized id="comments-reportButton-report">
-            <span>Report</span>
-          </Localized>
-        )}
-        {reported && (
-          <Localized id="comments-reportButton-reported">
-            <span>Reported</span>
-          </Localized>
-        )}
-      </Button>
+          <MatchMedia gtWidth="xs">
+            {!reported && (
+              <Localized id="comments-reportButton-report">
+                <span>Report</span>
+              </Localized>
+            )}
+            {reported && (
+              <Localized id="comments-reportButton-reported">
+                <span>Reported</span>
+              </Localized>
+            )}
+          </MatchMedia>
+        </Button>
+      </Localized>
     );
   }
 }

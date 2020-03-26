@@ -16,9 +16,11 @@ exports[`hide reply button 1`] = `
             className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
-            <ButtonsBar>
+            <ButtonsBar
+              className="CommentContainer-actionBar"
+            >
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
-                className="coral coral-reactButton coral-comment-reactButton"
+                className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -47,7 +49,7 @@ exports[`hide reply button 1`] = `
                   }
                 }
                 isQA={false}
-                reactedClassName="coral-reactedButton coral-comment-reactedButton"
+                reactedClassName="CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -59,7 +61,7 @@ exports[`hide reply button 1`] = `
                 viewer={null}
               />
               <Relay(PermalinkButtonContainer)
-                className="coral coral-comment-shareButton"
+                className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -252,9 +254,11 @@ exports[`renders body only 1`] = `
             className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
-            <ButtonsBar>
+            <ButtonsBar
+              className="CommentContainer-actionBar"
+            >
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
-                className="coral coral-reactButton coral-comment-reactButton"
+                className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -283,7 +287,7 @@ exports[`renders body only 1`] = `
                   }
                 }
                 isQA={false}
-                reactedClassName="coral-reactedButton coral-comment-reactedButton"
+                reactedClassName="CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -296,13 +300,13 @@ exports[`renders body only 1`] = `
               />
               <ReplyButton
                 active={false}
-                className="coral coral-comment-replyButton"
+                className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
-                className="coral coral-comment-shareButton"
+                className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -495,9 +499,11 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
-            <ButtonsBar>
+            <ButtonsBar
+              className="CommentContainer-actionBar"
+            >
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
-                className="coral coral-reactButton coral-comment-reactButton"
+                className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -526,7 +532,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                   }
                 }
                 isQA={false}
-                reactedClassName="coral-reactedButton coral-comment-reactedButton"
+                reactedClassName="CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -539,13 +545,13 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               />
               <ReplyButton
                 active={false}
-                className="coral coral-comment-replyButton"
+                className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={true}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
-                className="coral coral-comment-shareButton"
+                className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -738,9 +744,11 @@ exports[`renders disabled reply when story is closed 1`] = `
             className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
-            <ButtonsBar>
+            <ButtonsBar
+              className="CommentContainer-actionBar"
+            >
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
-                className="coral coral-reactButton coral-comment-reactButton"
+                className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -769,7 +777,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                   }
                 }
                 isQA={false}
-                reactedClassName="coral-reactedButton coral-comment-reactedButton"
+                reactedClassName="CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -782,13 +790,13 @@ exports[`renders disabled reply when story is closed 1`] = `
               />
               <ReplyButton
                 active={false}
-                className="coral coral-comment-replyButton"
+                className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={true}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
-                className="coral coral-comment-shareButton"
+                className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -981,9 +989,11 @@ exports[`renders in reply to 1`] = `
             className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
-            <ButtonsBar>
+            <ButtonsBar
+              className="CommentContainer-actionBar"
+            >
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
-                className="coral coral-reactButton coral-comment-reactButton"
+                className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -1016,7 +1026,7 @@ exports[`renders in reply to 1`] = `
                   }
                 }
                 isQA={false}
-                reactedClassName="coral-reactedButton coral-comment-reactedButton"
+                reactedClassName="CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -1029,13 +1039,13 @@ exports[`renders in reply to 1`] = `
               />
               <ReplyButton
                 active={false}
-                className="coral coral-comment-replyButton"
+                className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
-                className="coral coral-comment-shareButton"
+                className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -1244,9 +1254,11 @@ exports[`renders username and body 1`] = `
             className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
-            <ButtonsBar>
+            <ButtonsBar
+              className="CommentContainer-actionBar"
+            >
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
-                className="coral coral-reactButton coral-comment-reactButton"
+                className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -1275,7 +1287,7 @@ exports[`renders username and body 1`] = `
                   }
                 }
                 isQA={false}
-                reactedClassName="coral-reactedButton coral-comment-reactedButton"
+                reactedClassName="CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -1288,13 +1300,13 @@ exports[`renders username and body 1`] = `
               />
               <ReplyButton
                 active={false}
-                className="coral coral-comment-replyButton"
+                className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
-                className="coral coral-comment-shareButton"
+                className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {
@@ -1496,9 +1508,11 @@ exports[`shows conversation link 1`] = `
             className="coral coral-comment-actionBar"
             justifyContent="space-between"
           >
-            <ButtonsBar>
+            <ButtonsBar
+              className="CommentContainer-actionBar"
+            >
               <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
-                className="coral coral-reactButton coral-comment-reactButton"
+                className="CommentContainer-actionButton coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
                     "actionCounts": Object {
@@ -1527,7 +1541,7 @@ exports[`shows conversation link 1`] = `
                   }
                 }
                 isQA={false}
-                reactedClassName="coral-reactedButton coral-comment-reactedButton"
+                reactedClassName="CommentContainer-actionButton coral-reactedButton coral-comment-reactedButton"
                 readOnly={false}
                 settings={
                   Object {
@@ -1540,13 +1554,13 @@ exports[`shows conversation link 1`] = `
               />
               <ReplyButton
                 active={false}
-                className="coral coral-comment-replyButton"
+                className="CommentContainer-actionButton coral coral-comment-replyButton"
                 disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
               <Relay(PermalinkButtonContainer)
-                className="coral coral-comment-shareButton"
+                className="CommentContainer-actionButton coral coral-comment-shareButton"
                 commentID="comment-id"
                 story={
                   Object {

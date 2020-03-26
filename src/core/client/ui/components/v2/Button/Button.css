@@ -487,6 +487,139 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
   }
 }
 
+.variantUnderlined {
+  padding-right: 0;
+  padding-left: 0;
+  border-radius: 0;
+  border-bottom: 1px solid currentColor;
+  padding: 0;
+
+  &.colorRegular {
+    color: $button-text-regular-foreground;
+  }
+  &.colorMono {
+    color: $button-text-mono-foreground;
+  }
+  &.colorAlt {
+    color: $button-text-alt-foreground;
+  }
+  &.colorAlert {
+    color: $button-text-alert-foreground;
+  }
+  &.colorDark {
+    color: $button-text-dark-foreground;
+  }
+
+  &:not(.disabled) {
+    &.colorRegular {
+      &.mouseHover {
+        color: $button-text-regular-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-regular-foreground-active;
+      }
+    }
+
+    &.colorMono {
+      &.mouseHover {
+        color: $button-text-mono-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-mono-foreground-active;
+      }
+    }
+
+    &.colorAlt {
+      &.mouseHover {
+        color: $button-text-alt-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-alt-foreground-active;
+      }
+    }
+
+    &.colorAlert {
+      &.mouseHover {
+        color: $button-text-alert-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-alert-foreground-active;
+      }
+    }
+
+    &.colorDark {
+      &.mouseHover {
+        color: $button-text-dark-foreground-hover;
+      }
+      &:active,
+      &.active {
+        color: $button-text-dark-foreground-active;
+      }
+    }
+  }
+}
+
+.variantTextUnderlined {
+  font-weight: var(--v2-font-weight-primary-bold);
+  font-family: var(--v2-font-family-primary);
+  text-decoration: underline;
+
+  &.colorRegular {
+    color: $button-text-regular-foreground;
+  }
+  &.colorMono {
+    color: $button-text-mono-foreground;
+  }
+  &.colorAlert {
+    color: $button-text-alert-foreground;
+  }
+
+  &:not(.disabled) {
+    &.colorRegular {
+      &.mouseHover {
+        color: $button-text-regular-foreground-hover;
+        & > span {
+          text-decoration: underline;
+        }
+      }
+      &.active,
+      &:active {
+        color: $button-text-regular-foreground-active;
+      }
+    }
+
+    &.colorMono {
+      &.mouseHover {
+        color: $button-text-mono-foreground-hover;
+        & > span {
+          text-decoration: underline;
+        }
+      }
+      &.active,
+      &:active {
+        color: $button-text-mono-foreground-active;
+      }
+    }
+
+    &.colorAlert {
+      &.mouseHover {
+        color: $button-text-alert-foreground-hover;
+        & > span {
+          text-decoration: variantOutlined;
+        }
+      }
+      &.active,
+      &:active {
+        color: $button-text-alert-foreground-active;
+      }
+    }
+  }
+}
+
 .linkButton {
   text-decoration: none;
 }

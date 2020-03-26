@@ -23,7 +23,13 @@ import {
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
 import { Ability, can } from "coral-stream/permissions";
-import { Button, Flex, HorizontalGutter, Icon, Tag } from "coral-ui/components";
+import {
+  Button,
+  Flex,
+  HorizontalGutter,
+  Icon,
+  Tag,
+} from "coral-ui/components/v2";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -341,16 +347,24 @@ export class CommentContainer extends Component<Props, State> {
                 <Flex alignItems="center" itemGutter>
                   {commentTags}
                   {editable && (
-                    <Localized id="comments-commentContainer-editButton">
-                      <Button
-                        color="primary"
-                        variant="underlined"
-                        onClick={this.openEditDialog}
-                        className={CLASSES.comment.topBar.editButton}
+                    <Button
+                      color="regular"
+                      variant="text"
+                      onClick={this.openEditDialog}
+                      className={CLASSES.comment.topBar.editButton}
+                      data-testid="comment-edit-button"
+                    >
+                      <Flex
+                        alignItems="center"
+                        justifyContent="center"
+                        className={styles.editButton}
                       >
-                        Edit
-                      </Button>
-                    </Localized>
+                        <Icon className={styles.editIcon}>edit</Icon>
+                        <Localized id="comments-commentContainer-editButton">
+                          Edit
+                        </Localized>
+                      </Flex>
+                    </Button>
                   )}
                   {showCaret && (
                     <CaretContainer
@@ -367,16 +381,20 @@ export class CommentContainer extends Component<Props, State> {
                     justifyContent="space-between"
                     className={CLASSES.comment.actionBar.$root}
                   >
-                    <ButtonsBar>
+                    <ButtonsBar className={styles.actionBar}>
                       <ReactionButtonContainer
                         comment={comment}
                         settings={settings}
                         viewer={viewer}
                         readOnly={banned || suspended}
-                        className={CLASSES.comment.actionBar.reactButton}
-                        reactedClassName={
+                        className={cn(
+                          styles.actionButton,
+                          CLASSES.comment.actionBar.reactButton
+                        )}
+                        reactedClassName={cn(
+                          styles.actionButton,
                           CLASSES.comment.actionBar.reactedButton
-                        }
+                        )}
                         isQA={story.settings.mode === GQLSTORY_MODE.QA}
                       />
                       {!disableReplies &&
@@ -391,13 +409,19 @@ export class CommentContainer extends Component<Props, State> {
                               settings.disableCommenting.enabled ||
                               story.isClosed
                             }
-                            className={CLASSES.comment.actionBar.replyButton}
+                            className={cn(
+                              styles.actionButton,
+                              CLASSES.comment.actionBar.replyButton
+                            )}
                           />
                         )}
                       <PermalinkButtonContainer
                         story={story}
                         commentID={comment.id}
-                        className={CLASSES.comment.actionBar.shareButton}
+                        className={cn(
+                          styles.actionButton,
+                          CLASSES.comment.actionBar.shareButton
+                        )}
                       />
                     </ButtonsBar>
                     <ButtonsBar>
@@ -442,7 +466,7 @@ export class CommentContainer extends Component<Props, State> {
           {showRemoveAnswered && (
             <Localized id="qa-unansweredTab-doneAnswering">
               <Button
-                variant="filled"
+                variant="regular"
                 color="regular"
                 className={styles.removeAnswered}
                 onClick={this.props.onRemoveAnswered}
