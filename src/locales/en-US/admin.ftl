@@ -716,6 +716,7 @@ moderate-emptyQueue-approved = There are no approved comments.
 moderate-comment-edited = (edited)
 moderate-comment-inReplyTo = Reply to <Username></Username>
 moderate-comment-viewContext = View Context
+moderate-comment-viewConversation = View Conversation
 moderate-comment-rejectButton =
   .aria-label = Reject
 moderate-comment-approveButton =

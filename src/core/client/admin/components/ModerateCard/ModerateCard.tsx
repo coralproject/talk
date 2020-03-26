@@ -13,7 +13,8 @@ import { HOTKEYS } from "coral-admin/constants";
 import { GetPhrasesRegExpOptions } from "coral-admin/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import {
-  BaseButton,
+  Button,
+  ButtonIcon,
   Card,
   Flex,
   HorizontalGutter,
@@ -22,14 +23,12 @@ import {
   Timestamp,
 } from "coral-ui/components/v2";
 
+import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
 import ApproveButton from "./ApproveButton";
 import CommentAuthorContainer from "./CommentAuthorContainer";
-import CommentContent from "./CommentContent";
 import FeatureButton from "./FeatureButton";
-import InReplyTo from "./InReplyTo";
 import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
-import Username from "./Username";
 
 import styles from "./ModerateCard.css";
 
@@ -59,6 +58,7 @@ interface Props {
   onReject: () => void;
   onFeature: () => void;
   onUsernameClick: (id?: string) => void;
+  onConversationClick: (id?: string) => void;
   onFocusOrClick: () => void;
   mini?: boolean;
   hideUsername?: boolean;
@@ -102,6 +102,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   moderatedBy,
   selected,
   onFocusOrClick,
+  onConversationClick,
   mini = false,
   hideUsername = false,
   deleted = false,
@@ -165,6 +166,9 @@ const ModerateCard: FunctionComponent<Props> = ({
       onUsernameClick(inReplyTo.id);
     }
   }, [onUsernameClick, inReplyTo]);
+  const viewConversationClick = useCallback(() => {
+    onConversationClick();
+  }, [onConversationClick]);
   return (
     <Card
       className={cn(
@@ -190,12 +194,10 @@ const ModerateCard: FunctionComponent<Props> = ({
             <Flex alignItems="center">
               {!hideUsername && username && (
                 <>
-                  <BaseButton
+                  <UsernameButton
+                    username={username}
                     onClick={commentAuthorClick}
-                    className={styles.usernameButton}
-                  >
-                    <Username>{username}</Username>
-                  </BaseButton>
+                  />
                   <CommentAuthorContainer comment={comment} />
                 </>
               )}
@@ -224,15 +226,12 @@ const ModerateCard: FunctionComponent<Props> = ({
               {commentBody}
             </CommentContent>
             <div className={styles.viewContext}>
-              <Localized id="moderate-comment-viewContext">
-                <TextLink
-                  className={styles.link}
-                  href={viewContextHref}
-                  target="_blank"
-                >
-                  View Context
-                </TextLink>
-              </Localized>
+              <Button iconLeft variant="text" onClick={viewConversationClick}>
+                <ButtonIcon>question_answer</ButtonIcon>
+                <Localized id="moderate-comment-viewConversation">
+                  <span>View conversation</span>
+                </Localized>
+              </Button>
             </div>
             <div
               className={cn(styles.separator, {
