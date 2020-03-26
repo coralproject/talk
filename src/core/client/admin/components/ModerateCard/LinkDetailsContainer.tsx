@@ -5,7 +5,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { getLocationOrigin } from "coral-framework/utils";
-import { Button, Icon } from "coral-ui/components";
+import { Button, Icon } from "coral-ui/components/v2";
 
 import { LinkDetailsContainer_comment } from "coral-admin/__generated__/LinkDetailsContainer_comment.graphql";
 import { LinkDetailsContainer_settings } from "coral-admin/__generated__/LinkDetailsContainer_settings.graphql";
@@ -32,12 +32,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
         <CopyToClipboard
           text={getURLWithCommentID(comment.story.url, comment.id)}
         >
-          <Button
-            color="primary"
-            variant="filled"
-            size="small"
-            className={styles.button}
-          >
+          <Button>
             <Icon size="md">link</Icon>
             <Localized id="moderate-in-stream-link-copy">
               <span>In Stream</span>
@@ -49,12 +44,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
         <CopyToClipboard
           text={`${getLocationOrigin()}/admin/moderate/comment/${comment.id}`}
         >
-          <Button
-            color="primary"
-            variant="filled"
-            size="small"
-            className={styles.button}
-          >
+          <Button>
             <Icon size="md">link</Icon>
             <Localized id="moderate-in-moderation-link-copy">
               <span>In Moderation</span>
