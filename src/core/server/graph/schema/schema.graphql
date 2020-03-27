@@ -6244,6 +6244,14 @@ type UpdateSitePayload {
   site: Site!
 }
 
+input TestSMTPInput {
+  clientMutationId: String!
+}
+
+type TestSMTPPayload {
+  clientMutationId: String!
+}
+
 ##################
 ## Mutation
 ##################
@@ -6712,6 +6720,12 @@ type Mutation {
   removeStoryExpert removes an expert from a story.
   """
   removeStoryExpert(input: RemoveStoryExpertInput!): RemoveStoryExpertPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  testSMTP sends a test email.
+  """
+  testSMTP(input: TestSMTPInput!): TestSMTPPayload!
     @auth(roles: [ADMIN, MODERATOR])
 }
 
