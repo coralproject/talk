@@ -1,5 +1,5 @@
-import cn from "classnames";
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { GQLSTORY_MODE } from "coral-framework/schema";
