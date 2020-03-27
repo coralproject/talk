@@ -1040,17 +1040,27 @@ type SlackChannelTriggers {
   """
   reportedComments is whether this channel will receive reported comments
   """
-  reportedComments: Boolean!
+  reportedComments: Boolean
 
   """
   pendingComments is whether this channel will receive pending comments
   """
-  pendingComments: Boolean!
+  pendingComments: Boolean
 
   """
   featuredComments is whether this channel will receive featured comments
   """
-  featuredComments: Boolean!
+  featuredComments: Boolean
+
+  """
+  allComents is whether the channel will receive all comments
+  """
+  allComments: Boolean
+
+  """
+  staffComments is whether the channel will receive staff comments
+  """
+  staffComments: Boolean
 }
 
 type SlackChannel {
@@ -3895,6 +3905,15 @@ input SlackTriggersConfigurationInput {
   featuredComments is whether this channel will receive featured comments
   """
   featuredComments: Boolean
+  """
+  allComents is whether the channel will receive all comments
+  """
+  allComments: Boolean
+
+  """
+  staffComments is whether the channel will receive staff comments
+  """
+  staffComments: Boolean
 }
 
 input SlackChannelConfigurationInput {

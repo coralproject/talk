@@ -154,6 +154,42 @@ const SlackChannel: FunctionComponent<Props> = ({
 
               <div className={styles.notificationToggles}>
                 <Field
+                  name={`${channel}.triggers.allComments`}
+                  type="checkbox"
+                  parse={parseBool}
+                >
+                  {({ input }) => (
+                    <CheckBox
+                      id={`configure-slack-channel-triggers-allComments-${input.name}`}
+                      disabled={disabled || !channelEnabled}
+                      className={styles.trigger}
+                      {...input}
+                    >
+                      <Localized id="configure-slack-channel-triggers-allComments">
+                        All Comments
+                      </Localized>
+                    </CheckBox>
+                  )}
+                </Field>
+                <Field
+                  name={`${channel}.triggers.staffComments`}
+                  type="checkbox"
+                  parse={parseBool}
+                >
+                  {({ input }) => (
+                    <CheckBox
+                      id={`configure-slack-channel-triggers-staffComments-${input.name}`}
+                      disabled={disabled || !channelEnabled}
+                      className={styles.trigger}
+                      {...input}
+                    >
+                      <Localized id="configure-slack-channel-triggers-staffComments">
+                        Staff Comments
+                      </Localized>
+                    </CheckBox>
+                  )}
+                </Field>
+                <Field
                   name={`${channel}.triggers.reportedComments`}
                   type="checkbox"
                   parse={parseBool}

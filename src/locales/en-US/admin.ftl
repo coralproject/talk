@@ -672,6 +672,8 @@ configure-slack-channel-triggers-label =
 configure-slack-channel-triggers-reportedComments = Reported Comments
 configure-slack-channel-triggers-pendingComments = Pending Comments
 configure-slack-channel-triggers-featuredComments = Featured Comments
+configure-slack-channel-triggers-allComments = All Comments
+configure-slack-channel-triggers-staffComments = Staff Comments
 
 ## moderate
 moderate-navigation-reported = reported
