@@ -5,7 +5,9 @@ exports[`renders correctly 1`] = `
   className="HistoryComment-root coral coral-myComment"
   data-testid="historyComment-comment-id"
 >
-  <div>
+  <div
+    className="coral coral-myComment-commentOn"
+  >
     <Localized
       id="profile-historyComment-comment-on"
     >
