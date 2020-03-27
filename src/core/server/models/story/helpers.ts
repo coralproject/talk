@@ -32,7 +32,7 @@ export function isStoryClosed(
   now = new Date()
 ) {
   const closedAt = getStoryClosedAt(tenant, story);
-  return closedAt && closedAt <= now;
+  return !!closedAt && closedAt <= now;
 }
 
 export function getStoryClosedAt(

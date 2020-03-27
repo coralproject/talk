@@ -34,7 +34,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-usernameButton"
+            className="BaseButton-root UsernameButton-root"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -98,19 +98,28 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         <div
           className="ModerateCard-viewContext"
         >
-          <a
-            className="TextLink-root ModerateCard-link"
-            href="http://localhost/comment/0"
-            target="_blank"
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
+            data-color="regular"
+            data-variant="text"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            View Context
             <i
               aria-hidden="true"
-              className="Icon-root Icon-xs TextLink-icon"
+              className="Icon-root Icon-sm ButtonIcon-root"
             >
-              open_in_new
+              question_answer
             </i>
-          </a>
+            <span>
+              View Conversation
+            </span>
+          </button>
         </div>
         <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
@@ -288,7 +297,7 @@ exports[`renders rejected queue with comments 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
               >
                 <button
-                  className="BaseButton-root ModerateCard-usernameButton"
+                  className="BaseButton-root UsernameButton-root"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -352,19 +361,28 @@ exports[`renders rejected queue with comments 1`] = `
               <div
                 className="ModerateCard-viewContext"
               >
-                <a
-                  className="TextLink-root ModerateCard-link"
-                  href="http://localhost/comment/0"
-                  target="_blank"
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
+                  data-color="regular"
+                  data-variant="text"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  View Context
                   <i
                     aria-hidden="true"
-                    className="Icon-root Icon-xs TextLink-icon"
+                    className="Icon-root Icon-sm ButtonIcon-root"
                   >
-                    open_in_new
+                    question_answer
                   </i>
-                </a>
+                  <span>
+                    View Conversation
+                  </span>
+                </button>
               </div>
               <div
                 className="ModerateCard-separator ModerateCard-ruledSeparator"
@@ -529,7 +547,7 @@ exports[`renders rejected queue with comments 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-alignCenter"
               >
                 <button
-                  className="BaseButton-root ModerateCard-usernameButton"
+                  className="BaseButton-root UsernameButton-root"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -593,19 +611,28 @@ exports[`renders rejected queue with comments 1`] = `
               <div
                 className="ModerateCard-viewContext"
               >
-                <a
-                  className="TextLink-root ModerateCard-link"
-                  href="http://localhost/comment/1"
-                  target="_blank"
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
+                  data-color="regular"
+                  data-variant="text"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  View Context
                   <i
                     aria-hidden="true"
-                    className="Icon-root Icon-xs TextLink-icon"
+                    className="Icon-root Icon-sm ButtonIcon-root"
                   >
-                    open_in_new
+                    question_answer
                   </i>
-                </a>
+                  <span>
+                    View Conversation
+                  </span>
+                </button>
               </div>
               <div
                 className="ModerateCard-separator ModerateCard-ruledSeparator"
@@ -776,7 +803,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-usernameButton"
+            className="BaseButton-root UsernameButton-root"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -840,19 +867,28 @@ exports[`renders rejected queue with comments and load more 1`] = `
         <div
           className="ModerateCard-viewContext"
         >
-          <a
-            className="TextLink-root ModerateCard-link"
-            href="http://localhost/comment/2"
-            target="_blank"
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
+            data-color="regular"
+            data-variant="text"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            View Context
             <i
               aria-hidden="true"
-              className="Icon-root Icon-xs TextLink-icon"
+              className="Icon-root Icon-sm ButtonIcon-root"
             >
-              open_in_new
+              question_answer
             </i>
-          </a>
+            <span>
+              View Conversation
+            </span>
+          </button>
         </div>
         <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"

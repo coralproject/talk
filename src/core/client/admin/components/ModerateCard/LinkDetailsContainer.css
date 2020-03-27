@@ -9,8 +9,3 @@
   display: inline-block;
   padding-right: var(--spacing-2);
 }
-
-.button {
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
