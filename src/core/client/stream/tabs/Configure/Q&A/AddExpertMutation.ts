@@ -16,7 +16,7 @@ const AddExpertMutation = createMutation(
   (environment: Environment, input: MutationInput<AddExpertMutation>) =>
     commitMutationPromiseNormalized<AddExpertMutation>(environment, {
       mutation: graphql`
-        mutation AddExpertMutation($input: AddExpertInput!) {
+        mutation AddExpertMutation($input: AddStoryExpertInput!) {
           addStoryExpert(input: $input) {
             story {
               id

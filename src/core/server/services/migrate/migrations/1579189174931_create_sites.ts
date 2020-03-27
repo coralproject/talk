@@ -16,6 +16,7 @@ import {
 import {
   createSite,
   getURLOrigins,
+  retrieveTenantSites,
   Site,
   updateSiteCounts,
 } from "coral-server/models/site";
@@ -24,68 +25,99 @@ import Migration from "coral-server/services/migrate/migration";
 import collections from "coral-server/services/mongodb/collections";
 
 import { MigrationError } from "../error";
+import { createIndexesFactory } from "../indexing";
 
 interface OldTenant extends Tenant {
   allowedDomains: string[];
 }
 
+async function findOrCreateSite(
+  mongo: Db,
+  tenant: Readonly<OldTenant>
+): Promise<Site> {
+  // Get all the sites attached to this Tenant (if there are any).
+  const sites = await retrieveTenantSites(mongo, tenant.id);
+  if (sites && sites.length > 0) {
+    // There was at least one site! If there is exactly one, then return it,
+    // otherwise there is more than one site.
+    if (sites.length === 1) {
+      return sites[0];
+    }
+
+    // There were more than 1 site! We can't handle this case.
+    throw new Error("more than one site for this tenant is available");
+  }
+
+  // Convert a tenant's domains into origins that we will re-use on the site.
+  const allowedOrigins = getURLOrigins([
+    ...tenant.allowedDomains,
+    tenant.domain,
+  ]);
+
+  return createSite(mongo, {
+    tenantID: tenant.id,
+    name: tenant.organization.name,
+    allowedOrigins,
+  });
+}
+
 export default class extends Migration {
-  private async createSite(mongo: Db, tenant: Readonly<OldTenant>) {
-    const {
-      organization: { name },
-      domain,
-      allowedDomains,
-    } = tenant;
+  private async findOrCreateSite(mongo: Db, tenant: Readonly<OldTenant>) {
+    // Try to find the site.
+    const site = await findOrCreateSite(mongo, tenant);
 
-    // Convert a tenant's domains into origins that we will re-use on the site.
-    const allowedOrigins = getURLOrigins([...allowedDomains, domain]);
-
-    // Create the new site.
-    const site = await createSite(mongo, {
-      name,
-      tenantID: tenant.id,
-      allowedOrigins,
-    });
-
-    this.logger.info({ site }, "created site");
+    this.log(tenant.id).info("starting stories migration");
 
     // Add the siteID to all the stories.
     let result = await collections
       .stories(mongo)
-      .updateMany({ tenantID: tenant.id }, { $set: { siteID: site.id } });
+      .updateMany(
+        { tenantID: tenant.id, siteID: null },
+        { $set: { siteID: site.id } }
+      );
 
     this.log(tenant.id).info(
       {
         matchedCount: result.matchedCount,
         modifiedCount: result.modifiedCount,
       },
-      "added siteID to stories"
+      "finished stories migration"
     );
+
+    this.log(tenant.id).info("starting comments migration");
 
     // Add the siteID to all comments.
     result = await collections
       .comments(mongo)
-      .updateMany({ tenantID: tenant.id }, { $set: { siteID: site.id } });
+      .updateMany(
+        { tenantID: tenant.id, siteID: null },
+        { $set: { siteID: site.id } }
+      );
 
     this.log(tenant.id).info(
       {
         matchedCount: result.matchedCount,
         modifiedCount: result.modifiedCount,
       },
-      "added siteID to comments"
+      "finished comments migration"
     );
+
+    this.log(tenant.id).info("starting commentActions migration");
 
     // Add the siteID to all commentActions.
     result = await collections
       .commentActions(mongo)
-      .updateMany({ tenantID: tenant.id }, { $set: { siteID: site.id } });
+      .updateMany(
+        { tenantID: tenant.id, siteID: null },
+        { $set: { siteID: site.id } }
+      );
 
     this.log(tenant.id).info(
       {
         matchedCount: result.matchedCount,
         modifiedCount: result.modifiedCount,
       },
-      "added siteID to commentActions"
+      "finished commentActions migration"
     );
 
     return site;
@@ -216,20 +248,26 @@ export default class extends Migration {
       ]);
     }
 
-    // Try to find any site to see if this migration is needed.
-    let site = await collections.sites(mongo).findOne({ tenantID });
-    if (site) {
-      this.log(tenantID).info({ site }, "site has already been created");
-      return;
-    }
-
     // Create the site.
-    site = await this.createSite(mongo, tenant);
+    const site = await this.findOrCreateSite(mongo, tenant);
 
     // Update the story action counts on the stories.
     await this.updateStoryActionCommentCounts(mongo, tenant);
 
     // Update the site comment counts from the stories.
     await this.updateCommentCounts(mongo, tenant, site);
+  }
+
+  public async indexes(mongo: Db) {
+    // Create the indexes factory.
+    const index = createIndexesFactory(mongo);
+
+    // Add indexes for { tenantID, siteID }.
+    await index.comments({ tenantID: 1, siteID: 1 }, { background: true });
+    await index.stories({ tenantID: 1, siteID: 1 }, { background: true });
+    await index.commentActions(
+      { tenantID: 1, siteID: 1 },
+      { background: true }
+    );
   }
 }

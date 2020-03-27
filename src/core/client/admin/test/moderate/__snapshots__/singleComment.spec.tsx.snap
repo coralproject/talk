@@ -21,7 +21,7 @@ exports[`approves single comment 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-usernameButton"
+            className="BaseButton-root UsernameButton-root"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -85,19 +85,28 @@ exports[`approves single comment 1`] = `
         <div
           className="ModerateCard-viewContext"
         >
-          <a
-            className="TextLink-root ModerateCard-link"
-            href="http://localhost/comment/0"
-            target="_blank"
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
+            data-color="regular"
+            data-variant="text"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            View Context
             <i
               aria-hidden="true"
-              className="Icon-root Icon-xs TextLink-icon"
+              className="Icon-root Icon-sm ButtonIcon-root"
             >
-              open_in_new
+              question_answer
             </i>
-          </a>
+            <span>
+              View Conversation
+            </span>
+          </button>
         </div>
         <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
@@ -235,7 +244,7 @@ exports[`rejects single comment 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
         >
           <button
-            className="BaseButton-root ModerateCard-usernameButton"
+            className="BaseButton-root UsernameButton-root"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -299,19 +308,28 @@ exports[`rejects single comment 1`] = `
         <div
           className="ModerateCard-viewContext"
         >
-          <a
-            className="TextLink-root ModerateCard-link"
-            href="http://localhost/comment/0"
-            target="_blank"
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
+            data-color="regular"
+            data-variant="text"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            View Context
             <i
               aria-hidden="true"
-              className="Icon-root Icon-xs TextLink-icon"
+              className="Icon-root Icon-sm ButtonIcon-root"
             >
-              open_in_new
+              question_answer
             </i>
-          </a>
+            <span>
+              View Conversation
+            </span>
+          </button>
         </div>
         <div
           className="ModerateCard-separator ModerateCard-ruledSeparator"
@@ -484,7 +502,7 @@ exports[`renders single comment view 1`] = `
                   className="Box-root Flex-root Flex-flex Flex-alignCenter"
                 >
                   <button
-                    className="BaseButton-root ModerateCard-usernameButton"
+                    className="BaseButton-root UsernameButton-root"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -548,19 +566,28 @@ exports[`renders single comment view 1`] = `
                 <div
                   className="ModerateCard-viewContext"
                 >
-                  <a
-                    className="TextLink-root ModerateCard-link"
-                    href="http://localhost/comment/0"
-                    target="_blank"
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantText Button-uppercase Button-iconLeft"
+                    data-color="regular"
+                    data-variant="text"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    View Context
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-xs TextLink-icon"
+                      className="Icon-root Icon-sm ButtonIcon-root"
                     >
-                      open_in_new
+                      question_answer
                     </i>
-                  </a>
+                    <span>
+                      View Conversation
+                    </span>
+                  </button>
                 </div>
                 <div
                   className="ModerateCard-separator ModerateCard-ruledSeparator"

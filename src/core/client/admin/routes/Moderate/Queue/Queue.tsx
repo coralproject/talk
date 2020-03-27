@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
+import ConversationModal from "coral-admin/components/ConversationModal";
 import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { HOTKEYS } from "coral-admin/constants";
@@ -46,6 +47,10 @@ const Queue: FunctionComponent<Props> = ({
   const [userDrawerId, setUserDrawerID] = useState("");
   const [selectedComment, setSelectedComment] = useState<number | null>(0);
   const [singleView, setSingleView] = useState(false);
+  const [conversationModalVisible, setConversationModalVisible] = useState(
+    false
+  );
+  const [conversationCommentID, setConversationCommentID] = useState("");
 
   const toggleView = useCallback(() => {
     if (!singleView) {
@@ -94,6 +99,23 @@ const Queue: FunctionComponent<Props> = ({
     setUserDrawerID("");
   }, []);
 
+  const onShowConversationModal = useCallback((commentID: string) => {
+    setConversationCommentID(commentID);
+    setConversationModalVisible(true);
+  }, []);
+
+  const onHideConversationModal = useCallback(() => {
+    setConversationModalVisible(false);
+    setConversationCommentID("");
+  }, []);
+
+  const onUsernameClickedFromModal = useCallback((userID: string) => {
+    setUserDrawerID(userID);
+    setUserDrawerVisible(true);
+    setConversationModalVisible(false);
+    setConversationCommentID("");
+  }, []);
+
   return (
     <HorizontalGutter className={styles.root} size="double">
       {Boolean(viewNewCount && viewNewCount > 0) && (
@@ -119,6 +141,7 @@ const Queue: FunctionComponent<Props> = ({
             danglingLogic={danglingLogic}
             showStoryInfo={Boolean(allStories)}
             onUsernameClicked={onShowUserDrawer}
+            onConversationClicked={onShowConversationModal}
             onSetSelected={() => setSelectedComment(i)}
             selected={selectedComment === i}
             selectPrev={selectPrev}
@@ -140,6 +163,12 @@ const Queue: FunctionComponent<Props> = ({
         open={userDrawerVisible}
         onClose={onHideUserDrawer}
         userID={userDrawerId}
+      />
+      <ConversationModal
+        onUsernameClicked={onUsernameClickedFromModal}
+        open={conversationModalVisible}
+        onClose={onHideConversationModal}
+        commentID={conversationCommentID}
       />
     </HorizontalGutter>
   );

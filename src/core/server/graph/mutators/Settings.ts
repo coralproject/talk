@@ -3,13 +3,16 @@ import { Tenant } from "coral-server/models/tenant";
 import {
   createAnnouncement,
   createWebhookEndpoint,
+  deactivateSSOKey,
   deleteAnnouncement,
+  deleteSSOKey,
   deleteWebhookEndpoint,
   disableFeatureFlag,
   disableWebhookEndpoint,
   enableFeatureFlag,
   enableWebhookEndpoint,
   regenerateSSOKey,
+  rotateSSOKey,
   rotateWebhookEndpointSecret,
   update,
   updateWebhookEndpoint,
@@ -18,10 +21,13 @@ import {
 import {
   GQLCreateAnnouncementInput,
   GQLCreateWebhookEndpointInput,
+  GQLDeactivateSSOKeyInput,
+  GQLDeleteSSOKeyInput,
   GQLDeleteWebhookEndpointInput,
   GQLDisableWebhookEndpointInput,
   GQLEnableWebhookEndpointInput,
   GQLFEATURE_FLAG,
+  GQLRotateSSOKeyInput,
   GQLRotateWebhookEndpointSecretInput,
   GQLUpdateSettingsInput,
   GQLUpdateWebhookEndpointInput,
@@ -43,6 +49,12 @@ export const Settings = ({
     update(mongo, redis, tenantCache, config, tenant, input.settings),
   regenerateSSOKey: (): Promise<Tenant | null> =>
     regenerateSSOKey(mongo, redis, tenantCache, tenant, now),
+  rotateSSOKey: ({ inactiveIn }: GQLRotateSSOKeyInput) =>
+    rotateSSOKey(mongo, redis, tenantCache, tenant, inactiveIn, now),
+  deactivateSSOKey: ({ kid }: GQLDeactivateSSOKeyInput) =>
+    deactivateSSOKey(mongo, redis, tenantCache, tenant, kid, now),
+  deleteSSOKey: ({ kid }: GQLDeleteSSOKeyInput) =>
+    deleteSSOKey(mongo, redis, tenantCache, tenant, kid),
   enableFeatureFlag: (flag: GQLFEATURE_FLAG) =>
     enableFeatureFlag(mongo, redis, tenantCache, tenant, flag),
   disableFeatureFlag: (flag: GQLFEATURE_FLAG) =>

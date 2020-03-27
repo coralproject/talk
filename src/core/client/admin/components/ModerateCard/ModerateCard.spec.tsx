@@ -35,6 +35,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   onBan: noop,
   onUsernameClick: noop,
   onFocusOrClick: noop,
+  onConversationClick: noop,
   showStory: false,
   moderatedBy: null,
 };
