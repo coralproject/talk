@@ -17,7 +17,7 @@ export interface TabBarProps {
   /**
    * Style variant
    */
-  variant?: "primary" | "secondary" | "default";
+  variant?: "primary" | "secondary" | "default" | "streamSecondary";
   /**
    * Active tab id/name
    */
@@ -49,6 +49,7 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
       {
         [classes.primary]: variant === "primary",
         [classes.secondary]: variant === "secondary",
+        [classes.streamSecondary]: variant === "streamSecondary",
         [classes.default]: variant === "default",
       },
     ],

@@ -15,7 +15,7 @@ import {
   TabBar,
   TabContent,
   TabPane,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 
 import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 

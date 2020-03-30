@@ -4,12 +4,15 @@
 
 .tabBarContainer {
   position: relative;
-  padding-top: var(--spacing-1);
+  padding-top: var(--v2-spacing-1);
+
+  font-family: var(--v2-font-family-primary);
+  font-size: var(--v2-font-size-2);
 }
 
 .sortMenu {
   /* same as tab bottom padding */
-  padding-bottom: calc(0.5 * var(--mini-unit) + 3px);
+  padding-bottom: calc(var(--v2-spacing-2) + 3px);
 }
 
 .fixedTab {
@@ -18,15 +21,25 @@
   text-align: left;
 }
 
+.featureTabRoot {
+  display: inline-block;
+  list-style: none;
+  margin-right: 0px;
+
+  font-family: var(--v2-font-family-primary);
+}
+
 .featuredCommentsTabContainer {
   position: relative;
 }
 
 .featuredCommentsInfo {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  position: relative;
+  display: inline-block;
+  bottom: 1.5px;
+
+  margin-left: var(--v2-spacing-1);
+  margin-right: var(--v2-spacing-2);
 }
 
 .featuredCommentsTab {
@@ -39,9 +52,5 @@
 }
 
 .tabBarRow {
-  border-bottom: 1px solid var(--palette-divider);
-}
-
-.featuredCommentsTabButton {
-  padding-right: 30px !important;
+  border-bottom: 1px solid var(--v2-palette-divider);
 }

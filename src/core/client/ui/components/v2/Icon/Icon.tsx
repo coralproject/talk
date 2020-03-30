@@ -6,6 +6,8 @@ import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./Icon.css";
 
+export type IconColor = "inherit" | "primary" | "error" | "success" | "stream";
+
 interface Props extends HTMLAttributes<HTMLSpanElement> {
   /**
    * This prop can be used to add custom classnames.
@@ -18,7 +20,7 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
    */
-  color?: "inherit" | "primary" | "error" | "success";
+  color?: IconColor;
 
   /** The name of the icon to render */
   children: string;
@@ -37,6 +39,7 @@ const Icon: FunctionComponent<Props> = (props) => {
       [classes.colorPrimary]: color === "primary",
       [classes.colorError]: color === "error",
       [classes.colorSuccess]: color === "success",
+      [classes.colorStream]: color === "stream",
     },
     className
   );

@@ -34,6 +34,7 @@ comments-featuredCommentTooltip-handSelectedComments =
   Comments are chosen by our team as worth reading.
 comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
+  .title = Toggle featured comments tooltip
 
 comments-bannedInfo-bannedFromCommenting = Your account has been banned from commenting.
 comments-bannedInfo-violatedCommunityGuidelines =
@@ -229,6 +230,7 @@ qa-answeredTooltip-answeredComments =
   Questions are answered by a Q&A expert.
 qa-answeredTooltip-toggleButton =
   .aria-label = Toggle answered questions tooltip
+  .title = Toggle answered questions tooltip
 
 ### Account Deletion Stream
 
