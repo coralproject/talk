@@ -33,6 +33,15 @@ it("allows anchor links", () => {
   ).toMatchSnapshot();
 });
 
+it("allows mailto links", () => {
+  expect(
+    sanitizeCommentBody(
+      DOMPurify,
+      '<a href="mailto:email@example.com">email@example.com</a>'
+    )
+  ).toMatchSnapshot();
+});
+
 it("allows anchor tags and counts them correctly", () => {
   const { body, linkCount } = sanitizeCommentBody(
     DOMPurify,
