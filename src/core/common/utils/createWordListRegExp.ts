@@ -11,7 +11,7 @@ interface WordListRule {
 
 const DefaultWordListRule: WordListRule = {
   split: "[^\\w]",
-  punctuation: '[\\s"?!.]+',
+  punctuation: '[\\s"?!.¿¡`:;]+',
   whitespace: "\\s+",
 };
 

@@ -1,6 +1,7 @@
 import createDOMPurify from "dompurify";
 
 type DOMPurify = ReturnType<typeof createDOMPurify>;
+const MAILTO_PROTOCOL = "mailto:";
 
 export function createPurify(window: Window, returnDOM = true) {
   // Initializing JSDOM and DOMPurify
@@ -26,8 +27,15 @@ export function createPurify(window: Window, returnDOM = true) {
       node.setAttribute("rel", "noopener noreferrer");
 
       // Ensure that all the links have the same link as they do text.
-      const href = node.getAttribute("href");
-      if (node.textContent !== href) {
+      let href = node.getAttribute("href");
+      if (href) {
+        if (node.textContent !== href) {
+          // remove "mailto:" prefix from link text
+          const url = new URL(href);
+          if (url.protocol === MAILTO_PROTOCOL) {
+            href = href.replace(url.protocol, "");
+          }
+        }
         node.textContent = href;
       }
     } else {

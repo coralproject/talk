@@ -26,7 +26,10 @@ it("sanitizes out attributes not allowed", () => {
 
 it("allows anchor links", () => {
   expect(
-    sanitizeCommentBody(DOMPurify, '<a href="test">This is a link</a>')
+    sanitizeCommentBody(
+      DOMPurify,
+      '<a href="http://test.com">This is a link</a>'
+    )
   ).toMatchSnapshot();
 });
 

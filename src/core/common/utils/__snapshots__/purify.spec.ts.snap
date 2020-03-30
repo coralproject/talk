@@ -2,7 +2,7 @@
 
 exports[`allows anchor links 1`] = `
 Object {
-  "body": "<a href=\\"test\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">test</a>",
+  "body": "<a href=\\"http://test.com\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">http://test.com</a>",
   "linkCount": 1,
 }
 `;

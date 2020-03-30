@@ -1,0 +1,10 @@
+.root {
+}
+.topCircle {
+  margin-right: var(--v2-spacing-2);
+}
+
+.bottomCircleContainer {
+  width: 8px;
+  padding-top: var(--v2-spacing-1);
+}
