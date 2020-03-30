@@ -33,8 +33,9 @@ framework-validation-notAWholeNumberGreaterThan = Por favor, insira um número i
 framework-validation-notAWholeNumberGreaterThanOrEqual = Por favor insira um número inteiro maior ou igual a { $x }
 framework-validation-usernamesDoNotMatch = Os nomes de usuário não coincidem. Tente novamente.
 framework-validation-deleteConfirmationInvalid = Confirmação incorreta. Tente novamente.
+framework-validation-invalidWebhookEndpointEventSelection = Selecione pelo menos um evento para receber.
 
-framework-timeago-just-now = Agora
+framework-timeago-just-now = Agora mesmo
 
 framework-timeago-time =
   { $value }
@@ -72,7 +73,7 @@ framework-timeago-time =
 
 framework-timeago =
   { $suffix ->
-    [ago] há {framework-timeago-time} 
+    [ago] há {framework-timeago-time}
     *[noSuffix] {framework-timeago-time}
   }
 

@@ -41,7 +41,7 @@ comments-bannedInfo-violatedCommunityGuidelines =
   respeitar ou denunciar comentários. Se você acha
   isso foi feito por engano, entre em contato com nossa equipe da comunidade.
 
-comments-noCommentsAtAll = Não existem comentáriosnesta história.
+comments-noCommentsAtAll = Não existem comentários nesta história.
 comments-noCommentsYet = Ainda não há comentários. Seja o primeiro a comentar.
 
 comments-streamQuery-storyNotFound = História não encontrada
@@ -167,6 +167,47 @@ comments-rejectedTombstone =
 
 comments-featuredTag = Destaques
 
+### Q&A
+
+general-tabBar-qaTab = Q&A
+
+qa-answeredTab = Respondidos
+qa-unansweredTab = Não-Respondidos
+qa-allCommentsTab = Todos
+
+qa-noQuestionsAtAll =
+  Não há perguntas nesta história.
+qa-noQuestionsYet =
+  Não há perguntas ainda. Por que você não pergunta uma?
+qa-viewNew =
+  { $count ->
+    [1] Ver {$count} Nova Pergunta
+    *[other] Ver {$count} Novas Perguntas
+  }
+
+qa-postQuestionForm-rteLabel = Postar uma pergunta
+qa-postQuestionForm-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+qa-postQuestionFormFake-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+
+qa-sortMenu-mostVoted = Mais Votadas
+
+qa-answered-tag = respondeu
+qa-expert-tag = especialista
+
+qa-reaction-vote = Votar
+qa-reaction-voted = Votado
+
+qa-unansweredTab-doneAnswering = Feito
+
+qa-expert-email = ({ $email })
+
+qa-answeredTooltip-how = Como uma pergunta é respondida?
+qa-answeredTooltip-answeredComments =
+  Perguntas são respondidas por um especialista Perguntas & Respostas.
+qa-answeredTooltip-toggleButton =
+  .aria-label = Alternar dica de ferramenta das perguntas respondidas
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =
@@ -188,6 +229,7 @@ comments-featured-replies = Respostas
 profile-myCommentsTab = Meus comentários
 profile-myCommentsTab-comments = Meus comentários
 profile-accountTab = Conta
+profile-preferencesTab = Preferências
 
 accountSettings-manage-account = Gerencie a sua conta
 
@@ -279,7 +321,7 @@ profile-account-deleteAccount-pages-allCommentsDeleted =
 profile-account-deleteAccount-pages-emailRemoved =
   O seu endereço de email foi removido do nosso sistema
 
-profile-account-deleteAccount-pages-whenHeader = Deletar minha conta: When?
+profile-account-deleteAccount-pages-whenHeader = Deletar minha conta: quando?
 profile-account-deleteAccount-pages-whenSec1Header =
   Quando minha conta será excluída?
 profile-account-deleteAccount-pages-whenSec1Content =
@@ -395,6 +437,8 @@ profile-changeUsername-close = Fechar
 
 ## Comment Stream
 configure-stream-title = Configurar este fluxo de comentários
+configure-stream-title-configureThisStream =
+  Configurar este Fluxo
 configure-stream-apply = Aplicar
 
 configure-premod-title = Ativar Pré-Moderação
@@ -430,7 +474,7 @@ configure-messageBox-writeAMessage = Escreve uma mensagem
 configure-closeStream-title = Fechar fluxo de comentários
 configure-closeStream-description =
   Este fluxo de comentários está aberto no momento. Ao fechar este fluxo de comentários,
-  Nenhum novo comentário pode ser enviado e todos os comentários enviados anteriormente
+  nenhum novo comentário pode ser enviado e todos os comentários enviados anteriormente
   ainda serão exibidos.
 configure-closeStream-closeStream = Fechar Fluxo de Comentários
 
@@ -441,6 +485,34 @@ configure-openStream-description =
 configure-openStream-openStream = Abrir Fluxo
 
 configure-moderateThisStream = Moderar esta história
+
+configure-enableQA-title = Mudar para formato Perguntas & Respostas
+configure-enableQA-description =
+  O formato de Perguntas & Respostas permite aos membros da comunidade
+  enviar perguntas para especialistas selecionados responderem.
+configure-enableQA-enableQA = Mudar para Perguntas & Respostas
+
+configure-disableQA-title = Configurar esta Perguntas & Respostas
+configure-disableQA-description =
+  O formato de Perguntas & Respostas permite membros da comunidade
+  enviarem perguntas para especialistas responderem.
+configure-disableQA-disableQA = Trocar para Comentários
+
+configure-experts-title = Adicionar um Especialista
+configure-experts-filter-searchField =
+  .placeholder = Buscar por email ou nome do usuário
+  .aria-label = Buscar por email ou nome do usuário
+configure-experts-filter-searchButton =
+  .aria-label = Buscar
+configure-experts-filter-description =
+  Adiciona um crachá "Especialista" em comentários por usuários
+  registrados, apenas nesta página. Novos usuários devem se registrar
+  e abrir os comentários em uma página para criar sua conta.
+configure-experts-search-none-found = Nenhum usuário foi encontrado com esse email ou Nome de Usuário
+configure-experts-remove-button = Remover
+configure-experts-load-more = Carregar Mais
+configure-experts-none-yet = Não existem especialistas para estas Peguntas & Respostas no momento.
+configure-experts-assigned-title = Especialistas
 
 comments-tombstone-ignore = Este comentário está oculto porque você ignorou {$username}
 comments-tombstone-deleted =

@@ -43,6 +43,7 @@ email-template-accountNotificationConfirmEmail =
   Se você não criou recentemente uma conta na platforma de comentários em { $organizationName }, você pode ignorar este email.
 
 email-subject-accountNotificationInvite = Convite do time Coral
+
 email-template-accountNotificationInvite =
   Você foi convidado para participar do time { $organizationName }
   no Coral. Finalize o seu cadastro <a data-l10n-name="invite">aqui</a>.
@@ -59,7 +60,9 @@ email-template-accountNotificationDeleteRequestConfirmation =
   A exclusão de sua conta foi agendada para { $requestDate }.<br /><br />
   Depois desta data, todos os seus comentários serão removidos do site, do nosso
   banco de dados e seu nome de usuário e email serão removidos do nosso sistema.<br /><br />
-  Você pode também cancelar o pedido pelo site antes da data agendada.
+  Se você mudar ideia, você pode fazer login com a sua conta e cancelar o pedido
+  de cancelamento antes do período agendado para deleção da sua conta.
+
 
 email-subject-accountNotificationDeleteRequestCancel =
   Seu pedido de exclusão da conta foi cancelado.
@@ -76,6 +79,8 @@ email-template-accountNotificationDeleteRequestCompleted =
   Fique a vontade para nos dar um feedback explicando o motivo de sua saída,
   assim poderemos fazer a sua experiência ainda melhor.
   Por favor, mande um email para: { $organizationContactEmail }.
+
+
 # Notification
 
 email-footer-notification =
