@@ -22,7 +22,7 @@ exports[`renders comment stream 1`] = `
         <button
           aria-controls="tabPane-COMMENTS"
           aria-selected={true}
-          className="BaseButton-root Tab-button Tab-primary Tab-active coral coral-tabBar-tab coral-tabBar-comments coral-tabBar-tab-active"
+          className="BaseButton-root Tab-button Tab-primary Tab-active coral coral-tabBar-tab coral-tabBar-comments"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -118,7 +118,7 @@ exports[`renders comment stream 1`] = `
                     />
                     <div
                       aria-hidden="true"
-                      className="RTE-placeholder coral coral-rte-placeholder RTE-placeholder"
+                      className="RTE-placeholder coral coral-rte-placholder RTE-placeholder"
                     >
                       Post a comment
                     </div>
@@ -250,7 +250,7 @@ exports[`renders comment stream 1`] = `
               </span>
             </div>
             <ul
-              className="TabBar-root TabBar-secondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
+              className="TabBar-root TabBar-streamSecondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
               role="tablist"
             >
               <li
@@ -261,7 +261,7 @@ exports[`renders comment stream 1`] = `
                 <button
                   aria-controls="tabPane-ALL_COMMENTS"
                   aria-selected={true}
-                  className="BaseButton-root Tab-button Tab-secondary Tab-active coral-tabBarSecondary-tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
+                  className="BaseButton-root Tab-button Tab-streamSecondary Tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -278,7 +278,7 @@ exports[`renders comment stream 1`] = `
                       All Comments
                     </span>
                     <span
-                      className="Counter-root Counter-colorPrimary Counter-sizeSmall coral coral-counter"
+                      className="Counter-root Counter-colorInherit Counter-sizeSmall"
                     >
                       <span
                         className="Counter-text"

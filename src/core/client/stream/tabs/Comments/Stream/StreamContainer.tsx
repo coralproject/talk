@@ -8,7 +8,6 @@ import { useViewerEvent } from "coral-framework/lib/events";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
-import Counter from "coral-stream/common/Counter";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import { COMMENTS_ORDER_BY } from "coral-stream/constants";
 import {
@@ -16,13 +15,14 @@ import {
   SetCommentsTabEvent,
 } from "coral-stream/events";
 import {
+  Counter,
   Flex,
   HorizontalGutter,
   Tab,
   TabBar,
   TabContent,
   TabPane,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
 import { StreamContainer_settings as SettingsData } from "coral-stream/__generated__/StreamContainer_settings.graphql";
@@ -71,7 +71,8 @@ const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
     <Tab
       {...props}
       classes={{
-        secondary: styles.featuredCommentsTabButton,
+        root: styles.featureTabRoot,
+        secondary: styles.featureTabRoot,
       }}
       className={cn(
         styles.fixedTab,
@@ -79,6 +80,7 @@ const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
         styles.featuredCommentsTab,
         { [CLASSES.tabBarComments.activeTab]: props.active }
       )}
+      variant="streamSecondary"
     />
     <FeaturedCommentTooltip
       active={props.active}
@@ -212,7 +214,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
               isQA={isQA}
             />
             <TabBar
-              variant="secondary"
+              variant="streamSecondary"
               activeTab={local.commentsTab}
               onTabClick={onChangeTab}
               className={cn(CLASSES.tabBarComments.$root, styles.tabBarRoot)}
@@ -235,7 +237,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       size="sm"
                       color={
                         local.commentsTab === "FEATURED_COMMENTS"
-                          ? "primary"
+                          ? "inherit"
                           : "grey"
                       }
                     >
@@ -258,6 +260,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                     },
                     CLASSES.tabBarComments.allComments
                   )}
+                  variant="streamSecondary"
                 >
                   <Flex alignItems="center" spacing={1}>
                     <Localized id="qa-unansweredTab">
@@ -267,7 +270,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                       size="sm"
                       color={
                         local.commentsTab === "UNANSWERED_COMMENTS"
-                          ? "primary"
+                          ? "inherit"
                           : "grey"
                       }
                     >
@@ -286,6 +289,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   },
                   CLASSES.tabBarComments.allComments
                 )}
+                variant="streamSecondary"
               >
                 <Flex alignItems="center" spacing={1}>
                   {isQA ? (
@@ -301,7 +305,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   <Counter
                     size="sm"
                     color={
-                      local.commentsTab === "ALL_COMMENTS" ? "primary" : "grey"
+                      local.commentsTab === "ALL_COMMENTS" ? "inherit" : "grey"
                     }
                   >
                     <Localized

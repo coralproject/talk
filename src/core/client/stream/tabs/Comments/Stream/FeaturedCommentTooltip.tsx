@@ -3,7 +3,9 @@ import React, { FunctionComponent, useEffect } from "react";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { ShowFeaturedCommentTooltipEvent } from "coral-stream/events";
-import { Tooltip, TooltipButton } from "coral-ui/components";
+import { Tooltip, TooltipButton } from "coral-ui/components/v2";
+
+import styles from "./FeaturedCommentTooltip.css";
 
 interface TooltipProps {
   className?: string;
@@ -55,11 +57,17 @@ export const FeaturedCommentTooltip: FunctionComponent<TooltipProps> = (
         button={({ toggleVisibility, ref, visible }) => (
           <Localized
             id="qa-answeredTooltip-toggleButton"
-            attrs={{ "aria-label": true }}
+            attrs={{ "aria-label": true, title: true }}
           >
             <TooltipButton
+              classes={{
+                button: styles.button,
+              }}
               active={props.active}
+              activeColor="stream"
+              ariaLabel="Toggle featured comments tooltip"
               aria-label="Toggle answered questions tooltip"
+              title="Toggle answered questions tooltip"
               toggleVisibility={toggleVisibility}
               ref={ref}
             />
@@ -82,11 +90,17 @@ export const FeaturedCommentTooltip: FunctionComponent<TooltipProps> = (
       button={({ toggleVisibility, ref, visible }) => (
         <Localized
           id="comments-featuredCommentTooltip-toggleButton"
-          attrs={{ "aria-label": true }}
+          attrs={{ "aria-label": true, title: true }}
         >
           <TooltipButton
+            classes={{
+              button: styles.button,
+            }}
             active={props.active}
+            activeColor="stream"
+            ariaLabel="Toggle featured comments tooltip"
             aria-label="Toggle featured comments tooltip"
+            title="Toggle featured comments tooltip"
             toggleVisibility={toggleVisibility}
             ref={ref}
           />

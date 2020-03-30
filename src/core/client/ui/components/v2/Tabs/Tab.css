@@ -1,6 +1,9 @@
 $tab-selected: var(--v2-colors-teal-600);
 $tab-default: var(--v2-colors-mono-100);
 
+$tab-stream-selected: var(--v2-colors-stream-blue-500);
+$tab-stream-default: var(--v2-colors-mono-500);
+
 .root {
   display: inline-block;
   list-style: none;
@@ -58,15 +61,31 @@ $tab-default: var(--v2-colors-mono-100);
 }
 
 .secondary {
-  font-family: var(--font-family-sans-serif);
-  color: $tab-default;
+  font-family: var(--v2-font-family-primary);
+  color: $tab-stream-default;
   padding-bottom: var(--v2-spacing-2);
-  text-transform: uppercase;
 
   &.active {
     color: $tab-selected;
-    font-weight: var(--font-weight-medium);
-    border-bottom: 3px solid $tab-selected;
+    font-weight: var(--v2-font-weight-primary-bold);
+    border-bottom: 3px solid $tab-stream-selected;
     padding-bottom: calc(var(--v2-spacing-2) - 3px);
   }
+}
+
+.streamSecondary {
+  font-family: var(--v2-font-family-primary);
+  color: $tab-default;
+  padding-bottom: var(--v2-spacing-2);
+
+  &.active {
+    color: $tab-stream-selected;
+    font-weight: var(--v2-font-weight-primary-bold);
+    border-bottom: 3px solid $tab-stream-selected;
+    padding-bottom: calc(var(--v2-spacing-2) - 3px);
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
 }

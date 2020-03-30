@@ -22,7 +22,7 @@ exports[`renders comment stream 1`] = `
         <button
           aria-controls="tabPane-COMMENTS"
           aria-selected={true}
-          className="BaseButton-root Tab-button Tab-primary Tab-active coral coral-tabBar-tab coral-tabBar-comments coral-tabBar-tab-active"
+          className="BaseButton-root Tab-button Tab-primary Tab-active coral coral-tabBar-tab coral-tabBar-comments"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -118,7 +118,7 @@ exports[`renders comment stream 1`] = `
                     />
                     <div
                       aria-hidden="true"
-                      className="RTE-placeholder coral coral-rte-placeholder RTE-placeholder"
+                      className="RTE-placeholder coral coral-rte-placholder RTE-placeholder"
                     >
                       Post a comment
                     </div>
@@ -250,21 +250,21 @@ exports[`renders comment stream 1`] = `
               </span>
             </div>
             <ul
-              className="TabBar-root TabBar-secondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
+              className="TabBar-root TabBar-streamSecondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
               role="tablist"
             >
               <div
                 className="StreamContainer-featuredCommentsTabContainer"
               >
                 <li
-                  className="Tab-root"
+                  className="Tab-root StreamContainer-featureTabRoot"
                   id="tab-FEATURED_COMMENTS"
                   role="presentation"
                 >
                   <button
                     aria-controls="tabPane-FEATURED_COMMENTS"
                     aria-selected={true}
-                    className="BaseButton-root Tab-button Tab-secondary StreamContainer-featuredCommentsTabButton Tab-active StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-featured StreamContainer-featuredCommentsTab coral-tabBarSecondary-tab-active"
+                    className="BaseButton-root Tab-button Tab-streamSecondary Tab-active undefined StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-featured StreamContainer-featuredCommentsTab"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -281,7 +281,7 @@ exports[`renders comment stream 1`] = `
                         Featured
                       </span>
                       <span
-                        className="Counter-root Counter-colorPrimary Counter-sizeSmall coral coral-counter"
+                        className="Counter-root Counter-colorInherit Counter-sizeSmall"
                         data-testid="comments-featuredCount"
                       >
                         <span
@@ -298,18 +298,19 @@ exports[`renders comment stream 1`] = `
                 >
                   <button
                     aria-label="Toggle featured comments tooltip"
-                    className="BaseButton-root TooltipButton-button"
+                    className="BaseButton-root FeaturedCommentTooltip-button"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     onTouchEnd={[Function]}
+                    title="Toggle featured comments tooltip"
                     type="button"
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm Icon-colorPrimary"
+                      className="Icon-root Icon-sm Icon-colorStream"
                     >
                       info
                     </i>
@@ -330,7 +331,7 @@ exports[`renders comment stream 1`] = `
                 <button
                   aria-controls="tabPane-ALL_COMMENTS"
                   aria-selected={false}
-                  className="BaseButton-root Tab-button Tab-secondary StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
+                  className="BaseButton-root Tab-button Tab-streamSecondary StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -347,7 +348,7 @@ exports[`renders comment stream 1`] = `
                       All Comments
                     </span>
                     <span
-                      className="Counter-root Counter-colorGrey Counter-sizeSmall coral coral-counter"
+                      className="Counter-root Counter-colorGrey Counter-sizeSmall"
                     >
                       <span
                         className="Counter-text"
@@ -429,28 +430,24 @@ exports[`renders comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     />
                   </span>
-                  <div
-                    className="Box-root Box-ml-2"
+                  <button
+                    className="BaseButton-root Timestamp-root"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    <button
-                      className="BaseButton-root Timestamp-root"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      type="button"
+                    <time
+                      className="RelativeTime-root Timestamp-text Box-root Box-ml-2"
+                      dateTime="2018-07-06T18:24:00.000Z"
+                      title="2018-07-06T18:24:00.000Z"
                     >
-                      <time
-                        className="RelativeTime-root Timestamp-text coral coral-timestamp coral-comment-timestamp"
-                        dateTime="2018-07-06T18:24:00.000Z"
-                        title="2018-07-06T18:24:00.000Z"
-                      >
-                        2018-07-06T18:24:00.000Z
-                      </time>
-                    </button>
-                  </div>
+                      2018-07-06T18:24:00.000Z
+                    </time>
+                  </button>
                 </div>
                 <div
                   className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"
@@ -555,28 +552,24 @@ exports[`renders comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     />
                   </span>
-                  <div
-                    className="Box-root Box-ml-2"
+                  <button
+                    className="BaseButton-root Timestamp-root"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    <button
-                      className="BaseButton-root Timestamp-root"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      type="button"
+                    <time
+                      className="RelativeTime-root Timestamp-text Box-root Box-ml-2"
+                      dateTime="2018-07-06T18:24:00.000Z"
+                      title="2018-07-06T18:24:00.000Z"
                     >
-                      <time
-                        className="RelativeTime-root Timestamp-text coral coral-timestamp coral-comment-timestamp"
-                        dateTime="2018-07-06T18:24:00.000Z"
-                        title="2018-07-06T18:24:00.000Z"
-                      >
-                        2018-07-06T18:24:00.000Z
-                      </time>
-                    </button>
-                  </div>
+                      2018-07-06T18:24:00.000Z
+                    </time>
+                  </button>
                 </div>
                 <div
                   className="Box-root Flex-root coral coral-featuredComment-actionBar Flex-flex Flex-justifySpaceBetween Box-mt-2"

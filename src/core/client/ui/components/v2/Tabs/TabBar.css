@@ -19,3 +19,7 @@ $moderateCardTabSecondaryColor: var(--v2-palette-divider);
 .secondary {
   border-bottom: 1px solid $moderateCardTabSecondaryColor;
 }
+
+.streamSecondary {
+  border-bottom: 1px solid $moderateCardTabSecondaryColor;
+}

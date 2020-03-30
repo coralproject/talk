@@ -27,11 +27,13 @@ export interface TabProps {
   /**
    * Style variant
    */
-  variant?: "primary" | "secondary" | "default";
+  variant?: "primary" | "secondary" | "default" | "streamSecondary";
   /**
    * Action taken on tab click
    */
   onTabClick?: (tabID: string) => void;
+
+  uppercase?: boolean;
 }
 
 class Tab extends React.Component<TabProps> {
@@ -42,14 +44,24 @@ class Tab extends React.Component<TabProps> {
   };
 
   public render() {
-    const { className, classes, children, tabID, active, variant } = this.props;
+    const {
+      className,
+      classes,
+      children,
+      tabID,
+      active,
+      variant,
+      uppercase,
+    } = this.props;
 
     const buttonClassName = cn(
       classes.button,
       {
         [classes.primary]: variant === "primary",
         [classes.secondary]: variant === "secondary",
+        [classes.streamSecondary]: variant === "streamSecondary",
         [classes.default]: variant === "default",
+        [classes.uppercase]: uppercase,
         [classes.active]: active,
       },
       className
@@ -57,7 +69,7 @@ class Tab extends React.Component<TabProps> {
 
     return (
       <li
-        className={styles.root}
+        className={classes.root}
         key={tabID}
         id={`tab-${tabID}`}
         role="presentation"

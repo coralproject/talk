@@ -5,12 +5,18 @@ import { BaseButton, Icon } from "coral-ui/components/v2";
 import { withForwardRef } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
+import { IconColor } from "coral-ui/components/v2/Icon/Icon";
+
 import styles from "./TooltipButton.css";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
+  activeColor?: IconColor;
   className?: string;
+  classes?: typeof styles;
   toggleVisibility: () => void;
+  ariaLabel?: string;
+  title?: string;
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLButtonElement>;
@@ -19,18 +25,24 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 const TooltipButton: FunctionComponent<Props> = ({
   active,
   className,
+  classes,
   toggleVisibility,
   forwardRef,
+  activeColor = "primary",
+  ariaLabel,
+  title
 }) => (
   <BaseButton
-    className={cn(styles.button, className)}
-    onClick={(evt) => {
+    className={cn(classes ? classes.button : styles.button, className)}
+    onClick={evt => {
       evt.stopPropagation();
       toggleVisibility();
     }}
     ref={forwardRef}
+    aria-label={ariaLabel}
+    title={title}
   >
-    <Icon color={active ? "primary" : "inherit"}>info</Icon>
+    <Icon color={active ? activeColor : "inherit"}>info</Icon>
   </BaseButton>
 );
 
