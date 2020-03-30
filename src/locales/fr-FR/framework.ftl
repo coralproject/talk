@@ -34,7 +34,7 @@ framework-validation-notAWholeNumberGreaterThanOrEqual = Veuillez entrer un nomb
 framework-validation-usernamesDoNotMatch = Les pseudos ne correspondent pas. Veuillez réessayer.
 framework-validation-deleteConfirmationInvalid = Confirmation incorrecte. Veuillez réessayer.
 
-framework-timeago-just-now = Juste maintenant
+framework-timeago-just-now = à l'instant
 
 framework-timeago-time =
   { $value } { $unit ->
@@ -71,7 +71,7 @@ framework-timeago-time =
 
 framework-timeago =
   { $suffix ->
-    [ago] {framework-timeago-time} ago
+    [ago] Il y a {framework-timeago-time}
     *[noSuffix] {framework-timeago-time}
   }
 
