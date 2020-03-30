@@ -174,6 +174,11 @@ function when comparing signatures.
    * date when this event was created.
    */
   createdAt: string;
+
+  /**
+   * tenantID is the ID of the Tenant that this event originated at.
+   */
+  tenantID: string;
 }
 ```
 
@@ -199,6 +204,11 @@ function when comparing signatures.
      * storyURL is the URL of the newly created Story.
      */
     storyURL: string;
+
+    /**
+     * siteID is the Site that the newly created Story was created on.
+     */
+    siteID: string;
   }
   createdAt: string;
 }
