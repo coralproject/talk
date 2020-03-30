@@ -264,7 +264,7 @@ exports[`renders comment stream 1`] = `
                   <button
                     aria-controls="tabPane-FEATURED_COMMENTS"
                     aria-selected={true}
-                    className="BaseButton-root Tab-button Tab-streamSecondary Tab-active undefined StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-featured StreamContainer-featuredCommentsTab"
+                    className="BaseButton-root Tab-button Tab-streamSecondary Tab-active StreamContainer-fixedTab coral coral-tabBarSecondary-tab coral-tabBarComments-featured StreamContainer-featuredCommentsTab"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
