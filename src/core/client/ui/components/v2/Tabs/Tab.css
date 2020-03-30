@@ -62,20 +62,20 @@ $tab-stream-default: var(--v2-colors-mono-500);
 
 .secondary {
   font-family: var(--v2-font-family-primary);
-  color: $tab-stream-default;
+  color: $tab-default;
   padding-bottom: var(--v2-spacing-2);
 
   &.active {
     color: $tab-selected;
     font-weight: var(--v2-font-weight-primary-bold);
-    border-bottom: 3px solid $tab-stream-selected;
+    border-bottom: 3px solid $tab-selected;
     padding-bottom: calc(var(--v2-spacing-2) - 3px);
   }
 }
 
 .streamSecondary {
   font-family: var(--v2-font-family-primary);
-  color: $tab-default;
+  color: $tab-stream-default;
   padding-bottom: var(--v2-spacing-2);
 
   &.active {
