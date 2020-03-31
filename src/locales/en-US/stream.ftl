@@ -308,8 +308,16 @@ profile-account-download-comments-request-icon =
   .title = Request comment history
 profile-account-download-comments-recentRequest =
   Your most recent request: { $timeStamp }
+profile-account-download-comments-yourMostRecentRequest =
+  Your most recent request was within the last 14 days. You may
+  request to download your comments again on: { $timeStamp }
 profile-account-download-comments-requested =
   Request submitted. You can submit another request in { framework-timeago-time }.
+profile-account-download-comments-requestSubmitted =
+  Your request has been successfully submitted. You may request to
+  download your comment history again in { framework-timeago-time }.
+profile-account-download-comments-error =
+  We were unable to complete your download request.
 profile-account-download-comments-request-button = Request
 
 ## Delete Account
