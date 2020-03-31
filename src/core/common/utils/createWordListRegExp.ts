@@ -64,8 +64,12 @@ export default function createWordListRegExp(
     // For each of these words, wrap a `|` or OR.
     .join("|");
 
-  // Wrap the pattern in split rules.
-  const pattern = `(^|${rule.split})(${words})($|${rule.split})`;
+  // Wrap the pattern in split rules. We use `?` to handle the following cases:
+  //
+  // - beginning of string
+  // - end of string
+  // - sequential matching phrases
+  const pattern = `(${rule.split}?)(${words})(${rule.split}?)`;
 
   try {
     return new RegExp(pattern, "iu");

@@ -1,3 +1,5 @@
+import { lowerCase, uniqBy } from "lodash";
+
 import { LanguageCode } from "coral-common/helpers";
 import { createWordListRegExp } from "coral-common/utils";
 
@@ -17,7 +19,13 @@ export function getPhrasesRegExp({
     return null;
   }
 
-  return createWordListRegExp(locale as LanguageCode, [...banned, ...suspect]);
+  // Because the banned and suspect word lists may sometimes overlap, we should
+  // make this list as short as possible before compiling it into a RegExp.
+  const phrases = uniqBy<string>([...banned, ...suspect], lowerCase);
+
+  // The locale is passed down to us from the Graph, we can cast it to a
+  // LanguageCode.
+  return createWordListRegExp(locale as LanguageCode, phrases);
 }
 
 // cache is used as a global validator to the cached RegExp used by the

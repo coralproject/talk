@@ -12,12 +12,13 @@ $comment-link-active: var(--v2-palette-primary-darkest);
   color: $comment-content;
   overflow-wrap: break-word;
 
-  & * bold,
-  & * strong {
+  & > bold,
+  & > b,
+  & > strong {
     font-weight: var(--v2-font-weight-primary-bold);
   }
-  & * italic,
-  & * em {
+  & > italic,
+  & > em {
     font-style: italic;
   }
   blockquote {
