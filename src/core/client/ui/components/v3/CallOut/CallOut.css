@@ -1,0 +1,40 @@
+.root {
+  position: relative;
+
+  padding: var(--v2-spacing-2);
+
+  border-left: 4px solid;
+
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-2);
+  line-height: var(--v2-line-height-3);
+}
+
+.content {
+  width: calc(100% - 35px);
+}
+
+.closeButton {
+  position: absolute;
+  top: var(--v2-spacing-1);
+  right: var(--v2-spacing-2);
+}
+
+.mono {
+  background-color: var(--v2-colors-mono-100);
+  border-left-color: var(--v2-colors-mono-500);
+  color: var(--v2-colors-mono-500);
+}
+
+.success {
+  background-color: var(--v2-colors-green-100);
+  border-left-color: var(--v2-colors-green-500);
+  color: var(--v2-colors-mono-500);
+}
+
+.alert {
+  background-color: var(--v2-colors-red-100);
+  border-left-color: var(--v2-colors-red-500);
+  color: var(--v2-colors-mono-500);
+}

@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { DOWNLOAD_LIMIT_TIMEFRAME_DURATION } from "coral-common/constants";
@@ -9,7 +9,8 @@ import TIME from "coral-common/time";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Button, CallOut, Flex, Icon, Typography } from "coral-ui/components";
+import { Button, Flex, Icon } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 
@@ -23,9 +24,16 @@ interface Props {
 
 const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
   const requestComments = useMutation(RequestCommentsDownloadMutation);
-  const onClick = useCallback(() => {
-    requestComments();
-  }, [requestComments]);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const onClick = useCallback(async () => {
+    try {
+      await requestComments();
+      setShowSuccessMessage(true);
+    } catch (err) {
+      setShowErrorMessage(true);
+    }
+  }, [requestComments, setShowSuccessMessage, setShowErrorMessage]);
 
   const { locales } = useCoralContext();
   const lastDownloadedAt = viewer.lastDownloadedAt
@@ -52,82 +60,111 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
     TIME.MINUTE,
   ]);
 
+  const onCloseSuccess = useCallback(() => {
+    setShowSuccessMessage(false);
+  }, [setShowSuccessMessage]);
+  const onCloseError = useCallback(() => {
+    setShowErrorMessage(false);
+  }, [setShowErrorMessage]);
+
   return (
     <div className={cn(styles.root, CLASSES.downloadCommentHistory.$root)}>
       <Flex justifyContent="space-between" alignItems="flex-start">
         <div className={styles.content}>
           <Localized id="profile-account-download-comments-title">
-            <Typography
-              variant="heading2"
-              color="textDark"
-              className={styles.title}
-            >
-              Download my comment history
-            </Typography>
+            <div className={styles.title}>Download my comment history</div>
           </Localized>
           <Localized
             id="profile-account-download-comments-description"
             strong={<strong />}
           >
-            <Typography variant="bodyCopy" className={styles.description}>
+            <div className={styles.description}>
               You will receive an email with a link to download your comment
               history. You can make one download request every 14 days.
-            </Typography>
+            </div>
           </Localized>
-          {lastDownloadedAt && (
-            <Localized
-              id="profile-account-download-comments-recentRequest"
-              $timeStamp={formatter.format(lastDownloadedAt)}
-            >
-              <Typography
-                variant="bodyCopy"
-                className={cn(
-                  styles.recentRequest,
-                  CLASSES.downloadCommentHistory.recentRequest
-                )}
-              >
-                Your most recent request: {formatter.format(lastDownloadedAt)}
-              </Typography>
-            </Localized>
-          )}
-        </div>
-        <div>
-          {canDownload && (
+          <div className={styles.requestContainer}>
             <Localized id="profile-account-download-comments-request-button">
               <Button
-                variant="outlineFilled"
-                color="primary"
-                size="small"
+                variant="regular"
+                color="regular"
+                size="regular"
+                disabled={!canDownload}
                 className={CLASSES.downloadCommentHistory.requestButton}
                 onClick={onClick}
               >
                 Request
               </Button>
             </Localized>
+          </div>
+          {lastDownloadedAt && !showSuccessMessage && (
+            <Localized
+              id="profile-account-download-comments-yourMostRecentRequest"
+              $timeStamp={formatter.format(lastDownloadedAt)}
+            >
+              <div
+                className={cn(
+                  styles.recentRequest,
+                  CLASSES.downloadCommentHistory.recentRequest
+                )}
+              >
+                Your most recent request was within the last 14 days. You may
+                request to download your comments again on:{" "}
+                {formatter.format(lastDownloadedAt)}.
+              </div>
+            </Localized>
           )}
         </div>
       </Flex>
-      {!canDownload && (
+      {showSuccessMessage && (
         <CallOut
-          fullWidth
+          color="success"
           className={cn(
             styles.callout,
             CLASSES.downloadCommentHistory.requestLater
           )}
+          visible={showSuccessMessage}
+          onClose={onCloseSuccess}
         >
-          <Icon size="lg" className={styles.icon}>
-            query_builder
-          </Icon>
-          <Localized
-            id="profile-account-download-comments-requested"
-            $value={scaled}
-            $unit={unit}
-          >
-            <span>
-              Request submitted. You can submit another request in {scaled}{" "}
-              {unit}
-            </span>
-          </Localized>
+          <Flex justifyContent="flex-start" alignItems="center">
+            <Icon size="sm" className={styles.successIcon}>
+              check_circle
+            </Icon>
+            <Localized
+              id="profile-account-download-comments-requestSubmitted"
+              $value={scaled}
+              $unit={unit}
+            >
+              <span>
+                Your request has been successfully submitted. You may request to
+                download your comment history again in {scaled} {unit}.
+              </span>
+            </Localized>
+          </Flex>
+        </CallOut>
+      )}
+      {showErrorMessage && (
+        <CallOut
+          color="alert"
+          className={cn(
+            styles.callout,
+            CLASSES.downloadCommentHistory.requestError
+          )}
+          visible={showErrorMessage}
+          onClose={onCloseError}
+        >
+          <Flex justifyContent="flex-start" alignItems="center">
+            <Icon size="sm" className={styles.errorIcon}>
+              warning
+            </Icon>
+            <Localized
+              id="profile-account-download-comments-error"
+              $value={scaled}
+              $unit={unit}
+            >
+              <span>We were unable to complete your download request.</span>
+            </Localized>
+          </Flex>
         </CallOut>
       )}
     </div>
