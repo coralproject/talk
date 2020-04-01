@@ -27,11 +27,17 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<InjectedProps> = h
 
     constructor(props: any) {
       super(props);
-      document.addEventListener("mousedown", this.handleMouseDown);
+      // docz uses SSR with no access to window or document.
+      if (typeof document !== "undefined") {
+        document.addEventListener("mousedown", this.handleMouseDown);
+      }
     }
 
     public componentWillUnmount() {
-      document.removeEventListener("mousedown", this.handleMouseDown);
+      // docz uses SSR with no access to window or document.
+      if (typeof document !== "undefined") {
+        document.removeEventListener("mousedown", this.handleMouseDown);
+      }
     }
 
     private handleFocus: React.EventHandler<FocusEvent<any>> = (event) => {

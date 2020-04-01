@@ -1,17 +1,20 @@
 const fs = require("fs");
 const path = require("path");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+
+/** Path to postCSSConfig */
 const postCSSConfigPath = path.resolve(
   __dirname,
   "../src/core/build/postcss.config"
 );
 const rootDir = path.resolve(__dirname, "../");
-const appDir = path.resolve(rootDir, "./src");
+const srcDir = path.resolve(rootDir, "./src");
 const appTsconfig = path.resolve(rootDir, "./src/core/client/tsconfig.json");
 
 const CSS_PATTERN = /\.css$/;
 const MODULE_CSS_PATTERN = /\.module\.css$/;
 
+// Define `RegExp.toJSON` so that we can stringify RegExp.
 Object.defineProperty(RegExp.prototype, "toJSON", {
   value: RegExp.prototype.toString,
 });
@@ -34,37 +37,61 @@ exports.onCreateWebpackConfig = ({
   actions,
   getConfig,
 }) => {
+  // Get webpack config.
   const config = getConfig();
+
   if (stage === "develop") {
     config.entry.commons.push(
-      `${appDir}/core/client/ui/theme/variables.css.ts`
+      // Add our global css variables file.
+      `${srcDir}/core/client/ui/theme/variables.css.ts`
     );
   }
+
+  /*
+  TODO: (cvle) couldn't get build to work...
+  if (stage === "build-javascript") {
+    config.entry.app = [
+      config.entry.app,
+      `${appDir}/core/client/ui/theme/variables.css.ts`,
+    ];
+  }
+  */
+
+  // Find the gatsby CSS rules.
   const cssRules = findCssRules(config);
-  cssRules.exclude = appDir;
+  // Exclude them from our src dir because they are incomaptible with our
+  // CSS rules.
+  cssRules.exclude = srcDir;
+  // Add .tx .tsx to modules
   config.resolve.extensions.push(".ts", ".tsx");
   actions.replaceWebpackConfig(config);
+
+  // Write out webpack config to .docz folder.
   fs.writeFileSync(
-    path.resolve(__dirname, "tmp" + stage),
+    path.resolve(__dirname, "webpack-" + stage),
     JSON.stringify(config, {}, 2)
   );
-  fs.writeFileSync(
-    path.resolve(__dirname, "tmploaders"),
-    JSON.stringify(Object.keys(loaders), {}, 2)
-  );
 
-  const moreLoaders =
-    stage === "develop"
-      ? [
-          {
-            loader: require.resolve("style-loader"),
-          },
-        ]
-      : [];
+  // Turn on sourceMap during develop.
+  const sourceMap = stage.startsWith("develop");
+
+  // CSS loaders to prepend.
+  const prependCSSLoaders = [];
+  if (stage === "develop") {
+    prependCSSLoaders.push(loaders.style());
+  }
+
+  /*
+  TODO: (cvle) couldn't get build to work...
+  if (stage === "build-javascript") {
+    moreLoaders.push(loaders.style());
+  }
+  */
 
   actions.setWebpackConfig({
     resolve: {
       plugins: [
+        // Resolve our custom paths.
         new TsconfigPathsPlugin({
           extensions: [".ts", ".tsx", ".js"],
           configFile: path.resolve(rootDir, "./src/core/client/tsconfig.json"),
@@ -74,11 +101,12 @@ exports.onCreateWebpackConfig = ({
     module: {
       rules: [
         {
+          include: srcDir,
           oneOf: [
             {
               test: /\.css\.ts$/,
               use: [
-                ...moreLoaders,
+                ...prependCSSLoaders,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
@@ -86,7 +114,7 @@ exports.onCreateWebpackConfig = ({
                       localIdentName: "[name]-[local]-[hash:base64:5]",
                     },
                     importLoaders: 2,
-                    sourceMap: true,
+                    sourceMap,
                   },
                 },
                 {
@@ -120,9 +148,8 @@ exports.onCreateWebpackConfig = ({
             },
             {
               test: /\.css$/,
-              include: appDir,
               use: [
-                ...moreLoaders,
+                ...prependCSSLoaders,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
@@ -130,7 +157,7 @@ exports.onCreateWebpackConfig = ({
                       localIdentName: "[name]-[local]-[hash:base64:5]",
                     },
                     importLoaders: 1,
-                    sourceMap: true,
+                    sourceMap,
                   },
                 },
                 {
@@ -165,7 +192,6 @@ exports.onCreateWebpackConfig = ({
                       module: "esnext",
                       jsx: "preserve",
                       noEmit: false,
-                      sourceMap: undefined,
                     },
                     transpileOnly: true,
                     // Overwrites the behavior of `include` and `exclude` to only
@@ -181,8 +207,10 @@ exports.onCreateWebpackConfig = ({
       ],
     },
   });
+
+  // Write out processed webpack config to .docz folder.
   fs.writeFileSync(
-    path.resolve(__dirname, "new-" + stage),
+    path.resolve(__dirname, "webpack-" + stage + "-processed"),
     JSON.stringify(getConfig(), {}, 2)
   );
 };
