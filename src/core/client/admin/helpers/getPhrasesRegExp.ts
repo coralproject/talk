@@ -28,17 +28,26 @@ export function getPhrasesRegExp({
   return createWordListRegExp(locale as LanguageCode, phrases);
 }
 
-// cache is used as a global validator to the cached RegExp used by the
+// Cache is used as a global validator to the cached RegExp used by the
 // application. We expect that generally, there is only ever one word list used
 // by the client at a time, so this ensures that we only re-create the word list
 // if we must.
-const cache = {
+interface Cache {
+  keys: {
+    locale: string;
+    suspect: ReadonlyArray<string>;
+    banned: ReadonlyArray<string>;
+  };
+  value: RegExp | null;
+}
+
+const cache: Cache = {
   keys: {
     locale: "",
-    suspect: [] as ReadonlyArray<string>,
-    banned: [] as ReadonlyArray<string>,
+    suspect: [],
+    banned: [],
   },
-  value: null as RegExp | null,
+  value: null,
 };
 
 export default function(options: GetPhrasesRegExpOptions) {
@@ -65,7 +74,12 @@ export default function(options: GetPhrasesRegExpOptions) {
 
   // If the cache is expired, or the value doesn't exist, regenerate it.
   if (expired) {
-    cache.value = getPhrasesRegExp(options);
+    try {
+      cache.value = getPhrasesRegExp(options);
+    } catch (err) {
+      window.console.error(err);
+      return null;
+    }
   }
 
   return cache.value;

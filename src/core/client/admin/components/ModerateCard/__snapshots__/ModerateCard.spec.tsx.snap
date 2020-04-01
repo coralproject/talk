@@ -44,6 +44,7 @@ exports[`renders approved correctly 1`] = `
       >
         <CommentContent
           className="ModerateCard-content"
+          highlight={false}
           phrases={
             Object {
               "locale": "en-US",
@@ -178,6 +179,7 @@ exports[`renders correctly 1`] = `
       >
         <CommentContent
           className="ModerateCard-content"
+          highlight={false}
           phrases={
             Object {
               "locale": "en-US",
@@ -312,6 +314,7 @@ exports[`renders dangling correctly 1`] = `
       >
         <CommentContent
           className="ModerateCard-content"
+          highlight={false}
           phrases={
             Object {
               "locale": "en-US",
@@ -446,6 +449,7 @@ exports[`renders rejected correctly 1`] = `
       >
         <CommentContent
           className="ModerateCard-content"
+          highlight={false}
           phrases={
             Object {
               "locale": "en-US",
@@ -589,6 +593,7 @@ exports[`renders reply correctly 1`] = `
       >
         <CommentContent
           className="ModerateCard-content"
+          highlight={false}
           phrases={
             Object {
               "locale": "en-US",
@@ -723,6 +728,7 @@ exports[`renders story info 1`] = `
       >
         <CommentContent
           className="ModerateCard-content"
+          highlight={false}
           phrases={
             Object {
               "locale": "en-US",
@@ -895,6 +901,7 @@ exports[`renders tombstoned when comment is deleted 1`] = `
       >
         <CommentContent
           className="ModerateCard-content"
+          highlight={false}
           phrases={
             Object {
               "locale": "en-US",

@@ -53,7 +53,7 @@ const CommentContent: FunctionComponent<Props> = ({
     // Sanitize the input for display.
     let html = purify.sanitize(children);
     if (highlight) {
-      html = striptags(html, ["a", "br"]);
+      html = striptags(html, ["a"]);
     }
 
     // We create a Shadow DOM Tree with the HTML body content and use it as a
@@ -61,9 +61,8 @@ const CommentContent: FunctionComponent<Props> = ({
     const node = document.createElement("div");
     node.innerHTML = html;
 
-    // If the expression is available, then mark the nodes
+    // If the expression is available, then mark the nodes.
     if (expression) {
-      // Then we traverse it recursively and manipulate it to highlight.
       markHTMLNode(node, expression);
     }
 
@@ -73,7 +72,7 @@ const CommentContent: FunctionComponent<Props> = ({
   if (parsed) {
     return (
       <div
-        className={cn(className, styles.root)}
+        className={cn(className, styles.root, highlight && styles.highlight)}
         dangerouslySetInnerHTML={{ __html: parsed.innerHTML }}
       />
     );

@@ -90,8 +90,8 @@ export class WordList {
 
     const startedAt = now();
     const result = list.test(testString);
-    logger.debug(
-      { tenantID: options.id, took: ms(now() - startedAt) },
+    logger.info(
+      { tenantID: options.id, listName, took: ms(now() - startedAt) },
       "word list phrase test complete"
     );
 

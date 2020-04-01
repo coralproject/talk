@@ -51,3 +51,7 @@ $comment-link-active: var(--v2-palette-primary-darkest);
     }
   }
 }
+
+.highlight {
+  white-space: pre-wrap;
+}

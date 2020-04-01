@@ -4,7 +4,7 @@
 function markPhrasesHTML(text: string, expression: RegExp) {
   const tokens = text.split(expression);
 
-  // If there were less than three matches, then there was no matched word
+  // If there were less than two matches, then there was no matched word
   // associated with the passed in text.
   if (tokens.length < 3) {
     return null;
@@ -12,10 +12,15 @@ function markPhrasesHTML(text: string, expression: RegExp) {
 
   return tokens
     .map((token, i) =>
-      // Using our Regexp patterns it returns tokens arranged this way
-      // [STRING_WITH_NO_MATCH, NEW_WORD_DELIMITER, MATCHED_WORD, NEW_WORD_DELIMITER, ...].
-      // This pattern repeats throughout. Next line will mark MATCHED_WORD and
-      // escape all tokens.
+      // Using our Regexp patterns it returns tokens arranged this way:
+      //
+      //  - STRING_WITH_NO_MATCH
+      //  - NEW_WORD_DELIMITER
+      //  - MATCHED_WORD
+      //  - NEW_WORD_DELIMITER
+      //  - ...
+      //
+      // This pattern repeats throughout. Next line will mark MATCHED_WORD.
       i % 4 === 2 ? "<mark>" + token + "</mark>" : token
     )
     .join("");
