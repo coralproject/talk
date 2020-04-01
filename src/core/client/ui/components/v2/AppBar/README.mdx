@@ -1,0 +1,35 @@
+---
+name: AppBar
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+
+import { AppBar, Begin, End, Navigation, NavigationItem, Divider } from "./";
+import Flex from "../Flex";
+import Icon from "../Icon";
+import BaseButton from "../BaseButton";
+
+# AppBar
+
+## Basic usage
+
+<Playground>
+  <AppBar gutterBegin gutterEnd>
+    <Begin itemGutter="double">
+      <Navigation>
+        <NavigationItem active>Home</NavigationItem>
+        <NavigationItem>Team</NavigationItem>
+      </Navigation>
+    </Begin>
+    <End itemGutter>
+      <BaseButton>
+        <Icon size="lg">history</Icon>
+      </BaseButton>
+      <Divider />
+      <BaseButton>
+        <Icon size="lg">account_box</Icon>
+      </BaseButton>
+    </End>
+  </AppBar>
+</Playground>

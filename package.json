@@ -58,6 +58,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@coralproject/bunyan-prettystream": "^0.1.4",
+    "@emotion/core": "^10.0.28",
     "@fluent/bundle": "^0.15.0",
     "@fluent/dom": "^0.6.0",
     "@hapi/joi": "^17.0.0",
@@ -259,8 +260,7 @@
     "css-vars-ponyfill": "^2.2.1",
     "del": "^5.1.0",
     "doctoc": "^1.4.0",
-    "docz": "^0.13.7",
-    "docz-theme-default": "^0.13.7",
+    "docz": "^v2.3.0-alpha.13",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.4.4",
@@ -333,7 +333,6 @@
     "react-test-renderer": "^16.13.1",
     "react-timeago": "^4.4.0",
     "react-transition-group": "^4.3.0",
-    "react-with-state-props": "^2.0.4",
     "recompose": "^0.30.0",
     "regenerator-runtime": "^0.13.5",
     "relay-compiler": "^9.0.0",
@@ -430,6 +429,7 @@
     ">1%",
     "last 4 versions",
     "Firefox ESR",
-    "not ie < 10"
+    "IE 11",
+    "not dead"
   ]
 }

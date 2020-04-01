@@ -1,0 +1,40 @@
+---
+name: SubBar
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+
+import { SubBar, Navigation, NavigationItem, Divider } from "./";
+import Icon from "../Icon";
+import Counter from "../Counter";
+
+# SubBar
+
+## Basic usage
+
+<Playground>
+  <SubBar>
+    <Navigation>
+      <NavigationItem active>
+        <Icon>flag</Icon>
+        <span>Reported</span>
+        <Counter color="primary">20</Counter>
+      </NavigationItem>
+      <NavigationItem>
+        <Icon>access_time</Icon>
+        <span>Pending</span>
+        <Counter>100</Counter>
+      </NavigationItem>
+      <NavigationItem>
+        <Icon>forum</Icon>
+        <span>Unmoderated</span>
+        <Counter>2.3k</Counter>
+      </NavigationItem>
+      <NavigationItem>
+        <Icon>cancel</Icon>
+        <span>Rejected</span>
+      </NavigationItem>
+    </Navigation>
+  </SubBar>
+</Playground>

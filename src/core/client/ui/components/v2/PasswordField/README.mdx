@@ -1,0 +1,25 @@
+---
+name: PasswordField
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import PasswordField from "./PasswordField.tsx";
+import HorizontalGutter from "../HorizontalGutter";
+
+# PasswordField
+
+## Basic Use
+
+<Playground>
+  <HorizontalGutter>
+    <PasswordField placeholder="This is a placeholder" />
+    <PasswordField defaultValue="This is an input field" />
+    <PasswordField color="error" defaultValue="A PasswordField with an error" />
+    <PasswordField
+      color="error"
+      defaultValue="A PasswordField with an error"
+      fullWidth
+    />
+  </HorizontalGutter>
+</Playground>
