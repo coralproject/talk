@@ -143,7 +143,7 @@ router.put(
 
 router.put(
   '/:asset_id/status',
-  authorization.needed('ADMIN'),
+  authorization.needed('ADMIN', 'MODERATOR'),
   async (req, res, next) => {
     const { closedAt, closedMessage } = req.body;
 
