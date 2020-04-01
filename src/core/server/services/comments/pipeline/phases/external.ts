@@ -1,7 +1,10 @@
 import Joi from "@hapi/joi";
 
 import { ACTION_TYPE } from "coral-server/models/action/comment";
-import { ExternalModerationPhase } from "coral-server/models/settings";
+import {
+  ExternalModerationPhase,
+  filterActivePhase,
+} from "coral-server/models/settings";
 import {
   IntermediateModerationPhase,
   PhaseResult,
@@ -20,6 +23,10 @@ import { mergePhaseResult } from "../helpers";
 import { IntermediateModerationPhaseContext } from "../pipeline";
 
 interface ExternalModerationPhaseRequest {
+  tenant: {
+    id: string;
+    domain: string;
+  };
   action: "NEW" | "EDIT";
   comment: {
     body: string;
@@ -32,6 +39,9 @@ interface ExternalModerationPhaseRequest {
   story: {
     id: string;
     url: string;
+  };
+  site: {
+    id: string;
   };
 }
 
@@ -89,17 +99,19 @@ export function validateResponse(
 const fetch = createFetch({ name: "Moderation" });
 
 /**
- * usePhase will execute the request for moderation for this particular phase.
+ * processPhase will execute the request for moderation for this particular
+ * phase.
  *
  * @param ctx the context for the moderation request.
  * @param phase the current phase associated with this request.
  */
-async function usePhase(
+async function processPhase(
   {
     action,
     comment,
     htmlStripped,
     author,
+    tenant,
     story,
     now,
     log,
@@ -108,6 +120,10 @@ async function usePhase(
 ) {
   // Create the crafted input payload to be used.
   const request: ExternalModerationPhaseRequest = {
+    tenant: {
+      id: tenant.id,
+      domain: tenant.domain,
+    },
     action,
     comment: {
       body:
@@ -128,6 +144,9 @@ async function usePhase(
     story: {
       id: story.id,
       url: story.url,
+    },
+    site: {
+      id: story.siteID,
     },
   };
 
@@ -181,7 +200,7 @@ export const external: IntermediateModerationPhase = async (ctx) => {
 
   // Get the enabled phases.
   const phases = ctx.tenant.integrations.custom.phases.filter(
-    (phase) => phase.enabled
+    filterActivePhase()
   );
   if (phases.length === 0) {
     return;
@@ -194,7 +213,7 @@ export const external: IntermediateModerationPhase = async (ctx) => {
   for (const phase of phases) {
     try {
       // Get the response from the phase.
-      const response = await usePhase(ctx, phase);
+      const response = await processPhase(ctx, phase);
       if (!response) {
         continue;
       }

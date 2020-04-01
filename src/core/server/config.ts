@@ -237,6 +237,13 @@ const config = convict({
     default: false,
     env: "DISABLE_RATE_LIMITERS",
   },
+  scrape_max_response_size: {
+    doc: "The maximum size (in bytes) to allow for scraping responses.",
+    format: Number,
+    default: 10e6,
+    env: "SCRAPE_MAX_RESPONSE_SIZE",
+    arg: "scrapeMaxResponseSize",
+  },
   scrape_timeout: {
     doc: "The request timeout (in ms) for scraping operations.",
     format: "ms",

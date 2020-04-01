@@ -4,6 +4,7 @@ import { capitalize } from "lodash";
 import fetch, { RequestInit, Response } from "node-fetch";
 import { URL } from "url";
 
+import { Omit } from "coral-common/types";
 import { version } from "coral-common/version";
 import {
   generateSignatures,
@@ -14,15 +15,6 @@ import abortAfter from "./abortAfter";
 
 export type Fetch = (url: string, options?: FetchOptions) => Promise<Response>;
 
-export interface CreateFetchOptions {
-  /**
-   * name is the string that is attached to the `User-Agent` header as:
-   *
-   *  `Coral ${name}/${version}`
-   */
-  name: string;
-}
-
 export type FetchOptions = RequestInit & {
   /**
    * timeout is the number of seconds that the request will wait for a response
@@ -30,6 +22,20 @@ export type FetchOptions = RequestInit & {
    */
   timeout?: number;
 };
+
+export interface CreateFetchOptions {
+  /**
+   * name is the string that is attached to the `User-Agent` header as:
+   *
+   *  `Coral ${name}/${version}`
+   */
+  name: string;
+
+  /**
+   * options to provide defaults for requests made using this fetcher.
+   */
+  options?: Omit<FetchOptions, "agent" | "body" | "signal">;
+}
 
 export function generateFetchOptions(
   signingSecrets: SigningSecret[],
@@ -52,7 +58,10 @@ export function generateFetchOptions(
   };
 }
 
-export const createFetch = ({ name }: CreateFetchOptions): Fetch => {
+export const createFetch = ({
+  name,
+  options: { headers: defaultBaseHeaders = {}, ...defaultOptions } = {},
+}: CreateFetchOptions): Fetch => {
   // Create HTTP agents to improve connection performance.
   const agents = {
     https: new https.Agent({
@@ -71,6 +80,7 @@ export const createFetch = ({ name }: CreateFetchOptions): Fetch => {
   // overridden).
   const defaultHeaders = {
     "User-Agent": `Coral ${capitalize(name)}/${version}`,
+    ...defaultBaseHeaders,
   };
 
   // Return the actual fetcher that just uses fetch under the hood.
@@ -94,10 +104,17 @@ export const createFetch = ({ name }: CreateFetchOptions): Fetch => {
           ...defaultHeaders,
           ...headers,
         },
+        // Limit response sizes to 2MB of response data. 1e6B is 1MB.
+        size: 2e6,
+        // Do not follow redirects automatically, and do not error if we
+        // encounter one. We'll treat the response from the request as the
+        // endpoints final response.
+        redirect: "manual",
         // Attach the controller signal to abort the request after the timeout
         // is reached.
         signal: abort.controller.signal,
         // Merge in the passed options.
+        ...defaultOptions,
         ...options,
       });
 

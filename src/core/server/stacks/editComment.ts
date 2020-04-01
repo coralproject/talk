@@ -103,13 +103,13 @@ export default async function edit(
 
   // Run the comment through the moderation phases.
   const { body, status, metadata, actions } = await processForModeration({
-    action: "EDIT",
     log,
     mongo,
     redis,
     config,
-    story,
+    action: "EDIT",
     tenant,
+    story,
     comment: {
       ...originalStaleComment,
       ...input,

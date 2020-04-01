@@ -171,14 +171,14 @@ export default async function create(
   try {
     // Run the comment through the moderation phases.
     result = await processForModeration({
-      action: "NEW",
       log,
       mongo,
       redis,
       config,
-      nudge,
-      story,
+      action: "NEW",
       tenant,
+      story,
+      nudge,
       comment: { ...input, ancestorIDs },
       author,
       req,
