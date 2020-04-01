@@ -9,8 +9,8 @@ import TIME from "coral-common/time";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, Icon } from "coral-ui/components/v2";
-import { CallOut } from "coral-ui/components/v3";
+import { Flex, Icon } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/DownloadCommentsContainer_viewer.graphql";
 
@@ -86,9 +86,6 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           <div className={styles.requestContainer}>
             <Localized id="profile-account-download-comments-request-button">
               <Button
-                variant="regular"
-                color="regular"
-                size="regular"
                 disabled={!canDownload}
                 className={CLASSES.downloadCommentHistory.requestButton}
                 onClick={onClick}
