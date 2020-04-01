@@ -1,1 +1,0 @@
-../../../plugins/talk-plugin-rich-text/README.md

@@ -1,7 +1,7 @@
 <aside class="sidebar">
   <div>
     <a class="brand" href="{{ url_for("/") }}">
-      {{ image_tag('images/coralproject_color.svg') }}
+      {{ image_tag('images/coralproject_by_voxmedia.svg') }}
     </a>
     <ul class="sidebar__list">
     {% for item in config.sidebar.side %}
@@ -15,7 +15,9 @@
               <ul class="sidebar__headers">
                 {% for item in item.children %}
                   <li class="sidebar__subsection{% for item in item.children %}{% if is_current(item.url) %} active toggled{% endif %}{% endfor %}">
-                      <a href="#" class="sidebar__header">{{ item.title }}</a>
+                      {% if item.title %}
+                        <a href="#" class="sidebar__header">{{ item.title }}</a>
+                      {% endif %}
                       <ul class="sidebar__links">
                         {% for item in item.children %}
                           <li class="{% if is_current(item.url) %}active{% endif %}">

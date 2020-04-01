@@ -78,28 +78,42 @@ sidebar:
     - title: Docker
       url: https://hub.docker.com/r/coralproject/talk/
   side:
-    - title: Version 5
+    - title: Version 5+
       children:
-        - title: Getting Started
+        - title: Getting started
           children:
             - title: Installing
               url: /
             - title: Configuration
               url: /v5/configuration/
+            - title: Admin settings
+              url: /v5/administration/
             - title: Developing
               url: /v5/developing/
+            - title: CLI Tools
+              url: /v5/configuration-cli-tools/
         - title: Integration
           children:
-            - title: CMS Integration
+            - title: CMS integration
               url: /v5/integrating/cms/
-            - title: Single Sign On
+            - title: SSO
               url: /v5/integrating/sso/
+            - title: Other auth options
+              url: /v5/integration/auth/
+            - title: Custom CSS styles
+              url: /v5/css/
+            - title: Emails & notifications
+              url: /v5/notifications/
             - title: GDPR
               url: /v5/integrating/gdpr/
-            - title: Comment Count
+            - title: Comment count
               url: /v5/integrating/counts/
-            - title: Slack
+            - title: Moderating via Slack
               url: /v5/integrating/slack/
+            - title: Event tracking
+              url: /v5/integrating/events/
+            - title: SEO & iframes
+              url: /v5/seo/
         - title: API
           children:
             - title: GraphQL Overview
@@ -196,7 +210,9 @@ sidebar:
               url: /when-youve-installed-talk/
             - title: Embedding Talk in Native Mobile Apps
               url: /embedding-in-native-mobile-apps/
-        - title: Migrating
+    - title: Migrating
+      children:
+        - title:
           children:
             - title: Migrating from v3.x.x
               url: /migration/3/
@@ -204,14 +220,19 @@ sidebar:
               url: /migration/4/
             - title: Migrating to v4.1.0
               url: /migration/4.1/
-        - title: FAQ & Troubleshooting
-          children:
+            - title: Migrating to v5.0.0
+              url: /migration/5.0/
+            - title: Migrating to v6.0.0
+              url: /migration/6.0/
+    - title: FAQ & Troubleshooting
+      children:
+        - children:
             - title: FAQ
               url: /faq/
             - title: Troubleshooting Tips
               url: /troubleshooting-tips/
-        - title: Contact
-          url: /contact/
+    - title: Contact
+      url: /contact/
 
 marked:
   gfm: true
