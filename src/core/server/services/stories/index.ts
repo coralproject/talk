@@ -66,7 +66,7 @@ export async function findOrCreate(
   scraper: ScraperQueue,
   now = new Date()
 ) {
-  let siteID = "";
+  let siteID = null;
   if (input.url) {
     const site = await findSiteByURL(mongo, tenant.id, input.url);
     // If the URL is provided, and the url is not associated with a site, then refuse
@@ -94,8 +94,7 @@ export async function findOrCreate(
     StoryCreatedCoralEvent.publish(broker, {
       storyID: story.id,
       storyURL: story.url,
-      tenantID: tenant.id,
-      siteID,
+      siteID: story.siteID,
     });
   }
 
@@ -224,7 +223,6 @@ export async function create(
   StoryCreatedCoralEvent.publish(broker, {
     storyID: story.id,
     storyURL: story.url,
-    tenantID: tenant.id,
     siteID: site.id,
   });
 
