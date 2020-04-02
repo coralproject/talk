@@ -524,11 +524,11 @@ address from the site and the database.
                     className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
                     <div
-                      className="CheckBox-root"
+                      className="CheckBox-root CheckBox-default"
                     >
                       <input
                         checked={true}
-                        className="CheckBox-input"
+                        className="CheckBox-input CheckBox-default"
                         disabled={false}
                         id="auth.integrations.local.enabled"
                         name="auth.integrations.local.enabled"
@@ -539,7 +539,7 @@ address from the site and the database.
                         value={true}
                       />
                       <label
-                        className="CheckBox-label CheckBox-labelLight"
+                        className="CheckBox-label CheckBox-labelLight CheckBox-default"
                         htmlFor="auth.integrations.local.enabled"
                       >
                         <span
@@ -572,11 +572,11 @@ address from the site and the database.
                       className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={false}
                           id="auth.integrations.local.targetFilter.admin"
                           name="auth.integrations.local.targetFilter.admin"
@@ -587,7 +587,7 @@ address from the site and the database.
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.local.targetFilter.admin"
                         >
                           <span
@@ -598,11 +598,11 @@ address from the site and the database.
                         </label>
                       </div>
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={false}
                           id="auth.integrations.local.targetFilter.stream"
                           name="auth.integrations.local.targetFilter.stream"
@@ -613,7 +613,7 @@ address from the site and the database.
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.local.targetFilter.stream"
                         >
                           <span
@@ -647,11 +647,11 @@ integration to register for a new account.
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={false}
                           id="auth.integrations.local.allowRegistration"
                           name="auth.integrations.local.allowRegistration"
@@ -662,7 +662,7 @@ integration to register for a new account.
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.local.allowRegistration"
                         >
                           <span
@@ -696,11 +696,11 @@ integration to register for a new account.
                     className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
                     <div
-                      className="CheckBox-root"
+                      className="CheckBox-root CheckBox-default"
                     >
                       <input
                         checked={false}
-                        className="CheckBox-input"
+                        className="CheckBox-input CheckBox-default"
                         disabled={false}
                         id="auth.integrations.oidc.enabled"
                         name="auth.integrations.oidc.enabled"
@@ -711,7 +711,7 @@ integration to register for a new account.
                         value={false}
                       />
                       <label
-                        className="CheckBox-label CheckBox-labelLight"
+                        className="CheckBox-label CheckBox-labelLight CheckBox-default"
                         htmlFor="auth.integrations.oidc.enabled"
                       >
                         <span
@@ -1093,11 +1093,11 @@ the remaining fields. You may also enter the information manually.
                       className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.oidc.targetFilter.admin"
                           name="auth.integrations.oidc.targetFilter.admin"
@@ -1108,7 +1108,7 @@ the remaining fields. You may also enter the information manually.
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.oidc.targetFilter.admin"
                         >
                           <span
@@ -1119,11 +1119,11 @@ the remaining fields. You may also enter the information manually.
                         </label>
                       </div>
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.oidc.targetFilter.stream"
                           name="auth.integrations.oidc.targetFilter.stream"
@@ -1134,7 +1134,7 @@ the remaining fields. You may also enter the information manually.
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.oidc.targetFilter.stream"
                         >
                           <span
@@ -1168,11 +1168,11 @@ integration to register for a new account.
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={false}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.oidc.allowRegistration"
                           name="auth.integrations.oidc.allowRegistration"
@@ -1183,7 +1183,7 @@ integration to register for a new account.
                           value={false}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.oidc.allowRegistration"
                         >
                           <span
@@ -1217,11 +1217,11 @@ integration to register for a new account.
                     className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
                     <div
-                      className="CheckBox-root"
+                      className="CheckBox-root CheckBox-default"
                     >
                       <input
                         checked={false}
-                        className="CheckBox-input"
+                        className="CheckBox-input CheckBox-default"
                         disabled={false}
                         id="auth.integrations.sso.enabled"
                         name="auth.integrations.sso.enabled"
@@ -1232,7 +1232,7 @@ integration to register for a new account.
                         value={false}
                       />
                       <label
-                        className="CheckBox-label CheckBox-labelLight"
+                        className="CheckBox-label CheckBox-labelLight CheckBox-default"
                         htmlFor="auth.integrations.sso.enabled"
                       >
                         <span
@@ -1493,11 +1493,11 @@ more about creating a JWT Token with
                       className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.sso.targetFilter.admin"
                           name="auth.integrations.sso.targetFilter.admin"
@@ -1508,7 +1508,7 @@ more about creating a JWT Token with
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.sso.targetFilter.admin"
                         >
                           <span
@@ -1519,11 +1519,11 @@ more about creating a JWT Token with
                         </label>
                       </div>
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.sso.targetFilter.stream"
                           name="auth.integrations.sso.targetFilter.stream"
@@ -1534,7 +1534,7 @@ more about creating a JWT Token with
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.sso.targetFilter.stream"
                         >
                           <span
@@ -1568,11 +1568,11 @@ integration to register for a new account.
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.sso.allowRegistration"
                           name="auth.integrations.sso.allowRegistration"
@@ -1583,7 +1583,7 @@ integration to register for a new account.
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.sso.allowRegistration"
                         >
                           <span
@@ -1617,11 +1617,11 @@ integration to register for a new account.
                     className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
                     <div
-                      className="CheckBox-root"
+                      className="CheckBox-root CheckBox-default"
                     >
                       <input
                         checked={false}
-                        className="CheckBox-input"
+                        className="CheckBox-input CheckBox-default"
                         disabled={false}
                         id="auth.integrations.google.enabled"
                         name="auth.integrations.google.enabled"
@@ -1632,7 +1632,7 @@ integration to register for a new account.
                         value={false}
                       />
                       <label
-                        className="CheckBox-label CheckBox-labelLight"
+                        className="CheckBox-label CheckBox-labelLight CheckBox-default"
                         htmlFor="auth.integrations.google.enabled"
                       >
                         <span
@@ -1814,11 +1814,11 @@ to create and set up a web application. For more information visit:
                       className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.google.targetFilter.admin"
                           name="auth.integrations.google.targetFilter.admin"
@@ -1829,7 +1829,7 @@ to create and set up a web application. For more information visit:
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.google.targetFilter.admin"
                         >
                           <span
@@ -1840,11 +1840,11 @@ to create and set up a web application. For more information visit:
                         </label>
                       </div>
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.google.targetFilter.stream"
                           name="auth.integrations.google.targetFilter.stream"
@@ -1855,7 +1855,7 @@ to create and set up a web application. For more information visit:
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.google.targetFilter.stream"
                         >
                           <span
@@ -1889,11 +1889,11 @@ integration to register for a new account.
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.google.allowRegistration"
                           name="auth.integrations.google.allowRegistration"
@@ -1904,7 +1904,7 @@ integration to register for a new account.
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.google.allowRegistration"
                         >
                           <span
@@ -1938,11 +1938,11 @@ integration to register for a new account.
                     className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                   >
                     <div
-                      className="CheckBox-root"
+                      className="CheckBox-root CheckBox-default"
                     >
                       <input
                         checked={false}
-                        className="CheckBox-input"
+                        className="CheckBox-input CheckBox-default"
                         disabled={false}
                         id="auth.integrations.facebook.enabled"
                         name="auth.integrations.facebook.enabled"
@@ -1953,7 +1953,7 @@ integration to register for a new account.
                         value={false}
                       />
                       <label
-                        className="CheckBox-label CheckBox-labelLight"
+                        className="CheckBox-label CheckBox-labelLight CheckBox-default"
                         htmlFor="auth.integrations.facebook.enabled"
                       >
                         <span
@@ -2135,11 +2135,11 @@ For more information visit:
                       className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.facebook.targetFilter.admin"
                           name="auth.integrations.facebook.targetFilter.admin"
@@ -2150,7 +2150,7 @@ For more information visit:
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.facebook.targetFilter.admin"
                         >
                           <span
@@ -2161,11 +2161,11 @@ For more information visit:
                         </label>
                       </div>
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.facebook.targetFilter.stream"
                           name="auth.integrations.facebook.targetFilter.stream"
@@ -2176,7 +2176,7 @@ For more information visit:
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.facebook.targetFilter.stream"
                         >
                           <span
@@ -2210,11 +2210,11 @@ integration to register for a new account.
                       className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
                     >
                       <div
-                        className="CheckBox-root"
+                        className="CheckBox-root CheckBox-default"
                       >
                         <input
                           checked={true}
-                          className="CheckBox-input"
+                          className="CheckBox-input CheckBox-default"
                           disabled={true}
                           id="auth.integrations.facebook.allowRegistration"
                           name="auth.integrations.facebook.allowRegistration"
@@ -2225,7 +2225,7 @@ integration to register for a new account.
                           value={true}
                         />
                         <label
-                          className="CheckBox-label"
+                          className="CheckBox-label CheckBox-default"
                           htmlFor="auth.integrations.facebook.allowRegistration"
                         >
                           <span
