@@ -87,6 +87,7 @@ type CoralWebhookEventPayload = CoralEventPayload & {
    * tenantID is the ID of the Tenant that this event originated at.
    */
   readonly tenantID: string;
+
   /**
    * tenantDomain is the domain that is associated with this Tenant that this event originated at.
    */

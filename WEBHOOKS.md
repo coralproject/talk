@@ -180,7 +180,7 @@ function when comparing signatures.
    */
   tenantID: string;
 
-    /**
+  /**
    * tenantDomain is the domain that is associated with this Tenant that this event originated at.
    */
   tenantDomain: string;
