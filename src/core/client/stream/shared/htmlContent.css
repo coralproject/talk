@@ -3,12 +3,12 @@
   color: var(--palette-text-dark);
   overflow-wrap: break-word;
 
-  & * bold,
-  & * strong {
+  b,
+  strong {
     font-weight: var(--font-weight-medium);
   }
-  & * italic,
-  & * em {
+  i
+  em {
     font-style: italic;
   }
   blockquote {
