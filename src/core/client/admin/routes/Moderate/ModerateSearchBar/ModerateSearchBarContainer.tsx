@@ -97,7 +97,7 @@ function getContextOptionsWhenModeratingStory(
     {
       element: (
         <Option
-          href={`/admin/moderate/${story.id}`}
+          href={getModerationLink({ storyID: story.id })}
           details={story.metadata && story.metadata.author}
         >
           <GoToAriaInfo /> {story.metadata && story.metadata.title}
@@ -180,7 +180,10 @@ function useSearchOptions(
           nextSearchOptions.push({
             element: (
               <Option
-                href={getModerationLink({ storyID: e.node.id })}
+                href={getModerationLink({
+                  storyID: e.node.id,
+                  siteID: e.node.site.id,
+                })}
                 details={
                   <Flex itemGutter>
                     <strong>{e.node.site.name}</strong>
@@ -311,6 +314,7 @@ const enhanced = withRouter(
         id
         site {
           name
+          id
         }
         metadata {
           title

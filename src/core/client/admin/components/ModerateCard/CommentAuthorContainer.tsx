@@ -14,16 +14,39 @@ interface Props {
 }
 
 const CommentAuthorContainer: FunctionComponent<Props> = ({ comment }) => {
-  if (!comment.author || !comment.author.status.ban.active) {
+  if (
+    !comment.author ||
+    !(
+      comment.author.status.ban.active ||
+      comment.author.status.premod.active ||
+      comment.author.status.suspension.active
+    )
+  ) {
     return null;
   }
   return (
     <>
-      <div className={styles.authorStatus}>
-        <Localized id="commentAuthor-status-banned">
-          <Tag color="error">BANNED</Tag>
-        </Localized>
-      </div>
+      {comment.author.status.ban.active && (
+        <div className={styles.authorStatus}>
+          <Localized id="commentAuthor-status-banned">
+            <Tag color="error">BANNED</Tag>
+          </Localized>
+        </div>
+      )}
+      {comment.author.status.suspension.active && (
+        <div className={styles.authorStatus}>
+          <Localized id="commentAuthor-status-suspended">
+            <Tag color="error">SUSPENDED</Tag>
+          </Localized>
+        </div>
+      )}
+      {comment.author.status.premod.active && (
+        <div className={styles.authorStatus}>
+          <Localized id="commentAuthor-status-premod">
+            <Tag color="grey">PRE-MOD</Tag>
+          </Localized>
+        </div>
+      )}
     </>
   );
 };
@@ -35,6 +58,12 @@ const enhanced = withFragmentContainer<Props>({
         id
         username
         status {
+          suspension {
+            active
+          }
+          premod {
+            active
+          }
           ban {
             active
           }

@@ -1,0 +1,37 @@
+$conversationModalHighlightBackground: var(--v2-colors-teal-100);
+$conversationModalCommentText: var(--v2-colors-mono-500);
+.root {
+  flex: 1;
+}
+
+.line {
+  border-color: var(--v2-colors-grey-400);
+}
+
+.adornments {
+  margin-right: var(--v2-spacing-2);
+}
+
+.circle {
+  margin-top: var(--v2-spacing-2);
+  margin-bottom: var(--v2-spacing-2);
+}
+
+.highlightedCircle {
+  margin-top: var(--v2-spacing-1);
+}
+
+.highlighted {
+  background-color: $conversationModalHighlightBackground;
+  padding: var(--v2-spacing-2);
+  padding-top: var(--v2-spacing-1);
+  margin-bottom: var(--v2-spacing-2);
+}
+
+.commentText {
+  color: $conversationModalCommentText;
+}
+
+.showReplies {
+  padding-left: var(--v2-spacing-2);
+}

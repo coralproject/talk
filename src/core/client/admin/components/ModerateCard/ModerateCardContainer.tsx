@@ -15,7 +15,7 @@ import {
   withFragmentContainer,
   withMutation,
 } from "coral-framework/lib/relay";
-import { GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 
 import {
   COMMENT_STATUS,
@@ -46,6 +46,7 @@ interface Props {
   mini?: boolean;
   hideUsername?: boolean;
   onUsernameClicked?: (userID: string) => void;
+  onConversationClicked?: (commentID: string) => void;
   onSetSelected?: () => void;
   selected?: boolean;
   selectPrev?: () => void;
@@ -86,6 +87,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   selectPrev,
   selectNext,
   onUsernameClicked: usernameClicked,
+  onConversationClicked: conversationClicked,
   onSetSelected: setSelected,
   banUser,
   loadNext,
@@ -160,6 +162,16 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     [usernameClicked, comment]
   );
 
+  const onConversationClicked = useCallback(
+    (id?: string) => {
+      if (!conversationClicked) {
+        return;
+      }
+      conversationClicked(id || comment.id);
+    },
+    [conversationClicked, comment]
+  );
+
   const handleModerateStory = useCallback(
     (e: React.MouseEvent) => {
       router.push(getModerationLink({ storyID: comment.story.id }));
@@ -222,12 +234,12 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           status={getStatus(comment)}
           featured={isFeatured(comment)}
           viewContextHref={comment.permalink}
-          suspectWords={settings.wordList.suspect}
-          bannedWords={settings.wordList.banned}
+          phrases={settings}
           onApprove={handleApprove}
           onReject={handleReject}
           onFeature={onFeature}
           onUsernameClick={onUsernameClicked}
+          onConversationClick={onConversationClicked}
           selected={selected}
           selectPrev={selectPrev}
           selectNext={selectNext}
@@ -253,6 +265,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           hideUsername={hideUsername}
           deleted={comment.deleted ? comment.deleted : false}
           edited={comment.editing.edited}
+          isQA={comment.story.settings.mode === GQLSTORY_MODE.QA}
         />
       </FadeInTransition>
       <BanModal
@@ -304,6 +317,9 @@ const enhanced = withFragmentContainer<Props>({
         metadata {
           title
         }
+        settings {
+          mode
+        }
       }
       site {
         id
@@ -319,11 +335,13 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment ModerateCardContainer_settings on Settings {
+      locale
       wordList {
         banned
         suspect
       }
       multisite
+      featureFlags
       ...MarkersContainer_settings
     }
   `,

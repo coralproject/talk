@@ -27,7 +27,7 @@ comment-count-text =
 
 ## Comments Tab
 
-comments-allCommentsTab = Wszystkich komentarzy
+comments-allCommentsTab = Wszystkie
 comments-featuredTab = Wyróżnione
 comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-featuredCommentTooltip-how = Jak komentarze zostają wyróżnione?
@@ -38,10 +38,11 @@ comments-featuredCommentTooltip-toggleButton =
 
 comments-bannedInfo-bannedFromCommenting = Twoje konto zostało zablokowane i nie możesz komentować.
 comments-bannedInfo-violatedCommunityGuidelines =
-  Someone with access to your account has violated our community
-  guidelines. As a result, your account has been banned. You will no
-  longer be able to comment, respect or report comments. If you think
-  this has been done in error, please contact our community team.
+  Ktoś z dostępem do Twojego konta złamał zasady obowiązujące w
+  naszej społeczności. W rezultacie tych działań, Twoje konto 
+  zostało zbanowane. Nie masz już więcej możliwości komentowania, 
+  ocenienia albo zgłaszania komentarzy. Jeśli uważasz, że stało się
+  to w wyniku błędu, skontaktuj się z naszym zespołem.
 
 comments-noCommentsAtAll = Nie ma komentarzy do tego artykułu.
 comments-noCommentsYet = Nie ma jeszcze żadnych komentarzy. Może chcesz napisać pierwszy?
@@ -61,12 +62,12 @@ comments-viewNew =
 comments-loadMore = Załaduj więcej
 
 comments-permalinkPopover =
-  .description = A dialog showing a permalink to the comment
+  .description = Dialog pokazujący permalink do komentarza.
 comments-permalinkPopover-permalinkToComment =
   .aria-label = Permalink do komentarza
-comments-permalinkButton-share = Podziel się
+comments-permalinkButton-share = Dalej
 comments-permalinkView-viewFullDiscussion = Zobacz pełną dyskusję
-comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
+comments-permalinkView-commentRemovedOrDoesNotExist = Ten komentarz został usunięty albo nie istnieje.
 
 comments-rte-bold =
   .title = Pogrubienie
@@ -110,7 +111,7 @@ comments-editCommentForm-close = Zamknij
 comments-editCommentForm-rteLabel = Edytuj komentarz
 comments-editCommentForm-rte =
   .placeholder = { comments-editCommentForm-rteLabel }
-comments-editCommentForm-editRemainingTime = Edycja: pozostało <time></time>
+comments-editCommentForm-editRemainingTime = Edycja: jeszcze przez <time></time>
 comments-editCommentForm-editTimeExpired = Czas na możliwą edycję minął. Nie możesz już zmienić treści tego komentarza. A może napisz jeszcze jeden?
 comments-editedMarker-edited = Zmieniony
 comments-showConversationLink-readMore = Przeczytaj więcej w tej konwersacji >
@@ -170,21 +171,65 @@ comments-rejectedTombstone =
 
 comments-featuredTag = Wyróżniony
 
+### Q&A
+
+general-tabBar-qaTab = Q&A
+
+### nienajlepsze, ale mieści się na ekranie smartfona...
+qa-answeredTab = Odpowiedź
+qa-unansweredTab = Bez
+qa-allCommentsTab = Wszystkie
+
+qa-noQuestionsAtAll =
+  Nie ma pytań do tego artykułu.
+qa-noQuestionsYet =
+  Nie ma jeszcze żadnych pytań. Może chcesz zadać swoje?
+qa-viewNew =
+  { $count ->
+    [one] Zobacz {$count} nowe pytanie
+    [few] Zobacz {$count} nowe pytania
+    *[many] Zobacz {$count} nowych pytań
+  }
+
+qa-postQuestionForm-rteLabel = Zadaj pytanie
+qa-postQuestionForm-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+qa-postQuestionFormFake-rte =
+  .placeholder = { qa-postQuestionForm-rteLabel }
+
+qa-sortMenu-mostVoted = Najwięcej głosów
+
+qa-answered-tag = z odpowiedzią
+qa-expert-tag = ekspert
+
+qa-reaction-vote = Zagłosuj
+qa-reaction-voted = Twój głos
+
+qa-unansweredTab-doneAnswering = Gotowe
+
+qa-expert-email = ({ $email })
+
+qa-answeredTooltip-how = Kto udziela odpowiedzi na pytania?
+qa-answeredTooltip-answeredComments =
+  Odpowiedzi są udzielane przez wyznaczonych ekspertów.
+qa-answeredTooltip-toggleButton =
+  .aria-label = Przełącz dymek do pytań z odpowiedzią
+
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =
-  Account deletion requested
+  Wysłano prośbę o usunięcie konta
 comments-stream-deleteAccount-callOut-receivedDesc =
-  A request to delete your account was received on { $date }.
+  Twoja prośba o usunięcie konta została przyjęta { $date }.
 comments-stream-deleteAccount-callOut-cancelDesc =
-  If you would like to continue leaving comments, replies or reactions,
-  you may cancel your request to delete your account before { $date }.
+  Jeśli chcesz nadal publikować komentarze, odpowiadać na nie lub reagować, 
+  możesz anulować swoją prośbę o usunięcie konta przed { $date }.
 comments-stream-deleteAccount-callOut-cancel =
-  Cancel account deletion request
+  Anuluj prośbę o usunięcie konta
 
 ### Featured Comments
-comments-featured-gotoConversation = Go to Conversation
-comments-featured-replies = Replies
+comments-featured-gotoConversation = Przejdź do wątku
+comments-featured-replies = Odpowiedzi
 
 ## Profile Tab
 
@@ -332,7 +377,7 @@ profile-account-changePassword-edit = Zmień
 
 ## Notifications
 profile-notificationsTab = Powiadomienia
-profile-account-notifications-emailNotifications = Powiadomienia E-Mail
+profile-account-notifications-emailNotifications = Powiadomienia email
 profile-account-notifications-receiveWhen = Otrzymuj powiadomienia kiedy:
 profile-account-notifications-onReply = Ktoś odpowiada na mój komentarz
 profile-account-notifications-onFeatured = Mój komentarz zostanie wyróżniony
@@ -398,13 +443,15 @@ profile-changeUsername-close = Zamknij
 
 ## Comment Stream
 configure-stream-title = Skonfiguruj ten strumień komentarzy
+configure-stream-title-configureThisStream =
+  Skonfiguruj ten strumień
 configure-stream-apply = Zastosuj
 
 configure-premod-title = Włącz Pre-Moderację
 configure-premod-description =
   Moderatorzy muszą zaaprobować wszystkie komentarze zanim zostaną opublikowane przy tym artykule.
 
-configure-premodLink-title = Pre-Moderacja komentarzy zawierających link
+configure-premodLink-title = Pre-moderacja komentarzy zawierających link
 configure-premodLink-description =
   Moderatorzy muszą zaaprobować wszystkie komentarze zawierające link zanim zostaną opublikowane przy tym artykule.
 
@@ -436,23 +483,50 @@ configure-closeStream-description =
   Ten strumień komentarzy jest teraz otwarty. Jeśli zostanie zamknięty
   nie będzie można dodawać już nowych komentarzy, ale stare nadal będą
   widoczne.
-configure-closeStream-closeStream = Zamknij strumień
+configure-closeStream-closeStream = Zamknij
 
 configure-openStream-title = Otwórz strumień
 configure-openStream-description =
   Ten strumień komentarzy jest zamknięty. Jeśli go otworzysz
   użytkownicy będą mogli dodawać nowe komentarze.
-configure-openStream-openStream = Otwórz strumień
+configure-openStream-openStream = Otwórz
 
 configure-moderateThisStream = Moderuj ten strumień
 
+configure-enableQA-title = Przełącz na format Q&A
+configure-enableQA-description =
+  Format Q&A pozwala użytkownikom zadawać pytania wybranym przez Ciebie
+  ekspertom.
+configure-enableQA-enableQA = Przełącz na Q&A
+
+configure-disableQA-title = Skonfiguruj ten Q&A
+configure-disableQA-description =
+  Format Q&A pozwala użytkownikom zadawać pytania wybranym przez Ciebie
+  ekspertom.
+configure-disableQA-disableQA = Przełącz na komentarze
+
+configure-experts-title = Dodaj eksperta
+configure-experts-filter-searchField =
+  .placeholder = Szukaj według emaila lub loginu
+  .aria-label = Szukaj według emaila lub loginu
+configure-experts-filter-searchButton =
+  .aria-label = Szukaj
+configure-experts-filter-description =
+  Dodaje etykietę Eksperta do komentarzy zarejestrowanych użytkowników,
+  tylko na tej stronie. Nowi użytkownicy muszą się wcześniej zarejestrować
+  i otworzyć komentarze na stronie, żeby powstało ich konto.
+configure-experts-search-none-found = Nie znaleźliśmy użytkowników o takim emailu lub loginie
+configure-experts-remove-button = Usuń
+configure-experts-load-more = Więcej
+configure-experts-none-yet = W tej chwili nie ma żadnego eksperta przypisanego do tego Q&A.
+configure-experts-assigned-title = Eksperci
 comments-tombstone-ignore = Ten komentarz jest ukryty, ponieważ ignorujesz {$username}
 comments-tombstone-deleted =
   Ten komentarz nie jest już dostępny. Komentator usunął swoje konto.
 
 suspendInfo-heading = Twoje konto zostało chwilowo zawieszone i na razie nie możesz komentować.
 suspendInfo-info =
-  W zgodzie z regulaminem społeczności { $organization } Twoje
+  Zgodnie z regulaminem społeczności { $organization } Twoje
   konto zostało chwilowo zawieszone. Dopóki jest zawieszone nie
   możesz komentować, reagować ani zgłaszać innych komentarzy. 
   Wróc do nas { $until }
@@ -461,7 +535,7 @@ profile-changeEmail-unverified = (Niepotwierdzone)
 profile-changeEmail-edit = Zmień
 profile-changeEmail-please-verify = Potwierdź swój email
 profile-changeEmail-please-verify-details =
-  Email do weryfikacji konta został wysłały na { $email }.
+  Email do weryfikacji konta został wysłany na { $email }.
   Musisz potwierdzić swoje konto, zanim będzie można się
   zalogować i otrzymywać powiadomienia. 
 profile-changeEmail-resend = Ponowna weryfikacja

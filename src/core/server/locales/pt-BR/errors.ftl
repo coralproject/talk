@@ -33,6 +33,7 @@ error-emailInvalidFormat =
   O endereço de e-mail fornecido não parece ser um e-mail válido.
 error-emailExceedsMaxLength =
   O endereço de e-mail excede o tamanho máximo de {$max} caracteres.
+error-scrapeFailed = Não foi possível fazer scrape da URL { $url }.
 error-internalError = Erro interno
 error-tenantInstalledAlready = Tenant já instalado.
 error-userNotEntitled = Você não está autorizado a acessar esse recurso.
@@ -58,3 +59,4 @@ error-rawQueryNotAuthorized = Você não está autorizado a executar esta consul
 error-inviteIncludesExistingUser = Já existe um usuário com o email { $email }.
 error-repeatPost = Você tem certeza? Este comentário é muito parecido com o anterior.
 error-installationForbidden = { -product-name } já foi instalado. Para instalar outro Tenant no domínio ({ $domain }) você precisa gerar um token de instalação.
+error-duplicateSiteOrigin = Domínios permitidos só podem ser associados a um único site.

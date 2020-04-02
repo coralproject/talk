@@ -5,6 +5,7 @@ import { graphql } from "react-relay";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { GotoModerationEvent } from "coral-stream/events";
 import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components";
@@ -87,6 +88,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     !comment.author || !comment.author.id || viewer === null
       ? false
       : comment.author.id !== viewer.id;
+  const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
   return (
     <>
@@ -103,6 +105,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
               CLASSES.moderationDropdown.unfeatureButton
             )}
             onClick={onUnfeature}
+            disabled={isQA}
           >
             Un-Feature
           </DropdownButton>
@@ -113,6 +116,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
             className={CLASSES.moderationDropdown.featureButton}
             icon={<Icon size="md">star_border</Icon>}
             onClick={onFeature}
+            disabled={isQA}
           >
             Feature
           </DropdownButton>
@@ -229,6 +233,9 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment ModerationActionsContainer_story on Story {
       id
+      settings {
+        mode
+      }
     }
   `,
   viewer: graphql`

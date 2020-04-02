@@ -55,6 +55,9 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLButtonElement>;
+
+  /* if true adds a link-style underline */
+  underline?: boolean;
 }
 
 export class Button extends React.Component<Props> {
@@ -82,6 +85,7 @@ export class Button extends React.Component<Props> {
       iconRight,
       adornmentLeft,
       adornmentRight,
+      underline,
       to,
       ...rest
     } = this.props;
@@ -108,6 +112,7 @@ export class Button extends React.Component<Props> {
         [classes.iconRight]: iconRight,
         [classes.adornmentLeft]: adornmentLeft,
         [classes.adornmentRight]: adornmentRight,
+        [classes.underline]: underline,
       },
       className
     );

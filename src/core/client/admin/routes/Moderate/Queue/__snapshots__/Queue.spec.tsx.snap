@@ -24,6 +24,12 @@ exports[`renders correctly with load more 1`] = `
     open={false}
     userID=""
   />
+  <ConversationModal
+    commentID=""
+    onClose={[Function]}
+    onUsernameClicked={[Function]}
+    open={false}
+  />
 </ForwardRef(forwardRef)>
 `;
 
@@ -42,6 +48,12 @@ exports[`renders correctly without load more 1`] = `
     onClose={[Function]}
     open={false}
     userID=""
+  />
+  <ConversationModal
+    commentID=""
+    onClose={[Function]}
+    onUsernameClicked={[Function]}
+    open={false}
   />
 </ForwardRef(forwardRef)>
 `;

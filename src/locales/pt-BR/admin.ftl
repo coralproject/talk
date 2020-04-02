@@ -66,7 +66,77 @@ login-signInWithFacebook = Entrar com Facebook
 login-signInWithGoogle = Entrar com Google
 login-signInWithOIDC = Entrar com { $name }
 
+# Create Username
+
+createUsername-createUsernameHeader = Criar Nome de Usuário
+createUsername-whatItIs =
+  Seu Nome de Usuário é um identificador que irá aparecerá em todos os seus comentários.
+createUsername-createUsernameButton = Criar Nome de Usuário
+createUsername-usernameLabel = Nome de Usuário
+createUsername-usernameDescription = Você pode usar “_” e “.” Espaços não são permitidos.
+createUsername-usernameTextField =
+  .placeholder = Nome de Usuário
+
+# Add Email Address
+addEmailAddress-addEmailAddressHeader = Adicionar Endereço de Email
+
+addEmailAddress-emailAddressLabel = Endereço de Email
+addEmailAddress-emailAddressTextField =
+  .placeholder = Endereço de Email
+
+addEmailAddress-confirmEmailAddressLabel = Confirmar Endereço de Email
+addEmailAddress-confirmEmailAddressTextField =
+  .placeholder = Confirmar Endereço de Email
+
+addEmailAddress-whatItIs =
+  Para sua maior segurança, nós exigimos que usuários adicionem um endereço de email às suas contas.
+
+addEmailAddress-addEmailAddressButton =
+  Adicionar um Endereço de Email
+
+# Create Password
+createPassword-createPasswordHeader = Criar Senha
+createPassword-whatItIs =
+ Para proteger contra alterações não-autorizadas na sua conta,
+ nós exigimos que usuários criem uma senha.
+createPassword-createPasswordButton =
+  Criar Senha
+
+createPassword-passwordLabel = Senha
+createPassword-passwordDescription = Precisa ter no mínimo {$minLength} caracteres
+createPassword-passwordTextField =
+  .placeholder = Senha
+
+# Forgot Password
+forgotPassword-forgotPasswordHeader = Esqueceu sua senha?
+forgotPassword-checkEmailHeader = Veja seu email
+forgotPassword-gotBackToSignIn = Voltar à tela de login
+forgotPassword-checkEmail-receiveEmail =
+  Se houver uma conta associada a <strong>{ $email }</strong>,
+  você receberá um email com um link para criar uma nova senha.
+forgotPassword-enterEmailAndGetALink =
+  Digite seu endereço de email abaixo e nós irémos enviar para você
+  um link para redefinir sua senha.
+forgotPassword-emailAddressLabel = Endereço de email
+forgotPassword-emailAddressTextField =
+  .placeholder = Endereço de email
+forgotPassword-sendEmailButton = Enviar email
+
+# Link Account
+linkAccount-linkAccountHeader = Associar Conta
+linkAccount-alreadyAssociated =
+  O email <strong>{ $email }</strong> já está
+  associado a uma conta. Se você deseja associar estes,
+  digite sua senha.
+linkAccount-passwordLabel = Senha
+linkAccount-passwordTextField =
+  .label = Senha
+linkAccount-linkAccountButton = Associar Conta
+linkAccount-useDifferentEmail = Use um endereço de email diferente
+
 ## Configure
+
+configure-experimentalFeature = Funcionalidade Experimental
 
 configure-unsavedInputWarning =
   Você tem entrada não salva. Tem certeza de que deseja sair desta página?
@@ -79,6 +149,7 @@ configure-sideBarNavigation-advanced = Avançado
 configure-sideBarNavigation-email = E-mail
 configure-sideBarNavigation-bannedAndSuspectWords = Palavras banidas e suspeitas
 configure-sideBarNavigation-slack = Slack
+configure-sideBarNavigation-webhooks = Webhooks
 
 configure-sideBar-saveChanges = Salvar mudanças
 configure-configurationSubHeader = Configuração
@@ -86,6 +157,91 @@ configure-onOffField-on = Ligado
 configure-onOffField-off = Desligado
 configure-radioButton-allow = Permitir
 configure-radioButton-dontAllow = Não permitir
+
+### Webhooks
+configure-webhooks-experimentalFeature =
+  A funcionalidade de Webhooks atualmente está em desenvolvimento ativo. Eventos podem
+  ser adicionados ou removidos. Por favor <ContactUsLink>entre em contato conosco com qualquer feedback ou pedido</ContactUsLink>.
+configure-webhooks-webhookEndpointNotFound = Endpoint do Webhook não encontrado
+configure-webhooks-header-title = Configurar endpoint do Webhook
+configure-webhooks-description =
+  Configura um endpoint para enviar eventos quando tais eventos ocorrem no Coral.
+  Estes eventos serão encodados via JSON e assinados. Para saber mais sobre
+  a assinatura de webhooks, visite nosso<externalLink>Guia de Webhooks</externalLink>.
+configure-webhooks-addEndpoint = Adicionar um endpoint do webhook
+configure-webhooks-addEndpointButton = Adicionar um endpoint do webhook
+configure-webhooks-endpoints = Endpoints
+configure-webhooks-url = URL
+configure-webhooks-status = Status
+configure-webhooks-noEndpoints = Não há endpoints de webhooks configurados, adicione um acima.
+configure-webhooks-enabledWebhookEndpoint = Habilitado
+configure-webhooks-disabledWebhookEndpoint = Desabilitado
+configure-webhooks-endpointURL = URL do Endpoint
+configure-webhooks-cancelButton = Cancelar
+configure-webhooks-updateWebhookEndpointButton = Atualizar endpoint do webhook
+configure-webhooks-eventsToSend = Eventos para enviar
+configure-webhooks-clearEventsToSend = Limpar
+configure-webhooks-eventsToSendDescription =
+  Esses são os eventos que estão registrados neste endpoint específico. Visite
+  nosso <externalLink>Guia de Webhooks</externalLink> para o schema desses eventos.
+  Qualquer evento correspondendo aos seguintes será enviado para o endpoint se
+  estiver habilitado:
+configure-webhooks-allEvents =
+  O endpoint receberá todos os eventos, incluindo qualquer um adicionado no futuro.
+configure-webhooks-selectedEvents =
+  { $count } { $count ->
+    [1] evento
+    *[other] eventos
+  } selecionado(s).
+configure-webhooks-selectAnEvent =
+  Selecione eventos acima ou <button>receba todos os eventos</button>.
+configure-webhooks-configureWebhookEndpoint = Configurar endpoint do webhook
+configure-webhooks-confirmEnable =
+  Habilitar este endpoint do webhook irá fazer com que eventos sejam enviados para esta URL. Você tem certeza que deseja continuar?
+configure-webhooks-confirmDisable =
+  Desabilitar este endpoint do webhook irá fazer com que qualquer novo evento pare de ser enviado para esta URL. Você tem certeza que deseja continuar?
+configure-webhooks-confirmDelete =
+  Deletar este endpoint do webhook irá fazer com que qualquer novo evento pare de ser enviado para esta URL, e irá remover todas as configurações associadas a esse endpoint do webhook. Você tem certeza que deseja continuar?
+configure-webhooks-dangerZone = Zona de Perigo
+configure-webhooks-rotateSigningSecret = Rotacionar segredo de assinatura (signing secret)
+configure-webhooks-rotateSigningSecretDescription =
+  Rotacionar o segredo de assinatura permite que você troque com segurança
+  o segredo de assinatura usado em produção com um delay.
+configure-webhooks-rotateSigningSecretButton = Rotacionar segredo de assinatura (signing secret)
+configure-webhooks-rotateSigningSecretHelper =
+  Após expirar, assinaturas não serão mais geradas com o secret anterior.
+configure-webhooks-rotateSigningSecretSuccessUseNewSecret =
+  O segredo de assinatura do endpoint do webhook foi rotacionado. Por favor garanta
+  que você atualizou suas integrações para utilizar o novo segredo abaixo.
+configure-webhooks-disableEndpoint = Desabilitar endpoint
+configure-webhooks-disableEndpointDescription =
+  O endpoint atualmente está habilitado. Ao desabilitar este endpoint, nenhum novo evento
+  será enviado para a URL fornecida.
+configure-webhooks-disableEndpointButton = Desabilitar endpoint
+configure-webhooks-enableEndpoint = Habilitar endpoint
+configure-webhooks-enableEndpointDescription =
+  O endpoint atualmente está desabilitado. Ao habilitar este endpoint, novos eventos
+  serão enviados para a URL fornecida.
+configure-webhooks-enableEndpointButton = Habilitar endpoint
+configure-webhooks-deleteEndpoint = Deletar endpoint
+configure-webhooks-deleteEndpointDescription =
+  Deletar o endpoint irá impedir que novos eventos sejam enviados para a URL
+  fornecida.
+configure-webhooks-deleteEndpointButton = Deletar endpoint
+configure-webhooks-endpointStatus = Status do Endpoint
+configure-webhooks-signingSecret = Segredo de assinatura (Signing secret)
+configure-webhooks-signingSecretDescription =
+  O seguinte segredo de assinatura é utilizado para assinar o payload dos requests
+  enviados para a URL. Para saber mais sobre a assinatura de webhooks, visite nosso
+  <externalLink>Guia de Webhooks</externalLink>.
+configure-webhooks-expiresOldSecret = Expirar o segredo antigo
+configure-webhooks-expiresOldSecretImmediately = Imediatamente
+configure-webhooks-expiresOldSecretHoursFromNow =
+  { $hours ->
+    [1] 1 hora
+    *[other] { $hours } horas
+  }  a partir de agora
+configure-webhooks-detailsButton = Detalhes <icon>keyboard_arrow_right</icon>
 
 ### General
 configure-general-guidelines-title = Resumo das Diretrizes da Comunidade
@@ -164,8 +320,12 @@ configure-general-closedStreamMessage-explanation = Escreva uma mensagem para ap
 
 ### Organization
 configure-organization-name = Nome da organização
+configure-organization-sites = Sites
 configure-organization-nameExplanation =
   O nome da sua organização aparecerá nos e-mails enviados pelo Coral para sua comunidade e membros da organização.
+configure-organization-sites-explanation =
+  Adicione um novo site para sua Organização ou edite os detalhes de um site existente.
+configure-organization-sites-add-site = <icon>add</icon> Adicionar site
 configure-organization-email = E-mail organizacional
 configure-organization-emailExplanation =
   Este endereço de e-mail será usado nos e-mails
@@ -175,6 +335,35 @@ configure-organization-emailExplanation =
 configure-organization-url = URL da organização
 configure-organization-urlExplanation =
   A url da sua organização aparecerá nos e-mails enviados pelo Coral para sua comunidade e membros da organização.
+
+### Sites
+configure-sites-site-details = Detalhes <icon>keyboard_arrow_right</icon>
+configure-sites-add-new-site = Adicionar um novo site a { $site }
+configure-sites-add-success = { $site } foi adicionado a { $org }
+configure-sites-edit-success = Mudanças para { $site } foram salvas.
+configure-sites-site-form-name = Nome do site
+configure-sites-site-form-name-explanation = Nome do site irá aparecer nos emails enviados pelo Coral para a sua comunidade e membros da Organização.
+configure-sites-site-form-url = URL do Site
+configure-sites-site-form-url-explanation = Isto irá aparecer nos emails enviados pelo Coral para os membros da sua comunidade.
+configure-sites-site-form-email = Endereço de email do site
+configure-sites-site-form-url-explanation = Este endereço de email serve para os membros da comunidade entrarem em contato com você com perguntas ou se eles precisarem de ajuda. Ex: comentarios@seusite.com
+configure-sites-site-form-domains = Domínios permitidos do site
+configure-sites-site-form-domains-explanation = Domínios onde os fluxos de comentários são permitidos para serem embutidos ((ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
+configure-sites-site-form-submit = <icon>adicionar</icon> Adicionar site
+configure-sites-site-form-cancel = Cancelar
+configure-sites-site-form-save = Salvar mudanças
+configure-sites-site-edit = Editar detalhes do { $site }
+configure-sites-site-form-embed-code = Código embutido
+sites-emptyMessage = Não encontramos nenhum site correspondendo a esses critérios.
+sites-selector-allSites = Todos os sites
+sites-filter-sites-allSites = Todos os sites
+
+site-selector-all-sites = Todos os sites
+stories-filter-sites-allSites = Todos os sites
+stories-filter-statuses = Status
+stories-column-site = Site
+site-table-siteName = Nome do Site
+stories-filter-sites = Site
 
 ### Email
 
@@ -339,6 +528,7 @@ configure-moderation-perspective-defaultEndpoint =
 configure-moderation-perspective-accountNote =
   Para obter informações adicionais sobre como configurar o filtro de comentário tóxicos da Perspective API , visite:
   <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
+
 configure-moderation-newCommenters-title = Nova aprovação do comentarista
 configure-moderation-newCommenters-enable = Habilitar nova aprovação do comentarista
 configure-moderation-newCommenters-description =
@@ -349,6 +539,9 @@ configure-moderation-newCommenters-approvedCommentsThreshold = Número de coment
 configure-moderation-newCommenters-approvedCommentsThreshold-description =
   A quantidade de comentários aprovados para que os comentários sejam aprovados automaticamente sem precisar da pré-moderação.
 configure-moderation-newCommenters-comments = comentários
+
+
+
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Palavras e Frases Banidas
 configure-wordList-banned-explanation =
@@ -430,7 +623,7 @@ configure-slack-channel-hookURL-description =
   Para encontrar o URL de um dos seus canais do Slack,
   Siga as instruções<externalLink>aqui</externalLink>.
 configure-slack-channel-triggers-label =
-  Receba notificações neste canal do Slack por
+  Receba notificações neste canal do Slack para
 configure-slack-channel-triggers-allComments = Todos os Comentários
 configure-slack-channel-triggers-reportedComments = Commentários Reportados
 configure-slack-channel-triggers-pendingComments = Comentários Pendentes
@@ -440,7 +633,9 @@ configure-slack-channel-triggers-featuredComments = Comentários Destacados
 moderate-navigation-reported = reportado
 moderate-navigation-pending = Pendente
 moderate-navigation-unmoderated = não moderado
+moderate-navigation-approved = Aprovado
 moderate-navigation-rejected = rejeitado
+moderate-navigation-comment-count = { SHORT_NUMBER($count) }
 
 moderate-marker-preMod = Pré-Moderado
 moderate-marker-link = Link
@@ -453,6 +648,8 @@ moderate-marker-karma = Karma
 moderate-marker-recentHistory = Histórico recente
 moderate-marker-bodyCount = Tamanho do conteúdo
 moderate-marker-offensive = Ofensivo
+moderate-marker-newCommenter = Novo comentador
+moderate-marker-repeatPost = Comentário repetido
 
 moderate-markers-details = Detalhes
 moderate-flagDetails-offensive = Ofensivo
@@ -526,7 +723,6 @@ moderate-searchBar-seeAllResults = Ver todos os resultados
 moderateCardDetails-tab-info = Informações
 moderateCardDetails-tab-edits = Editar história
 ### Moderate User History Drawer
-
 moderate-user-drawer-email =
   .title = Endereço de email
 moderate-user-drawer-created-at =
@@ -535,12 +731,12 @@ moderate-user-drawer-member-id =
   .title = ID do membro
 moderate-user-drawer-tab-all-comments = Todos comentários
 moderate-user-drawer-tab-rejected-comments = Rejeitados
+moderate-user-drawer-tab-account-history = Histórico da Conta
 moderate-user-drawer-tab-notes = Notas
 moderate-user-drawer-load-more = Carregar mais
 moderate-user-drawer-all-no-comments = {$username} não enviou comentários.
 moderate-user-drawer-rejected-no-comments = {$username} não tem comentários rejeitados.
 moderate-user-drawer-user-not-found = Usuário não encontrado.
-moderate-user-drawer-tab-account-history = Histórico da conta
 moderate-user-drawer-status-label = Status:
 
 moderate-user-drawer-account-history-system = <icon>computer</icon> Sistema
@@ -608,47 +804,6 @@ moderate-user-drawer-notes-button = Adicionar notação
 moderatorNote-left-by = Deixado por
 moderatorNote-delete = Deletar
 
-## Create Username
-
-createUsername-createUsernameHeader = Criar nome do usuário
-createUsername-whatItIs =
-  Seu nome de usuário é um identificador que aparecerá em todos os seus comentários.
-createUsername-createUsernameButton = Criar nome do usuário
-createUsername-usernameLabel = Nome do Usuário
-createUsername-usernameDescription = Você pode usar "_" e "." Espaços não permitidos.
-createUsername-usernameTextField =
-  .placeholder = Nome do Usuário
-
-## Add Email Address
-addEmailAddress-addEmailAddressHeader = Adicionar Endereço de E-mail
-
-addEmailAddress-emailAddressLabel = Endereço de E-mail
-addEmailAddress-emailAddressTextField =
-  .placeholder = Endereço de E-mail
-
-addEmailAddress-confirmEmailAddressLabel = Confirmar Endereço de E-mail
-addEmailAddress-confirmEmailAddressTextField =
-  .placeholder = Confirmar Endereço de E-mail
-
-addEmailAddress-whatItIs =
-  Para sua segurança adicional, exigimos que os usuários adicionem um endereço de e-mail às contas deles.
-
-addEmailAddress-addEmailAddressButton =
-  Adicionar Endereço de E-mail
-
-## Create Password
-createPassword-createPasswordHeader = Criar Senha
-createPassword-whatItIs =
-  Para proteger contra alterações não autorizadas na sua conta,
-  Nós exigimos que os usuários criem uma senha.
-createPassword-createPasswordButton =
-  Criar Senha
-
-createPassword-passwordLabel = Senha
-createPassword-passwordDescription = Deve ter pelo menos {$minLength} caracteres
-createPassword-passwordTextField =
-  .placeholder = Senha
-
 ## Community
 community-emptyMessage = Não conseguimos encontrar ninguém na sua comunidade que corresponda aos seus critérios.
 
@@ -710,6 +865,7 @@ community-banModal-consequence =
 community-banModal-cancel = Cancelar
 community-banModal-banUser = Banir Usuário
 community-banModal-customize = Customizar mensagem de e-mail de banimento
+community-banModal-reject-existing = Rejeitar todos os comentários feitos por usuário
 
 community-suspendModal-areYouSure = Banir <strong>{ $username }</strong>?
 community-suspendModal-consequence =
@@ -793,6 +949,9 @@ stories-column-author = Autor
 stories-column-publishDate = Data de publicação
 stories-column-status = Status
 stories-column-clickToModerate = Clique no título para moderar a história
+stories-column-reportedCount = Reportado
+stories-column-pendingCount = Pendente
+stories-column-publishedCount = Publicado
 
 stories-status-popover =
   .description = Um menu suspenso para alterar o status da história
@@ -881,20 +1040,10 @@ configure-advanced-stories-proxy-detail =
    Quando especificado, permite que requisições do scraper utilizem o
    proxy. Todos os pedidos serão passados através do proxy conforme analisado
   pelo pacote <externalLink>npm proxy-agent</externalLink>.
-
-forgotPassword-forgotPasswordHeader = Esqueceu a senha?
-forgotPassword-checkEmailHeader = Verifique seu email
-forgotPassword-gotBackToSignIn = Volte para a página de login
-forgotPassword-checkEmail-receiveEmail =
-  Se houver uma conta associada a <strong>{ $email }</strong>,
-  você receberá um email com um link para criar uma nova senha.
-forgotPassword-enterEmailAndGetALink =
-  Digite seu endereço de email abaixo e nós lhe enviaremos um link
-  para que você possa redefinir sua senha.
-forgotPassword-emailAddressLabel = Endereço de email
-forgotPassword-emailAddressTextField =
-  .placeholder = Endereço de Email
-forgotPassword-sendEmailButton = Enviar emai
+configure-advanced-stories-custom-user-agent = Header de User-Agent customizado para o Scraper
+configure-advanced-stories-custom-user-agent-detail =
+  Quando especificado, sobreescreve o header <code>User-Agent</code> enviado com cada
+  request de scrape.
 
 commentAuthor-status-banned = Banido
 

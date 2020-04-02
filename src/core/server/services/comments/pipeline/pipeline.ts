@@ -40,7 +40,7 @@ export interface ModerationPhaseContextInput {
   log: Logger;
   story: Story;
   tenant: Tenant;
-  comment: RequireProperty<Partial<CreateCommentInput>, "body">;
+  comment: RequireProperty<Partial<CreateCommentInput>, "body" | "ancestorIDs">;
   author: User;
   now: Date;
   action: "NEW" | "EDIT";

@@ -21,8 +21,13 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   status: "undecided",
   featured: false,
   viewContextHref: "http://localhost/comment",
-  suspectWords: ["suspect"],
-  bannedWords: ["banned"],
+  phrases: {
+    locale: "en-US",
+    wordList: {
+      suspect: ["suspect"],
+      banned: ["banned"],
+    },
+  },
   siteName: null,
   onApprove: noop,
   onReject: noop,
@@ -30,6 +35,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   onBan: noop,
   onUsernameClick: noop,
   onFocusOrClick: noop,
+  onConversationClick: noop,
   showStory: false,
   moderatedBy: null,
 };

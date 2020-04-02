@@ -12,6 +12,7 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import { AddWebhookEndpointContainer_settings } from "coral-admin/__generated__/AddWebhookEndpointContainer_settings.graphql";
 
 import { ConfigureWebhookEndpointForm } from "../ConfigureWebhookEndpointForm";
+import ExperimentalWebhooksCallOut from "../ExperimentalWebhooksCallOut";
 
 interface Props {
   router: Router;
@@ -29,6 +30,7 @@ const AddWebhookEndpointContainer: FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter size="double">
+      <ExperimentalWebhooksCallOut />
       <ConfigBox
         title={
           <Localized id="configure-webhooks-addEndpoint">

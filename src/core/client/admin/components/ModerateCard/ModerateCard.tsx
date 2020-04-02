@@ -10,9 +10,11 @@ import React, {
 } from "react";
 
 import { HOTKEYS } from "coral-admin/constants";
+import { GetPhrasesRegExpOptions } from "coral-admin/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import {
-  BaseButton,
+  Button,
+  ButtonIcon,
   Card,
   Flex,
   HorizontalGutter,
@@ -21,14 +23,12 @@ import {
   Timestamp,
 } from "coral-ui/components/v2";
 
+import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
 import ApproveButton from "./ApproveButton";
 import CommentAuthorContainer from "./CommentAuthorContainer";
-import CommentContent from "./CommentContent";
 import FeatureButton from "./FeatureButton";
-import InReplyTo from "./InReplyTo";
 import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
-import Username from "./Username";
 
 import styles from "./ModerateCard.css";
 
@@ -48,8 +48,7 @@ interface Props {
   featured: boolean;
   moderatedBy: React.ReactNode | null;
   viewContextHref: string;
-  suspectWords: ReadonlyArray<string>;
-  bannedWords: ReadonlyArray<string>;
+  phrases: GetPhrasesRegExpOptions;
   showStory: boolean;
   storyTitle?: React.ReactNode;
   storyHref?: string;
@@ -59,6 +58,7 @@ interface Props {
   onReject: () => void;
   onFeature: () => void;
   onUsernameClick: (id?: string) => void;
+  onConversationClick: (id?: string) => void;
   onFocusOrClick: () => void;
   mini?: boolean;
   hideUsername?: boolean;
@@ -74,6 +74,7 @@ interface Props {
   selectPrev?: () => void;
   selectNext?: () => void;
   onBan: () => void;
+  isQA?: boolean;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -87,8 +88,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   viewContextHref,
   status,
   featured,
-  suspectWords,
-  bannedWords,
+  phrases,
   onApprove,
   onReject,
   onFeature,
@@ -102,6 +102,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   moderatedBy,
   selected,
   onFocusOrClick,
+  onConversationClick,
   mini = false,
   hideUsername = false,
   deleted = false,
@@ -109,6 +110,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   selectNext,
   selectPrev,
   onBan,
+  isQA,
 }) => {
   const div = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -164,6 +166,9 @@ const ModerateCard: FunctionComponent<Props> = ({
       onUsernameClick(inReplyTo.id);
     }
   }, [onUsernameClick, inReplyTo]);
+  const viewConversationClick = useCallback(() => {
+    onConversationClick();
+  }, [onConversationClick]);
   return (
     <Card
       className={cn(
@@ -189,12 +194,10 @@ const ModerateCard: FunctionComponent<Props> = ({
             <Flex alignItems="center">
               {!hideUsername && username && (
                 <>
-                  <BaseButton
+                  <UsernameButton
+                    username={username}
                     onClick={commentAuthorClick}
-                    className={styles.usernameButton}
-                  >
-                    <Username>{username}</Username>
-                  </BaseButton>
+                  />
                   <CommentAuthorContainer comment={comment} />
                 </>
               )}
@@ -207,7 +210,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               <FeatureButton
                 featured={featured}
                 onClick={onFeature}
-                enabled={!deleted}
+                enabled={!deleted && !isQA}
               />
             </Flex>
             {inReplyTo && inReplyTo.username && (
@@ -219,23 +222,16 @@ const ModerateCard: FunctionComponent<Props> = ({
             )}
           </div>
           <div className={styles.contentArea}>
-            <CommentContent
-              suspectWords={suspectWords}
-              bannedWords={bannedWords}
-              className={styles.content}
-            >
+            <CommentContent phrases={phrases} className={styles.content}>
               {commentBody}
             </CommentContent>
             <div className={styles.viewContext}>
-              <Localized id="moderate-comment-viewContext">
-                <TextLink
-                  className={styles.link}
-                  href={viewContextHref}
-                  target="_blank"
-                >
-                  View Context
-                </TextLink>
-              </Localized>
+              <Button iconLeft variant="text" onClick={viewConversationClick}>
+                <ButtonIcon>question_answer</ButtonIcon>
+                <Localized id="moderate-comment-viewConversation">
+                  <span>View conversation</span>
+                </Localized>
+              </Button>
             </div>
             <div
               className={cn(styles.separator, {

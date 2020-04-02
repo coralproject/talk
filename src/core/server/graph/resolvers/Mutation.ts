@@ -1,7 +1,5 @@
 import { GQLMutationTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
-// TODO: (wyattjoh) add rate limiting to these edges
-
 export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   editComment: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comments.edit(input),
@@ -79,6 +77,18 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   }),
   regenerateSSOKey: async (source, { input }, ctx) => ({
     settings: await ctx.mutators.Settings.regenerateSSOKey(),
+    clientMutationId: input.clientMutationId,
+  }),
+  rotateSSOKey: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.rotateSSOKey(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  deactivateSSOKey: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.deactivateSSOKey(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  deleteSSOKey: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.deleteSSOKey(input),
     clientMutationId: input.clientMutationId,
   }),
   createStory: async (source, { input }, ctx) => ({
@@ -316,4 +326,10 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     endpoint: await ctx.mutators.Settings.rotateWebhookEndpointSecret(input),
     clientMutationId,
   }),
+  testSMTP: async (source, { input: { clientMutationId } }, ctx) => {
+    await ctx.mutators.Settings.testSMTP();
+    return {
+      clientMutationId,
+    };
+  },
 };

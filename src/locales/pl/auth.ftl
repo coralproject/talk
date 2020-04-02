@@ -76,6 +76,19 @@ forgotPassword-checkEmail-receiveEmail =
   dostaniesz email z linkiem pozwalającym ustawić nowe hasło.
 forgotPassword-checkEmail-closeButton = Zamknij
 
+## Link Account
+
+linkAccount-linkAccountHeader = Połącz konta
+linkAccount-alreadyAssociated =
+  Email <strong>{ $email }</strong> jest 
+  już przypisany do konta. Jeśli chcesz 
+  połączyć te konta, podaj swoje hasło.
+linkAccount-passwordLabel = Hasło
+linkAccount-passwordTextField =
+  .label = Hasło
+linkAccount-linkAccountButton = Połącz konta
+linkAccount-useDifferentEmail = Użyj innego konta email
+
 ## Reset Password
 
 resetPassword-resetPasswordHeader = Ustaw nowe hasło

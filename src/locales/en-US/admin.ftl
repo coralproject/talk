@@ -136,6 +136,8 @@ linkAccount-useDifferentEmail = Use a different email address
 
 ## Configure
 
+configure-experimentalFeature = Experimental Feature
+
 configure-unsavedInputWarning =
   You have unsaved changes. Are you sure you want to continue?
 
@@ -157,6 +159,9 @@ configure-radioButton-allow = Allow
 configure-radioButton-dontAllow = Don't allow
 
 ### Webhooks
+configure-webhooks-experimentalFeature =
+  The webhook feature is currently in active development. Events may be
+  added or removed. Please <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
 configure-webhooks-webhookEndpointNotFound = Webhook endpoint not found
 configure-webhooks-header-title = Configure webhook endpoint
 configure-webhooks-description =
@@ -379,6 +384,7 @@ configure-email-smtpAuthenticationLabel = SMTP authentication
 configure-email-smtpCredentialsHeader = Email credentials
 configure-email-smtpUsernameLabel = Username
 configure-email-smtpPasswordLabel = Password
+configure-email-send-test = Send test email
 
 ### Authentication
 
@@ -421,6 +427,51 @@ configure-auth-sso-regenerateAt = KEY GENERATED AT:
   { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
 configure-auth-sso-regenerateHonoredWarning =
   When regenerating a key, tokens signed with the previous key will be honored for 30 days.
+
+configure-auth-sso-description =
+  To enable integration with your existing authentication system,
+  you will need to create a JWT Token to connect. You can learn
+  more about creating a JWT Token with <IntroLink>this introduction</IntroLink>. See our
+  <DocLink>documentation</DocLink> for additional information on single sign on.
+
+configure-auth-sso-rotate-keys = Keys
+configure-auth-sso-rotate-keyID = Key ID
+configure-auth-sso-rotate-secret = Secret
+configure-auth-sso-rotate-copySecret =
+  .aria-label = Copy Secret
+
+configure-auth-sso-rotate-date =
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+configure-auth-sso-rotate-activeSince = Active Since
+configure-auth-sso-rotate-inactiveAt = Inactive At
+configure-auth-sso-rotate-inactiveSince = Inactive Since
+
+configure-auth-sso-rotate-status = Status
+configure-auth-sso-rotate-statusActive = Active
+configure-auth-sso-rotate-statusExpiring = Expiring
+configure-auth-sso-rotate-statusExpired = Expired
+configure-auth-sso-rotate-statusUnknown = Unknown
+
+configure-auth-sso-rotate-expiringTooltip =
+  An SSO key is expiring when it is scheduled for rotation.
+configure-auth-sso-rotate-expiringTooltip-toggleButton =
+  .aria-label = Toggle expiring tooltip visibility
+configure-auth-sso-rotate-expiredTooltip =
+  An SSO key is expired when it has been rotated out of use.
+configure-auth-sso-rotate-expiredTooltip-toggleButton =
+  Toggle expired tooltip visibility
+
+configure-auth-sso-rotate-rotate = Rotate
+configure-auth-sso-rotate-deactivateNow = Deactivate Now
+configure-auth-sso-rotate-delete = Delete
+
+configure-auth-sso-rotate-now = Now
+configure-auth-sso-rotate-10seconds = 10 seconds from now
+configure-auth-sso-rotate-1day = 1 day from now
+configure-auth-sso-rotate-1week = 1 week from now
+configure-auth-sso-rotate-30days = 30 days from now
+configure-auth-sso-rotate-dropdown-description =
+  .description = A dropdown to rotate the SSO key
 
 configure-auth-local-loginWith = Login with email authentication
 configure-auth-local-useLoginOn = Use email authentication login on
@@ -622,6 +673,8 @@ configure-slack-channel-triggers-label =
 configure-slack-channel-triggers-reportedComments = Reported Comments
 configure-slack-channel-triggers-pendingComments = Pending Comments
 configure-slack-channel-triggers-featuredComments = Featured Comments
+configure-slack-channel-triggers-allComments = All Comments
+configure-slack-channel-triggers-staffComments = Staff Comments
 
 ## moderate
 moderate-navigation-reported = reported
@@ -666,6 +719,7 @@ moderate-emptyQueue-approved = There are no approved comments.
 moderate-comment-edited = (edited)
 moderate-comment-inReplyTo = Reply to <Username></Username>
 moderate-comment-viewContext = View Context
+moderate-comment-viewConversation = View Conversation
 moderate-comment-rejectButton =
   .aria-label = Reject
 moderate-comment-approveButton =
@@ -946,7 +1000,7 @@ stories-column-status = Status
 stories-column-clickToModerate = Click title to moderate story
 stories-column-reportedCount = Reported
 stories-column-pendingCount = Pending
-stories-column-totalCount = Total
+stories-column-publishedCount = Published
 
 stories-status-popover =
   .description = A dropdown to change the story status
@@ -1041,6 +1095,8 @@ configure-advanced-stories-custom-user-agent-detail =
   scrape request.
 
 commentAuthor-status-banned = Banned
+commentAuthor-status-premod = Pre-mod
+commentAuthor-status-suspended = Suspended
 
 hotkeysModal-title = Keyboard shortcuts
 hotkeysModal-navigation-shortcuts = Navigation shortcuts

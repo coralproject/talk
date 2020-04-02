@@ -15,6 +15,7 @@ export interface CommentStatusUpdatedInput extends SubscriptionPayload {
   oldStatus: GQLCOMMENT_STATUS;
   moderatorID: string | null;
   commentID: string;
+  commentRevisionID: string;
 }
 
 export type CommentStatusUpdatedSubscription = SubscriptionType<

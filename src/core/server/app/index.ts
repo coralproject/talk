@@ -147,22 +147,28 @@ function configureApplication(options: AppOptions) {
 function configureApplicationHTTPS(options: AppOptions) {
   const { parent, config } = options;
 
+  const log = logger.child(
+    { env: config.get("env"), forceSSL: config.get("force_ssl") },
+    true
+  );
+
   // If we're in production mode, configure some production security settings.
   if (config.get("env") === "production") {
-    if (config.get("disable_force_ssl")) {
-      logger.warn(
-        "SSL enforcement has been disabled in production, this should not be used except for testing"
-      );
-    } else {
+    if (config.get("force_ssl")) {
       // Coral in production requires SSL, so we'll send the HSTS headers here as
       // well as force the use of HTTPS with a 301 redirect.
       parent.use(
         hsts({
-          // We don't want to break existing other services that run with SSL.
+          // We don't want to break existing other services that don't run with
+          // SSL.
           includeSubDomains: false,
         })
       );
       parent.use(enforceHTTPSMiddleware());
+    } else {
+      log.warn(
+        "FORCE_SSL=true should be set when a SSL terminating proxy has been configured"
+      );
     }
   }
 }

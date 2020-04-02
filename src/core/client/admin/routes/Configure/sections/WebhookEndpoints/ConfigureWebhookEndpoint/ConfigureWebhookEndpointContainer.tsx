@@ -10,6 +10,7 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 import { ConfigureWebhookEndpointContainer_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointContainer_settings.graphql";
 import { ConfigureWebhookEndpointContainer_webhookEndpoint } from "coral-admin/__generated__/ConfigureWebhookEndpointContainer_webhookEndpoint.graphql";
 
+import ExperimentalWebhooksCallOut from "../ExperimentalWebhooksCallOut";
 import EndpointDangerZone from "./EndpointDangerZone";
 import EndpointDetails from "./EndpointDetails";
 import EndpointStatus from "./EndpointStatus";
@@ -25,6 +26,7 @@ const ConfigureWebhookEndpointContainer: FunctionComponent<Props> = ({
 }) => {
   return (
     <HorizontalGutter size="double" data-testid="webhook-endpoint-container">
+      <ExperimentalWebhooksCallOut />
       <ConfigBox
         title={
           <Localized id="configure-webhooks-configureWebhookEndpoint">

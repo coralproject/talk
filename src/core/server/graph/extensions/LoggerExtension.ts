@@ -7,6 +7,7 @@ import {
 import now from "performance-now";
 
 import GraphContext from "coral-server/graph/context";
+import logger from "coral-server/logger";
 
 import { getOperationMetadata, getPersistedQueryMetadata } from "./helpers";
 
@@ -20,8 +21,13 @@ export function logQuery(
   persisted = ctx.persisted,
   responseTime?: number
 ) {
-  ctx.logger.info(
-    {
+  // Try..catch introduced as we try and explore CORL-933.
+  // We are seeing that the logger context was undefined
+  // when trying to log the query. Putting a lot of safety
+  // to keep this up and running, and if it fails for other
+  // reasons, gather metrics on it.
+  try {
+    const queryMeta = {
       responseTime,
       // deprecated: use of the `authenticated` log field is deprecated in favour of the `userID` field
       authenticated: ctx.user ? true : false,
@@ -33,9 +39,41 @@ export function logQuery(
         : // A persisted query was not provided, parse the operation metadata
           // out from the document.
           getOperationMetadata(document)),
-    },
-    "graphql query"
-  );
+    };
+
+    // CORL-933: We are checking we have a logger as sometimes
+    // we are seeing no logger on the graph context. We're not
+    // sure why this is the case, but we want to catch when this
+    // is happening and not throw an error.
+    if (!ctx || !ctx.logger) {
+      // Catch the context and log it out, we need to know what is
+      // going on here
+      logger.warn(
+        { ctx: Boolean(ctx) },
+        "unable to find logger on GraphContext"
+      );
+
+      // Continue to log the query.
+      // We don't want to lose the precious metrics.
+      logger.info(queryMeta, "graphql query");
+    } else {
+      // HAPPY STATE:
+      // Carry on as normal, everything is as it should be!
+      ctx.logger.info(queryMeta, "graphql query");
+    }
+  } catch (err) {
+    // Since we introduced all these checks, we don't know
+    // the state of the context or what other data may be
+    // undefined.
+    //
+    // If while compositing this log data we fail for other
+    // reasons, let's catch that to prevent other errors from
+    // occurring and log everything we can.
+    logger.error(
+      { err, ctx: Boolean(ctx), document: Boolean(document) },
+      "unable to log GraphQL query"
+    );
+  }
 }
 
 export class LoggerExtension implements GraphQLExtension<GraphContext> {

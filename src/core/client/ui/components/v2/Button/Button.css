@@ -490,3 +490,7 @@ $button-text-dark-foreground-active: var(--v2-colors-blue-700);
 .linkButton {
   text-decoration: none;
 }
+
+.underline {
+  text-decoration: underline;
+}

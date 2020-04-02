@@ -3,6 +3,15 @@ interface EmailTemplate<T extends string, U extends {}> {
   context: U;
 }
 
+type TestContext<T extends string, U extends {}> = EmailTemplate<T, U>;
+
+export type SMTPTestTemplate = TestContext<
+  "test/smtp-test",
+  {
+    email: string;
+  }
+>;
+
 /**
  * NotificationContext
  */
@@ -203,6 +212,7 @@ type Templates =
   | OnFeaturedTemplate
   | DigestTemplate
   | OnCommentRejectedTemplate
+  | SMTPTestTemplate
   | OnCommentApprovedTemplate;
 
 export { Templates as EmailTemplate };

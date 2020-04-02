@@ -13,7 +13,7 @@ job_defaults: &job_defaults
   environment:
     <<: *job_environment
 
-version: 2
+version: 2.1
 jobs:
   # npm_dependencies will install the dependencies used by all other steps.
   npm_dependencies:
@@ -69,6 +69,9 @@ jobs:
           command: |
             npm run doctoc
             git diff --exit-code
+      - run:
+          name: Lint Versions
+          command: npx @coralproject/package-version-lint
 
   # unit_tests will run the unit tests.
   unit_tests:
@@ -141,6 +144,9 @@ jobs:
     <<: *job_defaults
     steps:
       - checkout
+      - run:
+          name: Verify release version
+          command: npx @coralproject/package-version-lint --expect ${CIRCLE_TAG/#v}
       - setup_remote_docker
       - deploy:
           name: Deploy the code
@@ -167,7 +173,6 @@ filter_develop: &filter_develop
         - next
 
 workflows:
-  version: 2
   build-test:
     jobs:
       - docker_tests:

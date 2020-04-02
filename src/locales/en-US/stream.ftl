@@ -173,6 +173,7 @@ comments-featuredTag = Featured
 general-tabBar-qaTab = Q&A
 
 qa-answeredTab = Answered
+qa-unansweredTab = Unanswered
 qa-allCommentsTab = All
 
 qa-noQuestionsAtAll =

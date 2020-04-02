@@ -17,6 +17,7 @@ import {
   GQLSitesConnection,
   GQLStoriesConnection,
   GQLStory,
+  GQLSTORY_MODE,
   GQLSTORY_STATUS,
   GQLTAG,
   GQLUser,
@@ -113,6 +114,16 @@ export const settings = createFixture<GQLSettings>({
           admin: true,
           stream: true,
         },
+        keys: [
+          {
+            kid: "kid-01",
+            secret: "secret",
+            createdAt: "2020-01-01T01:00:00.000Z",
+            lastUsedAt: undefined,
+            rotatedAt: undefined,
+            inactiveAt: undefined,
+          },
+        ],
         key: "",
         keyGeneratedAt: null,
       },
@@ -176,6 +187,7 @@ export const settings = createFixture<GQLSettings>({
     channels: [],
   },
   multisite: false,
+  featureFlags: [],
 });
 
 export const settingsWithEmptyAuth = createFixture<GQLSettings>(
@@ -200,6 +212,16 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
             stream: true,
           },
           key: "",
+          keys: [
+            {
+              kid: "kid-01",
+              secret: "secret",
+              createdAt: "2020-01-01T01:00:00.000Z",
+              lastUsedAt: undefined,
+              rotatedAt: undefined,
+              inactiveAt: undefined,
+            },
+          ],
           keyGeneratedAt: null,
         },
         google: {
@@ -506,6 +528,9 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     site: sites[0],
+    settings: {
+      mode: GQLSTORY_MODE.COMMENTS,
+    },
   },
   {
     id: "story-2",
@@ -533,6 +558,9 @@ export const stories = createFixtures<GQLStory>([
       },
     },
     site: sites[1],
+    settings: {
+      mode: GQLSTORY_MODE.COMMENTS,
+    },
   },
   {
     id: "story-3",
@@ -560,6 +588,9 @@ export const stories = createFixtures<GQLStory>([
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
     site: sites[1],
+    settings: {
+      mode: GQLSTORY_MODE.COMMENTS,
+    },
   },
 ]);
 

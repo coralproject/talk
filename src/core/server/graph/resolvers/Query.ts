@@ -14,7 +14,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   user: (source, args, ctx) => ctx.loaders.Users.user.load(args.id),
   users: (source, args, ctx) => ctx.loaders.Users.connection(args),
   comment: (source, { id }, ctx) =>
-    id ? ctx.loaders.Comments.comment.load(id) : null,
+    id ? ctx.loaders.Comments.visible.load(id) : null,
   comments: (source, args, ctx) => ctx.loaders.Comments.forFilter(args),
   settings: (source, args, ctx) => ctx.tenant,
   viewer: (source, args, ctx) => ctx.user,

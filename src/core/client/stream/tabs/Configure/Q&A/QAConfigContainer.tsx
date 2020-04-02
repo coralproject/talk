@@ -2,10 +2,12 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLSTORY_MODE } from "coral-framework/schema";
+import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 
+import { QAConfigContainer_settings } from "coral-stream/__generated__/QAConfigContainer_settings.graphql";
 import { QAConfigContainer_story } from "coral-stream/__generated__/QAConfigContainer_story.graphql";
 
+import HorizontalRule from "../HorizontalRule";
 import DisableQA from "./DisableQA";
 import EnableQA from "./EnableQA";
 import ExpertSelectionQuery from "./ExpertSelectionQuery";
@@ -13,9 +15,10 @@ import UpdateStoryModeMutation from "./UpdateStoryModeMutation";
 
 interface Props {
   story: QAConfigContainer_story;
+  settings: QAConfigContainer_settings;
 }
 
-const QAConfigContainer: FunctionComponent<Props> = ({ story }) => {
+const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
   const [waiting, setWaiting] = useState(false);
   const updateStoryMode = useMutation(UpdateStoryModeMutation);
 
@@ -33,13 +36,22 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story }) => {
 
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
+  // Check if we're allowed to show Q&A based on feature flags
+  if (!settings.featureFlags.includes(GQLFEATURE_FLAG.ENABLE_QA)) {
+    return null;
+  }
+
   return isQA ? (
     <>
+      <HorizontalRule />
       <DisableQA onClick={handleOnClick} disableButton={waiting} />
       <ExpertSelectionQuery storyID={story.id} />
     </>
   ) : (
-    <EnableQA onClick={handleOnClick} disableButton={waiting} />
+    <>
+      <HorizontalRule />
+      <EnableQA onClick={handleOnClick} disableButton={waiting} />
+    </>
   );
 };
 
@@ -50,6 +62,11 @@ const enhanced = withFragmentContainer<Props>({
       settings {
         mode
       }
+    }
+  `,
+  settings: graphql`
+    fragment QAConfigContainer_settings on Settings {
+      featureFlags
     }
   `,
 })(QAConfigContainer);
