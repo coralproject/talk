@@ -4,6 +4,7 @@
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
+    "*.css.ts",
     "*.css"
   ],
   "repository": {

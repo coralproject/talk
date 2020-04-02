@@ -1,7 +1,7 @@
 import { lowerCase, uniqBy } from "lodash";
 
 import { LanguageCode } from "coral-common/helpers";
-import { createWordListRegExp } from "coral-common/utils";
+import createWordListRegExp from "coral-common/utils/createWordListRegExp";
 
 export interface GetPhrasesRegExpOptions {
   locale: string;

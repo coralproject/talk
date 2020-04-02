@@ -12,4 +12,3 @@ export { default as isPromiseLike } from "./isPromiseLike";
 export { default as isPromise } from "./isPromise";
 export { default as startsWith } from "./startsWith";
 export { default as getOrigin } from "./getOrigin";
-export { default as createWordListRegExp } from "./createWordListRegExp";

@@ -2,7 +2,7 @@ import ms from "ms";
 import now from "performance-now";
 
 import { LanguageCode } from "coral-common/helpers";
-import { createWordListRegExp } from "coral-common/utils";
+import createWordListRegExp from "coral-common/utils/createWordListRegExp";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 
