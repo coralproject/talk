@@ -79,6 +79,7 @@ export type StoryCreatedCoralEventPayload = CoralEventPayload<
   {
     storyID: string;
     storyURL: string;
+    siteID: string;
   }
 >;
 
