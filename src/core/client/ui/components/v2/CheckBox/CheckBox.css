@@ -40,6 +40,7 @@
   height: 14px;
   background: var(--v2-palette-input-background);
   border: 1px solid var(--v2-palette-input-label);
+  border-radius: 2px;
   box-sizing: border-box;
 }
 
@@ -49,9 +50,14 @@
 }
 
 /* Box checked */
-.input:checked + .label:before {
+.input:checked, .default:checked + .label:before {
   background: var(--v2-palette-primary-main);
   border: 1px solid var(--v2-palette-primary-main);
+}
+
+.input:checked, .streamBlue:checked + .label:before {
+  background: var(--v2-colors-stream-blue-500);
+  border: 1px solid var(--v2-colors-stream-blue-500);
 }
 
 /* Disabled state label. */

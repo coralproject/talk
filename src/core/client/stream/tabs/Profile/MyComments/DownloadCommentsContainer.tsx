@@ -89,6 +89,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
                 disabled={!canDownload}
                 className={CLASSES.downloadCommentHistory.requestButton}
                 onClick={onClick}
+                upperCase
               >
                 Request
               </Button>
