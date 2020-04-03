@@ -330,6 +330,56 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     ),
     clientMutationId,
   }),
+  createExternalModerationPhase: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    ...(await ctx.mutators.Settings.createExternalModerationPhase(input)),
+    clientMutationId,
+  }),
+  updateExternalModerationPhase: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    phase: await ctx.mutators.Settings.updateExternalModerationPhase(input),
+    clientMutationId,
+  }),
+  disableExternalModerationPhase: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    phase: await ctx.mutators.Settings.disableExternalModerationPhase(input),
+    clientMutationId,
+  }),
+  enableExternalModerationPhase: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    phase: await ctx.mutators.Settings.enableExternalModerationPhase(input),
+    clientMutationId,
+  }),
+  deleteExternalModerationPhase: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    phase: await ctx.mutators.Settings.deleteExternalModerationPhase(input),
+    clientMutationId,
+  }),
+  rotateExternalModerationPhaseSigningSecret: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    phase: await ctx.mutators.Settings.rotateExternalModerationPhaseSigningSecret(
+      input
+    ),
+    clientMutationId,
+  }),
   testSMTP: async (source, { input: { clientMutationId } }, ctx) => {
     await ctx.mutators.Settings.testSMTP();
     return {

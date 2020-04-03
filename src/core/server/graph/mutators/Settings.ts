@@ -2,34 +2,46 @@ import GraphContext from "coral-server/graph/context";
 import { Tenant } from "coral-server/models/tenant";
 import {
   createAnnouncement,
+  createExternalModerationPhase,
   createWebhookEndpoint,
   deactivateSSOSigningSecret,
   deleteAnnouncement,
+  deleteExternalModerationPhase,
   deleteSSOSigningSecret,
   deleteWebhookEndpoint,
+  disableExternalModerationPhase,
   disableFeatureFlag,
   disableWebhookEndpoint,
+  enableExternalModerationPhase,
   enableFeatureFlag,
   enableWebhookEndpoint,
   regenerateSSOKey,
+  rotateExternalModerationPhaseSigningSecret,
   rotateSSOSigningSecret,
   rotateWebhookEndpointSigningSecret,
   sendSMTPTest,
   update,
+  updateExternalModerationPhase,
   updateWebhookEndpoint,
 } from "coral-server/services/tenant";
 
 import {
   GQLCreateAnnouncementInput,
+  GQLCreateExternalModerationPhaseInput,
   GQLCreateWebhookEndpointInput,
   GQLDeactivateSSOSigningSecretInput,
+  GQLDeleteExternalModerationPhaseInput,
   GQLDeleteSSOSigningSecretInput,
   GQLDeleteWebhookEndpointInput,
+  GQLDisableExternalModerationPhaseInput,
   GQLDisableWebhookEndpointInput,
+  GQLEnableExternalModerationPhaseInput,
   GQLEnableWebhookEndpointInput,
   GQLFEATURE_FLAG,
+  GQLRotateExternalModerationPhaseSigningSecretInput,
   GQLRotateSSOSigningSecretInput,
   GQLRotateWebhookEndpointSigningSecretInput,
+  GQLUpdateExternalModerationPhaseInput,
   GQLUpdateSettingsInput,
   GQLUpdateWebhookEndpointInput,
 } from "coral-server/graph/schema/__generated__/types";
@@ -97,6 +109,55 @@ export const Settings = ({
     input: WithoutMutationID<GQLRotateWebhookEndpointSigningSecretInput>
   ) =>
     rotateWebhookEndpointSigningSecret(
+      mongo,
+      redis,
+      tenantCache,
+      tenant,
+      input.id,
+      input.inactiveIn,
+      now
+    ),
+  createExternalModerationPhase: (
+    input: WithoutMutationID<GQLCreateExternalModerationPhaseInput>
+  ) =>
+    createExternalModerationPhase(
+      mongo,
+      redis,
+      config,
+      tenantCache,
+      tenant,
+      input,
+      now
+    ),
+  updateExternalModerationPhase: ({
+    id,
+    ...input
+  }: WithoutMutationID<GQLUpdateExternalModerationPhaseInput>) =>
+    updateExternalModerationPhase(
+      mongo,
+      redis,
+      config,
+      tenantCache,
+      tenant,
+      id,
+      input
+    ),
+  enableExternalModerationPhase: (
+    input: WithoutMutationID<GQLEnableExternalModerationPhaseInput>
+  ) =>
+    enableExternalModerationPhase(mongo, redis, tenantCache, tenant, input.id),
+  disableExternalModerationPhase: (
+    input: WithoutMutationID<GQLDisableExternalModerationPhaseInput>
+  ) =>
+    disableExternalModerationPhase(mongo, redis, tenantCache, tenant, input.id),
+  deleteExternalModerationPhase: (
+    input: WithoutMutationID<GQLDeleteExternalModerationPhaseInput>
+  ) =>
+    deleteExternalModerationPhase(mongo, redis, tenantCache, tenant, input.id),
+  rotateExternalModerationPhaseSigningSecret: (
+    input: WithoutMutationID<GQLRotateExternalModerationPhaseSigningSecretInput>
+  ) =>
+    rotateExternalModerationPhaseSigningSecret(
       mongo,
       redis,
       tenantCache,

@@ -3250,6 +3250,13 @@ type Query {
   queues returns information on queues used in Coral to manage
   """
   queues: Queues! @auth(roles: [ADMIN])
+
+  """
+  externalModerationPhase will return a specific ExternalModerationPhase if it
+  exists.
+  """
+  externalModerationPhase(id: ID!): ExternalModerationPhase
+    @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -5255,7 +5262,7 @@ type RotateWebhookEndpointSigningSecretPayload {
   """
   endpoint is the endpoint that we just updated.
   """
-  endpoint: WebhookEndpoint
+  endpoint: WebhookEndpoint!
 }
 
 ##################
@@ -5283,7 +5290,7 @@ type DisableWebhookEndpointPayload {
   """
   endpoint is the endpoint that we just disabled.
   """
-  endpoint: WebhookEndpoint
+  endpoint: WebhookEndpoint!
 }
 
 ##################
@@ -5311,7 +5318,7 @@ type EnableWebhookEndpointPayload {
   """
   endpoint is the endpoint that we just enabled.
   """
-  endpoint: WebhookEndpoint
+  endpoint: WebhookEndpoint!
 }
 
 ##################
@@ -5339,7 +5346,213 @@ type DeleteWebhookEndpointPayload {
   """
   endpoint is the endpoint that we just deleted.
   """
-  endpoint: WebhookEndpoint
+  endpoint: WebhookEndpoint!
+}
+
+#################
+# createExternalModerationPhase
+##################
+
+input CreateExternalModerationPhaseInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  url is the URL that Coral will POST moderation queries to.
+  """
+  url: String!
+
+  """
+  format is the format of the comment body sent.
+  """
+  format: COMMENT_BODY_FORMAT!
+
+  """
+  timeout is the number of milliseconds that this moderation is maximum expected
+  to take before it is skipped.
+  """
+  timeout: Int!
+}
+
+type CreateExternalModerationPhasePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just created.
+  """
+  phase: ExternalModerationPhase!
+
+  """
+  settings is the updated settings also containing the new phase.
+  """
+  settings: Settings!
+}
+
+##################
+# updateExternalModerationPhase
+##################
+
+input UpdateExternalModerationPhaseInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the ExternalModerationPhase being updated.
+  """
+  id: ID!
+
+  """
+  url is the URL that Coral will POST moderation queries to.
+  """
+  url: String
+
+  """
+  format is the format of the comment body sent.
+  """
+  format: COMMENT_BODY_FORMAT
+
+  """
+  timeout is the number of milliseconds that this moderation is maximum expected
+  to take before it is skipped.
+  """
+  timeout: Int
+}
+
+type UpdateExternalModerationPhasePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just updated.
+  """
+  phase: ExternalModerationPhase!
+}
+
+##################
+# deleteExternalModerationPhase
+##################
+
+input DeleteExternalModerationPhaseInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the ExternalModerationPhase being deleted.
+  """
+  id: ID!
+}
+
+type DeleteExternalModerationPhasePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just deleted.
+  """
+  phase: ExternalModerationPhase!
+}
+
+##################
+# disableExternalModerationPhase
+##################
+
+input DisableExternalModerationPhaseInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the ExternalModerationPhase being disabled.
+  """
+  id: ID!
+}
+
+type DisableExternalModerationPhasePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just disabled.
+  """
+  phase: ExternalModerationPhase!
+}
+
+##################
+# enableExternalModerationPhase
+##################
+
+input EnableExternalModerationPhaseInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the ExternalModerationPhase being enabled.
+  """
+  id: ID!
+}
+
+type EnableExternalModerationPhasePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just enabled.
+  """
+  phase: ExternalModerationPhase!
+}
+
+##################
+# rotateExternalModerationPhaseSigningSecret
+##################
+
+input RotateExternalModerationPhaseSigningSecretInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  id is the ID of the ExternalModerationPhase being updated.
+  """
+  id: ID!
+
+  """
+  inactiveIn is the number of seconds that the current active Secret should be
+  kept active.
+  """
+  inactiveIn: Int!
+}
+
+type RotateExternalModerationPhaseSigningSecretPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  phase is the ExternalModerationPhase that we just updated.
+  """
+  phase: ExternalModerationPhase!
 }
 
 ##################
@@ -6839,6 +7052,51 @@ type Mutation {
   rotateWebhookEndpointSigningSecret(
     input: RotateWebhookEndpointSigningSecretInput!
   ): RotateWebhookEndpointSigningSecretPayload! @auth(roles: [ADMIN])
+
+  """
+  createExternalModerationPhase will create a new ExternalModerationPhase.
+  """
+  createExternalModerationPhase(
+    input: CreateExternalModerationPhaseInput!
+  ): CreateExternalModerationPhasePayload! @auth(roles: [ADMIN])
+
+  """
+  updateExternalModerationPhase will update a ExternalModerationPhase.
+  """
+  updateExternalModerationPhase(
+    input: UpdateExternalModerationPhaseInput!
+  ): UpdateExternalModerationPhasePayload! @auth(roles: [ADMIN])
+
+  """
+  enableExternalModerationPhase will enable a ExternalModerationPhase to recieve
+  new comments.
+  """
+  enableExternalModerationPhase(
+    input: EnableExternalModerationPhaseInput!
+  ): EnableExternalModerationPhasePayload! @auth(roles: [ADMIN])
+
+  """
+  disableExternalModerationPhase will disable a ExternalModerationPhase from
+  recieving new comments.
+  """
+  disableExternalModerationPhase(
+    input: DisableExternalModerationPhaseInput!
+  ): DisableExternalModerationPhasePayload! @auth(roles: [ADMIN])
+
+  """
+  deleteExternalModerationPhase will delete a ExternalModerationPhase.
+  """
+  deleteExternalModerationPhase(
+    input: DeleteExternalModerationPhaseInput!
+  ): DeleteExternalModerationPhasePayload! @auth(roles: [ADMIN])
+
+  """
+  rotateExternalModerationPhaseSigningSecret will roll the current active secret
+  to a new key.
+  """
+  rotateExternalModerationPhaseSigningSecret(
+    input: RotateExternalModerationPhaseSigningSecretInput!
+  ): RotateExternalModerationPhaseSigningSecretPayload! @auth(roles: [ADMIN])
 
   """
   updateStoryMode will set the story mode.

@@ -241,6 +241,12 @@ export async function rotateWebhookEndpointSigningSecret(
   inactiveIn: number,
   now: Date
 ) {
+  // Find the endpoint.
+  let endpoint = getWebhookEndpoint(tenant, endpointID);
+  if (!endpoint) {
+    throw new Error("referenced endpoint was not found on tenant");
+  }
+
   // Compute the inactiveAt dates for the current active secrets.
   const inactiveAt = DateTime.fromJSDate(now)
     .plus({ seconds: inactiveIn })
@@ -262,7 +268,7 @@ export async function rotateWebhookEndpointSigningSecret(
   await cache.update(redis, updatedTenant);
 
   // Find the updated endpoint.
-  const endpoint = getWebhookEndpoint(updatedTenant, endpointID);
+  endpoint = getWebhookEndpoint(updatedTenant, endpointID);
   if (!endpoint) {
     throw new Error("referenced endpoint was not found on tenant");
   }
