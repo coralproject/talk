@@ -200,27 +200,27 @@ export function createJobProcessor({
     // Remove the expired secrets in the next tick so that it does not affect
     // the sending performance of this job, and errors do not impact the
     // sending.
-    const expiredSigningSecrets = endpoint.signingSecrets.filter(
-      filterExpiredSigningSecrets(now)
-    );
-    if (expiredSigningSecrets.length > 0) {
+    const expiredSigningSecretKIDs = endpoint.signingSecrets
+      .filter(filterExpiredSigningSecrets(now))
+      .map((s) => s.kid);
+    if (expiredSigningSecretKIDs.length > 0) {
       process.nextTick(() => {
         deleteTenantWebhookEndpointSigningSecrets(
           mongo,
           tenantID,
           endpoint.id,
-          expiredSigningSecrets.map((s) => s.kid)
+          expiredSigningSecretKIDs
         )
           .then(() => {
             log.info(
-              { secrets: expiredSigningSecrets.length },
+              { endpointID: endpoint.id, kids: expiredSigningSecretKIDs },
               "removed expired secrets from endpoint"
             );
           })
           .catch((err) => {
             log.error(
               { err },
-              "an error occurred when trying to remove expired secrets"
+              "an error occurred when trying to remove expired endpoint secrets"
             );
           });
       });

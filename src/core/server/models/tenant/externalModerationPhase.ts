@@ -170,3 +170,44 @@ export async function deleteTenantExternalModerationPhase(
 
   return result.value;
 }
+
+export async function deleteTenantExternalModerationPhaseSigningSecrets(
+  mongo: Db,
+  id: string,
+  phaseID: string,
+  kids: string[]
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $pull: {
+        "integrations.custom.phases.$[phase].signingSecrets": {
+          kid: { $in: kids },
+        },
+      },
+    },
+    { returnOriginal: false, arrayFilters: [{ "phase.id": phaseID }] }
+  );
+  if (!result.value) {
+    const tenant = await retrieveTenant(mongo, id);
+    if (!tenant) {
+      return null;
+    }
+
+    if (!tenant.integrations.custom) {
+      throw new Error(`phase not found with id: ${phaseID} on tenant: ${id}`);
+    }
+
+    const endpoint = getExternalModerationPhase(
+      tenant.integrations.custom,
+      phaseID
+    );
+    if (!endpoint) {
+      throw new Error(`phase not found with id: ${phaseID} on tenant: ${id}`);
+    }
+
+    throw new Error("update failed for an unexpected reason");
+  }
+
+  return result.value;
+}

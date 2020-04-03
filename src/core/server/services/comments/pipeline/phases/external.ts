@@ -4,6 +4,7 @@ import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   ExternalModerationPhase,
   filterActivePhase,
+  filterExpiredSigningSecrets,
 } from "coral-server/models/settings";
 import {
   IntermediateModerationPhase,
@@ -21,6 +22,7 @@ import {
 
 import { mergePhaseResult } from "../helpers";
 import { IntermediateModerationPhaseContext } from "../pipeline";
+import { deleteTenantExternalModerationPhaseSigningSecrets } from "coral-server/models/tenant";
 
 interface ExternalModerationPhaseRequest {
   tenant: {
@@ -107,6 +109,7 @@ const fetch = createFetch({ name: "Moderation" });
  */
 async function processPhase(
   {
+    mongo,
     action,
     comment,
     htmlStripped,
@@ -182,6 +185,35 @@ async function processPhase(
 
   // Try to parse the response as JSON.
   const body = JSON.parse(text);
+
+  // Remove the expired secrets in the next tick so that it does not affect
+  // the sending performance of this job, and errors do not impact the
+  // sending.
+  const expiredSigningSecretKIDs = phase.signingSecrets
+    .filter(filterExpiredSigningSecrets(now))
+    .map(s => s.kid);
+  if (expiredSigningSecretKIDs.length > 0) {
+    process.nextTick(() => {
+      deleteTenantExternalModerationPhaseSigningSecrets(
+        mongo,
+        tenant.id,
+        phase.id,
+        expiredSigningSecretKIDs
+      )
+        .then(() => {
+          log.info(
+            { phaseID: phase.id, kids: expiredSigningSecretKIDs },
+            "removed expired secrets from phase"
+          );
+        })
+        .catch(err => {
+          log.error(
+            { err },
+            "an error occurred when trying to remove expired phase secrets"
+          );
+        });
+    });
+  }
 
   // Validate will throw an error if the body does not conform to the
   // specification.
