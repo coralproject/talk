@@ -1,9 +1,5 @@
-{% macro preload(src, htmlAs, prefix = "", crossorigin = false) %}
-  {% if crossorigin %}
-    <link rel="preload" href="{{ prefix }}{{ src }}" as="{{ htmlAs }}" crossorigin>
-  {% else %}
-    <link rel="preload" href="{{ prefix }}{{ src }}" as="{{ htmlAs }}">
-  {% endif %}
+{% macro preload(src, htmlAs, prefix = "") %}
+  <link rel="preload" href="{{ prefix }}{{ src }}" as="{{ htmlAs }}">
 {% endmacro %}
 
 {% macro css(src, integrity = "", prefix = "") %}
