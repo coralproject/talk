@@ -1,0 +1,9 @@
+.root {
+  border-left: 1px solid var(--palette-grey-main);
+  border-right: 1px solid var(--palette-grey-main);
+  flex: 1;
+}
+
+.dotted {
+  border-left-style: dotted;
+}

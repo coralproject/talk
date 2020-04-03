@@ -34,7 +34,7 @@ function convertLanguage(locale: LanguageCode): PerspectiveLanguage {
 }
 
 interface Options {
-  endpoint?: string;
+  endpoint?: string | null;
   key: string;
   timeout: number;
 }
@@ -117,11 +117,11 @@ function formatBody(req: Request): object {
 }
 
 export async function sendToPerspective(
-  { endpoint = TOXICITY_ENDPOINT_DEFAULT, key, timeout }: Options,
+  { endpoint, key, timeout }: Options,
   req: Request
 ) {
   // Prepare the URL to send the command to.
-  const url = new URL(endpoint.trim());
+  const url = new URL((endpoint || TOXICITY_ENDPOINT_DEFAULT).trim());
   url.pathname = path.join(url.pathname, `/${req.operation}`);
   url.searchParams.set("key", key.trim());
 

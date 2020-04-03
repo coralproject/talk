@@ -26,6 +26,7 @@ class EmailConfigRoute extends React.Component<Props> {
       <EmailConfigContainer
         email={this.props.data.settings.email}
         submitting={this.props.submitting}
+        viewer={this.props.data.viewer}
       />
     );
   }
@@ -34,6 +35,9 @@ class EmailConfigRoute extends React.Component<Props> {
 const enhanced = withRouteConfig<Props>({
   query: graphql`
     query EmailConfigRouteQuery {
+      viewer {
+        ...EmailConfigContainer_viewer
+      }
       settings {
         email {
           ...EmailConfigContainer_email

@@ -76,6 +76,19 @@ forgotPassword-checkEmail-receiveEmail =
   você receberá um email com um link para criar uma nova senha.
 forgotPassword-checkEmail-closeButton = Fechar
 
+## Link Account
+
+linkAccount-linkAccountHeader = Associar Conta
+linkAccount-alreadyAssociated =
+  O email <strong>{ $email }</strong> já está associado à sua conta.
+  Se você gostaria de associar estes, digite sua senha.
+
+linkAccount-passwordLabel = Senha
+linkAccount-passwordTextField =
+  .label = Senha
+linkAccount-linkAccountButton = Associar Conta
+linkAccount-useDifferentEmail = Usar um endereço de email diferente
+
 ## Reset Password
 
 resetPassword-resetPasswordHeader = Redefinir Senha
