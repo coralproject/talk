@@ -42,7 +42,7 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = props => {
       className={cn(styles.root, CLASSES.myComment.$root)}
       data-testid={`historyComment-${props.id}`}
     >
-      <div>
+      <div className={CLASSES.myComment.commentOn}>
         <Localized id="profile-historyComment-comment-on">
           <Typography variant="detail" className={styles.commentOn}>
             Comment on:

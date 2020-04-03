@@ -96,7 +96,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                 />
                 <div
                   aria-hidden="true"
-                  className="RTE-placeholder coral coral-rte-placholder RTE-placeholder"
+                  className="RTE-placeholder coral coral-rte-placeholder RTE-placeholder"
                 >
                   Post a comment
                 </div>
@@ -239,7 +239,7 @@ exports[`renders comment stream with community guidelines 1`] = `
             <button
               aria-controls="tabPane-ALL_COMMENTS"
               aria-selected={true}
-              className="BaseButton-root Tab-button Tab-secondary Tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
+              className="BaseButton-root Tab-button Tab-secondary Tab-active coral-tabBarSecondary-tab-active coral coral-tabBarSecondary-tab coral-tabBarComments-allComments"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
