@@ -787,6 +787,7 @@ const CLASSES = {
    */
   ignoredCommenters: {
     $root: "coral coral-ignoredCommenters",
+    list: "coral coral-ignoredCommenters-list",
     manageButton: "coral coral-ignoredComments-manageButton",
     username: "coral coral-ignoredCommenters-username",
     stopIgnoreButton: "coral coral-ignoredCommenters-stopIgnoreButton",

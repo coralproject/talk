@@ -287,6 +287,7 @@ profile-account-ignoredCommenters-empty = You are not currently ignoring anyone
 profile-account-ignoredCommenters-stopIgnoring = Stop ignoring
 profile-account-ignoredCommenters-manage = Manage
 profile-account-ignoredCommenters-cancel = Cancel
+profile-account-ignoredCommenters-close = Close
 
 profile-account-changePassword-cancel = Cancel
 profile-account-changePassword = Change Password
