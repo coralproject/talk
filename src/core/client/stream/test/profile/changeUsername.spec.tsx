@@ -69,13 +69,13 @@ describe("with recently changed username", () => {
       within(testRenderer.root).queryByTestID("profile-changeUsername")
     );
     within(changeUsername).getByText("u_changed");
-    const editButton = within(changeUsername).getByText("Edit");
+    const editButton = within(changeUsername).getByText("Change");
     act(() => {
       editButton.props.onClick();
     });
     const form = within(changeUsername).queryByType("form");
     const message = within(changeUsername).queryByText(
-      "Your username has been changed in the last 14 days",
+      "You changed your username within the last 14 days",
       {
         exact: false,
       }
@@ -104,7 +104,7 @@ describe("with new username", () => {
     );
 
     within(changeUsername).getByText("u_original");
-    const editButton = within(changeUsername).getByText("Edit");
+    const editButton = within(changeUsername).getByText("Change");
     act(() => {
       editButton.props.onClick();
     });
@@ -150,7 +150,7 @@ describe("change username form", () => {
     const changeUsername = within(testRenderer.root).getByTestID(
       "profile-changeUsername"
     );
-    const editButton = within(changeUsername).getByText("Edit");
+    const editButton = within(changeUsername).getByText("Change");
     act(() => {
       editButton.props.onClick();
     });
@@ -171,14 +171,16 @@ describe("change username form", () => {
     const changeUsername = within(testRenderer.root).getByTestID(
       "profile-changeUsername"
     );
-    const editButton = within(changeUsername).getByText("Edit");
+    const editButton = within(changeUsername).getByText("Change");
     act(() => {
       editButton.props.onClick();
     });
     const form = within(changeUsername).getByType("form");
-    const username = within(changeUsername).getByLabelText("New username");
-    const usernameConfirm = within(changeUsername).getByLabelText(
-      "Confirm new username"
+    const username = within(changeUsername).getByTestID(
+      "profile-changeUsername-username"
+    );
+    const usernameConfirm = within(changeUsername).getByTestID(
+      "profile-changeUsername-username-confirm"
     );
     act(() => {
       username.props.onChange("testusername");
@@ -198,14 +200,16 @@ describe("change username form", () => {
     const changeUsername = within(testRenderer.root).getByTestID(
       "profile-changeUsername"
     );
-    const editButton = within(changeUsername).getByText("Edit");
+    const editButton = within(changeUsername).getByText("Change");
     act(() => {
       editButton.props.onClick();
     });
     const form = within(changeUsername).getByType("form");
-    const username = within(changeUsername).getByLabelText("New username");
-    const usernameConfirm = within(changeUsername).getByLabelText(
-      "Confirm new username"
+    const username = within(changeUsername).getByTestID(
+      "profile-changeUsername-username"
+    );
+    const usernameConfirm = within(changeUsername).getByTestID(
+      "profile-changeUsername-username-confirm"
     );
     await act(async () => {
       username.props.onChange("updated_username");

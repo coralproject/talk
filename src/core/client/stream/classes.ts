@@ -704,15 +704,23 @@ const CLASSES = {
    * myUsername is the username part of my profile.
    */
   myUsername: {
+    title: "coral coral-myUsername-title",
     username: "coral coral-myUsername",
-    editButton: "coral coral-myUsername-editButton",
+    change: "coral coral-myUsername-change",
+    tooSoon: "coral-myUsername-tooSoon",
     form: {
       $root: "coral coral-changeMyUsername",
+      heading: "coral coral-changeMyUsername-heading",
+      description: "coral coral-changeMyUsername-description",
+      label: "coral coral-changeMyUsername-label",
       username: "coral coral-changeMyUsername-username",
       cancelButton: "coral coral-changeMyUsername-cancelButton",
       saveButton: "coral coral-changeMyUsername-saveButton",
       closeButton: "coral coral-changeMyUsername-closeButton",
-      errorMessage: "coral coral-changeMyEmail-errorMessage",
+      footer: "coral coral-changeMyUsername-footer",
+      errorMessage: "coral coral-changeMyUsername-errorMessage",
+      successMessage: "coral coral-changeMyUsername-successMessage",
+      successCallOut: "coral coral-changeMyUsername-successCallOut",
     },
   },
 

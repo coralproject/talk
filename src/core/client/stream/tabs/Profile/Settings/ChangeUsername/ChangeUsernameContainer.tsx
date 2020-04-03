@@ -5,7 +5,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useMemo,
-  useState,
+  useState
 } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
@@ -17,29 +17,25 @@ import getAuthenticationIntegrations from "coral-framework/helpers/getAuthentica
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useViewerEvent } from "coral-framework/lib/events";
+import { hasError } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
   validateUsername,
-  validateUsernameEquals,
+  validateUsernameEquals
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
-import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import { ShowEditUsernameDialogEvent } from "coral-stream/events";
 import {
-  Box,
-  Button,
-  CallOut,
-  CardCloseButton,
   Flex,
   FormField,
   HorizontalGutter,
   Icon,
   InputLabel,
-  TextField,
-  Typography,
-} from "coral-ui/components";
+  TextField
+} from "coral-ui/components/v2";
+import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
 import { ChangeUsernameContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeUsernameContainer_settings.graphql";
 import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
@@ -65,7 +61,7 @@ interface FormProps {
 
 const ChangeUsernameContainer: FunctionComponent<Props> = ({
   viewer,
-  settings,
+  settings
 }) => {
   const emitShowEditUsernameDialog = useViewerEvent(
     ShowEditUsernameDialogEvent
@@ -81,7 +77,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   const updateUsername = useMutation(UpdateUsernameMutation);
 
   const closeSuccessMessage = useCallback(() => setShowSuccessMessage(false), [
-    setShowEditForm,
+    setShowEditForm
   ]);
 
   const canChangeLocalAuth = useMemo(() => {
@@ -89,7 +85,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
       return false;
     }
     if (
-      !viewer.profiles.find((profile) => profile.__typename === "LocalProfile")
+      !viewer.profiles.find(profile => profile.__typename === "LocalProfile")
     ) {
       return false;
     }
@@ -135,7 +131,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
     async (input: FormProps, form: FormApi) => {
       try {
         await updateUsername({
-          username: input.username,
+          username: input.username
         });
       } catch (err) {
         if (err instanceof InvalidRequestError) {
@@ -143,7 +139,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
         }
 
         return {
-          [FORM_ERROR]: err.message,
+          [FORM_ERROR]: err.message
         };
       }
 
@@ -160,238 +156,240 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   const formatter = new Intl.DateTimeFormat(locales, {
     day: "2-digit",
     month: "2-digit",
-    year: "numeric",
+    year: "numeric"
   });
 
   return (
-    <HorizontalGutter spacing={5} data-testid="profile-changeUsername">
-      {showSuccessMessage && (
-        <Box className={styles.successMessage}>
-          <Flex justifyContent="space-between" alignItems="center">
-            <Localized id="profile-changeUsername-success">
-              <Typography>
-                Your username has been successfully updated
-              </Typography>
-            </Localized>
-            <CardCloseButton
-              className={styles.closeButton}
-              onClick={closeSuccessMessage}
-            />
-          </Flex>
-        </Box>
-      )}
-      {!showEditForm && (
-        <Flex alignItems="baseline" justifyContent="space-between">
-          <div>
-            <Localized id="profile-changeUsername-username">
-              <Typography
-                className={CLASSES.myUsername.username}
-                color="textDark"
-                variant="heading2"
-              >
-                Username
-              </Typography>
-            </Localized>
-            <Typography variant="bodyCopy">{viewer.username}</Typography>
+    <HorizontalGutter spacing={3} data-testid="profile-changeUsername">
+      <div>
+        <Localized id="profile-changeUsername-username">
+          <div className={cn(styles.title, CLASSES.myUsername.title)}>
+            Username
           </div>
-          {canChangeLocalAuth && (
-            <Localized id="profile-changeUsername-edit">
-              <Button
-                className={CLASSES.myUsername.editButton}
-                variant="outlineFilled"
-                size="small"
-                color="primary"
-                onClick={toggleEditForm}
-              >
-                Edit
-              </Button>
-            </Localized>
+        </Localized>
+        <div className={cn(styles.username, CLASSES.myUsername.username)}>
+          {viewer.username}
+        </div>
+      </div>
+      {canChangeLocalAuth && !showEditForm && (
+        <Localized id="profile-changeUsername-change">
+          <Button
+            className={CLASSES.myUsername.change}
+            variant="text"
+            marginSize="none"
+            color="streamBlue"
+            onClick={toggleEditForm}
+            disabled={!canChangeUsername}
+          >
+            Change
+          </Button>
+        </Localized>
+      )}
+      {showSuccessMessage && (
+        <div
+          className={cn(
+            styles.successMessage,
+            CLASSES.myUsername.form.successMessage
           )}
-        </Flex>
+        >
+          <CallOut
+            color="success"
+            onClose={closeSuccessMessage}
+            className={cn(CLASSES.myUsername.form.successCallOut)}
+          >
+            <Flex justifyContent="flex-start" alignItems="center">
+              <Icon size="sm" className={styles.successIcon}>
+                check_circle
+              </Icon>
+              <Localized id="profile-changeUsername-success">
+                <span>Your username has been successfully updated</span>
+              </Localized>
+            </Flex>
+          </CallOut>
+        </div>
+      )}
+      {!canChangeUsername && !showSuccessMessage && (
+        <div data-testid="profile-changeUsername-cantChange">
+          <Localized
+            date={canChangeUsernameDate}
+            id="profile-changeUsername-youChangedYourUsernameWithin"
+            $value={FREQUENCYSCALED.scaled}
+            $unit={FREQUENCYSCALED.unit}
+            $nextUpdate={
+              canChangeUsernameDate
+                ? formatter.format(canChangeUsernameDate)
+                : null
+            }
+          >
+            <div className={cn(styles.tooSoon, CLASSES.myUsername.tooSoon)}>
+              You changed your username within the last {FREQUENCYSCALED.scaled}{" "}
+              {FREQUENCYSCALED.unit}. You may change your username again on:{" "}
+              {canChangeUsernameDate
+                ? formatter.format(canChangeUsernameDate)
+                : null}
+              .
+            </div>
+          </Localized>
+        </div>
       )}
       {showEditForm && (
-        <CallOut
-          borderless
-          className={cn(styles.callOut, CLASSES.myUsername.form.$root)}
-          color="primary"
-        >
-          <HorizontalGutter spacing={4}>
-            <div>
-              <Localized id="profile-changeUsername-heading">
-                <Typography variant="heading1" gutterBottom color="textDark">
-                  Edit your username
-                </Typography>
-              </Localized>
-              <Localized
-                id="profile-changeUsername-desc-text"
-                $value={FREQUENCYSCALED.scaled}
-                $unit={FREQUENCYSCALED.unit}
+        <HorizontalGutter spacing={4}>
+          <div>
+            <Localized id="profile-changeUsername-heading-changeYourUsername">
+              <div
+                className={cn(styles.heading, CLASSES.myUsername.form.heading)}
               >
-                <Typography color="textDark">
-                  Change the username that will appear on all of your past and
-                  future comments. Usernames can be changed once every{" "}
-                  {FREQUENCYSCALED.scaled} {FREQUENCYSCALED.unit}.
-                </Typography>
-              </Localized>
-            </div>
-            <div>
-              <Localized id="profile-changeUsername-current">
-                <Typography
-                  variant="bodyCopyBold"
-                  color="textPrimary"
-                  className={CLASSES.myUsername.form.username}
-                >
-                  Current username
-                </Typography>
-              </Localized>
-              <Typography variant="heading2" color="textDark">
-                {viewer.username}
-              </Typography>
-            </div>
-            {canChangeUsername && (
-              <Form onSubmit={onSubmit}>
-                {({ handleSubmit, submitError, pristine, invalid }) => (
-                  <form
-                    onSubmit={handleSubmit}
-                    data-testid="profile-changeUsername-form"
-                  >
-                    <HorizontalGutter spacing={4}>
-                      <FormField>
-                        <HorizontalGutter>
-                          <Localized id="profile-changeUsername-newUsername-label">
-                            <InputLabel htmlFor="profile-changeUsername-username">
-                              New username
-                            </InputLabel>
-                          </Localized>
-                          <Field
-                            name="username"
-                            validate={composeValidators(
-                              required,
-                              validateUsername
-                            )}
-                            id="profile-changeUsername-username"
-                          >
-                            {({ input, meta }) => (
-                              <>
-                                <TextField
-                                  {...input}
-                                  fullWidth
-                                  id="profile-changeUsername-username"
-                                />
-                                <FieldValidationMessage meta={meta} />
-                              </>
-                            )}
-                          </Field>
-                        </HorizontalGutter>
-                      </FormField>
-                      <FormField>
-                        <HorizontalGutter>
-                          <Localized id="profile-changeUsername-confirmNewUsername-label">
-                            <InputLabel htmlFor="profile-changeUsername-username-confirm">
-                              Confirm new username
-                            </InputLabel>
-                          </Localized>
-                          <Field
-                            name="usernameConfirm"
-                            validate={composeValidators(
-                              required,
-                              validateUsernameEquals
-                            )}
-                          >
-                            {({ input, meta }) => (
-                              <>
-                                <TextField
-                                  {...input}
-                                  fullWidth
-                                  id="profile-changeUsername-username-confirm"
-                                />
-                                <FieldValidationMessage meta={meta} />
-                              </>
-                            )}
-                          </Field>
-                        </HorizontalGutter>
-                      </FormField>
-                      {submitError && (
-                        <CallOut
-                          className={CLASSES.myUsername.form.errorMessage}
-                          color="error"
-                          fullWidth
-                        >
-                          {submitError}
-                        </CallOut>
-                      )}
-                    </HorizontalGutter>
-                    <Flex justifyContent="flex-end" className={styles.footer}>
-                      <Localized id="profile-changeUsername-cancel">
-                        <Button
-                          className={CLASSES.myUsername.form.cancelButton}
-                          type="button"
-                          onClick={toggleEditForm}
-                        >
-                          Cancel
-                        </Button>
-                      </Localized>
-                      <Localized id="profile-changeUsername-save">
-                        <Button
-                          className={CLASSES.myUsername.form.saveButton}
-                          variant={pristine || invalid ? "outlined" : "filled"}
-                          type="submit"
-                          data-testid="profile-changeUsername-save"
-                          color={pristine || invalid ? "regular" : "primary"}
-                          disabled={pristine || invalid}
-                        >
-                          <span>Save</span>
-                        </Button>
-                      </Localized>
-                    </Flex>
-                  </form>
-                )}
-              </Form>
-            )}
-            {!canChangeUsername && (
-              <div data-testid="profile-changeUsername-cantChange">
-                <Flex>
-                  <Icon size="md" className={styles.errorIcon}>
-                    error
-                  </Icon>
-                  <Localized
-                    date={canChangeUsernameDate}
-                    id="profile-changeUsername-recentChange"
-                    $value={FREQUENCYSCALED.scaled}
-                    $unit={FREQUENCYSCALED.unit}
-                    $nextUpdate={
-                      canChangeUsernameDate
-                        ? formatter.format(canChangeUsernameDate)
-                        : null
-                    }
-                  >
-                    <Typography className={styles.tooSoon}>
-                      Your username has been changed in the last{" "}
-                      {FREQUENCYSCALED.scaled} {FREQUENCYSCALED.unit}. You may
-                      change your username again on{" "}
-                      {canChangeUsernameDate
-                        ? formatter.format(canChangeUsernameDate)
-                        : null}
-                    </Typography>
-                  </Localized>
-                </Flex>
-                <Flex justifyContent="flex-end">
-                  <Localized id="profile-changeUsername-close">
-                    <Button
-                      color="primary"
-                      variant="filled"
-                      type="button"
-                      onClick={toggleEditForm}
-                      className={CLASSES.myUsername.form.closeButton}
-                    >
-                      Close
-                    </Button>
-                  </Localized>
-                </Flex>
+                Change your username
               </div>
-            )}
-          </HorizontalGutter>
-        </CallOut>
+            </Localized>
+            <Localized
+              id="profile-changeUsername-desc-text"
+              $value={FREQUENCYSCALED.scaled}
+              $unit={FREQUENCYSCALED.unit}
+            >
+              <div
+                className={cn(
+                  styles.description,
+                  CLASSES.myUsername.form.description
+                )}
+              >
+                Change the username that will appear on all of your past and
+                future comments. Usernames can be changed once every{" "}
+                {FREQUENCYSCALED.scaled} {FREQUENCYSCALED.unit}.
+              </div>
+            </Localized>
+          </div>
+          {canChangeUsername && (
+            <Form onSubmit={onSubmit}>
+              {({ handleSubmit, submitError, pristine, invalid }) => (
+                <form
+                  onSubmit={handleSubmit}
+                  data-testid="profile-changeUsername-form"
+                >
+                  <HorizontalGutter spacing={4}>
+                    <FormField>
+                      <HorizontalGutter>
+                        <Field
+                          name="username"
+                          validate={composeValidators(
+                            required,
+                            validateUsername
+                          )}
+                        >
+                          {({ input, meta }) => (
+                            <>
+                              <Localized id="profile-changeUsername-newUsername-label">
+                                <InputLabel htmlFor={input.name}>
+                                  New username
+                                </InputLabel>
+                              </Localized>
+                              <TextField
+                                {...input}
+                                fullWidth
+                                id={input.name}
+                                data-testid="profile-changeUsername-username"
+                                color={
+                                  hasError(meta) ? "streamError" : "regular"
+                                }
+                              />
+                              <ValidationMessage
+                                className={CLASSES.validationMessage}
+                                meta={meta}
+                              />
+                            </>
+                          )}
+                        </Field>
+                      </HorizontalGutter>
+                    </FormField>
+                    <FormField>
+                      <HorizontalGutter>
+                        <Field
+                          name="usernameConfirm"
+                          validate={composeValidators(
+                            required,
+                            validateUsernameEquals
+                          )}
+                          id="profile-changeUsername-username-confirm"
+                        >
+                          {({ input, meta }) => (
+                            <>
+                              <Localized id="profile-changeUsername-confirmNewUsername-label">
+                                <InputLabel htmlFor={input.name}>
+                                  Confirm new username
+                                </InputLabel>
+                              </Localized>
+                              <TextField
+                                {...input}
+                                fullWidth
+                                id={input.name}
+                                data-testid="profile-changeUsername-username-confirm"
+                                color={
+                                  hasError(meta) ? "streamError" : "regular"
+                                }
+                              />
+                              <ValidationMessage
+                                className={CLASSES.validationMessage}
+                                meta={meta}
+                              />
+                            </>
+                          )}
+                        </Field>
+                      </HorizontalGutter>
+                    </FormField>
+                    {submitError && (
+                      <CallOut
+                        color="alert"
+                        className={CLASSES.myUsername.form.errorMessage}
+                      >
+                        <Flex justifyContent="flex-start" alignItems="center">
+                          {submitError}
+                        </Flex>
+                      </CallOut>
+                    )}
+                  </HorizontalGutter>
+                  <div
+                    className={cn(
+                      styles.footer,
+                      CLASSES.myUsername.form.footer
+                    )}
+                  >
+                    <Localized id="profile-changeUsername-cancel">
+                      <Button
+                        className={cn(
+                          styles.footerButton,
+                          CLASSES.myUsername.form.cancelButton
+                        )}
+                        type="button"
+                        variant="outlined"
+                        color="mono"
+                        onClick={toggleEditForm}
+                        upperCase
+                      >
+                        Cancel
+                      </Button>
+                    </Localized>
+                    <Localized id="profile-changeUsername-saveChanges">
+                      <Button
+                        className={cn(
+                          styles.footerButton,
+                          CLASSES.myUsername.form.saveButton
+                        )}
+                        variant="filled"
+                        type="submit"
+                        data-testid="profile-changeUsername-save"
+                        color="streamBlue"
+                        disabled={pristine || invalid}
+                        upperCase
+                      >
+                        <span>Save Changes</span>
+                      </Button>
+                    </Localized>
+                  </div>
+                </form>
+              )}
+            </Form>
+          )}
+        </HorizontalGutter>
       )}
     </HorizontalGutter>
   );
@@ -454,7 +452,7 @@ const enhanced = withFragmentContainer<Props>({
         }
       }
     }
-  `,
+  `
 })(ChangeUsernameContainer);
 
 export default enhanced;
