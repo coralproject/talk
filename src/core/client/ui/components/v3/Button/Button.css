@@ -9,10 +9,12 @@
   text-transform: uppercase;
 }
 
-.sizeMedium {
+.textSizeMedium {
   font-size: var(--v2-font-size-2);
   line-height: var(--v2-line-height-3);
+}
 
+.marginSizeMedium {
   padding-left: var(--v2-spacing-3);
   padding-right: var(--v2-spacing-3);
   padding-top: var(--v2-spacing-2);
@@ -20,22 +22,29 @@
 }
 
 .filled {
+  border-style: solid;
+  border-width: 1px;
+
   &.colorStreamBlue {
     color: var(--v2-colors-pure-white);
 
     &:not(.disabled),
     &:not(:disabled) {
       background-color: var(--v2-colors-stream-blue-500);
+      border-color: var(--v2-colors-stream-blue-500);
     }
 
     &:hover, &.mouseHover {
       background-color: var(--v2-colors-stream-blue-600);
+      border-color: var(--v2-colors-stream-blue-600);
     }
     &:active, &.active {
       background-color: var(--v2-colors-stream-blue-700);
+      border-color: var(--v2-colors-stream-blue-700);
     }
     &.disabled {
       background-color: var(--v2-colors-stream-blue-200);
+      border-color: var(--v2-colors-stream-blue-200);
     }
   }
   &.colorMono {
@@ -44,16 +53,20 @@
     &:not(.disabled),
     &:not(:disabled) {
       background-color: var(--v2-colors-grey-500);
+      border-color: var(--v2-colors-grey-500);
     }
 
     &:hover, &.mouseHover {
       background-color: var(--v2-colors-grey-600);
+      border-color: var(--v2-colors-grey-600);
     }
     &:active, &.active {
       background-color: var(--v2-colors-grey-700);
+      border-color: var(--v2-colors-grey-700);
     }
     &.disabled {
       background-color: var(--v2-colors-grey-300);
+      border-color: var(--v2-colors-grey-300);
     }
   }
 }
@@ -111,6 +124,27 @@
       background-color: var(--v2-colors-pure-white);
       border-color: var(--v2-colors-grey-300);
       color: var(--v2-colors-grey-300);
+    }
+  }
+}
+
+.text {
+  background-color: transparent;
+
+  &.colorStreamBlue {
+    &:not(.disabled),
+    &:not(:disabled) {
+      color: var(--v2-colors-stream-blue-500);
+    }
+
+    &:hover, &.mouseHover {
+      color: var(--v2-colors-stream-blue-600);
+    }
+    &:active, &.active {
+      color: var(--v2-colors-stream-blue-700);
+    }
+    &.disabled {
+      color: var(--v2-colors-grey-400);
     }
   }
 }

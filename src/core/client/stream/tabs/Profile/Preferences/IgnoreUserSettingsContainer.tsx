@@ -48,7 +48,6 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
         <Localized id="profile-account-ignoredCommenters-close">
           <Button
             variant="filled"
-            size="medium"
             color="mono"
             upperCase
             onClick={toggleManage}
@@ -62,7 +61,6 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
         <Localized id="profile-account-ignoredCommenters-manage">
           <Button
             variant="outlined"
-            size="medium"
             color="mono"
             upperCase
             onClick={toggleManage}
@@ -93,7 +91,6 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
               </span>
               <Button
                 variant="none"
-                size="medium"
                 color="none"
                 onClick={() => removeUserIgnore({ userID: user.id })}
                 className={cn(

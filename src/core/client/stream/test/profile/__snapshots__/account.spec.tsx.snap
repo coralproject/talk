@@ -14,39 +14,34 @@ exports[`renders the empty settings pane 1`] = `
     className="Box-root HorizontalGutter-root AccountSettingsContainer-root HorizontalGutter-full"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
+      className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
       data-testid="profile-changeUsername"
     >
-      <div
-        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignBaseline"
-      >
-        <div>
-          <h1
-            className="Box-root Typography-root Typography-heading2 Typography-colorTextDark coral coral-myUsername"
-          >
-            Username
-          </h1>
-          <p
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Passivo
-          </p>
-        </div>
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled coral coral-myUsername-editButton"
-          data-color="primary"
-          data-variant="outlineFilled"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
+      <div>
+        <div
+          className="ChangeUsernameContainer-title coral coral-myUsername-title"
         >
-          Edit
-        </button>
+          Username
+        </div>
+        <div
+          className="ChangeUsernameContainer-username coral coral-myUsername"
+        >
+          Passivo
+        </div>
       </div>
+      <button
+        className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue coral coral-myUsername-change"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Change
+      </button>
     </div>
     <div
       className="Box-root HorizontalGutter-root coral coral-myEmail HorizontalGutter-spacing-5"

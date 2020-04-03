@@ -18,9 +18,10 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   classes: typeof styles & BaseButtonProps["classes"];
   className?: string;
 
-  size?: "medium";
+  textSize?: "medium" | "none";
+  marginSize?: "medium" | "none";
   color?: "streamBlue" | "mono" | "none";
-  variant?: "filled" | "outlined" | "none";
+  variant?: "filled" | "outlined" | "text" | "none";
 
   upperCase?: boolean;
   disabled?: boolean;
@@ -33,7 +34,8 @@ export class Button extends React.Component<Props> {
       className,
       variant = "filled",
       color = "streamBlue",
-      size = "medium",
+      textSize = "medium",
+      marginSize = "medium",
       children,
       disabled = false,
       to,
@@ -47,7 +49,9 @@ export class Button extends React.Component<Props> {
       {
         [classes.filled]: variant === "filled",
         [classes.outlined]: variant === "outlined",
-        [classes.sizeMedium]: size === "medium",
+        [classes.text]: variant === "text",
+        [classes.textSizeMedium]: textSize === "medium",
+        [classes.marginSizeMedium]: marginSize === "medium",
         [classes.colorStreamBlue]: color === "streamBlue",
         [classes.colorMono]: color === "mono",
         [classes.disabled]: disabled,
