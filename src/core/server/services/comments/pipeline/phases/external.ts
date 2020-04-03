@@ -6,6 +6,7 @@ import {
   filterActivePhase,
   filterExpiredSigningSecrets,
 } from "coral-server/models/settings";
+import { deleteTenantExternalModerationPhaseSigningSecrets } from "coral-server/models/tenant";
 import {
   IntermediateModerationPhase,
   PhaseResult,
@@ -22,7 +23,6 @@ import {
 
 import { mergePhaseResult } from "../helpers";
 import { IntermediateModerationPhaseContext } from "../pipeline";
-import { deleteTenantExternalModerationPhaseSigningSecrets } from "coral-server/models/tenant";
 
 interface ExternalModerationPhaseRequest {
   tenant: {
