@@ -28,14 +28,89 @@
       background-color: var(--v2-colors-stream-blue-500);
     }
 
-    &:hover {
-      background-color: var(--v2-colors-stream-blue-400);
+    &:hover, &.mouseHover {
+      background-color: var(--v2-colors-stream-blue-600);
     }
     &:active, &.active {
-      background-color: var(--v2-colors-stream-blue-300);
+      background-color: var(--v2-colors-stream-blue-700);
     }
     &.disabled {
       background-color: var(--v2-colors-stream-blue-200);
+    }
+  }
+  &.colorMono {
+    color: var(--v2-colors-pure-white);
+
+    &:not(.disabled),
+    &:not(:disabled) {
+      background-color: var(--v2-colors-grey-500);
+    }
+
+    &:hover, &.mouseHover {
+      background-color: var(--v2-colors-grey-600);
+    }
+    &:active, &.active {
+      background-color: var(--v2-colors-grey-700);
+    }
+    &.disabled {
+      background-color: var(--v2-colors-grey-300);
+    }
+  }
+}
+
+.outlined {
+  &.colorStreamBlue {
+    border-style: solid;
+    border-width: 1px;
+
+    &:not(.disabled),
+    &:not(:disabled) {
+      background-color: var(--v2-colors-pure-white);
+      border-color: var(--v2-colors-stream-blue-500);
+      color: var(--v2-colors-stream-blue-500);
+    }
+
+    &:hover, &.mouseHover {
+      background-color: var(--v2-colors-stream-blue-500);
+      border-color: var(--v2-colors-stream-blue-500);
+      color: var(--v2-colors-pure-white);
+    }
+    &:active, &.active {
+      background-color: var(--v2-colors-stream-blue-500);
+      border-color: var(--v2-colors-stream-blue-500);
+      color: var(--v2-colors-pure-white);
+    }
+    &.disabled {
+      background-color: var(--v2-colors-pure-white);
+      border-color: var(--v2-colors-stream-blue-200);
+      color: var(--v2-colors-stream-blue-200);
+    }
+  }
+  &.colorMono {
+    border-style: solid;
+    border-width: 1px;
+
+    &:not(.disabled),
+    &:not(:disabled) {
+      background-color: var(--v2-colors-pure-white);
+      border-color: var(--v2-colors-grey-500);
+      color: var(--v2-colors-grey-500);
+    }
+
+    &:hover, &.mouseHover {
+      background-color: var(--v2-colors-grey-500);
+      border-color: var(--v2-colors-grey-500);
+      color: var(--v2-colors-pure-white);
+    }
+    &:active, &.active {
+      background-color: var(--v2-colors-grey-500);
+      border-color: var(--v2-colors-grey-500);
+      color: var(--v2-colors-pure-white);
+    }
+    &.disabled {
+      background-color: var(--v2-colors-pure-white);
+      border-color: var(--v2-colors-grey-300);
+      color: var(--v2-colors-grey-300);
     }
   }
 }

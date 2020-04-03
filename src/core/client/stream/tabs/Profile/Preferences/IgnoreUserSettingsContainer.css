@@ -1,18 +1,71 @@
+.root {
+  padding-bottom: var(--v2-spacing-3);
+}
+
+.title {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-4);
+  line-height: var(--v2-line-height-5);
+
+  color: var(--v2-colors-mono-900);
+
+  padding-bottom: var(--v2-spacing-1);
+}
+
 .description {
-  color: var(--palette-text-primary);
-  font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-regular);
-  font-size: calc(14rem / var(--rem-base));
-  line-height: calc(16em / 14);
-  margin-top: var(--spacing-2);
-  margin-bottom: var(--spacing-3);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-5);
+
+  color: var(--v2-colors-mono-500);
+
+  margin-top: var(--v2-spacing-2);
+  margin-bottom: var(--v2-spacing-3);
 }
 
 .empty {
-  color: var(--palette-grey-light);
-  font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-regular);
-  font-size: calc(16rem / var(--rem-base));
-  line-height: calc(20em / 16);
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-5);
+
+  color: var(--v2-colors-mono-100);
+
   margin-top: var(--spacing-2);
+}
+
+.list {
+  margin-top: var(--v2-spacing-2);
+}
+
+.stopIgnoringButton {
+  &:not(.disabled),
+  &:not(:disabled) {
+    color: var(--v2-colors-stream-blue-500);
+  }
+
+  &:hover, &.mouseHover {
+    color: var(--v2-colors-stream-blue-600);
+  }
+  &:active, &.active {
+    color: var(--v2-colors-stream-blue-700);
+  }
+  &.disabled {
+    color: var(--v2-colors-stream-blue-200);
+  }
+}
+
+.icon {
+  margin-right: var(--v2-spacing-1);
+}
+
+.username {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-5);
+
+  color: var(--v2-colors-mono-500);
 }

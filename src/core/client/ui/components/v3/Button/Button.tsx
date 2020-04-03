@@ -19,8 +19,8 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   className?: string;
 
   size?: "medium";
-  color?: "streamBlue";
-  variant?: "filled";
+  color?: "streamBlue" | "mono" | "none";
+  variant?: "filled" | "outlined" | "none";
 
   upperCase?: boolean;
   disabled?: boolean;
@@ -46,8 +46,10 @@ export class Button extends React.Component<Props> {
       classes.base,
       {
         [classes.filled]: variant === "filled",
+        [classes.outlined]: variant === "outlined",
         [classes.sizeMedium]: size === "medium",
         [classes.colorStreamBlue]: color === "streamBlue",
+        [classes.colorMono]: color === "mono",
         [classes.disabled]: disabled,
         [classes.upperCase]: upperCase,
       },
