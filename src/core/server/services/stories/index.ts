@@ -94,6 +94,7 @@ export async function findOrCreate(
     StoryCreatedCoralEvent.publish(broker, {
       storyID: story.id,
       storyURL: story.url,
+      siteID: story.siteID,
     });
   }
 
@@ -222,6 +223,7 @@ export async function create(
   StoryCreatedCoralEvent.publish(broker, {
     storyID: story.id,
     storyURL: story.url,
+    siteID: site.id,
   });
 
   return story;
