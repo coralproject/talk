@@ -543,6 +543,7 @@ export const stories = createFixtures<GQLStory>([
       author: "Linh Nguyen",
       title: "First Colony on Mars",
       publishedAt: "2018-11-29T16:01:51.897Z",
+      section: "Space",
     },
     commentCounts: {
       totalPublished: 5,

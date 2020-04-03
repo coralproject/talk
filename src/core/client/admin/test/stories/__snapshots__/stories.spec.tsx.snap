@@ -205,7 +205,6 @@ exports[`renders empty stories 1`] = `
                   >
                     Vin Hoa
                   </span>
-                   
                   11/29/2018, 4:01 PM
                 </p>
               </div>
@@ -293,12 +292,25 @@ exports[`renders empty stories 1`] = `
                 <p
                   className="StoryRow-meta"
                 >
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantFilled StoryRow-sectionNameButton"
+                    data-color="dark"
+                    data-variant="filled"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    Space
+                  </button>
                   <span
                     className="StoryRow-authorName"
                   >
                     Linh Nguyen
                   </span>
-                   
                   11/29/2018, 4:01 PM
                 </p>
               </div>
@@ -577,7 +589,6 @@ exports[`renders stories 1`] = `
                   >
                     Vin Hoa
                   </span>
-                   
                   11/29/2018, 4:01 PM
                 </p>
               </div>
@@ -665,12 +676,25 @@ exports[`renders stories 1`] = `
                 <p
                   className="StoryRow-meta"
                 >
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantFilled StoryRow-sectionNameButton"
+                    data-color="dark"
+                    data-variant="filled"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    Space
+                  </button>
                   <span
                     className="StoryRow-authorName"
                   >
                     Linh Nguyen
                   </span>
-                   
                   11/29/2018, 4:01 PM
                 </p>
               </div>
