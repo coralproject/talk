@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Button } from "coral-ui/components";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
@@ -20,6 +21,7 @@ interface Props {
   storyID: string;
   title: string | null;
   author: string | null;
+  section: string | null;
   publishDate: string | null;
   story: PropTypesOf<typeof StoryStatus>["story"];
   viewer: PropTypesOf<typeof StoryStatus>["viewer"];
@@ -29,6 +31,7 @@ interface Props {
   reportedCount: number | null;
   pendingCount: number | null;
   totalCount: number;
+  onSetSearchFilter: (search: string) => void;
 }
 
 const UserRow: FunctionComponent<Props> = props => (
@@ -43,9 +46,19 @@ const UserRow: FunctionComponent<Props> = props => (
             {props.title || <NotAvailable />}
           </Link>
         </p>
-        {(props.author || props.publishDate) && (
+        {(props.author || props.publishDate || props.section) && (
           <p className={styles.meta}>
-            <span className={styles.authorName}>{props.author}</span>{" "}
+            {props.section && (
+              <Button
+                color="dark"
+                variant="filled"
+                onClick={() => props.onSetSearchFilter(`"${props.section}"`)}
+                className={styles.sectionNameButton}
+              >
+                {props.section}
+              </Button>
+            )}
+            <span className={styles.authorName}>{props.author}</span>
             {props.publishDate}
           </p>
         )}

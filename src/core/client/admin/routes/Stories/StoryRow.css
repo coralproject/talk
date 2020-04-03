@@ -14,7 +14,15 @@
 }
 
 .authorName {
+  margin-right: var(--mini-unit);
   font-weight: var(--v2-font-weight-primary-semi-bold);
+}
+
+.sectionNameButton {
+  font-weight: var(--v2-font-weight-primary-regular);
+  margin-right: var(--mini-unit);
+  padding-top: var(--v2-spacing-1);
+  padding-bottom: var(--v2-spacing-1);
 }
 
 .reportedCountColumn,

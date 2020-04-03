@@ -24,6 +24,7 @@ interface Props {
     { id: string } & PropTypesOf<typeof StoryRowContainer>["story"]
   >;
   onLoadMore: () => void;
+  onSetSearchFilter: (search: string) => void;
   hasMore: boolean;
   disableLoadMore: boolean;
   loading: boolean;
@@ -78,6 +79,7 @@ const StoryTable: FunctionComponent<Props> = props => (
                 story={u}
                 viewer={props.viewer!}
                 multisite={props.multisite}
+                onSetSearchFilter={props.onSetSearchFilter}
               />
             ))}
         </TableBody>

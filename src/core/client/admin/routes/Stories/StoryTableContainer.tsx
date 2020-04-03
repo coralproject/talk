@@ -68,6 +68,7 @@ const StoryTableContainer: FunctionComponent<Props> = props => {
         <StoryTable
           viewer={props.query && props.query.viewer}
           loading={!props.query || isRefetching}
+          onSetSearchFilter={setSearchFilter}
           stories={stories}
           onLoadMore={loadMore}
           multisite={props.query ? props.query.settings.multisite : false}

@@ -13,6 +13,7 @@ interface Props {
   story: StoryData;
   viewer: ViewerData;
   multisite: boolean;
+  onSetSearchFilter: (search: string) => void;
 }
 
 const StoryRowContainer: FunctionComponent<Props> = props => {
@@ -20,11 +21,13 @@ const StoryRowContainer: FunctionComponent<Props> = props => {
   const title = props.story.metadata && props.story.metadata.title;
   const author = props.story.metadata && props.story.metadata.author;
   const publishedAt = props.story.metadata && props.story.metadata.publishedAt;
+  const section = props.story.metadata && props.story.metadata.section;
   return (
     <StoryRow
       storyID={props.story.id}
       title={title}
       author={author}
+      section={section}
       story={props.story}
       viewer={props.viewer}
       siteName={props.story.site.name}
@@ -45,6 +48,7 @@ const StoryRowContainer: FunctionComponent<Props> = props => {
             }).format(new Date(publishedAt))
           : null
       }
+      onSetSearchFilter={props.onSetSearchFilter}
     />
   );
 };
@@ -63,6 +67,7 @@ const enhanced = withFragmentContainer<Props>({
         title
         author
         publishedAt
+        section
       }
       commentCounts {
         totalPublished
