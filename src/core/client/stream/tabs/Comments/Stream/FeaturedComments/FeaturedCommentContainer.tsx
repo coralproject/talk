@@ -84,7 +84,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
             settings={settings}
           />
         </Box>
-        <Box ml={2} clone>
+        <Box ml={2}>
           <Timestamp className={CLASSES.featuredComment.authorBar.timestamp}>
             {comment.createdAt}
           </Timestamp>
@@ -116,7 +116,12 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
                 </Localized>
                 <Box>{comment.replyCount}</Box>
               </Flex>
-              <Box mx={2}>|</Box>
+              <Box
+                className={CLASSES.featuredComment.actionBar.repliesDivider}
+                mx={2}
+              >
+                |
+              </Box>
             </Flex>
           )}
           <div>

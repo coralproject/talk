@@ -76,7 +76,8 @@ const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
       className={cn(
         styles.fixedTab,
         CLASSES.tabBarComments.featured,
-        styles.featuredCommentsTab
+        styles.featuredCommentsTab,
+        { [CLASSES.tabBarComments.activeTab]: props.active }
       )}
     />
     <FeaturedCommentTooltip
@@ -280,6 +281,8 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                 className={cn(
                   {
                     [styles.fixedTab]: featuredCommentsCount > 0,
+                    [CLASSES.tabBarComments.activeTab]:
+                      local.commentsTab === "ALL_COMMENTS",
                   },
                   CLASSES.tabBarComments.allComments
                 )}
