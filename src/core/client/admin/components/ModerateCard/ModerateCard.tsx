@@ -37,6 +37,7 @@ interface Props {
   username: string;
   createdAt: string;
   body: string;
+  highlight?: boolean;
   inReplyTo?: {
     id: string;
     username: string | null;
@@ -82,6 +83,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   username,
   createdAt,
   body,
+  highlight = false,
   inReplyTo,
   comment,
   settings,
@@ -222,7 +224,11 @@ const ModerateCard: FunctionComponent<Props> = ({
             )}
           </div>
           <div className={styles.contentArea}>
-            <CommentContent phrases={phrases} className={styles.content}>
+            <CommentContent
+              highlight={highlight}
+              phrases={phrases}
+              className={styles.content}
+            >
               {commentBody}
             </CommentContent>
             <div className={styles.viewContext}>

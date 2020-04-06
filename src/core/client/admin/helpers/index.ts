@@ -3,3 +3,4 @@ export {
   default as getPhrasesRegExp,
   GetPhrasesRegExpOptions,
 } from "./getPhrasesRegExp";
+export { default as markHTMLNode } from "./markHTMLNode";

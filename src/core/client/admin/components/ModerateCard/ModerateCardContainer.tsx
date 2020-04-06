@@ -215,6 +215,16 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     },
     [comment]
   );
+
+  // Only highlight comments that have been flagged for containing a banned or
+  // suspect word.
+  const highlight = comment.revision
+    ? comment.revision.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD +
+        comment.revision.actionCounts.flag.reasons
+          .COMMENT_DETECTED_SUSPECT_WORD >
+      0
+    : false;
+
   return (
     <>
       <FadeInTransition active={Boolean(comment.enteredLive)}>
@@ -227,6 +237,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           createdAt={comment.createdAt}
           body={comment.body!}
+          highlight={highlight}
           inReplyTo={comment.parent && comment.parent.author}
           comment={comment}
           settings={settings}
@@ -296,6 +307,16 @@ const enhanced = withFragmentContainer<Props>({
       statusLiveUpdated
       createdAt
       body
+      revision {
+        actionCounts {
+          flag {
+            reasons {
+              COMMENT_DETECTED_BANNED_WORD
+              COMMENT_DETECTED_SUSPECT_WORD
+            }
+          }
+        }
+      }
       tags {
         code
       }
