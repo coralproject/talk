@@ -1,5 +1,7 @@
+import { lowerCase, uniqBy } from "lodash";
+
 import { LanguageCode } from "coral-common/helpers";
-import { createWordListRegExp } from "coral-common/utils";
+import createWordListRegExp from "coral-common/utils/createWordListRegExp";
 
 export interface GetPhrasesRegExpOptions {
   locale: string;
@@ -17,20 +19,35 @@ export function getPhrasesRegExp({
     return null;
   }
 
-  return createWordListRegExp(locale as LanguageCode, [...banned, ...suspect]);
+  // Because the banned and suspect word lists may sometimes overlap, we should
+  // make this list as short as possible before compiling it into a RegExp.
+  const phrases = uniqBy<string>([...banned, ...suspect], lowerCase);
+
+  // The locale is passed down to us from the Graph, we can cast it to a
+  // LanguageCode.
+  return createWordListRegExp(locale as LanguageCode, phrases);
 }
 
-// cache is used as a global validator to the cached RegExp used by the
+// Cache is used as a global validator to the cached RegExp used by the
 // application. We expect that generally, there is only ever one word list used
 // by the client at a time, so this ensures that we only re-create the word list
 // if we must.
-const cache = {
+interface Cache {
+  keys: {
+    locale: string;
+    suspect: ReadonlyArray<string>;
+    banned: ReadonlyArray<string>;
+  };
+  value: RegExp | null;
+}
+
+const cache: Cache = {
   keys: {
     locale: "",
-    suspect: [] as ReadonlyArray<string>,
-    banned: [] as ReadonlyArray<string>,
+    suspect: [],
+    banned: [],
   },
-  value: null as RegExp | null,
+  value: null,
 };
 
 export default function(options: GetPhrasesRegExpOptions) {
@@ -57,7 +74,12 @@ export default function(options: GetPhrasesRegExpOptions) {
 
   // If the cache is expired, or the value doesn't exist, regenerate it.
   if (expired) {
-    cache.value = getPhrasesRegExp(options);
+    try {
+      cache.value = getPhrasesRegExp(options);
+    } catch (err) {
+      window.console.error(err);
+      return null;
+    }
   }
 
   return cache.value;

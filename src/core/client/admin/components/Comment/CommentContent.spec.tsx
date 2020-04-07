@@ -16,6 +16,7 @@ it("renders correctly", () => {
     },
     className: "custom",
     children: "Hello <b>Bob</b>, you bad guy",
+    highlight: true,
   };
   const renderer = createRenderer();
   renderer.render(<CommentContent {...props} />);
@@ -33,6 +34,26 @@ it("renders empty words correctly", () => {
     },
     className: "custom",
     children: "Hello <b>Bob</b>, you bad guy",
+    highlight: true,
+  };
+  const renderer = createRenderer();
+  renderer.render(<CommentContent {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
+});
+
+it("renders correctly even if it has consecutive banned words on comments", () => {
+  const props: PropTypesOf<typeof CommentContent> = {
+    phrases: {
+      locale: "en-US",
+      wordList: {
+        suspect: ["worse"],
+        banned: ["bad"],
+      },
+    },
+    className: "custom",
+    children:
+      "This is a very long comment with bad words. Let's try bad and bad. Now bad bad.\nBad BAD bad.\n",
+    highlight: true,
   };
   const renderer = createRenderer();
   renderer.render(<CommentContent {...props} />);

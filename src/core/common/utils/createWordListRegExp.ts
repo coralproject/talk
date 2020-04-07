@@ -1,18 +1,20 @@
 import { defaults } from "lodash";
+import XRegExp from "xregexp";
 
 import { LanguageCode } from "coral-common/helpers";
 import { DeepPartial } from "coral-common/types";
 
 interface WordListRule {
-  split: string;
+  boundary: string;
   punctuation: string;
-  whitespace: string;
 }
 
 const DefaultWordListRule: WordListRule = {
-  split: "[^\\w]",
-  punctuation: '[\\s"?!.¿¡`:;]+',
-  whitespace: "\\s+",
+  // The following symbol, \p{L} refers to any letter class within unicode.
+  // Because we're adding the ^, we're also saying to exclude any from that set,
+  // leaving all non-word characters from unicode available for selection.
+  boundary: "[^\\p{L}]+",
+  punctuation: "[\\s\"'?!.,¿¡`:;]+",
 };
 
 const WordListRules: DeepPartial<Record<LanguageCode, WordListRule>> = {
@@ -47,14 +49,12 @@ export default function createWordListRegExp(
     DefaultWordListRule
   );
 
-  const whitespace = new RegExp(rule.whitespace);
-
   // Split up the words from the list into a regex escaped string.
   const words = phrases
     .map(phrase =>
       phrase
         // Split each phrase by whitespace.
-        .split(whitespace)
+        .split(/\s/)
         // Escape each phrase, we don't expect any of them to contain regex.
         .map(word => escapeRegExp(word))
         // Rejoin to ensure that any variation of the word separated by a
@@ -64,13 +64,18 @@ export default function createWordListRegExp(
     // For each of these words, wrap a `|` or OR.
     .join("|");
 
-  // Wrap the pattern in split rules.
-  const pattern = `(^|${rule.split})(${words})($|${rule.split})`;
+  // Wrap the pattern in split rules. We want to match any word that either is
+  // at the start of a string, or a word boundary. The word must also either be
+  // at the end of the string or at another word boundary.
+  const pattern = `(^|${rule.boundary})(${words})($|${rule.boundary})`;
 
   try {
-    return new RegExp(pattern, "iu");
+    // Create the RegExp using xregexp to pre-process the pattern to generate
+    // one with the correct unicode ranges. Including A for "astral" unicode
+    // support for supporting higher character ranges.
+    return XRegExp(pattern, "iuA");
   } catch {
     // IE does not support unicode support, so we'll create one without.
-    return new RegExp(pattern, "i");
+    return XRegExp(pattern, "i");
   }
 }

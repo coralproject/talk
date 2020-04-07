@@ -16,6 +16,13 @@ exports[`allows anchor tags and counts them correctly 1`] = `
   "
 `;
 
+exports[`allows mailto links 1`] = `
+Object {
+  "body": "<a href=\\"mailto:email@example.com\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">email@example.com</a>",
+  "linkCount": 1,
+}
+`;
+
 exports[`sanitizes out attributes not allowed 1`] = `
 Object {
   "body": "<div>Test</div>",

@@ -21,12 +21,27 @@ install-addOrganization-description = Por favor, diga-nos o nome da sua organiza
 install-addOrganization-orgName = Nome da Organização
 install-addOrganization-orgNameTextField =
    .placeholder = Nome da Organização
+install-addSite-siteName = Nome do Site
+install-addSite-siteNameTextField =
+   .placeholder = Nome do Site
+install-addSite-siteNameDescription =
+  O Nome do Site aparecerá nos emails enviados pelo Coral à sua comunidade e membros da Organização.
 install-addOrganization-orgEmail = E-mail de Contato da Organização
 install-addOrganization-orgEmailTextField =
   .placeholder = E-mail de Contato da Organização
+install-addSite-siteEmail = Endereço de Email para contato
+install-addSite-siteEmailTextField =
+  .placeholder = Email de contato
+install-addSite-siteEmailDescription =
+  Este endereço de email é para os membros da comunidade entrarem em contato com você com perguntas or se eles precisarem de ajuda. Ex: comentarios@seusite.com
 install-addOrganization-orgURL = URL da Organização
 install-addOrganization-orgURLTextField =
   .placeholder = URL da Organização
+  install-addSite-siteURL = URL da Organização
+install-addSite-siteURLTextField =
+  .placeholder = URL da Organização
+install-addSite-siteURLDescription =
+  Esta URL irá aparecer nos emails enviados pelo Coral aos membros da comunidade.
 install-addOrganization-orgURLDescription = Certifique-se de incluir <strong>http://</strong> ou <strong>https://</strong> na sua URL
 
 install-createYourAccount-stepTitle = Criar Conta de Administrador
@@ -58,6 +73,9 @@ install-permittedDomains-permittedDomainsTextField =
   .placeholder = Domínios
 install-permittedDomains-permittedDomainsDescription = Inserir domínios separados por vírgula
 
-install-finalStep-description = Obrigado por instalar o Coral! Enviamos um e-mail para confirmar seu endereço de e-mail. Enquanto você termina de configurar a conta, você pode começar a se envolver com seus leitores agora.
+install-finalStep-stepTitle = Completar
+install-finalStep-title = Instalação Completa
+install-finalStep-description =
+  Prossiga para o Admin do { -product-name } para completar a instalação da sua organização e site.
 install-finalStep-goToTheDocs = Vá para o Documentos
 install-finalStep-goToAdmin = Ir para o Admin

@@ -301,7 +301,7 @@ exports[`post a reply: open reply form 1`] = `
                   />
                   <div
                     aria-hidden="true"
-                    className="RTE-placeholder coral coral-rte-placholder RTE-placeholder"
+                    className="RTE-placeholder coral coral-rte-placeholder RTE-placeholder"
                   >
                     Write a reply
                   </div>

@@ -2,7 +2,7 @@ import ms from "ms";
 import now from "performance-now";
 
 import { LanguageCode } from "coral-common/helpers";
-import { createWordListRegExp } from "coral-common/utils";
+import createWordListRegExp from "coral-common/utils/createWordListRegExp";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 
@@ -90,8 +90,8 @@ export class WordList {
 
     const startedAt = now();
     const result = list.test(testString);
-    logger.debug(
-      { tenantID: options.id, took: ms(now() - startedAt) },
+    logger.info(
+      { tenantID: options.id, listName, took: ms(now() - startedAt) },
       "word list phrase test complete"
     );
 

@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 
 import { useViewerEvent } from "coral-framework/lib/events";
@@ -79,21 +80,35 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         onTabClick={onTabClick}
         className={CLASSES.tabBarMyProfile.$root}
       >
-        <Tab tabID="MY_COMMENTS" className={CLASSES.tabBarMyProfile.myComments}>
+        <Tab
+          tabID="MY_COMMENTS"
+          className={cn(CLASSES.tabBarMyProfile.myComments, {
+            [CLASSES.tabBarMyProfile.active]:
+              local.profileTab === "MY_COMMENTS",
+          })}
+        >
           <Localized id="profile-myCommentsTab-comments">
             <span>My comments</span>
           </Localized>
         </Tab>
         <Tab
           tabID="PREFERENCES"
-          className={CLASSES.tabBarMyProfile.preferences}
+          className={cn(CLASSES.tabBarMyProfile.preferences, {
+            [CLASSES.tabBarMyProfile.active]:
+              local.profileTab === "PREFERENCES",
+          })}
         >
           <Localized id="profile-preferencesTab">
             <span>Preferences</span>
           </Localized>
         </Tab>
         {showAccountTab && (
-          <Tab tabID="ACCOUNT" className={CLASSES.tabBarMyProfile.settings}>
+          <Tab
+            tabID="ACCOUNT"
+            className={cn(CLASSES.tabBarMyProfile.settings, {
+              [CLASSES.tabBarMyProfile.active]: local.profileTab === "ACCOUNT",
+            })}
+          >
             <Localized id="profile-accountTab">
               <span>Account</span>
             </Localized>

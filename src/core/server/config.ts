@@ -269,13 +269,13 @@ const config = convict({
     env: "PERSPECTIVE_TIMEOUT",
     arg: "perspectiveTimeout",
   },
-  disable_force_ssl: {
+  force_ssl: {
     doc:
-      "Disables forcing SSL in production environments. Should not be used except for testing.",
+      "Forces SSL in production by redirecting all HTTP requests to HTTPS, and sending HSTS headers.",
     format: Boolean,
     default: false,
-    env: "DISABLE_FORCE_SSL",
-    arg: "disableForceSSL",
+    env: "FORCE_SSL",
+    arg: "forceSSL",
   },
 });
 
