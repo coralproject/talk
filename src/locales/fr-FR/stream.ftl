@@ -2,7 +2,7 @@
 
 ## General
 
-general-userBoxUnauthenticated-joinTheConversation = Publier un commentaire
+general-userBoxUnauthenticated-joinTheConversation = Réagir
 general-userBoxUnauthenticated-signIn = Se connecter
 general-userBoxUnauthenticated-register = S'enregistrer
 
@@ -77,7 +77,7 @@ comments-remainingCharacters = { $remaining } caractères restants
 
 comments-postCommentFormFake-signInAndJoin = Se connecter et réagir
 
-comments-postCommentForm-rteLabel = Envoyer une réaction
+comments-postCommentForm-rteLabel = Publier un commentaire
 
 comments-postCommentForm-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
