@@ -92,8 +92,7 @@ configure-general-guidelines-explanation =
   Ceci apparaîtra au-dessus des commentaires dans tout le site.
   Vous pouvez formater le texte en utilisant Markdown.
   Plus d'informations sur l'utilisation de Markdown
-  <externalLink>ici</externalLink>.
-
+  ici: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 
 configure-general-guidelines-showCommunityGuidelines = Afficher le résumé des règles de la communauté
 

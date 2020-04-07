@@ -249,7 +249,7 @@ configure-general-guidelines-explanation =
   This will appear above the comments sitewide.
   You can format the text using Markdown.
   More information on how to use Markdown
-  <externalLink>here</externalLink>.
+  here: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 configure-general-guidelines-showCommunityGuidelines = Show community guidelines summary
 
 #### Locale
