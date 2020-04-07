@@ -29,19 +29,23 @@ exports[`renders the empty settings pane 1`] = `
           Passivo
         </div>
       </div>
-      <button
-        className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue coral coral-myUsername-change"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="button"
+      <div
+        className="ChangeUsernameContainer-changeButton"
       >
-        Change
-      </button>
+        <button
+          className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue coral coral-myUsername-change"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Change
+        </button>
+      </div>
     </div>
     <div
       className="Box-root HorizontalGutter-root coral coral-myEmail HorizontalGutter-spacing-5"
