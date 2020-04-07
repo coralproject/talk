@@ -91,7 +91,7 @@ configure-general-guidelines-explanation =
   der vises øverst i hver side af kommentarstrømmen.
   Dit resume kan formateres ved hjælp af Markdown Syntax.
   Mere information om hvordan du bruger Markdown kan findes
-  <externalLink>her</externalLink>.
+  her: <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 configure-general-guidelines-showCommunityGuidelines = Vis oversigt over fællesskabsretningslinjer
 
 ### Sitewide Commenting
