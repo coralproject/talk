@@ -28,9 +28,9 @@ const InputLabelProps: FunctionComponent<InputLabelProps> = (props) => {
   const rootClassName = cn(classes.root, className);
 
   return (
-    <div className={rootClassName} {...rest}>
+    <label className={rootClassName} {...rest}>
       {children}
-    </div>
+    </label>
   );
 };
 
