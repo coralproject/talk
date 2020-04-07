@@ -18,6 +18,14 @@
   color: var(--v2-colors-mono-500);
 }
 
+.changeButton {
+  padding-bottom: var(--v2-spacing-4);
+}
+
+.changeButtonMessage {
+  padding-bottom: var(--v2-spacing-1);
+}
+
 .heading {
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-semi-bold);
@@ -55,12 +63,12 @@
 
   color: var(--v2-colors-mono-100);
 
-  margin-bottom: var(--v2-spacing-2);
+  margin-bottom: var(--v2-spacing-4);
 }
 
 .footer {
-  margin-top: var(--v2-spacing-4);
-  margin-bottom: var(--v2-spacing-3);
+  margin-top: var(--v2-spacing-5);
+  margin-bottom: var(--v2-spacing-5);
 }
 
 .footerButton {

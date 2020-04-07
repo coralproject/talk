@@ -172,18 +172,26 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
         </div>
       </div>
       {canChangeLocalAuth && !showEditForm && (
-        <Localized id="profile-changeUsername-change">
-          <Button
-            className={CLASSES.myUsername.change}
-            variant="text"
-            marginSize="none"
-            color="streamBlue"
-            onClick={toggleEditForm}
-            disabled={!canChangeUsername}
-          >
-            Change
-          </Button>
-        </Localized>
+        <div
+          className={cn({
+            [styles.changeButton]: canChangeUsername && !showSuccessMessage,
+            [styles.changeButtonMessage]:
+              !canChangeUsername || showSuccessMessage,
+          })}
+        >
+          <Localized id="profile-changeUsername-change">
+            <Button
+              className={CLASSES.myUsername.change}
+              variant="text"
+              marginSize="none"
+              color="streamBlue"
+              onClick={toggleEditForm}
+              disabled={!canChangeUsername}
+            >
+              Change
+            </Button>
+          </Localized>
+        </div>
       )}
       {showSuccessMessage && (
         <div
@@ -268,73 +276,62 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                 >
                   <HorizontalGutter spacing={4}>
                     <FormField>
-                      <HorizontalGutter>
-                        <Field
-                          name="username"
-                          validate={composeValidators(
-                            required,
-                            validateUsername
-                          )}
-                        >
-                          {({ input, meta }) => (
-                            <>
-                              <Localized id="profile-changeUsername-newUsername-label">
-                                <InputLabel htmlFor={input.name}>
-                                  New username
-                                </InputLabel>
-                              </Localized>
-                              <TextField
-                                {...input}
-                                fullWidth
-                                id={input.name}
-                                data-testid="profile-changeUsername-username"
-                                color={
-                                  hasError(meta) ? "streamError" : "regular"
-                                }
-                              />
-                              <ValidationMessage
-                                className={CLASSES.validationMessage}
-                                meta={meta}
-                              />
-                            </>
-                          )}
-                        </Field>
-                      </HorizontalGutter>
+                      <Field
+                        name="username"
+                        validate={composeValidators(required, validateUsername)}
+                      >
+                        {({ input, meta }) => (
+                          <>
+                            <Localized id="profile-changeUsername-newUsername-label">
+                              <InputLabel htmlFor={input.name}>
+                                New username
+                              </InputLabel>
+                            </Localized>
+                            <TextField
+                              {...input}
+                              fullWidth
+                              id={input.name}
+                              data-testid="profile-changeUsername-username"
+                              color={hasError(meta) ? "streamError" : "regular"}
+                            />
+                            <ValidationMessage
+                              className={CLASSES.validationMessage}
+                              meta={meta}
+                            />
+                          </>
+                        )}
+                      </Field>
                     </FormField>
                     <FormField>
-                      <HorizontalGutter>
-                        <Field
-                          name="usernameConfirm"
-                          validate={composeValidators(
-                            required,
-                            validateUsernameEquals
-                          )}
-                          id="profile-changeUsername-username-confirm"
-                        >
-                          {({ input, meta }) => (
-                            <>
-                              <Localized id="profile-changeUsername-confirmNewUsername-label">
-                                <InputLabel htmlFor={input.name}>
-                                  Confirm new username
-                                </InputLabel>
-                              </Localized>
-                              <TextField
-                                {...input}
-                                fullWidth
-                                id={input.name}
-                                data-testid="profile-changeUsername-username-confirm"
-                                color={
-                                  hasError(meta) ? "streamError" : "regular"
-                                }
-                              />
-                              <ValidationMessage
-                                className={CLASSES.validationMessage}
-                                meta={meta}
-                              />
-                            </>
-                          )}
-                        </Field>
-                      </HorizontalGutter>
+                      <Field
+                        name="usernameConfirm"
+                        validate={composeValidators(
+                          required,
+                          validateUsernameEquals
+                        )}
+                        id="profile-changeUsername-username-confirm"
+                      >
+                        {({ input, meta }) => (
+                          <>
+                            <Localized id="profile-changeUsername-confirmNewUsername-label">
+                              <InputLabel htmlFor={input.name}>
+                                Confirm new username
+                              </InputLabel>
+                            </Localized>
+                            <TextField
+                              {...input}
+                              fullWidth
+                              id={input.name}
+                              data-testid="profile-changeUsername-username-confirm"
+                              color={hasError(meta) ? "streamError" : "regular"}
+                            />
+                            <ValidationMessage
+                              className={CLASSES.validationMessage}
+                              meta={meta}
+                            />
+                          </>
+                        )}
+                      </Field>
                     </FormField>
                     {submitError && (
                       <CallOut
