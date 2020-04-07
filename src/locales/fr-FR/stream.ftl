@@ -2,7 +2,7 @@
 
 ## General
 
-general-userBoxUnauthenticated-joinTheConversation = Réagir
+general-userBoxUnauthenticated-joinTheConversation = Publier un commentaire
 general-userBoxUnauthenticated-signIn = Se connecter
 general-userBoxUnauthenticated-register = S'enregistrer
 
@@ -182,8 +182,8 @@ comments-featured-replies = Les réponses
 
 ## Profile Tab
 
-profile-myCommentsTab = Mes réactions
-profile-myCommentsTab-comments = Mes réactions
+profile-myCommentsTab = Mes commentaires
+profile-myCommentsTab-comments = Mes commentaires
 profile-accountTab = Mon compte
 
 accountSettings-manage-account = Gérer mon compte

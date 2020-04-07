@@ -398,7 +398,7 @@ decisionHistory-goToComment = Aller au commentaire
 ## moderate
 moderate-navigation-reported = Signalé
 moderate-navigation-pending = En attente
-moderate-navigation-unmoderated = Réactions
+moderate-navigation-unmoderated = Non modéré
 moderate-navigation-rejected = Rejeté
 
 moderate-marker-preMod = Pré-modération
