@@ -10,7 +10,9 @@ exports[`renders profile 1`] = `
     className="Box-root HorizontalGutter-root HistoryComment-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-0"
   >
-    <div>
+    <div
+      className="coral coral-myComment-commentOn"
+    >
       <span
         className="HistoryComment-commentOn"
       >
@@ -89,7 +91,9 @@ exports[`renders profile 1`] = `
     className="Box-root HorizontalGutter-root HistoryComment-root coral coral-myComment HorizontalGutter-full"
     data-testid="historyComment-comment-1"
   >
-    <div>
+    <div
+      className="coral coral-myComment-commentOn"
+    >
       <span
         className="HistoryComment-commentOn"
       >
