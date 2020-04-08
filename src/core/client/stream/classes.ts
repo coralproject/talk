@@ -729,11 +729,15 @@ const CLASSES = {
    */
   myEmail: {
     email: "coral coral-myEmail",
+    title: "coral coral-myEmail-title",
+    currentEmail: "coral coral-myEmail-currentEmail",
     unverified: "coral coral-myEmail-unverified",
     editButton: "coral coral-myEmail-editButton",
     form: {
       $root: "coral coral-changeMyEmail",
-      currentEmail: "coral coral-changeMyEmail-currentEmail",
+      header: "coral coral-changeMyEmail-header",
+      footer: "coral coral-changeMyEmail-footer",
+      desc: "coral coral-changeMyEmail-desc",
       cancelButton: "coral coral-changeMyEmail-cancelButton",
       saveButton: "coral coral-changeMyEmail-saveButton",
       errorMessage: "coral coral-changeMyEmail-errorMessage",
@@ -745,6 +749,9 @@ const CLASSES = {
    */
   verifyEmail: {
     $root: "coral coral-verifyEmail",
+    container: "coral coral-verifyEmail-container",
+    content: "coral coral-verifyEmail-content",
+    title: "coral coral-verifyEmail-title",
     resendButton: "coral coral-verifyEmail-resendButton",
     resentMessage: "coral coral-verifyEmail-resentMessage",
   },

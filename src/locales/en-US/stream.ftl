@@ -247,8 +247,6 @@ profile-myCommentsTab-comments = My comments
 profile-accountTab = Account
 profile-preferencesTab = Preferences
 
-accountSettings-manage-account = Manage your account
-
 ### Account Deletion
 
 profile-accountDeletion-deletionDesc =
@@ -556,7 +554,9 @@ suspendInfo-info =
   conversation on { $until }
 
 profile-changeEmail-unverified = (Unverified)
+profile-changeEmail-current = (current)
 profile-changeEmail-edit = Edit
+profile-changeEmail-change = Change
 profile-changeEmail-please-verify = Verify your email address
 profile-changeEmail-please-verify-details =
   An email has been sent to { $email } to verify your account.
@@ -564,12 +564,16 @@ profile-changeEmail-please-verify-details =
   to sign in to your account or to receive notifications.
 profile-changeEmail-resend = Resend verification
 profile-changeEmail-heading = Edit your email address
+profile-changeEmail-changeYourEmailAddress =
+  Change your email address
 profile-changeEmail-desc = Change the email address used for signing in and for receiving communication about your account.
-profile-changeEmail-current = Current email
 profile-changeEmail-newEmail-label = New email address
 profile-changeEmail-password = Password
 profile-changeEmail-password-input =
   .placeholder = Password
 profile-changeEmail-cancel = Cancel
 profile-changeEmail-submit = Save
+profile-changeEmail-saveChanges = Save changes
 profile-changeEmail-email = Email
+profile-changeEmail-title = Email address
+profile-changeEmail-success = Your email has been successfully updated

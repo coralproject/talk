@@ -1,33 +1,88 @@
-.callOut {
+.title {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-4);
+  line-height: var(--v2-line-height-5);
+
+  color: var(--v2-colors-mono-900);
+
+  margin-top: var(--v2-spacing-4);
+  margin-bottom: var(--v2-spacing-1);
 }
 
- .footer {
-  margin-top: var(--spacing-4);
+.changeButton {
+  padding-bottom: var(--v2-spacing-4);
 }
 
- .errorIcon {
-  padding-right: var(--spacing-2);
-  padding-top: var(--spacing-1);
+.changeButtonMessage {
+  padding-bottom: var(--v2-spacing-1);
 }
 
- .successMessage {
-  background-color: var(--palette-primary-lightest);
-  border-color: var(--palette-primary-light);
-  color: var(--palette-text-primary);
-  padding: var(--spacing-2);
-  box-sizing: border-box;
-  border-width: 1px;
-  border-style: solid;
+.successMessage {
+  padding-bottom: var(--v2-spacing-3);
 }
 
- .closeButton {
-  float: none;
-  position: static;
+.currentEmail {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-5);
+
+  color: var(--v2-colors-mono-500);
+
+  margin-bottom: var(--v2-spacing-3);
 }
 
- .currentEmail {
-  color: var(--palette-grey-dark);
-} 
+.header {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-semi-bold);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-5);
+
+  color: var(--v2-colors-mono-900);
+
+  margin-bottom: var(--v2-spacing-2);
+}
+
+.description {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-5);
+
+  color: var(--v2-colors-mono-500);
+}
+
+.successIcon {
+  min-width: 25px;
+  color: var(--v2-colors-green-500);
+}
+
+.errorIcon {
+  min-width: 25px;
+  color: var(--v2-colors-red-500);
+}
+
+.footer {
+  margin-top: var(--v2-spacing-4);
+  margin-bottom: var(--v2-spacing-4);
+}
+
+.footerButton {
+  margin-right: var(--v2-spacing-2);
+}
+
+.verifyContainer {
+  padding-bottom: var(--v2-spacing-2);
+}
+
+.verifyContent {
+  margin-bottom: var(--v2-spacing-2);
+}
+
+.verifyTitle {
+  margin-bottom: var(--v2-spacing-2);
+}
 
 .resendButton {
   padding-left: 0;

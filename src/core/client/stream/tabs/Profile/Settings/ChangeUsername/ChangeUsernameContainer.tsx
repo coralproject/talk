@@ -338,9 +338,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                         color="alert"
                         className={CLASSES.myUsername.form.errorMessage}
                       >
-                        <Flex justifyContent="flex-start" alignItems="center">
-                          {submitError}
-                        </Flex>
+                        {submitError}
                       </CallOut>
                     )}
                   </HorizontalGutter>
