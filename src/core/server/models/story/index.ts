@@ -1,3 +1,5 @@
+import { Redis } from "ioredis";
+import { DateTime } from "luxon";
 import { Db, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
@@ -680,4 +682,60 @@ export async function retrieveStorySections(
   // We perform the type assertion here because we know that after filtering out
   // the null entries, the resulting array can not contain null.
   return results.filter((section) => section !== null).sort() as string[];
+}
+
+export async function updateTopCommentedStoriesToday(
+  redis: Redis,
+  tenantID: string,
+  storyID: string,
+  now: Date
+) {
+  // Get the current date to a today timestamp in seconds.
+  const today = DateTime.fromJSDate(now).startOf("day").toSeconds();
+
+  // Get the time to tomorrow based on the current time.
+  const expires = DateTime.fromJSDate(now).endOf("day").toSeconds();
+
+  // Craft the key.
+  const key = `tcst:${tenantID}:${today}`;
+
+  // Operate on Redis to increment this.
+  await redis.multi().zincrby(key, 1, storyID).expireat(key, expires).exec();
+}
+
+export async function retrieveTopCommentedStoriesToday(
+  redis: Redis,
+  tenantID: string,
+  limit: number,
+  now: Date
+) {
+  // Get the current date to a today timestamp in seconds.
+  const today = DateTime.fromJSDate(now).startOf("day").toSeconds();
+
+  // Fetch the story ids with comment counts.
+  const result: string[] = await redis.zrevrange(
+    `tcst:${tenantID}:${today}`,
+    // Start pulling from the beginning of the list.
+    0,
+    // This refers to the "stop" of this zero indexed list, so we remove one.
+    limit - 1,
+    // Load with all the scores too!
+    "WITHSCORES"
+  );
+
+  const scores: Array<{
+    storyID: string;
+    count: number;
+  }> = [];
+
+  // It's always the case that this array from Redis is of even length because
+  // we added `WITHSCORES`.
+  for (let i = 0; i < result.length; i += 2) {
+    const storyID = result[i];
+    const count = parseInt(result[i + 1], 10);
+
+    scores.push({ storyID, count });
+  }
+
+  return scores;
 }

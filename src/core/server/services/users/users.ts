@@ -1244,6 +1244,51 @@ function userLastCommentIDKey(
   return `${tenant.id}:lastCommentID:${user.id}`;
 }
 
+function dailyNewCommentersCountKey(tenantID: string, today: number) {
+  return `stats:${tenantID}:dailyNewCommenters:${today}`;
+}
+
+function hourlyNewCommentersCountKey(tenantID: string, hour: number) {
+  return `stats:${tenantID}:hourlyNewCommenters:${hour}`;
+}
+
+export async function updateNewCommentersCount(
+  redis: AugmentedRedis,
+  tenant: Tenant,
+  user: User,
+  now: Date
+) {
+  const id: string | null = await redis.get(userLastCommentIDKey(tenant, user));
+  if (id) {
+    return;
+  }
+  const today = DateTime.fromJSDate(now)
+    .startOf("day")
+    .toSeconds();
+  const hour = DateTime.fromJSDate(now).startOf("hour").hour;
+  const expireHourly = DateTime.fromJSDate(now)
+    .startOf("hour")
+    .plus({ days: 1 })
+    .toSeconds();
+  const expireDaily = DateTime.fromJSDate(now)
+    .endOf("day")
+    .toSeconds();
+
+  const dailyKey = dailyNewCommentersCountKey(tenant.id, today);
+  const hourlyKey = hourlyNewCommentersCountKey(tenant.id, hour);
+
+  const result = await redis
+    .multi()
+    .incr(dailyKey)
+    .incr(hourlyKey)
+    .expireat(dailyKey, expireDaily)
+    .expireat(hourlyKey, expireHourly)
+    .exec();
+  /* eslint-disable-next-line */
+  console.log(result);
+  return result;
+}
+
 /**
  * updateUserLastCommentID will update the id of the users most recent comment.
  *

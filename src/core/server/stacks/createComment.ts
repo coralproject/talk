@@ -31,10 +31,15 @@ import {
   retrieveStory,
   Story,
   updateStoryLastCommentedAt,
+  updateTopCommentedStoriesToday,
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { removeTag } from "coral-server/services/comments";
+import {
+  removeTag,
+  updateCommentTotals,
+  updateStaffCommentTotals,
+} from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
@@ -44,7 +49,10 @@ import {
   processForModeration,
 } from "coral-server/services/comments/pipeline";
 import { AugmentedRedis } from "coral-server/services/redis";
-import { updateUserLastCommentID } from "coral-server/services/users";
+import {
+  updateNewCommentersCount,
+  updateUserLastCommentID,
+} from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
 
 import {
@@ -242,7 +250,11 @@ export default async function create(
 
   // Updating some associated data.
   await Promise.all([
+    updateNewCommentersCount(redis, tenant, author, now),
     updateUserLastCommentID(redis, tenant, author, comment.id),
+    updateCommentTotals(redis, tenant.id, now),
+    updateStaffCommentTotals(redis, tenant.id, author, now),
+    updateTopCommentedStoriesToday(redis, tenant.id, story.id, now),
     updateStoryLastCommentedAt(mongo, tenant.id, story.id, now),
     markCommentAsAnswered(
       mongo,
