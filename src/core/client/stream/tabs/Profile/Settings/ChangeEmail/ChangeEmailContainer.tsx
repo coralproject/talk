@@ -15,7 +15,7 @@ import { PasswordField } from "coral-framework/components";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { colorFromMeta } from "coral-framework/lib/form";
+import { hasError } from "coral-framework/lib/form";
 import {
   createFetch,
   useFetch,
@@ -28,23 +28,19 @@ import {
   validateEmail,
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
-import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
   ResendEmailVerificationEvent,
   ShowEditEmailDialogEvent,
 } from "coral-stream/events";
 import {
-  Button,
-  ButtonIcon,
-  CallOut,
   Flex,
   FormField,
   HorizontalGutter,
   Icon,
   InputLabel,
   TextField,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
+import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
 import { ChangeEmailContainer_settings as SettingsData } from "coral-stream/__generated__/ChangeEmailContainer_settings.graphql";
 import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
@@ -94,6 +90,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
 
   const [showEditForm, setShowEditForm] = useState(false);
   const [confirmationResent, setConfirmationResent] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const makeFetchCall = useFetch(fetcher);
   const resend = useCallback(async () => {
     await makeFetchCall();
@@ -113,6 +110,8 @@ const changeEmailContainer: FunctionComponent<Props> = ({
           email: input.email,
           password: input.password,
         });
+
+        setShowSuccessMessage(true);
       } catch (err) {
         if (err instanceof InvalidRequestError) {
           return err.invalidArgs;
@@ -127,8 +126,11 @@ const changeEmailContainer: FunctionComponent<Props> = ({
 
       return;
     },
-    [updateEmail]
+    [updateEmail, setShowSuccessMessage]
   );
+  const onCloseSuccess = useCallback(() => {
+    setShowSuccessMessage(false);
+  }, [setShowSuccessMessage]);
 
   const canChangeEmail = useMemo(() => {
     if (
@@ -169,238 +171,292 @@ const changeEmailContainer: FunctionComponent<Props> = ({
   return (
     <HorizontalGutter
       className={CLASSES.myEmail.email}
-      spacing={5}
       data-testid="profile-changeEmail"
     >
-      {!showEditForm && (
-        <Flex alignItems="center" justifyContent="space-between">
-          <div>
-            <Localized id="profile-changeEmail-email">
-              <Typography color="textDark" variant="heading2">
-                Email
-              </Typography>
-            </Localized>
-            <Flex>
-              <Typography>{viewer.email}</Typography>{" "}
-              {!viewer.emailVerified && (
-                <Localized id="profile-changeEmail-unverified">
-                  <Typography
-                    color="textSecondary"
-                    className={CLASSES.myEmail.unverified}
-                  >
-                    (Unverified)
-                  </Typography>
-                </Localized>
-              )}
-            </Flex>
+      <div className={cn(styles.footer, CLASSES.myEmail.form.footer)}>
+        <Localized id="profile-changeEmail-title">
+          <div className={cn(styles.title, CLASSES.myEmail.title)}>
+            Email address
           </div>
-          {canChangeEmail && (
-            <Localized id="profile-changeEmail-edit">
-              <Button
-                className={CLASSES.myEmail.editButton}
-                variant="outlineFilled"
-                size="small"
-                color="primary"
-                onClick={toggleEditForm}
+        </Localized>
+        <Flex>
+          <div
+            className={cn(styles.currentEmail, CLASSES.myEmail.currentEmail)}
+          >
+            {viewer.email}
+          </div>{" "}
+          {!viewer.emailVerified && !showEditForm && (
+            <Localized id="profile-changeEmail-unverified">
+              <div
+                className={cn(
+                  styles.currentEmail,
+                  CLASSES.myEmail.currentEmail
+                )}
               >
-                Edit
-              </Button>
+                (Unverified)
+              </div>
+            </Localized>
+          )}
+          {showEditForm && (
+            <Localized id="profile-changeEmail-current">
+              <div
+                className={cn(
+                  styles.currentEmail,
+                  CLASSES.myEmail.currentEmail
+                )}
+              >
+                (current)
+              </div>
             </Localized>
           )}
         </Flex>
-      )}
+      </div>
       {!viewer.emailVerified && !showEditForm && (
-        <CallOut className={CLASSES.verifyEmail.$root}>
-          <Flex itemGutter>
-            <div>
-              <Icon size="lg">email</Icon>
-            </div>
-            <div>
-              <Localized id="profile-changeEmail-please-verify">
-                <Typography variant="heading3" gutterBottom>
-                  Verify your email address
-                </Typography>
-              </Localized>
-              <Localized
-                id="profile-changeEmail-please-verify-details"
-                $email={viewer.email}
-              >
-                <Typography>
-                  An email has been sent to {viewer.email} to verify your
-                  account. You must verify your new email address before it can
-                  be used for signing into your account or for email
-                  notifications.
-                </Typography>
-              </Localized>
-
-              <Localized id="profile-changeEmail-resend">
-                <Button
-                  onClick={resend}
+        <div
+          className={cn(styles.verifyContainer, CLASSES.verifyEmail.container)}
+        >
+          <CallOut className={CLASSES.verifyEmail.$root}>
+            <Flex itemGutter>
+              <div>
+                <Icon size="lg">email</Icon>
+              </div>
+              <div>
+                <div
                   className={cn(
-                    styles.resendButton,
-                    CLASSES.verifyEmail.resendButton
+                    styles.verifyContent,
+                    CLASSES.verifyEmail.content
                   )}
-                  color="primary"
                 >
-                  Resend verification
-                </Button>
+                  <div
+                    className={cn(
+                      styles.verifyTitle,
+                      CLASSES.verifyEmail.title
+                    )}
+                  >
+                    <Localized id="profile-changeEmail-please-verify">
+                      <div>Verify your email address</div>
+                    </Localized>
+                  </div>
+                  <Localized
+                    id="profile-changeEmail-please-verify-details"
+                    $email={viewer.email}
+                  >
+                    <div>
+                      An email has been sent to {viewer.email} to verify your
+                      account. You must verify your new email address before it
+                      can be used for signing into your account or for email
+                      notifications.
+                    </div>
+                  </Localized>
+                </div>
+                <Localized id="profile-changeEmail-resend">
+                  <Button
+                    onClick={resend}
+                    variant="text"
+                    color="streamBlue"
+                    marginSize="none"
+                    className={cn(
+                      styles.resendButton,
+                      CLASSES.verifyEmail.resendButton
+                    )}
+                  >
+                    Resend verification
+                  </Button>
+                </Localized>
+              </div>
+            </Flex>
+          </CallOut>
+        </div>
+      )}
+      {canChangeEmail && !showEditForm && (
+        <div
+          className={cn({
+            [styles.changeButton]: !showSuccessMessage,
+            [styles.changeButtonMessage]: showSuccessMessage,
+          })}
+        >
+          <Localized id="profile-changeEmail-change">
+            <Button
+              className={CLASSES.myEmail.editButton}
+              variant="text"
+              marginSize="none"
+              onClick={toggleEditForm}
+            >
+              Change
+            </Button>
+          </Localized>
+        </div>
+      )}
+      {showSuccessMessage && (
+        <div className={styles.successMessage}>
+          <CallOut color="success" onClose={onCloseSuccess}>
+            <Flex justifyContent="flex-start" alignItems="center">
+              <Icon className={styles.successIcon} size="sm">
+                check_circle
+              </Icon>
+              <Localized id="profile-changeEmail-success">
+                Your email has been successfully updated
               </Localized>
-            </div>
-          </Flex>
-        </CallOut>
+            </Flex>
+          </CallOut>
+        </div>
       )}
       {confirmationResent && (
-        <CallOut
-          className={CLASSES.verifyEmail.resentMessage}
-          fullWidth
-          color="primary"
-        >
+        <CallOut className={CLASSES.verifyEmail.resentMessage} color="mono">
           <Localized id="profile-changeEmail-resent">
-            <Typography>Your confirmation email has been re-sent.</Typography>
+            <div>Your confirmation email has been re-sent.</div>
           </Localized>
         </CallOut>
       )}
       {showEditForm && (
-        <CallOut
-          className={cn(styles.callOut, CLASSES.myEmail.form.$root)}
-          color="primary"
-          borderless
-        >
-          <HorizontalGutter spacing={4}>
-            <div>
-              <Localized id="profile-changeEmail-heading">
-                <Typography variant="heading1" color="textDark" gutterBottom>
-                  Edit your email address
-                </Typography>
-              </Localized>
-              <Localized id="profile-changeEmail-desc">
-                <Typography>
-                  Change the email address used for signing in and for receiving
-                  communication about your account.
-                </Typography>
-              </Localized>
-            </div>
-            <div>
-              <Localized id="profile-changeEmail-current">
-                <Typography variant="bodyCopyBold">Current email</Typography>
-              </Localized>
-              <Typography
-                variant="heading2"
-                color="textDark"
-                className={CLASSES.myEmail.form.currentEmail}
+        <HorizontalGutter spacing={4}>
+          <div>
+            <Localized id="profile-changeEmail-changeYourEmailAddress">
+              <div className={cn(styles.header, CLASSES.myEmail.form.header)}>
+                Change your email address
+              </div>
+            </Localized>
+            <Localized id="profile-changeEmail-desc">
+              <div
+                className={cn(styles.description, CLASSES.myEmail.form.desc)}
               >
-                {viewer.email}
-              </Typography>
-            </div>
-            <Form onSubmit={onSubmit}>
-              {({
-                handleSubmit,
-                submitError,
-                invalid,
-                submitting,
-                ...formProps
-              }) => (
-                <form
-                  onSubmit={handleSubmit}
-                  data-testid="profile-changeEmail-form"
-                >
-                  <HorizontalGutter spacing={4}>
-                    <FormField>
-                      <HorizontalGutter>
-                        <Localized id="profile-changeEmail-newEmail-label">
-                          <InputLabel htmlFor="profile-changeEmail-Email">
-                            New email address
-                          </InputLabel>
-                        </Localized>
-                        <Field
-                          name="email"
-                          validate={composeValidators(required, validateEmail)}
-                        >
-                          {({ input, meta }) => (
-                            <>
-                              <TextField
+                Change the email address used for signing in and for receiving
+                communication about your account.
+              </div>
+            </Localized>
+          </div>
+          <Form onSubmit={onSubmit}>
+            {({
+              handleSubmit,
+              submitError,
+              invalid,
+              submitting,
+              ...formProps
+            }) => (
+              <form
+                onSubmit={handleSubmit}
+                data-testid="profile-changeEmail-form"
+              >
+                <HorizontalGutter spacing={4}>
+                  <FormField>
+                    <HorizontalGutter>
+                      <Localized id="profile-changeEmail-newEmail-label">
+                        <InputLabel htmlFor="profile-changeEmail-Email">
+                          New email address
+                        </InputLabel>
+                      </Localized>
+                      <Field
+                        name="email"
+                        validate={composeValidators(required, validateEmail)}
+                      >
+                        {({ input, meta }) => (
+                          <>
+                            <TextField
+                              {...input}
+                              fullWidth
+                              id="profile-changeEmail-Email"
+                              color={hasError(meta) ? "streamError" : "regular"}
+                            />
+                            <ValidationMessage
+                              meta={meta}
+                              className={CLASSES.validationMessage}
+                            />
+                          </>
+                        )}
+                      </Field>
+                    </HorizontalGutter>
+                  </FormField>
+                  <FormField>
+                    <HorizontalGutter>
+                      <Field
+                        name="password"
+                        validate={composeValidators(required)}
+                      >
+                        {({ input, meta }) => (
+                          <FormField>
+                            <Localized id="profile-changeEmail-password">
+                              <InputLabel htmlFor={input.name}>
+                                Password
+                              </InputLabel>
+                            </Localized>
+                            <Localized
+                              id="profile-changeEmail-password-input"
+                              attrs={{ placeholder: true }}
+                            >
+                              <PasswordField
                                 {...input}
+                                id={input.name}
+                                placeholder="Password"
+                                color={
+                                  hasError(meta) ? "streamError" : "regular"
+                                }
+                                disabled={submitting}
                                 fullWidth
-                                id="profile-changeEmail-Email"
                               />
-                              <FieldValidationMessage meta={meta} />
-                            </>
-                          )}
-                        </Field>
-                      </HorizontalGutter>
-                    </FormField>
-                    <FormField>
-                      <HorizontalGutter>
-                        <Field
-                          name="password"
-                          validate={composeValidators(required)}
-                        >
-                          {({ input, meta }) => (
-                            <FormField>
-                              <Localized id="profile-changeEmail-password">
-                                <InputLabel htmlFor={input.name}>
-                                  Password
-                                </InputLabel>
-                              </Localized>
-                              <Localized
-                                id="profile-changeEmail-password-input"
-                                attrs={{ placeholder: true }}
-                              >
-                                <PasswordField
-                                  {...input}
-                                  id={input.name}
-                                  placeholder="Password"
-                                  color={colorFromMeta(meta)}
-                                  disabled={submitting}
-                                  fullWidth
-                                />
-                              </Localized>
-                              <FieldValidationMessage meta={meta} fullWidth />
-                            </FormField>
-                          )}
-                        </Field>
-                      </HorizontalGutter>
-                    </FormField>
-                    {submitError && (
-                      <CallOut
-                        className={CLASSES.myEmail.form.errorMessage}
-                        color="error"
-                        fullWidth
-                      >
-                        {submitError}
-                      </CallOut>
-                    )}
-                  </HorizontalGutter>
-                  <Flex justifyContent="flex-end" className={styles.footer}>
-                    <Localized id="profile-changeEmail-cancel">
-                      <Button
-                        className={CLASSES.myEmail.form.cancelButton}
-                        type="button"
-                        onClick={toggleEditForm}
-                      >
-                        Cancel
-                      </Button>
-                    </Localized>
-                    <Localized id="profile-changeEmail-submit">
-                      <Button
-                        className={CLASSES.myEmail.form.saveButton}
-                        variant={
-                          preventSubmit(formProps) ? "outlined" : "filled"
-                        }
-                        type="submit"
-                        color={preventSubmit(formProps) ? "regular" : "primary"}
-                        disabled={preventSubmit(formProps)}
-                      >
-                        <ButtonIcon>save</ButtonIcon>
-                        <span>Save</span>
-                      </Button>
-                    </Localized>
-                  </Flex>
-                </form>
-              )}
-            </Form>
-          </HorizontalGutter>
-        </CallOut>
+                            </Localized>
+                            <ValidationMessage
+                              meta={meta}
+                              className={CLASSES.validationMessage}
+                            />
+                          </FormField>
+                        )}
+                      </Field>
+                    </HorizontalGutter>
+                  </FormField>
+                  {submitError && (
+                    <CallOut
+                      className={CLASSES.myEmail.form.errorMessage}
+                      color="alert"
+                    >
+                      <Flex justifyContent="flex-start" alignItems="center">
+                        <Icon size="sm" className={styles.errorIcon}>
+                          error
+                        </Icon>
+                        <span>{submitError}</span>
+                      </Flex>
+                    </CallOut>
+                  )}
+                </HorizontalGutter>
+                <Flex
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  className={cn(styles.footer, CLASSES.myEmail.form.footer)}
+                >
+                  <Localized id="profile-changeEmail-cancel">
+                    <Button
+                      className={cn(
+                        styles.footerButton,
+                        CLASSES.myEmail.form.cancelButton
+                      )}
+                      type="button"
+                      onClick={toggleEditForm}
+                      variant="outlined"
+                      color="mono"
+                      upperCase
+                    >
+                      Cancel
+                    </Button>
+                  </Localized>
+                  <Localized id="profile-changeEmail-saveChanges">
+                    <Button
+                      className={cn(
+                        styles.footerButton,
+                        CLASSES.myEmail.form.saveButton
+                      )}
+                      variant="filled"
+                      type="submit"
+                      color="streamBlue"
+                      disabled={preventSubmit(formProps)}
+                      upperCase
+                    >
+                      Save changes
+                    </Button>
+                  </Localized>
+                </Flex>
+              </form>
+            )}
+          </Form>
+        </HorizontalGutter>
       )}
     </HorizontalGutter>
   );

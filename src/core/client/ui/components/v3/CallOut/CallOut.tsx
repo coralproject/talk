@@ -50,9 +50,11 @@ const CallOut: FunctionComponent<Props> = ({
   return (
     <div className={rootClasses}>
       <div className={classes.content}>{children}</div>
-      <BaseButton className={classes.closeButton} onClick={onCloseClicked}>
-        <Icon size="sm">close</Icon>
-      </BaseButton>
+      {onClose && (
+        <BaseButton className={classes.closeButton} onClick={onCloseClicked}>
+          <Icon size="sm">close</Icon>
+        </BaseButton>
+      )}
     </div>
   );
 };

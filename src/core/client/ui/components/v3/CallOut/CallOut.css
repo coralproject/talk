@@ -22,8 +22,8 @@
 }
 
 .mono {
-  background-color: var(--v2-colors-mono-100);
-  border-left-color: var(--v2-colors-mono-500);
+  background-color: var(--v2-colors-grey-200);
+  border-left-color: var(--v2-colors-grey-500);
   color: var(--v2-colors-mono-500);
 }
 
