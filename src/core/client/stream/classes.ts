@@ -844,6 +844,9 @@ const CLASSES = {
    */
   deleteMyAccount: {
     $root: "coral coral-deleteMyAccount",
+    title: "coral coral-deleteMyAccount-title",
+    section: "coral coral-deleteMyAccount-section",
+    content: "coral coral-deleteMyAccount-content",
     requestButton: "coral coral-deleteMyAccount-requestButton",
     cancelRequestButton: "coral coral-deleteMyAccount-cancelRequestButton",
   },

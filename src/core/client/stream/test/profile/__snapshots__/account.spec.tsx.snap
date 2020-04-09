@@ -170,28 +170,26 @@ to sign in to your account or to receive notifications.
       className="DeleteAccountContainer-root coral coral-deleteMyAccount"
     >
       <div
-        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart"
         data-testid="profile-account-deleteAccount"
       >
         <div
-          className="DeleteAccountContainer-content"
+          className="DeleteAccountContainer-content coral coral-deleteMyAccount-content"
         >
-          <h1
-            className="Box-root Typography-root Typography-heading2 Typography-colorTextDark DeleteAccountContainer-title"
+          <div
+            className="DeleteAccountContainer-title coral coral-deleteMyAccount-title"
           >
             Delete My Account
-          </h1>
-          <p
-            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DeleteAccountContainer-section"
+          </div>
+          <div
+            className="DeleteAccountContainer-section coral coral-deleteMyAccount-section"
           >
             Deleting your account will permanently erase your profile and remove
 all your comments from this site.
-          </p>
+          </div>
         </div>
         <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled coral coral-deleteMyAccount-requestButton"
-          data-color="primary"
-          data-variant="outlineFilled"
+          className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-marginSizeMedium Button-colorAlert DeleteAccountContainer-requestButton coral coral-deleteMyAccount-requestButton"
+          disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
