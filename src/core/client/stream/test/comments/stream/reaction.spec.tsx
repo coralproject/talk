@@ -68,11 +68,14 @@ it("create and remove reaction", async () => {
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentID}`)
   );
+  expect(comment.props.className).toContain("coral-reacted-0");
   const button = within(comment).getByText("Respect", { selector: "button" });
   button.props.onClick({});
   expect(within(button).toJSON()).toMatchSnapshot("Respected");
   expect(resolvers.Mutation.createCommentReaction.called).toBe(true);
+  expect(comment.props.className).toContain("coral-reacted-1");
   button.props.onClick({});
   expect(within(button).toJSON()).toMatchSnapshot("Unrespected");
   expect(resolvers.Mutation.removeCommentReaction.called).toBe(true);
+  expect(comment.props.className).toContain("coral-reacted-0");
 });

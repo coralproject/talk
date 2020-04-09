@@ -273,6 +273,12 @@ const CLASSES = {
     $root: "coral coral-comment",
 
     /**
+     * reacted signifies the number of reactions of the comment.
+     * The no of reactions is appended: e.g. `coral-reacted-1`.
+     */
+    reacted: "coral coral-reacted",
+
+    /**
      * topBar is the uppper bar of the comment.
      */
     topBar: {
@@ -386,7 +392,7 @@ const CLASSES = {
      * indentation classes for the different levels.
      */
     indent: [
-      "",
+      "coral coral-indent-0",
       "coral coral-indent-1",
       "coral coral-indent-2",
       "coral coral-indent-3",

@@ -295,7 +295,11 @@ export class CommentContainer extends Component<Props, State> {
     }
     return (
       <div
-        className={cn(CLASSES.comment.$root, className)}
+        className={cn(
+          CLASSES.comment.$root,
+          `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
+          className
+        )}
         data-testid={`comment-${comment.id}`}
       >
         <HorizontalGutter>
@@ -514,6 +518,11 @@ const enhanced = withContext(({ eventEmitter }) => ({ eventEmitter }))(
             pending
             lastViewerAction
             deleted
+            actionCounts {
+              reaction {
+                total
+              }
+            }
             ...ReplyCommentFormContainer_comment
             ...EditCommentFormContainer_comment
             ...ReactionButtonContainer_comment
