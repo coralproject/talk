@@ -82,9 +82,21 @@ export function generateSignatures(
     .join(",");
 }
 
+type CoralWebhookEventPayload = CoralEventPayload & {
+  /**
+   * tenantID is the ID of the Tenant that this event originated at.
+   */
+  readonly tenantID: string;
+
+  /**
+   * tenantDomain is the domain that is associated with this Tenant that this event originated at.
+   */
+  readonly tenantDomain: string;
+};
+
 export function generateFetchOptions(
   endpoint: Pick<Endpoint, "signingSecrets">,
-  data: CoralEventPayload,
+  data: CoralWebhookEventPayload,
   now: Date
 ): FetchOptions {
   // Serialize the body and signature to include in the request.
@@ -151,7 +163,11 @@ export function createJobProcessor({
     const now = new Date();
 
     // Get the fetch options.
-    const options = generateFetchOptions(endpoint, event, now);
+    const options = generateFetchOptions(
+      endpoint,
+      { ...event, tenantID, tenantDomain: tenant.domain },
+      now
+    );
 
     // Send the request.
     const startedSendingAt = getNow();

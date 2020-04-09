@@ -11,7 +11,7 @@
     {% endfor %}
   {% endif %}
   {% if enableCustomCSS and tenant and tenant.customCSSURL %}
-    {{ macros.preload(tenant.customCSSURL, "style", crossorigin = true) }}
+    {{ macros.preload(tenant.customCSSURL, "style") }}
   {% endif %}
   {% if entrypoint.js %}
     {% for asset in entrypoint.js %}

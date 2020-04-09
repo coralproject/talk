@@ -12,12 +12,12 @@ $comment-link-active: var(--v2-palette-primary-darkest);
   color: $comment-content;
   overflow-wrap: break-word;
 
-  & * bold,
-  & * strong {
+  b,
+  strong {
     font-weight: var(--v2-font-weight-primary-bold);
   }
-  & * italic,
-  & * em {
+  i,
+  em {
     font-style: italic;
   }
   blockquote {
@@ -49,4 +49,8 @@ $comment-link-active: var(--v2-palette-primary-darkest);
       color: $comment-link-active;
     }
   }
+}
+
+.highlight {
+  white-space: pre-wrap;
 }

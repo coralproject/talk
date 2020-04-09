@@ -3,6 +3,10 @@ $fullscreenZIndex: 10;
 
 .wrapper {
   @mixin bodyCopy;
+  i
+  em {
+    font-style: italic;
+  }
   b,
   strong {
     font-weight: var(--font-weight-medium);

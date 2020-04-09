@@ -4,6 +4,7 @@
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
+    "*.css.ts",
     "*.css"
   ],
   "repository": {
@@ -138,7 +139,8 @@
     "tsscmp": "^1.0.6",
     "url-regex": "^5.0.0",
     "uuid": "^7.0.3",
-    "verror": "^1.10.0"
+    "verror": "^1.10.0",
+    "xregexp": "^4.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -234,6 +236,7 @@
     "@types/webpack-bundle-analyzer": "^2.13.3",
     "@types/webpack-dev-server": "^3.10.1",
     "@types/ws": "^7.2.3",
+    "@types/xregexp": "^4.3.0",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
