@@ -79,51 +79,42 @@ export const createJobProcessor = ({
 
     log.debug("starting to handle a notify operation");
 
-    try {
-      // Get all the handlers that are active for this channel.
-      const categories = registry.get(input.type);
-      if (!categories || categories.length === 0) {
-        return;
-      }
-
-      // Grab the tenant from the cache.
-      const tenant = await tenantCache.retrieveByID(tenantID);
-      if (!tenant) {
-        throw new Error("tenant not found with ID");
-      }
-
-      // Create a notification context to handle processing notifications.
-      const ctx = new NotificationContext({
-        mongo,
-        config,
-        signingConfig,
-        tenant,
-        now,
-      });
-
-      // For each of the handler's we need to process, we should iterate to
-      // generate their notifications.
-      let notifications = await handleHandlers(ctx, categories, input);
-
-      // Check to see if some of the other notifications that are queued
-      // had this notification superseded.
-      notifications = notifications.filter(filterSuperseded);
-
-      // Send all the notifications now.
-      await processNewNotifications(
-        ctx,
-        notifications.map(({ notification }) => notification),
-        mailerQueue
-      );
-
-      log.debug(
-        { notifications: notifications.length },
-        "notifications handled"
-      );
-    } catch (err) {
-      log.error({ err }, "could not handle the notifications");
-
-      throw err;
+    // Get all the handlers that are active for this channel.
+    const categories = registry.get(input.type);
+    if (!categories || categories.length === 0) {
+      return;
     }
+
+    // Grab the tenant from the cache.
+    const tenant = await tenantCache.retrieveByID(tenantID);
+    if (!tenant) {
+      throw new Error("tenant not found with ID");
+    }
+
+    // Create a notification context to handle processing notifications.
+    const ctx = new NotificationContext({
+      mongo,
+      config,
+      signingConfig,
+      tenant,
+      now,
+    });
+
+    // For each of the handler's we need to process, we should iterate to
+    // generate their notifications.
+    let notifications = await handleHandlers(ctx, categories, input);
+
+    // Check to see if some of the other notifications that are queued
+    // had this notification superseded.
+    notifications = notifications.filter(filterSuperseded);
+
+    // Send all the notifications now.
+    await processNewNotifications(
+      ctx,
+      notifications.map(({ notification }) => notification),
+      mailerQueue
+    );
+
+    log.debug({ notifications: notifications.length }, "notifications handled");
   };
 };

@@ -2,6 +2,7 @@ import Queue, { Job, Queue as QueueType } from "bull";
 import Logger from "bunyan";
 
 import TIME from "coral-common/time";
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 
 export type JobProcessor<T, U = void> = (job: Job<T>) => Promise<U>;
@@ -77,15 +78,16 @@ export default class Task<T, U = any> {
         true
       );
 
+      const timer = createTimer();
       log.trace("processing job from queue");
 
       try {
         // Send the job off to the job processor to be handled.
         const promise: U = await this.options.jobProcessor(job);
-        log.trace("processing completed");
+        log.trace({ took: timer() }, "processing completed");
         return promise;
       } catch (err) {
-        log.error({ err }, "job failed to process");
+        log.error({ err, took: timer() }, "job failed to process");
         throw err;
       }
     });

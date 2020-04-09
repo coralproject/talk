@@ -1,6 +1,6 @@
 import Queue from "bull";
-import now from "performance-now";
 
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import Task from "coral-server/queue/Task";
 import MailerContent from "coral-server/queue/tasks/mailer/content";
@@ -61,7 +61,7 @@ export class MailerQueue {
       return;
     }
 
-    const startTemplateGenerationTime = now();
+    const timer = createTimer();
 
     let html: string;
     try {
@@ -74,8 +74,7 @@ export class MailerQueue {
     }
 
     // Compute the end time.
-    const responseTime = Math.round(now() - startTemplateGenerationTime);
-    log.trace({ responseTime }, "finished template generation");
+    log.trace({ took: timer() }, "finished template generation");
 
     // Return the job that'll add the email to the queue to be processed later.
     return this.task.add({

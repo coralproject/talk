@@ -1,8 +1,9 @@
-import GraphContext from "coral-server/graph/context";
-import { Metrics } from "coral-server/services/metrics";
 import { ExecutionArgs } from "graphql";
 import { EndHandler, GraphQLExtension } from "graphql-extensions";
-import now from "performance-now";
+
+import GraphContext from "coral-server/graph/context";
+import { createTimer } from "coral-server/helpers";
+import { Metrics } from "coral-server/services/metrics";
 
 import { getOperationMetadata } from "./helpers";
 
@@ -16,10 +17,10 @@ export class MetricsExtension implements GraphQLExtension<GraphContext> {
     if (o.executionArgs.contextValue) {
       // Grab the start time so we can calculate the time it takes to execute
       // the graph query.
-      const startTime = now();
+      const timer = createTimer();
       return () => {
         // Compute the end time.
-        const responseTime = Math.round(now() - startTime);
+        const responseTime = timer();
 
         // Get the request metadata.
         const { operation, operationName } = getOperationMetadata(
