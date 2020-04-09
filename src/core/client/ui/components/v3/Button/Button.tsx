@@ -26,6 +26,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   upperCase?: boolean;
   underline?: boolean;
   disabled?: boolean;
+  fullWidth?: boolean;
 }
 
 export class Button extends React.Component<Props> {
@@ -42,6 +43,7 @@ export class Button extends React.Component<Props> {
       to,
       upperCase = false,
       underline = false,
+      fullWidth = false,
       ...rest
     } = this.props;
 
@@ -60,6 +62,7 @@ export class Button extends React.Component<Props> {
         [classes.disabled]: disabled,
         [classes.upperCase]: upperCase,
         [classes.underline]: underline,
+        [classes.fullWidth]: fullWidth,
       },
       className
     );

@@ -3,11 +3,11 @@
 }
 
 .root {
-  margin-top: var(--spacing-2);
+  margin-top: var(--v2-spacing-2);
 }
 
 .icon {
-  margin-right: var(--spacing-2);
+  margin-right: var(--v2-spacing-2);
 }
 
 .title {
@@ -18,7 +18,8 @@
 
   color: var(--v2-colors-mono-900);
 
-  margin-bottom: var(--spacing-2);
+  margin-top: var(--v2-spacing-3);
+  margin-bottom: var(--v2-spacing-2);
 }
 
 .section {
@@ -29,9 +30,9 @@
 
   color: var(--v2-colors-mono-500);
 
-  margin-bottom: var(--spacing-3);
+  margin-bottom: var(--v2-spacing-3);
 }
 
 .requestButton {
-  margin-bottom: var(--spacing-3);
+  margin-bottom: var(--v2-spacing-3);
 }

@@ -75,3 +75,4 @@ export { BrandName, BrandMark, LogoHorizontal } from "./Brand";
 export { default as InputLabel } from "./InputLabel";
 export { default as AppNotification } from "./AppNotification";
 export { default as HorizontalRule } from "./HorizontalRule";
+export { StepBar, Step } from "./Steps";

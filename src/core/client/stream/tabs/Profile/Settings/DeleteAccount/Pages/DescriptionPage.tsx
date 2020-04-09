@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, Typography } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import PageStepBar from "./Common/PageStepBar";
 
@@ -34,46 +35,37 @@ const DescriptionPage: FunctionComponent<Props> = ({
         justifyContent="center"
         className={cn(styles.header, CLASSES.deleteMyAccountModal.header)}
       >
-        <Localized id="profile-account-deleteAccount-pages-descriptionHeader">
-          <Typography variant="header2" className={styles.headerText}>
-            Delete my account?
-          </Typography>
+        <Localized id="profile-account-deleteAccount-pages-sharedHeader">
+          <div className={styles.headerText}>Delete my account</div>
         </Localized>
       </Flex>
       <div className={styles.body}>
         <PageStepBar step={step} />
         <Localized id="profile-account-deleteAccount-pages-descriptionText">
-          <Typography variant="bodyCopy">
-            You are attempting to delete your account. This means:
-          </Typography>
+          <div>You are attempting to delete your account. This means:</div>
         </Localized>
         <ul className={styles.ul}>
           <li>
             <Localized id="profile-account-deleteAccount-pages-allCommentsRemoved">
-              <Typography variant="bodyCopy">
-                All of your comments are removed from this site
-              </Typography>
+              <span>All of your comments are removed from this site</span>
             </Localized>
           </li>
           <li>
             <Localized id="profile-account-deleteAccount-pages-allCommentsDeleted">
-              <Typography variant="bodyCopy">
-                All of your comments are deleted from our database
-              </Typography>
+              <span>All of your comments are deleted from our database</span>
             </Localized>
           </li>
           <li>
             <Localized id="profile-account-deleteAccount-pages-emailRemoved">
-              <Typography variant="bodyCopy">
-                Your email address is removed from our system
-              </Typography>
+              <span>Your email address is removed from our system</span>
             </Localized>
           </li>
         </ul>
         <div className={styles.controls}>
           <Button
             variant="filled"
-            color="primary"
+            color="mono"
+            upperCase
             className={cn(
               styles.proceedButton,
               CLASSES.deleteMyAccountModal.proceedButton
@@ -86,6 +78,8 @@ const DescriptionPage: FunctionComponent<Props> = ({
           </Button>
           <Button
             variant="outlined"
+            color="mono"
+            upperCase
             className={cn(
               styles.cancelButton,
               CLASSES.deleteMyAccountModal.cancelButton

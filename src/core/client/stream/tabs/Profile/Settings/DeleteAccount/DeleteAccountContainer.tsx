@@ -65,9 +65,9 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
       />
       <div data-testid="profile-account-deleteAccount">
         <div className={cn(styles.content, CLASSES.deleteMyAccount.content)}>
-          <Localized id="profile-account-deleteAccount-title">
+          <Localized id="profile-account-deleteAccount-deleteMyAccount">
             <div className={cn(styles.title, CLASSES.deleteMyAccount.title)}>
-              Delete My Account
+              Delete my account
             </div>
           </Localized>
           <Localized id="profile-account-deleteAccount-description">

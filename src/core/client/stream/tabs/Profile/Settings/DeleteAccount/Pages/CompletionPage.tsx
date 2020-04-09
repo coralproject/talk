@@ -4,7 +4,8 @@ import React, { FunctionComponent, useCallback } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, Typography } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import PageStepBar from "./Common/PageStepBar";
 
@@ -47,66 +48,66 @@ const CompletionPage: FunctionComponent<Props> = ({
         justifyContent="center"
         className={cn(styles.header, CLASSES.deleteMyAccountModal.header)}
       >
-        <Localized id="profile-account-deleteAccount-pages-completeHeader">
-          <Typography variant="header2" className={styles.headerText}>
-            Account deletion requested
-          </Typography>
-        </Localized>
+        <div className={styles.headerContent}>
+          <Localized id="profile-account-deleteAccount-pages-sharedHeader">
+            <div className={styles.subHeaderText}>Delete my account</div>
+          </Localized>
+          <Localized id="profile-account-deleteAccount-pages-completeSubHeader">
+            <div className={styles.headerText}>Request submitted</div>
+          </Localized>
+        </div>
       </Flex>
       <div className={styles.body}>
         <PageStepBar step={step} />
 
         <Localized id="profile-account-deleteAccount-pages-completeDescript">
-          <Typography variant="bodyCopy" className={styles.sectionContent}>
+          <div className={styles.sectionContent}>
             Your request has been submitted and a confirmation has been sent to
             the email address associated with your account.
-          </Typography>
+          </div>
         </Localized>
 
         <Localized
           id="profile-account-deleteAccount-pages-completeTimeHeader"
           $date={formattedDate}
         >
-          <Typography variant="bodyCopyBold" className={styles.sectionContent}>
+          <div className={styles.sectionContent}>
             Your account will be deleted on: {formattedDate}
-          </Typography>
+          </div>
         </Localized>
 
         <Localized id="profile-account-deleteAccount-pages-completeChangeYourMindHeader">
-          <Typography variant="bodyCopyBold" className={styles.sectionHeader}>
-            Changed your mind?
-          </Typography>
+          <div className={styles.sectionHeader}>Changed your mind?</div>
         </Localized>
         <Localized
           id="profile-account-deleteAccount-pages-completeSignIntoYourAccount"
           strong={<strong />}
         >
-          <Typography variant="bodyCopy" className={styles.sectionContent}>
+          <div className={styles.sectionContent}>
             Simply sign in to your account again before this time and select
             <strong>“Cancel Account Deletion Request.”</strong>
-          </Typography>
+          </div>
         </Localized>
 
         <Localized id="profile-account-deleteAccount-pages-completeTellUsWhy">
-          <Typography variant="bodyCopyBold" className={styles.sectionHeader}>
-            Tell us why.
-          </Typography>
+          <div className={styles.sectionHeader}>Tell us why.</div>
         </Localized>
         <Localized
           id="profile-account-deleteAccount-pages-completeWhyDeleteAccount"
           $email={organizationEmail}
         >
-          <Typography variant="bodyCopy" className={styles.sectionContent}>
+          <div className={styles.sectionContent}>
             We'd like to know why you chose to delete your account. Send us
             feedback on our comment system by emailing {organizationEmail}.
-          </Typography>
+          </div>
         </Localized>
 
         <div className={styles.controls}>
           <Button
             variant="filled"
-            color="primary"
+            color="mono"
             fullWidth
+            upperCase
             onClick={onDoneClicked}
             className={CLASSES.deleteMyAccountModal.doneButton}
           >

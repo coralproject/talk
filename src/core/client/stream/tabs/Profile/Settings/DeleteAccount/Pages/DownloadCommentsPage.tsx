@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, Typography } from "coral-ui/components";
+import { Flex } from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import PageStepBar from "./Common/PageStepBar";
 
@@ -34,32 +35,36 @@ const DownloadCommentsPage: FunctionComponent<Props> = ({
         justifyContent="center"
         className={cn(styles.header, CLASSES.deleteMyAccountModal.header)}
       >
-        <Localized id="profile-account-deleteAccount-pages-downloadCommentHeader">
-          <Typography variant="header2" className={styles.headerText}>
-            Download my comments?
-          </Typography>
-        </Localized>
+        <div className={styles.headerContent}>
+          <Localized id="profile-account-deleteAccount-pages-sharedHeader">
+            <div className={styles.subHeaderText}>Delete my account</div>
+          </Localized>
+          <Localized id="profile-account-deleteAccount-pages-downloadSubHeader">
+            <div className={styles.headerText}>Download my comments</div>
+          </Localized>
+        </div>
       </Flex>
       <div className={styles.body}>
         <PageStepBar step={step} />
 
         <Localized id="profile-account-deleteAccount-pages-downloadCommentsDesc">
-          <Typography variant="bodyCopy" className={styles.sectionContent}>
+          <div className={styles.sectionContent}>
             Before your account is deleted, we recommend you download your
             comment history for your records. After your account is deleted, you
             will be unable to request your comment history.
-          </Typography>
+          </div>
         </Localized>
         <Localized id="profile-account-deleteAccount-pages-downloadCommentsPath">
-          <Typography variant="bodyCopyBold" className={styles.sectionContent}>
+          <div className={styles.sectionHeader}>
             My Profile &gt; Download My Comment History
-          </Typography>
+          </div>
         </Localized>
 
         <div className={styles.controls}>
           <Button
             variant="filled"
-            color="primary"
+            color="mono"
+            upperCase
             className={cn(
               styles.proceedButton,
               CLASSES.deleteMyAccountModal.proceedButton
@@ -72,6 +77,8 @@ const DownloadCommentsPage: FunctionComponent<Props> = ({
           </Button>
           <Button
             variant="outlined"
+            color="mono"
+            upperCase
             className={cn(
               styles.cancelButton,
               CLASSES.deleteMyAccountModal.cancelButton

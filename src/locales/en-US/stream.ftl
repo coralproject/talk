@@ -314,6 +314,7 @@ profile-account-download-comments-request-button = Request
 ## Delete Account
 
 profile-account-deleteAccount-title = Delete My Account
+profile-account-deleteAccount-deleteMyAccount = Delete my account
 profile-account-deleteAccount-description =
   Deleting your account will permanently erase your profile and remove
   all your comments from this site.
@@ -334,6 +335,8 @@ profile-account-deleteAccount-pages-done = Done
 profile-account-deleteAccount-pages-phrase =
   .aria-label = Phrase
 
+profile-account-deleteAccount-pages-sharedHeader = Delete my account
+
 profile-account-deleteAccount-pages-descriptionHeader = Delete my account?
 profile-account-deleteAccount-pages-descriptionText =
   You are attempting to delete your account. This means:
@@ -345,6 +348,7 @@ profile-account-deleteAccount-pages-emailRemoved =
   Your email address is removed from our system
 
 profile-account-deleteAccount-pages-whenHeader = Delete my account: When?
+profile-account-deleteAccount-pages-whenSubHeader = When?
 profile-account-deleteAccount-pages-whenSec1Header =
   When will my account be deleted?
 profile-account-deleteAccount-pages-whenSec1Content =
@@ -356,6 +360,7 @@ profile-account-deleteAccount-pages-whenSec2Content =
   reply to comments, or select reactions.
 
 profile-account-deleteAccount-pages-downloadCommentHeader = Download my comments?
+profile-account-deleteAccount-pages-downloadSubHeader = Download my comments
 profile-account-deleteAccount-pages-downloadCommentsDesc =
   Before your account is deleted, we recommend you download your comment
   history for your records. After your account is deleted, you will be
@@ -364,6 +369,7 @@ profile-account-deleteAccount-pages-downloadCommentsPath =
   My Profile > Download My Comment History
 
 profile-account-deleteAccount-pages-confirmHeader = Confirm account deletion?
+profile-account-deleteAccount-pages-confirmSubHeader = Are you sure?
 profile-account-deleteAccount-pages-confirmDescHeader =
   Are you sure you want to delete your account?
 profile-account-deleteAccount-confirmDescContent =
@@ -375,6 +381,7 @@ profile-account-deleteAccount-pages-confirmPasswordLabel =
   Enter your password:
 
 profile-account-deleteAccount-pages-completeHeader = Account deletion requested
+profile-account-deleteAccount-pages-completeSubHeader = Request submitted
 profile-account-deleteAccount-pages-completeDescript =
   Your request has been submitted and a confirmation has been sent to the email
   address associated with your account.
