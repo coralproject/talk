@@ -392,13 +392,13 @@ const CLASSES = {
      * indentation classes for the different levels.
      */
     indent: [
-      "coral coral-indent-0",
-      "coral coral-indent-1",
-      "coral coral-indent-2",
-      "coral coral-indent-3",
-      "coral coral-indent-4",
-      "coral coral-indent-5",
-      "coral coral-indent-6",
+      "coral coral-indent coral-indent-0",
+      "coral coral-indent coral-indent-1",
+      "coral coral-indent coral-indent-2",
+      "coral coral-indent coral-indent-3",
+      "coral coral-indent coral-indent-4",
+      "coral coral-indent coral-indent-5",
+      "coral coral-indent coral-indent-6",
     ],
   },
 
