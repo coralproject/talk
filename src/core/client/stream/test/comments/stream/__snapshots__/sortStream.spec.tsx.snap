@@ -12,7 +12,7 @@ exports[`renders app with comment stream 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="coral coral-comment"
+      className="coral coral-comment coral coral-reacted-0"
       data-testid="comment-comment-2"
     >
       <div
@@ -22,7 +22,7 @@ exports[`renders app with comment stream 1`] = `
           className="Indent-root"
         >
           <div
-            className=""
+            className="coral coral-indent coral-indent-0"
           >
             <div
               className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -226,7 +226,7 @@ exports[`renders app with comment stream 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="coral coral-comment"
+      className="coral coral-comment coral coral-reacted-0"
       data-testid="comment-comment-3"
     >
       <div
@@ -236,7 +236,7 @@ exports[`renders app with comment stream 1`] = `
           className="Indent-root"
         >
           <div
-            className=""
+            className="coral coral-indent coral-indent-0"
           >
             <div
               className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"

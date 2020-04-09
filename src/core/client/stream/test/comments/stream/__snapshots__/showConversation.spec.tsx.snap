@@ -2,7 +2,7 @@
 
 exports[`renders deepest comment with link 1`] = `
 <div
-  className="coral coral-comment"
+  className="coral coral-comment coral coral-reacted-0"
   data-testid="comment-comment-with-deepest-replies-3"
 >
   <div
@@ -12,7 +12,7 @@ exports[`renders deepest comment with link 1`] = `
       className="Indent-root"
     >
       <div
-        className="Indent-level3 coral coral-indent-3"
+        className="Indent-level3 coral coral-indent coral-indent-3"
       >
         <div
           className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"

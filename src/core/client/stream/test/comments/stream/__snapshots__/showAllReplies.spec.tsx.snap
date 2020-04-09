@@ -11,7 +11,7 @@ exports[`renders comment stream 1`] = `
     className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="coral coral-comment"
+      className="coral coral-comment coral coral-reacted-0"
       data-testid="comment-comment-1"
     >
       <div
@@ -21,7 +21,7 @@ exports[`renders comment stream 1`] = `
           className="Indent-root"
         >
           <div
-            className="Indent-level1 coral coral-indent-1"
+            className="Indent-level1 coral coral-indent coral-indent-1"
           >
             <div
               className="Box-root HorizontalGutter-root Comment-root HorizontalGutter-half"
@@ -225,7 +225,7 @@ exports[`renders comment stream 1`] = `
     className="Indent-root"
   >
     <div
-      className="Indent-level1 coral coral-indent-1 Indent-noBorder"
+      className="Indent-level1 coral coral-indent coral-indent-1 Indent-noBorder"
     >
       <button
         aria-controls="coral-comments-replyList-log--comment-0"

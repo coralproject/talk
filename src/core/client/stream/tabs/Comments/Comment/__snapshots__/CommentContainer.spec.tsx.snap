@@ -2,7 +2,7 @@
 
 exports[`hide reply button 1`] = `
 <div
-  className="coral coral-comment"
+  className="coral coral-comment coral coral-reacted-0"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -21,6 +21,11 @@ exports[`hide reply button 1`] = `
                 className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -72,6 +77,11 @@ exports[`hide reply button 1`] = `
                 className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -116,6 +126,11 @@ exports[`hide reply button 1`] = `
             className="coral coral-username coral-comment-username"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -142,6 +157,11 @@ exports[`hide reply button 1`] = `
             className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -183,6 +203,11 @@ exports[`hide reply button 1`] = `
             className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -213,7 +238,7 @@ exports[`hide reply button 1`] = `
 
 exports[`renders body only 1`] = `
 <div
-  className="coral coral-comment"
+  className="coral coral-comment coral coral-reacted-0"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -232,6 +257,11 @@ exports[`renders body only 1`] = `
                 className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -290,6 +320,11 @@ exports[`renders body only 1`] = `
                 className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -334,6 +369,11 @@ exports[`renders body only 1`] = `
             className="coral coral-username coral-comment-username"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -360,6 +400,11 @@ exports[`renders body only 1`] = `
             className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -401,6 +446,11 @@ exports[`renders body only 1`] = `
             className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -431,7 +481,7 @@ exports[`renders body only 1`] = `
 
 exports[`renders disabled reply when commenting has been disabled 1`] = `
 <div
-  className="coral coral-comment"
+  className="coral coral-comment coral coral-reacted-0"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -450,6 +500,11 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -508,6 +563,11 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -552,6 +612,11 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             className="coral coral-username coral-comment-username"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -578,6 +643,11 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -619,6 +689,11 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
             className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -649,7 +724,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
 
 exports[`renders disabled reply when story is closed 1`] = `
 <div
-  className="coral coral-comment"
+  className="coral coral-comment coral coral-reacted-0"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -668,6 +743,11 @@ exports[`renders disabled reply when story is closed 1`] = `
                 className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -726,6 +806,11 @@ exports[`renders disabled reply when story is closed 1`] = `
                 className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -770,6 +855,11 @@ exports[`renders disabled reply when story is closed 1`] = `
             className="coral coral-username coral-comment-username"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -796,6 +886,11 @@ exports[`renders disabled reply when story is closed 1`] = `
             className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -837,6 +932,11 @@ exports[`renders disabled reply when story is closed 1`] = `
             className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -867,7 +967,7 @@ exports[`renders disabled reply when story is closed 1`] = `
 
 exports[`renders in reply to 1`] = `
 <div
-  className="coral coral-comment"
+  className="coral coral-comment coral coral-reacted-0"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -886,6 +986,11 @@ exports[`renders in reply to 1`] = `
                 className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -948,6 +1053,11 @@ exports[`renders in reply to 1`] = `
                 className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -996,6 +1106,11 @@ exports[`renders in reply to 1`] = `
             className="coral coral-username coral-comment-username"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -1026,6 +1141,11 @@ exports[`renders in reply to 1`] = `
             className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -1071,6 +1191,11 @@ exports[`renders in reply to 1`] = `
             className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -1105,7 +1230,7 @@ exports[`renders in reply to 1`] = `
 
 exports[`renders username and body 1`] = `
 <div
-  className="coral coral-comment"
+  className="coral coral-comment coral coral-reacted-0"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -1124,6 +1249,11 @@ exports[`renders username and body 1`] = `
                 className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -1182,6 +1312,11 @@ exports[`renders username and body 1`] = `
                 className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -1226,6 +1361,11 @@ exports[`renders username and body 1`] = `
             className="coral coral-username coral-comment-username"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -1252,6 +1392,11 @@ exports[`renders username and body 1`] = `
             className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -1293,6 +1438,11 @@ exports[`renders username and body 1`] = `
             className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -1323,7 +1473,7 @@ exports[`renders username and body 1`] = `
 
 exports[`renders with tombstone when comment has been deleted 1`] = `
 <div
-  className="coral coral-comment"
+  className="coral coral-comment coral coral-reacted-0"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef) />
@@ -1332,7 +1482,7 @@ exports[`renders with tombstone when comment has been deleted 1`] = `
 
 exports[`shows conversation link 1`] = `
 <div
-  className="coral coral-comment"
+  className="coral coral-comment coral coral-reacted-0"
   data-testid="comment-comment-id"
 >
   <ForwardRef(forwardRef)>
@@ -1351,6 +1501,11 @@ exports[`shows conversation link 1`] = `
                 className="coral coral-reactButton coral-comment-reactButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -1409,6 +1564,11 @@ exports[`shows conversation link 1`] = `
                 className="coral coral-reportButton coral-comment-reportButton"
                 comment={
                   Object {
+                    "actionCounts": Object {
+                      "reaction": Object {
+                        "total": 0,
+                      },
+                    },
                     "author": Object {
                       "badges": Array [],
                       "id": "author-id",
@@ -1459,6 +1619,11 @@ exports[`shows conversation link 1`] = `
             className="coral coral-username coral-comment-username"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -1485,6 +1650,11 @@ exports[`shows conversation link 1`] = `
             className="coral coral-userTag coral-comment-userTag"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
@@ -1526,6 +1696,11 @@ exports[`shows conversation link 1`] = `
             className="coral coral-userBadge coral-comment-userBadge"
             comment={
               Object {
+                "actionCounts": Object {
+                  "reaction": Object {
+                    "total": 0,
+                  },
+                },
                 "author": Object {
                   "badges": Array [],
                   "id": "author-id",
