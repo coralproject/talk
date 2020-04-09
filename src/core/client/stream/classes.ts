@@ -706,6 +706,7 @@ const CLASSES = {
   myUsername: {
     title: "coral coral-myUsername-title",
     username: "coral coral-myUsername",
+    editButton: "coral coral-myUsername-editButton",
     change: "coral coral-myUsername-change",
     tooSoon: "coral-myUsername-tooSoon",
     form: {
@@ -718,7 +719,8 @@ const CLASSES = {
       saveButton: "coral coral-changeMyUsername-saveButton",
       closeButton: "coral coral-changeMyUsername-closeButton",
       footer: "coral coral-changeMyUsername-footer",
-      errorMessage: "coral coral-changeMyUsername-errorMessage",
+      errorMessage:
+        "coral coral-changeMyUsername-errorMessage coral-changeMyEmail-errorMessage",
       successMessage: "coral coral-changeMyUsername-successMessage",
       successCallOut: "coral coral-changeMyUsername-successCallOut",
     },
@@ -730,13 +732,13 @@ const CLASSES = {
   myEmail: {
     email: "coral coral-myEmail",
     title: "coral coral-myEmail-title",
-    currentEmail: "coral coral-myEmail-currentEmail",
     unverified: "coral coral-myEmail-unverified",
     editButton: "coral coral-myEmail-editButton",
     form: {
       $root: "coral coral-changeMyEmail",
       header: "coral coral-changeMyEmail-header",
       footer: "coral coral-changeMyEmail-footer",
+      currentEmail: "coral coral-myEmail-currentEmail",
       desc: "coral coral-changeMyEmail-desc",
       cancelButton: "coral coral-changeMyEmail-cancelButton",
       saveButton: "coral coral-changeMyEmail-saveButton",

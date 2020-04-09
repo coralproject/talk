@@ -181,7 +181,10 @@ const changeEmailContainer: FunctionComponent<Props> = ({
         </Localized>
         <Flex>
           <div
-            className={cn(styles.currentEmail, CLASSES.myEmail.currentEmail)}
+            className={cn(
+              styles.currentEmail,
+              CLASSES.myEmail.form.currentEmail
+            )}
           >
             {viewer.email}
           </div>{" "}
@@ -190,7 +193,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
               <div
                 className={cn(
                   styles.currentEmail,
-                  CLASSES.myEmail.currentEmail
+                  CLASSES.myEmail.form.currentEmail
                 )}
               >
                 (Unverified)
@@ -202,7 +205,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
               <div
                 className={cn(
                   styles.currentEmail,
-                  CLASSES.myEmail.currentEmail
+                  CLASSES.myEmail.form.currentEmail
                 )}
               >
                 (current)
