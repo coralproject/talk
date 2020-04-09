@@ -148,28 +148,23 @@ to sign in to your account or to receive notifications.
       data-testid="profile-account-changePassword"
     >
       <div
-        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignCenter"
+        className="ChangePassword-title coral coral-myPassword-title"
       >
-        <h1
-          className="Box-root Typography-root Typography-heading2 Typography-colorTextDark"
-        >
-          Password
-        </h1>
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlineFilled coral coral-myPassword-editButton"
-          data-color="primary"
-          data-variant="outlineFilled"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Edit
-        </button>
+        Password
       </div>
+      <button
+        className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue ChangePassword-changeButton coral coral-myPassword-editButton"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Change
+      </button>
     </div>
     <div
       className="DeleteAccountContainer-root coral coral-deleteMyAccount"

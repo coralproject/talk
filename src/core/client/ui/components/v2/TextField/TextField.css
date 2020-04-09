@@ -6,7 +6,7 @@ $input-regular-focused-border: var(--v2-colors-teal-500);
 $input-disabled-background: var(--v2-colors-white-500);
 $input-disabled-value: var(--v2-colors-grey-400);
 $input-disabled-border: var(--v2-colors-grey-400);
-$input-error-border: var(--v2-palette-error-darkest);
+$input-error-border: var(--v2-colors-red-500);
 $input-dark-focused-border: var(--v2-colors-blue-500);
 
 $input-streamError-border: var(--v2-colors-red-500);

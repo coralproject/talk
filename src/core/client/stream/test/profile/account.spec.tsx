@@ -100,7 +100,7 @@ it("render password change form", async () => {
   const changePassword = await waitForElement(() =>
     within(testRenderer.root).getByTestID("profile-account-changePassword")
   );
-  const editButton = within(changePassword).getByText("Edit");
+  const editButton = within(changePassword).getByText("Change");
   act(() => {
     editButton.props.onClick();
   });

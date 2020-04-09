@@ -148,3 +148,7 @@
     }
   }
 }
+
+.underline {
+  text-decoration: underline;
+}

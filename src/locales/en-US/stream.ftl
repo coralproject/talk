@@ -397,6 +397,7 @@ profile-account-deleteAccount-pages-completeWhyDeleteAccount =
   We'd like to know why you chose to delete your account. Send us feedback on
   our comment system by emailing { $email }.
 profile-account-changePassword-edit = Edit
+profile-account-changePassword-change = Change
 
 
 ## Notifications

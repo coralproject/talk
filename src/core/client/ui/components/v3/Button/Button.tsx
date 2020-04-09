@@ -24,6 +24,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   variant?: "filled" | "outlined" | "text" | "none";
 
   upperCase?: boolean;
+  underline?: boolean;
   disabled?: boolean;
 }
 
@@ -40,6 +41,7 @@ export class Button extends React.Component<Props> {
       disabled = false,
       to,
       upperCase = false,
+      underline = false,
       ...rest
     } = this.props;
 
@@ -56,6 +58,7 @@ export class Button extends React.Component<Props> {
         [classes.colorMono]: color === "mono",
         [classes.disabled]: disabled,
         [classes.upperCase]: upperCase,
+        [classes.underline]: underline,
       },
       className
     );
