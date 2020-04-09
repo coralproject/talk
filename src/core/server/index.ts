@@ -201,7 +201,7 @@ class Server {
     await this.tenantCache.primeAll();
 
     // Create the Job Queue.
-    this.tasks = await createQueue({
+    this.tasks = createQueue({
       config: this.config,
       mongo: this.mongo,
       redis: this.redis,
@@ -253,11 +253,17 @@ class Server {
     await this.persistedQueryCache.prime();
 
     // Launch all of the job processors.
-    this.tasks.mailer.process();
-    this.tasks.scraper.process();
-    this.tasks.notifier.process();
-    this.tasks.webhook.process();
-    this.tasks.rejector.process();
+    if (!this.config.get("disable_job_processors")) {
+      logger.info("job processing is enabled, starting job processors");
+
+      this.tasks.mailer.process();
+      this.tasks.scraper.process();
+      this.tasks.notifier.process();
+      this.tasks.webhook.process();
+      this.tasks.rejector.process();
+    } else {
+      logger.info("job processing is disabled, not starting job processors");
+    }
 
     // Start up the cron job processors.
     this.scheduledTasks = startScheduledTasks({
@@ -360,6 +366,8 @@ class Server {
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
       rejectorQueue: this.tasks.rejector,
+      webhookQueue: this.tasks.webhook,
+      notifierQueue: this.tasks.notifier,
       disableClientRoutes,
       persistedQueryCache: this.persistedQueryCache,
       persistedQueriesRequired:

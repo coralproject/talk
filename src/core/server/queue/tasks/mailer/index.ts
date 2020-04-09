@@ -37,6 +37,10 @@ export class MailerQueue {
     this.tenantCache = options.tenantCache;
   }
 
+  public async counts() {
+    return this.task.counts();
+  }
+
   public async add({ template, tenantID, message: { to } }: MailerInput) {
     const log = logger.child(
       {

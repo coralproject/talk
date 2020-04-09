@@ -9,16 +9,18 @@ export type GraphMiddlewareOptions = Pick<
   | "config"
   | "i18n"
   | "mailerQueue"
+  | "scraperQueue"
+  | "rejectorQueue"
+  | "notifierQueue"
+  | "webhookQueue"
   | "mongo"
   | "redis"
   | "schema"
-  | "scraperQueue"
   | "signingConfig"
   | "pubsub"
   | "tenantCache"
   | "metrics"
   | "broker"
-  | "rejectorQueue"
 >;
 
 export const graphQLHandler = ({
