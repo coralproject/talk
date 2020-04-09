@@ -181,7 +181,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
         >
           <Localized id="profile-changeUsername-change">
             <Button
-              className={CLASSES.myUsername.change}
+              className={cn(
+                CLASSES.myUsername.editButton,
+                CLASSES.myUsername.change
+              )}
               variant="text"
               marginSize="none"
               color="streamBlue"

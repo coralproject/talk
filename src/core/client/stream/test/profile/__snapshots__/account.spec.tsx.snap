@@ -28,7 +28,7 @@ exports[`renders the empty settings pane 1`] = `
         className="ChangeUsernameContainer-changeButton"
       >
         <button
-          className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue coral coral-myUsername-change"
+          className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue coral coral-myUsername-editButton coral coral-myUsername-change"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
