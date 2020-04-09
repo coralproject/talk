@@ -20,7 +20,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
 
   textSize?: "medium" | "none";
   marginSize?: "medium" | "none";
-  color?: "streamBlue" | "mono" | "none";
+  color?: "streamBlue" | "mono" | "alert" | "none";
   variant?: "filled" | "outlined" | "text" | "none";
 
   upperCase?: boolean;
@@ -56,6 +56,7 @@ export class Button extends React.Component<Props> {
         [classes.marginSizeMedium]: marginSize === "medium",
         [classes.colorStreamBlue]: color === "streamBlue",
         [classes.colorMono]: color === "mono",
+        [classes.colorAlert]: color === "alert",
         [classes.disabled]: disabled,
         [classes.upperCase]: upperCase,
         [classes.underline]: underline,
