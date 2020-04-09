@@ -813,12 +813,15 @@ const CLASSES = {
    */
   myPassword: {
     $root: "coral coral-myPassword",
+    title: "coral coral-myPassword-title",
     editButton: "coral coral-myPassword-editButton",
     form: {
       $root: "coral coral-changePassword",
+      footer: "coral coral-changePassword-footer",
       cancelButton: "coral coral-changePassword-cancelButton",
       forgotButton: "coral coral-changePassword-forgotButton",
       changeButton: "coral coral-changePassword-changeButton",
+      successMessageContainer: "coral coral-changePassword-successContainer",
       successMessage: "coral coral-changePassword-successMessage",
       errorMessage: "coral coral-changePassword-errorMessage",
     },
