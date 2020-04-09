@@ -1,7 +1,7 @@
 .phrase {
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--v2-spacing-2);
 }
 
 .controls {
-  margin-top: var(--spacing-5);
+  margin-top: var(--v2-spacing-5);
 }

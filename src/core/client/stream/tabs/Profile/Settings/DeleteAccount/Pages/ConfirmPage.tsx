@@ -15,7 +15,6 @@ import {
 import CLASSES from "coral-stream/classes";
 import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
-  Button,
   CallOut,
   Flex,
   FormField,
@@ -23,8 +22,8 @@ import {
   InputLabel,
   PasswordField,
   TextField,
-  Typography,
-} from "coral-ui/components";
+} from "coral-ui/components/v2";
+import { Button } from "coral-ui/components/v3";
 
 import PageStepBar from "./Common/PageStepBar";
 import RequestAccountDeletionMutation from "./RequestAccountDeletionMutation";
@@ -97,31 +96,23 @@ const ConfirmPage: FunctionComponent<Props> = ({
         justifyContent="center"
         className={cn(sharedStyles.header, CLASSES.deleteMyAccountModal.header)}
       >
-        <Localized id="profile-account-deleteAccount-pages-confirmHeader">
-          <Typography variant="header2" className={sharedStyles.headerText}>
-            Confirm account deletion?
-          </Typography>
-        </Localized>
+        <div className={sharedStyles.headerContent}>
+          <Localized id="profile-account-deleteAccount-pages-sharedHeader">
+            <div className={sharedStyles.subHeaderText}>Delete my account</div>
+          </Localized>
+          <Localized id="profile-account-deleteAccount-pages-confirmSubHeader">
+            <div className={sharedStyles.headerText}>Are you sure?</div>
+          </Localized>
+        </div>
       </Flex>
       <div className={sharedStyles.body}>
         <PageStepBar step={step} />
 
-        <Localized id="profile-account-deleteAccount-pages-confirmDescHeader">
-          <Typography
-            variant="bodyCopyBold"
-            className={sharedStyles.sectionHeader}
-          >
-            Are you sure you want to delete your account?
-          </Typography>
-        </Localized>
         <Localized id="profile-account-deleteAccount-confirmDescContent">
-          <Typography
-            variant="bodyCopy"
-            className={sharedStyles.sectionContent}
-          >
+          <div className={sharedStyles.sectionContent}>
             To confirm you would like to delete your account please type in the
             following phrase into the text box below:
-          </Typography>
+          </div>
         </Localized>
 
         <Form onSubmit={onSubmit}>
@@ -161,9 +152,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     {({ input, meta }) => (
                       <FormField>
                         <Localized id="profile-account-deleteAccount-pages-confirmPhraseLabel">
-                          <InputLabel
-                            container={<label htmlFor={input.name} />}
-                          >
+                          <InputLabel htmlFor={input.name}>
                             To confirm, type phrase below:
                           </InputLabel>
                         </Localized>
@@ -186,9 +175,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     {({ input, meta }) => (
                       <FormField>
                         <Localized id="profile-account-deleteAccount-pages-confirmPasswordLabel">
-                          <InputLabel
-                            container={<label htmlFor={input.name} />}
-                          >
+                          <InputLabel htmlFor={input.name}>
                             Enter your password:
                           </InputLabel>
                         </Localized>
@@ -219,6 +206,8 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     <Localized id="profile-account-deleteAccount-pages-cancel">
                       <Button
                         variant="outlined"
+                        color="mono"
+                        upperCase
                         className={cn(
                           sharedStyles.cancelButton,
                           CLASSES.deleteMyAccountModal.cancelButton
@@ -230,14 +219,14 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     </Localized>
                     <Localized id="profile-account-deleteAccount-pages-deleteButton">
                       <Button
-                        color="error"
+                        color="mono"
                         variant="filled"
                         type="submit"
+                        upperCase
                         disabled={preventSubmit(formProps)}
-                        className={cn(
-                          sharedStyles.deleteButton,
+                        className={
                           CLASSES.deleteMyAccountModal.deleteMyAccountButton
-                        )}
+                        }
                       >
                         Delete my account
                       </Button>

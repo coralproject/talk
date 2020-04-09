@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Step, StepBar } from "coral-ui/components";
+import { Step, StepBar } from "coral-ui/components/v2";
 
 import styles from "./PageStepBar.css";
 

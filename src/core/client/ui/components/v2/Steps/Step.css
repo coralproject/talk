@@ -1,0 +1,18 @@
+.root {
+  position: relative;
+}
+
+.text {
+  font-family: var(--v2-font-family-primary);
+  font-weight: var(--v2-font-weight-primary-regular);
+  font-size: var(--v2-font-size-3);
+  line-height: var(--v2-line-height-5);
+
+  color: var(--v2-colors-mono-500);
+
+  position: absolute;
+  top: 26px;
+  transform: translateX(-50%);
+  left: 8%;
+  white-space: nowrap;
+}

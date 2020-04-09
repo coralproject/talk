@@ -239,3 +239,7 @@
 .underline {
   text-decoration: underline;
 }
+
+.fullWidth {
+  width: 100%;
+}
