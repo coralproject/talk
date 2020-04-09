@@ -29,13 +29,10 @@ export const countHandler = ({ mongo, i18n }: CountOptions): RequestHandler => {
         id: req.query.id,
         url: req.query.url,
       });
-      if (!story) {
-        throw new Error("Story not found");
-      }
 
-      const count = calculateTotalPublishedCommentCount(
-        story.commentCounts.status
-      );
+      const count = story
+        ? calculateTotalPublishedCommentCount(story.commentCounts.status)
+        : 0;
 
       let html = "";
       if (req.query.notext === "true") {
