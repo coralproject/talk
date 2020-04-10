@@ -40,14 +40,14 @@ export class ScheduledJob<T extends {} = {}> {
   private command(command: ScheduledJobCommand<T>): CronCommand {
     return async () => {
       const log = this.log.child({ scheduledExecutionID: uuid.v1() }, true);
-      log.debug("now starting scheduled job");
+      log.info("now starting scheduled job");
       const timer = createTimer();
       try {
         await command({
           ...this.context,
           log,
         });
-        log.debug({ took: timer() }, "now finished scheduled job");
+        log.info({ took: timer() }, "now finished scheduled job");
       } catch (err) {
         log.error({ err, took: timer() }, "failed to run scheduled job");
       }
