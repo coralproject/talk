@@ -98,18 +98,37 @@ const ConfirmPage: FunctionComponent<Props> = ({
       >
         <div className={sharedStyles.headerContent}>
           <Localized id="profile-account-deleteAccount-pages-sharedHeader">
-            <div className={sharedStyles.subHeaderText}>Delete my account</div>
+            <div
+              className={cn(
+                sharedStyles.subHeaderText,
+                CLASSES.deleteMyAccountModal.subHeaderText
+              )}
+            >
+              Delete my account
+            </div>
           </Localized>
           <Localized id="profile-account-deleteAccount-pages-confirmSubHeader">
-            <div className={sharedStyles.headerText}>Are you sure?</div>
+            <div
+              className={cn(
+                sharedStyles.headerText,
+                CLASSES.deleteMyAccountModal.headerText
+              )}
+            >
+              Are you sure?
+            </div>
           </Localized>
         </div>
       </Flex>
-      <div className={sharedStyles.body}>
+      <div className={cn(sharedStyles.body, CLASSES.deleteMyAccountModal.body)}>
         <PageStepBar step={step} />
 
         <Localized id="profile-account-deleteAccount-confirmDescContent">
-          <div className={sharedStyles.sectionContent}>
+          <div
+            className={cn(
+              sharedStyles.sectionContent,
+              CLASSES.deleteMyAccountModal.sectionContent
+            )}
+          >
             To confirm you would like to delete your account please type in the
             following phrase into the text box below:
           </div>
