@@ -1,10 +1,10 @@
 import crypto from "crypto";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
-import getNow from "performance-now";
 
 import { Config } from "coral-server/config";
 import { CoralEventPayload } from "coral-server/events/event";
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
   filterActiveSecrets,
@@ -170,17 +170,16 @@ export function createJobProcessor({
     );
 
     // Send the request.
-    const startedSendingAt = getNow();
+    const timer = createTimer();
     const res = await fetch(endpoint.url, options);
-    const took = getNow() - startedSendingAt;
     if (res.ok) {
       log.info(
-        { took, responseStatus: res.status },
+        { took: timer(), responseStatus: res.status },
         "finished sending webhook"
       );
     } else {
       log.warn(
-        { took, responseStatus: res.status },
+        { took: timer(), responseStatus: res.status },
         "failed to deliver webhook"
       );
     }

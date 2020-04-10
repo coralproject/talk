@@ -1,8 +1,6 @@
-import ms from "ms";
-import now from "performance-now";
-
 import { LanguageCode } from "coral-common/helpers";
 import createWordListRegExp from "coral-common/utils/createWordListRegExp";
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 
@@ -54,10 +52,10 @@ export class WordList {
     // it.
     let lists = this.cache.get(options);
     if (!lists) {
-      const startedAt = now();
+      const timer = createTimer();
       lists = this.create(options);
       logger.info(
-        { tenantID: options.id, took: ms(now() - startedAt) },
+        { tenantID: options.id, took: timer() },
         "regenerated word list cache"
       );
 
@@ -88,10 +86,10 @@ export class WordList {
       return false;
     }
 
-    const startedAt = now();
+    const timer = createTimer();
     const result = list.test(testString);
     logger.info(
-      { tenantID: options.id, listName, took: ms(now() - startedAt) },
+      { tenantID: options.id, listName, took: timer() },
       "word list phrase test complete"
     );
 

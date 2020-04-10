@@ -1,7 +1,7 @@
 import Queue, { Job } from "bull";
 import { Db } from "mongodb";
-import now from "performance-now";
 
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
   Comment,
@@ -61,49 +61,49 @@ const createJobProcessor = ({
     true
   );
   // Mark the start time.
-  const startTime = now();
+  const timer = createTimer();
+
   log.debug("starting to reject author comments");
+
   // Get the tenant.
   const tenant = await tenantCache.retrieveByID(tenantID);
   if (!tenant) {
     log.error("referenced tenant was not found");
     return;
   }
+
   // Get the current time.
   const currentTime = new Date();
-  try {
-    // Find all comments written by the author that should be rejected.
-    let connection = await getBatch(mongo, tenantID, authorID);
-    while (connection.nodes.length > 0) {
-      for (const comment of connection.nodes) {
-        // Get the latest revision of the comment.
-        const revision = getLatestRevision(comment);
-        // Reject the comment.
-        await rejectComment(
-          mongo,
-          redis,
-          null,
-          tenant,
-          comment.id,
-          revision.id,
-          moderatorID,
-          currentTime
-        );
-      }
-      // If there was not another page, abort processing.
-      if (!connection.pageInfo.hasNextPage) {
-        break;
-      }
-      // Load the next page.
-      connection = await getBatch(mongo, tenantID, authorID, connection);
+
+  // Find all comments written by the author that should be rejected.
+  let connection = await getBatch(mongo, tenantID, authorID);
+  while (connection.nodes.length > 0) {
+    for (const comment of connection.nodes) {
+      // Get the latest revision of the comment.
+      const revision = getLatestRevision(comment);
+
+      // Reject the comment.
+      await rejectComment(
+        mongo,
+        redis,
+        null,
+        tenant,
+        comment.id,
+        revision.id,
+        moderatorID,
+        currentTime
+      );
     }
-  } catch (err) {
-    log.error({ err }, "could not reject the author's comments");
-    throw err;
+    // If there was not another page, abort processing.
+    if (!connection.pageInfo.hasNextPage) {
+      break;
+    }
+    // Load the next page.
+    connection = await getBatch(mongo, tenantID, authorID, connection);
   }
+
   // Compute the end time.
-  const took = Math.round(now() - startTime);
-  log.debug({ took }, "rejected the author's comments");
+  log.debug({ took: timer() }, "rejected the author's comments");
 };
 
 export type RejectorQueue = Task<RejectorData>;

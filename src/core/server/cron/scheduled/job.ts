@@ -1,7 +1,7 @@
 import { CronCommand, CronJob } from "cron";
-import now from "performance-now";
 import uuid from "uuid";
 
+import { createTimer } from "coral-server/helpers";
 import logger, { Logger } from "coral-server/logger";
 
 export type ScheduledJobCommand<T extends {}> = (
@@ -40,18 +40,16 @@ export class ScheduledJob<T extends {} = {}> {
   private command(command: ScheduledJobCommand<T>): CronCommand {
     return async () => {
       const log = this.log.child({ scheduledExecutionID: uuid.v1() }, true);
-      log.debug("now starting scheduled job");
-      const start = now();
+      log.info("now starting scheduled job");
+      const timer = createTimer();
       try {
         await command({
           ...this.context,
           log,
         });
-        const processingTime = Math.floor(now() - start);
-        log.debug({ processingTime }, "now finished scheduled job");
+        log.info({ took: timer() }, "now finished scheduled job");
       } catch (err) {
-        const processingTime = Math.floor(now() - start);
-        log.error({ err, processingTime }, "failed to run scheduled job");
+        log.error({ err, took: timer() }, "failed to run scheduled job");
       }
     };
   }

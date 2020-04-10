@@ -11,11 +11,11 @@ import { camelCase, isNil } from "lodash";
 import { Db } from "mongodb";
 import { createTransport } from "nodemailer";
 import { Options } from "nodemailer/lib/smtp-connection";
-import now from "performance-now";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { Config } from "coral-server/config";
 import { InternalError } from "coral-server/errors";
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
@@ -245,7 +245,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     // Construct the fromAddress.
     const fromAddress = fromName ? `${fromName} <${fromEmail}>` : fromEmail;
 
-    const startTemplateGenerationTime = now();
+    const templateGenerationTimer = createTimer();
 
     // Get the message to send.
     let message: Message;
@@ -261,9 +261,10 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
       throw new InternalError(e, "could not translate the message");
     }
 
-    // Compute the end time.
-    const responseTime = Math.round(now() - startTemplateGenerationTime);
-    log.trace({ responseTime }, "finished mail translation");
+    log.trace(
+      { responseTime: templateGenerationTimer() },
+      "finished mail translation"
+    );
 
     let transport = cache.get(tenantID);
     if (!transport) {
@@ -300,7 +301,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
 
     log.debug("starting to send the email");
 
-    const startMessageSendTime = now();
+    const messageSendTimer = createTimer();
 
     try {
       // Send the mail message.
@@ -309,8 +310,6 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
       throw new InternalError(e, "could not send email");
     }
 
-    // Compute the end time.
-    const messageSendResponseTime = Math.round(now() - startMessageSendTime);
-    log.debug({ responseTime: messageSendResponseTime }, "sent the email");
+    log.debug({ responseTime: messageSendTimer() }, "sent the email");
   };
 };

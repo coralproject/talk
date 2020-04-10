@@ -1,6 +1,6 @@
 import onFinished from "on-finished";
-import now from "performance-now";
 
+import { createTimer } from "coral-server/helpers";
 import { Metrics } from "coral-server/services/metrics";
 import { RequestHandler } from "coral-server/types/express";
 
@@ -11,11 +11,10 @@ export const metricsRecorder = ({
   httpRequestDurationMilliseconds,
 }: Metrics): RequestHandler => {
   return (req, res, next) => {
-    const startTime = now();
-
+    const timer = createTimer();
     onFinished(res, () => {
       // Compute the end time.
-      const responseTime = Math.round(now() - startTime);
+      const responseTime = timer();
 
       // Increment the request counter.
       httpRequestsTotal.labels(`${res.statusCode}`, req.method).inc();

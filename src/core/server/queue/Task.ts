@@ -1,8 +1,10 @@
-import Queue, { Job, Queue as QueueType } from "bull";
+import Queue, { Job, JobCounts, Queue as QueueType } from "bull";
 import Logger from "bunyan";
 
 import TIME from "coral-common/time";
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
+import { TenantResource } from "coral-server/models/tenant";
 
 export type JobProcessor<T, U = void> = (job: Job<T>) => Promise<U>;
 
@@ -13,10 +15,10 @@ export interface TaskOptions<T, U = void> {
   queue: Queue.QueueOptions;
 }
 
-export default class Task<T, U = any> {
-  private options: TaskOptions<T, U>;
-  private queue: QueueType<T>;
-  private log: Logger;
+export default class Task<T extends TenantResource, U = any> {
+  private readonly options: Required<TaskOptions<T, U>>;
+  private readonly queue: QueueType<T>;
+  private readonly log: Logger;
 
   constructor({
     jobName,
@@ -33,6 +35,9 @@ export default class Task<T, U = any> {
         // We always remove the job when it's complete, no need to fill up Redis
         // with completed entries if we don't need to.
         removeOnComplete: true,
+
+        // Remove the job if it fails after all attempts.
+        removeOnFail: true,
 
         // By default, configure jobs to use an exponential backoff strategy.
         backoff: {
@@ -52,6 +57,10 @@ export default class Task<T, U = any> {
     // TODO: (wyattjoh) attach event handlers to the queue for metrics via: https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#events
   }
 
+  public async counts(): Promise<JobCounts> {
+    return this.queue.getJobCounts();
+  }
+
   /**
    * Add will add the job to the queue to get processed. It's not needed to
    * handle the job after it has been created.
@@ -62,7 +71,7 @@ export default class Task<T, U = any> {
     // Create the job.
     const job = await this.queue.add(data, this.options.jobOptions);
 
-    this.log.trace({ jobID: job.id }, "added job to queue");
+    this.log.info({ jobID: job.id }, "added job to queue");
     return job;
   }
 
@@ -77,15 +86,19 @@ export default class Task<T, U = any> {
         true
       );
 
-      log.trace("processing job from queue");
+      const timer = createTimer();
+      log.info("processing job from queue");
 
       try {
         // Send the job off to the job processor to be handled.
         const promise: U = await this.options.jobProcessor(job);
-        log.trace("processing completed");
+
+        // Log it!
+        log.info({ took: timer() }, "processing completed");
+
         return promise;
       } catch (err) {
-        log.error({ err }, "job failed to process");
+        log.error({ err, took: timer() }, "job failed to process");
         throw err;
       }
     });

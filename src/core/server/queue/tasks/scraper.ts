@@ -1,8 +1,8 @@
 import Queue, { Job } from "bull";
 import { Db } from "mongodb";
-import now from "performance-now";
 
 import { Config } from "coral-server/config";
+import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import Task from "coral-server/queue/Task";
 import { scrape } from "coral-server/services/stories/scraper";
@@ -39,22 +39,13 @@ const createJobProcessor = ({
   );
 
   // Mark the start time.
-  const startTime = now();
+  const timer = createTimer();
 
   log.debug("starting to scrape the story");
-
-  try {
-    await scrape(mongo, config, tenantID, storyID, storyURL);
-  } catch (err) {
-    log.error({ err }, "could not scrape the story");
-
-    throw err;
-  }
+  await scrape(mongo, config, tenantID, storyID, storyURL);
 
   // Compute the end time.
-  const responseTime = Math.round(now() - startTime);
-
-  log.debug({ responseTime }, "scraped the story");
+  log.debug({ responseTime: timer() }, "scraped the story");
 };
 
 export type ScraperQueue = Task<ScraperData>;
