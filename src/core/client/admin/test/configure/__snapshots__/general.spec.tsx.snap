@@ -515,16 +515,15 @@ reactions, be reported, and be shared.
                       This will appear above the comments sitewide.
 You can format the text using Markdown.
 More information on how to use Markdown
-
+here: 
                       <a
                         className="ExternalLink-root"
                         href="#"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
-                        here
+                        https://www.markdownguide.org/cheat-sheet/
                       </a>
-                      .
                     </p>
                   </div>
                   <div

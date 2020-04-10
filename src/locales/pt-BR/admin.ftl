@@ -249,7 +249,8 @@ configure-general-guidelines-explanation =
   Escreva um resumo das diretrizes da sua comunidade que serão exibidas
   no topo de cada fluxo de comentários em todo o site. Seu resumo pode ser
   formatado usando a Sintaxe do Markdown. Mais informações sobre como usar
-  Markdown podem ser encontradas <externalLink>aqui</externalLink>.
+  Markdown podem ser encontradas aqui:
+  <externalLink>https://www.markdownguide.org/cheat-sheet/</externalLink>
 configure-general-guidelines-showCommunityGuidelines = Mostrar Resumo das Diretrizes da Comunidade
 
 #### Locale
