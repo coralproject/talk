@@ -37,25 +37,49 @@ const DownloadCommentsPage: FunctionComponent<Props> = ({
       >
         <div className={styles.headerContent}>
           <Localized id="profile-account-deleteAccount-pages-sharedHeader">
-            <div className={styles.subHeaderText}>Delete my account</div>
+            <div
+              className={cn(
+                styles.subHeaderText,
+                CLASSES.deleteMyAccountModal.subHeaderText
+              )}
+            >
+              Delete my account
+            </div>
           </Localized>
           <Localized id="profile-account-deleteAccount-pages-downloadSubHeader">
-            <div className={styles.headerText}>Download my comments</div>
+            <div
+              className={cn(
+                styles.headerText,
+                CLASSES.deleteMyAccountModal.headerText
+              )}
+            >
+              Download my comments
+            </div>
           </Localized>
         </div>
       </Flex>
-      <div className={styles.body}>
+      <div className={cn(styles.body, CLASSES.deleteMyAccountModal.body)}>
         <PageStepBar step={step} />
 
         <Localized id="profile-account-deleteAccount-pages-downloadCommentsDesc">
-          <div className={styles.sectionContent}>
+          <div
+            className={cn(
+              styles.sectionContent,
+              CLASSES.deleteMyAccountModal.sectionContent
+            )}
+          >
             Before your account is deleted, we recommend you download your
             comment history for your records. After your account is deleted, you
             will be unable to request your comment history.
           </div>
         </Localized>
         <Localized id="profile-account-deleteAccount-pages-downloadCommentsPath">
-          <div className={styles.sectionHeader}>
+          <div
+            className={cn(
+              styles.sectionHeader,
+              CLASSES.deleteMyAccountModal.sectionHeader
+            )}
+          >
             My Profile &gt; Download My Comment History
           </div>
         </Localized>

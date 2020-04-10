@@ -869,9 +869,15 @@ const CLASSES = {
   deleteMyAccountModal: {
     $root: "coral coral-deleteMyAccountModal",
     header: "coral coral-deleteMyAccountModal-header",
+    headerText: "coral coral-deleteMyAccountModal-headerText",
+    subHeaderText: "coral coral-deleteMyAccountModal-subHeaderText",
+    body: "coral coral-deleteMyAccountModal-body",
+    sectionContent: "coral coral-deleteMyAccountModal-sectionContent",
+    sectionHeader: "coral coral-deleteMyAccountModal-sectionHeader",
     cancelButton: "coral coral-deleteMyAccountModal-cancelButton",
     proceedButton: "coral coral-deleteMyAccountModal-proceedButton",
     doneButton: "coral coral-deleteMyAccountModal-doneButton",
+    stepBar: "coral coral-deleteMyAccountModal-stepBar",
     deleteMyAccountButton: "coral coral-deleteMyAccount-deleteMyAccountButton",
   },
 

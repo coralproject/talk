@@ -36,10 +36,17 @@ const DescriptionPage: FunctionComponent<Props> = ({
         className={cn(styles.header, CLASSES.deleteMyAccountModal.header)}
       >
         <Localized id="profile-account-deleteAccount-pages-sharedHeader">
-          <div className={styles.headerText}>Delete my account</div>
+          <div
+            className={cn(
+              styles.headerText,
+              CLASSES.deleteMyAccountModal.headerText
+            )}
+          >
+            Delete my account
+          </div>
         </Localized>
       </Flex>
-      <div className={styles.body}>
+      <div className={cn(styles.body, CLASSES.deleteMyAccountModal.body)}>
         <PageStepBar step={step} />
         <Localized id="profile-account-deleteAccount-pages-descriptionText">
           <div>You are attempting to delete your account. This means:</div>
