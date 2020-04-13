@@ -75,6 +75,7 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
   return (
     <HorizontalGutter size="double">
       <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+      <DeletionRequestCalloutContainer viewer={props.viewer} />
       <TabBar
         variant="streamSecondary"
         activeTab={local.profileTab}
@@ -142,7 +143,6 @@ const Profile: FunctionComponent<ProfileProps> = (props) => {
               viewer={props.viewer}
               settings={props.settings}
             />
-            <DeletionRequestCalloutContainer viewer={props.viewer} />
           </TabPane>
         )}
       </TabContent>

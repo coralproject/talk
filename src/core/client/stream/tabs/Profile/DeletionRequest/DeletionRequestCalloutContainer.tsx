@@ -44,43 +44,51 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
     : null;
 
   return (
-    <CallOut
-      color="alert"
-      className={cn(styles.callout, CLASSES.pendingAccountDeletion.$root)}
+    <div
+      className={cn(styles.container, CLASSES.pendingAccountDeletion.container)}
     >
-      <HorizontalGutter>
-        <Flex>
-          <Icon
-            size="md"
-            className={cn(CLASSES.pendingAccountDeletion.icon, styles.icon)}
-          >
-            error
-          </Icon>
-          <Localized
-            id="profile-accountDeletion-deletionDesc"
-            $date={deletionDate}
-          >
+      <CallOut
+        color="alert"
+        borderPosition="top"
+        className={CLASSES.pendingAccountDeletion.$root}
+      >
+        <HorizontalGutter>
+          <Flex>
+            <Icon
+              size="sm"
+              className={cn(CLASSES.pendingAccountDeletion.icon, styles.icon)}
+            >
+              timer
+            </Icon>
             <div>
-              Your account is scheduled to be deleted on {deletionDate}.
+              <Localized
+                id="profile-accountDeletion-deletionDesc"
+                $date={deletionDate}
+              >
+                <div>
+                  Your account is scheduled to be deleted on {deletionDate}.
+                </div>
+              </Localized>
+              <Localized id="profile-accountDeletion-cancelAccountDeletion">
+                <Button
+                  className={cn(
+                    styles.cancelButton,
+                    CLASSES.pendingAccountDeletion.cancelRequestButton
+                  )}
+                  variant="filled"
+                  color="mono"
+                  marginSize="none"
+                  upperCase
+                  onClick={cancelDeletion}
+                >
+                  Cancel account deletion
+                </Button>
+              </Localized>
             </div>
-          </Localized>
-        </Flex>
-      </HorizontalGutter>
-      <HorizontalGutter marginTop={2} className={styles.action}>
-        <Localized id="profile-accountDeletion-cancelDeletion">
-          <Button
-            className={CLASSES.pendingAccountDeletion.cancelRequestButton}
-            variant="text"
-            color="mono"
-            underline
-            marginSize="none"
-            onClick={cancelDeletion}
-          >
-            Cancel account deletion request
-          </Button>
-        </Localized>
-      </HorizontalGutter>
-    </CallOut>
+          </Flex>
+        </HorizontalGutter>
+      </CallOut>
+    </div>
   );
 };
 

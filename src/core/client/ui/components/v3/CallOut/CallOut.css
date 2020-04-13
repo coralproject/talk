@@ -3,12 +3,18 @@
 
   padding: var(--v2-spacing-2);
 
-  border-left: 4px solid;
-
   font-family: var(--v2-font-family-primary);
   font-weight: var(--v2-font-weight-primary-semi-bold);
   font-size: var(--v2-font-size-2);
   line-height: var(--v2-line-height-3);
+}
+
+.topBorder {
+  border-top: 4px solid;
+}
+
+.leftBorder {
+  border-left: 4px solid;
 }
 
 .content {
@@ -23,18 +29,18 @@
 
 .mono {
   background-color: var(--v2-colors-grey-200);
-  border-left-color: var(--v2-colors-grey-500);
+  border-color: var(--v2-colors-grey-500);
   color: var(--v2-colors-mono-500);
 }
 
 .success {
   background-color: var(--v2-colors-green-100);
-  border-left-color: var(--v2-colors-green-500);
+  border-color: var(--v2-colors-green-500);
   color: var(--v2-colors-mono-500);
 }
 
 .alert {
   background-color: var(--v2-colors-red-100);
-  border-left-color: var(--v2-colors-red-500);
+  border-color: var(--v2-colors-red-500);
   color: var(--v2-colors-mono-500);
 }

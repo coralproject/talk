@@ -11,6 +11,7 @@ type CallOutColor = "mono" | "success" | "alert" | "none";
 interface Props {
   children?: any;
   color?: CallOutColor;
+  borderPosition?: "leftSide" | "top";
   className?: string;
   classes: typeof styles;
   visible?: boolean;
@@ -19,6 +20,7 @@ interface Props {
 
 const CallOut: FunctionComponent<Props> = ({
   color = "mono",
+  borderPosition = "leftSide",
   classes,
   className,
   children,
@@ -35,6 +37,8 @@ const CallOut: FunctionComponent<Props> = ({
       [classes.mono]: color === "mono",
       [classes.success]: color === "success",
       [classes.alert]: color === "alert",
+      [classes.leftBorder]: borderPosition === "leftSide",
+      [classes.topBorder]: borderPosition === "top",
     },
     className
   );

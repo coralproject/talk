@@ -261,6 +261,8 @@ profile-accountDeletion-deletionDesc =
   Your account is scheduled to be deleted on { $date }.
 profile-accountDeletion-cancelDeletion =
   Cancel account deletion request
+profile-accountDeletion-cancelAccountDeletion =
+  Cancel account deletion
 
 ### Comment History
 profile-historyComment-viewConversation = View Conversation
