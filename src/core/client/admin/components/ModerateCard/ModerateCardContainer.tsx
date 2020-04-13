@@ -162,15 +162,12 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     [usernameClicked, comment]
   );
 
-  const onConversationClicked = useCallback(
-    (id?: string) => {
-      if (!conversationClicked) {
-        return;
-      }
-      conversationClicked(id || comment.id);
-    },
-    [conversationClicked, comment]
-  );
+  const onConversationClicked = useCallback(() => {
+    if (!conversationClicked) {
+      return;
+    }
+    conversationClicked(comment.id);
+  }, [conversationClicked, comment]);
 
   const handleModerateStory = useCallback(
     (e: React.MouseEvent) => {
@@ -250,7 +247,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onReject={handleReject}
           onFeature={onFeature}
           onUsernameClick={onUsernameClicked}
-          onConversationClick={onConversationClicked}
+          onConversationClick={
+            conversationClicked ? onConversationClicked : null
+          }
           selected={selected}
           selectPrev={selectPrev}
           selectNext={selectNext}
