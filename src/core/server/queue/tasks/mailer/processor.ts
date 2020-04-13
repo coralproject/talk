@@ -19,8 +19,10 @@ import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
-import TenantCache from "coral-server/services/tenant/cache";
-import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
+import {
+  TenantCache,
+  TenantCacheAdapter,
+} from "coral-server/services/tenant/cache";
 
 export const JOB_NAME = "mailer";
 
