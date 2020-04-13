@@ -257,6 +257,7 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   }),
   deleteAnnouncement: async (source, { input }, ctx) => ({
     settings: await ctx.mutators.Settings.deleteAnnouncement(),
+    clientMutationId: input.clientMutationId,
   }),
   createSite: async (source, { input }, ctx) => ({
     site: await ctx.mutators.Sites.create(input),
