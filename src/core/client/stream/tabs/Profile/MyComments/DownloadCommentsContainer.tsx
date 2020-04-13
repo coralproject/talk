@@ -116,7 +116,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
       </Flex>
       {showSuccessMessage && (
         <CallOut
-          color="success"
+          color="positive"
           className={cn(
             styles.callout,
             CLASSES.downloadCommentHistory.requestLater
@@ -143,7 +143,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
       )}
       {showErrorMessage && (
         <CallOut
-          color="alert"
+          color="negative"
           className={cn(
             styles.callout,
             CLASSES.downloadCommentHistory.requestError

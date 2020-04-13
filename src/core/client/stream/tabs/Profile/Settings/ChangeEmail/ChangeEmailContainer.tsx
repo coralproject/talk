@@ -292,7 +292,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
       )}
       {showSuccessMessage && (
         <div className={styles.successMessage}>
-          <CallOut color="success" onClose={onCloseSuccess}>
+          <CallOut color="positive" onClose={onCloseSuccess}>
             <Flex justifyContent="flex-start" alignItems="center">
               <Icon className={styles.successIcon} size="sm">
                 check_circle
@@ -409,7 +409,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                   {submitError && (
                     <CallOut
                       className={CLASSES.myEmail.form.errorMessage}
-                      color="alert"
+                      color="negative"
                     >
                       <Flex justifyContent="flex-start" alignItems="center">
                         <Icon size="sm" className={styles.errorIcon}>
