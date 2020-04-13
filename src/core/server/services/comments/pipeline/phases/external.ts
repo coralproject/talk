@@ -224,14 +224,14 @@ export const external: IntermediateModerationPhase = async (ctx) => {
   // Check to see if any custom moderation phases have been defined, if there is
   // none, exit now.
   if (
-    !ctx.tenant.integrations.custom ||
-    ctx.tenant.integrations.custom.phases.length === 0
+    !ctx.tenant.integrations.external ||
+    ctx.tenant.integrations.external.phases.length === 0
   ) {
     return;
   }
 
   // Get the enabled phases.
-  const phases = ctx.tenant.integrations.custom.phases.filter(
+  const phases = ctx.tenant.integrations.external.phases.filter(
     filterActivePhase()
   );
   if (phases.length === 0) {

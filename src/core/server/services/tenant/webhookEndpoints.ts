@@ -246,11 +246,17 @@ export async function rotateWebhookEndpointSigningSecret(
   if (!endpoint) {
     throw new Error("referenced endpoint was not found on tenant");
   }
+  if (inactiveIn < 0 || inactiveIn > 86400) {
+    throw new Error(`invalid inactiveIn passed: ${inactiveIn}`);
+  }
 
   // Compute the inactiveAt dates for the current active secrets.
-  const inactiveAt = DateTime.fromJSDate(now)
-    .plus({ seconds: inactiveIn })
-    .toJSDate();
+  const inactiveAt =
+    inactiveIn === 0
+      ? now
+      : DateTime.fromJSDate(now)
+          .plus({ seconds: inactiveIn })
+          .toJSDate();
 
   // Rotate the secrets.
   const updatedTenant = await rotateTenantWebhookEndpointSigningSecret(

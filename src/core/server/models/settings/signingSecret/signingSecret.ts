@@ -121,13 +121,13 @@ async function pushNewSigningSecret<T extends {}>({
   if (id) {
     update = {
       $push: {
-        [`${path}.$[resource].signingSecrets`]: secret.rotatedAt,
+        [`${path}.$[resource].signingSecrets`]: secret,
       },
     };
   } else {
     update = {
       $push: {
-        [`${path}.signingSecrets`]: secret.rotatedAt,
+        [`${path}.signingSecrets`]: secret,
       },
     };
   }
@@ -229,15 +229,15 @@ async function deprecateOldSigningSecrets<T extends {}>(
   if (id) {
     update = {
       $set: {
-        [`${path}.$[resource].$[signingSecret].inactiveAt`]: inactiveAt,
-        [`${path}.$[resource].$[signingSecret].rotatedAt`]: now,
+        [`${path}.$[resource].signingSecrets.$[signingSecret].inactiveAt`]: inactiveAt,
+        [`${path}.$[resource].signingSecrets.$[signingSecret].rotatedAt`]: now,
       },
     };
   } else {
     update = {
       $set: {
-        [`${path}.$[signingSecret].inactiveAt`]: inactiveAt,
-        [`${path}.$[signingSecret].rotatedAt`]: now,
+        [`${path}.signingSecrets.$[signingSecret].inactiveAt`]: inactiveAt,
+        [`${path}.signingSecrets.$[signingSecret].rotatedAt`]: now,
       },
     };
   }

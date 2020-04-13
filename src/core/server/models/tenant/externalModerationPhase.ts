@@ -34,6 +34,7 @@ export async function rotateTenantExternalModerationPhaseSigningSecret(
 }
 
 export interface CreateTenantExternalModerationPhaseInput {
+  name: string;
   url: string;
   format: GQLCOMMENT_BODY_FORMAT;
   timeout: number;
@@ -57,7 +58,7 @@ export async function createTenantExternalModerationPhase(
   // Update the Tenant with this new phase.
   const result = await collection(mongo).findOneAndUpdate(
     { id },
-    { $push: { "integrations.custom.phases": phase } },
+    { $push: { "integrations.external.phases": phase } },
     {
       // False to return the updated document instead of the original
       // document.
@@ -83,6 +84,7 @@ export async function createTenantExternalModerationPhase(
 }
 
 export interface UpdateTenantExternalModerationPhaseInput {
+  name?: string;
   enabled?: boolean;
   url?: string;
   format?: GQLCOMMENT_BODY_FORMAT;
@@ -96,7 +98,7 @@ export async function updateTenantExternalModerationPhase(
   update: UpdateTenantExternalModerationPhaseInput
 ) {
   const $set = dotize(
-    { "integrations.custom.phases.$[phase]": update },
+    { "integrations.external.phases.$[phase]": update },
     { embedArrays: true }
   );
 
@@ -123,12 +125,12 @@ export async function updateTenantExternalModerationPhase(
       return null;
     }
 
-    if (!tenant.integrations.custom) {
+    if (!tenant.integrations.external) {
       throw new Error(`phase not found with id: ${phaseID} on tenant: ${id}`);
     }
 
     const endpoint = getExternalModerationPhase(
-      tenant.integrations.custom,
+      tenant.integrations.external,
       phaseID
     );
     if (!endpoint) {
@@ -150,7 +152,7 @@ export async function deleteTenantExternalModerationPhase(
     { id },
     {
       $pull: {
-        "integrations.custom.phases": { id: phaseID },
+        "integrations.external.phases": { id: phaseID },
       },
     },
     {
@@ -181,7 +183,7 @@ export async function deleteTenantExternalModerationPhaseSigningSecrets(
     { id },
     {
       $pull: {
-        "integrations.custom.phases.$[phase].signingSecrets": {
+        "integrations.external.phases.$[phase].signingSecrets": {
           kid: { $in: kids },
         },
       },
@@ -194,12 +196,12 @@ export async function deleteTenantExternalModerationPhaseSigningSecrets(
       return null;
     }
 
-    if (!tenant.integrations.custom) {
+    if (!tenant.integrations.external) {
       throw new Error(`phase not found with id: ${phaseID} on tenant: ${id}`);
     }
 
     const endpoint = getExternalModerationPhase(
-      tenant.integrations.custom,
+      tenant.integrations.external,
       phaseID
     );
     if (!endpoint) {

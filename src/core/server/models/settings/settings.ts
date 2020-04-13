@@ -94,6 +94,12 @@ export interface ExternalModerationPhase extends SigningSecretResource {
   id: string;
 
   /**
+   * name is the name assigned to this ExternalModerationPhase for
+   * identification purposes.
+   */
+  name: string;
+
+  /**
    * enabled when true, will use this phase in the moderation pipeline.
    */
   enabled: boolean;
@@ -120,7 +126,7 @@ export interface ExternalModerationPhase extends SigningSecretResource {
   createdAt: Date;
 }
 
-export interface CustomExternalIntegration {
+export interface ExternalExternalIntegration {
   /**
    * phases is all the external moderation phases for this Tenant.
    */
@@ -140,10 +146,10 @@ export interface ExternalIntegrations {
   perspective: GQLPerspectiveExternalIntegration;
 
   /**
-   * custom provides integration details for custom moderation phases that can be
+   * external provides integration details for external moderation phases that can be
    * used in the moderation pipeline.
    */
-  custom?: CustomExternalIntegration;
+  external?: ExternalExternalIntegration;
 }
 
 /**

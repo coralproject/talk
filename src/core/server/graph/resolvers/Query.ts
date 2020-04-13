@@ -31,7 +31,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
   webhookEndpoint: (source, { id }, ctx) => getWebhookEndpoint(ctx.tenant, id),
   queues: () => ({}),
   externalModerationPhase: (source, { id }, ctx) =>
-    ctx.tenant.integrations.custom
-      ? getExternalModerationPhase(ctx.tenant.integrations.custom, id)
+    ctx.tenant.integrations.external
+      ? getExternalModerationPhase(ctx.tenant.integrations.external, id)
       : null,
 };

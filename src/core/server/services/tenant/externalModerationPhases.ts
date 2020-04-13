@@ -82,13 +82,13 @@ export async function updateExternalModerationPhase(
   input: UpdateTenantExternalModerationPhaseInput
 ) {
   // Find the phase.
-  if (!tenant.integrations.custom) {
+  if (!tenant.integrations.external) {
     throw new Error(
       "referenced phase was not found on tenant, none configured"
     );
   }
 
-  let phase = getExternalModerationPhase(tenant.integrations.custom, phaseID);
+  let phase = getExternalModerationPhase(tenant.integrations.external, phaseID);
   if (!phase) {
     throw new Error("referenced phase was not found on tenant");
   }
@@ -117,8 +117,8 @@ export async function updateExternalModerationPhase(
 
   // Find the updated phase.
   phase = getExternalModerationPhase(
-    // We know that `custom` is provided because we already verified it earlier.
-    updatedTenant.integrations.custom!,
+    // We know that `external` is provided because we already verified it earlier.
+    updatedTenant.integrations.external!,
     phaseID
   );
   if (!phase) {
@@ -136,12 +136,15 @@ export async function deleteExternalModerationPhase(
   phaseID: string
 ) {
   // Find the phase.
-  if (!tenant.integrations.custom) {
+  if (!tenant.integrations.external) {
     throw new Error(
       "referenced phase was not found on tenant, none configured"
     );
   }
-  const phase = getExternalModerationPhase(tenant.integrations.custom, phaseID);
+  const phase = getExternalModerationPhase(
+    tenant.integrations.external,
+    phaseID
+  );
   if (!phase) {
     throw new Error("referenced phase was not found on tenant");
   }
@@ -169,13 +172,13 @@ export async function enableExternalModerationPhase(
   phaseID: string
 ) {
   // Find the phase.
-  if (!tenant.integrations.custom) {
+  if (!tenant.integrations.external) {
     throw new Error(
       "referenced phase was not found on tenant, none configured"
     );
   }
 
-  let phase = getExternalModerationPhase(tenant.integrations.custom, phaseID);
+  let phase = getExternalModerationPhase(tenant.integrations.external, phaseID);
   if (!phase) {
     throw new Error("referenced phase was not found on tenant");
   }
@@ -200,8 +203,8 @@ export async function enableExternalModerationPhase(
 
   // Find the updated phase.
   phase = getExternalModerationPhase(
-    // We know that `custom` is provided because we already verified it earlier.
-    updatedTenant.integrations.custom!,
+    // We know that `external` is provided because we already verified it earlier.
+    updatedTenant.integrations.external!,
     phaseID
   );
   if (!phase) {
@@ -219,12 +222,12 @@ export async function disableExternalModerationPhase(
   phaseID: string
 ) {
   // Find the phase.
-  if (!tenant.integrations.custom) {
+  if (!tenant.integrations.external) {
     throw new Error(
       "referenced phase was not found on tenant, none configured"
     );
   }
-  let phase = getExternalModerationPhase(tenant.integrations.custom, phaseID);
+  let phase = getExternalModerationPhase(tenant.integrations.external, phaseID);
   if (!phase) {
     throw new Error("referenced phase was not found on tenant");
   }
@@ -249,8 +252,8 @@ export async function disableExternalModerationPhase(
 
   // Find the updated phase.
   phase = getExternalModerationPhase(
-    // We know that `custom` is provided because we already verified it earlier.
-    updatedTenant.integrations.custom!,
+    // We know that `external` is provided because we already verified it earlier.
+    updatedTenant.integrations.external!,
     phaseID
   );
   if (!phase) {
@@ -270,20 +273,27 @@ export async function rotateExternalModerationPhaseSigningSecret(
   now: Date
 ) {
   // Find the phase.
-  if (!tenant.integrations.custom) {
+  if (!tenant.integrations.external) {
     throw new Error(
       "referenced phase was not found on tenant, none configured"
     );
   }
-  let phase = getExternalModerationPhase(tenant.integrations.custom, phaseID);
+  let phase = getExternalModerationPhase(tenant.integrations.external, phaseID);
   if (!phase) {
     throw new Error("referenced phase was not found on tenant");
   }
 
+  if (inactiveIn < 0 || inactiveIn > 86400) {
+    throw new Error(`invalid inactiveIn passed: ${inactiveIn}`);
+  }
+
   // Compute the inactiveAt dates for the current active secrets.
-  const inactiveAt = DateTime.fromJSDate(now)
-    .plus({ seconds: inactiveIn })
-    .toJSDate();
+  const inactiveAt =
+    inactiveIn === 0
+      ? now
+      : DateTime.fromJSDate(now)
+          .plus({ seconds: inactiveIn })
+          .toJSDate();
 
   // Rotate the secrets.
   const updatedTenant = await rotateTenantExternalModerationPhaseSigningSecret(
@@ -302,8 +312,8 @@ export async function rotateExternalModerationPhaseSigningSecret(
 
   // Find the updated endpoint.
   phase = getExternalModerationPhase(
-    // We know that `custom` is provided because we already verified it earlier.
-    updatedTenant.integrations.custom!,
+    // We know that `external` is provided because we already verified it earlier.
+    updatedTenant.integrations.external!,
     phaseID
   );
   if (!phase) {
