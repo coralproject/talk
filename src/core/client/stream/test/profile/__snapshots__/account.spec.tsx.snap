@@ -77,49 +77,57 @@ exports[`renders the empty settings pane 1`] = `
           className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-verifyEmail"
         >
           <div
-            className="CallOut-content"
+            className="Box-root Flex-root Flex-flex Flex-justifyFlexStart"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              className="CallOut-content"
             >
-              <div>
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-lg"
-                >
-                  email
-                </i>
-              </div>
-              <div>
+              <div
+                className="CallOut-body"
+              >
                 <div
-                  className="ChangeEmailContainer-verifyContent coral coral-verifyEmail-content"
+                  className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                 >
-                  <div
-                    className="ChangeEmailContainer-verifyTitle coral coral-verifyEmail-title"
-                  >
-                    <div>
-                      Verify your email address
-                    </div>
+                  <div>
+                    <i
+                      aria-hidden="true"
+                      className="Icon-root Icon-lg"
+                    >
+                      email
+                    </i>
                   </div>
                   <div>
-                    An email has been sent to {$email} to verify your account.
+                    <div
+                      className="ChangeEmailContainer-verifyContent coral coral-verifyEmail-content"
+                    >
+                      <div
+                        className="ChangeEmailContainer-verifyTitle coral coral-verifyEmail-title"
+                      >
+                        <div>
+                          Verify your email address
+                        </div>
+                      </div>
+                      <div>
+                        An email has been sent to {$email} to verify your account.
 You must verify your new email address before it can be used
 to sign in to your account or to receive notifications.
+                      </div>
+                    </div>
+                    <button
+                      className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue ChangeEmailContainer-resendButton coral coral-verifyEmail-resendButton"
+                      disabled={false}
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      Resend verification
+                    </button>
                   </div>
                 </div>
-                <button
-                  className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue ChangeEmailContainer-resendButton coral coral-verifyEmail-resendButton"
-                  disabled={false}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Resend verification
-                </button>
               </div>
             </div>
           </div>

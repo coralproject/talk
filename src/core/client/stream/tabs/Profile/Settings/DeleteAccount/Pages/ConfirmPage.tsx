@@ -211,7 +211,9 @@ const ConfirmPage: FunctionComponent<Props> = ({
                   </Field>
                 </FormField>
 
-                {submitError && <CallOut color="alert">{submitError}</CallOut>}
+                {submitError && (
+                  <CallOut color="negative">{submitError}</CallOut>
+                )}
               </HorizontalGutter>
               <div className={styles.controls}>
                 <HorizontalGutter>

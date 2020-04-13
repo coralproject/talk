@@ -115,7 +115,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
           )}
         >
           <CallOut
-            color="success"
+            color="positive"
             onClose={onCloseSuccess}
             className={CLASSES.myPassword.form.successMessage}
           >
@@ -209,7 +209,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                     </Field>
                     {submitError && (
                       <CallOut
-                        color="alert"
+                        color="negative"
                         className={CLASSES.myPassword.form.errorMessage}
                       >
                         {submitError}

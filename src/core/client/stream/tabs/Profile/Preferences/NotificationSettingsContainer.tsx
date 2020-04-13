@@ -226,7 +226,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                 (submitSucceeded && showSuccess)) && (
                 <div className={styles.callOut}>
                   {submitError && showError && (
-                    <CallOut color="alert" onClose={closeError}>
+                    <CallOut color="negative" onClose={closeError}>
                       <Flex justifyContent="flex-start" alignItems="center">
                         <Icon size="sm" className={styles.errorIcon}>
                           warning
@@ -236,7 +236,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                     </CallOut>
                   )}
                   {submitSucceeded && showSuccess && (
-                    <CallOut color="success" onClose={closeSuccess}>
+                    <CallOut color="positive" onClose={closeSuccess}>
                       <Flex justifyContent="flex-start" alignItems="center">
                         <Icon size="sm" className={styles.successIcon}>
                           check_circle

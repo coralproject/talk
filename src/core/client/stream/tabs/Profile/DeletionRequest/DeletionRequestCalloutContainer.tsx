@@ -7,7 +7,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
-import { Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { Icon } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
 import { DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
@@ -48,45 +48,41 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
       className={cn(styles.container, CLASSES.pendingAccountDeletion.container)}
     >
       <CallOut
-        color="alert"
+        color="negative"
         borderPosition="top"
         className={CLASSES.pendingAccountDeletion.$root}
-      >
-        <HorizontalGutter>
-          <Flex>
-            <Icon
-              size="sm"
-              className={cn(CLASSES.pendingAccountDeletion.icon, styles.icon)}
-            >
-              timer
-            </Icon>
+        icon={
+          <Icon size="sm" className={CLASSES.pendingAccountDeletion.icon}>
+            timer
+          </Icon>
+        }
+        iconColor="none"
+        title={
+          <Localized
+            id="profile-accountDeletion-deletionDesc"
+            $date={deletionDate}
+          >
             <div>
-              <Localized
-                id="profile-accountDeletion-deletionDesc"
-                $date={deletionDate}
-              >
-                <div>
-                  Your account is scheduled to be deleted on {deletionDate}.
-                </div>
-              </Localized>
-              <Localized id="profile-accountDeletion-cancelAccountDeletion">
-                <Button
-                  className={cn(
-                    styles.cancelButton,
-                    CLASSES.pendingAccountDeletion.cancelRequestButton
-                  )}
-                  variant="filled"
-                  color="mono"
-                  marginSize="none"
-                  upperCase
-                  onClick={cancelDeletion}
-                >
-                  Cancel account deletion
-                </Button>
-              </Localized>
+              Your account is scheduled to be deleted on {deletionDate}.
             </div>
-          </Flex>
-        </HorizontalGutter>
+          </Localized>
+        }
+      >
+        <Localized id="profile-accountDeletion-cancelAccountDeletion">
+          <Button
+            className={cn(
+              styles.cancelButton,
+              CLASSES.pendingAccountDeletion.cancelRequestButton
+            )}
+            variant="filled"
+            color="mono"
+            marginSize="none"
+            upperCase
+            onClick={cancelDeletion}
+          >
+            Cancel account deletion
+          </Button>
+        </Localized>
       </CallOut>
     </div>
   );
