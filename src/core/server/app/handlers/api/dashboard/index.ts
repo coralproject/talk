@@ -3,14 +3,15 @@ import {
   retrieveDailyCommentTotal,
   retrieveDailyStaffCommentTotal,
 } from "coral-server/services/comments/stats";
+import { retrieveNewCommentersCount } from "coral-server/services/users";
 
 import { RequestHandler } from "coral-server/types/express";
 
-type DailyStatsOptions = Pick<AppOptions, "redis">;
+type StatsOptions = Pick<AppOptions, "redis">;
 
 export const dailyCommentStatsHandler = ({
   redis,
-}: DailyStatsOptions): RequestHandler => {
+}: StatsOptions): RequestHandler => {
   return async (req, res, next) => {
     // Tenant is guaranteed at this point.
     const coral = req.coral!;
@@ -32,6 +33,32 @@ export const dailyCommentStatsHandler = ({
         comments: {
           total: dailyCommentTotal,
           staff: dailyStaffCommentTotal,
+        },
+      });
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const dailyNewCommenterStatsHandler = ({
+  redis,
+}: StatsOptions): RequestHandler => {
+  return async (req, res, next) => {
+    // Tenant is guaranteed at this point.
+    const coral = req.coral!;
+
+    const tenant = coral.tenant!;
+
+    try {
+      const newCommenters = await retrieveNewCommentersCount(
+        redis,
+        tenant,
+        coral.now
+      );
+      return res.json({
+        commenters: {
+          today: newCommenters,
         },
       });
     } catch (err) {

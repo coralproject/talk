@@ -1284,8 +1284,19 @@ export async function updateNewCommentersCount(
     .expireat(dailyKey, expireDaily)
     .expireat(hourlyKey, expireHourly)
     .exec();
-  /* eslint-disable-next-line */
-  console.log(result);
+  return result;
+}
+
+export async function retrieveNewCommentersCount(
+  redis: AugmentedRedis,
+  tenant: Tenant,
+  now: Date
+) {
+  const today = DateTime.fromJSDate(now)
+    .startOf("day")
+    .toSeconds();
+  const dailyKey = dailyNewCommentersCountKey(tenant.id, today);
+  const result = await redis.get(dailyKey);
   return result;
 }
 
