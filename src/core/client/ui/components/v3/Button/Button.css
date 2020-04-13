@@ -9,6 +9,11 @@
   text-transform: uppercase;
 }
 
+.textSizeSmall {
+  font-size: var(--v2-font-size-1);
+  line-height: var(--v2-line-height-3);
+}
+
 .textSizeMedium {
   font-size: var(--v2-font-size-2);
   line-height: var(--v2-line-height-3);
