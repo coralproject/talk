@@ -250,7 +250,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onReject={handleReject}
           onFeature={onFeature}
           onUsernameClick={onUsernameClicked}
-          onConversationClick={onConversationClicked}
+          onConversationClick={
+            conversationClicked ? onConversationClicked : null
+          }
           selected={selected}
           selectPrev={selectPrev}
           selectNext={selectNext}
