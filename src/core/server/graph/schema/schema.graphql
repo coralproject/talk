@@ -3115,15 +3115,6 @@ type StoriesConnection {
   pageInfo: PageInfo!
 }
 
-type DailyCommentCounts {
-  total: Int!
-  staff: Int!
-}
-
-type DailyCounts {
-  comments: DailyCommentCounts!
-}
-
 ################################################################################
 ## Queue
 ################################################################################
