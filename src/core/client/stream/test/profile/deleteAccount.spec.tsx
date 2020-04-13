@@ -72,9 +72,9 @@ describe("delete account steps", () => {
       within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
     );
 
-    const requestDeletionButton = within(deleteAccount).getByText("Request", {
-      selector: "button",
-    });
+    const requestDeletionButton = within(deleteAccount).getByTestID(
+      "deleteAccount-request"
+    );
     act(() => {
       requestDeletionButton.props.onClick();
     });
@@ -91,9 +91,9 @@ describe("delete account steps", () => {
       within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
     );
 
-    const requestDeletionButton = within(deleteAccount).getByText("Request", {
-      selector: "button",
-    });
+    const requestDeletionButton = within(deleteAccount).getByTestID(
+      "deleteAccount-request"
+    );
     act(() => {
       requestDeletionButton.props.onClick();
     });
@@ -113,7 +113,7 @@ describe("delete account steps", () => {
     expect(await within(modal).axe()).toHaveNoViolations();
     const form = within(modal).getByType("form");
     const confirm = within(modal).getByTestID("confirm-page-confirmation");
-    const password = within(modal).getByTestID("confirm-page-password");
+    const password = within(modal).getByTestID("password-field");
 
     await act(async () => {
       confirm.props.onChange("delete");
@@ -121,10 +121,9 @@ describe("delete account steps", () => {
       await form.props.onSubmit();
     });
 
-    const successHeader = within(modal).getByText(
-      "Account deletion requested",
-      { exact: false }
-    );
+    const successHeader = within(modal).getByText("Request submitted", {
+      exact: false,
+    });
     expect(successHeader).toBeDefined();
   });
 
@@ -133,9 +132,9 @@ describe("delete account steps", () => {
       within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
     );
 
-    const requestDeletionButton = within(deleteAccount).getByText("Request", {
-      selector: "button",
-    });
+    const requestDeletionButton = within(deleteAccount).getByTestID(
+      "deleteAccount-request"
+    );
     act(() => {
       requestDeletionButton.props.onClick();
     });
@@ -152,7 +151,7 @@ describe("delete account steps", () => {
       });
     }
     const form = within(modal).getByType("form");
-    const password = within(modal).getByTestID("confirm-page-password");
+    const password = within(modal).getByTestID("password-field");
 
     await act(async () => {
       password.props.onChange("password");
@@ -170,9 +169,9 @@ describe("delete account steps", () => {
       within(testRenderer.root).queryByTestID("profile-account-deleteAccount")
     );
 
-    const requestDeletionButton = within(deleteAccount).getByText("Request", {
-      selector: "button",
-    });
+    const requestDeletionButton = within(deleteAccount).getByTestID(
+      "deleteAccount-request"
+    );
     act(() => {
       requestDeletionButton.props.onClick();
     });

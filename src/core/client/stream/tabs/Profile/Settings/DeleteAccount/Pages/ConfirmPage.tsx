@@ -13,9 +13,7 @@ import {
   validateDeleteConfirmation,
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
-import FieldValidationMessage from "coral-stream/common/FieldValidationMessage";
 import {
-  CallOut,
   Flex,
   FormField,
   HorizontalGutter,
@@ -23,7 +21,7 @@ import {
   PasswordField,
   TextField,
 } from "coral-ui/components/v2";
-import { Button } from "coral-ui/components/v3";
+import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
 import PageStepBar from "./Common/PageStepBar";
 import RequestAccountDeletionMutation from "./RequestAccountDeletionMutation";
@@ -184,7 +182,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           color={colorFromMeta(meta)}
                           autoComplete="off"
                         />
-                        <FieldValidationMessage fullWidth meta={meta} />
+                        <ValidationMessage meta={meta} />
                       </FormField>
                     )}
                   </Field>
@@ -207,17 +205,13 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           color={colorFromMeta(meta)}
                           autoComplete="off"
                         />
-                        <FieldValidationMessage fullWidth meta={meta} />
+                        <ValidationMessage meta={meta} />
                       </FormField>
                     )}
                   </Field>
                 </FormField>
 
-                {submitError && (
-                  <CallOut color="error" fullWidth>
-                    {submitError}
-                  </CallOut>
-                )}
+                {submitError && <CallOut color="alert">{submitError}</CallOut>}
               </HorizontalGutter>
               <div className={styles.controls}>
                 <HorizontalGutter>

@@ -7,14 +7,8 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
-import {
-  Button,
-  CallOut,
-  Flex,
-  HorizontalGutter,
-  Icon,
-  Typography,
-} from "coral-ui/components";
+import { Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { Button, CallOut } from "coral-ui/components/v3";
 
 import { DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
 
@@ -51,31 +45,35 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
 
   return (
     <CallOut
-      color="error"
+      color="alert"
       className={cn(styles.callout, CLASSES.pendingAccountDeletion.$root)}
-      fullWidth
     >
       <HorizontalGutter>
         <Flex>
-          <Icon size="md" className={styles.icon}>
-            report_problem
+          <Icon
+            size="md"
+            className={cn(CLASSES.pendingAccountDeletion.icon, styles.icon)}
+          >
+            error
           </Icon>
           <Localized
             id="profile-accountDeletion-deletionDesc"
             $date={deletionDate}
           >
-            <Typography variant="bodyCopy">
+            <div>
               Your account is scheduled to be deleted on {deletionDate}.
-            </Typography>
+            </div>
           </Localized>
         </Flex>
       </HorizontalGutter>
-      <HorizontalGutter className={styles.action}>
+      <HorizontalGutter marginTop={2} className={styles.action}>
         <Localized id="profile-accountDeletion-cancelDeletion">
           <Button
             className={CLASSES.pendingAccountDeletion.cancelRequestButton}
-            variant="underlined"
-            color="primary"
+            variant="text"
+            color="mono"
+            underline
+            marginSize="none"
             onClick={cancelDeletion}
           >
             Cancel account deletion request
