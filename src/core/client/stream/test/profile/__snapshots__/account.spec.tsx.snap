@@ -74,7 +74,7 @@ exports[`renders the empty settings pane 1`] = `
         className="ChangeEmailContainer-verifyContainer coral coral-verifyEmail-container"
       >
         <div
-          className="CallOut-root CallOut-mono coral coral-verifyEmail"
+          className="CallOut-root CallOut-mono CallOut-leftBorder coral coral-verifyEmail"
         >
           <div
             className="CallOut-content"
