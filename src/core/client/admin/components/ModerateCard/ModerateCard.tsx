@@ -59,7 +59,7 @@ interface Props {
   onReject: () => void;
   onFeature: () => void;
   onUsernameClick: (id?: string) => void;
-  onConversationClick: ((id?: string) => void) | null;
+  onConversationClick: (() => void) | null;
   onFocusOrClick: () => void;
   mini?: boolean;
   hideUsername?: boolean;
@@ -168,11 +168,6 @@ const ModerateCard: FunctionComponent<Props> = ({
       onUsernameClick(inReplyTo.id);
     }
   }, [onUsernameClick, inReplyTo]);
-  const viewConversationClick = useCallback(() => {
-    if (onConversationClick) {
-      onConversationClick();
-    }
-  }, [onConversationClick]);
   return (
     <Card
       className={cn(
@@ -235,7 +230,7 @@ const ModerateCard: FunctionComponent<Props> = ({
             </CommentContent>
             {onConversationClick && (
               <div className={styles.viewContext}>
-                <Button iconLeft variant="text" onClick={viewConversationClick}>
+                <Button iconLeft variant="text" onClick={onConversationClick}>
                   <ButtonIcon>question_answer</ButtonIcon>
                   <Localized id="moderate-comment-viewConversation">
                     <span>View conversation</span>

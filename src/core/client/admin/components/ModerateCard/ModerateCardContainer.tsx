@@ -162,15 +162,12 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     [usernameClicked, comment]
   );
 
-  const onConversationClicked = useCallback(
-    (id?: string) => {
-      if (!conversationClicked) {
-        return;
-      }
-      conversationClicked(id || comment.id);
-    },
-    [conversationClicked, comment]
-  );
+  const onConversationClicked = useCallback(() => {
+    if (!conversationClicked) {
+      return;
+    }
+    conversationClicked(comment.id);
+  }, [conversationClicked, comment]);
 
   const handleModerateStory = useCallback(
     (e: React.MouseEvent) => {
