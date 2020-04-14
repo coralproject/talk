@@ -11,21 +11,18 @@ import { Button, CallOut, Divider } from "coral-ui/components/v2";
 
 import { UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
 import { UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
-import { UserHistoryDrawerAllComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerAllComments_viewer.graphql";
 import { UserHistoryDrawerAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsPaginationQuery.graphql";
 
 import styles from "./UserHistoryDrawerAllComments.css";
 
 interface Props {
   user: UserHistoryDrawerAllComments_user;
-  viewer: UserHistoryDrawerAllComments_viewer;
   settings: UserHistoryDrawerAllComments_settings;
   relay: RelayPaginationProp;
 }
 
 const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
   user,
-  viewer,
   settings,
   relay,
 }) => {
@@ -61,7 +58,6 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
         <div key={c.id}>
           <ModerateCardContainer
             comment={c}
-            viewer={viewer}
             settings={settings}
             danglingLogic={status => false}
             hideUsername
@@ -91,11 +87,6 @@ const enhanced = withPaginationContainer<
   FragmentVariables
 >(
   {
-    viewer: graphql`
-      fragment UserHistoryDrawerAllComments_viewer on User {
-        ...ModerateCardContainer_viewer
-      }
-    `,
     settings: graphql`
       fragment UserHistoryDrawerAllComments_settings on Settings {
         ...ModerateCardContainer_settings
