@@ -15,7 +15,7 @@ exports[`approves comment in rejected queue: count should be 1 1`] = `
 
 exports[`approves comment in rejected queue: dangling 1`] = `
 <div
-  className="Card-root ModerateCard-root ModerateCard-selected"
+  className="Card-root ModerateCard-root ModerateCard-dangling ModerateCard-selected"
   data-testid="moderate-comment-comment-0"
   id="moderate-comment-comment-0"
   onClick={[Function]}
@@ -224,7 +224,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
       >
         <button
           aria-label="Reject"
-          className="BaseButton-root RejectButton-root RejectButton-invert"
+          className="BaseButton-root RejectButton-root"
           disabled={true}
           onBlur={[Function]}
           onClick={[Function]}
@@ -243,8 +243,8 @@ exports[`approves comment in rejected queue: dangling 1`] = `
         </button>
         <button
           aria-label="Approve"
-          className="BaseButton-root ApproveButton-root"
-          disabled={false}
+          className="BaseButton-root ApproveButton-root ApproveButton-invert"
+          disabled={true}
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -261,27 +261,6 @@ exports[`approves comment in rejected queue: dangling 1`] = `
           </i>
         </button>
       </div>
-      <button
-        className="BaseButton-root"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="button"
-      >
-        <div
-          className="ModeratedByContainer-moderatedBy"
-        >
-          Moderated By
-        </div>
-        <div
-          className="ModeratedByContainer-moderatedByUsername"
-        >
-          System
-        </div>
-      </button>
     </div>
   </div>
 </div>

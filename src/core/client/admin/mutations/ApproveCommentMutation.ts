@@ -65,11 +65,11 @@ const ApproveCommentMutation = createMutation(
         },
         storyID: input.storyID,
       },
-      // optimisticUpdater: store => {
-      //   const proxy = store.get(input.commentID)!;
-      //   proxy.setValue("APPROVED", "status");
-      //   proxy.setValue(true, "viewerDidModerate");
-      // },
+      optimisticUpdater: store => {
+        const proxy = store.get(input.commentID)!;
+        proxy.setValue("APPROVED", "status");
+        proxy.setValue(true, "viewerDidModerate");
+      },
       updater: store => {
         const connections = [
           getQueueConnection(store, "REPORTED", input.storyID),
