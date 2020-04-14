@@ -71,7 +71,7 @@ const DescriptionPage: FunctionComponent<Props> = ({
         <div className={styles.controls}>
           <Button
             variant="filled"
-            color="mono"
+            color="secondary"
             upperCase
             className={cn(
               styles.proceedButton,
@@ -85,7 +85,7 @@ const DescriptionPage: FunctionComponent<Props> = ({
           </Button>
           <Button
             variant="outlined"
-            color="mono"
+            color="secondary"
             upperCase
             className={cn(
               styles.cancelButton,

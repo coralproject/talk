@@ -28,7 +28,7 @@ exports[`renders the empty settings pane 1`] = `
         className="ChangeUsernameContainer-changeButton"
       >
         <button
-          className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue coral coral-myUsername-editButton coral coral-myUsername-change"
+          className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-colorPrimary coral coral-myUsername-editButton coral coral-myUsername-change"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -114,7 +114,7 @@ to sign in to your account or to receive notifications.
                       </div>
                     </div>
                     <button
-                      className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue ChangeEmailContainer-resendButton coral coral-verifyEmail-resendButton"
+                      className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-colorPrimary ChangeEmailContainer-resendButton coral coral-verifyEmail-resendButton"
                       disabled={false}
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -137,7 +137,7 @@ to sign in to your account or to receive notifications.
         className="ChangeEmailContainer-changeButton"
       >
         <button
-          className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue coral coral-myEmail-editButton"
+          className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-colorPrimary coral coral-myEmail-editButton"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -161,7 +161,7 @@ to sign in to your account or to receive notifications.
         Password
       </div>
       <button
-        className="BaseButton-root Button-base Button-text Button-textSizeMedium Button-colorStreamBlue ChangePassword-changeButton coral coral-myPassword-editButton"
+        className="BaseButton-root Button-base Button-flat Button-textSizeSmall Button-colorPrimary ChangePassword-changeButton coral coral-myPassword-editButton"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -196,7 +196,7 @@ all your comments from this site.
           </div>
         </div>
         <button
-          className="BaseButton-root Button-base Button-filled Button-textSizeMedium Button-marginSizeMedium Button-colorAlert Button-upperCase DeleteAccountContainer-requestButton coral coral-deleteMyAccount-requestButton"
+          className="BaseButton-root Button-base Button-filled Button-textSizeSmall Button-marginSizeSmall Button-colorNegative Button-upperCase DeleteAccountContainer-requestButton coral coral-deleteMyAccount-requestButton"
           data-testid="deleteAccount-request"
           disabled={false}
           onBlur={[Function]}

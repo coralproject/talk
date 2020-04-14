@@ -221,7 +221,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     <Localized id="profile-account-deleteAccount-pages-cancel">
                       <Button
                         variant="outlined"
-                        color="mono"
+                        color="secondary"
                         upperCase
                         className={cn(
                           sharedStyles.cancelButton,
@@ -234,7 +234,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     </Localized>
                     <Localized id="profile-account-deleteAccount-pages-deleteButton">
                       <Button
-                        color="mono"
+                        color="secondary"
                         variant="filled"
                         type="submit"
                         upperCase

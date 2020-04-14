@@ -87,7 +87,7 @@ const DownloadCommentsPage: FunctionComponent<Props> = ({
         <div className={styles.controls}>
           <Button
             variant="filled"
-            color="mono"
+            color="secondary"
             upperCase
             className={cn(
               styles.proceedButton,
@@ -101,7 +101,7 @@ const DownloadCommentsPage: FunctionComponent<Props> = ({
           </Button>
           <Button
             variant="outlined"
-            color="mono"
+            color="secondary"
             upperCase
             className={cn(
               styles.cancelButton,
