@@ -29,6 +29,7 @@ import {
 } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { Comment, retrieveComment } from "coral-server/models/comment";
+import { calculateTotalCommentCount } from "coral-server/models/comment/counts";
 import { linkUsersAvailable, Tenant } from "coral-server/models/tenant";
 import {
   banUser,
@@ -76,6 +77,12 @@ import {
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
+import {
+  retrieveDailyTotal,
+  retrieveHourlyTotals,
+  updateDailyCount,
+  updateHourlyCount,
+} from "coral-server/services/stats/helpers";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import {
@@ -1258,46 +1265,32 @@ export async function updateNewCommentersCount(
   user: User,
   now: Date
 ) {
-  const id: string | null = await redis.get(userLastCommentIDKey(tenant, user));
-  if (id) {
+  if (calculateTotalCommentCount(user.commentCounts.status) > 0) {
     return;
   }
-  const today = DateTime.fromJSDate(now)
-    .startOf("day")
-    .toSeconds();
-  const hour = DateTime.fromJSDate(now).startOf("hour").hour;
-  const expireHourly = DateTime.fromJSDate(now)
-    .startOf("hour")
-    .plus({ days: 1 })
-    .toSeconds();
-  const expireDaily = DateTime.fromJSDate(now)
-    .endOf("day")
-    .toSeconds();
-
-  const dailyKey = dailyNewCommentersCountKey(tenant.id, today);
-  const hourlyKey = hourlyNewCommentersCountKey(tenant.id, hour);
-
-  const result = await redis
-    .multi()
-    .incr(dailyKey)
-    .incr(hourlyKey)
-    .expireat(dailyKey, expireDaily)
-    .expireat(hourlyKey, expireHourly)
-    .exec();
-  return result;
+  await updateDailyCount(redis, tenant.id, now, dailyNewCommentersCountKey);
+  await updateHourlyCount(redis, tenant.id, now, hourlyNewCommentersCountKey);
 }
 
-export async function retrieveNewCommentersCount(
+export async function retrieveDailyNewCommentersCount(
   redis: AugmentedRedis,
   tenant: Tenant,
   now: Date
 ) {
-  const today = DateTime.fromJSDate(now)
-    .startOf("day")
-    .toSeconds();
-  const dailyKey = dailyNewCommentersCountKey(tenant.id, today);
-  const result = await redis.get(dailyKey);
-  return result;
+  return retrieveDailyTotal(redis, tenant.id, now, dailyNewCommentersCountKey);
+}
+
+export async function retrieveHourlyNewCommentersCount(
+  redis: AugmentedRedis,
+  tenant: Tenant,
+  now: Date
+) {
+  return retrieveHourlyTotals(
+    redis,
+    tenant.id,
+    now,
+    hourlyNewCommentersCountKey
+  );
 }
 
 /**

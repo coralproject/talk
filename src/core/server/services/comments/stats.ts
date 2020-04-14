@@ -1,7 +1,12 @@
 import { Redis } from "ioredis";
-import { DateTime } from "luxon";
 
 import { User } from "coral-server/models/user";
+import {
+  retrieveDailyTotal,
+  retrieveHourlyTotals,
+  updateDailyCount,
+  updateHourlyCount,
+} from "coral-server/services/stats/helpers";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
@@ -31,28 +36,8 @@ export async function updateCommentTotals(
   tenantID: string,
   now: Date
 ) {
-  const today = DateTime.fromJSDate(now)
-    .startOf("day")
-    .toSeconds();
-  const hour = DateTime.fromJSDate(now).startOf("hour").hour;
-  const expireHourly = DateTime.fromJSDate(now)
-    .startOf("hour")
-    .plus({ days: 1 })
-    .toSeconds();
-  const expireDaily = DateTime.fromJSDate(now)
-    .endOf("day")
-    .toSeconds();
-
-  const dailyKey = dailyCommentCountKey(tenantID, today);
-  const hourlyKey = hourlyCommentCountKey(tenantID, hour);
-
-  return redis
-    .multi()
-    .incr(dailyKey)
-    .incr(hourlyKey)
-    .expireat(dailyKey, expireDaily)
-    .expireat(hourlyKey, expireHourly)
-    .exec();
+  await updateHourlyCount(redis, tenantID, now, hourlyCommentCountKey);
+  await updateDailyCount(redis, tenantID, now, dailyCommentCountKey);
 }
 
 export async function updateStaffCommentTotals(
@@ -66,28 +51,8 @@ export async function updateStaffCommentTotals(
       user.role
     )
   ) {
-    const today = DateTime.fromJSDate(now)
-      .startOf("day")
-      .toSeconds();
-    const hour = DateTime.fromJSDate(now).startOf("hour").hour;
-    const expireHourly = DateTime.fromJSDate(now)
-      .startOf("hour")
-      .plus({ days: 1 })
-      .toSeconds();
-    const expireDaily = DateTime.fromJSDate(now)
-      .endOf("day")
-      .toSeconds();
-
-    const dailyKey = dailyStaffCommentCountKey(tenantID, today);
-    const hourlyKey = hourlyStaffCommentCountKey(tenantID, hour);
-
-    return redis
-      .multi()
-      .incr(dailyKey)
-      .incr(hourlyKey)
-      .expireat(dailyKey, expireDaily)
-      .expireat(hourlyKey, expireHourly)
-      .exec();
+    await updateHourlyCount(redis, tenantID, now, hourlyStaffCommentCountKey);
+    await updateDailyCount(redis, tenantID, now, dailyStaffCommentCountKey);
   }
   return;
 }
@@ -97,12 +62,7 @@ export async function retrieveDailyCommentTotal(
   tenantID: string,
   now: Date
 ) {
-  const today = DateTime.fromJSDate(now)
-    .startOf("day")
-    .toSeconds();
-  const key = dailyCommentCountKey(tenantID, today);
-  const result = await redis.get(key);
-  return result;
+  return retrieveDailyTotal(redis, tenantID, now, dailyCommentCountKey);
 }
 
 export async function retrieveDailyStaffCommentTotal(
@@ -110,10 +70,21 @@ export async function retrieveDailyStaffCommentTotal(
   tenantID: string,
   now: Date
 ) {
-  const today = DateTime.fromJSDate(now)
-    .startOf("day")
-    .toSeconds();
-  const key = dailyStaffCommentCountKey(tenantID, today);
-  const result = await redis.get(key);
-  return result;
+  return retrieveDailyTotal(redis, tenantID, now, dailyStaffCommentCountKey);
+}
+
+export async function retrieveHourlyCommentTotal(
+  redis: Redis,
+  tenantID: string,
+  now: Date
+) {
+  return retrieveHourlyTotals(redis, tenantID, now, hourlyCommentCountKey);
+}
+
+export async function retrieveHourlyStaffCommentTotal(
+  redis: Redis,
+  tenantID: string,
+  now: Date
+) {
+  return retrieveHourlyTotals(redis, tenantID, now, hourlyStaffCommentCountKey);
 }
