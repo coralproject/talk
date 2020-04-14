@@ -38,7 +38,6 @@ const SingleModerateRoute: FunctionComponent<Props> = props => {
       <Queue
         comments={[props.comment]}
         settings={props.settings}
-        viewer={props.viewer!}
         onLoadMore={noop}
         hasLoadMore={false}
         disableLoadMore={false}
@@ -57,9 +56,6 @@ const enhanced = withRouteConfig<Props, SingleModerateRouteQueryResponse>({
       }
       settings {
         ...ModerateCardContainer_settings
-      }
-      viewer {
-        ...ModerateCardContainer_viewer
       }
     }
   `,

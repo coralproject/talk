@@ -200,8 +200,8 @@ exports[`approves single comment 1`] = `
         </button>
         <button
           aria-label="Approve"
-          className="BaseButton-root ApproveButton-root ApproveButton-invert"
-          disabled={true}
+          className="BaseButton-root ApproveButton-root"
+          disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}

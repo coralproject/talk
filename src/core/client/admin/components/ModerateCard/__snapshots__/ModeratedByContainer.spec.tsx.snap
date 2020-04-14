@@ -19,11 +19,5 @@ exports[`viewer's username shows on moderation cards moderated by viewer 1`] = `
     }
   }
   onUsernameClicked={[Function]}
-  viewer={
-    Object {
-      "id": "viewer",
-      "username": "viewer",
-    }
-  }
 />
 `;

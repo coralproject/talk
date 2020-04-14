@@ -22,7 +22,6 @@ import {
   ModerateCardContainer_comment,
 } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
 import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
-import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 
 import BanCommentUserMutation from "./BanCommentUserMutation";
 import FeatureCommentMutation from "./FeatureCommentMutation";
@@ -32,7 +31,6 @@ import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
 interface Props {
   comment: ModerateCardContainer_comment;
-  viewer: ModerateCardContainer_viewer;
   settings: ModerateCardContainer_settings;
   approveComment: MutationProp<typeof ApproveCommentMutation>;
   rejectComment: MutationProp<typeof RejectCommentMutation>;
@@ -74,7 +72,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   settings,
   danglingLogic,
   showStoryInfo,
-  viewer,
   match,
   router,
   approveComment,
@@ -258,7 +255,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           moderatedBy={
             <ModeratedByContainer
               onUsernameClicked={onUsernameClicked}
-              viewer={viewer}
               comment={comment}
             />
           }
@@ -363,11 +359,6 @@ const enhanced = withFragmentContainer<Props>({
       multisite
       featureFlags
       ...MarkersContainer_settings
-    }
-  `,
-  viewer: graphql`
-    fragment ModerateCardContainer_viewer on User {
-      ...ModeratedByContainer_viewer
     }
   `,
 })(

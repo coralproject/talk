@@ -15,7 +15,6 @@ import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 
 import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
 import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
-import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
 import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
 
 import EmptyMessage from "./EmptyMessage";
@@ -30,7 +29,6 @@ interface Props {
   queueName: GQLMODERATION_QUEUE;
   queue: QueueRoute_queue | null;
   settings: QueueRoute_settings | null;
-  viewer: QueueRoute_viewer | null;
   relay: RelayPaginationProp;
   emptyElement: React.ReactElement;
   storyID?: string;
@@ -90,7 +88,6 @@ export const QueueRoute: FunctionComponent<Props> = props => {
     <IntersectionProvider>
       <Queue
         comments={comments}
-        viewer={props.viewer!}
         settings={props.settings!}
         onLoadMore={loadMore}
         hasLoadMore={props.relay.hasMore()}
@@ -128,7 +125,6 @@ const createQueueRoute = (
             queueName={queueName}
             queue={null}
             settings={null}
-            viewer={null}
             emptyElement={emptyElement}
             storyID={match.params.storyID}
             siteID={match.params.siteID}
@@ -143,7 +139,6 @@ const createQueueRoute = (
           queueName={queueName}
           queue={queue}
           settings={data.settings}
-          viewer={data.viewer}
           emptyElement={emptyElement}
           storyID={match.params.storyID}
           siteID={match.params.siteID}
@@ -181,11 +176,6 @@ const createQueueRoute = (
         settings: graphql`
           fragment QueueRoute_settings on Settings {
             ...ModerateCardContainer_settings
-          }
-        `,
-        viewer: graphql`
-          fragment QueueRoute_viewer on User {
-            ...ModerateCardContainer_viewer
           }
         `,
       },
@@ -228,9 +218,6 @@ export const PendingQueueRoute = createQueueRoute(
       settings {
         ...QueueRoute_settings
       }
-      viewer {
-        ...QueueRoute_viewer
-      }
     }
   `,
   graphql`
@@ -269,9 +256,6 @@ export const ReportedQueueRoute = createQueueRoute(
       settings {
         ...QueueRoute_settings
       }
-      viewer {
-        ...QueueRoute_viewer
-      }
     }
   `,
   graphql`
@@ -309,9 +293,6 @@ export const UnmoderatedQueueRoute = createQueueRoute(
       }
       settings {
         ...QueueRoute_settings
-      }
-      viewer {
-        ...QueueRoute_viewer
       }
     }
   `,
