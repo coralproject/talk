@@ -139,7 +139,7 @@ const CompletionPage: FunctionComponent<Props> = ({
         <div className={styles.controls}>
           <Button
             variant="filled"
-            color="mono"
+            color="secondary"
             fullWidth
             upperCase
             onClick={onDoneClicked}

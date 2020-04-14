@@ -75,7 +75,7 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
               CLASSES.pendingAccountDeletion.cancelRequestButton
             )}
             variant="filled"
-            color="mono"
+            color="secondary"
             marginSize="none"
             upperCase
             onClick={cancelDeletion}

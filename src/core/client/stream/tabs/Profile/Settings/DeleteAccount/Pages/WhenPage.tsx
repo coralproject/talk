@@ -103,7 +103,7 @@ const WhenPage: FunctionComponent<Props> = ({ step, onCancel, onProceed }) => {
         <div className={styles.controls}>
           <Button
             variant="filled"
-            color="mono"
+            color="secondary"
             upperCase
             className={cn(
               styles.proceedButton,
@@ -117,7 +117,7 @@ const WhenPage: FunctionComponent<Props> = ({ step, onCancel, onProceed }) => {
           </Button>
           <Button
             variant="outlined"
-            color="mono"
+            color="secondary"
             upperCase
             className={cn(
               styles.cancelButton,

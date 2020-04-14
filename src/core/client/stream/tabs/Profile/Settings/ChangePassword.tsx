@@ -91,8 +91,8 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
       {!showForm && (
         <Localized id="profile-account-changePassword-change">
           <Button
-            variant="text"
-            color="streamBlue"
+            variant="flat"
+            color="primary"
             marginSize="none"
             onClick={toggleForm}
             className={cn(
@@ -167,8 +167,8 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                           <Flex justifyContent="flex-end">
                             <Localized id="profile-account-changePassword-forgotPassword">
                               <Button
-                                variant="text"
-                                color="streamBlue"
+                                variant="flat"
+                                color="primary"
                                 marginSize="none"
                                 underline
                                 onClick={onResetPassword}
@@ -225,7 +225,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                         <Button
                           type="button"
                           variant="outlined"
-                          color="mono"
+                          color="secondary"
                           onClick={toggleForm}
                           className={cn(
                             styles.footerButton,
@@ -239,7 +239,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                         <Button
                           type="submit"
                           variant="filled"
-                          color="streamBlue"
+                          color="primary"
                           className={cn(
                             styles.footerButton,
                             CLASSES.myPassword.form.changeButton

@@ -185,9 +185,9 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                 CLASSES.myUsername.editButton,
                 CLASSES.myUsername.change
               )}
-              variant="text"
+              variant="flat"
               marginSize="none"
-              color="streamBlue"
+              color="primary"
               onClick={toggleEditForm}
               disabled={!canChangeUsername}
             >
@@ -359,7 +359,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                         )}
                         type="button"
                         variant="outlined"
-                        color="mono"
+                        color="secondary"
                         onClick={toggleEditForm}
                         upperCase
                       >
@@ -375,7 +375,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                         variant="filled"
                         type="submit"
                         data-testid="profile-changeUsername-save"
-                        color="streamBlue"
+                        color="primary"
                         disabled={pristine || invalid}
                         upperCase
                       >

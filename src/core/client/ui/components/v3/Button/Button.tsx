@@ -18,10 +18,10 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   classes: typeof styles & BaseButtonProps["classes"];
   className?: string;
 
-  textSize?: "medium" | "none";
-  marginSize?: "medium" | "none";
-  color?: "streamBlue" | "mono" | "alert" | "none";
-  variant?: "filled" | "outlined" | "text" | "none";
+  textSize?: "extraSmall" | "small" | "medium" | "large" | "none";
+  marginSize?: "extraSmall" | "small" | "medium" | "large" | "none";
+  color?: "primary" | "secondary" | "positive" | "negative" | "none";
+  variant?: "filled" | "outlined" | "flat" | "none";
 
   upperCase?: boolean;
   underline?: boolean;
@@ -35,9 +35,9 @@ export class Button extends React.Component<Props> {
       classes,
       className,
       variant = "filled",
-      color = "streamBlue",
-      textSize = "medium",
-      marginSize = "medium",
+      color = "primary",
+      textSize = "small",
+      marginSize = "small",
       children,
       disabled = false,
       to,
@@ -53,12 +53,19 @@ export class Button extends React.Component<Props> {
       {
         [classes.filled]: variant === "filled",
         [classes.outlined]: variant === "outlined",
-        [classes.text]: variant === "text",
+        [classes.flat]: variant === "flat",
+        [classes.textSizeExtraSmall]: textSize === "extraSmall",
+        [classes.textSizeSmall]: textSize === "small",
         [classes.textSizeMedium]: textSize === "medium",
+        [classes.textSizeLarge]: textSize === "large",
+        [classes.marginSizeExtraSmall]: marginSize === "extraSmall",
+        [classes.marginSizeSmall]: marginSize === "small",
         [classes.marginSizeMedium]: marginSize === "medium",
-        [classes.colorStreamBlue]: color === "streamBlue",
-        [classes.colorMono]: color === "mono",
-        [classes.colorAlert]: color === "alert",
+        [classes.marginSizeLarge]: marginSize === "large",
+        [classes.colorPrimary]: color === "primary",
+        [classes.colorSecondary]: color === "secondary",
+        [classes.colorPositive]: color === "positive",
+        [classes.colorNegative]: color === "negative",
         [classes.disabled]: disabled,
         [classes.upperCase]: upperCase,
         [classes.underline]: underline,

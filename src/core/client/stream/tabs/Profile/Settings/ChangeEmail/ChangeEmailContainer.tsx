@@ -255,8 +255,8 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                 <Localized id="profile-changeEmail-resend">
                   <Button
                     onClick={resend}
-                    variant="text"
-                    color="streamBlue"
+                    variant="flat"
+                    color="primary"
                     marginSize="none"
                     className={cn(
                       styles.resendButton,
@@ -281,7 +281,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
           <Localized id="profile-changeEmail-change">
             <Button
               className={CLASSES.myEmail.editButton}
-              variant="text"
+              variant="flat"
               marginSize="none"
               onClick={toggleEditForm}
             >
@@ -434,7 +434,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                       type="button"
                       onClick={toggleEditForm}
                       variant="outlined"
-                      color="mono"
+                      color="secondary"
                       upperCase
                     >
                       Cancel
@@ -448,7 +448,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({
                       )}
                       variant="filled"
                       type="submit"
-                      color="streamBlue"
+                      color="primary"
                       disabled={preventSubmit(formProps)}
                       upperCase
                     >
