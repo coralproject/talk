@@ -567,12 +567,16 @@ comments-tombstone-ignore = This comment is hidden because you ignored {$usernam
 comments-tombstone-deleted =
   This comment is no longer available. The commenter has deleted their account.
 
-suspendInfo-heading = Your account has been temporarily suspended from commenting.
+suspendInfo-heading =
+suspendInfo-heading-yourAccountHasBeen =
+  Your account has been temporarily suspended from commenting
 suspendInfo-info =
+suspendInfo-description-inAccordanceWith =
   In accordance with { $organization }'s community guidelines your
   account has been temporarily suspended. While suspended you will not
-  be able to comment, respect or report comments. Please rejoin the
-  conversation on { $until }
+  be able to comment, respect or report comments.
+suspendInfo-until-pleaseRejoinThe =
+  Please rejoin the conversation on { $until }
 
 profile-changeEmail-unverified = (Unverified)
 profile-changeEmail-current = (current)
