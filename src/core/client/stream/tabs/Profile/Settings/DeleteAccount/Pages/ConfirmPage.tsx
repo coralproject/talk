@@ -156,6 +156,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                     readOnly
                     value="delete"
                     aria-label=""
+                    className={styles.input}
                   />
                 </Localized>
                 <FormField>
@@ -182,7 +183,12 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           color={colorFromMeta(meta)}
                           autoComplete="off"
                         />
-                        <ValidationMessage meta={meta} />
+                        <div className={styles.validationMessage}>
+                          <ValidationMessage
+                            meta={meta}
+                            className={CLASSES.validationMessage}
+                          />
+                        </div>
                       </FormField>
                     )}
                   </Field>
@@ -205,7 +211,12 @@ const ConfirmPage: FunctionComponent<Props> = ({
                           color={colorFromMeta(meta)}
                           autoComplete="off"
                         />
-                        <ValidationMessage meta={meta} />
+                        <div className={styles.validationMessage}>
+                          <ValidationMessage
+                            meta={meta}
+                            className={CLASSES.validationMessage}
+                          />
+                        </div>
                       </FormField>
                     )}
                   </Field>
