@@ -81,13 +81,13 @@ export const QueueRoute: FunctionComponent<Props> = (props) => {
     subscribeToQueueCommentEntered,
     subscribeToQueueCommentLeft,
   ]);
+  const comments = useMemo(
+    () => props.queue?.comments.edges.map((edge) => edge.node),
+    [props.queue?.comments.edges]
+  );
   if (props.isLoading) {
     return <LoadingQueue />;
   }
-  const comments = useMemo(
-    () => props.queue!.comments.edges.map((edge) => edge.node),
-    [props.queue?.comments.edges]
-  );
   const viewNewCount =
     (props.queue!.comments.viewNewEdges &&
       props.queue!.comments.viewNewEdges.length) ||
@@ -95,7 +95,7 @@ export const QueueRoute: FunctionComponent<Props> = (props) => {
   return (
     <IntersectionProvider>
       <Queue
-        comments={comments}
+        comments={comments!}
         settings={props.settings!}
         onLoadMore={loadMore}
         hasLoadMore={props.relay.hasMore()}
